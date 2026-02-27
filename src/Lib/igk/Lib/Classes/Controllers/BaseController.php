@@ -143,6 +143,11 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
  * @method static array getCachedDataTableDefinition() macros function get cached datable table definitions 
  */
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class BaseController extends RootControllerBase implements IDataController, IInjectedArgHost
 {
 
@@ -242,14 +247,17 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     * @var mixed
     */
     const VIEW_EXTRA_ARGS = IGK_VIEW_EXTRA_ARGS;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_sysController = [];
+
     /**
-     * @return object 
-     */
+    * auto generate doc.
+    * @return object
+    */
 
     protected function _loadCtrlConfig()
     {
@@ -654,10 +662,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             include_once($f);
         unset($f);
     }
+
     /**
-     * 
-     * @param mixed $file
-     */
+    * auto generate doc.
+    * @param mixed $file
+    */
 
     protected function _get_extra_args($file)
     {
@@ -668,9 +677,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return $data;
     }
+
     /**
-     * @return string default name attached to this controller 
-     */
+    * auto generate doc.
+    * @return string default name attached to this controller
+    */
 
     public function getName(): string
     {
@@ -705,8 +716,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $this->getM_();
     }
     ///override this method to show the controller view.
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function getDeclaredFileName()
     {
@@ -723,9 +736,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $tab[$cl] = $c;
         return $c->filename;
     }
+
     /**
-     * @return string
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function getDeclaredDir(): string
     {
@@ -768,9 +783,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         return ControllerPaths::Gets($this)->viewDir;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getStylesDir()
     {
@@ -787,17 +803,19 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return implode("/", [$this->getStylesDir(), Constants::DEFAULT_THEME_STYLE]);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function getConfigFile()
     {
         return $this->getDataDir() . "/" . IGK_CTRL_CONF_FILE;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDataDir()
     {
@@ -819,9 +837,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         return $this->getDeclaredDir() . "/.db.constants.php";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getResourcesDir()
     {
@@ -853,9 +872,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         igk_environment()->set($key,  $tab);
         return $c;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getLoader()
     {
@@ -881,9 +901,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $entry_uri = igk_io_view_entry_uri($this, $fname);
         return get_defined_vars();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getContentDir()
     {
@@ -999,10 +1020,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param);
         return $v_cf;
     }
+
     /**
-     * 
-     * @param mixed $path
-     */
+    * auto generate doc.
+    * @param mixed $path
+    */
 
     public function getCtrlFile($path)
     {
@@ -1010,10 +1032,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             return $path;
         return igk_dir(dirname($this->getDeclaredFileName()) . DIRECTORY_SEPARATOR . $path);
     }
+
     /**
-     * 
-     * @return *
-     */
+    * auto generate doc.
+    * @return *
+    */
 
     protected function &getM_()
     {
@@ -1033,9 +1056,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         return $this->getM_()->getFlag($code, $default);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getCurrentView()
     {
@@ -1312,13 +1336,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return (igk_getv(self::$sm_sysController, $className) != null);
     }
+
     /**
-     * 
-     * @param string $view
-     * @param mixed $target node
-     * @param mixed $forcecreation the default value is false
-     * @param mixed $args the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $args the default value is null
+    */
 
     public function getViewContent(string $view, $target, $forcecreation = false, $args = null)
     {
@@ -1375,9 +1397,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $this->regSystemVars(null);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getCurrentPageFolder()
     {
@@ -1425,9 +1448,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         return igk_sys_getconfig("default_dataadapter", IGK_MYSQL_DATAADAPTER);
     }
+
     /**
-     * @return ?IModelDefinitionInfo controller's table info
-     */
+    * auto generate doc.
+    * @return 's table info
+    */
 
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
@@ -1452,10 +1477,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         // override this to handle management of a spécific table 
         return null;
     }
+
     /**
-     * 
-     * @param mixed $className
-     */
+    * auto generate doc.
+    * @param mixed $className
+    */
 
     public static function RegSysController($className)
     {
@@ -1465,9 +1491,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             self::$sm_sysController[$className] = $className;
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getUseDataSchema(): bool
     {

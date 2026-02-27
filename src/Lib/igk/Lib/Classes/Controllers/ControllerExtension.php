@@ -113,12 +113,12 @@ abstract class ControllerExtension
     {
         return Path::Combine($ctrl->getDeclaredDir(), 'Configs/Lang');
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return mixed|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return mixed|void
+    */
 
     public static function getViewLayout(BaseController $ctrl, ?string $fname = null)
     {
@@ -138,12 +138,12 @@ abstract class ControllerExtension
             return $instance;
         }
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param string $class_name 
-     * @return null|string 
-     */
+    * auto generate doc.
+    * @param string $class_name
+    * @return null|string
+    */
 
     public static function convertClassToFilename(BaseController $ctrl, string $class_name): ?string
     {
@@ -326,12 +326,12 @@ abstract class ControllerExtension
         }
         return $res_i->resolveOnly($f);
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param null|string $path 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|string $path
+    * @return string
+    */
 
     public static function getAssetsDir(BaseController $ctrl, ?string $path = null)
     {
@@ -515,13 +515,12 @@ abstract class ControllerExtension
     {
         return (\IGK\Helper\SysUtils::GetSubDomainCtrl() === $ctrl) || (igk_get_defaultwebpagectrl() === $ctrl);
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param null|string $name_uri 
-     * @return null|string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $name_uri
+    * @return null|string
+    */
 
     public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI, bool $full_uri=true, bool $force_access = false, ?bool $entry_controller=null)
     {
@@ -1347,11 +1346,12 @@ abstract class ControllerExtension
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return string
+    */
     private static function GetDefaultModelBaseSource(BaseController $ctrl): string
     {
         $o = "";
@@ -1568,11 +1568,11 @@ abstract class ControllerExtension
     //         return true;
     //     return $user->auth($authDemand);
     // }
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $code
-     */
+    * auto generate doc.
+    * @param mixed $code
+    */
 
     public static function GetErrorView(BaseController $ctrl, $code)
     {
@@ -1840,9 +1840,11 @@ abstract class ControllerExtension
     {
         return igk_environment()->getArray(self::getEnvParamKey($controller), $key, $default);
     }
+
     /**
-     * @return string controller's environment key
-     */
+    * auto generate doc.
+    * @return 's environment key
+    */
 
     public static function getEnvKey(BaseController $controller, $key)
     {
@@ -1974,13 +1976,12 @@ abstract class ControllerExtension
         $migHandle->up();
         return $r->Data;
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param bool $throw 
-     * @return null|IDataDriver 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param bool $throw
+    * @return null|IDataDriver
+    */
 
     public static function getDataAdapter(BaseController $controller, $throw = true)
     {
@@ -2148,9 +2149,10 @@ abstract class ControllerExtension
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function getCanInitDb(BaseController $controller)
     {
@@ -2334,14 +2336,12 @@ abstract class ControllerExtension
         }
         return false;
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param string $file 
-     * @param mixed $params 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $params
+    * @return void
+    */
 
     public static function viewInContext(BaseController $controller, string $file, $params = null)
     {
@@ -2828,15 +2828,12 @@ abstract class ControllerExtension
         }
         return null;
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param string $message 
-     * @param string $title 
-     * @param mixed $code 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $code
+    * @return void
+    */
 
     public static function showError(BaseController $controller, string $message, string $title, $code = RequestResponseCode::BadRequest)
     {
@@ -2949,12 +2946,12 @@ HTML;
             return true;
         }
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $user 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $user
+    * @return void
+    */
 
     public static function bindUserDefaultProfiles(BaseController $ctrl, $user){
         $profile = self::getDefaultUserProfile($ctrl);

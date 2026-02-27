@@ -10,15 +10,17 @@ namespace IGK\System\Polyfill;
 * @package IGK\System\Polyfill
 */
 trait EventPropertyArrayAccessTrait{
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetExists($i){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetGet($key){
@@ -30,9 +32,9 @@ trait EventPropertyArrayAccessTrait{
         }
         return $this->_p;
     }
+
     /**
-    * 
-    * @param mixed $i
+    * auto generate doc.
     * @param mixed $v
     */
     public function offsetSet($i, $v){
@@ -45,8 +47,9 @@ trait EventPropertyArrayAccessTrait{
             $fc($this);
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetUnset($i){

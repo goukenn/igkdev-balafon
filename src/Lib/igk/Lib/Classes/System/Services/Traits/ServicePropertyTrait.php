@@ -16,6 +16,11 @@ use function igk_resources_gets as __;
 /**
  * 
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Services\Traits
+*/
 trait ServicePropertyTrait{
    /**
      * retrieve service configuration properties 
@@ -35,12 +40,12 @@ trait ServicePropertyTrait{
         }
         return $tab;
     }
+
     /**
-     * 
-     * @param mixed $configs 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $configs
+    * @return void
+    */
     public function validate($configs){
 
         $props = $this->getConfigurableProperties();
@@ -63,11 +68,12 @@ trait ServicePropertyTrait{
             );
         }
     }
+
     /**
-     * 
-     * @param mixed $configs 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $configs
+    * @return bool
+    */
     public function init($configs=null):bool{
         $this->validate($configs);
         DispatcherService::SetupServiceInstance($this, $configs);

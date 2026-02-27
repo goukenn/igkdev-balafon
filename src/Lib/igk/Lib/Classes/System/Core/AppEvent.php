@@ -7,10 +7,10 @@ namespace IGK\System\Core;
 use IGKEvents;
 
 /**
- * 
- * @package IGK\System\Core
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Core
+* @author C.A.D. BONDJE DOUE
+*/
 class AppEvent
 {
     private function _getkey()

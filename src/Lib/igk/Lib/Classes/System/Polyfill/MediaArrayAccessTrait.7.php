@@ -11,23 +11,25 @@ namespace IGK\System\Polyfill;
 */
 trait MediaArrayAccessTrait
 {
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetExists($i):bool{
         return isset($this->_medias[$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
     public function offsetGet($key){
         return isset($this->_medias[$key]) ? $this->_medias[$key]: null;
     }
+
     /**
-    * 
-    * @param mixed $key
+    * auto generate doc.
     * @param mixed $value
     */
     public function offsetSet($key, $value){
@@ -37,8 +39,9 @@ trait MediaArrayAccessTrait
             $this->_medias[$key]=$value;
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetUnset($i):void{

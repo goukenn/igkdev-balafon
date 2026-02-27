@@ -12,10 +12,11 @@ use IGK\Helper\UriHelper;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
+
 /**
- * 
- * @package IGK\System\Html\Dom
- */
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlAHref extends IGKObject implements IHtmlGetValue
 {
 

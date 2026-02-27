@@ -66,11 +66,10 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $t
-     * @param mixed $msg the default value is ""
-     */
+    * auto generate doc.
+    */
 
     protected function dieinfo($t, $msg = "", $code = 0)
     {

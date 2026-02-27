@@ -5,8 +5,9 @@
 namespace IGK\System\Security\Web;
 use IGK\Helper\MapHelper;
 use IGK\System\Data\ObjectValidationMapper;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Security\Web
 */
 class RequestValiationMapper extends ObjectValidationMapper

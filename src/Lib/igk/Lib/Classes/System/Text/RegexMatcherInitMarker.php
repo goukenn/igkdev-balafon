@@ -8,6 +8,11 @@ namespace IGK\System\Text;
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexMatcherInitMarker
 {
 
@@ -21,14 +26,12 @@ class RegexMatcherInitMarker
     * .ctr
     */
     public function __construct() {}
+
     /**
-     * 
-     * @param mixed $e 
-     * @param ?string $src 
-     * @param int $pos 
-     * @param callable $fc 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param callable $fc
+    * @return bool
+    */
 
     public function mark($e, $src, $pos, callable $fc)
     {
@@ -49,15 +52,12 @@ class RegexMatcherInitMarker
         }
         return implode(',', $s);
     }
+
     /**
-     * 
-     * @param mixed &$v_rt 
-     * @param mixed $e 
-     * @param mixed $src 
-     * @param mixed $pos 
-     * @param callable({tokenID:string,pos:int})  $fc 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param callable({tokenID:string,pos:int})  $fc
+    * @return bool
+    */
 
     public function init(&$v_rt, $e, $src, $pos, callable $fc)
     {

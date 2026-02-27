@@ -29,9 +29,10 @@ class LoadDumpCommand extends AppExecCommand{
     * @var mixed
     */
     var $category = "db";
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function exec($command, $file=null) { 
         if (empty($file) || !igk_io_file_exists($file)){

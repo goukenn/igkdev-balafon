@@ -12,6 +12,11 @@ use Iterator;
  * @package IGK\Database
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class DbRowDefEntry implements Iterator, IDbEntryDefinition
 {
     /**
@@ -29,10 +34,11 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @var object
      */
     private $m_it_info;
+
     /**
-     * 
-     * @var null|bool
-     */
+    * auto generate doc.
+    * @var null|bool
+    */
     private $m_strict;
 
     /**
@@ -42,12 +48,10 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     private $m_model;
 
     /**
-     * 
-     * @param mixed $row 
-     * @param null|string $prefix 
-     * @param null|bool $strict 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|bool $strict
+    * @return void
+    */
     public function __construct(object $row, ?string $prefix = null, ?bool $strict = false, ?ModelBase $model=null)
     {
         $this->m_ref = $row;
@@ -74,19 +78,21 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         return array_fill_keys(array_keys((array)$this->m_ref), 1);
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function current(): mixed
     {
         return $this->m_ref->{$this->key()};
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function next(): void
     {

@@ -3,8 +3,9 @@
 // @file: FormValidationParam.php
 // @date: 20231229 14:58:36
 namespace IGK\System\Html\Forms\Validations;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 */
 class FormValidationParam extends FormValidationFieldPropsBase{

@@ -47,11 +47,12 @@ class PhpInterfaceDocument{
     * @var mixed
     */
     private $m_listener;
+
     /**
-     * 
-     * @param ?callable|IInvokeAction #phpDocListener
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ?callable|IInvokeAction #phpDocListener
+    * @return void
+    */
 
     public function __construct($phpDocListener)
     {

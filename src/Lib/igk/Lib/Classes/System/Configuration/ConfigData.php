@@ -49,8 +49,10 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     ///conffile : configuration file
     ///configctrl : hosted controller
     ///entries: default entry
+
     /**
-     */
+    * auto generate doc.
+    */
     public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
     {
         $this->m_confile = $conffile;
@@ -58,10 +60,11 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         $this->m_configEntries = $entries;
         $this->m_extra = $extra;
     }
+
     /**
-     * 
-     * @param mixed $key
-     */
+    * auto generate doc.
+    * @param mixed $key
+    */
     public function __get($key)
     {
         if ($this->m_extra) {
@@ -79,11 +82,12 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     // {
     //     return isset($this->m_configEntries[$key]);
     // }
+
     /**
-     * 
-     * @param mixed $n 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return bool
+    */
     public function __isset($n){ 
         if ($this->m_extra) {        
             if (key_exists($n, $this->m_extra)){
@@ -92,11 +96,11 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return isset($this->m_configEntries[$n]);
     }
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function __set($key, $value)
     {
         if ($this->m_extra &&  key_exists($key, $this->m_extra)) {
@@ -122,11 +126,11 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return "IGKConfigurationData [Count: " . count($this->m_configEntries) . "]";
     }
+
     /**
-     * 
-     * @param mixed $name
-     * @param mixed $default the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $default the default value is null
+    */
     public function getConfig($name, $default = null)
     {
         return igk_getv($this->m_configEntries, $name, $default);
@@ -166,23 +170,26 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return $this->m_extra ? array_keys($this->m_extra) : null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function getEntries()
     {
         return $this->m_configEntries;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function getEntriesKeys()
     {
         return array_keys($this->m_configEntries);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function saveData($force = false)
     {
         if (!$force && defined("IGK_FRAMEWORK_ATOMIC")) {
@@ -194,14 +201,12 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         ($r = igk_io_w2file($file, $out, true)) && FileWriter::Invalidate($file);
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $entries 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $entries
+    * @return void
+    */
     public function set($name, $entries)
     {
         if (is_array($entries)) {
@@ -231,9 +236,10 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         if ($name)
             $this->m_configEntries[$name] = $value;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function SortByKeys()
     {
         $keys = array_keys($this->m_configEntries);

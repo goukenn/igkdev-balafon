@@ -17,9 +17,8 @@ use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 final class IGKTemplateEditor extends BaseController{
     use NoDbActiveControllerTrait;
 
-    
     /**
-    * 
+    * auto generate doc.
     */
     public function __construct(){
         parent::__construct();

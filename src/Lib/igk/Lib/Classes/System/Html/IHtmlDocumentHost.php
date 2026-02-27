@@ -16,6 +16,11 @@ use IGK\System\Html\Dom\HtmlHeadNode;
  * @property ?bool $noFontInstall enable template mode. 
  * @property ?bool $noIFrame disable document iframe
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 interface IHtmlDocumentHost
 {
     /**
@@ -25,10 +30,11 @@ interface IHtmlDocumentHost
      */
     function setTitle(?string $title = null);
     function getBody(): ?HtmlBodyNode;
+
     /**
-     * 
-     * @return HtmlHeadNode 
-     */
+    * auto generate doc.
+    * @return HtmlHeadNode
+    */
     function getHead(): ?HtmlHeadNode;
     /**
      * set the header color

@@ -8,6 +8,11 @@ use IGKApplicationBase;
  * 
  * @package IGK\System\Http
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 abstract class BaseUriHandler
 {
 
@@ -38,12 +43,12 @@ abstract class BaseUriHandler
     {
         return [];
     }
+
     /**
-     * 
-     * @param string $uri 
-     * @param null|IGKApplicationBase $application 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|IGKApplicationBase $application
+    * @return void
+    */
 
     public static function Handle(string $uri, ?IGKApplicationBase $application =null, ?callable $bootload=null )
     {

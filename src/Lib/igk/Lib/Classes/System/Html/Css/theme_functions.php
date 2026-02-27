@@ -4,16 +4,12 @@
 // @date: 20220805 17:02:34
 // @desc: 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+
 /**
- * 
- * @param string $propety
- * @param string $style 
- * @param string $prefix prefix of class to prepend 
- * @return void 
- * @throws IGKException 
- * @throws ArgumentTypeNotValidException 
- * @throws ReflectionException 
- */
+* auto generate doc.
+* @param string $prefix prefix of class to prepend
+* @return void
+*/
 function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
 {
     extract(igk_environment()->last(IGKEnvironmentConstants::CSS_UTIL_ARGS) ?? []);
@@ -45,11 +41,12 @@ function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
         = $style;
 }
 if (false == function_exists('import')){
+
     /**
-     * 
-     * @param mixed $uri 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $uri
+    * @return void
+    */
     function import($uri){
         echo '@import \'', $uri, '\'', "\n";
     }

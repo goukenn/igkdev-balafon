@@ -6,8 +6,9 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\ReadTokenMergeOption;
 use IGK\System\Runtime\Compiler\ReadTokenUtility;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewTokenBlock{

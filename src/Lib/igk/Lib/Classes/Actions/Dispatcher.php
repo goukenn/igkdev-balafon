@@ -54,10 +54,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     * @var mixed
     */
     const INSTANCE = IGKServices::KEY_INSTANCE;
+
     /**
-     * 
-     * @var null|ActionBase|IActionProcessor|object
-     */
+    * auto generate doc.
+    * @var null|ActionBase|IActionProcessor|object
+    */
     private $m_host;
 
     /**
@@ -85,11 +86,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $this->m_host = $host;
     }
+
     /**
-     * 
-     * @param string $actionName 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $actionName
+    * @return void
+    */
 
     public function setBaseActionName(string $actionName)
     {
@@ -133,16 +135,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return false;
     }
+
     /**
-     * 
-     * @param callable $fc 
-     * @param mixed $args 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return mixed
+    */
 
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
@@ -215,12 +213,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         throw new ActionNotFoundException($name);
     }
+
     /**
-     * @param ReflectionFunction #Parameter#cd4a68c3 
-     * @param IGK\Actions\ref #Parameter#ca4a640a 
-     * @param mixed $args 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return void
+    */
 
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
@@ -435,10 +433,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-     * 
-     * @param mixed &$services 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed &$services
+    * @return void
+    */
 
     protected static function _UpdateService(&$services)
     {

@@ -17,15 +17,17 @@ final class ApiFunctionController extends ApplicationController {
     * @var mixed
     */
     const LIBNAME=IGK_API_MYSQLPINC;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function about(){
         igk_wln_e(__FILE__.":".__LINE__, "About");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function beginRequest(){
@@ -49,8 +51,9 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $cmd the default value is null
     */
 
@@ -482,8 +485,9 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function endRequest(){
@@ -495,8 +499,9 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getBasicUriPattern(){
@@ -512,16 +517,17 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
-    
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getIsVisible():bool{
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getName():string{
@@ -534,30 +540,34 @@ final class ApiFunctionController extends ApplicationController {
     public function getAppName(){
         return IGK_API_CTRL;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getRegUriAction(){
         return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getVersion(){
         return IGK_API_VERSION;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $function
     */
 
     public function IsFunctionExposed($function){
         return true;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function request(){
@@ -579,8 +589,9 @@ final class ApiFunctionController extends ApplicationController {
 
         igk_exit();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function sendRequest(){
@@ -596,8 +607,9 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $cmd the default value is null
     */
 
@@ -605,8 +617,9 @@ final class ApiFunctionController extends ApplicationController {
         igk_wln(__FUNCTION__." command");
         igk_exit();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function sysversion(){

@@ -5,8 +5,9 @@
 namespace IGK\Actions\Traits;
 use IGK\System\Http\Request;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions\Traits
 */
 trait AdminDashboardLoginTrait{

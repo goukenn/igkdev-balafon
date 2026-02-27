@@ -34,11 +34,12 @@ final class HtmlDefaultMainPage extends HtmlNode
     public function getPageTitle():string{
         return 'Balafon Startup Page!';
     }
+
     /**
-     * 
-     * @param mixed $options 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return bool
+    */
 
     protected function _acceptRender($options = null): bool
     {
@@ -104,11 +105,11 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return self::$sm_instance;
     }
+
     /**
-     * 
-     * @return int|bool 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return int|bool
+    */
 
     public function getIsVisible()
     {

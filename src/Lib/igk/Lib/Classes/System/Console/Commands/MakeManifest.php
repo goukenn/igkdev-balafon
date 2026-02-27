@@ -8,12 +8,12 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use igk\System\Console\Commands\Utility;
-use IGK\System\EntryClassResolution; 
+use IGK\System\EntryClassResolution;
 
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeManifestCommand extends AppExecCommand{
 
     /**

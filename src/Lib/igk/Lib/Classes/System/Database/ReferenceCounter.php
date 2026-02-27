@@ -23,12 +23,12 @@ class ReferenceCounter
     * @var mixed
     */
     private static $REF_UPDATE;
+
     /**
-     * 
-     * @param ModelBase $data 
-     * @param callable $callback 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param callable $callback
+    * @return void
+    */
 
     public static function Register(ModelBase $data, callable $callback)
     {

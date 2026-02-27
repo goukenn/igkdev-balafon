@@ -9,6 +9,11 @@ use JsonSerializable;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssItemInfo implements JsonSerializable, ICssClassList
 {
 
@@ -50,11 +55,11 @@ class CssItemInfo implements JsonSerializable, ICssClassList
     {
         $this->id = $id;
     }
+
     /**
-     * 
-     * @return bool 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     function isPrimary()
     {

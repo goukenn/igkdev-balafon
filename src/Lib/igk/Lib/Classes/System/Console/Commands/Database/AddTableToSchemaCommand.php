@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands\Database;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Exceptions\CommandException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */

@@ -8,8 +8,9 @@ use IGK\Helper\Authorization;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
 use JSon;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class UserGroupCommand extends AppExecCommand{

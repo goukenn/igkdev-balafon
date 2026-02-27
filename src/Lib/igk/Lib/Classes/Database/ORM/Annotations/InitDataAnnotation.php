@@ -16,14 +16,12 @@ use ReflectionException;
 * @author C.A.D. BONDJE DOUE
 */
 class InitDataAnnotation extends AnnotationBase{
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
     public static function InitData(BaseController $controller, bool $recursive=false){
         $_dir_classes = $controller->getClassesDir();
 		$_marked = [];

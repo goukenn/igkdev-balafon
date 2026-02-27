@@ -8,8 +8,9 @@ use IGK\System\Console\Commands\BalafonCLICommand;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console
 */
 class BalafonCLIService{

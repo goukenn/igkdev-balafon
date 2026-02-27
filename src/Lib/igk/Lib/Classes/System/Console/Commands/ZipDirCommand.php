@@ -8,8 +8,9 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use ZipArchive;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ZipDirCommand extends AppExecCommand{

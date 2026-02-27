@@ -28,13 +28,12 @@ use function igk_resources_gets as __;
 * @package IGK\Helper
 */
 class Authorization{
+
     /**
-     * 
-     * @param Users $user 
-     * @param BaseController $controller 
-     * @param mixed $auth_name 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $auth_name
+    * @return bool
+    */
     public static function Can(\IGK\Models\Users $user, BaseController $controller, $auth_name):bool{
         if (!is_array($auth_name)){
             $auth_name = [$auth_name];

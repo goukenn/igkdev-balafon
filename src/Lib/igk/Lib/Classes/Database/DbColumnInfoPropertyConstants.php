@@ -4,8 +4,9 @@
 // @date: 20221114 14:08:20
 namespace IGK\Database;
 use IGK\System\Exceptions\OperationNotAllowedException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 */
 abstract class DbColumnInfoPropertyConstants{

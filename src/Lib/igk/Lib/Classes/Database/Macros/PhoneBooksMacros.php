@@ -35,13 +35,10 @@ class PhoneBooksMacros
     const PHONE_DEFAULT_TEL = 'gsm|tel|phone';
 
     /**
-     * 
-     * @param PhoneBooks $model 
-     * @param Users $user 
-     * @param string $type 
-     * @param null|string $search 
-     * @return bool|null|IDbQueryResult|IToJSon 
-     */
+    * auto generate doc.
+    * @param null|string $search
+    * @return bool|null|IDbQueryResult|IToJSon
+    */
 
     public static function userPhoneEntries(PhoneBooks $model, Users $user, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL, ?string $search = null)
     {
@@ -82,13 +79,10 @@ class PhoneBooksMacros
     }
 
     /**
-     * 
-     * @param PhoneBooks $model 
-     * @param Users $user 
-     * @param null|string $search 
-     * @param string $type 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return mixed
+    */
 
     public static function userSearchPhoneEntries(PhoneBooks $model, ?Users $user, ?string $search, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL)
     {
@@ -155,11 +149,12 @@ class PhoneBooksMacros
             '@@' . $phone::FD_VALUE => '%' . $search . '%s'
         ]);
     }
+
     /**
-     * 
-     * @param PhoneBooks $phone 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param PhoneBooks $phone
+    * @return bool
+    */
 
     public static function deleteEntry(PhoneBooks $phone)
     {
@@ -171,11 +166,12 @@ class PhoneBooksMacros
                 PhoneBookEntries::FD_GUID => $key
             ]);
     }
+
     /**
-     * 
-     * @param PhoneBooks $phone 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param PhoneBooks $phone
+    * @return mixed
+    */
 
     public static function getPhoneDetails(PhoneBooks $phone, ?IPhoneBookDetailVisitor $visitor = null)
     {
@@ -235,13 +231,12 @@ class PhoneBooksMacros
         $r = PhoneBooks::select_all([$cl => $search]);
         return $r ? igk_getv($r, 0) : null;
     }
+
     /**
-     * 
-     * @param PhoneBooks $phone 
-     * @param Users $user 
-     * @param mixed $search 
-     * @return array<\IGK\Models\PhoneBooks, mixed> 
-     */
+    * auto generate doc.
+    * @param mixed $search
+    * @return array<\IGK\Models\PhoneBooks
+    */
 
     public static function vcard(PhoneBooks $phone, ?Users $user, $search)
     {
@@ -251,9 +246,11 @@ class PhoneBooksMacros
         $r = self::userSearchPhoneEntries($phone, $user, $search, null);
         $ids = [];
         foreach ($r->to_array() as $row) {
+
             /**
-             * @var PhoneBooks
-             */
+            * auto generate doc.
+            * @var PhoneBooks
+            */
             $_id = $row->{PhoneBooks::FD_ENTRY_GUID};
             if (!isset($ids[$_id])) {
                 if ($trow = PhoneBooks::select_first([PhoneBooks::FD_ENTRY_GUID => $_id])) {

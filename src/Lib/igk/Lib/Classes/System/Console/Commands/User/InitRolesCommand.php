@@ -10,7 +10,7 @@ use IGK\System\Console\AppExecCommand;
 use IGKEvents;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\User
 * @author C.A.D. BONDJE DOUE
 */

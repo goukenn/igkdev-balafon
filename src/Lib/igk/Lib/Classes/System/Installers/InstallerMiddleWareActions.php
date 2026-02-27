@@ -50,8 +50,9 @@ class InstallerMiddleWareActions{
      * @var bool 
      */
     var $fromUpload;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -73,8 +74,9 @@ class InstallerMiddleWareActions{
             }
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $middle
     */
 
@@ -96,8 +98,9 @@ class InstallerMiddleWareActions{
     public function isEventStream():bool{
         return igk_server()->eventStreamRequest();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @return mixed
     */
 
@@ -109,8 +112,9 @@ class InstallerMiddleWareActions{
         }
         return $this->Success;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $msg
     */
 

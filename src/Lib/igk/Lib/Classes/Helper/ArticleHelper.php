@@ -5,8 +5,9 @@
 namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helpers
 */
 class ArticleHelper{

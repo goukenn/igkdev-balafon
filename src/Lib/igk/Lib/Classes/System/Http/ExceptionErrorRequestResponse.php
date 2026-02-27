@@ -5,8 +5,9 @@
 namespace IGK\System\Http;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http
 */
 class ExceptionErrorRequestResponse extends ErrorRequestResponse{

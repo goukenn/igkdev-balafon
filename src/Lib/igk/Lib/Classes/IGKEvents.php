@@ -651,12 +651,11 @@ class IGKEvents extends IGKObject
         };
         igk_reg_hook($hookKey, $m);
     }
+
     /**
-     * 
-     * @param mixed $owner
-     * @param mixed $name
-     * @param mixed $single the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $single the default value is false
+    */
 
     public function __construct($owner, $name, $single = false)
     {
@@ -713,9 +712,10 @@ class IGKEvents extends IGKObject
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Clear()
     {
@@ -732,58 +732,65 @@ class IGKEvents extends IGKObject
         }
     }
     ///get the number of method in this events
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function getCount()
     {
         return count($this->m_methods);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getInfo()
     {
         return $this->__toString() . " count # " . igk_count($this->m_methods);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsDebugging()
     {
         return igk_get_env("sys://event/isdebugging/" . $this->m_name, 0);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getMethodCount()
     {
         return igk_count($this->m_methods);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getName()
     {
         return $this->m_name;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getOwner()
     {
         return $this->m_owner;
     }
+
     /**
-     * 
-     * @param mixed $class
-     * @param mixed $method
-     */
+    * auto generate doc.
+    * @param mixed $method
+    */
 
     public function remove($class, $method)
     {
@@ -799,11 +806,11 @@ class IGKEvents extends IGKObject
         }
         return 0;
     }
+
     /**
-     * 
-     * @param mixed $obj
-     * @param mixed $name the default value is IGK_FUNC_KEY
-     */
+    * auto generate doc.
+    * @param mixed $name the default value is IGK_FUNC_KEY
+    */
 
     public function removeObject($obj, $name = IGK_FUNC_KEY)
     {
@@ -821,10 +828,11 @@ class IGKEvents extends IGKObject
         $this->m_methods = $tab;
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function setIsDebugging($v) {}
     /**

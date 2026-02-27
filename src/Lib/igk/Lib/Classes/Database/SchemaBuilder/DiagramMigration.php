@@ -7,11 +7,17 @@ namespace IGK\Database\SchemaBuilder;
 * 
 * @package IGK\Database\SchemaBuilder
 */
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 class DiagramMigration extends DiagramPropertiesHost {
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
      var $type;
 
     /**

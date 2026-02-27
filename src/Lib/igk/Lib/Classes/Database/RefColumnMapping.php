@@ -10,6 +10,11 @@ use Traversable;
 * 
 * @package IGK\Database
 */
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class RefColumnMapping implements IteratorAggregate{
 
     /**
@@ -23,10 +28,11 @@ class RefColumnMapping implements IteratorAggregate{
     * @var mixed
     */
     private $m_data;
+
     /**
-     * @param array $data 
-     * @param array $columns column mapping definition. array<{real_colum=>mapping_column}|column>
-     */
+    * auto generate doc.
+    * @param array $columns column mapping definition. array<{real_colum=>mapping_column}|column>
+    */
 
     public function __construct(array $data, array $columns){
         $this->m_data  = $data;

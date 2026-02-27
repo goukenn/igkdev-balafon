@@ -16,33 +16,36 @@ trait ItemsArrayAccessTrait{
     * @var mixed
     */
     protected $m_items;
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $key
     */
 
     public function offsetExists($key):bool{
         return isset($this->m_items[$key]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
     public function offsetGet(mixed $key):mixed{
         return $this->m_items[$key];
     }
+
     /**
-    * 
-    * @param mixed $key
+    * auto generate doc.
     * @param mixed $value
     */
 
     public function offsetSet($key, $value):void{
         $this->m_items[$key]=$value;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 

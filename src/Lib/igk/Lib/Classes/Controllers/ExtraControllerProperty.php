@@ -20,13 +20,12 @@ final class ExtraControllerProperty extends IGKObject{
     * @var mixed
     */
     private $m_DefaultValue, $m_Type, $m_Values;
+
     /**
-     * 
-     * @param mixed $type 
-     * @param mixed $def 
-     * @param mixed $def1 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $def1
+    * @return void
+    */
 
     public function __construct($type, $def, $def1=null){
         $this->m_Type=$type;

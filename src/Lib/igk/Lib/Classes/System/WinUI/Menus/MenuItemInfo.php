@@ -8,16 +8,22 @@ namespace IGK\System\WinUI\Menus;
 * @package IGK\System\WinUI\Menus
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Menus
+*/
 class MenuItemInfo{
     /**
      * identifier of the menu
      * @var ?
      */
     var $id;
+
     /**
-     * 
-     * @var ?string text to display 
-     */
+    * auto generate doc.
+    * @var ?string text to display
+    */
     var $text;
     /**
      * icon to display 
@@ -34,10 +40,11 @@ class MenuItemInfo{
      * @var ?bool
      */
     var $ajx;
+
     /**
-     * 
-     * @var ?bool authorized
-     */
+    * auto generate doc.
+    * @var ?bool authorized
+    */
     var $auth;
     /**
      * class name definition

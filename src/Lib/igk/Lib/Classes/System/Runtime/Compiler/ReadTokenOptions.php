@@ -3,8 +3,9 @@
 // @file: ReadTokenOptions.php
 // @date: 20221019 16:12:51
 namespace IGK\System\Runtime\Compiler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenOptions implements IReadTokenOptions{

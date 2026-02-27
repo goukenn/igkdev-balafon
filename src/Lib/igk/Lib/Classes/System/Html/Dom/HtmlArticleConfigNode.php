@@ -41,11 +41,9 @@ final class HtmlArticleConfigNode extends HtmlNode{
     * @var mixed
     */
     private $m_target;
+
     /**
-    * 
-    * @param mixed $ctrl the default value is null
-    * @param mixed $target the default value is null
-    * @param mixed $filename the default value is null
+    * auto generate doc.
     * @param mixed $forceview the default value is 0
     */
 
@@ -75,22 +73,25 @@ final class HtmlArticleConfigNode extends HtmlNode{
         $target->add($this);
         $this->setIndex(-1000);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getdropFileUri(){
         return $this->m_dropfileUri;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getIsVisible(){
         return $this->m_forceview || (parent::getIsVisible() && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER));
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

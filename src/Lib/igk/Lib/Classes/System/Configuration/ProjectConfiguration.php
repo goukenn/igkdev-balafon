@@ -65,9 +65,9 @@ class ProjectConfiguration extends EntityConfigurationSchema{
     var $workbench;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $default_user_profile;
 
     /**
@@ -80,18 +80,18 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var ?array 
      */
     var $events;
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     private static $sm_config;
+
     /**
-     * 
-     * @param string $file 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return void
+    */
     public static function LoadConfig(string $file){
         $rf = realpath($file);
         if (empty($rf) ){

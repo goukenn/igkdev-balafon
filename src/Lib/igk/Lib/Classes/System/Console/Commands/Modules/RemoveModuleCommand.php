@@ -10,10 +10,10 @@ use IGK\System\Console\Logger;
 use IGK\System\Controllers\ApplicationModules;
 
 /**
- * 
- * @package IGK\System\Console\Commands\Modules
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Modules
+* @author C.A.D. BONDJE DOUE
+*/
 class RemoveModuleCommand extends AppExecCommand
 {
 

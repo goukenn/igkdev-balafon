@@ -16,11 +16,12 @@ use IGKAppType;
 use IGKException;
 use ReflectionException;
 use stdClass;
-use Throwable; 
+use Throwable;
+
 /**
- * 
- * @package IGK\System\Console
- */
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class App implements ICLICommandApp
 {
 

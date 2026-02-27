@@ -107,13 +107,12 @@ function igk_google_bindfont($theme, $family, $size = null)
         $n = $rp->replace($family);
         $theme->def[".google-" . $n] = "/* binding ext */ font-family: '{$family}', sans-serif;";
     }
+
     /**
-     * 
-     * @param mixed $family 
-     * @param mixed $size 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $size
+    * @return mixed
+    */
     function igk_google_get_font_sizes($family, $size = null)
     {
         if ($size === null) {
@@ -127,9 +126,10 @@ function igk_google_bindfont($theme, $family, $size = null)
         return $size;
     }
     ///<summary>get the global google's application API_KEY</summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     function igk_google_apikey()
     {
         return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
@@ -172,28 +172,28 @@ function igk_google_bindfont($theme, $family, $size = null)
             return $s;
         }
     }
+
     /**
-     * 
-     * @param mixed $family
-     */
+    * auto generate doc.
+    * @param mixed $family
+    */
     function igk_google_get_css_fontfile($family)
     {
         return igk_dir(igk_google_get_fontdir() . "/" . igk_google_condensedfamilyname($family) . ".css");
     }
+
     /**
-     * 
-     * @param mixed $folderid
-     * @param mixed $filename
-     */
+    * auto generate doc.
+    * @param mixed $filename
+    */
     function igk_google_get_drive_uri($folderid, $filename)
     {
         return "//googledrive.com/host/" . $folderid . "/" . $filename;
     }
 
-
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     function igk_google_get_fontdir()
     {
         return igk_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
@@ -207,11 +207,10 @@ function igk_google_data_dir()
         return implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), IGK_DATA_FOLDER]);
     }
 
-
     /**
-     * 
-     * @param mixed $n
-     */
+    * auto generate doc.
+    * @param mixed $n
+    */
     function igk_google_jsmap_acceptrender_callback($n)
     {
         return 1;
@@ -277,10 +276,9 @@ function igk_google_data_dir()
         igk_io_w2file(IGK_GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
     }
 
-
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     function igk_google_zonectrl()
     {
         $CF = igk_ctrl_zone_init(__FILE__);
@@ -294,10 +292,11 @@ function igk_google_data_dir()
         $f = IGK_LIB_DIR . "/../api/google-api-client/vendor/autoload.php";
         require_once($f);
     }
+
     /**
-     * 
-     * @param mixed $t
-     */
+    * auto generate doc.
+    * @param mixed $t
+    */
     function igk_html_demo_google_circle_waiter($t)
     {
         $dv = $t->div()->setStyle("height: 200px");
@@ -305,8 +304,10 @@ function igk_google_data_dir()
         $dv->addgoogleCircleWaiter()->setStyle("display:inline-block; height:100px; width:100%");
     }
     ///'https://local.com/Lib/igk/Ext/ControllerModel/GoogleControllers/Scripts/igk.google.maps.js'
+
     /**
-     */
+    * auto generate doc.
+    */
     function igk_html_demo_google_js_maps($t)
     {
         $n = $t->addGoogleJSMaps("{zoom:15,center:{lat:50.850402, lng:4.357879}}");
@@ -322,10 +323,11 @@ EOF
 
         ///<summary></summary>
         ///<param name="t"></param>
+
         /**
-         * 
-         * @param mixed $t
-         */
+        * auto generate doc.
+        * @param mixed $t
+        */
         function igk_html_demo_google_line_waiter($t)
         {
             $n = igk_html_node_google_line_waiter();
@@ -381,19 +383,21 @@ function igk_html_node_hamburger_button_menu()
 
     ///<summary></summary>
     ///<param name="t"></param>
+
     /**
-     * 
-     * @param mixed $t
-     */
+    * auto generate doc.
+    * @param mixed $t
+    */
     function igk_html_demo_google_mapgeo($t)
     {
         $t->div()->addPanelBox()->addCode()->Content = "\$t->addGoogleMapGeo(\"50.847311,4.355072\");";
         return $t->addGoogleMapGeo("50.847311,4.355072");
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     function igk_html_node_google_circle_waiter()
     {
         $n = igk_create_node();
@@ -469,9 +473,10 @@ function igk_google_init_css()
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     function igk_html_node_google_line_waiter()
     {
         $n = igk_create_node();
@@ -481,10 +486,11 @@ function igk_google_init_css()
     }
     ///<summary></summary>
     ///<param name="loc"></param>
+
     /**
-     * 
-     * @param mixed $loc
-     */
+    * auto generate doc.
+    * @param mixed $loc
+    */
     function igk_html_node_google_mapgeo($loc, $apikey = null)
     {
         $n = igk_create_node("div");
@@ -535,11 +541,11 @@ function igk_google_init_css()
 
 
         if (function_exists("igk_curl_post_uri")) {
+
             /**
-             * 
-             * @param mixed $family
-             * @param mixed $sizes
-             */
+            * auto generate doc.
+            * @param mixed $sizes
+            */
             function igk_google_installfont($family, $sizes, $file = null)
             {
                 $fdir = igk_google_get_fontdir();
@@ -605,11 +611,11 @@ function igk_google_init_css()
                 igk_ilog(json_encode(["the output : ", $g]));
                 return $files;
             }
+
             /**
-             * 
-             * @param mixed $links
-             * @param mixed $download the default value is 1
-             */
+            * auto generate doc.
+            * @param mixed $download the default value is 1
+            */
             function igk_google_zip_fontlist($links, $download = 1)
             {
                 $zip = null;

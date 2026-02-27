@@ -28,11 +28,9 @@ require_once __DIR__ . "/../igk.environment.loading.php";
 
 require_once IGK_LIB_CLASSES_DIR.'/System/Cron/CronScriptHandler.php';
 
-
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 class cronApp extends IGKApplicationBase implements IConsoleLogger
 {
 

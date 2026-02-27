@@ -10,6 +10,11 @@ use IGKEvents;
 * 
 * @package IGK\System\Database
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaMigrationHookHandler{
 
     /**
@@ -62,14 +67,12 @@ class SchemaMigrationHookHandler{
     public function unregister(){
         igk_unreg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);
     }
+
     /**
-     * 
-     * @param mixed $table 
-     * @param mixed $column 
-     * @param mixed $name 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $name
+    * @return void
+    */
 
     protected function onColumnRenamed($table, $column, $name){
         // Logger::print('column rename : '.$column , $name); 

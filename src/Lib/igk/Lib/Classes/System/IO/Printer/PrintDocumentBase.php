@@ -3,8 +3,9 @@
 // @file: PrintDocumentBase.php
 // @date: 20220701 19:14:25
 namespace IGK\System\IO\Printer;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO\Print
 */
 abstract class PrintDocumentBase{

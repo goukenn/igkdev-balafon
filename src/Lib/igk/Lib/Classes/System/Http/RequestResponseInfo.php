@@ -7,25 +7,33 @@ namespace IGK\System\Http;
 * 
 * @package IGK\System\Http
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class RequestResponseInfo{
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $status = 'OK';
+
     /**
-     * 
-     * @var int
-     */
+    * auto generate doc.
+    * @var int
+    */
     var $code = 200;
     /**
      * message to send
      * @var ?string
      */
-    var $message;    
+    var $message;
+
     /**
-     * 
-     * @var ?data extra data to send
-     */
+    * auto generate doc.
+    * @var ?data extra data to send
+    */
     var $data;
 }

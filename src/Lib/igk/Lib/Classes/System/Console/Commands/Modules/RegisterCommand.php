@@ -7,7 +7,7 @@ namespace IGK\System\Console\Commands\Modules;
 use IGK\System\Console\AppExecCommand;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Modules
 * @author C.A.D. BONDJE DOUE
 */

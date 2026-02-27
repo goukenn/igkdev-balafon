@@ -32,9 +32,9 @@ class UtilityActions{
     * @var mixed
     */
     var $target;
+
     /**
-    * 
-    * @param mixed $ctrl
+    * auto generate doc.
     * @param mixed $t
     */
 
@@ -42,8 +42,9 @@ class UtilityActions{
         $this->ctrl=$ctrl;
         $this->target=$t;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function rmDir(){

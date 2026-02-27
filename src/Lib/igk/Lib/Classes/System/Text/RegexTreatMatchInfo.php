@@ -3,8 +3,9 @@
 // @file: RegexTreatMatchInfo.php
 // @date: 20250110 13:39:05
 namespace IGK\System\Text;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

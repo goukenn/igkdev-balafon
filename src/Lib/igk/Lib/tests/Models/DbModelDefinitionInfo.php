@@ -8,7 +8,7 @@ use IGK\System\Database\SchemaMigrationInfo;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Models
 */
 class DbModelDefinitionInfo extends SchemaMigrationInfo{

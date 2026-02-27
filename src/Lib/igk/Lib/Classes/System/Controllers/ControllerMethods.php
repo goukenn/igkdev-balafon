@@ -3,8 +3,9 @@
 // @file: ControllerMethods.php
 // @date: 20240109 17:57:43
 namespace IGK\System\Controllers;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Controllers
 * @author C.A.D. BONDJE DOUE
 */

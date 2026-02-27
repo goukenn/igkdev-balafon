@@ -5,8 +5,9 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 abstract class ViewExpressionBase implements ArrayAccess{

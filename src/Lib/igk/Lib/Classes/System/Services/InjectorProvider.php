@@ -10,6 +10,11 @@ use IGK\Models\Injectors\ModelBaseInjector;
  * 
  * @package 
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Services
+*/
 class InjectorProvider{
 
     /**
@@ -25,10 +30,11 @@ class InjectorProvider{
     private static $sm_instance;
     private function __construct() {
     }
+
     /**
-     * 
-     * @return static 
-     */
+    * auto generate doc.
+    * @return static
+    */
 
     public static function getInstance(){
         if (self::$sm_instance === null){
@@ -36,10 +42,11 @@ class InjectorProvider{
         }
         return self::$sm_instance;
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public static function GetInjectors(): ?array{
         return self::getInstance()->injectors;

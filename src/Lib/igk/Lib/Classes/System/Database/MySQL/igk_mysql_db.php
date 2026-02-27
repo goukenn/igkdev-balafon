@@ -25,12 +25,11 @@ require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
 // igk_wln_e("the file ", get_included_files() , $file, IGK_MYSQL_DIR . "/DataAdapterBase.php");
 require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
+
 /**
- * 
- * @param mixed|object $srv
- * @param mixed $dbu
- * @param mixed $pwd
- */
+* auto generate doc.
+* @param mixed $pwd
+*/
 function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
 {
     if (empty($srv))
@@ -85,11 +84,11 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
     }
     return @$g($srv, $dbu, $pwd);
 }
+
 /**
- * 
- * @param mixed $v
- * @param mixed $r the default value is null
- */
+* auto generate doc.
+* @param mixed $r the default value is null
+*/
 function igk_db_escape_string($v, $r = null)
 {
     $g = DbQueryDriver::GetFunc("escapestring");
@@ -113,28 +112,31 @@ function igk_db_escape_string($v, $r = null)
         return $g($v);
     return null;
 }
+
 /**
- * 
- * @param mixed $r
- */
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_db_fetch_field($r)
 {
     $g = DbQueryDriver::GetFunc("fetch_field");
     return $g($r);
 }
+
 /**
- * 
- * @param mixed $r
- */
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_db_fetch_row($r)
 {
     $g = DbQueryDriver::GetFunc("fetch_row");
     return $g($r);
 }
+
 /**
- * 
- * @param mixed $r
- */
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_db_is_resource($r)
 {
     if (DbQueryDriver::Is("MySQLI")) {
@@ -150,10 +152,11 @@ function igk_db_num_fields($r){
     $g = DbQueryDriver::GetFunc("num_fields");
     return ($r && $g ) ? $g($r) : -1;
 }
+
 /**
- * 
- * @param mixed $r
- */
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_db_num_rows($r)
 {
     $g = DbQueryDriver::GetFunc("num_rows");
@@ -223,19 +226,21 @@ function igk_mysql_datetime_now()
 {
     return date(IGK_MYSQL_DATETIME_FORMAT);
 }
+
 /**
- * 
- * @param mixed $r
- */
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_mysql_db_close($r)
 {
     $g = DbQueryDriver::GetFunc("close");
     return @$g($r);
 }
+
 /**
- * 
- * @param mixed $r the default value is null
- */
+* auto generate doc.
+* @param mixed $r the default value is null
+*/
 function igk_mysql_db_error($r = null)
 {
     $g = DbQueryDriver::GetFunc("error");
@@ -248,9 +253,10 @@ function igk_mysql_db_error($r = null)
     }
     return $g($r);
 }
+
 /**
- * 
- */
+* auto generate doc.
+*/
 function igk_mysql_db_errorc($res=null)
 {
     $g = DbQueryDriver::GetFunc("errorc");
@@ -262,10 +268,11 @@ function igk_mysql_db_errorc($res=null)
     }
     return $g($r);
 }
+
 /**
- * 
- * @param mixed $t
- */
+* auto generate doc.
+* @param mixed $t
+*/
 function igk_mysql_db_gettypename($t)
 {
     $m_mysqli_data = array(
@@ -286,25 +293,28 @@ function igk_mysql_db_gettypename($t)
     }
     return $t;
 }
+
 /**
- * 
- */
+* auto generate doc.
+*/
 function igk_mysql_db_has_error()
 {
     return igk_mysql_db_errorc() != 0;
 }
+
 /**
- * 
- * @param mixed $flags
- */
+* auto generate doc.
+* @param mixed $flags
+*/
 function igk_mysql_db_is_primary_key($flags)
 {
     return ($flags & 2) == 2;
 }
+
 /**
- * 
- * @param mixed $r the default value is null
- */
+* auto generate doc.
+* @param mixed $r the default value is null
+*/
 function igk_mysql_db_last_id($r = null)
 {
     $g = DbQueryDriver::GetFunc("lastid");
@@ -329,28 +339,31 @@ function igk_db_last_connect_error(){
     }
     return $g();
 }
+
 /**
- * 
- * @param mixed $mysql
- */
+* auto generate doc.
+* @param mixed $mysql
+*/
 function igk_mysql_db_selected_db($mysql)
 {
     $r = $mysql->sendQuery("SELECT DATABASE();")->getRowAtIndex(0);
     $c = "DATABASE()";
     return $r->$c;
 }
+
 /**
- * 
- * @param mixed $tbname
- */
+* auto generate doc.
+* @param mixed $tbname
+*/
 function igk_mysql_db_tbname($tbname)
 {
     return igk_db_escape_string(igk_db_get_table_name($tbname));
 }
+
 /**
- * 
- * @param mixed $resource
- */
+* auto generate doc.
+* @param mixed $resource
+*/
 function igk_mysql_result_table($resource)
 {
     $tab = igk_create_node("table");
@@ -372,10 +385,11 @@ function igk_mysql_result_table($resource)
     }
     return $tab;
 }
+
 /**
- * 
- * @param mixed $date
- */
+* auto generate doc.
+* @param mixed $date
+*/
 function igk_mysql_time_span($date)
 {
     return igk_time_span(IGK_MYSQL_DATETIME_FORMAT, $date);

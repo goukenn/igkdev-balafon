@@ -98,14 +98,12 @@ class MakeClassCommand extends AppExecCommand
         $defs = igk_getv($command->options, "--defs");
         return get_defined_vars();
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $file 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $file
+    * @return void
+    */
 
     public function generateFileFromCommand($command, $file)
     {
@@ -149,12 +147,12 @@ class MakeClassCommand extends AppExecCommand
     {
         return igk_app()->getService('make:class-scaffold');
     }
+
     /**
-     * 
-     * @param string $path 
-     * @param mixed $extensions 
-     * @return string|null 
-     */
+    * auto generate doc.
+    * @param mixed $extensions
+    * @return string|null
+    */
 
     static function ScaffoldResolveClass(string $path, $extensions)
     {
@@ -166,12 +164,12 @@ class MakeClassCommand extends AppExecCommand
         }
         return null;
     }
+
     /**
-     * 
-     * @param null|{name:string, defs: template}
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param null|{name:string, defs: template}
+    * @return mixed
+    */
 
     protected function resolveTypeDefinition($type)
     {

@@ -24,6 +24,11 @@ use IGKSysUtil;
  * @method object lastId() get last id
  * @method object dieNotConnect() if query no ok die
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class SQLQueryUtils
 {
 
@@ -57,18 +62,13 @@ class SQLQueryUtils
         }
         return $defvalue;
     }
+
     /**
-     * 
-     * @param mixed $tbname 
-     * @param mixed $columninfo 
-     * @param mixed $desc 
-     * @param mixed $adapter 
-     * @param int $noengine 
-     * @param int $nocomment 
-     * @return string 
-     * @throws IGKException 
-     * @deprecated use SQLGrammar 
-     */
+    * auto generate doc.
+    * @param int $nocomment
+    * @deprecated use SQLGrammar
+    * @return string
+    */
 
     public static function CreateTableQuery($tbname, $columninfo, $desc = null, $adapter = null, $noengine = 0, $nocomment = 0)
     {
@@ -302,14 +302,12 @@ class SQLQueryUtils
     {
         die(__METHOD__ . ":: obselete : use GetExtrasOptions instead");
     }
+
     /**
-     * 
-     * @param mixed $tab 
-     * @param string $operator 
-     * @param mixed $adapter 
-     * @param mixed $grammar 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $grammar
+    * @return mixed
+    */
 
     public static function GetCondString($tab, $operator = 'AND', $adapter = null, $grammar = null)
     {
@@ -1021,16 +1019,12 @@ class SQLQueryUtils
     {
         return !in_array($type, ["int"]);
     }
+
     /**
-     * 
-     * @param mixed $v 
-     * @param mixed &$optset 
-     * @param mixed $k 
-     * @param mixed $ad 
-     * @param string $defOrder 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $defOrder
+    * @return void
+    */
 
     public static function BuildOrderBy($v, &$optset, string $k, $ad, $defOrder='ASC')
     {
@@ -1054,13 +1048,12 @@ class SQLQueryUtils
             igk_die("OrderBy must be an array ['Column,...|Type']|'Column,...|Type' where Type ASC|DESC");
         }
     }
+
     /**
-     * 
-     * @param mixed $columns 
-     * @param mixed $type 
-     * @param mixed $adapter escaped_string method 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $adapter escaped_string method
+    * @return string
+    */
 
     public static function GetGroupKey($columns, $type, $adapter){
           return implode(' ' . $type . ',', array_map(

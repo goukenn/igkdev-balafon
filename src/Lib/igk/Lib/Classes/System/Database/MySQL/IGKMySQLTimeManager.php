@@ -15,16 +15,18 @@ final class IGKMySQLTimeManager extends IGKObject{
     * @var mixed
     */
     var $ad;
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ad
     */
 
     public function __construct($ad){
         $this->ad=$ad;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function Now(){

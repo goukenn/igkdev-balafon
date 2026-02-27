@@ -4,10 +4,11 @@
 // @date: 20220830 11:35:12
 // @desc: 
 namespace IGK\System\IO\Configuration;
+
 /**
- * 
- * @package IGK\System\IO\Configuration
- */
+* auto generate doc.
+* @package IGK\System\IO\Configuration
+*/
 class ConfigurationEncoder{
 
     /**

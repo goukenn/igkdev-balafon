@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Library\session;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */

@@ -465,19 +465,21 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         return null;
     }
+
     /**
-     * 
-     * @param mixed $n
-     */
+    * auto generate doc.
+    * @param mixed $n
+    */
 
     public function &__get($n)
     {
         return $this->get($n);
     }
+
     /**
-     * 
-     * @param mixed $n
-     */
+    * auto generate doc.
+    * @param mixed $n
+    */
 
     public function __isset($v)
     {
@@ -501,11 +503,11 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         return igk_getv($this->m_envs, "no_cache");
     }
+
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function __set($n, $v)
     {
@@ -516,24 +518,26 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return $this;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __sleep()
     {
         igk_die("Sleep Environment: Operation Not allowed " . __CLASS__);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __wakeup() {}
+
     /**
-     * 
-     * @param string $var_name 
-     * @param mixed $default 
-     */
+    * auto generate doc.
+    * @param mixed $default
+    */
 
     public function &get(string $var, $default = null)
     {
@@ -606,10 +610,11 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return null;
     }
+
     /**
-     * 
-     * @return self environment instance
-     */
+    * auto generate doc.
+    * @return self environment instance
+    */
 
     public static function getInstance()
     {
@@ -643,9 +648,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return $v_k;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getVars()
     {
@@ -699,9 +705,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         return defined('IGK_TEST_INIT');
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function IsWebApp()
     {
@@ -744,19 +751,22 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         return self::ResolvEnvironment($this->name());
     }
-    /** 
-     * @param mixed $i
-     */
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
 
     protected function _access_offsetExists($i): bool
     {
         return isset($this->m_envs[$i]);
     }
+
     /**
-     * 
-     * @param mixed $v
-     * @return *
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return *
+    */
 
     protected function _access_offsetGet($v)
     {
@@ -767,11 +777,11 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $i
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     protected function _access_offsetSet($i, $v): void
     {
@@ -780,18 +790,20 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         else
             $this->m_envs[$i] = $v;
     }
+
     /**
-     * 
-     * @param mixed $i
-     */
+    * auto generate doc.
+    * @param mixed $i
+    */
 
     protected function _access_offsetUnset($i): void
     {
         unset($this->m_envs[$i]);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __serialize()
     {
@@ -1080,9 +1092,11 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return $r;
     }
+
     /**
-     * @return Debugger
-     */
+    * auto generate doc.
+    * @return Debugger
+    */
 
     public function getDebugger()
     {

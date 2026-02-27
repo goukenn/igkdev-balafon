@@ -9,7 +9,10 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 use IGKOb;
-/** @package  */
+
+/**
+* auto generate doc.
+*/
 final class HtmlCallbackNode extends HtmlNode{
 
     /**

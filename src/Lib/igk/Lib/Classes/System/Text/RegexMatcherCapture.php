@@ -54,10 +54,11 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @var mixed
      */
     var $endCaptures;
+
     /**
-     * 
-     * @var merge captures / begin / match
-     */
+    * auto generate doc.
+    * @var merge captures / begin / match
+    */
     var $captures;
     /**
      * get the current parent information 

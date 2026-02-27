@@ -10,6 +10,11 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
     /**
      * start reading source detect <?php code
@@ -87,10 +92,11 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
     * @var mixed
     */
     var $struct_info;
+
     /**
-     * 
-     * @var ?ReadTokenOptions
-     */
+    * auto generate doc.
+    * @var ?ReadTokenOptions
+    */
     var $options;
 
     /**

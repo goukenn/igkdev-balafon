@@ -3,10 +3,11 @@
 // @file: ClassAttributeArrayValueEncoder.php
 // @date: 20230316 11:14:17
 namespace IGK\System\Html\Encoding;
+
 /**
- * 
- * @package IGK\System\Html\Encoding
- */
+* auto generate doc.
+* @package IGK\System\Html\Encoding
+*/
 class ClassAttributeArrayValueEncoder extends AttributeEncoder
 {
 

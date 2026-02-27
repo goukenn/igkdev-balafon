@@ -19,11 +19,12 @@ class AnnotationInfoAnnotation extends AnnotationBase implements IAnnotation{
      * allow multiple
      */
     var $multiple = false;
+
     /**
-     * 
-     * @param null|string $m 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|string $m
+    * @return void
+    */
     public function setMultiple(?string $m){
         if (is_null($m))
             $this->multiple = false;

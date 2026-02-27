@@ -19,6 +19,11 @@ use ReflectionException;
  * @package IGK\Tests\System\IO\Markdown
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Tests\System\IO\Markdown
+*/
 class MarkdownConverterTest extends BaseTestCase
 {
     // public static function suite(){
@@ -303,16 +308,11 @@ class MarkdownConverterTest extends BaseTestCase
 
         $this->assertEquals('info &lt; et &gt;', $d);
     }
+
     /**
-     * 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws ExpectationFailedException 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function test_mdconverter_lines()
     {

@@ -97,9 +97,10 @@ class SysDbMapping extends ModelMappingBase{
         $o->m_info = $o->initInfoFromModel($model);
         return $o;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();

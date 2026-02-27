@@ -25,30 +25,23 @@ require_once __DIR__ . "/InstallerUtils.php";
  */
 class InstallSite
 {
+
     /**
-     * 
-     * @param mixed $folder 
-     * @param mixed|null $packagefolder 
-     * @param int $listen 
-     * @param string $environment 
-     * @param array $options extra options
-     * @return false|void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param array $options extra options
+    * @return false|void
+    */
     public static function Install($folder, $listen = 80, $environment = "development", $options = [])
     {
         $installer = new self();
         return $installer->installSite($folder, $listen, $environment, $options);
     }
+
     /**
-     * 
-     * @param string $folder working folder 
-     * @param int $listen default listen por 
-     * @param string $environment defaut environment
-     * @param array $options parameter 
-     * @return bool
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param array $options parameter
+    * @return bool
+    */
     public function installSite($folder,  $listen = 80, $environment = "development", array $options = [])
     {
         $core = IGK_LIB_FILE;
@@ -262,13 +255,12 @@ class InstallSite
         }
         return true;
     }
+
     /**
-     * 
-     * @param string $folder 
-     * @param string $c_app 
-     * @param string $c_public 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $c_public
+    * @return void
+    */
     public static function CreatePhpUnitConfig(string $folder,string $c_app, string $c_public)
     {
         $php_xml = igk_create_xmlnode("phpunit");
@@ -289,17 +281,12 @@ class InstallSite
         $ob = ob_get_clean();
         igk_io_w2file($folder . "/phpunit.xml.dist", $ob);
     }
+
     /**
-     * 
-     * @param null|string $servername 
-     * @param string $folder 
-     * @param string $src 
-     * @param string $c_root 
-     * @param int $tport 
-     * @param int $listen 
-     * @param string $environment 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $environment
+    * @return void
+    */
     public static function CreateApacheVHostFile(?string $servername, string $folder, string $src, string $c_root, $tport = 80, $listen = 80, $environment = 'development')
     {
         $t_conf_file = $folder . "/vhost.conf";

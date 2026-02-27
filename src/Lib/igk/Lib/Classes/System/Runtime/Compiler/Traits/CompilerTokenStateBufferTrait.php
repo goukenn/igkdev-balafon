@@ -3,8 +3,9 @@
 // @file: CompilerTokenStateBufferTrait.php
 // @date: 20221021 09:50:56
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenStateBufferTrait{

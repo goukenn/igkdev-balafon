@@ -7,10 +7,10 @@ namespace IGK\Helper;
 use IGK\Models\ModelBase;
 
 /**
- * 
- * @package IGK\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 abstract class StringDisplay
 {
     /**

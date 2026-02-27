@@ -12,8 +12,9 @@ use IGK\System\Html\Css\CssUtils;
 * @package IGK\System\Polyfill
 */
 trait CSSDefaultArrayAccess{
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetExists($i):bool{
@@ -22,8 +23,9 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetGet(mixed $key):mixed{
@@ -38,9 +40,9 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($tab, $key);
     }
+
     /**
-    * 
-    * @param mixed $i
+    * auto generate doc.
     * @param ?string $v
     */
     public function offsetSet($i, $v):void{
@@ -52,8 +54,9 @@ trait CSSDefaultArrayAccess{
         $g= & $this->_[$t_KEY];
         $this->_bindProperties($g, $i, $v); 
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetUnset($i):void{

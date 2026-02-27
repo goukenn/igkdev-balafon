@@ -39,10 +39,11 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @var mixed
      */
     var $table_prefix;
+
     /**
-     * 
-     * @var ?string database name
-     */
+    * auto generate doc.
+    * @var ?string database name
+    */
     var $db_name;
 
     /**

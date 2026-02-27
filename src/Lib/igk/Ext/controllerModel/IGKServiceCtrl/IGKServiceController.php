@@ -19,7 +19,10 @@ use function igk_resources_gets as __;
 
 
 !defined("IGK_SERVICE_BASE_URI") && define("IGK_SERVICE_BASE_URI", "services");
-/** @package  */
+
+/**
+* auto generate doc.
+*/
 abstract class IGKServiceController 
     extends \IGK\Controllers\ControllerTypeBase 
     implements ILibaryController, IDatabaseHost

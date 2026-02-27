@@ -8,8 +8,9 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Caches
 */
 class InitEnvControllerChain{

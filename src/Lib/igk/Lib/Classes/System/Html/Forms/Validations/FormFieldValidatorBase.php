@@ -6,8 +6,9 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 * @author C.A.D BONDJE DOUE
 */

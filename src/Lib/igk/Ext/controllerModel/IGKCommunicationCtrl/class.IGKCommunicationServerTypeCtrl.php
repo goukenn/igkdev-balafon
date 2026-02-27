@@ -21,8 +21,9 @@ abstract class IGKCommunicationServerCtrl extends ApplicationController{
     * @var mixed
     */
     const HTTP_ACCEPT= AcceptMimeTypes::EventStream;
+
     /**
-    * 
+    * auto generate doc.
     */
     private function getSocketFile(){
         return $this->getDataDir()."/server.socket";

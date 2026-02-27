@@ -8,39 +8,46 @@ namespace IGK\Projects\Database;
 * @package IGK\Projects\Database
 */
 class VersionClass{
+
     /**
-     * 
-     * @var int_primary_auto_index
-     */
+    * auto generate doc.
+    * @var int_primary_auto_index
+    */
     var $id;
-     /**
-     * 
-     * @var string_unique(35)
-     */
-    var $version;
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string_unique(35
+    */
+    var $version;
+
+    /**
+    * auto generate doc.
+    * @var string
+    */
     var $name;
-     /**
-     * 
-     * @var ?text
-     */
+
+    /**
+    * auto generate doc.
+    * @var ?text
+    */
     var $author;
-     /**
-     * 
-     * @var ?text
-     */
+
+    /**
+    * auto generate doc.
+    * @var ?text
+    */
     var $comment;
-     /**
-     * 
-     * @var datetime
-     */
+
+    /**
+    * auto generate doc.
+    * @var datetime
+    */
     var $createAt;
-     /**
-     * 
-     * @var datetime
-     */
+
+    /**
+    * auto generate doc.
+    * @var datetime
+    */
     var $updateAt;
 }

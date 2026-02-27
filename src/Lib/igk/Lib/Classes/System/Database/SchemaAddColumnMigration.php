@@ -66,12 +66,11 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $this->raw = (object)['table'=>$table, 'after'=>$after];
         $this->columns = [$column];
     }
+
     /**
-     * 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function up(){ 
         $v_table = $this->table;
@@ -104,10 +103,11 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             $migListerner->regDefTableChanged($tb);
         }
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function down(){
         $ctrl = $this->getMigration()->controller;

@@ -12,6 +12,11 @@ use IGK\System\Text\RegexMatcherContainer;
 * @author C.A.D. BONDJE DOUE
 * @remark specification : https://www.rfc-editor.org/rfc/rfc6350.html
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\VCF
+*/
 class VCard
 {
 
@@ -104,10 +109,11 @@ class VCard
     * @var mixed
     */
     var $SOURCE;
+
     /**
-     * 
-     * @var ?string|'individual'|'group'|'org'|'location'
-     */
+    * auto generate doc.
+    * @var individual
+    */
     var $KIND;
 
     /**
@@ -211,22 +217,22 @@ class VCard
     {
         $this->VERSION = '3.0';
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return null 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return null
+    */
 
     public function getPreferred(string $type){
         return null;
     }
+
     /**
-     * 
-     * @param mixed $file 
-     * @param array $vcards 
-     * @param array|IVCardSaveOptions $save_options 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param array|IVCardSaveOptions $save_options
+    * @return void
+    */
 
     public static function Save($file, array $vcards,  $save_options = null)
     {
@@ -257,11 +263,12 @@ class VCard
         }
         return igk_io_w2file($file, rtrim($v_sb.''));
     }
+
     /**
-     * 
-     * @param string $file 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return mixed
+    */
 
     public static function OpenFile(string $file)
     {

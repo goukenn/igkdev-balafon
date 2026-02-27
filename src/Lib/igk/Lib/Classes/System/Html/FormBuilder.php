@@ -39,10 +39,11 @@ class FormBuilder
     * @var mixed
     */
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
+
     /**
-     * 
-     * @var array{number: 'text', tel: 'text', float: 'text', int: 'text', email: 'email', password: 'password', text: 'text', date: 'date', datetime: 'datetime-local', json: 'text', radio: 'radio', checkbox: 'checkbox', file: 'file', hidden: 'hidden', datetime-local: 'datetime-local'}
-     */
+    * auto generate doc.
+    * @var array{number: "text", tel: "text", float: "text", int: "text", email: "email", password: "password", text: "text", date: "date", datetime: "datetime-local", json: "text", radio: "radio", checkbox: "checkbox", file: "file", hidden: "hidden", datetime-local: "datetime-local"}
+    */
     static $ResolvType = [
         "number" => "text",
         "tel" => "text",
@@ -60,10 +61,11 @@ class FormBuilder
         "hidden" => "hidden",
         "datetime-local" => "datetime-local"
     ];
+
     /**
-     * 
-     * @var array{float: 'igk-form-control number', double: 'igk-form-control number', number: 'igk-form-control number', int: 'igk-form-control integer', text: 'igk-form-control text', mail: 'igk-form-control mail', url: 'igk-form-control url', password: 'igk-form-control password', email: 'igk-form-control email', datetime: 'igk-form-control datetime', datetime-local: 'igk-form-control datetime-local'}
-     */
+    * auto generate doc.
+    * @var array{float: "igk-form-control number", double: "igk-form-control number", number: "igk-form-control number", int: "igk-form-control integer", text: "igk-form-control text", mail: "igk-form-control mail", url: "igk-form-control url", password: "igk-form-control password", email: "igk-form-control email", datetime: "igk-form-control datetime", datetime-local: "igk-form-control datetime-local"}
+    */
     private static $ResolvClass = [
         "float" => "igk-form-control number",
         "double" => "igk-form-control number",
@@ -633,13 +635,12 @@ class FormBuilder
     {
         return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number|file)/", $type);
     }
+
     /**
-     * 
-     * @param mixed $a 
-     * @param mixed $b 
-     * @return int 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $b
+    * @return int
+    */
 
     protected static function _SelectSortBySorkByText($a, $b)
     {
@@ -679,12 +680,12 @@ class FormBuilder
         }
         return $_value;
     }
+
     /**
-     * 
-     * @param string $id 
-     * @param null|array $def_data 
-     * @return mixed|null|array 
-     */
+    * auto generate doc.
+    * @param null|array $def_data
+    * @return mixed|null|array
+    */
 
     public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {

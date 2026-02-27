@@ -8,7 +8,7 @@ use IGK\System\Html\HtmlNodeBuilder;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html
 * @author C.A.D. BONDJE DOUE
 */

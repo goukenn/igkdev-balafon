@@ -11,6 +11,11 @@ use IGKException;
  * 
  * @package IGK\Help
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class MapHelper
 {
     /**
@@ -74,12 +79,11 @@ class MapHelper
         }
         return null;
     }
-   /**
-    * 
-    * @param mixed|array|ModelBase $data data to mapper 
-    * @param array|IDataMapper $map 
-    * @return mixed 
-    * @throws IGKException 
+
+    /**
+    * auto generate doc.
+    * @param array|IDataMapper $map
+    * @return mixed
     */
     public static function Map($data, $map){
         $v_out = [];

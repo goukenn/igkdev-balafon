@@ -40,10 +40,11 @@ class HtmlScriptLoader
      * @var bool
      */
     var $production;
+
     /**
-     * 
-     * @var ?array excluded directory options
-     */
+    * auto generate doc.
+    * @var ?array excluded directory options
+    */
     var $excludir;
 
     /**
@@ -339,13 +340,12 @@ class HtmlScriptLoader
     {
         return "/\.((m)?js|json|xml|svg|shader|txt)$/";
     }
+
     /**
-     * 
-     * @param string $file 
-     * @param string $uri 
-     * @return string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $uri
+    * @return string
+    */
 
     public static function GetModuleInlineScriptContent(string $file, $uri = "/")
     {

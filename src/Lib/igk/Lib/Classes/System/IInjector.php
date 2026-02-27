@@ -7,11 +7,17 @@ namespace IGK\System;
 * 
 * @package IGK\System
 */
+
+/**
+* auto generate doc.
+* @package IGK\System
+*/
 interface IInjector{
+
     /**
-     * 
-     * @param mixed $value 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return mixed
+    */
     function resolve($value, ?string $type=null);
 }

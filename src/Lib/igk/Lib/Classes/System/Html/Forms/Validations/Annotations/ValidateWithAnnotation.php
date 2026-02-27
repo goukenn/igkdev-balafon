@@ -32,15 +32,17 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * @var ?int
      */
     var $minLength;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $pattern;
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $type;
      /**
      * field is required

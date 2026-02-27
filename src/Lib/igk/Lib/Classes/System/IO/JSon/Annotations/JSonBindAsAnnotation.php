@@ -38,11 +38,12 @@ class JSonBindAsAnnotation extends AnnotationBase
     {
         $this->required =  boolval($v);
     }
+
     /**
-     * 
-     * @param ?string $type 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ?string $type
+    * @return void
+    */
 
     public function __construct(?string $type = null)
     {
@@ -85,13 +86,12 @@ class JSonBindAsAnnotation extends AnnotationBase
             }
         ];
     }
+
     /**
-     * 
-     * @param mixed $object_or_class 
-     * @return array<int|string, mixed> 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $object_or_class
+    * @return array<int|string
+    */
 
     public static function GetRequiredProperties($object_or_class)
     {
@@ -100,13 +100,12 @@ class JSonBindAsAnnotation extends AnnotationBase
             return $p->required;
         });
     }
+
     /**
-     * 
-     * @param mixed $class_name 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $class_name
+    * @return array
+    */
 
     public static function GetJSonByAsProperties($class_name, $uses = null)
     {
@@ -135,11 +134,12 @@ class JSonBindAsAnnotation extends AnnotationBase
         }
         return $type;
     }
+
     /**
-     * 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
 
     public function Convert($value, $options)
     {
@@ -196,11 +196,12 @@ class JSonBindAsAnnotation extends AnnotationBase
     {
         return igk_getv($converter, $type) ?? self::GetObjConverter($type);
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return void
+    */
 
     static function GetObjConverter(string $type)
     {

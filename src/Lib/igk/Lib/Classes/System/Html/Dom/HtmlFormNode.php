@@ -81,35 +81,38 @@ final class HtmlFormNode extends HtmlNode
     private $_prevent_max_file_upload;
 
     /**
-     * 
-     * @return HtmlItemBase 
-     */
+    * auto generate doc.
+    * @return HtmlItemBase
+    */
 
     public function getBodyContent(): HtmlItemBase{
         return $this->m_bodydiv;
     }
+
     /**
-     * 
-     * @return HtmlItemBase 
-     */
+    * auto generate doc.
+    * @return HtmlItemBase
+    */
 
     public function getFooterContent(): HtmlItemBase{
         return $this->m_footdiv;
     }
+
     /**
-     * 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @return $this
+    */
 
     public function multipart()
     {
         $this['enctype'] = IGK_HTML_ENCTYPE;
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $o the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $o the default value is null
+    */
 
     protected function _acceptRender($options = null): bool
     {
@@ -118,11 +121,11 @@ final class HtmlFormNode extends HtmlNode
         $this->m_footdiv->setIsVisible($this->m_footdiv->gethasContent() && !$this->m_nofoot);
         return true;
     }
+
     /**
-     * 
-     * @param mixed $notitle the default value is false
-     * @param mixed $nofoot the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $nofoot the default value is true
+    */
 
     public function __construct($action = ".", $method = "POST", $notitle = false, $nofoot = true)
     {
@@ -197,22 +200,21 @@ final class HtmlFormNode extends HtmlNode
         }
         return $n;
     }
+
     /**
-     * 
-     * @param mixed $item
-     * @param mixed $index the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $index the default value is null
+    */
 
     protected function _Add($item, $index = null): bool
     {
         return $this->m_bodydiv->_Add($item);
     }
+
     /**
-     * 
-     * @param mixed $nameoritem
-     * @param mixed $attributes the default value is null
-     * @param mixed $index the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $index the default value is null
+    */
 
     public function add($nameoritem, $attributes = null, $index = null)
     {
@@ -226,19 +228,20 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->addInput("confirm", "hidden", $v);
     }
+
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function addHidden($n, $v)
     {
         return $this->addInput($n, "hidden", $v);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function addToken()
     {
@@ -249,110 +252,123 @@ final class HtmlFormNode extends HtmlNode
         $i["type"] = "hidden";
         return $i;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function ClearChilds()
     {
         $this->m_bodydiv->clearChilds();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAction()
     {
         return $this["action"];
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getBox()
     {
         return $this->m_bodydiv;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getContent()
     {
         return null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getEncType()
     {
         return $this->m_encType;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getFooter()
     {
         return $this->m_footdiv;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getMethod()
     {
         return $this["method"];
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getNoFoot()
     {
         return $this->m_nofoot;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getNoTitle()
     {
         return $this->m_notitle;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getTitle()
     {
         return $this->m_topdiv->Content;
     }
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setAction($value)
     {
         $this->setAttribute("action", $value);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function setContent($v)
     {
         $this->m_bodydiv->setContent($v);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setEncType($value)
     {
@@ -360,30 +376,33 @@ final class HtmlFormNode extends HtmlNode
         $this['enctype'] = $value;
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setMethod($value)
     {
         $this->setAttribute("method", $value);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setNoFoot($value)
     {
         $this->m_nofoot = $value;
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setNoTitle($value)
     {

@@ -49,13 +49,12 @@ class Pagination{
     * @var mixed
     */
     var $pageQuery;
+
     /**
-     * 
-     * @param mixed $itemPerPage number per page
-     * @param mixed $total total item 
-     * @param string $p request page field
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $p request page field
+    * @return void
+    */
 
     public function __construct(int $itemPerPage, int $total, $p="p", $default_page=1, $shift=1)
     {

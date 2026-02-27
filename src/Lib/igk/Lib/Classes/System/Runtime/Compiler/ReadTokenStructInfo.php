@@ -9,6 +9,11 @@ use IGKException;
  * 
  * @package IGK\System\Runtime\Compiler
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler
+*/
 class ReadTokenStructInfo
 {
 
@@ -52,10 +57,11 @@ class ReadTokenStructInfo
      * @var int
      */
     var $depth = 0;
+
     /**
-     * 
-     * @var ReadTokenStructInfo
-     */
+    * auto generate doc.
+    * @var ReadTokenStructInfo
+    */
     var $parent;
     /**
      * read code flag
@@ -121,12 +127,12 @@ class ReadTokenStructInfo
         return sprintf("%s", implode(" ", array_filter([$mod, $this->type, 
          $this->name]))); 
     }
+
     /**
-     * 
-     * @param ReadTokenOptions $options 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @return void
+    */
 
     public function buildBuffer(?IReadTokenMergeOption $options=null)
     { 

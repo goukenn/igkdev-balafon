@@ -163,13 +163,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     */
     private function __construct(){       
     }
+
     /**
-     * 
-     * @param mixed $query 
-     * @param IDataDriver $driver driver
-     * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase $model source model
-     * @return MYSQLQueryFetchResult 
-     */
+    * auto generate doc.
+    * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase $model source model
+    * @return MYSQLQueryFetchResult
+    */
 
     public static function Create($query, IDataDriver $driver, ?\IGK\Models\ModelBase $model=null){
         $c = new self();
@@ -179,21 +178,25 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
         return $c;
     }
     ///retult of the query  uses for boolean data
+
     /**
+    * auto generate doc.
     */
 
     public function __toString(){
         return __CLASS__." [RowCount: ".$this->RowCount."]";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getColumnCount(){
         return igk_count($this->m_columns);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $columnname
     */
 
@@ -203,15 +206,17 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
         }
         return -1;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getColumns(){
         return $this->m_columns;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getHasRow(){
@@ -230,9 +235,10 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
 
     public function getResultType(){
         return "fetch";
-    }   
+    }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getTables(){
@@ -308,10 +314,11 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     public function _iterator_next(){
         $this->fetch();
     }
+
     /**
-     * 
-     * @return null|object|DbQueryRowObj
-     */
+    * auto generate doc.
+    * @return null|object|DbQueryRowObj
+    */
 
     public function row(): ?object{
         return $this->m_rowdef;

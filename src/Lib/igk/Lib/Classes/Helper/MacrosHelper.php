@@ -98,9 +98,11 @@ class MacrosHelper
         /// MARK: auth users 
         // if (igk_environment()->isDev())
         //     return true;
+
         /**
-         * @var ModelBase $q; current model object 
-         * */
+        * auto generate doc.
+        * @var ModelBase $q; current model object
+        */
         if ($user->is_mock()){
             return false;
         }  

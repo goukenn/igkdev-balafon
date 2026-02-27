@@ -9,14 +9,18 @@ use IGK\System\Database\SchemaBuilderMigration;
 * 
 * @package IGK\Database\SchemaBuilder\Entities
 */
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder\Entities
+*/
 interface IDiagramVisitorEntity{
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param object $schema schema info
-     * @param mixed $props 
-     * @return SchemaBuilderMigration 
-     */
+    * auto generate doc.
+    * @param mixed $props
+    * @return SchemaBuilderMigration
+    */
     function setup(BaseController $controller, $schema, $props):SchemaBuilderMigration;
 
     /**

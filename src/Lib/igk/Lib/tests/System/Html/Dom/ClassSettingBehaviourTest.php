@@ -7,7 +7,7 @@ namespace IGK\Tests\System\Html\Dom;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html\Dom
 */
 class ClassSettingBehaviourTest extends BaseTestCase{

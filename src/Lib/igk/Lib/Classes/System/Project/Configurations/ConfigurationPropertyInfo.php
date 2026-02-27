@@ -3,8 +3,9 @@
 // @file: ConfigurationPropertyInfo.php
 // @date: 20231219 09:31:45
 namespace IGK\System\Project\Configurations;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Project\Configurations
 */
 class ConfigurationPropertyInfo{

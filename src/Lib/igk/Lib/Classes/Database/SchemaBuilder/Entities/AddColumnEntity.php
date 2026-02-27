@@ -6,10 +6,11 @@ namespace IGK\Database\SchemaBuilder\Entities;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGKException;
+
 /**
- * 
- * @package IGK\Database\SchemaBuilder\Entities
- */
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder\Entities
+*/
 class AddColumnEntity extends Factory implements IDiagramVisitorEntity
 {
 

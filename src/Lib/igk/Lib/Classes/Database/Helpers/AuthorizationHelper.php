@@ -4,8 +4,9 @@
 // @date: 20250210 16:17:11
 namespace IGK\Database\Helpers;
 use IGK\Controllers\BaseController;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database\Helpers
 * @author C.A.D. BONDJE DOUE
 */

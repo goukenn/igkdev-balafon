@@ -10,6 +10,11 @@ namespace IGK\System\Dom;
 * @package IGK\System\Dom
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Dom
+*/
 class TemplateAttributeToEvalExpression{
 
     /**
@@ -20,10 +25,11 @@ class TemplateAttributeToEvalExpression{
     public function __construct(protected string $expression , protected string $pipe)
     {
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function useAttribName():bool{
         return true;

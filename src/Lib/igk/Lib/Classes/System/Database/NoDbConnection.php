@@ -30,37 +30,43 @@ class NoDbConnection{
     {
         return [];
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function close(){}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function closeAll(){}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function connect(){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function initForInitDb(){}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function insert(){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function openCount(){
@@ -73,25 +79,31 @@ class NoDbConnection{
     public function isConnect(){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $query
     */
 
     function sendQuery($query){
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function setCloseCallback(){}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function setOpenCallback(){}
-    /** */
+
+    /**
+    * auto generate doc.
+    */
 
     function flushForInitDb(){}
 

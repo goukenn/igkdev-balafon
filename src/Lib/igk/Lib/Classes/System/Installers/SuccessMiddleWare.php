@@ -16,15 +16,17 @@ final class SuccessMiddleWare extends InstallerActionMiddleWare{
     * @var mixed
     */
     const EVENT = __CLASS__."::Complete";
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getMessage(){
         return __("welldone");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function invoke(){

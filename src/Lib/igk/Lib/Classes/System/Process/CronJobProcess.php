@@ -13,6 +13,11 @@ use IGKException;
  * 
  * @package IGK\System\Process
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Process
+*/
 class CronJobProcess{
 
     /**
@@ -55,11 +60,12 @@ class CronJobProcess{
             "crons_options"=>json_encode($options, JSON_UNESCAPED_SLASHES)
         ]);
     }
+
     /**
-     * 
-     * @param mixed $script_file 
-     * @return CronJobProcessMailProvider 
-     */
+    * auto generate doc.
+    * @param mixed $script_file
+    * @return CronJobProcessMailProvider
+    */
 
     public static function GetJobProcessProvider($script_file){
         $tab = & igk_environment()->createArray("sys://cronProccess");

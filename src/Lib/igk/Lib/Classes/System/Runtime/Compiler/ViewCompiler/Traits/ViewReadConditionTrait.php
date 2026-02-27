@@ -4,8 +4,9 @@
 // @date: 20221027 07:35:26
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
 */
 trait ViewReadConditionTrait{

@@ -3,8 +3,9 @@
 // @file: CronExecutionStatus.php
 // @date: 20250415 14:38:17
 namespace IGK\System\Cron;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Cron
 * @author C.A.D. BONDJE DOUE
 */

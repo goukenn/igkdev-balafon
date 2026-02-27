@@ -11,6 +11,11 @@ use IGKException;
  * 
  * @package IGK\System\Http
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 abstract class RequestResponse extends Response implements IInjectable{
 
     /**
@@ -141,11 +146,11 @@ abstract class RequestResponse extends Response implements IInjectable{
     {
         $this->status = self::GetStatus($this->code);
     }
+
     /**
-     * 
-     * @return object 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return object
+    */
 
     public static function CreateResponse(){
         $type = igk_getv(["application/json"=>"json"], igk_server()->CONTENT_TYPE);

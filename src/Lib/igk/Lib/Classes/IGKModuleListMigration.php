@@ -76,10 +76,11 @@ final class IGKModuleListMigration extends BaseController implements
     */
     private $m_initializer;
     private function __construct() {}
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function useAsInstance()
     {
@@ -271,11 +272,12 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return $this->m_host->getEntryNamespace();
     }
+
     /**
-     * 
-     * @param string $path 
-     * @return string|void 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @return string|void
+    */
 
     public static function ns(string $path = '')
     {
@@ -391,12 +393,12 @@ final class IGKModuleListMigration extends BaseController implements
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $arguments 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $arguments
+    * @return mixed
+    */
 
     public static function __callStatic($name, $arguments)
     {

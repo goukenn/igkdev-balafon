@@ -107,12 +107,12 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         return true;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $arguments 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $arguments
+    * @return mixed
+    */
     public static function __callStatic($name, $arguments)
     {
         return (function ($a) {
@@ -336,14 +336,12 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             self::_HandleSecurity($ctrl, $user, $args);
         }
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $user 
-     * @param mixed $args 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return void
+    */
     private static function _HandleSecurity(BaseController $ctrl, $user, $args)
     {
         $ack = (object)[

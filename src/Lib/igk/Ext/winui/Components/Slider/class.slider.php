@@ -31,7 +31,10 @@ final class IGKHtmlSliderZone extends HtmlNode{
 */
 class IGKHtmlSliderItem extends HtmlComponentNode{
 
-	/** @var HtmlNode*/
+    /**
+    * auto generate doc.
+    * @var HtmlNode
+    */
 	private $m_content;
 
     /**

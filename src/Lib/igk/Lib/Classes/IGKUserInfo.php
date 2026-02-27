@@ -80,13 +80,12 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return $this->getProperty($key);
     }
+
     /**
-     * 
-     * @param string|array $name 
-     * @param bool $strict 
-     * @param ?BaseController $ctrl current - load controller
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param ?BaseController $ctrl current - load controller
+    * @return mixed
+    */
 
     public function auth($name, $strict=false, $ctrl=null){   
         $name = AuthorizationHelper::Map($name, $ctrl);

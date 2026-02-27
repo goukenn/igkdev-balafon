@@ -24,10 +24,11 @@ abstract class SystemUserProfile implements IUserProfile
     * @var mixed
     */
     const initProjectDbUserMethod = 'initProjectDbUser';
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_projectUser;
     /**
      * resolved user info 
@@ -44,10 +45,11 @@ abstract class SystemUserProfile implements IUserProfile
      * @var mixed
      */
     protected $m_controller;
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     protected function __construct()
     {
@@ -104,9 +106,10 @@ abstract class SystemUserProfile implements IUserProfile
         $c->registerProfile(); 
         return $c;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected static function _CreateClassInstance(Users $u) { 
         $l = new static;
@@ -124,21 +127,21 @@ abstract class SystemUserProfile implements IUserProfile
         } 
         return $l;
     }
+
     /**
-     * 
-     * @param Users $user 
-     * @param string $model_class 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $model_class
+    * @return mixed
+    */
 
     protected function createNewProjectUser(Users $user, string $model_class){
         return $model_class::insertIfNotExists($user->to_array());
     }
+
     /**
-     * 
-     * @param mixed $smodel_class 
-     * @return (mixed|string)[] 
-     */
+    * auto generate doc.
+    * @param mixed $smodel_class
+    */
 
     protected function getdbCacheColumnList($smodel_class){
         $column = $smodel_class::FD_USER_ID;

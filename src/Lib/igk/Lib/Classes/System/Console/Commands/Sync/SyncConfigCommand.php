@@ -4,8 +4,9 @@
 // @date: 20231020 17:12:40
 namespace IGK\System\Console\Commands\Sync;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncConfigCommand extends SyncAppExecCommandBase{

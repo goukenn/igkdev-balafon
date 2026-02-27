@@ -7,7 +7,10 @@ namespace IGK\System\Exceptions;
 use IGKException;
 use Throwable;
 use function igk_resources_gets as __;
-/** @package  */
+
+/**
+* auto generate doc.
+*/
 class RequireArgumentException extends IGKException{
 
     /**

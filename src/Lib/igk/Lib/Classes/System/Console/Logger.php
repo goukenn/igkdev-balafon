@@ -32,11 +32,12 @@ class Logger{
     * @var mixed
     */
     const TabSpace = "\r\t\t\t\t";
+
     /**
-     * 
-     * @param mixed $logger logger object - iconsole logger object
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $logger logger object - iconsole logger object
+    * @return void
+    */
 
     public static function SetLogger(?IConsoleLogger $logger){
         self::$sm_logger = $logger;
@@ -70,14 +71,13 @@ class Logger{
                 self::print($k.$tabspace.$v);
             }
         }
-    }  
+    }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $arguments 
-     * @return void|mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $arguments
+    * @return void|mixed
+    */
 
     public static function __callStatic($name, $arguments)
     {

@@ -21,6 +21,11 @@ use ReflectionClass;
  * 
  * @package IGK\Controllers
  */
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class PageControllerBase extends ControllerTypeBase 
     implements IUriActionRegistrableController, ILibaryController
 {
@@ -140,11 +145,12 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
+
     /**
-     * 
-     * @param object $u 
-     * @return IUserProfile 
-     */
+    * auto generate doc.
+    * @param object $u
+    * @return IUserProfile
+    */
 
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 

@@ -6,8 +6,9 @@ namespace IGK\System\IO\File\TmLanguage;
 use IGK\Helper\Activator;
 use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO\File\TmLanguage
 * @author C.A.D. BONDJE DOUE
 */

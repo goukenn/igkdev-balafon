@@ -15,10 +15,11 @@ use IGK\System\Http\RequestPreparer;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class RequestViewCommand extends AppExecCommand
 {
 

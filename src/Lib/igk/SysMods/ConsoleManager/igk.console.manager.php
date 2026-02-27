@@ -19,16 +19,18 @@ use function igk_resources_gets as __;
  */
 final class IGKConsoleToolManager extends ConfigControllerBase
 {
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function getCanConfigure()
     {
         return 1;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function getConfigGroup()
     {
         return "administration";
@@ -43,16 +45,17 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     }
 
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigImageKey()
     {
         return "";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigIndex()
     {
@@ -63,8 +66,8 @@ final class IGKConsoleToolManager extends ConfigControllerBase
      */
 
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConfigPageAvailable()
     {

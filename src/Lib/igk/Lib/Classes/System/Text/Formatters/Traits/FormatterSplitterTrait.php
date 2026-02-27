@@ -58,23 +58,23 @@ trait FormatterSplitterTrait
         }
         return $o;
     }
+
     /**
-     * 
-     * @param string $v 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $v
+    * @return string
+    */
 
     protected function willFormatContentBeforePrefixTabStop(string $v): string
     {
         return ltrim($v);
     }
+
     /**
-     * 
-     * @param mixed $e 
-     * @param string $fname 
-     * @param array $args 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param array $args
+    * @return mixed
+    */
 
     protected function _dispatch($e, string $fname, array $args)
     {
@@ -166,12 +166,12 @@ trait FormatterSplitterTrait
         }
         return $n;
     }
+
     /**
-     * 
-     * @param RegexMatcherCapture $e  
-     * @param mixed &$list 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed &$list
+    * @return void
+    */
 
     protected function formatSplittedList(RegexMatcherCapture $e, array &$list)
     {

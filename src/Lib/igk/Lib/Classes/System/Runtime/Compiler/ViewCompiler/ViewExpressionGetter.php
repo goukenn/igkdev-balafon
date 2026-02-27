@@ -10,8 +10,9 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression;
 use IGK\System\ViewExtractArgHelper;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressionGetter extends ViewExpressionBase{

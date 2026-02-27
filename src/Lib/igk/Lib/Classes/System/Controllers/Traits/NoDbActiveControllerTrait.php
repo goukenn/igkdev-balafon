@@ -19,8 +19,9 @@ trait NoDbActiveControllerTrait{
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getDataTableName(): ?string{
         return null;

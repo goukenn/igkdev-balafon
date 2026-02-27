@@ -8,7 +8,7 @@ use IGK\System\Html\Encoding\ClassAttributeArrayValueEncoder;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html\Encoding
 */
 class ClassAttributeArrayValueEncoderTest extends BaseTestCase{

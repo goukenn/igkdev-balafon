@@ -20,11 +20,12 @@ trait ModelTableConstantTrait{
     //  * @var mixed
     //  */
     //  protected static $field_name;
+
     /**
-     * 
-     * @param mixed $value 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return mixed
+    */
     public static function GetCacheData($value){
         /**
          * @disable 1014
@@ -40,9 +41,11 @@ trait ModelTableConstantTrait{
      * @return void 
      */
     public static function InitData(){
+
         /**
-         * @var mixed|string $cl
-         */
+        * auto generate doc.
+        * @var mixed|string $cl
+        */
         $fc = Database::InsertExtraFieldsMethod;
         $cl = static::class;
         $tmodel = igk_getv($cl_vars = get_class_vars($cl), 'model') ?? igk_die(sprintf('missing required model.[%s]', static::class));

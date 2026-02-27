@@ -17,6 +17,11 @@ use PHPFormatter;
 * @package IGK\System\Console\Commands\Formatters
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Formatters
+*/
 class FormatCommand extends AppExecCommand{
 
     /**
@@ -48,12 +53,12 @@ class FormatCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = '';
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param null|string $file 
-	 * @return void 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param null|string $file
+    * @return void
+    */
 
     public function exec($command, ?string $file=null) { 
 		igk_assert_die(!$file, 'missing file');

@@ -163,9 +163,10 @@ class RegexTreatCapture{
             return null;
         }
         $v = array_shift($tab);
+
         /**
-         * 
-         */
+        * auto generate doc.
+        */
         $c = new static($v[0],$v[1], $tab, $treat_capture);
         return $c;
     }

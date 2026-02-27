@@ -9,10 +9,11 @@ use Countable;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
+
 /**
- * 
- * @package IGK\System\Runtime\Compiler\ViewCompiler
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
 {
     use ArrayAccessSelfTrait;

@@ -6,9 +6,10 @@
 namespace IGK\Controllers;
 use IGK\Controllers\RootControllerBase;
 use IGKDbModelUtility;
+
 /**
- * 
- */
+* auto generate doc.
+*/
 abstract class DbSupportControllerBase extends RootControllerBase{
 
     /**

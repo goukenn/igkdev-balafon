@@ -64,8 +64,9 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
 		}
 		return "isnull";
 	}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 
@@ -75,8 +76,9 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         }
         return parent::_acceptRender($options);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -89,12 +91,10 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         $this->m_tabcontent=$c;
         $this->m_tabcontent->setClass("igk-tabcontent");
     }
+
     /**
-    * 
-    * @param mixed $content the default value is null
-    * @param mixed $uri the default value is null
-    * @param mixed $active the default value is false
-    * @param mixed $method the default value is "GET"
+    * auto generate doc.
+    * @param GET
     */
 
     public function addTabPage($content=null, $uri=null, $active=false, $method="GET"){
@@ -116,16 +116,18 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         }
         return $li;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function ClearChilds(){
         $this->m_tablist->clearChilds();
         $this->m_tabcontent->clearChilds();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $t
     */
 
@@ -202,9 +204,9 @@ EOF;
     ///<summary></summary>
     ///<param name="listener"></param>
     ///<param name="param" default="null"></param>
+
     /**
-    * 
-    * @param mixed $listener
+    * auto generate doc.
     * @param mixed $param the default value is null
     */
 
@@ -213,8 +215,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="o"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $o
     */
 

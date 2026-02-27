@@ -4,8 +4,9 @@
 // @date: 20230302 07:14:49
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ProjectInstallCommand extends AppExecCommand{

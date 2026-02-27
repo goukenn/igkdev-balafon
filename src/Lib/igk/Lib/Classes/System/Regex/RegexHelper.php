@@ -4,8 +4,9 @@
 // @date: 20221202 14:59:23
 namespace IGK\System\Regex;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Regex
 */
 class RegexHelper{

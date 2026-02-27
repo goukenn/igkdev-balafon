@@ -16,6 +16,11 @@ use IGK\System\Exceptions\NotImplementException;
  * @package IGK\System\Database\Import
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database\Import
+*/
 class DbModelImporterMap
 {
 
@@ -45,10 +50,11 @@ class DbModelImporterMap
      * @var handle error
      */
     var $handleError;
+
     /**
-     * 
-     * @var ModelBase
-     */
+    * auto generate doc.
+    * @var ModelBase
+    */
     private $m_model;
 
     /**
@@ -87,12 +93,12 @@ class DbModelImporterMap
         }
         return new static($model);
     }
+
     /**
-     * 
-     * @param string $field_name 
-     * @param null|callable $callable 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|callable $callable
+    * @return void
+    */
 
     public function addFieldListener(string $field_name, ?callable $callable)
     {
@@ -117,20 +123,21 @@ class DbModelImporterMap
         $this->p_inserted = 0;
         $this->transformField = true;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __invoke($data)
     {
         $this->_onImportData((array)$data);
     }
+
     /**
-     * 
-     * @param array $data 
-     * @return mixed raw
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param array $data
+    * @return mixed raw
+    */
 
     protected function _onImportData(array $data)
     {
@@ -200,12 +207,12 @@ class DbModelImporterMap
     * @param ModelBase $model
     */
     protected function _onRowInserted(ModelBase $model) {}
+
     /**
-     * 
-     * @param string $columnName 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $columnName
+    * @return mixed
+    */
 
     protected function getReservalMapping(string $columnName)
     {

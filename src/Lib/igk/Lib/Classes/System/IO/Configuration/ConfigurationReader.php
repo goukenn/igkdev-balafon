@@ -73,9 +73,9 @@ class ConfigurationReader
     var $escape_end;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $valueEscapeDelimiter;
 
     /**
@@ -306,9 +306,11 @@ class ConfigurationReader
     */
     protected function _readData(string $end, ?bool $read_value = false)
     {
+
         /**
-         * @var ?string $d
-         */
+        * auto generate doc.
+        * @var ?string $d
+        */
         $d = null;
         $escape_delimiter = $this->delimiter == $end;
         $v_ecounter = 0;

@@ -10,6 +10,11 @@ use IGK\Constants;
 * @package IGK\System\WinUI
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI
+*/
 class ViewLayout{
 
     /**
@@ -36,11 +41,12 @@ class ViewLayout{
     public function getController(){
         return $this->m_controller;
     }
+
     /**
-     * 
-     * @param BaseController $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $value
+    * @return void
+    */
 
     public function setController(BaseController $value){
         $this->m_controller = $value;

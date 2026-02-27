@@ -7,11 +7,12 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\RegexConstant;
 use IGK\System\Regex\RegexHelper;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
 class FaviconCommand extends AppExecCommand
 {
 

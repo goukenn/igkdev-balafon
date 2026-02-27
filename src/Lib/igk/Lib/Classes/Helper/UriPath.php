@@ -4,10 +4,11 @@
 // @date: 20221124 12:54:37
 namespace IGK\Helper;
 use IGKException;
+
 /**
- * 
- * @package IGK\Helper
- */
+* auto generate doc.
+* @package IGK\Helper
+*/
 class UriPath
 {
 

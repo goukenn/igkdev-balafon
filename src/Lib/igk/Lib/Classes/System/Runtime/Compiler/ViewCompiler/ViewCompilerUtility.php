@@ -90,9 +90,11 @@ abstract class ViewCompilerUtility
     public static function CompileBlocks($blocks, StringBuilder $sb, $options, ?string $header = null,
         ?array $variable =null)
     {
+
         /**
-         * @var ?object $p
-         */
+        * auto generate doc.
+        * @var ?object $p
+        */
         $tab = $blocks;
         if ($tab instanceof ViewInstructionBlock){
             $tab = & $tab->getBlockReference();

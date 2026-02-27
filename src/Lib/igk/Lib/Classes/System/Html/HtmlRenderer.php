@@ -42,16 +42,12 @@ class HtmlRenderer
     * @var mixed
     */
     const render_method = 'render';
+
     /**
-     * 
-     * @param HtmlItemBase $n 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param HtmlItemBase $n
+    * @return string
+    */
 
     public static function SplitterJoin(HtmlItemBase $n, $separator='')
     {
@@ -72,17 +68,12 @@ class HtmlRenderer
         }
         return $s;
     }
+
     /**
-     * 
-     * @param HtmlItemBase $s 
-     * @param mixed $g 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $g
+    * @return string
+    */
 
     public static function Encapsulate(HtmlItemBase $s, $g): string
     {
@@ -111,11 +102,11 @@ class HtmlRenderer
         }
         array_push($option->__append__, $node);
     }
+
     /**
-     * 
-     * @return object|IHtmlRenderOptions
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return object|IHtmlRenderOptions
+    */
 
     public static function CreateRenderOptions()
     {
@@ -123,9 +114,10 @@ class HtmlRenderer
         self::InitRendererOption($o);
         return $o;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function InitRendererOption($o)
     {
@@ -135,17 +127,12 @@ class HtmlRenderer
             $o->CacheUriLevel = explode("/", $o->CacheUri);
         }
     }
+
     /**
-     * 
-     * @param mixed $o 
-     * @param mixed $options 
-     * @return ?string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return ?string
+    */
 
     public static function GetValue($o, $options = null)
     {
@@ -539,17 +526,12 @@ class HtmlRenderer
             }
         }
     }
+
     /**
-     * 
-     * @param HtmlItemBase $item 
-     * @param mixed $options 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return string
+    */
 
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
@@ -600,9 +582,11 @@ class HtmlRenderer
     */
     public static function GetAttributeArrayToString($attrs, $options = null)
     {
+
         /**
-         * @var mixed|HtmlExpressionAttribute $v
-         */
+        * auto generate doc.
+        * @var mixed|HtmlExpressionAttribute $v
+        */
         $out = "";
         $ac_keys = [];
         $active = '';

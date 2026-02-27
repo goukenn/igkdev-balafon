@@ -15,9 +15,9 @@ use IGK\System\Modules\ModuleManager;
 use function igk_resources_gets as __;
 
 /**
- * 
- * @package IGK\System\Console\Commands\Modules
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Modules
+*/
 class InstallCommand extends AppExecCommand
 {
 

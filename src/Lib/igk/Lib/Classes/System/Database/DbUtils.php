@@ -43,12 +43,12 @@ class DbUtils
         }
         return $g;
     }
+
     /**
-     * 
-     * @param IDbColumnInfo $column_info 
-     * @param mixed $value 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public static function GetIsDumpField(IDbColumnInfo $column_info):bool{
         $c = $column_info;
         if (is_null($c->clIsDumpField)){
@@ -85,12 +85,12 @@ class DbUtils
             } 
         } 
     }
+
     /**
-     * 
-     * @param mixed $a 
-     * @param mixed $b 
-     * @return int 
-     */
+    * auto generate doc.
+    * @param mixed $b
+    * @return int
+    */
     public static function OrderController($a, $b)
     {
         if (get_class($a) == \IGK\Controllers\SysDbController::class) {
@@ -106,12 +106,12 @@ class DbUtils
         }
         return 1;
     }
+
     /**
-     * 
-     * @param string $table 
-     * @param BaseController $controller 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return string
+    */
     public static function ResolvDefTableTypeName(string $table, BaseController $controller)
     {
         $sys_prefix = igk_configs()->db_prefix;
@@ -219,11 +219,12 @@ class DbUtils
         }
         return $l;
     }
+
     /**
-     * 
-     * @param IDbColumnInfo $column_info 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param IDbColumnInfo $column_info
+    * @return bool
+    */
     public static function IsJoinTableLinkCandidate($column_info):bool{
         return (
             $column_info->clIsIndex || $column_info->clIsPrimary || $column_info->clAutoIncrement

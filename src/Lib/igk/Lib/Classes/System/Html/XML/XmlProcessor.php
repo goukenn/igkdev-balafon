@@ -15,11 +15,12 @@ use IGK\System\Html\HtmlRenderer;
 * @package IGK\System\Html\XML
 */
 final class XmlProcessor extends XmlNode{
+
     /**
-     * 
-     * @param mixed $type processor type 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $type processor type
+    * @return void
+    */
     public function __construct(string $type="xml"){
         parent::__construct($type);
     }

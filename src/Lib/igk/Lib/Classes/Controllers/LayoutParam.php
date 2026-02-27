@@ -3,8 +3,9 @@
 // @file: LayoutParam.php
 // @date: 20241216 10:52:51
 namespace IGK\Controllers;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Controllers
 * @author C.A.D. BONDJE DOUE
 */

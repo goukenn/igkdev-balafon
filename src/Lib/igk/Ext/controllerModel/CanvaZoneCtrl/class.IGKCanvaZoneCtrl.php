@@ -68,13 +68,11 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		return $this;
 	}
-	/**
-	 * 
-	 * @return never 
-	 * @throws IGKException 
-	 * @throws ArgumentTypeNotValidException 
-	 * @throws ReflectionException 
-	 */
+
+    /**
+    * auto generate doc.
+    * @return never
+    */
 
     public function getCanvaRendering(){
 		//override this method to render on canvas

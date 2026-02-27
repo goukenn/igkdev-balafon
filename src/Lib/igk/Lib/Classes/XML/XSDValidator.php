@@ -46,9 +46,11 @@ class XSDValidator
         }
         return !$success;
     }
+
     /**
-     * @return ?bool
-     */
+    * auto generate doc.
+    * @return ?bool
+    */
     public static function ValidateSourceUri(string $source, string $uri): ?bool{
         if ($g = @file_get_contents($uri)){
             if (!XSDValidator::ValidateSource($source, $g)){

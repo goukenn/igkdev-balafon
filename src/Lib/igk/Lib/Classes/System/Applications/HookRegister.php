@@ -9,9 +9,9 @@ use IGKEvents;
 use IGKServices;
 
 /**
- * 
- * @package IGK\System\Applications
- */
+* auto generate doc.
+* @package IGK\System\Applications
+*/
 class HookRegister
 {
     /**

@@ -26,10 +26,11 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException; 
 use function igk_resources_gets as __;
+
 /**
- * 
- * @package IGK\Actions\Traits
- */
+* auto generate doc.
+* @package IGK\Actions\Traits
+*/
 trait RegisterUserActionTrait
 {
     use LoginLogoutActionTrait;

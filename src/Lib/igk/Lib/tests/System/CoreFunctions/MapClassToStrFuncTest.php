@@ -7,7 +7,7 @@ namespace IGK\Tests\System\CoreFunctions;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\CoreFunctions
 * @author C.A.D. BONDJE DOUE
 */

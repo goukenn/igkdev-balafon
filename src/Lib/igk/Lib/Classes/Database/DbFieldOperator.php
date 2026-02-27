@@ -3,8 +3,9 @@
 // @file: DbFieldOperator.php
 // @date: 20250509 10:24:08
 namespace IGK\Database;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 * @author C.A.D. BONDJE DOUE
 */

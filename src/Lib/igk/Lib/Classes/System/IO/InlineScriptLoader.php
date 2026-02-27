@@ -5,8 +5,9 @@
 namespace IGK\System\IO;
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */

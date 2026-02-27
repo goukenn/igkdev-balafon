@@ -3,8 +3,9 @@
 // @file: IsCrefValidator.php
 // @date: 20230427 11:00:32
 namespace IGK\System\Html\Forms\Validations;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Forms
 */
 class IsCrefValidator extends FormFieldValidatorBase{

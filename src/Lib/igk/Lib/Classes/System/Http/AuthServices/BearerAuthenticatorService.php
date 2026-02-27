@@ -17,6 +17,11 @@ use ReflectionException;
 * 
 * @package IGK\System\Http\AuthServices
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http\AuthServices
+*/
 class BearerAuthenticatorService implements IAuthenticatorService{
     use BearerAuthenticatorTrait;
     /**
@@ -44,16 +49,12 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     public function resolveBearerToken(bool $update, & $token =null){
         return $this->getUserFromToken($update, $token);
     }
+
     /**
-     * 
-     * @param Users system user 
-     * @param BaseController $ctrl controller 
-     * @param bool $rememberme remember me
-     * @return ?array token info
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $rememberme remember me
+    * @return ?array token info
+    */
 
     public function getNewToken(Users $user, BaseController $ctrl, bool $rememberme=false): ?array{
         return $this->bearerAuthenticatorRegisterToken($user, $ctrl, $rememberme); 

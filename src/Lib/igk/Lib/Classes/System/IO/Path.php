@@ -207,9 +207,10 @@ class Path
     public function getCacheDir(){
         return $this->cache_dir;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function prepareData()
     {
@@ -275,10 +276,11 @@ class Path
     {
         return $this->package_dir;
     }
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function getStyleUri()
     {
@@ -309,10 +311,11 @@ class Path
     {
         return $this->class_dir;
     }
+
     /**
-     * 
-     * @return string get server root directory 
-     */
+    * auto generate doc.
+    * @return string get server root directory
+    */
 
     public function getRootDir()
     {
@@ -343,11 +346,12 @@ class Path
     {
         return $this->sys_data_dir;
     }
+
     /**
-     * 
-     * @param mixed|null $dir 
-     * @return string base dir
-     */
+    * auto generate doc.
+    * @param mixed|null $dir
+    * @return string base dir
+    */
 
     public function basedir($dir = null)
     {
@@ -471,9 +475,10 @@ class Path
         }
         return $this->baserelativepath($p, null, $sep);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
     {
@@ -484,9 +489,10 @@ class Path
         $bdir = str_helper::uri($basedir == null ? $this->basedir() : $basedir);
         return $this->relativepath($dir, $bdir);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function relativepath($spath, $link)
     {
@@ -551,12 +557,12 @@ class Path
         }
         return null; 
     }
+
     /**
-     * 
-     * @param string $path 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @return mixed
+    */
 
     public static function LocalPath(string $path)
     {

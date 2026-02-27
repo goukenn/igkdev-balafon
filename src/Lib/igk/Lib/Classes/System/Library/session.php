@@ -12,10 +12,11 @@ use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
+
 /**
- * 
- * @package IGK\System\Library
- */
+* auto generate doc.
+* @package IGK\System\Library
+*/
 class session extends \IGKLibraryBase
 {
     /**

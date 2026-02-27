@@ -7,10 +7,10 @@ namespace IGK\System\Configuration;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKObject;
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 class ConfigurationData extends IGKObject implements ArrayAccess{  
     use ArrayAccessSelfTrait;
 

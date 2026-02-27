@@ -4,8 +4,9 @@
 // @date: 20230313 19:53:15
 namespace IGK\Helper;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helper
 */
 abstract class PhpUnitHelper{

@@ -10,10 +10,11 @@ use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution; 
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeCommandCommand extends AppExecCommand
 {
 

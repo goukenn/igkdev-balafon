@@ -9,9 +9,9 @@ use IGK\Helper\JSon;
 use IGK\Tests\BaseTestCase;
 
 /**
- * 
- * @package IGK\Tests\Helper
- */
+* auto generate doc.
+* @package IGK\Tests\Helper
+*/
 class JSonHelperTest extends BaseTestCase
 {
 

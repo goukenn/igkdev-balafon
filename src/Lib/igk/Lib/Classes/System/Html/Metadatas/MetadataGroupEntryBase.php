@@ -4,8 +4,9 @@
 // @date: 20231221 15:12:51
 namespace IGK\System\Html\Metadatas;
 use IGK\System\IO\StringBuilder;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 abstract class MetadataGroupEntryBase{

@@ -8,7 +8,7 @@ use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\IO\Path
 */
 class FlattenPathTest extends BaseTestCase{

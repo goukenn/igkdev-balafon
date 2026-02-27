@@ -57,10 +57,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private $m_setOutputTreatmentListener;
 
     /**
-     * 
-     * @param mixed $listener 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $listener
+    * @return void
+    */
 
     public function setOutputTreatmentListener($listener)
     {
@@ -136,35 +136,39 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @var emojies[]
      */
     private $m_emojies;
+
     /**
-     * 
-     * @var RegexMatcherContainer
-     */
+    * auto generate doc.
+    * @var RegexMatcherContainer
+    */
     private $m_container;
     /**
      * line feed flags
      * @var mixed
      */
     private $m_lf;
+
     /**
-     * 
-     * @var int
-     */
+    * auto generate doc.
+    * @var int
+    */
     private $m_lpos;
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     private $m_output;
     /**
      * ul/ol root node
      * @var ?HtmlNode
      */
     private $m_ul;
+
     /**
-     * 
-     * @var IGK\System\IO\Markdown\m_useTag
-     */
+    * auto generate doc.
+    * @var IGK\System\IO\Markdown\m_useTag
+    */
     private $m_useTag;
 
     /**
@@ -172,10 +176,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @var mixed
      */
     private $m_codeFormatter;
+
     /**
-     * 
-     * @var array<keyOf<'a' | 'quote' >, array<['class']>>
-     */
+    * auto generate doc.
+    * @var a
+    */
     private $m_classStyles;
 
     /**
@@ -289,10 +294,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         return $this->m_output;
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function saveState()
     {
@@ -326,10 +332,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_is_single_definition = true;
         $this->m_lf = false;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     protected function getStateDepth(): bool
     {
@@ -548,11 +555,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_context = $context;
         return $m;
     }
+
     /**
-     * 
-     * @param mixed $v 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return mixed
+    */
 
     protected function _treat_word($v)
     {
@@ -714,13 +722,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         return $str;
     }
+
     /**
-     * 
-     * @param mixed $table 
-     * @param mixed $rows 
-     * @param bool $header 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param bool $header
+    * @return void
+    */
 
     protected function bindRow($table, $rows, $header = false)
     {
@@ -747,10 +754,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $ch .= $tch;
         $pos = $next_pos;
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function treat(RegexMatcherCapture $g, int &$next_pos, string &$data)
     {
@@ -885,10 +893,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _treat_md_instruction_start(){
         return null;
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     protected function _lineFeedToBuffer(){
         if ($l = $this->m_setOutputTreatmentListener){
@@ -970,11 +979,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     * @var mixed
     */
     private $m_markmode;
+
     /**
-     * 
-     * @param string $tid 
-     * @return 1|0 
-     */
+    * auto generate doc.
+    * @param string $tid
+    * @return 1|0
+    */
 
     protected function _getMarkMode(string $tid)
     {
@@ -984,12 +994,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         return self::MARK_ITEM_INLINE;
     }
+
     /**
-     * 
-     * @param bool &$lf 
-     * @param string &$buffer 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string &$buffer
+    * @return void
+    */
 
     protected function _appendBufferLine(?bool &$lf, string &$buffer)
     {
@@ -1164,24 +1174,21 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $this->m_rows = null;
         }
     }
+
     /**
-     * 
-     * @return mixed|void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @return mixed|void
+    */
 
     public function _treat_empty_line(): string
     {
         return (($this->m_state) ? $this->endStateState() : null) ?? '';
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     protected function checkOutputDefinition()
     {
@@ -1231,16 +1238,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_li_depth = null;
         return $sb;
     }
+
     /**
-     * 
-     * @param string $v 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $v
+    * @return void
+    */
 
     protected function _treat_list_item(string $v)
     {
@@ -1282,9 +1285,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     }
     private static function _ChainSubList($ul, $depth, $tag = 'ul')
     {
+
         /**
-         * @var mixed
-         */
+        * auto generate doc.
+        * @var mixed
+        */
         $li = null;
         while ($depth > 0) {
             $ci = null;
@@ -1699,12 +1704,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             return $n->render();
         }
     }
+
     /**
-     * 
-     * @param mixed $v 
-     * @param mixed $type 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $type
+    * @return string
+    */
 
     protected function _beforeFormatCode($v, $type)
     {
@@ -1748,12 +1753,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_li_item = $li;
         return $sb;
     }
+
     /**
-     * 
-     * @param string $v 
-     * @param mixed $match 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $match
+    * @return void
+    */
 
     protected function _treat_emoji(string $v, $match = null)
     {
@@ -1772,10 +1777,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     }
 
     /**
-     * @param string $v 
-     * @param mixed $e 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $e
+    * @return string
+    */
 
     protected function _treat_tag_definition(string $v, $e)
     {
@@ -1783,12 +1788,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $v = RegexMatcherUtility::ReplaceWithOnly($v, $rp, $e);
         return $v;
     }
+
     /**
-     * 
-     * @param string $v 
-     * @param mixed $e 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $e
+    * @return string
+    */
 
     protected function _treat_line_feed(string $v, $e): string
     {

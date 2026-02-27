@@ -351,13 +351,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->migration()->addColumn($table, $options, $after);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $table 
-     * @param mixed $column 
-     * @param array $options 
-     * @return $this|void 
-     */
+    * auto generate doc.
+    * @param array $options
+    * @return $this|void
+    */
 
     public function changeColumn($table, $column, array $options)
     {
@@ -372,13 +371,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         $this->migration()->changeColumn($table, $column, $options);
     }
+
     /**
-     * 
-     * @param mixed $table 
-     * @param mixed $colname 
-     * @param mixed $newname 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param mixed $newname
+    * @return $this
+    */
 
     public function renameColumn($table, $colname, $newname)
     {
@@ -410,12 +408,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->migration()->removeColumn($table, $colname);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $table 
-     * @param string $colname 
-     * @return static 
-     */
+    * auto generate doc.
+    * @param string $colname
+    * @return static
+    */
 
     public function addIndex(string $table, $colname):SchemaMigrationBuilder
     {

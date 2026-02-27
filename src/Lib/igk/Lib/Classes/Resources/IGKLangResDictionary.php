@@ -21,13 +21,15 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     * @var mixed
     */
     private $_f;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 
@@ -35,8 +37,9 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         return isset($this->_f[$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 
@@ -44,9 +47,9 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         return igk_getv($this->_f, $i);
     }
+
     /**
-    * 
-    * @param mixed $i
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -54,8 +57,9 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         $this->_f[$i]=$v;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 

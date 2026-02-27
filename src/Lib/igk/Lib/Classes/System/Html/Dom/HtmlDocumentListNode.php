@@ -21,10 +21,11 @@ class HtmlDocumentListNode extends HtmlNode{
      * @var mixed
      */
     // var $dd;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     // var $dt;
 
     protected function initialize()
@@ -46,9 +47,11 @@ class HtmlDocumentListNode extends HtmlNode{
         $this->initialize();
         return $this;
     }
+
     /**
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
     // public function getCanAddChilds(): bool
     // {
     //     return false;

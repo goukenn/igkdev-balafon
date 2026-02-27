@@ -9,12 +9,18 @@ use IGK\Core\Traits\NoDynamicPropertyTrait;
 * 
 * @package IGK\System\Regex
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Regex
+*/
 class Replacement{
     use NoDynamicPropertyTrait;
+
     /**
-     * 
-     * @var array<ReplacementObject>
-     */
+    * auto generate doc.
+    * @var array<ReplacementObject>
+    */
     var $infos = [];
     /**
      * options to store 

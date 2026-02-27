@@ -63,13 +63,12 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return json_encode($data);
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return string|false 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return string|false
+    */
 
     public static function JSonDataAttributesIgnoreEmpty($data){
         return JSon::Encode(json_decode(self::JSonDataAttributes($data)), JSonEncodeOption::IgnoreEmpty());
@@ -370,11 +369,12 @@ abstract class HtmlUtils extends DomNodeBase
     * @var mixed
     */
     private static $gRendering;
+
     /**
-     * 
-     * @param array|\IArrayObject $n  item to convert
-     * @return array 
-     */
+    * auto generate doc.
+    * @param array|\IArrayObject $n  item to convert
+    * @return array
+    */
 
     public static function ToArray($n)
     {
@@ -430,8 +430,10 @@ abstract class HtmlUtils extends DomNodeBase
         return "text";
     }
     ///AddImgLnk add image link
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function AddAnimImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
@@ -451,8 +453,10 @@ abstract class HtmlUtils extends DomNodeBase
         return null;
     }
     ///add button link
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function AddBtnLnk($target, $langkey, $uri, $attributes = null)
     {
@@ -466,8 +470,10 @@ abstract class HtmlUtils extends DomNodeBase
         return $a;
     }
     ///AddImgLnk add image link
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function AddImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
@@ -479,11 +485,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $tr
-     * @param mixed $targetid the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $targetid the default value is null
+    */
 
     public static function AddToggleAllCheckboxTh($tr, $targetid = null)
     {
@@ -495,11 +501,12 @@ abstract class HtmlUtils extends DomNodeBase
         ]);
         return $i;
     }
+
     /**
-     * 
-     * @param mixed $array
-     * @deprecated use IGK\System\Html\FormBuilder instead
-     */
+    * auto generate doc.
+    * @param mixed $array
+    * @deprecated use IGK\System\Html\FormBuilder instead
+    */
 
     public static function BuildForm($array)
     {
@@ -535,8 +542,10 @@ abstract class HtmlUtils extends DomNodeBase
         return $frm;
     }
     ///used to create sub menu in category
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function CreateConfigSubMenu($target, $items, $selected = null)
     {
@@ -553,8 +562,10 @@ abstract class HtmlUtils extends DomNodeBase
         return $ul;
     }
     ///get all element childs
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function GetAllChilds($t)
     {
@@ -570,12 +581,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $d;
     }
+
     /**
-     * 
-     * @param mixed $c read value
-     * @param mixed $context the default value is null
-     * @param bool $expression read in expression
-     */
+    * auto generate doc.
+    * @param bool $expression read in expression
+    */
 
     public static function GetAttributeValue($c, $context = null, bool $expression = false)
     {
@@ -602,11 +612,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return str_replace("\n", "\\n", $q);
     }
+
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $options the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $options the default value is null
+    */
 
     public static function GetContentValue($n, $options = null)
     {
@@ -638,10 +648,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return self::GetValue($c, $options);
     }
+
     /**
-     * 
-     * @param mixed $array
-     */
+    * auto generate doc.
+    * @param mixed $array
+    */
 
     public static function GetTableFromSingleArray($array)
     {
@@ -683,11 +694,11 @@ abstract class HtmlUtils extends DomNodeBase
         } 
         return $out;
     }
+
     /**
-     * 
-     * @param mixed $v
-     * @param mixed $options
-     */
+    * auto generate doc.
+    * @param mixed $options
+    */
 
     public static function GetValueObj($v, $options)
     {
@@ -712,11 +723,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $v;
     }
+
     /**
-     * 
-     * @param mixed $item
-     * @param mixed $target
-     */
+    * auto generate doc.
+    * @param mixed $target
+    */
 
     public static function MoveChilds($item, $target)
     {
@@ -727,13 +738,12 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return true;
     }
+
     /**
-     * 
-     * @param mixed $id
-     * @param mixed $value the default value is null
-     * @param mixed $type the default value is "text"
-     * @return \IGK\System\Html\Dom\HtmlNode
-     */
+    * auto generate doc.
+    * @param text
+    * @return \IGK\System\Html\Dom\HtmlNode
+    */
 
     public static function nInput($id, $value = null, $type = "text")
     {
@@ -749,21 +759,22 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $btn;
     }
+
     /**
-     * 
-     * @param mixed $id
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public static function nTextArea($id, $value)
     {
         return igk_create_node("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
     }
+
     /**
-     * 
-     * @param mixed $item
-     * @deprecated direct remove self remove item with the remove method
-     */
+    * auto generate doc.
+    * @param mixed $item
+    * @deprecated direct remove self remove item with the remove method
+    */
 
     public static function RemoveItem($item)
     {
@@ -776,10 +787,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $var
-     */
+    * auto generate doc.
+    * @param mixed $var
+    */
 
     public static function ShowHierarchi($var)
     {
@@ -799,14 +811,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $out;
     }
+
     /**
-     * 
-     * @param mixed $target
-     * @param mixed $type the default value is "tr"
-     * @param mixed $startAt the default value is 0
-     * @param mixed $class1 the default value is "table_darkrow"
-     * @param mixed $class2 the default value is "table_lightrow"
-     */
+    * auto generate doc.
+    * @param table_lightrow
+    */
 
     public static function ToggleTableClassColor($target, $type = "tr", $startAt = 0, $class1 = "table_darkrow", $class2 = "table_lightrow")
     {

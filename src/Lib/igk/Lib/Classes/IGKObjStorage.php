@@ -72,10 +72,11 @@ class IGKObjStorage implements IToArray{
     public function __toString(){
         return __CLASS__;
     }
+
     /**
-     * 
-     * @return null|array 
-     */
+    * auto generate doc.
+    * @return null|array
+    */
 
     public function to_array():?array{
         $tab = array_slice($this->m_storage,0); 

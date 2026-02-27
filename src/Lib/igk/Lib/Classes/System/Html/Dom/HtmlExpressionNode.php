@@ -28,9 +28,9 @@ class HtmlExpressionNode extends HtmlNode{
     * @var mixed
     */
     var $openerContext;
+
     /**
-    * 
-    * @param mixed $args the default value is null
+    * auto generate doc.
     * @param mixed $ctrl the default value is null
     */
 
@@ -49,8 +49,9 @@ class HtmlExpressionNode extends HtmlNode{
     { 
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 

@@ -175,10 +175,11 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var ?string
      */
     var $css_def;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $css_m;
     /**
      * current doc theme definition styles

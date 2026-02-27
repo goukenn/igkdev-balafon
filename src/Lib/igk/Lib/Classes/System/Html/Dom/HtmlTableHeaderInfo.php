@@ -3,8 +3,9 @@
 // @file: HtmlTableHeaderInfo.php
 // @date: 20230525 18:08:30
 namespace IGK\System\Html\Dom;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlTableHeaderInfo{

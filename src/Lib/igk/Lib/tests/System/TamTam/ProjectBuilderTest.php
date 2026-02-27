@@ -9,7 +9,7 @@ use IGK\System\TamTam\ProjectSettingValidationData;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\TamTam
 */
 class ProjectBuilderTest extends BaseTestCase{

@@ -9,6 +9,11 @@ namespace IGK\Tests;
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 use IGKServices;
+
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class ServiceTest extends BaseTestCase{
 
     /**

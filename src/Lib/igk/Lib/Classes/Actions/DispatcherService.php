@@ -45,15 +45,12 @@ abstract class DispatcherService
     * @var mixed
     */
     const TYPE_PRECISION = '@precision';
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $rtype mixed type to inject 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $rtype mixed type to inject
+    * @return mixed
+    */
 
     public static function CreateOrGetServiceInstance(BaseController $ctrl, $rtype, string $typecheck = IInjectable::class)
     {
@@ -90,11 +87,12 @@ abstract class DispatcherService
         }
         return $p;
     }
+
     /**
-     * 
-     * @param mixed $array 
-     * @return int|string|null 
-     */
+    * auto generate doc.
+    * @param mixed $array
+    * @return int|string|null
+    */
 
     public static function GetFirstClassTypeFromArray($array){
         while(count($array)>0){
@@ -133,10 +131,11 @@ abstract class DispatcherService
         $m = igk_getv(self::$sm_services, $key);
         return $m;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public static function IsServiceNewInstance():bool{
         return !is_null(self::$sm_last_initService);

@@ -8,7 +8,7 @@ use IGK\Helper\StringDisplay;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Helper
 * @author C.A.D. BONDJE DOUE
 */

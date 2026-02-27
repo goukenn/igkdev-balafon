@@ -5,8 +5,9 @@
 namespace IGK\System\Http\Traits;
 use IGK\System\Http\ErrorRequestResponse;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http\Traits
 * @author C.A.D. BONDJE DOUE
 */

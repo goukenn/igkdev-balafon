@@ -55,15 +55,12 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
         Logger::info("done"); 
         error_clear_last();
     }
+
     /**
-     * 
-     * @param mixed $h resource
-     * @param mixed $pdir public dir
-     * @param mixed $uri  uri access
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param mixed $uri  uri access
+    * @return void
+    */
 
     public static function InstallFolder($h, string $pdir, string $uri, $no_subdomain=false, $no_webconfig = false){
         $index_temp = igk_io_sys_tempnam("blfcore");

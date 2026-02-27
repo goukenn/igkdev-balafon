@@ -20,6 +20,11 @@ use function igk_resources_gets as __;
  * 
  * @package IGK\System\Configuration\Controllers
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration\Controllers
+*/
 final class SubDomainController extends ConfigControllerBase
 {
    
@@ -298,12 +303,11 @@ final class SubDomainController extends ConfigControllerBase
     public function getName(): string{
         return IGK_SUBDOMAINNAME_CTRL;
     }
+
     /**
-     * 
-     * @return static 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return static
+    */
 
     public function View():BaseController{
         $t = $this->TargetNode;
@@ -316,11 +320,12 @@ final class SubDomainController extends ConfigControllerBase
         }
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return void
+    */
 
     protected function subdomain_view($n)
     {

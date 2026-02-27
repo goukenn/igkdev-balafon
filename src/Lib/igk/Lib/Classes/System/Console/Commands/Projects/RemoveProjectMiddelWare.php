@@ -4,9 +4,8 @@
 // @date: 20260226 19:20:35
 namespace IGK\System\Console\Commands\Projects;
 
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */

@@ -91,9 +91,10 @@ implements IDatabaseHost
     {
         return new IGKDbModelUtility($this);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function administration()
     {
@@ -107,11 +108,11 @@ implements IDatabaseHost
         $div->addA($this->getAppUri(""))->setClass("glyphicons no-decoration")->Content = "&#xe021;";
         $doc->renderAJX();
     }
+
     /**
-     * 
-     * @param mixed $func
-     * @param mixed $args
-     */
+    * auto generate doc.
+    * @param mixed $args
+    */
 
     protected function bind_func($func, $args)
     {
@@ -141,10 +142,11 @@ implements IDatabaseHost
         }
         return true;
     }
+
     /**
-     * 
-     * @param mixed $funcname
-     */
+    * auto generate doc.
+    * @param mixed $funcname
+    */
     protected final
 
     function checkFunc($funcname)
@@ -156,10 +158,11 @@ implements IDatabaseHost
         igk_exit();
         return false;
     }
+
     /**
-     * 
-     * @param mixed $node the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $node the default value is null
+    */
 
     public function conffunctions($node = null)
     {
@@ -190,10 +193,11 @@ implements IDatabaseHost
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $clear the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $clear the default value is false
+    */
 
     public function createNewDoc($clear = false)
     {
@@ -210,9 +214,10 @@ implements IDatabaseHost
             $doc->body->getBodyBox()->clearChilds();
         return $doc;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public final
 
     function dbinitentries()
@@ -370,9 +375,10 @@ implements IDatabaseHost
             IGK_CTRL_CNF_APPNOTACTIVE => igk_create_additional_config_info(array("clType" => "bool", "clDefaultValue" => "0"))
         );
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function GetAdditionalDefaultViewContent()
     {
@@ -386,27 +392,30 @@ use IGK\\Resources\\R;
 EOF;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function getAllowViewDirectAccess()
     {
         return 0;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAppImgUri()
     {
         return igk_html_resolv_img_uri($this->getDataDir() . IGK_APP_LOGO);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAppName()
     {
@@ -423,10 +432,11 @@ EOF;
     }
     ///<summary></summary>
     ///<return refout="true"></return>
+
     /**
-     * 
-     * @return *
-     */
+    * auto generate doc.
+    * @return *
+    */
 
     public static function &GetApps()
     {
@@ -447,9 +457,10 @@ EOF;
         return self::$sm_apps;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAppTitle()
     {
@@ -489,15 +500,12 @@ EOF;
     /**
      * return application uri
      */
+
     /**
-     * 
-     * @param null|string $function 
-     * @param bool $full indicate to full request uri
-     * @return null|string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $full indicate to full request uri
+    * @return null|string
+    */
 
     public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = null): ?string
     {
@@ -542,27 +550,30 @@ EOF;
         return $buri;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getcanAddChild()
     {
         return false;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDataTablePrefix()
     {
         return $this->getConfig(IGK_CTRL_CNF_TABLEPREFIX);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDb()
     {
@@ -573,9 +584,10 @@ EOF;
         return $db;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDomainUriAction(): string
     {
@@ -595,9 +607,10 @@ EOF;
         return $exposed;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsVisible(): bool
     {
@@ -617,9 +630,10 @@ EOF;
         return true;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getRegInvokeUri(): string
     {
@@ -786,10 +800,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="code"></param>
+
     /**
-     * 
-     * @param mixed $code the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $code the default value is 0
+    */
 
     protected function HandleError($code = 0)
     {
@@ -891,10 +906,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
+
     /**
-     * 
-     * @param mixed $ctrl
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
 
     public static function InitEnvironment($ctrl)
     {
@@ -943,9 +959,10 @@ EOF;
         return $this->IsActive();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function IsActive()
     {
@@ -954,10 +971,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="k"></param>
+
     /**
-     * 
-     * @param mixed $k
-     */
+    * auto generate doc.
+    * @param mixed $k
+    */
 
     public function isAuthKeys($k)
     {
@@ -984,9 +1002,10 @@ EOF;
         return false;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function load_data()
     {
@@ -1008,9 +1027,10 @@ EOF;
         igk_exit();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function load_data_files()
     {
@@ -1058,12 +1078,11 @@ EOF;
     ///<param name="view" default="'default'"></param>
     ///<param name="doc" default="null"></param>
     ///<param name="render" default="true"></param>
+
     /**
-     * 
-     * @param mixed $view the default value is 'default'
-     * @param mixed $doc the default value is null
-     * @param mixed $render the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $render the default value is true
+    */
 
     protected function renderDefaultDoc($view = 'default', $doc = null, $render = true)
     {
@@ -1091,10 +1110,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="c"></param>
+
     /**
-     * 
-     * @param mixed $c
-     */
+    * auto generate doc.
+    * @param mixed $c
+    */
 
     protected function renderError($c)
     {
@@ -1128,10 +1148,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="t" ref="true"></param>
+
     /**
-     * 
-     * @param  * $t
-     */
+    * auto generate doc.
+    * @param * $t
+    */
 
     public static function SetAdditionalConfigInfo(&$t)
     {
@@ -1143,10 +1164,11 @@ EOF;
     } 
     ///<summary></summary>
     ///<param name="param"></param>
+
     /**
-     * 
-     * @param mixed $param
-     */
+    * auto generate doc.
+    * @param mixed $param
+    */
 
     public function setupCtrl($param)
     {
@@ -1160,9 +1182,10 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function storeConfigSettings()
     {
@@ -1176,9 +1199,10 @@ EOF;
         return $cp;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function sync_from_user_data()
     {

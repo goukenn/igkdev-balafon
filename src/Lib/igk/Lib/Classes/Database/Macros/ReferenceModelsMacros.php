@@ -12,6 +12,11 @@ use IGK\Models\ReferenceModels;
  * @package IGK\Database\Macros
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database\Macros
+*/
 abstract class ReferenceModelsMacros
 {
     /**
@@ -42,13 +47,12 @@ abstract class ReferenceModelsMacros
         }
         return 1;
     }
+
     /**
-     * 
-     * @param ReferenceModels $model 
-     * @param int $uid 
-     * @param string $modelname 
-     * @return null|ReferenceModels 
-     */
+    * auto generate doc.
+    * @param string $modelname
+    * @return null|ReferenceModels
+    */
     public static function update_ref_nextnumber(ReferenceModels $model,int $uid, string $modelname): ?ReferenceModels{
         $cond = self::_GetRefCondition($uid, $modelname);
         $r = $model::select_row($cond);

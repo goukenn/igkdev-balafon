@@ -220,9 +220,9 @@ function igk_is_module_loaded(string $id): bool{
 }
 
 /**
- * 
- * @return mixed 
- */
+* auto generate doc.
+* @return mixed
+*/
 function igk_loaded_modules(){
     $mod= igk_environment()->require_modules();
     foreach($mod as $k => $v){
@@ -252,12 +252,12 @@ function igk_module_inject_all()
     }
     return compact('ts', 'failed');
 }
+
 /**
- * 
- * @param mixed $mod 
- * @param null|string $name 
- * @return void 
- */
+* auto generate doc.
+* @param null|string $name
+* @return void
+*/
 function igk_bind_module($mod, ?string $name = null, ?BaseController $controller = null)
 {
     $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
@@ -269,15 +269,10 @@ function igk_bind_module($mod, ?string $name = null, ?BaseController $controller
 }
 
 /**
- * 
- * @param mixed $path module path
- * @param null|callable $init (module, current_document)=>{}
- * @param bool $initialize 
- * @return mixed 
- * @throws IGKException 
- * @throws ArgumentTypeNotValidException 
- * @throws ReflectionException 
- */
+* auto generate doc.
+* @param bool $initialize
+* @return mixed
+*/
 function igk_init_module(string $path,  ?callable $init = null, $initialize = true)
 {
     $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;

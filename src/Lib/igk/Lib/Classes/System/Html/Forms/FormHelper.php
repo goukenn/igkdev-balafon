@@ -48,15 +48,12 @@ class FormHelper{
     public static function __callStatic($name, $args){
         return null;
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @param string $key key used for display
-     * @param string $name key used for display 
-     * @param null|array $options 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|array $options
+    * @return void
+    */
 
     public static function SelectOptions($data, string $key, string  $name,?array $options=null){
         if ($options && !key_exists('no_sort_text', $options))
@@ -64,11 +61,12 @@ class FormHelper{
        $data = FormUtils::SelectData($data, $key, $name, $options); 
         return implode("", array_map(self::_InitOption($options), $data));
     }
+
     /**
-     * 
-     * @param mixed $options 
-     * @return Closure 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return Closure
+    */
 
     public static function  _InitOption($options){
         //

@@ -290,16 +290,12 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     protected function getMergedScripts(){
         return [];
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $script 
-     * @param mixed $args 
-     * @return mixed|void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return mixed|void
+    */
 
     protected function syncScriptCommand($command, $script, $args){
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {

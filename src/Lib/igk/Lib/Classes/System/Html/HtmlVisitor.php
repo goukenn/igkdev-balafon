@@ -21,10 +21,11 @@ class HtmlVisitor
      * @var  @var callable ($n, bool $first_child, bool $last_child, bool $end):void
      */
     var $endVisitorListener;
+
     /**
-     * 
-     * @var callable ($n, $first_child, $has_child):?bool
-     */
+    * auto generate doc.
+    * @var callable ($n
+    */
     var $startVisitorListener;
     /**
      * skip treatment
@@ -69,9 +70,11 @@ class HtmlVisitor
 
     public function visit()
     {
+
         /**
-         * @var HtmlItemBase $n
-         */
+        * auto generate doc.
+        * @var HtmlItemBase $n
+        */
         $tq = [["n" => $this->target, "visit" => false, "has_child" => false, "first_child" => true, "last_child" => true]];
         $v_startc = $this->startVisitorListener;
         $v_endc = $this->endVisitorListener;

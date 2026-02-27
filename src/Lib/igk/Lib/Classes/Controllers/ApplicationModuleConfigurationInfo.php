@@ -8,18 +8,22 @@ namespace IGK\Controllers;
  * module configuration info
  */
 class ApplicationModuleConfigurationInfo{
+
     /**
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $version = '^1.0';
+
     /**
-     * 
-     * @var ?array 
-     */
+    * auto generate doc.
+    * @var ?array
+    */
     var $plugins;
+
     /**
-     * 
-     * @var ?bool
-     */
+    * auto generate doc.
+    * @var ?bool
+    */
     var $initDoc;
 }

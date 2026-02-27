@@ -96,8 +96,9 @@ abstract class RootControllerBase extends IGKObject{
         }         
         return igk_auto_load_class($n, $entryNS, $classdir);
     }
-	/**
-    * 
+
+    /**
+    * auto generate doc.
     */
     protected final
 
@@ -295,8 +296,9 @@ abstract class RootControllerBase extends IGKObject{
             return igk_uri(Path::Combine($v_buri, $function));
         return $v_buri;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $name
     */
 
@@ -341,39 +343,43 @@ abstract class RootControllerBase extends IGKObject{
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $fullname
     */
 
     public function getArticleFull($fullname){
         return igk_dir($this->getArticlesDir()."/".$fullname);
     }
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed $dir
     */
 
     public function getArticleInDir($name, $dir){        
         return IO::GetArticleInDir($dir, $name); 
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getArticlesDir(){  
         return igk_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
-        /**
-    * 
+
+    /**
+    * auto generate doc.
     */
 
     public function getScriptsDir(){
         return $this->getDeclaredDir()."/".IGK_SCRIPT_FOLDER;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getBaseUri(){

@@ -30,9 +30,10 @@ class DbQueryOptions implements IDbQueryOptions{
      * @var mixed
      */
     var $OrderBy;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $GroupBy; 
 }

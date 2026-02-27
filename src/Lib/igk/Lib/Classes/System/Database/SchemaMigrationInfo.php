@@ -31,10 +31,11 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
     * @var mixed
     */
     var $columnInfo;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
 
     /**
@@ -84,10 +85,11 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @return ?bool
      */
     // var $constant;
+
     /**
-     * 
-     * @var ?array<SchemaForeignConstraintInfo>
-     */
+    * auto generate doc.
+    * @var ?array<SchemaForeignConstraintInfo>
+    */
     var $foreignConstraint;
     /**
      * configured prefix
@@ -146,9 +148,11 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
 
     public function model()
     {
+
         /**
-         * @var BaseController $ctrl
-         */
+        * auto generate doc.
+        * @var BaseController $ctrl
+        */
         $ctrl = $this->controller;
         $cl = $this->modelClass;
         $ctrl::register_autoload();

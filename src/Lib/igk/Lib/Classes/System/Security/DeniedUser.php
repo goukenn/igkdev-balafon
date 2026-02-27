@@ -9,8 +9,10 @@ namespace IGK\System\Security;
  * @package IGK\System\Security
  */
 class DeniedUser{
+
     /**
-     */
+    * auto generate doc.
+    */
     public function auth($role):bool{
         return false;
     }

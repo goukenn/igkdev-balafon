@@ -66,10 +66,11 @@ class PhpHelper{
         $c = igk_str_rm_last($c, '*/', 1);
         return $c;
     }
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
     public static function HtmlComponentDocumention(){
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
         $_fcs = get_defined_functions(true)["user"];
@@ -136,11 +137,12 @@ class PhpHelper{
         }
         return $g;
     }
+
     /**
-     * 
-     * @param array<\ReflectionParameter> $params 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param array<\ReflectionParameter> $params
+    * @return string
+    */
     public static function GetParamerterDescription( array $params):string{
         $s = '';
         $sep = '';

@@ -6,10 +6,11 @@ namespace IGK\System\Html\Forms;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
+
 /**
- * 
- * @package IGK\System\Html\Forms
- */
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class FieldBuilder implements IteratorAggregate
 {
     /**

@@ -122,15 +122,12 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return parent::_access_OffsetGet($n);
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $v 
-     * @return $this|void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return $this|void
+    */
 
     protected function _access_OffsetSet($n, $v)
     {      

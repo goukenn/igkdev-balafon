@@ -46,13 +46,12 @@ class CssColorDef implements ArrayAccess{
         }
         return self::$sm_instance;
     }
+
     /**
-     * 
-     * @param mixed $k 
-     * @param mixed $v 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return void
+    */
 
     protected function _access_OffsetSet($k, $v){
         if ($g = CssColorMarkValue::Parse($v)){
@@ -68,12 +67,12 @@ class CssColorDef implements ArrayAccess{
             }
         }       
     }
+
     /**
-     * 
-     * @param mixed $k 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $k
+    * @return mixed
+    */
 
     protected function _access_OffsetGet($k){
         return igk_getv($this->m_data, $k);

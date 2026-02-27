@@ -27,8 +27,9 @@ final class OwnViewCtrl extends IGKObject  {
     private function __construct(){
         $this->m_ctrls=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl
     */
 
@@ -39,8 +40,9 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function getInstance(){
@@ -49,17 +51,18 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return self::$sm_instance;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetList(){
         $i=self::getInstance();
         return $i->m_ctrls;
     }
+
     /**
-    * 
-    * @param mixed $ctrl
+    * auto generate doc.
     * @param mixed $handleevent the default value is 1
     */
 
@@ -76,15 +79,17 @@ final class OwnViewCtrl extends IGKObject  {
             }
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __serialize(){
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $s
     */
 

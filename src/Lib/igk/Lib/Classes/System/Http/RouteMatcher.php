@@ -10,11 +10,17 @@ use function igk_resources_gets as __;
  * 
  * @package App\Actions\Dashboard
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class RouteMatcher extends RouteHandler{
+
     /**
-     * 
-     * @var self route matcher chain
-     */
+    * auto generate doc.
+    * @var self route matcher chain
+    */
     private $chainTo;
 
     /**
@@ -32,10 +38,11 @@ class RouteMatcher extends RouteHandler{
     {   
         parent::__construct("m:matcher", $controller);
     }
+
     /**
-     * 
-     * @return RouteMatcher 
-     */
+    * auto generate doc.
+    * @return RouteMatcher
+    */
 
     function next (){
         if ($this->root ==null){
@@ -109,9 +116,10 @@ class RouteMatcher extends RouteHandler{
         }
         return false;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function check(?string $verb=null){
         $verb = $verb ?? igk_server()->REQUEST_METHOD;

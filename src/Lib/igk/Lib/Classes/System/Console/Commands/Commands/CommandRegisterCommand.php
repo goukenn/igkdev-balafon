@@ -11,10 +11,10 @@ use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
 
 /**
- * 
- * @package IGK\System\Console\Commands\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Commands
+* @author C.A.D. BONDJE DOUE
+*/
 class CommandRegisterCommand extends AppExecCommand
 {
 

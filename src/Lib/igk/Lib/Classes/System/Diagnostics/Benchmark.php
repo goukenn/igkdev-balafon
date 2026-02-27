@@ -106,12 +106,12 @@ class Benchmark{
             unset($m[$name]);
         }
     }
+
     /**
-     * 
-     * @param string $name measure if enabled
-     * @param bool $unset unset the mark measure
-     * @return int|float|void 
-     */
+    * auto generate doc.
+    * @param bool $unset unset the mark measure
+    * @return int|float|void
+    */
 
     public static function measure(string $name, bool $unset = false){
         if (!self::$Enabled){

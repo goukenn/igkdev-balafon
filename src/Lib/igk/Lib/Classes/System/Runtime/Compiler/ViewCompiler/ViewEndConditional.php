@@ -4,8 +4,9 @@
 // @date: 20221103 10:38:23
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use Closure;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewEndConditional{

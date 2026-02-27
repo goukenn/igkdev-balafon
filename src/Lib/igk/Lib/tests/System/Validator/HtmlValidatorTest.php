@@ -9,7 +9,7 @@ use IGK\System\Html\Forms\Validations\HtmlValidator;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Validator
 */
 class HtmlValidatorTest extends BaseTestCase{

@@ -6,11 +6,12 @@ namespace IGK\System\Security\Helpers;
 use IGK\Helper\StringUtility;
 use IGK\System\IO\File\PHPDocCommentParser;
 use IGK\System\IO\StringBlockReader;
+
 /**
- * 
- * @package IGK\System\Security\Helpers
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Security\Helpers
+* @author C.A.D. BONDJE DOUE
+*/
 class PhpDocCommentSecurityAndAuthUtility
 {
     /**

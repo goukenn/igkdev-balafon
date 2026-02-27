@@ -8,6 +8,11 @@ use IGK\System\Installers\InstallerUtils;
 /**
  * 
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class MaintenanceHelper
 {
 
@@ -45,11 +50,12 @@ RewriteRule ^(/)?(.)*$  "index.php" [QSA,L]
 </IfModule>
 EOF        );
     }
+
     /**
-     * 
-     * @param string $bdir 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $bdir
+    * @return void
+    */
 
     public static function UnlockSite(string $bdir)
     {

@@ -45,10 +45,11 @@ class HeaderAccessObject{
      * @var ?string
      */
     var $origin;
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function getAuthType(){
         $g = explode(' ', $this->authorization);
@@ -67,11 +68,11 @@ class HeaderAccessObject{
             return trim(igk_getv($g, 1, ''));
         }
     }
+
     /**
-     * 
-     * @return string|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return string|void
+    */
 
     public function getBasicToken(){
         $g = explode(' ', $this->authorization);

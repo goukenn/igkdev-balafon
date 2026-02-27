@@ -11,6 +11,11 @@ use IGKException;
 * 
 * @package IGK\System\Database
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class DbQuerySelectColumnBuilder{
 
     /**
@@ -52,13 +57,12 @@ class DbQuerySelectColumnBuilder{
     public function addUnique($cl, $value){
         $this->m_tab[$cl] = $value;
     }
+
     /**
-     * 
-     * @param mixed $index 
-     * @param mixed $cl 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
 
     public function addUniqueColumn($index, $cl, $value ){
         if (!$index){

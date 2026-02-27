@@ -3,8 +3,9 @@
 // @file: ViewRef.php
 // @date: 20221231 16:35:05
 namespace IGK\System\Html;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 */
 class ViewRef implements IHtmlGetValue{

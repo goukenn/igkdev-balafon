@@ -30,10 +30,11 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     {
         parent::__construct($data);
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function _json_serialize()
     {

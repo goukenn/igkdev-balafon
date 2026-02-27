@@ -28,11 +28,12 @@ class XsdElementBuilder extends XsdElement
     private function __construct()
     {
     }
+
     /**
-     * @param IGKXmlNode $node 
-     * @param XsdBuilder $builder 
-     * @return XsdElementBuilder 
-     */
+    * auto generate doc.
+    * @param XsdBuilder $builder
+    * @return XsdElementBuilder
+    */
 
     public static function Create(IGKXmlNode $node, XsdBuilder $builder)
     {
@@ -84,13 +85,12 @@ class XsdElementBuilder extends XsdElement
         }
         return $this;
     }
+
     /**
-     * 
-     * @param array $defs 
-     * @param mixed|null $attributes 
-     * @return void 
-     * @throws XsdBuilderException 
-     */
+    * auto generate doc.
+    * @param mixed|null $attributes
+    * @return void
+    */
 
     public function addComplexType(array $defs, $attributes=null, $type="sequence", $tattributes=null)
     {

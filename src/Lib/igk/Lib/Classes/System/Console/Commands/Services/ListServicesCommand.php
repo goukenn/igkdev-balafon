@@ -8,7 +8,7 @@ use IGK\System\Console\AppExecCommand;
 use IGKServices;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Services
 * @author C.A.D. BONDJE DOUE
 */

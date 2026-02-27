@@ -3,8 +3,9 @@
 // @file: AuthenticationResponse.php
 // @date: 20230707 18:15:53
 namespace IGK\System\Http\Responses;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http\Responses
 */
 class AuthenticationResponse{

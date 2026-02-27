@@ -8,7 +8,11 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
-/** @package IGK\System\Console\Commands */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class EnvironmentsCommand extends AppExecCommand{
 
     /**

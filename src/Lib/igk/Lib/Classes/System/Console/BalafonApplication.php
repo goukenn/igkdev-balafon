@@ -44,6 +44,11 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR . "/Helper/Traits/IOPathCheckerTrait.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php";
 /** @package  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
 {
     use IOPathCheckerTrait;
@@ -69,9 +74,9 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     public $environment;
 
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function getInitEnvironmentFileStructure()
     {
@@ -260,16 +265,12 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
     }
+
     /**
-     * 
-     * @param string $entryfile 
-     * @param int $render 
-     * @return string|int 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param int $render
+    * @return string|int
+    */
 
     public function run(string $entryfile, $render = 1)
     {
@@ -676,13 +677,12 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             \IGK\System\Console\Commands\BalafonInitCommand::Handle($this->no_init_environment, $argv);
         }
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param null|BaseController $ctrl 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param null|BaseController $ctrl
+    * @return void
+    */
 
     public static function BindCommandUser($command, ?BaseController $ctrl = null, &$user = null)
     {
@@ -696,12 +696,12 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             $ctrl::login($user, null, false);
         }
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param null|Users $user 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|Users $user
+    * @return void
+    */
 
     public static function BindCommandController(BaseController $ctrl, ?Users $user = null)
     {

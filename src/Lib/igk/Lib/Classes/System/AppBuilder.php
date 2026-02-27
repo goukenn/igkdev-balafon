@@ -14,11 +14,12 @@ use function igk_resources_gets as __;
  */
 class AppBuilder extends MacrosConstant{
     use MacrosTrait;
+
     /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
     public function getService(string $name){
         return igk_app()->getService($name);
     }

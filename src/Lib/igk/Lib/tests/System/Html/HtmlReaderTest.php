@@ -49,17 +49,11 @@ HTML);
             "read comment style not ok"
         );
     }
+
     /**
-     * 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws InvalidArgumentException 
-     * @throws ExpectationFailedException 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function test_html_reading_attr_link_reading()
     {
         $n = igk_create_notagnode();
@@ -290,17 +284,11 @@ EOF);
             count($r->getAttributes()->to_array())
         );
     }
+
     /**
-     * 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws InvalidArgumentException 
-     * @throws ExpectationFailedException 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function test_read_comment_with_single_cote()
     {
         // end with line feed on not line fied

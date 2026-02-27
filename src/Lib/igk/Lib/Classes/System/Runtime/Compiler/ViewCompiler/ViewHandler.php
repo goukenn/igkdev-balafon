@@ -3,8 +3,9 @@
 // @file: ViewHandler.php
 // @date: 20221031 15:43:24
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewHandler{

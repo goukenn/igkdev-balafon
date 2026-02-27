@@ -12,10 +12,11 @@ use IGKException;
 use ReflectionMethod;
 use ReflectionProperty;
 use Reflector;
+
 /**
- * 
- * @package IGK\System\Helper
- */
+* auto generate doc.
+* @package IGK\System\Helper
+*/
 final class AnnotationHelper
 {
 

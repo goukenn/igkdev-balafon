@@ -4,8 +4,9 @@
 // @date: 20230707 17:50:40
 namespace IGK\FormData;
 use IGK\FormData\Traits\FormDataJsonTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\FormData
 */
 abstract class FormBase{

@@ -48,11 +48,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * @var mixed
     */
     protected static $LENGTHDATA = ["int", "varchar", "char", "decimal"];
+
     /**
-     * 
-     * @param string $tablename 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $tablename
+    * @return mixed
+    */
 
     public function select_all(string $tablename) {}
     /**
@@ -122,11 +123,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return $this->m_filter_column;
     }
+
     /**
-     * 
-     * @param bool $filter 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param bool $filter
+    * @return void
+    */
 
     public function setFilter(bool $filter){
         $this->m_filter_column = $filter;
@@ -191,12 +193,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return self::CreateDataAdapter($n, $throwException);
     }
+
     /**
-     * 
-     * @param string $table 
-     * @param mixed $columninfo 
-     * @return false|void 
-     */
+    * auto generate doc.
+    * @param mixed $columninfo
+    * @return false|void
+    */
 
     public function pushRelations(string $table, $columninfo)
     {
@@ -349,10 +351,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      */
 
     public abstract function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false);
+
     /**
-     * 
-     * @return null|IDbQueryGrammar grammar object
-     */
+    * auto generate doc.
+    * @return null|IDbQueryGrammar grammar object
+    */
 
     public function getGrammar()
     {
@@ -383,37 +386,39 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    */
 
     public function ClearTable($tablename) {}
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     abstract public function close();
     abstract function exist_column(string $table, string $column, $db = null): bool;
+
     /**
-     * 
-     * @param mixed $params
-     */
+    * auto generate doc.
+    * @param mixed $params
+    */
 
     protected function configure($params) {}
+
     /**
-     * 
-     * @param mixed $ctrl the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ctrl the default value is null
+    */
 
     abstract public function connect($ctrl = null);
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $throwexception
-     * @param mixed $newAdapter the default value is 0
-     * @param mixed $params the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $params the default value is null
+    */
 
     public static function CreateDataAdapter($ctrl, $throwexception = true, $newAdapter = 0, $params = null)
     {
@@ -467,11 +472,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $list 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $list
+    * @return void
+    */
 
     public static function Register($list)
     {
@@ -482,9 +488,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     abstract public function createEmptyResult();
     /**
@@ -524,39 +531,41 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return null;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $entries
-     * 
-     */
+    * auto generate doc.
+    * @param mixed $entries
+    */
 
     public function delete($tablename, $condition = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
+
     /**
-     * 
-     * @return false 
-     */
+    * auto generate doc.
+    * @return false
+    */
 
     public function beginTransaction()
     {
         return false;
     }
+
     /**
-     * 
-     * @return false 
-     */
+    * auto generate doc.
+    * @return false
+    */
 
     public function commit()
     {
         return false;
     }
+
     /**
-     * 
-     * @return false 
-     */
+    * auto generate doc.
+    * @return false
+    */
 
     public function rollback()
     {
@@ -595,31 +604,35 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return -1;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    */
 
     public function deleteAll($tablename, $condition = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function drop($tablename, $condition = null)
     {
         $this->deleteAll($tablename, $condition);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function flushForInitDb($complete = null) {}
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function GetAdapters()
     {
@@ -629,9 +642,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return self::$sm_regAdapter;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getApp()
     {
@@ -645,17 +659,19 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return "db";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsAvailable()
     {
         return true;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function initForInitDb() {}
     /**
@@ -773,9 +789,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return 0;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function ResetDataAdapter()
     {
@@ -783,13 +800,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         self::$sm_regAdapter = array();
         self::LoadAdapter();
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $condition
-     * @param mixed $options
-     * @return null|\IGK\Database\DbQueryResult
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return null|\IGK\Database\DbQueryResult
+    */
 
     public function select($tablename, $condition = null, $options = null)
     {
@@ -826,36 +842,37 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         throw new IGKException('not implement');
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $conditions the default value is null
-     * @param mixed $options the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $options the default value is null
+    */
 
     public function selectAndWhere($tablename, $conditions = null, $options = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
+
     /**
-     * 
-     * @param mixed $dbname
-     */
+    * auto generate doc.
+    * @param mixed $dbname
+    */
 
     public function selectdb(?string $dbname = null) {}
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function selectLastId()
     {
         return null;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $entrie
-     */
+    * auto generate doc.
+    * @param mixed $entrie
+    */
 
     public function update($tablename, $entries, $condition = null, $tableinfo = null)
     {

@@ -17,9 +17,9 @@ use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
 
 /**
- * 
- * @package IGK\Actions\Traits\Authenticator
- */
+* auto generate doc.
+* @package IGK\Actions\Traits\Authenticator
+*/
 trait BearerAuthenticatorTrait
 {
 

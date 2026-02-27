@@ -10,6 +10,11 @@ use Exception;
  * 
  * @package IGK\XSD
  */
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 class XsdBuilder extends XsdElement implements ArrayAccess{
 
     /**
@@ -96,12 +101,12 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $notation->add("xs:documentation")->Content = $documentation;
         $this->m_notation = $notation;
         return $this;
-    }   
+    }
+
     /**
-     * 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function render(){
         return $this->m_node->render();
@@ -207,12 +212,12 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $res->add("xs:pattern")->setAttribute("value", $pattern);        
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $type white space type
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param mixed $type white space type
+    * @return $this
+    */
 
     public function addWhiteSpaceElement($name, $type){
         $e = $this->m_node->add("xs:element")->setAttribute("name", $name);

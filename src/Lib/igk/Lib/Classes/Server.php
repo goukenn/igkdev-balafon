@@ -65,9 +65,10 @@ final class Server implements IToArray{
     public function getAccessObject():?HeaderAccessObject{
         return $this->m_access_object;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function IsIGKDEVSERVER() : bool{
         $r= self::getInstance()->HTTP_USER_AGENT;
@@ -116,8 +117,9 @@ final class Server implements IToArray{
     private function __construct(){ 
         $this->prepareServerInfo();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
@@ -142,17 +144,18 @@ final class Server implements IToArray{
         }
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
     public function __isset($n){
         return isset($this->data[$n]);
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -196,7 +199,9 @@ final class Server implements IToArray{
     public function get($name, $default=null){
         return igk_getv($this->data, $name, $default);
     }
+
     /**
+    * auto generate doc.
     * @return Server
     */
 
@@ -213,8 +218,9 @@ final class Server implements IToArray{
     public function eventStreamRequest(){
         return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $file
     */
 
@@ -244,9 +250,11 @@ final class Server implements IToArray{
     public function isMultipartFormData(){
         return strpos($this->CONTENT_TYPE, IGK_HTML_ENCTYPE) === 0;
     }
+
     /**
-     * @return ?string
-     */
+    * auto generate doc.
+    * @return ?string
+    */
 
     public function script_dir(){
         if ($f = $this->SCRIPT_FILENAME){
@@ -392,8 +400,9 @@ final class Server implements IToArray{
     public function is_secure(){
         return $this->HTTPS == "on";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function to_array(): ?array{

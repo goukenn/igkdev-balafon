@@ -12,6 +12,11 @@ use IGKServices;
  * @package IGK\System\Services\Trait
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Services\Traits
+*/
 trait ServiceContainerTrait
 {
     /**
@@ -43,10 +48,11 @@ trait ServiceContainerTrait
     {
         return $this->m_name;
     }
+
     /**
-     * 
-     * @return array 
-     */
+    * auto generate doc.
+    * @return array
+    */
 
     public function listServicesKeys(): array
     {
@@ -95,11 +101,10 @@ trait ServiceContainerTrait
     }
 
     /**
-     * 
-     * @param string $name 
-     * @param IAppService $service 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param IAppService $service
+    * @return bool
+    */
 
     public function register(string $name, IAppService $service): bool
     {

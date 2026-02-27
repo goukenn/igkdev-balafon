@@ -5,8 +5,9 @@
 namespace IGK;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK
 * @author C.A.D. BONDJE DOUE
 */

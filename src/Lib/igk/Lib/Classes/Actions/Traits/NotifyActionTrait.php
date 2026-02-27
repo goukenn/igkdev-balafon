@@ -3,8 +3,9 @@
 // @file: NotifyActionTrait.php
 // @date: 20221117 21:42:51
 namespace IGK\Actions\Traits;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions\Traits
 */
 trait NotifyActionTrait{

@@ -10,10 +10,10 @@ use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
 
 /**
- * 
- * @package IGK\System\Text\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Text\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait FormatRegexMatcherTrait
 {
     /**

@@ -26,14 +26,12 @@ abstract class Utility {
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $paramHandler 
-     * @param mixed $requestName 
-     * @param mixed $paramName 
-     * @param bool $update 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param bool $update
+    * @return mixed
+    */
     public static function RequestGet($paramHandler, $requestName, $paramName, $update=true){
        return RequestUtility::RequestGet(...func_get_args());
     }
@@ -65,11 +63,11 @@ abstract class Utility {
     public static function To_JSON($raw , $options=null, $json_option = JSON_UNESCAPED_SLASHES){
         return JSon::Encode($raw, $options, $json_option);       
     }
+
     /**
-     * 
-     * @param string $clasname 
-     * @return string[] 
-     */
+    * auto generate doc.
+    * @param string $clasname
+    */
     public static function GetStaticClassMethods(string $clasname){
         $tab = array_map(function($i)use($clasname){
             return $clasname."::".$i; 

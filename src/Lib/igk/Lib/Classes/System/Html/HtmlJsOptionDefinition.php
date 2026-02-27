@@ -4,8 +4,9 @@
 // @date: 20230429 23:03:49
 namespace IGK\System\Html;
 use IGK\Helper\BalafonJSHelper;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlJsOptionDefinition implements IHtmlGetValue{

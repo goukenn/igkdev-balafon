@@ -25,24 +25,23 @@ class BalafonProjectInstaller extends BalafonInstaller{
     * @var mixed
     */
     protected $zipcore = false;
+
     /**
-     * 
-     * @param InstallerMiddleWareActions $service 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param InstallerMiddleWareActions $service
+    * @return void
+    */
 
     protected function init_installer(InstallerMiddleWareActions $service){
         $c = igk_getr("controller");
         $key=self::INSTALLER_KEY;
         $this->controller = igk_getctrl($c, false) ?? die("controller not found:$c");
         // disable warning
+
         /**
-         * @var mixed
-         */
+        * auto generate doc.
+        * @var mixed
+        */
         $srv = $service;
         $service->LibDir =  IGK_LIB_DIR;
         $srv->CoreZip = $this->zipfile; // igk_app()->session->getParam($key);
@@ -199,8 +198,9 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
 * Represent RenameLibaryMiddleWare class
 */
 class RenameProjectMiddleWare extends InstallerActionMiddleWare{
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function abort(){ 
@@ -211,15 +211,17 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
             rename($libdir, dirname($libdir)."/".$project_name);
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getMessage(){
         return "rename project";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function invoke(){

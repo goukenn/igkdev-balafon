@@ -43,13 +43,11 @@ class BalafonCacheViewCompiler{
         $f = self::TreatOuput($output . $src . $extra, $file, $args);
         return $f;
     }
+
     /**
-     * 
-     * @param string $source 
-     * @param string $file 
-     * @param mixed $args 
-     * @return string|string[]|null 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    */
     public static function TreatOuput(string $source, string $file, $args = null){
         $helper = preg_match("/\b__(FILE|DIR)__\b/", $source);
         $source = preg_replace("/__FILE__/", "ViewHelper::File()", $source);
@@ -81,9 +79,11 @@ class BalafonCacheViewCompiler{
     */
     public static function GetBindViewCompilerHandler(BaseController $controller){
         $__igk_attr__ = Closure::fromCallable(function($arr){
+
             /**
-             * @var ViewHandler $q 
-             */
+            * auto generate doc.
+            * @var ViewHandler $q
+            */
             $q = $this;
             if (key_exists("class", $arr)){
                 $cl = trim($arr["class"] ?? "", '"');

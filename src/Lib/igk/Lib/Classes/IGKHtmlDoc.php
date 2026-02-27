@@ -438,11 +438,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->m_responseHeader = $headers;
         return $this;
     }
+
     /**
-     * 
-     * @param ?string $theme dark|light
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param ?string $theme dark|light
+    * @return $this
+    */
 
     public function setDefaultTheme(?string $theme)
     {
@@ -485,12 +486,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return self::$sm_theme;
     }
+
     /**
-     * 
-     * @param mixed $minfile
-     * @param mixed $export
-     * @param mixed $reset the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $reset the default value is 0
+    */
 
     public function getTemporaryCssDef($minfile, $export, $reset = 0)
     {
@@ -502,9 +502,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $p;
     }
+
     /**
-     * @return ?IGK\System\Html\Dom\HtmlDocTheme 
-     */
+    * auto generate doc.
+    * @return ?IGK\System\Html\Dom\HtmlDocTheme
+    */
 
     public function getTempTheme()
     {
@@ -546,9 +548,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         igk_die("theme not created");
     }
+
     /**
-     * @return ?IGKHtmlScriptManager 
-     */
+    * auto generate doc.
+    * @return ?IGKHtmlScriptManager
+    */
 
     public function getScriptManager(): ?IGKHtmlScriptManager
     {
@@ -565,14 +569,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     {
         return $this->ScriptManager->addScript($file, $canbeMerged, $tag);
     }
+
     /**
-     * 
-     * @param mixed $id 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $id
+    * @return void
+    */
     private function __construct($id)
     {
         $this->m_can_add = true;
@@ -688,12 +690,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     {
         return new IGKHtmlScriptManager();
     }
+
     /**
-     * 
-     * @param mixed $id 
-     * @return IGKHtmlDoc 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $id
+    * @return IGKHtmlDoc
+    */
 
     public static function CreateDocument($id, ?array $init_properties = null)
     {
@@ -716,9 +718,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $document->registerHook();
         return $document;
     }
+
     /**
-     * @return IGKHtmlDoc 
-     */
+    * auto generate doc.
+    * @return IGKHtmlDoc
+    */
 
     public static function LastRenderedDocument()
     {
@@ -865,9 +869,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             $this->m_head->remove($k);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getHtmlOptions()
     {
@@ -886,17 +891,19 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         !($d = $this->getFlag(self::IGK_DOC_TYPE_FLAG)) && ($d = IGK_DOC_TYPE);
         return "<!DOCTYPE " . $d . ">";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getNameSpace()
     {
         return Constants::NAMESPACE;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Dispose()
     {
@@ -979,9 +986,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->getMetas()->setKeywords($value);
         return $this;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function setCanonical(?string $uri)
     {
@@ -1033,11 +1041,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->getMetas()->setAttribute(HtmlMetaManager::META_VIEWPORT,'content', $portdefinition);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $name
-     * @return mixed|array
-     */
+    * auto generate doc.
+    * @param mixed $name
+    * @return mixed|array
+    */
 
     public function getElementsByTagName($name, bool $stop_first = false)
     {

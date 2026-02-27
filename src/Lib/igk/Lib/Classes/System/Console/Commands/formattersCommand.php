@@ -10,7 +10,7 @@ use IGK\System\Console\Logger;
 use IGKServices;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */

@@ -13,6 +13,11 @@ use stdClass;
  * 
  * @package IGK\Helpers
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class ApplicationModuleHelper
 {
 
@@ -82,13 +87,12 @@ class ApplicationModuleHelper
             return self::CreateApplicationModuleConfigurationInfo($info);
         }
     }
+
     /**
-     * 
-     * @param mixed $info 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $info
+    * @return mixed
+    */
 
     public static function CreateApplicationModuleConfigurationInfo($info)
     {

@@ -7,9 +7,9 @@
 * represent a base IGK Framework exception
 */
 class IGKException extends \Exception implements Throwable{
+
     /**
-    * 
-    * @param mixed $msg
+    * auto generate doc.
     * @param mixed $code the default value is 500
     */
     public function __construct($msg, $code=500, ?\Throwable $throwable=null){
@@ -21,8 +21,9 @@ class IGKException extends \Exception implements Throwable{
     public function __toString(){
         return get_class($this);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $level the default value is 1
     */
     public static function GetCallingFunction($level=1){

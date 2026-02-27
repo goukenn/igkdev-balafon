@@ -8,10 +8,10 @@ use IGK\Helper\ViewHelper;
 use IGK\System\IO\Path;
 
 /**
- * 
- * @package IGK\System
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System
+* @author C.A.D. BONDJE DOUE
+*/
 class UriResolver
 {
     /**

@@ -7,6 +7,11 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 class ViewCompilerBockInfo{
 
     /**
@@ -20,15 +25,17 @@ class ViewCompilerBockInfo{
     * @var mixed
     */
     const INNER_BLOCK = "else|elseif|case|default";
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $type;
+
     /**
-     * 
-     * @var ?ViewCompilerBockInfo
-     */
+    * auto generate doc.
+    * @var ?ViewCompilerBockInfo
+    */
     var $parent;
     /**
      * condition string

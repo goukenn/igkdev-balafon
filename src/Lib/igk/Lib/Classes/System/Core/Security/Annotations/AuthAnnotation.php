@@ -7,7 +7,7 @@ namespace IGK\System\Core\Security\Annotations;
 use IGK\System\AnnotationBase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Core\Security\Annotations
 * @author C.A.D. BONDJE DOUE
 */

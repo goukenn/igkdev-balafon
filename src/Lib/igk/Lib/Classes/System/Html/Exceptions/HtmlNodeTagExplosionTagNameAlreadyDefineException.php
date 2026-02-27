@@ -8,7 +8,7 @@ use IGKException;
 use function igk_resources_sprintf as __;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Exceptions
 * @author C.A.D. BONDJE DOUE
 */

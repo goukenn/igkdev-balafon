@@ -13,6 +13,11 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Console\Commands
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class SearchFilesCommand extends AppExecCommand
 {
 
@@ -47,13 +52,12 @@ class SearchFilesCommand extends AppExecCommand
     * @var mixed
     */
     var $usage = 'directory pattern [options]';
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param null|string $dir 
-	 * @param null|string $pattern 
-	 * @return void 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param null|string $pattern
+    * @return void
+    */
 
     public function exec($command, ?string $dir = null, ?string $pattern = null)
 	{

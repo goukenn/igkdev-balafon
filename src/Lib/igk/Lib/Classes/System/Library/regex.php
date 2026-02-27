@@ -2,11 +2,12 @@
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherParentChainReplacement;
 if (!function_exists('igk_dump_export')) {
+
     /**
-     * 
-     * @param string $m 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $m
+    * @return void
+    */
     function igk_dump_export($data)
     {
         $m = var_export($data, true);

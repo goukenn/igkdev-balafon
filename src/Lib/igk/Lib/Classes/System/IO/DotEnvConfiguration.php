@@ -44,12 +44,12 @@ class DotEnvConfiguration
     * @var mixed
     */
     const APP_DOT_ENV_CONFIG = 'dotenv_config_location_dir';
+
     /**
-     * 
-     * @param mixed &$refkey 
-     * @param mixed $ctrl 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @return void
+    */
     private static function loadingEnvDev(&$refkey, $ctrl = null)
     {
         $ctrl = $ctrl ?? igk_environment()->controller_config_loading;

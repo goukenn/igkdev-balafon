@@ -10,13 +10,18 @@ use IGK\System\Text\RegexMatcherContainer;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 abstract class CssClassNameDetectorUtils{
+
     /**
-     * 
-     * @param CssClassNameDetector $detector 
-     * @param string $filename 
-     * @return mixed|void 
-     */
+    * auto generate doc.
+    * @param string $filename
+    * @return mixed|void
+    */
     public static function DetectFromFile(CssClassNameDetector $detector, string $filename, & $references = null){
         if (!igk_io_file_exists($filename)){
             return false;
@@ -29,14 +34,12 @@ abstract class CssClassNameDetectorUtils{
         } 
         return $detector->resolv($src);
     }
+
     /**
-     * 
-     * @param CssClassNameDetector $detector 
-     * @param string $source 
-     * @param mixed &$references 
-     * @return array|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed &$references
+    * @return array|void
+    */
     public static function DetectFromPhpSource(CssClassNameDetector $detector, string $source, & $references=null, $context=null){
         $g = token_get_all($source);
         $expression = [];
@@ -89,14 +92,12 @@ abstract class CssClassNameDetectorUtils{
     public static function DetectFromPHtmlSource(CssClassNameDetector $detector, string $source, & $references=null){
         return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
     }
+
     /**
-     * 
-     * @param mixed $detector 
-     * @param mixed $source 
-     * @param mixed &$references 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed &$references
+    * @return mixed
+    */
 
     public static function DetectFromHtmlSource($detector , $source, & $references = null){        
         $container = new RegexMatcherContainer;

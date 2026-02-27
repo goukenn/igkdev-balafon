@@ -23,6 +23,11 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IO/Path.php';
  * 
  * @package 
  */
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 class ApplicationLoader
 {
     use ClassFileVersionLoaderTrait;
@@ -55,10 +60,11 @@ class ApplicationLoader
      * load callable
      */
     private $callables = [];
+
     /**
-     * 
-     * @var string loading context
-     */
+    * auto generate doc.
+    * @var string loading context
+    */
     private $_context;
     /**
      * indicate that class need to be sorted
@@ -199,16 +205,12 @@ class ApplicationLoader
         }
         return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, EntryClassResolution::IGK);
     }
+
     /**
-     * 
-     * @param array $classnames 
-     * @param mixed $path 
-     * @param mixed $entryNS 
-     * @param bool $throw raise exeception if not found
-     * @param bool $auto_register auto register cache class if found.
-     * @return bool 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param bool $auto_register auto register cache class if found.
+    * @return bool
+    */
     private static function _TryLoadClasses(array $classnames, $path, $entryNS = null,  $throw = false, $auto_register = true)
     {
         $included = null;

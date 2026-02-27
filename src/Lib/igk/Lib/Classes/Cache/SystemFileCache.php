@@ -97,11 +97,11 @@ class SystemFileCache extends CommonCache
     {
         return (!file_exists($ver_file = igk_io_cachedir() . "/.lib.version.cache")) || (IGK_VERSION != trim(file_get_contents($ver_file)));
     }
+
     /**
-     * 
-     * @return bool 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public static function LoadCacheLibFiles()
     {

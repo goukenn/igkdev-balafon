@@ -6,8 +6,9 @@ namespace IGK\System\Html\IO;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\IO
 */
 class ImageLoader{

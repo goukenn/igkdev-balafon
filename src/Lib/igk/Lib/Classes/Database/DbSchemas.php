@@ -107,10 +107,11 @@ abstract class DbSchemas
     * @var mixed
     */
     const Index = 'Index';
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_isLoadingFromSchema;
     /**
      * loaded schema
@@ -139,12 +140,12 @@ abstract class DbSchemas
             unset($v_tab[$file]);
         }
     }
+
     /**
-     * 
-     * @param mixed $schema 
-     * @param mixed $data 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return mixed
+    */
 
     public static function LoadRelations($schema, $data)
     {
@@ -154,12 +155,12 @@ abstract class DbSchemas
         }
         return $n;
     }
+
     /**
-     * 
-     * @param mixed $schema 
-     * @param mixed $data 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return mixed
+    */
 
     public static function LoadMigrations($schema, $data)
     {

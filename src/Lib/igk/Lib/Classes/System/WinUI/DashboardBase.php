@@ -5,10 +5,11 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
+
 /**
- * 
- * @package IGK\System\WinUI
- */
+* auto generate doc.
+* @package IGK\System\WinUI
+*/
 class DashboardBase extends HtmlNode{
 
     /**

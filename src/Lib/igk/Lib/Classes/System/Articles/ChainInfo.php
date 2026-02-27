@@ -3,8 +3,9 @@
 // @file: ChainInfo.php
 // @date: 20230403 21:02:17
 namespace IGK\System\Articles;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Articles
 */
 class ChainInfo{

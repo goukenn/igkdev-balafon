@@ -9,7 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 use IGKObject;
-/** @package IGK\System\Html */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
 
     /**

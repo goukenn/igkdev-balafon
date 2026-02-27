@@ -59,10 +59,10 @@ abstract class ModelEntryExtension
     use ModelInitDbExtensionTrait;
 
     /**
-     * 
-     * @param ModelBase $model 
-     * @return null|array 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @return null|array
+    */
     public static function GetArrayFromColumnFields(ModelBase $model): ?array{
         $r = $model::createEmptyRow();
         if ($r instanceof stdClass){
@@ -125,13 +125,12 @@ abstract class ModelEntryExtension
     {
         return $model->getController();
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param ?array|object $raw 
-     * @param bool $idresult 
-     * @return null|object 
-     */
+    * auto generate doc.
+    * @param bool $idresult
+    * @return null|object
+    */
     public static function create(ModelBase $model, $raw = null, bool $update = true, bool $throwException = true)
     {
         $raw && (!is_array($raw) && !is_object($raw)) && igk_die('raw not a valid data');
@@ -166,14 +165,12 @@ abstract class ModelEntryExtension
            
         }
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param bool $strict $in DbRowDefEntry
-     * @param bool $force creation of DbRowDefEntry in all case
-     * @return stdClass|null|DbRowDefEntry
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param bool $force creation of DbRowDefEntry in all case
+    * @return stdClass|null|DbRowDefEntry
+    */
     public static function createEmptyRow(ModelBase $model, bool $strict = true, bool $force = false)
     {
         $p   = $model->getTableInfo()->prefix;
@@ -214,13 +211,12 @@ abstract class ModelEntryExtension
         $caches[$id] = $v;
         return $v->_cache;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $condition 
-     * @param mixed $extra append field conditions
-     * @return null|ModelBase|bool 
-     */
+    * auto generate doc.
+    * @param mixed $extra append field conditions
+    * @return null|ModelBase|bool
+    */
     public static function createIfNotExists(ModelBase $model, $condition, $extra = null, &$new = false)
     {
         $new = false;
@@ -261,12 +257,12 @@ abstract class ModelEntryExtension
         $model::update($condition, [$p => $row->{$p}]);
         return null;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $condition 
-     * @return int 
-     */
+    * auto generate doc.
+    * @param mixed $condition
+    * @return int
+    */
     public static function select_count(ModelBase $model, $condition)
     {
         $r = $model->getDataAdapter()->selectCount($model::table(), $condition);
@@ -320,13 +316,12 @@ abstract class ModelEntryExtension
         }
         return $row;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $condition 
-     * @param mixed $update_extras 
-     * @return null|ModelBase|bool|IGK\Models\IQueryResult 
-     */
+    * auto generate doc.
+    * @param mixed $update_extras
+    * @return null|ModelBase|bool|IGK\Models\IQueryResult
+    */
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras = null)
     {
         if (!($row = $model->select_row($condition))) {
@@ -356,13 +351,10 @@ abstract class ModelEntryExtension
     }
 
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $conditions 
-     * @param mixed $options 
-     * @return object|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return object|null
+    */
     public static function selectOne(ModelBase $model, $conditions = null, $options = null)
     {
         return self::select_row($model, $conditions, $options);
@@ -383,22 +375,22 @@ abstract class ModelEntryExtension
             $ad->resetAutoIncrement($model->getTable(), $value);
         }
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @return false 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @return false
+    */
     public static function beginTransaction(ModelBase $model)
     {
         return $model->getDataAdapter()->beginTransaction();
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @return false 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @return false
+    */
     public static function commit(ModelBase $model)
     {
         return $model->getDataAdapter()->commit();
@@ -607,14 +599,12 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->select($model->getTable(), $conditions, $options);
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $conditions 
-     * @param mixed $options 
-     * @return null|iterable 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return null|iterable
+    */
     public static function select_query_rows(ModelBase $model, $conditions = null, $options = null)
     {
         if ($g = static::select_query($model, $conditions, $options)) {
@@ -661,13 +651,12 @@ abstract class ModelEntryExtension
         }
         return null;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param null|array $conds 
-     * @param null|string $column 
-     * @return mixed|null 
-     */
+    * auto generate doc.
+    * @param null|string $column
+    * @return mixed|null
+    */
     public static function lastByColumn(ModelBase $model, ?array $conds = null, ?string $column=null){
         $cond = $conds ?? [];
         $options = ['Limit'=>1];
@@ -745,14 +734,12 @@ abstract class ModelEntryExtension
         $conditions = DbUtility::TreatSelectCondition($columns, $conditions ?? [], $def->prefix);
         return $driver->delete($model->getTable(), $conditions);
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $entry entry data
-     * @param bool $update update mode
-     * @return null|ModelBase|bool 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param bool $update update mode
+    * @return null|ModelBase|bool
+    */
     public static function insert(ModelBase $model, $entry, $update = true, bool $throwException = true)
     {
         $ad = $model->getDataAdapter();
@@ -1195,10 +1182,11 @@ abstract class ModelEntryExtension
     {
         return igk_array_replace_key_array($t, $v_ofd);
     }
+
     /**
-     * 
-     * @return ?IFormFieldDbOptions 
-     */
+    * auto generate doc.
+    * @return ?IFormFieldDbOptions
+    */
     static function GetFormFieldInfo($info)
     {
         if (is_string(($v_js = $info->clFormFieldsOptions))) {
@@ -1296,14 +1284,12 @@ abstract class ModelEntryExtension
         }
         return $o;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param string $column 
-     * @param mixed $value 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return mixed
+    */
     public static function GetCacheColumn(ModelBase $model, string $column, $value)
     {
         $r = self::GetCache($model, $column, $value);
@@ -1392,14 +1378,12 @@ abstract class ModelEntryExtension
     {
         return static::cacheRow($model, $primaryKeyIdentifier, false);
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param null|callable $filter 
-     * @param mixed $condition 
-     * @param mixed $options 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return array
+    */
     public static function form_select_all(ModelBase $model, ?callable $filter = null, $condition = null, $options = null)
     {
         if ($filter === null) {
@@ -1446,13 +1430,12 @@ abstract class ModelEntryExtension
         }
         return $data;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $expression 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $expression
+    * @return mixed
+    */
     public static function linkCondition(ModelBase $model, $expression)
     {
         $express = explode(".", $expression);
@@ -1559,11 +1542,12 @@ abstract class ModelEntryExtension
         }
         return $tab;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @return void
+    */
     public static function select_fetch(ModelBase $model, ?array $condition = null, ?array $options = null)
     {
         $driver = $model->getDataAdapter();
@@ -1607,15 +1591,12 @@ abstract class ModelEntryExtension
     {
         return $className::select_query_rows([$column => $model]);
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $params if first item is not array will add
-     * @return mixed
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $params if first item is not array will add
+    * @return mixed
+    */
     public static function Add(ModelBase $model, $params)
     {
         return self::_Add($model, false, ...array_slice(func_get_args(), 1));
@@ -1866,14 +1847,12 @@ abstract class ModelEntryExtension
         }, $keys);
         return $tkey;
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param array $args 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param array $args
+    * @return array
+    */
     public static function columnOnlyArray(ModelBase $model, array $args)
     {
         $prefix = igk_getv($args, 'prefix');
@@ -1917,15 +1896,12 @@ abstract class ModelEntryExtension
         $length = intval($ln->clTypeLength ?? $def);
         return str_pad($value, $length, $pad_value, $pad);
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param string $column_short_name 
-     * @param mixed $call calling expression column_full_name/callable
-     * @param mixed $type operator type
-     * @return array 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $type operator type
+    * @return array
+    */
     public static function joinTableColumnOn(ModelBase $model, string $column_short_name, $call = null, ?string $type = null, $operand = JoinTableOp::EQUAL)
     {
         $cl = get_class($model);

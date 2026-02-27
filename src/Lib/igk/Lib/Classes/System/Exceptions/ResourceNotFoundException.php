@@ -15,9 +15,9 @@ class ResourceNotFoundException extends IGKException {
     * @var mixed
     */
     private $m_file;
+
     /**
-    * 
-    * @param mixed $message
+    * auto generate doc.
     * @param mixed $file
     */
 
@@ -25,8 +25,9 @@ class ResourceNotFoundException extends IGKException {
         parent::__construct($message, $code);
         $this->m_file=$file;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getResourceFile(){

@@ -9,6 +9,11 @@ use IGK\System\Html\IFormFieldContainer;
 * @package IGK\System\Html\Forms
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class FieldContainer implements IFormFieldContainer{
 
     /**
@@ -38,11 +43,12 @@ class FieldContainer implements IFormFieldContainer{
         $this->m_fields = array_merge($this->m_fields, $fields);
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $context 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param mixed $context
+    * @return array
+    */
 
     public function getFields($context=null):array{
         return $this->m_fields;

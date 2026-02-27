@@ -8,10 +8,11 @@ use IGK\Controllers\BaseController;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Request;
 use IGK\System\Http\WebResponse;
+
 /**
- * 
- * @package IGK\Actions\Traits
- */
+* auto generate doc.
+* @package IGK\Actions\Traits
+*/
 trait ApiConnectTrait
 {
     /**

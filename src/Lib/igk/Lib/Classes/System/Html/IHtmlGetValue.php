@@ -8,8 +8,9 @@ namespace IGK\System\Html;
 * Represent IHtmlGetValue interface
 */
 interface IHtmlGetValue {
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
     function getValue($options=null);

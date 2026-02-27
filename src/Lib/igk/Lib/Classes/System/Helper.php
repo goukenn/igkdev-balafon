@@ -4,10 +4,11 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System;
+
 /**
- * 
- * @package IGK\System
- */
+* auto generate doc.
+* @package IGK\System
+*/
 abstract class Helper{
 
     /**

@@ -3,8 +3,9 @@
 // @file: JsonPackagePropertyTrait.php
 // @date: 20230330 12:58:39
 namespace IGK\System\Npm\Traits;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Npm\Traits
 */
 trait JsonPackagePropertyTrait{

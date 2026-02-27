@@ -40,8 +40,10 @@ abstract class DiagramPropertiesHost{
     public function getLastProperty(){
         return $this->m_last;
     }
+
     /**
-     *  */
+    * auto generate doc.
+    */
 
     public function addProperties(?array $DiagramProperties ){
         $_key = IGK_FD_NAME;
@@ -78,10 +80,11 @@ abstract class DiagramPropertiesHost{
     public function getProperties(){
         return $this->m_properties;
     }
+
     /**
-     * 
-     * @return ?array 
-     */
+    * auto generate doc.
+    * @return ?array
+    */
 
     public function getResolveLinks(){
         return $this->m_resolveLinkColumn;

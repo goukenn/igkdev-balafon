@@ -13,6 +13,11 @@ use IGKObject;
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
 {
     use ActivatorPrivateInitProperty;
@@ -115,12 +120,12 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
         }
         parent::__set($n, $v);
     }
+
     /**
-     * 
-     * @param array $def 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param array $def
+    * @return mixed
+    */
 
     public static function CreateFrom(array $def)
     {

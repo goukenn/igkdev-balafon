@@ -38,12 +38,12 @@ class CacheModels
         $_v = self::_GetCaches();
         return igk_getv($_v, $key);
     }
+
     /**
-     * 
-     * @param mixed $key 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
 
     public static function Register($key, $value)
     {

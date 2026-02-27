@@ -4,10 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
+
 /**
- * 
- * @package IGK\System\Http
- */
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class ViewNotFoundException extends RequestException{
     /**
      * get the status message

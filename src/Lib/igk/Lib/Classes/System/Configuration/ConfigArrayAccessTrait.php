@@ -19,23 +19,25 @@ trait ConfigArrayAccessTrait {
     public function offsetUnset(mixed  $n): void{
         unset($this->m_configs->$n);
     }
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $n
     */
     public function offsetExists($n):bool{
         return isset($this->m_configs->$n);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
     public function offsetGet(mixed $n):mixed{
         return igk_getv($this->m_configs, $n);
     }
-     /**
-    * 
-    * @param mixed $n
+
+    /**
+    * auto generate doc.
     * @param mixed $v
     */
     public function offsetSet($n, $v):void{

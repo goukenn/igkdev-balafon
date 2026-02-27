@@ -11,10 +11,11 @@ namespace IGK\Cache;
 * @package IGK\Cache
 */
 abstract class CommonCache{
+
     /**
-     * 
-     * @return string|null return lib cache file
-     */
+    * auto generate doc.
+    * @return string|null return lib cache file
+    */
     public static function CacheFile(){
         return null;
     }

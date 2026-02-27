@@ -8,10 +8,10 @@ use IGK\System\Http\RequestException;
 use Throwable;
 
 /**
- * 
- * @package IGK\Actions
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Actions
+* @author C.A.D. BONDJE DOUE
+*/
 class ActionRequestException extends RequestException
 {
 

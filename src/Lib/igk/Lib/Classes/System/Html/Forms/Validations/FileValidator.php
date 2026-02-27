@@ -15,11 +15,12 @@ use function igk_resources_gets as __;
  */
 class FileValidator extends FormFieldValidatorBase implements IFormValidator
 {
+
     /**
-     * 
-     * @param mixed $value 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool
     {
         /// TODO: Expect file validation data 

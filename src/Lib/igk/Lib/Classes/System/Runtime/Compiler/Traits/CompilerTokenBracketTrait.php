@@ -3,8 +3,9 @@
 // @file: CompilerTokenBracketTrait.php
 // @date: 20221021 11:10:03
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenBracketTrait{

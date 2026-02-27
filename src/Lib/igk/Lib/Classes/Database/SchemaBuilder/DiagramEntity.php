@@ -228,16 +228,12 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clNotNull" => 1
         ]]);
     }
+
     /**
-     * 
-     * @param string $name 
-     * @param int $length 
-     * @param string $type 
-     * @param int $notnull 
-     * @param mixed $description 
-     * @return IDiagramSchemaEntity 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $description
+    * @return IDiagramSchemaEntity
+    */
 
     public function unique(string $name, $length = 9, $type = self::VarChar,  $notnull = 1, $description = null): IDiagramSchemaEntity
     {
@@ -347,21 +343,12 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clInputType" => $inputtype, "clNotNull" => $notnull, "clLinkConstraintName" => $linkName
         ]]);
     }
+
     /**
-     * 
-     * @param string $name 
-     * @param string $table_name 
-     * @param string $linkColumn 
-     * @param mixed $linkName 
-     * @param bool $notnull 
-     * @param bool $unique 
-     * @param null|int $uniqueColumn 
-     * @param string $inputtype 
-     * @param int $default 
-     * @param mixed $description 
-     * @return IDiagramSchemaEntity 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $description
+    * @return IDiagramSchemaEntity
+    */
 
     public function link_guuid(string $name, string $table_name, $linkColumn = 'clId', $linkName = null, 
         $notnull = false,

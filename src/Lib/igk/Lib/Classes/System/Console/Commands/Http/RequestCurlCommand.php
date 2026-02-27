@@ -4,8 +4,9 @@
 // @date: 20241019 21:55:01
 namespace IGK\System\Console\Commands\Http;
 use IGK\System\Console\AppExecCommand;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Http
 * @author C.A.D. BONDJE DOUE
 */

@@ -16,11 +16,12 @@ class SQLObjectDef{
     * @var mixed
     */
     private static $sm_defs;
+
     /**
-     * 
-     * @param mixed $values 
-     * @return ?array 
-     */
+    * auto generate doc.
+    * @param mixed $values
+    * @return ?array
+    */
 
     public static function Resolve($values, bool $insert=true): ?array{
         $cl = get_class($values);

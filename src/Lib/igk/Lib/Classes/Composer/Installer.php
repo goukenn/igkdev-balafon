@@ -20,12 +20,18 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Console/Commands/Utility.php';
  * @package IGK\Composer
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Composer
+*/
 class Installer
 {
+
     /**
-     * 
-     * @return never 
-     */
+    * auto generate doc.
+    * @return never
+    */
     public static function PostInstall()
     {
         require_once __DIR__.'/PostInstallApplication.php';
@@ -123,10 +129,11 @@ class Installer
      * @return void 
      */
     private static function _CoreMoveToVendorDir(?string $vendor_dir = null) {}
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public static function PostUpdate()
     {
         // echo 'running post update', PHP_EOL;        

@@ -4,8 +4,9 @@
 // @date: 20230731 09:37:23
 namespace IGK\System;
 use IGK\System\Traits\PropertyObjectTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System
 */
 abstract class AnnotationBase implements IAnnotation{

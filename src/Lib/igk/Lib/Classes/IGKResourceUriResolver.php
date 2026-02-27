@@ -13,10 +13,10 @@ use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
 use function igk_resources_gets as __;
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 class IGKResourceUriResolver
 {
 

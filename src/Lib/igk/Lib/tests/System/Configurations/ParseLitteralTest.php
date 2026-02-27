@@ -8,7 +8,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Configurations
 */
 class ParseLitteralTest extends BaseTestCase{

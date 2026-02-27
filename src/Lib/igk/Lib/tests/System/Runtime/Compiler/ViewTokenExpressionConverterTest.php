@@ -8,7 +8,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewTokenExpressionConverter;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Runtime\Compiler
 */
 class ViewTokenExpressionConverterTest extends BaseTestCase{

@@ -11,14 +11,12 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ResponseUtility{
+
     /**
-     * 
-     * @param bool $allow_auto_origin 
-     * @param null|array $allowed_header 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|array $allowed_header
+    * @return array
+    */
     public static function CreateCredentialHeader(bool $allow_auto_origin=true, ?array $allowed_header=null):array{
         return array_filter([
             'Access-Control-Allow-Origin: ' . ($allow_auto_origin ? igk_server()->get('HTTP_ORIGIN', '*') : igk_io_baseuri()),

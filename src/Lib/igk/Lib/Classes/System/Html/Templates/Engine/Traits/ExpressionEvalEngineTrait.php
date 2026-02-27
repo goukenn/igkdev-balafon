@@ -13,10 +13,10 @@ use IGKException;
 use ReflectionException;
 
 /**
- * 
- * @package IGK\System\Html\Templates\Engine\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Html\Templates\Engine\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait ExpressionEvalEngineTrait
 {
     /**

@@ -135,12 +135,11 @@ if (!function_exists("igk_array_extract")) {
     }
 }
 if (!function_exists("igk_array_fill")) {
+
     /**
-     * 
-     * @param mixed $tab 
-     * @param mixed $size 
-     * @param mixed $default 
-     */
+    * auto generate doc.
+    * @param mixed $default
+    */
     function igk_array_fill($tab, $size = 0, $default = 0)
     {
         if (($s = igk_count($tab)) < $size) {
@@ -433,11 +432,11 @@ if (!function_exists("igk_array_set")) {
     }
 }
 if (!function_exists("igk_array_sort_bykey")) {
+
     /**
-     * 
-     * @param mixed $tab 
-     * @param mixed $key 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    */
     function igk_array_sort_bykey(&$tab, $key)
     {
         $sorter = new IGKSorter();
@@ -462,10 +461,11 @@ if (!function_exists("igk_array_sortbykey")) {
     }
 }
 if (!function_exists("igk_array_sortkey")) {
+
     /**
-     * 
-     * @param mixed $tab 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    */
     function igk_array_sortkey(&$tab)
     {
         if (!is_array($tab))
@@ -550,11 +550,11 @@ if (!function_exists("igk_array_tokeys")) {
     }
 }
 if (!function_exists("igk_array_value_exist")) {
+
     /**
-     * 
-     * @param mixed $tab 
-     * @param mixed $obj 
-     */
+    * auto generate doc.
+    * @param mixed $obj
+    */
     function igk_array_value_exist($tab, $obj)
     {
         if ($tab === null) {
@@ -757,12 +757,12 @@ if (!function_exists('igk_array_dump_short')) {
 
 
 if (!function_exists('igk_array_order_by')) {
+
     /**
-     * 
-     * @param string $property 
-     * @param mixed &$array 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed &$array
+    * @return mixed
+    */
     function igk_array_order_by(string $property, &$array)
     {
         usort($array, function ($a, $b) use ($property) {

@@ -7,8 +7,9 @@ use ArrayAccess;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpression implements ArrayAccess{

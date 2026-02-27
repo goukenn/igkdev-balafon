@@ -10,6 +10,11 @@ use stdClass;
 * 
 * @package IGK\System\Html\Css
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssSession extends IGKObject{
 
     /**
@@ -79,11 +84,12 @@ class CssSession extends IGKObject{
     public function getTheme($default='light'):?string{
         return $this->get('theme', $default);
     }
+
     /**
-     * 
-     * @param string $value 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return $this
+    */
 
     public function setTheme(string $value){
         $this->__set("theme", $value);

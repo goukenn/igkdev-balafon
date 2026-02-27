@@ -126,10 +126,11 @@ final class ConfigureController extends BaseController implements IConfigControl
     //  }
     ///<summary></summary>
     ///<param name="n"></param>
+
     /**
-     * 
-     * @param mixed $n
-     */
+    * auto generate doc.
+    * @param mixed $n
+    */
 
     public function __get($n)
     {
@@ -172,9 +173,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bar->addAJXAButton($this->getUri("viewLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("View global log");
         $bar->addAJXAButton($this->getUri("clearLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("Clear Log");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function __initPageConfig()
     {
@@ -203,12 +205,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_dev_wln("no ie 6 supported");
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $target
-     * @param mixed $name
-     * @param mixed $param
-     */
+    * auto generate doc.
+    * @param mixed $param
+    */
 
     function _checkedItemConfig($target, $name, $param)
     {
@@ -311,29 +312,30 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_sys_disable_html_caching();
         }
     }
+
     /**
-     * 
-     * @param mixed $obj
-     * @param mixed $method
-     */
+    * auto generate doc.
+    * @param mixed $method
+    */
 
     public function addConfigSettingChangedEvent($obj, $method)
     {
         igk_die(__METHOD__ . " Obselete");
     }
+
     /**
-     * 
-     * @param mixed $obj
-     * @param mixed $method
-     */
+    * auto generate doc.
+    * @param mixed $method
+    */
 
     public function addConfigUserChangedEvent($obj, $method)
     {
         igk_die(__METHOD__ . " Obselete");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function back()
     {
@@ -355,10 +357,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         $adm_pwd = strtolower(igk_configs()->admin_pwd);
         return (($adm == $user->clLogin) && ($adm_pwd == $user->clPwd));
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
 
     public function checkConfigDataChanged($ctrl)
     {
@@ -366,9 +369,10 @@ final class ConfigureController extends BaseController implements IConfigControl
             $this->onConfigSettingChanged();
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function checkForUpdate()
     {
@@ -422,9 +426,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $r->RenderXML();
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function clearcache()
     {
@@ -437,9 +442,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_navto_referer();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function clearLogs()
     {
@@ -456,19 +462,21 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_exit();
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Clearsession()
     {
         $this->SelectedConfigCtrl = null;
         igk_getctrl(IGK_SESSION_CTRL)->ClearS();
     }
+
     /**
-     * 
-     * @param mixed $navigate the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $navigate the default value is true
+    */
 
     public function ClearSessionAndReconnect($navigate = true)
     {
@@ -489,11 +497,11 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return true;
     }
+
     /**
-     * 
-     * @param mixed $file the default value is null
-     * @param mixed $outdir the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $outdir the default value is null
+    */
 
     public function conf_install_platform($file = null, $outdir = null)
     {
@@ -529,10 +537,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $ruri the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ruri the default value is null
+    */
 
     public function conf_install_update($ruri = null)
     {
@@ -568,9 +577,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $rep->renderAJX();
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function conf_runCtrlConfig()
     {
@@ -584,9 +594,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_app()->getDoc()->Theme->save();
         igk_notifyctrl()->addMsgr("msg.runCtrlConfigComplete");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function conf_update_setting()
     {
@@ -770,9 +781,10 @@ igk.ready(function(){
 EOF;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function configure_store_ajx()
     {
@@ -787,12 +799,11 @@ EOF;
     ///<param name="u" default="null"></param>
     ///<param name="pwd" default="null"></param>
     ///<param name="redirect" default="true"></param>
+
     /**
-     * 
-     * @param mixed $u the default value is null
-     * @param mixed $pwd the default value is null
-     * @param mixed $redirect the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $redirect the default value is true
+    */
 
     public function connectToConfig($u = null, $pwd = null, $redirect = true)
     {
@@ -842,36 +853,40 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getCanConfigure()
     {
         return ($this->getIsConnected());
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigEntries()
     {
         return $this->getConfigSettings()->configEntries;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigFrame()
     {
         return $this->getEnvParam("configFrame");
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigMenuNode()
     {
@@ -884,9 +899,10 @@ EOF;
         return $configMenu;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigNode()
     {
@@ -897,9 +913,10 @@ EOF;
         return $confNode;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigPage()
     {
@@ -907,10 +924,11 @@ EOF;
     }
     ///<summary></summary>
     ///<return refout="true"></return>
+
     /**
-     * 
-     * @return *
-     */
+    * auto generate doc.
+    * @return *
+    */
 
     public function getConfigSettings()
     {
@@ -942,72 +960,80 @@ EOF;
         return $this->getParam(self::CFG_USER);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigView()
     {
         return $this->getConfigSettings()->ConfigView;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbConstantFile()
     {
         return igk_sys_db_constant_cache();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsAvailable()
     {
         return ($this->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConfiguring()
     {
         return ($this->getIsConnected()) && (igk_app()->CurrentPageFolder == IGK_CONFIG_MODE);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConnected()
     {
         return defined('IGK_CONF_CONNECT') || ($this->getConfigUser() !== null);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsVisible(): bool
     {
         return $this->getIsAvailable() && igk_const_defined("IGK_CONFIG_PAGE", 1);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getName(): string
     {
         return IGK_CONF_CTRL;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getphpinfo()
     {
@@ -1030,9 +1056,10 @@ EOF;
         igk_exit();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getReconnectionUri()
     {
@@ -1068,18 +1095,20 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getSelectedMenuName()
     {
         return igk_getv($this->getConfigSettings(), "SelectedMenuName");
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function gotoindex()
     {
@@ -1091,11 +1120,11 @@ EOF;
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="callback"></param>
+
     /**
-     * 
-     * @param mixed $name
-     * @param mixed $callback
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    */
 
     public function init_param_callback($name, $callback)
     {
@@ -1107,8 +1136,10 @@ EOF;
         return $bar;
     }
     ///register config controlleur
+
     /**
-     */
+    * auto generate doc.
+    */
 
     protected function initComplete($context = null)
     {
@@ -1116,9 +1147,10 @@ EOF;
         OwnViewCtrl::RegViewCtrl($this);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function initConfigMenu()
     {
@@ -1527,10 +1559,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="f"></param>
+
     /**
-     * 
-     * @param mixed $f
-     */
+    * auto generate doc.
+    * @param mixed $f
+    */
 
     public function IsFunctionExposed($f)
     {
@@ -1546,11 +1579,11 @@ EOF;
     ///<summary></summary>
     ///<param name="redirect" default="true"></param>
     ///<param name="detroysession" default="true"></param>
+
     /**
-     * 
-     * @param mixed $redirect the default value is true
-     * @param mixed $detroysession the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $detroysession the default value is true
+    */
 
     public function logout($redirect = true, $detroysession = true)
     {
@@ -1566,9 +1599,10 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function onConfigSettingChanged()
     {
@@ -1576,9 +1610,10 @@ EOF;
             $this->m_configSettingChangedEvent->Call($this, null);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function onConfigUserChanged()
     {
@@ -1586,10 +1621,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="msg"></param>
+
     /**
-     * 
-     * @param mixed $msg
-     */
+    * auto generate doc.
+    * @param mixed $msg
+    */
 
     public function onHandleSessionEvent($msg)
     {
@@ -1629,10 +1665,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="navigate" default="true"></param>
+
     /**
-     * 
-     * @param mixed $navigate the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $navigate the default value is true
+    */
 
     public function reconnect($navigate = true)
     {
@@ -1640,10 +1677,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
+
     /**
-     * 
-     * @param mixed $ctrl
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
 
     public function registerConfig($ctrl)
     {
@@ -1663,10 +1701,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="uri"></param>
+
     /**
-     * 
-     * @param mixed $uri
-     */
+    * auto generate doc.
+    * @param mixed $uri
+    */
 
     public function reloadConfig($uri)
     {
@@ -1675,11 +1714,11 @@ EOF;
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method" default="null"></param>
+
     /**
-     * 
-     * @param mixed $obj
-     * @param mixed $method the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $method the default value is null
+    */
 
     public function removeConfigSettingChangedEventt($obj, $method = null)
     {
@@ -1688,12 +1727,11 @@ EOF;
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method" default="null"></param>
+
     /**
-     * 
-     * @param mixed $obj
-     * @param mixed $method the default value is null
-     * @deprecated
-     */
+    * auto generate doc.
+    * @param mixed $method the default value is null
+    */
 
     public function removeConfigUserChangedEvent($obj, $method = null)
     {
@@ -1720,10 +1758,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="value"></param>
+
     /**
-     * 
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function setConfigFrame($value)
     {
@@ -1757,11 +1796,11 @@ EOF;
     ///<summary></summary>
     ///<param name="p" default="null"></param>
     ///<param name="stored"></param>
+
     /**
-     * 
-     * @param mixed $p the default value is null
-     * @param mixed $stored the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $stored the default value is 0
+    */
 
     public function setpage($p = null, $stored = 0)
     {
@@ -1829,8 +1868,10 @@ EOF;
     ///$ctrl = selected config controller
     ///$menuname = menu name
     ///$context = from context. info
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function setSelectedConfigCtrl($ctrl, $fromContext = null)
     {
@@ -1844,9 +1885,10 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function show_configuration_menu_setting()
     {
@@ -1854,9 +1896,10 @@ EOF;
         $this->setpage("configurationmenusetting", 1);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function show_phpinfo()
     {
@@ -1864,9 +1907,10 @@ EOF;
         $this->setpage("phpinfo", 1);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function show_serverinfo()
     {
@@ -1874,18 +1918,20 @@ EOF;
         $this->setpage("serverinfo", 1);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function showConfig()
     {
         $this->View();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function startconfig()
     {
@@ -1921,18 +1967,20 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function test_send_mail()
     {
         $this->_send_notification_mail();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function update_adminpwd()
     {
@@ -1949,9 +1997,10 @@ EOF;
         igk_navtocurrent("/#adminpwd-form");
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function update_default_tagname()
     {
@@ -1966,9 +2015,10 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function update_defaultlang()
     {
@@ -2185,12 +2235,12 @@ EOF;
     {
         return  new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
     }
+
     /**
-     * 
-     * @param mixed $box 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $box
+    * @return void
+    */
 
     protected function webauth_view_config($box)
     {

@@ -47,10 +47,11 @@ class CssThemeOptions{
      * @var ?array
      */
     var $skips;
+
     /**
-     * 
-     * @var ?ICssStoreRootListener
-     */
+    * auto generate doc.
+    * @var ?ICssStoreRootListener
+    */
     var $rootListener;
 
     /**

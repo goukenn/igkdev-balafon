@@ -43,14 +43,12 @@ class HtmlColorizer extends Colorize{
         $match->match('(?i)<!DOCTYPE\b', 'tagname');
         $match->match('>', 'tagname');
     }
+
     /**
-     * 
-     * @param mixed $s 
-     * @param null|RegexMatcherContainer $match 
-     * @param mixed $filter 
-     * @return ?string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $filter
+    * @return ?string
+    */
 
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null): ?string
     {

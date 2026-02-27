@@ -12,11 +12,12 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
+
 /**
- * 
- * @package IGK\System\Console\Commands\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+* @author C.A.D. BONDJE DOUE
+*/
 class BackupTablesCommand extends AppExecCommand
 {
 

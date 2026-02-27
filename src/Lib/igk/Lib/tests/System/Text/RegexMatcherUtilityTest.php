@@ -8,7 +8,7 @@ use IGK\System\Text\RegexMatcherUtility;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Text
 * @author C.A.D. BONDJE DOUE
 */

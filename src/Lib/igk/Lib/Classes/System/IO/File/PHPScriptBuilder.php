@@ -105,14 +105,12 @@ class PHPScriptBuilder
             ->defs("return [$s];");
         igk_io_w2file($file, $builder->render());
     }
+
     /**
-     * 
-     * @param mixed $file 
-     * @param mixed $data 
-     * @param string $desc 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $desc
+    * @return void
+    */
 
     public static function WriteData($file, $data, $desc = "")
     {

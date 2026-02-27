@@ -42,11 +42,12 @@ function igk_io_mimetype($ext, $default)
     }
     return $default;
 }
+
 /**
- * 
- * @param string $path 
- * @return string 
- */
+* auto generate doc.
+* @param string $path
+* @return string
+*/
 function igk_io_flatten(string $path)
 {
     $c = igk_uri($path);

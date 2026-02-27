@@ -9,7 +9,7 @@ use IGK\Tests\BaseTestCase;
 use IGKHtmlDoc;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html\Doc
 * @author C.A.D. BONDJE DOUE
 */

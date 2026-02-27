@@ -70,11 +70,12 @@ class ViewHelper
         $args =$tview;
         return [$view, $args];
     }
+
     /**
-     * 
-     * @param string $n 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $n
+    * @return string
+    */
 
     public static function TreatViewNameForClassDefinition(string $n)
     {
@@ -105,13 +106,12 @@ class ViewHelper
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $default 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $default
+    * @return mixed
+    */
 
     public static function Get($name, $default = null)
     {
@@ -537,10 +537,11 @@ class ViewHelper
     {
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
+
     /**
-     * 
-     * @return null|BaseController 
-     */
+    * auto generate doc.
+    * @return null|BaseController
+    */
 
     public static function BaseController(): ?BaseController
     {
@@ -599,13 +600,11 @@ class ViewHelper
         }
         return $t ?? [];
     }
+
     /**
-     * 
-     * @return mixed|ViewEnvironmentArgs 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @return mixed|ViewEnvironmentArgs
+    */
 
     public static function GetViewContextArgs(?string $filter_context = null)
     {

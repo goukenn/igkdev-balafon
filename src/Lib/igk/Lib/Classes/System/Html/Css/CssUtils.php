@@ -174,12 +174,12 @@ abstract class CssUtils
     {
         return implode(" ", array_filter([CssEnvironment::GetInitClass($tagname), $default]));
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param null|string $ruri 
-     * @return null|string 
-     */
+    * auto generate doc.
+    * @param null|string $ruri
+    * @return null|string
+    */
 
     public static function GetControllerSelectorClassNameFromRegisterURI(BaseController $controller, ?string $ruri = null): ?string
     {
@@ -219,15 +219,12 @@ abstract class CssUtils
         $style[$file] = 1;
         $doc->setEnvParam($key, $style);
     }
+
     /**
-     * 
-     * @param mixed $vsystheme 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $vsystheme
+    * @return void
+    */
 
     public static function InitSysTheme($vsystheme)
     {
@@ -347,11 +344,12 @@ abstract class CssUtils
         $theme->setRenderOptions(null);
         return $r;
     }
+
     /**
-     * 
-     * @param array $imports 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param array $imports
+    * @return string
+    */
 
     static function RenderImport(array $imports)
     {
@@ -434,14 +432,12 @@ abstract class CssUtils
         $a_theme->setColors($bck);
         return $s;
     }
+
     /**
-     * 
-     * @param mixed $controller 
-     * @param mixed $v_theme 
-     * @param mixed $primaryTheme 
-     * @return array 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $primaryTheme
+    * @return array
+    */
 
     public static function AppendDataTheme(
         BaseController $controller,
@@ -591,14 +587,12 @@ abstract class CssUtils
         }
         return compact('colors', 'props');
     }
+
     /**
-     * 
-     * @param string $lk 
-     * @param array $tab 
-     * @param mixed $g 
-     * @param mixed $source_defs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $source_defs
+    * @return void
+    */
 
     public static function MapThemeDefinition(string $lk, array $tab, &$g, &$source_defs = null)
     {
@@ -964,21 +958,12 @@ abstract class CssUtils
         }
         return $clear;
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param IGKHtmlDoc $document 
-     * @param string $file 
-     * @param bool $cssRendering direct redering 
-     * @param bool $temp 
-     * @param bool $raiseHook 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param bool $raiseHook
+    * @return void
+    */
 
     public static function InitBindingCssFile(
         BaseController $ctrl,
@@ -1064,15 +1049,12 @@ abstract class CssUtils
             $doc->getTheme()->addInlineStyle($ctrl, $file);
         }
     }
+
     /**
-     * 
-     * @param string $file 
-     * @param mixed $ctrl 
-     * @param mixed $theme 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param mixed $theme
+    * @return mixed
+    */
 
     public static function GetFileContent(string $file, $ctrl, $theme)
     {
@@ -1196,11 +1178,12 @@ abstract class CssUtils
             }
         }
     }
+
     /**
-     * 
-     * @param string $content 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param string $content
+    * @return array
+    */
 
     public static function GetCssSelectorKeys(string $content, $explode = true): array
     {

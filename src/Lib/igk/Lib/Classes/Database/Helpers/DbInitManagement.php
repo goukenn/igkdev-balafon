@@ -14,14 +14,18 @@ use IGK\Models\Groups;
  * @package IGK\Database\Helper
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database\Helpers
+*/
 class DbInitManagement
 {
+
     /**
-     * 
-     * @param string $name 
-     * @param null|BaseController $controller 
-     * @return ((null|\IGK\Models\Groups)|(null|\IGK\Models\Authorizations))[] 
-     */
+    * auto generate doc.
+    * @param null|BaseController $controller
+    */
     public static function RegisterGroupAndAuth(string $name, ?BaseController $controller)
     {
         $fd_name = IGK_FD_NAME;
@@ -35,11 +39,12 @@ class DbInitManagement
         $auth = Authorizations::createIfNotExists($top);
         return [$group, $auth];
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
     public static function InitControllerProfile(BaseController $controller, ?bool $reset = false)
     {
         $fd_name = IGK_FD_NAME;

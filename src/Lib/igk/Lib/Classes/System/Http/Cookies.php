@@ -8,8 +8,9 @@ namespace IGK\System\Http;
 // + | Apache: configuration for php < 7.3
 // + |  Header always edit Set-Cookie (.*) "$1; SameSite=Lax"
 // + |  https://stackoverflow.com/questions/39750906/php-setcookie-samesite-strict
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http
 */
 class Cookies{

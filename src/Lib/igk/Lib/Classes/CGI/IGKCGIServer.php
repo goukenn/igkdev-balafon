@@ -5,10 +5,11 @@
 // @desc: 
 namespace IGK\CGI;
 use IGK\System\Html\HtmlReader;
+
 /**
- * 
- * @package IGK\CGI
- */
+* auto generate doc.
+* @package IGK\CGI
+*/
 class IGKCGIServer
 {
 

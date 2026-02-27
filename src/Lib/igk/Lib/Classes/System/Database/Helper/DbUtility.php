@@ -49,13 +49,12 @@ abstract class DbUtility
         }, $columns));
         return $user_tab_c;
     }
+
     /**
-     * 
-     * @param mixed &$conditions 
-     * @param mixed $columns 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $columns
+    * @return void
+    */
 
     public static function TreatColumnsCondition(&$conditions, $columns)
     {
@@ -97,13 +96,12 @@ abstract class DbUtility
         }
         return $columnName;
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $tables 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $tables
+    * @return mixed
+    */
 
     public static function ExportToXMLSchemaData(BaseController $ctrl, $tables)
     {
@@ -133,13 +131,12 @@ abstract class DbUtility
         }
         return $xml;
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $options 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return void
+    */
 
     public static function UpdateDbSchema(BaseController $ctrl, $options = null)
     {
@@ -161,9 +158,10 @@ abstract class DbUtility
         }
         return igk_io_w2file($ofile, $src);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function BackupDataSchema(BaseController $ctrl, $defentries)
     {
@@ -362,14 +360,10 @@ abstract class DbUtility
     }
 
     /**
-     * 
-     * @param ModelBase $model base model
-     * @param ModelBase $link link model
-     * @param string $model_column model column
-     * @param string $link_column link column
-     * @param array $conditions link model conditions
-     * @return void 
-     */
+    * auto generate doc.
+    * @param array $conditions link model conditions
+    * @return void
+    */
 
     public static function CleanRereference(ModelBase $model, ModelBase $link, string $model_column, 
         string $link_column,

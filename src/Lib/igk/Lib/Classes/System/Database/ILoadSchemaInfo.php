@@ -3,16 +3,11 @@
 // @file: ILoadSchemaInfo.php
 // @date: 20231222 13:59:45
 namespace IGK\System\Database;
+
 /**
-* @property array $tables list of table 
-* @property array $tbrelations 
-* @property array $migrations 
-* @property array $relations
-* @property array $links
-* @property ?string $version
-* @property ?string $author
-* @property ?string $date
+* auto generate doc.
 * @package IGK\System\Database
+* @property ?string $date
 */
 interface ILoadSchemaInfo{
 }

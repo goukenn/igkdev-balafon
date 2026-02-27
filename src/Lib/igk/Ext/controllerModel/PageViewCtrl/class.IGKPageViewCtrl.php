@@ -12,7 +12,10 @@ use IGK\Controllers\BaseController;
 abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
-	/** @var HtmlNode$m_viewZone */
+    /**
+    * auto generate doc.
+    * @var HtmlNode$m_viewZone
+    */
 	private $m_viewZone;
 
     /**

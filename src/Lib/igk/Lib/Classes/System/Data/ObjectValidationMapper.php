@@ -10,6 +10,11 @@ use IGK\System\Security\Web\ObjectContentValidator;
 * 
 * @package IGK\System\Data
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Data
+*/
 class ObjectValidationMapper{
 
     /**
@@ -81,10 +86,11 @@ class ObjectValidationMapper{
         $this->m_not_required = $not_required;
         $this->m_resolvKeys = $resolv_keys;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isValidate():bool
     {

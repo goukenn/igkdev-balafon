@@ -7,11 +7,12 @@ use Exception;
 use IGK\System\Http\Request;
 use IGKException;
 use IGKValidator;
+
 /**
- * 
- * @package IGK\System\Html\Forms\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Html\Forms\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 abstract class FormFieldHelper
 {
 

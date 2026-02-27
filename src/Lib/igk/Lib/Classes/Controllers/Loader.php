@@ -95,8 +95,9 @@ class Loader implements IResponse {
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl
     */
 
@@ -106,8 +107,9 @@ class Loader implements IResponse {
 		$this->m_listener = $listener;
         $this->_cache_fs = FileSystem::Create(igk_environment()->getViewCacheDir());
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
@@ -134,10 +136,9 @@ class Loader implements IResponse {
         })->bindTo($this->m_controller);
         $fc($file, $data); 
     }
+
     /**
-    * 
-    * @param mixed $file
-    * @param mixed $raw data to pass
+    * auto generate doc.
     * @param mixed $render the default value is 1
     */
 
@@ -150,8 +151,9 @@ class Loader implements IResponse {
         $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
         return $n;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function clear(){
@@ -175,15 +177,17 @@ class Loader implements IResponse {
         }
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getConfigs(){
         return $this->m_controller->getConfigs();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getLoader(){
@@ -200,8 +204,9 @@ class Loader implements IResponse {
         }
         return $c;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getUser(){
@@ -307,13 +312,12 @@ class Loader implements IResponse {
         }
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $file 
-     * @param mixed $t 
-     * @param mixed $args 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return mixed
+    */
 
     public function loadComponent(string $file, $t, $args=null){ 
         $fc = Closure::fromCallable(function($file, $t, $args=null){
@@ -325,12 +329,12 @@ class Loader implements IResponse {
         })->bindTo($this->m_controller); 
         return $fc($file, $t, $args);
     }
+
     /**
-     * 
-     * @param mixed $file 
-     * @param mixed $viewargs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $viewargs
+    * @return void
+    */
 
     public function include(string $file, $viewargs=null){ 
         if (igk_io_file_exists($file)){

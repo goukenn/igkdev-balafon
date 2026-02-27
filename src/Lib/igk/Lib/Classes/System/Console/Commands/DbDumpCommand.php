@@ -156,10 +156,11 @@ class DbDumpCommand extends AppExecCommand{
     * @param mixed & $manifest
     */
     public function _generate(BaseController $ctrl, $table, $info, & $manifest = []){
+
         /**
-         * @var \IGK\System\Database\MySQL\DataAdapter $ad data adapter
-         * @var \IGK\System\Database\MySQL\IGKMySQLQueryResult $g query result
-         */
+        * auto generate doc.
+        * @var \IGK\System\Database\MySQL\IGKMySQLQueryResult $g query result
+        */
         $ad = $ctrl::getDataAdapter(); 
         $tb = $ctrl::resolveTableName($table);
         $v_tabinfo = $ctrl::getDataTableDefinition($table);

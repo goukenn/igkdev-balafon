@@ -11,8 +11,9 @@ use IGK\System\Services\SignProvider;
 use IGKException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use function igk_resources_gets as __ ;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Forms\Actions\Traits
 */
 trait FormLoginActionTrait{

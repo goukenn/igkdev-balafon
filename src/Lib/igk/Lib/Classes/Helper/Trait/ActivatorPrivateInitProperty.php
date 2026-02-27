@@ -4,8 +4,9 @@
 // @date: 20241106 16:14:56
 namespace IGK\Helper\Trait;
 use Closure;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helper\Trait
 * @author C.A.D. BONDJE DOUE
 */

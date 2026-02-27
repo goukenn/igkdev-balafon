@@ -4,12 +4,11 @@
 // @date: 20260207 17:39:35
 namespace IGK\System\Traits;
 
-
 /**
- * 
- * @package IGK\System\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait EnumFormConstantData
 {
     use EnumeratesConstants;

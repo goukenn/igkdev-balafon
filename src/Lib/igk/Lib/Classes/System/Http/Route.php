@@ -204,13 +204,12 @@ class Route
     {
         return igk_getv(self::$sm_actions, $actionClass);
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $arguments 
-     * @return RouteActionHandler|RouteHandler 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $arguments
+    * @return RouteActionHandler|RouteHandler
+    */
 
     public static function __callStatic($name, $arguments)
     {

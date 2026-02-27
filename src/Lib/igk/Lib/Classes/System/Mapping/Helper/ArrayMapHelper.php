@@ -9,13 +9,12 @@ use Exception;
 * @package IGK\System\Mapping\Helper
 */
 abstract class ArrayMapHelper{
+
     /**
-     * 
-     * @param mixed $o 
-     * @param int $throw 
-     * @return null|float 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param int $throw
+    * @return null|float
+    */
     public static function DieNumberMap($o, $throw = 1){
         if (!is_numeric($o)){
             $throw && igk_die($o, 'not a number ');

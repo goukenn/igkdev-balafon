@@ -155,9 +155,9 @@ final class ApplicationModuleController extends BaseController{
         $v_k = str_replace('.', '\\', trim($this->getName(), '.'));
         return $e->get($e->find($v_k));
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $args
     */
 
@@ -244,9 +244,10 @@ final class ApplicationModuleController extends BaseController{
         }
         return Path::Combine($this->getDeclaredDir(),"/Data/assets");
     }
+
     /**
-    * 
-    * @param mixed $dir base directory 
+    * auto generate doc.
+    * @param mixed $dir base directory
     */
 
     public function __construct(string $dir){
@@ -322,8 +323,9 @@ final class ApplicationModuleController extends BaseController{
             ApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function __sleep(){
@@ -331,8 +333,9 @@ final class ApplicationModuleController extends BaseController{
         $this->m_src=null;
         return array("m_dir");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function __wakeup(){
@@ -388,9 +391,10 @@ final class ApplicationModuleController extends BaseController{
     public function getModuleConfig(){
         return $this->m_configs;
     }
+
     /**
-    * 
-    * @param  * $configs
+    * auto generate doc.
+    * @param * $configs
     */
 
     protected function _initconfig(& $configs){
@@ -403,15 +407,17 @@ final class ApplicationModuleController extends BaseController{
     private function bindError($msg){
         $this->setParam(__METHOD__, $msg);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getAppDocument(){
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $function the default value is null
     */
 
@@ -423,8 +429,9 @@ final class ApplicationModuleController extends BaseController{
         $s=base64_encode($u);
         return igk_getctrl(IGK_SESSION_CTRL)->getUri("invmodule&q=".$s);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getCallee(){
@@ -437,29 +444,33 @@ final class ApplicationModuleController extends BaseController{
     public function getCaller(){
         return $this->m_caller;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetCanCreateFrameworkInstance(){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getCurrentDoc(){
         return $this->m_doc;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getDeclaredDir():string{
         return $this->m_dir;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getDeclaredFileName(){
@@ -494,24 +505,25 @@ final class ApplicationModuleController extends BaseController{
         }
         return $_configs[$_hash];
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getListener(){
         return $this->m_listener ?? igk_ctrl_current_view_ctrl();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getName(): string{
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
+
     /**
-    * 
-    * @param mixed $n
-    * @param mixed $def the default value is null
+    * auto generate doc.
     * @param mixed $register the default value is false
     * @return *
     */
@@ -524,25 +536,27 @@ final class ApplicationModuleController extends BaseController{
         }
         return $h;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $c the default value is null
     */
 
     public function getUri($c=null){
         return $this->getAppUri($c);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $fc
     */
 
@@ -567,9 +581,9 @@ final class ApplicationModuleController extends BaseController{
     public function setListener($v){
         $this->m_listener=$v;
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -631,14 +645,12 @@ final class ApplicationModuleController extends BaseController{
     public function exposeAssets(){
         return ControllerExtension::exposeAssets($this);
     }
+
     /**
-     * 
-     * @param mixed $assets 
-     * @return never 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $assets
+    * @return never
+    */
 
     public function resolveAssets($assets){ 
         return ControllerExtension::resolveAssets($this, $assets);

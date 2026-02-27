@@ -8,7 +8,7 @@ use IGK\Database\DbDisplayExpression;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Database
 * @author C.A.D. BONDJE DOUE
 */

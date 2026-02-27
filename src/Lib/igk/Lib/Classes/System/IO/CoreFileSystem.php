@@ -18,10 +18,10 @@ abstract class CoreFileSystem{
     */
     const INC_EXTENSION = '.pinc';
 
-     /**
-     * 
-     * @var string base path of the file system
-     */
+    /**
+    * auto generate doc.
+    * @var string base path of the file system
+    */
     public $path; 
     /**
      * check if path is dir

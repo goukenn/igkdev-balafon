@@ -10,12 +10,12 @@ use IGK\Models\ModelBase;
 * @package IGK\System\Database\Mapping
 */
 class DefaultMap{
+
     /**
-     * 
-     * @param array|object $map 
-     * @param mixed $data 
-     * @return array<array-key, \IGK\System\Database\Mapping\MappedData> 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return array<array-key
+    */
     public static function MapModelData($map, $data){
         return array_map(function(ModelBase $row)use($map){
             $out = [];
@@ -27,11 +27,12 @@ class DefaultMap{
             return new MappedData((object)$out);
         }, $data);
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return null|array 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return null|array
+    */
     public function map($data): ?array {
         if (is_null($data)){
             return null;

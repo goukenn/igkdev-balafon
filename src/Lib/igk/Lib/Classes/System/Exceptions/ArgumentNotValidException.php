@@ -12,11 +12,12 @@ use function igk_resources_gets as __;
 * @package IGK\System\Exceptions
 */
 class ArgumentNotValidException extends IGKException{
+
     /**
-     * 
-     * @param string $argname 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $argname
+    * @return void
+    */
     public function __construct($argname){
         parent::__construct( sprintf(__("Argument not valid %s"), $argname));
     }

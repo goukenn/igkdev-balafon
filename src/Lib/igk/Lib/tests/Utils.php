@@ -45,12 +45,10 @@ class Utils{
     }
 
     /**
-     * 
-     * @param mixed $test 
-     * @param mixed $controllerClass 
-     * @param mixed $model 
-     * @return bool|void
-     */
+    * auto generate doc.
+    * @param mixed $model
+    * @return bool|void
+    */
     public static function CheckControllerDataBase($test, $controllerClass, $model=null){        
         $controller = $controllerClass;
         if (is_string($controllerClass) && !($controller = self::CreateController($controllerClass))){
@@ -104,11 +102,11 @@ class Utils{
         igk_server()->REQUEST_METHOD = $method;
         $controller->loader->View($view, ["params"=>self::_GetParams($params)]);
     }
+
     /**
-     * 
-     * @param mixed ...$params 
-     * @return string[]|mixed[]|array 
-     */
+    * auto generate doc.
+    * @param mixed ...$params
+    */
     private static function _GetParams(...$params){
         if (is_string($params)){
             return explode("/", $params);

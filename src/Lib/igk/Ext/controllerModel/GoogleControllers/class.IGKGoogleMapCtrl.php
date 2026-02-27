@@ -17,8 +17,9 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKGoogleMapCtrl class
 */
 abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
+
     /**
-    * 
+    * auto generate doc.
     */
     public static function GetAdditionalConfigInfo(){
         return array(
@@ -26,21 +27,24 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
             igk_create_additional_config_info(array("clRequire"=>1))
         );
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getcanAddChild(){
         return false;
     }
+
     /**
-    * 
-    * @param  * $t
+    * auto generate doc.
+    * @param * $t
     */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clGoogleMapUrl"]=igk_getr("clGoogleMapUrl");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function View():BaseController{
         $t=$this->TargetNode;

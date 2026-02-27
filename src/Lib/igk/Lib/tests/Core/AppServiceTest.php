@@ -11,7 +11,7 @@ use IGK\Tests\BaseTestCase;
 use IGKServices;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Core
 * @author C.A.D. BONDJE DOUE
 */

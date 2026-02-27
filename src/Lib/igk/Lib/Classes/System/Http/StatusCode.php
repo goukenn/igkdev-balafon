@@ -5,10 +5,11 @@ namespace IGK\System\Http;
 // @date: 20220311 08:32:47
 // @desc: store status code definitions 
 require_once __DIR__.'/RequestResponseCode.php';
+
 /**
- * 
- * @package IGK\System\Http
- */
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class StatusCode extends RequestResponseCode
 {
 

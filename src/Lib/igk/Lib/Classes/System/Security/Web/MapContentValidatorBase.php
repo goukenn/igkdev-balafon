@@ -9,6 +9,11 @@ use function igk_resources_gets as __;
 * 
 * @package IGK\System\Security\Web
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Security\Web
+*/
 abstract class MapContentValidatorBase
 {
 
@@ -130,10 +135,11 @@ abstract class MapContentValidatorBase
     * @return bool
     */
     protected abstract function validate(& $value, $key) : bool;
+
     /**
-     * 
-     * @return static 
-     */
+    * auto generate doc.
+    * @return static
+    */
 
     public static function Get(string $t)
     {

@@ -64,7 +64,10 @@ class XmlConfigurationNode extends XmlNode{
                     return $g;
                 }                
             }
-            /** */
+
+            /**
+            * auto generate doc.
+            */
         }
         return parent::add($n, $attributes, $indexOrargs);
     }
@@ -77,10 +80,11 @@ class XmlConfigurationNode extends XmlNode{
         }
         return $g; 
     }
+
     /**
-     * 
-     * @return SysAppConfigExpression|SysConfigExpression|null|object|string 
-     */
+    * auto generate doc.
+    * @return SysAppConfigExpression|SysConfigExpression|null|object|string
+    */
 
     public function getInnerHtml()
     {

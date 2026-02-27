@@ -271,14 +271,12 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this->_addcolumnAttributes($attributes);
     }
+
     /**
-     * 
-     * @param string $name 
-     * @param int $length 
-     * @param null|array $options 
-     * @return IGK\System\Database\this 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|array $options
+    * @return IGK\System\Database\this
+    */
 
     public function column_varchar(string $name, int $length, ?array $options = null): static
     {
@@ -304,20 +302,12 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
             $column_member_index
         );
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $type 
-     * @param mixed $length 
-     * @param mixed|null $default 
-     * @param bool $primarykey 
-     * @param bool $auto_increment 
-     * @param string $desc 
-     * @param bool $is_unique 
-     * @param bool $is_unique_column 
-     * @param null|int $column_member_index 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param null|int $column_member_index
+    * @return $this
+    */
 
     protected function _add_column(
         string $name,

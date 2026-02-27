@@ -3,8 +3,9 @@
 // @file: LoginEmailContentValidator.php
 // @date: 20250610 17:21:46
 namespace IGK\System\Security\Web;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Security\Web
 * @author C.A.D. BONDJE DOUE
 */

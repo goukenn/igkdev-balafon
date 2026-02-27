@@ -120,13 +120,12 @@ abstract class InspectorFormFieldValidationBase implements
     protected function onValidationComplete($data, $validations){
         // override to validate 
     }
-     /**
-     * 
-     * @param null|string $class_name 
-     * @return array<string, array|IPropertieFieldInfo> 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+
+    /**
+    * auto generate doc.
+    * @param null|string $class_name
+    * @return array<string
+    */
 
     static function GetFormDataFieldProperties(?string $class_name=null, ?array $def=null){
         $v_errors = FormEnvironmentProperties::get_validation_error(); 
@@ -168,13 +167,12 @@ abstract class InspectorFormFieldValidationBase implements
         }
         return $v_filter_p; 
     }
+
     /**
-     * 
-     * @param mixed $context 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $context
+    * @return array
+    */
 
     public function getFields($context = null): array { 
         $list = self::GetFormDataFieldProperties();

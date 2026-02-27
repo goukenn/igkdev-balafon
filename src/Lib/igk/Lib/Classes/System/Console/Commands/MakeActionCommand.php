@@ -47,11 +47,12 @@ class MakeActionCommand extends AppExecCommand
     var $options = [
         "--type:type" => "defaut Model type class. 'api'|'def'|'project'|'middlewire'",
         "--force" => "flag: force create action"
-    ]; 
+    ];
+
     /**
-     * 
-     * @var callable
-     */
+    * auto generate doc.
+    * @var callable
+    */
     var $definition; // definition callback
     /**
      * array of uses
@@ -64,10 +65,11 @@ class MakeActionCommand extends AppExecCommand
     * @var mixed
     */
     var $usage = 'controller action_name [options]';
+
     /**
-     * @var string $controller Controller
-     * @var string $actionName the action to create 
-     */
+    * auto generate doc.
+    * @var string $actionName the action to create
+    */
 
     public function exec($command, ?string $controller = null, ?string $action_name = null)
     {

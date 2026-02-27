@@ -11,10 +11,10 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 /**
- * 
- * @package IGK\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
 class MakePageCommand extends AppExecCommand
 {
 

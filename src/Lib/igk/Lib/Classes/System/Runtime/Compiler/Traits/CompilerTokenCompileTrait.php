@@ -7,11 +7,17 @@ namespace IGK\System\Runtime\Compiler\Traits;
 * 
 * @package IGK\System\Runtime\Compiler
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\Traits
+*/
 trait CompilerTokenCompileTrait{
- /**
-     * 
-     * @var ?ReadTokenOptions
-     */
+
+    /**
+    * auto generate doc.
+    * @var ?ReadTokenOptions
+    */
     var $options;
 
     /**

@@ -5,10 +5,11 @@
 // @desc: command
 namespace IGK\System\Console;
 use IGK\System\Shell\OsShell;
+
 /**
- * 
- * @package IGK\System\Console
- */
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class BalafonCommand{
     /**
      * primary 

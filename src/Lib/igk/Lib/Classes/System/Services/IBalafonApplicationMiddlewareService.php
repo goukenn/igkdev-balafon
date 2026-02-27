@@ -12,8 +12,9 @@ use ArrayAccess;
 * Represent IBalafonApplicationMiddlewareService interface
 */
 interface IBalafonApplicationMiddlewareService extends ArrayAccess{
+
     /**
-    * 
+    * auto generate doc.
     */
     function GetLastMiddleware();
     /**

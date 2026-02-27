@@ -9,6 +9,11 @@ use Exception;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexReplaceContent{
 
     /**
@@ -16,19 +21,18 @@ class RegexReplaceContent{
     * @var mixed
     */
     var $info;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $replaceListener;
+
     /**
-     * 
-     * @param string $source 
-     * @param RegexMatcherContainer $container 
-     * @param mixed $replaceListener 
-     * @return string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $replaceListener
+    * @return string
+    */
 
     public function replaceWith (string $source, RegexMatcherContainer $container, $replaceListener = null ){
         $offset = 0;

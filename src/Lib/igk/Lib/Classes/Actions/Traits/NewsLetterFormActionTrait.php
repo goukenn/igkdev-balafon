@@ -4,8 +4,9 @@
 // @date: 20221118 17:05:10
 namespace IGK\Actions\Traits;
 use function igk_resources_gets as __;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions
 */
 trait NewsLetterFormActionTrait{

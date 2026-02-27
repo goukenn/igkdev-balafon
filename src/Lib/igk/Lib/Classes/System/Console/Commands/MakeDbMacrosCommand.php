@@ -62,20 +62,22 @@ class MakeDbMacrosCommand extends AppExecCommand{
     * @var mixed
     */
     var $help = "[options] controller macrosName";
+
     /**
-     * 
-     * @var callable
-     */
+    * auto generate doc.
+    * @var callable
+    */
     var $definition; // definition callback
     /**
      * array of uses
      * @var ?array|?string
      */
     var $uses;
+
     /**
-     * @var string $controller Controller
-     * @var string $actionName the action to create 
-     */
+    * auto generate doc.
+    * @var string $actionName the action to create
+    */
 
     public function exec($command, $controller="", $action_name=""){
         if (empty($controller)){

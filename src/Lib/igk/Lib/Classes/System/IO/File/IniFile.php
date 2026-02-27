@@ -66,10 +66,11 @@ class IniFile{
             return true;
         }
     }
+
     /**
-     * 
-    * @param string $file 
-    * @return null|self 
+    * auto generate doc.
+    * @param string $file
+    * @return null|self
     */
 
     public static function LoadConfig(string $file){

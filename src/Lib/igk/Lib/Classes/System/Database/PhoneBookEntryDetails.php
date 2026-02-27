@@ -14,6 +14,11 @@ use IGK\System\IToJSon;
  * @package IGK\System\Database
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class PhoneBookEntryDetails implements IToJSon
 {
 
@@ -198,11 +203,10 @@ class PhoneBookEntryDetails implements IToJSon
     var $organization;
 
     /**
-     * 
-     * @param mixed $option 
-     * @param int $flag 
-     * @return false|string 
-     */
+    * auto generate doc.
+    * @param int $flag
+    * @return false|string
+    */
 
     public function to_json($option = null, int $flag = 0)
     {

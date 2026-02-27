@@ -8,7 +8,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Css
 */
 class CssUtilsTest extends BaseTestCase{

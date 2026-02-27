@@ -13,6 +13,11 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Tests\System\Text
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Text
+*/
 class RegexMatcherContainerTest extends BaseTestCase
 {
 
@@ -162,10 +167,11 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $g->value;
         });
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function test_regexmatch_skip_multiline()
     {
@@ -334,9 +340,9 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function test_regexmatch_empty_block()
     {

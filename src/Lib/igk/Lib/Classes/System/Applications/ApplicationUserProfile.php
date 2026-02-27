@@ -12,8 +12,9 @@ use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
 use IGKUserInfo;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Application
 */
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{

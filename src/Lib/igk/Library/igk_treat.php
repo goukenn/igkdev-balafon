@@ -185,8 +185,9 @@ class IGKProtectHtmlField{
     * @var mixed
     */
     private $options;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -301,8 +302,9 @@ class IGKProtectHtmlField{
             "DataLF"=>"\n"
         );
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

@@ -44,9 +44,11 @@ class ClearSessionCommand extends AppExecCommand{
            $this->expired_duration = igk_getv($command->options, '--living');
         }
         //defined("NO")
+
         /**
-         * @var SessionController $sess
-         */
+        * auto generate doc.
+        * @var SessionController $sess
+        */
         if ($sess = igk_getctrl(IGK_SESSION_CTRL, false)){
             $tab=igk_sys_get_all_openedsessionid(false);           
             if(($c = count($tab)) == 0){ 

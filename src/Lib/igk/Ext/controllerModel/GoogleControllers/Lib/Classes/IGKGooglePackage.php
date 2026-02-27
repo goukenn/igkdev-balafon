@@ -17,8 +17,9 @@ namespace IGK\Core\Ext\Google;
 * use for google package
 */
 class IGKGooglePackage{
+
     /**
-    * 
+    * auto generate doc.
     */
     public function Button(){
         $n=igk_create_node("div");
@@ -28,8 +29,9 @@ class IGKGooglePackage{
         $n->Content="Google Button";
         return $n;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $name
     */
     public function CreateNode($name){

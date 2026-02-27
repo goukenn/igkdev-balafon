@@ -3,8 +3,9 @@
 // @file: LooperArgsTrait.php
 // @date: 20240123 13:39:26
 namespace IGK\System\Html\Templates\Engine\Traits;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Templates\Engine\Traits
 * @author C.A.D. BONDJE DOUE
 */

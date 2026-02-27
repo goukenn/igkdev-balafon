@@ -40,10 +40,11 @@ class RequestHandler
      * @var mixed
      */
     var $context;
+
     /**
-     * 
-     * @return RequestHandler instance 
-     */
+    * auto generate doc.
+    * @return RequestHandler instance
+    */
 
     public static function getInstance()
     {
@@ -89,12 +90,12 @@ class RequestHandler
     public static function IsHandling(string $uri){        
         return $uri == self::getInstance()->m_ctrl_request;
     }
+
     /**
-     * 
-     * @param mixed $path 
-     * @param IGK\System\Http\Routes|null #Parameter#ebc966f5 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param IGK\System\Http\Routes|null #Parameter#ebc966f5
+    * @return void
+    */
 
     public function handle_route($path, ?RouteCollection $routes = null)
     {

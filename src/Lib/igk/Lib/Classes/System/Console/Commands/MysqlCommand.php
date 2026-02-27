@@ -277,9 +277,11 @@ class MySQLCommand extends AppExecCommand
                 case "preview_create_query":
                     return $this->preview_create_query($ctrl, ...array_slice(func_get_args(), 2));
                 case "resetdb":
-                    /**
-                     * @var mixed
-                     */
+
+                /**
+                * auto generate doc.
+                * @var mixed
+                */
                     $l = $this;
                     igk_environment()->mysql_query_filter = 1;
                     $db->setSendDbQueryListener($l);
@@ -335,12 +337,12 @@ class MySQLCommand extends AppExecCommand
             }
         } 
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param string $query 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $query
+    * @return string
+    */
 
     public function action_query($command, string $query){
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
@@ -370,9 +372,11 @@ class MySQLCommand extends AppExecCommand
             Logger::info("# preview create query");
             igk_environment()->mysql_query_filter = 1;
             if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
+
                 /**
-                 * @var mixed
-                 */
+                * auto generate doc.
+                * @var mixed
+                */
                 $l = $this;
                 $ad->setSendDbQueryListener($l);
                 $tb = igk_db_get_table_name($table, $ctrl);

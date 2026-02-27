@@ -7,8 +7,9 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\Tests\Controllers\ModuleBaseTestCase;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ModuleMakeClassCommand extends AppExecCommand{

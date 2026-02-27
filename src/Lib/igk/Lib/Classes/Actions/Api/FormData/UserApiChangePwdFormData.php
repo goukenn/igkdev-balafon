@@ -5,8 +5,9 @@
 namespace IGK\Actions\Api\FormData;
 use IGK\System\Http\Request;
 use IGK\System\WinUI\Forms\FormData;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions\Api\FormData
 */
 class UserApiChangePwdFormData extends FormData{

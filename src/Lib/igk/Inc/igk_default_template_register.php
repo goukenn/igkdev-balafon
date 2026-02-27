@@ -80,15 +80,12 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
+
 /**
- * 
- * @param mixed $n 
- * @param mixed $attr 
- * @param mixed $v 
- * @param mixed $context 
- * @param mixed $setattrib 
- * @return null 
- */
+* auto generate doc.
+* @param mixed $setattrib
+* @return null
+*/
 function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $setattrib)
 {
     $attrname = $attr;
@@ -101,13 +98,12 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
+
 /**
- * 
- * @param mixed $rv 
- * @param mixed $context 
- * @return mixed 
- * @throws mixed 
- */
+* auto generate doc.
+* @param mixed $context
+* @return mixed
+*/
 function igk_template_get_piped_value($rv, $context)
 {
     $tcontext = igk_to_array($context);
@@ -152,13 +148,12 @@ function igk_template_get_piped_value($rv, $context)
     $v = igk_str_pipe_value($v, $pipe);
     return $v;
 }
+
 /**
- * 
- * @param mixed $rv 
- * @param mixed $attrname 
- * @param mixed $setattrib 
- * @return null|void 
- */
+* auto generate doc.
+* @param mixed $setattrib
+* @return null|void
+*/
 function igk_template_bind_eval_transform($rv, $attrname, $setattrib)
 {
     $rv = json_decode($rv) ?? $rv;

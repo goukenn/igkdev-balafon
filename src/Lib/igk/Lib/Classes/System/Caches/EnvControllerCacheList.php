@@ -10,10 +10,11 @@ use ReflectionClass;
 // + | ENV : Controller Cache list : so we can easely retrieve detected 
 // + | loaded controller 
 // + |
+
 /**
- * 
- * @package IGK\System\Caches
- */
+* auto generate doc.
+* @package IGK\System\Caches
+*/
 class EnvControllerCacheList{
    //  use CachableDataTrait;
 

@@ -138,12 +138,12 @@ final class Number
         }
         return $o;
     }
+
     /**
-     * 
-     * @param string $value 
-     * @return int|float|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return int|float|void
+    */
 
     public static function MemoryToBytes(string $value)
     {

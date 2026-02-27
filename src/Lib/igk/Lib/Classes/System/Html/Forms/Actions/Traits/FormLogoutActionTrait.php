@@ -4,9 +4,10 @@
 // @date: 20220603 07:37:39
 // @desc: logout action trait
 namespace IGK\System\Html\Forms\Actions\Traits;
+
 /**
- * 
- */
+* auto generate doc.
+*/
 trait FormLogoutActionTrait{
     // public function logout(){
     //     $this->ctrl->logout(1);

@@ -71,10 +71,9 @@ class WsdlFile extends IGKObject {
     * @var mixed
     */
     private $uri;
+
     /**
-    * 
-    * @param mixed $name
-    * @param mixed $uri
+    * auto generate doc.
     * @param mixed $attributes the default value is null
     */
 
@@ -94,12 +93,10 @@ class WsdlFile extends IGKObject {
         $this->m_binding=$this->m_def->addChildNodeView("binding");
         $this->m_service=$this->m_def->addChildNodeView("service");
     }
+
     /**
-    * 
-    * @param mixed $name
-    * @param mixed $style the default value is "rpc"
-    * @param mixed $porttype the default value is null
-    * @param mixed $enctype the default value is 'encoded'
+    * auto generate doc.
+    * @param encoded
     */
 
     public function addBindingService($name, $style="rpc", $porttype=null, $enctype='encoded'){
@@ -112,11 +109,9 @@ class WsdlFile extends IGKObject {
         }
         return $c;
     }
+
     /**
-    * 
-    * @param mixed $n
-    * @param mixed $input
-    * @param mixed $output the default value is null
+    * auto generate doc.
     * @param mixed $porttype the default value is null
     */
 
@@ -146,11 +141,9 @@ class WsdlFile extends IGKObject {
         $op->addNode("input")->setAttribute("message", "igkns:".$n."Request");
         $op->addNode("output")->setAttribute("message", "igkns:".$n."Response");
     }
+
     /**
-    * 
-    * @param mixed $srvname
-    * @param mixed $doc
-    * @param mixed $srv
+    * auto generate doc.
     * @param mixed $loc
     */
 
@@ -165,12 +158,10 @@ class WsdlFile extends IGKObject {
         $this->m_cservice=$d;
         return $d;
     }
+
     /**
-    * 
-    * @param mixed $srv
-    * @param mixed $name
-    * @param mixed $type the default value is "encoded"
-    * @param mixed $urn the default value is "sample:demo"
+    * auto generate doc.
+    * @param sample:demo
     */
 
     protected function addServiceOperation($srv, $name, $type="encoded", $urn="sample:demo"){
@@ -204,32 +195,36 @@ class WsdlFile extends IGKObject {
         return $op;
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getDocumentation(){
         return igk_getv($this->m_attributes, "doc", "service documentation");
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getNSPrefix(){
         return igk_getv($this->m_attributes, "nsprefix", "igkns");
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getNSUri(){
         return igk_getv($this->m_attributes, "nsuri", "http://www.igkdev.com");
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getTargetNS(){
@@ -237,8 +232,9 @@ class WsdlFile extends IGKObject {
     }
     ///<summary></summary>
     ///<param name="t"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $t
     */
     protected final
@@ -263,9 +259,9 @@ class WsdlFile extends IGKObject {
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="attrs" default="null"></param>
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $attrs the default value is null
     */
 
@@ -277,10 +273,9 @@ class WsdlFile extends IGKObject {
     ///<param name="className"></param>
     ///<param name="srvName"></param>
     ///<param name="attrs" default="null"></param>
+
     /**
-    * 
-    * @param mixed $className
-    * @param mixed $srvName
+    * auto generate doc.
     * @param mixed $attrs the default value is null
     */
 
@@ -371,8 +366,9 @@ class WsdlFile extends IGKObject {
     }
     ///<summary></summary>
     ///<param name="f"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $f
     */
 

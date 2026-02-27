@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands\Users;
 use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Users
 * @author C.A.D. BONDJE DOUE
 */

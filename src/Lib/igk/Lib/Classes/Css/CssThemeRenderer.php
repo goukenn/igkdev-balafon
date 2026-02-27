@@ -11,10 +11,11 @@ use IGK\System\Diagnostics\Benchmark;
  */
 class CssThemeRenderer
 {
+
     /**
-     * 
-     * @var bool
-     */
+    * auto generate doc.
+    * @var bool
+    */
     var $minfile = false;
     /**
      * document 
@@ -51,14 +52,12 @@ class CssThemeRenderer
      * @var no systheme
      */
     private $m_noSysTheme;
+
     /**
-     * 
-     * @param string $globaId global id
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $globaId global id
+    * @return void
+    */
     public function __construct(string $globaId)
     {
         if (empty($globaId)) {

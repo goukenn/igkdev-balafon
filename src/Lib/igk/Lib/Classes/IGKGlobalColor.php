@@ -57,12 +57,12 @@ final class IGKGlobalColor{
         $i=self::getInstance();
         return isset($i->m_COLORS[$clname]);
     }
+
     /**
-     * 
-     * @param string $clname 
-     * @param string $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return void
+    */
 
     public static function SetGlobalColor(string $clname, string $value){
         $i=self::getInstance();

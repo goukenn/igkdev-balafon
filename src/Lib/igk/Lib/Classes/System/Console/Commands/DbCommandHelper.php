@@ -54,10 +54,11 @@ abstract class DbCommandHelper
         $tab = array_fill_keys(array_keys($tab), null);
         return $tab;
     }
+
     /**
-     * 
-     * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string} 
-     */
+    * auto generate doc.
+    * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string}
+    */
 
     public static function GetDbCommandsProperties()
     {

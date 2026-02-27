@@ -6,8 +6,9 @@ namespace IGK\Tests;
 
 use IGK\Tests\BaseTestCase;
 use function igk_html_host as _h;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests
 * @author C.A.D. BONDJE DOUE
 */

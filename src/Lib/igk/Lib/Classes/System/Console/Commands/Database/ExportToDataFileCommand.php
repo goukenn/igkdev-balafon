@@ -15,6 +15,11 @@ use IGKException;
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+*/
 class ExportToDataFileCommand extends AppExecCommand{
 
     /**
@@ -41,16 +46,12 @@ class ExportToDataFileCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = 'controller model outputfile [options]';
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param null|string $controller 
-	 * @param null|string $model 
-	 * @param null|string $file 
-	 * @return void 
-	 * @throws IGKException 
-	 * @throws Exception 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param null|string $file
+    * @return void
+    */
 
     public function exec($command, ?string $controller=null, ?string $model=null, ?string $file=null) { 
 		$ctrl = self::GetController($controller);

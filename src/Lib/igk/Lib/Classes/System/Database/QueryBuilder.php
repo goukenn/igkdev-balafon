@@ -402,11 +402,12 @@ class QueryBuilder
     {
         return rtrim($this->get_query(), " ;");
     }
+
     /**
-     * 
-     * @param null|object $options 
-     * @return static 
-     */
+    * auto generate doc.
+    * @param null|object $options
+    * @return static
+    */
 
     public function setOptions($options = null)
     {
@@ -527,17 +528,12 @@ class QueryBuilder
         }
         return $row;
     }
+
     /**
-     * 
-     * @param mixed $source_row query row result
-     * @param mixed $row linked rows
-     * @param mixed $ctrl controller
-     * @param mixed $tab list 
-     * @param mixed $with with list 
-     * @param mixed $links links 
-     * @param mixed $linktab linktables 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $linktab linktables
+    * @return void
+    */
     private static function _BuildRowDef($source_row, $row, $ctrl, $tab, $with, $links, $linktab)
     {
         $row_defs = [$source_row];

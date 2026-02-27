@@ -9,8 +9,9 @@ use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 */
 class DbModuleReferenceTable implements ArrayAccess{

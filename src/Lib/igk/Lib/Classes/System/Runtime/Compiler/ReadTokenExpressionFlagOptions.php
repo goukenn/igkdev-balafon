@@ -3,8 +3,9 @@
 // @file: ReadTokenExpressionFlagOptions.php
 // @date: 20221025 09:29:16
 namespace IGK\System\Runtime\Compiler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenExpressionFlagOptions extends ReadTokenFlagOptions{

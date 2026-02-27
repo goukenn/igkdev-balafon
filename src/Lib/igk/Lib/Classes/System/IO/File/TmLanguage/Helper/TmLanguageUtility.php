@@ -16,20 +16,19 @@ use ReflectionException;
  * @package IGK\System\IO\File\TmLanguage\Helper
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage\Helper
+*/
 abstract class TmLanguageUtility
 {
+
     /**
-     * 
-     * @param array $patterns 
-     * @param IRegexMatcherContainer $container 
-     * @param array<string, array> $repos 
-     * @param null|ITmLanguageLoaderListener $listener 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param null|ITmLanguageLoaderListener $listener
+    * @return void
+    */
     public static function LoadPatterns(array $patterns, IRegexMatcherContainer $container, $repos, ?ITmLanguageLoaderListener $listener = null)
     {
         $_last = null;
@@ -46,16 +45,12 @@ abstract class TmLanguageUtility
             }
         }
     }
+
     /**
-     * @param mixed $container 
-     * @param mixed $v 
-     * @param null|ITmLanguageLoaderListener $listener 
-     * @return mixed 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param null|ITmLanguageLoaderListener $listener
+    * @return mixed
+    */
     public static function LoadDefinition($container, $v, ?ITmLanguageLoaderListener $listener = null)
     {
         $v_ref = $container;
@@ -127,18 +122,12 @@ abstract class TmLanguageUtility
         }
         return $cap;
     }
+
     /**
-     * 
-     * @param mixed $repository 
-     * @param RegexMatcherContainer $container 
-     * @param mixed &$v_trepos 
-     * @param null|ITmLanguageLoaderListener $listener 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param null|ITmLanguageLoaderListener $listener
+    * @return void
+    */
     public static function LoadRepository($repository, RegexMatcherContainer $container, &$v_trepos = null, ?ITmLanguageLoaderListener $listener = null)
     {
         $v_trepos = [];
@@ -150,15 +139,12 @@ abstract class TmLanguageUtility
             ];
         }
     }
+
     /**
-     * 
-     * @param string $file 
-     * @return RegexMatcherContainer 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return RegexMatcherContainer
+    */
     public static function CreateRegexMatcherContainerFromFile(string $file, ?ITmLanguageLoaderListener $listener = null)
     {
         $json_data = json_decode(file_get_contents($file));

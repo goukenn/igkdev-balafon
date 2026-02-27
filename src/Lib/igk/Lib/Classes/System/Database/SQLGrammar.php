@@ -42,15 +42,17 @@ use stdClass;
  */
 class SQLGrammar implements IDbQueryGrammar
 {
+
     /**
-     * 
-     * @var IDataDriver
-     */
+    * auto generate doc.
+    * @var IDataDriver
+    */
     private $m_driver;
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     public function getVersion()
     {
         return $this->getEngineVersion() ?? $this->getDriverVersion();
@@ -773,12 +775,12 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return implode(".", $s);
     }
+
     /**
-     * 
-     * @param string $table 
-     * @param string $column 
-     * @return null|string|array
-     */
+    * auto generate doc.
+    * @param string $column
+    * @return null|string|array
+    */
 
     public function add_index(string $table, $column): ?string
     {
@@ -933,14 +935,12 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $v_info;
     }
+
     /**
-     * 
-     * @param IGK\System\Database\strign $table 
-     * @param object|DbColumnInfo $info 
-     * @param null|string $new_name 
-     * @return ?string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $new_name
+    * @return ?string
+    */
 
     public function change_column(string $table, object $info, ?string $new_name = null)
     {
@@ -1072,15 +1072,12 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $query;
     }
+
     /**
-     * 
-     * @param string $tbname 
-     * @param mixed $values 
-     * @param mixed $tableInfo 
-     * @return ?string 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $tableInfo
+    * @return ?string
+    */
 
     public function createInsertQuery(string $tbname, $values, $tableInfo = null): ?string
     {
@@ -1124,15 +1121,12 @@ class SQLGrammar implements IDbQueryGrammar
         $query .= ") VALUES (" . $v_v . ");";
         return $query;
     }
+
     /**
-     * 
-     * @param mixed $tbname table name
-     * @param mixed $values array of value to set
-     * @param mixed|null $condition where condition list
-     * @param mixed|null $tableInfo columns info to build the query
-     * @return string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed|null $tableInfo columns info to build the query
+    * @return string
+    */
 
     public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter = null): ?string
     {
@@ -1226,14 +1220,11 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $tableInfo
-     * @param mixed $columnName
-     * @param mixed $value
-     * @param mixed $type the default value is "i"
-     */
+    * auto generate doc.
+    * @param i
+    */
 
     public static function GetValue($driver, $tbname, IDbColumnInfo $tinf, $columnName, $value, $type = "i")
     {
@@ -1914,9 +1905,11 @@ class SQLGrammar implements IDbQueryGrammar
 
     protected static function GetExtraOptions($options, $ad)
     {
+
         /**
-         * @var IDbSQLGrammarExtraOptions $options
-         */
+        * auto generate doc.
+        * @var IDbSQLGrammarExtraOptions $options
+        */
         $options = !is_object($options) ? (object)$options : $options;
         $defOrder = "ASC";
         $q = "";
@@ -2081,13 +2074,12 @@ class SQLGrammar implements IDbQueryGrammar
     {
         return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);
     }
+
     /**
-     * 
-     * @param mixed $tbname 
-     * @param mixed $condition 
-     * @return string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $condition
+    * @return string
+    */
 
     public function createDeleteQuery($tbname, $condition = null)
     {
@@ -2137,14 +2129,12 @@ class SQLGrammar implements IDbQueryGrammar
         }, $s, array_keys($s)));
     }
     //retrieve loaded relation
+
     /**
-     * 
-     * @param string $table 
-     * @param mixed $field 
-     * @param string $dbname 
-     * @return ?object 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $dbname
+    * @return ?object
+    */
 
     public function get_relation(string $table, $field, string $dbname)
     {

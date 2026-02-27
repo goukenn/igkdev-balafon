@@ -3,8 +3,9 @@
 // @file: MailConstants.php
 // @date: 20241218 23:04:17
 namespace IGK\System\Net;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Net
 * @author C.A.D. BONDJE DOUE
 */

@@ -13,10 +13,10 @@ use IGK\System\Html\Traits\HostableItemTrait;
 * @package IGK\System\Http\Mail
 * @author C.A.D. BONDJE DOUE
 */
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 class MailPreviewNode extends HtmlNode
 {
     use HostableItemTrait;

@@ -3,8 +3,9 @@
 // @file: CssDefintionPropertyLoader.php
 // @date: 20240212 09:53:43
 namespace IGK\System\Html\Css;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */

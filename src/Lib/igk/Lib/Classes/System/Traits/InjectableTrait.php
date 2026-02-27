@@ -5,8 +5,9 @@
 namespace IGK\System\Traits;
 use IGK\Actions\Dispatcher;
 use ReflectionMethod;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Traits
 */
 trait InjectableTrait{

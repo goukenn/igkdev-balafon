@@ -10,6 +10,11 @@ namespace IGK\System\Core\Traits;
  * @package IGK\System\Core\Traits
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Core\Traits
+*/
 trait SystemStateFlagTrait
 {
     /**
@@ -19,30 +24,30 @@ trait SystemStateFlagTrait
     protected $m_flags = [];
 
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
     public function setFlag(string $name, $value)
     {
         $this->m_flags[$name] = $value;
     }
+
     /**
-     * 
-     * @param string|'no-flag'|'line-flag' $name 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param no-flag
+    * @return mixed
+    */
     public function getFlag(string $name)
     {
         return igk_getv($this->m_flags, $name);
     }
+
     /**
-     * 
-     * @param string|'no-flag' $name 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param no-flag
+    * @return void
+    */
     public function unsetFlag(string $name)
     {
         unset($this->m_flags[$name]);

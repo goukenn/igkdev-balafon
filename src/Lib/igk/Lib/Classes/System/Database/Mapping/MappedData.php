@@ -9,8 +9,9 @@ use IGK\System\IToArrayResolver;
 use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database\Mapping
 */
 class MappedData implements JsonSerializable, IToArrayResolver{

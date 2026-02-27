@@ -85,18 +85,19 @@ class ReadTokenUtility
         }
         return $sb . "";
     }
+
     /**
-     * 
-     * @param mixed $structs 
-     * @param null|StringBuilder $cheader 
-     * @return string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|StringBuilder $cheader
+    * @return string
+    */
     public static function GenerateStruct($structs, bool $header = false, ?IReadTokenMergeOption $options = null)
     {
+
         /**
-         * @var ReadTokenStructInfo|ReadTokenStructFunctionInfo $tm
-         */
+        * auto generate doc.
+        * @var ReadTokenStructInfo|ReadTokenStructFunctionInfo $tm
+        */
         $sb = new StringBuilder();
         $p = new LinePrefixMapper;
         $p->prefix = "\t";

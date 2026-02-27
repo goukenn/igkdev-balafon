@@ -7,13 +7,18 @@ namespace IGK\Helper;
 * 
 * @package IGK\Helper
 */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class DomainHelper{
+
     /**
-     * 
-     * @param string $domain 
-     * @param string $hayhstack 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param string $hayhstack
+    * @return bool
+    */
     public static function IsInSameDomain(string $domain, string $hayhstack ):bool{
         return igk_get_domain_name($domain) == igk_get_domain_name($hayhstack);
     }

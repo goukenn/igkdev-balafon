@@ -3,8 +3,9 @@
 // @file: Version.php
 // @date: 20230118 12:10:18
 namespace IGK\System;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System
 */
 class Version{

@@ -30,8 +30,9 @@ abstract class BalafonMiddleware{
     * @var mixed
     */
     var $chainFlag;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function __construct(){}
@@ -49,10 +50,9 @@ abstract class BalafonMiddleware{
         $service->Attach($middle);
         $middle->initialize($middle);
     }
+
     /**
-    * 
-    * @param mixed $name
-    * @param mixed $args
+    * auto generate doc.
     * @param mixed $service
     */
 
@@ -75,8 +75,9 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetManager(){
@@ -85,8 +86,9 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getService(){
@@ -99,15 +101,17 @@ abstract class BalafonMiddleware{
     */
 
     protected function initialize($service){}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function invoke(){
         $this->next();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function next(){
@@ -115,9 +119,9 @@ abstract class BalafonMiddleware{
             $this->_next->invoke();
         }
     }
+
     /**
-    * 
-    * @param mixed $service
+    * auto generate doc.
     * @param mixed $wherelist
     */
 
@@ -131,8 +135,9 @@ abstract class BalafonMiddleware{
         }
         array_shift(self::$sm_manager);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function stopChain(){

@@ -174,12 +174,12 @@ class DBCachesModelInitializer
         });
         return $sb;
     }
+
     /**
-     * 
-     * @param array $inf 
-     * @param BaseController $ctrl 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return array
+    */
 
     public function dBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl, ?string $prefix)
     {
@@ -211,11 +211,12 @@ class DBCachesModelInitializer
         }, $tab);
         return $g;
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return void
+    */
 
     public function getPhpDocDefaultLinkType(string $type)
     {
@@ -245,17 +246,12 @@ class DBCachesModelInitializer
         }
         return $name;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $info 
-     * @param BaseController $ctrl 
-     * @param bool $extra 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $extra
+    * @return string
+    */
 
     public function getPhpDoPropertyType(string $name, $info, BaseController $ctrl, $extra = false, ?string $prefix= null)
     {

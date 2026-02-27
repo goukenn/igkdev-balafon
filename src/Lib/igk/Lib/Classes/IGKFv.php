@@ -31,8 +31,9 @@ class IGKFv {
     * @var mixed
     */
     static $sm_def;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -40,17 +41,18 @@ class IGKFv {
 		$this->_listener = null;
 		$this->_id = null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
     public function __get($n){
         return $this->getFlag($n);
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -58,8 +60,9 @@ class IGKFv {
         $this->setFlag($n, $v);
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __sleep(){
@@ -70,26 +73,27 @@ class IGKFv {
             return array('_');
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __wakeup(){
         if($this->_ == null)
             $this->_=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function Clear(){
         $this->_=array();
     }
+
     /**
-    * 
-    * @param mixed $classname
-    * @param mixed * $tab
-	* @param mixed * $listener update listener
+    * auto generate doc.
+    * @param mixed * $listener update listener
     */
 
     public static function Create($classname, & $tab, $listener = null){
@@ -114,8 +118,9 @@ class IGKFv {
 			$this->_updateBinding();
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $classname
     */
 
@@ -144,16 +149,17 @@ class IGKFv {
         }
         return $g;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function IsEmpty(){
         return count($this->_) == 0;
     }
+
     /**
-    * 
-    * @param mixed $code
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -186,17 +192,18 @@ class IGKFv {
 		}
 		}
 	}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $code
     */
 
     public function unsetFlag($code){
         unset($this->_[$code]);
     }
+
     /**
-    * 
-    * @param mixed $code
+    * auto generate doc.
     * @param mixed $v
     */
 

@@ -15,6 +15,11 @@ use JsonSerializable;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer, JsonSerializable{
     use ArrayAccessSelfTrait;
 
@@ -96,10 +101,10 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var ?array
      */
     var $captures;
+
     /**
-     * 
-     * @var null|Array|RegexMacherPattern[]
-     */
+    * auto generate doc.
+    */
     var $patterns;
 
     /**
@@ -107,15 +112,17 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var ?bool
      */
     var $scopedBoundary;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_matcher;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_type;
 
     /**

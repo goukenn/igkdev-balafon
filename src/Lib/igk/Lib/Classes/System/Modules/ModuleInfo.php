@@ -7,6 +7,11 @@ namespace IGK\System\Modules;
 * 
 * @package IGK\System\Modules
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Modules
+*/
 class ModuleInfo{
 
     /**
@@ -44,10 +49,11 @@ class ModuleInfo{
     * @var mixed
     */
     var $release;
+
     /**
-     * 
-     * @var ?array required modules
-     */
+    * auto generate doc.
+    * @var ?array required modules
+    */
     private $m_require;
     /**
      * set require

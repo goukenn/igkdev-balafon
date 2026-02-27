@@ -37,15 +37,17 @@ class FormatterPattern extends RegexMatcherPattern
      * @var ?string
      */
     var $class;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $lineFeed;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $isBlock;
 
     /**

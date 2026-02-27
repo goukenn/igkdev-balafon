@@ -3,8 +3,9 @@
 // @file: IDiagramBuilder.php
 // @date: 20221104 10:06:34
 namespace IGK\Database\SchemaBuilder;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database\SchemaBuilder
 */
 interface IDiagramBuilder{

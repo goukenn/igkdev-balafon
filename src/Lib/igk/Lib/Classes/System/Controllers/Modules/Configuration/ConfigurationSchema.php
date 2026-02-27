@@ -11,6 +11,11 @@ use IGK\System\Configuration\EntityConfigurationSchema;
 * @package IGK\System\Controllers\Modules\Configuration
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Controllers\Modules\Configuration
+*/
 class ConfigurationSchema extends EntityConfigurationSchema {
     /**
      * name of the module
@@ -27,10 +32,11 @@ class ConfigurationSchema extends EntityConfigurationSchema {
      * @var mixed
      */
     var $license;
+
     /**
-     * 
-     * @var ?array
-     */
+    * auto generate doc.
+    * @var ?array
+    */
     var $require;
     /**
      * repository to GitHub
@@ -55,9 +61,9 @@ class ConfigurationSchema extends EntityConfigurationSchema {
     var $nodeRequire;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $entryNamespace;
 
     /**

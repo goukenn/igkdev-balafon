@@ -78,19 +78,21 @@ class HtmlNotifyResponse extends HtmlNode{
             $this["title"] = $this->name;
         } 
     }
+
     /**
-     * 
-     * @return false 
-     */
+    * auto generate doc.
+    * @return false
+    */
 
     public function getCanAddChilds()
     {
         return false;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function getIsVisible(): bool
     {

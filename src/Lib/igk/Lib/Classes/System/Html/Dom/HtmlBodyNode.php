@@ -86,7 +86,9 @@ class HtmlBodyNode extends HtmlNode{
         return $this->m_appendContent;
     }
     ///load addition script content when page request loaded.
+
     /**
+    * auto generate doc.
     */
 
     public function addScriptContent($key, $script){       

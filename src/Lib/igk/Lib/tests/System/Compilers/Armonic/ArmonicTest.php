@@ -12,9 +12,9 @@ use IGK\Tests\BaseTestCase;
 use IGKException;
 
 /**
- * @group disabled
- * @package IGK\Test\System\Compilers\Armonic
- */
+* auto generate doc.
+* @package IGK\Test\System\Compilers\Armonic
+*/
 class ArmonicTest  extends BaseTestCase
 {
 

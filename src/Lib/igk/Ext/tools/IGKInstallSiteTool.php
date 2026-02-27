@@ -16,8 +16,9 @@ use IGK\System\IO\StringBuilder;
 * Represent IGKInstallSiteTool class
 */
 class IGKInstallSiteTool extends ToolControllerBase{
+
     /**
-    * 
+    * auto generate doc.
     */
     public function doAction(){
         $frame=igk_html_frame($this, "tool.installsite");
@@ -33,8 +34,9 @@ class IGKInstallSiteTool extends ToolControllerBase{
         igk_html_form_initfield($frm);
         $frame->renderAJX();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getIsAvailable(){
         return true;

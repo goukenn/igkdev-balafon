@@ -11,8 +11,9 @@ use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions\Api\Traits
 * @author C.A.D. BONDJE DOUE
 */

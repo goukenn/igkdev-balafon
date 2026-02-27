@@ -26,14 +26,12 @@ if (!function_exists('igk_get_asset_uri')){
     }
 }
 if (!function_exists('igk_load_temp_style_asset')){
+
     /**
-     * 
-     * @param mixed $doc 
-     * @param mixed $ctrl 
-     * @param mixed $assets 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $assets
+    * @return void
+    */
     function igk_load_temp_style_asset($doc, $ctrl, $assets){
          
         $ctrl::resolveAssets(["/"]);        

@@ -7,7 +7,7 @@ namespace IGK\System\Core\Traits;
 use IGK\System\Core\AppEvent;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Core\Traits
 * @author C.A.D. BONDJE DOUE
 */

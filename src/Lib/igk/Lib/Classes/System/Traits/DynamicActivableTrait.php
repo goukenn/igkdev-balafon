@@ -12,6 +12,11 @@ use IGKException;
 * @package IGK\System\Traits
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Traits
+*/
 trait DynamicActivableTrait{
 
     /**
@@ -46,12 +51,11 @@ trait DynamicActivableTrait{
     public function _json_serialize(){
         return $this->data;
     }
+
     /**
-     * 
-     * @return string|false 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return string|false
+    */
 
     public function to_json($option = NULL, int $flag = 0){
         return JSon::Encode($this->data, JSonEncodeOption::IgnoreEmpty());

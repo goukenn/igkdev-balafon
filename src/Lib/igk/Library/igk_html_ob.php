@@ -9,7 +9,7 @@
 // @url: https://www.igkdev.com
 
 /**
-* 
+* auto generate doc.
 * @param mixed $callback
 */
 function igk_html_ob($callback){
@@ -19,13 +19,9 @@ function igk_html_ob($callback){
     ob_end_clean();
     igk_wl($s);
 }
+
 /**
-* 
-* @param mixed $id
-* @param mixed $options
-* @param mixed $selected the default value is null
-* @param mixed $display the default value is null
-* @param mixed $attribs the default value is null
+* auto generate doc.
 * @param mixed $render the default value is 1
 */
 function igk_html_ob_select($id, $options, $selected=null, $display=null, $attribs=null, $render=1){
@@ -57,11 +53,9 @@ function igk_html_ob_select($id, $options, $selected=null, $display=null, $attri
         igk_wl($o);
     return $o;
 }
+
 /**
-* 
-* @param mixed $id
-* @param mixed $text
-* @param mixed $attribs the default value is null
+* auto generate doc.
 * @param mixed $render the default value is 1
 */
 function igk_html_ob_submit($id, $text, $attribs=null, $render=1){

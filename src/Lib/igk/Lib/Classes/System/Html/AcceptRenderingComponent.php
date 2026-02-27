@@ -53,13 +53,12 @@ class AcceptRenderingComponent{
         }
         return $this->m_script;
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $options 
-     * @return false|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return false|void
+    */
 
     public function __invoke($n, $options){
         if (!$n->acceptRender($options))

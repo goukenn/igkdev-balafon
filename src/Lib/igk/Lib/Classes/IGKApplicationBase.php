@@ -13,6 +13,11 @@ use IGK\System\IO\TextFileHandler;
  * 
  * @package 
  */
+
+/**
+* auto generate doc.
+* @package
+*/
 abstract class IGKApplicationBase{
     /**
      * store library
@@ -112,10 +117,11 @@ abstract class IGKApplicationBase{
         }
         return $this->m_appBuilder;
     }
+
     /**
-     * 
-     * @return IGK\System\AppBuilder 
-     */
+    * auto generate doc.
+    * @return IGK\System\AppBuilder
+    */
 
     protected function createAppBuilder(){
         return new \IGK\System\AppBuilder();

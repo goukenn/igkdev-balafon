@@ -22,9 +22,10 @@ class RegexMatcherEngineInfo implements IRegexMatcherEngineInfo
      * @var string|'__end__'
      */
     var $end_token_id;
+
     /**
-     * 
-     * @var callable
-     */
+    * auto generate doc.
+    * @var callable
+    */
     var $callable;
 }

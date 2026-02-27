@@ -43,9 +43,10 @@ class UriHandler extends BaseUriHandler
     {
         ApplicationLoader::getInstance()->bootApp($this->m_application);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function __construct()
     {
@@ -328,9 +329,10 @@ class UriHandler extends BaseUriHandler
         }
         return parent::Handle($uri, $app, $bootload);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function HandlePublicDir(string $path, ?string $cwd = null)
     {

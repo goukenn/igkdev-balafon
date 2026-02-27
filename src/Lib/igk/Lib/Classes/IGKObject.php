@@ -7,8 +7,9 @@
 * Represent the base IGK object class
 */
 class IGKObject {
+
     /**
-    * 
+    * auto generate doc.
     * @param string $key
     */
     public function __get(string $key){
@@ -16,10 +17,10 @@ class IGKObject {
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
         }
         return null;
-    } 
+    }
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed $value
     */
     public function __set(string $name, $value){
@@ -32,16 +33,18 @@ class IGKObject {
         return get_class($this);
     }
     ///get object osed to compare
+
     /**
+    * auto generate doc.
     */
     public function __wakeup(){
         if(method_exists($this, 'registerHook')){
             call_user_func_array([$this, 'registerHook'], []);
         }
     }
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed * $value
     */
     protected function _setIn($name, & $value){
@@ -51,16 +54,17 @@ class IGKObject {
         }
         return false;
     }
+
     /**
-    * 
-    * @param mixed $event
+    * auto generate doc.
     * @param mixed $method
     */
     public function callEvent($event, $method){
         throw new IGKException(__METHOD__." Not implement");
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $obj
     */
     public function CompareTo($obj){
@@ -73,8 +77,9 @@ class IGKObject {
     * used to dispose and release element
     */
     public function dispose(){}
+
     /**
-    * 
+    * auto generate doc.
     */
     protected function getCmpObj(){}
     /**
@@ -91,9 +96,9 @@ class IGKObject {
         }
         return null;
     }
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed $value
     */
     public function regEvent($name, $value){

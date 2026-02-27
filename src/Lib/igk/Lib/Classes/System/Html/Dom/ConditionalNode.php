@@ -5,10 +5,11 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\StringBuilder;
+
 /**
- * 
- * @package IGK\System\Html\Dom
- */
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class ConditionalNode extends HtmlNode
 {
 

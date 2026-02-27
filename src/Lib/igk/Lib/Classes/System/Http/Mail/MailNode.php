@@ -3,8 +3,9 @@
 // @file: MailNode.php
 // @date: 20250427 08:38:47
 namespace IGK\System\Http\Mail;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http\Mail
 * @author C.A.D. BONDJE DOUE
 */

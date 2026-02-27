@@ -108,15 +108,12 @@ class SvgRenderer
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $options 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return void
+    */
 
     public static function AcceptRenderList($options)
     {

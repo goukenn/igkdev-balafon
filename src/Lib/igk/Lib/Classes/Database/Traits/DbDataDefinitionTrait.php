@@ -13,10 +13,11 @@ trait DbDataDefinitionTrait{
      * @var string
      */
     var $TableName;
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $RefKey;
     /**
      * table's description 

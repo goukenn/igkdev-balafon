@@ -25,10 +25,12 @@ final class IGKCaches
     * Property: storage.
     * @var mixed
     */
-    private $m_storage = []; 
+    private $m_storage = [];
+
     /**
-     * @var IGKCaches caches
-     */
+    * auto generate doc.
+    * @var IGKCaches caches
+    */
     private static $sm_instance;
 
     /**
@@ -228,11 +230,11 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/pages");
     }
+
     /**
-     * 
-     * @return FileSystem|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return FileSystem|null
+    */
     private function _init_js_filesystem_caches()
     {
         $js = self::__init_cache(igk_io_cachedir() . "/storage/js");

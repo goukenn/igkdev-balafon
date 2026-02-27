@@ -27,6 +27,11 @@ require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
  * 
  * @package IGK\System\Database
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLinkListener
 {
     use DbCreateTableReferenceTrait;
@@ -243,14 +248,12 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         if($g) $ad->close();
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, []);
     }
+
     /**
-     * 
-     * @param mixed $ad 
-     * @param mixed $tableName 
-     * @param mixed $entries 
-     * @param mixed $columnInfo 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $columnInfo
+    * @return void
+    */
     private function _load_entries($ad, $tableName, $entries, $columnInfo){
         foreach ($entries as $row) {
             $rs = $ad->select($tableName, $row, null);
@@ -307,16 +310,12 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     * @var mixed
     */
     private $m_definition;
+
     /**
-     * 
-     * @param string $file 
-     * @param mixed $definition 
-     * @param BaseController|IDbTableReference $tableReferenceResolver 
-     * @param string $operation 
-     * @param self $operation 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param self $operation
+    * @return void
+    */
 
     public static function InitSchemaDefinition(
         string $file,

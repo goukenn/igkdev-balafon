@@ -17,6 +17,11 @@ use Throwable;
  * 
  * @package IGK\System
  */
+
+/**
+* auto generate doc.
+* @package IGK\System
+*/
 class CronJob
 {
     /**
@@ -102,13 +107,12 @@ class CronJob
         // Logger::success("DONE");
         return 0;
     }
+
     /**
-     * 
-     * @param array $crons 
-     * @param callable $handle_cron_script 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param callable $handle_cron_script
+    * @return void
+    */
 
     public static function ExecuteCronList(array $crons, callable $handle_cron_script, ?string $exclude_fs = null)
     {

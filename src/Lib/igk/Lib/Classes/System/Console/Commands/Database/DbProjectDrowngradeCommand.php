@@ -10,8 +10,9 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\SchemaMigrationInfo;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class DbProjectDrowngradeCommand extends AppExecCommand{

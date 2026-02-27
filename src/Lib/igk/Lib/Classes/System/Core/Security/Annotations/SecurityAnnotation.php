@@ -35,10 +35,10 @@ class SecurityAnnotation extends AnnotationBase{
     var $strict;
 
     /**
-     * 
-     * @param null|string $security security type 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|string $security security type
+    * @return void
+    */
 
     public function __construct(?string $security = self::BEARER_AUTH)
     {
@@ -52,11 +52,12 @@ class SecurityAnnotation extends AnnotationBase{
     public function setStrict(?bool $strict){
         $this->strict = $strict;
     }
+
     /**
-     * 
-     * @param mixed $auth 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $auth
+    * @return void
+    */
 
     public function setAuth($auth){
         if (is_string($auth)){

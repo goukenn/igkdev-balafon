@@ -26,11 +26,9 @@ function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
 }
 
 /**
- * 
- * @param mixed $s 
- * @param mixed $tag 
- * @param mixed $deftext 
- */
+* auto generate doc.
+* @param mixed $deftext
+*/
 function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
 {
     $div = igk_create_xmlnode("dummy");
@@ -87,12 +85,10 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
     return null;
 }
 
-
 /**
- * 
- * @param mixed $t 
- * @param mixed $d 
- */
+* auto generate doc.
+* @param mixed $d
+*/
 function igk_conf_load_attribs(&$t, $d)
 {
     if ($d->HasAttributes) {

@@ -30,10 +30,11 @@ class CssThemeCompiler
      * @var mixed
      */
     var $gcl;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $start;
     /**
      * last time 
@@ -56,13 +57,12 @@ class CssThemeCompiler
         $this->designmode = $designmode;
         $this->gcl = $colors;
     }
+
     /**
-     * 
-     * @param string $value 
-     * @param ICssStyleContainer $theme 
-     * @param null|ICssStyleContainer $parentTheme 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|ICssStyleContainer $parentTheme
+    * @return string
+    */
 
     public function treatValue(string $value, ICssStyleContainer $theme, ?ICssStyleContainer $parentTheme = null)
     {

@@ -106,13 +106,12 @@ final class MenuUtils{
         }
         return null;
     }
+
     /**
-     * 
-     * @param HtmlNode $target 
-     * @param MenuItem $menu 
-     * @param array & $pages reference page 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param array & $pages reference page
+    * @return void
+    */
     public static function InitMenu(HtmlNode $target, MenuItem $menu, ?array & $pages = null){
         $add_uri=null;
         $node=null;

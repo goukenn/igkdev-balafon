@@ -82,12 +82,12 @@ class CssRulesParser
         $c->append($glue_space);
         return $c;
     }
+
     /**
-     * 
-     * @param string $src 
-     * @return array 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $src
+    * @return array
+    */
 
     public static function Parse(string $src): array
     {

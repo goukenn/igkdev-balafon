@@ -4,10 +4,10 @@
 // @date: 20230913 07:21:29
 namespace IGK\System\Http;
 use IGK\System\Http\IHttpClientOptions;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http
-* @property bool $followLocation followLocation
 * @property ?string $base base server location
 */
 interface IHttpClient{

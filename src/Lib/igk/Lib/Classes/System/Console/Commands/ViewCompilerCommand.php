@@ -19,10 +19,11 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
 use Traversable;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ViewCompilerCommand extends AppExecCommand
 {
 

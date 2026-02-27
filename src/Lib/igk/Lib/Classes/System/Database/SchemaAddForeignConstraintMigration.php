@@ -48,10 +48,11 @@ class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
             }
         }
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function down(){
         igk_dev_wln_e(__FILE__.":".__LINE__ , "down....add constraint key .... not implement");

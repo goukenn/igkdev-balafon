@@ -9,6 +9,11 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * 
 * @package IGK\System\Html\Dom\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom\Traits
+*/
 trait HtmlNodeContainerTrait{
     use ArrayAccessSelfTrait;
 
@@ -43,12 +48,13 @@ trait HtmlNodeContainerTrait{
     public function setAttribute($n, $value){
         $this->host->setAttribute($n, $value);
         return $this;
-    } 
+    }
+
     /**
-     * 
-     * @param mixed $n 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return $this
+    */
 
     public function setContent($n){
         $this->host->setContent(...func_get_args());

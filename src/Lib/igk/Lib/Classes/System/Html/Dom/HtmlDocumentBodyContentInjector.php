@@ -24,12 +24,12 @@ class HtmlDocumentBodyContentInjector{
     public function contains(string $key){
         return $this->m_list && key_exists($key, $this->m_list);
     }
+
     /**
-     * 
-     * @param string $id 
-     * @param mixed $callback 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    * @return void
+    */
 
     public function register(string $id, $callback){
         if (is_null($this->m_list)){

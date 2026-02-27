@@ -40,14 +40,12 @@ class Engine{
     public static function GetIconEngineCallback(string $name){
         return self::$sm_register ? igk_getv(self::$sm_register, $name) : null;
     }
+
     /**
-     * @param IGK\System\WinUI\Menus\HtmlNode $hi 
-     * @param string $text 
-     * @param string $u 
-     * @param bool $ajx 
-     * @param mixed $options 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return void
+    */
 
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
         $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);

@@ -8,8 +8,9 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Css
 */
 class CssConverter{

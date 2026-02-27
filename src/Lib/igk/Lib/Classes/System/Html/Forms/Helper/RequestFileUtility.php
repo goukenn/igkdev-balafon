@@ -14,6 +14,11 @@ use IGK\System\IO\Path;
  * @package IGK\System\Html\Forms\helpers
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Helper
+*/
 class RequestFileUtility
 {
     /**
@@ -56,9 +61,10 @@ class RequestFileUtility
             $value->moveUploadTo(Path::Combine( $destination, $k));
         })->bindTo((object)get_defined_vars());
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public static function GuidAndExtensionCallback(){
         return function($p){
             $ext = HttpUtility::GetExtensionFromContentType($p->type, '');

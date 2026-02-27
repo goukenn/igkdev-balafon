@@ -8,10 +8,10 @@ use IGK\System\Html\Css\CssRulesParser;
 use IGK\Tests\BaseTestCase;
 
 /**
- * 
- * @package IGK\Tests\System\Html\Css
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Tests\System\Html\Css
+* @author C.A.D. BONDJE DOUE
+*/
 class CssRulesParserTest extends BaseTestCase
 {
 

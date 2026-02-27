@@ -9,11 +9,17 @@ use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
 * 
 * @package IGK\System\Html\Forms
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $id;
     // /**
     //  * 
@@ -30,24 +36,27 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
     //  * @var ?bool
     //  */
     // var $required;
+
     /**
-     * 
-     * @var ?string $error confiured message in case of error 
-     */
+    * auto generate doc.
+    * @var ?string $error confiured message in case of error
+    */
     var $error;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $default; 
     /**
      * max size
      * @var mixed
      */
     var $maxSize;
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     var $multiple;
     /**
      * mime type

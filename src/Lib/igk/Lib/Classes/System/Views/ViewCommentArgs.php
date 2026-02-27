@@ -40,15 +40,12 @@ class ViewCommentArgs{
     * @var mixed
     */
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
+
     /**
-     * 
-     * @param mixed $comment 
-     * @param mixed $file 
-     * @return bool 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $file
+    * @return bool
+    */
 
     public static function Check(string $comment, string $file): bool{
         if (isset(self::$sm_info[$file])){

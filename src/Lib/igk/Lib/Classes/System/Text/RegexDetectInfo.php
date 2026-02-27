@@ -23,27 +23,27 @@ class RegexDetectInfo{
     var $pos;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $basePosition;
 
     /**
-     * 
-     * @var RegexMatcherPattern
-     */
+    * auto generate doc.
+    * @var RegexMatcherPattern
+    */
     var $match;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $captures;
 
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $parent;
 
     /**

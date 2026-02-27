@@ -7,8 +7,9 @@ use IGK\Actions\Traits\AssetsActionTrait;
 use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\WebFileResponse;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Actions\Traits
 */
 trait ProjectAssetHandlerTrait{

@@ -224,15 +224,13 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
 */
 function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
-} 
+}
+
 /**
- * 
- * @param mixed $file 
- * @param mixed $outdir 
- * @param string|callable|mixed $entry 
- * @return int 
- * @throws IGKException 
- */
+* auto generate doc.
+* @param string|callable|mixed $entry
+* @return int
+*/
 function igk_zip_unzip($file, $outdir, $entry=null){
     if(!is_dir($outdir))
         return 0;

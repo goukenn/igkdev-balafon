@@ -3,8 +3,9 @@
 // @file: ActionUtility.php
 // @date: 20250621 08:11:12
 namespace IGK\System\Actions\Helper;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Actions\Helper
 * @author C.A.D. BONDJE DOUE
 */

@@ -135,11 +135,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
-        } 
+        }
+
         /**
-         * @var mixed $setting
-         * @var mixed $excludedir
-         */
+        * auto generate doc.
+        * @var mixed $excludedir
+        */
         $excludedir = '';
         $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
         $options = igk_getv($command, "options");
@@ -383,7 +384,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      */
     private function _installZipProject($controller, $exclude, $h, $setting)
     {
+
         /**
+        * auto generate doc.
         * @var mixed $token
         */
         $file = tempnam(sys_get_temp_dir(), "blf");

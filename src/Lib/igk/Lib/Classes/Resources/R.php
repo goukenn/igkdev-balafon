@@ -159,11 +159,12 @@ final class R extends IGKObject {
         }
         return __($text, ...$args);
     }
+
     /**
-     * 
-     * @param string $locale 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param string $locale
+    * @return bool
+    */
 
     public static function SupportLang(string $locale):bool{
         return preg_match(sprintf("/%s/i", self::GetSupportLangRegex()), $locale);
@@ -177,9 +178,10 @@ final class R extends IGKObject {
     public static function GetSupportedLangs(){
         return array_filter(explode("|", self::GetSupportLangRegex()));
     }
+
     /**
-    * 
-    * @param mixed $lang the default value is "fr"
+    * auto generate doc.
+    * @param fr
     */
 
     public static function ChangeLang($lang="fr"){
@@ -203,8 +205,9 @@ final class R extends IGKObject {
         igk_set_env($key, null);
         return $r;
     }
+
     /**
-    * @
+    * auto generate doc.
     */
 
     public static function ClearLang($autosave=true){
@@ -214,8 +217,9 @@ final class R extends IGKObject {
             self::SaveLang(null);
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetCurrentLang(){
@@ -235,8 +239,9 @@ final class R extends IGKObject {
         $lg=self::GetCurrentLang();
         return $folder."/".IGK_LANG_FILE_PREFIX.$lg.IGK_LANG_FILE_EXTENSION;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetDefaultLang(){
@@ -257,8 +262,9 @@ final class R extends IGKObject {
         } 
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $name
     */
 
@@ -269,8 +275,9 @@ final class R extends IGKObject {
         }
         return IGK_STR_EMPTY;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function getInstance(){
@@ -281,8 +288,9 @@ final class R extends IGKObject {
         }
         return self::$sm_instance;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
@@ -297,8 +305,9 @@ final class R extends IGKObject {
     public static function GetLang($keys){
         return new IGKLangExpression($keys);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetLangInfo(){
@@ -349,11 +358,12 @@ final class R extends IGKObject {
         }
         return $key;
     }
+
     /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
 
     public function handleLangPrefix(string $name){
         $nkey = function($n){
@@ -421,9 +431,9 @@ EOF;
     ///<summary></summary>
     ///<param name="ctrl"></param>
     ///<param name="files" default="null"></param>
+
     /**
-    * 
-    * @param mixed $ctrl
+    * auto generate doc.
     * @param mixed $files the default value is null
     */
 
@@ -480,8 +490,9 @@ EOF;
         self::LoadLang();
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function LoadLang(){
@@ -510,8 +521,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="file"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $file
     */
 
@@ -526,9 +538,9 @@ EOF;
     ///<summary></summary>
     ///<param name="file"></param>
     ///<param name="override" default="true"></param>
+
     /**
-    * 
-    * @param mixed $file
+    * auto generate doc.
     * @param mixed $override the default value is true
     */
 
@@ -598,8 +610,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="key"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
@@ -608,8 +621,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="key"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
@@ -617,8 +631,9 @@ EOF;
         igk_hook(IGKEvents::HOOK_LANG_CHANGED, []);
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function onPageLangChangedEvent(){
@@ -646,8 +661,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="name"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $name
     */
 
@@ -661,8 +677,9 @@ EOF;
         return false;
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function ResetLang(){
@@ -670,8 +687,9 @@ EOF;
         $v->langRes=array();
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function SaveLang(){
@@ -709,8 +727,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="filename" default="null"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $filename the default value is null
     */
 
@@ -749,8 +768,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl
     */
 

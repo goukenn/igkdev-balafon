@@ -31,11 +31,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     */
     public function _json_serialize(){ 
         return self::Extract($this);
-    } 
+    }
+
     /**
-     * 
-     * @return Traversable<mixed, mixed>|mixed[] 
-     */
+    * auto generate doc.
+    * @return Traversable<mixed
+    */
 
     public function getIterator(): Traversable
     {
@@ -68,12 +69,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
             return isset($this->p_data->{$n});
         return isset($this->p_data[$n]);
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $name
+    * @return mixed
+    */
 
     public function __get($name)
     {

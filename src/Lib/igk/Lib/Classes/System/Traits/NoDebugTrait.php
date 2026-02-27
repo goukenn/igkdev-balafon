@@ -3,11 +3,12 @@
 // @file: NoDebugTrait.php
 // @date: 20240122 11:18:09
 namespace IGK\System\Traits;
+
 /**
- * 
- * @package IGK\System\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait NoDebugTrait
 {
 

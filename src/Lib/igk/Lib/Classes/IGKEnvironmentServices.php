@@ -3,8 +3,9 @@
 // @file: IGKEnvironmentServices.php
 // @date: 20240929 13:45:10
 namespace IGK;
+
 /**
-* 
+* auto generate doc.
 * @package IGK
 * @author C.A.D. BONDJE DOUE
 */

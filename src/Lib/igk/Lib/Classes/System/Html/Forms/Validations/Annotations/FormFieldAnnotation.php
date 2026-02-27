@@ -13,10 +13,11 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInternalIDSupport, IFormFieldValidationStoreError, IFormFieldFile{
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $id;
     /**
      * the place holder to display . if not specified will use the id
@@ -97,21 +98,22 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     public function setInternalId($v){
         $this->m_internal_id = $v;
     }
+
     /**
-     * 
-     * @param null|string $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|string $value
+    * @return void
+    */
 
     public function setLabel_Text(?string $value){
         $this->label_text = $value;
     }
+
     /**
-     * 
-     * @param mixed $reader 
-     * @param mixed &$contentTab 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed &$contentTab
+    * @return void
+    */
 
     public static function BeforeCreateInstance($reader, & $contentTab){
         $tab = explode('|', 'allowNull|required|allowEmpty');

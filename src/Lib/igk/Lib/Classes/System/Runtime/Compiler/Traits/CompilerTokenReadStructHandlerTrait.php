@@ -5,10 +5,11 @@
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
+
 /**
- * 
- * @package IGK\System\Runtime\Compiler\Traits
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\Traits
+*/
 trait CompilerTokenReadStructHandlerTrait
 {
     use CompilerTokenBracketTrait;

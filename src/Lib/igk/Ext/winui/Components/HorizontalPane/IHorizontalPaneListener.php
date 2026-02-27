@@ -1,10 +1,10 @@
 <?php
 
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 interface IHorizontalPaneListener{
 
 }

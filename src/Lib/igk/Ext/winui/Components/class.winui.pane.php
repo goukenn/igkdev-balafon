@@ -82,7 +82,11 @@ EOF;
 */
 class IGKWinUI_paneViewitem extends HtmlNode
 {
-	/** @var HtmlNode*/
+
+    /**
+    * auto generate doc.
+    * @var HtmlNode
+    */
 	private $m_link;
 
     /**

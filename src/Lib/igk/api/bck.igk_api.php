@@ -28,9 +28,10 @@ final class ApiFunctionController extends ApplicationController
     * @var mixed
     */
     public $message = array();
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function beginRequest()
     {
@@ -190,9 +191,10 @@ final class ApiFunctionController extends ApplicationController
         }
         return igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function endRequest()
     {
@@ -213,42 +215,47 @@ final class ApiFunctionController extends ApplicationController
     {
         return false;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getName()
     {
         return IGK_API_CTRL;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getRegUriAction()
     {
         return IGK_API_URI . IGK_REG_ACTION_METH;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getVersion()
     {
         return IGK_API_VERSION;
     }
+
     /**
-     * 
-     * @param mixed $function
-     */
+    * auto generate doc.
+    * @param mixed $function
+    */
 
     public function IsFunctionExposed($function)
     {
         return true;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function request()
     {
@@ -270,9 +277,10 @@ final class ApiFunctionController extends ApplicationController
 
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function sendRequest()
     {
@@ -288,10 +296,11 @@ final class ApiFunctionController extends ApplicationController
         $node->renderAJX();
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $cmd the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $cmd the default value is null
+    */
 
     public function setup($cmd = null)
     {

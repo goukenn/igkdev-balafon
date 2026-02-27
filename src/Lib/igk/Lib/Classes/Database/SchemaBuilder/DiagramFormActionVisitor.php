@@ -8,10 +8,11 @@ use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Illuminate\Database\Eloquent\Builder;
+
 /**
- * 
- * @package igk\db\schemaBuilder
- */
+* auto generate doc.
+* @package igk\db\schemaBuilder
+*/
 class DiagramFormActionVisitor extends DiagramVisitor{
 
     /**

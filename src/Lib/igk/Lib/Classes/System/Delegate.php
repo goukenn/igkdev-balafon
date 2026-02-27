@@ -75,12 +75,12 @@ abstract class Delegate{
     public function getCount():int{
         return count($this->m_list);
     }
+
     /**
-     * 
-     * @param Closure $closure 
-     * @param bool $all 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param bool $all
+    * @return void
+    */
 
     public function remove(Closure $closure, $all= false){
         $tab = & $this->m_list;

@@ -23,8 +23,9 @@ final class IGKHrefListValue{
     * @var mixed
     */
     var $values;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -37,8 +38,9 @@ final class IGKHrefListValue{
     public function __toString(){
         return $this->getValue();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 

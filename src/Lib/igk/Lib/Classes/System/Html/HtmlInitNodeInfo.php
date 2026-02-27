@@ -13,15 +13,17 @@ use IGKObject;
 * @package IGK\System\Html
 */
 class HtmlInitNodeInfo extends IGKObject{
+
     /**
-     * 
-     * @var char char that identified the type
-     */
+    * auto generate doc.
+    * @var char char that identified the type
+    */
     var $type;
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $name;
     /**
      * use array to initialize info

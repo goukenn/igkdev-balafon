@@ -13,12 +13,10 @@ use IGK\Resources\R;
 
 define("IGK_INC_APP_INITDB", IGK_LIB_DIR."/".IGK_INC_FOLDER."/igk_initapp_db.pinc");
 
-use function igk_resources_gets as __; 
-
+use function igk_resources_gets as __;
 
 /**
-* 
-* @param mixed $ctrl
+* auto generate doc.
 * @param mixed $n
 */
 function igk_app_ctrl_dropped_callback($ctrl, $n){
@@ -27,10 +25,7 @@ function igk_app_ctrl_dropped_callback($ctrl, $n){
 }
 
 /**
-* 
-* @param mixed $app
-* @param mixed $node
-* @param mixed $fname
+* auto generate doc.
 * @param mixed $goodUri the default value is null
 */
 function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
@@ -44,11 +39,9 @@ function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
     }
     $node->appLoginForm($app, $app->getAppUri($fname), $u);
 }
+
 /**
-* 
-* @param mixed $app
-* @param mixed $div
-* @param mixed $badUri the default value is null
+* auto generate doc.
 * @param mixed $goodUri the default value is null
 */
 function igk_app_login_form($app, $div, $badUri=null, $goodUri=null){

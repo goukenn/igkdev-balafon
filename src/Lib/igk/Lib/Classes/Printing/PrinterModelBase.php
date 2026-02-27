@@ -4,8 +4,9 @@
 // @date: 20230202 07:47:01
 namespace IGK\Printing;
 use IGK\System\IO\Printer\IPrinterService;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Printing
 */
 abstract class PrinterModelBase implements IPrinterModel{

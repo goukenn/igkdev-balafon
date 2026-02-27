@@ -59,10 +59,11 @@ class HtmlNodeTagExplosionDefinition
     * @var mixed
     */
     const DEF_METHOD = 'DefinitionArgs';
+
     /**
-     * 
-     * @var HtmlNodeBuilder
-     */
+    * auto generate doc.
+    * @var HtmlNodeBuilder
+    */
     var $builder;
     /**
      * explode definition 
@@ -92,14 +93,12 @@ class HtmlNodeTagExplosionDefinition
     {
         return self::$sm_static ?? self::$sm_static = new static(new HtmlNodeBuilder(igk_create_notagnode()));
     }
+
     /**
-     * 
-     * @param mixed $node 
-     * @param array $data 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param array $data
+    * @return mixed
+    */
 
     public function setup($node, $data, $tnode = null)
     {
@@ -441,10 +440,11 @@ class HtmlNodeTagExplosionDefinition
         }
         return igk_extract($definition, 'tagname|id|classes|args|name|attr');
     }
+
     /**
-     * 
-     * @return ConfigurationReader 
-     */
+    * auto generate doc.
+    * @return ConfigurationReader
+    */
 
     protected static function InitConfigurationReader()
     {
@@ -464,12 +464,12 @@ class HtmlNodeTagExplosionDefinition
             throw new HtmlNodeTagExplosionTagNameAlreadyDefineException($t);
         $def['tagname'] = $t;
     }
+
     /**
-     * 
-     * @param string &$tagname 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
     private static function _StrRmValue(string &$tagname, $value)
     {
         $ln  = strlen($value);

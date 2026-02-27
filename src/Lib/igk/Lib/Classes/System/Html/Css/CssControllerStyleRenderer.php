@@ -20,6 +20,11 @@ use ReflectionException;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssControllerStyleRenderer{
 
     /**
@@ -88,17 +93,11 @@ class CssControllerStyleRenderer{
         $c->theme = $theme;
         return $c->output();
     }
+
     /**
-     * 
-     * @return CssCoreResponse 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     * @throws Exception 
-     * @throws CssParserException 
-     */
+    * auto generate doc.
+    * @return CssCoreResponse
+    */
 
     public function output(){
         ob_start();

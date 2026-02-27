@@ -5,10 +5,11 @@
 // @desc: 
 namespace IGK\System\Http;
 use Throwable;
+
 /**
- * 
- * @package IGK\System\Http
- */
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class NotAllowedRequestException extends RequestException{
 
     /**

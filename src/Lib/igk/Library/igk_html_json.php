@@ -48,8 +48,9 @@ function igk_html_json($n){
     }
     return json_encode($d);
 }
+
 /**
-* 
+* auto generate doc.
 * @param string $n string to decode
 */
 function igk_html_json_decode($n){

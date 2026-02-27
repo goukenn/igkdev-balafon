@@ -147,8 +147,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $this->m_multitable = false;
     }
     ///retult of the query  uses for boolean data
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function __toString()
     {
@@ -325,9 +327,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return $out;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getColumnCount()
     {
@@ -335,10 +338,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
     ///<summary></summary>
     ///<param name="columnname"></param>
+
     /**
-     * 
-     * @param mixed $columnname
-     */
+    * auto generate doc.
+    * @param mixed $columnname
+    */
 
     public function getColumnIndex($columnname)
     {
@@ -348,36 +352,40 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return -1;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getColumns()
     {
         return $this->m_columns;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getHasRow()
     {
         return ($this->getRowCount() > 0);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getQuery()
     {
         return $this->m_query;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getResult()
     {
@@ -397,10 +405,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
     ///<summary></summary>
     ///<param name="index"></param>
+
     /**
-     * 
-     * @param mixed $index
-     */
+    * auto generate doc.
+    * @param mixed $index
+    */
 
     public function getRowArray($index)
     {
@@ -420,10 +429,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
     ///<summary></summary>
     ///<param name="index"></param>
+
     /**
-     * 
-     * @param mixed $index
-     */
+    * auto generate doc.
+    * @param mixed $index
+    */
 
     public function getRowAtIndex($index)
     {
@@ -433,9 +443,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return null;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getRowCount()
     {
@@ -451,18 +462,20 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return $this->m_rows;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getSuccess()
     {
         return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getTables()
     {
@@ -478,9 +491,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return $this->m_value;
     }
     ///<param name="equalsTab">array for searching </param>
+
     /**
-     * @param mixed $equalsTab array for searching
-     */
+    * auto generate doc.
+    * @param mixed $equalsTab array for searching
+    */
 
     public function searchEqual($equalsTab)
     {
@@ -506,10 +521,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
     ///<summary></summary>
     ///<param name="callback"></param>
+
     /**
-     * 
-     * @param mixed $callback
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    */
 
     public function select($callback)
     {
@@ -528,12 +544,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     ///<param name="key"></param>
     ///<param name="asc" default="true"></param>
     ///<param name="preserveid" default="true"></param>
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $asc the default value is true
-     * @param mixed $preserveid the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $preserveid the default value is true
+    */
 
     public function SortBy($key, $asc = true, $preserveid = true)
     {

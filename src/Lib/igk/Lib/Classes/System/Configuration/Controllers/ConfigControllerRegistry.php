@@ -57,9 +57,10 @@ class ConfigControllerRegistry
             unset(self::$sm_regComplete[$index]);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function InvokeRegisterComplete($context = null)
     {

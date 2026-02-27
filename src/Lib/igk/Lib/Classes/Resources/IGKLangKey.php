@@ -30,10 +30,9 @@ final class IGKLangKey implements IHtmlGetValue {
     * @var mixed
     */
     var $key;
+
     /**
-    * 
-    * @param mixed $key
-    * @param mixed $default
+    * auto generate doc.
     * @param mixed $args the default value is null
     */
 
@@ -51,8 +50,9 @@ final class IGKLangKey implements IHtmlGetValue {
     public function __toString(){
         return $this->key;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 
@@ -88,9 +88,9 @@ final class IGKLangKey implements IHtmlGetValue {
         }
         return html_entity_decode($s);
     }
+
     /**
-    * 
-    * @param mixed $s
+    * auto generate doc.
     * @param mixed $args
     */
 

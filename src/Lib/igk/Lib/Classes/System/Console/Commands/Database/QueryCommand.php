@@ -5,8 +5,9 @@
 namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class QueryCommand extends AppExecCommand{

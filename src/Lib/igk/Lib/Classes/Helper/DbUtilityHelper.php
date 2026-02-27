@@ -4,8 +4,9 @@
 // @date: 20221116 13:08:10
 namespace IGK\Helper;
 use IGK\Controllers\BaseController;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helpers
 */
 class DbUtilityHelper{

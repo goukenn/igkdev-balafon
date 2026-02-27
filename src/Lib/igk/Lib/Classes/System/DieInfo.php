@@ -3,8 +3,9 @@
 // @file: DieInfo.php
 // @date: 20230118 18:01:10
 namespace IGK\System;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System
 */
 class DieInfo{

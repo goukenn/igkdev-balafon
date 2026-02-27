@@ -15,10 +15,10 @@ use ReflectionFunction;
 use ReflectionMethod;
 
 /**
- * 
- * @package IGK\System\Console\Commands\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+* @author C.A.D. BONDJE DOUE
+*/
 class ListMacrosCommand extends AppExecCommand
 {
 

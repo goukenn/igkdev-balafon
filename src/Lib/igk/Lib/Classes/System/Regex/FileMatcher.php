@@ -65,11 +65,12 @@ class FileMatcher
         $t = str_replace("*","[^\/]+", $t);
         return $t;
     }
+
     /**
-     * 
-     * @param null|string $file 
-     * @return int|bool 
-     */
+    * auto generate doc.
+    * @param null|string $file
+    * @return int|bool
+    */
 
     public function match(?string $file)
     {

@@ -71,15 +71,11 @@ class DataAdapter extends DataAdapterBase implements
     */
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
-    
     /**
-     * 
-     * @param string $table 
-     * @return mixed 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param string $table
+    * @return mixed
+    */
 
     public function dropAllUniqueContraints(string $table)
     {
@@ -372,16 +368,12 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
+
     /**
-     * 
-     * @param string $table_name 
-     * @param string $referenced_column 
-     * @param null|string $db 
-     * @return void|false 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param null|string $db
+    * @return void|false
+    */
 
     public function remove_reverse_foreign_keys(string $table_name, string $referenced_column, ?string $db = null)
     {
@@ -503,18 +495,12 @@ class DataAdapter extends DataAdapterBase implements
     {
         return in_array(strtolower($type), ["int", "bigint"]);
     }
+
     /**
-     * 
-     * @param mixed $tbname 
-     * @param mixed $entries 
-     * @param mixed $where 
-     * @param mixed $querytabinfo 
-     * @param null|bool $filter 
-     * @return IDbQueryResult|iterable|null|bool|void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param null|bool $filter
+    * @return IDbQueryResult|iterable|null|bool|void
+    */
 
     public function update($tbname, $entries, $where = null, $querytabinfo = null, ?bool $filter=null)
     {
@@ -522,14 +508,12 @@ class DataAdapter extends DataAdapterBase implements
             return $this->sendQuery($query);
         }
     }
+
     /**
-     * 
-     * @param string $tbname 
-     * @param null|array $where 
-     * @param null|array $option 
-     * @return string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|array $option
+    * @return string
+    */
 
     public function get_query(string $tbname, ?array $where = null, ?array $options = null)
     {
@@ -548,10 +532,11 @@ class DataAdapter extends DataAdapterBase implements
             return $ctrl->getDataTableDefinition($table);
         }
     }
+
     /**
-     * 
-     * @param mixed $ctrl the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ctrl the default value is null
+    */
 
     public function __construct($ctrl = null)
     {
@@ -586,10 +571,10 @@ class DataAdapter extends DataAdapterBase implements
             }
         }
     }
+
     /**
-     * 
-     * @var  
-     */
+    * auto generate doc.
+    */
 
     public static function GetSupportedType()
     {
@@ -619,9 +604,10 @@ class DataAdapter extends DataAdapterBase implements
     {
         return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function _createDriver()
     {
@@ -647,11 +633,12 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
+
     /**
-     * 
-     * @param null|string $v 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|string $v
+    * @return string
+    */
 
     public function escape_string(?string $v = null): string
     {
@@ -790,10 +777,11 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     */
+    * auto generate doc.
+    * @param mixed $tbname
+    */
 
     public function clearTable($tbname)
     {
@@ -813,14 +801,11 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $columninfoArray
-     * @param mixed $entries the default value is null
-     * @param mixed $desc the default value is null
-     * @param string $dbname the default value is null
-     */
+    * auto generate doc.
+    * @param string $dbname the default value is null
+    */
 
     public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null, $extra=null)
     {
@@ -840,41 +825,46 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function die_error()
     {
         return igk_mysql_db_error();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbIdentifier()
     {
         return "mysqli";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getError()
     {
         return $this->m_dbManager->getError();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getErrorCode()
     {
         return $this->m_dbManager->getErrorCode();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getHasError()
     {
@@ -927,11 +917,11 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->sendQuery("SET foreign_key_checks=1;");
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
 
     public function rmColumn($tbname, $name)
     {
@@ -1021,13 +1011,12 @@ class DataAdapter extends DataAdapterBase implements
         }, [(object)$data]);
         return $outdata;
     }
+
     /**
-     * 
-     * @param mixed $query
-     * @param mixed $throwex the default value is true
-     * @param mixed $options extra option. used by query result
-     * @return IDbQueryResult|\Iterable|null|bool
-     */
+    * auto generate doc.
+    * @param mixed $options extra option. used by query result
+    * @return IDbQueryResult|\Iterable|null|bool
+    */
 
     public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
     {
@@ -1095,10 +1084,11 @@ class DataAdapter extends DataAdapterBase implements
     {
         return IGK_MYSQL_DATAADAPTER;
     }
+
     /**
-     * 
-     * @param mixed $listener
-     */
+    * auto generate doc.
+    * @param mixed $listener
+    */
 
     public function setSendDbQueryListener(?IDbSendQueryListener $listener)
     {
@@ -1113,9 +1103,10 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->queryListener;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function stopRelationChecking()
     {

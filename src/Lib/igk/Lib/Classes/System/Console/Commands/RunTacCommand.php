@@ -10,8 +10,9 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Console\TerminalActionCommand;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Command
 */
 class RunTacCommand extends AppExecCommand{

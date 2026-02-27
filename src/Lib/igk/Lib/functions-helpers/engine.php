@@ -274,10 +274,11 @@ function igk_get_article_chain()
     }
     return null;
 }
+
 /**
- * 
- * @param mixed $f 
- */
+* auto generate doc.
+* @param mixed $f
+*/
 function igk_pop_article_chain()
 {
     $g = igk_get_env($key = IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);

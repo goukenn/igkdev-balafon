@@ -7,7 +7,7 @@ namespace IGK\Tests;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests
 */
 class HtmlRenderingLoopTest extends BaseTestCase{

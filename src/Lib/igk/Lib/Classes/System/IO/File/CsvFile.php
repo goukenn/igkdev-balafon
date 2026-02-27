@@ -8,9 +8,9 @@ use IGK\Helper\MapHelper;
 use IGK\System\Text\RegexMatcherContainer;
 
 /**
- * 
- * @package IGK\System\IO\File
- */
+* auto generate doc.
+* @package IGK\System\IO\File
+*/
 class CsvFile
 {
 

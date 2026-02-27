@@ -3,8 +3,9 @@
 // @file: CronScriptHandler.php
 // @date: 20250416 10:51:02
 namespace IGK\System\Cron;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Cron
 * @author C.A.D. BONDJE DOUE
 */

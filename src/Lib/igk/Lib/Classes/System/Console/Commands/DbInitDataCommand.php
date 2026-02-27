@@ -8,8 +8,9 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\InitBase;
 use IGK\System\EntryClassResolution;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DbInitDataCommand extends AppExecCommand{

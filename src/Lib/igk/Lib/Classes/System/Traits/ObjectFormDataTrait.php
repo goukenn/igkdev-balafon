@@ -8,6 +8,11 @@ use IGK\System\Http\Request;
 * 
 * @package IGK\System\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Traits
+*/
 trait ObjectFormDataTrait{
 
     /**
@@ -30,10 +35,11 @@ trait ObjectFormDataTrait{
         $from_mapper->mapper =  $this->mergeSecure( $from_mapper->mapper ,$this->getContentSecure() ?? []);  
         return $from_mapper;
     }
-        /**
-     * 
-     * @return null|array if assoc and validation : return treated value
-     */
+
+    /**
+    * auto generate doc.
+    * @return null|array if assoc and validation : return treated value
+    */
 
     protected abstract function getContentSecure():?array;
 }

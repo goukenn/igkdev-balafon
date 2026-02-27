@@ -8,7 +8,7 @@ use IGK\System\Database\Helper\DbUtility;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\DBUtilityTests
 * @author C.A.D. BONDJE DOUE
 */

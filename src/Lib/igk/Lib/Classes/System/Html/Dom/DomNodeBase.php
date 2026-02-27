@@ -48,11 +48,12 @@ abstract class DomNodeBase extends IGKObject{
             return $g->{$key};
         }
     }
+
     /**
-     * 
-     * @param string $name 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return void
+    */
 
     public static function RegisterCreator(string $name, $class_name){
         $env = igk_environment();

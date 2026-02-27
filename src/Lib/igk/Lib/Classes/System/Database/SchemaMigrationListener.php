@@ -9,6 +9,11 @@ use IGK\Helper\Database;
  * @package IGK\System\Database
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaMigrationListener implements ISchemaMigrationInfoListener
 {
     /**
@@ -20,10 +25,11 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
      * @var ?string
      */
     var $file;
+
     /**
-     * 
-     * @var ?ISchemaMigrationLoadingList
-     */
+    * auto generate doc.
+    * @var ?ISchemaMigrationLoadingList
+    */
     var $definition;
 
     /**
@@ -40,11 +46,12 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     * @var mixed
     */
     private $m_changes = [];
+
     /**
-     * 
-     * @param string $tablename 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $tablename
+    * @return void
+    */
 
     public function regDefTableChanged(string $tablename)
     {

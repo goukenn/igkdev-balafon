@@ -8,7 +8,7 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Users;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Controllers\Traits
 * @author C.A.D. BONDJE DOUE
 */

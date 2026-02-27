@@ -10,7 +10,9 @@ use IGK\Controllers\BaseController;
 use IGK\IHtmlUriItem;
 use IGK\System\Html\Dom\HtmlNode;
 
-/** @package  */
+/**
+* auto generate doc.
+*/
 abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 

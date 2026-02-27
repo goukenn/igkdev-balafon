@@ -47,10 +47,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         return DbUtils::GetIsDumpField($this);
     }
+
     /**
-     * 
-     * @param mixed $array the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $array the default value is null
+    */
 
     public function __construct($array = null)
     {
@@ -331,14 +332,12 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $c;
     }
+
     /**
-     * 
-     * @param mixed $attribs 
-     * @param mixed $tb 
-     * @param mixed $ctrl 
-     * @param mixed &$tbrelation 
-     * @return DbColumnInfo 
-     */
+    * auto generate doc.
+    * @param mixed &$tbrelation
+    * @return DbColumnInfo
+    */
 
     public static function CreateWithRelation($attribs, $tb, $ctrl, &$tbrelation = null)
     {
@@ -353,10 +352,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $cl;
     }
+
     /**
-     * 
-     * @param mixed $key
-     */
+    * auto generate doc.
+    * @param mixed $key
+    */
 
     public function __get($key)
     {
@@ -366,11 +366,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         igk_die("__get Not implements : " . $key . " " . get_class($this));
     }
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function __set($key, $value)
     {
@@ -385,8 +385,10 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         return "DbColumnInfo[#" . $this->clName . "]";
     }
     ///get association info array
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public static function AssocInfo($array, $tablename = null)
     {
@@ -406,17 +408,19 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $t;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function GetColumnInfo()
     {
         return get_class_vars("DbColumnInfo");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function NewEntryInfo()
     {

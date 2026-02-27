@@ -23,12 +23,12 @@ trait InvokeMethodActionTrait{
         }
         return null; 
     }
+
     /**
-     * 
-     * @param string $function 
-     * @param array $arguments 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param array $arguments
+    * @return mixed
+    */
     protected function _invoke_method(string $function, array $arguments){
         return $this->_dispatchAndInvoke($function, $arguments); 
     }

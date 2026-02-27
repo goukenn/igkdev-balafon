@@ -81,8 +81,9 @@ function igk_db_reload_index($controllerOrAdapterName, $table, $dbname = null, $
 }
 
 /**
- * @deprecated use direct IGK\Helper\AutorizationHelper
- */
+* auto generate doc.
+* @deprecated use direct IGK\Helper\AutorizationHelper
+*/
 function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable = IGK_TB_AUTHORISATIONS, $userGroupTable = IGK_TB_USERGROUPS, $userGroupAuthTable = IGK_TB_GROUPAUTHS)
 {
     if (!is_object($s) || empty($actionName))
@@ -212,10 +213,10 @@ function igk_db_inserts($ad, $table, $entries, $strict = 1)
     return !$error;
 }
 
-
 /**
- * @deprecated use model entry class
- */
+* auto generate doc.
+* @deprecated use model entry class
+*/
 function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = null, $leaveOpen = false)
 {
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
@@ -235,10 +236,9 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
 }
 
 /**
- * 
- * @param mixed $ctrl 
- * @param mixed $leaveopen 
- */
+* auto generate doc.
+* @param mixed $leaveopen
+*/
 function igk_db_last_id($ctrl, $leaveopen = false)
 {
     $db = igk_get_data_adapter($ctrl);
@@ -256,9 +256,9 @@ function igk_db_last_id($ctrl, $leaveopen = false)
 }
 
 /**
- * 
- * @param mixed $groups 
- */
+* auto generate doc.
+* @param mixed $groups
+*/
 function igk_db_init_groups($groups)
 {
     foreach ($groups as $v) {
@@ -268,9 +268,10 @@ function igk_db_init_groups($groups)
 
 
 ///invoke to init system auto
+
 /**
- * @deprecated
- */
+* auto generate doc.
+*/
 function igk_db_init_auths($auths)
 {
     $c = igk_db_get_datatableowner(igk_db_get_table_name(IGK_TB_AUTHORISATIONS));
@@ -305,12 +306,10 @@ function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
     return 0;
 }
 
-
 /**
- * 
- * @param mixed $tb 
- * @param mixed $dataobj 
- */
+* auto generate doc.
+* @param mixed $dataobj
+*/
 function igk_db_create_obj_from_infokey($tb, $dataobj = null)
 {
     if ($tb) {
@@ -345,11 +344,10 @@ function igk_db_column_info($db, $tablename, &$autoinc = null)
     return $tt;
 }
 
-
 /**
- * 
- * @param mixed $ctrlorName 
- */
+* auto generate doc.
+* @param mixed $ctrlorName
+*/
 function igk_db_close($ctrlorName)
 {
     $apt = igk_get_data_adapter($ctrlorName);

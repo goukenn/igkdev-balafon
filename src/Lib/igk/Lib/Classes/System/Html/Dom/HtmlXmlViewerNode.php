@@ -36,19 +36,20 @@ final class HtmlXmlViewerNode extends HtmlNode {
     public function getContent($options = null){ 
         return null;
     }
+
     /**
-     * 
-     * @param array|mixed $v 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param array|mixed $v
+    * @return $this
+    */
 
     public function setContent($v){
         $this->m_cdata->Content = $v; 
         return $this;
     }
+
     /**
-    * 
-    * @param mixed $target
+    * auto generate doc.
     * @param mixed $depth
     */
     private function __renderDepth($target, $depth){
@@ -71,8 +72,9 @@ final class HtmlXmlViewerNode extends HtmlNode {
     {
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $t
     */
 
@@ -87,9 +89,9 @@ EOF        , HtmlContext::XML);
     ///<summary></summary>
     ///<param name="content"></param>
     ///<param name="context" default="XML"></param>
+
     /**
-    * 
-    * @param mixed $content
+    * auto generate doc.
     * @param mixed $context the default value is XML
     */
 
@@ -110,10 +112,9 @@ EOF        , HtmlContext::XML);
     ///<param name="r"></param>
     ///<param name="target"></param>
     ///<param name="depth"></param>
+
     /**
-    * 
-    * @param mixed $r
-    * @param mixed $target
+    * auto generate doc.
     * @param mixed $depth the default value is 0
     */
 

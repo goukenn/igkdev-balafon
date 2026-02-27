@@ -13,10 +13,11 @@ use IGK\System\IO\StringBuilder;
  */
 class RegexFormatStringBuilder
 {
+
     /**
-     * 
-     * @var StringBuilder
-     */
+    * auto generate doc.
+    * @var StringBuilder
+    */
     protected $m_sb;
     /**
      * line feed flag
@@ -47,10 +48,11 @@ class RegexFormatStringBuilder
     * @var mixed
     */
     var $space = ' ';
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $noInlinePrefixComment;
     /**
      * get tab display

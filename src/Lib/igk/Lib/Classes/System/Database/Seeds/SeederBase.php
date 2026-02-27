@@ -15,12 +15,11 @@ abstract class SeederBase{
     * @var mixed
     */
     var $controller;
-   /**
-    * 
-    * @param array $tab 
-    * @param int $count 
+
+    /**
+    * auto generate doc.
     * @param mixed $indexes generated random indexes
-    * @return array 
+    * @return array
     */
 
     protected function getRandomValues(array $tab,int $count, & $indexes=null){

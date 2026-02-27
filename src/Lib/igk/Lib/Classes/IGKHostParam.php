@@ -14,11 +14,12 @@ class IGKHostParam{
     * @var mixed
     */
     private $m_data;
+
     /**
-     * 
-     * @param mixed $data 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return void
+    */
 
     public function __construct(object $data)
     {

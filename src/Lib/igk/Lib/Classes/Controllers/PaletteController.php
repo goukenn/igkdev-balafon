@@ -21,30 +21,34 @@ final class PaletteController extends NonVisibleControllerBase {
     * @var mixed
     */
     private $m_palettes;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
         parent::__construct();
         $this->m_palettes=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getName(): string{
         return IGK_PALETTE_CTRL;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getPaletteDir(){
         return $this->getConfigs()->Location;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getPalettes(){
@@ -53,15 +57,17 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         return $this->m_palettes;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function initComplete($context=null){
        parent::initComplete(); 
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $fname
     */
 
@@ -92,8 +98,9 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         catch(\Exception $ex){}
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function loadPalette(){
@@ -106,8 +113,9 @@ final class PaletteController extends NonVisibleControllerBase {
             }
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $id
     */
 

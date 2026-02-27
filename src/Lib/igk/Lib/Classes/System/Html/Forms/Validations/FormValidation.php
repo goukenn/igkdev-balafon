@@ -17,14 +17,16 @@ require_once __DIR__ . "/IFormPatternValidator.php";
  */
 class FormValidation
 {
+
     /**
-     * @
-     */
+    * auto generate doc.
+    */
     var $skipNullValue = true;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $uri;
     /**
      * use storage data object in case of good data
@@ -111,11 +113,12 @@ class FormValidation
         } 
         return $result;
     }
+
     /**
-     * 
-     * @param array $request array that simulate the request
-     * @return bool|array|IGKObjStorage if storage will return an object storage or array
-     */
+    * auto generate doc.
+    * @param array $request array that simulate the request
+    * @return bool|array|IGKObjStorage if storage will return an object storage or array
+    */
     public function validate(array $request)
     {
         // + | reset the error list
@@ -225,11 +228,12 @@ class FormValidation
         }
         return $result;
     }
+
     /**
-     * 
-     * @param null|string $type 
-     * @return IFormValidator
-     */
+    * auto generate doc.
+    * @param null|string $type
+    * @return IFormValidator
+    */
     function getValidator(?string $type = null)
     {
         $cl = DefaultValidator::class;

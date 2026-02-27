@@ -51,11 +51,11 @@ function igk_reflection_class_hierachi(ReflectionClass $type)
     };
     return $q;
 }
+
 /**
- * 
- * @param mixed $objOrClassName 
- * @param mixed $name 
- */
+* auto generate doc.
+* @param mixed $name
+*/
 function igk_reflection_class_implement($objOrClassName, $name)
 {
     igk_reflection_interface_exists($name);
@@ -106,11 +106,10 @@ function igk_reflection_func_get_args($args)
     return $tc;
 }
 
-
 /**
- * 
- * @param mixed $cl 
- */
+* auto generate doc.
+* @param mixed $cl
+*/
 function igk_reflection_get_constants($cl)
 {
     $r = igk_sys_reflect_class($cl);
@@ -204,19 +203,21 @@ function igk_reflection_getclass_vars($obj)
     }
     return null;
 }
+
 /**
- * 
- * @param mixed $class 
- */
+* auto generate doc.
+* @param mixed $class
+*/
 function igk_reflection_getdeclared_filename($class)
 {
     $h = igk_sys_reflect_class($class);
     return $h->getFileName();
 }
+
 /**
- * 
- * @param mixed $name 
- */
+* auto generate doc.
+* @param mixed $name
+*/
 function igk_reflection_interface_exists($name)
 {
     if (!interface_exists($name))

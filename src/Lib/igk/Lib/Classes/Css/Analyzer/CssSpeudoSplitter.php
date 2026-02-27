@@ -4,11 +4,12 @@
 // @date: 20250627 06:18:41
 namespace IGK\Css\Analyzer;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
- * 
- * @package IGK\Css\Analyzer
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Css\Analyzer
+* @author C.A.D. BONDJE DOUE
+*/
 class CssSpeudoSplitter implements ICssSplitListener
 {
 

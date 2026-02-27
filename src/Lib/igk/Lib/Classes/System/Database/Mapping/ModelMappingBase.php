@@ -3,8 +3,9 @@
 // @file: ModelMappingBase.php
 // @date: 20240916 17:12:11
 namespace IGK\System\Database\Mapping;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database\Mapping
 * @author C.A.D. BONDJE DOUE
 */

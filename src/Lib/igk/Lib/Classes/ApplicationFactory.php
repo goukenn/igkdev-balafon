@@ -23,12 +23,12 @@ abstract class ApplicationFactory{
     private static $sm_factory = [
         'framework'=>self::APP_CLASS
     ];
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $class 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $class
+    * @return void
+    */
 
     public static function Register($name, $class){
         if (class_exists($class, false) && is_subclass_of($class, \IGKApplicationBase::class)){

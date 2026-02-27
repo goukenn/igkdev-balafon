@@ -5,10 +5,11 @@
 namespace IGK\System\Html\Forms;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGKException;
+
 /**
- * 
- * @package IGK\System\Html\Forms
- */
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class FormUtils
 {
     /**

@@ -10,6 +10,11 @@ use ReflectionProperty;
 * 
 * @package IGK\System\Html\Metadatas
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Metadatas
+*/
 class CoreDocMetadata extends MetadataGroupEntryBase{
 
     /**
@@ -125,10 +130,11 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     * @var mixed
     */
     var $appleItunesApp;
+
     /**
-     * 
-     * @var null|array|IGK\System\Html\Metadatas\formatDetection
-     */
+    * auto generate doc.
+    * @var null|array|IGK\System\Html\Metadatas\formatDetection
+    */
     var $formatDetection;
 
     /**

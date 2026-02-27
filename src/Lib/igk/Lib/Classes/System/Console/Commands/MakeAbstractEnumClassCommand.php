@@ -12,10 +12,10 @@ use IGK\System\IO\Path;
 use IGK\System\Traits\EnumeratesConstants;
 
 /**
- * 
- * @package IGK\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
 class MakeAbstractEnumClassCommand extends AppExecCommand
 {
 

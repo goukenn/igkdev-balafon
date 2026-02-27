@@ -3,10 +3,11 @@
 // @file: ModelExtensionTrait.php
 // @date: 20230131 14:24:39
 namespace IGK\System\Models\Traits;
+
 /**
- * 
- * @package IGK\Ssytem\Models\Traits
- */
+* auto generate doc.
+* @package IGK\Ssytem\Models\Traits
+*/
 trait ModelExtensionTrait
 {
     /**

@@ -103,12 +103,12 @@ class FormStorageAction extends ActionBase{
         }
         return $form;
     }
+
     /**
-     * 
-     * @param mixed $fields 
-     * @param callable $callback 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param callable $callback
+    * @return void
+    */
 
     function __construct($fields, callable $callback, $listener=null)
     {

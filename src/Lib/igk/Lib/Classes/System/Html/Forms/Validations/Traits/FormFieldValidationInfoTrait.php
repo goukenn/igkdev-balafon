@@ -8,6 +8,11 @@ namespace IGK\System\Html\Forms\Validations\Traits;
 * @package IGK\System\Html\Forms\Validations\Traits
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Validations\Traits
+*/
 trait FormFieldValidationInfoTrait{
  /**
      * is required
@@ -24,9 +29,10 @@ trait FormFieldValidationInfoTrait{
      * @var ?bool
      */
     var $allowNull = false;
+
     /**
-     * 
-     * @var ?bool
-     */
+    * auto generate doc.
+    * @var ?bool
+    */
     var $allowEmpty = false; 
 }

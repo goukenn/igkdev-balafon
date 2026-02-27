@@ -293,12 +293,12 @@ final class HtmlMetaManager extends IGKObject{
         },[$options] );
         return $o;// .$s;
     }
+
     /**
-     * 
-     * @param mixed $name key metas
-     * @param array $attributes assoc array
-     * @return void 
-     */
+    * auto generate doc.
+    * @param array $attributes assoc array
+    * @return void
+    */
 
     public function appendKeyMeta($name, array $attributes){
         if (!isset($this->m_key_metas[$name])){

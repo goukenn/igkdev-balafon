@@ -10,7 +10,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html
 */
 class HtmlReaderSkipTest extends BaseTestCase{

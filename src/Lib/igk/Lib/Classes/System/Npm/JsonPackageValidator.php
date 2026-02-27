@@ -10,6 +10,11 @@ use IGK\System\WinUI\Forms\FormData;
 * 
 * @package IGK\System\Npm
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Npm
+*/
 class JsonPackageValidator extends FormData{
     use JsonPackagePropertyTrait;
 
@@ -22,10 +27,11 @@ class JsonPackageValidator extends FormData{
     {
       return $this->getContentSecure();
     }
+
     /**
-     * 
-     * @return null|array if assoc and validation : return treated value
-     */
+    * auto generate doc.
+    * @return null|array if assoc and validation : return treated value
+    */
 
     protected function getContentSecure():?array{
         return [

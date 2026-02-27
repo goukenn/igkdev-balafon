@@ -171,6 +171,11 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         return true;
     }
 
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return bool
+    */
     public function constraintExists(string $name): bool {
         return false;
     }
@@ -334,16 +339,18 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         $v = stripslashes($v);
         return addslashes($v); 
 	}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl the default value is null
     */
 
     public function __construct($ctrl=null){
         $this->m_ctrl=$ctrl;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $data
     */
 
@@ -437,8 +444,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         return $tab;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function close(){
@@ -446,9 +454,10 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             fclose($this->m_f);
         }
     }
+
     /**
-    * 
-    * @param mixed $datafile the default value is "file"
+    * auto generate doc.
+    * @param file
     */
 
     public function connect($datafile="file"){
@@ -461,23 +470,26 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function getFileName(){
         return $this->m_dbname;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $result the default value is null
     */
 
     public function createEmptyResult($result=null){
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $value
     */
 
@@ -488,23 +500,25 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         return $value;
     }
+
     /**
-    * 
-    * @param mixed $tablename
+    * auto generate doc.
     * @param mixed $callback
     */
 
     public function initSystablePushInitItem($tablename, $callback){}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $tablename
     */
 
     public function initSystableRequired($tablename){
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $filename
     */
 
@@ -512,10 +526,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         $txt=IO::ReadAllText($filename);
         return self::LoadString($txt, true, $options);
     }
+
     /**
-    * 
-    * @param mixed $txt
-    * @param mixed $rmBom the default value is true
+    * auto generate doc.
     * @param array|\IGK\System\IO\CSV\CSVDataAdapterLoadStringOptions $options assoc array of delimiter:ch|separator|flag : csv flag|filter callback to filter
     */
 
@@ -555,16 +568,18 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         // }
         // return $entries;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $tbname
     */
 
     public function selectAll($tbname){
         $this->selectAllFile($tbname);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $tbname
     */
 
@@ -577,9 +592,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         return null;
     }
+
     /**
-    * 
-    * @param mixed $filename
+    * auto generate doc.
     * @param mixed $entries
     */
 
@@ -605,7 +620,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         igk_io_save_file_as_utf8($filename, $out, true);
     }
     ///convert tab to line entry
+
     /**
+    * auto generate doc.
     */
 
     public static function toCSVLineEntry($tab, $key=null){

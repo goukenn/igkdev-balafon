@@ -14,17 +14,20 @@ use ReflectionException;
  * 
  * @package IGK\System\Npm
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Npm
+*/
 class JsonPackage
 {
     use JsonPackagePropertyTrait;
+
     /**
-     * 
-     * @param string $file 
-     * @return static|false 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return static|false
+    */
     public static function Load(string $file)
     {
         $data = json_decode(file_get_contents($file)) ?? igk_die("no data in : $file");

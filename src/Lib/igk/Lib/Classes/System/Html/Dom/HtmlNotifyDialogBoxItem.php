@@ -27,8 +27,9 @@ final class HtmlNotifyDialogBoxItem extends HtmlNode {
     * @var mixed
     */
     protected $tagname = "div";
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function initialize(){        
@@ -42,16 +43,18 @@ if(ns_igk)ns_igk.winui.notify.init();
 EOF;
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getMessage(){
         return $this->m_Message;
     }
     ///<summary></summary>
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getTitle(){
@@ -60,9 +63,9 @@ EOF;
     ///<summary></summary>
     ///<param name="title"></param>
     ///<param name="msg"></param>
+
     /**
-    * 
-    * @param mixed $title
+    * auto generate doc.
     * @param mixed $msg
     */
 

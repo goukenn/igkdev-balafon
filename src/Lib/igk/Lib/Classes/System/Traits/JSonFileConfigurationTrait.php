@@ -8,11 +8,12 @@ namespace IGK\System\Traits;
 * @package IGK\System\Traits
 */
 trait JSonFileConfigurationTrait{
+
     /**
-     * 
-     * @param string $file 
-     * @return null|static 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return null|static
+    */
     public static function Load(string $file){
         $data = json_decode(file_get_contents($file));
         if ($data){
@@ -20,10 +21,11 @@ trait JSonFileConfigurationTrait{
         }
         return null;
     }
+
     /**
-     * @param mixed $data 
-     * create from configuration data
-     * @return static 
-     */
+    * auto generate doc.
+    * @param mixed $datacreate from configuration data
+    * @return static
+    */
     public abstract static function CreateFromConfigData($data);
 }

@@ -67,29 +67,33 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * @var mixed
     */
     const TEMPORARY=0xb5;
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     */
 
     public function getCanBeMerged(){
         return $this->getFlag(self::CANMERGE_LINK) ?? true;
     }
-/**
-    * 
+
+    /**
+    * auto generate doc.
     */
 
     public function getlink(){
         return $this->getFlag(self::SCRIPT_LINK);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getNotSingleView(){
         return $this->getFlag(self::NOT_SINGLEVIEW);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getTag(){
@@ -102,8 +106,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     public function IsTemporary(){
         return $this->getFlag(self::TEMPORARY);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -146,8 +151,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     public function text(string $content){
         return $this->setContent($content);
     }
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     */
     private function _iaccept(){
         $this->setFlag(self::ACCEPT, !(!empty($this->link) && (!IGKValidator::IsUri($this->link) && !igk_io_file_exists(igk_getv(explode("?", $this->link), 0), true))));
@@ -157,8 +163,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     {
         return false;
     }
-      /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -166,16 +173,18 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::CANMERGE_LINK, $v);
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
     public function setIsTemporary($v){
         $this->setFlag(self::TEMPORARY, $v);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -183,8 +192,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::SCRIPT_LINK, $v);
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -192,8 +202,9 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::NOT_SINGLEVIEW, $v);
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

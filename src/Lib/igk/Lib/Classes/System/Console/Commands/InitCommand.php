@@ -41,16 +41,12 @@ class InitCommand extends AppExecCommand
     * @var mixed
     */
     const BASECLASS_COMMAND = Constants::BASECLASS_COMMAND;
+
     /**
-     * 
-     * @param mixed $command 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Error 
-     */
+    * auto generate doc.
+    * @param mixed $command
+    * @return void
+    */
 
     public function exec($command)
     {

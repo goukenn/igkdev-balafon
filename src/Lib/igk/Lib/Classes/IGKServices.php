@@ -391,12 +391,12 @@ class IGKServices extends ListOfCoreServices
         }
         return $l;
     }
+
     /**
-     * 
-     * @param mixed $configuration 
-     * @param string $gkey 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $gkey
+    * @return mixed
+    */
     private static function _GetConfigurationServiceArgs($configuration, string $gkey)
     {
         $l = null;

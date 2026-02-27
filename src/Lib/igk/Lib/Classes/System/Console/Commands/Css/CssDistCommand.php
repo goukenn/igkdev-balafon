@@ -44,9 +44,10 @@ class CssDistCommand extends AppExecCommand{
         "--min-file"=>"flag: min file",
         "--theme-export"=>"flag: theme export",
     ];
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function exec($command){   
         $minfile = property_exists($command->options, '--min-file');

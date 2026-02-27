@@ -3,11 +3,12 @@
 // @file: RegexMatcherParentChainReplacement.php
 // @date: 20250617 12:49:56
 namespace IGK\System\Text;
+
 /**
- * 
- * @package IGK\System\Text
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Text
+* @author C.A.D. BONDJE DOUE
+*/
 class RegexMatcherParentChainReplacement
 {
 

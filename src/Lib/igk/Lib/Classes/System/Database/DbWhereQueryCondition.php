@@ -3,8 +3,9 @@
 // @file: DbWhereQueryCondition.php
 // @date: 20241013 15:05:38
 namespace IGK\System\Database;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 * @author C.A.D. BONDJE DOUE
 */

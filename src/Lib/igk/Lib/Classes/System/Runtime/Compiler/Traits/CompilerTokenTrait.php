@@ -4,8 +4,9 @@
 // @date: 20221019 16:13:42
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenTrait{

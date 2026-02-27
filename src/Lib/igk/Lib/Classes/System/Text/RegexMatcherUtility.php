@@ -48,15 +48,12 @@ abstract class RegexMatcherUtility
                 return in_array($a , $t) ? '\\'.$a: $a;
         }, $list);
     }
+
     /**
-     * 
-     * @param string $v source to replace
-     * @param mixed|Closure|string|string[] $replacement new value
-     * @param mixed $pattern 
-     * @param mixed $g 
-     * @param mixed $replaceCapturedDataCallback
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $replaceCapturedDataCallback
+    * @return void
+    */
 
     public static function ReplaceWith(string $source, $replacement, $pattern, $g , ?Closure $replaceCapturedDataCallback = null){
             if ($replacement instanceof Closure) {
@@ -73,9 +70,10 @@ abstract class RegexMatcherUtility
             }
             return $source;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function ReplaceWithOnly(string $s, $rp, $e){
         $g = '/^(.+)$/m';
@@ -194,13 +192,11 @@ abstract class RegexMatcherUtility
         $b = sprintf("/%s/%s", $b, $o);
         return $b;
     }
+
     /**
-     * 
-     * @param RegexMatcherContainer $ctn the container
-     * @param string $haystack the string to operate 
-     * @return (string|array)[] 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $haystack the string to operate
+    */
 
     public static function TreatByRemoveRootScopePattern(RegexMatcherContainer $ctn, string $haystack)
     {
@@ -254,12 +250,11 @@ abstract class RegexMatcherUtility
         });
         return $v;
     }
+
     /**
-     * 
-     * @return RegexMatcherContainer 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return RegexMatcherContainer
+    */
 
     public static function CodeCommentMatcherReference()
     {
@@ -371,12 +366,12 @@ abstract class RegexMatcherUtility
         }
         return $_t;
     }
+
     /**
-     * 
-     * @param mixed $regex 
-     * @param array &$patterns 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param array &$patterns
+    * @return void
+    */
 
     public static function AppendPhpHereDoc($regex, &$patterns = [])
     {
@@ -384,12 +379,12 @@ abstract class RegexMatcherUtility
         $patterns[] = $regex->begin('(<<<)\'([a-zA-Z][a-zA-Z\-0-9]*)\'', "^\\2", 'here-doc')->last();
         $patterns[] = $regex->begin('(<<<)"([a-zA-Z][a-zA-Z\-0-9]*)"', "^\\2", 'here-doc')->last();
     }
+
     /**
-     * 
-     * @param mixed &$v_plc 
-     * @param IRegexMatcherEndDetectionInfo $e 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param IRegexMatcherEndDetectionInfo $e
+    * @return array
+    */
 
     public static function GetChainUntil(&$v_plc, $e)
     {

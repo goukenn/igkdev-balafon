@@ -1007,9 +1007,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_notifyctrl()->addMsgr("msg.dataBackup");
         igk_navtocurrent();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function check_con_ajx()
     {
@@ -1033,9 +1034,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_ajx_toast(implode(" ", [__("Connection:"), __($con)]), $type);
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function ClearBackup()
     {
@@ -1110,9 +1112,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_Clearall_db_entry()
     {
@@ -1245,9 +1248,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $result;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_dbRestore()
     {
@@ -1294,9 +1298,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frmdial = igk_ajx_notify_dialog(__("title.confirmalltablesuppression"), $b);
         $frmdial->renderAJX();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_drop_entry()
     {
@@ -1345,10 +1350,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         return DbUtils::DropControllerTables($ctrl, $dbname);
     }
+
     /**
-     * 
-     * @param mixed $dbname the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $dbname the default value is null
+    */
 
     public function db_dropSelectedTable_ajx($dbname = null)
     {
@@ -1395,12 +1401,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $dbname the default value is null
-     * @param mixed $table the default value is null
-     * @param mixed $navigate the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $navigate the default value is false
+    */
 
     public function db_droptable($dbname = null, $table = null, $navigate = false)
     {
@@ -1433,9 +1438,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             return $frame;
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_droptable_ajx()
     {
@@ -1444,9 +1450,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $frame->renderAJX();
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_edit_entry_ajx()
     {
@@ -1512,15 +1519,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }], igk_environment()->{"db.fieldhandler"} ?? []);
         return igk_getv($r, $table);
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $dbname
-     * @param mixed $table
-     * @param mixed $n
-     * @param mixed $s
-     * @param mixed $render the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $render the default value is true
+    */
 
     public function db_edit_entry_frame($ctrl, $dbname, $table, $n, $s, $render = true)
     {
@@ -1568,9 +1571,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $frm;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_insert_db_entry()
     {
@@ -1589,9 +1593,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $this->db_viewtableentries($dbname, $n);
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_insert_db_entry_frame_ajx()
     {
@@ -1623,9 +1628,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frm->addBtn("btn_add", __("btn.add"));
         $frame->renderAJX();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_reload_sys_tables_ajx()
     {
@@ -1654,9 +1660,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_ajx_panel_dialog(__("Confirm"), $frm);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function db_update_entry()
     {
@@ -1699,13 +1706,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         // igk_navto($this->getUri('showConfig'));
     }
+
     /**
-     * 
-     * @param mixed $dbname the default value is null
-     * @param mixed $table the default value is null
-     * @param mixed $navigate the default value is true
-     * @param mixed $adapter the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $adapter the default value is null
+    */
 
     public function db_viewtableentries($dbname = null, $table = null, $navigate = true, $adapter = null)
     {
@@ -1770,12 +1775,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $frame;
     }
+
     /**
-     * 
-     * @param mixed $dbname the default value is null
-     * @param mixed $table the default value is null
-     * @param mixed $adapter the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $adapter the default value is null
+    */
 
     public function db_viewtableentries_ajx($dbname = null, $table = null, $adapter = null)
     {
@@ -1783,17 +1787,19 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frame->renderAJX();
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function dbChanged()
     {
         $this->resetDataTableDefinition();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function demandToShowDataBase_ajx()
     {
@@ -1803,9 +1809,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $c->renderAJX();
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function downloadbackupfile()
     {
@@ -1817,9 +1824,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_notifyctrl()->addError("file not present");
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function dropBackup()
     {
@@ -1844,9 +1852,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         });
         igk_ajx_panel_dialog("Drop", $d);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function dropsysdb()
     {
@@ -1858,27 +1867,29 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $exp
-     */
+    * auto generate doc.
+    * @param mixed $exp
+    */
 
     public function dropTablesRegex($ctrl, $exp)
     {
         \IGK\Helper\Database::DropTableFromRegex($ctrl, $exp);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function editdb()
     {
         $this->View();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAllTableNames()
     {
@@ -1910,9 +1921,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         return igk_io_cachedir() . DIRECTORY_SEPARATOR . ".mysql.db.cache";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigPage()
     {
@@ -1935,18 +1947,20 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      * @param mixed $tablename
      * @param mixed $global the default value is true
      */
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbConstantFile()
     {
         return igk_sys_db_constant_cache();
     }
+
     /**
-     * 
-     * @return array tables list 
-     */
+    * auto generate doc.
+    * @return array tables list
+    */
 
     public function &getLoadTables()
     {
@@ -1956,46 +1970,49 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $tables;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getName(): string
     {
         return IGK_MYSQL_DB_CTRL;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getSearhTable()
     {
         return $this->getParam(self::SEARCH_DB);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getSelectedDb()
     {
         return $this->getParam(self::SELECTED_DB) ?? igk_configs()->db_name;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getTabInfo()
     {
         return $this->getParam(self::TABINFO_DB);
     }
+
     /**
-     * 
-     * @param mixed $ctrl 
-     * @param bool $include_dependency 
-     * @return false|array 
-     * @throws IGKException 
-     * @deprecated use DbSchema insteed
-     */
+    * auto generate doc.
+    * @param bool $include_dependency
+    * @deprecated use DbSchema insteed
+    * @return false|array
+    */
 
     public function getTablesFor($ctrl, $include_dependency = false)
     {
@@ -2033,17 +2050,19 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $t;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getViewMyAdmin()
     {
         return $this->getParam(self::VIEWMYADMIN_DB);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function gotophpmyadmin()
     {
@@ -2054,10 +2073,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $args
-     */
+    * auto generate doc.
+    * @param mixed $args
+    */
 
     public function init_table($args)
     {
@@ -2067,10 +2087,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $data = igk_getv($e, 2);
         $this->_addTable($tbn, $o);
     }
+
     /**
-     * 
-     * @param mixed $ctrlid the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ctrlid the default value is null
+    */
 
     function initCtrlDb($ctrlid = null)
     {
@@ -2081,11 +2102,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_set_env(IGK_ENV_DB_INIT_CTRL, null);
         }
     }
+
     /**
-     * 
-     * @param mixed $view the default value is true
-     * @param mixed $nav the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $nav the default value is true
+    */
 
     public function initSDb($view = true, $nav = true)
     {
@@ -2246,9 +2267,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             self::$sm_tabinfo = array();
         self::$sm_tabinfo[$tablename] = $inf;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function registerHook()
     {
@@ -2271,9 +2293,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $tab = &$this->getLoadTables();
         $tab[$tbname] = $ctrl;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function resetDataTableDefinition()
     {
@@ -2290,9 +2313,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         //     @unlink($f);
         // igk_env_count(__FUNCTION__);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function searchtable()
     {
@@ -2300,9 +2324,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $this->setParam('db:searchtable', $q);
         $this->View();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function selectdb()
     {
@@ -2324,9 +2349,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         $this->setParam(self::SELECTED_DB, $v);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function updatedb()
     {
@@ -2355,9 +2381,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $this->View();
         igk_navtocurrent();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function View(): BaseController
     {
@@ -2407,9 +2434,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
         return $this;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function viewtable()
     {

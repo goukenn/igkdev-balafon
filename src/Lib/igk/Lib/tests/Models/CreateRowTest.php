@@ -15,11 +15,11 @@ use IGK\Tests\BaseTestCase;
 use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
- 
+
 /**
- * @package IGK\Tests\Models
- * @group disabled
- */
+* auto generate doc.
+* @package IGK\Tests\Models
+*/
 class CreateRowTest extends BaseTestCase{
 
     /**
@@ -92,7 +92,10 @@ class CreateRowTest extends BaseTestCase{
     }
 }
 
-/** @package IGK\Tests\Models */
+/**
+* auto generate doc.
+* @package IGK\Tests\Models
+*/
 class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
 
     /**

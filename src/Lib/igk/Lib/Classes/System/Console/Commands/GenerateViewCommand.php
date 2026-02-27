@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands;
 use IGK\DocumentParser\DocumentParser;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Command
 */
 class GenerateViewCommand extends AppExecCommand{

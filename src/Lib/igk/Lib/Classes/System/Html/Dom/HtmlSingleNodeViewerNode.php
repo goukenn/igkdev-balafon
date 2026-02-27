@@ -26,11 +26,12 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     * @var mixed
     */
     var $targetNode;
+
     /**
-     * 
-     * @param array|mixed $v 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param array|mixed $v
+    * @return $this
+    */
 
     public function setContent($v){
         $this->targetNode->setContent(...func_get_args());

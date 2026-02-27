@@ -6,6 +6,11 @@
 * 
 * @package IGK
 */
+
+/**
+* auto generate doc.
+* @package
+*/
 class IGKAppMethodFlag{
 
     /**
@@ -13,20 +18,21 @@ class IGKAppMethodFlag{
     * @var mixed
     */
     private $m_f;
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isEmpty(): bool{
         return empty($this->m_f);
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $def 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $def
+    * @return mixed
+    */
 
     public function getFlag($n, $def=null){
         return igk_getv($this->m_f, $n, $def);

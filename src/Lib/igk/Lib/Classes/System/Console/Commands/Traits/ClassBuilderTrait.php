@@ -5,8 +5,9 @@
 namespace IGK\System\Console\Commands\Traits;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Traits
 */
 trait ClassBuilderTrait{

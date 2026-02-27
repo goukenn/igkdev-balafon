@@ -18,9 +18,9 @@ class BalafonFrameworkManager{
     * @var mixed
     */
     var $handleAllAction;
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed $args
     */
 
@@ -33,15 +33,17 @@ class BalafonFrameworkManager{
             echo "command [{$name}] not found";
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
         $this->handleAllAction=1;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function clear_cache(){
@@ -54,15 +56,17 @@ class BalafonFrameworkManager{
     public function help(){
         echo "help ";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function install(){
         echo "running install";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function test(){

@@ -7,8 +7,9 @@ use IGK\Helper\Activator;
 use IGK\System\Html\Traits\FieldsDefintionItemTrait;
 use IGK\System\Html\Traits\HostableItemTrait;
 use IGK\System\Traits\ActivableTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Dom\Component
 */
 class ActionGroupComponent extends WebComponent{

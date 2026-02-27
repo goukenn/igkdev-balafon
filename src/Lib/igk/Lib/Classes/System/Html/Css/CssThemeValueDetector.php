@@ -7,8 +7,9 @@ use Exception;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */

@@ -52,15 +52,17 @@ class BindingExpressionReader
      * @var ?string
      */
     var $value;
+
     /**
-     * 
-     * @var bool
-     */
+    * auto generate doc.
+    * @var bool
+    */
     var $escaped = false;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $offset = 0;
     /**
      * mark data
@@ -77,10 +79,11 @@ class BindingExpressionReader
      * @var bool
      */
     var $skipMode;
+
     /**
-     * 
-     * @var expression arg for skip mode 
-     */
+    * auto generate doc.
+    * @var expression arg for skip mode
+    */
     var $expressionArgs;
     /**
      * expression args for name
@@ -282,12 +285,12 @@ class BindingExpressionReader
         }
         return sprintf('<?= %s ?>', $v);
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return object|array 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return object|array
+    */
     private function _getBindingRawData($data)
     {
         if ($data instanceof BindingContextInfo) {

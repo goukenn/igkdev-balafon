@@ -11,16 +11,21 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
      * loading module definition 
      * @package IGK\System
      */
+
+    /**
+    * auto generate doc.
+    * @package IGK\System
+    */
     interface auto_load_IModuleDefinition{
     }
     class_alias('auto_load_IModuleDefinition', 'IModuleDefinition');
 }
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
-* @type {}
-* @method static string info()
+* @method static string info
 */
 abstract class Modules implements IModuleDefinition{
 

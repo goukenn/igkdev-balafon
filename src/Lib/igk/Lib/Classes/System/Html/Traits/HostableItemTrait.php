@@ -5,8 +5,9 @@
 namespace IGK\System\Html\Traits;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlUtils;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Traits
 */
 trait HostableItemTrait{

@@ -39,12 +39,12 @@ class DbConditionExpressionBuilder{
      * @var mixed
      */
     var $fc;
+
     /**
-     * 
-     * @param mixed $operand 
-     * @return void 
-     * @throws ArgumentNotValidException 
-     */
+    * auto generate doc.
+    * @param mixed $operand
+    * @return void
+    */
 
     public function __construct($operand = self::OP_AND)
     {

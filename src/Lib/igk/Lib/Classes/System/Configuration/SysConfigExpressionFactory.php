@@ -47,12 +47,12 @@ class SysConfigExpressionFactory{
         }
         return implode("|",$s);
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $expression 
-     * @return object|null 
-     */
+    * auto generate doc.
+    * @param mixed $expression
+    * @return object|null
+    */
 
     public static function Create($name, $expression){
         if ($g = igk_environment()->getArray(self::KEY, $name)){

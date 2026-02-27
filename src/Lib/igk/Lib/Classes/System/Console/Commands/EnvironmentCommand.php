@@ -10,8 +10,9 @@ use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Constants;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */

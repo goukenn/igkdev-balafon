@@ -316,13 +316,12 @@ class Activator
         }
         return $g;
     }
+
     /**
-     * 
-     * @param callable $callable 
-     * @param mixed $inf instance
-     * @param mixed $def definition
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $def definition
+    * @return void
+    */
 
     public static function InitPrivatePropety(callable $callable, $inf, $def)
     {
@@ -348,10 +347,10 @@ class Activator
     }
 
     /**
-     * 
-     * @param string $className 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param string $className
+    * @return array
+    */
 
     public static function GetInstanceProperties(string $className): array
     {
@@ -379,13 +378,12 @@ class Activator
         }
         return $props;
     }
+
     /**
-     * 
-     * @param string $doc_comments 
-     * @return array<mixed, object> 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $doc_comments
+    * @return array<mixed
+    */
     private static function _GetDocumentProperties(string $doc_comments)
     {
 

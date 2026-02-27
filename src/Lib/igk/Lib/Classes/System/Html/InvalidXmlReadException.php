@@ -15,9 +15,9 @@ class InvalidXmlReadException extends IGKException{
     * @var mixed
     */
     var $offset;
+
     /**
-    * 
-    * @param mixed $msg
+    * auto generate doc.
     * @param mixed $offset the default value is 0
     */
 

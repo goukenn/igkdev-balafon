@@ -20,26 +20,25 @@ use ReflectionException;
  * 
  * @package IGK\System\Console\Scaffold
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Scaffold
+*/
 class ActionScaffold extends ScaffoldBase
 {
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $description = "generate REST action";
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $controller 
-     * @param null|string $name 
-     * @return mixed 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param null|string $name
+    * @return mixed
+    */
     public function exec($command, $controller = null, ?string $name = null)
     {
         if (property_exists($command->options, "--help")) {

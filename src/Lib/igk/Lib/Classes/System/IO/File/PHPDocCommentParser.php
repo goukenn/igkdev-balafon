@@ -91,10 +91,11 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @var mixed
      */
     var $security;
+
     /**
-     * 
-     * @var ?bool auth enable strict definition  
-     */
+    * auto generate doc.
+    * @var ?bool auth enable strict definition
+    */
     var $strict_auth;
 
     /**
@@ -103,20 +104,22 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     public function getPropertyFilterListener(){
         return $this->m_propertyFilterListener;
     }
+
     /**
-     * 
-     * @param mixed $listener 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $listener
+    * @return void
+    */
 
     public function setPropertyFilterListener($listener){
         $this->m_propertyFilterListener = $listener;
     }
+
     /**
-     * 
-     * @param mixed $handler 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $handler
+    * @return void
+    */
 
     public function setPropertyHandlerListener($handler){
         $this->m_propertyHandleListener = $handler;

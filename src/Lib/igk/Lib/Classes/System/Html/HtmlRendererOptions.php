@@ -179,10 +179,11 @@ class HtmlRendererOptions
      * @var ?array|callable 
      */
     var $skipTags;
+
     /**
-     * 
-     * @var for aside items
-     */
+    * auto generate doc.
+    * @var for aside items
+    */
     var $aside;
     /**
      * store definition properties

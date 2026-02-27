@@ -3,8 +3,9 @@
 // @file: NetworkStatus.php
 // @date: 20230322 23:50:21
 namespace IGK\System\Net;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Net
 */
 class NetworkStatus{

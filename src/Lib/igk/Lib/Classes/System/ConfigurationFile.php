@@ -40,15 +40,17 @@ class ConfigurationFile extends EntityConfigurationSchema{
      * @var ?ConfigurationWorkbenchInfo
      */
     var $workbench;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $build;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $exposedDir;
     /**
      * scripts configuration 

@@ -10,7 +10,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompiler;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompilerTest extends BaseTestCase{

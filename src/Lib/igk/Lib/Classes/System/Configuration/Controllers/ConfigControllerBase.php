@@ -21,10 +21,11 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 abstract class ConfigControllerBase extends BaseController implements IConfigController
 {
     use NoDbActiveControllerTrait;
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string
     {
         return strtolower(static::class);
@@ -88,11 +89,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigs()->get($name, $default);
     }
+
     /**
-     * 
-     * @param mixed $node
-     * @param mixed $title
-     */
+    * auto generate doc.
+    * @param mixed $title
+    */
 
     protected function addTitle($node, $title)
     {
@@ -100,49 +101,55 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $d["class"] = "igk-cnf-title";
         $d->Content = __($title);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigCtrl()
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigNode()
     {
         return $this->getConfigCtrl()->getConfigNode();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getConfigPage()
     {
         return "default";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function getGlobalHelpArticle()
     {
         return "./help/help." . $this->Name;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConfigPageAvailable()
     {
         return igk_is_conf_connected();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsVisible(): bool
     {
@@ -153,9 +160,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $v = $cnf->getIsConnected();
         return $v;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function initComplete($context = null)
     {
@@ -164,9 +172,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             $c->registerConfig($this);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function initConfigMenu()
     {
@@ -206,10 +215,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $funcName
-     */
+    * auto generate doc.
+    * @param mixed $funcName
+    */
 
     protected function IsFunctionExposed(string $function)
     {

@@ -87,8 +87,9 @@ class HtmlHeadNode extends HtmlNode{
         $this->m_scripts = $list;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 

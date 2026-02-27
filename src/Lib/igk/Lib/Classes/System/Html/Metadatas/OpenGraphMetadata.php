@@ -9,6 +9,11 @@ use IGK\System\IO\StringBuilder;
 * 
 * @package IGK\System\Html\Metadatas\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Metadatas
+*/
 class OpenGraphMetadata extends MetadataGroupEntryBase{
 
     /**
@@ -40,10 +45,11 @@ class OpenGraphMetadata extends MetadataGroupEntryBase{
     * @var mixed
     */
     var $ogUrl;
+
     /**
-     * 
-     * @var ?string website
-     */
+    * auto generate doc.
+    * @var ?string website
+    */
     var $ogType;
     /**
      * mapping properties

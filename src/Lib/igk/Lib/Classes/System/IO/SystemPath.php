@@ -12,6 +12,11 @@ use IGKResourceUriResolver;
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO
+*/
 class SystemPath{
 
     /**
@@ -33,12 +38,12 @@ class SystemPath{
     var $query;
     private function __construct(){
     }
+
     /**
-     * 
-     * @param string $path 
-     * @return static 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @return static
+    */
 
     public static function Parse(string $path){
         $p = parse_url($path);

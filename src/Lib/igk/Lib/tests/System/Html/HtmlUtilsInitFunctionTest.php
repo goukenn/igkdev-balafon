@@ -8,9 +8,9 @@ use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
- * 
- * @package IGK\Tests\System\Html
- */
+* auto generate doc.
+* @package IGK\Tests\System\Html
+*/
 class HtmlUtilsInitFunctionTest extends BaseTestCase
 {
 

@@ -18,11 +18,17 @@ use TBN\Tests\DummyCtrl;
 * @package IGK\Tests\Database\Models\Helper
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\Tests\Database\Models\Helper
+*/
 class InitClassBuilderTest extends BaseTestCase{
+
     /**
-     * 
-     * @return IDbMigrationInfo 
-     */
+    * auto generate doc.
+    * @return IDbMigrationInfo
+    */
     protected function _getMigrationInfo(){
         $o = igk_createobj();
         $o->columnInfo = [

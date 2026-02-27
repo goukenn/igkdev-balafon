@@ -14,8 +14,9 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     * @var mixed
     */
     private $m_nodes;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -23,9 +24,9 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes=array();
         $this["type"] = "node";
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $tag the default value is null
     */
 
@@ -33,23 +34,26 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes[]=$n;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getChildCount(){
         return igk_count($this->m_nodes);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getChilds(){
         return $this->m_nodes;
     }
+
     /**
-    * 
-    * @param  * $o the default value is null
+    * auto generate doc.
+    * @param * $o the default value is null
     */
 
     protected function innerHTML(& $o=null){

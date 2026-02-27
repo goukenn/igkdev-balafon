@@ -124,11 +124,10 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
 
     /**
-     * 
-     * @param mixed $n 
-     * @param bool $force 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param bool $force
+    * @return bool
+    */
 
     protected function _add($n, bool $force = false): bool
     {
@@ -137,11 +136,12 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         }
         return $this->m_template->_add($n);
     }
+
     /**
-     * 
-     * @param array|mixed $content 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param array|mixed $content
+    * @return $this
+    */
 
     public function setContent($content)
     {
@@ -188,17 +188,12 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         $this->m_skip_rendering = false;
         return $v_out;
     }
+
     /**
-     * 
-     * @param mixed $children 
-     * @param mixed $options 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return mixed
+    */
 
     public function generateRender($children, $options = null)
     {  
@@ -325,11 +320,11 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         }
         return $sb . '';
     }
+
     /**
-     * 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function remove(){
         parent::remove();
@@ -385,16 +380,12 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         }
         return $sb . '';
     }
+
     /**
-     * 
-     * @param mixed $n target node 
-     * @param mixed $content string content
-     * @param mixed $data data to pass 
-     * @param null|BaseController $ctrl controller source
-     * @param null|string $hookExpression expression name that will serve as global variables
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $hookExpression expression name that will serve as global variables
+    * @return void
+    */
     private static function  _HostChain(HtmlItemBase $n, string $content, $data, ?BaseController $ctrl, ?string $hookExpression = null)
     {
         $ldcontext = igk_init_binding_context($n, $ctrl, is_array($data) ? $data : null);

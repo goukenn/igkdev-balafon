@@ -3,8 +3,9 @@
 // @file: USDCulture.php
 // @date: 20230517 10:59:45
 namespace IGK\System\Culture;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Culture
 */
 class USDCulture extends Globalization{

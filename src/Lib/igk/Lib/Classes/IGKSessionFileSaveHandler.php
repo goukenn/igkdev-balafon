@@ -105,11 +105,12 @@ class IGKSessionFileSaveHandler{
         return $handler;
        
     }
-     /**
-     * @param string $savepath 
-     * @param string $sessname 
-     * @return bool 
-     */
+
+    /**
+    * auto generate doc.
+    * @param string $sessname
+    * @return bool
+    */
 
     public function open($savepath, $sessname){
         if(defined("IGK_SESS_DIR")){
@@ -130,10 +131,11 @@ class IGKSessionFileSaveHandler{
         }
         return (string)null;
     }
+
     /**
-     * @param string $id id of the session 
-     * @param mixed $data mixed data to write
-     */
+    * auto generate doc.
+    * @param mixed $data mixed data to write
+    */
 
     public function write($id, $data){
         $f=$this->_getFile($id);

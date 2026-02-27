@@ -16,12 +16,18 @@ use IGK\System\Http\RequestPreparer;
 * @package IGK\System\Controllers\Traits
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Controllers\Traits
+*/
 trait ControllerRequestExtensionTrait{
+
     /**
-     * 
-     * @param string|IControllerRequestInfo $info 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string|IControllerRequestInfo $info
+    * @return void
+    */
     public static function doRequest(BaseController $ctrl, $info){
         $method= 'GET';
         $isajx = false;

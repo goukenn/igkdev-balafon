@@ -141,12 +141,12 @@ class RegexMatcherContainerTmLanguageConverter
         $data = $this->m_data->jsonSerialize();        
         return $data;
     }
+
     /**
-     * 
-     * @param mixed $refdata 
-     * @param array $tab 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param array $tab
+    * @return array
+    */
     private function _getIncludeData($refdata, array $tab){
         $tr = [];
         foreach($tab as $c){

@@ -101,12 +101,11 @@ class IGKGD
      * @var ?int
      */
     private $m_transparentColor;
+
     /**
-     * 
-     * @param mixed $w
-     * @param mixed $h
-     * @param mixed $himg
-     */
+    * auto generate doc.
+    * @param mixed $himg
+    */
     private function __construct($w, $h, $himg)
     {
         $this->m_width = $w;
@@ -314,9 +313,10 @@ class IGKGD
         imagecolortransparent($this->m_himg, $hcl);
         $this->m_transparentColor = $hcl;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Dispose()
     {
@@ -337,12 +337,11 @@ class IGKGD
         imageline($this->m_himg, $x1, $y1, $x2, $y2, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
+
     /**
-     * 
-     * @param mixed $color
-     * @param mixed $center
-     * @param mixed $radius
-     */
+    * auto generate doc.
+    * @param mixed $radius
+    */
 
     public function DrawEllipse($color, $center, $radius)
     {
@@ -350,14 +349,11 @@ class IGKGD
         imageellipse($this->m_himg, $center->X, $center->Y, abs($radius->X * 2.0), abs($radius->Y * 2.0), $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
+
     /**
-     * 
-     * @param mixed $himg
-     * @param mixed $x
-     * @param mixed $y
-     * @param mixed $w the default value is -1
-     * @param mixed $h the default value is -1
-     */
+    * auto generate doc.
+    * @param mixed $h the default value is -1
+    */
 
     public function DrawImage($himg, $x, $y, $w = -1, $h = -1)
     {
@@ -411,14 +407,11 @@ class IGKGD
         } else
             imagecopymerge($this->m_himg, $himg, $x, $y, 0, 0, $w, $h, 10);
     }
+
     /**
-     * 
-     * @param mixed $color
-     * @param mixed $rect
-     * @param mixed $y the default value is null
-     * @param mixed $width the default value is null
-     * @param mixed $height the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $height the default value is null
+    */
 
     public function DrawRectangle($color, $rect, $y = null, $width = null, $height = null)
     {
@@ -438,15 +431,11 @@ class IGKGD
     * @param mixed $scaley
     */
     public function Scale($scalex, $scaley) {}
+
     /**
-     * 
-     * @param mixed $string
-     * @param mixed $font
-     * @param mixed $size
-     * @param mixed $x
-     * @param mixed $y
-     * @param mixed $color
-     */
+    * auto generate doc.
+    * @param mixed $color
+    */
 
     public function DrawString($string, $font, $size, $x, $y, $color)
     {
@@ -460,12 +449,11 @@ class IGKGD
             "height" => abs($r[5] - $r[1])
         );
     }
+
     /**
-     * 
-     * @param mixed $color
-     * @param mixed $center
-     * @param mixed $radius
-     */
+    * auto generate doc.
+    * @param mixed $radius
+    */
 
     public function fillEllipse($color, $center, $radius)
     {
@@ -473,14 +461,11 @@ class IGKGD
         imagefilledellipse($this->m_himg, $center->X, $center->Y, abs($radius->X * 2.0), abs($radius->Y * 2.0), $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
+
     /**
-     * 
-     * @param mixed $color
-     * @param mixed $rectx
-     * @param mixed $y the default value is null
-     * @param mixed $width the default value is null
-     * @param mixed $height the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $height the default value is null
+    */
 
     public function fillRectangle($color, $rectx, $y = null, $width = null, $height = null)
     {
@@ -495,10 +480,11 @@ class IGKGD
         imagefilledrectangle($this->m_himg, $x, $y, $w, $h, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
+
     /**
-     * 
-     * @param mixed $himg
-     */
+    * auto generate doc.
+    * @param mixed $himg
+    */
 
     public static function FromGd($himg)
     {
@@ -515,9 +501,10 @@ class IGKGD
             return imagepng($this->m_himg);
         return imagejpeg($this->m_himg, null, $quality);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function renderText()
     {

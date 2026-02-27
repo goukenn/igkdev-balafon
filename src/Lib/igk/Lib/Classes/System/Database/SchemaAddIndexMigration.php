@@ -3,8 +3,9 @@
 // @file: SchemaAddIndexMigration.php
 // @date: 20231222 16:48:41
 namespace IGK\System\Database;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 */
 class SchemaAddIndexMigration extends SchemaMigrationItemBase{

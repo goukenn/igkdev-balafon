@@ -17,6 +17,11 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenStateBufferTrait;
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 class ViewTokenizeCompiler  extends TokenCompilerBase
 {
     use CompilerTokenEntryTrait;
@@ -24,10 +29,11 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     use CompilerTokenBracketTrait;
     use CompilerTokenReadStructHandlerTrait;
     use CompilerTokenCommentHandlerTrait;
+
     /**
-     * 
-     * @var ViewTokenizeOptions
-     */
+    * auto generate doc.
+    * @var ViewTokenizeOptions
+    */
     private $m_tokenOptions;
 
     /**

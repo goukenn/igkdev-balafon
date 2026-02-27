@@ -52,13 +52,12 @@ class StringBuilder{
         } 
         $this->m_src = & $src;
     }
+
     /**
-     * 
-     * @param string $text 
-     * @param int $offset 
-     * @param null|int $length 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param null|int $length
+    * @return $this
+    */
 
     public function replaceWithFrom(string $text, int $offset, ?int $length=null){
         $g = igk_str_rm($this->m_src, $offset, $length);
@@ -66,12 +65,12 @@ class StringBuilder{
         $this->m_src = $g;
         return $this;
     }
+
     /**
-     * 
-     * @param string $text 
-     * @param int $offset 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param int $offset
+    * @return $this
+    */
 
     public function insertAt(string $text, int $offset){
         $this->m_src = igk_str_insert($text, $this->m_src, $offset);

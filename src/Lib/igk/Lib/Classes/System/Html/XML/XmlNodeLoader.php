@@ -8,6 +8,11 @@ use IGKException;
 * 
 * @package IGK\System\Html\XML
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\XML
+*/
 final class XmlNodeLoader extends XmlNode{
 
     /**
@@ -26,12 +31,12 @@ final class XmlNodeLoader extends XmlNode{
     {
         return false;
     }
+
     /**
-     * 
-     * @param string $src 
-     * @return static 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $src
+    * @return static
+    */
 
     public static function CreateFromContent(string $src){
         $n = new static;

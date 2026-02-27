@@ -8,6 +8,11 @@ use IGK\System\IO\Path;
 * 
 * @package IGK\System\IO\Storage
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\Storage
+*/
 class StorageBuilder implements IStorageBuilder{
 
     /**
@@ -32,11 +37,12 @@ class StorageBuilder implements IStorageBuilder{
         $this->storage = $storage;
         $this->prefix = $prefix;
     }
+
     /**
-     * @param string|array $file 
-     * @param bool $ovewrite 
-     * @return IStorageInfo 
-     */
+    * auto generate doc.
+    * @param bool $ovewrite
+    * @return IStorageInfo
+    */
 
     public function store($file, bool $ovewrite=false, ?string $type=null): ?IStorageInfo{
         if (!is_string($file) && is_array($file)){

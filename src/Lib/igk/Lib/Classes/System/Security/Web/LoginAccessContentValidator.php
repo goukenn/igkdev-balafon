@@ -11,13 +11,12 @@ use function igk_resources_gets as __;
  */
 class LoginAccessContentValidator extends MapContentValidatorBase
 {
+
     /**
-     * 
-     * @param mixed $v 
-     * @param mixed $n 
-     * @param mixed $error 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $error
+    * @return bool
+    */
   public function validate( &$v, $n):bool{
          $error = null;
             if (is_null($v) || empty($v)){

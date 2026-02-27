@@ -17,10 +17,11 @@ use ReflectionException;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentCssHostNode extends HtmlNode{
+
     /**
-     * 
-     * @var \IGKHtmlDoc
-     */
+    * auto generate doc.
+    * @var \IGKHtmlDoc
+    */
     protected $doc;
 
     /**

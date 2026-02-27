@@ -3,8 +3,9 @@
 // @file: MimeTypes.php
 // @date: 20221001 16:11:28
 namespace IGK\System\Drawing;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Drawing
 */
 class MimeTypes{

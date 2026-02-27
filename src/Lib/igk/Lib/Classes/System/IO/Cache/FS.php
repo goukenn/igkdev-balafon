@@ -104,12 +104,11 @@ class FS{
                 }
         });
     }
+
     /**
-     * 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public function storeCache(){
         $sb = new StringBuilder;

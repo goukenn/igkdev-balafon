@@ -51,11 +51,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * @var mixed
     */
     private $_treat_ClassName;
+
     /**
-     * 
-     * @param ?callable $listener 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ?callable $listener
+    * @return void
+    */
 
     public function setListener($listener){
         $this->m_listener = $listener;

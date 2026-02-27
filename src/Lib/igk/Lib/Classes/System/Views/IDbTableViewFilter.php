@@ -3,8 +3,9 @@
 // @file: IDbTableViewFilter.php
 // @date: 20220703 10:41:26
 namespace IGK\System\Views;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Views
 */
 interface IDbTableViewFilter{

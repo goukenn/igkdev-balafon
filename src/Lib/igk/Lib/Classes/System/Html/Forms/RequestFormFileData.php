@@ -8,6 +8,11 @@ namespace IGK\System\Html\Forms;
 * @package IGK\System\Html\Forms
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class RequestFormFileData{
 
     /**
@@ -39,11 +44,12 @@ class RequestFormFileData{
     * @var mixed
     */
     var $size;
+
     /**
-     * 
-     * @param string $dest 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $dest
+    * @return void
+    */
 
     public function moveUploadTo(string $dest){
         return igk_io_move_uploaded_file($this->tmp_name, $dest);

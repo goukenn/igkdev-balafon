@@ -9,8 +9,7 @@
 // @url: https://www.igkdev.com
 
 /**
-* 
-* @param mixed $doc
+* auto generate doc.
 * @param mixed $v the default value is 1
 */
 function igk_designer_off($doc, $v=1){

@@ -12,12 +12,18 @@ use PHPStan\PhpDocParser\Parser\StringUnescaper;
  * @package IGK\System\Core
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Core
+*/
 class CookieManager
 {
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     protected function __construct()
     {
     }

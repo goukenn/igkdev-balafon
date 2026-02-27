@@ -3,11 +3,12 @@
 // @file: DbDataTypes.php
 // @date: 20240920 16:33:14
 namespace IGK\Database;
+
 /**
- * 
- * @package IGK\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Database
+* @author C.A.D. BONDJE DOUE
+*/
 class DbDataTypes
 {
 

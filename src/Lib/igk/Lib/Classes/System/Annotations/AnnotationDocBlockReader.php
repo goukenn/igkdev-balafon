@@ -3,6 +3,7 @@
 // @file: AnnotationDocBlockReader.php
 // @date: 20230731 12:51:07
 namespace IGK\System\Annotations;
+
 use Exception;
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
@@ -10,8 +11,10 @@ use IGK\System\IAnnotation;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGK\Constants;
+
+ 
 /**
- * 
+ * auto generate doc.
  * @package IGK\System\Annotations
  */
 class AnnotationDocBlockReader extends PhpDocBlockBase
@@ -19,39 +22,39 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     use PHPDocCommentParseTrait;
 
     /**
-    * Constant: before create instance method.
-    * @var mixed
-    */
+     * Constant: before create instance method.
+     * @var mixed
+     */
     const BEFORE_CREATE_INSTANCE_METHOD = 'BeforeCreateInstance';
 
     /**
-    * Property: uses.
-    * @var mixed
-    */
+     * Property: uses.
+     * @var mixed
+     */
     private static $sm_uses;
 
     /**
-    * Property: alias.
-    * @var mixed
-    */
+     * Property: alias.
+     * @var mixed
+     */
     private static $sm_alias;
 
     /**
-    * Property: summary.
-    * @var mixed
-    */
+     * Property: summary.
+     * @var mixed
+     */
     var $summary;
 
     /**
-    * Property: api.
-    * @var mixed
-    */
+     * Property: api.
+     * @var mixed
+     */
     var $api;
 
     /**
-    * Property: params.
-    * @var mixed
-    */
+     * Property: params.
+     * @var mixed
+     */
     var $params;
 
     /**
@@ -60,49 +63,49 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      */
     var $param;
     /**
-    * Property: package.
-    * @var mixed
-    */
+     * Property: package.
+     * @var mixed
+     */
     var $package;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $author;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $deprecated;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $since;
 
     /**
-    * Property: var.
-    * @var mixed
-    */
+     * Property: var.
+     * @var mixed
+     */
     var $var;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $property;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $method;
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     var $return;
@@ -113,27 +116,27 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     private $m_annotations = [];
 
     /**
-     * 
+     * auto generate doc.
      * @var mixed
      */
     private $m_extraProperties;
 
     /**
-    * Property: filter.
-    * @var mixed
-    */
+     * Property: filter.
+     * @var mixed
+     */
     private $m_filter;
 
     /**
-    * Property: reader.
-    * @var mixed
-    */
+     * Property: reader.
+     * @var mixed
+     */
     private $m_reader;
 
     /**
-    * Uses.
-    * @param null|array $cm
-    */
+     * Uses.
+     * @param null|array $cm
+     */
     public static function Uses(?array $cm)
     {
         if (is_null($cm)) {
@@ -164,7 +167,8 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @throws Exception 
      */
 
-    static function ResolveClassType(string $name){
+    static function ResolveClassType(string $name)
+    {
         $cl = null;
         $sp = strpos($name, '\\') === false;
         $alias = $sp ? $name : basename(igk_getv(explode("\\", $name), 0));
@@ -180,10 +184,10 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     }
 
     /**
-    * Triggered when calling an inaccessible or undefined method on an object.
-    * @param mixed $name
-    * @param mixed $arguments
-    */
+     * Triggered when calling an inaccessible or undefined method on an object.
+     * @param mixed $name
+     * @param mixed $arguments
+     */
     public function __call($name, $arguments)
     {
         $cl = null;
@@ -206,26 +210,31 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
         if ($cl) {
             //read args 
             $tcontent = self::_TreatArgs($arguments[0]);
-            if (($cl = self::GetExistingClass($cl)) && (!$filter || in_array($cl, $filter))) { 
-                if (method_exists($cl, $fc = self::BEFORE_CREATE_INSTANCE_METHOD)){
-                    call_user_func_array([$cl, $fc], [ $this, & $tcontent]);
+            if (($cl = self::GetExistingClass($cl)) && (!$filter || in_array($cl, $filter))) {
+                if (method_exists($cl, $fc = self::BEFORE_CREATE_INSTANCE_METHOD)) {
+                    call_user_func_array([$cl, $fc], [$this, &$tcontent]);
                 }
-                try{
+                try {
                     $ocl = Activator::CreateNewInstance($cl, $tcontent);
                     if ($ocl instanceof IAnnotation)
                         $ocl->setParams($tcontent);
-                    if ($sp){
-                    $this->m_annotations[$name] = $ocl;  
-                    } else{
-                    $this->m_annotations[] = $ocl;
+                    if ($sp) {
+                        $this->m_annotations[$name] = $ocl;
+                    } else {
+                        $this->m_annotations[] = $ocl;
                     }
-                } catch (\TypeError $ex){
+                } catch (\TypeError $ex) {
                     $this->m_extraProperties[$name] = implode(' ', $arguments);
                 }
             }
         }
     }
-    public function getExtraProperties(){
+
+    /**
+     * auto generate doc.
+     */
+    public function getExtraProperties()
+    {
         return  $this->m_extraProperties;
     }
     /**
@@ -233,10 +242,10 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @param string $class_name 
      * @return null|string 
      */
-
-    public static function GetExistingClass(string $class_name): ?string{
-        foreach(['',Constants::ANNOTATION_SUFFIX] as $suffix){
-            if (class_exists($cl = $class_name.$suffix)){
+    public static function GetExistingClass(string $class_name): ?string
+    {
+        foreach (['', Constants::ANNOTATION_SUFFIX] as $suffix) {
+            if (class_exists($cl = $class_name . $suffix)) {
                 return $cl;
             }
         }

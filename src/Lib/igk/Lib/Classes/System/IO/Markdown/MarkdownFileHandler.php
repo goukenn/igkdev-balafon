@@ -7,7 +7,7 @@ namespace IGK\System\IO\Markdown;
 use IGK\System\IO\FileHandler;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO\Markdown
 * @author C.A.D. BONDJE DOUE
 */

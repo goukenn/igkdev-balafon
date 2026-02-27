@@ -22,6 +22,11 @@ use IGK\Test\IGKValueEntryCallbackTest;
  * 
  * @package 
  */
+
+/**
+* auto generate doc.
+* @package
+*/
 abstract class IGKSysUtil
 {
 
@@ -73,12 +78,12 @@ abstract class IGKSysUtil
         }
         return null; 
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @param mixed $prefix 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $prefix
+    * @return string
+    */
 
     public static function Encrypt($data, $prefix = null)
     {
@@ -121,11 +126,12 @@ abstract class IGKSysUtil
         }
         return $tables;
     }
+
     /**
-     * 
-     * @param mixed $file 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $file
+    * @return void
+    */
 
     public static function GetDataDefinitionFromFile($file, $v = null, &$tables = null)
     {
@@ -179,11 +185,12 @@ abstract class IGKSysUtil
         }
         return $tables;
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return string
+    */
 
     public static function GetControllerSqlQueryData(BaseController $controller): string
     {
@@ -293,12 +300,12 @@ abstract class IGKSysUtil
         );
         return $t;
     }
+
     /**
-     * 
-     * @param array $inf 
-     * @param BaseController $ctrl 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return array
+    */
 
     public static function DBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl)
     {
@@ -328,17 +335,12 @@ abstract class IGKSysUtil
         }, $tab);
         return $g;
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $info 
-     * @param BaseController $ctrl 
-     * @param bool $extra 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $extra
+    * @return string
+    */
 
     public static function GetPhpDoPropertyType($name, $info, BaseController $ctrl, $extra = false)
     { 
@@ -431,12 +433,12 @@ abstract class IGKSysUtil
         }
         return $t;
     }
+
     /**
-     * 
-     * @param mixed $type 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $type
+    * @return mixed
+    */
 
     public static function ConvertToPhpDocType($type){
         if (is_null($type)){

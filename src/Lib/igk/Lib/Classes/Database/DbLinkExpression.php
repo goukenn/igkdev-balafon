@@ -51,13 +51,12 @@ class DbLinkExpression extends DbExpression{
         $this->columnValue = $columnValue; 
         $this->primaryColumn = $primaryColumn;
     }
+
     /**
-     * 
-     * @param IGrammarOptions|object $grammarOptions 
-     * @return null|string|void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param IGrammarOptions|object $grammarOptions
+    * @return null|string|void
+    */
 
     public function getValue($grammarOptions=null){
         //link value 

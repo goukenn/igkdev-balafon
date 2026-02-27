@@ -9,10 +9,11 @@ use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGK\System\WinUI\Forms\RequestValidatorBase;
 use IGKException;
+
 /**
- * 
- * @package IGK\Actions
- */
+* auto generate doc.
+* @package IGK\Actions
+*/
 class ActionRequestValidator extends RequestValidatorBase implements IActionRequestValidator
 {
 

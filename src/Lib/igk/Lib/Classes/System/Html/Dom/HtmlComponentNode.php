@@ -16,9 +16,9 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     * @var mixed
     */
     const IGK_COMPONENT_CTRL_FLAG=0xc001;
+
     /**
-    * 
-    * @param mixed $tagname
+    * auto generate doc.
     * @param mixed $controller the default value is null
     */
 
@@ -45,23 +45,26 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
         }
         parent::Dispose();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getComponentId(){
         return $this->getParam(get_class($this->m_controller).":id");
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $uri
     */
 
     public function getComponentUri($uri){
         return $this->getController()->getUri($uri, $this);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getController(){

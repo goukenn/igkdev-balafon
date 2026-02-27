@@ -3,8 +3,9 @@
 // @file: DbQueryExpression.php
 // @date: 20250618 09:53:28
 namespace IGK\System\Database;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 * @author C.A.D. BONDJE DOUE
 */

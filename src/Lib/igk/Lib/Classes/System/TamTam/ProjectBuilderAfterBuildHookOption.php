@@ -4,8 +4,9 @@
 // @date: 20230309 21:24:02
 namespace IGK\System\TamTam;
 use IGK\IHookOptions;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\TamTam
 */
 class ProjectBuilderAfterBuildHookOption implements IHookOptions{

@@ -13,6 +13,11 @@ use ReflectionException;
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
+*/
 trait ViewCompilerReadDoLoopTrait
 {
 
@@ -21,12 +26,12 @@ trait ViewCompilerReadDoLoopTrait
     * @var mixed
     */
     private $m_do_loop_config;
+
     /**
-     * @param ReadTokenOptions $options 
-     * @param null|string $id 
-     * @param string $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return void
+    */
 
     protected function _readDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
@@ -44,15 +49,12 @@ trait ViewCompilerReadDoLoopTrait
             $this->_readBlock($options, $id, $value);
         }
     }
+
     /**
-     * @param ReadTokenOptions $options 
-     * @param null|string $id 
-     * @param string $value 
-     * @return bool 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return bool
+    */
 
     protected function _readHandleDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {

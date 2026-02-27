@@ -3,8 +3,9 @@
 // @file: Utility.php
 // @date: 20221208 15:27:41
 namespace IGK\System\Modules\Helpers;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Modules\Helpers
 */
 class Utility{

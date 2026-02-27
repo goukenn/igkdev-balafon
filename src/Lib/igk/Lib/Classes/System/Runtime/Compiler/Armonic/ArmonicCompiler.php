@@ -28,6 +28,11 @@ use ReflectionException;
  * 
  * @package IGK\System\Runtime\Compiler\Armonic
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\Armonic
+*/
 class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerTokenHandler
 {
     use CompilerTokenTrait;
@@ -284,9 +289,11 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     */
     protected function _handleReadFunction(ReadTokenOptions $options, $id, $value): bool
     {
+
         /**
-         * @var ReadTokenStructFunctionInfo $struct
-         */
+        * auto generate doc.
+        * @var ReadTokenStructFunctionInfo $struct
+        */
         $struct = $options->struct_info;
         $flagOption = &$options->flagOptions;
         $buffer = &$struct->buffer;
@@ -869,13 +876,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $this->_pushBuffer($options, $options->flagOptions->buffer, $options->flag);
         $options->skipWhiteSpace = true;
     }
+
     /**
-     * 
-     * @param ReadTokenOptions $options 
-     * @param mixed $id 
-     * @param mixed $value 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
 
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
@@ -1136,13 +1142,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         ];
         $this->_pushBuffer($options, $options->flagOptions->buffer, CompilerFlagState::READ_CONDITION_BLOCK);
     }
+
     /**
-     * 
-     * @param ReadTokenOptions $options 
-     * @param null|string $id 
-     * @param string $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return void
+    */
 
     protected function _handleConditionBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
@@ -1159,13 +1164,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
+
     /**
-     * 
-     * @param ReadTokenOptions $options 
-     * @param null|string $id 
-     * @param string $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return void
+    */
 
     protected function _endReadConditionBlock(ReadTokenOptions $options, ?string $id, string $value)
     {

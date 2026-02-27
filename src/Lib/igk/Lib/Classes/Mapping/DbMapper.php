@@ -22,11 +22,12 @@ class DbMapper{
     public function __construct($data){
         $this->m_data = $data;
     }
+
     /**
-     * 
-     * @param mixed $key_list 
-     * @return array<array-key, object> 
-     */
+    * auto generate doc.
+    * @param mixed $key_list
+    * @return array<array-key
+    */
 
     public function map($key_list){
         return array_map(function($o)use($key_list){

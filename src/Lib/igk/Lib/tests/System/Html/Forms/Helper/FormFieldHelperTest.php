@@ -11,12 +11,11 @@ use IGK\System\Html\Forms\Validations\InspectorFormFieldValidationBase;
 use IGK\System\Http\Request;
 use IGK\Tests\BaseTestCase;
 
-
 /**
- * 
- * @package IGK\Tests\System\Html\Forms\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 class FormFieldHelperTest extends BaseTestCase
 {
 
@@ -78,23 +77,22 @@ class FormFieldHelperTest extends BaseTestCase
  */
 class DummyDataForm extends InspectorFormFieldValidationBase
 {
+
     /**
-     * 
-     * @var string
-     * @FormField(type=text, placeholder="write title",required=true)
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $title;
+
     /**
-     * 
-     * @var ?string
-     * @FormField(type=textarea, placeholder="enter description")
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $desc;
 
     /**
-     * 
-     * @var ?int
-     * @FormField(type=number, allowNull=true, required=true)
-     */
+    * auto generate doc.
+    * @var ?int
+    */
     var $age;
 }

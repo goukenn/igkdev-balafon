@@ -487,17 +487,12 @@ EOF;
 			}
 		}
 	}
-	/**
-	 * 
-	 * @param mixed $doc 
-	 * @param BaseController|null $ctrl 
-	 * @return void 
-	 * @throws IGKException 
-	 * @throws ArgumentTypeNotValidException 
-	 * @throws ReflectionException 
-	 * @throws EnvironmentArrayException 
-	 * @throws CssParserException 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param BaseController|null $ctrl
+    * @return void
+    */
 
     public static function InitComponent($doc, ?BaseController $ctrl=null){
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 

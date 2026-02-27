@@ -45,10 +45,11 @@ abstract class IGKActionBase implements IActionProcessor
     * @var mixed
     */
     const INIT_TRAIT_PREFIX =   '_init_trait_' ;
+
     /**
-     * 
-     * @var BaseController
-     */
+    * auto generate doc.
+    * @var BaseController
+    */
     protected $ctrl;
 
     /**
@@ -147,10 +148,11 @@ abstract class IGKActionBase implements IActionProcessor
             $this->notify_name = igk_uri(static::class);
         } 
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function getNotifyName(){
         return $this->notify_name;
@@ -262,13 +264,12 @@ abstract class IGKActionBase implements IActionProcessor
     {
         return igk_sys_current_user_id();
     }
+
     /**
-     * 
-     * @param mixed $ctrl 
-     * @param mixed|null $context 
-     * @return static 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed|null $context
+    * @return static
+    */
 
     public static function CreateInstance($ctrl, $context = null)
     {
@@ -450,10 +451,11 @@ abstract class IGKActionBase implements IActionProcessor
             throw new ActionNotFoundException(sprintf("[%s]->%s(...)", get_class($this), $name));
         }
     }
+
     /**
-     * 
-     * @return string|object classname or IActionProcessor Object 
-     */
+    * auto generate doc.
+    * @return string|object classname or IActionProcessor Object
+    */
 
     protected function getActionProcessor()
     {
@@ -488,16 +490,12 @@ abstract class IGKActionBase implements IActionProcessor
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $viewname 
-     * @param array|object|self $arrayList action list, object dispatcher, ActionBase
-     * @param mixed $params param to pass
-     * @param int $exit must stop after execute
-     * @param int $flag extra flag
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param int $flag extra flag
+    * @return mixed
+    */
 
     public static function HandleActions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
     {
@@ -663,22 +661,22 @@ abstract class IGKActionBase implements IActionProcessor
             return $c;
         }
     }
+
     /**
-     * 
-     * @param Throwable $ex 
-     * @return false 
-     */
+    * auto generate doc.
+    * @param Throwable $ex
+    * @return false
+    */
 
     protected function _handleThrowable(Throwable $ex){
         return false;
     }
+
     /**
-     * 
-     * @param mixed $code 
-     * @param mixed ...$params 
-     * @return mixed|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed ...$params
+    * @return mixed|void
+    */
 
     protected function handleError($code, ...$params)
     {

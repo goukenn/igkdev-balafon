@@ -210,12 +210,12 @@ class BalafonInitEnvironment
         foreach ($dirs as $d)
             self::_InitIOFileAuth($command, $d);
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $app_dir 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $app_dir
+    * @return void
+    */
 
     static function _InitIOFileAuth($command, string $app_dir)
     {

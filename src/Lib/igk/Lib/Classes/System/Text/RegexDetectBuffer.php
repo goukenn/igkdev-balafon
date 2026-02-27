@@ -12,6 +12,11 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexDetectBuffer
 {
     /**
@@ -37,10 +42,11 @@ class RegexDetectBuffer
     * @var mixed
     */
     var $lineFeedSeparator = "\n";
+
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $depth;
 
     /**
@@ -60,9 +66,11 @@ class RegexDetectBuffer
     * @var mixed
     */
     var $tabListener;
+
     /**
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $flag;
 
     /**
@@ -70,28 +78,31 @@ class RegexDetectBuffer
     * @var mixed
     */
     private $m_initFormatBuilderListener;
+
     /**
-     * 
-     * @param null|callable $init 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|callable $init
+    * @return void
+    */
 
     public function setinitFormatBuilderListener(?callable $init){
         $this->m_initFormatBuilderListener = $init;
     }
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function __toString()
     {
         return $this->output.'';
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isEmpty()
     {
@@ -164,13 +175,12 @@ class RegexDetectBuffer
             return $fc() ?? igk_die('failed to initialize listener');
         }
     }
-  
+
     /**
-     * 
-     * @param IRegexMatcherEndDetectionInfo $e 
-     * @return void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param IRegexMatcherEndDetectionInfo $e
+    * @return void
+    */
 
     public function bindReplacement($e, ?callable $update = null)
     {

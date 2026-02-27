@@ -4,8 +4,9 @@
 // @date: 20250427 08:37:58
 namespace IGK\System\Http\Mail;
 use IGK\System\Html\IHtmlStyleAtribute;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http\Mail
 * @author C.A.D. BONDJE DOUE
 */

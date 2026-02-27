@@ -7,7 +7,7 @@ namespace IGK\System\Html;
 use igk;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 * @author C.A.D. BONDJE DOUE
 */

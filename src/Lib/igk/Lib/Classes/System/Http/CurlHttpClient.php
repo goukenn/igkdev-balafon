@@ -110,12 +110,12 @@ class CurlHttpClient implements IHttpClient{
     * @param string $url
     * @param array $data
     */
-    public function post(string $url, array $data = []) { } 
+    public function post(string $url, array $data = []) { }
+
     /**
-     * 
-     * @param string $url 
-     * @return  
-     */
+    * auto generate doc.
+    * @param string $url
+    */
 
     public function request(string $url){
         $v_is_uri = IGKValidator::IsUri($url);
@@ -145,11 +145,12 @@ class CurlHttpClient implements IHttpClient{
         }
         return $this->_sendRequest($url);
     }
+
     /**
-     * @param string $url the uri to request
-     * @param ?array $args the parameters
-     * @return ?string the response  
-     */
+    * auto generate doc.
+    * @param ?array $args the parameters
+    * @return ?string the response
+    */
 
     public function _sendRequest(string $url, $args=null){
         if (!function_exists('igk_curl_post_uri')){
@@ -169,12 +170,12 @@ class CurlHttpClient implements IHttpClient{
         }
         return $c;
     }
+
     /**
-     * 
-     * @param mixed $key 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    * @return mixed
+    */
 
     public static function ConvertCurlOptionKeyToName($key){
         return igk_getv([                

@@ -4,8 +4,9 @@
 // @date: 20221230 19:31:10
 namespace IGK\System\Html\Css;
 use IGKMedia;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssMapTheme{

@@ -9,7 +9,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Controllers
 */
 class ControllerExtensionTest extends BaseTestCase{

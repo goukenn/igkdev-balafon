@@ -66,10 +66,9 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
             $this->_next->invoke();
         }
     }
+
     /**
-    * 
-    * @param mixed $list
-    * @param mixed $index
+    * auto generate doc.
     * @param mixed $service the default value is null
     */
 

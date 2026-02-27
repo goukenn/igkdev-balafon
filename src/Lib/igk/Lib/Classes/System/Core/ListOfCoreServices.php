@@ -4,12 +4,11 @@
 // @date: 20250815 16:36:42
 namespace IGK\System\Core;
 
-
 /**
- * 
- * @package IGK\System\Core
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Core
+* @author C.A.D. BONDJE DOUE
+*/
 abstract class ListOfCoreServices
 {
     // + | --------------------------------------------------------------------

@@ -4,8 +4,9 @@
 // @date: 20221123 18:30:31
 namespace IGK\System\Html\Dom\Component;
 use IGK\System\Traits\ActivableTrait;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Dom\Component
 */
 class ActionGroupItemOptions{

@@ -10,8 +10,9 @@ namespace IGK\Controllers;
 * @package IGK\Controllers
 */
 trait ControllerUriTrait {
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $function the default value is null
     */
     public function getUri(?string $function=null){
@@ -28,8 +29,9 @@ trait ControllerUriTrait {
         }
         return "./?".http_build_query($out).$g;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $uri
     */
     public function getUril($uri){
@@ -38,8 +40,9 @@ trait ControllerUriTrait {
             $out .= "&".$uri;
         return $out;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $page
     */
     public function getUriv($page){

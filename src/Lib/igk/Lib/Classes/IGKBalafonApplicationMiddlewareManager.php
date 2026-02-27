@@ -27,9 +27,9 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     * @var mixed
     */
     private $_whereList;
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $args
     */
 
@@ -40,16 +40,18 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     function __construct(){
         $this->_whereList=array();
         $this->_properties=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $middleware
     */
 
@@ -57,8 +59,9 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         $w=& $this->_whereList;
         $w[]=$middleware;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function GetLastMiddleware(){
@@ -68,25 +71,27 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         }
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 
     protected function _access_offsetExists($i):bool{
         return isset($this->_properties[$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 
     protected function _access_offsetGet($i){
         return isset($this->_properties[$i]) ? $this->_properties[$i]: null;
     }
+
     /**
-    * 
-    * @param mixed $i
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -96,23 +101,26 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         else
             $this->_properties[$i]=$v;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
 
     protected function _access_offsetUnset($i){
         unset($this->_properties[$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function Process(){
         BalafonMiddleware::Process($this, $this->_whereList);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $closurecallback
     */
 
@@ -120,8 +128,9 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         BalafonMiddleware::Attach(new RunCallbackMiddleware($callback), $this);
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $middle
     */
 

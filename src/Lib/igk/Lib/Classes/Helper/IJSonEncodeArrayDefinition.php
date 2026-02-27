@@ -3,8 +3,9 @@
 // @file: IJSonEncodeArrayDefinition.php
 // @date: 20231006 22:28:43
 namespace IGK\Helper;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helper
 */
 interface IJSonEncodeArrayDefinition{

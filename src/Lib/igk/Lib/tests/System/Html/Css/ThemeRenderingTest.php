@@ -18,7 +18,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */

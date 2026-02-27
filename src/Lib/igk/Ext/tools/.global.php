@@ -11,18 +11,11 @@ use IGK\System\Html\HtmlRenderer;
 
 if (!function_exists('igk_sys_gen_global_sitemap')) {
 
-	/**
-	 * 
-	 * @param int $store 
-	 * @return void 
-	 * @throws Exception 
-	 * @throws IGKException 
-	 * @throws EnvironmentArrayException 
-	 * @throws Error 
-	 * @throws CssParserException 
-	 * @throws ArgumentTypeNotValidException 
-	 * @throws ReflectionException 
-	 */
+    /**
+    * auto generate doc.
+    * @param int $store
+    * @return void
+    */
 	function igk_sys_gen_global_sitemap($store = 0)
 	{
 		// if (!igk_is_conf_connected()){

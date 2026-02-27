@@ -3,8 +3,9 @@
 // @file: Debugger.php
 // @date: 20250520 15:26:39
 namespace IGK\System\Diagnostics;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Diagnostics
 * @author C.A.D. BONDJE DOUE
 */

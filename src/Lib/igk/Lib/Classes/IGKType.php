@@ -36,12 +36,12 @@ class IGKType{
             return 'float';
         }
     }
+
     /**
-     * 
-     * @param ReflectionParameter $param 
-     * @param string $base_type 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param string $base_type
+    * @return bool
+    */
 
     public static function ParameterIsTypeOf(ReflectionParameter $param, string $base_type):bool{
         $r = false;
@@ -54,11 +54,12 @@ class IGKType{
         }
         return $r;
     }
+
     /**
-     * 
-     * @param ReflectionType $t 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param ReflectionType $t
+    * @return mixed
+    */
 
     public static function GetName(ReflectionType $t){
         //+ work arround to avoid getName not implement in php 7.+ 8.0

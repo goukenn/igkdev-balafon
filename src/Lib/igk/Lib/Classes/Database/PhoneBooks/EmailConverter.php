@@ -4,11 +4,12 @@
 // @date: 20250506 14:32:02
 namespace IGK\Database\PhoneBooks;
 use IGKValidator;
+
 /**
- * 
- * @package IGK\Database\PhoneBooks
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Database\PhoneBooks
+* @author C.A.D. BONDJE DOUE
+*/
 class EmailConverter extends PhoneBookConverterBase
 {
     /**

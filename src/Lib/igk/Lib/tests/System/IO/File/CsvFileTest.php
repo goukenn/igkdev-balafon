@@ -8,9 +8,9 @@ use IGK\System\IO\File\CsvFile;
 use IGK\Tests\BaseTestCase;
 
 /**
- * 
- * @package IGK\Tests\System\IO\File
- */
+* auto generate doc.
+* @package IGK\Tests\System\IO\File
+*/
 class CsvFileTest extends BaseTestCase
 {
 

@@ -13,13 +13,18 @@ use IGK\Models\Users;
 * @package IGK\Database\Macros
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\Database\Macros
+*/
 abstract class ConnectionsMacros{
+
     /**
-     * 
-     * @param Connections $connections 
-     * @param null|Users $user 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param null|Users $user
+    * @return bool
+    */
     public static function clear(Connections $connections, ?Users $user=null){
         $guid = igk_getv($user, 'clGuid'); 
         $cond = [];

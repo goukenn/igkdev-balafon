@@ -4,8 +4,9 @@
 // @date: 20231016 15:45:44
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class BalafonCLICommand extends AppExecCommand{

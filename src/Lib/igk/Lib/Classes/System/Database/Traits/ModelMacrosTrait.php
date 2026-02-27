@@ -7,10 +7,10 @@ namespace IGK\System\Database\Traits;
 use IGK\Models\ModelBase;
 
 /**
- * 
- * @package IGK\System\Database\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Database\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 trait ModelMacrosTrait
 {
 

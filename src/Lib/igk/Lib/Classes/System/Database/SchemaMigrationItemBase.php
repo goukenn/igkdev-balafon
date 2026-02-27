@@ -10,6 +10,11 @@ use Google\Service\Vision\Property;
 use IGKException;
 use IGKHtmlCommentItem;
 /** @package  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 abstract class SchemaMigrationItemBase{
 
     /**
@@ -28,11 +33,12 @@ abstract class SchemaMigrationItemBase{
     * Property: fill properties.
     * @var mixed
     */
-    protected $fill_properties; 
+    protected $fill_properties;
+
     /**
-     * 
-     * @return ?ISchemaMigrationInfoListener 
-     */
+    * auto generate doc.
+    * @return ?ISchemaMigrationInfoListener
+    */
 
     public function getMigrationInfoListener(){
         if ($mig = $this->getMigration()){

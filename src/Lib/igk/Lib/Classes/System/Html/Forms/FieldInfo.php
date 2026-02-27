@@ -15,10 +15,11 @@ class FieldInfo implements IFormFieldOptions{
      * @var  null|string|'text'
      */
     var $type;
+
     /**
-     * 
-     * @var null|string
-     */
+    * auto generate doc.
+    * @var null|string
+    */
     var $pattern; 
     /**
      * get if required

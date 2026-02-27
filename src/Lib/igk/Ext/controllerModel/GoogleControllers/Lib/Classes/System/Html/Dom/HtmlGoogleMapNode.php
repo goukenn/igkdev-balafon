@@ -35,8 +35,9 @@ final class HtmlGoogleMapNode extends HtmlNode{
     * @var mixed
     */
     private $m_type;
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 
@@ -44,8 +45,9 @@ final class HtmlGoogleMapNode extends HtmlNode{
         $this->initView();
         return parent::_acceptRender($options);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(?string $key=null){
@@ -61,29 +63,33 @@ final class HtmlGoogleMapNode extends HtmlNode{
     public function getKey(){
         return $this->m_key;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getLocation(){
         return $this->m_location;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getQuery(){
         return $this->m_query;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getType(){
         return $this->m_type;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function initView(){
@@ -101,8 +107,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -112,8 +119,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -123,8 +131,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -134,8 +143,9 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

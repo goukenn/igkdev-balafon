@@ -247,12 +247,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $b->add($form);
         };
     }
+
     /**
-     * 
-     * @param mixed $lib 
-     * @return never 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $lib
+    * @return never
+    */
 
     public function didRegisterIconLibrary($lib){
         foreach($lib as $context=>$list){

@@ -7,6 +7,11 @@ namespace IGK\System\Console;
 use IGK\Resources\R;
 require_once __DIR__.'/IConsoleLogger.php';
 /** @package IGK\System\Console */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class ConsoleLogger implements IConsoleLogger{
 
     /**
@@ -70,11 +75,12 @@ class ConsoleLogger implements IConsoleLogger{
     public function log($msg){
         $this->app->print($msg);
     }
+
     /**
-     * 
-     * @param mixed $msg 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $msg
+    * @return void
+    */
 
     public function print($msg){
         $this->app->print($msg);

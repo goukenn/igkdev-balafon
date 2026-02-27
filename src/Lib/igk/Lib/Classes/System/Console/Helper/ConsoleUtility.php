@@ -19,12 +19,18 @@ require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
  * 
  * @package IGK\System\Console\Helper
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Helper
+*/
 abstract class ConsoleUtility
 {
+
     /**
-     * 
-     * @return null|string 
-     */
+    * auto generate doc.
+    * @return null|string
+    */
     public static function GetClipboardData(): ?string{
         // + | GET CLIP BOARD DATA
         $c = null;
@@ -95,13 +101,12 @@ abstract class ConsoleUtility
         }
         return $gen;
     }
+
     /**
-     * 
-     * @param mixed $opts 
-     * @param mixed $color_one 
-     * @param mixed $color_two 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $color_two
+    * @return void
+    */
 
     public static function PrintCommand($opts, $color_one = App::AQUA, $color_two = App::GREEN)
     {
@@ -181,13 +186,12 @@ abstract class ConsoleUtility
         }, $arg, array_keys($arg))));
         return $cm;
     }
+
     /**
-     * 
-     * @param IGK\System\Console\ICLICommandApp $app 
-     * @param mixed $argv 
-     * @param array &$args 
-     * @return stdClass|mixed 
-     */
+    * auto generate doc.
+    * @param array &$args
+    * @return stdClass|mixed
+    */
 
     public static function TreatCommandArgs(ICLICommandApp $app, $argv, array & $args, ?array $handle=null){
         $command = igk_createobj();

@@ -17,16 +17,18 @@ class RunCallbackMiddleware extends BalafonMiddleware{
     * @var mixed
     */
     private $callback;
+
     /**
-    * 
+    * auto generate doc.
     * @param closure callback
     */
 
     public function __construct($callback){
         $this->callback=$callback;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function invoke(){

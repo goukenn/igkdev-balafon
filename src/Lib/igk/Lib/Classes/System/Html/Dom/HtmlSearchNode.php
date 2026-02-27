@@ -77,12 +77,9 @@ final class HtmlSearchNode extends HtmlNode {
     * @var mixed
     */
     private $m_uri;
+
     /**
-    * 
-    * @param mixed $uri the default value is null
-    * @param mixed $search the default value is null
-    * @param mixed $prop the default value is "q"
-    * @param mixed $ajx the default value is 0
+    * auto generate doc.
     * @param mixed $target the default value is null
     */
 
@@ -98,36 +95,41 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_TargetId=$target;
         $this->initView();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getAJX(){
         return $this->m_AJX;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getMethod(){
         return $this->m_method;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getTargetId(){
         return $this->m_TargetId;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getUri(){
         return $this->m_uri;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function initView(){
@@ -181,8 +183,9 @@ final class HtmlSearchNode extends HtmlNode {
             $frm["igk-ajx-form-target"]=null;
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -190,8 +193,9 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_AJX=$v;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -199,8 +203,9 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_method=$v;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -208,8 +213,9 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_TargetId=$v;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -217,8 +223,9 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_uri=$v;
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

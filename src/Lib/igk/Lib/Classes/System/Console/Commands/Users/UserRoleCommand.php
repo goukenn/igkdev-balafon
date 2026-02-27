@@ -5,8 +5,9 @@
 namespace IGK\System\Console\Commands\Users;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class UserRoleCommand extends AppExecCommand{

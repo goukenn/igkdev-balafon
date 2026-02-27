@@ -119,7 +119,11 @@ final class IGKAppConfig extends IGKObject {
     * @var mixed
     */
     private $m_oldState;
-    /** @var IGKAppConfig */
+
+    /**
+    * auto generate doc.
+    * @var IGKAppConfig
+    */
     private static $sm_instance;
     /**
     * 
@@ -195,8 +199,9 @@ final class IGKAppConfig extends IGKObject {
     public function addConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl
     */
 
@@ -208,8 +213,9 @@ final class IGKAppConfig extends IGKObject {
         }
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getConfigEntries(){
@@ -234,8 +240,9 @@ final class IGKAppConfig extends IGKObject {
         }
         return self::$sm_instance;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function onConfigSaved(){
@@ -243,9 +250,9 @@ final class IGKAppConfig extends IGKObject {
             $this->m_configSavedEvent->Call($this, null);
         }
     }
+
     /**
-    * 
-    * @param mixed $obj
+    * auto generate doc.
     * @param mixed $arg
     */
 

@@ -17,6 +17,11 @@ use IGKEvents;
  * 
  * @package IGK\System\Console\Commands
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class BalafonInitCommand extends AppExecCommand
 {
 
@@ -61,12 +66,11 @@ class BalafonInitCommand extends AppExecCommand
     */
     var $usage = 'install_dir [options]';
 
-	/**
-	 * 
-	 * @param mixed $app 
-	 * @param mixed $argv 
-	 * @return void 
-	 */
+    /**
+    * auto generate doc.
+    * @param mixed $argv
+    * @return void
+    */
 
     public static function Handle(& $no_init_environment, array $argv){
 		$v_env = igk_environment();
@@ -78,12 +82,12 @@ class BalafonInitCommand extends AppExecCommand
 			$no_init_environment = true;
 		}
 	}
-	/**
-	 * 
-	 * @param IExecCommand $command 
-	 * @param null|string $install_dir 
-	 * @return null 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param null|string $install_dir
+    * @return null
+    */
 
     public function exec($command, ?string $install_dir = 'src')
 	{

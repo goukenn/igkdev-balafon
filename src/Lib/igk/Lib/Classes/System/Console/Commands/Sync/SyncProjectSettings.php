@@ -30,12 +30,12 @@ class SyncProjectSettings{
     public static function Load($jsond_data){
         return Activator::CreateNewInstance(self::class, $jsond_data);
     }
+
     /**
-     * 
-     * @param string $pdir 
-     * @param mixed $excludir 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $excludir
+    * @return void
+    */
 
     public static function InitProjectExcludeDir(string $pdir, & $excludedir){
         $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();

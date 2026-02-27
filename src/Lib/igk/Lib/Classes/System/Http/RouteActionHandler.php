@@ -73,13 +73,12 @@ class RouteActionHandler extends RouteHandler
         }
         return  $path;
     }
+
     /**
-     * 
-     * @param mixed $args 
-     * @param null|string $baseUri 
-     * @return string 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $baseUri
+    * @return string
+    */
     public function resolveUri($args, ?string $baseUri = null)
     {
         return RouteHandler::GetResolveURI($this->path, $args, $baseUri);

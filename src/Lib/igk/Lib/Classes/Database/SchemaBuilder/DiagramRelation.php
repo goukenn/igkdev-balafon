@@ -4,10 +4,11 @@
 // @date: 20220531 16:28:07
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
+
 /**
- * 
- * @package igk\db\schemaBuilder
- */
+* auto generate doc.
+* @package igk\db\schemaBuilder
+*/
 class DiagramRelation extends DiagramPropertiesHost{
 
     /**

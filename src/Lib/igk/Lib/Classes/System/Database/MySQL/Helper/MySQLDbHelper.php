@@ -11,6 +11,11 @@ use IGK\System\IO\StringBuilder;
  * 
  * @package IGK\System\Database\MySQL\Helper
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database\MySQL\Helper
+*/
 class MySQLDbHelper
 {
 
@@ -122,12 +127,12 @@ EOF);
         }
         return $sb . '';
     }
+
     /**
-     * 
-     * @param mixed $ad 
-     * @param string $table 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $table
+    * @return string
+    */
 
     public static function GetDatableCreateQuery($ad, string $table){
         $db_name = $ad->getDbName();

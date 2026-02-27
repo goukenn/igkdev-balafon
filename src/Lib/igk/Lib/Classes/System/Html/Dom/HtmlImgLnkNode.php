@@ -15,12 +15,9 @@ final class HtmlImgLnkNode extends HtmlANode{
     * @var mixed
     */
     private $m_img;
+
     /**
-    * 
-    * @param mixed $uri the default value is null
-    * @param mixed $img the default value is null
-    * @param mixed $width the default value is "16px"
-    * @param mixed $height the default value is "16px"
+    * auto generate doc.
     * @param mixed $desc the default value is null
     */
 
@@ -34,15 +31,17 @@ final class HtmlImgLnkNode extends HtmlANode{
             "alt"=>R::ngets($desc)
         ));
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getAlt(){
         return $this->m_img["alt"];
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

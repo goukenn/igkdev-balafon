@@ -11,6 +11,11 @@ use IGK\System\Text\RegexMatcherContainer;
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssMinifier
 {
 
@@ -72,12 +77,12 @@ class CssMinifier
         $g->patterns = $patterns;
         return $container;
     }
+
     /**
-     * 
-     * @param string $css 
-     * @return string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $css
+    * @return string
+    */
 
     public function minify(string $css)
     {   

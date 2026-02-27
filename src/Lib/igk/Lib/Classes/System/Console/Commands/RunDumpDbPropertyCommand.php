@@ -8,8 +8,9 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class RunDumpDbPropertyCommand extends AppExecCommand{

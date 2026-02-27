@@ -11,7 +11,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html
 */
 class NodeBuilderGenerateTest extends BaseTestCase{

@@ -8,9 +8,8 @@
 namespace IGK\Core\Ext\Google\OAuth;
 
 /**
- * @desc client
- *
- * */
+* auto generate doc.
+*/
 class Client{
 
     /**

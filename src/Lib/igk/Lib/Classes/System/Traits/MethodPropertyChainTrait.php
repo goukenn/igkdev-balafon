@@ -4,9 +4,10 @@
 // @date: 20220803 13:50:44
 // @desc: 
 namespace IGK\System\Traits;
+
 /**
- * 
- */
+* auto generate doc.
+*/
 trait MethodPropertyChainTrait{
 
     /**

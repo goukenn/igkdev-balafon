@@ -7,7 +7,7 @@ namespace IGK\System\Text;
 use IGK\System\Console\Logger;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

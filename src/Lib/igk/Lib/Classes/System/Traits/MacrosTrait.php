@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Traits;
 use Closure;
+
+/**
+* auto generate doc.
+* @package IGK\System\Traits
+*/
 trait MacrosTrait
 {
 

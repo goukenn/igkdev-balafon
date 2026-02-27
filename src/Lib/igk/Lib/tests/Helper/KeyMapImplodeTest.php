@@ -8,7 +8,7 @@ namespace IGK\Tests\Helper\Array;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\HelperFunctions\Array
 */
 class KeyMapImplodeTest extends BaseTestCase{

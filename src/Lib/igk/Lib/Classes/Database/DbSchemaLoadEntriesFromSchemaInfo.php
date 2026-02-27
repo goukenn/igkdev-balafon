@@ -3,8 +3,9 @@
 // @file: DbSchemaLoadEntriesFromSchemaInfo.php
 // @date: 20230120 17:37:44
 namespace IGK\Database;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 */
 class DbSchemaLoadEntriesFromSchemaInfo{

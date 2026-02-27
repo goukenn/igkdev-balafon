@@ -8,8 +8,9 @@ use IGK\Css\CssThemeOptions;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssUtils;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class GenCssThemeCommand extends AppExecCommand{

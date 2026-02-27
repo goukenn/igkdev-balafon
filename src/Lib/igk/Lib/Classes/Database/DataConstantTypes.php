@@ -6,8 +6,9 @@ namespace IGK\Database;
 use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Database\DbConstantTypeBase;
 use IGK\System\Traits\EnumeratesConstants;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 * @author C.A.D. BONDJE DOUE
 */

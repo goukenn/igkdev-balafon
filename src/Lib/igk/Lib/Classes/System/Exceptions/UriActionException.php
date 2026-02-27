@@ -15,10 +15,9 @@ class UriActionException extends IGKException{
     * @var mixed
     */
     private $m_uri;
+
     /**
-    * 
-    * @param mixed $msg
-    * @param mixed $uri the default value is null
+    * auto generate doc.
     * @param mixed $code the default value is 0
     */
 
@@ -26,8 +25,9 @@ class UriActionException extends IGKException{
         parent::__construct($msg);
         $this->m_uri=$uri;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getUri(){

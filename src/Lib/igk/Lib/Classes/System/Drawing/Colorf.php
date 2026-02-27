@@ -39,11 +39,12 @@ class Colorf extends IGKObject
             $cl->m_B = $b; 
         }
     }
+
     /**
-     * 
-     * @param string $v 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $v
+    * @return void
+    */
 
     public static function ConvertStringToRGBA(string $v)
     {

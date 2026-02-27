@@ -7,7 +7,7 @@ namespace IGK\System\Database;
 use IGK\Database\DbFieldOperator;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 * @author C.A.D. BONDJE DOUE
 */

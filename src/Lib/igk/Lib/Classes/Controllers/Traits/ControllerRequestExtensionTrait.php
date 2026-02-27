@@ -17,10 +17,11 @@ use IGKEvents;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
+
 /**
- * 
- * @package IGK\Controllers\Traits
- */
+* auto generate doc.
+* @package IGK\Controllers\Traits
+*/
 trait ControllerRequestExtensionTrait
 {
     private static function _BackupServerInfo(){

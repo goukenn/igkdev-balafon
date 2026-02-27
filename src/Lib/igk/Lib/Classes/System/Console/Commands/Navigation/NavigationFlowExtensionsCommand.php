@@ -9,10 +9,10 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\FileHandler;
 
 /**
- * 
- * @package IGK\System\Console\Commands\Navigation
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Navigation
+* @author C.A.D. BONDJE DOUE
+*/
 class NavigationFlowExtensionsCommand extends AppExecCommand
 {
 

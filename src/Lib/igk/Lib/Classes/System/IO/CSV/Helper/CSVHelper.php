@@ -3,10 +3,11 @@
 // @file: CSVHelper.php
 // @date: 20231017 23:19:24
 namespace IGK\System\IO\CSV\Helper;
+
 /**
- * 
- * @package IGK\System\IO\CSV\Helper
- */
+* auto generate doc.
+* @package IGK\System\IO\CSV\Helper
+*/
 class CSVHelper
 {
 

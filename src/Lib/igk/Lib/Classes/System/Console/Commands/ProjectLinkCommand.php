@@ -5,8 +5,9 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */

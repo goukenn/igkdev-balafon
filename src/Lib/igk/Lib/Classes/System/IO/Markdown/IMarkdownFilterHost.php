@@ -4,9 +4,8 @@
 // @date: 20260130 18:40:12
 namespace IGK\System\IO\Markdown;
 
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO\Markdown
 * @author C.A.D. BONDJE DOUE
 */

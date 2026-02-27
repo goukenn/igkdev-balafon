@@ -8,12 +8,18 @@ namespace IGK\System\Html\Css;
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssClassNameDetector
 {
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
     /**
      * contain list information 
@@ -79,12 +85,12 @@ class CssClassNameDetector
         if (trim($d))
         return $k . ":" . $d;
     }
+
     /**
-     * 
-     * @param array $resolv_definition 
-     * @param mixed $option 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $option
+    * @return string
+    */
 
     public function renderToCss(array $resolv_definition, $option = null)
     {
@@ -127,14 +133,12 @@ class CssClassNameDetector
         }
         return implode($option->lf, $_out);
     }
+
     /**
-     * 
-     * @param mixed $d 
-     * @param mixed $c 
-     * @param mixed $option 
-     * @param static $detector 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param static $detector
+    * @return string
+    */
 
     static function _RenderList($d, $c, $option, $detector)
     {
@@ -226,12 +230,12 @@ class CssClassNameDetector
             }
         }
     }
+
     /**
-     * 
-     * @param int $index 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param int $index
+    * @return mixed
+    */
 
     public function getReferencedByIndex(int $index)
     {
@@ -242,12 +246,12 @@ class CssClassNameDetector
         }
         return null;
     }
+
     /**
-     * 
-     * @param string $sourcekey 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $sourcekey
+    * @return mixed
+    */
 
     public function getReference(string $sourcekey)
     {
@@ -400,12 +404,12 @@ class CssClassNameDetector
         if (is_object($a) && igk_environment()->isDev())
             igk_wln(__FILE__ . ":" . __LINE__, "not handle : css class ", get_class($a));
     }
+
     /**
-     * 
-     * @param array $a 
-     * @param null|CssClassNameDetector $detector 
-     * @return null 
-     */
+    * auto generate doc.
+    * @param null|CssClassNameDetector $detector
+    * @return null
+    */
 
     public static function Detect(array $a, ?CssClassNameDetector  $detector = null)
     {

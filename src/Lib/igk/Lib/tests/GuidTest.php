@@ -10,7 +10,7 @@ use IGK\System\Regex\RegexConstant;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests
 */
 class GuidTest extends BaseTestCase{

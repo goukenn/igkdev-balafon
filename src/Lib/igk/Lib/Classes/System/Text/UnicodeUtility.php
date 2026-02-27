@@ -10,13 +10,19 @@ namespace IGK\System\Text;
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class UnicodeUtility
 {
+
     /**
-     * 
-     * @param int $hex 
-     * @return array{bytes: string[], hex: string, escape: string, utf8: string, php_u: string}
-     */
+    * auto generate doc.
+    * @param int $hex
+    * @return array{bytes: string[], hex: string, escape: string, utf8: string, php_u: string}
+    */
     public static function UnicodeToUtf8Bytes(int $hex)
     {
         $codepoint = $hex;
@@ -59,22 +65,22 @@ class UnicodeUtility
             'utf8'      => $utf8Char,           // char réel 😀
         ];
     }
+
     /**
-     * 
-     * @param int $hex 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param int $hex
+    * @return mixed
+    */
     public static function Char(int $hex)
     {
         return igk_getv(self::UnicodeToUtf8Bytes($hex), 'utf8');
     }
 
     /**
-     * 
-     * @param int $region 
-     * @param int $code 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param int $code
+    * @return string
+    */
     public static function RegionalChar(int $region, int $code): string
     {
         $k = self::Char($region);
@@ -91,11 +97,12 @@ class UnicodeUtility
     {
         return 0x1F1E6 + (ord(strtoupper($letter)) - ord('A'));
     }
+
     /**
-     * 
-     * @param string|'BE'|'CM' $countryCode 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BE
+    * @return void
+    */
 
     public static function EmojisFlag(string $countryCode){
         return self::RegionalChar(

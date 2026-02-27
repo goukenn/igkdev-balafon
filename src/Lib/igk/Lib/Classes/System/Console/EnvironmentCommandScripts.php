@@ -18,6 +18,11 @@ use IGKException;
  * @package IGK\System\Console
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class EnvironmentCommandScripts
 {
 
@@ -48,9 +53,9 @@ class EnvironmentCommandScripts
     }
 
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     static function EnvLoad()
     {
@@ -79,12 +84,11 @@ class EnvironmentCommandScripts
         $sb = implode("\n", ['<?php', sprintf('return [%s];', StringUtility::DumpArray($tab))]);
         igk_io_w2file($f, $sb);
     }
+
     /**
-     * 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return array
+    */
 
     static function DetectCachingCommand(?string $dir = null)
     {
@@ -108,8 +112,8 @@ class EnvironmentCommandScripts
     }
 
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function GetCommandFile(string $file, ?string $dir = null)
     {
@@ -130,14 +134,12 @@ class EnvironmentCommandScripts
         }
         return null;
     }
+
     /**
-     * 
-     * @param string $file 
-     * @param mixed &$definition 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed &$definition
+    * @return void
+    */
 
     static function LoadDefinition(string $file, &$definition)
     {

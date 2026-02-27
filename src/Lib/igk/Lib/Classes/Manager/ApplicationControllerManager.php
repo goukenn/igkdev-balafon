@@ -370,11 +370,12 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
     }
+
     /**
-     * 
-     * @param string $reference 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $reference
+    * @return void
+    */
 
     static function RetrieveControllerFromReference(string $reference)
     {

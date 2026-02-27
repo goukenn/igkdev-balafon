@@ -38,15 +38,12 @@ class ViewModuleHelper{
     {
         return [];
     }
+
     /**
-     * 
-     * @param string $module_name 
-     * @return null|ApplicationModuleController 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param string $module_name
+    * @return null|ApplicationModuleController
+    */
 
     public function require(string $module_name){
         return  igk_require_module($module_name);

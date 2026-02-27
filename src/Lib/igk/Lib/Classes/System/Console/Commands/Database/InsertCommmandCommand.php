@@ -9,7 +9,7 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPatternContainer;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */

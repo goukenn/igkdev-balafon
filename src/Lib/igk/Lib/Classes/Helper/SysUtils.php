@@ -46,12 +46,12 @@ class SysUtils{
             }
         }    
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return null|IUserProfile 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return null|IUserProfile
+    */
     public static function TryServerAutoConnect(BaseController $ctrl){          
         $a = igk_server()->HTTP_USER_AGENT;
         $chek = igk_configs()->{ApplicationConfigConstants::allow_auto_connect_agents} ?? []; 
@@ -172,9 +172,11 @@ class SysUtils{
     public static function GetApplicationModule($file){
         return igk_get_module(igk_get_module_name(dirname($file)));
     }
+
     /**
-     * @return array list of controller installed in project folder
-     */
+    * auto generate doc.
+    * @return array list of controller installed in project folder
+    */
     public static function GetProjectControllers(?callable $filter=null){
         if (!IGKApp::IsInit()) {
             return null;
@@ -208,11 +210,12 @@ class SysUtils{
             return null;
         },$ref->getMethods( ReflectionMethod::IS_PUBLIC)));
     }
-     /**
-     * 
-     * @param array|\IayObject $n  item to convert
-     * @return array 
-     */
+
+    /**
+    * auto generate doc.
+    * @param array|\IayObject $n  item to convert
+    * @return array
+    */
     public static function ToArray($n){
         if (!$n){
             return null;
@@ -317,19 +320,22 @@ class SysUtils{
         }
         return null;
     }
+
     /**
-      * @return null|BaseController subdomain controller
-     */
+    * auto generate doc.
+    * @return null|BaseController subdomain controller
+    */
     public static function CurrentBaseController(){
         // $a = igk_app();
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
+
     /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
     public static function GetApplicationLibrary(string $name){
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }

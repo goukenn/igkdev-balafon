@@ -4,9 +4,8 @@
 // @date: 20250816 09:36:08
 namespace IGK\System\Text;
 
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

@@ -8,7 +8,7 @@ use IGK\System\IO\DotEnvConfiguration;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\IO
 * @author C.A.D. BONDJE DOUE
 */

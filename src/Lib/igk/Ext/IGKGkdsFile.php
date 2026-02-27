@@ -12,9 +12,8 @@ use IGK\System\Html\HtmlReader;
 define("IGK_GKDS_LAYERDOCUMENT", "LayerDocument");
 
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 final class IGKGkdsFile extends IGKObject
 {
 

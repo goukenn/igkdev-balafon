@@ -5,11 +5,12 @@
 namespace IGK\System\Console\Commands\Utils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
+
 /**
- * 
- * @package IGK\System\Console\Commands\Utils
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Utils
+* @author C.A.D. BONDJE DOUE
+*/
 class ExtractClassCommand extends AppExecCommand
 {
 

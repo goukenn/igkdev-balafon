@@ -291,11 +291,12 @@ class RouteHandler
     {
         return static::GetRouteRegex($this->path, $this->m_expressions ?? [], true, $defaultEntryMethod);
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return string
+    */
 
     public static function GetTypePattern(string $type):string{
         return igk_getv([
@@ -306,13 +307,12 @@ class RouteHandler
             'single'=>MatchPattern::Single,
         ], strtolower($type), '[^/]+');
     }
+
     /**
-     * 
-     * @param string $path 
-     * @param null|array $expressions 
-     * @param bool $strict_dir 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param bool $strict_dir
+    * @return string
+    */
 
     public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true, 
         ?string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD,
@@ -559,12 +559,12 @@ class RouteHandler
         }
         throw new RequestException(404, "api route not found");
     }
+
     /**
-     * 
-     * @param mixed|RouteHandler $route 
-     * @param array $arguments argument 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param array $arguments argument
+    * @return mixed
+    */
 
     public static function Handle($route, ...$arguments){
         return $route->process(...$arguments);

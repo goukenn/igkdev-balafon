@@ -3,8 +3,9 @@
 // @file: FormFieldValidatorContainerBase.php
 // @date: 20231229 18:41:42
 namespace IGK\System\Html\Forms\Validations;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 */
 abstract class FormFieldValidatorContainerBase extends FormFieldValidatorBase{

@@ -21,10 +21,11 @@ class SchemaBuilderMigration{
      * @var mixed
      */
     var $listener;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $items; 
     /**
      * migration info listener 
@@ -51,11 +52,12 @@ class SchemaBuilderMigration{
             return $c;
         }
         throw new IGKException("schema builder not allowed : $cl::".$name);
-    } 
+    }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function upgrade(){
         if (!$this->items)return false;

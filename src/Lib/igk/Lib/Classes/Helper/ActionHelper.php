@@ -71,14 +71,12 @@ abstract class ActionHelper
             }
         }
     }
+
     /**
-     * 
-     * @param Users $u user ask to change password
-     * @param string $password password
-     * @param string $repassword confirm password
-     * @param mixed $not notification handler
-     * @return IGK\Models\IQueryResult|false 
-     */
+    * auto generate doc.
+    * @param mixed $not notification handler
+    * @return IGK\Models\IQueryResult|false
+    */
 
     public static function ChangePassword(Users $u, string $password, string $repassword, $not = null)
     {
@@ -120,16 +118,12 @@ abstract class ActionHelper
         ]);
         return $row;
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param mixed $token 
-     * @param null|RegistrationLinks $regLink 
-     * @return RegistrationLinks|bool 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param null|RegistrationLinks $regLink
+    * @return RegistrationLinks|bool
+    */
 
     public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null)
     {
@@ -432,12 +426,12 @@ abstract class ActionHelper
             return $n;
         }, $cl->getMethods(ReflectionMethod::IS_PUBLIC)));
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param string $action_class_name 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $action_class_name
+    * @return mixed
+    */
 
     public static function GetActionName(BaseController $controller, string $action_class_name): ?string
     {

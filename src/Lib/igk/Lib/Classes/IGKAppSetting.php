@@ -4,11 +4,12 @@
 // @date: 20220803 13:48:54
 // @desc: 
 ///<summary>
+
 /**
- * 
- * @package IGK
- * @property \IGKAppInfoStorage $appInfo application storage info
- */
+* auto generate doc.
+* @package IGK
+* @property \IGKAppInfoStorage $appInfo application storage info
+*/
 class IGKAppSetting{
 
     /**

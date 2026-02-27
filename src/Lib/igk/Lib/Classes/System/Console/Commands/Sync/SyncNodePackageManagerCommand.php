@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands\Sync;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\SyncAppExecCommandBase\Sync;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{

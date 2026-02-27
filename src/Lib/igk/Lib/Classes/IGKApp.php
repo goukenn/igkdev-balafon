@@ -213,8 +213,9 @@ class IGKApp extends IGKObject
 			return IGKViewMode::VISITOR;
         return $this->getSettings()->{IGK_VIEW_MODE_FLAG}; 
     }
-     /**
-    * 
+
+    /**
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -281,10 +282,12 @@ class IGKApp extends IGKObject
         if (!$init && $appinfo && (!$sm_session || $sm_session->NoStore($appinfo ))){
             $init = 1;
         }
-        if ($init){		
+        if ($init){
+
             /**
-             * @var IGKAppInfoStorage $appinfo
-             */      
+            * auto generate doc.
+            * @var IGKAppInfoStorage $appinfo
+            */      
 			if (!$appinfo){                                    
                 igk_die("can't create appinfo");                
             }  

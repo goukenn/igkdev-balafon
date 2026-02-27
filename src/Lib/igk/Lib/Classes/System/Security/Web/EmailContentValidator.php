@@ -10,13 +10,12 @@ use function igk_resources_gets as __;
 * @package IGK\System\Security\Web
 */
 class EmailContentValidator  extends MapContentValidatorBase{
+
     /**
-     * 
-     * @param mixed $value 
-     * @param mixed $key 
-     * @param mixed $error 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $error
+    * @return mixed
+    */
     public function validate(&$value, $key, $missing=false) : bool{      
         if (!IGKValidator::IsEmail($value)){
             if ($missing){

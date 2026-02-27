@@ -17,11 +17,11 @@ use ReflectionProperty;
  */
 abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
 {
+
     /**
-     * 
-     * @return array 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return array
+    */
     public function getFields($context=null): array
     {
         //++ auto fields validation loading ... 

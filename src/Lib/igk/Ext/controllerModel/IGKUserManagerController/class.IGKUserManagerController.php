@@ -16,7 +16,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  */
 abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeBase
 {
-	/** @var StdClass $m_user */
+
+    /**
+    * auto generate doc.
+    * @var StdClass $m_user
+    */
 	private $m_user;
 
     /**
@@ -75,18 +79,13 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
     public function getIsUserConnected(){
 		return ($this->m_user != null);
 	}
-	/**
-	 * 
-	 * @param mixed $login 
-	 * @param mixed $pwd 
-	 * @return bool 
-	 * @deprecated
-	 * @throws IGKException 
-	 * @throws Exception 
-	 * @throws CssParserException 
-	 * @throws ArgumentTypeNotValidException 
-	 * @throws ReflectionException 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param mixed $pwd
+    * @deprecated 1
+    * @return bool
+    */
 
     public function connect($login=null, $pwd=null){
 		$login = ($login==null)?igk_getp("clLogin", $login):$login;

@@ -72,13 +72,15 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     * @var mixed
     */
     const EXTRA_FIELD_OPTION = 'extra';
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     const JoinOnMethodPrefix = "joinOn";
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     const TargetOnMethodPrefix = "targetOn";
     /**
      * now function 
@@ -208,15 +210,17 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @var mixed
      */
     protected $raw;
+
     /**
-     * 
-     * @var array
-     */
+    * auto generate doc.
+    * @var array
+    */
     protected $props_keys;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     protected $primaryKey = "clId";
     /**
      * column name that match the last inserted id. \
@@ -285,10 +289,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return !is_null(self::$sm_macros);
     }
+
     /**
-     * 
-     * @return object 
-     */
+    * auto generate doc.
+    * @return object
+    */
 
     public function _json_serialize()
     {
@@ -477,18 +482,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return igk_getv(self::$mock_instance, static::class) === $model;
     }
+
     /**
-     * 
-     * @param mixed $raw row of data to update 
-     * @param bool $mock is a mocking definition 
-     * @param bool $unset unset unused property definition 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $unset unset unused property definition
+    * @return void
+    */
 
     public function __construct($raw = null, $mock = 0, bool $unset = false)
     {
@@ -732,23 +731,23 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return igk_getctrl($this->controller ?? SysDbController::class);
     }
+
     /**
-     * 
-     * @return null|BaseController|void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return null|BaseController|void
+    */
 
     public function getController()
     {
         if (!empty($this->controller))
             return igk_getctrl($this->controller, false);
     }
+
     /**
-     * 
-     * @param null|string $utility_name 
-     * @return object|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $utility_name
+    * @return object|null
+    */
 
     public function utility(?string $utility_name = null)
     {

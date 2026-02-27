@@ -9,13 +9,19 @@ use IGK\System\Composer\Traits\ComposerPackageFileTrait;
 /**
  * @package IGK\System\Composer
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Composer
+*/
 class ComposerPackage{
-    use ComposerPackageFileTrait; 
+    use ComposerPackageFileTrait;
+
     /**
-     * 
-     * @param string $file 
-     * @return static|false 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return static|false
+    */
     public static function Load(string $file, & $errors=null){
         $data = json_decode(file_get_contents($file)) ?? igk_die("no data in : $file");
         if ($c = ComposerPackageValidator::ValidateData($data, null, $errors)) {

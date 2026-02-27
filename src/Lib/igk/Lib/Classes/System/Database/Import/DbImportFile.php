@@ -12,6 +12,11 @@ use IGKException;
 * @package IGK\System\Database\Import
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Database\Import
+*/
 class DbImportFile{
 
     /**
@@ -25,12 +30,12 @@ class DbImportFile{
     * @var mixed
     */
     const SUPPORT_TYPES= 'json|csv';
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param string $file 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return void
+    */
 
     public static function Import(ModelBase $model, string $file, ?string $type=null, ?bool $autoregister=null, $entry = null){
         $ext = null;

@@ -16,12 +16,12 @@ class ClassProvider{
     * @var mixed
     */
     private $m_classes;
+
     /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
 
     public static function GetClass(string $name ){
         $provider = new self;

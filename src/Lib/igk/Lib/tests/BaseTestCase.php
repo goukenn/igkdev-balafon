@@ -23,11 +23,12 @@ abstract class BaseTestCase extends TestCase{
     protected function setUp():void{ 
         igk_server()->prepareServerInfo();
     }
+
     /**
-     * 
-     * @param mixed $classname 
-     * @return object 
-     */
+    * auto generate doc.
+    * @param mixed $classname
+    * @return object
+    */
     protected function CreateController($classname){
         return Utils::CreateController($classname);
     }

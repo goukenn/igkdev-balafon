@@ -30,10 +30,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     * @var mixed
     */
     private $fkeys;
+
     /**
-     * 
-     * @var \IGK\Database\DataAdapterBase adapter used by this driver
-     */
+    * auto generate doc.
+    * @var \IGK\Database\DataAdapterBase adapter used by this driver
+    */
     private $m_adapter;
 
     /**
@@ -265,9 +266,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return array();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __wakeup()
     {
@@ -277,10 +279,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             get_class($this)
         );
     }
+
     /**
-     * 
-     * @param mixed $leaveOpen the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $leaveOpen the default value is false
+    */
 
     public function close($leaveOpen = false)
     {
@@ -307,9 +310,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_resource && ($this->m_openCount > 0);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function closeAll()
     {
@@ -332,9 +336,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return igk_db_escape_string($v);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function connect()
     {
@@ -397,13 +402,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
      */
 
     protected abstract function initialize($resource): bool;
+
     /**
-     * 
-     * @param mixed $dbserver
-     * @param mixed $dbname
-     * @param mixed $dbuser
-     * @param mixed $dbpwd
-     */
+    * auto generate doc.
+    * @param mixed $dbpwd
+    */
 
     public function connectTo($dbserver, $dbname, $dbuser, $dbpwd)
     {
@@ -431,12 +434,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $this->m_resource = null;
         return false;
     }
+
     /**
-     * 
-     * @param mixed $dbserver the default value is "localhost"
-     * @param mixed $dbuser the default value is "root"
-     * @param mixed $dbpwd the default value is ""
-     */
+    * auto generate doc.
+    */
 
     public static function Create(?array $options = null, &$error = null)
     {
@@ -504,20 +505,12 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         // + | ------------------- 
         return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "`;", true);
     }
+
     /**
-     * 
-     * @param string $tbname 
-     * @param array $columninfo 
-     * @param mixed $entries 
-     * @param mixed $desc 
-     * @param ?string $dbname dbname
-     * @param mixed $options options
-     * @return bool|null 
-     * @throws EnvironmentArrayException 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options options
+    * @return bool|null
+    */
 
     public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $dbname=null, ?string $prefix=null, $extra=null)
     {
@@ -553,8 +546,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         return null;
     }
     ///delete item in tables
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function delete($tbname, $values = null)
     {
@@ -568,16 +563,16 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_adapter->delete($tbname, $condition);
     }
+
     /**
-     * 
-     * @param mixed $t
-     * @param mixed $msg the default value is ""
-     */
+    * auto generate doc.
+    */
 
     protected abstract function dieinfo($t, $msg = "", $code = 0);
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     function dieNotConnect()
     {
@@ -590,18 +585,20 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             igk_wln_e("error:" . $ex->getMessage());
         }
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    */
 
     public function dropTable($tablename)
     {
         igk_die(__METHOD__ . " not implement");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function flushForInitDb($complete = null)
     {
@@ -645,9 +642,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             return !empty($msg);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getdatabases()
     {
@@ -656,17 +654,19 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $t = $this->getSender()->sendQuery("SHOW DATABASES");
         return $t;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbServer()
     {
         return $this->m_dbServer;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbUser()
     {
@@ -690,9 +690,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return igk_mysql_db_errorc($this->m_resource);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getError()
     {
@@ -706,12 +707,12 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_errorCode;
     }
+
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $throwError the default value is 1
-     * @return ?callable db function to call
-     */
+    * auto generate doc.
+    * @param mixed $throwError the default value is 1
+    * @return ?callable db function to call
+    */
 
     public static function GetFunc($n, $throwError = 1)
     {
@@ -731,9 +732,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return igk_mysql_db_has_error();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConnect()
     {
@@ -747,11 +749,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_lastQuery;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
 
     public function getNewContraintKeys($tablename, $name)
     {
@@ -783,12 +785,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_adapter ?? $this;
     }
+
     /**
-     * 
-     * @param mixed $k
-     * @param mixed $rowInfo the default value is null
-     * @param mixed * $tinfo the default value is null
-     */
+    * auto generate doc.
+    * @param mixed * $tinfo the default value is null
+    */
 
     public static function GetValue($k, $rowInfo = null, &$tinfo = null)
     {
@@ -801,11 +802,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return $m;
     }
+
     /**
-     * 
-     * @param mixed $tabname
-     * @param mixed $ctrl the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ctrl the default value is null
+    */
 
     public function haveNoLinks($tabname, $ctrl = null)
     {
@@ -822,10 +823,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return 1;
     }
+
     /**
-     * 
-     * @param mixed $callback
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    */
 
     public static function Init($callback)
     {
@@ -833,9 +835,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             self::$Config = array();
         $callback(self::$Config);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function InitDefault(string $driverName = 'mysql', string $dbname = '')
     {
@@ -853,12 +856,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         igk_set_env("sys://db/tabfinfo/data", null);
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $values
-     * @param mixed $tableinfo the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $tableinfo the default value is null
+    */
 
     public function insert($tbname, $values, $tableinfo = null)
     {
@@ -866,9 +868,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $tableinfo = $tableinfo ?? DbSchemas::GetTableColumnInfo($tbname);
         return $this->m_adapter->insert($tbname, $values, $tableinfo);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function IsMySQLi()
     {
@@ -903,19 +906,21 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_openCount;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function RestoreConfig()
     {
         DbQueryDriver::$Config = self::$__store;
         self::$__store = null;
     }
+
     /**
-     * 
-     * @param mixed $cbinfo
-     */
+    * auto generate doc.
+    * @param mixed $cbinfo
+    */
 
     public static function SaveConfig($cbinfo)
     {
@@ -928,12 +933,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         DbQueryDriver::$Config["func"] = $tab;
         self::$__store = $ctn;
     }
+
     /**
-     * 
-     * @param mixed $table
-     * @param mixed $cond the default value is null
-     * @param mixed $options the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $options the default value is null
+    */
 
     public function select($table, $cond = null, $options = null)
     {
@@ -943,10 +947,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         // $s=$this->_sendQuery($query, $options);
         // return $s;
     }
+
     /**
-     * 
-     * @param mixed $dbname
-     */
+    * auto generate doc.
+    * @param mixed $dbname
+    */
 
     function selectdb($dbname)
     {
@@ -967,9 +972,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             return $mysql_func($dbname);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function selectLastId()
     {
@@ -1064,19 +1070,21 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $o
-     */
+    * auto generate doc.
+    * @param mixed $o
+    */
 
     public function setAdapter($o)
     {
         $this->m_adapter = $o;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function setCloseCallback($v)
     {
@@ -1090,19 +1098,21 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         $this->m_lastQuery = $v;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function setOpenCallback($v)
     {
         $this->m_openCallback = $v;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    */
 
     public function tableExists(string $tablename, bool $throwex=true): bool
     {
@@ -1128,8 +1138,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         return false;
     }
     ///update data table
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function update($tbname, $entry, $where = null, $querytabinfo = null)
     {

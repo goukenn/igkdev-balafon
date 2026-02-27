@@ -5,10 +5,11 @@
 namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+
 /**
- * 
- * @package IGK\System\Runtime\Compiler
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler
+*/
 class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
 {
 

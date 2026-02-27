@@ -58,7 +58,9 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @var mixed
     */
     private $m_scripts = [];
-    /** 
+
+    /**
+    * auto generate doc.
     * @param mixed $owner
     */
 
@@ -119,33 +121,36 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function Clear($tag=null){
         throw new NotImplementException(__METHOD__);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function Flags(){
         return $this->_f;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getAssoc(){
         igk_trace();
         throw new NotImplementException(__METHOD__);
-    }    
+    }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $default the default value is null
-    * @return mixed 
+    * @return mixed
     */
 
     public function getFlag($n, $default=null){
         return $this->_f->getFlag($n, $default);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getManager(){
@@ -161,15 +166,17 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function getMergedContent($zip=0, & $files=null){
         throw new IGKException(__METHOD__. " Not implement");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getNode(){
         return $this->getFlag(self::JSMAN_NODE);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $tab the default value is null
     */
 
@@ -182,8 +189,9 @@ final class IGKHtmlScriptManager extends IGKObject {
         // }
         // return $o;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $file
     */
 

@@ -17,6 +17,11 @@ use IGKException;
  * @package IGK\Database
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class PhoneBookUtility
 {
     /**
@@ -57,12 +62,12 @@ class PhoneBookUtility
         }
         return PhoneBooks::select_all($conditions, ['Distinct'=>true, 'Columns'=>[PhoneBooks::FD_ENTRY_GUID]]);
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return null|string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return null|string
+    */
     public static function ResolveNameToVCardProperty(string $type): ?string{
         return igk_getv(['email' => 'EMAIL', 
         'address'=>'ADR',
@@ -72,11 +77,12 @@ class PhoneBookUtility
         'organization'=>'ORG',
         'gsm'=>'TEL', 'phone'=>'TEL'], strtolower($type));
     }
+
     /**
-     * 
-     * @param null|Users $user 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param null|Users $user
+    * @return array
+    */
     public static function ExportVCards(?Users $user = null)
     {
         $v_tab = [];
@@ -176,11 +182,12 @@ class PhoneBookUtility
         ->execute(true, $options); 
         return $tab;
     }
+
     /**
-     * 
-     * @param null|Users $user 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param null|Users $user
+    * @return array
+    */
     public static function DeleteAllBookEntry(?Users $user=null)
     {
         $conditions = [];
@@ -199,11 +206,12 @@ class PhoneBookUtility
         PhoneBookEntries::delete($conditions);
         return $delete;
     }
+
     /**
-     * 
-     * @param string $type 
-     * @return PhoneBookConverterBase|object|null 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @return PhoneBookConverterBase|object|null
+    */
     public static function GetPhoneBookConverter(string $type)
     {
         $cl = __NAMESPACE__ . "\\PhoneBooks\\" . ucfirst($type) . "Converter";
@@ -212,13 +220,12 @@ class PhoneBookUtility
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @param null|Users $user 
-     * @return false 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|Users $user
+    * @return false
+    */
     public static function LoadEntryData($data, ?Users $user = null)
     {
         $row = PhoneBookEntries::createEmptyRow();

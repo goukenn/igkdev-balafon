@@ -8,15 +8,18 @@ namespace IGK\System\Http;
  * 
  * @package IGK\System\Http
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class RequestUtility{
+
     /**
-     * 
-     * @param mixed $paramHandler 
-     * @param mixed $requestName 
-     * @param mixed $paramName 
-     * @param bool $update 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param bool $update
+    * @return mixed
+    */
     public static function RequestGet($paramHandler, $requestName, $paramName, $update=true){   
         $c = Request::getInstance()->have($requestName, $paramHandler->getParam($paramName));
         if ($update){

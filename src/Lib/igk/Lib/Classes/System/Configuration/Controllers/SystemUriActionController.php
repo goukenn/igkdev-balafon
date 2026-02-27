@@ -58,9 +58,10 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::CACHE_FILE;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
@@ -219,12 +220,11 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     public function getUseDataSchema():bool{
         return false;
     }
+
     /**
-     * @param string $uri
-     * @param mixed $params
-     * @param int|bool $redirection force redirection 
-     * @param int|bool $render render content
-     */
+    * auto generate doc.
+    * @param int|bool $render render content
+    */
 
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
         $app = igk_app();

@@ -7,8 +7,9 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DbUpdateControllerSchemaCommand extends AppExecCommand{

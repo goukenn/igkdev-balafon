@@ -19,10 +19,11 @@ abstract class ModelCacheFilterBase{
      * @var mixed
      */
     var $auto_insert;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $column;
     /**
      * default value

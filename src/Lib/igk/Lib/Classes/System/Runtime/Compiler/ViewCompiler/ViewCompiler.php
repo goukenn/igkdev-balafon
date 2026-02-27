@@ -69,15 +69,17 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var mixed
      */
     private $m_tokenCompiler;
+
     /**
-     * 
-     * @var bool
-     */
+    * auto generate doc.
+    * @var bool
+    */
     private $m_output = true;
+
     /**
-     * 
-     * @var bool
-     */
+    * auto generate doc.
+    * @var bool
+    */
     var $documentBuild = false;
     /**
      * variables
@@ -420,16 +422,12 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         $options->skipWhiteSpace = true;
         return true;
     }
+
     /**
-     * 
-     * @param mixed $options 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return void
+    */
 
     protected function endHandleToken($options)
     {
@@ -546,22 +544,20 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
     }
     #region Expression
+
     /**
-     * 
-     * @param ReadTokenOptions $options 
-     * @param mixed $id 
-     * @param mixed $value 
-     * @return bool 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
 
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
+
         /**
-         * @var ReadTokenExpressionFlagOptions $fop  
-         */
+        * auto generate doc.
+        * @var ReadTokenExpressionFlagOptions $fop
+        */
         $fop = $options->flagOptions;
         if (!$options->struct_info) {
             if ($this->top_expression === $fop) {
@@ -1034,11 +1030,12 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return true;
     }
     #endregion
+
     /**
-     * 
-     * @param array $files 
-     * @return null|string 
-     */
+    * auto generate doc.
+    * @param array $files
+    * @return null|string
+    */
 
     public function compile(array $files): ?string
     {

@@ -6,10 +6,11 @@ namespace IGK\System\Html\Dom;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlNodeBuilder;
+
 /**
- * 
- * @package IGK\System\Html\Dom
- */
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlLayoutViewInclusion extends HtmlNode
 {
 

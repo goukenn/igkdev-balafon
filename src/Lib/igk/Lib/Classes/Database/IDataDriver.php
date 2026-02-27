@@ -156,12 +156,12 @@ interface IDataDriver{
     * @return string
     */
     function createAlterTableFormat():string;
+
     /**
-     * 
-     * @param mixed $columninfo 
-     * @param mixed $value 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
 
     function filterColumn($columninfo, $value):bool;
     /**

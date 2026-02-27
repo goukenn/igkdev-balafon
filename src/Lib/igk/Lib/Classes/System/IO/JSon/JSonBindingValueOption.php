@@ -3,8 +3,9 @@
 // @file: JSonBindingValueOption.php
 // @date: 20250128 15:23:19
 namespace IGK\System\IO\JSon;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO\JSon
 * @author C.A.D. BONDJE DOUE
 */

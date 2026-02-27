@@ -3,11 +3,11 @@
 // @file: HtmlAutocompleteValues.php
 // @date: 20250604 05:17:12
 namespace IGK\System\Html;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 * @author C.A.D. BONDJE DOUE
-* @documentation https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#values
 */
 abstract class HtmlAutocompleteValues{
 

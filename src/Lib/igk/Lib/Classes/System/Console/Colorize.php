@@ -11,6 +11,11 @@ use IGKValidator;
  * @package IGK\System\Console
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 class Colorize
 {
     /**
@@ -50,14 +55,12 @@ class Colorize
             "secret"=>"\e[38;2;30;154;42m",
         ];
     }
+
     /**
-     * 
-     * @param mixed $s 
-     * @param null|RegexMatcherContainer $match 
-     * @param mixed $filter 
-     * @return null|string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $filter
+    * @return null|string
+    */
 
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null):?string
     {

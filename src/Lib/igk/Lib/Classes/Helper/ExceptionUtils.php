@@ -9,9 +9,10 @@ use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
 use IGKException;
+
 /**
- * 
- */
+* auto generate doc.
+*/
 abstract class ExceptionUtils
 {
     /**

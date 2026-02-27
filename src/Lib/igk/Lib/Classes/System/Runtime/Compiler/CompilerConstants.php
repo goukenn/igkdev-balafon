@@ -3,8 +3,9 @@
 // @file: CompilerConstants.php
 // @date: 20221028 20:25:03
 namespace IGK\System\Runtime\Compiler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 abstract class CompilerConstants{

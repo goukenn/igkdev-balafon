@@ -94,9 +94,11 @@ final class HtmlReader extends IGKObject
      * @var ?HtmlItemBase
      */
     private $m_last_read_node;
+
     /**
-     * @var ?IHtmlReadContextOptions|mixed
-     */
+    * auto generate doc.
+    * @var ?IHtmlReadContextOptions|mixed
+    */
     private $m_context;
     // $m_self_close;
 
@@ -240,11 +242,12 @@ final class HtmlReader extends IGKObject
         }
         return 1;
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return null|array 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return null|array
+    */
 
     public static function ToBindingArrayDefinition($data): ?array
     {
@@ -1368,19 +1371,12 @@ final class HtmlReader extends IGKObject
         }
         self::_PopContext();
     }
+
     /**
-     * 
-     * @param mixed $reader 
-     * @param mixed &$v_tags 
-     * @param mixed &$cnode 
-     * @param mixed $tab_doc 
-     * @param mixed $caller_context 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $caller_context
+    * @return void
+    */
 
     protected static function _ReadModelEndElement($reader, &$v_tags, &$cnode, $tab_doc, $caller_context)
     {
@@ -1716,11 +1712,11 @@ final class HtmlReader extends IGKObject
     ///<param name="text"></param>
     ///<param name="context" default="null"></param>
     ///<param name="listener" default="null"></param>
+
     /**
-     * @param string $text content to load  
-     * @param const $listener environment context HTML|XML
-     * @param callable $listener creator to call 
-     */
+    * auto generate doc.
+    * @param callable $listener creator to call
+    */
 
     public static function Load(string $text,  $context = null, ?callable $listener = null)
     {
@@ -1854,14 +1850,12 @@ final class HtmlReader extends IGKObject
     {
         return $this->m_procTagClose;
     }
+
     /**
-     * 
-     * @param mixed $binfo binding info
-     * @param callable $fc_attrib attribute setter 
-     * @param mixed $v_expressions 
-     * @param mixed $context 
-     * @return Closure(mixed $k, mixed $_v): void|Closure(mixed $k, mixed $v): void 
-     */
+    * auto generate doc.
+    * @param mixed $context
+    * @return Closure(mixed $k
+    */
     private function _getAttributeReaderCallback($binfo,  $fc_attrib, &$v_expressions, $context = null)
     {
         $v_context = $context ?? $this->m_context;

@@ -29,6 +29,11 @@ use function igk_resources_gets;
  * 
  * @package IGK\Helper
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class Database
 {
     // + | init data field constants
@@ -50,15 +55,12 @@ class Database
     * @var mixed
     */
     static $sm_shared_info;
+
     /**
-     * 
-     * @param mixed $model_class 
-     * @return null|string 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $model_class
+    * @return null|string
+    */
 
     public static function GetPhpDocMacrosDefintionToInject($model_class): ?string
     {
@@ -117,11 +119,12 @@ class Database
         }
         return $sb.'';
     }
+
     /**
-     * 
-     * @param string|\IGK\Models\ModelBase $model 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string|\IGK\Models\ModelBase $model
+    * @return string
+    */
 
     public static function GetMacroClass($model): ?string
     {
@@ -298,17 +301,12 @@ class Database
         self::$sm_shared_info = [];
         unset($dbinitializer);
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @param mixed $tb 
-     * @param mixed $etb 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param mixed $etb
+    * @return void
+    */
 
     public static function CreateTableBase(BaseController $controller, $tb, $etb = null, $adapter = null)
     {
@@ -383,11 +381,12 @@ class Database
         // + |        
         $controller->InitDataBaseModel($definitions, $force);
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
 
     public static function InitDataEntries(BaseController $controller)
     {
@@ -421,11 +420,12 @@ class Database
             $call && $cl::Init($controller);
         }
     }
+
     /**
-     * 
-     * @param BaseController $controller 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
 
     public static function DropForeignKeys(BaseController $controller)
     {

@@ -8,11 +8,17 @@ use IGK\Helper\Activator;
 * 
 * @package IGK\System\Html\Metadatas
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Metadatas
+*/
 class AppleWebAppMetadata extends MetadataGroupEntryBase{
+
     /**
-     * 
-     * @var 'yes' | 'no'
-     */
+    * auto generate doc.
+    * @var yes
+    */
     var $appleWebAppCapable;
     /**
      * web app title 
@@ -24,10 +30,10 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
      * @var null|'black-translucent'|'black'|'default'
      */
     var $appleWebAppStatusBarStyle;
+
     /**
-     * 
-     * @var null|object|array|AppleTouchIconMetadataDefinition|AppleTouchIconMetadataDefinition[]
-     */
+    * auto generate doc.
+    */
     var $appleWebAppStartupImage;
 
     /**

@@ -27,6 +27,11 @@ use ReflectionException;
  * 
  * @package IGK\System\Caches
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Caches
+*/
 class DBCaches
 {
     /**
@@ -124,10 +129,11 @@ class DBCaches
     {
         return self::getInstance()->m_db_initializer;
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public static function IsInitializing()
     {
@@ -499,15 +505,12 @@ class DBCaches
         }
         return $m;
     }
+
     /**
-     * 
-     * @param array $data 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param array $data
+    * @return void
+    */
 
     public static function CacheData(array $data)
     {

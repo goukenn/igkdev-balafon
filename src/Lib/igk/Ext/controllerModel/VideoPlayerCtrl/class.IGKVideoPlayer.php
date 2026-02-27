@@ -290,7 +290,11 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 
     public function getControllerConfigOptions()
 	{
-		/** @var HtmlNode$t*/
+
+        /**
+        * auto generate doc.
+        * @var HtmlNode$t
+        */
 		$t = parent::getControllerConfigOptions();
 		HtmlUtils::AddImgLnk($t->add("li"), igk_js_post_frame($this->getUri("vidplayer_editsource_ajx")), "videos");
 		return $t;

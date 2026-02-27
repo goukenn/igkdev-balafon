@@ -10,31 +10,34 @@ namespace IGK\System\Polyfill;
 * @package IGK\System\Polyfill
 */
 trait ScriptAssocArrayAccessTrait{
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $k
     */
     function offsetExists($k):bool{
         return isset($this->data[$k]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetGet(mixed $key):mixed{
         return igk_getv($this->data, $key);
     }
+
     /**
-    * 
-    * @param mixed $k
+    * auto generate doc.
     * @param mixed $v
     */
     function offsetSet($k, $v):void{
         $this->data[$k]=$v;
         $this->store(1);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $k
     */
     function offsetUnset($k):void{

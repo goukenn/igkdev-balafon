@@ -31,15 +31,17 @@ class ProjectInfo{
     * Type of type.
     * @var mixed
     */
-    var $type = self::TYPE_PROJECT;     
+    var $type = self::TYPE_PROJECT;
+
     /**
-     * 
-     * @var ?ProjectConfiguration
-     */
+    * auto generate doc.
+    * @var ?ProjectConfiguration
+    */
     var $configs;
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     var $settings;
     /**
      * json definition 

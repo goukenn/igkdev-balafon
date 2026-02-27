@@ -5,8 +5,9 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlBindingArticleNode extends HtmlNode{

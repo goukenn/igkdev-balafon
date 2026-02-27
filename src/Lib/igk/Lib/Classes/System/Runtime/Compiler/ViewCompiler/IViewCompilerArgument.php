@@ -3,8 +3,9 @@
 // @file: IViewCompilerArgument.php
 // @date: 20221019 14:18:35
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 interface IViewCompilerArgument{

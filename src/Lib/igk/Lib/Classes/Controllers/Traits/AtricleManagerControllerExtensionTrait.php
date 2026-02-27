@@ -8,8 +8,9 @@ use IGK\Helper\ArticleContentBindingHelper;
 use IGK\Helper\IO;
 use IGK\System\IO\Path;
 use IGKResourceUriResolver;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Controllers\Traits
 */
 trait AtricleManagerControllerExtensionTrait{

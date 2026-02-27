@@ -75,10 +75,11 @@ abstract class FormatterBase extends IGKObject
      * sub list definition 
      */
     protected $m_sub;
+
     /**
-     * 
-     * @var int
-     */
+    * auto generate doc.
+    * @var int
+    */
     protected $m_offset = 0;
     /**
      * store the transform object 
@@ -135,15 +136,12 @@ abstract class FormatterBase extends IGKObject
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $regex 
-     * @param string $src source execute
-     * @param string $useSource use source code 
-     * @param array $patterns initialize patterns 
-     * @return ?string 
-     * @throws Error 
-     */
+    * auto generate doc.
+    * @param array $patterns initialize patterns
+    * @return ?string
+    */
 
     public function exec($regex, string $src, bool $useSource = false, ?array $patterns = null)
     {
@@ -282,10 +280,10 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-     * 
-     * @param ?IReplaceCapturedFormatDefinition $e 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param ?IReplaceCapturedFormatDefinition $e
+    * @return string
+    */
 
     public function transform(IReplaceCapturedFormatDefinition $e): string
     {
@@ -321,11 +319,12 @@ abstract class FormatterBase extends IGKObject
         $this->m_transform = null;
         return $r;
     }
+
     /**
-     * 
-     * @param string $cname 
-     * @return ?callable
-     */
+    * auto generate doc.
+    * @param string $cname
+    * @return ?callable
+    */
 
     protected function getPreserveCallback(string $cname)
     {
@@ -333,38 +332,34 @@ abstract class FormatterBase extends IGKObject
             return $cname;
         }
     }
+
     /**
-     * 
-     * @param IReplaceCapturedFormatDefinition $e 
-     * @param array $v_def 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param array $v_def
+    * @return array
+    */
 
     protected function _treatResolveCaptureLogic(IReplaceCapturedFormatDefinition $e, array $v_def)
     {
         return $v_def;
     }
+
     /**
-     * 
-     * @param mixed $e 
-     * @param mixed $v 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return mixed
+    */
 
     protected function _treatFormatLogic($e, $v)
     {
         return $v;
     }
+
     /**
-     * 
-     * @param mixed $e 
-     * @param mixed $v_def 
-     * @return mixed 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $v_def
+    * @return mixed
+    */
 
     protected function _beforeTreatFormatLogic($e, $v_def)
     {
@@ -384,16 +379,12 @@ abstract class FormatterBase extends IGKObject
         $g = $this->_fallbackReplace($e->tokenID ?? 'preserve', $g);
         return $g;
     }
+
     /**
-     * 
-     * @param string $tid 
-     * @param string $value 
-     * @return string 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return string
+    */
 
     protected function _fallbackReplace(string $tid, string $value): string
     {
@@ -575,10 +566,11 @@ abstract class FormatterBase extends IGKObject
         $n .= substr($v, $offset);
         return $n;
     }
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function output(?string $source = null): string
     {

@@ -71,14 +71,17 @@ class SchemaMigration
     * @var mixed
     */
     var $tbrelations;
+
     /**
-     * @var ?array
-     */
+    * auto generate doc.
+    * @var ?array
+    */
     var $migrations;
+
     /**
-     * 
-     * @var ?array loaded entries to initialize 
-     */
+    * auto generate doc.
+    * @var ?array loaded entries to initialize
+    */
     var $entries;
     /**
      * resolve name

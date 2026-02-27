@@ -12,6 +12,11 @@ use IGK\System\Uri;
 * @package IGK\System\Http
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class RequestPreparer{
 
     /**
@@ -49,10 +54,11 @@ class RequestPreparer{
         Request::getInstance()->getQueryInfo()->query_options = (($s = igk_getv(explode(';', $uri, 2), 1)) ? igk_get_query_options($s) : null); 
         return $path;
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
 
     public static function PopPrepareForRequest(){
         if($storage = igk_pop_env(self::PKEY)){

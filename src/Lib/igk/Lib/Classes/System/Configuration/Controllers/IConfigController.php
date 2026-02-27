@@ -11,8 +11,9 @@ namespace IGK\System\Configuration\Controllers;
 * a controller for configuration
 */
 interface IConfigController {
+
     /**
-    * 
+    * auto generate doc.
     */
     function showConfig();
 }

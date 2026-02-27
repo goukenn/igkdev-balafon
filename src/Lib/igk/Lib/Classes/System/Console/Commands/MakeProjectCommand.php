@@ -497,9 +497,10 @@ EOF;
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function _bind_langs(array &$bind, $dir)
     { 

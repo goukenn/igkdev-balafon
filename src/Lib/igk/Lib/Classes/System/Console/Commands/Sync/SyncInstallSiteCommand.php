@@ -42,13 +42,12 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
         "--admin-login" =>"set configuration login",
         "--admin-pwd"   =>"set configuration login",
     ];
+
     /**
-     * 
-     * @param mixed $command 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * auto generate doc.
+    * @param mixed $command
+    * @return mixed
+    */
 
     public function exec($command)
     {

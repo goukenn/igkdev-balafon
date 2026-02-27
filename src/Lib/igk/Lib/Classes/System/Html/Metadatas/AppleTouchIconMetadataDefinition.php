@@ -3,8 +3,9 @@
 // @file: AppleTouchIconMetadataDefinition.php
 // @date: 20231221 22:42:16
 namespace IGK\System\Html\Metadatas;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 class AppleTouchIconMetadataDefinition{

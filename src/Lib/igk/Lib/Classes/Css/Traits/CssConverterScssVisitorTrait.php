@@ -5,9 +5,9 @@
 namespace IGK\Css\Traits;
 
 /**
- * 
- * @package IGK\Css\Traits
- */
+* auto generate doc.
+* @package IGK\Css\Traits
+*/
 trait CssConverterScssVisitorTrait
 {
 

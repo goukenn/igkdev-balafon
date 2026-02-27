@@ -100,12 +100,13 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         // $frm->div()->add("noscript")->addInput("btn_add", "submit");
     }
+
     /**
-     * 
-     * @param mixed $t 
-     * @return void 
-     * @deprecated disable configuration of menu host
-     */
+    * auto generate doc.
+    * @param mixed $t
+    * @deprecated disable configuration of menu host
+    * @return void
+    */
     private function __viewMenuHostCtrl($t)
     {
         // $frm = $t->AddForm();

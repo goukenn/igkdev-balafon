@@ -8,8 +8,9 @@ use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionArgNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
 use IteratorAggregate;
 use Traversable;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{

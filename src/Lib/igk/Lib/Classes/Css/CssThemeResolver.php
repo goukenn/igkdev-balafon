@@ -17,10 +17,11 @@ use IGKResourceUriResolver;
 */
 class CssThemeResolver
 {
+
     /**
-     * 
-     * @var ?bool
-     */
+    * auto generate doc.
+    * @var ?bool
+    */
     var $themeResolved;
     /**
      * current theme
@@ -783,13 +784,12 @@ class CssThemeResolver
         }
         return $tf;
     }
+
     /**
-     * 
-     * @param mixed $array 
-     * @param IGK\Css\definition #Parameter#d5a734a8 
-     * @param IGK\Css\newColor #Parameter#d4a73315 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param IGK\Css\newColor #Parameter#d4a73315
+    * @return string
+    */
     private function _detect_color(array $tv, $cl, $ncl){
         $systheme = $this->parent;
         if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {

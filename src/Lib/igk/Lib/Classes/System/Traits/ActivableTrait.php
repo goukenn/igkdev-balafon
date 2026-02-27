@@ -9,11 +9,12 @@ use IGK\Helper\Activator;
 * @package IGK\System\Traits
 */
 trait ActivableTrait {
+
     /**
-     * 
-     * @param mixed $array 
-     * @return static
-     */
+    * auto generate doc.
+    * @param mixed $array
+    * @return static
+    */
     public static function ActivateNew($array){
         return Activator::CreateNewInstance(static::class, $array, true);
     }

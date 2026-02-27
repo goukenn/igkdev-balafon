@@ -78,10 +78,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return  !($this->m_dbManager instanceof NoDbConnection);
     }
+
     /**
-     * 
-     * @param mixed $ctrl the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $ctrl the default value is null
+    */
 
     public function __construct($ctrl = null)
     {
@@ -112,27 +113,31 @@ abstract class DataAdapterBase extends SQLDataAdapter
             });
         }
     }
+
     /**
-     * @return object data manager
-     */
+    * auto generate doc.
+    * @return object data manager
+    */
 
     protected function _createDriver()
     {
         die("must create a driver");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function beginTransaction()
     {
         $this->sendQuery("START TRANSACTION", true, null, false);
         $this->inTransaction = true;
     }
+
     /**
-     * 
-     * @param mixed $leaveOpen the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $leaveOpen the default value is false
+    */
 
     public function close($leaveOpen = false)
     {
@@ -143,9 +148,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function closeAll()
     {
@@ -154,27 +160,30 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         $this->_setDbName(null);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function closeCallback()
     {
         $this->_setDbName(null);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function commit()
     {
         $this->sendQuery("COMMIT");
         $this->inTransaction = false;
     }
+
     /**
-     * 
-     * @param mixed $array
-     */
+    * auto generate doc.
+    * @param mixed $array
+    */
 
     public function configure($array)
     {
@@ -207,11 +216,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $this->m_dbManager->setNoSelectDbErrorAutoClose($value);
     }
+
     /**
-     * 
-     * @param mixed $db_name the default value is null
-     * @param mixed $selectdb the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $selectdb the default value is true
+    */
 
     public function connect($dbnamemix = null, $selectdb = true)
     {
@@ -256,13 +265,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $this->m_dbname = $dbname;
         $this->m_dbManager->db_name = $dbname;
     }
+
     /**
-     * 
-     * @param mixed $dbserver
-     * @param mixed $dbname
-     * @param mixed $dbuser
-     * @param mixed $dbpwd
-     */
+    * auto generate doc.
+    * @param mixed $dbpwd
+    */
 
     public function connectTo($dbserver, $dbname, $dbuser, $dbpwd)
     {
@@ -291,21 +298,22 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return 0;
     }
+
     /**
-     * 
-     * @param mixed $result the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $result the default value is false
+    */
 
     public function createEmptyResult($result = false)
     {
         return IGKMySQLQueryResult::CreateResult($result);
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $conditions
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param mixed $conditions
+    * @return mixed
+    */
 
     public function delete($tablename, $conditions = null)
     {
@@ -315,11 +323,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    * @return mixed
+    */
 
     public function deleteAll($tablename, $condition = null)
     {
@@ -336,10 +345,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return MySQLDataController::DropAllRelations($this, $this->m_dbname);
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     */
+    * auto generate doc.
+    * @param mixed $tbname
+    */
 
     public function dropTable($tbname)
     {
@@ -347,27 +357,30 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::DropTable($this, $tbname, $this->DbName);
         return null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function flushForInitDb($complete = null)
     {
         if ($this->m_dbManager)
             $this->m_dbManager->flushForInitDb($complete);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getAllRelations()
     {
         return MySQLDataController::GetAllRelations($this, $this->m_dbname);
     }
+
     /**
-     * 
-     * @param mixed $s
-     */
+    * auto generate doc.
+    * @param mixed $s
+    */
 
     public function getConstraint_Index($s)
     {
@@ -375,9 +388,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getDbName(): ?string
     {
@@ -386,18 +400,20 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return $this->m_dbname;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getError()
     {
         return $this->m_error;
     }
+
     /**
-     * 
-     * @param mixed $type
-     */
+    * auto generate doc.
+    * @param mixed $type
+    */
 
     public function getFormat($type)
     {
@@ -411,136 +427,152 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return "";
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsAvailable()
     {
         return ($this->m_dbManager != null);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getIsConnect(): bool
     {
         return $this->m_dbManager->getIsConnect();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getLastQuery()
     {
         return $this->m_dbManager->getLastQuery();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getResId()
     {
         return  $this->m_dbManager ? $this->m_dbManager->getResId() : null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getStored()
     {
         return $this->m_dbManager ? $this->m_dbManager->getStored() : null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getStoredRequired()
     {
         return $this->m_dbManager ? $this->m_dbManager->getStoredRequired() : null;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getTabInitInfo()
     {
         return $this->m_dbManager->getTabInitInfo();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getTime()
     {
         $this->m_time = new IGKMySQLTimeManager($this);
         return $this->m_time;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function initForInitDb()
     {
         if ($this->m_dbManager)
             $this->m_dbManager->initForInitDb();
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $callback
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    */
 
     public function initSystablePushInitItem($tablename, $callback)
     {
         return $this->m_dbManager && $this->m_dbManager->initSystablePushInitItem($tablename, $callback);
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     */
+    * auto generate doc.
+    * @param mixed $tablename
+    */
 
     public function initSystableRequired($tablename)
     {
         return $this->m_dbManager && $this->m_dbManager->initSystableRequired($tablename);
     }
+
     /**
-     * 
-     * @param mixed $tbN
-     */
+    * auto generate doc.
+    * @param mixed $tbN
+    */
 
     public function IsStoredTable($tbN)
     {
         $g = $this->getStored();
         return isset($g[$tbN]);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function last_id()
     {
         return $this->m_dbManager->last_id();
     }
+
     /**
-     * @param ?string $filter
-     */
+    * auto generate doc.
+    * @param ?string $filter
+    */
 
     public function listTables(?string $filter=null)
     {
         return $this->getGrammar()->listTables($filter);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function openCallback()
     {
         igk_log_write_i(__CLASS__, "open connection");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function openCount()
     {
@@ -556,9 +588,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->openCount() > 0;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Reset()
     {
@@ -566,18 +599,20 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->closeAll();
         $this->m_dbManager = $this->_createDriver() ?? igk_die("failed to recreate db connection");
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function rollback()
     {
         $this->sendQuery("ROLLBACK");
     }
+
     /**
-     * 
-     * @param mixed $dbname
-     */
+    * auto generate doc.
+    * @param mixed $dbname
+    */
 
     public function selectdb(?string $dbname = null): bool
     {
@@ -604,10 +639,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function getselectdb(){
         return $this->m_dbname ?? ($this->m_dbManager? $this->m_dbManager->getselectdb() : null) ?? null;
     }
+
     /**
-     * 
-     * @return mixed
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function selectLastId()
     {
@@ -629,22 +665,21 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if (is_integer($d))
             $this->sendQuery("SET foreign_key_checks=" . igk_db_escape_string($d) . ";");
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     protected function setLastQuery($v)
     {
         throw new NotImplementException(__FUNCTION__);
     }
+
     /**
-     * 
-     * @param mixed $tbname
-     * @param mixed $entries the default value is null
-     * @param mixed $where the default value is null
-     * @param mixed $querytabinfo the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $querytabinfo the default value is null
+    */
 
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
     {

@@ -7,10 +7,11 @@ namespace IGK\System\Exceptions;
 use IGKException;
 use Throwable;
 use function igk_resources_gets as __;
+
 /**
- * 
- * @package IGK\Exceptions
- */
+* auto generate doc.
+* @package IGK\Exceptions
+*/
 class BindingContextPropertyNotFoundException extends IGKException{
 
     /**

@@ -4,8 +4,9 @@
 // @date: 20250627 06:20:07
 namespace IGK\Css\Analyzer;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Css\Analyzer
 * @author C.A.D. BONDJE DOUE
 */

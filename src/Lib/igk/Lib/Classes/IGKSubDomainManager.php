@@ -42,9 +42,9 @@ final class IGKSubDomainManager extends IGKObject{
     * 
     */
     private function __construct(){}
+
     /**
-    * 
-    * @param mixed $domain
+    * auto generate doc.
     * @param mixed $servername
     */
 
@@ -176,15 +176,17 @@ final class IGKSubDomainManager extends IGKObject{
             }
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function Clear(){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = null; 
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function domainList(){
@@ -192,8 +194,9 @@ final class IGKSubDomainManager extends IGKObject{
             return array_keys($t);
         return null;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetBaseDomain(){
@@ -211,8 +214,9 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return  $srv; 
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function getInstance(){
@@ -222,8 +226,9 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return self::$sm_instance;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getRegList(){
@@ -231,8 +236,9 @@ final class IGKSubDomainManager extends IGKObject{
             $c = [];
         return $c;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetSubDomain(){
@@ -250,8 +256,9 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return $srv;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function GetSubDomainName(){
@@ -290,9 +297,9 @@ final class IGKSubDomainManager extends IGKObject{
             ini_set("session.cookie_path", $_path);
         }
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $ctrl
     */
 
@@ -300,24 +307,25 @@ final class IGKSubDomainManager extends IGKObject{
         $t=self::getInstance()->getRegList();
         return isset($t[$n]) && ($t[$n]->ctrl === $ctrl);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public static function IsSubDomain(){
         return self::$sm_isSubDomain;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     protected function onDomainChanged(){
         $this->Clear();
     }
+
     /**
-    * 
-    * @param mixed $n
-    * @param mixed $ctrl
+    * auto generate doc.
     * @param mixed $row the default value is null
     */
 
@@ -349,8 +357,9 @@ final class IGKSubDomainManager extends IGKObject{
             return $x1.".".$ex2;
         return $domain;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $t
     */
     private function updateRegList($t){

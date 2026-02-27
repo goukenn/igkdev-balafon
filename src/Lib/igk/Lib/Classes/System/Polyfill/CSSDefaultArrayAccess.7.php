@@ -10,8 +10,9 @@ namespace IGK\System\Polyfill;
 * @package IGK\System\Polyfill
 */
 trait CSSDefaultArrayAccess{
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetExists($i){
@@ -20,8 +21,9 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetGet($key){
@@ -30,9 +32,9 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($this->_[self::PROPERTIES], $key);
     }
+
     /**
-    * 
-    * @param mixed $i
+    * auto generate doc.
     * @param mixed $v
     */
     public function offsetSet($i, $v){         
@@ -44,8 +46,9 @@ trait CSSDefaultArrayAccess{
         $g= & $this->_[self::PROPERTIES];
         $this->_bindProperties($g, $i, $v); 
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $i
     */
     public function offsetUnset($i){

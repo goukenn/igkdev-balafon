@@ -15,8 +15,9 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * @var mixed
     */
     private $m_ctrls;
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function __construct(){
@@ -24,8 +25,9 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
         $this["type"] = "controlller";
         $this->m_ctrls=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $option the default value is null
     */
 
@@ -39,25 +41,27 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
         }
         return $tab;
     }
+
     /**
-    * 
-    * @param mixed $b
+    * auto generate doc.
     * @param mixed $target the default value is null
     */
 
     public function addCtrl($b, $target=null){
         $this->m_ctrls[$b->Name]=(object)["ctrl"=>$b, "target"=>$target];
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getCanAddChild(){
         return false;
     }
+
     /**
-    * 
-    * @param  * $o the default value is null
+    * auto generate doc.
+    * @param * $o the default value is null
     */
 
     protected function innerHTML(& $o=null){

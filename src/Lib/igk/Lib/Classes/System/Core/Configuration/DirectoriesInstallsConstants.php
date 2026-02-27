@@ -4,9 +4,8 @@
 // @date: 20251209 15:07:29
 namespace IGK\System\Core\Configuration;
 
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Core\Configuration
 * @author C.A.D. BONDJE DOUE
 */

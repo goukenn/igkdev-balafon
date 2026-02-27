@@ -12,11 +12,17 @@ use function igk_resources_gets as __;
 * @package IGK\Tests\System\Core
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Core
+*/
 class TranslationTest extends BaseTestCase{
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function test_translation_enum_litteral(){
         $ts = [
             'info'=>'info',

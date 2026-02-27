@@ -62,10 +62,11 @@ final class IGKValidator extends IGKObject
         $this->sm_enode = igk_create_node_arg("div.error");
         $this->sm_cibling = array();
     }
+
     /**
-     * 
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
 
     public static function AddCibling($name)
     {
@@ -75,13 +76,11 @@ final class IGKValidator extends IGKObject
             $e->sm_cibling[$v] = 1;
         }
     }
+
     /**
-     * 
-     * @param bool $condition
-     * @param bool * $error
-     * @param mixed $node the default value is null
-     * @param mixed $errormsg the default value is IGK_STR_EMPTY
-     */
+    * auto generate doc.
+    * @param mixed $errormsg the default value is IGK_STR_EMPTY
+    */
 
     public static function Assert(bool $condition, bool &$error, $node = null, $errormsg = IGK_STR_EMPTY)
     {
@@ -92,18 +91,20 @@ final class IGKValidator extends IGKObject
             }
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public static function Cibling()
     {
         return self::getInstance()->sm_cibling;
     }
+
     /**
-     * 
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
 
     public static function ContainCibling($name)
     {
@@ -131,10 +132,11 @@ final class IGKValidator extends IGKObject
         }
         return self::$sm_instance;
     }
+
     /**
-     * 
-     * @param mixed $n
-     */
+    * auto generate doc.
+    * @param mixed $n
+    */
 
     public static function GetPattern($n)
     {
@@ -158,25 +160,28 @@ final class IGKValidator extends IGKObject
         $e->sm_cibling = array();
         return $e->sm_enode;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public static function IsDate($v) {}
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public static function IsDouble($v)
     {
         return is_Double($v);
     }
+
     /**
-     * 
-     * @param mixed $mail
-     */
+    * auto generate doc.
+    * @param mixed $mail
+    */
 
     public static function IsEmail($mail)
     {
@@ -184,10 +189,11 @@ final class IGKValidator extends IGKObject
             return false;
         return preg_match(self::EMAIL_REGEX, $mail);
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public static function IsFloat($v)
     {
@@ -214,19 +220,21 @@ final class IGKValidator extends IGKObject
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public static function IsInt($v)
     {
         return is_numeric($v);
     }
+
     /**
-     * 
-     * @param mixed $p
-     */
+    * auto generate doc.
+    * @param mixed $p
+    */
 
     public static function IsIpAddress(string $p)
     {
@@ -235,10 +243,11 @@ final class IGKValidator extends IGKObject
         }
         return preg_match(IGK_IPV4_REGEX, trim($p));
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public static function IsString($v)
     {
@@ -274,10 +283,11 @@ final class IGKValidator extends IGKObject
         // $r = !$r || preg_match( "#^/(index\.php/)?\{[^\}]+]\}#i", $v);
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $o
-     */
+    * auto generate doc.
+    * @param mixed $o
+    */
 
     public static function IsValidPwd($o)
     {
@@ -287,15 +297,12 @@ final class IGKValidator extends IGKObject
         }
         return $validator->validate($o) == $o;
     }
+
     /**
-     * 
-     * @param object $o object to validate 
-     * @param mixed $fields [key=>['f'=>callback, 'e'=>error_message, 'required'=>true|false, 'd'=>default value in calse of missing]] - \
-     * callback is validation fonction and 'e' error message
-     * callback can't be a validator method IFormValidator 
-     * @param mixed * $error
-     * @return bool|object  
-     */
+    * auto generate doc.
+    * @param mixed * $error
+    * @return bool|object
+    */
 
     public static function Validate($o, $fields, &$error, bool $validate = true)
     {

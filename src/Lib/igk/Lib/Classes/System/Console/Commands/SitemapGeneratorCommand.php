@@ -120,18 +120,12 @@ class SitemapGeneratorCommand extends AppExecCommand{
         }
         return $s; 
     }
+
     /**
-     * 
-     * @param array $indexes 
-     * @param string $baseuri 
-     * @param array|null &$error 
-     * @return int|null|string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param array|null &$error
+    * @return int|null|string
+    */
 
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
         $options = (object)[

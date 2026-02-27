@@ -16,8 +16,9 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKAppleIconCtrl class
 */
 abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
+
     /**
-    * 
+    * auto generate doc.
     */
     public static function GetAdditionalConfigInfo(){
         return array(
@@ -29,28 +30,32 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             ))
         );
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getAppleIcon(){
         $tb=explode(',', $this->Configs->clAppleIconUri);
         return $tb;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getCanAddChild(){
     
         return false;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getIsVisisble():bool{
         return true;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     protected function initComplete($context=null){
         parent::initComplete();
@@ -81,15 +86,17 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             }
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     protected function initTargetNode(): ?HtmlNode{
         return null;
     }
+
     /**
-    * 
-    * @param  * $t
+    * auto generate doc.
+    * @param * $t
     */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clAppleIconUri"]=igk_getr("clAppleIconUri");

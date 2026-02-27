@@ -11,11 +11,17 @@ use IGKException;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
-class ViewCompileProcessCommandHandler{ 
-        /**
-         * 
-         * @var IViewCompiler
-         */
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
+class ViewCompileProcessCommandHandler{
+
+    /**
+    * auto generate doc.
+    * @var IViewCompiler
+    */
         protected $compiler;
         /**
          * activate exmpression list 
@@ -104,12 +110,12 @@ class ViewCompileProcessCommandHandler{
                 return "include '{$v_cfile}';\n";
             }
         }
-        /**
-         * 
-         * @param string $file 
-         * @return string|void 
-         * @throws IGKException 
-         */
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @return string|void
+    */
 
     public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;

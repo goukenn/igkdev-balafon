@@ -3,14 +3,12 @@
 // @file: IMailAttachementOption.php
 // @date: 20241218 23:02:05
 namespace IGK\System\Net;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Net
 * @author C.A.D. BONDJE DOUE
-* @property ?string $cid
-* @property ?string $name
-* @property ?string $"content-type" 
-* @property ?string $content 
+* @property ?string $content
 */
 interface IMailAttachementOption{
 }

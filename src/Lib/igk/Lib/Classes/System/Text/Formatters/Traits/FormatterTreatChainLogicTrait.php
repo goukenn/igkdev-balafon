@@ -12,6 +12,11 @@ use IGK\System\Text\IReplaceCapturedFormatDefinition;
  * @package IGK\System\Text\Formatters\Traits
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text\Formatters\Traits
+*/
 trait FormatterTreatChainLogicTrait
 {
 
@@ -20,13 +25,12 @@ trait FormatterTreatChainLogicTrait
     * @var mixed
     */
     protected $m_chain_logic = [];
+
     /**
-     * 
-     * @param IReplaceCapturedFormatDefinition $e 
-     * @return void 
-     * @throws Error 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param IReplaceCapturedFormatDefinition $e
+    * @return void
+    */
 
     protected function beforeFormat(IReplaceCapturedFormatDefinition $e)
     {

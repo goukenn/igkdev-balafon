@@ -12,6 +12,11 @@ use IGKException;
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+*/
 class DbSchemaUtility{
 
     /**
@@ -28,12 +33,11 @@ class DbSchemaUtility{
     {
         $this->file = $controller->getDataSchemaFile();    
     }
+
     /**
-     * 
-     * @return HtmlReaderDocument|null 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return HtmlReaderDocument|null
+    */
 
     public function load(){
         return HtmlReader::LoadFile($this->file);

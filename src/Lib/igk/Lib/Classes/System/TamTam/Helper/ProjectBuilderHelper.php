@@ -8,16 +8,17 @@ namespace IGK\System\TamTam\Helper;
 * @package IGK\System\TamTam\Helper
 */
 class ProjectBuilderHelper{
+
     /**
-     * 
-     * @param mixed $data 
-     * @param mixed|FormData $setting_class 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed|FormData $setting_class
+    * @return void
+    */
     public static function ValidateConfigData($data, $setting_class, & $errors=null){
+
         /**
-         * 
-         */
+        * auto generate doc.
+        */
         return $setting_class::ValidateData($data, null, $errors);
     }
 }

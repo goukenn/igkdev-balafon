@@ -5,14 +5,11 @@
 // @desc: 
 namespace IGK\System\Models;
 use ArrayAccess;
+
 /**
- * 
- * @package 
- * @property $tableRowReference
- * @property $columnInfo
- * @property $entries
- * @property $description
- * @property $controller
- */
+* auto generate doc.
+* @package 1
+* @property $controller
+*/
 interface IModelDefinitionInfo extends ArrayAccess{
 }

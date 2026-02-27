@@ -91,10 +91,11 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
       private function setUserTypeInfo($t){
         $this->setParam("usertypeinfo", $t);
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function & getuserTypeInfo(){
         $r=$this->getParam("usertypeinfo");

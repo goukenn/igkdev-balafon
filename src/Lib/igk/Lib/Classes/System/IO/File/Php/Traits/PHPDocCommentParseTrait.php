@@ -10,6 +10,11 @@ use IGK\System\IO\StringBuilder;
 * 
 * @package IGK\System\IO\File\Php\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\Php\Traits
+*/
 trait PHPDocCommentParseTrait{
  /**
      * parse php doc comment
@@ -70,12 +75,12 @@ trait PHPDocCommentParseTrait{
             $g->$name($content);
         }
         return $g;
-    } 
+    }
 
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
     public function render(): string{
         $sb = new StringBuilder;
         $p = [];

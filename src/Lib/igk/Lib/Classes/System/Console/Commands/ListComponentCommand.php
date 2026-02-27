@@ -16,6 +16,11 @@ use ReflectionFunction;
  * 
  * @package IGK\System\Console\Commands
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ListComponentCommand extends AppExecCommand
 {
 
@@ -55,15 +60,12 @@ class ListComponentCommand extends AppExecCommand
 		parent::showUsage();
 		Logger::info(sprintf('%s [pattern] [options]', $this->command));
 	}
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param string|null $pattern 
-	 * @return void 
-	 * @throws ReflectionException 
-	 * @throws IGKException 
-	 * @throws ArgumentTypeNotValidException 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param string|null $pattern
+    * @return void
+    */
 
     public function exec($command, ?string $pattern=null)
 	{

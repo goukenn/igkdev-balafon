@@ -3,8 +3,9 @@
 // @file: ICssAddRule.php
 // @date: 20250228 10:24:17
 namespace IGK\Css;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Css
 * @author C.A.D. BONDJE DOUE
 */

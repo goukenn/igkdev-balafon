@@ -16,6 +16,11 @@ use IGKException;
  * @package IGK\System\Core
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Core
+*/
 class EngineReadArgs
 {
 
@@ -33,10 +38,11 @@ class EngineReadArgs
     {
         $this->context = $context;
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     protected function evalContext()
     {
@@ -182,12 +188,12 @@ class EngineReadArgs
 
         return $v_detect_arg;
     }
+
     /**
-     * 
-     * @param string $src 
-     * @param mixed $context 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $context
+    * @return void
+    */
 
     public static function TreatGlobalArgs(string $src, $context)
     {

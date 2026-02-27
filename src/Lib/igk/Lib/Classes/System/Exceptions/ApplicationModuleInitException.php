@@ -6,8 +6,9 @@ namespace IGK\System\Exceptions;
 use IGK\Controllers\ApplicationModuleController; 
 use IGKException;
 use Throwable;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Exceptions
 */
 class ApplicationModuleInitException extends IGKException{

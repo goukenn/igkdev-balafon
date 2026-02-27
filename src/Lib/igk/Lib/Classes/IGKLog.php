@@ -33,9 +33,10 @@ final class IGKLog extends IGKObject
     private function __construct()
     {
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function ClearLog()
     {
@@ -50,9 +51,11 @@ final class IGKLog extends IGKObject
     public function write_i_data(){
         throw new NotImplementException(__METHOD__);
     }
+
     /**
-     * @return static
-     */
+    * auto generate doc.
+    * @return static
+    */
 
     public static function getInstance()
     {
@@ -131,19 +134,12 @@ final class IGKLog extends IGKObject
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
         self::$sm_loggin = false;
     }
+
     /**
-     * 
-     * @param mixed $msg 
-     * @param mixed $tag 
-     * @param mixed $dblog 
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $dblog
+    * @return void
+    */
 
     public static function WriteDbLog($msg, $tag, $dblog){
         if ($dblog && self::CanDBLog()){  
@@ -203,21 +199,21 @@ final class IGKLog extends IGKObject
     public function getDefaultErrorLogFile():string{
         return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
+
     /**
-     * 
-     * @param mixed $msg
-     */
+    * auto generate doc.
+    * @param mixed $msg
+    */
 
     public function write($msg)
     {
         $this->write_i("IGKLOG", $msg);
     }
+
     /**
-     * 
-     * @param mixed $tag
-     * @param mixed $message
-     * @param mixed $eval the default value is 1
-     */
+    * auto generate doc.
+    * @param mixed $eval the default value is 1
+    */
 
     public function write_i($tag, $message, $eval = 1)
     {

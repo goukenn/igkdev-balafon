@@ -20,7 +20,7 @@ require_once(IGK_API_LIB."/.igk.api.func.pinc");
 // require_once(IGK_LIB_CLASSES_DIR."/ApplicationController.php");
 
 /**
-* 
+* auto generate doc.
 */
 function igk_api_free_session(){
     if(!igk_server_request_onlocal_server()){

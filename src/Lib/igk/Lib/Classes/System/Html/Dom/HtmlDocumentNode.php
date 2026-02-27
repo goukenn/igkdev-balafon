@@ -10,6 +10,11 @@ use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
 /** @package IGK\System\Html\Dom */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlDocumentNode extends HtmlItemBase{
 
     /**
@@ -70,15 +75,18 @@ class HtmlDocumentNode extends HtmlItemBase{
     public function getId(){
         return $this->m_id;
     }
+
     /**
-     * 
-     * @return HtmlBodyNode 
-     */
+    * auto generate doc.
+    * @return HtmlBodyNode
+    */
 
     public function getBody(): ?HtmlBodyNode{ return $this->m_body; }
+
     /**
-     * @return HtmlHeadNode 
-     */
+    * auto generate doc.
+    * @return HtmlHeadNode
+    */
 
     public function getHead(): ?HtmlHeadNode{ return $this->m_head; }
     /**
@@ -128,10 +136,11 @@ class HtmlDocumentNode extends HtmlItemBase{
         $this->m_head = $head ?? $this->add(new HtmlHeadNode());
         $this->m_body = $body ?? $this->add(new HtmlBodyNode());
     }
+
     /**
-     * 
-     * @return HtmlDefaultMainPage 
-     */
+    * auto generate doc.
+    * @return HtmlDefaultMainPage
+    */
 
     public function getDefaultMainPage(): HtmlDefaultMainPage{
         return HtmlDefaultMainPage::getInstance();

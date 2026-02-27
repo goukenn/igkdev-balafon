@@ -8,14 +8,19 @@ use ReflectionProperty;
  * 
  * @package IGK\System\Reflection\Helper
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Reflection\Helper
+*/
 class ReflectionHelper
 {
+
     /**
-     * 
-     * @param array<ReflectionParemeter> $parameters 
-     * @param callable|null $filter 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param callable|null $filter
+    * @return void
+    */
     public static function GetParameterInfo(array $parameters, ?callable $callable = null)
     {
         // + | --------------------------------------------------------------------
@@ -62,10 +67,10 @@ class ReflectionHelper
     }
 
     /**
-     * 
-     * @param mixed $i 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param mixed $i
+    * @return array
+    */
 
     public static function DebugOnlyPublicMember($i):array{
         $r = [];

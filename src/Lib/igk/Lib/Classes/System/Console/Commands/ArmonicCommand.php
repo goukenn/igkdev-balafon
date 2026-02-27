@@ -5,10 +5,11 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Runtime\Compiler\Armonic\ArmonicCompiler;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ArmonicCommand extends AppExecCommand
 {
 

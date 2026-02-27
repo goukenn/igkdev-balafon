@@ -120,18 +120,20 @@ final class IGKSession extends IGKObject implements IParamHostService {
     * @var mixed
     */
     private $m_sessionParams;
+
     /**
-    * 
-    * @param mixed $App
+    * auto generate doc.
     * @param mixed * $params
     */
 
     public function __construct(& $params){
         $this->m_sessionParams=& $params;   
     }
+
     /**
-     * @return mixed|array return configured routes 
-     */
+    * auto generate doc.
+    * @return mixed|array return configured routes
+    */
 
     public function & getRoutes(){
 		$s = igk_app()->getSettings();
@@ -166,8 +168,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         $c = $this->$name = $callable($c) ?? $c;
         return $c;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
@@ -209,9 +212,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
     public function id(){
         return session_id();
     }
+
     /**
-    * 
-    * @param mixed $key
+    * auto generate doc.
     * @param mixed $value
     */
 
@@ -225,7 +228,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
     }
     ///igk_wln("set : ".count($this->m_sessionParams), $key);
+
     /**
+    * auto generate doc.
     */
 
     public function __toString(){
@@ -238,22 +243,23 @@ final class IGKSession extends IGKObject implements IParamHostService {
     private function _onUserChanged(){
         igk_invoke_session_event(__CLASS__."::UserChanged", array($this, null));
     }
+
     /**
-    * 
-    * @param mixed $obj
+    * auto generate doc.
     * @param mixed $method
     */
 
     public function addInitializeSessionEvent($obj, $method){}
+
     /**
-    * 
-    * @param mixed $obj
+    * auto generate doc.
     * @param mixed $method
     */
 
     public function addUserChangedEvent($obj, $method){}
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $key
     */
 
@@ -299,8 +305,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         $this->m_instances[$class]=$cl;
         return $cl;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function generateCref(){
@@ -308,8 +315,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
 		igk_app()->getSettings()->{IGK_FORM_CREF} = $cref; 
         return $cref;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getApp(){
@@ -333,8 +341,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
 		}
 		return igk_app()->settings->form;
 	}
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getCRef(){   
@@ -359,22 +368,25 @@ final class IGKSession extends IGKObject implements IParamHostService {
     public function NoStore($data){
         return $this->m_sessionParams === $data;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getDomain(){
         return $this->getParam(self::SESS_DOMAIN);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getDomainBaseDir(){
         return $this->getParam(self::IGK_DOMAINBASEDIR_SESS_PARAM);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getdomainBaseFile(){
@@ -384,23 +396,26 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return $c;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getEvents(){
         return $this->getParam(self::SESS_SESSION_EVENTS);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getLang(){
 		$g = igk_app()->getSettings()->{self::SESS_LANG_KEY};
         return $g ??  R::GetDefaultLang();
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getPageFolder(){
@@ -409,9 +424,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return IGK_HOME_PAGEFOLDER;
     }
+
     /**
-    * 
-    * @param mixed $key
+    * auto generate doc.
     * @param mixed $default the default value is null
     */
 
@@ -428,15 +443,17 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return $default;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getParamKeys(){
         return array_keys($this->m_sessionParams);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getRedirectTask(){
@@ -452,8 +469,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return $i;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $classname
     * @return mixed|array controller parameters
     */
@@ -465,22 +483,25 @@ final class IGKSession extends IGKObject implements IParamHostService {
 			$g = & $t[$classname];       
         return $g;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getUser(){
         return $this->getParam(self::SESS_USER_KEY);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getUserChangedEvent(){
         return $this->m_UserChangedEvent;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $app
     */
 
@@ -501,9 +522,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         igk_get_env("sys://session/redirecttask", $g);
         return $g;
     }
+
     /**
-    * 
-    * @param mixed $obj
+    * auto generate doc.
     * @param mixed $method
     */
 
@@ -515,24 +536,27 @@ final class IGKSession extends IGKObject implements IParamHostService {
     public function resetParam(){
         $this->m_sessionParams=array();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
     public function setDomain($v){
         $this->setParam(self::SESS_DOMAIN, $v);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
     public function setDomainBaseDir($v){
         $this->setParam(self::IGK_DOMAINBASEDIR_SESS_PARAM, $v);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -543,16 +567,18 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return $this->setParam(self::SESS_DOMAIN_BASEFILE, $v);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $value
     */
 
     public function setEvents($value){
         $this->setParam(self::SESS_SESSION_EVENTS, $value);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $lang
     */
 
@@ -564,8 +590,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         }
         return $this;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $value
     */
 
@@ -591,9 +618,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
             }
         }
     }
+
     /**
-    * 
-    * @param mixed $name
+    * auto generate doc.
     * @param mixed $value
     */
 

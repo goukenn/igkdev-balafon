@@ -19,9 +19,11 @@ use function PHPSTORM_META\map;
  */
 class ModuleManager
 {
+
     /**
-     * @var array
-     */
+    * auto generate doc.
+    * @var array
+    */
     private $m_modules;
 
     /**
@@ -29,10 +31,11 @@ class ModuleManager
     * @var mixed
     */
     private $m_boot_modules = [];
+
     /**
-     * 
-     * @var ModuleInitializer
-     */
+    * auto generate doc.
+    * @var ModuleInitializer
+    */
     private $m_init;
 
     /**
@@ -123,12 +126,11 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
+
     /**
-     * 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return array
+    */
     private static function _InitModules(){
         $d = ApplicationModules::GetCacheFile();
         $modir = igk_get_module_dir();

@@ -5,7 +5,11 @@
 // @desc: 
 namespace IGK\XSD;
 use IGKException;
-/** @package IGK\XSD */
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 class XsdBuilderException extends IGKException{
 
     /**

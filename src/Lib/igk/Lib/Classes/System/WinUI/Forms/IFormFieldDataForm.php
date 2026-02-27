@@ -9,10 +9,17 @@ use IGK\System\Html\IFormFieldContainer;
 * @package IGK\System\WinUI\Forms
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Forms
+*/
 interface IFormFieldDataForm extends IFormFieldContainer{
-    /** 
-     * @param mixed $context 
-     * @return mixed 
-     */
+
+    /**
+    * auto generate doc.
+    * @param mixed $context
+    * @return mixed
+    */
     function getFields($context=null) : array;
 }

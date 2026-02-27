@@ -3,8 +3,9 @@
 // @file: FormFieldsBase.php
 // @date: 20230929 18:05:43
 namespace IGK\System\Html;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 */
 abstract class FormFieldsBase implements IFormFields{

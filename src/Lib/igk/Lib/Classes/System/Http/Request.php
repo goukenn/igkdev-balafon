@@ -16,6 +16,11 @@ use IGKException;
  * 
  * @package IGK\System\Http
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
@@ -45,10 +50,10 @@ class Request implements IInjectable, IContentSecurityProvider
     const QUERY_OPTIONS = 'query_options';
 
     /**
-     * 
-     * @param mixed $args 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $args
+    * @return string
+    */
 
     public static function glueActionRequestArgument($args){
         return '/'.implode('/', array_filter(array_map(function($a){
@@ -65,10 +70,11 @@ class Request implements IInjectable, IContentSecurityProvider
     public static function IsSupportFileRequest($data){
         return isset( ((object)$data)->{self::FILES_FIELD});
     }
+
     /**
-     * 
-     * @var self
-     */
+    * auto generate doc.
+    * @var self
+    */
     private static $sm_instance;
 
     /**
@@ -173,11 +179,12 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $ob;
     }
+
     /**
-     * 
-     * @param mixed $key 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    * @return bool
+    */
 
     public function isset($key){
         return isset($_REQUEST[$key]);
@@ -250,11 +257,11 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $s;
     }
+
     /**
-     * 
-     * @return null|string 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @return null|string
+    */
 
     public function requestEntry(){
         $v_srv = igk_server();
@@ -331,11 +338,12 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return  $default;
     }
+
     /**
-     * 
-     * @param mixed $type 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $type
+    * @return mixed
+    */
 
     public function method($type)
     {
@@ -450,10 +458,11 @@ class Request implements IInjectable, IContentSecurityProvider
         $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         
         return $t;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isRestRequest():bool{
         if ($this->getHeader()->{WebHearderConstants::igk_web_response} == 1){            
@@ -464,10 +473,11 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return false;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isAjx():bool{
         return igk_is_ajx_demand();
@@ -484,10 +494,11 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return false;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function isWebRequest():bool{
         return !$this->isRestRequest();

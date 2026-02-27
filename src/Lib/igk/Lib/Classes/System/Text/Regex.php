@@ -10,15 +10,18 @@ namespace IGK\System\Text;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 abstract class Regex{
+
     /**
-     * 
-     * @param string $key 
-     * @param mixed $pattern 
-     * @param mixed $haystack 
-     * @param mixed $default  
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $default
+    * @return void
+    */
     public static function Get(string $key, $pattern, $haystack, $default= null){
         if (preg_match($pattern, $haystack, $tab)){
             return igk_getv($tab, $key, $default);

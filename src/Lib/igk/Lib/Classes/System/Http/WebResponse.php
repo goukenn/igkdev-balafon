@@ -36,13 +36,12 @@ class WebResponse extends RequestResponse
     public $headers = [
         "Content-Type: text/html"
     ];
+
     /**
-     * 
-     * @param mixed $node node or message to reply
-     * @param int $code status code
-     * @param mixed $header 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $header
+    * @return void
+    */
 
     public function __construct($node_or_message, int $code = 200, $header = null)
     {

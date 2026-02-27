@@ -9,7 +9,7 @@ use IGK\Tests\BaseTestCase;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\System\Html\Forms\Validations
 * @author C.A.D. BONDJE DOUE
 */
@@ -72,16 +72,17 @@ class DummyValidator extends InspectorFormFieldValidationBase{
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyNumberValidator extends InspectorFormFieldValidationBase{
+
     /**
-     * 
-     * @var int
-     */
+    * auto generate doc.
+    * @var int
+    */
     var $x;
+
     /**
-     * 
-     * @var string
-     * @FormField(int)
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $y;
 }
 
@@ -90,9 +91,10 @@ class DummyNumberValidator extends InspectorFormFieldValidationBase{
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyRequiredValidator extends InspectorFormFieldValidationBase{
+
     /**
-     * @FormField(string, required=true)
-     */
+    * auto generate doc.
+    */
     var $x;
 }
 

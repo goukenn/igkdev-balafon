@@ -7,7 +7,7 @@ namespace IGK\System\Text\Formatters\Traits;
 use IGK\System\Text\RegexMatcherContainer;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text\Formatters\Traits
 * @author C.A.D. BONDJE DOUE
 */

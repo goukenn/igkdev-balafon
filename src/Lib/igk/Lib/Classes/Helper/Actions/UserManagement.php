@@ -6,8 +6,9 @@ namespace IGK\Helper\Actions;
 use IGK\Actions\Dispatcher;
 use IGK\Models\Users;
 use ReflectionMethod;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helper\Actions
 */
 class UserManagement{

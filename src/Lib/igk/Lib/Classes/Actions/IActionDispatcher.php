@@ -3,8 +3,9 @@
 // @file: IActionDispatcher.php
 // @date: 20230520 19:56:07
 namespace IGK\Actions;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions
 */
 interface IActionDispatcher{

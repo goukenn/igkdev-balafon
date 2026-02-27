@@ -4,10 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
 /**
- * 
- * @package IGK\System\Html\Dom
- */
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlBodyMainScript extends HtmlScriptNode{
 
     /**
@@ -123,11 +124,12 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         // igk_wln_e(__FILE__.":".__LINE__ , 'main script ', $r);  
         return true; 
     }
-}  
+}
+
 /**
- * 
- * @package IGK\System\Html\Dom
- */
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class SourceScriptRenderer extends HtmlNode{
 
     /**

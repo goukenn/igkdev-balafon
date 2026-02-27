@@ -67,10 +67,11 @@ class CssParser implements ArrayAccess
     {
         return json_encode($this->m_definition, $mode);
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function to_array()
     {

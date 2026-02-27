@@ -18,6 +18,11 @@ use L81Controller;
 * 
 * @package IGK\System\Console\Commands\Database
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+*/
 class InitDbCommand extends AppExecCommand{
 
     /**
@@ -53,14 +58,12 @@ class InitDbCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = '[controller] [options]';
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param null|string $ctrl 
-	 * @return int 
-	 * @throws Exception 
-	 * @throws IGKException 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param null|string $ctrl
+    * @return int
+    */
 
     public function exec($command, ?string $ctrl = null) { 
 		$c = null;

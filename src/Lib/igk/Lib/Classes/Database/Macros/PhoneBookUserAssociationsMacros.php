@@ -3,10 +3,11 @@ namespace IGK\Database\Macros;
 use IGK\Models\PhoneBooks;
 use IGK\Models\PhoneBookTypes;
 use IGK\Models\PhoneBookUserAssociations;
+
 /**
- * 
- * @package IGK\Database\Macros
- */
+* auto generate doc.
+* @package IGK\Database\Macros
+*/
 class PhoneBookUserAssociationsMacros{
 
     /**

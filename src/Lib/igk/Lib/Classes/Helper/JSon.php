@@ -41,15 +41,17 @@ class JSon
      * @var JSonEncodeOption
      */
     protected $m_options;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_data;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_path;
     /**
      * encode
@@ -79,12 +81,12 @@ class JSon
             $tv = array_filter(array_map([$this, 'filter_array'], $tv));
         }
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return mixed
+    */
 
     public function get_root_data($data)
     {
@@ -433,12 +435,12 @@ class JSon
         }
         return $object_or_class;
     }
+
     /**
-     * @param mixed $data 
-     * @return string|false 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return string|false
+    */
 
     public static function EncodeWithNoEmpty($data){
         return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);

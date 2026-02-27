@@ -12,6 +12,11 @@ use IGK\System\IO\Path;
 * @package IGK\System\Configuration
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration
+*/
 class ScriptConfigData{
 
     /**
@@ -27,11 +32,12 @@ class ScriptConfigData{
     {
         $this->main = ConfigurationFile::DEFAULT_MAINJS;
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return void
+    */
 
     public static function GetControllerMainScript(BaseController $ctrl){
         if (($g = $ctrl->envConfiguration()) instanceof ConfigurationFile){

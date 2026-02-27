@@ -7,8 +7,9 @@ namespace IGK\System\Console\Commands;
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DeployCurrentCommand extends AppExecCommand{

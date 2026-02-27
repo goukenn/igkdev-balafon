@@ -9,8 +9,9 @@ use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\IO\Path;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */

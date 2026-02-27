@@ -11,16 +11,23 @@ use IGK\Helper\Activator;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexDetectHandler{
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $startTokenListener;
+
     /**
-     * 
-     * @var ?callable($e)
-     */
+    * auto generate doc.
+    * @var ?callable($e
+    */
     var $itemTokenListener;
 
     /**
@@ -28,10 +35,11 @@ class RegexDetectHandler{
     * @var mixed
     */
     private $m_marker;
+
     /**
-     * 
-     * @var RegexMatcherContainer
-     */
+    * auto generate doc.
+    * @var RegexMatcherContainer
+    */
     public $regex;
 
     /**

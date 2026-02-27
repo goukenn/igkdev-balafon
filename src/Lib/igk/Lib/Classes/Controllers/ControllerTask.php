@@ -19,10 +19,11 @@ abstract class ControllerTask{
     * @var mixed
     */
     protected $controller;
+
     /**
-     * 
-     * @var RouteActionHandler
-     */
+    * auto generate doc.
+    * @var RouteActionHandler
+    */
     protected $route;
 
     /**

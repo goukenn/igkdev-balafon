@@ -48,12 +48,12 @@ class DbQueryCondition{
     public function set(?array $data){
         $this->m_data = $data;
     }
+
     /**
-     * 
-     * @param mixed $obj row definition property
-     * @param 'OR'|'AND' $operand tag 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param OR
+    * @return void
+    */
 
     public function __construct($obj, $operand='AND')
     {
@@ -105,11 +105,12 @@ class DbQueryCondition{
         $this->__set($n, $arguments[0]);
         return $this;
     }
+
     /**
-     * 
-     * @param array $list 
-     * @return static 
-     */
+    * auto generate doc.
+    * @param array $list
+    * @return static
+    */
 
     public static function Create(array $list, $operand = self::OP_AND){
         $s = new static((object)array_fill_keys (array_keys($list), null));

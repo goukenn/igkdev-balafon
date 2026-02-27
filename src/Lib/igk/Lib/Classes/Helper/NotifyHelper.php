@@ -15,19 +15,12 @@ use ReflectionException;
 * @package IGK\Helper
 */
 class NotifyHelper{
+
     /**
-     * 
-     * @param string $name notification name
-     * @param bool|IResponse $condition bool o handle 
-     * @param string $success success message 
-     * @param string $error error message 
-     * @return mixed condition passed
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $error error message
+    * @return mixed condition passed
+    */
     public static function Notify(string $name, $condition, $success, $error){
         if ($condition){
             if (igk_is_ajx_demand()){

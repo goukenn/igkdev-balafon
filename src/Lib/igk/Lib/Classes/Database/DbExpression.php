@@ -32,10 +32,11 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     public function __construct($value=null){
         $this->m_v=$value;
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public static function Now(){
         static $now;

@@ -12,18 +12,19 @@ use ReflectionException;
  * 
  * @package IGK\System\Html\Css\Traits
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css\Traits
+*/
 trait RenderDefinitionTrait
 {
+
     /**
-     * 
-     * @param mixed $def 
-     * @param ?ICssRenderOption $option      
-     * @return string 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param ?ICssRenderOption $option
+    * @return string
+    */
     public static function RenderDefinition($def, $option = null)
     {
         $sb = new StringBuilder;

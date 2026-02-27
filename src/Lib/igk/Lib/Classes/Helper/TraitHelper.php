@@ -3,8 +3,9 @@
 // @file: TraitHelper.php
 // @date: 20230209 10:27:43
 namespace IGK\Helper;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\Helper
 */
 abstract class TraitHelper{

@@ -108,14 +108,17 @@ class MigrationHandler{
         }
         return $list ;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function remove(string $name){
+
         /**
-         * @var \IGK\Controllers\BaseController $ctrl;
-         */
+        * auto generate doc.
+        * @var \IGK\Controllers\BaseController $ctrl;
+        */
         list($files, $migrations) = $this->_getProps();
         $g = $files;
         $ctrl = $this->m_controller;

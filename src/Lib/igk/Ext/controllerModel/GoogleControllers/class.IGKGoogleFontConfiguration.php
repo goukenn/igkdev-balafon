@@ -22,21 +22,23 @@ use function igk_resources_gets as __;
 */
 final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     use ControllerLocationTrait;
+
     /**
-    * 
+    * auto generate doc.
     */
     protected function getConfigFile(){
         return igk_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
     }
-  
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getConfigGroup(){
         return "google";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getConfigPage(){
         return "google.fonts";
@@ -50,14 +52,16 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         $t=(array)($fonts);
         return array_keys($t);
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getName(): string{
         return __CLASS__; 
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function initConfigMenu(){
         return array(
@@ -66,8 +70,9 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
             $this->getUri("showConfig")))->setGroup($this->ConfigGroup)
         );
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function install(){
         igk_sess_write_close();
@@ -88,9 +93,9 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         igk_ajx_redirect();
         igk_navto_referer();
     }
-   
+
     /**
-    * 
+    * auto generate doc.
     */
     public function showConfig(){
         parent::showConfig();

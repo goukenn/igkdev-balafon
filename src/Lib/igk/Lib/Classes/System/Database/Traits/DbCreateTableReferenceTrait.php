@@ -4,8 +4,9 @@
 // @date: 20221118 23:13:08
 namespace IGK\System\Database\Traits;
 use IGK\Database\DbModuleReferenceTable;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database\Traits
 */
 trait DbCreateTableReferenceTrait{

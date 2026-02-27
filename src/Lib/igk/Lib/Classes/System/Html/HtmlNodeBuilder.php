@@ -162,9 +162,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     {
         $this->m_context = $context;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getContext(): ?object
     {
@@ -905,11 +906,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
+
     /**
-     * 
-     * @param HtmlItemBase $node 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param HtmlItemBase $node
+    * @return void
+    */
     private function _popTemplateContext(HtmlItemBase $node)
     {
         if (count($this->m_template) > 0) {

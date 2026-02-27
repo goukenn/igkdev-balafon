@@ -11,10 +11,11 @@ use IGK\Helper\Database;
 use IGK\Helpers\DbUtilityHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class InitSystemDatabaseCommand extends AppExecCommand
 {
 

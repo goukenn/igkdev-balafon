@@ -5,8 +5,9 @@
 namespace IGK\System\Http;
 use Exception;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http
 */
 class ApiResponse extends Response{

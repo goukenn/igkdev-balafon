@@ -38,9 +38,10 @@ class ControllerEnvParams{
      * bool disable view compilation 
      */
     public const NoCompilation = "@noCompilation";
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public const AllowHiddenView = "@AllowHiddenView";
     /**
      * no do view reponse for request

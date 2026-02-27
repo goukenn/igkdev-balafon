@@ -8,13 +8,18 @@ namespace IGK\Traits;
  * @package IGK\Traits
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Traits
+*/
 trait SetPropertyCallbackTrait
 {
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function __set($key, $v)
     {
         $nk = "set" . $key;

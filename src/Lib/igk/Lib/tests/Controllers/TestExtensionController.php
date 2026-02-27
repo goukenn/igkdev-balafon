@@ -8,7 +8,7 @@ use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Controllers
 */
 class TestExtensionController extends NotRegistrableControllerBase{

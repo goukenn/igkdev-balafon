@@ -10,8 +10,9 @@ use IGK\Models\Users;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 */
 abstract class UserProfileBase implements ICustomUserProfile{

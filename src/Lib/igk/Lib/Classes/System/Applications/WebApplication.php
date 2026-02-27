@@ -178,17 +178,12 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     {
         igk_app()->getControllerManager()->setDefaultController($controller);
     }
+
     /**
-     * 
-     * @param string $file entry file
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws TypeError 
-     * @throws RequestException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $file entry file
+    * @return void
+    */
 
     public function handleRequest(string $file, bool $render=true)
     {  

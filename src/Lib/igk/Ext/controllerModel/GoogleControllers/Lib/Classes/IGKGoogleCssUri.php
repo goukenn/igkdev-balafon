@@ -21,6 +21,11 @@ use \IGKHtmlRelativeUriValueAttribute;
 ///parse uri to local
 /**
 */
+
+/**
+* auto generate doc.
+* @package IGK\Core\Ext\Google
+*/
 class IGKGoogleCssUri{
 
     /**
@@ -34,9 +39,9 @@ class IGKGoogleCssUri{
     * @var mixed
     */
     private $m_uri;
+
     /**
-    * 
-    * @param mixed $f
+    * auto generate doc.
     * @param mixed $uri
     */
 
@@ -44,8 +49,9 @@ class IGKGoogleCssUri{
         $this->m_file=$f;
         $this->m_uri=$uri;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function getValue(){

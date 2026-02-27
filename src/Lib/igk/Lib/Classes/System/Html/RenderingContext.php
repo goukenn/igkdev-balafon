@@ -3,8 +3,9 @@
 // @file: RenderingContext.php
 // @date: 20221109 09:37:10
 namespace IGK\System\Html;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 */
 abstract class RenderingContext{

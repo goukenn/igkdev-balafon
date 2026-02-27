@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbImportFile;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */

@@ -12,6 +12,11 @@ use JsonSerializable;
  * @package IGK\System\IO\File\TmLanguage\Converters
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage\Converters
+*/
 class RegexMatcherContainerTmDefinition implements JsonSerializable
 {
 
@@ -45,11 +50,10 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
     private $m_d = [];
 
     /**
-     * 
-     * @param mixed $name 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return void
+    */
 
     public function __set($name, $value)
     {
@@ -57,12 +61,12 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
             $this->m_d[$name] = $value;
         }
     }
+
     /**
-     * 
-     * @param mixed $name 
-     * @return mixed|void 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $name
+    * @return mixed|void
+    */
 
     public function __get($name)
     {

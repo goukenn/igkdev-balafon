@@ -19,11 +19,12 @@ interface IHtmlNodeBuilderVisitor{
     */
     function setContext(?object $context);
     function getContext():?object;
+
     /**
-     * 
-     * @param mixed $new_context 
-     * @return mixed last context
-     */
+    * auto generate doc.
+    * @param mixed $new_context
+    * @return mixed last context
+    */
 
     function pushContext($new_context);
     /**

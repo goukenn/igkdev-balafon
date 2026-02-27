@@ -45,13 +45,13 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     * @return ?IDbSendQueryListener
     */
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
+
     /**
-     * 
-     * @param mixed $t 
-     * @return mixed 
-     * @throws IGKException 
-     * @deprecated since 11.7.05.19 use SQLGrammar insteed
-     */
+    * auto generate doc.
+    * @param mixed $t
+    * @deprecated since 11.7.05.19 use SQLGrammar insteed
+    * @return mixed
+    */
 
     public static function ResolvType($t){        
         return SQLQueryUtils::ResolvType($t);
@@ -118,10 +118,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     public function getGrammar(){
         return $this->create_grammar() ?? die("grammar can't be found");
     }
+
     /**
-     * 
-     * @return SQLGrammar 
-     */
+    * auto generate doc.
+    * @return SQLGrammar
+    */
 
     protected function create_grammar(){        
         $grammar = new SQLGrammar($this);
@@ -202,9 +203,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         //+ insert and update function ignored
         return $cl; 
     }
+
     /**
-    * 
-    * @param mixed $tbname
+    * auto generate doc.
     * @param mixed $condition
     */
 
@@ -225,11 +226,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     */
 
     protected function initConfig(){}
+
     /**
-    * 
-    * @param mixed $tbname table name
-    * @param mixed $values value to insert 
-    * @param mixed $tableinfo request table info
+    * auto generate doc.
     * @param mixed $tableinfo the default value is null
     */
 
@@ -237,8 +236,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
         return $this->sendQuery($query);  
     }
-   /**
-    * 
+
+    /**
+    * auto generate doc.
     */
 
     public function last_id(){}
@@ -252,8 +252,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		
         return $this->sendQuery($query, $throwex, $options, $autoclose);   
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $tbname
     */
 
@@ -261,10 +262,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $query = $this->getGrammar()->createSelectQuery($tbname);
         return $this->sendQuery($query, $tbname);
     }
+
     /**
-    * 
-    * @param mixed $tbname
-    * @param mixed $condition the default value is null
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 
@@ -273,11 +273,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
             return $this->sendQuery($query, $tbname, $options);
         }
     }
+
     /**
-    * 
-    * @param mixed $tablename
-    * @param mixed $entry
-    * @param mixed $condition the default value is null
+    * auto generate doc.
     * @param mixed $tabinfo the default value is null
     */
 
@@ -288,12 +286,12 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $s=$this->sendQuery($query, $tablename);
         return $s;
     }
+
     /**
-     * 
-     * @param mixed $type 
-     * @param mixed $value 
-     * @return string|null 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return string|null
+    */
 
     public function getFuncValue($type, $value){
         switch($type){
@@ -302,15 +300,12 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         } 
         return null;
     }
+
     /**
-     * 
-     * @param mixed $value 
-     * @param  $for 
-     * @param mixed $value 
-     * @return mixed 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return mixed
+    */
 
     public function getObjValue($value, ?string $for=null, $tableInfo = null){
         if ($value instanceof \IGK\Models\ModelBase){

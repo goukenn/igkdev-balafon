@@ -12,7 +12,9 @@ use IGKException;
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
+
     /**
+    * auto generate doc.
     * @param string $src uri
     */
     public function __construct($src=null){

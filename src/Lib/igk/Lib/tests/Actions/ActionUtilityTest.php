@@ -9,7 +9,7 @@ use IGK\Helper\ActionHelper;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Actions
 */
 class ActionUtilityTest extends BaseTestCase{

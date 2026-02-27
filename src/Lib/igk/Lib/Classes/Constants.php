@@ -261,10 +261,11 @@ final class Constants{
         list($major, $minor)= explode(".", PHP_VERSION);
         return $major.".".$minor;
     }
+
     /**
-     * 
-     * @return array 
-     */
+    * auto generate doc.
+    * @return array
+    */
 
     public static function EnvironmentConstants(): array{
         return [

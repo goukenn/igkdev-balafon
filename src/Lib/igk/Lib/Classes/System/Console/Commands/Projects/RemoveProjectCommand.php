@@ -10,9 +10,10 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
-use IGK\System\Database\MigrationHandler; 
+use IGK\System\Database\MigrationHandler;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 */
 class RemoveProjectCommand extends AppExecCommand{

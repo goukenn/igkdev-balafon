@@ -2,11 +2,10 @@
 
 namespace IGK\Ext\WinUI\Components\CommentZone;
 
-
 /**
- * 
- * @package IGK\Ext\WinUI\Components\CommentZone
- */
+* auto generate doc.
+* @package IGK\Ext\WinUI\Components\CommentZone
+*/
 interface ICommentZoneListener {
 
     /**

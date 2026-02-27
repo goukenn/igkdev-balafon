@@ -18,11 +18,12 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
     * @var mixed
     */
     var $action, $context, $ctrl, $keys, $pattern, $requestparams, $uri, $value;
+
     /**
-     * 
-     * @param mixed|object|array $tab 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed|object|array $tab
+    * @return void
+    */
 
     public function __construct($tab){
         foreach($tab as $k=>$v){

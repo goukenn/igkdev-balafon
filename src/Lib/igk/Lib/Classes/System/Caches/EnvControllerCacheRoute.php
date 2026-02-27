@@ -5,8 +5,9 @@
 namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Caches
 */
 class EnvControllerCacheRoute implements IControllerCacheChain{

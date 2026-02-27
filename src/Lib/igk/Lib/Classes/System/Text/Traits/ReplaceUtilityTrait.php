@@ -16,6 +16,11 @@ use IGK\System\Text\RegexMatcherUtility;
  * @package IGK\System\Text\Traits
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text\Traits
+*/
 trait ReplaceUtilityTrait
 {
 
@@ -60,15 +65,12 @@ trait ReplaceUtilityTrait
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $s 
-     * @param mixed $e 
-     * @param Closure(string $s):string|string|null|array<string> $rp 
-     * @return string 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param Closure(string $s):string|string|null|array<string> $rp
+    * @return string
+    */
     static function ReplaceData(string $s, $e, $rp = null, $property = 'replaceWith')
     {
 
@@ -85,13 +87,12 @@ trait ReplaceUtilityTrait
         }
         return $s;
     }
+
     /**
-     * 
-     * @param string $s target
-     * @param string $pattern regex
-     * @param string $replace replace data
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $replace replace data
+    * @return string
+    */
     public static function ReplaceCaptureData(string $s, string $pattern, string $replace): string
     {
         if (false !== strpos($s, "\n")) {
@@ -101,13 +102,12 @@ trait ReplaceUtilityTrait
         $s = preg_replace($pattern, $replace, $s);
         return $s;
     }
+
     /**
-     * 
-     * @param string $pattern 
-     * @param mixed $rp 
-     * @param string $s 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $s
+    * @return string
+    */
     public static function ReplaceGlobal(string $pattern, $rp, string $s): string
     {
         if (preg_match($pattern, $s, $tab)) {
@@ -119,12 +119,11 @@ trait ReplaceUtilityTrait
         }
         return $rp;
     }
+
     /**
-     * 
-     * @param string $rp 
-     * @param array $tab 
-     * @return string|string[]|null 
-     */
+    * auto generate doc.
+    * @param array $tab
+    */
     public static function ReplaceRegexMatcherCaptureGlobal(string $rp, array $tab)
     {
 
@@ -136,16 +135,12 @@ trait ReplaceUtilityTrait
 
         return $rp;
     }
+
     /**
-     * 
-     * @param mixed $s 
-     * @param mixed $e 
-     * @param array $captures capture definition 
-     * @param array $matches 
-     * @param mixed $format 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $format
+    * @return mixed
+    */
     public static function TreatFormatCapture(string $s, $e, array $captures, array $matches, string $format, 
         ?int $from=null)
     {
@@ -157,9 +152,11 @@ trait ReplaceUtilityTrait
         $treat = $e->match->getMatcher()->captureTreatmentListener ?? function (string $s, $cap, $sourceValue, $pos) {
             return self::TreatCaptureReplace($s, $cap, $sourceValue, $pos) ?? $s;
         };
+
         /**
-         * @var IRegexFormatterCaptureInfo $v
-         */
+        * auto generate doc.
+        * @var IRegexFormatterCaptureInfo $v
+        */
         foreach ($captures as $k => $v) {
             if (($cap = igk_getv($matches, $k)) && ($cap[1] != -1)) {
                 if ($rpw = igk_getv($v, $v_key)) {

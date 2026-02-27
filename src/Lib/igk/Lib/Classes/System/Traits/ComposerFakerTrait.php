@@ -9,6 +9,11 @@ use InvalidArgumentException;
 * 
 * @package IGK\System\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Traits
+*/
 trait ComposerFakerTrait{
 
     /**
@@ -16,11 +21,11 @@ trait ComposerFakerTrait{
     * @var mixed
     */
     protected $faker;
+
     /**
-     * 
-     * @return Generator 
-     * @throws InvalidArgumentException 
-     */
+    * auto generate doc.
+    * @return Generator
+    */
 
     public function getFaker(){
         if (is_null($this->faker)){

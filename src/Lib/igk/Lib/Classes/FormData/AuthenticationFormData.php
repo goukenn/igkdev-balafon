@@ -7,8 +7,9 @@ use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\Http\Request;
 use IGK\System\Security\Web\MapContentValidatorBase;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\FormData
 */
 class AuthenticationFormData extends FormBase {

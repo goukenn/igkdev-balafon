@@ -14,26 +14,30 @@ use IGK\System\Configuration\Controllers\ConfigControllerBase;
 * represent a controller to manage security
 */
 class IGKSecurityCtrl extends ConfigControllerBase{
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getConfigGroup(){
         return "administration";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getConfigImageKey(){
         return "";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getConfigPage(){
         return "security";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     public function getIsConfigPageAvailable(){
         return false;

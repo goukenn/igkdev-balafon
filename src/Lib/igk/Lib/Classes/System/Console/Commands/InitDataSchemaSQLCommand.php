@@ -58,17 +58,12 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = '[controller] [file] [options]';
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $ctrl 
-     * @param mixed $file 
-     * @return int 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $file
+    * @return int
+    */
 
     public function exec($command,  $ctrl=null, $file=null)
     {    

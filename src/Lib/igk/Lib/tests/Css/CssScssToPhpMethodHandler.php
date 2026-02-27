@@ -8,7 +8,7 @@ use IGK\Tests\BaseTestCase;
 use IGKException;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\Tests\Css
 */
 class CssScssToPhpMethodHandler extends BaseTestCase{

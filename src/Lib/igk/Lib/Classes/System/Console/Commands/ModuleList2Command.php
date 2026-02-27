@@ -6,10 +6,11 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ModuleList2Command extends AppExecCommand{
 
     /**

@@ -12,7 +12,7 @@ use IGK\System\Console\Logger;
 use IGKEvents;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Users
 * @author C.A.D. BONDJE DOUE
 */

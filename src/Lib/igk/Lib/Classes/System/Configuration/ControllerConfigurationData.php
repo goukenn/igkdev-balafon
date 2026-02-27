@@ -75,8 +75,9 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function to_json(){
         return json_encode($this->m_configs);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $ctrl
     */
 
@@ -88,25 +89,27 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         $this->m_autosave = true;
         $this->m_configs=igk_createobj();       
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
     public function __get($n){
         return $this->get($n, null);
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $n
     */
 
     public function __isset($n){
         return isset($this->m_configs->$n);
     }
+
     /**
-    * 
-    * @param mixed $n
+    * auto generate doc.
     * @param mixed $v
     */
 
@@ -131,8 +134,9 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function getConfigFile(){
         return igk_dir($this->ctrl->getConfigFile());
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $t
     */
 
@@ -206,8 +210,9 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_environment()->loading_context = null;
         return $t;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function LoadSetting(){}
@@ -234,8 +239,9 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private function setupCtrlConfigSettings(){
         igk_die(__METHOD__." Not implement");
     }
+
     /**
-    * 
+    * auto generate doc.
     */
 
     public function storeConfig(){         

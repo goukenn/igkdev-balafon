@@ -17,6 +17,11 @@ use IGKServices;
 * @package IGK\System\Text\Formatters
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text\Formatters
+*/
 class FormatterServiceContainer implements IAppServiceContainer{
     use ServiceContainerTrait;
 
@@ -35,18 +40,20 @@ class FormatterServiceContainer implements IAppServiceContainer{
     public function init($configs = null): bool { 
         return true;
     }
+
     /**
-     * 
-     * @param mixed $scopeName 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $scopeName
+    * @return void
+    */
 
     public function getFormatRegexContainer(string $scopeName){
 
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function resolveFormat(string $scopeName){
         if($scopeName=='source.html'){

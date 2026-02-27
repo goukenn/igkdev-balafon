@@ -13,10 +13,11 @@ use IGK\System\Console\Logger;
 use IGK\System\Delegates\InvocatorListDelegate;
 use IGKModuleListMigration;
 use Illuminate\Database\Console\Seeds\SeedCommand;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ResetDbCommand extends AppExecCommand
 {
 

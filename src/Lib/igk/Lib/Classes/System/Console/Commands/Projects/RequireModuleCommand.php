@@ -6,8 +6,9 @@ namespace IGK\System\Console\Commands\Projects;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonConfiguration;
 use stdClass;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Project
 */
 class RequireModuleCommand extends AppExecCommand{

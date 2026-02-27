@@ -56,10 +56,11 @@ abstract class FactoryBase {
     protected function getErrors(){
         return $this->m_errors;
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     protected function can(){
         return rand(0,1) === 1;

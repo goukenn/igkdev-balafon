@@ -17,6 +17,11 @@ use ReflectionException;
  * 
  * @package IGK\System\Http\Responses
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Http\Responses
+*/
 class UserResponse
 {
 
@@ -73,17 +78,12 @@ class UserResponse
         $data = self::_CreateUserData($user);
         return $data;
     }
+
     /**
-     * 
-     * @param IUserProfile $profile 
-     * @param BaseController $ctrl 
-     * @param IAuthenticatorService $authenticator 
-     * @param bool $rememberme 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $rememberme
+    * @return mixed
+    */
 
     public static function CreateResponse(IUserProfile $profile, BaseController $ctrl, IAuthenticatorService $authenticator, bool $rememberme=false)
     {

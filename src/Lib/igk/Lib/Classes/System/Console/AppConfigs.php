@@ -98,13 +98,12 @@ class AppConfigs
         }
         return $s;
     }
+
     /**
-     * 
-     * @param mixed $cwd 
-     * @param mixed $l 
-     * @param mixed $d 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $d
+    * @return string
+    */
     private static function _GetLocationDir($cwd, $l, $d): string
     {
         if (is_dir($cwd . $l)) {

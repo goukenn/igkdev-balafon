@@ -8,13 +8,19 @@ use IGK\Database\DbConstants;
  * 
  * @package IGK\Database\SchemaBuilder
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 interface IDiagramSchemaEntity
 {
+
     /**
-     * 
-     * @param string $id 
-     * @return self 
-     */
+    * auto generate doc.
+    * @param string $id
+    * @return self
+    */
     function id(string $id): IDiagramSchemaEntity;
 
     /**
@@ -46,20 +52,12 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function locale(string $id, int $length=DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
+
     /**
-     * 
-     * @param string $name 
-     * @param string $table_name 
-     * @param string $linkColumn 
-     * @param mixed $linkName 
-     * @param bool $notnull 
-     * @param bool $unique 
-     * @param null|int $uniqueColumn 
-     * @param string $inputtype 
-     * @param int $default 
-     * @param mixed $description 
-     * @return self 
-     */
+    * auto generate doc.
+    * @param mixed $description
+    * @return self
+    */
 
     function link_guuid(
         string $name,

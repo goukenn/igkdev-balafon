@@ -8,8 +8,9 @@ use IGK\Helper\ArrayUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilder;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Api
 */
 class ApiCommand extends AppExecCommand{

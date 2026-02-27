@@ -75,12 +75,12 @@ abstract class FormData
         $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }
+
     /**
-     * 
-     * @param mixed $var_tab 
-     * @param mixed $tab 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @return array
+    */
 
     protected function mergeSecure($var_tab, $tab)
     {
@@ -112,11 +112,12 @@ abstract class FormData
         $ls = array_keys(get_class_vars($this->getValidationClassReference()));
         return $ls;
     }
+
     /**
-     * 
-     * @param null|array $tab 
-     * @return FormValidationData 
-     */
+    * auto generate doc.
+    * @param null|array $tab
+    * @return FormValidationData
+    */
 
     protected function getDataValidatorMapper(?array $tab = null)
     {
@@ -219,9 +220,11 @@ abstract class FormData
             (method_exists(static::class, $validata_class) ?
                 call_user_func_array([static::class, $validata_class], []) : null) ??
             new ObjectDataValidator();
+
         /**
-         * @var {validate():null}|null $validator
-         */
+        * auto generate doc.
+        * @var {validate():null}|null $validator
+        */
         $e = new static;
         $validation_mapper = $e->getDataValidatorMapper();
         $requestData = [];

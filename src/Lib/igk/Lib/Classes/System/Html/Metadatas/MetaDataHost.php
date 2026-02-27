@@ -10,6 +10,11 @@ use IGKHtmlDoc;
  * 
  * @package IGK\System\Html\Metadatas
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Metadatas
+*/
 class MetaDataHost
 {
 
@@ -33,10 +38,10 @@ class MetaDataHost
     {
         $this->m_host = $host;
     }
+
     /**
-     * 
-     * @return (CoreDocMetadata|OpenGraphMetadata|TwitterMetadata|AppLinkMetadata|AppleWebAppMetadata)[] 
-     */
+    * auto generate doc.
+    */
 
     public static function InitCoreMetaDataDefinition()
     {

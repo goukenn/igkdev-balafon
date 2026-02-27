@@ -13,10 +13,11 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKAppSystem;
 use IGKSysUtil;
+
 /**
- * 
- * @package IGK\System\Console\Commands\Projects
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Projects
+*/
 class ListProjectRemovedCommand extends AppExecCommand
 {
 

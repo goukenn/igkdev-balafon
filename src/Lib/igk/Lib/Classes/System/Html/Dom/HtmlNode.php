@@ -156,6 +156,11 @@ use function igk_resources_gets as __;
  * @method self wbr() create a html 'wbr' node  
  * @method self getChilds() get loaded childs
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlNode extends HtmlItemBase
 {
 
@@ -239,12 +244,12 @@ class HtmlNode extends HtmlItemBase
     public static function IsNative(string $tagname):bool{
         return in_array($tagname, explode('|', self::NATIVE_ELEMENT)) || function_exists(IGK_FUNC_NODE_PREFIX.$tagname);
     }
+
     /**
-     * 
-     * @param HtmlItemBase $node 
-     * @param null|string $class 
-     * @return null|HtmlCssClassValueAttribute 
-     */
+    * auto generate doc.
+    * @param null|string $class
+    * @return null|HtmlCssClassValueAttribute
+    */
 
     protected static function InitWebClassWith(HtmlItemBase $node, ?string $class): ?HtmlCssClassValueAttribute {
         $node['class'] = $class; 
@@ -434,9 +439,10 @@ class HtmlNode extends HtmlItemBase
         }
     }
     */
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function getChildCount()
     {
@@ -486,12 +492,11 @@ class HtmlNode extends HtmlItemBase
     protected function initialize()
     {
     }
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     * @param mixed $context the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $context the default value is null
+    */
 
     public function setSysAttribute($key, $value, $context = null)
     {
@@ -572,11 +577,11 @@ class HtmlNode extends HtmlItemBase
         return isset($this->m_attributes[$n]);
     }
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     function offsetSetExpression($key, $value)
     {
@@ -615,12 +620,12 @@ class HtmlNode extends HtmlItemBase
         }
         return parent::getCanRenderTag();
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @return $this 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return $this
+    */
 
     public function activate($n, $activate_condition=null)
     {
@@ -640,9 +645,11 @@ class HtmlNode extends HtmlItemBase
         $this->m_attributes->deactivate($n);
         return $this;
     }
+
     /**
-     * @return bool get if close tag
-     */
+    * auto generate doc.
+    * @return bool get if close tag
+    */
 
     public function closeTag():bool
     {

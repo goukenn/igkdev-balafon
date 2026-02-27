@@ -104,10 +104,11 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $c->_ = array_combine(array_keys($media->_), array_values($media->_)); //merge($media->_);
         return $c;
     }
+
     /**
-     * 
-     * @return string 
-     */
+    * auto generate doc.
+    * @return string
+    */
 
     public function __toString()
     {

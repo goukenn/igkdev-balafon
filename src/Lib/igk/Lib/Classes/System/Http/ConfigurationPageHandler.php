@@ -35,14 +35,12 @@ class ConfigurationPageHandler
     * @var mixed
     */
     var $file;
+
     /**
-     * 
-     * @param IEngineRunner|Callable $engine engine to run
-     * @param null|string $file entry file 
-     * @param null|string $route 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param null|string $route
+    * @return void
+    */
 
     public function __construct($engine, ?string $file = null, ?string $route = null)
     {

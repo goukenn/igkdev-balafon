@@ -10,6 +10,11 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms\Validations
  * @author C.A.D BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Validations
+*/
 abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
 {
 
@@ -24,11 +29,12 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
     * @var mixed
     */
     private $m_supportArray = true;
+
     /**
-     * 
-     * @param bool $support_array 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param bool $support_array
+    * @return $this
+    */
 
     public function supportArray(bool $support_array): static{
         $this->m_supportArray = $support_array;

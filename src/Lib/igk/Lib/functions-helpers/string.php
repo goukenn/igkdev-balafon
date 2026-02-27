@@ -44,12 +44,12 @@ if (!function_exists('igk_str_replace_assoc_array')) {
     }
 }
 if (!function_exists('igk_str_preg_replace_assoc_array')) {
+
     /**
-     * 
-     * @param array $assoc_pattern array of regex=>replacement
-     * @param string $subject 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $subject
+    * @return string
+    */
     function igk_str_preg_replace_assoc_array(array $assoc_pattern, string $subject): string
     {
         foreach ($assoc_pattern as $k => $v) {
@@ -139,13 +139,11 @@ if (!function_exists('igk_str_insert')) {
     // {
     //     return substr($str, 0, $start_index) . $content . substr($str, $start_index);
     // }
+
     /**
-     * 
-     * @param mixed $glue string to insert 
-     * @param mixed $text where to insert
-     * @param mixed $start start index
-     * @param mixed $offset offset from where substring start 
-     */
+    * auto generate doc.
+    * @param mixed $offset offset from where substring start
+    */
     function igk_str_insert(string $glue, string $text, int $start, ?int $offset = null)
     {
         $offset = $offset === null ? $start : $offset;

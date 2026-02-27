@@ -18,6 +18,11 @@ use ReflectionException;
  * 
  * @package IGK\Helper
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 abstract class StringUtility
 {
 
@@ -32,12 +37,12 @@ abstract class StringUtility
     * @var mixed
     */
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
+
     /**
-     * 
-     * @param string $name 
-     * @param array *71280add 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param array *71280add
+    * @return bool
+    */
 
     public static function StrArrayContains(string $name, array $list): bool
     {
@@ -62,12 +67,12 @@ abstract class StringUtility
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
     }
+
     /**
-     * 
-     * @param string $column 
-     * @param null|string $prefix 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|string $prefix
+    * @return string
+    */
 
     public static function AutoPrefix(string $column, ?string $prefix = null): string
     {
@@ -79,11 +84,12 @@ abstract class StringUtility
         }
         return $column;
     }
+
     /**
-     * 
-     * @param array $tab 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param array $tab
+    * @return string
+    */
 
     public static function DumpArray(array $tab): string
     {
@@ -271,11 +277,12 @@ abstract class StringUtility
         }
         return $data;
     }
+
     /**
-     * 
-     * @param string $text 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $text
+    * @return string
+    */
 
     public static function RemoveAccents(string $text)
     {
@@ -332,12 +339,12 @@ abstract class StringUtility
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
     }
+
     /**
-     * 
-     * @param string $name 
-     * @param null|string $controller 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|string $controller
+    * @return string
+    */
 
     public static function AuthorizationPath(string $name, ?string $controller): string
     {
@@ -522,11 +529,11 @@ abstract class StringUtility
         $g = str_replace("/", $dir, $g);
         return $g;
     }
+
     /**
-     * 
-     * @param mixed $text
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $pattern
+    */
 
     public static function Contains($text, $pattern)
     {
@@ -534,11 +541,11 @@ abstract class StringUtility
             return (strstr($text, $pattern) != null);
         return true;
     }
+
     /**
-     * 
-     * @param mixed $chaine
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $pattern
+    */
 
     public static function EndWith($chaine, $pattern)
     {
@@ -575,12 +582,11 @@ abstract class StringUtility
         return $s;
     }
     //@chaine : string where to operate
+
     /**
-     * 
-     * @param mixed $chaine
-     * @param mixed $research
-     * @param mixed $offset the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $offset the default value is 0
+    */
 
     public static function IndexOf($chaine, $research, $offset = 0)
     {
@@ -591,12 +597,11 @@ abstract class StringUtility
             return -1;
         return $i;
     }
+
     /**
-     * 
-     * @param mixed $tab
-     * @param mixed $separator the default value is ","
-     * @param mixed $key the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $key the default value is true
+    */
 
     public static function Join($tab, $separator = ",", $key = true)
     {
@@ -615,23 +620,22 @@ abstract class StringUtility
         }
         return $s;
     }
+
     /**
-     * 
-     * @param mixed $chaine
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $pattern
+    */
 
     public static function StartWith($chaine, $pattern)
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
     //@personal sub
+
     /**
-     * 
-     * @param mixed $chaine
-     * @param mixed $start
-     * @param mixed $length the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $length the default value is null
+    */
 
     public static function Sub($chaine, $start, $length = null)
     {
@@ -692,15 +696,12 @@ abstract class StringUtility
         });
         return $src;
     }
+
     /**
-     * 
-     * @param string $data 
-     * @param string $separator 
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $separator
+    * @return array
+    */
 
     public static function ReadArgs(string $data, $separator = ",")
     {
@@ -983,11 +984,12 @@ abstract class StringUtility
             return $k . '=' . $v;
         }, $tab, array_keys($tab))));
     }
+
     /**
-     * 
-     * @param string $value 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $value
+    * @return string
+    */
 
     public static function ConstantToCamelCaseClassName(string $value): string
     {

@@ -112,15 +112,17 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var bool
      */
     var $autoStore = true;
+
     /**
-     * 
-     * @var ?IRegexMatchPatternStateListener
-     */
+    * auto generate doc.
+    * @var ?IRegexMatchPatternStateListener
+    */
     var $matchPatternStateListener;
+
     /**
-     * 
-     * @var ?IRegexMatchPatternOutpuTreatmentListener
-     */
+    * auto generate doc.
+    * @var ?IRegexMatchPatternOutpuTreatmentListener
+    */
     var $ouputTreatmentListener;
 
     /**
@@ -136,9 +138,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     var $captureHandlerListener;
 
     /**
-     * 
-     * @var ?Closure(string, $capInfo, string $source, int $pos)
-     */
+    * auto generate doc.
+    * @var ?Closure(string
+    */
     var $captureTreatmentListener;
     /**
      * regex detect info parent
@@ -199,20 +201,22 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?string
      */
     var $patternCreatorClass;
+
     /**
-     * 
-     * @return ?IRegexMatcherEngineInfo  
-     */
+    * auto generate doc.
+    * @return ?IRegexMatcherEngineInfo
+    */
 
     public function getEngineInfo()
     {
         return $this->m_engine_treatment_info;
     }
+
     /**
-     * 
-     * @param ?IRegexMatcherEngineInfo  $info 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ?IRegexMatcherEngineInfo  $info
+    * @return void
+    */
 
     public function setEngineInfo(?IRegexMatcherEngineInfo $info)
     {
@@ -332,10 +336,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         $this->m_matcher = $patterns;
     }
+
     /**
-     * 
-     * @var array
-     */
+    * auto generate doc.
+    * @var array
+    */
     private $m_matcher = [];
     /**
      * store matching references
@@ -347,12 +352,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?int
      */
     private $m_pos;
+
     /**
-     * 
-     * @param string $id 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $id
+    * @return mixed
+    */
 
     public function getMatcherByRefId(string $id)
     {
@@ -470,15 +475,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if ($f = $this->ouputTreatmentListener)
             return $f->getOutput();
     }
+
     /**
-     * 
-     * @param RegexDetectInfo $info 
-     * @param string $source 
-     * @param int & $offset 
-     * @return ?RegexMatcherCapture 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param int & $offset
+    * @return ?RegexMatcherCapture
+    */
 
     protected function _treatEnd($info, $source, int &$offset)
     {
@@ -1357,14 +1359,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $cl ?? RegexMatcherPattern::class;
     }
+
     /**
-     * 
-     * @param string $expression 
-     * @param null|string $end 
-     * @param null|string $tokenID 
-     * @param null|string $refid 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param null|string $refid
+    * @return $this
+    */
 
     public function begin(string $expression, ?string $end = null, ?string $tokenID = null, ?string $refid = null, ?array $patterns = null)
     {
@@ -1439,12 +1439,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $this->m_matcher[] = $inf;
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $tab 
-     * @return RegexMatcherPattern 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @return RegexMatcherPattern
+    */
 
     public function referenceOnly()
     {
@@ -1457,13 +1457,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $this->m_refOnly;
     }
+
     /**
-     * 
-     * @param string $src source 
-     * @param ?callable $filter callable {(string $g)=>boolean}
-     * @return array 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param ?callable $filter callable {(string $g)=>boolean}
+    * @return array
+    */
 
     public function extract(string $src, $filter = null, &$offset = 0)
     {
@@ -1648,14 +1647,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $this->begin('\[', '\]', $tokenId, $refid);
         return $this;
     }
+
     /**
-     * 
-     * @param string $tokenId 
-     * @param mixed $refid 
-     * @return $this 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $refid
+    * @return $this
+    */
 
     public function appendCommentDocBlock($tokenId = 'comment-docbloc', $refid = null)
     {
@@ -1797,10 +1794,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         return JSon::Encode($container->export($name), JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
+
     /**
-     * @var array $list
-     * @return void 
-     */
+    * auto generate doc.
+    * @var array $list
+    * @return void
+    */
 
     public function loadRepository($list)
     {
@@ -1876,16 +1875,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $li;
     }
+
     /**
-     * 
-     * @param mixed $captures 
-     * @param mixed $cap matching . preg_rep result with OFFSET flag
-     * @param string $sourceValue 
-     * @param mixed &$option 
-     * @param mixed $chainList 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $chainList
+    * @return mixed
+    */
 
     public static function TreatCaptures(array $captures, $cap, string $sourceValue, &$option = null, $chainList = null)
     {
@@ -1970,13 +1965,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $rv;
     }
+
     /**
-     * 
-     * @param array $args 
-     * @return RegexMatcherPattern 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param array $args
+    * @return RegexMatcherPattern
+    */
 
     public function createPattern(array $args): RegexMatcherPattern
     {

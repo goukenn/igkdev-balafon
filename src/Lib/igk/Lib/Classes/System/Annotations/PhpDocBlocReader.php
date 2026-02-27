@@ -15,13 +15,12 @@ class PhpDocBlocReader
     * @var mixed
     */
     private $m_docblock;
+
     /**
-     * 
-     * @param string $docblock 
-     * @param array $uses {<string fulltype_name, string alias_name>|string fullname}
-     * @param ?array $filter list of class annotation to filter 
-     * @return IGK\System\IO\File\Php\Traits\PHPDocCommentParser 
-     */
+    * auto generate doc.
+    * @param ?array $filter list of class annotation to filter
+    * @return IGK\System\IO\File\Php\Traits\PHPDocCommentParser
+    */
 
     public function readDoc(string $docblock, array $uses, ?array $filter=null)
     {

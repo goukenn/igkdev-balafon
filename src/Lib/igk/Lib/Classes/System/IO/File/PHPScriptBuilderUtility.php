@@ -14,11 +14,12 @@ use IGK\System\IO\StringBuilder;
 */
 abstract class PHPScriptBuilderUtility
 {
+
     /**
-     * 
-     * @param mixed ...$sources 
-     * @return null|string 
-     */
+    * auto generate doc.
+    * @param mixed ...$sources
+    * @return null|string
+    */
     public static function MergeSource(...$sources): ?string
     {
         if (!$sources) return null;
@@ -82,13 +83,12 @@ abstract class PHPScriptBuilderUtility
         $s = (strpos($tsrc, "<?php") === 0) ? '' : "<?php\n";
         return $s . $tsrc;
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @param null|string $fc 
-     * @param null|string $desc 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param null|string $desc
+    * @return string
+    */
     public static function GetArrayReturn($data, ?string $fc = null, ?string $desc = null)
     {
         $o  = "<?php\n";
@@ -121,11 +121,12 @@ abstract class PHPScriptBuilderUtility
         }, $comments));
         return $src;
     }
+
     /**
-     * 
-     * @param mixed $data 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return string
+    */
     public static function ExtractClassDefinition( $data, ?string $name=null, $options=null){
         $sb = new PhpScriptBuilder;
         $def = new StringBuilder;

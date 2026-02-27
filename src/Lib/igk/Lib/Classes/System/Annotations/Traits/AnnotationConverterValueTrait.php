@@ -7,8 +7,9 @@ use IGK\System\Annotations\PhpDocBlocReader;
 use IGK\System\Helpers\AnnotationHelper;
 use IGKException;
 use ReflectionProperty;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Annotations\Traits
 * @author C.A.D. BONDJE DOUE
 */

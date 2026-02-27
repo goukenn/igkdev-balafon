@@ -16,8 +16,9 @@ final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
     * @var mixed
     */
     private $m_keys;
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $keys
     */
 
@@ -26,8 +27,9 @@ final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
             igk_die("keys is not an array");
         $this->m_keys=$keys;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $options the default value is null
     */
 

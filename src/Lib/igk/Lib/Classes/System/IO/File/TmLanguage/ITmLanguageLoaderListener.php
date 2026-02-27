@@ -9,6 +9,11 @@ use IGK\System\Text\RegexMatcherPattern;
 * @package IGK\System\IO\File\TmLanguage
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage
+*/
 interface ITmLanguageLoaderListener{
     /**
      * use to create a definition pattern
@@ -16,12 +21,11 @@ interface ITmLanguageLoaderListener{
      * @return RegexMatcherPattern 
      */
     function createPattern($definition) : RegexMatcherPattern;
+
     /**
-     * 
-     * @param mixed $definition 
-     * @param mixed $container 
-     * @param mixed $repository 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $repository
+    * @return mixed
+    */
     function loadComplete($definition, $container, $repository);
 }

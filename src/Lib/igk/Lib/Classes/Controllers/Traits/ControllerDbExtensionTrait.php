@@ -17,6 +17,11 @@ use IGKEvents;
 * 
 * @package IGK\Controllers\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\Controllers\Traits
+*/
 trait ControllerDbExtensionTrait{
      /**
      * drop list data base
@@ -193,13 +198,12 @@ trait ControllerDbExtensionTrait{
             return  $ad->sendQuery($query);
         }
     }
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param string $table 
-     * @param mixed $column 
-     * @return mixed|void 
-     */
+    * auto generate doc.
+    * @param mixed $column
+    * @return mixed|void
+    */
     public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id=null){
         $ad = self::getDataAdapter($ctrl);  
         $query = $ad->grammar->addUnique($table, $columns, $id);

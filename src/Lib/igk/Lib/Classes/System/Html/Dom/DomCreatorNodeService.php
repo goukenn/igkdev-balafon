@@ -4,8 +4,9 @@
 // @date: 20240929 13:52:53
 namespace IGK\System\Html\Dom;
 use IGK\System\ServicesBase;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Dom
 * @author C.A.D. BONDJE DOUE
 */

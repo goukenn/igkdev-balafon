@@ -11,6 +11,11 @@ use IGK\System\EntryClassResolution;
 * 
 * @package IGK\Controllers\Traits
 */
+
+/**
+* auto generate doc.
+* @package IGK\Controllers\Traits
+*/
 trait ApplicationUserProfileTrait{
     /**
      * get class used to serve application used
@@ -19,26 +24,20 @@ trait ApplicationUserProfileTrait{
     protected function getApplicationUserModel(): ?string{
         return $this->resolveClass(EntryClassResolution::Models."/Users");
     }
+
     /**
-     * 
-     * @return array 
-     */
+    * auto generate doc.
+    * @return array
+    */
     protected function createApplicationUserInfo(){
         return [];
     }
-     /**
-     * 
-     * @param null|object $u use info
-     * @return null|IUserProfile 
-     * @throws BindingResolutionException 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+
+    /**
+    * auto generate doc.
+    * @param null|object $u use info
+    * @return null|IUserProfile
+    */
     protected function initUserFromSysUser(object $u): ?IUserProfile
     { 
         if (!$u || !$u->clGuid) {
@@ -67,22 +66,12 @@ trait ApplicationUserProfileTrait{
             }            
         );
     }
+
     /**
-     * 
-     * @param mixed $userInfo 
-     * @param string $profileClassName 
-     * @param coreModelBase $customModel 
-     * @param mixed $condition 
-     * @param mixed $newDefinition 
-     * @return null|IGK\System\Database\ICustomUserProfile 
-     * @throws BindingResolutionException  
-     * @throws ContainerExceptionInterface  
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $newDefinition
+    * @return null|IGK\System\Database\ICustomUserProfile
+    */
     protected function createCustomUserProfile(
         $userInfo,
         string $profileClassName,

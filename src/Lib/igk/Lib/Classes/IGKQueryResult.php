@@ -90,10 +90,11 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     public function getRowCount(){
         return 0;
     }
+
     /**
-     * 
-     * @return mixed|array|iterable rows list
-     */
+    * auto generate doc.
+    * @return mixed|array|iterable rows list
+    */
 
     public function getRows(){
         return null;

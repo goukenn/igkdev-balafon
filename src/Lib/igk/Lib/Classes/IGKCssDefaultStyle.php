@@ -114,12 +114,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             unset($g[$defname]);
         }
     }
+
     /**
-     * 
-     * @param string $name 
-     * @param mixed $value 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param mixed $value
+    * @return $this
+    */
 
     public function setStyleFlag(string $name, $value)
     {
@@ -364,11 +364,11 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         return igk_getv($this->_, self::PROPERTIES);
     }
+
     /**
-     * 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
 
     public function getdef()
     {
@@ -487,11 +487,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         return igk_getv($this->_, self::SYMBOLS_RULE);
     }
+
     /**
-     * 
-     * @param bool $clear 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param bool $clear
+    * @return mixed
+    */
 
     public function &getTempFiles($clear = false)
     {
@@ -582,10 +583,11 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             $this->_[self::FILES_RULE] = $rf;
         }
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     public function reverseDefinitionProperties()
     {

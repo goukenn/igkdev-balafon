@@ -9,8 +9,9 @@ use IGK\System\Html\Dom\Traits\ClassAndStyleOffsetTrait;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{

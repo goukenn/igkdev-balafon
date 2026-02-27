@@ -25,6 +25,11 @@ use IGK\System\Mapping\Helper\ArrayMapHelper;
  * 
  * @package IGK\System\Console\Commands\Database
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Database
+*/
 class SelectCommand extends AppExecCommand
 {
 
@@ -175,13 +180,12 @@ class SelectCommand extends AppExecCommand
 		echo JSon::Encode($g, JSonEncodeOption::IgnoreEmpty(), $flag), PHP_EOL; // + |
 		igk_exit();
 	}
-	/**
-	 * 
-	 * @param mixed $command 
-	 * @param BaseController $ctrl 
-	 * @param ModelBase $model 
-	 * @return int 
-	 */
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @return int
+    */
 
     public function showModelMacros($command, BaseController $ctrl, ModelBase $model)
 	{

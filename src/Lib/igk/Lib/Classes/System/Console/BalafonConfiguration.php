@@ -12,10 +12,11 @@ use IGKException;
 * @package IGK\System\Console
 */
 class BalafonConfiguration{
+
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $name;
     /**
      * project author 
@@ -47,11 +48,12 @@ class BalafonConfiguration{
      * @var mixed
      */
     var $build;
+
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return string
+    */
     public static function GetConfigFile(BaseController $ctrl): string{
         return Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
     }

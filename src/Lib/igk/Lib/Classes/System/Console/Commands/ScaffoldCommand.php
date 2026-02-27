@@ -12,10 +12,11 @@ use IGK\System\Console\Scaffold\ActionScaffold;
 use IGK\System\Console\Scaffold\AuthScaffold;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use ReflectionClass;
+
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ScaffoldCommand extends AppExecCommand
 {
 

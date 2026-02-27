@@ -60,6 +60,11 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
  * @package IGK\Tests\System\Html\Dom
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Dom
+*/
 class LoopHostTest extends BaseTestCase
 {
     /**
@@ -73,9 +78,9 @@ class LoopHostTest extends BaseTestCase
     }
 
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     private function _loop_build($data): ?string
     {
         $node = igk_create_notagnode();

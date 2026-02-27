@@ -27,18 +27,22 @@ use function igk_resources_gets as __;
  */
 final class IGKControllerManagerObject extends IGKObject implements IApplicationControllerManager
 {
+
     /**
-     * @var array store [classe:instance] of registrated controller
-     */
+    * auto generate doc.
+    * @var classe
+    */
     private $m_classReg;
     /**
      * init complete
      * @var mixed
      */
     private $m_complete;
+
     /**
-     * @var array store [name:instance] of registrated controller
-     */
+    * auto generate doc.
+    * @var name
+    */
     private $m_tbcontrollers;
 
     /**
@@ -52,13 +56,16 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     * @var mixed
     */
     private $m_register;
-    /**     
-     * @var IGKControllerManagerObject controller instance
-     */
-    private static $sm_instance;
+
     /**
-     * 
-     */
+    * auto generate doc.
+    * @var IGKControllerManagerObject controller instance
+    */
+    private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    */
     private function __construct()
     {
         if (func_num_args() > 0) {
@@ -139,10 +146,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $key
-     */
+    * auto generate doc.
+    * @param mixed $key
+    */
 
     public function __get($key)
     {
@@ -157,11 +165,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     */
+    * auto generate doc.
+    * @param mixed $value
+    */
 
     public function __set($key, $value)
     {
@@ -268,9 +276,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
        \IGK\Helper\SysUtils::ClearCache($bdir, $init);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function ClearCtrlCache()
     {
@@ -279,9 +288,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             unlink($fc);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function cm_controllerschema()
     {
@@ -320,18 +330,20 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         unset($s);
         igk_exit();
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function Count()
     {
         return count($this->m_tbcontrollers);
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
 
     public function dropController($ctrl)
     {
@@ -352,10 +364,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return true;
     }
     //@remove controller by name
+
     /**
-     * 
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
 
     public function dropControllerByName($name)
     {
@@ -483,10 +496,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         igk_die("not allowed: " . __METHOD__);
     }
+
     /**
-     * 
-     * @return mixed|array register list
-     */
+    * auto generate doc.
+    * @return mixed|array register list
+    */
 
     public function &getRegisters()
     {
@@ -662,8 +676,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
     }
     ///used to invoke function and return response. main used in igk_api
+
     /**
-     */
+    * auto generate doc.
+    */
 
     public function InvokeFunctionUri($uri = null)
     {
@@ -685,10 +701,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
+
     /**
-     * 
-     * @param mixed $uri
-     */
+    * auto generate doc.
+    * @param mixed $uri
+    */
 
     public function InvokeNavUri($uri)
     {
@@ -721,10 +738,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         $_REQUEST = $bck;
     }
+
     /**
-     * 
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $pattern
+    */
 
     public function InvokePattern($pattern)
     {
@@ -946,10 +964,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         igk_io_w2file($fc, igk_cache_array_content($m, $fc), true);
         IGKSysCache::Init_CachedHook();
     }
+
     /**
-     * 
-     * @param mixed $forceview the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $forceview the default value is 0
+    */
 
     public function ViewControllers($forceview = 0)
     {

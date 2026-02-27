@@ -7,6 +7,11 @@ namespace IGK\Database\Traits;
 /**
  * @extends IDbColumnProperties
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database\Traits
+*/
 trait DbColumnInfoTrait
 {
   /**
@@ -224,10 +229,11 @@ trait DbColumnInfoTrait
    * @var ?IFormFieldDbOptions
    */
   var $clFormFieldsOptions;
-  /**
-   * 
-   * @var boolean trim exceed
-   */
+
+    /**
+    * auto generate doc.
+    * @var boolean trim exceed
+    */
   var $clNoTrimExceed;
   /**
    * modifier field

@@ -122,11 +122,12 @@ class HtmlTemplateReaderDataBinding
         $cnode->setAttributes($bck_attribs);
         return $engine;
     }
+
     /**
-     * 
-     * @param array $data binding data with options attached with HtmlBindingContextOptions as loading context
-     * @return HtmlNoTagNode 
-     */
+    * auto generate doc.
+    * @param array $data binding data with options attached with HtmlBindingContextOptions as loading context
+    * @return HtmlNoTagNode
+    */
     private function _treat_content(array $data)
     {
         $ldcontext = Activator::CreateNewInstance(HtmlBindingContextOptions::class, (object)array_merge([
