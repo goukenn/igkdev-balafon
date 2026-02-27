@@ -110,7 +110,6 @@ abstract class SystemUserProfile implements IUserProfile
     /**
     * auto generate doc.
     */
-
     protected static function _CreateClassInstance(Users $u) { 
         $l = new static;
         $v_user = null;

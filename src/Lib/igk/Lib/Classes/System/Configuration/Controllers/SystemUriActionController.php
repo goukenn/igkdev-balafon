@@ -61,8 +61,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
 
     /**
     * auto generate doc.
-    */
-    private static function _RegActions(SystemUriActionController $controller){
+    */    private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
             if (file_exists($file = self::GetCacheFile())){

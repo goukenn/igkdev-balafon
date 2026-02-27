@@ -233,7 +233,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function beginTransaction(){
         return $this->m_ad->beginTransaction();
     }
@@ -241,7 +240,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function close(bool $leaveopen=true){
         if($this->m_ad){
             $this->m_ad->close($leaveopen);
@@ -254,7 +252,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function commit(){
         return $this->m_ad->commit();
     }
@@ -345,7 +342,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function getErrorCode(){
         return $this->m_errorcode;
     }
@@ -353,7 +349,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function getErrorString(){
         return $this->m_errorstr;
     }
@@ -373,7 +368,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function getLastQuery(){
         $ad=$this->Ad;
         return $ad ? $ad->getLastQuery(): -1;
@@ -453,7 +447,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function getSyncIdentificationId($table, $syncrow){
         $r=igk_getv($syncrow, "clId");
         if($r){
@@ -596,7 +589,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     /**
     * auto generate doc.
     */
-
     public function last_id(){
         $ad=$this->Ad;
         return $ad ? $ad->last_id(): -1;
@@ -712,8 +704,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
 
     /**
     * auto generate doc.
-    */
-    public final
+    */    public final
 
     function sendQuery($querystring){
         $this->connect(); 

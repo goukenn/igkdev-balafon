@@ -30,7 +30,6 @@ class RunCallbackMiddleware extends BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     public function invoke(){
         $r=call_user_func_array($this->callback, array($this->getService()));
         if(!$r)

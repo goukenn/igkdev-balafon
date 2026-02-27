@@ -64,8 +64,7 @@ class RequestFileUtility
 
     /**
     * auto generate doc.
-    */
-    public static function GuidAndExtensionCallback(){
+    */    public static function GuidAndExtensionCallback(){
         return function($p){
             $ext = HttpUtility::GetExtensionFromContentType($p->type, '');
             if ($ext)

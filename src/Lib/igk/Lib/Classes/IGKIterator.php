@@ -66,7 +66,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * auto generate doc.
     */
-
     public function count():int{
         return igk_count($this->m_target);
     }
@@ -92,7 +91,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * auto generate doc.
     */
-
     function _iterator_next():void{
         $this->it_index++;
         if($this->it_index < $this->m_count){
@@ -136,7 +134,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * auto generate doc.
     */
-
     function _iterator_rewind():void{
         $this->it_vtab=array_keys($this->m_target);
         $this->it_index=$this->m_index;
@@ -173,7 +170,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * auto generate doc.
     */
-
     function _iterator_valid(){
         $v=($this->it_index>=0) && ($this->it_index < $this->m_count);
         return $v;

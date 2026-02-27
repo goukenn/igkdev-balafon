@@ -44,8 +44,7 @@ interface IActionResult{
 
     /**
     * auto generate doc.
-    */
-    function index();
+    */    function index();
 } 
 /**
 * RepresentIController interface
@@ -70,8 +69,7 @@ interface INodeController extends IController{
 
     /**
     * auto generate doc.
-    */
-    function getTargetNodeId();
+    */    function getTargetNodeId();
 }
 
 /**
@@ -109,8 +107,7 @@ interface ICssCtrlHost{
 
     /**
     * auto generate doc.
-    */
-    function bindCss();
+    */    function bindCss();
 
     /**
     * auto generate doc.
@@ -125,8 +122,7 @@ interface ICtrlDirManagement{
 
     /**
     * auto generate doc.
-    */
-    function getDataDir();
+    */    function getDataDir();
     /**
     * 
     */
@@ -134,23 +130,19 @@ interface ICtrlDirManagement{
 
     /**
     * auto generate doc.
-    */
-    function getName();
+    */    function getName();
 
     /**
     * auto generate doc.
-    */
-    function getResourcesDir();
+    */    function getResourcesDir();
 
     /**
     * auto generate doc.
-    */
-    function getStylesDir();
+    */    function getStylesDir();
 
     /**
     * auto generate doc.
-    */
-    function getViewDir();
+    */    function getViewDir();
 }
 /**
 * base data adapter operation
@@ -159,13 +151,11 @@ interface IDataAdapter{
 
     /**
     * auto generate doc.
-    */
-    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
+    */    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
 
     /**
     * auto generate doc.
-    */
-    function setForeignKeyCheck($check);
+    */    function setForeignKeyCheck($check);
 }
 /**
 * RepresentIDataTable interface
@@ -220,8 +210,7 @@ interface IFormBuilderEngine{
 
     /**
     * auto generate doc.
-    */
-    function addGroup();
+    */    function addGroup();
 
     /**
     * auto generate doc.
@@ -267,8 +256,7 @@ interface IFormBuilderEngine{
 
     /**
     * auto generate doc.
-    */
-    function getView();
+    */    function getView();
 
     /**
     * auto generate doc.
@@ -294,8 +282,7 @@ interface IHtmlComponent{
 
     /**
     * auto generate doc.
-    */
-    function getComponentId();
+    */    function getComponentId();
 
     /**
     * auto generate doc.
@@ -305,8 +292,7 @@ interface IHtmlComponent{
 
     /**
     * auto generate doc.
-    */
-    function getController();
+    */    function getController();
 
     /**
     * auto generate doc.
@@ -321,8 +307,7 @@ interface IHtmlCookieItem{
 
     /**
     * auto generate doc.
-    */
-    function getCookieId();
+    */    function getCookieId();
 
     /**
     * auto generate doc.
@@ -360,8 +345,7 @@ interface IHtmlUriItem{
 
     /**
     * auto generate doc.
-    */
-    function getUri();
+    */    function getUri();
 
     /**
     * auto generate doc.
@@ -478,13 +462,11 @@ interface IParamHostService{
 
     /**
     * auto generate doc.
-    */
-    function getParamKeys();
+    */    function getParamKeys();
 
     /**
     * auto generate doc.
-    */
-    function resetParam();
+    */    function resetParam();
 
     /**
     * auto generate doc.
@@ -505,8 +487,7 @@ interface IParentDocumentHost{
 
     /**
     * auto generate doc.
-    */
-    function getDoc();
+    */    function getDoc();
 }
 /**
 *  represent query result interface
@@ -536,8 +517,7 @@ interface ISystemUser {
 
     /**
     * auto generate doc.
-    */
-    function getLogin();
+    */    function getLogin();
 }
 /**
 * RepresentIUriActionListener interface
@@ -563,8 +543,7 @@ interface IUriActionRegistrableController{
 
     /**
     * auto generate doc.
-    */
-    function getBasicUriPattern();
+    */    function getBasicUriPattern();
     /**
     * registrated invocation uri
     */
@@ -572,8 +551,7 @@ interface IUriActionRegistrableController{
 
     /**
     * auto generate doc.
-    */
-    function getRegUriAction();
+    */    function getRegUriAction();
 }
 /**
 * RepresentIUserController interface
@@ -582,13 +560,11 @@ interface IUserController{
 
     /**
     * auto generate doc.
-    */
-    function connect();
+    */    function connect();
 
     /**
     * auto generate doc.
-    */
-    function signup();
+    */    function signup();
 }
 /**
 * RepresentIWebAdministrativeCtrl interface
@@ -597,8 +573,7 @@ interface IWebAdministrativeCtrl {
 
     /**
     * auto generate doc.
-    */
-    function getConfigNode();
+    */    function getConfigNode();
 }
 /**
 * RepresentIWebPageChildCtrontroller interface
@@ -607,8 +582,7 @@ interface IWebPageChildCtrontroller{
 
     /**
     * auto generate doc.
-    */
-    function getWebParentCtrl();
+    */    function getWebParentCtrl();
 }
 /**
 * db manager interface
@@ -667,8 +641,7 @@ interface IDataController extends IController {
 
     /**
     * auto generate doc.
-    */
-    function getDataAdapterName();
+    */    function getDataAdapterName();
     /**
     * return primary data table info or mixed array of table info
     */
@@ -676,8 +649,7 @@ interface IDataController extends IController {
 
     /**
     * auto generate doc.
-    */
-    function getDataTableName();
+    */    function getDataTableName();
 }
 /**
 * RepresentIWebController interface
@@ -686,8 +658,7 @@ interface IWebController extends IController {
 
     /**
     * auto generate doc.
-    */
-    function getChilds();
+    */    function getChilds();
 
     /**
     * auto generate doc.
@@ -726,8 +697,7 @@ interface IQueryConditionalExpression extends IGetValue {
 
     /**
     * auto generate doc.
-    */
-    function getCount();
+    */    function getCount();
 
     /**
     * auto generate doc.

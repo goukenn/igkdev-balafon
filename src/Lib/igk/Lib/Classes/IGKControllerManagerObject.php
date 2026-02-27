@@ -65,8 +65,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
 
     /**
     * auto generate doc.
-    */
-    private function __construct()
+    */    private function __construct()
     {
         if (func_num_args() > 0) {
             igk_die("argument not allowed");
@@ -280,7 +279,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
     * auto generate doc.
     */
-
     public function ClearCtrlCache()
     {
         $fc = self::FileCtrlCache();
@@ -292,7 +290,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
     * auto generate doc.
     */
-
     public function cm_controllerschema()
     {
         if (!defined("IGK_GD_SUPPORT")) {
@@ -334,7 +331,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
     * auto generate doc.
     */
-
     public function Count()
     {
         return count($this->m_tbcontrollers);
@@ -680,7 +676,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
     * auto generate doc.
     */
-
     public function InvokeFunctionUri($uri = null)
     {
         $c = null;

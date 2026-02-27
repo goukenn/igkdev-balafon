@@ -44,7 +44,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     /**
     * auto generate doc.
     */
-
     function __construct(){
         $this->_whereList=array();
         $this->_properties=array();
@@ -63,7 +62,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     /**
     * auto generate doc.
     */
-
     public function GetLastMiddleware(){
         $w=& $this->_whereList;
         if(($c=count($w)) > 0){
@@ -114,7 +112,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     /**
     * auto generate doc.
     */
-
     public function Process(){
         BalafonMiddleware::Process($this, $this->_whereList);
     }

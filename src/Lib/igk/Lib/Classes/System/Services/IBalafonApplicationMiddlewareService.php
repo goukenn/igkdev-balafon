@@ -15,8 +15,7 @@ interface IBalafonApplicationMiddlewareService extends ArrayAccess{
 
     /**
     * auto generate doc.
-    */
-    function GetLastMiddleware();
+    */    function GetLastMiddleware();
     /**
     * 
     * @param closure callback

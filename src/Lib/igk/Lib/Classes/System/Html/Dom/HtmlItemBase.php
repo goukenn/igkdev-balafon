@@ -554,7 +554,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function getNodeType()
     {
         return XMLNodeType::ELEMENT;
@@ -1055,7 +1054,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function getIsLoading()
     {
         return $this->getFlag(IGK_ISLOADING_FLAG, 0);
@@ -1080,7 +1078,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function gethasContent()
     {
         return !empty($this->Content) || $this->getHasChilds();
@@ -1090,7 +1087,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function getExpressionAttributes()
     {
         $tab = igk_getctrl(IGK_REFERENCE_CTRL)->getHtmlExpresionTab($this);
@@ -1272,7 +1268,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function getNodeCreationArgs()
     {
         return $this->getTempFlag("creationargs");
@@ -1479,7 +1474,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public function getParentHost()
     {
         return $this->getFlag(IGK_PARENTHOST_FLAG);
@@ -1671,7 +1665,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
     * auto generate doc.
     */
-
     public static function LoadNode($text)
     {
         if (empty($text))

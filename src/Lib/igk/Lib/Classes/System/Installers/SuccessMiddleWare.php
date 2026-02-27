@@ -20,7 +20,6 @@ final class SuccessMiddleWare extends InstallerActionMiddleWare{
     /**
     * auto generate doc.
     */
-
     public function getMessage(){
         return __("welldone");
     }
@@ -28,7 +27,6 @@ final class SuccessMiddleWare extends InstallerActionMiddleWare{
     /**
     * auto generate doc.
     */
-
     public function invoke(){
         $srv=$this->getServiceInfo();
         if(is_dir($libdir= dirname($srv->LibDir)."/__tempigk")){

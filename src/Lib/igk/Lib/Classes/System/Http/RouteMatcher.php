@@ -120,7 +120,6 @@ class RouteMatcher extends RouteHandler{
     /**
     * auto generate doc.
     */
-
     public function check(?string $verb=null){
         $verb = $verb ?? igk_server()->REQUEST_METHOD;
         // check verb

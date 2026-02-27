@@ -99,7 +99,6 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function getAJX(){
         return $this->m_AJX;
     }
@@ -107,7 +106,6 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function getMethod(){
         return $this->m_method;
     }
@@ -115,7 +113,6 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function getTargetId(){
         return $this->m_TargetId;
     }
@@ -123,7 +120,6 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function getUri(){
         return $this->m_uri;
     }
@@ -131,7 +127,6 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function initView(){
         $uri=$this->m_uri;
         $tab=igk_getquery_args($uri);

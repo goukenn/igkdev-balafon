@@ -19,7 +19,6 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         parent::__construct("igk:replace-ctrl");
         $this["type"] = "controlller";
@@ -54,7 +53,6 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     public function getCanAddChild(){
         return false;
     }

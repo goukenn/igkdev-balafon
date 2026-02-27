@@ -873,7 +873,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     */
-
     public function getHtmlOptions()
     {
         $c = $this->m_params;
@@ -895,7 +894,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     */
-
     public function getNameSpace()
     {
         return Constants::NAMESPACE;
@@ -904,7 +902,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     */
-
     public function Dispose()
     {
         $this->clearComponents();
@@ -990,7 +987,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     */
-
     public function setCanonical(?string $uri)
     {
         $v_tlinks = $this->getHead()->getElementsByTagName('link');

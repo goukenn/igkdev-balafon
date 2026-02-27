@@ -54,7 +54,6 @@ class InstallerMiddleWareActions{
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         $this->_list=array(); 
     }

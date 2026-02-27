@@ -51,7 +51,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     /**
     * auto generate doc.
     */
-
     public function index()
     {
     }

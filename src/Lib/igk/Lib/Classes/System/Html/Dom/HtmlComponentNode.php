@@ -49,7 +49,6 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     /**
     * auto generate doc.
     */
-
     public function getComponentId(){
         return $this->getParam(get_class($this->m_controller).":id");
     }
@@ -66,7 +65,6 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     /**
     * auto generate doc.
     */
-
     public function getController(){
         return $this->getFlag(self::IGK_COMPONENT_CTRL_FLAG);
     }

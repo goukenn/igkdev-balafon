@@ -182,7 +182,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function __toString(){
         return __CLASS__." [RowCount: ".$this->RowCount."]";
     }
@@ -190,7 +189,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getColumnCount(){
         return igk_count($this->m_columns);
     }
@@ -210,7 +208,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getColumns(){
         return $this->m_columns;
     }
@@ -218,7 +215,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
@@ -240,7 +236,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getTables(){
         return $this->m_tables;
     }

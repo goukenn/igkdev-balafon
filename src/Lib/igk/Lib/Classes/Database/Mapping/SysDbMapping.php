@@ -101,7 +101,6 @@ class SysDbMapping extends ModelMappingBase{
     /**
     * auto generate doc.
     */
-
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();
         $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;

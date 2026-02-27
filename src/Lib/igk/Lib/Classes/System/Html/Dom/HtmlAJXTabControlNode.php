@@ -80,7 +80,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         parent::__construct("div");
         $this->setClass("igk-tabcontrol");
@@ -120,7 +119,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     /**
     * auto generate doc.
     */
-
     public function ClearChilds(){
         $this->m_tablist->clearChilds();
         $this->m_tabcontent->clearChilds();

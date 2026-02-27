@@ -211,7 +211,6 @@ class Path
     /**
     * auto generate doc.
     */
-
     public function prepareData()
     {
         if (!defined('IGK_BASE_DIR')){   
@@ -479,7 +478,6 @@ class Path
     /**
     * auto generate doc.
     */
-
     public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
     {
         if (empty($dir)) {
@@ -493,7 +491,6 @@ class Path
     /**
     * auto generate doc.
     */
-
     public function relativepath($spath, $link)
     {
         if (is_dir($link)) {

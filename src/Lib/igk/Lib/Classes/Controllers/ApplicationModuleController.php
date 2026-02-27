@@ -327,7 +327,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     function __sleep(){
         $this->m_fclist=array();
         $this->m_src=null;
@@ -337,7 +336,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     function __wakeup(){
         $this->_init();
     }
@@ -411,7 +409,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getAppDocument(){
         return null;
     }
@@ -433,7 +430,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getCallee(){
         return igk_peek_env(__CLASS__."/callee");
     }
@@ -448,7 +444,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public static function GetCanCreateFrameworkInstance(){
         return false;
     }
@@ -456,7 +451,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getCurrentDoc(){
         return $this->m_doc;
     }
@@ -464,7 +458,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getDeclaredDir():string{
         return $this->m_dir;
     }
@@ -472,7 +465,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getDeclaredFileName(){
         return realpath($this->getDeclaredDir()."/.module.pinc");
     }
@@ -509,7 +501,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getListener(){
         return $this->m_listener ?? igk_ctrl_current_view_ctrl();
     }
@@ -517,7 +508,6 @@ final class ApplicationModuleController extends BaseController{
     /**
     * auto generate doc.
     */
-
     public function getName(): string{
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }

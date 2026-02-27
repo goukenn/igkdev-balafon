@@ -240,7 +240,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     /**
     * auto generate doc.
     */
-
     public function last_id(){}
     /**
     * build and send a mysql select query

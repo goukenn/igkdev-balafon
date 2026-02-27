@@ -74,7 +74,6 @@ abstract class RegexMatcherUtility
     /**
     * auto generate doc.
     */
-
     public static function ReplaceWithOnly(string $s, $rp, $e){
         $g = '/^(.+)$/m';
         if ($rp instanceof Closure){

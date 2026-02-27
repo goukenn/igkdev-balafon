@@ -112,7 +112,6 @@ class MigrationHandler{
     /**
     * auto generate doc.
     */
-
     public function remove(string $name){
 
         /**

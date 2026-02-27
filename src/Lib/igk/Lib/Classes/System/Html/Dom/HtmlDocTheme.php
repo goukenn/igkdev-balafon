@@ -563,7 +563,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getIsTemp(): bool
     {
         return $this->m_istemp;
@@ -1103,7 +1102,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function ClearChilds()
     {
         $this->m_def->clear();
@@ -1112,7 +1110,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function ClearFont()
     {
         $tab = $this->ft->Attributes;
@@ -1257,7 +1254,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getAllClassExpression()
     {
         $out = IGK_STR_EMPTY;
@@ -1275,7 +1271,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getAppend()
     {
         return "";
@@ -1284,7 +1279,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getAttributes()
     {
         igk_die(__METHOD__ . ". not avaiable for theme");
@@ -1478,7 +1472,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getRegChangedKey()
     {
         return __CLASS__ . "_" . $this->Name;
@@ -1644,7 +1637,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function removeFont($name)
     {
         $f = $this->ft[$name];
@@ -1737,7 +1729,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     protected function setdef(?IGKCssDefaultStyle $v)
     {
         if ($v === null) {
@@ -1780,7 +1771,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * auto generate doc.
     */
-
     public function getParam($key)
     {
         return $this->getProperties($key);

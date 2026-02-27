@@ -35,7 +35,6 @@ class IGKFv {
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         $this->_=array();
 		$this->_listener = null;
@@ -64,7 +63,6 @@ class IGKFv {
     /**
     * auto generate doc.
     */
-
     public function __sleep(){
         if(count($this->_) == 0){
             return array();
@@ -77,7 +75,6 @@ class IGKFv {
     /**
     * auto generate doc.
     */
-
     public function __wakeup(){
         if($this->_ == null)
             $this->_=array();
@@ -86,7 +83,6 @@ class IGKFv {
     /**
     * auto generate doc.
     */
-
     public function Clear(){
         $this->_=array();
     }
@@ -153,7 +149,6 @@ class IGKFv {
     /**
     * auto generate doc.
     */
-
     public function IsEmpty(){
         return count($this->_) == 0;
     }

@@ -14,6 +14,5 @@ interface IConfigController {
 
     /**
     * auto generate doc.
-    */
-    function showConfig();
+    */    function showConfig();
 }

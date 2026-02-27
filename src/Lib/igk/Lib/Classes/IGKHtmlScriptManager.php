@@ -125,7 +125,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function Flags(){
         return $this->_f;
     }
@@ -133,7 +132,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getAssoc(){
         igk_trace();
         throw new NotImplementException(__METHOD__);
@@ -152,7 +150,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getManager(){
         return $this->getFlag(self::MANAGER_FLAG);
     }
@@ -170,7 +167,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getNode(){
         return $this->getFlag(self::JSMAN_NODE);
     }

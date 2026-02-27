@@ -12,8 +12,7 @@ class DeniedUser{
 
     /**
     * auto generate doc.
-    */
-    public function auth($role):bool{
+    */    public function auth($role):bool{
         return false;
     }
 }

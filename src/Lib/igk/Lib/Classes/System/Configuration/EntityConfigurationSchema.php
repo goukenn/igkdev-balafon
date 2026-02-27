@@ -26,8 +26,7 @@ abstract class EntityConfigurationSchema{
 
     /**
     * auto generate doc.
-    */
-    var $author;
+    */    var $author;
 
     /**
     * auto generate doc.

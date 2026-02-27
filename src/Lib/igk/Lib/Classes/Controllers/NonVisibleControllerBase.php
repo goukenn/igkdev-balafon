@@ -15,43 +15,37 @@ abstract class NonVisibleControllerBase extends BaseController {
 
     /**
     * auto generate doc.
-    */
-    public function getCanAddChild(){
+    */    public function getCanAddChild(){
         return false;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getcanDelete(){
+    */    public function getcanDelete(){
         return false;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getcanModify(){
+    */    public function getcanModify(){
         return false;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getIsVisible():bool{
+    */    public function getIsVisible():bool{
         return false;
     }
 
     /**
     * auto generate doc.
-    */
-    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+    */    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return null;
     }
 
     /**
     * auto generate doc.
-    */
-    public function View():BaseController{
+    */    public function View():BaseController{
         throw new IGKException("Not implement");
     }
 

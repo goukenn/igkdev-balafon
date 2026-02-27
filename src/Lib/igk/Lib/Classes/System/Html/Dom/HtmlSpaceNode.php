@@ -11,8 +11,7 @@ class HtmlSpaceNode extends HtmlNode{
 
     /**
     * auto generate doc.
-    */
-    public function __construct(){
+    */    public function __construct(){
         parent::__construct("igk:space");
     }
 
@@ -26,7 +25,6 @@ class HtmlSpaceNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getCanRenderTag(){ 
         return false;
     }

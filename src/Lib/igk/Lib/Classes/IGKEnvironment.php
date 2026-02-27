@@ -522,7 +522,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
     * auto generate doc.
     */
-
     public function __sleep()
     {
         igk_die("Sleep Environment: Operation Not allowed " . __CLASS__);
@@ -531,7 +530,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
     * auto generate doc.
     */
-
     public function __wakeup() {}
 
     /**
@@ -652,7 +650,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
     * auto generate doc.
     */
-
     public function getVars()
     {
         return $this->m_envs;
@@ -709,7 +706,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
     * auto generate doc.
     */
-
     public function IsWebApp()
     {
         return $this->get("IGK_APP") == "WEBAPP";
@@ -804,7 +800,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
     * auto generate doc.
     */
-
     public function __serialize()
     {
         die("not allowed " . __CLASS__);

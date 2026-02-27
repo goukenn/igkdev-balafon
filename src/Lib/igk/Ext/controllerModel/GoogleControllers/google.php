@@ -129,8 +129,7 @@ function igk_google_bindfont($theme, $family, $size = null)
 
     /**
     * auto generate doc.
-    */
-    function igk_google_apikey()
+    */    function igk_google_apikey()
     {
         return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
     }
@@ -193,8 +192,7 @@ function igk_google_bindfont($theme, $family, $size = null)
 
     /**
     * auto generate doc.
-    */
-    function igk_google_get_fontdir()
+    */    function igk_google_get_fontdir()
     {
         return igk_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
     }
@@ -278,8 +276,7 @@ function igk_google_data_dir()
 
     /**
     * auto generate doc.
-    */
-    function igk_google_zonectrl()
+    */    function igk_google_zonectrl()
     {
         $CF = igk_ctrl_zone_init(__FILE__);
         return $CF;
@@ -307,8 +304,7 @@ function igk_google_data_dir()
 
     /**
     * auto generate doc.
-    */
-    function igk_html_demo_google_js_maps($t)
+    */    function igk_html_demo_google_js_maps($t)
     {
         $n = $t->addGoogleJSMaps("{zoom:15,center:{lat:50.850402, lng:4.357879}}");
         $n->setStyle("height:300px;");
@@ -397,8 +393,7 @@ function igk_html_node_hamburger_button_menu()
 
     /**
     * auto generate doc.
-    */
-    function igk_html_node_google_circle_waiter()
+    */    function igk_html_node_google_circle_waiter()
     {
         $n = igk_create_node();
         $n->setClass("igk-google-circle-waiter");
@@ -476,8 +471,7 @@ function igk_google_init_css()
 
     /**
     * auto generate doc.
-    */
-    function igk_html_node_google_line_waiter()
+    */    function igk_html_node_google_line_waiter()
     {
         $n = igk_create_node();
         $n->setClass("igk-google-line-waiter");

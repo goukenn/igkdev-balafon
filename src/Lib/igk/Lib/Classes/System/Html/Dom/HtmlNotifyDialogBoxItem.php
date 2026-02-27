@@ -31,7 +31,6 @@ final class HtmlNotifyDialogBoxItem extends HtmlNode {
     /**
     * auto generate doc.
     */
-
     protected function initialize(){        
         $this["class"]="igk-notify-box";
         $nv=$this->div();
@@ -47,7 +46,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getMessage(){
         return $this->m_Message;
     }
@@ -56,7 +54,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getTitle(){
         return $this->m_title;
     }

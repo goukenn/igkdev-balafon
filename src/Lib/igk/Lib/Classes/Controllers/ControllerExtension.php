@@ -2153,7 +2153,6 @@ abstract class ControllerExtension
     /**
     * auto generate doc.
     */
-
     public static function getCanInitDb(BaseController $controller)
     {
         if (defined('IGK_DB_GRANT_CAN_INIT') || igk_is_cmd())

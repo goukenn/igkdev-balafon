@@ -232,7 +232,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function __toString(){
         //+ ASS: Appliation session storage
         return get_class($this)."[::ASS]";
@@ -309,7 +308,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function generateCref(){
         $cref = igk_create_cref();
 		igk_app()->getSettings()->{IGK_FORM_CREF} = $cref; 
@@ -319,7 +317,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getApp(){
         return igk_app();
     }
@@ -345,7 +342,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getCRef(){   
         $cref= igk_app()->settings->{IGK_FORM_CREF} ?? (function(){    
             return $this->generateCref();
@@ -372,7 +368,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getDomain(){
         return $this->getParam(self::SESS_DOMAIN);
     }
@@ -380,7 +375,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getDomainBaseDir(){
         return $this->getParam(self::IGK_DOMAINBASEDIR_SESS_PARAM);
     }
@@ -388,7 +382,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getdomainBaseFile(){
         $c= $this->getParam(self::SESS_DOMAIN_BASEFILE);
         if  ($c){
@@ -400,7 +393,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getEvents(){
         return $this->getParam(self::SESS_SESSION_EVENTS);
     }
@@ -408,7 +400,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getLang(){
 		$g = igk_app()->getSettings()->{self::SESS_LANG_KEY};
         return $g ??  R::GetDefaultLang();
@@ -417,7 +408,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getPageFolder(){
         if($p=$this->getParam(self::SESS_PAGEFOLDER_KEY)){
             return $p;
@@ -447,7 +437,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getParamKeys(){
         return array_keys($this->m_sessionParams);
     }
@@ -455,7 +444,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getRedirectTask(){
         $i=null;
         $name=null;
@@ -487,7 +475,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getUser(){
         return $this->getParam(self::SESS_USER_KEY);
     }
@@ -495,7 +482,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
     /**
     * auto generate doc.
     */
-
     public function getUserChangedEvent(){
         return $this->m_UserChangedEvent;
     }

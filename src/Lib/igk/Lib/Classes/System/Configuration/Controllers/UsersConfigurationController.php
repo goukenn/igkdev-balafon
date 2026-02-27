@@ -48,8 +48,7 @@ class UsersConfigurationController extends ConfigControllerBase
 
     /**
     * auto generate doc.
-    */
-    // public function __user_info(){
+    */    // public function __user_info(){
     //     igk_init_user_info();
     // }
 
@@ -71,7 +70,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function begin_pwd_reset()
     {
         $doc = new IGKHtmlDoc("reset_pwd");
@@ -212,7 +210,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function connectpage()
     {
         $u = igk_app()->session->User;
@@ -246,7 +243,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return null;
@@ -255,7 +251,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getDataTableName(): ?string
     {
         return igk_db_get_table_name(IGK_TB_USERS);
@@ -264,7 +259,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getDb()
     {
         static $db;
@@ -282,7 +276,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getName(): string
     {
         return IGK_USER_CTRL;
@@ -406,7 +399,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function logout_lnk()
     {
         $this->logout();
@@ -538,7 +530,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     protected function registerHook()
     {
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function ($hook) {
@@ -579,7 +570,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function signup()
     {
         $doc = igk_get_document("system/signup");
@@ -627,7 +617,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function u_edit()
     {
         if (!igk_sys_authorize('sys://auth/edituser')) {
@@ -735,7 +724,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function us_activate()
     {
         /**
@@ -772,7 +760,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function us_lockuser()
     {
         /**
@@ -793,7 +780,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function us_resetpwd()
     {
         /**
@@ -814,7 +800,6 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function View(): BaseController
     {
         $t = $this->getTargetNode();

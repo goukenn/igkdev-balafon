@@ -1,6 +1,7 @@
 <?php
-
- 
+// + | --------------------------------------------------------------------
+// + | INIT - LOADING ENVIRONMENT FILES
+// + |
 
 if (!version_compare(PHP_VERSION, "7.3", ">=")) {
     die("mandory version required. 7.3<=");

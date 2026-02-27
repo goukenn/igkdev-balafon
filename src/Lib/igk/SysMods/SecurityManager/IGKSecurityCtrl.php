@@ -17,29 +17,25 @@ class IGKSecurityCtrl extends ConfigControllerBase{
 
     /**
     * auto generate doc.
-    */
-    public function getConfigGroup(){
+    */    public function getConfigGroup(){
         return "administration";
     }
 
     /**
     * auto generate doc.
-    */
-    public function getConfigImageKey(){
+    */    public function getConfigImageKey(){
         return "";
     }
 
     /**
     * auto generate doc.
-    */
-    public function getConfigPage(){
+    */    public function getConfigPage(){
         return "security";
     }
 
     /**
     * auto generate doc.
-    */
-    public function getIsConfigPageAvailable(){
+    */    public function getIsConfigPageAvailable(){
         return false;
     }
 }

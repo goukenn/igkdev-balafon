@@ -71,7 +71,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
     * auto generate doc.
     */
-
     public function getCanBeMerged(){
         return $this->getFlag(self::CANMERGE_LINK) ?? true;
     }
@@ -79,7 +78,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
     * auto generate doc.
     */
-
     public function getlink(){
         return $this->getFlag(self::SCRIPT_LINK);
     }
@@ -87,7 +85,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
     * auto generate doc.
     */
-
     public function getNotSingleView(){
         return $this->getFlag(self::NOT_SINGLEVIEW);
     }
@@ -95,7 +92,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
     * auto generate doc.
     */
-
     public function getTag(){
         return $this->getFlag(self::SCRIPT_TAG);
     }
@@ -154,8 +150,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
 
     /**
     * auto generate doc.
-    */
-    private function _iaccept(){
+    */    private function _iaccept(){
         $this->setFlag(self::ACCEPT, !(!empty($this->link) && (!IGKValidator::IsUri($this->link) && !igk_io_file_exists(igk_getv(explode("?", $this->link), 0), true))));
     }
 

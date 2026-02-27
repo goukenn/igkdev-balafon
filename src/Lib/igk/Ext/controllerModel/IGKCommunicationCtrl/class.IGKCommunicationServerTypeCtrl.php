@@ -24,8 +24,7 @@ abstract class IGKCommunicationServerCtrl extends ApplicationController{
 
     /**
     * auto generate doc.
-    */
-    private function getSocketFile(){
+    */    private function getSocketFile(){
         return $this->getDataDir()."/server.socket";
     }
     /**

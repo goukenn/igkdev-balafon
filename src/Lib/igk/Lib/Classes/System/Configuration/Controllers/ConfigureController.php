@@ -177,7 +177,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     protected function __initPageConfig()
     {
         $app = igk_app();
@@ -336,7 +335,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function back()
     {
         $rf = $this->getParam("referer");
@@ -373,7 +371,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function checkForUpdate()
     {
         $r = igk_create_node("response");
@@ -430,7 +427,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function clearcache()
     {
         if (Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
@@ -446,7 +442,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function clearLogs()
     {
         if (!igk_is_conf_connected() && !igk_server_is_local()) {
@@ -466,7 +461,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function Clearsession()
     {
         $this->SelectedConfigCtrl = null;
@@ -581,7 +575,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function conf_runCtrlConfig()
     {
         $tctrl = igk_sys_getall_ctrl();
@@ -598,7 +591,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
     * auto generate doc.
     */
-
     public function conf_update_setting()
     {
         $app = igk_app();
@@ -785,7 +777,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function configure_store_ajx()
     {
         if (!igk_is_conf_connected()) {
@@ -857,7 +848,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getCanConfigure()
     {
         return ($this->getIsConnected());
@@ -867,7 +857,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigEntries()
     {
         return $this->getConfigSettings()->configEntries;
@@ -877,7 +866,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigFrame()
     {
         return $this->getEnvParam("configFrame");
@@ -887,7 +875,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigMenuNode()
     {
         static $configMenu;
@@ -903,7 +890,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigNode()
     {
         static $confNode;
@@ -917,7 +903,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigPage()
     {
         return "configs";
@@ -964,7 +949,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigView()
     {
         return $this->getConfigSettings()->ConfigView;
@@ -974,7 +958,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDbConstantFile()
     {
         return igk_sys_db_constant_cache();
@@ -984,7 +967,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getIsAvailable()
     {
         return ($this->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER);
@@ -994,7 +976,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getIsConfiguring()
     {
         return ($this->getIsConnected()) && (igk_app()->CurrentPageFolder == IGK_CONFIG_MODE);
@@ -1004,7 +985,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getIsConnected()
     {
         return defined('IGK_CONF_CONNECT') || ($this->getConfigUser() !== null);
@@ -1014,7 +994,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getIsVisible(): bool
     {
         return $this->getIsAvailable() && igk_const_defined("IGK_CONFIG_PAGE", 1);
@@ -1024,7 +1003,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getName(): string
     {
         return IGK_CONF_CTRL;
@@ -1034,7 +1012,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getphpinfo()
     {
         $cnf = $this->getConfigNode()->clearChilds();
@@ -1060,7 +1037,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getReconnectionUri()
     {
         $uri = igk_io_baseuri();
@@ -1099,7 +1075,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getSelectedMenuName()
     {
         return igk_getv($this->getConfigSettings(), "SelectedMenuName");
@@ -1109,7 +1084,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function gotoindex()
     {
         $u = igk_io_baseuri();
@@ -1140,7 +1114,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function initComplete($context = null)
     {
         parent::initComplete();
@@ -1151,7 +1124,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function initConfigMenu()
     {
         $t = array(
@@ -1603,7 +1575,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function onConfigSettingChanged()
     {
         if ($this->m_configSettingChangedEvent != null)
@@ -1614,7 +1585,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function onConfigUserChanged()
     {
         igk_hook(IGK_CONF_USER_CHANGE_EVENT, ["ctrl" => $this]);
@@ -1872,7 +1842,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function setSelectedConfigCtrl($ctrl, $fromContext = null)
     {
         $_select = $this->getSelectedConfigCtrl();
@@ -1889,7 +1858,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function show_configuration_menu_setting()
     {
         $this->SelectedConfigCtrl = null;
@@ -1900,7 +1868,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function show_phpinfo()
     {
         $this->SelectedConfigCtrl = null;
@@ -1911,7 +1878,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function show_serverinfo()
     {
         $this->SelectedConfigCtrl = null;
@@ -1922,7 +1888,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function showConfig()
     {
         $this->View();
@@ -1932,7 +1897,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function startconfig()
     {
         $q = base64_decode(igk_getr("q"));
@@ -1971,7 +1935,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function test_send_mail()
     {
         $this->_send_notification_mail();
@@ -1981,7 +1944,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function update_adminpwd()
     {
         $d = igk_getr("passadmin");
@@ -2001,7 +1963,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function update_default_tagname()
     {
         $s = igk_getr("cldefault_node_tagname", "div");
@@ -2019,7 +1980,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function update_defaultlang()
     {
         $app = igk_app();

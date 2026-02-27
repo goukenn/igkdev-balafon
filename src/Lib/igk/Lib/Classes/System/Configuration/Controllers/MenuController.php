@@ -18,6 +18,8 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGKEvents;
 use IGKValidator;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
+use IGK\Tests\Models\DbModelDefinitionInfo;
+
 use function igk_resources_gets as __;
 /**
  *  used to manage global menu and system's configuration menu.
@@ -494,7 +496,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigCurrentPage()
     {
         return $this->getParam("m_CurrentPage");
@@ -513,7 +514,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigPage()
     {
         return "menu";
@@ -523,7 +523,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigSelectedGroup()
     {
         return $this->getParam(self::CONFIG_SELECTED_GROUP);
@@ -533,7 +532,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigSelectedMenu()
     {
         return $this->getParam(self::CONFIG_SELECTED_MENU);
@@ -543,7 +541,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigSelectedPage()
     {
         return $this->getParam(self::CONFIG_SELECTED_PAGE);
@@ -553,7 +550,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getConfigTargetNode()
     {
         static $config_target = null;
@@ -567,7 +563,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getCurrentPage()
     {
         return $this->getParam("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
@@ -577,7 +572,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getCurrentPageIndex()
     {
         return $this->getParam("currentPageIndex", 0);
@@ -626,7 +620,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDataTableName(): ?string
     {
         return '%prefix%globalmenu';
@@ -636,7 +629,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDefaultEntry()
     {
         return array(
@@ -654,7 +646,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getGlobalMenu()
     {
         if (is_array($this->m_Menus)) {
@@ -683,8 +674,7 @@ EOF;
     /**
     * auto generate doc.
     */
-
-    public function getName()
+    public function getName(): string
     {
         return IGK_MENU_CTRL;
     }
@@ -692,9 +682,7 @@ EOF;
 
     /**
     * auto generate doc.
-    */
-
-    public function getPageList()
+    */    public function getPageList()
     {
         if ($this->m_Pages)
             return array_keys($this->m_Pages);
@@ -717,7 +705,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getRoots()
     {
         $t = array();
@@ -735,7 +722,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getUserMenu()
     {
         return $this->m_customMenu;
@@ -772,7 +758,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected static function initDb($force = false)
     {
         $f = igk_io_syspath(IGK_MENU_CONF_DATA);
@@ -803,7 +788,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function initTargetNode():HtmlNode
     {
         $ul = igk_create_node("ul");
@@ -830,7 +814,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_add_menu_frame_ajx()
     {
         $frame = igk_html_frame($this, "theme_menu_add_menu_frame");
@@ -859,7 +842,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_Clearallmenu()
     {
         if (igk_qr_confirm()) {
@@ -878,7 +860,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_drop_selected_menu()
     {
         $this->menu_drop_selected_menu_ajx();
@@ -888,7 +869,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_drop_selected_menu_ajx()
     {
         if (!$this->ConfigCtrl->IsConnected)
@@ -916,7 +896,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_dropmenu()
     {
         $n = igk_getr("n", IGK_STR_EMPTY);
@@ -937,7 +916,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_dropmenu_ajx()
     {
         if (igk_qr_confirm()) {
@@ -993,7 +971,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function menu_sortby()
     {
         $r = igk_getr("n");
@@ -1086,7 +1063,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function onConfigPageChanged()
     {
         $this->m_configCurrentPageChangedEvent->Call($this, null);
@@ -1141,7 +1117,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function registerHook()
     {
     }
@@ -1165,7 +1140,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function save_menu()
     {
         if (!igk_qr_confirm()) {
@@ -1308,7 +1282,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function setMenuview()
     {
         if (igk_configs()->menuHostCtrl) {
@@ -1460,7 +1433,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function View():BaseController
     {         
         return $this;

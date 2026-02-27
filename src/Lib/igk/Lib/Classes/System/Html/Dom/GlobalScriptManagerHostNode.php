@@ -11,8 +11,7 @@ final class GlobalScriptManagerHostNode extends HtmlNode{
 
     /**
     * auto generate doc.
-    */
-    public function __construct(){
+    */    public function __construct(){
         parent::__construct('igk:scripthostnode');
     }
 

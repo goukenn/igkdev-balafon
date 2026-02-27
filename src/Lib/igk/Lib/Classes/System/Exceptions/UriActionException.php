@@ -29,7 +29,6 @@ class UriActionException extends IGKException{
     /**
     * auto generate doc.
     */
-
     public function getUri(){
         return $this->m_uri;
     }

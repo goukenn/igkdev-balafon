@@ -25,7 +25,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     /**
     * auto generate doc.
     */
-
     public function __construct(){}
 
     /**

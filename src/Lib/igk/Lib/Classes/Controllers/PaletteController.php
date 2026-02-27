@@ -25,7 +25,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         parent::__construct();
         $this->m_palettes=array();
@@ -34,7 +33,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     public function getName(): string{
         return IGK_PALETTE_CTRL;
     }
@@ -42,7 +40,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     public function getPaletteDir(){
         return $this->getConfigs()->Location;
     }
@@ -50,7 +47,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     public function getPalettes(){
         if ($this->m_palettes === null){
             $this->loadPalette();
@@ -61,7 +57,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     protected function initComplete($context=null){
        parent::initComplete(); 
     }
@@ -102,7 +97,6 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * auto generate doc.
     */
-
     public function loadPalette(){
         $dir=$this->getPaletteDir();
         if($dir && is_dir($dir)){

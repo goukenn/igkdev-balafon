@@ -209,7 +209,6 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public static function ClearLang($autosave=true){
         $v=self::getInstance();
         $v->langRes->clear();
@@ -221,7 +220,6 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public static function GetCurrentLang(){
         $lg=igk_app()->session->getLang() ?? self::GetSupportLang();
         if(empty($lg)){
@@ -243,7 +241,6 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public static function GetDefaultLang(){
         $app=igk_app();
         if($lg=$app->Configs->default_lang){
@@ -279,7 +276,6 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public static function getInstance(){
         if(self::$sm_instance === null){
             $b=0;
@@ -309,7 +305,6 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public static function GetLangInfo(){
         return self::getInstance()->langRes;
     }
@@ -494,7 +489,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public static function LoadLang(){
         $v=self::getInstance();
         if($v->m_langloaded){
@@ -635,7 +629,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function onPageLangChangedEvent(){
         if($this->PageLangChangedEvent != null){
             $this->PageLangChangedEvent->Call($this, null);
@@ -681,7 +674,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public static function ResetLang(){
         $v=self::getInstance();
         $v->langRes=array();
@@ -691,7 +683,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public static function SaveLang(){
         $instance=self::getInstance();
         $out="<?php \n//Balafon Generated language file ".IGK_LF;

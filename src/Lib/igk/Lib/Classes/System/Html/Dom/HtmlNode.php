@@ -443,7 +443,6 @@ class HtmlNode extends HtmlItemBase
     /**
     * auto generate doc.
     */
-
     public function getChildCount()
     {
         return $this->getChilds()->count();

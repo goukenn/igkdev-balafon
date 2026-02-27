@@ -47,7 +47,6 @@ class UriHandler extends BaseUriHandler
     /**
     * auto generate doc.
     */
-
     protected function __construct()
     {
         $this->m_routes = $this->initRoutes();
@@ -333,7 +332,6 @@ class UriHandler extends BaseUriHandler
     /**
     * auto generate doc.
     */
-
     public static function HandlePublicDir(string $path, ?string $cwd = null)
     {
         if (empty($tc = trim($path, '/'))) {

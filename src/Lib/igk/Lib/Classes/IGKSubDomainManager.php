@@ -180,7 +180,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function Clear(){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = null; 
     }
@@ -188,7 +187,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function domainList(){
         if (is_array($t=$this->getRegList()))
             return array_keys($t);
@@ -198,7 +196,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public static function GetBaseDomain(){
         $srv = igk_server()->SERVER_NAME;
         // + | auto dectect base domain
@@ -218,7 +215,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public static function getInstance(){
         if(self::$sm_instance == null){
             $k=new IGKSubDomainManager();
@@ -230,7 +226,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function getRegList(){
         if (!($c = igk_environment()->get(IGK_ENV_SESS_DOM_LIST)))
             $c = [];
@@ -240,7 +235,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public static function GetSubDomain(){
         $srv=igk_server_name() ?? '';
         if(preg_match("/^(www\.)/i", $srv)){
@@ -260,7 +254,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public static function GetSubDomainName(){
         return self::$sm_subDomainName;
     }
@@ -311,7 +304,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public static function IsSubDomain(){
         return self::$sm_isSubDomain;
     }
@@ -319,7 +311,6 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     protected function onDomainChanged(){
         $this->Clear();
     }

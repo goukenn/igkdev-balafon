@@ -104,8 +104,7 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
 
     /**
     * auto generate doc.
-    */
-    var $patterns;
+    */    var $patterns;
 
     /**
      * get/set to ask container detection to move forward if stopped on non empty block 

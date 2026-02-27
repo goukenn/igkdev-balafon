@@ -42,7 +42,6 @@ class MetaDataHost
     /**
     * auto generate doc.
     */
-
     public static function InitCoreMetaDataDefinition()
     {
         return [

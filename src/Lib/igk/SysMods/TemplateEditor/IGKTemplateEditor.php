@@ -19,8 +19,7 @@ final class IGKTemplateEditor extends BaseController{
 
     /**
     * auto generate doc.
-    */
-    public function __construct(){
+    */    public function __construct(){
         parent::__construct();
     }
     /**

@@ -105,7 +105,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function getConfigCtrl()
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
@@ -114,7 +113,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function getConfigNode()
     {
         return $this->getConfigCtrl()->getConfigNode();
@@ -123,7 +121,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function getConfigPage()
     {
         return "default";
@@ -132,7 +129,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     protected function getGlobalHelpArticle()
     {
         return "./help/help." . $this->Name;
@@ -141,7 +137,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function getIsConfigPageAvailable()
     {
         return igk_is_conf_connected();
@@ -150,7 +145,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function getIsVisible(): bool
     {
         $app = igk_app();
@@ -164,7 +158,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     protected function initComplete($context = null)
     {
         parent::initComplete($context);
@@ -176,7 +169,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
     * auto generate doc.
     */
-
     public function initConfigMenu()
     {
         if (!$this->getIsConfigPageAvailable()) {

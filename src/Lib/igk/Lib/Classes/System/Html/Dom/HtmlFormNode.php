@@ -242,7 +242,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function addToken()
     {
         $tokenid = igk_html_form_tokenid();
@@ -256,7 +255,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function ClearChilds()
     {
         $this->m_bodydiv->clearChilds();
@@ -265,7 +263,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getAction()
     {
         return $this["action"];
@@ -274,7 +271,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getBox()
     {
         return $this->m_bodydiv;
@@ -283,7 +279,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getContent()
     {
         return null;
@@ -292,7 +287,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getEncType()
     {
         return $this->m_encType;
@@ -301,7 +295,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getFooter()
     {
         return $this->m_footdiv;
@@ -310,7 +303,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getMethod()
     {
         return $this["method"];
@@ -319,7 +311,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getNoFoot()
     {
         return $this->m_nofoot;
@@ -328,7 +319,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getNoTitle()
     {
         return $this->m_notitle;
@@ -337,7 +327,6 @@ final class HtmlFormNode extends HtmlNode
     /**
     * auto generate doc.
     */
-
     public function getTitle()
     {
         return $this->m_topdiv->Content;

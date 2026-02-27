@@ -36,8 +36,7 @@ class IGKObject {
 
     /**
     * auto generate doc.
-    */
-    public function __wakeup(){
+    */    public function __wakeup(){
         if(method_exists($this, 'registerHook')){
             call_user_func_array([$this, 'registerHook'], []);
         }
@@ -80,8 +79,7 @@ class IGKObject {
 
     /**
     * auto generate doc.
-    */
-    protected function getCmpObj(){}
+    */    protected function getCmpObj(){}
     /**
     * override this method to filter call of global method used to call internal function (protected)
     */

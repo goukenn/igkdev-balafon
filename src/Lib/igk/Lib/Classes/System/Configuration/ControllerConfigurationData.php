@@ -214,7 +214,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     /**
     * auto generate doc.
     */
-
     public function LoadSetting(){}
     /**
     * 
@@ -243,7 +242,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     /**
     * auto generate doc.
     */
-
     public function storeConfig(){         
         $this->m_changed = 0;  
         if ($this->m_configs){

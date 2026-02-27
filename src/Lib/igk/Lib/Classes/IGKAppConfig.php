@@ -217,7 +217,6 @@ final class IGKAppConfig extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getConfigEntries(){
         return $this->m_configEntries;
     }
@@ -244,7 +243,6 @@ final class IGKAppConfig extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function onConfigSaved(){
         if($this->m_configSavedEvent){
             $this->m_configSavedEvent->Call($this, null);

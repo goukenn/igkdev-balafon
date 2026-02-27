@@ -20,8 +20,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    public static function GetAdditionalConfigInfo(){
+    */    public static function GetAdditionalConfigInfo(){
         return array(
             "clGoogleMapUrl",
             igk_create_additional_config_info(array("clRequire"=>1))
@@ -30,8 +29,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    public function getcanAddChild(){
+    */    public function getcanAddChild(){
         return false;
     }
 
@@ -45,8 +43,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    public function View():BaseController{
+    */    public function View():BaseController{
         $t=$this->TargetNode;
         $t->clearChilds();
         $lnk=igk_getv($this->Configs, "clGoogleMapUrl", "http://www.google.fr");

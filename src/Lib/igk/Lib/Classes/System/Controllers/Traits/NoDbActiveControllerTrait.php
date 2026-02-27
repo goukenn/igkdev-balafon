@@ -22,8 +22,7 @@ trait NoDbActiveControllerTrait{
 
     /**
     * auto generate doc.
-    */
-    public function getDataTableName(): ?string{
+    */    public function getDataTableName(): ?string{
         return null;
     }
 

@@ -44,7 +44,6 @@ final class OwnViewCtrl extends IGKObject  {
     /**
     * auto generate doc.
     */
-
     public static function getInstance(){
         if(self::$sm_instance == null){
             self::$sm_instance=new static();
@@ -55,7 +54,6 @@ final class OwnViewCtrl extends IGKObject  {
     /**
     * auto generate doc.
     */
-
     public static function GetList(){
         $i=self::getInstance();
         return $i->m_ctrls;
@@ -83,7 +81,6 @@ final class OwnViewCtrl extends IGKObject  {
     /**
     * auto generate doc.
     */
-
     public function __serialize(){
         return null;
     }

@@ -35,7 +35,6 @@ final class HtmlImgLnkNode extends HtmlANode{
     /**
     * auto generate doc.
     */
-
     public function getAlt(){
         return $this->m_img["alt"];
     }

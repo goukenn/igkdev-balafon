@@ -32,7 +32,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function beginRequest()
     {
         $u = igk_getr("u");
@@ -195,7 +194,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function endRequest()
     {
         $node = HtmlNode::CreateWebNode("APIResponse");
@@ -219,7 +217,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function getName()
     {
         return IGK_API_CTRL;
@@ -228,7 +225,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function getRegUriAction()
     {
         return IGK_API_URI . IGK_REG_ACTION_METH;
@@ -237,7 +233,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function getVersion()
     {
         return IGK_API_VERSION;
@@ -256,7 +251,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function request()
     {
         $u = igk_getr("u");
@@ -281,7 +275,6 @@ final class ApiFunctionController extends ApplicationController
     /**
     * auto generate doc.
     */
-
     public function sendRequest()
     {
         $node = HtmlNode::CreateWebNode("APIResponse");

@@ -67,8 +67,7 @@ abstract class IGKEnvironmentConstants{
 
     /**
     * auto generate doc.
-    */
-     const VIEW_CURRENT_VIEW_NAME= self::CURRENT_CTRL+6;
+    */     const VIEW_CURRENT_VIEW_NAME= self::CURRENT_CTRL+6;
      /**
       * store action parameter
       */

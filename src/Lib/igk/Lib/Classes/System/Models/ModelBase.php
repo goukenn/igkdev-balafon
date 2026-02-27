@@ -75,13 +75,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
 
     /**
     * auto generate doc.
-    */
-    const JoinOnMethodPrefix = "joinOn";
+    */    const JoinOnMethodPrefix = "joinOn";
 
     /**
     * auto generate doc.
-    */
-    const TargetOnMethodPrefix = "targetOn";
+    */    const TargetOnMethodPrefix = "targetOn";
     /**
      * now function 
      */

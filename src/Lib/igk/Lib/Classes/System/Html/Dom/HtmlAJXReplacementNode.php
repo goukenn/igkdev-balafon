@@ -18,7 +18,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         parent::__construct("igk:replace-ctrl");
         $this->m_nodes=array();
@@ -38,7 +37,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getChildCount(){
         return igk_count($this->m_nodes);
     }
@@ -46,7 +44,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getChilds(){
         return $this->m_nodes;
     }

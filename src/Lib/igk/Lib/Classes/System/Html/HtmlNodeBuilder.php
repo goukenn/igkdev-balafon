@@ -166,7 +166,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
     * auto generate doc.
     */
-
     public function getContext(): ?object
     {
         return $this->m_context;

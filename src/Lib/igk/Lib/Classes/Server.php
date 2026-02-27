@@ -69,7 +69,6 @@ final class Server implements IToArray{
     /**
     * auto generate doc.
     */
-
     public static function IsIGKDEVSERVER() : bool{
         $r= self::getInstance()->HTTP_USER_AGENT;
         if(strstr($r, IGK_SERVERNAME)){
@@ -404,7 +403,6 @@ final class Server implements IToArray{
     /**
     * auto generate doc.
     */
-
     public function to_array(): ?array{
         return $this->data;
     }

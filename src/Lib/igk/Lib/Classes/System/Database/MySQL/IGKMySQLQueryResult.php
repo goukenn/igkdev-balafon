@@ -151,7 +151,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function __toString()
     {
         return "IGKMySQLQueryResult [RowCount: " . $this->RowCount . "]";
@@ -331,7 +330,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getColumnCount()
     {
         return igk_count($this->m_columns);
@@ -356,7 +354,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getColumns()
     {
         return $this->m_columns;
@@ -366,7 +363,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getHasRow()
     {
         return ($this->getRowCount() > 0);
@@ -376,7 +372,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getQuery()
     {
         return $this->m_query;
@@ -386,7 +381,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getResult()
     {
         if (strtolower($this->m_type) == 'boolean') {
@@ -447,7 +441,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getRowCount()
     {
         return igk_count($this->m_rows);
@@ -466,7 +459,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getSuccess()
     {
         return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
@@ -476,7 +468,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
     * auto generate doc.
     */
-
     public function getTables()
     {
         return $this->m_tables;

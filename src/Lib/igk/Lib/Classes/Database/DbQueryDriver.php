@@ -270,7 +270,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function __wakeup()
     {
         igk_dev_wln_e(
@@ -314,7 +313,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function closeAll()
     {
         if (igk_db_is_resource($this->m_resource)) {
@@ -340,7 +338,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function connect()
     {
         if ($this->m_isconnect && $this->m_resource) {
@@ -438,7 +435,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public static function Create(?array $options = null, &$error = null)
     {
         static $driver_storage;
@@ -550,7 +546,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function delete($tbname, $values = null)
     {
         return $this->m_adapter->delete($tbname, $values);
@@ -567,13 +562,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     protected abstract function dieinfo($t, $msg = "", $code = 0);
 
     /**
     * auto generate doc.
     */
-
     function dieNotConnect()
     {
         try {
@@ -599,7 +592,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function flushForInitDb($complete = null)
     {
         $v_infkey = "sys://db/tabfinfo/data";
@@ -646,7 +638,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function getdatabases()
     {
         if (!$this->getIsConnect())
@@ -658,7 +649,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function getDbServer()
     {
         return $this->m_dbServer;
@@ -667,7 +657,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function getDbUser()
     {
         return $this->m_dbUser;
@@ -694,7 +683,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function getError()
     {
         return $this->m_error;
@@ -736,7 +724,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function getIsConnect()
     {
         return $this->m_isconnect;
@@ -839,7 +826,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public static function InitDefault(string $driverName = 'mysql', string $dbname = '')
     {
         igk_die("Not implement");
@@ -872,7 +858,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public static function IsMySQLi()
     {
         return self::Is(self::DRIVER_MYSQLI);
@@ -910,7 +895,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public static function RestoreConfig()
     {
         DbQueryDriver::$Config = self::$__store;
@@ -976,7 +960,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function selectLastId()
     {
         return IGKMySQLQueryResult::CreateResult($this->_sendQuery("SELECT LAST_INSERT_ID()"));
@@ -1142,7 +1125,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * auto generate doc.
     */
-
     public function update($tbname, $entry, $where = null, $querytabinfo = null)
     {
         return $this->m_adapter->update($tbname, $entry, $where, $querytabinfo);

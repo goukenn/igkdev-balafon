@@ -114,7 +114,6 @@ class EnvironmentCommandScripts
     /**
     * auto generate doc.
     */
-
     public static function GetCommandFile(string $file, ?string $dir = null)
     {
         if ($dir){        

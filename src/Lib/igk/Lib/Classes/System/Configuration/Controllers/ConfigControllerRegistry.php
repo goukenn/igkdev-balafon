@@ -61,7 +61,6 @@ class ConfigControllerRegistry
     /**
     * auto generate doc.
     */
-
     public static function InvokeRegisterComplete($context = null)
     {
         if (self::$sm_regComplete){

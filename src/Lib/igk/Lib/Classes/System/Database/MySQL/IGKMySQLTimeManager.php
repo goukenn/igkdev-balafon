@@ -28,7 +28,6 @@ final class IGKMySQLTimeManager extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function Now(){
         return date($this->ad->getFormat("datetime"));
     }

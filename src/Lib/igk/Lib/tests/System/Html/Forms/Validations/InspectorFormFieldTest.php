@@ -94,8 +94,7 @@ class DummyRequiredValidator extends InspectorFormFieldValidationBase{
 
     /**
     * auto generate doc.
-    */
-    var $x;
+    */    var $x;
 }
 
 

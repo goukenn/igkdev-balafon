@@ -99,8 +99,7 @@ abstract class RootControllerBase extends IGKObject{
 
     /**
     * auto generate doc.
-    */
-    protected final
+    */    protected final
 
     function getIsSystemController(){       
         return  !empty(strstr($this->getDeclaredDir(), IGK_LIB_DIR));
@@ -365,7 +364,6 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function getArticlesDir(){  
         return igk_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
@@ -373,7 +371,6 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function getScriptsDir(){
         return $this->getDeclaredDir()."/".IGK_SCRIPT_FOLDER;
     }
@@ -381,7 +378,6 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * auto generate doc.
     */
-
     public function getBaseUri(){
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
     }

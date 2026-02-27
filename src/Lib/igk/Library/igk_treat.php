@@ -189,7 +189,6 @@ class IGKProtectHtmlField{
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         $this->_initOptions();
         $this->engines=array();

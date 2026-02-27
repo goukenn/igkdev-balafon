@@ -49,7 +49,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function __construct(?string $key=null){
         parent::__construct("div");
         $this["class"]="igk-winui-google-map";
@@ -67,7 +66,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getLocation(){
         return $this->m_location;
     }
@@ -75,7 +73,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getQuery(){
         return $this->m_query;
     }
@@ -83,7 +80,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getType(){
         return $this->m_type;
     }
@@ -91,7 +87,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function initView(){
         $this->clearChilds();
         $key=$this->getKey();

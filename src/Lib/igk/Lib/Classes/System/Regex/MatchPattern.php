@@ -28,8 +28,7 @@ abstract class MatchPattern{
 
     /**
     * auto generate doc.
-    */
-    const Guid = "(?:\{[0-9a-fA-F]+(-[0-9a-fA-F]+){4}\})";
+    */    const Guid = "(?:\{[0-9a-fA-F]+(-[0-9a-fA-F]+){4}\})";
 
     /**
     * Constant: short guid.

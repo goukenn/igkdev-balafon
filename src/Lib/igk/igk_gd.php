@@ -317,7 +317,6 @@ class IGKGD
     /**
     * auto generate doc.
     */
-
     public function Dispose()
     {
         imagedestroy($this->m_himg);
@@ -505,7 +504,6 @@ class IGKGD
     /**
     * auto generate doc.
     */
-
     public function renderText()
     {
         ob_start();

@@ -720,7 +720,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getDeclaredFileName()
     {
         $tab = &igk_environment()->createArray("reflect_info");
@@ -787,7 +786,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getStylesDir()
     {
         return ControllerPaths::Gets($this)->stylesDir;
@@ -807,7 +805,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     protected function getConfigFile()
     {
         return $this->getDataDir() . "/" . IGK_CTRL_CONF_FILE;
@@ -816,7 +813,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getDataDir()
     {
         return $this->getDeclaredDir() . "/" . IGK_DATA_FOLDER;
@@ -841,7 +837,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getResourcesDir()
     {
         return $this->getDataDir() . "/" . IGK_RES_FOLDER;
@@ -876,7 +871,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getLoader()
     {
         $l = $this->getEnvParam("loader");
@@ -905,7 +899,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getContentDir()
     {
         return igk_dir($this->getDeclaredDir() . DIRECTORY_SEPARATOR . IGK_CONTENT_FOLDER);
@@ -1060,7 +1053,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getCurrentView()
     {
         return $this->getEnvParam(self::CURRENT_VIEW, IGK_DEFAULT_VIEW);
@@ -1401,7 +1393,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getCurrentPageFolder()
     {
         return igk_app()->getCurrentPageFolder();
@@ -1495,7 +1486,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
     * auto generate doc.
     */
-
     public function getUseDataSchema(): bool
     {
         if (self::IsSysController($this)) {

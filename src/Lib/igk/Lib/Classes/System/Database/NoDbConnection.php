@@ -34,19 +34,16 @@ class NoDbConnection{
     /**
     * auto generate doc.
     */
-
     function close(){}
 
     /**
     * auto generate doc.
     */
-
     function closeAll(){}
 
     /**
     * auto generate doc.
     */
-
     function connect(){
         return false;
     }
@@ -54,13 +51,11 @@ class NoDbConnection{
     /**
     * auto generate doc.
     */
-
     function initForInitDb(){}
 
     /**
     * auto generate doc.
     */
-
     function insert(){
         return false;
     }
@@ -68,7 +63,6 @@ class NoDbConnection{
     /**
     * auto generate doc.
     */
-
     public function openCount(){
         return -1;
     }
@@ -92,19 +86,16 @@ class NoDbConnection{
     /**
     * auto generate doc.
     */
-
     function setCloseCallback(){}
 
     /**
     * auto generate doc.
     */
-
     function setOpenCallback(){}
 
     /**
     * auto generate doc.
     */
-
     function flushForInitDb(){}
 
     /**

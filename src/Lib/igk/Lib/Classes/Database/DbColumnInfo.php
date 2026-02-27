@@ -389,7 +389,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     /**
     * auto generate doc.
     */
-
     public static function AssocInfo($array, $tablename = null)
     {
         if (!is_array($array))
@@ -412,7 +411,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     /**
     * auto generate doc.
     */
-
     public static function GetColumnInfo()
     {
         return get_class_vars("DbColumnInfo");
@@ -421,7 +419,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     /**
     * auto generate doc.
     */
-
     public static function NewEntryInfo()
     {
         return new DbColumnInfo(array(

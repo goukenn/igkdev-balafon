@@ -34,7 +34,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     protected function __construct(){}
     /**
     *  attach the middleware
@@ -79,7 +78,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     public static function GetManager(){
         if(count($c=self::$sm_manager) > 0){
             return self::$sm_manager[0];
@@ -90,7 +88,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     public function getService(){
         return self::GetManager();
     }
@@ -105,7 +102,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     public function invoke(){
         $this->next();
     }
@@ -113,7 +109,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     protected function next(){
         if($this->_next){
             $this->_next->invoke();
@@ -139,7 +134,6 @@ abstract class BalafonMiddleware{
     /**
     * auto generate doc.
     */
-
     protected function stopChain(){
         $this->chainFlag=1;
     }

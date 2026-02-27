@@ -27,7 +27,6 @@ final class IGKHrefListValue{
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         $this->values=func_get_args();
     }

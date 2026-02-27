@@ -56,8 +56,7 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
 
     /**
     * auto generate doc.
-    */
-    var $multiple;
+    */    var $multiple;
     /**
      * mime type
      */

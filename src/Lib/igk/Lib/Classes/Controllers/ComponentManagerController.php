@@ -82,36 +82,31 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 
     /**
     * auto generate doc.
-    */
-    public function getm_ids(){
+    */    public function getm_ids(){
         return $this->settings->ids;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getm_objs(){
+    */    public function getm_objs(){
         return $this->settings->objs;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getm_srcs(){
+    */    public function getm_srcs(){
         return $this->settings->srcs;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getm_uris(){
+    */    public function getm_uris(){
         return $this->settings->uris;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getName(): string{
+    */    public function getName(): string{
         return IGK_COMPONENT_MANAGER_CTRL;
     }
 
@@ -146,8 +141,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 
     /**
     * auto generate doc.
-    */
-    protected function initComplete($context=null){
+    */    protected function initComplete($context=null){
         parent::initComplete();
         igk_hook(IGK_NODE_DISPOSED_EVENT, array($this, "nodeDisposed"));
     }

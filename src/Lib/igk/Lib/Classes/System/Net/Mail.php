@@ -286,7 +286,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function __construct()
     {
         $this->ErrorMsg = "";
@@ -583,7 +582,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function ClearTo()
     {
         $this->m_to = array();
@@ -592,7 +590,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getFrom()
     {
         return $this->m_from;
@@ -601,7 +598,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getHtmlCharset()
     {
         return $this->html_charset;
@@ -610,7 +606,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getHtmlMsg()
     {
         return $this->m_htmlmsg;
@@ -635,7 +630,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getPort()
     {
         return $this->m_smtp_port;
@@ -644,7 +638,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getPwd()
     {
         return $this->m_pwd;
@@ -653,7 +646,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getReplyTo()
     {
         return $this->m_replyto;
@@ -662,7 +654,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getSmtpHost()
     {
         return $this->m_smtphost;
@@ -671,7 +662,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getSocketTimeout()
     {
         return $this->m_socketTimeout;
@@ -680,7 +670,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getSocketType()
     {
         return $this->m_socketType;
@@ -689,7 +678,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getTextCharset()
     {
         return $this->text_charset;
@@ -698,7 +686,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getTextMsg()
     {
         return $this->m_textmsg;
@@ -716,7 +703,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getToString()
     {
         return self::GetMailList($this->m_to);
@@ -725,7 +711,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getUseAuth()
     {
         return $this->m_useAuth;
@@ -734,7 +719,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
     * auto generate doc.
     */
-
     public function getUser()
     {
         return $this->m_user;

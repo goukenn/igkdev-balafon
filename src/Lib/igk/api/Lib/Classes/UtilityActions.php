@@ -46,7 +46,6 @@ class UtilityActions{
     /**
     * auto generate doc.
     */
-
     public function rmDir(){
         $n=igk_getr("clName");
         if(!empty($n)){

@@ -29,7 +29,6 @@ class ResourceNotFoundException extends IGKException {
     /**
     * auto generate doc.
     */
-
     public function getResourceFile(){
         return $this->m_file;
     }

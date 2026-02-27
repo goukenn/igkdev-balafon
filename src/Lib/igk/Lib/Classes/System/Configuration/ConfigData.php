@@ -52,8 +52,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
 
     /**
     * auto generate doc.
-    */
-    public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
+    */    public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
     {
         $this->m_confile = $conffile;
         $this->m_configCtrl = $configCtrl;
@@ -173,24 +172,21 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
 
     /**
     * auto generate doc.
-    */
-    public function getEntries()
+    */    public function getEntries()
     {
         return $this->m_configEntries;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getEntriesKeys()
+    */    public function getEntriesKeys()
     {
         return array_keys($this->m_configEntries);
     }
 
     /**
     * auto generate doc.
-    */
-    public function saveData($force = false)
+    */    public function saveData($force = false)
     {
         if (!$force && defined("IGK_FRAMEWORK_ATOMIC")) {
             return false;
@@ -239,8 +235,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
 
     /**
     * auto generate doc.
-    */
-    public function SortByKeys()
+    */    public function SortByKeys()
     {
         $keys = array_keys($this->m_configEntries);
         sort($keys);

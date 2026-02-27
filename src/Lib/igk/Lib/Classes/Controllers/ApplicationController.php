@@ -95,7 +95,6 @@ implements IDatabaseHost
     /**
     * auto generate doc.
     */
-
     public function administration()
     {
         $doc = $this->getAppDocument();
@@ -217,8 +216,7 @@ implements IDatabaseHost
 
     /**
     * auto generate doc.
-    */
-    public final
+    */    public final
 
     function dbinitentries()
     {
@@ -379,7 +377,6 @@ implements IDatabaseHost
     /**
     * auto generate doc.
     */
-
     public static function GetAdditionalDefaultViewContent()
     {
         return <<<EOF
@@ -396,7 +393,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     protected function getAllowViewDirectAccess()
     {
         return 0;
@@ -406,7 +402,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getAppImgUri()
     {
         return igk_html_resolv_img_uri($this->getDataDir() . IGK_APP_LOGO);
@@ -416,7 +411,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getAppName()
     {
         return $this->getConfig(IGK_CTRL_CNF_APPNAME, static::class);
@@ -461,7 +455,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getAppTitle()
     {
         return $this->getConfig(IGK_CTRL_CNF_TITLE);
@@ -554,7 +547,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getcanAddChild()
     {
         return false;
@@ -564,7 +556,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDataTablePrefix()
     {
         return $this->getConfig(IGK_CTRL_CNF_TABLEPREFIX);
@@ -574,7 +565,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDb()
     {
         if (!$db = $this->getEnvParam("dbu")) {
@@ -588,7 +578,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getDomainUriAction(): string
     {
         return "^(/(?P<lang>" . R::GetSupportLangRegex() . "))?" . IGK_REG_ACTION_METH_OPTIONS;
@@ -611,7 +600,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getIsVisible(): bool
     {
         parent::getIsVisible();
@@ -634,7 +622,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function getRegInvokeUri(): string
     {
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
@@ -963,7 +950,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function IsActive()
     {
         $inf = igk_sys_ac_getpatterninfo();
@@ -1006,7 +992,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function load_data()
     {
         $doc = $this->getAppDocument();
@@ -1031,7 +1016,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function load_data_files()
     {
         if (isset($_FILES["clFileName"])) {
@@ -1186,7 +1170,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function storeConfigSettings()
     {
         // + bypass invoke parent class       
@@ -1203,7 +1186,6 @@ EOF;
     /**
     * auto generate doc.
     */
-
     public function sync_from_user_data()
     {
         igk_wln(__FUNCTION__ . " Not implements");

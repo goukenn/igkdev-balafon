@@ -575,7 +575,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public static function GetSupportedType()
     {
         if (is_null(self::$supportedList)) {
@@ -608,7 +607,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     protected function _createDriver()
     {
         if (class_exists(DbQueryDriver::class)) {
@@ -829,7 +827,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function die_error()
     {
         return igk_mysql_db_error();
@@ -838,7 +835,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function getDbIdentifier()
     {
         return "mysqli";
@@ -847,7 +843,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function getError()
     {
         return $this->m_dbManager->getError();
@@ -856,7 +851,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function getErrorCode()
     {
         return $this->m_dbManager->getErrorCode();
@@ -865,7 +859,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function getHasError()
     {
         return $this->m_dbManager->getHasError();
@@ -1107,7 +1100,6 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     */
-
     public function stopRelationChecking()
     {
         return $this->sendQuery("SET foreign_key_checks=0;");

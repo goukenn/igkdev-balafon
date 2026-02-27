@@ -20,8 +20,7 @@ class IGKGooglePackage{
 
     /**
     * auto generate doc.
-    */
-    public function Button(){
+    */    public function Button(){
         $n=igk_create_node("div");
         $n["class"]="igk-google-button";
         $n["curx"]="10px";

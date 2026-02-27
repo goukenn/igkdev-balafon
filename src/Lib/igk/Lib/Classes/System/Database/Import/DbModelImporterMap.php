@@ -127,7 +127,6 @@ class DbModelImporterMap
     /**
     * auto generate doc.
     */
-
     public function __invoke($data)
     {
         $this->_onImportData((array)$data);

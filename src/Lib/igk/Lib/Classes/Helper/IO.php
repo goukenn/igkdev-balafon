@@ -233,7 +233,6 @@ class IO
     /**
     * auto generate doc.
     */
-
     public static function GetArticleInDir($dir, $name)
     {
         if ($dir == null) {
@@ -1013,7 +1012,6 @@ class IO
     /**
     * auto generate doc.
     */
-
     public static function GetRequestBaseUri()
     {
         return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));

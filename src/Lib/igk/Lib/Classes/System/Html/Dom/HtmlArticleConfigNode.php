@@ -77,7 +77,6 @@ final class HtmlArticleConfigNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getdropFileUri(){
         return $this->m_dropfileUri;
     }
@@ -85,7 +84,6 @@ final class HtmlArticleConfigNode extends HtmlNode{
     /**
     * auto generate doc.
     */
-
     public function getIsVisible(){
         return $this->m_forceview || (parent::getIsVisible() && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER));
     }

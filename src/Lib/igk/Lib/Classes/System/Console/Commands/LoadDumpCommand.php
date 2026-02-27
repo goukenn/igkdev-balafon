@@ -33,7 +33,6 @@ class LoadDumpCommand extends AppExecCommand{
     /**
     * auto generate doc.
     */
-
     public function exec($command, $file=null) { 
         if (empty($file) || !igk_io_file_exists($file)){
             Logger::danger("Json file required");

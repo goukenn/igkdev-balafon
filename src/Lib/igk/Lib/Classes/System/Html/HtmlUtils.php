@@ -434,7 +434,6 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     */
-
     public static function AddAnimImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
         if (is_object($target)) {
@@ -457,7 +456,6 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     */
-
     public static function AddBtnLnk($target, $langkey, $uri, $attributes = null)
     {
         if ($target == null)
@@ -474,7 +472,6 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     */
-
     public static function AddImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
         if (is_object($target)) {
@@ -546,7 +543,6 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     */
-
     public static function CreateConfigSubMenu($target, $items, $selected = null)
     {
         $ul = $target->add("ul", array("class" => "igk-cnf-content_submenu"));
@@ -566,7 +562,6 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     */
-
     public static function GetAllChilds($t)
     {
         $d = array();

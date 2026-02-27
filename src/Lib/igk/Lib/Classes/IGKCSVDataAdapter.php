@@ -448,7 +448,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * auto generate doc.
     */
-
     public function close(){
         if($this->m_fhandle){
             fclose($this->m_f);
@@ -474,7 +473,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * auto generate doc.
     */
-
     public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
     }
@@ -624,7 +622,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * auto generate doc.
     */
-
     public static function toCSVLineEntry($tab, $key=null){
         $out=IGK_STR_EMPTY;
         $v_sep=false;

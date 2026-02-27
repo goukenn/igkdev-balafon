@@ -54,7 +54,6 @@ class FormatterServiceContainer implements IAppServiceContainer{
     /**
     * auto generate doc.
     */
-
     public function resolveFormat(string $scopeName){
         if($scopeName=='source.html'){
             $regex = new RegexMatcherContainer;

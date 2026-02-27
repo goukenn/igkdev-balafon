@@ -19,8 +19,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
 
     /**
     * auto generate doc.
-    */
-    public function doAction(){
+    */    public function doAction(){
         $frame=igk_html_frame($this, "tool.installsite");
         $d=$frame->getBoxContent();
         $d->clearChilds();
@@ -37,8 +36,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
 
     /**
     * auto generate doc.
-    */
-    public function getIsAvailable(){
+    */    public function getIsAvailable(){
         return true;
     }
     /**

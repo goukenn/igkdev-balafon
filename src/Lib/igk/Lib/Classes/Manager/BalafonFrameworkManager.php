@@ -37,7 +37,6 @@ class BalafonFrameworkManager{
     /**
     * auto generate doc.
     */
-
     public function __construct(){
         $this->handleAllAction=1;
     }
@@ -45,7 +44,6 @@ class BalafonFrameworkManager{
     /**
     * auto generate doc.
     */
-
     public function clear_cache(){
         igk_clear_cache();
     }
@@ -60,7 +58,6 @@ class BalafonFrameworkManager{
     /**
     * auto generate doc.
     */
-
     public function install(){
         echo "running install";
     }
@@ -68,7 +65,6 @@ class BalafonFrameworkManager{
     /**
     * auto generate doc.
     */
-
     public function test(){
         echo "run test";
     }

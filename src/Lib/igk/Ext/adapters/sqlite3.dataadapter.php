@@ -495,7 +495,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function beginTransaction(){
         $this->sql->exec("BEGIN TRANSACTION");
         $this->m_inTransaction = true;
@@ -515,7 +514,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function close(){
         $sql=$this->getConnectionManager();
         if($sql){
@@ -531,7 +529,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function commit(){
         $this->sql->exec("COMMIT");
         if ($this->m_inTransaction){
@@ -621,7 +618,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function selectCount(string $table, ?array $where=null, $options=null){
         return 0;
     }
@@ -824,7 +820,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function dieNotConnect(){
         if($this->sql == null)
             throw new IGKException("sql3lite no connection available ");
@@ -878,7 +873,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function getConnectionManager(){
         if(self::$sm_sql)
             return igk_getv(self::$sm_sql, $this->fname);
@@ -898,7 +892,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public static function GetCurrent(){
         if(self::$sm_list == null)
             self::
@@ -926,7 +919,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function getDatabaseVersion(){
         $r=$this->sendQuery('PRAGMA user_version;', ':global:');
         $f=null;
@@ -1084,7 +1076,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function getDbIdentifier(){
         return IGK_SQL3LITE_KN;
     }
@@ -1105,7 +1096,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function getSql(){
         if(self::$sm_sql == null){
             self::
@@ -1131,7 +1121,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     protected function initConfig(){
         $this->makeCurrent();
         self::StoreStack($this);
@@ -1147,7 +1136,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function IsForeignKeyEnable(){
         $r=$this->sendQuery('PRAGMA foreign_keys;', ':global:');
         $f=0;
@@ -1160,7 +1148,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function last_id(){
         return $this->sql->lastInsertRowID();
     }
@@ -1168,7 +1155,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function listTables(){
         return $this->sendQuery("SELECT name FROM sqlite_master WHERE type='table';", "sqlite_master");
     }
@@ -1176,7 +1162,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function numRows(){
         return -1;
     }
@@ -1184,7 +1169,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function openCount(){
         $r=$this->getConnectionManager();
         return $r ? $r->count: 0;
@@ -1193,7 +1177,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function restoreRelationChecking(){
         $this->enableForeignKey(1);
     }
@@ -1201,7 +1184,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function rollback(){
         $this->sql->exec("ROLLBACK");
         if ($this->m_inTransaction){
@@ -1267,13 +1249,11 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     /**
     * auto generate doc.
     */
-
     public function setForeignKeyCheck($check){}
 
     /**
     * auto generate doc.
     */
-
     public function stopRelationChecking(){
         $this->enableForeignKey(0);
     }

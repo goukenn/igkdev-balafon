@@ -20,8 +20,7 @@ class FormValidation
 
     /**
     * auto generate doc.
-    */
-    var $skipNullValue = true;
+    */    var $skipNullValue = true;
 
     /**
     * auto generate doc.

@@ -155,7 +155,6 @@ class Loader implements IResponse {
     /**
     * auto generate doc.
     */
-
     public function clear(){
         $this->m_output="";
     }
@@ -181,7 +180,6 @@ class Loader implements IResponse {
     /**
     * auto generate doc.
     */
-
     public function getConfigs(){
         return $this->m_controller->getConfigs();
     }
@@ -189,7 +187,6 @@ class Loader implements IResponse {
     /**
     * auto generate doc.
     */
-
     public function getLoader(){
         return $this;
     }
@@ -208,7 +205,6 @@ class Loader implements IResponse {
     /**
     * auto generate doc.
     */
-
     public function getUser(){
         return $this->m_controller->User;
     }

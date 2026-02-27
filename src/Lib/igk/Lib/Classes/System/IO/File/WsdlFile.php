@@ -199,7 +199,6 @@ class WsdlFile extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getDocumentation(){
         return igk_getv($this->m_attributes, "doc", "service documentation");
     }
@@ -208,7 +207,6 @@ class WsdlFile extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getNSPrefix(){
         return igk_getv($this->m_attributes, "nsprefix", "igkns");
     }
@@ -217,7 +215,6 @@ class WsdlFile extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getNSUri(){
         return igk_getv($this->m_attributes, "nsuri", "http://www.igkdev.com");
     }
@@ -226,7 +223,6 @@ class WsdlFile extends IGKObject {
     /**
     * auto generate doc.
     */
-
     public function getTargetNS(){
         return igk_getv($this->m_attributes, "targetns", "http://www.igkdev.com");
     }

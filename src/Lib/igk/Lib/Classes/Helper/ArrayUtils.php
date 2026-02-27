@@ -25,8 +25,7 @@ class ArrayUtils{
 
     /**
     * auto generate doc.
-    */
-    public static function MergeWith(array & $source, array $array_to_merge){
+    */    public static function MergeWith(array & $source, array $array_to_merge){
         $source = array_merge($source, $array_to_merge ); 
     }
 

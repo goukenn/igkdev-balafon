@@ -41,8 +41,7 @@ class ProjectInfo{
 
     /**
     * auto generate doc.
-    */
-    var $settings;
+    */    var $settings;
     /**
      * json definition 
      * @var mixed

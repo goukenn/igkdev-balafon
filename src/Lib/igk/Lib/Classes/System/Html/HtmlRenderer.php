@@ -118,7 +118,6 @@ class HtmlRenderer
     /**
     * auto generate doc.
     */
-
     public static function InitRendererOption($o)
     {
         $o->Cache = igk_sys_cache_require();

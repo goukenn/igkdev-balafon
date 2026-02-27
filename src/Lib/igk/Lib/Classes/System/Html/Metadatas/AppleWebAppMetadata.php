@@ -33,8 +33,7 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
 
     /**
     * auto generate doc.
-    */
-    var $appleWebAppStartupImage;
+    */    var $appleWebAppStartupImage;
 
     /**
     * Map.

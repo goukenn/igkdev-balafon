@@ -716,7 +716,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function Clear()
     {
         $this->m_methods = array();
@@ -736,7 +735,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getCount()
     {
         return count($this->m_methods);
@@ -745,7 +743,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getInfo()
     {
         return $this->__toString() . " count # " . igk_count($this->m_methods);
@@ -754,7 +751,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getIsDebugging()
     {
         return igk_get_env("sys://event/isdebugging/" . $this->m_name, 0);
@@ -763,7 +759,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getMethodCount()
     {
         return igk_count($this->m_methods);
@@ -772,7 +767,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getName()
     {
         return $this->m_name;
@@ -781,7 +775,6 @@ class IGKEvents extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function getOwner()
     {
         return $this->m_owner;

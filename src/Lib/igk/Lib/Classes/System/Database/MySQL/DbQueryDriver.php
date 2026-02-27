@@ -70,7 +70,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
     /**
     * auto generate doc.
     */
-
     protected function dieinfo($t, $msg = "", $code = 0)
     {
         if (!$t) {

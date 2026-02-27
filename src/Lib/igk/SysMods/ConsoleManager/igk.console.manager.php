@@ -22,16 +22,14 @@ final class IGKConsoleToolManager extends ConfigControllerBase
 
     /**
     * auto generate doc.
-    */
-    public function getCanConfigure()
+    */    public function getCanConfigure()
     {
         return 1;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getConfigGroup()
+    */    public function getConfigGroup()
     {
         return "administration";
     }
@@ -47,7 +45,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getConfigImageKey()
     {
         return "";
@@ -56,7 +53,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getConfigIndex()
     {
         return 10;
@@ -68,7 +64,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
     * auto generate doc.
     */
-
     public function getIsConfigPageAvailable()
     {
         return !igk_environment()->isOPS();

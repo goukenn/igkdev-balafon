@@ -1360,8 +1360,7 @@ if (!function_exists("igk_html_node_clearboth")) {
 
     /**
     * auto generate doc.
-    */
-	function igk_html_node_clearboth()
+    */	function igk_html_node_clearboth()
 	{
 		$n = igk_create_node("div");
 		$n["style"] = "clear:both;";
@@ -2407,8 +2406,7 @@ if (!function_exists("igk_html_node_formgroup")) {
 
     /**
     * auto generate doc.
-    */
-	function igk_html_node_formgroup()
+    */	function igk_html_node_formgroup()
 	{
 		$n = igk_create_node('div');
 		$n["class"] = "igk-form-group";
@@ -3554,8 +3552,7 @@ if (!function_exists("igk_html_node_mailto")) {
 
     /**
     * auto generate doc.
-    */
-	function igk_html_node_mailto($href, $text = "")
+    */	function igk_html_node_mailto($href, $text = "")
 	{
 		$n = igk_create_node("a");
 		$n["href"] = "mailto: {$href}";
@@ -4185,8 +4182,7 @@ if (!function_exists("igk_html_node_replace_uri")) {
 
     /**
     * auto generate doc.
-    */
-	function igk_html_node_replace_uri($uri = null)
+    */	function igk_html_node_replace_uri($uri = null)
 	{
 		$c = igk_create_notagnode();
 		$rp = $uri;

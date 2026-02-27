@@ -19,8 +19,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    public static function GetAdditionalConfigInfo(){
+    */    public static function GetAdditionalConfigInfo(){
         return array(
             "clAppleIconUri"=>igk_create_additional_config_info(array("clRequire"=>1)),
             "clAppleTouchIconType"=>new ExtraControllerProperty("select",
@@ -33,31 +32,27 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    public function getAppleIcon(){
+    */    public function getAppleIcon(){
         $tb=explode(',', $this->Configs->clAppleIconUri);
         return $tb;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getCanAddChild(){
+    */    public function getCanAddChild(){
     
         return false;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getIsVisisble():bool{
+    */    public function getIsVisisble():bool{
         return true;
     }
 
     /**
     * auto generate doc.
-    */
-    protected function initComplete($context=null){
+    */    protected function initComplete($context=null){
         parent::initComplete();
         $tab=$this->getAppleIcon();
         $c=igk_count($tab);
@@ -89,8 +84,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
     * auto generate doc.
-    */
-    protected function initTargetNode(): ?HtmlNode{
+    */    protected function initTargetNode(): ?HtmlNode{
         return null;
     }
 

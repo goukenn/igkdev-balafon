@@ -95,7 +95,6 @@ final class IGKValidator extends IGKObject
     /**
     * auto generate doc.
     */
-
     public static function Cibling()
     {
         return self::getInstance()->sm_cibling;

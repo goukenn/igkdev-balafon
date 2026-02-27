@@ -22,22 +22,19 @@ final class ReferenceModelController extends NonVisibleControllerBase{
 
     /**
     * auto generate doc.
-    */
-    public function getDataTableInfo(): ?IModelDefinitionInfo{
+    */    public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
 
     /**
     * auto generate doc.
-    */
-    public function getDataTableName(): ?string{
+    */    public function getDataTableName(): ?string{
         return \IGK\Models\ReferenceModels::table(); 
     }
 
     /**
     * auto generate doc.
-    */
-    public function getName(): string{
+    */    public function getName(): string{
         return IGK_CB_REF_CTRL;
     }
 

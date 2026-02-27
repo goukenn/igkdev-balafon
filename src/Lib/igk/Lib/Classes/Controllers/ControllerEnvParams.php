@@ -41,8 +41,7 @@ class ControllerEnvParams{
 
     /**
     * auto generate doc.
-    */
-    public const AllowHiddenView = "@AllowHiddenView";
+    */    public const AllowHiddenView = "@AllowHiddenView";
     /**
      * no do view reponse for request
      */

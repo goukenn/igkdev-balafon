@@ -127,7 +127,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function beginTransaction()
     {
         $this->sendQuery("START TRANSACTION", true, null, false);
@@ -152,7 +151,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function closeAll()
     {
         if ($this->m_dbManager) {
@@ -164,7 +162,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function closeCallback()
     {
         $this->_setDbName(null);
@@ -173,7 +170,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function commit()
     {
         $this->sendQuery("COMMIT");
@@ -361,7 +357,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function flushForInitDb($complete = null)
     {
         if ($this->m_dbManager)
@@ -371,7 +366,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getAllRelations()
     {
         return MySQLDataController::GetAllRelations($this, $this->m_dbname);
@@ -392,7 +386,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getDbName(): ?string
     {
         if ($listener = $this->getSendDbQueryListener()) {
@@ -404,7 +397,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getError()
     {
         return $this->m_error;
@@ -431,7 +423,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getIsAvailable()
     {
         return ($this->m_dbManager != null);
@@ -440,7 +431,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getIsConnect(): bool
     {
         return $this->m_dbManager->getIsConnect();
@@ -449,7 +439,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getLastQuery()
     {
         return $this->m_dbManager->getLastQuery();
@@ -458,7 +447,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getResId()
     {
         return  $this->m_dbManager ? $this->m_dbManager->getResId() : null;
@@ -467,7 +455,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getStored()
     {
         return $this->m_dbManager ? $this->m_dbManager->getStored() : null;
@@ -476,7 +463,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getStoredRequired()
     {
         return $this->m_dbManager ? $this->m_dbManager->getStoredRequired() : null;
@@ -485,7 +471,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getTabInitInfo()
     {
         return $this->m_dbManager->getTabInitInfo();
@@ -494,7 +479,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function getTime()
     {
         $this->m_time = new IGKMySQLTimeManager($this);
@@ -504,7 +488,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function initForInitDb()
     {
         if ($this->m_dbManager)
@@ -545,7 +528,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function last_id()
     {
         return $this->m_dbManager->last_id();
@@ -564,7 +546,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function openCallback()
     {
         igk_log_write_i(__CLASS__, "open connection");
@@ -573,7 +554,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function openCount()
     {
         if ($this->m_dbManager)
@@ -592,7 +572,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function Reset()
     {
         if ($this->m_dbManager != null)
@@ -603,7 +582,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     */
-
     public function rollback()
     {
         $this->sendQuery("ROLLBACK");

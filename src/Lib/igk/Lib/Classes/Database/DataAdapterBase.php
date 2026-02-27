@@ -397,7 +397,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     abstract public function close();
     abstract function exist_column(string $table, string $column, $db = null): bool;
 
@@ -492,7 +491,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     abstract public function createEmptyResult();
     /**
      * create table
@@ -618,7 +616,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function drop($tablename, $condition = null)
     {
         $this->deleteAll($tablename, $condition);
@@ -627,13 +624,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function flushForInitDb($complete = null) {}
 
     /**
     * auto generate doc.
     */
-
     public static function GetAdapters()
     {
         if (self::$sm_regAdapter === null) {
@@ -646,7 +641,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function getApp()
     {
         return igk_app();
@@ -663,7 +657,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function getIsAvailable()
     {
         return true;
@@ -672,7 +665,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function initForInitDb() {}
     /**
      * primary insert class 
@@ -793,7 +785,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public static function ResetDataAdapter()
     {
         igk_environment()->set("sys://dataadapter", null);
@@ -863,7 +854,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     */
-
     public function selectLastId()
     {
         return null;

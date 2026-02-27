@@ -202,7 +202,6 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     /**
     * auto generate doc.
     */
-
     public function abort(){ 
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
@@ -215,7 +214,6 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     /**
     * auto generate doc.
     */
-
     public function getMessage(){
         return "rename project";
     }
@@ -223,7 +221,6 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     /**
     * auto generate doc.
     */
-
     public function invoke(){
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;

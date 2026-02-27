@@ -37,7 +37,6 @@ final class IGKLog extends IGKObject
     /**
     * auto generate doc.
     */
-
     public function ClearLog()
     {
         $f = $this->getLogFile();
