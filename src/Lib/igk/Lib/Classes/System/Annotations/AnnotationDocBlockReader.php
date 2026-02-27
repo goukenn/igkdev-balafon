@@ -89,7 +89,23 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     */
     var $var;
 
+    /**
+     * 
+     * @var mixed
+     */
     var $property;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $method;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $return;
     /**
      * annotation in uses
      * @var array
