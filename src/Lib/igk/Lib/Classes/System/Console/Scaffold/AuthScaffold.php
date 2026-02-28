@@ -13,6 +13,11 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use ModelBase;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Scaffold
+*/
 class AuthScaffold extends ScaffoldBase
 {
 

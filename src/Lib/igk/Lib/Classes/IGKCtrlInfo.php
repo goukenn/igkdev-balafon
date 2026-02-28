@@ -31,6 +31,11 @@ final class IGKCtrlInfo extends IGKObject{
         $this->m_addNew=true;
         $this->_initInfo();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initInfo(){
         foreach(get_declared_classes() as $v){
             if(igk_reflection_class_extends($v, $this->Type) && !igk_reflection_class_isabstract($v)){

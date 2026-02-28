@@ -107,6 +107,12 @@ class LoadDumpCommand extends AppExecCommand{
         Logger::print("--wordpress" . Logger::TabSpace." activate wordpress dumping");
         Logger::print("--resettables".Logger::TabSpace ." reset tables"); 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $row
+    * @return
+    */
     private function visit_wp_wplq_posts($row){
         if ($row->post_date_gmt=="0000-00-00 00:00:00"){
             $row->post_date_gmt = $row->post_date;
@@ -115,6 +121,12 @@ class LoadDumpCommand extends AppExecCommand{
             $row->post_modified_gmt = $row->post_date;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $row
+    * @return
+    */
     private function visit_wp_wplq_users($row){         
     }
 }

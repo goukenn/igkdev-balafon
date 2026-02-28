@@ -318,6 +318,13 @@ class MySQLCommand extends AppExecCommand
         return -1;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param string $tablename
+    * @param string $key_name
+    * @return
+    */
     public function action_drop_foreign_key($command, string $tablename , string $key_name){
         // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
         $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
@@ -392,6 +399,15 @@ class MySQLCommand extends AppExecCommand
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param DataAdapter $ad
+    * @param mixed $zip
+    * @param string $type
+    * @param null|string $filter
+    * @return
+    */
     private function dump_database(DataAdapter $ad, $zip = false, string $type='csv', ?string $filter=null)
     {
         if (!in_array($type,['csv','sql'])){
@@ -429,6 +445,14 @@ class MySQLCommand extends AppExecCommand
         }
         echo $dump;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $zipfile
+    * @param mixed $ad
+    * @param callable $callback
+    * @return
+    */
     private function UnZipRestoreDump(string $zipfile, $ad, callable $callback)
     {
         $zip = new ZipArchive;
@@ -569,9 +593,25 @@ class MySQLCommand extends AppExecCommand
             $ad->close();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    * @param mixed $table
+    * @param mixed $entry
+    * @param mixed $mode
+    * @return
+    */
     private static function update_data($ad, $table, $entry, $mode){
         $ad->insert($table, $entry);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    * @param null|string $filter
+    * @return
+    */
     private function select_show_tables_query($ad, ?string $filter=null){
         $q = "show tables";
         if ($filter){

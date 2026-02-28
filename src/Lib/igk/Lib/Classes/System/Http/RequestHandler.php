@@ -52,6 +52,11 @@ class RequestHandler
             self::$sm_instance = new self();
         return self::$sm_instance;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

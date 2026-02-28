@@ -36,6 +36,11 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         }
         return self::$sm_instance;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
         parent::__construct("igk:js-core-script");
     }

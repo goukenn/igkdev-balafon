@@ -198,6 +198,13 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             Logger::warn($response);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $token
+    * @param mixed $name
+    * @return
+    */
     private function _getInstallScript(&$token, $name)
     {
         return self::GetScriptInstall(

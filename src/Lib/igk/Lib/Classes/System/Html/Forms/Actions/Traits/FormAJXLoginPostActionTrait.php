@@ -74,5 +74,11 @@ trait FormAJXLoginPostActionTrait
         }
         return $this->die("Unauthenticated", 401);
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    * @return string
+    */
     static abstract function RegisterToken(Users $user): string;
 }

@@ -24,6 +24,12 @@ class IGKSessionFileSaveHandler{
     * .ctr
     */
     protected function __construct(){    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return
+    */
     private function _getFile($id){
         return igk_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
     }

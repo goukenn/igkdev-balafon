@@ -207,6 +207,14 @@ HTML;
         $s = $this->_bind_article($template, $data);
         $this->assertEquals('<ul><li>item: 11</li><li>item: 12</li><li>item: 14</li></ul>', $s);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $template
+    * @param mixed $data
+    * @param null|BaseController $ctrl
+    * @return
+    */
     private function _bind_article($template, $data, ?BaseController $ctrl = null)
     {
         $ctrl = $ctrl ?? SysDbController::ctrl();

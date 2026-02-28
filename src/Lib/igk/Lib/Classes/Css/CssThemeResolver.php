@@ -420,6 +420,13 @@ class CssThemeResolver
         $this->resolv[$v_def] = $v;
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    * @param mixed & $pos
+    * @return
+    */
     private function _nextSplitter(string $v, & $pos){
         $ln = strlen($v);
         $tpos = $pos;
@@ -476,6 +483,17 @@ class CssThemeResolver
         $this->resolv = [];
         $this->start = null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string & $v
+    * @param mixed $type
+    * @param mixed $value
+    * @param mixed $a
+    * @param mixed $stop
+    * @param bool $themeexport
+    * @return
+    */
     private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
     { 
         $theme = $this->theme;
@@ -808,6 +826,12 @@ class CssThemeResolver
         return trim($ncl);
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $ncl
+    * @param bool $themeexport
+    * @return
+    */
     protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }

@@ -6,10 +6,10 @@
 namespace IGK\System\Services;
 use IGK\Helper\ViewHelper;
 use IGK\Models\Injectors\ModelBaseInjector;
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 
 /**
 * auto generate doc.
@@ -28,6 +28,11 @@ class InjectorProvider{
     * @var mixed
     */
     private static $sm_instance;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {
     }
 

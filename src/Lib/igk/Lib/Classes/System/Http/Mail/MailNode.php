@@ -50,10 +50,22 @@ class MailNode extends MailNodeBase
     public function setClass($value){
         // no class preview
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @return
+    */
     private function _get_style($v)
     {
         return implode(' ',   array_map([$this, '_class_to_style'], array_filter(explode(' ', $v . ''))));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    * @return
+    */
     private function _class_to_style($i)
     {
         $cc = $this->m_resolver;

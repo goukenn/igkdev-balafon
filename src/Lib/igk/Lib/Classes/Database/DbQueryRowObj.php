@@ -41,6 +41,11 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     * @var mixed
     */
     private $it_key;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){}
 	/**
 	 * retrieve column name index

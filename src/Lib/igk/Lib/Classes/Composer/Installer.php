@@ -93,7 +93,27 @@ class Installer
         InstallSite::CreateApacheVHostFile('composer-server', $chdir, $chdir, $chdir.'/src/public');
         InstallSite::CreatePhpUnitConfig($chdir, $chdir . '/src/application',  $chdir . '/src/public');
     }
+
+    /**
+    * auto generate doc.
+    * @param string $chdir
+    * @param mixed & $argv
+    * @param mixed & $args
+    * @param null|string & $cli
+    * @param mixed $idx
+    * @return
+    */
     private static function _composer_install(string $chdir, &$argv, &$args, ?string &$cli, $idx) {}
+
+    /**
+    * auto generate doc.
+    * @param string $chdir
+    * @param mixed & $argv
+    * @param mixed & $args
+    * @param null|string & $cli
+    * @param mixed $idx
+    * @return
+    */
     private static function _composer_create_project(string $chdir, &$argv, &$args, ?string &$cli, $idx)
     {
         // + | ---------------------------------------------------
@@ -122,12 +142,12 @@ class Installer
             igk_io_w2file( $git, implode("\n", $data) );
         }
     }
-    
+
     /**
-     * 
-     * @param null|string $vendor_dir 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param null|string $vendor_dir
+    * @return void
+    */
     private static function _CoreMoveToVendorDir(?string $vendor_dir = null) {}
 
     /**

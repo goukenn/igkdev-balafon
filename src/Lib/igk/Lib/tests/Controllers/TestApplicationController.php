@@ -13,7 +13,11 @@ use IGK\Controllers\ApplicationController;
 * @package IGK\Tests\Controllers
 */
 class TestApplicationController extends ApplicationController{
-    
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getTestDeclaredDir(){
         return $this->getEnvParam("DeclaredDir");
     }

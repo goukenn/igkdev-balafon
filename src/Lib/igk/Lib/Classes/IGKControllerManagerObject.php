@@ -75,6 +75,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->m_initEvent = 0;
     }
 
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getUserControllers(): array {
         return [];
      }
@@ -200,16 +204,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return "Controllers [#" . count($this->m_tbcontrollers) . "]";
     }
+
     /**
-     * 
-     * @param mixed $s
-     * @param mixed $tab
-     * @param mixed $fname
-     * @param mixed $fsize
-     * @param mixed $x
-     * @param mixed $y
-     * @param mixed $cl
-     */
+    * auto generate doc.
+    * @param mixed $cl
+    */
     private function _cm_measure($s, $tab, $fname, $fsize, $x, $y, $cl)
     {
         $rc = (object)array("x" => 0, "y" => 0, "width" => 0, "height" => 0);
@@ -226,11 +225,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $rc;
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $regname the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $regname the default value is null
+    */
     private function _registerCtrl($ctrl, $regname = null)
     {
         if ($ctrl === null) {
@@ -252,11 +251,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return 0;
     }
+
     /**
-     * 
-     * @param mixed $a
-     * @param mixed $b
-     */
+    * auto generate doc.
+    * @param mixed $b
+    */
     private function _sort_byConfigNodeIndex($a, $b)
     {
         if ($a->Configs->clTargetNodeIndex && $b->Configs->clTargetNodeIndex) {
@@ -391,10 +390,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return igk_io_syspath(IGK_FILE_PROJECT_CTRL_CACHE);
     }
+
     /**
-     * 
-     * @param mixed $classname
-     */
+    * auto generate doc.
+    * @param mixed $classname
+    */
 
     public function getControllerFromClass($classname)
     {
@@ -506,8 +506,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     ///return the user controller list.
     ///there is 2 controller type . framework controller and user controllers
+
     /**
-     */
+    * auto generate doc.
+    */
     // public function getUserControllers($callbackfilter = null)
     // {
     //     $tab = $this->getControllers();
@@ -652,11 +654,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         $this->initCallBack($sysload, __FUNCTION__);
     }
+
     /**
-     * 
-     * @param mixed $ctrl
-     * @param mixed $new the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $new the default value is false
+    */
 
     public function initCtrl($ctrl, $new = false)
     {
@@ -913,17 +915,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             igk_navtocurrent();
         }
     }
+
     /**
-     * 
-     * @param mixed $s
-     * @param mixed $v
-     * @param mixed $fname
-     * @param mixed $fsize
-     * @param mixed $x
-     * @param mixed $y
-     * @param mixed $cl
-     * @param mixed $indexpos the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $indexpos the default value is 0
+    */
     private function renderController($s, $v, $fname, $fsize, $x, $y, $cl, $indexpos = 0)
     {
         $t = $s->DrawString($v->Name, $fname, $fsize, $x, $y, $cl);

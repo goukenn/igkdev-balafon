@@ -367,6 +367,12 @@ class ConfigurationReader
         return $d;
     }
 
+    /**
+    * auto generate doc.
+    * @param string $ch
+    * @param string $end
+    * @return bool
+    */
     protected function _readLitteralEnd(string $ch, string $end): bool
     {
         return $ch == $end;

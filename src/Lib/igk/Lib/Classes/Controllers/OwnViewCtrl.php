@@ -21,8 +21,9 @@ final class OwnViewCtrl extends IGKObject  {
     * @var mixed
     */
     static $sm_instance;
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){
         $this->m_ctrls=array();

@@ -71,10 +71,11 @@ class AppConfigs
         }
         return igk_read_line(...$args);
     }
+
     /**
-     * 
-     * @return string|false 
-     */
+    * auto generate doc.
+    * @return string|false
+    */
     private function read_author()
     {
         if (empty(trim($s = igk_read_line("author : ")))) {
@@ -82,6 +83,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_base_uri($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -89,6 +96,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_document_root($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -113,6 +126,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_base_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -121,6 +140,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_app_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -128,6 +153,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_project_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -135,6 +166,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_vendor_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
@@ -142,6 +179,12 @@ class AppConfigs
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $prompt
+    * @return
+    */
     private function read_env_igk_module_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {

@@ -34,6 +34,11 @@ class InvocatorListDelegate{
     public function getItems(){
         return $this->m_hostlist;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

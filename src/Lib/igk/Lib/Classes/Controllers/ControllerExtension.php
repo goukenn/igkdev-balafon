@@ -916,6 +916,12 @@ abstract class ControllerExtension
         $name = implode("", array_map("ucfirst", array_filter(explode("_", $name))));
         return $name;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return
+    */
     private static function _GetEntryModelDirectory(BaseController $ctrl)
     {
         $cldir = $ctrl->getClassesDir();
@@ -1236,6 +1242,14 @@ abstract class ControllerExtension
         }
         return $ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param string $file
+    * @param mixed $e
+    * @return
+    */
     private static function _InitDbComplete(BaseController $ctrl, string $file,  $e)
     {
         require_once($file);
@@ -1332,11 +1346,12 @@ abstract class ControllerExtension
         }
         return ProjectConfiguration::LoadConfig(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE));
     }
+
     /**
-     * 
-     * @param mixed $cinfo 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $cinfo
+    * @return string
+    */
     private static function _GetTypeFromInfo($cinfo, $ctrl)
     {
         $p = ["mixed"];
@@ -1382,6 +1397,11 @@ abstract class ControllerExtension
         return $o;
     }
 
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return
+    */
     public static function getCacheInfo(BaseController $ctrl)
     {
         return implode("|", [

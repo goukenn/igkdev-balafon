@@ -50,6 +50,12 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     public function getEntryfile(){
         return $this->file;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $render
+    * @return
+    */
     private function runEngine($render = true)
     {
         throw new NotImplementException(__METHOD__);        

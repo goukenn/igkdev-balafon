@@ -154,6 +154,11 @@ class ViewBlockCompiler
         $vars[ViewExpressionArgHelper::EXPRESSION] = new ViewExpression($vars, $v_eval, $this->m_extract);
         $vars[ViewExpressionArgHelper::RESPONSE] = new ViewExpression($vars, $v_eval, $this->m_extract);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function eval_source(){
         foreach (array_keys(func_get_arg(1)->data) as $_) {
             if ($_ == "_") {
@@ -170,6 +175,11 @@ class ViewBlockCompiler
         ob_end_clean();
         return $p;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initListener(){
         return \Closure::fromCallable(function () {
             foreach (array_keys(func_get_arg(1)->data) as $_) {
@@ -215,6 +225,11 @@ class ViewBlockCompiler
             return func_get_arg(0);
         })->bindTo($this->controller);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _execute()
     {
         if (is_null($this->m_listener)) {

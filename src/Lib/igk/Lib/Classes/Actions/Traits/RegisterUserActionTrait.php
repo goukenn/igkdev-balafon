@@ -281,6 +281,11 @@ trait RegisterUserActionTrait
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _GetDomain()
     {
         return $this->getController()->getConfig('domain');

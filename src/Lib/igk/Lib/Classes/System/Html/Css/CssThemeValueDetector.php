@@ -49,6 +49,12 @@ class CssThemeValueDetector{
         $v = preg_replace("/\s+/", " ", $value);
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @return
+    */
     private static function _TreatPropertyExpression(string $value){
         $v = preg_replace("/\s+/", "", $value);
         // $v = preg_replace("/\s*:\s*/", ":", $v); 

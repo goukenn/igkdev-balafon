@@ -606,6 +606,14 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $bind
+    * @param mixed $dir
+    * @param mixed $options
+    * @return
+    */
     private function _initConfigurationFile(&$bind, $dir, $options)
     {
         $v_conf_dir = $dir . "/" . IGK_CONF_FOLDER;

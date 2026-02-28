@@ -88,7 +88,13 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
             "clDataType"=>$expression
         );
     }
-      private function setUserTypeInfo($t){
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @return
+    */
+    private function setUserTypeInfo($t){
         $this->setParam("usertypeinfo", $t);
     }
 
@@ -149,6 +155,15 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     public function IsFunctionExposed($func){
         return igk_is_conf_connected();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $datatype
+    * @param mixed $cardinality
+    * @param mixed $nodb
+    * @return
+    */
     private function RegValueTypeArray($name, $datatype=null, $cardinality=0, $nodb=0){
         $tab=array(
             IGK_FD_NAME=>$name,

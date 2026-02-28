@@ -47,6 +47,11 @@ class SQLite3Result extends DbQueryResult
     * @var mixed
     */
     private $m_rows = [];
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {}
 
     /**

@@ -188,6 +188,12 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return $class;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return bool
+    */
     private function notPresent(BaseController $controller): bool
     {
         $c = get_class($controller);

@@ -263,15 +263,12 @@ class IGKServices extends ListOfCoreServices
             $path = $path . self::PATH_SEPARATOR . $n;
         }
     }
+
     /**
-     * 
-     * @param mixed $instance 
-     * @param string $serviceName service path 
-     * @param string $className 
-     * @return mixed|void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param string $className
+    * @return mixed|void
+    */
     private static function _InitServiceInstance($instance, string $serviceName, string $className)
     {
         static $initializing;
@@ -321,12 +318,12 @@ class IGKServices extends ListOfCoreServices
         }
         unset($initializing[$className]);
     }
+
     /**
-     * 
-     * @param ReflectionClass $v_refclass 
-     * @param null|array $args 
-     * @return object|null 
-     */
+    * auto generate doc.
+    * @param null|array $args
+    * @return object|null
+    */
 
     public static function CreateServiceNewInstance(ReflectionClass $v_refclass, ?array $args){
         static $createedInstance;
@@ -364,12 +361,12 @@ class IGKServices extends ListOfCoreServices
         $gkey = implode('/', $tab);
         return true;
     }
+
     /**
-     * 
-     * @param mixed $configuration 
-     * @param string $gkey 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $gkey
+    * @return mixed
+    */
     private static function _GetFallingConfiguration($configuration, string $gkey)
     {
         $fc_unset_args = function($l): bool{

@@ -98,6 +98,11 @@ class ConsoleLogger implements IConsoleLogger{
        $c = empty($c = igk_getv($tlang, $r)) ? $r : $c; 
        return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function get_lang(){
         $l = [];
             include(R::GetCurrentLangPath());

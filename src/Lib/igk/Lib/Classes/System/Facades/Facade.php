@@ -11,7 +11,13 @@ use Exception;
 * facade creator
 * @package IGK\Systems\Facades
 */
-class Facade{    
+class Facade{
+
+    /**
+    * auto generate doc.
+    * @param mixed $f
+    * @return
+    */
     private static function _GetCoreClass($f){
         $core_ns = IGK_CORE_ENTRY_NS."/";
         if (strpos($f, $core_ns) === 0){

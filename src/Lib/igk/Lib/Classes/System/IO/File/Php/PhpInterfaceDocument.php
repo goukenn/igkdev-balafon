@@ -75,6 +75,11 @@ class PhpInterfaceDocument{
             ->phpdoc($o);
         return $builder->render();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getPhpDoc(){
         if ($this->m_listener){
             if (is_callable($this->m_listener))

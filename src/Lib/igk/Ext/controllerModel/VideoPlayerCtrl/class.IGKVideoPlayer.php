@@ -186,8 +186,13 @@ final class IGKHtmlVideoNode extends HtmlNode
 		$c = parent::_getRenderingChildren($options);
 		$c[] = $this->m_ObjectNode;
 		return $c;
-	} 
-	private function _buildObject()
+	}
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _buildObject()
 	{
 		$t = $this->m_ObjectNode;
 		$t->clearChilds();
@@ -263,7 +268,12 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 		//init basics source
 		$this->_initBasicsSource();
 	}
-	private function _initBasicsSource()
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _initBasicsSource()
 	{
 		if (igk_getv($this->Configs, "clPrimaryMovie")) {
 			$this->setSource($this->Configs->clPrimaryMovie, "video/mp4");
@@ -300,6 +310,12 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 		return $t;
 	}
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $src
+    * @param mixed $type
+    * @return
+    */
     public function setSource($src = null, $type = "video/mp4")
 	{
 		$this->m_vidNode->clearSource();

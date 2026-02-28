@@ -24,6 +24,11 @@ trait RegisterServiceActionTrait{
         }
         throw new ActionNotFoundException($t);        
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function activate_mail(){
         $g = base64_decode(igk_getr("q"));
         parse_str($g, $q);
@@ -37,6 +42,11 @@ trait RegisterServiceActionTrait{
         $g = $this->getController();
         igk_navto($g::uri("/?q=MailService&r=".$r));
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function unregister_mail(){
         $g = base64_decode(igk_getr("q"));
         parse_str($g, $q);

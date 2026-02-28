@@ -21,6 +21,11 @@ class DbEnvironment{
     * @var mixed
     */
     var $no_db_select = false;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){        
     }
     /**

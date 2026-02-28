@@ -4,8 +4,9 @@
 // @date: 20230525 14:13:24
 namespace IGK\System\Html\XML;
 use IGKException;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\XML
 */
 
@@ -20,6 +21,11 @@ final class XmlNodeLoader extends XmlNode{
     * @var mixed
     */
     var $tagname = 'igk:xml-loader';
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
         parent::__construct();
     }

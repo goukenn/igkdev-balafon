@@ -236,8 +236,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
         //+ ASS: Appliation session storage
         return get_class($this)."[::ASS]";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function _onUserChanged(){
         igk_invoke_session_event(__CLASS__."::UserChanged", array($this, null));
@@ -496,8 +497,9 @@ final class IGKSession extends IGKObject implements IParamHostService {
             $this->m_initializeSessionEvent->Call($this, null);
         }
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function prepareRedirectTask(){
         $g=igk_get_env("sys://session/redirecttask");

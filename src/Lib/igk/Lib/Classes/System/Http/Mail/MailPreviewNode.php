@@ -80,6 +80,12 @@ class MailPreviewNode extends HtmlNode
         }
         return [];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    * @return
+    */
     private function _resolv_class($i)
     {
         if (isset($this->resolvedList[$i])) {

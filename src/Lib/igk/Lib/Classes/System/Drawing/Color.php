@@ -153,6 +153,12 @@ class Color extends IGKObject{
             return "#". Number::ToBase($this->m_R, 16, 2).Number::ToBase($this->m_G, 16, 2).Number::ToBase($this->m_B, 16, 2);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    * @return
+    */
     private static function trimByte($a){
         return max(min($a, 255), 0);
     }

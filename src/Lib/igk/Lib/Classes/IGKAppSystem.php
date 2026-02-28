@@ -132,6 +132,10 @@ class IGKAppSystem
         ]);
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public static function reloadConfigCallback()
     {
         igk_app()->getConfigs()->reload();
@@ -293,5 +297,10 @@ class IGKAppSystem
         $tab = EnvControllerCacheList::GetControllersClasses();
         $c->load($tab, $manager, $loader);
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {}
 }

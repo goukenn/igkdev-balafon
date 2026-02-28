@@ -24,7 +24,12 @@ class XsdElementBuilder extends XsdElement
     * Property: defining.
     * @var mixed
     */
-    private $_defining; 
+    private $_defining;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

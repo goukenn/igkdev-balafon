@@ -124,6 +124,11 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     public function setPropertyHandlerListener($handler){
         $this->m_propertyHandleListener = $handler;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
     /**
@@ -196,6 +201,13 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     public function isDeprecated(){
         return property_exists($this, 'deprecated');
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed & $offset
+    * @return
+    */
     private static function ReadName($t, & $offset){
         $ln = strlen($t);
         $s  = "";

@@ -38,6 +38,11 @@ class ControllerPaths{
      * @var mixed
      */
     var $scriptDir;
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function __construt(){
     }
     /**

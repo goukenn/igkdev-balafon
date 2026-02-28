@@ -40,6 +40,12 @@ class MailConfigController extends ConfigControllerBase
     {
         return IGK_MAIL_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $mail
+    * @return
+    */
     private function init_mail_config($mail)
     {
         $mail->UseAuth = igk_configs()->mail_useauth;

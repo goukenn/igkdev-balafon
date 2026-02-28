@@ -79,12 +79,12 @@ class MakeClassCommand extends AppExecCommand
     * @var mixed
     */
     var $usage = "";
+
     /**
-     * 
-     * @param mixed $command 
-     * @return array 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param mixed $command
+    * @return array
+    */
     private function _initCommand($command)
     {
         $ctrl = igk_getv_nil($command->options, "--controller");

@@ -182,6 +182,14 @@ final class HtmlFormNode extends HtmlNode
         }
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $prop
+    * @param mixed $value
+    * @param mixed $id
+    * @return
+    */
     private function _update_node(& $prop, $value, $id){
         $n = & $prop;
         if ($value === null) {

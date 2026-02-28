@@ -7,6 +7,11 @@ namespace IGK\System\TamTam\Helper;
 * 
 * @package IGK\System\TamTam\Helper
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\TamTam\Helper
+*/
 class ProjectBuilderHelper{
 
     /**

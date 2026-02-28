@@ -711,10 +711,11 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $frm
-     */
+    * auto generate doc.
+    * @param mixed $frm
+    */
     private function uc_options($frm)
     {
         $g = $frm->addActionBar();

@@ -33,6 +33,11 @@ class IGKEnvironmentSettings{
         }
         return self::$sm_instance; 
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function __function(){        
     }
 

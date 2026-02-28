@@ -267,16 +267,12 @@ class HtmlRenderer
             $options->__invoke[$method]++;
         }
     }
+
     /**
-     * 
-     * @param mixed|string $o 
-     * @return null|string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed|string $o
+    * @return null|string
+    */
     private static function _GetHeader($o): ?string
     {
         if (is_string($o)) {
@@ -287,6 +283,13 @@ class HtmlRenderer
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param null|mixed $tag
+    * @return
+    */
     private static function reduceDepth($options, $tag = null)
     {
         $options->Depth = max(0, $options->Depth - 1);

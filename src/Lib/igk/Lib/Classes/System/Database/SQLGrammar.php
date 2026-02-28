@@ -679,6 +679,15 @@ class SQLGrammar implements IDbQueryGrammar
         $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $column
+    * @param array $columns
+    * @param null|string $prefix
+    * @param null|mixed & $error
+    * @return string
+    */
     private static function CheckColumn(string $column, array $columns, ?string $prefix = null, &$error = null): string
     {
         $ct = explode(',', $column);
@@ -812,6 +821,12 @@ class SQLGrammar implements IDbQueryGrammar
     * @param string $table
     */
     public function dropAllUniqueContraints(string $table) {}
+
+    /**
+    * auto generate doc.
+    * @param mixed $column
+    * @return
+    */
     private function _get_column_list($column)
     {
         if (!is_array($column)) {
@@ -2053,6 +2068,13 @@ class SQLGrammar implements IDbQueryGrammar
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $adapter
+    * @param mixed $separator
+    * @return
+    */
     protected static function Key($t, $adapter, $separator = ",")
     {
         return implode($separator, array_map(

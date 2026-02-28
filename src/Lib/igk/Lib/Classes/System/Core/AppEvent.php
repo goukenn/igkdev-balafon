@@ -13,6 +13,11 @@ use IGKEvents;
 */
 class AppEvent
 {
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getkey()
     {
         return 'obj-event://' . spl_object_id($this);

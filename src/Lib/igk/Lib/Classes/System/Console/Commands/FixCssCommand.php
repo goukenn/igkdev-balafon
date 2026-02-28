@@ -139,6 +139,12 @@ class FixCssCommand extends AppExecCommand{
 * @package IGK\System\Console\Commands
 */
 class ExpressionHandler{
+
+    /**
+    * auto generate doc.
+    * @param mixed $arguments
+    * @return
+    */
     private static function get_arg_s($arguments){
         return array_map(function($v){
             if (is_string($v)){

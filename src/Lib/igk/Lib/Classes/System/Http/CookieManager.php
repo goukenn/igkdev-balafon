@@ -47,6 +47,11 @@ class CookieManager{
         }
         return self::$sm_instance;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getdata(){
         $v_c = igk_environment()->getCookieName();
         if ($_COOKIE  && is_null($this->m_data) || ($v_c != $this->m_name)){
@@ -81,6 +86,11 @@ class CookieManager{
         $d->$n = $v;
         $this->m_saved = true;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
         //register_shutdown_function(

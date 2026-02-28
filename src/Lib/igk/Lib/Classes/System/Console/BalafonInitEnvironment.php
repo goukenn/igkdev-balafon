@@ -58,13 +58,12 @@ class BalafonInitEnvironment
         }
         return $dir;
     }
+
     /**
-     * 
-     * @param mixed $command 
-     * @param mixed $install_dir 
-     * @param mixed $appLibCore
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $appLibCore
+    * @return void
+    */
 
     public function run($command, string $install_dir = 'src', string $appLibCore = self::AppLibCore)
     {
@@ -205,6 +204,13 @@ class BalafonInitEnvironment
             self::_AuthFiles($command, [$app_dir, $public_dir]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $dirs
+    * @return
+    */
     private static function _AuthFiles($command, $dirs)
     {
         foreach ($dirs as $d)

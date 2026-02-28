@@ -206,6 +206,11 @@ class UserAndGroupController extends ConfigControllerBase{
             $this->View();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function getAddGroupFields(){
         $fields = [
             IGK_FD_NAME=>["type"=>"text", "pattern"=>"^[_a-zA-Z][a-zA-Z0-9\/_]*$","required"=>1, "maxlength"=>30]

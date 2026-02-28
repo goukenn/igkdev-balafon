@@ -336,6 +336,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         return $this->getFlag(self::DEFAULT_THEME);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return
+    */
     private function &getFlag($n)
     {
         $g = null;
@@ -361,6 +367,13 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         return count($this->_) == 0;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    * @return
+    */
     private function setFlag($n, $v)
     {
         $this->_[$n] = $v;

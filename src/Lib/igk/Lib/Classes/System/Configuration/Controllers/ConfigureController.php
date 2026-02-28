@@ -144,10 +144,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::__get($n);
     }
+
     /**
-     * 
-     * @param mixed $t
-     */
+    * auto generate doc.
+    * @param mixed $t
+    */
     private function __init_cache_tools($t)
     {
         igk_html_add_title($t, __("title.cacheTools"));
@@ -159,10 +160,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         $div->addLabel("a_html_cache")->setClass("dispib")->Content = __("Html Cache");
         $div->addToggleStateButton("a_html_cache", "on", igk_sys_is_htmlcaching())->setClass("dispib")->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
     }
+
     /**
-     * 
-     * @param mixed $t
-     */
+    * auto generate doc.
+    * @param mixed $t
+    */
     private function __init_log_tools($t)
     {
         igk_html_add_title($t, __("Logs"));
@@ -196,9 +198,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         $this->setEnvParam("conf://initPageConfig", null);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function __NoIE6supportView()
     {
         igk_dev_wln("no ie 6 supported");
@@ -218,11 +221,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         if (igk_configs()->$param)
             $chb["checked"] = "true";
     }
+
     /**
-     * 
-     * @param mixed $o
-     * @param mixed $e
-     */
+    * auto generate doc.
+    * @param mixed $e
+    */
     private function _cnfPageFolderChanged($o, $e)
     {
         $app = igk_app();
@@ -254,11 +257,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         $e = $this->getConfigSettings()->configEntries;
         \IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $e);
     }
+
     /**
-     * 
-     * @param mixed $page
-     * @param mixed $context the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $context the default value is null
+    */
 
     protected function _selectMenu($page, $context = null)
     {
@@ -277,10 +280,11 @@ final class ConfigureController extends BaseController implements IConfigControl
             /// TODO: SEND MAIL CONFIG NOTIFICATION 
         }
     }
+
     /**
-     * 
-     * @param mixed $node
-     */
+    * auto generate doc.
+    * @param mixed $node
+    */
     private function _view_ConfigMenuSetting($node)
     {
         $c = $node->addPanelBox();
@@ -299,9 +303,10 @@ final class ConfigureController extends BaseController implements IConfigControl
             $t->Content = $v->TagName;
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function activehtmlCache_ajx()
     {
@@ -345,10 +350,11 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_navto_home(null);
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $user
-     */
+    * auto generate doc.
+    * @param mixed $user
+    */
     private function check_connect($user)
     {
         $adm = strtolower(igk_configs()->admin_login);
@@ -483,10 +489,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_navtocurrent();
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $content
-     */
+    * auto generate doc.
+    * @param mixed $content
+    */
     private function conf_install_checklib($content)
     {
         return true;
@@ -653,11 +660,11 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_exit();
     }
+
     /**
-     * 
-     * @param mixed $h
-     * @param mixed $rg the default value is '/(.)\*\/'
-     */
+    * auto generate doc.
+    * @param /(.)\*\/
+    */
     private function configure_settings_load_data($h, $rg = '/(.)*/')
     {
         $tab = $h->tablehost()->addTable()
@@ -1369,9 +1376,10 @@ EOF;
         return $bfrm;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     protected function initTargetNode(): HtmlNode
     {
@@ -1754,10 +1762,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
 
     public function setConfigView($v)
     {
@@ -2191,6 +2200,11 @@ EOF;
         igk_notifyctrl("run:cron")->addSuccess("cron executed");
         igk_navto_referer();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getInlineJSLoade()
     {
         return  new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');

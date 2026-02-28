@@ -162,6 +162,13 @@ EOF;
         }
         Logger::success("Done. " . igk_sys_request_time());
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    * @param null|string $content
+    * @return
+    */
     private static function GenerateViewTemplate($file, ?string $content = null)
     {
         $builder = new PHPScriptBuilder();

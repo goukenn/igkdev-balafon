@@ -186,6 +186,11 @@ class InstallSiteCommand extends AppExecCommand
         Logger::print("\n\n");
         $this->showOptions();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function getUserGroup(){
         if (igk_environment()->isUnix()){
             $s = `groups`;

@@ -193,6 +193,10 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         }
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function bootstrap()
     {
         // + | because prefilter command line args

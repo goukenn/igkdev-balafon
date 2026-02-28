@@ -45,6 +45,11 @@ class IGKNotifyStorage{
         }
         throw new OperationNotAllowedException('notifyStorage');
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){    }
 
     /**

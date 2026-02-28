@@ -210,6 +210,12 @@ class ViewHelper
             }
         };
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $args
+    * @return
+    */
     private static function _GetIncArgs($args = null)
     {
         if (is_null($args) || empty($args))
@@ -725,6 +731,13 @@ class ViewHelper
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $path
+    * @param array $exts
+    * @return
+    */
     private static function _AppendExtension(string $path, array $exts)
     {
         return array_map(function ($i) use ($path) {

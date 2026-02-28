@@ -389,10 +389,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $this;
     }
+
     /**
-     * 
-     * @param mixed $cl
-     */
+    * auto generate doc.
+    * @param mixed $cl
+    */
 
     public function setHeaderColor($cl)
     {
@@ -590,6 +591,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         igk_hook(IGKEvents::HOOK_NEW_DOC_CREATED, array(igk_app(), $this));
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function getCanAddChilds()
     {
         return $this->m_can_add;
@@ -683,9 +688,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     {
         return $this->getFlag(self::IGK_DOC_FAVICON_FLAG);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function prepareScriptManager()
     {
         return new IGKHtmlScriptManager();
@@ -921,6 +927,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $v_childs;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initializedocument()
     {
         die(__("Not implement : {0}", __METHOD__));

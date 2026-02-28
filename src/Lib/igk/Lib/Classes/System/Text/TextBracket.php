@@ -118,6 +118,13 @@ class TextBracket{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $def
+    * @param string $source
+    * @return
+    */
     private static function _Load($def, string $source){
         $ln = strlen($source);
         $pos = 0;

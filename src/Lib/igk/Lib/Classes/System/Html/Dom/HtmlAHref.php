@@ -47,6 +47,12 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
         $this->_ = array();
         $this->_[self::OWNER] = $a;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $option
+    * @return
+    */
     private function _checkLnk($option)
     {
         $bck = $this->getUri();

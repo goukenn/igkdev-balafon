@@ -854,6 +854,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $out;
     }
 
+    /**
+    * auto generate doc.
+    * @param array $v
+    * @return string
+    */
     static function GlueDef(array $v):string{
         return CssUtils::GlueArrayDefinition($v);
     }
@@ -954,14 +959,19 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     //     return $r;
     // }
 
+    /**
+    * Used by var_dump() to customize debug output.
+    * @return
+    */
     public function __debugInfo()
     {
         return [];
     }
+
     /**
-     * 
-     * @param mixed $id
-     */
+    * auto generate doc.
+    * @param mixed $id
+    */
     private function _initMedia($id)
     {
         if (!(strpos($id, "media:") === 0)) {
@@ -980,10 +990,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $this->reg_media();
         }
     }
+
     /**
-     * 
-     * @param mixed $style
-     */
+    * auto generate doc.
+    * @param mixed $style
+    */
     private function add($style)
     {
         $tc = $this->m_tc ?? array();
@@ -1204,6 +1215,14 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->m_default_theme = $default_theme;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $systheme
+    * @param mixed $minfile
+    * @param mixed $el
+    * @return
+    */
     private function _getThemingDefinition($systheme, $minfile, $el)
     {
         $s = '';

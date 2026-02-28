@@ -24,6 +24,11 @@ use ReflectionException;
 */
 trait ControllerRequestExtensionTrait
 {
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _BackupServerInfo(){
         $v_backup = [
             $_SERVER,
@@ -33,6 +38,12 @@ trait ControllerRequestExtensionTrait
         ];
         return $v_backup;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @return
+    */
     private static function _RestoreBackupServerInfo($data){
         $v_backup = [
             $_SERVER,

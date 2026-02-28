@@ -47,11 +47,12 @@ class RequestFileUtility
             call_user_func_array($fc_upload,[$value, $identifier]);
         }
     }
+
     /**
-     * 
-     * @param string $destination 
-     * @return Closure|null 
-     */
+    * auto generate doc.
+    * @param string $destination
+    * @return Closure|null
+    */
     private static function _UploadStringFile(string $destination){
         return \Closure::fromCallable(function($value, $identifier){
             extract((array)$this);

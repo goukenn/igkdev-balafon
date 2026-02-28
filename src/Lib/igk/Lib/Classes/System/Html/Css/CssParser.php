@@ -57,6 +57,11 @@ class CssParser implements ArrayAccess
     * @var mixed
     */
     var $lineFeed = '';
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {}
     /**
      * get json definition
@@ -77,6 +82,13 @@ class CssParser implements ArrayAccess
     {
         return $this->m_definition;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @param mixed $k
+    * @return
+    */
     private static function _join_css_tab($d, $k)
     {
         return $k . ":" . $d;
@@ -96,6 +108,13 @@ class CssParser implements ArrayAccess
             return $v;
         }, $this->m_definition, array_keys($this->m_definition)));
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    * @param null|mixed & $errors
+    * @return
+    */
     private static function __ReadDefinition(string $content, &$errors = null)
     {
         $def = [];
@@ -396,6 +415,14 @@ class CssParser implements ArrayAccess
         }
         return $def;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    * @param mixed & $pos
+    * @param mixed $len
+    * @return
+    */
     private static function _ReadName(string $content, &$pos, $len)
     {
         $p = "";
@@ -432,6 +459,16 @@ class CssParser implements ArrayAccess
         $def = new CssKeyFrame($v_name, $media);
         return $def;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    * @param int & $pos
+    * @param int $length
+    * @param mixed $media
+    * @param mixed & $error
+    * @return
+    */
     private static function _ReadSupport(string $content, int &$pos, int $length, $media, &$error)
     {
         $s = $pos;
@@ -513,6 +550,12 @@ class CssParser implements ArrayAccess
     {
         return $this->_get_size_def("padding");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @return
+    */
     private function _get_size_def($name)
     {
         $t = $r = $b = $l = 'auto';
@@ -673,6 +716,14 @@ class CssParser implements ArrayAccess
         }
         return $colors;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param mixed $root
+    * @param mixed $section
+    * @return
+    */
     private static function _ResolvColor(string $name, $root, $section)
     {
         $v = igk_getv($section, $name);

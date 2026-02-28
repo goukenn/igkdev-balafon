@@ -21,6 +21,11 @@ use ReflectionException;
  * @package IGK\System\IO\File\TmLanguage\Converters
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage\Converters
+*/
 class RegexMatcherContainerTmLanguageConverter
 {
 
@@ -159,6 +164,12 @@ class RegexMatcherContainerTmLanguageConverter
         }
         return $tr;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $tab
+    * @return
+    */
     private function _unsetPrivateMembers(array $tab)
     {
         $g = array_keys($tab);
@@ -236,6 +247,12 @@ class RegexMatcherContainerTmLanguageConverter
 
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ind
+    * @return
+    */
     private function get_identifier($ind)
     {
         return '_n_' . $ind;

@@ -153,6 +153,11 @@ class MakeActionCommand extends AppExecCommand
         Logger::info('action file : ' . $acfile);
         Logger::success("Done - Make Action");
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getContent()
     {
         if ($def = $this->definition) {
@@ -160,6 +165,11 @@ class MakeActionCommand extends AppExecCommand
         }
         return "";
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getUses()
     {
         if ($uses = $this->uses) {

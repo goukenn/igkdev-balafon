@@ -76,6 +76,11 @@ class DotEnvConfiguration
             $refkey = $k;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _GetRefNames()
     {
         $tc = [''];
@@ -125,6 +130,12 @@ class DotEnvConfiguration
         self::$sm_sysDotEnv = $config;
     }
 
+    /**
+    * .ctr
+    * @param string $value
+    * @param null|mixed $ctrl
+    * @return
+    */
     public function __construct(string $value, $ctrl = null)
     { 
         self::loadingEnvDev($this->m_refkey, $ctrl);

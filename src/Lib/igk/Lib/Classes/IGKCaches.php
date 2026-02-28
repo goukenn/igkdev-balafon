@@ -43,6 +43,11 @@ final class IGKCaches
         }
         return self::$sm_instance;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }
@@ -177,20 +182,21 @@ final class IGKCaches
     {
         return self::__callStatic(__FUNCTION__, []);
     }
+
     /**
-     * 
-     * @param BaseControleller $ctrl 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseControleller $ctrl
+    * @return void
+    */
     private static function ctrl_filesystem(BaseController $ctrl){
         return self::__callStatic(__FUNCTION__, [$ctrl]);
     }
+
     /**
-     * 
-     * @param string $dir 
-     * @return FileSystem|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $dir
+    * @return FileSystem|null
+    */
     private static function __init_cache($dir)
     {
         if (IO::CreateDir($dir)) {
@@ -198,34 +204,40 @@ final class IGKCaches
         }
         return null;
     }
+
     /**
-     * 
-     * @return FileSystem|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return FileSystem|null
+    */
     private function _init_view_caches()
     { 
         return self::__init_cache(igk_io_cachedir() . "/storage/views");
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return
+    */
     private function _init_ctrl_filesystem_caches(BaseController $ctrl)
     {
         return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(Constants::FILE_PATH_HASH_ALGO,
          $ctrl->name('cache'))));
     }
+
     /**
-     * 
-     * @return FileSystem|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return FileSystem|null
+    */
     private function _init_article_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/articles"); // igk_environment()->getViewCacheDir());
     }
+
     /**
-     * 
-     * @return FileSystem|null 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @return FileSystem|null
+    */
     private function _init_page_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/pages");
@@ -241,6 +253,11 @@ final class IGKCaches
         $js->default_extension = '.js';
         return $js;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _init_css_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/css");

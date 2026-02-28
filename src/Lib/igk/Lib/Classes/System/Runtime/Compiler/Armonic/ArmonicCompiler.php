@@ -471,6 +471,13 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         return true;
     }
 
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function _endReadFunction(ReadTokenOptions $options, $id, $value): bool
     {
         $this->_popBuffer($options, 'func_code');
@@ -748,6 +755,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     // + | -------------------------------------------------------------------------------
     // + | READ VARIABLE
     // + | -------------------------------------------------------------------------------
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return
+    */
     private function _readVariable(ReadTokenOptions $options, $id, $value)
     {
         $name = substr($value, 1);
@@ -808,6 +823,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     private function _handleReadVariable(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $flagOptions = $options->flagOptions;
@@ -1107,6 +1130,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return
+    */
     private static function IsModifier($id)
     {
         switch ($id) {

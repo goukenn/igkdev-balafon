@@ -256,6 +256,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $dbname
+    * @return
+    */
     private function _setDbName($dbname)
     {
         $this->m_dbname = $dbname;

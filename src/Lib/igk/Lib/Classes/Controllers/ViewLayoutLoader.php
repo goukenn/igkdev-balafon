@@ -177,6 +177,13 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $this->didRegisterIconLibrary($lib); 
         return $response;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    * @param mixed $bdir
+    * @return
+    */
     private function _resolveContextFile($file, $bdir)
     {
         $g = array_values(array_filter(explode($this->controller->getViewDir(), $file, 2)));

@@ -19,9 +19,20 @@ use IGKHtmlDoc;
 */
 class ThemeBuilderTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return
+    */
     private static function _CreateTheme($id){
         return new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), $id, false);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _get_primary_theme(){
         $theme = self::_CreateTheme('test');
         $theme[".info"] = "background-color:red;";

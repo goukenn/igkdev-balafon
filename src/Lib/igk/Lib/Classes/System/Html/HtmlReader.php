@@ -157,16 +157,12 @@ final class HtmlReader extends IGKObject
         $c = count(self::$sm_openertype);
         return $c > 0 ? self::$sm_openertype[$c - 1] : null;
     }
+
     /**
-     * 
-     * @param static $reader 
-     * @param mixed $cnode current node
-     * @param mixed $template template
-     * @return int 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $template template
+    * @return int
+    */
     private static function _BindTemplate($reader, &$cnode, &$template)
     {
         $binding_args = sprintf("$%s", CompilerConstants::LOOP_CONTEXT_DATA_VAR);
@@ -263,6 +259,12 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="text"></param>
+
+    /**
+    * .ctr
+    * @param mixed $text
+    * @return
+    */
     private function __construct($text)
     {
         $this->m_text = $text;
@@ -313,19 +315,12 @@ final class HtmlReader extends IGKObject
         }
         return $name;
     }
+
     /**
-     * 
-     * @param static $reader 
-     * @param string $text 
-     * @param int $offset 
-     * @param string $tag 
-     * @param bool $replacement activate expression replacement
-     * @param bool $replace_expression 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $replace_expression
+    * @return string
+    */
     private static function _SkipContent($reader, string $text, &$offset, string $tag, bool $replacement = false, bool $replace_expression = true)
     {
         $ln = strlen($text);
@@ -640,6 +635,12 @@ final class HtmlReader extends IGKObject
         }
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return
+    */
     private static function _SupportSingleQuote(string $name)
     {
         return in_array($name, ['code', 'script']);
@@ -752,18 +753,12 @@ final class HtmlReader extends IGKObject
     ///<param name="v" ref="true"></param>
     ///<param name="offset" ref="true"></param> 
     ///<param name="skip" default="1"></param>
+
     /**
-     * 
-     * @param static $reader 
-     * @param mixed $text 
-     * @param mixed $v 
-     * @param bool $transformToEval transformEval expression
-     * @param bool $skip skip detected expression : transform to 
-     * @return bool 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $skip skip detected expression : transform to
+    * @return bool
+    */
     private static function _ReplaceDetectedExpression($reader, $text, &$v, bool $transformToEval = false, bool $skip = false)
     {
         /**
@@ -801,6 +796,15 @@ final class HtmlReader extends IGKObject
     ///<param name="n"></param>
     ///<param name="tab"></param>
     ///<param name="args"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $cnode
+    * @param mixed $n
+    * @param mixed $tab
+    * @param mixed $args
+    * @return
+    */
     private function _addNode($cnode, $n, $tab, $args)
     {
         $g = explode(':', $n);
@@ -821,6 +825,14 @@ final class HtmlReader extends IGKObject
     ///<param name="topnode"></param>
     ///<param name="cnode"></param>
     ///<param name="node"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $topnode
+    * @param mixed $cnode
+    * @param mixed $node
+    * @return
+    */
     private static function _AddToParent($topnode, $cnode, $node)
     {
         $p = $cnode->ParentNode;
@@ -836,6 +848,14 @@ final class HtmlReader extends IGKObject
     ///<param name="n"></param>
     ///<param name="k"></param>
     ///<param name="cnode"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $k
+    * @param mixed $cnode
+    * @return
+    */
     private function _appendResolvNode($n, $k, $cnode)
     {
         if ($k) {
@@ -850,6 +870,16 @@ final class HtmlReader extends IGKObject
     ///<param name="name"></param>
     ///<param name="tab_doc"></param>
     ///<param name="pargs"></param>
+
+    /**
+    * auto generate doc.
+    * @param HtmlReader $reader
+    * @param mixed $cnode
+    * @param mixed $name
+    * @param mixed $tab_doc
+    * @param mixed $pargs
+    * @return
+    */
     private static function _BuildNode(HtmlReader $reader, $cnode, $name, $tab_doc, $pargs)
     {
         if ((self::GetOpenerContext() == self::READ_XML) || (isset($reader->context) && ($reader->context == HtmlContext::XML))) {
@@ -868,6 +898,14 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="cnode">node to close</param>
     ///<param name="tag">tag name that referrer to </param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $cnode
+    * @param mixed $tag
+    * @param null|mixed $peekData
+    * @return
+    */
     private function _LoadComplete($cnode, $tag, $peekData = null)
     {
         /**
@@ -929,15 +967,12 @@ final class HtmlReader extends IGKObject
     ///<param name="v" ref="true"></param>
     ///<param name="attribs" default="[[]" ref="true"></param>
     ///<param name="callback" default="null"></param>
+
     /**
-     * 
-     * @param HtmlReader $reader 
-     * @param mixed $v 
-     * @param array $attribs 
-     * @param mixed $callback 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $callback
+    * @return bool
+    */
     private static function _ReadAttributes(self $reader, &$v, &$attribs = [], $callback = null)
     {
         // start reading attribute name
@@ -1137,14 +1172,12 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>read the model</summary>
     ///<param name="context">name of the function that call the read model</param>
+
     /**
-     * 
-     * @param HtmlReader $reader 
-     * @param mixed $tab_doc 
-     * @param string $caller_context from Load|LoadExpression
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param string $caller_context from Load|LoadExpression
+    * @return void
+    */
     private static function _ReadModel(self $reader, $tab_doc, ?string $caller_context = null)
     {
         /**
@@ -1478,14 +1511,12 @@ final class HtmlReader extends IGKObject
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $cnode 
-     * @param mixed $v_tags 
-     * @param mixed $krsv 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $krsv
+    * @return void
+    */
     private static function _ShifSetting($n, $cnode, &$v_tags, &$krsv)
     {
         //+ | REMOVE SHIFT SETTING
@@ -1510,6 +1541,11 @@ final class HtmlReader extends IGKObject
         return $this->m_attribs;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function CanRead()
     {
         return (($this->m_offset >= 0) && ($this->m_offset < $this->m_length));
@@ -1686,6 +1722,13 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="node" ref="true"></param>
     ///<param name="tagName"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed & $node
+    * @param string $tagName
+    * @return
+    */
     private function IsResolved(&$node, string $tagName)
     {
         if (!$node)
@@ -1807,10 +1850,21 @@ final class HtmlReader extends IGKObject
         self::_PopContext();
         return $d;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $context
+    * @return
+    */
     private static function _PushContext($context)
     {
         array_push(self::$sm_openertype, $context);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _PopContext()
     {
         return array_pop(self::$sm_openertype);
@@ -2148,6 +2202,12 @@ final class HtmlReader extends IGKObject
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $value
+    * @return
+    */
     private function _setText(?string $value = "")
     {
         if ((strlen($value) > 0) && empty(trim($value)) && (strpos($value, "\n ") === 0)) {
@@ -2159,6 +2219,11 @@ final class HtmlReader extends IGKObject
     ///<summary>Represente ReadAttributes function</summary>
     ///<param name="value"></param>
 
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return
+    */
     public static function ReadAttributes($value)
     {
         die("not implement" . __METHOD__);
@@ -2186,6 +2251,12 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>Represente ReadProcessText function</summary>
     ///<param name="reader"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $reader
+    * @return
+    */
     private static function _ReadProcessText($reader)
     {
         $v = IGK_STR_EMPTY;
@@ -2287,6 +2358,12 @@ final class HtmlReader extends IGKObject
         }
     }
     ///<summary>set loading  context</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $context
+    * @return
+    */
     private function setContext($context)
     {
         $this->m_context = $context;

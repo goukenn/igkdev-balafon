@@ -173,6 +173,12 @@ class CompilerNodeModifyDetector extends HtmlNode
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    * @return
+    */
     private static function _PrefilterCreateNode($e)
     {
         self::$sm_sys_modify = true;

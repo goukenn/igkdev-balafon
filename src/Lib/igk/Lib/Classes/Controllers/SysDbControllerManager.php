@@ -21,6 +21,11 @@ class SysDbControllerManager{
         }
         return $sm;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){        
     }
     /**

@@ -45,6 +45,13 @@ class FieldBuilder implements IteratorAggregate
     {
         return new ArrayIterator($this->m_data);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $key
+    * @param null|array $attribs
+    * @return
+    */
     private function _add(string $key, ?array $attribs)
     {
         $this->m_current = [];

@@ -72,6 +72,13 @@ class XmlConfigurationNode extends XmlNode{
         return parent::add($n, $attributes, $indexOrargs);
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $attributes
+    * @param null|mixed $indexOrargs
+    * @return
+    */
     public static function CreateWebNode($name, $attributes = null, $indexOrargs = null)
     {
         $g = new self($name);

@@ -81,6 +81,11 @@ final class CacheConfigs
     {
     }
 
+    /**
+    * .destructor
+    * @param mixed $n
+    * @return
+    */
     public function __get($n){
         igk_die("try access ". $n);
     }
@@ -186,10 +191,27 @@ final class CacheConfigs
         $i->m_changed_prop[$binhash]['keys'][self::_GetKey($controller, $name)] = 1;
         return self::registerCache($controller, $name, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $controller
+    * @param mixed $name
+    * @return
+    */
     private static function _GetKey($controller, $name)
     {
         return get_class($controller) . "/" . $name;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    * @param mixed $controller
+    * @param mixed $name
+    * @param mixed $default
+    * @param mixed & $value
+    * @return
+    */
     private static function _GetCacheValue($i, $controller, $name, $default, &$value)
     {
         $options = igk_getv($i->cacheOptions, get_class($controller));

@@ -8,7 +8,7 @@ use Exception;
 use IGKResourceUriResolver;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */
@@ -36,6 +36,11 @@ class SystemPath{
     * @var mixed
     */
     var $query;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
 

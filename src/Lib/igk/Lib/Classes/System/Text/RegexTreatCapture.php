@@ -10,6 +10,11 @@ use Exception;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexTreatCapture{
     // + | --------------------------------------------------------------------
     // + | private members

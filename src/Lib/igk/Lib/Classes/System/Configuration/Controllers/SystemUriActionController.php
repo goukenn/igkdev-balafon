@@ -95,6 +95,11 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         return self::$sm_actions;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @return
+    */
     public function contains($key){
         $tab=$this->_refRoutes();
         if(is_array($tab))
@@ -251,6 +256,11 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         }
         return self::$sm_routes;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function & _refRoutes(){
         self::_RegActions($this);
         return $this->getRoutes();
@@ -302,6 +312,14 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     static function _CheckConfPath(string $path){
         return preg_match("/^\/[a-z]+[a-z\-]*$/i", $path);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed & $route
+    * @param mixed $forceReload
+    * @return
+    */
     private static function InitActionList($ctrl, & $route, $forceReload=false){
         $actions=array();
         if (!$forceReload && (defined("IGK_NO_WEB") || igk_is_cmd())){

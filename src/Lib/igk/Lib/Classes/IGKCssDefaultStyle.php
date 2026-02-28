@@ -505,6 +505,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return
+    */
     private function &prepareStorage($id)
     {
         $g = null;

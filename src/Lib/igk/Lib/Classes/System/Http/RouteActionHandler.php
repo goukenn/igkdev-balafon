@@ -248,6 +248,13 @@ class RouteActionHandler extends RouteHandler
         }
     }
 
+    /**
+    * auto generate doc.
+    * @param RouteActionHandler $route
+    * @param BaseController $controller
+    * @param null|mixed $routepattern
+    * @return
+    */
     public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $routepattern = null)
     {
         $t = $route->gettype();

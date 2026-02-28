@@ -117,8 +117,9 @@ final class R extends IGKObject {
      * @var mixed dictionary
      */
     var $langRes;
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){}
     /**
@@ -383,6 +384,11 @@ final class R extends IGKObject {
         return $lang;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @return
+    */
     public static function Contains($key){ 
         return isset(self::getInstance()->langRes[$key]); 
     }
@@ -399,8 +405,9 @@ final class R extends IGKObject {
         }
         return $r ?? 'en'; 
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function langscript(){
         $f=igk_io_basepath("Lib/Scripts/lang/".R::GetCurrentLang().".xml");

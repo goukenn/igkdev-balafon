@@ -75,6 +75,11 @@ final class IGKModuleListMigration extends BaseController implements
     * @var mixed
     */
     private $m_initializer;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {}
 
     /**
@@ -339,15 +344,12 @@ final class IGKModuleListMigration extends BaseController implements
         }
         return true;
     }
+
     /**
-     * 
-     * @param mixed $method 
-     * @param bool $navigate 
-     * @param bool $force 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * auto generate doc.
+    * @param bool $force
+    * @return void
+    */
     private static function _InvokeExtension($method, $navigate = false, $force = false, ?array $modules = null)
     {
         self::$sm_instance = new self();

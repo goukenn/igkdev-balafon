@@ -24,6 +24,12 @@ class SystemStorage extends Storage{
     {
         $this->root_dir = igk_io_applicationdatadir()."/storage";        
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $path
+    * @return
+    */
     private function _full_path($path){
         return igk_io_combine($this->root_dir, $path); 
     }

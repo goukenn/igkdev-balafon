@@ -165,11 +165,21 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $this->_f->freeFlag(self::ATTRIBS);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initActivateAttrib(){
         $g=array();
         $this->_f->setFlag(self::ACTIVATE, $g);
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initattribs(){
         $g=array();
         $this->_f->setFlag(self::ATTRIBS, $g);

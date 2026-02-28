@@ -122,6 +122,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return $this->getValue();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @return
+    */
     private function _add($v)
     {
         if (is_array($v)) {
@@ -154,6 +160,11 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function &_GetRegClass()
     {
         if (self::$sm_regClass === null) {
@@ -165,6 +176,13 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return self::$sm_regClass;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $App
+    * @param mixed $name
+    * @return
+    */
     private static function _initThemeDef($App, $name)
     {
         $tab = array();
@@ -178,6 +196,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @return
+    */
     private static function _RegClass($name)
     {
         if (!IGKApp::IsInit() || (defined("IGK_NO_WEB") && (constant("IGK_NO_WEB") == 1))) {
@@ -189,6 +213,12 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             igk_hook(IGKEvents::HOOK_CSS_REG, [$name]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @return
+    */
     private static function _UnRegClass($name)
     {
         $v = &self::_GetRegClass();
@@ -336,6 +366,13 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return array_keys($this->m_classes);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $theme
+    * @param mixed $v
+    * @return
+    */
     private static function GetParentClass($theme, $v)
     {
         $s = $theme[$v];

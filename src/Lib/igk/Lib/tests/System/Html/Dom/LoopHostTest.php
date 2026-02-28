@@ -67,11 +67,12 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
 */
 class LoopHostTest extends BaseTestCase
 {
+
     /**
-     * 
-     * @param string $content 
-     * @return HtmlEvalExpression 
-     */
+    * auto generate doc.
+    * @param string $content
+    * @return HtmlEvalExpression
+    */
     private function evalExpression(string $content)
     {
         return new HtmlEvalExpression($content);
@@ -95,6 +96,10 @@ class LoopHostTest extends BaseTestCase
         return $node->render();
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function test_loop_with_range()
     {
         $this->assertEquals(

@@ -29,6 +29,11 @@ class HtmlControllerJSScriptsNode extends HtmlNode
             self::$sm_item = new static;
         return self::$sm_item;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
         $this->tagname = "igk-controller-js";

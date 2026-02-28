@@ -135,6 +135,15 @@ class Pagination{
         }
         return $n->a($param);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $u
+    * @param mixed $total
+    * @param mixed $ajx
+    * @return
+    */
     private function _prefix($n, $u, $total, $ajx=0 ){
         $link = "#";
         switch($this->type){
@@ -150,6 +159,15 @@ class Pagination{
             break;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $u
+    * @param mixed $total
+    * @param mixed $ajx
+    * @return
+    */
     private function _postfix($n, $u, $total, $ajx){
         $next = min($this->page+1, $total);
         switch($this->type){

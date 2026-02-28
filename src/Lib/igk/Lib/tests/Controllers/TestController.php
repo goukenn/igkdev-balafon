@@ -21,6 +21,11 @@ class TestController extends BaseController{
     private function _getTestDeclaredDir(){
         return $this->getEnvParam("DeclaredDir");
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getDeclaredDir():string{
         return $this->_getTestDeclaredDir();
     }

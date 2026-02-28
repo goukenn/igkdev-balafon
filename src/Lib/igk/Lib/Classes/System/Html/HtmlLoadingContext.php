@@ -54,6 +54,11 @@ class HtmlLoadingContext{
         $g= self::$sm_context_loading ? igk_getv(self::$sm_context_loading, 0) : null;// [] igk_environment()->peek(self::class);
         return $g ? $g[0] : null;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function  & _RefLoading(){
         $sm = & self::$sm_context_loading;
         if (is_null($sm)){
@@ -78,10 +83,24 @@ class HtmlLoadingContext{
             igk_hook(IGKEvents::HOOK_HTML_LOADING_CONTEXT_REGISTER, [$context, $parent]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $sm_context_loading
+    * @param mixed $def
+    * @return
+    */
     private static function _LoadContextAndInitialize(& $sm_context_loading, $def){
         self::_LoadContext($sm_context_loading, $def);
         $def[0]->initialize();  
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $sm_context_loading
+    * @param mixed $def
+    * @return
+    */
     private static function _LoadContext(& $sm_context_loading, $def){
         array_unshift($sm_context_loading, $def);
         // igk_environment()->push(self::class, $def); 

@@ -505,14 +505,12 @@ class QueryBuilder
             return [IGKSysUtil::DBGetTableName($a->clLinkType, $ctrl), $a->clLinkColumn, $table, $property];
         }, $ref));
     }
+
     /**
-     * 
-     * @param mixed $source_row source row 
-     * @param mixed $row update rows
-     * @param mixed $model 
-     * @param mixed $with 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $with
+    * @return mixed
+    */
     private static function _BuildRefWith($source_row, $row, $model, $with)
     {
         $tab = \IGK\Models\ModelBase::RegisterModels();

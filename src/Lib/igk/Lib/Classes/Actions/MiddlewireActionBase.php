@@ -424,6 +424,16 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $p
+    * @param null|mixed $global_security
+    * @param null|mixed $global_auth
+    * @param mixed $global_strict_auth
+    * @return
+    */
     private static function _HandleMethodAccessSecurity(BaseController $ctrl, $p, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
 

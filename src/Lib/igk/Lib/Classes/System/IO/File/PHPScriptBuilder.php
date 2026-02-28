@@ -291,6 +291,13 @@ class PHPScriptBuilder
         }
         return implode("\n", $tb);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $h
+    * @param mixed & $_uses
+    * @return
+    */
     private function _getHeaderMap(&$h, &$_uses)
     {
         return function ($e) use (&$h, &$_uses) {

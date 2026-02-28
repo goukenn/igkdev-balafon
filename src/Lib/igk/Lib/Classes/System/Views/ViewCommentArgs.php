@@ -75,6 +75,12 @@ class ViewCommentArgs{
         $c = igk_getv($this->m_entries , $n); 
         return boolval($c); 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tab
+    * @return
+    */
     private function _parseToken($tab){
         $this->m_entries = [];
         while(count($tab)>0){
@@ -92,9 +98,20 @@ class ViewCommentArgs{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getViewCommandProcess(){
         return null; //  new ViewCompileProcessCommandHandler($this);
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param string $expression
+    * @return
+    */
     private function _evaluate(string $expression){
         $this->evalData($expression);
     }

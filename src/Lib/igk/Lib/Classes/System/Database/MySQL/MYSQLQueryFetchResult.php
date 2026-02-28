@@ -158,8 +158,9 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     public function getRowCount(){
         return $this->m_rowcount;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){       
     }

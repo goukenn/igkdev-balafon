@@ -557,6 +557,12 @@ class DataAdapter extends DataAdapterBase implements
         }
         return in_array(strtolower($type),  self::$supportedList);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    * @return
+    */
     private static function _InitSupportedTypes($ad)
     {
         self::$supportedList = [];

@@ -27,9 +27,10 @@ final class IGKLog extends IGKObject
     * @var mixed
     */
     private static $sm_instance;
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function __construct()
     {
     }

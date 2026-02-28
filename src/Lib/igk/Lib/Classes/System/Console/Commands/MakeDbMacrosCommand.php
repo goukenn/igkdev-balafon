@@ -153,12 +153,22 @@ class MakeDbMacrosCommand extends AppExecCommand{
             \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("Done - Make Macros for model");
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getContent(){
         if ($def = $this->definition){
             return $def();
         }
         return "";
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getUses(){
         if ($uses = $this->uses){
             return $uses();

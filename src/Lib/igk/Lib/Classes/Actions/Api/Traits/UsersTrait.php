@@ -109,6 +109,15 @@ trait UsersTrait
         ];
         return $this->_getPagerResult(Users::model(), $conditions, igk_getr("p", 1), 20);
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $conditions
+    * @param mixed $p
+    * @param mixed $page_limit
+    * @return
+    */
     private function _getPagerResult(ModelBase $model, $conditions, $p, $page_limit)
     {
         if ($p > 1) {

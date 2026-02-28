@@ -40,8 +40,9 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     */    public function getConfigPage(){
         return "google.fonts";
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function getfontlist(){        
         $r = igk_google_settings();

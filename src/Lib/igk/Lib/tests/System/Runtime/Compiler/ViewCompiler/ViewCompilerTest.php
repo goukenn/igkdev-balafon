@@ -14,6 +14,12 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompilerTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @param mixed ...$args
+    * @return
+    */
     private function _source(...$args){
         $t = array_merge(["<?php"],  $args);
         return implode("\n", $t);

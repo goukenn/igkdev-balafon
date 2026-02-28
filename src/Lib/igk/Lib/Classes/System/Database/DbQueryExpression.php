@@ -31,6 +31,11 @@ class DbQueryExpression{
     protected function setValue(string $v){
         $this->m_expression = $v;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
     /**

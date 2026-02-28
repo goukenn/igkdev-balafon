@@ -62,6 +62,13 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     {
         return SystemController::configDir();
     }
+
+    /**
+    * auto generate doc.
+    * @param string $param
+    * @param string $default
+    * @return
+    */
     private function _get_dir(string $param, string $default){
         $dir = null;
         if (!empty($dir = igk_getr($param))){

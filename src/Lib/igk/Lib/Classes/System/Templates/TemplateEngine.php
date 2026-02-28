@@ -19,6 +19,13 @@ class TemplateEngine
     * @var mixed
     */
     var $start;
+
+    /**
+    * auto generate doc.
+    * @param mixed $rffunc
+    * @param null|array $creationargs
+    * @return
+    */
     private function getFuncArgInfo($rffunc, ?array $creationargs = null)
     {
         $info = new TemplateArgInfo();

@@ -259,6 +259,11 @@ class DBCaches
     {
         static::getInstance()->_clear();
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }
@@ -490,6 +495,12 @@ class DBCaches
         $table_info = $ref_def;
         return $ref_def->tableRowReference;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $m
+    * @return
+    */
     private static function _UnsetPropertiesDefinition($m)
     {
         if (is_object($m)) {

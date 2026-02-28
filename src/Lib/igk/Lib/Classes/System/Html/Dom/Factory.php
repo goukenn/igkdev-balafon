@@ -21,6 +21,11 @@ class Factory{
     * @var mixed
     */
     private $m_actions;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){        
         $this->m_actions = [];
     }

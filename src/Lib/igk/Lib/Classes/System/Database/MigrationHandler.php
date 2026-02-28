@@ -75,6 +75,12 @@ class MigrationHandler{
         }
         return $files;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $order
+    * @return
+    */
     private function _getProps(string $order='up'){
         $files = $this->getfiles($order);
         $ctrl = $this->m_controller; 
@@ -143,6 +149,13 @@ class MigrationHandler{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param SchemaBuilder $builder
+    * @param BaseController $ctrl
+    * @return
+    */
     private static function _MigrateSchemaBuilder(SchemaBuilder $builder, BaseController $ctrl){
         $node = HtmlReader::Load($builder->render(), "xml"); 
         $tab = igk_db_load_data_schemas_node($node, $ctrl); 
@@ -150,6 +163,15 @@ class MigrationHandler{
             SchemaBuilderHelper::Migrate($tab);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param BaseController $ctrl
+    * @param string $method
+    * @param SchemaMigrationBuilder $schema
+    * @return
+    */
     private static function MigrateFile(string $file, BaseController $ctrl, string $method, SchemaMigrationBuilder $schema){   
         $ns = $ctrl::ns(EntryClassResolution::DbMigrations);
         $tabcl = get_declared_classes();

@@ -190,6 +190,12 @@ class SvgRenderer
     {
         return self::svgNewIcons($name);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @return
+    */
     private static function svgNewIcons($name)
     {
         $n = new SvgListIconNode($name);

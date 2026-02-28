@@ -611,6 +611,13 @@ class FormBuilder
         }
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $tattrib
+    * @param mixed $p
+    * @return
+    */
     private static function _MergeAttributes(& $tattrib, $p){
         if (!is_array($p)){
             $p= [$p];

@@ -153,6 +153,12 @@ class JSon
         }
         return $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    * @return
+    */
     private static function _ConvertItemObject($a)
     {
         if ($a instanceof JsonSerializable) {
@@ -185,6 +191,15 @@ class JSon
         }
         return $a;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $tv
+    * @param null|mixed $keys
+    * @param null|mixed $c
+    * @param null|mixed $root
+    * @return
+    */
     private function _filter_array_map(&$tv, $keys = null, $c = null, $root = null)
     {
         $root =  $root;

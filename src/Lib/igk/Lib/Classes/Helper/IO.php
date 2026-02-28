@@ -327,11 +327,11 @@ class IO
         $r = is_link($cibling);
         return $r;
     }
+
     /**
-     * 
-     * @param mixed $path
-     * @param mixed $separator the default value is DIRECTORY_SEPARATOR
-     */
+    * auto generate doc.
+    * @param mixed $separator the default value is DIRECTORY_SEPARATOR
+    */
     private static function __fixPath($path, $separator = DIRECTORY_SEPARATOR)
     {
         if ($separator == "/") {
@@ -984,12 +984,11 @@ class IO
         // }
         // return $s;
     }
+
     /**
-     * 
-     * @param mixed $dir
-     * @param mixed $cdir
-     * @param mixed $bdir
-     */
+    * auto generate doc.
+    * @param mixed $bdir
+    */
     private static function GetRelativePathToDir($dir, $cdir, $bdir)
     {
         $i = IGKString::IndexOf($cdir, $bdir);

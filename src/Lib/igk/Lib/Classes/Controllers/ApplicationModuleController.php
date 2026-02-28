@@ -278,6 +278,11 @@ final class ApplicationModuleController extends BaseController{
             }
         });
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initModuleClasses(){
         $dir = $this->getDeclaredDir();
         $classLib = $dir."/Lib/Classes"; 
@@ -398,8 +403,9 @@ final class ApplicationModuleController extends BaseController{
     protected function _initconfig(& $configs){
         $configs["libdir"]= igk_io_collapse_path(IGK_LIB_DIR); 
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $msg
     */
     private function bindError($msg){
@@ -563,8 +569,9 @@ final class ApplicationModuleController extends BaseController{
     private function setCurrentDoc($doc){
         $this->m_doc=$doc;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
 

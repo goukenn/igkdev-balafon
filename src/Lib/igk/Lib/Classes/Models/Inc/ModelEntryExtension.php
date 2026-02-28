@@ -1611,16 +1611,12 @@ abstract class ModelEntryExtension
     {
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
     }
+
     /**
-     * 
-     * @param ModelBase $model 
-     * @param bool $check 
-     * @param mixed $params 
-     * @return null|object|bool|void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $params
+    * @return null|object|bool|void
+    */
     private static function _Add(ModelBase $model, bool $check, $params)
     {
         $info =  $model->getTableColumnInfo();

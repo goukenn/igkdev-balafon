@@ -170,6 +170,12 @@ abstract class HtmlUtils extends DomNodeBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $tagname
+    * @return
+    */
     private static function _copy_node_create_node_callback(string $tagname)
     {
         return igk_create_node($tagname);

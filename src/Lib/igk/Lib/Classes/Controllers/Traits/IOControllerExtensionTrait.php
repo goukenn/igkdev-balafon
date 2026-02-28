@@ -29,7 +29,16 @@ trait IOControllerExtensionTrait{
             $new_path =  substr($path,0, $pos).$id.substr($path, $a_pos+$ln);           
         }
         return $new_path;
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $path
+    * @param mixed $g
+    * @param null|mixed & $pos
+    * @param null|mixed & $a_pos
+    * @return
+    */
     private static function _GetResProjectIdentifier($path, $g, & $pos =null, & $a_pos = null){
         $ln =  strlen(IGK_RES_FOLDER);
         $pos = strpos($path, $g) + strlen($g);

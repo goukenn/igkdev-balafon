@@ -50,6 +50,11 @@ class ScaffoldCommand extends AppExecCommand
     */
     var $options = [
     ];
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _InitScaffOfld(){
         $ns = \IGK\System\Console\Scaffold::class;
         foreach(IO::GetFiles(IGK_LIB_CLASSES_DIR."/System/Console/Scaffold", "/\.php$/") as $f){

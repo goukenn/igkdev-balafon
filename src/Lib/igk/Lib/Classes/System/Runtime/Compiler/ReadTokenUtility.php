@@ -6,12 +6,25 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\LinePrefixMapper;
 use IGKException;
+
 /**
- * 
- * @package IGK\System\Runtime\Compiler
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler
+*/
+
+/**
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler
+*/
 class ReadTokenUtility
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $mod
+    * @param mixed $p
+    * @return
+    */
     private static function _GetPonderation($mod, $p)
     {
         $h = 0;

@@ -95,6 +95,12 @@ class ComposerController extends ConfigControllerBase {
     private function getComposerVersion(){
         return $this->_exec_command("--version");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @return
+    */
     private function _exec_command($command){
         $cmd = igk_io_packagesdir()."/composer.phar";
         if (!file_exists($cmd)){

@@ -38,8 +38,9 @@ final class IGKSubDomainManager extends IGKObject{
     * @var mixed
     */
     private static $sm_cached_domains;
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){}
 
@@ -357,6 +358,11 @@ final class IGKSubDomainManager extends IGKObject{
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = $t; 
     }
 
+    /**
+    * auto generate doc.
+    * @param null|string $uri
+    * @return
+    */
     public static function SubDomainUriName(?string $uri=null){
         $domain=igk_io_domain_uri_name($uri);
         $bdom=self::GetBaseDomain();

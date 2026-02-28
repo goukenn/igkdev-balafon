@@ -125,6 +125,11 @@ class HtmlBindingArticleNode extends HtmlNode{
             return $sb;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _bind(){
         $f = $this->file;
         $ctrl = $this->ctrl;

@@ -60,6 +60,11 @@ final class HtmlXmlViewerNode extends HtmlNode {
         }
     }
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return
+    */
     function getRenderedChilds($options = null)
     {
         return [$this->m_cdata];

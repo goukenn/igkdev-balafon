@@ -163,6 +163,12 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         }
         , IGK_HTML_NOTAG_ELEMENT);
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $callback_mem;
     /**
      * Constructor.

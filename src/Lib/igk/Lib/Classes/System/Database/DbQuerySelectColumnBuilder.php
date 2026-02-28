@@ -73,6 +73,11 @@ class DbQuerySelectColumnBuilder{
         }
         $this->m_uniques[$index][$cl] = $value;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
 

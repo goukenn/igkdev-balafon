@@ -230,6 +230,16 @@ class RegexDetectBuffer
     public function outputLength():int{
         return strlen($this->output);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed & $cp
+    * @param mixed & $v_rp
+    * @param mixed $e
+    * @param null|callable $update
+    * @return
+    */
     private static function BuildChain($t, &$cp, &$v_rp, $e, ?callable $update = null)
     {
         if ($chain = RegexMatcherUtility::GetChainUntil($v_rp, $e)) {

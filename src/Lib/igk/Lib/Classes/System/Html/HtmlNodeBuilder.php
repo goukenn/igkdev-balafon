@@ -26,6 +26,11 @@ use ReflectionException;
  * 
  * @package IGK\System\Html
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
 {
 
@@ -298,6 +303,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         return $this->build($data, $target, $v_visitor,  $v_context);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $q
+    * @return
+    */
     private static function _GetKeys(&$q)
     {
         if (!is_array($q)) {
@@ -496,6 +507,13 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         return $_last;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed & $context_container
+    * @return
+    */
     private static function _RemoveNode($n, &$context_container)
     {
         // igk_html_pop_node_parent();
@@ -506,6 +524,19 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param HtmlItemBase & $n
+    * @param array & $v
+    * @param mixed & $k
+    * @param mixed & $attribs
+    * @param mixed & $args
+    * @param mixed & $conds
+    * @param mixed & $activate
+    * @param mixed & $fn_c
+    * @return
+    */
     private static function _DetectDefinition(
         HtmlItemBase &$n,
         array &$v,
@@ -548,6 +579,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             unset($v[$v_ck]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param HtmlItemBase & $n
+    * @param array & $v
+    * @param mixed & $k
+    * @return
+    */
     private static function _HandleDefinition(HtmlItemBase &$n, array &$v, &$k)
     {
         $attribs = $args = $fn_c = $attribs = $activate = $conds = null;
@@ -566,6 +605,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $n->setAttributes($attribs);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $visitor
+    * @param HtmlItemBase & $n
+    * @param array $v
+    * @return
+    */
     private static function _BindArray($visitor, HtmlItemBase &$n, array $v)
     {
         $s = null;
@@ -917,6 +964,16 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             array_shift($this->m_template);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $_last
+    * @param mixed $fn_call_intarget
+    * @param mixed & $list
+    * @param mixed $v_chain_info
+    * @param mixed & $next
+    * @return
+    */
     private static function _InvokeInLast($_last, $fn_call_intarget, &$list, $v_chain_info, &$next)
     {
         $v_fc_call = null;
@@ -977,6 +1034,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $s = new static($node);
         return $s($definition);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return
+    */
     private function _checkForTemplate($n)
     {
         if ($n instanceof HtmlLooperNode) {

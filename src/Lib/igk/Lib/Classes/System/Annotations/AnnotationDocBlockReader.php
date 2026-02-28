@@ -155,6 +155,12 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     {
         return $this->m_annotations;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $args
+    * @return
+    */
     private static function _TreatArgs($args)
     {
         $content = trim($args, ' ()');

@@ -62,7 +62,13 @@ final class IGKCommunityLink extends ConfigControllerBase
 		}
 		$this->View();
 	}
-	private function _getCommunityID($n){
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return
+    */
+    private function _getCommunityID($n){
 		$c = Community::select(["clName"=>$n]); //  igk_db_select($this, "tbigk_community", array("clName"=>$n));
 
 		if(igk_count($c) == 1)

@@ -43,6 +43,12 @@ final class Number
         $pattern = '/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/'; 
         return preg_match($pattern, $string) === 1;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @return
+    */
     private static function __GetValue($d)
     {
         if (is_int($d) || preg_match("/[0-9]/i", $d)) {
@@ -84,6 +90,12 @@ final class Number
         }
         return "0 byte";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $r
+    * @return
+    */
     private static function HexP($r)
     {
         $g = ($r >= 10) ? chr(ord("A") + ($r - 10)) : $r;

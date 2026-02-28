@@ -56,6 +56,12 @@ class Loader
         $this->package_file = $path;
         spl_autoload_register([$this, "_autoload"]);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $f
+    * @return
+    */
     private function _autoload($f)
     {
         if ($this->init) {

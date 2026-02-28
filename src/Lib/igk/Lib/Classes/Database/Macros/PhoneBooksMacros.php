@@ -25,6 +25,11 @@ use IGK\System\IToJSon;
  * 
  * @package IGK\Database\Macros
  */
+
+/**
+* auto generate doc.
+* @package IGK\Database\Macros
+*/
 class PhoneBooksMacros
 {
 

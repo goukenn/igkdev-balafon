@@ -15,10 +15,10 @@ use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 
 /**
- * 
- * @package IGK\Tests\System\IO\Markdown
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Tests\System\IO\Markdown
+* @author C.A.D. BONDJE DOUE
+*/
 
 /**
 * auto generate doc.
@@ -29,6 +29,13 @@ class MarkdownConverterTest extends BaseTestCase
     // public static function suite(){
     //     return new TestSuite(static::class);//  'markdown';
     // }
+
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @param mixed $allowDocumentLink
+    * @return
+    */
     private function _transform(string $src, $allowDocumentLink = false)
     {
         $converter = new MarkdownConverter;

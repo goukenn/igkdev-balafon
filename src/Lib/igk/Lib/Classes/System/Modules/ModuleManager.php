@@ -164,6 +164,10 @@ class ModuleManager
         return Utility::SanitizeName($dirname);
     }
 
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public static function GetAutoloadModules(): ?array
     {
         $manager = igk_environment()->getModulesManager();
@@ -218,6 +222,12 @@ class ModuleManager
             igk_io_w2file($boot_cache, serialize(array_keys($info)));
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return
+    */
     private static function _BootModule($n){
         $mod = igk_require_module($n, function () {
             return true;

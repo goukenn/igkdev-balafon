@@ -87,6 +87,11 @@ abstract class CompilerFlagState{
     * @var mixed
     */
     const READ_CONDITION_BLOCK = 'read_condition_block';
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){ 
     }
 }

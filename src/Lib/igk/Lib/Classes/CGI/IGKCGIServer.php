@@ -44,8 +44,19 @@ class IGKCGIServer
     public function __get($v){
         return igk_getv(self::$sm_serverInfo, $v);
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    * @return
+    */
     private static function RegFile($file){
         if (!self::$sm_regFileCallback){            
             self::$smTempFile = [];
@@ -58,6 +69,11 @@ class IGKCGIServer
         }
         self::$smTempFile[] = $file;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function getInstance(){
         self::$sm_instance = new IGKCGIServer();
         return self::$sm_instance;

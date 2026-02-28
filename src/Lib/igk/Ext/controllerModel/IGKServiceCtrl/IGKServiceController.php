@@ -39,14 +39,25 @@ abstract class IGKServiceController
     * @var mixed
     */
     private static $sm_services=[];
-   
 
+    /**
+    * auto generate doc.
+    * @param mixed $method
+    * @return
+    */
     private function __getMethodParameter($method){
         if(empty($method) || !method_exists($this, $method))
             return null;
         $rf=new ReflectionMethod($this, $method);
         return $rf->getParameters();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $new
+    * @param null|mixed $funcrequest
+    * @return
+    */
     private function _getAvailableFuncs($new=false, $funcrequest=null){ 
         return $this->getExposedServiceFunction(); 
     }
@@ -66,8 +77,11 @@ abstract class IGKServiceController
     protected function _configureDocument($doc){
         $doc->setHeaderColor("#af104f");
     }
-    
-   
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _viewDoc(){ 
         $doc=igk_get_document(self::DOC_ID, true);
         igk_set_env("sys://designMode/off", 10);
@@ -214,6 +228,11 @@ abstract class IGKServiceController
         $this->wsdl();
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function generate_wsdl(){
         $b=$this->getWsdlFile();
         $n=$this->getServiceName();
@@ -550,6 +569,11 @@ EOF;
     */
     protected function pageFolderChanged(){    }
     ///<summary>Represente register_service function</summary>
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function register_service(){
         $c="^/".IGK_SERVICE_BASE_URI."/".$this->getServiceName();
         

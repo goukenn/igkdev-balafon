@@ -54,9 +54,10 @@ final class IGKValidator extends IGKObject
     * @var mixed
     */
     private static $sm_instance;
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function __construct()
     {
         $this->sm_enode = igk_create_node_arg("div.error");

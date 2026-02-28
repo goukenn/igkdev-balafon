@@ -121,9 +121,9 @@ class Loader implements IResponse {
             return $this->m_controller->$n;
         }
     }
+
     /**
-    * 
-    * @param mixed $file
+    * auto generate doc.
     * @param mixed $data
     */
     private function _inc_file($file, $data){

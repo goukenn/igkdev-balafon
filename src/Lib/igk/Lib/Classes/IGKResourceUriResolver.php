@@ -54,6 +54,11 @@ class IGKResourceUriResolver
      * @var bool
      */
     var $fulluri;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
         $this->fulluri = 0;
@@ -131,6 +136,14 @@ class IGKResourceUriResolver
             igk_io_w2file($c, $_access, false);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $j
+    * @param mixed $n
+    * @param mixed $options
+    * @return
+    */
     private function __hashResPath($j, $n, $options){
         $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
         if (!is_null($this->m_hashPath) && igk_getv($options, "hashed")) {

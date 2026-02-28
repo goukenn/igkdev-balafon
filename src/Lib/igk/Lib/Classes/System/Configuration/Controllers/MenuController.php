@@ -113,15 +113,11 @@ final class MenuController extends ConfigControllerBase
         }
         return $sel;
     }
+
     /**
-     * 
-     * @param mixed $host
-     * @param mixed $ctrl
-     * @param mixed $target
-     * @param mixed $tab
-     * @param mixed $tname the default value is "li"
-     * @param mixed $selected the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $selected the default value is null
+    */
     private function __initBuildMenu($host, $ctrl, $target, $tab, $tname = "li", $selected = null)
     {
         $cp = array_merge($tab);
@@ -207,9 +203,10 @@ final class MenuController extends ConfigControllerBase
         }
         return (object)$tab;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     function __saveConfigMenu()
     {
@@ -240,18 +237,20 @@ final class MenuController extends ConfigControllerBase
             igk_sys_regchange(self::MENU_CHANGE_KEY, $this->m_menuChangedState);
         return $v;
     }
+
     /**
-     * 
-     * @param mixed $name
-     */
+    * auto generate doc.
+    * @param mixed $name
+    */
     private function _getParentName($name)
     {
         return MenuUtils::GetParentName($name);
     }
+
     /**
-     * 
-     * @param mixed $menu
-     */
+    * auto generate doc.
+    * @param mixed $menu
+    */
     private function _getRootMenu($menu)
     {
         if (($menu == null) || is_array($menu))
@@ -260,13 +259,11 @@ final class MenuController extends ConfigControllerBase
             return $menu;
         return $this->_getRootMenu($menu->MenuParent);
     }
+
     /**
-     * 
-     * @param mixed * $e
-     * @param mixed $v_ctab
-     * @param mixed $cul
-     * @param mixed $bygroup the default value is false
-     */
+    * auto generate doc.
+    * @param mixed $bygroup the default value is false
+    */
     private function _initConfigMenu(&$e, $v_ctab, $cul, $bygroup = false)
     {
         if ($bygroup) {
@@ -305,19 +302,19 @@ final class MenuController extends ConfigControllerBase
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $ul
-     * @param mixed $menu
-     * @param mixed * $pages the default value is null
-     */
+    * auto generate doc.
+    * @param mixed * $pages the default value is null
+    */
     private function _initMenu($ul, $menu, &$pages = null)
     {
         MenuUtils::InitMenu($ul, $menu, $pages);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function _initSysConfigMenu()
     {
         igk_set_env("sys://configs/menu", $this->__loadConfigurationMenuSetting());
@@ -366,9 +363,10 @@ EOF;
         return $v_configTargetNode;
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function _LoadConfigMenu()
     {
         $this->m_customMenu = array();
@@ -412,9 +410,10 @@ EOF;
         }
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function _LoadMenu()
     {
         // throw new IGKException(__METHOD__. " Not implement");
@@ -422,11 +421,11 @@ EOF;
     ///<summary></summary>
     ///<param name="table"></param>
     ///<param name="oMenu" default="null"></param>
+
     /**
-     * 
-     * @param mixed $table
-     * @param mixed $oMenu the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $oMenu the default value is null
+    */
     private function _m_loadTableHeader($table, $oMenu = null)
     {
         $tr = $table->addTr();
@@ -443,10 +442,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="target"></param>
+
     /**
-     * 
-     * @param mixed $target
-     */
+    * auto generate doc.
+    * @param mixed $target
+    */
     private function _m_otherMenuView($target)
     {
         $this->addTitle($target, __("Custom menu"));
@@ -463,9 +463,10 @@ EOF;
         igk_html_toggle_class($table);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function _ReLoadMenu()
     {
         $this->_LoadMenu();
@@ -1068,9 +1069,10 @@ EOF;
         $this->m_configCurrentPageChangedEvent->Call($this, null);
     }
     ///<summary></summary>
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function onPageChanged()
     {
         $this->m_CurrentPageChangedEvent->Call($this, null);
@@ -1377,10 +1379,11 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="saveconfig" default="true"></param>
+
     /**
-     * 
-     * @param mixed $saveconfig the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $saveconfig the default value is true
+    */
     private function storeDBConfigsSettingMenu($saveconfig = true)
     {
         if ($saveconfig) {

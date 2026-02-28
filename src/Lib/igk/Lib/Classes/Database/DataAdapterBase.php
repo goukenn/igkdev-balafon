@@ -765,9 +765,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             igk_io_w2file($fc, $m);
         }
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function makeCurrent()
     {

@@ -42,6 +42,11 @@ class DBCachesModelInitializer
      * @var bool
      */
     private $m_migration = false;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct() {}
     /**
      * create an instance for migration purpose
@@ -133,12 +138,12 @@ class DBCachesModelInitializer
         $plist->tables = [];
         $plist->defs = [];
     }
+
     /**
-     * 
-     * @param BaseController $current 
-     * @param mixed $defs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $defs
+    * @return void
+    */
     private function _loadDef(BaseController $current, $defs)
     {
         $cl = get_class($current);

@@ -33,6 +33,11 @@ abstract class CssEnvironment{
         igk_environment()->set(self::KEY, $g);
         return $g[$cl];
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _InitClassStyle(){
         $tab = [];
         $tab['button'] = 'igk-btn';

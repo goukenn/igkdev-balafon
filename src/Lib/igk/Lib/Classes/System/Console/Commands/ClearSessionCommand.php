@@ -9,6 +9,11 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\File\PHPScriptBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ClearSessionCommand extends AppExecCommand{
 
     /**

@@ -81,6 +81,13 @@ class CssClassNameDetector
     {
         return $this->m_frames;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @param mixed $k
+    * @return
+    */
     private static function _join_css_tab($d, $k){
         if (trim($d))
         return $k . ":" . $d;
@@ -158,6 +165,12 @@ class CssClassNameDetector
         }
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @return
+    */
     private function _detectAnimGlobalName($d)
     {
         $n = igk_getv($d, 'animation');
@@ -298,6 +311,11 @@ class CssClassNameDetector
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _clear()
     {
         $this->list = [];
@@ -321,13 +339,12 @@ class CssClassNameDetector
         }, $tab, array_keys($tab));
         return $this->list;
     }
+
     /**
-     * 
-     * @param array $a 
-     * @param mixed $detector 
-     * @param mixed $key 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    * @return void
+    */
     private static function _MapArray(array $a, CssClassNameDetector $detector, string $key)
     {
         if ($c = preg_match_all(self::CL_REGEX, $key, $tab)) {
@@ -367,19 +384,12 @@ class CssClassNameDetector
             }
         }
     }
+
     /**
-     * 
-     * @param mixed $a 
-     * @param CssClassNameDetector $detector 
-     * @param string $key 
-     * @return void 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param string $key
+    * @return void
+    */
     private static function _MapList($a, CssClassNameDetector $detector, string $key)
     {
         if (is_array($a)) {

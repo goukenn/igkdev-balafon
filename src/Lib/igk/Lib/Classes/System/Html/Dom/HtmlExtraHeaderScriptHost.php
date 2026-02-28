@@ -52,6 +52,13 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
             array_map([$this, '_init_list'], $this->m_list, array_keys($this->m_list))
             : null;        
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    * @param null|mixed $id
+    * @return
+    */
     private function _init_list($a, $id=null){
         $n = igk_create_node('script');
         $n['src']= igk_io_append_query($a, "v=".IGK_VERSION);

@@ -431,19 +431,21 @@ class Mail extends IGKObject implements IMailAttachmentContainer
             return true;
         }
     }
+
     /**
-     * 
-     * @param mixed $socket
-     */
+    * auto generate doc.
+    * @param mixed $socket
+    */
     private function _closeSocket($socket)
     {
         fwrite($socket, 'QUIT' . IGK_CLF);
         fclose($socket);
     }
+
     /**
-     * 
-     * @param mixed $boundary
-     */
+    * auto generate doc.
+    * @param mixed $boundary
+    */
     private function _getHeader($boundary)
     {
         $header = IGK_STR_EMPTY;
@@ -463,10 +465,11 @@ class Mail extends IGKObject implements IMailAttachmentContainer
         $header .= "Content-Type: multipart/related; boundary=$boundary\r" . IGK_LF;
         return $header;
     }
+
     /**
-     * 
-     * @param mixed $to
-     */
+    * auto generate doc.
+    * @param mixed $to
+    */
 
     public function addTo($to)
     {
@@ -817,11 +820,11 @@ class Mail extends IGKObject implements IMailAttachmentContainer
         }
         return false;
     }
+
     /**
-     * 
-     * @param mixed $socket
-     * @param mixed $expected_response
-     */
+    * auto generate doc.
+    * @param mixed $expected_response
+    */
     private function server_parse($socket, $expected_response)
     {
         if (igk_getv(socket_get_status($socket), "eof")) {

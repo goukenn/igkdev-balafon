@@ -110,8 +110,9 @@ final class Server implements IToArray{
     public function isURLEncoded(){
         return $this->CONTENT_TYPE == 'application/x-www-form-urlencoded';
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){ 
         $this->prepareServerInfo();
@@ -359,6 +360,11 @@ final class Server implements IToArray{
         return false;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $secured
+    * @return
+    */
     public function GetRootUri($secured=false){
         // return "";
         if(!$secured && $this->is_secure())

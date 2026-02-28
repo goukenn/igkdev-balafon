@@ -134,6 +134,15 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         ;
         return XsdAttributeBuilder::Create($n, $this);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $items
+    * @param mixed $tag
+    * @param mixed $itemTag
+    * @return
+    */
     private function _buildGroup($name, $items, $tag="xs:group", $itemTag="xs:sequence"){
         $e = $this->m_node->add($tag)->setAttribute("name", $name);
         if ($items){

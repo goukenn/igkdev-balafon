@@ -249,6 +249,14 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ViewTokenizeOptions $option
+    * @param mixed $id
+    * @param mixed $value
+    * @return
+    */
     private function _handleFlag(ViewTokenizeOptions $option, $id, $value)
     {
         $flag = &$option->flag;
@@ -305,6 +313,14 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     {
         return $this->m_tokenOptions->output();
     }
+
+    /**
+    * auto generate doc.
+    * @param ViewTokenizeOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return
+    */
     private function _readTokenBlock(ViewTokenizeOptions $options, $id, $value)
     {
         $v_block = $options->block;
@@ -375,6 +391,14 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ViewTokenizeOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return
+    */
     private function _readTokenEndBlock(ViewTokenizeOptions $options, $id, $value)
     {
         $v_block = $options->block;
@@ -389,6 +413,13 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->block = $v_block->parent;
     }
+
+    /**
+    * auto generate doc.
+    * @param ViewTokenizeOptions $options
+    * @param mixed $value
+    * @return
+    */
     private function _readTokenVariable(ViewTokenizeOptions $options, $value)
     {
         $flag = &$options->flag;
@@ -409,6 +440,12 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->skipWhiteSpace = 1;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @return
+    */
     private function _popFlag($options)
     {
         if ($q = array_pop($this->m_flags)) {
@@ -419,6 +456,12 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             $options->flagOptions = null;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @return
+    */
     private function _pushFlag($options)
     {
         array_push($this->m_flags, [

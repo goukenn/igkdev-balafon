@@ -131,9 +131,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return JSon::Encode($this->to_array(), $option, $json_option);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function __construct()
     {
         $this->m_columns = array();

@@ -11,8 +11,19 @@ use IGKException;
 */
 final class InstallerUtils
 {
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){        
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $option
+    * @return
+    */
     private static function GetExtraDefinition($option){
         $data = [
             "",

@@ -138,6 +138,11 @@ final class HtmlMetaManager extends IGKObject{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initMetas(){
         $pmetas=null;
         $cnf=igk_app()->configs;

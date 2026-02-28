@@ -255,6 +255,11 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         array_shift(self::$sm_renderingContextArgs);
         return $v_out;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _TreatFCallback()
     {
         return implode("\n", [
@@ -266,17 +271,12 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
             '}; ?>',
         ]);
     }
+
     /**
-     * 
-     * @param mixed $children 
-     * @param mixed $t_options 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param mixed $t_options
+    * @return string
+    */
     private static function _RenderTemplate($children, $t_options): string
     {
         $sb = new StringBuilder;

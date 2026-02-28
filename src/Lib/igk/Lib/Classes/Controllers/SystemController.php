@@ -50,6 +50,12 @@ final class SystemController extends NonVisibleControllerBase{
     public function __construct(){
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $frm
+    * @return
+    */
     private function _buildForm($frm){
         $this->m_fontList=$this->_getFontList();
         igk_notifyctrl()->setNotifyHost($frm->div());
@@ -83,6 +89,11 @@ final class SystemController extends NonVisibleControllerBase{
             $div->addNotifyBox("danger")->Content="/!\ No fonts definition found";
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getFontList(){
         $file=igk_sys_cgi_folder()."/cscgi/fontlist.cgi";
         if(igk_io_file_exists($file)){

@@ -263,6 +263,11 @@ class Path
     {
         return $this->home_dir;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
         $this->prepareData();

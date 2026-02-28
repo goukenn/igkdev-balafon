@@ -16,10 +16,11 @@ use IGK\Models\Subdomains;
 use IGKException;
 use IGKSubDomainManager;
 use function igk_resources_gets as __;
+
 /**
- * 
- * @package IGK\System\Configuration\Controllers
- */
+* auto generate doc.
+* @package IGK\System\Configuration\Controllers
+*/
 
 /**
 * auto generate doc.
@@ -41,6 +42,11 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _updateview()
     {
         igk_getctrl(IGK_CONF_CTRL)->setSelectedConfigCtrl($this);
@@ -375,6 +381,11 @@ final class SubDomainController extends ConfigControllerBase
         }
        // $n->ajxa($this->getUri("update-view-list_ajx"))->Content = "Updatelist:";
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function update_view_list_ajx(){
         $n = igk_create_node_arg("div.sub-domain-config");
         $n->h2()->Content = 'subdomain_config';

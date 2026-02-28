@@ -172,6 +172,11 @@ class Database
     {
         return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _Init()
     {
         self::$sm_shared_info = [];

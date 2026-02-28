@@ -115,6 +115,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         ftp_close($h);
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $setting
+    * @param mixed $h
+    * @param mixed $ctrl
+    * @return
+    */
     private function _GetOutputdir($setting, $h, $ctrl){
         $path_key = self::PROJECT_DIR;
         if (is_null($setting[$path_key])) {
@@ -288,6 +296,16 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         error_clear_last();
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $v_files
+    * @param mixed $o_dir
+    * @param mixed $h
+    * @param mixed $pdir
+    * @param mixed & $cdir
+    * @param string $project
+    * @return
+    */
     static function SyncFiles($v_files, $o_dir,  $h , $pdir,  & $cdir, string $project){
         foreach ($v_files as $f) {
             $g = substr($f, strlen($pdir));
@@ -315,6 +333,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             parent::removeCache($ftp, $app_dir . "/.Caches");
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftp
+    * @param mixed $path
+    * @param mixed $project
+    * @return
+    */
     private function  _listRelease($ftp, $path, $project)
     {
         $bckdir = $path;
@@ -328,6 +354,13 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             return $g;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftp
+    * @param mixed $project
+    * @return
+    */
     private function _getRelease($ftp, $project)
     {
         $g = array_filter($m = ftp_nlist($ftp, ""), function ($i) use ($project) {

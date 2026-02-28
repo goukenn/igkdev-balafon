@@ -146,6 +146,13 @@ class Uri
     {
         self::_Parse($this, $uri);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param string $uri
+    * @return
+    */
     private static function _Parse($n, string $uri)
     {
         $g = parse_url($uri);

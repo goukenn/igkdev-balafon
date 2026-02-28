@@ -457,6 +457,13 @@ class HtmlNodeTagExplosionDefinition
         $r->valueEscapeDelimiter = "()";
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    * @param mixed & $def
+    * @return
+    */
     private static function _SetTagName($e, &$def)
     {
         $t = $e->value;

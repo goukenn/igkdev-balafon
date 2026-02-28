@@ -128,6 +128,14 @@ class JSonBindAsAnnotation extends AnnotationBase
         igk_sys_reflect_class_unset($reflect);
         return $cp;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v_typeresolve
+    * @param mixed $converter
+    * @param mixed $type
+    * @return
+    */
     private static function _ResolveTypeWithListener($v_typeresolve, $converter, $type){
         if ($v_typeresolve && !key_exists($type, $converter)){
             $type = $v_typeresolve($type);

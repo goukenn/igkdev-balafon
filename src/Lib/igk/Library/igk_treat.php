@@ -194,15 +194,17 @@ class IGKProtectHtmlField{
         $this->engines=array();
         $this->_initengines();
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $v
     */
     private function __output($v){
         return $v;
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function _initengines(){
         $tab=& $this->engines;
@@ -283,8 +285,9 @@ class IGKProtectHtmlField{
                 }
         ));
     }
+
     /**
-    * 
+    * auto generate doc.
     */
     private function _initOptions(){
         $this->options=(object)array(

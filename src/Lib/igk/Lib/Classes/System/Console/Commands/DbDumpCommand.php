@@ -183,6 +183,10 @@ class DbDumpCommand extends AppExecCommand{
         $this->_entries[$tb] = $rest;
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function help(){
         parent::help();
         Logger::print("file [-o:[json]]");

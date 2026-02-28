@@ -786,6 +786,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return null;
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function &_InitDbMacros()
     {
         // ---------------------------------------------------------------------------
@@ -849,6 +853,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         ];
         return $macros;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _InitMacros(){
          if (self::$sm_macros === null) {
             self::$sm_macros = &self::_InitDbMacros();

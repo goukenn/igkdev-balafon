@@ -277,6 +277,13 @@ class DbModelImporterMap
     {
         throw new NotImplementException(__METHOD__);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @param mixed $s
+    * @return
+    */
     private function _registerColumn($v, $s)
     {
         $tab = [];

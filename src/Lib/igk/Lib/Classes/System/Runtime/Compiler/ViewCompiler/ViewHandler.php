@@ -35,6 +35,11 @@ class ViewHandler{
         is_null(self::$sm_instance) && self::$sm_instance = new self;
         return self::$sm_instance;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){  
         $this->tab = ["class"=>null, "style"=>null];      
     }

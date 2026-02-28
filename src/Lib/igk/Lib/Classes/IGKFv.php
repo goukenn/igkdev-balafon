@@ -172,7 +172,12 @@ class IGKFv {
         }
 		$this->_updateBinding();
     }
-	private function _updateBinding(){
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _updateBinding(){
 		if ($this->_listener){
 			$c = [];
 			$c[] = & $this->_;

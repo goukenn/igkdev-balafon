@@ -26,6 +26,13 @@ class Colorf extends IGKObject
     * @var mixed
     */
     private $m_A, $m_B, $m_G, $m_R;
+
+    /**
+    * auto generate doc.
+    * @param mixed $cl
+    * @param mixed $v
+    * @return
+    */
     private static function __bindStringData($cl, $v)
     {
         if ($v === null)

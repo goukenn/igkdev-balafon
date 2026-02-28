@@ -110,6 +110,11 @@ class CssConverter{
     * @var mixed
     */
     const MEDIA_KEYFRAME_KEY = '@keyframes';
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function initialize(){
         $this->imports = [];
         $this->variables = [];
@@ -221,6 +226,15 @@ class CssConverter{
         }
         return $response;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $offset
+    * @param mixed $depth
+    * @param mixed $selector
+    * @param mixed $stop
+    * @return
+    */
     private function _readData(& $offset, $depth, $selector,
         $stop=false){
         $src = $this->src;
@@ -380,6 +394,14 @@ class CssConverter{
         }
         return $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $selector
+    * @param mixed $operators
+    * @return string
+    */
     private static function _GetSelector($id, $selector, $operators):string{
         $sep = ' ';
         $g = explode(',', $id);
@@ -434,6 +456,14 @@ class CssConverter{
         }
         return trim($sl);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $src
+    * @param mixed & $offset
+    * @param mixed $length
+    * @return
+    */
     private static function _ReadName($src, &$offset, $length)
     {
         $n = '';
@@ -450,6 +480,12 @@ class CssConverter{
         return $n;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $options
+    * @return
+    */
     protected function _visit($name, $options)
     {
         $name = ltrim(str_replace('-', '_', $name), '_ ');
@@ -459,6 +495,12 @@ class CssConverter{
             Logger::danger("missing visitor for ".$name);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $gt
+    * @return
+    */
     private function _copyData($gt){
         $this->variables = array_merge($this->variables, igk_getv($gt, self::MEDIA_VARIABLES_KEY, []));
         $this->keyframes = array_merge($this->keyframes, igk_getv($gt, self::MEDIA_KEYFRAME_KEY, []));
@@ -546,6 +588,14 @@ class CssConverter{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $src
+    * @param mixed & $offset
+    * @param mixed $length
+    * @return
+    */
     private function _ReadVariable($src, &$offset, $length)
     {
         $name = '';

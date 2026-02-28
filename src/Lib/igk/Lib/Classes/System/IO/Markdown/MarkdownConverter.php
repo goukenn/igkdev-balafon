@@ -599,6 +599,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_container->ouputTreatmentListener = $outputTreatment ?? $this;
         return $this->_treat_data($markdown);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _prepare_transform()
     {
         $this->m_lpos = 0;
@@ -687,12 +692,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         return ltrim($this->m_output);
     }
+
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed ...$args 
-     * @return object|null 
-     */
+    * auto generate doc.
+    * @param mixed ...$args
+    * @return object|null
+    */
     private function _handle_outputstream($n, ...$args)
     {
         if ($l = $this->m_setOutputTreatmentListener) {
@@ -700,15 +705,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             return (object)['output' => $g];
         }
     }
+
     /**
-     * 
-     * @param string $str 
-     * @param bool $force 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param bool $force
+    * @return mixed
+    */
     private function default(string $str, $force = false)
     {
         if ($this->m_useTag || $force) {
@@ -922,6 +924,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function getIsSingleDefinition(){
         return $this->m_is_single_definition; 
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _clearBuffer(){
         $this->m_buffer = '';
     }
@@ -933,13 +940,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private function _appendToBuffer(string $s){
         $this->m_buffer.= $s;
     }
+
     /**
-     * 
-     * @param string $fc 
-     * @param mixed $g 
-     * @param bool $isroot 
-     * @return mixed|null 
-     */
+    * auto generate doc.
+    * @param bool $isroot
+    * @return mixed|null
+    */
     private function _treat_callback(string $fc, $g, bool $isroot, bool $is_substate){
         $fc_call = function()use($fc, $g){
             return call_user_func_array([$this, $fc], [$g->value, $g]);
@@ -960,10 +966,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         return $fc_call();  
 
     }
+
     /**
-     * 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @return bool
+    */
 
     protected function _continue_update(string $tid): bool
     {
@@ -1283,6 +1290,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_li_item->text($v);
         return $sb;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ul
+    * @param mixed $depth
+    * @param mixed $tag
+    * @return
+    */
     private static function _ChainSubList($ul, $depth, $tag = 'ul')
     {
 
@@ -1304,6 +1319,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         return $li;
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function _treat_hr()
     {
         $n = igk_create_node('hr');
@@ -1431,10 +1450,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         $this->m_output = rtrim($this->m_output);
     }
+
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     private function _closeState()
     {
         if ($this->m_state) {
@@ -1442,6 +1462,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     protected function _updatePreviousOutput()
     {
         if (!$this->m_state) {

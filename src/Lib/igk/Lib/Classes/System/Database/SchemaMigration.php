@@ -659,6 +659,16 @@ class SchemaMigration
                 break;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $item
+    * @param mixed & $tables
+    * @param mixed $c
+    * @param BaseController $ctrl
+    * @return
+    */
     private static function _DoDowngrade($key, $item, &$tables, $c, BaseController $ctrl)
     {
         switch ($key) {
@@ -753,6 +763,15 @@ class SchemaMigration
                 break;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tmigrations
+    * @param array & $tables
+    * @param null|BaseController $ctrl
+    * @param mixed $callback
+    * @return
+    */
     private function _do_migration($tmigrations, array &$tables, ?BaseController $ctrl, $callback)
     {
         $migrations = &$this->migrations;

@@ -24,6 +24,11 @@ final class IGKGlobalColor{
     * @var mixed
     */
     private static $sm_instance;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
         $this->m_COLORS=array();
     }

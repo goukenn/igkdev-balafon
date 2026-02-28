@@ -215,6 +215,12 @@ class CurlHttpClient implements IHttpClient{
         }
         return $options;
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $m_session_file;
 
     /**

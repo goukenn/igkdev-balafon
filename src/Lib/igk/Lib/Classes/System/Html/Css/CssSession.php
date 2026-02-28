@@ -43,8 +43,13 @@ class CssSession extends IGKObject{
 			self::$sm_instance = new self;
 		} 
 		return self::$sm_instance;
-	}	
-	private function _session_data(){        
+	}
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _session_data(){        
 		if ($data = igk_app()->session->css_data){
 			if ($this->_data !== $data){
 				$this->_data = $data;

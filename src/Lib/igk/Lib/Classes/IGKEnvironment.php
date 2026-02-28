@@ -431,9 +431,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return $default;
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function __construct()
     {
         $this->_prepareServerEnvironment();
@@ -453,6 +454,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         $this->m_envs = $t;
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function getToday()
     {
         return date("Y-m-d");

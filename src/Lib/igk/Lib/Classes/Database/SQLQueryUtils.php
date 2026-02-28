@@ -436,6 +436,13 @@ class SQLQueryUtils
         }
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $express
+    * @param mixed $tinf
+    * @return
+    */
     private static function GetExpressQuery($express, $tinf)
     {
         $b = explode(".", $express);
@@ -670,6 +677,13 @@ class SQLQueryUtils
         $query .= ") VALUES (" . $v_v . ");";
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    * @param mixed $adapter
+    * @return
+    */
     private static function GetKey($k, $adapter)
     {
         return "`" . implode("`.`", array_map([$adapter, "escape_string"], explode(".", $k))) . "`";
@@ -902,6 +916,14 @@ class SQLQueryUtils
         }
         return "'" . igk_db_escape_string($value) . "'";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $values
+    * @param mixed $tableInfo
+    * @param mixed $update
+    * @return
+    */
     private static function GetValues($values, $tableInfo, $update = 0)
     {
         $tvalues = igk_createobj();
@@ -979,10 +1001,24 @@ class SQLQueryUtils
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @return
+    */
     private static function IsNumber($t)
     {
         return preg_match("/(int|float|decimal)/i", $t);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $adapter
+    * @param mixed $separator
+    * @return
+    */
     private static function Key($t, $adapter, $separator = ",")
     {
         return implode($separator, array_map(

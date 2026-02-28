@@ -66,11 +66,11 @@ implements IDatabaseHost
     * @var mixed
     */
     private static $sm_apps;
+
     /**
-     * 
-     * @param mixed $news the default value is false
-     * @param mixed $funcrequest the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $funcrequest the default value is null
+    */
     private function _getfunclist($news = false, $funcrequest = null)
     {
         return igk_sys_getfunclist($this, $news, $funcrequest);

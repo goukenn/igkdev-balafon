@@ -65,6 +65,11 @@ class CssThemeRenderer
         }
         $this->m_globalId = $globaId;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _renderSystemTheme()
     {
         $s = "";

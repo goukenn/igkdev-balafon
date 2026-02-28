@@ -207,7 +207,12 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		$this->m_ctrl = $ctrl;
 		return $this;
 	}
-	private function loadConfigSetting()
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function loadConfigSetting()
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
 

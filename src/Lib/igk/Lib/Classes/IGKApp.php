@@ -21,6 +21,11 @@ require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
  * @property IGKAppSetting $settings application setting - store in session if library 'session' is available
  * 
  */
+
+/**
+* auto generate doc.
+* @package
+*/
 class IGKApp extends IGKObject
 {
 
@@ -104,6 +109,11 @@ class IGKApp extends IGKObject
     {
         return self::$sm_instance;
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
     /** 
@@ -373,6 +383,12 @@ class IGKApp extends IGKObject
         }   
         self::_InitHookLogic($_hookArgs);   
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $_hookArgs
+    * @return
+    */
     private static function _InitHookLogic($_hookArgs){
         IGKEvents::hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  
         // + |--------------------------------------------------------------

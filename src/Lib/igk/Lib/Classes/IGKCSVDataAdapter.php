@@ -363,8 +363,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             $data=substr($data, 0, strlen($data)-1);
         return $data;
     }
+
     /**
-    * 
+    * auto generate doc.
     * @param mixed $l
     */
     private static function _CSVReadLine($l, $sep=",", ?int $flags=null){ 

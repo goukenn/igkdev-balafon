@@ -125,8 +125,9 @@ final class IGKAppConfig extends IGKObject {
     * @var IGKAppConfig
     */
     private static $sm_instance;
+
     /**
-    * 
+    * auto generate doc.
     */
     private function __construct(){
         $this->_loadSystemConfig();
@@ -189,10 +190,10 @@ final class IGKAppConfig extends IGKObject {
             @unlink($f); 
             $v_ctn->addMsg(__("Unlink file: {0}", basename($f))); 
         }
-    } 
+    }
+
     /**
-    * 
-    * @param mixed $obj
+    * auto generate doc.
     * @param mixed $arg
     */
 

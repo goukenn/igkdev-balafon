@@ -272,6 +272,14 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         ];
         return $tab;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $p
+    * @param mixed $visitor
+    * @param mixed $diagram
+    * @return
+    */
     private static function _RenderProperties($p, $visitor, $diagram)
     {
         $o = "";

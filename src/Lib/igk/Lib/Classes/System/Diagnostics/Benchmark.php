@@ -44,6 +44,11 @@ class Benchmark{
     * @var mixed
     */
     const REQUEST_PARAM = "IGK_BENCHMARK";
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){  
         $this->m_configs = new BenchmarkOptions();
         $this->m_configs->dieOnError = false;

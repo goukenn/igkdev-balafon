@@ -24,6 +24,11 @@ use ReflectionProperty;
  * 
  * @package IGK\Helper;
  */
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class Activator
 {
 
@@ -83,14 +88,12 @@ class Activator
         self::$sm_dyn_sources[$interface] = [$src, $p];
         eval($src);
     }
+
     /**
-     * 
-     * @param string $interface 
-     * @param mixed $resolver 
-     * @return object 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $resolver
+    * @return object
+    */
 
     public static function CreateFromInterface(string $interface, $resolver = null)
     {

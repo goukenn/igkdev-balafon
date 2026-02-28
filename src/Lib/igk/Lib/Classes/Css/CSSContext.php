@@ -28,6 +28,11 @@ class CSSContext{
     * @var mixed
     */
     static $sm_instance;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct(){
     }
 

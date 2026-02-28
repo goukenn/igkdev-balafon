@@ -285,6 +285,11 @@ class Request implements IInjectable, IContentSecurityProvider
         } 
         return urldecode($s);
     }
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

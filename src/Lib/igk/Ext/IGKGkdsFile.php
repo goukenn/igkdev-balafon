@@ -44,7 +44,12 @@ final class IGKGkdsFile extends IGKObject
     * Returns Document.
     */
     public function getDocument(){return $this->m_document; }
-	private function __construct(){
+
+    /**
+    * .ctr
+    * @return
+    */
+    private function __construct(){
 	}
 
     /**
@@ -70,11 +75,26 @@ final class IGKGkdsFile extends IGKObject
 
 		return $f;
 	}
-	private function _restore(){
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _restore(){
 	}
-	private function _save(){
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _save(){
 	}
-	private function _visit(){
+
+    /**
+    * auto generate doc.
+    * @return
+    */
+    private function _visit(){
 		foreach($this->m_document->Childs as  $v){
 			$m = "Visit".$v->TagName;
 			if (method_exists(__CLASS__, $m))

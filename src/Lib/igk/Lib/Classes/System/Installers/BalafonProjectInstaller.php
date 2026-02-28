@@ -12,6 +12,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use function igk_resources_gets as __; 
 require_once(__DIR__."/InstallerActionMiddleWare.pinc");
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 class BalafonProjectInstaller extends BalafonInstaller{
 
     /**

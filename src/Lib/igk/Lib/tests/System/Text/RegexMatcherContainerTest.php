@@ -84,6 +84,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         $this->assertEquals('"card presentation"', implode(' ', $match));
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _regexDetectFuncData()
     {
         $ctn = new RegexMatcherContainer;
@@ -133,8 +137,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         });
     }
 
-
-
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _regexDetectDeclareFuncData()
     {
         $ctn = new RegexMatcherContainer;

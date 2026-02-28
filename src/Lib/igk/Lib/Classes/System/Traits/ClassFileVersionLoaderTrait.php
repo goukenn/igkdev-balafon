@@ -71,6 +71,11 @@ trait ClassFileVersionLoaderTrait
         }
         $this->_load_classes["c"] = 1;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initClassRegister()
     {      
         if (is_file($fc = self::GetLocalAppClassesCacheFile())) {

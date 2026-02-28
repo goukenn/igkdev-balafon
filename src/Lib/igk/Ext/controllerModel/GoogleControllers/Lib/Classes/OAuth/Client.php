@@ -97,6 +97,11 @@ class Client{
         }
         return json_decode($s);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _get_wellknow_config(){
         $f = null;
         if (function_exists("igk_google_data_dir")){

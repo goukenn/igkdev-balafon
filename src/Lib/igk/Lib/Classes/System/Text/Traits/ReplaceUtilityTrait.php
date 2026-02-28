@@ -181,6 +181,16 @@ trait ReplaceUtilityTrait
         }
         return $ts;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $s
+    * @param mixed $cap
+    * @param mixed $sourceValue
+    * @param mixed $pos
+    * @param mixed $property
+    * @return ?string
+    */
     public static function TreatCaptureReplace(string $s, $cap, $sourceValue, $pos, $property = 'replaceWith'): ?string
     {
         if ($rp = igk_getv($cap, $property)) {

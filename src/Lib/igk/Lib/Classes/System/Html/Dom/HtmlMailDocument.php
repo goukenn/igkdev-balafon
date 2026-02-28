@@ -47,6 +47,13 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $this->m_message=$this->div();
         $this->setId("message");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    * @param mixed $source
+    * @return
+    */
     private function _copyAddBuildDefinition($target, $source){
         $selector=array();
         foreach($source->def->Attributes as $k=>$v){
@@ -69,6 +76,11 @@ final class IGKHtmlMailDoc extends HtmlNode{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _initTheme(){    }
 
     /**

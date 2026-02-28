@@ -263,6 +263,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         }
     }
 
+    /**
+    * auto generate doc.
+    * @param string $linkTable
+    * @return bool
+    */
     public function resolve(string $linkTable): bool{
         if (isset($this->m_resolvedLinks->resolved[$linkTable])){
             return true;
@@ -288,12 +293,27 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $a
+    * @param mixed $info
+    * @param mixed $parent
+    * @return
+    */
     private function _MigrateModuleCallback(BaseController $a, $info,  $parent)
     {
         if (!($a instanceof ApplicationModuleController))
             return null;
         SchemaBuilderHelper::Migrate($info, $parent);
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $tables
+    * @return
+    */
     private function _initLogic(BaseController $ctrl, $tables)
     {
         Logger::info('init ... ' . $ctrl);

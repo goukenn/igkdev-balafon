@@ -6,8 +6,9 @@ namespace IGK\System\Database;
 use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
+
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database
 */
 
@@ -46,6 +47,11 @@ class SchemaMigrationHookHandler{
     * @var mixed
     */
     const onColumnRename = 'onColumnRename';
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function initHooks(){
         $this->m_hooks[self::onColumnRename] = function($e){
             extract($e->args);

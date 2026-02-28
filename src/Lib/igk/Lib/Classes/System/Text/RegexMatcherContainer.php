@@ -1099,14 +1099,20 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $g->detect($source, $tpos);
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $p
+    * @return
+    */
     public function setParentInfo($p){
         $this->m_parentInfo = $p;
     }
+
     /**
-     * 
-     * @param static $g 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param static $g
+    * @return void
+    */
     private function _initSubMatcherContainer($g)
     {
         /**

@@ -19,6 +19,11 @@ class CssRulesParser
     * @var mixed
     */
     private $m_regex;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
         $this->m_regex = $this->_initRegexContainer();

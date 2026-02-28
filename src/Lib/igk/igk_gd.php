@@ -113,6 +113,10 @@ class IGKGD
         $this->m_himg = $himg;
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function getWidth()
     {
         if ($this->m_width == -1)
@@ -581,6 +585,12 @@ class IGKGD
         imagepolygon($this->m_himg, $points, $pt, $allocColor);
         imagecolordeallocate($this->m_himg, $allocColor);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $color
+    * @return
+    */
     private function _allocColor($color)
     {
         if (is_string($color))

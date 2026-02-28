@@ -76,6 +76,11 @@ class TerminalActionCommand
     {
         $this->_clearLastErrors();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _clearLastErrors()
     {
         if ($l_error = error_get_last()) {
@@ -95,6 +100,12 @@ class TerminalActionCommand
         ]);
         return var_dump(@eval("return " . self::_GetCommand(func_get_arg(0)) . ";"));
     }
+
+    /**
+    * auto generate doc.
+    * @param string $cmd
+    * @return ?string
+    */
     private static function _GetCommand(string $cmd): ?string
     {
         if (preg_match("/^\s*echo\s+/", $cmd, $d)) {

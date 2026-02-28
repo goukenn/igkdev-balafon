@@ -41,6 +41,12 @@ final class ControllerAndArticlesController extends ConfigControllerBase
      * hook name when a controller require to config option 
      */
     const hookControllerConfigOptionName = 'controllerConfigData';
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @return
+    */
     private function __updateview($ctrl)
     {
         if ($ctrl && $ctrl->getIsVisible()) {
@@ -50,6 +56,11 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $ctrl->View();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function GetSysProject()
     {
         static $projects;
@@ -58,6 +69,12 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         return $projects;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @return
+    */
     private function __viewDefaultPageCtrl($t)
     {
         $frm = $t->addForm();
@@ -133,6 +150,14 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         //     $frm->div()->add("noscript")->addInput("btn_add", "submit");
         // }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    * @param mixed $v_content
+    * @param null|mixed $property
+    * @return
+    */
     private function __write_article_for_tiny($file, $v_content, $property = null)
     {
         if (empty($file))
@@ -175,6 +200,12 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         return true;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $p
+    * @return
+    */
     public function _buildAdditionalInfo($ctrl, $p)
     {
         $d =
@@ -227,10 +258,26 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $div
+    * @param null|mixed $ctrl
+    * @return
+    */
     private function _buildViewArticle($div, $ctrl = null)
     {
         $div->div()->Content = "Not Implement: " . __FUNCTION__;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $k
+    * @param null|mixed $default
+    * @param mixed $nonevalue
+    * @return
+    */
     private function _ca_add_adapter($node, $k, $default = null, $nonevalue = false)
     {
         $t = \IGK\DataBase\DataAdapterBase::GetAdapters();
@@ -249,6 +296,15 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         $node->div()->setClass("igk-db-ad")->Content = "";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $li
+    * @param mixed $name
+    * @param null|mixed $value
+    * @param mixed $showspace
+    * @return
+    */
     private function _frm_tablevisiblectrl($li, $name, $value = null, $showspace = true)
     {
         $tab = self::GetSysProject();
@@ -269,14 +325,30 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getarticleid()
     {
         return $this->getName() . "_articles";
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getviewid()
     {
         $this->getName() . "_views";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $col
+    * @return
+    */
     private function _view_ctrl_EditCtrl($col)
     {
         $frm = $col->addColViewBox()->addForm();
@@ -394,6 +466,13 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $div = $p->div();
         $this->_view_ctrl_options($ctrl, $div);
     }
+
+    /**
+    * auto generate doc.
+    * @param \IGK\Controllers\BaseController $ctrl
+    * @param mixed $dv
+    * @return
+    */
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
         $dv["class"] = "+c-opts";
@@ -421,6 +500,12 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
             ->setClass("igk-btn");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @return
+    */
     private function _view_default_tab($t)
     {
         $t->addNotifyHost();
@@ -442,6 +527,12 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v_dv"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $v_dv
+    * @return
+    */
     private function _viewCtrlEditResult($v_dv)
     {
         if (!($c = $this->SelectedController))
@@ -2133,6 +2224,12 @@ JS;
     }
     ///<summary></summary>
     ///<param name="ctrltab" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrltab
+    * @return
+    */
     private function setup_defaultpage($ctrltab = null)
     {
         $ctrl = igk_get_defaultwebpagectrl();

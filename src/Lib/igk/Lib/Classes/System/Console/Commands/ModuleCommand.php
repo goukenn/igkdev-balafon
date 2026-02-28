@@ -84,6 +84,13 @@ class ModuleCommand extends AppExecCommand{
            break;
        }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module
+    * @return
+    */
     private function _checkCommand($command, ?string $module=null){
         $mod = igk_get_module($module) ?? igk_die('module not found');
         $conf = $mod->getConfigs();
@@ -98,6 +105,11 @@ class ModuleCommand extends AppExecCommand{
         Logger::SetColorizer(new Colorize());
         igk_wln_e('module found:', $mod->getDeclaredDir(), json_encode($info, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES));
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function listCommand(){
         $mod = igk_get_modules();
         if (!$mod  || (count($mod) == 0)){

@@ -136,11 +136,12 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             $this->clDefault = null;
         }
     }
+
     /**
-     * 
-     * @param static $q 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param static $q
+    * @return void
+    */
     private static function _TreatLinkType($q)
     {
         $lnk = $q->clLinkType;
@@ -160,11 +161,12 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         $q->clLinkType = $lnk;
     }
+
     /**
-     * 
-     * @param static $q
-     * @return void 
-     */
+    * auto generate doc.
+    * @param static $q
+    * @return void
+    */
     private static function _TreatUniqeColumnMember($q)
     {
         $l = $q->clIsUniqueColumnMember;

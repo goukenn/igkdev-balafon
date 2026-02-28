@@ -17,6 +17,11 @@ use IGKException;
  * 
  * @package IGK\System\Compilers
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Compilers
+*/
 class BalafonCacheViewCompiler{
     /**
      * generate cache view file. 

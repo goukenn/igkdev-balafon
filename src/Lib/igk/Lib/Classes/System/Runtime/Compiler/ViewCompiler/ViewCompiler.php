@@ -532,6 +532,11 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         } 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _appendInstructBuffer()
     {
         $s = &$this->instruction_buffer;
@@ -588,6 +593,13 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return parent::_endReadExpression($options, $id, $value) && !$options->stop_read;
     }
 
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleComment(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if (preg_match($this->expression_use_comment_regex, $value)) {
@@ -672,6 +684,13 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return parent::_handleReadExpression($options, $id, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $depend
+    * @param mixed & $buffer
+    * @return
+    */
     private function _replaceGetterArgs($depend, &$buffer)
     {
         foreach (array_keys($depend) as $k) {

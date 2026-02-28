@@ -24,6 +24,11 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     public function offscreen() { 
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function getApp(){
         return $this->parent->app;
     }

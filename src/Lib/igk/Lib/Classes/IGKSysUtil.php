@@ -18,10 +18,10 @@ use IGK\System\Database\DbUtils;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Test\IGKValueEntryCallbackTest;
+
 /**
- * 
- * @package 
- */
+* auto generate doc.
+*/
 
 /**
 * auto generate doc.
@@ -35,6 +35,11 @@ abstract class IGKSysUtil
     * @var mixed
     */
     const PRIMARY_PWD = '#_12549@abcdkqors';
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

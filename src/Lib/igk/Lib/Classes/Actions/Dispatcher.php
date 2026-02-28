@@ -261,17 +261,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         self::_GetInjectedParameters($targs, $parameters, $args, $host);
         return $targs;
     }
+
     /**
-     * 
-     * @param array $targs 
-     * @param mixed $parameters 
-     * @param mixed $args 
-     * @param ?IInjectedArgHost $host injected argument host
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * auto generate doc.
+    * @param ?IInjectedArgHost $host injected argument host
+    * @return array
+    */
     private static function _GetInjectedParameters(array &$targs, $parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];

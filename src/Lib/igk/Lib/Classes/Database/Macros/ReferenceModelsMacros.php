@@ -28,13 +28,12 @@ abstract class ReferenceModelsMacros
     private static function _GetRefCondition(int $uid, string $modelname): array{
         return ["clModel" =>sprintf('%s:/%s', $uid, $modelname)];
     }
+
     /**
-     * 
-     * @param ReferenceModels $model 
-     * @param int $uid 
-     * @param string $modelname 
-     * @return mixed|int 
-     */
+    * auto generate doc.
+    * @param string $modelname
+    * @return mixed|int
+    */
     public static function get_ref_nextnumber(ReferenceModels $model, int $uid, string $modelname)
     {
         $cond = self::_GetRefCondition($uid, $modelname);

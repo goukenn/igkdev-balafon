@@ -6,10 +6,11 @@
 namespace IGK\System\Http;
 use IGK\Models\Users;
 use function igk_resources_gets as __;
+
 /**
- * 
- * @package App\Actions\Dashboard
- */
+* auto generate doc.
+* @package App\Actions\Dashboard
+*/
 
 /**
 * auto generate doc.
@@ -34,6 +35,12 @@ class RouteMatcher extends RouteHandler{
     * @var mixed
     */
     private $throwClass;
+
+    /**
+    * .ctr
+    * @param mixed $controller
+    * @return
+    */
     private function __construct($controller)
     {   
         parent::__construct("m:matcher", $controller);

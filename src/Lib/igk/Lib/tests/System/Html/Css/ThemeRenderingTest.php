@@ -29,6 +29,12 @@ class ThemeRenderingTest extends BaseTestCase{
     * @var mixed
     */
     private $m_root;
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return
+    */
     private static function _CreateTheme($id){
         return new HtmlDocTheme( null, $id , false);
     }
@@ -153,6 +159,12 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $this->_out_theme($theme); 
         $this->assertEquals('html[data-theme=\'dark\'] .igk-progressbar{background-color:progressBarBackgroundColor;color:red;}', $s);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $theme
+    * @return
+    */
     private function _out_theme($theme){
         $this->m_root = new HtmlDocTheme(null, 'root-css-test-theme');
         return $theme->get_css_def(true, true, null, null, $this->m_root);

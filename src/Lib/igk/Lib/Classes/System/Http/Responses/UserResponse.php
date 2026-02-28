@@ -13,10 +13,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
+
 /**
- * 
- * @package IGK\System\Http\Responses
- */
+* auto generate doc.
+* @package IGK\System\Http\Responses
+*/
 
 /**
 * auto generate doc.
@@ -66,6 +67,12 @@ class UserResponse
     * @var mixed
     */
     var $controller;
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    * @return
+    */
     private static function _CreateUserData(Users $user){
         return $user->CreateUserApiResponseData();
     }

@@ -74,6 +74,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
         igk_trace();
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $div
+    * @return
+    */
     private function _addLoadPicForm($div){
         $frm=$div->addForm();
         $frm["action"]=$this->getUri("loadfile");
@@ -90,6 +96,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frm->addBtn("upload", __("btn.upload"));
         return $frm;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _getexts(){
         $r=igk_get_env("sys://ctrl/picres/allowedextension", function(){
             $tab=explode(";", strtolower(IGK_ALLOWED_EXTENSIONS));
@@ -103,6 +114,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
         return $r;
     }
     ///init default resources
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $tab
+    * @return
+    */
     private function _initDefaultPictureRes(& $tab=null){
         $dir=IGK_LIB_DIR."/Default/R/Img";
         $this->initPicturesRes($dir, $tab);
@@ -127,6 +144,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _showdefault(){
         $div=$this->TargetNode->clearChilds()->addPanelBox();
         igk_html_add_title($div, "title.PictureResourcesManager");
@@ -157,6 +179,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frm->addAJXButton($this->getUri("uploadpic_ajx"))->Content="uploadpics";
         $frm->addInput("confirm", "hidden", 0);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _storeData(){
         $out=IGK_STR_EMPTY;
         $g=$this->getAllPics();
@@ -170,10 +197,22 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ext
+    * @return
+    */
     private function _support($ext){
         $ext=$this->_getexts();
         return isset($ext[strtolower($ext)]);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $g
+    * @return
+    */
     private function _updateRes($g){
         igk_set_env(self::KEY_FILES, $g);
     }
@@ -479,6 +518,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
             break;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @return
+    */
     private function onPicResChanged($ctrl){
         if($ctrl->isChanged(self::PICRES_KEY, $this->m_changeState)){
             $this->_loadData();
@@ -532,6 +577,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->m_searchentry=strtolower(igk_getr("q"));
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $page
+    * @return
+    */
     private function setCurrentPage($page){
         $this->setParam("currentPage", $page);
     }

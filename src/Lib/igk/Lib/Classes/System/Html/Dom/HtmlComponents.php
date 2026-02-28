@@ -22,7 +22,12 @@ abstract class HtmlComponents {
     * @var mixed
     */
     const AJXTabControl = "AJXTabControl";
-	private function __construct(){
+
+    /**
+    * .ctr
+    * @return
+    */
+    private function __construct(){
 	}
 	/**
 	 * get paramater attached to controller name

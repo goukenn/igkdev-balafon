@@ -18,6 +18,11 @@ class GlobalCssParser{
     * @var mixed
     */
     var $source;
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }

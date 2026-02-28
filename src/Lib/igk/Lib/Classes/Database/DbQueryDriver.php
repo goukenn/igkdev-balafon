@@ -231,12 +231,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         $this->m_name = $name;
     }
+
     /**
-     * 
-     * @param mixed $tablename
-     * @param mixed $entries
-     * @param mixed $forceload the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $forceload the default value is 0
+    */
     private function __initTableEntries($tablename, $entries, $forceload = 0)
     {
         if (!$forceload && igk_get_env("pinitSDb")) {
@@ -245,19 +244,20 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         // igk_db_load_entries($this, $tablename, $entries);
     }
+
     /**
-     * 
-     * @param mixed $query
-     * @param mixed|array|IDbSendQueryOptions $option null or array key of object 
-     * @return mixed|object|null
-     */
+    * auto generate doc.
+    * @param mixed|array|IDbSendQueryOptions $option null or array key of object
+    * @return mixed|object|null
+    */
     private function _sendQuery($query, $options = null, bool $autoclose = false)
     {
         return $this->getSender()->sendQuery($query, true, $options, null, $autoclose);
     }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
 
     public function __sleep()
     {
@@ -765,9 +765,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     // public static function GetResId(){
     //     return self::$sm_resid;
     // }
+
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     private function getSender()
     {
         return $this->m_adapter ?? $this;
@@ -1073,10 +1074,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         $this->m_closeCallback = $v;
     }
+
     /**
-     * 
-     * @param mixed $v
-     */
+    * auto generate doc.
+    * @param mixed $v
+    */
     private function setLastQuery($v)
     {
         $this->m_lastQuery = $v;

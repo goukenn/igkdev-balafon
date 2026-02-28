@@ -156,11 +156,10 @@ EOF;
     ///<param name="t"></param>
     ///<param name="uri"></param>
     ///<param name="method" default="'GET'"></param>
+
     /**
-    * 
-    * @param mixed $t
-    * @param mixed $uri
-    * @param mixed $method the default value is 'GET'
+    * auto generate doc.
+    * @param GET
     */
     private function replaceContent($t, $uri, $method='GET'){
         $t->addBalafonJS(1)->Content=<<<EOF

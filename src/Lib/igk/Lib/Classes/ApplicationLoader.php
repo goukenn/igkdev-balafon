@@ -87,6 +87,12 @@ class ApplicationLoader
     {
         return  IGK_LIB_DIR . "/.Caches/.included." . implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])) . ".cache";
     }
+
+    /**
+    * .ctr
+    * @param null|mixed $context
+    * @return
+    */
     private function __construct($context = null)
     {
         $this->_context = $context;
@@ -136,6 +142,15 @@ class ApplicationLoader
         $this->callables[] = get_defined_vars();
         $this->sorted = 1;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entryNS
+    * @param mixed $classdir
+    * @param mixed $priority
+    * @param null|mixed & $refile
+    * @return bool
+    */
     public function registerLoading($entryNS, $classdir, $priority = 20, &$refile = null): bool
     {
         $cl = &igk_environment()->createArray(IGKEnvironment::AUTO_LOAD_CLASS);
@@ -151,6 +166,13 @@ class ApplicationLoader
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    * @param mixed $b
+    * @return
+    */
     private function _sort_priority($a, $b)
     {
         $g = strcmp((string)$b["namespace"], (string)$a["namespace"]);
@@ -161,6 +183,11 @@ class ApplicationLoader
         $y = $b['priority'];
         return $x == $y ? 0 : $y - $x / abs($y - $x);
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _createAutoLoadClosure()
     {
         return function ($n) {
@@ -308,6 +335,12 @@ class ApplicationLoader
         }
         return $result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $classname
+    * @return
+    */
     public static function LoadClass($classname)
     {
         return self::LoadClasses([$classname]);

@@ -11,6 +11,11 @@ use IGKXmlNode;
 * @package IGK\XSD
 */
 class XsdAttributeBuilder extends XsdElement{
+
+    /**
+    * .ctr
+    * @return
+    */
     private function __construct()
     {
     }
