@@ -12,7 +12,7 @@ use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGK\Constants;
 
- 
+
 /**
  * auto generate doc.
  * @package IGK\System\Annotations
@@ -52,7 +52,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     var $api;
 
     /**
-     * Property: params.
+     * list of params 
      * @var mixed
      */
     var $params;
@@ -73,6 +73,37 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @var mixed
      */
     var $author;
+    var $category;
+    var $licence;
+
+
+    var $copyright;
+    var $example;
+    var $filesource;
+    var $final;
+    var $global;
+    var $ignore;
+    var $internal;
+    var $license;
+    var $link;
+    var $property_read;
+    var $property_write;
+    var $see;
+    var $source;
+    var $subpackage;
+    var $todo;
+    var $uses;
+    var $used_by;
+    var $version;
+
+
+
+
+    /**
+     * throw errors 
+     * @var mixed
+     */
+    var $throws;
 
     /**
      * auto generate doc.
@@ -157,10 +188,10 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $args
-    * @return
-    */
+     * auto generate doc.
+     * @param mixed $args
+     * @return
+     */
     private static function _TreatArgs($args)
     {
         $content = trim($args, ' ()');
@@ -200,7 +231,18 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
         $filter = $this->m_filter;
         if (property_exists($this, $name)) {
             $tcontent = self::_TreatArgs($arguments[0]);
-            $this->$name = $tcontent ? igk_getv($tcontent, 0) : true;
+            $s = $tcontent ? igk_getv($tcontent, 0) : true;
+            $g = $this->$name;
+            if (isset($g) && self::$sm_loading){     
+                if ($this->_supportMutiple($name)){
+                    if (!is_array($g)){
+                        $g = [$g];
+                    }
+                    $g[] = $s;
+                    $s = $g;
+                }
+            }
+            $this->$name = $s;
             return $this;
         }
         $sp = strpos($name, '\\') === false;

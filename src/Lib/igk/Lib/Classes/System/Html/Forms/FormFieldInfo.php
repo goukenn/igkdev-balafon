@@ -15,7 +15,7 @@ use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
 * @package IGK\System\Html\Forms
 */
 class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
-
+    use FormFieldValidationInfoTrait; 
     /**
     * auto generate doc.
     * @var ?string
@@ -61,5 +61,5 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
      * mime type
      */
     var $accept;
-    use FormFieldValidationInfoTrait; 
+
 }

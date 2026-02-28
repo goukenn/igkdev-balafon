@@ -6,20 +6,26 @@
 // @file: PHPScriptBuilderUtility.php
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
+
 use IGK\System\IO\StringBuilder;
+use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Text\RegexMatcherUtility;
+use Illuminate\Validation\Rules\In;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
-* Phpscript builder utility.
-* @package IGK\System\IO\File
-*/
+ * Phpscript builder utility.
+ * @package IGK\System\IO\File
+ */
 abstract class PHPScriptBuilderUtility
 {
 
     /**
-    * auto generate doc.
-    * @param mixed ...$sources
-    * @return null|string
-    */
+     * auto generate doc.
+     * @param mixed ...$sources
+     * @return null|string
+     */
     public static function MergeSource(...$sources): ?string
     {
         if (!$sources) return null;
@@ -85,10 +91,10 @@ abstract class PHPScriptBuilderUtility
     }
 
     /**
-    * auto generate doc.
-    * @param null|string $desc
-    * @return string
-    */
+     * auto generate doc.
+     * @param null|string $desc
+     * @return string
+     */
     public static function GetArrayReturn($data, ?string $fc = null, ?string $desc = null)
     {
         $o  = "<?php\n";
@@ -123,42 +129,125 @@ abstract class PHPScriptBuilderUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $data
-    * @return string
-    */
-    public static function ExtractClassDefinition( $data, ?string $name=null, $options=null){
+     * auto generate doc.
+     * @param mixed $data
+     * @return string
+     */
+    public static function ExtractClassDefinition($data, ?string $name = null, $options = null)
+    {
         $sb = new PhpScriptBuilder;
         $def = new StringBuilder;
-        if ($options){
+        if ($options) {
             $sb->no_header_comment = igk_getv($options, 'noHeader');
         }
         $r = [];
-        if (is_object($data)){
-            $r = array_merge($r, array_filter(array_keys((array)$data), function($d){
-                return strpos("\0", $d)===false;
+        if (is_object($data)) {
+            $r = array_merge($r, array_filter(array_keys((array)$data), function ($d) {
+                return strpos("\0", $d) === false;
             }));
         } else {
             $r = array_keys($data);
         }
         sort($r);
-        foreach($r as $k){
+        foreach ($r as $k) {
             $type = 'mixed';
             $v = igk_getv($data, $k);
-            if (is_numeric($v)){
+            if (is_numeric($v)) {
                 $type = 'number';
-            } else if (is_string($v)){
+            } else if (is_string($v)) {
                 $type = 'string';
-            } else if (is_array($v)){
+            } else if (is_array($v)) {
                 $type = 'array';
             }
             $def->appendLine(sprintf("/**\n* @var %s\n*/", $type));
             $def->appendLine(sprintf('var $%s;', $k));
         }
-        $type = $name?'class':'function';
+        $type = $name ? 'class' : 'function';
         $sb
-        ->name($name)
-        ->type($type)->defs($def);
+            ->name($name)
+            ->type($type)->defs($def);
         return $sb->render();
-    }   
+    }
+
+    /**
+     * extract parameter list from func definition 
+     * @param string $src 
+     * @return array 
+     */
+    public static function ExtractArgsFromFuncParamDefinition(string $src, &$default = null, $src_obj = null)
+    {
+        $regex = new RegexMatcherContainer;
+        $pos = 0;
+        $def = [];
+        $regex->autoStore = false;
+        RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);
+        $string = $regex->appendStringDetection('string',true);
+        $regex->autoStore = true;
+        // define        
+        $comments[] = $regex->appendMultilineComment()->last();
+        $comments[] = $regex->appendSingleLineComment()->last();
+        $regex->match("\\$(?<n>[a-zA-Z_][a-zA-Z_0-9]*)", 'varName');
+        $regex->match(",", 'punctuation');
+        $_def = $regex->begin("=", '(?=,)', 'const')->last();
+        $array = $regex->begin("\[", "\]", 'array')->last();
+        $array->patterns = [
+            $heredoc,
+            $comments,
+            $string,
+            $array 
+        ];
+        $_def->patterns = [
+            $comments,
+            $array,
+        ];
+        $name = null;
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                $id = $e->tokenID;
+                if ($id == 'varName') {
+                    $def[] = $name = igk_conf_get($e->beginCaptures, 'n/0');
+                }
+                if ($id == 'const') {
+                    $default[$name] = self::TreatDefaultValue(substr($e->value,1), $src_obj);
+                }
+            }
+        }
+        return $def;
+    }
+    /**
+     * treat default value 
+     * @param string $default 
+     * @return float|null|mixed|string 
+     */
+    public static function TreatDefaultValue(string $default, $src=null)
+    {
+        $g = trim($default);
+        if (is_numeric($g)){
+            return floatval($g);
+        }
+        if (is_string($g)){
+            if (preg_match('/^(\'|")/', $g)){
+                $default = igk_str_remove_quote($g);
+                return $default;
+            } else if ($g=='null'){
+                return null;
+            }
+            if (in_array($g, ['true','false'])){
+                return $g=='true';
+            }
+            if (defined($g)){
+                return constant($g);
+            }
+            if (preg_match('/^(static|self)::(?P<n>.+)/', $g, $tab)){
+                if (is_object($src)){
+                    $ref = new ReflectionClass(get_class($src));
+                    return $ref->getConstant($tab['n']);
+                }
+            }
+            if ($r = json_decode($default)){
+                return $r;
+            }
+        }        
+        return $default;
+    }
 }

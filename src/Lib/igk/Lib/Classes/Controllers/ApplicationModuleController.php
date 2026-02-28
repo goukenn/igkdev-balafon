@@ -14,6 +14,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\Path;
+use IGK\System\Modules\Traits\ModuleIncludeDefinitionInvokeTrait;
 use ReflectionException;
 use Throwable;
 use TypeError;
@@ -25,7 +26,7 @@ use TypeError;
 * @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
-
+    use ModuleIncludeDefinitionInvokeTrait;
     /**
     * Constant: init doc method.
     * @var mixed
@@ -157,11 +158,12 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * invoke internal function list 
+    * @param string $name
     * @param mixed $args
     */
-
-    function __call($n, $args){
+    function __call($name, $args){
+        $n = $name;
         $fc=igk_getv($this->m_fclist, $n);
         if($fc){
             // + | check that in methods can be initialize
@@ -173,7 +175,8 @@ final class ApplicationModuleController extends BaseController{
                 }
             } 
             igk_push_env(__CLASS__."/callee", $n);
-            $o=call_user_func_array($fc, $args);
+            $o = $this->invokeInclusion($name, $args);
+            // $o=call_user_func_array($fc, $args);
             $dc=igk_pop_env(__CLASS__."/callee");
             return $o;
         } 
@@ -246,27 +249,13 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $dir base directory
+    * Base module constructor. 
+    * @param string $dir base directory
     */
-
     public function __construct(string $dir){
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
-        $this->m_fclist=array(); 
-        // $tf = $dir."/Lib/".self::;
-        // $c=realpath($tf);
-        // if(!igk_io_file_exists($c)){
-        //     $configs=array();
-        //     $this->_initconfig($configs);
-        //     $o="<?php\n";
-        //     if(count($configs) > 0){
-        //         foreach($configs as $k=>$m){
-        //             $o .= "\$config[\"{$k}\"] = \"{$m}\";\n";
-        //         }
-        //         igk_io_w2file($tf, $o);
-        //     }
-        // } 
+        $this->m_fclist=[];       
         $this->_initModuleClasses();
         $c=realpath($dir."/.module.pinc");
         if(igk_io_file_exists($c, true)){
@@ -277,6 +266,14 @@ final class ApplicationModuleController extends BaseController{
                 $this->didInitModule();
             }
         });
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    protected function &getInvocationList()
+    {
+        return $this->m_fclist;
     }
 
     /**
@@ -549,6 +546,13 @@ final class ApplicationModuleController extends BaseController{
 
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    public function & getReferenceModuleList(){
+        return $this->m_fclist;
     }
 
     /**

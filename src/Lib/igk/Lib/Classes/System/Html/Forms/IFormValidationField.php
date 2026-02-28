@@ -7,8 +7,8 @@ namespace IGK\System\Html\Forms;
  * represent a validated field info
  * @package IGK\System\Html\Forms
  * @author C.A.D. BONDJE DOUE
- * @property ?string $allow_empty attribute definition 
- * @property ?string $empty_value attribute definition 
+ * @property ?bool $allowEmpty allow empty value 
+ * @property ?bool $allowNull attribute allow Null value  
  * @property ?bool $required is required field
  * @property ?int $maxLength max length of the field
  * @property ?int $minLength minimum length of the field

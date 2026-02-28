@@ -69,11 +69,15 @@ abstract class InspectorFormFieldValidationBase implements
                 $k = $s;
                 $s = $d;
             }else {
-                // + | 
+                // + | --------------------------------------------------------------------                
                 // + | convert to FormFieldInfo
+                // + | 
                 $v_validator = is_object($s) && method_exists($s, 'getValidator') ?  $s->getValidator() : null;
-                $s = Activator::CreateNewInstance(FormFieldInfo::class, $s);
-                $s->validator = $v_validator;
+                $ts = (array)$s;
+                if (($rs = Activator::CreateNewInstance(FormFieldInfo::class, $ts)) instanceof FormFieldInfo){                
+                    $rs->validator = $v_validator;                  
+                    $s = $rs;
+                }
             }
             if ($s instanceof FormFieldInfo) {
                 if ($s->validator) {
@@ -152,7 +156,9 @@ abstract class InspectorFormFieldValidationBase implements
                 if ($r && $r->var){
                     $type = explode('|', $r->var, 2)[0];  
                     $v_inf = new FieldInfo;
-                    $v_inf->type = $type;
+                    $v_inf->type = trim($type, '? ');
+                    $v_inf->allowEmpty= $v_inf->allowNull = !!preg_match('/^\\?/', $type);
+                    $v_inf->required= !preg_match('/^\\?/', $type);
                 } 
             }
             if ($v_errors){

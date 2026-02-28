@@ -389,7 +389,7 @@ class ApplicationLoader
                     \IGK\System\IO\FileSystem::class,
                     \IGKIterator::class,
                     \IGKUserInfo::class,
-                    \IArrayObject::class,
+                    \IGK\IArrayObject::class,
                     \IGKResourceUriResolver::class,
                 ]);
                 self::$sm_instance->_changed = true;

@@ -31,7 +31,7 @@ class InspectorFormFieldTest extends BaseTestCase{
         $r = new DummyNumberValidator; 
         $g = $r->getFields();
 
-        $this->assertTrue(1== $r->validate(["x"=>"45.0"])); 
+        $this->assertTrue(1== $r->validate(["x"=>"45.0", 'y'=>'info'])); 
         $this->assertFalse($r->x === "45"); 
         $this->assertTrue($r->x === 45); 
     }

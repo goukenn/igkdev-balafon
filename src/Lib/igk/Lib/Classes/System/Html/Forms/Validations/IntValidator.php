@@ -30,12 +30,26 @@ class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
     * @param mixed & $error
     * @param null|object $options
     */
-    protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
-        if (is_numeric($value)){
-            return intval($value);
+    protected function _validate($value, $default=null,  & $error=[], ?object $options=null){   
+        $v = $value ?? $default;
+        list($allowNull, $required) = igk_extract($options,'allowNull|required');
+        if (is_null($v) && !$allowNull){
+            $error[] = "value can't not be null";
+            return;
         }
-        if (is_numeric($default)){
-            return intval($default);
+        if (is_numeric($v)){
+            return intval($v);
+        } 
+        if ($allowNull && is_null($v)){
+            return $v;
+        }
+        if ($required){
+            $error[] = "missing provided value";
+            return;
+        }
+        if ($value){
+            $error[] = "provided value is invalid";
+            return;
         }
         return 0;
     }

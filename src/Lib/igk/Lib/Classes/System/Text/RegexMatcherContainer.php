@@ -114,6 +114,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     var $autoStore = true;
 
     /**
+     * flag to indicate detection will use multiple line regex
+     * @var mixed
+     */
+    var $splittingDefinition;
+
+    /**
     * auto generate doc.
     * @var ?IRegexMatchPatternStateListener
     */
@@ -1205,6 +1211,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     public function detect(string $source, int &$offset)
     {
         $v_flag_current = false;
+        if ($this->splittingDefinition){
+            $offset=0;
+            if (!is_null($this->m_last_offset)){
+                $this->m_last_offset = null;
+            }
+        }
         // if (!$this->m_startflag) {
         //     $this->m_startflag = true;  
         // }

@@ -4,6 +4,8 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms;
+
+use IGK\System\Html\Forms\Validations\IFormValidationInfo;
 use IGK\System\Html\IFormFieldOptions;
 /**
  * represent core field info
@@ -46,6 +48,17 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?int
      */
     var $minLength;
+
+    /**
+     * allow empty value
+     * @var mixed
+     */
+    var $allowEmpty = false;
+    /**
+     * allow null value
+     * @var mixed
+     */
+    var $allowNull = false;
 
     /**
     * .ctr

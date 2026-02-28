@@ -8,21 +8,6 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
     require_once(__DIR__.'/auto_inc.modules.php');
 } else{
     /**
-     * loading module definition 
-     * @package IGK\System
-     */
-
-    /**
-    * auto generate doc.
-    * @package IGK\System
-    */
-
-    /**
-    * auto generate doc.
-    * @package IGK\System
-    */
-
-    /**
     * auto generate doc.
     * @package IGK\System
     */

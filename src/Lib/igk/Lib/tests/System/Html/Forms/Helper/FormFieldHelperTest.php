@@ -63,10 +63,7 @@ class FormFieldHelperTest extends BaseTestCase
         $error = [];
         $_REQUEST = ["title" => "Mr. Paul", "desc" => "wiki", "age" => "undefined"];
         $c = $dummy->validateFromRequest($request, $error);
-        $this->assertTrue(!$c);
-        if ($c) {
-            $this->assertEquals('', json_encode($dummy));
-        }
+        $this->assertTrue(!$c);      
     }
 }
 
