@@ -90,7 +90,7 @@ trait PHPDocCommentParseTrait{
         $ref = igk_sys_reflect_class(static::class);
         $props = get_object_vars($this);
         foreach($props as $k=>$v){
-            if (!$v || ($k=='summary') || !$ref->getProperty($k)->isPublic()) continue;
+            if (is_null($v) || ($k=='summary') || !$ref->getProperty($k)->isPublic()) continue;
             if (!is_string($v)){
                 $v = implode(' ', (array)$v);
             }
