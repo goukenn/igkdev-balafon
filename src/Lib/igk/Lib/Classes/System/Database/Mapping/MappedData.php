@@ -6,6 +6,7 @@ namespace IGK\System\Database\Mapping;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\IToArrayResolver;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
@@ -15,7 +16,7 @@ use JsonSerializable;
 * @package IGK\System\Database\Mapping
 */
 class MappedData implements JsonSerializable, IToArrayResolver{
-
+    use JsonSerializableTrait;
     /**
     * Property: data.
     * @var mixed
@@ -38,12 +39,13 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     * @param bool $ignore_empty
     * @return mixed
     */
-    public function jsonSerialize(bool $ignore_null=true, bool $ignore_empty=true): mixed { 
+    public function _json_serialize(bool $ignore_null=true, bool $ignore_empty=true) { 
         $opts = new JSonEncodeOption;
         $opts->ignore_null = $ignore_null;
         $opts->ignore_empty = $ignore_empty;
         return JSon::Encode($this->m_data);
-    }
+    } 
+
 
     /**
     * To array.

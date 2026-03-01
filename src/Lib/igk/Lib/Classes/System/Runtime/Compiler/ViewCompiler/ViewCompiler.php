@@ -238,10 +238,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     {
         if (!$options->struct_info) {
             $v_flag = &$options->flag; 
-            if ($v_flag) {
-                // igk_debug_wln(
-                //     __FILE__.":".__LINE__, 
-                //     "handle_flag:::::::::::::::::::::::::" . $v_flag);
+            if ($v_flag) { 
                 if ($this->_handleFlag($options, $id, $value)) {
                     return true;
                 }
@@ -451,12 +448,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             );
             return;
         }
-        if ($this->instruction_blocks) {
-            // 
-            // igk_debug_wln(
-            //     __FILE__ . ":" . __LINE__,
-            //     "::::::::::::::::::::::::::::::::::::::::::::compile__block"
-            // );
+        if ($this->instruction_blocks) { 
             $sb = new StringBuilder;
             if ($this->forCache) {
                 $header = parent::mergeSourceCode(true);

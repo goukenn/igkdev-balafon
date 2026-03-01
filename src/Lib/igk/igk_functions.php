@@ -791,7 +791,7 @@ function igk_ca_edit_article($file)
 }
 ///<summary>Represente igk_cache function</summary>
 /**
- * helper: Represente igk_cache function
+ * helper: get cache instance 
  * @return IGKCaches
  */
 function igk_cache()

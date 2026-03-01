@@ -5,26 +5,61 @@
 namespace IGK\System\Modules;
 
 use IGK\System\Console\Logger;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
-use Kreait\Firebase\Util\JSON;
+use JsonSerializable; 
 
 /**
  * 
  * @package IGK
  * @author C.A.D. BONDJE DOUE
  */
-class ModuleInclusionMethod{
+class ModuleInclusionMethod implements JsonSerializable{
+    use JsonSerializableTrait;
     private $m_callback;
     private $m_file;
     private $m_at;
     private $m_name;
-    public function __construct(string $file, string $name, callable $callback, int $at)
+    private $m_src;
+    private $m_params;
+    public function __construct(string $file, string $name, callable $callback, int $at, $params, string $source)
     {
         $this->m_name = $name;
         $this->m_callback = $callback;
         $this->m_file = $file;
         $this->m_at = $at;
+        $this->m_src = $source;
+        $this->m_params = $params;
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    public function _json_serialize(){
+        return [
+            'file'=>$this->m_file,
+            'src'=>$this->m_src,
+            'at'=>$this->m_at,
+            'params'=>$this->m_params
+        ];
+    }
+    /**
+     * wake up from cache
+     * @param mixed $data 
+     * @return ModuleInclusionMethod 
+     */
+    public static function WakeUpFromCache($data){
+        list($file, $code, $at, $params, $name, $line) = igk_extract($data, 'file|src|at|params|name|line');
+        $g = ModuleIncludeDefinitionUtility::CreateMethodHandle($params, $code);
+        $inf = new ModuleInclusionMethod(
+            $file, 
+            $name, 
+            $g, 
+            $line ?? -1,
+            $params,
+            $code);
+        return $inf; 
     }
     /**
      * 

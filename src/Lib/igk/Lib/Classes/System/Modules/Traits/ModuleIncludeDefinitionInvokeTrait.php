@@ -12,9 +12,21 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 trait ModuleIncludeDefinitionInvokeTrait{
+    /**
+     * retrieve invocation method 
+     * @return never 
+     * @throws mixed 
+     */
     protected function & getInvocationList(){
         throw new \Exception('must override implement this '.__FUNCTION__);
     }
+    /**
+     * invoke inclusion 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws mixed 
+     */
     protected function invokeInclusion($name, $arguments){
         $list = & $this->getInvocationList() ?? [];
          if ($fc = igk_getv($list, $name)){

@@ -1,4 +1,9 @@
 <?php
+
+// @author: C.A.D. BONDJE DOUE
+// @licence: IGKDEV - Balafon @ 2019
+// @Description: Use to add extra module to system. that module include function declared on .module.pinc file with the $reg array
+
 namespace IGK\Controllers;
 use Error;
 use Exception;
@@ -6,21 +11,17 @@ use IGK\Helper\IO;
 use IGK\ApplicationLoader;
 use IGK\Constants;
 use IGK\Helper\Activator;
-use IGK\System\Configuration\ModuleConfiguration;
-use IGK\System\Controllers\ApplicationModules;
+use IGK\System\Configuration\ModuleConfiguration; 
 use IGK\System\Controllers\ControllerMethods;
-use IGK\System\Exceptions\ApplicationModuleInitException;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Diagnostics\Debugs;
+use IGK\System\Exceptions\ApplicationModuleInitException; 
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\Path;
-use IGK\System\Modules\Traits\ModuleIncludeDefinitionInvokeTrait;
-use ReflectionException;
+use IGK\System\Modules\Traits\ModuleIncludeDefinitionInvokeTrait; 
 use Throwable;
 use TypeError;
-// @author: C.A.D. BONDJE DOUE
-// @licence: IGKDEV - Balafon @ 2019
-// @Description: Use to add extra module to system. that module include function declared on .module.pinc file with the $reg array
+
 /**
 * represent application module class
 * @method function initDoc($doc, ...$args) initialize document
@@ -99,7 +100,6 @@ final class ApplicationModuleController extends BaseController{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function config($name, $default=null){
         return igk_conf_get($this->m_configs, $name, $default, 1);
     }
@@ -346,7 +346,8 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $c the default value is null
     */
     private function _init($c=null){
-        $s=igk_io_read_allfile($c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME);
+        $c_cfile = $c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME;
+       
         $c_f = self::CONF_MODULE;
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
@@ -355,23 +356,42 @@ final class ApplicationModuleController extends BaseController{
             igk_die(sprintf("%s is missing in %s",$c_f, $this->m_dir));
         }
         $definition = (array)json_decode(file_get_contents($file));
-        try{ 
+        $s = '';
+        $v_fc = (function(){
+            // + | --------------------------------------------------------------------
+            // + | MODULE: treat moduel.pinc definition 
+            // + |            
             extract((function(){
                 return ['reg'=>function($name, $callback){
                     $this->reg_function($name, $callback);
-                }];
+                }, '__file__'=>$this->getDeclaredFileName()];
             })());
-            $data = eval("?>".$s);
-            $data = array_merge($data??[], $definition);
+             if (!empty(trim(func_get_arg(0)['code']))){
+                eval("?>".func_get_arg(0)['code']);                 
+             }              
+            return isset(func_get_arg(0)['return']) ? eval(func_get_arg(0)['return']) : null;
+        })->bindTo($this);
+        try{ 
+            $v_fclist = & $this->m_fclist;
+            $v_is_debug = igk_is_debug(Debugs::balafon_module_loading);
+            if ($__cache = \IGK\System\Modules\ModuleInitializer::Init($this, $c_cfile, $v_fclist)){
+                $v_is_debug && igk_ilog($c_cfile, 'blf-module-loading');
+                $data = call_user_func_array($v_fc, [$__cache]);
+                // if (!empty(trim($__cache['code'])))
+                //     eval("? >".$__cache['code']);               
+                // $data = isset($__cache['return']) ? eval($__cache['return']) : null;
+                $data = array_merge($data??[], $definition);
+                $s = $__cache['code'];
+            }
         }
-        catch(TypeError $error){
+        catch(\TypeError $error){
             throw new ApplicationModuleInitException($this, 500, $error);            
         }
-        catch(Error $ex){
+        catch(\Error $ex){
             // catch fatal - error
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
-        catch(Throwable $ex){
+        catch(\Throwable $ex){
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         $this->m_src = $s;
@@ -384,10 +404,9 @@ final class ApplicationModuleController extends BaseController{
         unset($this->m_src);
     }
     /**
-     * get module configuration
+     * retrieve the module configuration
      * @return mixed 
      */
-
     public function getModuleConfig(){
         return $this->m_configs;
     }

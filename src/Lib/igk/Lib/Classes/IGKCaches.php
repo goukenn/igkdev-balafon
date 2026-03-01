@@ -11,6 +11,8 @@ use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
+use IGK\System\IO\Path;
+
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
@@ -280,5 +282,31 @@ final class IGKCaches
             }
         }
         return false;
+    }
+
+    /**
+     * store cache data 
+     * @param mixed $file 
+     * @param mixed $data 
+     * @return bool 
+     */
+    public function store($file, $data){
+        return igk_io_w2file(Path::Combine(igk_io_cachedir(), $file), $data);
+    }
+    /**
+     * check if file exists in cache 
+     * @param mixed $file 
+     * @return bool 
+     */
+    public function file_exists($file){
+        return file_exists(Path::Combine(igk_io_cachedir(), $file));
+    }
+    /**
+     * retriev containt int the cache  
+     * @param mixed $file 
+     * @return string|false 
+     */
+    public function get($file){
+        return file_get_contents(Path::Combine(igk_io_cachedir(), $file));
     }
 }

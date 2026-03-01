@@ -32,4 +32,14 @@ class ModuleConfiguration extends EntityConfigurationSchema{
      * @var ?string
      */
     var $entry_NS;
+
+    /**
+     * retrieve the configuration value
+     * @param string $key 
+     * @param mixed $default 
+     * @return void 
+     */
+    public function get(string $key, $default = null){
+        return $this->$key ?? $default;
+    }
 }

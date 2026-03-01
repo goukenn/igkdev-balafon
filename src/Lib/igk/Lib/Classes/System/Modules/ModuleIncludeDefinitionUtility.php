@@ -18,17 +18,17 @@ use IGK\System\Text\RegexMatcherUtility;
 class ModuleIncludeDefinitionUtility
 {
     const DEBUG_KEY = 'debug-module-include-utility';
-    
-    public static function Treat($params, $args, $src_obj=null)
+
+    public static function Treat($params, $args, $src_obj = null)
     {
         $default = [];
         $g = PHPScriptBuilderUtility::ExtractArgsFromFuncParamDefinition($params, $default, $src_obj);
         $t = [];
-        while((count($args)>0)&&(count($g)>0)){
+        while ((count($args) > 0) && (count($g) > 0)) {
             $q = array_shift($g);
             $t[$q] = array_shift($args);
         }
-        while(count($g)>0){
+        while (count($g) > 0) {
             $q = array_shift($g);
             $t[$q] = igk_getv($default, $q);
         }
@@ -40,7 +40,7 @@ class ModuleIncludeDefinitionUtility
             $__def = [
                 $param,
                 $code,
-                'invoke'=>function(){
+                'invoke' => function () {
                     extract(func_get_arg(0));
                     return eval(func_get_arg(1));
                 }
@@ -49,7 +49,6 @@ class ModuleIncludeDefinitionUtility
                 $tab = self::Treat($__def[0], func_get_args(), $this);
                 $tab[$selfKey] = $this;
                 return call_user_func_array($__def['invoke']->bindTo($this), [$tab, $__def[1]]);
-                
             };
         })($param, $code, $selfKey);
 
@@ -62,22 +61,47 @@ class ModuleIncludeDefinitionUtility
      * @param null|array $fc_handle 
      * @return array info to caches 
      */
-    public static function BindFile(string $file, ?array &$reference, ?array $fc_handle = [])
+    public static function BindFile(string $file, ?array &$reference, ?array $fc_handle = []): array
     {
-        $regex = self::InitRegexContainer();
         $src = file_get_contents($file);
+        return self::BindSourceFile($src, $file, $reference, $fc_handle);
+    }
+    /**
+     * bind source file to get defined global functions
+     * @param string $source 
+     * @param string $file 
+     * @param null|array &$reference 
+     * @param null|array $fc_handle 
+     * @return array 
+     */
+    public static function BindSourceFile(string $source, string $file, ?array &$reference, ?array $fc_handle = [])
+    {
+
+        $src = $source;
+        $regex = self::InitRegexContainer();
         $caches = [];
         $pos = 0;
         $y = 0;
         $fc_info = (object)[
             'file' => $file,
-            'line' => 0,            
+            'line' => 0,
             'name' => null,
             'params' => null,
             'code' => null
         ];
         $fc_handle = array_merge([
             'func-name' => function ($e) use ($fc_info) {
+                if (is_null($fc_info->name) && !is_null($fc_info->params)){
+                      $fc_info->name = null;
+                      $fc_info->params = null;
+                      return;
+                }
+                if ($fc_info->name){
+                    if ('use' == trim($e->value)){
+                    $fc_info->name = null;
+                    }
+                    return;
+                }
                 $fc_info->name = igk_conf_get($e->beginCaptures, 'n/0');
             },
             'func-param' => function ($e) use ($fc_info) {
@@ -88,9 +112,17 @@ class ModuleIncludeDefinitionUtility
                 $v = substr($e->value, 1, -1);
                 $fc_info->code = $v;
             },
-            'function' => function ($e) use ($fc_info, & $reference, & $caches) {
-                $g = self::CreateMethodHandle($fc_info->params, $fc_info->code);
-                $caches[$fc_info->name] = $reference[$fc_info->name] = new ModuleInclusionMethod($fc_info->file,$fc_info->name, $g, $fc_info->line);
+            'function' => function ($e) use ($fc_info, &$reference, &$caches) {
+                if ($fc_info->name && $fc_info->code) {
+                    $g = self::CreateMethodHandle($fc_info->params, $fc_info->code);
+                    $caches[$fc_info->name] = $reference[$fc_info->name] = new ModuleInclusionMethod(
+                        $fc_info->file, 
+                        $fc_info->name, 
+                        $g, 
+                        $fc_info->line,
+                        $fc_info->params,
+                        $fc_info->code);
+                }
                 $fc_info->name = null;
                 $fc_info->params = null;
                 $fc_info->code = null;
@@ -139,6 +171,7 @@ class ModuleIncludeDefinitionUtility
         $heredoc = [];
         RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);
 
+        //$regex->begin('\\buse\\b', '(?<=;)', 'function-skip');
         $func = $regex->begin('\\bfunction\\b', '(?<=;|\})', 'function')->last();
         $func_code_block = $regex->createPattern([
             'begin' => '\{',
@@ -186,10 +219,10 @@ class ModuleIncludeDefinitionUtility
         $func->patterns = [
             $comments,
             $heredoc,
-            $func_name,
+            $func_name,            
             $func_param_block,
             $func_code_block
-        ]; 
+        ];
 
         return $regex;
     }
