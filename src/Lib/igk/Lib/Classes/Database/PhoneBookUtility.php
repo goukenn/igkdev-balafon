@@ -126,7 +126,7 @@ class PhoneBookUtility
      * @throws Exception 
      * @throws IGKException 
      */
-    public static function ImportVCards($cards, ?Users $user = null)
+    public static function ImportVCards($cards, ?Users $user = null, & $count = 0)
     {
         foreach ($cards as $c) {
             $firstname = null;
@@ -141,8 +141,9 @@ class PhoneBookUtility
                     $data[$r] = $$r;
                 }
             }
-            if ($data)
-                PhoneBookUtility::LoadEntryData($data, $user);
+            if ($data && PhoneBookUtility::LoadEntryData($data, $user)){
+                $count++;
+            }
         }
     }
     /**
@@ -224,7 +225,7 @@ class PhoneBookUtility
     /**
     * auto generate doc.
     * @param null|Users $user
-    * @return false
+    * @return bool
     */
     public static function LoadEntryData($data, ?Users $user = null)
     {
@@ -259,6 +260,7 @@ class PhoneBookUtility
                     ]);
                 }
             }
+            return true;
         }
         return false;
     }

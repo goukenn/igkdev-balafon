@@ -1,0 +1,14 @@
+<?php
+use function igk_resources_gets as __;
+$builder([
+    "p.terms-conditions.dispflex" => [
+        "span.no-wrap" => date("Y") . ' ' . __("&copy; All right Reserved"),       
+        "ul.dispflex" => [
+            ["@_t:li > a.no-wrap" => [
+                "_" => ["href" => "#"], __("Cookie Preferences")
+            ]],
+            ["@_t:li > a.no-wrap" => ["_" => ["href" => "#"], __("Privacy")]],
+            ["@_t:li > a.no-wrap" => ["_" => ["href" => "#"], __("Terms")]]
+        ]
+    ]
+]);

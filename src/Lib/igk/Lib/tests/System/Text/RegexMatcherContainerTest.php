@@ -411,7 +411,7 @@ class RegexMatcherContainerTest extends BaseTestCase
 
         $regex = new RegexMatcherContainer;
         $regex->begin('begin:', '$', 'mark')->last()->patterns = [
-            ['match' => '(?=!)', 'stop-end']
+            ['match' => '(?=!)', 'tokenID'=>'stop-end']
         ];
 
         $pos = 0;
@@ -437,7 +437,7 @@ class RegexMatcherContainerTest extends BaseTestCase
 
         $regex = new RegexMatcherContainer;
         $regex->begin('begin:', ';', 'mark')->last()->patterns = [
-            ['match' => '(?=!)', 'stop-end']
+            ['match' => '(?=!)', 'tokenID'=>'stop-end']
         ];
 
         $pos = 0;
@@ -460,7 +460,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     public function test_regexmatch_detect_append_after_end_stop_2()
     {
         $src = "       g///<summary>info</summary>\nbegin: ";
-        $stop = ['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line'];
+        //.$stop = ['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line'];
         $regex = new RegexMatcherContainer;
         $inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
         $inner->patterns = [ 

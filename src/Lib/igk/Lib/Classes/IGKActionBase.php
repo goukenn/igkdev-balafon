@@ -33,12 +33,12 @@ abstract class IGKActionBase implements IActionProcessor
      * default verb before handling the action 
      * @var string
      */
-    protected $_verb = 'GET';
+    protected $m_verb = 'GET';
     /**
      * model user used to handle the request
      * @var mixed
      */
-    protected $_user;
+    protected $m_user;
 
     /**
     * Constant: init trait prefix.
@@ -231,7 +231,6 @@ abstract class IGKActionBase implements IActionProcessor
      * override this to handle request header
      * @return void 
      */
-
     protected function fetchRequestHeader()
     {
     }   
@@ -355,8 +354,8 @@ abstract class IGKActionBase implements IActionProcessor
             $cargs = [$this];
             $b = new $b(...$cargs);
         }
-        $this->_verb = $verb;
-        $this->_user = $user;
+        $this->m_verb = $verb;
+        $this->m_user = $user;
         if ($args && !$this->checkMethodExists($args[0]) && ($em = $this->defaultEntryMethod)){
             array_unshift($args, $em);
         }
@@ -365,17 +364,24 @@ abstract class IGKActionBase implements IActionProcessor
 
     /**
     * Checks Method Exists.
-    * @param string $m
+    * @param string $method name 
+    * @param ?string $topVerb
+    * @return bool
     */
-    protected function checkMethodExists(string $m){
+    protected function checkMethodExists(string $m, ?string $topVerb=null){
         $p = $m = ActionHelper::SanitizeMethodName($m);
+        $c_verb = $topVerb ?? $this->m_verb;
+        $verb = null;
         $tab = [$m];
         if (false!== ($ipos = stripos($p, '_', 0))){
             $verb = substr($m, $ipos+1);
             if (in_array(strtoupper($verb), explode('|', Route::SUPPORT_VERBS))){
                 $tab[] = substr($m, 0, $ipos);
             }
-        }        
+        } 
+        if (is_null($topVerb) && is_null($verb) && $c_verb) {
+            $tab[] = $m.'_'.strtolower($c_verb);      
+        }
         foreach($tab as $m){
             if (method_exists($this, $m))
                 return true;
@@ -398,7 +404,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
-        $verb = $this->_verb; // 
+        $verb = $this->m_verb; // 
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
             $name = $this->defaultEntryMethod;           

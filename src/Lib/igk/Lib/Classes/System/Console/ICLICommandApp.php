@@ -8,8 +8,7 @@ namespace IGK\System\Console;
 * auto generate doc.
 * @package IGK\System\Console
 * @author C.A.D. BONDJE DOUE
-* @property mixed $command
+* @property array $commands list of CLI commands
 */
 interface ICLICommandApp{
-
 }

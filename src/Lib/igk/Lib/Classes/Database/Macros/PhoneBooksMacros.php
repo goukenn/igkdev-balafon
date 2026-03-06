@@ -10,6 +10,7 @@ namespace IGK\Database\Macros;
 
 use IGK\Database\DbQueryCondition;
 use IGK\Database\IDbQueryResult;
+use IGK\Database\PhoneBookUtility;
 use IGK\Helper\Activator;
 use IGK\Models\PhoneBookEntries;
 use IGK\Models\PhoneBooks;
@@ -19,6 +20,7 @@ use IGK\Models\Users;
 use IGK\System\Constants\PhonebookTypeNames;
 use IGK\System\Database\IPhoneBookDetailVisitor;
 use IGK\System\Database\PhoneBookEntryDetails;
+use IGK\System\IO\VCF\VCard;
 use IGK\System\IToJSon;
 
 /**
@@ -264,5 +266,23 @@ class PhoneBooksMacros
             }
         }
         return $ids;
+    }
+
+    /**
+     * load vcard to user 
+     * @param PhoneBooks $model 
+     * @param Users $user 
+     * @param stinr file to load 
+     * @return void 
+     */
+    public static function loadVCardToUser(PhoneBooks $model, string $file, Users $user){
+        $v_cards = VCard::OpenFile($file) ?? igk_die(__('missing or incorrect vcard file'));
+        $user  || igk_die('required user');
+        $count = 0;
+        $result = PhoneBookUtility::ImportVCards($v_cards, $user, $count);
+
+        return compact('count');
+
+
     }
 }

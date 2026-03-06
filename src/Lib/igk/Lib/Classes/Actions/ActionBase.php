@@ -22,8 +22,8 @@ abstract class ActionBase extends IGKActionBase{
      * @return null|Users 
      */
     public function getUser(): ?Users{
-        if ($this->_user){
-            return $this->_user;
+        if ($this->m_user){
+            return $this->m_user;
         }
         $u = $this->getController()->getUser();
         if ($u instanceof IUserProfile){

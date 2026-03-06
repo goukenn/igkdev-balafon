@@ -190,18 +190,18 @@ abstract class ConsoleUtility
     /**
     * auto generate doc.
     * @param array &$args
-    * @return stdClass|mixed
+    * @return stdClass|ICommandOptions|mixed
     */
 
     public static function TreatCommandArgs(ICLICommandApp $app, $argv, array & $args, ?array $handle=null){
         $command = igk_createobj();
         $command->app = $app;
-        $command->command = $app->command;
+        $command->commands = $app->commands;
         $command->exec = null;
         $command->storage = array();
         $command->waitForNextEntryFlag = false;
         $command->options = new \stdClass();
-        $command->args = $args;
+        $command->args = & $args;
         $tab = $argv;
         $handle = $handle ?? [];
         $args = [];
@@ -243,7 +243,7 @@ abstract class ConsoleUtility
                             }
                             $command->options->{$c[0]}[] = $v_ts;
                         }
-                        unset($command->command[$id]);
+                        unset($command->commands[$id]);
                     } else
                         $args[] = $v;
                 }

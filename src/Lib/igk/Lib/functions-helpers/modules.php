@@ -88,6 +88,9 @@ if (!function_exists('igk_get_loaded_modules')) {
  */
 function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
 {
+    // + | Preparem module definition 
+    $modulename = str_replace('.','\\\\', $modulename);
+
     $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();
     $g = &igk_environment()->require_modules();

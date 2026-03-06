@@ -1274,8 +1274,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $k = array_shift($tm);
                 // foreach ($m as $k) {
                 if (is_array($k)) {
-                    // create an pattern object
-                    $k = $this->createPattern($k);
+                    // + |  create an pattern object
+                    $v_ctab = igk_array_is_assoc_only($k) ? $k:['patterns'=>$k];
+                    $k = $this->createPattern($v_ctab);
                     $this->m_matcher[$v_ck] = $k;
                 }
             if ($v_skip_detect && ($v_skip_detect===$k)){

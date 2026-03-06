@@ -565,7 +565,9 @@ abstract class ActionHelper
                         } else { 
                             if (count($_t)==1){
                                 $n = $_t[0];
-                                if (method_exists($handler_class_name, $n)){
+                                if (self::_CheckMethodExistsWithVerb($handler_class_name, $n, strtolower($verb)))
+                                // if (method_exists($handler_class_name, $n))
+                                    {
                                     $_index = array_shift($_t);
                                 }
                             }
@@ -632,5 +634,22 @@ abstract class ActionHelper
         ); 
         Request::getInstance()->setJsonData($old_data);
         return $r;
+    }
+    /**
+     * reset action class name 
+     * @param string $action_class_name 
+     * @param string $name 
+     * @param string $verb 
+     * @return true|false 
+     */
+    private static function _CheckMethodExistsWithVerb(string $action_class_name, string $name, string $verb){
+        $tn = [$name.'_'.$verb, $name];
+        while(count($tn)> 0){
+            $q = array_shift($tn);
+            if (method_exists($action_class_name, $q)){
+                return true;
+            }
+        } 
+        return false;
     }
 }

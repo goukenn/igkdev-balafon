@@ -50,12 +50,12 @@ class App implements ICLICommandApp
      * application version
      * @var string
      */
-    const version = "1.0.1";
+    const version = "1.0.2";
     /**
-     * available command
+     * available commands
      * @var mixed
      */
-    public $command = [];
+    public $commands = [];
     /**
      * setup the base command
      * @var mixed
@@ -175,7 +175,7 @@ class App implements ICLICommandApp
         }
     
         ksort($command);
-        $app->command = $command;
+        $app->commands = $command;
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
         self::ResetCommandWorkingDir();       
@@ -200,7 +200,7 @@ class App implements ICLICommandApp
     }
     private static function __InitExecCommand(App $app, & $handle){
         $handle = [];
-        $v_tcommands = $app->command;
+        $v_tcommands = $app->commands;
         $v_cnf = $app->getConfigs();
         $v_basePath = $app->_basePath;
         $app = new static();
@@ -234,7 +234,7 @@ class App implements ICLICommandApp
         }
         ksort($v_tcommands);
         // + | update app command list 
-        $app->command = $v_tcommands;
+        $app->commands = $v_tcommands;
     }
     /**
      * execute argument
@@ -268,7 +268,7 @@ class App implements ICLICommandApp
                 return $action($command, ...$args);
             } else {
                 if ($tab) {
-                    Logger::danger("blf-cli: no action found - " . json_encode($tab));
+                    Logger::danger("blf-cli: no action found - " . json_encode($tab, JSON_UNESCAPED_SLASHES));
                 }
             }
         } catch (Exception $ex) {
@@ -345,7 +345,7 @@ class App implements ICLICommandApp
      */
     public function showHelp($command = null, ?string $filter=null)
     {
-        if (!empty($command) && ($cmd = $this->command[$command])) {
+        if (!empty($command) && ($cmd = $this->commands[$command])) {
             if (is_array($inf = igk_getv($cmd, 1))) {
                 $cf = $inf["help"];
                 $cmd = $this->m_helpCommand;
@@ -380,7 +380,7 @@ class App implements ICLICommandApp
         $this->print("");
         $this->print("");
         $groups = [];
-        array_walk($this->command, function ($c, $key) use (&$groups) {
+        array_walk($this->commands, function ($c, $key) use (&$groups) {
             $cat = null; //'..z-group';
             if (is_array($c)) {
                 if (($l = igk_getv($c, 1)) && (is_array($l))) {
