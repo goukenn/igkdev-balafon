@@ -516,7 +516,7 @@ EOF
          $n = igk_create_notagnode();
          $ts = implode("\n", [
             "a|b",
-            //"`c \|d` | quote ",            
+            "`c \|d` | quote ",            
         ]);
         $conv = new MarkdownConverter;
         $l = $conv->transformToHtml($ts);
@@ -524,7 +524,7 @@ EOF
         $n->markdown($ts);
 
         $this->assertEquals(
-            '',
+            '<div class="md-doc"><table class="igk-table"><tr><th>a</th><th>b</th></tr><tr><td><code>c \|d</code></td><td>quote</td></tr></table></div>',
             $n->render()
         );
     }
