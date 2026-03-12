@@ -91,6 +91,7 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\CSV\Helper\CSVHelper;
 use IGK\System\IO\File\IniFile;
+use IGK\System\IO\FileHandler;
 use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 
@@ -13778,7 +13779,8 @@ function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = f
 
     if (!in_array($ext, ['phtml', 'pinc'])) {
         // + | handling response from file handler
-        if ($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtension('.' . $ext)) {
+        if (($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtension('.' . $ext)) instanceof FileHandler){            
+            
             $response = $handler->transform(file_get_contents($file), (object)['ctrl' => $ctrl, 'raw' => ViewHelper::GetViewArgs('data')]);
             if ($response instanceof HtmlItemBase)
                 $ctrl->getTargetNode()->add($response);

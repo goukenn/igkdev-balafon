@@ -20,29 +20,29 @@ use ReflectionException;
  */
 
 /**
-* auto generate doc.
-* @package IGK\Helper
-*/
+ * auto generate doc.
+ * @package IGK\Helper
+ */
 abstract class StringUtility
 {
 
     /**
-    * Constant: identifier token.
-    * @var mixed
-    */
+     * Constant: identifier token.
+     * @var mixed
+     */
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-    * Constant: default trim char.
-    * @var mixed
-    */
+     * Constant: default trim char.
+     * @var mixed
+     */
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
 
     /**
-    * auto generate doc.
-    * @param array *71280add
-    * @return bool
-    */
+     * auto generate doc.
+     * @param array *71280add
+     * @return bool
+     */
 
     public static function StrArrayContains(string $name, array $list): bool
     {
@@ -69,10 +69,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param null|string $prefix
-    * @return string
-    */
+     * auto generate doc.
+     * @param null|string $prefix
+     * @return string
+     */
 
     public static function AutoPrefix(string $column, ?string $prefix = null): string
     {
@@ -86,10 +86,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param array $tab
-    * @return string
-    */
+     * auto generate doc.
+     * @param array $tab
+     * @return string
+     */
 
     public static function DumpArray(array $tab): string
     {
@@ -185,8 +185,8 @@ abstract class StringUtility
     }
 
     /**
-    * Not null or empty filter callback.
-    */
+     * Not null or empty filter callback.
+     */
     public static function NotNullOrEmptyFilterCallback()
     {
         return function ($a) {
@@ -279,10 +279,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param string $text
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $text
+     * @return string
+     */
 
     public static function RemoveAccents(string $text)
     {
@@ -341,10 +341,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param null|string $controller
-    * @return string
-    */
+     * auto generate doc.
+     * @param null|string $controller
+     * @return string
+     */
 
     public static function AuthorizationPath(string $name, ?string $controller): string
     {
@@ -362,10 +362,10 @@ abstract class StringUtility
     }
 
     /**
-    * Returns Application Mail Title.
-    * @param BaseController $controller
-    * @param null|string $title
-    */
+     * Returns Application Mail Title.
+     * @param BaseController $controller
+     * @param null|string $title
+     */
     public static function GetApplicationMailTitle(BaseController $controller, ?string $title = null)
     {
         return $title ??
@@ -409,21 +409,21 @@ abstract class StringUtility
     }
 
     /**
-    * Name display.
-    * @param null|string $firstname
-    * @param null|string $lastname
-    */
+     * Name display.
+     * @param null|string $firstname
+     * @param null|string $lastname
+     */
     public static function NameDisplay(?string $firstname = null, ?string $lastname = null)
     {
         return implode(" ", array_filter([ucfirst($firstname ?? ""), strtoupper($lastname ?? "")]));
     }
 
     /**
-    * Date display.
-    * @param mixed $date
-    * @param mixed $in
-    * @param null|string $out
-    */
+     * Date display.
+     * @param mixed $date
+     * @param mixed $in
+     * @param null|string $out
+     */
     public static function DateDisplay($date, $in = "Y-m-d", ?string $out = null)
     {
         if ($out === null) {
@@ -434,20 +434,20 @@ abstract class StringUtility
     }
 
     /**
-    * Location display.
-    * @param null|string $location
-    */
+     * Location display.
+     * @param null|string $location
+     */
     public static function LocationDisplay(?string $location = null)
     {
         return $location;
     }
 
     /**
-    * Rm sub string.
-    * @param string $str
-    * @param mixed $offset
-    * @param int $length
-    */
+     * Rm sub string.
+     * @param string $str
+     * @param mixed $offset
+     * @param int $length
+     */
     public static function RmSubString(string $str, $offset, int $length)
     {
         return substr($str, 0, $offset) . substr($str, $offset + $length);
@@ -467,9 +467,9 @@ abstract class StringUtility
     }
 
     /**
-    * Identifier.
-    * @param string $n
-    */
+     * Identifier.
+     * @param string $n
+     */
     public static function Identifier(string $n)
     {
         $rx =  "/^" . IGK_IDENTIFIER_RX . "$/i";
@@ -488,9 +488,9 @@ abstract class StringUtility
     }
 
     /**
-    * Sanitize line.
-    * @param string $str
-    */
+     * Sanitize line.
+     * @param string $str
+     */
     public static function SanitizeLine(string $str)
     {
         $t = preg_split("/(\r\n)|(\n)|(\t)/i", $str);
@@ -510,9 +510,9 @@ abstract class StringUtility
     }
 
     /**
-    * Uri combine.
-    * @param mixed ...$args
-    */
+     * Uri combine.
+     * @param mixed ...$args
+     */
     public static function UriCombine(...$args)
     {
         return self::Uri(implode("/", $args));
@@ -531,9 +531,9 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $pattern
-    */
+     * auto generate doc.
+     * @param mixed $pattern
+     */
 
     public static function Contains($text, $pattern)
     {
@@ -543,9 +543,9 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $pattern
-    */
+     * auto generate doc.
+     * @param mixed $pattern
+     */
 
     public static function EndWith($chaine, $pattern)
     {
@@ -584,9 +584,9 @@ abstract class StringUtility
     //@chaine : string where to operate
 
     /**
-    * auto generate doc.
-    * @param mixed $offset the default value is 0
-    */
+     * auto generate doc.
+     * @param mixed $offset the default value is 0
+     */
 
     public static function IndexOf($chaine, $research, $offset = 0)
     {
@@ -599,9 +599,9 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $key the default value is true
-    */
+     * auto generate doc.
+     * @param mixed $key the default value is true
+     */
 
     public static function Join($tab, $separator = ",", $key = true)
     {
@@ -622,9 +622,9 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $pattern
-    */
+     * auto generate doc.
+     * @param mixed $pattern
+     */
 
     public static function StartWith($chaine, $pattern)
     {
@@ -633,9 +633,9 @@ abstract class StringUtility
     //@personal sub
 
     /**
-    * auto generate doc.
-    * @param mixed $length the default value is null
-    */
+     * auto generate doc.
+     * @param mixed $length the default value is null
+     */
 
     public static function Sub($chaine, $start, $length = null)
     {
@@ -678,9 +678,9 @@ abstract class StringUtility
     }
 
     /**
-    * Single quote replace.
-    * @param string $src
-    */
+     * Single quote replace.
+     * @param string $src
+     */
     public static function SingleQuoteReplace(string $src)
     {
         $ctn = new RegexMatcherContainer;
@@ -698,10 +698,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param string $separator
-    * @return array
-    */
+     * auto generate doc.
+     * @param string $separator
+     * @return array
+     */
 
     public static function ReadArgs(string $data, $separator = ",")
     {
@@ -796,9 +796,9 @@ abstract class StringUtility
     }
 
     /**
-    * Reads Array Constants.
-    * @param mixed $v
-    */
+     * Reads Array Constants.
+     * @param mixed $v
+     */
     public static function ReadArrayConstants($v)
     {
         $c = new RegexMatcherContainer;
@@ -901,14 +901,14 @@ abstract class StringUtility
     }
 
     /**
-    * Displays Address.
-    * @param null|string $street
-    * @param null|string $number
-    * @param null|string $box
-    * @param null|string $city
-    * @param null|int $postalCode
-    * @param null|mixed $country
-    */
+     * Displays Address.
+     * @param null|string $street
+     * @param null|string $number
+     * @param null|string $box
+     * @param null|string $city
+     * @param null|int $postalCode
+     * @param null|mixed $country
+     */
     public static function DisplayAddress(
         ?string $street = null,
         ?string $number = null,
@@ -986,10 +986,10 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return string
+     */
 
     public static function ConstantToCamelCaseClassName(string $value): string
     {
@@ -1001,9 +1001,38 @@ abstract class StringUtility
      * @return string 
      */
 
-    public static function PathToClassName(string $value):string{
-        $value = str_replace('-', '_',$value);
-        $action_name = implode('', array_map('ucfirst',  array_filter(explode('_',$value))));
+    public static function PathToClassName(string $value): string
+    {
+        $value = str_replace('-', '_', $value);
+        $action_name = implode('', array_map('ucfirst',  array_filter(explode('_', $value))));
         return implode("/", array_map('ucfirst', explode('/', $action_name)));
+    }
+
+    /**
+     * split with non escaped char
+     * @param string $v 
+     * @param string $char 
+     * @return string[] 
+     */
+    public static function SplitWithNonEscapedChar(string $v, string $char)
+    {
+        $offset = 0;
+        $tab = [];
+        $i = 0;
+        while (($i = strpos($v, $char, $i)) !== false) {
+            if ($i > 0) {
+                if ($v[$i - 1] == '\\') {
+                    $i++;
+                    continue;
+                }
+            }
+            $tab[] = substr($v, $offset, $i - $offset);
+            $offset = $i + 1;
+            $i++;
+        }
+        if ($c = substr($v, $offset)) {
+            $tab[] = $c;
+        }
+        return $tab;
     }
 }

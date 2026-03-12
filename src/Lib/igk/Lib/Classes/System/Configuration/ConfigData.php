@@ -21,9 +21,9 @@ use function igk_resources_gets as __;
  *  $this->get($property) which will always return configurable properties value
  * update : when set with magic property the extra property will be unset
  * 
- * 
+ * @property array $default_ext_file_handlers
  */
-class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
+class ConfigData  
 {
     /**
      * configuration controller

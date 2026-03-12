@@ -420,8 +420,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $v_tag_defition = $m->match('(<|>|≤)', 'tag-definition')->last();
         $m->match('^(\|| *)?(?:-+(?: )*\|){1,}(?:(?: )*-+( )*)?(?=\\n)?', 'table-segment');
         $table_entry = $m->match('^(\|)?(?:(?:[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
+        //$table_entry = $m->match('^(\|)?(?:(?:(?!<=\\\)[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
         $header = $m->match('^#{1,6}(?: (?P<title>.+))?', "text-header")->last();
-
+        
+        
        
         
 
@@ -452,10 +454,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
 
         $v_word = $m->createPattern(['match' => "[\\w_\\$][a-zA-Z0-9_\\-\\$]*", "tokenID" => "word"]); // ->last();
         $emphasis = $m->begin("(\\*|_)", "\\1", "text-italic")->last();
-        $code_block = $m->begin('`', '`', 'code-block')->last();
+       
         $empty_block = $m->appendEmptyLineDetection('empty-line')->last();
         $m->match('\\n', 'line-feed')->last();
         $emoji_block = $m->match(":(\+\d|\b\w+\b):", "emoji")->last();
+        $code_block = $m->begin('`', '`', 'code-block')->last();
         $table_entry->patterns =  [
             $litteral_string,
             $code_block,
@@ -1140,7 +1143,9 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $v = trim($v);
         $v = igk_str_rm_start(igk_str_rm_last($v, '|', 1), '|', 1);
-        $tab = array_map('trim', explode("|", $v));
+            // split non escaped list 
+        $tab = StringUtility::SplitWithNonEscapedChar($v, '|');     
+        $tab = array_map('trim',$tab); 
         $sb = '';
         if ($this->m_state && ($this->m_state != 'table')) {
             $sb .= $this->endStateState();

@@ -92,4 +92,5 @@ return [
     "pagelayout_limits" => [20, 50, 100],
     'no_db_route' => 0,
     'view_page_limit' => null,
+    'default_ext_file_handlers'=>null  // <- default extensions file handlers
 ];

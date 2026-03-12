@@ -325,7 +325,6 @@ class IGKApp extends IGKObject
     * short cut to get application configuration data
     * @return IGK\System\Configuration\ConfigData
     */
-
     public function getConfigs(){
         return IGKAppConfig::getInstance()->Data;
     }

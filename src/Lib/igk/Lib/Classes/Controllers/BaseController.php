@@ -1157,8 +1157,8 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
     /**
      * initialize require module
+     * @return void|array 
      */
-
     protected function _initRequiredModules()
     {
         $v_key = ApplicationModuleHelper::SYS_ENV_KEY;
@@ -1175,7 +1175,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             if ($required) {
                 $load = $required;
             }
-
             if ($project = (array)igk_conf_get($data, 'dependOn')) {
                 $this->_initCheckRequireProject($project);
             }

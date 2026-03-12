@@ -60,6 +60,7 @@ class ApplicationModuleHelper
                 $n = $k;
             }
             if (empty($n)) return;
+
             $module = igk_require_module($n);
             if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD)) {
                 $l = igk_getv($required_conf, $n);                

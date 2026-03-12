@@ -21,33 +21,34 @@ require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
  */
 
 /**
-* auto generate doc.
-* @package IGK\System\Console\Helper
-*/
+ * auto generate doc.
+ * @package IGK\System\Console\Helper
+ */
 abstract class ConsoleUtility
 {
 
     /**
-    * auto generate doc.
-    * @return null|string
-    */
-    public static function GetClipboardData(): ?string{
+     * auto generate doc.
+     * @return null|string
+     */
+    public static function GetClipboardData(): ?string
+    {
         // + | GET CLIP BOARD DATA
         $c = null;
-		switch (strtolower(PHP_OS)) {
-			case 'darwin':
-				# code...
-				$c = shell_exec('pbpaste');
-				break;
-			default:
-				if (!igk_environment()->isUnix()){
-					$c = shell_exec('powershell Get-Clipboard');
-				} else{
-					$c = shell_exec('xclip -o -selection clipboard');
-				}
-				# code...
-				break;
-		}
+        switch (strtolower(PHP_OS)) {
+            case 'darwin':
+                # code...
+                $c = shell_exec('pbpaste');
+                break;
+            default:
+                if (!igk_environment()->isUnix()) {
+                    $c = shell_exec('powershell Get-Clipboard');
+                } else {
+                    $c = shell_exec('xclip -o -selection clipboard');
+                }
+                # code...
+                break;
+        }
         return $c;
     }
     /**
@@ -59,9 +60,9 @@ abstract class ConsoleUtility
     }
 
     /**
-    * Constant: options tab space.
-    * @var mixed
-    */
+     * Constant: options tab space.
+     * @var mixed
+     */
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
     use BacktickHelperCommandTrait;
 
@@ -76,7 +77,7 @@ abstract class ConsoleUtility
     {
         return CommandsUtility::MakeBindFiles($command, $bind, $force);
     }
-  /**
+    /**
      * bind files 
      * @param mixed $command 
      * @param mixed $bind 
@@ -103,10 +104,10 @@ abstract class ConsoleUtility
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $color_two
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $color_two
+     * @return void
+     */
 
     public static function PrintCommand($opts, $color_one = App::AQUA, $color_two = App::GREEN)
     {
@@ -132,7 +133,7 @@ abstract class ConsoleUtility
             return igk_io_w2file($file, $content, $override);
         };
     }
-  
+
     /**
      * build package json author
      * @param mixed $command 
@@ -144,7 +145,7 @@ abstract class ConsoleUtility
         $name = $command->app->getAuthor() ?? IGK_AUTHOR;
         $url = $command->app->getConfigs()->get('author_url') ?? null;
         $email = IGK_AUTHOR_CONTACT;
-        return (object)['email' => $email, 'name' => $name, 'url'=>$url];
+        return (object)['email' => $email, 'name' => $name, 'url' => $url];
     }
 
     /**
@@ -153,10 +154,11 @@ abstract class ConsoleUtility
      * @return bool 
      */
 
-    public static function HaveArg(array $arg):bool{
-        while(count($arg)){
+    public static function HaveArg(array $arg): bool
+    {
+        while (count($arg)) {
             $q = array_shift($arg);
-            if (!preg_match("/^-/", $q)){
+            if (!preg_match("/^-/", $q)) {
                 return true;
             }
         }
@@ -188,12 +190,13 @@ abstract class ConsoleUtility
     }
 
     /**
-    * auto generate doc.
-    * @param array &$args
-    * @return stdClass|ICommandOptions|mixed
-    */
+     * auto generate doc.
+     * @param array &$args
+     * @return stdClass|ICommandOptions|mixed
+     */
 
-    public static function TreatCommandArgs(ICLICommandApp $app, $argv, array & $args, ?array $handle=null){
+    public static function TreatCommandArgs(ICLICommandApp $app, $argv, array &$args, ?array $handle = null)
+    {
         $command = igk_createobj();
         $command->app = $app;
         $command->commands = $app->commands;
@@ -201,7 +204,7 @@ abstract class ConsoleUtility
         $command->storage = array();
         $command->waitForNextEntryFlag = false;
         $command->options = new \stdClass();
-        $command->args = & $args;
+        $command->args = &$args;
         $tab = $argv;
         $handle = $handle ?? [];
         $args = [];
@@ -221,8 +224,10 @@ abstract class ConsoleUtility
                 $command->waitForNextEntryFlag = false;
             }
             if (isset($handle[$v])) {
-                $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-                $action($v, $command, $c ? implode(":", array_slice($c, 1)): []);
+                if (is_null($command->exec)) {
+                    $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+                    $action($v, $command, $c ? implode(":", array_slice($c, 1)) : []);
+                }
             } else {
                 $c = explode(":", $v);
                 $v_ts =  implode(":", array_slice($c, 1));
@@ -234,7 +239,7 @@ abstract class ConsoleUtility
                         $command->options->{$c[0]} = $v_ts;
                     }
                 } else {
-                    if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
+                    if ($c[0] && ($c[0][0] == "-") && ($v != '-') && (strlen($c[0]) > 1)) {
                         if (!property_exists($command->options, $c[0])) {
                             $command->options->{$c[0]} = $v_ts;
                         } else {

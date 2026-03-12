@@ -5,7 +5,7 @@
 namespace IGK\System\Html\Css;
 
 /**
-* auto generate doc.
+* Use to load property data
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */

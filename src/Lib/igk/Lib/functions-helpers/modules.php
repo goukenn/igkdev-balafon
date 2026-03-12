@@ -87,9 +87,9 @@ if (!function_exists('igk_get_loaded_modules')) {
  * @throws EnvironmentArrayException 
  */
 function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
-{
-    // + | Preparem module definition 
-    $modulename = str_replace('.','\\\\', $modulename);
+{ 
+    // + | PREPARE MODULE DEFINITION 
+    $modulename = str_replace('.','\\', $modulename);
 
     $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();
@@ -97,7 +97,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
     $mkey = igk_uri(strtolower($modulename));
     $v_init_on_view = ViewHelper::CurrentCtrl() !== null;
     $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
-    // igk_trace();
+    
     if (isset($g[$mkey])) {
         $mod = $g[$mkey];
         igk_bind_module($mod, $name);
@@ -195,7 +195,8 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
             $excludedir
         );
     }
-    igk_pop_env($v_mod_key);
+    igk_pop_env($v_mod_key); 
+  
     $mod = igk_init_module($modulename, $init);
     $g[$mkey] = $mod;
     // + | --------------------------------------

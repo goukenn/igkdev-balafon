@@ -73,6 +73,10 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @var mixed
      */
     var $author;
+    /**
+     * 
+     * @var mixed
+     */
     var $category;
     var $licence;
 
@@ -89,8 +93,20 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     var $property_read;
     var $property_write;
     var $see;
+    /**
+     * source from the package 
+     * @var ?string 
+     */
     var $source;
+    /**
+     * subpackage 
+     * @var mixed
+     */
     var $subpackage;
+    /**
+     * to do 
+     * @var mixed
+     */
     var $todo;
     var $uses;
     var $used_by;

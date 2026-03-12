@@ -7,6 +7,9 @@ namespace IGK\System\Console\Commands;
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Text\Regex;
+use IGK\System\Text\RegexFormatMatcherUtility;
+use IGK\System\Text\RegexMatcherUtility;
 
 /**
  * 
@@ -15,73 +18,88 @@ use IGK\System\Console\Logger;
  */
 
 /**
-* auto generate doc.
-* @package IGK\System\Console\Commands
-*/
+ * auto generate doc.
+ * @package IGK\System\Console\Commands
+ */
 class SearchFilesCommand extends AppExecCommand
 {
 
     /**
-    * Property: command.
-    * @var mixed
-    */
+     * Property: command.
+     * @var mixed
+     */
     var $command = '--find';
 
     /**
-    * Property: desc.
-    * @var mixed
-    */
+     * Property: desc.
+     * @var mixed
+     */
     var $desc = 'find file with regex pattern';
 
     /**
-    * Property: options.
-    * @var mixed
-    */
+     * Property: options.
+     * @var mixed
+     */
     var $options = [
-		'--real-only' => 'flag: real file only '
-	];
+        '--real-only' => 'flag: real file only '
+    ];
 
     /**
-    * Property: category.
-    * @var mixed
-    */
+     * Property: category.
+     * @var mixed
+     */
     var $category = 'sys';
 
     /**
-    * Property: usage.
-    * @var mixed
-    */
+     * Property: usage.
+     * @var mixed
+     */
     var $usage = 'directory pattern [options]';
 
     /**
-    * auto generate doc.
-    * @param null|string $pattern
-    * @return void
-    */
+     * auto generate doc.
+     * @param null|string $pattern
+     * @return void
+     */
 
     public function exec($command, ?string $dir = null, ?string $pattern = null)
-	{
-		$dir ?? igk_die('missing directory');
-		$T = 0;
-		$real = property_exists($command->options, '--real-only');
-		$pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
-		//if (is_link($dir)){
-		$dirs = [];
-		if ($dir = realpath($dir)) {
-			//}
-			 IO::GetFiles($dir, function ($f) use ($pattern, &$T, $real, $dirs) {
-				$p = realpath($f);
-				if (!$real || ($p == $f)) {
-					$c_dir = dirname($p);
-					if (preg_match($pattern, $f)) {
-						Logger::print($f);
-						$T++;
-					}
-					$dirs[$c_dir] = 1;
-				}
-			}, true);
-		}
-		 
-		Logger::info('total: ' . $T); // count($ls));
-	}
+    {
+        $dir ?? igk_die('missing directory');
+        $T = 0;
+        $exclude = null;
+        $real = property_exists($command->options, '--real-only');
+        $v_exclude = igk_getv($command->options, '--exclude');
+        $pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
+        if ($v_exclude) {
+
+            if (!is_array($v_exclude)) {
+                $v_exclude = [$v_exclude];
+            }
+            $exclude = SearchFileExclusion::Create($v_exclude);
+        }
+
+        //if (is_link($dir)){
+        $dirs = [];
+        if ($dir = realpath($dir)) {
+            //}
+            IO::GetFiles($dir, function ($f) use ($pattern, &$T, $real, $dirs, $exclude) {
+                if ($exclude) {
+                    if ($exclude->check($f)) {
+                        return true;
+                    }
+                }
+                $p = realpath($f);
+                if (!$real || ($p == $f)) {
+                    $c_dir = dirname($p);
+                    if (preg_match($pattern, $f)) {
+                        Logger::print($f);
+                        $T++;
+                    }
+                    $dirs[$c_dir] = 1;
+                }
+            }, true);
+        }
+
+        Logger::info('total: ' . $T); // count($ls));
+    }
 }

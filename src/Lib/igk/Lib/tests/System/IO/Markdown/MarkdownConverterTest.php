@@ -511,4 +511,21 @@ EOF
             json_encode($g)
         );
     }
+
+    public function test_mdconverter_array_escaped(){
+         $n = igk_create_notagnode();
+         $ts = implode("\n", [
+            "a|b",
+            //"`c \|d` | quote ",            
+        ]);
+        $conv = new MarkdownConverter;
+        $l = $conv->transformToHtml($ts);
+
+        $n->markdown($ts);
+
+        $this->assertEquals(
+            '',
+            $n->render()
+        );
+    }
 }

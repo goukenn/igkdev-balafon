@@ -1331,7 +1331,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * Getlg screen.
     */
-    public function getlg_screen()
+    public function getLgScreen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
@@ -1339,7 +1339,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * Getxlg screen.
     */
-    public function getxlg_screen()
+    public function getXLgScreen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
@@ -1347,7 +1347,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
     * Getxxlg screen.
     */
-    public function getxxlg_screen()
+    public function getXXLgScreen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
     }
@@ -1355,7 +1355,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get printer media
      * @return mixed 
      */
-
     public function getptr()
     {
         return $this->getPrintMedia();
@@ -1774,7 +1773,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     * auto generate doc.
     * @return mixed|array properties
     */
-
     public function &getProperties($k = null)
     {
         $g = &$this->m_def->getParams();

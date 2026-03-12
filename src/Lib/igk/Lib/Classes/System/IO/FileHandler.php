@@ -76,6 +76,10 @@ abstract class FileHandler{
         }
         self::$sm_handler[$key][$v_context] = array_merge(self::$sm_handler[$key][$v_context], $tab_handler);
     }
+    
+    public static function ConfigFileHandler():?array{
+        return igk_app()->getConfigs()->default_ext_file_handlers;
+    }
     /**
      * retrieve file handler from extension
      * @param string $extension 
@@ -85,7 +89,21 @@ abstract class FileHandler{
 
     public static function GetFileHandlerFromExtension(string $extension){
         if (self::$sm_handler){
-            return igk_getv(self::$sm_handler, $extension);
+            $h = igk_getv(self::$sm_handler, $extension);
+            if (is_array($h)){
+                // + | multiple handler fond for the same extension 
+                // + | configure defalt_ext_file_handlers for the globala application project 
+                if ($handlers = igk_app()->getConfigs()->default_ext_file_handlers){
+                    $c = igk_getv($handlers, $extension);
+                    while($c && (count($h)>0)){
+                        $q = array_shift($h);
+                        if (get_class($q) == $c){
+                            return $q;
+                        }
+                    }
+                }
+            }
+            return $h;
         }
         return null;
     }
