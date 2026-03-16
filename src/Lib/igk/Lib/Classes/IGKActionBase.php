@@ -239,8 +239,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      * @return static
      */
-
-    protected function initialize(BaseController $ctrl)
+    protected function initialize(BaseController $ctrl): IGKActionBase
     {    
         $this->ctrl = $ctrl;
         $this->fname = ViewHelper::GetViewArgs('fname', '');

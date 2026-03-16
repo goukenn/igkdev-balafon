@@ -8,6 +8,8 @@ use IGK\System\Configuration\ProjectInfo;
 use IGK\System\Configuration\ProjectConfiguration;
 use IGK\Helper\Activator;
 use IGK\Constants;
+use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\System\Composer\ComposerPackage;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
@@ -60,7 +62,9 @@ class ProjectInfoCommand extends AppExecCommand
     */
     public function exec($command, ?string $controller = null)
 	{
-		$ctrl = ($controller ? self::GetController($controller) : null) ?? die("missing controller");
+	 
+		$ctrl = ($controller ? self::GetController($controller) : null) ?? 
+			igk_die(igk_resources_gets("missing controller"), 1, Constants::ERROR_MISSING_CONTROLLER);
 		$dir = $ctrl->getDeclaredDir();
 		if (property_exists($command->options, '--base-dir')) {
 			echo $dir;
@@ -86,6 +90,8 @@ class ProjectInfoCommand extends AppExecCommand
 		$inf = new ProjectInfo;
 		$inf->base_dir = $dir;
 		$inf->name = $ctrl->getName();
+		$inf->isSysController = BaseController::IsSystemController($ctrl); 
+		
 		$se = [];
 		$cnf = $ctrl->getConfigs();
 		// + | -----------------------------------------------------

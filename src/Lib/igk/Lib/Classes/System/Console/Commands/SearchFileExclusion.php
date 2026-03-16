@@ -4,14 +4,24 @@
 // @date: 20260307 12:47:59
 namespace IGK\System\Console\Commands;
 
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class SearchFileExclusion{
     private $m_patterns;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $ignoreCase;
     /**
      * .ctr
@@ -20,6 +30,13 @@ class SearchFileExclusion{
     private function __construct(){
         
     }
+
+    /**
+    * auto generate doc.
+    * @param array $patterns
+    * @param mixed $ignoreCase
+    * @return
+    */
     public static function Create(array $patterns, $ignoreCase = false){
         $s = new static;
 
@@ -27,6 +44,12 @@ class SearchFileExclusion{
         $s->ignoreCase = $ignoreCase;
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $haystack
+    * @return bool
+    */
     public function check(string $haystack):bool{
         $t = $this->m_patterns;
         while(count($t)>0){
@@ -38,6 +61,12 @@ class SearchFileExclusion{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $q
+    * @return
+    */
     public function prepareRegex(string $q){
         $q = str_replace("**",'.+', $q);
         $q = str_replace("/*",'\/.+', $q);

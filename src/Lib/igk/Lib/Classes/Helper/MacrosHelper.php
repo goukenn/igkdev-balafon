@@ -92,16 +92,10 @@ class MacrosHelper
      * @return bool 
      */
     private static function _CheckAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
-        /**
-         * @var mixed $b
-         */
-        /// MARK: auth users 
-        // if (igk_environment()->isDev())
-        //     return true;
-
+        
         /**
         * auto generate doc.
-        * @var ModelBase $q; current model object
+        * @var ModelBase $q
         */
         if ($user->is_mock()){
             return false;

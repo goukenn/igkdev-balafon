@@ -14,6 +14,11 @@ use IGKEnvironment;
 final class Constants
 {
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     const ENVIRONMENT_VARS_PATTERN = '^IGK_';
     /**
      * Constant: namespace.
@@ -250,6 +255,11 @@ final class Constants
      * @var mixed
      */
     const DB_MODEL_FULLNAME_FIELD_PREFIX = 'FN_';
+
+    /**
+     * error constant missing controller
+    */
+    const ERROR_MISSING_CONTROLLER = -7;
 
     /**
      * Constant: init command.

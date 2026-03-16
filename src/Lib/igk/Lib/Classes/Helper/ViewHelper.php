@@ -696,29 +696,39 @@ class ViewHelper
                     $bname = basename($f);
                     $f = dirname($f);
                     $checks = array_merge([
-                        $f . "/" . $bname,
+                        $f . "/" . $bname, // <- consider as directory 
                         //$f."/".$bname.".".$extension
                     ], self::_AppendExtension($f . "/" . $bname, $v_ext_support));
+                    $check_dir = true;
+                    $dir_exists = false;
                     while (count($checks) > 0) {
                         $rdir = array_shift($checks);
                         if (is_file($rdir)) {
                             return $rdir;
                         }
-                        if (is_dir($rdir)) {
-                            if (igk_io_file_exists($c = $rdir . "/" . IGK_DEFAULT_VIEW)) {
+                        if ($check_dir && is_dir($rdir)) {
+                            if ($c = self::ResolveDefaultView($rdir, $v_ext_support)){
                                 return $c;
-                            }
+                            } 
+                            $dir_exists = true;
+                            
                         }
+                        $check_dir = false;
                     }
-                    if (($bname != IGK_DEFAULT_VIEW_FILE) && (
-                        igk_io_file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
-                        if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
-                            array_unshift($param, array_pop($_views));
-                        }
-                        return $c;
+                    if ($dir_exists){
+                        array_unshift($param, $bname);
                     } else {
-                        array_unshift($param, array_pop($_views));
+                        break;
                     }
+                    // if (($bname != IGK_DEFAULT_VIEW_FILE) && (
+                    //     igk_io_file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
+                    //     if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
+                    //         array_unshift($param, array_pop($_views));
+                    //     }
+                    //     return $c;
+                    // } else {
+                    //     array_unshift($param, array_pop($_views));
+                    // }
                 }
             }
             // if ($s) {
@@ -730,6 +740,19 @@ class ViewHelper
             }
         }
         return $s;
+    }
+    /**
+     * resolve default extension 
+     */
+    public static function ResolveDefaultView(string $dir, array $extsupport, string $view = IGK_DEFAULT_VIEW){
+        $g = self::_AppendExtension($dir.'/'. $view, $extsupport);
+        while(count($g)>0){
+            $q = array_shift($g);
+            if (igk_io_file_exists($q, true)){
+                return $q;
+            }
+        }
+        return false;
     }
 
     /**

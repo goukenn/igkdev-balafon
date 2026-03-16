@@ -512,6 +512,10 @@ EOF
         );
     }
 
+    /**
+    * auto generate doc.
+    * @return
+    */
     public function test_mdconverter_array_escaped(){
          $n = igk_create_notagnode();
          $ts = implode("\n", [

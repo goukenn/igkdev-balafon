@@ -3,6 +3,7 @@
 // @file: JSon.php
 // @date: 20230103 23:37:50
 namespace IGK\Helper;
+
 use Exception;
 use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\IO\JSon\Annotations\JSonBindAsAnnotation;
@@ -18,6 +19,7 @@ use JsonSerializable;
 use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 use stdClass;
+
 /**
  * helper to encode in json 
  * @package IGK\Helper
@@ -26,15 +28,15 @@ class JSon
 {
 
     /**
-    * Constant: map to object method.
-    * @var mixed
-    */
+     * Constant: map to object method.
+     * @var mixed
+     */
     const _map_to_object_method = '_map_to_object';
 
     /**
-    * Constant: json pretty view.
-    * @var mixed
-    */
+     * Constant: json pretty view.
+     * @var mixed
+     */
     const JSON_PRETTY_VIEW = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
     /**
      * encoding option
@@ -43,15 +45,15 @@ class JSon
     protected $m_options;
 
     /**
-    * auto generate doc.
-    * @var mixed
-    */
+     * auto generate doc.
+     * @var mixed
+     */
     protected $m_data;
 
     /**
-    * auto generate doc.
-    * @var mixed
-    */
+     * auto generate doc.
+     * @var mixed
+     */
     protected $m_path;
     /**
      * encode
@@ -61,7 +63,7 @@ class JSon
 
     public function enc(int $encode)
     {
-        if (is_null($this->m_data)){
+        if (is_null($this->m_data)) {
             return false;
         }
         $root = $this->get_root_data($this->m_data);
@@ -69,9 +71,9 @@ class JSon
     }
 
     /**
-    * Filter array.
-    * @param mixed & $tv
-    */
+     * Filter array.
+     * @param mixed & $tv
+     */
     protected function _filter_array(&$tv)
     {
         if ($fc = $this->m_options->filter_array_listener) {
@@ -83,10 +85,10 @@ class JSon
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $data
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $data
+     * @return mixed
+     */
 
     public function get_root_data($data)
     {
@@ -142,9 +144,9 @@ class JSon
     }
 
     /**
-    * Map to object.
-    * @param mixed $data
-    */
+     * Map to object.
+     * @param mixed $data
+     */
     protected function _map_to_object($data)
     {
         if (is_object($data) && (($data instanceof IToArrayResolver) || method_exists($data, 'to_array'))) {
@@ -155,10 +157,10 @@ class JSon
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $a
-    * @return
-    */
+     * auto generate doc.
+     * @param mixed $a
+     * @return
+     */
     private static function _ConvertItemObject($a)
     {
         if ($a instanceof JsonSerializable) {
@@ -193,13 +195,13 @@ class JSon
     }
 
     /**
-    * auto generate doc.
-    * @param mixed & $tv
-    * @param null|mixed $keys
-    * @param null|mixed $c
-    * @param null|mixed $root
-    * @return
-    */
+     * auto generate doc.
+     * @param mixed & $tv
+     * @param null|mixed $keys
+     * @param null|mixed $c
+     * @param null|mixed $root
+     * @return
+     */
     private function _filter_array_map(&$tv, $keys = null, $c = null, $root = null)
     {
         $root =  $root;
@@ -297,7 +299,7 @@ class JSon
         } else if (!($options instanceof JSonEncodeOption)) {
             $options = Activator::CreateNewInstance(JSonEncodeOption::class, $options);
         }
-        if ($data instanceof IToJSon){
+        if ($data instanceof IToJSon) {
             return $data->to_json($options, $encode);
         }
         $e = new static;
@@ -334,20 +336,23 @@ class JSon
     }
 
     /**
-    * .ctr
-    */
+     * .ctr
+     */
     protected function __construct() {}
     /**
      * code for html attribute
      * @param mixed $data 
      * @param mixed $encode_options 
      * @param int $js_options 
-     * @return string 
+     * @return string|false 
      */
 
     public static function EncodeForHtmlAttribute($data, $encode_options, int $js_options = JSON_UNESCAPED_SLASHES)
     {
-        return htmlentities(self::Encode($data, $encode_options));
+        $s = self::Encode($data, $encode_options);
+        if ($s)
+            return htmlentities($s);
+        return false;
     }
     /**
      * bind object to data
@@ -381,42 +386,42 @@ class JSon
                 $v_use_annotation = ($class_name != \stdClass::class);
                 $ref =  $v_use_annotation ? igk_sys_reflect_class($class_name) ?? new ReflectionClass($class_name) : null;
                 $uses = $v_use_annotation ? AnnotationHelper::GetUses($class_name) : null;
-                if ($v_use_annotation){
-                    $options->resolveTypeListener = function ($type)use(& $uses, $ref ,$class_name){
+                if ($v_use_annotation) {
+                    $options->resolveTypeListener = function ($type) use (&$uses, $ref, $class_name) {
                         $v_reflect = $ref;
-                        if (!($NS = $v_reflect->getNamespaceName())){
+                        if (!($NS = $v_reflect->getNamespaceName())) {
                             return $type;
                         }
                         $d = dirname($v_reflect->getFileName());
-                        $path = Path::Combine($d, $type.".php");
-                        if (igk_io_file_exists($path)){
+                        $path = Path::Combine($d, $type . ".php");
+                        if (igk_io_file_exists($path)) {
                             include_once($path);
-                            return igk_ns_name($NS."\\".$type);
+                            return igk_ns_name($NS . "\\" . $type);
                         }
                     };
-                    $props = igk_getv($tprop_class, $class_name, function()use($class_name, $uses, & $tprop_class){ 
-                        $b = JSonBindAsAnnotation::GetJSonByAsProperties($class_name,$uses);
+                    $props = igk_getv($tprop_class, $class_name, function () use ($class_name, $uses, &$tprop_class) {
+                        $b = JSonBindAsAnnotation::GetJSonByAsProperties($class_name, $uses);
                         $tprop_class[$class_name] = $b;
                         return $b;
-                    });  
+                    });
                     $ld = $q['d'];
-                    foreach($props as $k=>$p){
+                    foreach ($props as $k => $p) {
                         $v = igk_getv($ld, $k);
-                        if ($p->required && !igk_in($ld, $k)){
-                            if(!$throw_error) continue;
+                        if ($p->required && !igk_in($ld, $k)) {
+                            if (!$throw_error) continue;
                             throw new JSonBindAsException(sprintf('missing required properties [%s]', $k));
                         }
                         $options->handle = false;
                         $options->property = $k;
-                        $options->source = $obj; 
+                        $options->source = $obj;
                         $v = $p->Convert($v, $options);
                         if ($options->handle) {
                             $options->handle = false;
                         }
-                        $obj->{$k} = $v; 
-                    } 
+                        $obj->{$k} = $v;
+                    }
                     continue;
-                } 
+                }
                 foreach ($q['d'] as $k => $v) {
                     if (!property_exists($obj, $k))
                         continue;
@@ -452,12 +457,13 @@ class JSon
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $data
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $data
+     * @return string|false
+     */
 
-    public static function EncodeWithNoEmpty($data){
+    public static function EncodeWithNoEmpty($data)
+    {
         return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);
     }
 }

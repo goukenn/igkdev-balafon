@@ -4,6 +4,7 @@
 // @date: 20251125 19:47:26
 namespace IGK\Database;
 
+use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use Iterator;
 
@@ -80,13 +81,14 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * get the current reference
     * @return mixed
     */
-
     public function current(): mixed
     {
-        return $this->m_ref->{$this->key()};
+        if (!empty($k = $this->key()))
+            return igk_getv($this->m_ref, StringUtility::AutoPrefix($k, $this->m_prefix)); 
+        return null;
     }
 
     /**
@@ -105,7 +107,11 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     */
     public function key(): mixed
     {
-        return $this->m_it_info->tab[$this->m_it_info->key];
+        if (!is_null($k = $this->m_it_info->key)){
+            return $this->m_it_info->tab[$k];
+        }
+        return null;
+
     }
 
     /**
@@ -125,27 +131,26 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         $tab = $this->reccords();
         $this->m_it_info = (object)[
-            'current' => null,
+            'current' => $tab ? $tab[key($tab)] :null,
             'tab' => $tab,
             'count' => count($tab),
-            'key' => null
+            'key' => key($tab),
+            'prefix'=>$this->m_prefix
         ];
     }
     /**
      * return primary key reccord
      * @return array 
      */
-
     public function reccords(): array
     {
         $tab = array_keys((array)$this->m_ref);
         if ($p = $this->m_prefix) {
-            $tab = array_map(function ($a) use ($p) {
+            $tab = array_map(function ($a) use ($p) {                
                 return igk_str_rm_start($a, $p, 1);
             }, $tab);
-        }
-
-        return $tab; // array_keys((array)$this->m_ref);
+        } 
+        return $tab;
     }
 
     /**

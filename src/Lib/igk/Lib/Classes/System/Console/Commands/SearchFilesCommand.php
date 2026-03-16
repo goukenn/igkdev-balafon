@@ -41,7 +41,8 @@ class SearchFilesCommand extends AppExecCommand
      * @var mixed
      */
     var $options = [
-        '--real-only' => 'flag: real file only '
+        '--real-only' => 'flag: real file only',
+        '--exclude:[]' => 'exclude matching pattern',
     ];
 
     /**
@@ -82,9 +83,13 @@ class SearchFilesCommand extends AppExecCommand
         $dirs = [];
         if ($dir = realpath($dir)) {
             //}
-            IO::GetFiles($dir, function ($f) use ($pattern, &$T, $real, $dirs, $exclude) {
+            IO::GetFiles($dir, function ($f, & $excludeddir, $type='') use ($pattern, &$T, $real, $dirs, $exclude) {
                 if ($exclude) {
                     if ($exclude->check($f)) {
+                        if ($type == 'dir'){
+                            $excludeddir[$f] = 1;
+                            return false;
+                        }
                         return true;
                     }
                 }

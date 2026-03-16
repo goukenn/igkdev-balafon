@@ -101,15 +101,15 @@ abstract class RootControllerBase extends IGKObject{
     * auto generate doc.
     */    protected final
 
-    function getIsSystemController(){       
-        return  !empty(strstr($this->getDeclaredDir(), IGK_LIB_DIR));
+    function getIsSystemController(){    
+        $rp = realpath($this->getDeclaredDir());   
+        return  !empty(strstr($rp, IGK_LIB_DIR));
     }
     /**
      * check if controller is a system controller
      * @param RootControllerBase $controller 
      * @return bool 
      */
-
     public static function IsSystemController( RootControllerBase $controller):bool{
 		return $controller->getIsSystemController();
 	}

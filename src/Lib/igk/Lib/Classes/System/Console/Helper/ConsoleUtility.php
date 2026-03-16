@@ -28,6 +28,54 @@ abstract class ConsoleUtility
 {
 
     /**
+     * check of help support
+     * @param mixed $command 
+     * @return bool 
+     */
+    public static function SupportHelp($command): bool
+    {
+        return php_sapi_name() == 'cli' && property_exists($command->options, '--help');
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param null|mixed $title
+    * @return
+    */
+    public static function ShowOptionsCommand($options, $title=null){
+        $opts = $options;
+        if ($title){
+            Logger::info(App::Gets(App::GREEN, $title));
+        }
+        foreach($opts as $k=>$v){
+            if (empty($v) && (strpos($k, '+')===0)){
+                Logger::print(App::Gets(App::AQUA, $k));     
+                Logger::print('');
+                continue;
+            }
+            $p = explode(':', $k, 2);
+            $oc = App::Gets(App::GREEN, array_shift($p));
+            if($p){
+                // + | set color help definition for command
+                $s = array_shift($p);
+                $cl = App::SHA_INDIGO;
+                if(preg_match("/\[.+\]/", $s)){
+                    $cl = App::GRAY;
+                }
+                $oc.=":".App::Gets($cl,  $s);
+            }
+            if (is_array($v)){
+                ksort($v);
+                $v = "\n\n".implode("\n", array_map(function($i, $k){
+                    return $k.self::OPTIONS_TAB_SPACE.$i;
+                }, $v, array_keys($v)));
+
+            }
+            Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
+        }
+    }
+    /**
      * auto generate doc.
      * @return null|string
      */
@@ -224,10 +272,10 @@ abstract class ConsoleUtility
                 $command->waitForNextEntryFlag = false;
             }
             if (isset($handle[$v])) {
-                if (is_null($command->exec)) {
-                    $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-                    $action($v, $command, $c ? implode(":", array_slice($c, 1)) : []);
-                }
+                // if (is_null($command->exec)) {
+                $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+                $action($v, $command, $c ? implode(":", array_slice($c, 1)) : []);
+                // }
             } else {
                 $c = explode(":", $v);
                 $v_ts =  implode(":", array_slice($c, 1));

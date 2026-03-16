@@ -69,11 +69,10 @@ abstract class StringUtility
     }
 
     /**
-     * auto generate doc.
+     * auto append prefix to column 
      * @param null|string $prefix
-     * @return string
+     * @return string     
      */
-
     public static function AutoPrefix(string $column, ?string $prefix = null): string
     {
         if (empty($prefix)) {

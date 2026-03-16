@@ -90,7 +90,7 @@ class PhoneBookUtility
         while (count($tab) > 0) {
             if (($q = array_shift($tab)) instanceof PhoneBookEntries) {
                 $g =  PhoneBooks::prepare()->with(PhoneBookTypes::table())
-                    ->join_left(PhoneBookTypes::table(), sprintf('%s=%s', PhoneBookTypes::FD_ID(), PhoneBooks::FD_TYPE()))
+                    ->join_left(PhoneBookTypes::table(), sprintf('%s=%s', PhoneBookTypes::FN_ID(), PhoneBooks::FN_TYPE()))
                     ->where([
                         PhoneBooks::FD_ENTRY_GUID => $q->Guid
                     ])->execute();
@@ -164,22 +164,22 @@ class PhoneBookUtility
         }
         $t1 = PhoneBookTypes::table();
         $t2 = PhoneBooks::table();
-        $conditions[PhoneBookTypes::FD_NAME()]= PhoneBookTypeNames::PHT_NAME;
-        // $conditions[PhoneBookTypes::FD_NAME()]= PhoneBookTypeNames::PHT_NAME;
+        $conditions[PhoneBookTypes::FN_NAME()]= PhoneBookTypeNames::PHT_NAME;
+        // $conditions[PhoneBookTypes::FN_NAME()]= PhoneBookTypeNames::PHT_NAME;
         $options = [];
         if ($limit){
             $options['Limit'] = $limit;
         }
-        $options['OrderBy'] = [PhoneBookTypes::FD_NAME().'|Asc'];
+        $options['OrderBy'] = [PhoneBookTypes::FN_NAME().'|Asc'];
         $options['Columns'] = PhoneBookEntries::queryColumns(); 
         $tab = PhoneBookEntries::prepare()
         ->with($t1 = PhoneBookTypes::table(), 'type')
         ->with($t2 = PhoneBooks::table(), 'books')
-        ->join_left($t2, sprintf('%s=%s', PhoneBookEntries::FD_GUID(), PhoneBooks::FD_ENTRY_GUID()))
-        ->join_left($t1, sprintf('%s=%s', PhoneBookTypes::FD_ID(), PhoneBooks::FD_TYPE()))
+        ->join_left($t2, sprintf('%s=%s', PhoneBookEntries::FN_GUID(), PhoneBooks::FN_ENTRY_GUID()))
+        ->join_left($t1, sprintf('%s=%s', PhoneBookTypes::FN_ID(), PhoneBooks::FN_TYPE()))
         ->columns(array_merge(PhoneBookEntries::queryColumns(),PhoneBooks::queryColumns()))
         ->where($conditions) 
-        ->orderBy([ PhoneBooks::FD_VALUE().'|Asc', ])
+        ->orderBy([ PhoneBooks::FN_VALUE().'|Asc', ])
         ->execute(true, $options); 
         return $tab;
     }

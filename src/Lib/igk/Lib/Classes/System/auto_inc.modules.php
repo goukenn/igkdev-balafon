@@ -105,6 +105,11 @@ namespace IGK\System;
 * @method static string igk_xcode() name of igk/xcode
 * @method static string tinymce() tinymce wrapper
 * */
+
+/**
+* auto generate doc.
+* @package IGK\System
+*/
 interface IModuleDefinition{
 
 }

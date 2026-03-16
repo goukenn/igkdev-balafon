@@ -58,9 +58,9 @@ class ModuleInitializer
     }
 
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public static function Init($module, $file, &$reference)
     {
         //$hashfile = 'modules/'.hash_file('sha256', $file);
@@ -88,6 +88,14 @@ class ModuleInitializer
         $v_syscache->store($hashfile, json_encode($_ret));
         return $_ret;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @param mixed & $code
+    * @param mixed & $return
+    * @return
+    */
     private static function _LoadCode(string $src, &$code, &$return)
     {
         // split file code 

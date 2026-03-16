@@ -51,10 +51,10 @@ class IO
     }
 
     /**
-     * 
-     * @param string $file 
-     * @return string|false|null 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return string|false|null
+    */
     public static function MimeTypeFromFile(string $file)
     {
         $tab = null;

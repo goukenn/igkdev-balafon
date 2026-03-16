@@ -76,7 +76,11 @@ abstract class FileHandler{
         }
         self::$sm_handler[$key][$v_context] = array_merge(self::$sm_handler[$key][$v_context], $tab_handler);
     }
-    
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public static function ConfigFileHandler():?array{
         return igk_app()->getConfigs()->default_ext_file_handlers;
     }

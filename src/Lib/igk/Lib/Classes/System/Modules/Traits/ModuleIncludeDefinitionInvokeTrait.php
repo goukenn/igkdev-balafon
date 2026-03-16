@@ -4,21 +4,30 @@
 // @date: 20260228 16:46:54
 namespace IGK\System\Modules\Traits;
 
+use Closure;
 use IGK\System\Console\Logger;
+use ReflectionMethod;
 
 /**
-* 
-* @package IGK
-* @author C.A.D. BONDJE DOUE
-*/
-trait ModuleIncludeDefinitionInvokeTrait{
+ * 
+ * @package IGK
+ * @author C.A.D. BONDJE DOUE
+ */
+
+/**
+ * auto generate doc.
+ * @package IGK\System\Modules\Traits
+ */
+trait ModuleIncludeDefinitionInvokeTrait
+{
     /**
      * retrieve invocation method 
      * @return never 
      * @throws mixed 
      */
-    protected function & getInvocationList(){
-        throw new \Exception('must override implement this '.__FUNCTION__);
+    protected function &getInvocationList()
+    {
+        throw new \Exception('must override implement this ' . __FUNCTION__);
     }
     /**
      * invoke inclusion 
@@ -27,25 +36,35 @@ trait ModuleIncludeDefinitionInvokeTrait{
      * @return mixed 
      * @throws mixed 
      */
-    protected function invokeInclusion($name, $arguments){
-        $list = & $this->getInvocationList() ?? [];
-         if ($fc = igk_getv($list, $name)){
-            try{
-                if (!isset($list[$key = '::bindingList'])){
-                    $list[$key] = [];
+    protected function invokeInclusion($name, $arguments)
+    {
+        $key = '::bindingList';
+        $list = &$this->getInvocationList() ?? [];
+        if (!isset($list[$key])) {
+            $list[$key] = [];
+        }
+        if ($fc = igk_getv($list[$key], $name) ?? igk_getv($list, $name)) {
+            if (is_array($fc)) {
+                $m = Closure::fromCallable($fc);
+                if (is_string($cl = $fc[0]) && class_exists($cl)) {
+                    $tc = new ReflectionMethod($cl, $fc[1]);
+                    if ($tc->isStatic()) {
+                        $list[$key][$name] = $m;
+                    }
                 }
-                
-                if (!isset($list[$key][$name])){
+                $fc = $m;
+            }
+            try {
+                if (!isset($list[$key][$name])) {
                     $fc = $fc->bindTo($this);
                     $list[$key][$name] = 1;
-                    $list[$name] = $fc;                    
+                    $list[$name] = $fc;
                 }
                 return call_user_func_array($fc, $arguments);
-            }
-            catch(\TypeError $ex){                
+            } catch (\TypeError $ex) {
                 throw $ex;
             }
-        }else{
+        } else {
             throw new \TypeError('method not found');
         }
     }

@@ -73,25 +73,102 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @var mixed
      */
     var $author;
+
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $category;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $licence;
 
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $copyright;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $example;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $filesource;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $final;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $global;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $ignore;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $internal;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $license;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $link;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $property_read;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $property_write;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $see;
     /**
      * source from the package 
@@ -108,8 +185,26 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @var mixed
      */
     var $todo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $uses;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $used_by;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     var $version;
 
 

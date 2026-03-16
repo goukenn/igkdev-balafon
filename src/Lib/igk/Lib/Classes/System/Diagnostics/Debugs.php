@@ -11,5 +11,11 @@ namespace IGK\System\Diagnostics;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class Debugs{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     const balafon_module_loading = 'debug-balafon-module-loading';
 }

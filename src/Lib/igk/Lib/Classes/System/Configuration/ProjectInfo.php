@@ -52,4 +52,9 @@ class ProjectInfo{
      * @var mixed
      */
     var $composer;
+    /**
+     * is system controller 
+     * @var ?bool 
+     */
+    var $isSysController;
 }

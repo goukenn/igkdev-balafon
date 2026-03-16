@@ -18481,7 +18481,7 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
                                 $c .= "/" . $path;
                                 $param = [];
                                 $found = true;
-                                // $file = $cf;
+                                break;        // <- skip to handle                        
                             }
                         }
                     }

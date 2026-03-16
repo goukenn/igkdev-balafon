@@ -28,7 +28,11 @@ use function igk_resources_gets as __;
 */
 final class SubDomainController extends ConfigControllerBase
 {
-   
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function __init_domain()
     {
         if (igk_is_cmd() || defined('IGK_NO_WEB') || defined('IGK_FRAMEWORK_ATOMIC'))

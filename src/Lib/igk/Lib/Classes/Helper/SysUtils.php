@@ -143,9 +143,10 @@ class SysUtils{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetControllerByName(string $ctrl, $throwex = 1){        
-        if ($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER){
-            return SysDbController::ctrl();
+    public static function GetControllerByName(string $ctrl, $throwex = 1){     
+        $sys_ctrl = SysDbController::ctrl();   
+        if (($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER) || ($ctrl == $sys_ctrl->getName())){
+            return $sys_ctrl;
         }
         $suffix = IGK_PROJECT_CTRL_SUFFIX;
         $ctrl = str_replace("/", "\\", $ctrl);  

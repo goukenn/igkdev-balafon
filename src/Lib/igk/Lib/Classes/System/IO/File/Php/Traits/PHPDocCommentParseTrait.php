@@ -7,9 +7,9 @@ namespace IGK\System\IO\File\Php\Traits;
 use IGK\System\IO\StringBuilder;
 
 /**
- * 
- * @package IGK\System\IO\File\Php\Traits
- */
+* auto generate doc.
+* @package IGK\System\IO\File\Php\Traits
+*/
 
 /**
  * auto generate doc.
@@ -110,6 +110,12 @@ trait PHPDocCommentParseTrait
             }
             while (count($tv) > 0) {
                 $v = array_shift($tv);
+                if (is_array($v)){
+                    if (empty($v)){
+                        continue;
+                    }
+                    igk_dev_wln_e(__FILE__.":".__LINE__ , "is array ", $v);
+                }
                 $p[] = '@' . $k . ' ' . trim($v);
             }
         };

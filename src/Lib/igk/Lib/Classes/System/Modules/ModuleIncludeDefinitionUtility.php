@@ -11,14 +11,26 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
 /**
- * 
- * @package IGK
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK
+* @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package IGK\System\Modules
+*/
 class ModuleIncludeDefinitionUtility
 {
     const DEBUG_KEY = 'debug-module-include-utility';
 
+    /**
+    * auto generate doc.
+    * @param mixed $params
+    * @param mixed $args
+    * @param null|mixed $src_obj
+    * @return
+    */
     public static function Treat($params, $args, $src_obj = null)
     {
         $default = [];
@@ -34,6 +46,14 @@ class ModuleIncludeDefinitionUtility
         }
         return $t;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $param
+    * @param mixed $code
+    * @param string $selfKey
+    * @return
+    */
     public static function CreateMethodHandle($param, $code, string $selfKey = '_this')
     {
         $fc = (function ($param, $code, $selfKey) {
@@ -54,13 +74,14 @@ class ModuleIncludeDefinitionUtility
 
         return $fc;
     }
+
     /**
-     * 
-     * @param string $file 
-     * @param array &$reference 
-     * @param null|array $fc_handle 
-     * @return array info to caches 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @param array &$reference
+    * @param null|array $fc_handle
+    * @return array info to caches
+    */
     public static function BindFile(string $file, ?array &$reference, ?array $fc_handle = []): array
     {
         $src = file_get_contents($file);
@@ -162,6 +183,11 @@ class ModuleIncludeDefinitionUtility
 
         return $caches;
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     public static function InitRegexContainer()
     {
         $regex = new RegexMatcherContainer;

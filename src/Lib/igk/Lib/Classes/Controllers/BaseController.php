@@ -243,6 +243,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     const VIEW_ARGS = IGK_VIEW_ARGS;
 
     /**
+     * constant: view options
+     */
+    const VIEW_OPTION = IGK_VIEW_OPTIONS;
+
+    /**
     * Constant: view extra args.
     * @var mixed
     */
@@ -951,7 +956,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         };
         $extension = IGK_DEFAULT_VIEW_EXT;
         $_viewdir = $this->getViewDir();
-        $ajx_demand = igk_is_ajx_demand();
+        $ajx_demand = $ajx_demand ?? igk_is_ajx_demand();
         if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
             $extension = $e;
         $exts = [
@@ -977,9 +982,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         // + | igk_wln_e(__FILE__.":".__LINE__ ,  $view, $exts);
         // + | get fname to UNIX PATH
         $f = IO::GetUnixPath("/" . $view, false, $_viewdir) ?? $f;
-
+        $v_path_resolv = [];
         if (is_dir($f)) {
             // + | is ajx file detection or not 
+            $pl = null;
             while (count($param) > 0) {
                 $d = $param[0];
                 if ($cf = $detect($f, $d, $exts)) {
@@ -989,7 +995,8 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 } else {
                     if (is_dir($dd =  Path::Combine($f, $d))) {
                         $f = $dd;
-                        array_shift($param);
+                        $pl = array_shift($param);
+                        $v_path_resolv[] = $pl;
                         continue;
                     }
                     break;
@@ -999,15 +1006,19 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             if ($cf = FileHandler::ResolveFile($f, 'default', FileHandler::FILE_CONTEXT_VIEW)) {
                 return $cf;
             }
-            //window allow dir and file with the same name
-            if (is_file($cf = $detect($f, IGK_DEFAULT, $exts))) { //  $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
+            // + | window allow dir and file with the same name
+            if (is_file($cf = $detect($f, IGK_DEFAULT, $exts))){ 
                 return $cf;
             } else {
-                // add extension
-                $f = $f . "." . $extension;
-                if (is_file($f)) {
-                    return $f;
-                }
+                // + | add extension
+                $tf = $f . "." . $extension;
+                if (is_file($tf)) {
+                    return $tf;
+                    }
+                     if ($v_path_resolv){
+                    //     array_unshift($param, ...$v_path_resolv);
+                    $view .= '/'.implode('/', $v_path_resolv);
+                     }
             }
         }
         $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param);

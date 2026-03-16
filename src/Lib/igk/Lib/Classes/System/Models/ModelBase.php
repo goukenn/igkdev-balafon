@@ -548,14 +548,15 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if ($raw && ($raw !== $this->raw)) {
             $trow = ($this->raw instanceof DbRowDefEntry) ? $this->raw->initDefArray() :
                 array_fill_keys(array_keys((array)$this->raw), 1);
-            $props = $trow; //array_fill_keys(array_keys((array)$this->raw), 1);
+            $props = $trow;
             if ($unset && $this->hidden) {
                 foreach ($this->hidden as $k) {
                     $props[$k] = 0;
                 }
             }
+            $v_prefix = igk_getv($tableReference, 'prefix');
             foreach ($raw as $k => $v) {
-                if (key_exists($k, $props)) {
+               if (self::_CheckPropertyExists($props, $k, $v_prefix)){
                     $this->raw->$k = Database::GetValueFromLayoutInfo($v, $k, $v_inf);
                     unset($props[$k]);
                 }
@@ -571,6 +572,27 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             }
         }
         $this->is_mock = $mock;
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $props
+    * @param mixed & $k
+    * @param null|mixed $prefix
+    * @return bool
+    */
+    protected static function _CheckPropertyExists($props, &$k, $prefix=null):bool{
+        if (key_exists($k, $props)){
+            return true;
+        }
+        if($prefix)
+            if ($k!=($ck = StringUtility::AutoPrefix($k, $prefix))){
+                if (key_exists($ck, $props)){
+                    $k = $ck;
+                    return true;
+                }
+            }
+        return false;
     }
 
     /**

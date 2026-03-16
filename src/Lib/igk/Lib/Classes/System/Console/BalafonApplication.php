@@ -567,7 +567,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                     "help" => function ($command, ?string $filename = null) {
                         if ($filename && ($file = Path::ResolvePath($filename))) {
                             // initialize command 
-                            $fc = $command->app->command['--run'][0];
+                            $fc = $command->app->commands['--run'][0];
                             $targs = func_get_args();
                             // $margs = array_merge([null], func_get_args());
                             call_user_func_array($fc, array_merge([null], func_get_args()));

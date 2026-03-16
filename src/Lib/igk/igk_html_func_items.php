@@ -5307,6 +5307,7 @@ if (!function_exists("igk_html_node_usesvg")) {
 	 */
 	function igk_html_node_usesvg(string $name)
 	{
+		// igk_wln_e(__FILE__.":".__LINE__ , 'using: ', $name);
 		$s = igk_create_node("span");
 		$s->Content = igk_svg_use($name);
 		return $s;

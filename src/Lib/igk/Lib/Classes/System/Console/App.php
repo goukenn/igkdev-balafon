@@ -278,7 +278,7 @@ class App implements ICLICommandApp
             if (igk_is_debug() && !igk_environment()->NoConsoleLogger) {
                 igk_show_exception_trace($ex->getTrace(), 0 );
             }
-            igk_exit(1, -1000);
+            igk_exit(1, $ex->getCode() ?: -1000);
         } catch (Throwable $ex) {
             Logger::danger("error: throw: " . $ex->getMessage());
             Logger::info($ex->getFile() . ":" . $ex->getLine());
