@@ -6,6 +6,7 @@ namespace IGK\System\Modules\Traits;
 
 use Closure;
 use IGK\System\Console\Logger;
+use IGK\System\Excpetions\ApplicationModuleControllerException;
 use ReflectionMethod;
 
 /**
@@ -62,7 +63,9 @@ trait ModuleIncludeDefinitionInvokeTrait
                 }
                 return call_user_func_array($fc, $arguments);
             } catch (\TypeError $ex) {
-                throw $ex;
+                throw new ApplicationModuleControllerException($this, $ex->getMessage(), 500, $ex);
+            } catch (\Exception $ex) {
+                throw new ApplicationModuleControllerException($this, $ex->getMessage(), 500, $ex);
             }
         } else {
             throw new \TypeError('method not found');

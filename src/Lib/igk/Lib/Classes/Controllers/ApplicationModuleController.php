@@ -33,6 +33,10 @@ final class ApplicationModuleController extends BaseController{
     * @var mixed
     */
     const INIT_DOC_METHOD = "initDoc";
+    /**
+     * constant: method used to init the module when first loaded 
+     */
+    const DID_INIT_METHOD = "didInitModule";
 
     /**
     * Constant: conf module.
@@ -377,6 +381,7 @@ final class ApplicationModuleController extends BaseController{
             if ($__cache = \IGK\System\Modules\ModuleInitializer::Init($this, $c_cfile, $v_fclist)){
                 $v_is_debug && igk_ilog($c_cfile, 'blf-module-loading');
                 $data = call_user_func_array($v_fc, [$__cache]);
+               
                 // if (!empty(trim($__cache['code'])))
                 //     eval("? >".$__cache['code']);               
                 // $data = isset($__cache['return']) ? eval($__cache['return']) : null;
@@ -385,13 +390,16 @@ final class ApplicationModuleController extends BaseController{
             }
         }
         catch(\TypeError $error){
+            igk_wln_e('lkjo', $__cache['code'], $error->getMessage());
             throw new ApplicationModuleInitException($this, 500, $error);            
         }
         catch(\Error $ex){
+            igk_wln_e('lkjs');
             // catch fatal - error
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         catch(\Throwable $ex){
+            igk_wln_e('lkj');
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         $this->m_src = $s;

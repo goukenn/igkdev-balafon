@@ -34,6 +34,15 @@ class ModuleConfiguration extends EntityConfigurationSchema{
     var $entry_NS;
 
     /**
+     * auto require the module.
+     * - onDemand is the same as false, need to require module manually
+     * - true will be require on application start 
+     * - 
+     * @var null|bool|"onDemand"
+     */
+    var $autoRequire;
+
+    /**
      * retrieve the configuration value
      * @param string $key 
      * @param mixed $default 

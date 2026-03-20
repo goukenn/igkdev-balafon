@@ -381,14 +381,14 @@ class App implements ICLICommandApp
         $this->print("");
         $groups = [];
         array_walk($this->commands, function ($c, $key) use (&$groups) {
-            $cat = null; //'..z-group';
+            $cat = null; 
             if (is_array($c)) {
                 if (($l = igk_getv($c, 1)) && (is_array($l))) {
                     if ($c_ = igk_getv($l, "category"))
                     $cat = trim($c_);
                 }
             }
-            $cat = strtolower(trim($cat ?? igk_getv($c, self::GroupIndex, '..z-group')));
+            $cat = strtolower(trim($cat ?? igk_getv($c, self::GroupIndex, '.core-group')));
             if (!isset($groups[$cat]))
                 $groups[$cat] = [];
             $groups[$cat][$key] = $c;
@@ -399,7 +399,7 @@ class App implements ICLICommandApp
         ksort($groups,  SORT_FLAG_CASE | SORT_STRING | SORT_NATURAL);
         $key = key($groups);
         while ((count($groups) > 0) && ($g = array_shift($groups))) {
-            if (!empty($key)) {
+            if (!empty($key) && ($key != '.core-group')) {
                 Logger::print(App::Gets(App::YELLOW, "groups: " . $key));
                 Logger::print("");
             }

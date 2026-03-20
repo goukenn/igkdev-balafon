@@ -86,13 +86,17 @@ class ViewEnvironmentArgs implements ArrayAccess{
      */
     var $furi;
     /**
+     * full access path
+     */
+    var $fpath;
+    /**
      * base uri without the entry access
-     * @var mixed
+     * @var string
      */
     var $base_uri;
     /**
-     * entry path request uri
-     * @var mixed
+     * root entry path request folder
+     * @var string
      */
     var $rname;
     /**
@@ -199,7 +203,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
      */
     var $subdomain;
 
-     
+
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -215,7 +219,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         extract(array_merge(
             $controller->getSystemVars(),
             $controller->utilityViewArgs($fname, $file),
-        ), EXTR_SKIP); 
+        ), EXTR_SKIP);
+        $fpath = igk_getv(parse_url($furi), 'path');
         $controller->setEnvParam('fulluri', $furi);
         $params = isset($params) ? $params : array();
         $query_options = $controller->getEnvParam(IGK_VIEW_OPTIONS);

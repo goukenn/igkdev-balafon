@@ -13,7 +13,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestHeader;
 use IGK\System\Http\RequestResponse;
-use IGK\System\IInjectable;
 use IGK\System\Regex\MatchPattern;
 use IGK\System\Services\InjectorProvider;
 use IGK\Actions\ActionBase;
@@ -44,33 +43,33 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
 {
 
     /**
-    * Constant: dispatch method.
-    * @var mixed
-    */
+     * Constant: dispatch method.
+     * @var mixed
+     */
     const DISPATCH_METHOD = 'Dispatch';
 
     /**
-    * Constant: instance.
-    * @var mixed
-    */
+     * Constant: instance.
+     * @var mixed
+     */
     const INSTANCE = IGKServices::KEY_INSTANCE;
 
     /**
-    * auto generate doc.
-    * @var null|ActionBase|IActionProcessor|object
-    */
+     * auto generate doc.
+     * @var null|ActionBase|IActionProcessor|object
+     */
     private $m_host;
 
     /**
-    * Property: macro.
-    * @var mixed
-    */
+     * Property: macro.
+     * @var mixed
+     */
     private static $sm_macro;
 
     /**
-    * Property: matches.
-    * @var mixed
-    */
+     * Property: matches.
+     * @var mixed
+     */
     private static $sm_matches = [
         "int" => MatchPattern::Int,
         "float" => MatchPattern::Float,
@@ -88,10 +87,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
-    * @param string $actionName
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $actionName
+     * @return void
+     */
 
     public function setBaseActionName(string $actionName)
     {
@@ -99,34 +98,34 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * Returns Base Action Name.
-    * @return string
-    */
+     * Returns Base Action Name.
+     * @return string
+     */
     public function getBaseActionName(): string
     {
         return $this->m_host->baseActionName;
     }
 
     /**
-    * Returns Controller.
-    */
+     * Returns Controller.
+     */
     public function getController()
     {
         return $this->m_host ? $this->m_host->getController() : null;
     }
 
     /**
-    * Returns Host.
-    */
+     * Returns Host.
+     */
     public function getHost()
     {
         return $this->m_host;
     }
 
     /**
-    * Skip verb check.
-    * @param string $action_name
-    */
+     * Skip verb check.
+     * @param string $action_name
+     */
     public function skipVerbCheck(string $action_name)
     {
         $h = $this->getHost();
@@ -137,10 +136,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $args
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $args
+     * @return mixed
+     */
 
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
@@ -157,10 +156,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * Triggered when calling an inaccessible or undefined static method.
-    * @param mixed $name
-    * @param mixed $args
-    */
+     * Triggered when calling an inaccessible or undefined static method.
+     * @param mixed $name
+     * @param mixed $args
+     */
     public static function __callStatic($name, $args)
     {
         if (self::$sm_macro === null) {
@@ -176,20 +175,20 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * Invoke.
-    * @param string $name
-    * @param mixed ...$args
-    */
+     * Invoke.
+     * @param string $name
+     * @param mixed ...$args
+     */
     public function invoke(string $name, ...$args)
     {
         return $this->__call($name, $args);
     }
 
     /**
-    * Triggered when calling an inaccessible or undefined method on an object.
-    * @param mixed $name
-    * @param mixed $arguments
-    */
+     * Triggered when calling an inaccessible or undefined method on an object.
+     * @param mixed $name
+     * @param mixed $arguments
+     */
     public function __call($name, $arguments)
     {
         $v_host = $this->m_host;
@@ -215,10 +214,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $args
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $args
+     * @return void
+     */
 
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
@@ -263,10 +262,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
-    * @param ?IInjectedArgHost $host injected argument host
-    * @return array
-    */
+     * auto generate doc.
+     * @param ?IInjectedArgHost $host injected argument host
+     * @return array
+     */
     private static function _GetInjectedParameters(array &$targs, $parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -428,14 +427,15 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
-    * @param mixed &$services
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed &$services
+     * @return void
+     */
 
-    protected static function _UpdateService(&$services)
+    protected static function _UpdateService(array &$services)
     {
         $lbService = IGKServices::getInstance()->services();
+   
         foreach ($lbService as $k => $m) {
             if (isset($services[$k])) {
                 $g = $services[$k];
@@ -444,7 +444,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             } else {
                 $services[$k] = $m;
             }
-        }
+        } 
     }
     /**
      * retrive a service instance 
@@ -532,13 +532,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             if ($fservice = $v_host->configFile('services')) {
                 $v_services = (igk_io_file_exists($fservice, true) ?
                     ViewHelper::Inc($fservice, ['ctrl' => $v_host]) : null) ?? [];
-                if (is_null($services)){
+                if (!is_array($v_services)) {
+                    $v_services = [];
+                }
+                if (is_null($services)) {
                     $services = $v_services;
-                } else 
-                {
+                } else {
                     $services = array_merge($services, $v_services);
                 }
-
             }
         }
         self::_UpdateService($services);

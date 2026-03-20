@@ -60,7 +60,10 @@ class ClearSessionCommand extends AppExecCommand{
                 $this->skip = true;
                 return;
             }
-            Logger::info("Clearing session ...".$c);
+            // Logger::info(implode("\n", [
+            //     "Clearing session ... #".$c,
+            //     "duration? ", $this->expired_duration
+            // ]));
             // - |  $cid=session_id();
             @igk_sess_write_close();
             $c=0;

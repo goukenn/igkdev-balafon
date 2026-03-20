@@ -517,14 +517,17 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * resolve uri from name_uri
     * @param null|string $name_uri
     * @return null|string
     */
-
     public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI, bool $full_uri=true, bool $force_access = false, ?bool $entry_controller=null)
     {
         $v_uri = $name_uri ?? '';
+        if ( $v_uri && IGKValidator::IsUri($v_uri)){
+            return $v_uri;
+        }
+
         $v_bu = Constants::BASE_VIEW_URI;
         if (strpos($v_uri, $v_bu) === 0) {
             if ($v_bu == '@/')
@@ -2306,7 +2309,7 @@ abstract class ControllerExtension
 
     public static function loadRoute(BaseController $controller)
     {
-        if (igk_io_cache_file_exists($cf = $controller::configFile("routes"))) {
+        if (igk_io_cache_file_exists($cf = $controller->configFile("routes"))) {
             $inc = function () {
                 include_once(func_get_arg(0));
             };

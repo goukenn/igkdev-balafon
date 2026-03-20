@@ -3,11 +3,8 @@
 // @file: ModuleInclusionMethod
 // @date: 20260228 13:59:29
 namespace IGK\System\Modules;
-
-use IGK\System\Console\Logger;
-use IGK\System\Polyfill\JsonSerializableTrait;
-use IGK\System\Text\RegexMatcherContainer;
-use IGK\System\Text\RegexMatcherUtility;
+ 
+use IGK\System\Polyfill\JsonSerializableTrait; 
 use JsonSerializable;
 
 /**
@@ -23,6 +20,7 @@ use JsonSerializable;
 class ModuleInclusionMethod implements JsonSerializable{
     use JsonSerializableTrait;
     private $m_callback;
+    private $m_namespace;
 
     /**
     * auto generate doc.
@@ -59,6 +57,8 @@ class ModuleInclusionMethod implements JsonSerializable{
     */
     private $m_params;
 
+    private $m_uses;
+ 
     /**
     * .ctr
     * @param string $file
@@ -69,7 +69,7 @@ class ModuleInclusionMethod implements JsonSerializable{
     * @param string $source
     * @return
     */
-    public function __construct(string $file, string $name, callable $callback, int $at, $params, string $source)
+    public function __construct(string $file, string $name, callable $callback, int $at, $params, string $source,?string $namespace=null, ?array $uses=null)
     {
         $this->m_name = $name;
         $this->m_callback = $callback;
@@ -77,6 +77,16 @@ class ModuleInclusionMethod implements JsonSerializable{
         $this->m_at = $at;
         $this->m_src = $source;
         $this->m_params = $params;
+        $this->m_namespace = $namespace;
+        $this->m_uses = $uses;
+    }
+    /**
+     * set namespace 
+     * @param null|string $ns 
+     * @return void 
+     */
+    public function setNamespace(?string $ns){
+        $this->m_namespace = $ns;
     }
 
     /**
@@ -84,21 +94,24 @@ class ModuleInclusionMethod implements JsonSerializable{
     * @return mixed
     */
     public function _json_serialize(){
-        return [
+        return array_filter([
             'file'=>$this->m_file,
             'src'=>$this->m_src,
             'at'=>$this->m_at,
-            'params'=>$this->m_params
-        ];
+            'params'=>$this->m_params,
+            'namespace'=>$this->m_namespace
+        ]);
     }
     /**
      * wake up from cache
      * @param mixed $data 
      * @return ModuleInclusionMethod 
      */
-    public static function WakeUpFromCache($data){
-        list($file, $code, $at, $params, $name, $line) = igk_extract($data, 'file|src|at|params|name|line');
-        $g = ModuleIncludeDefinitionUtility::CreateMethodHandle($params, $code);
+    public static function WakeUpFromCache($data, ?string $namespace=null, ?array $uses=null, ?string $conditions=null){
+        list($file, $code, $at, $params, $name, $line) = igk_extract($data, 'file|src|at|params|name|line', [
+            'params'=>''
+        ]);
+        $g = ModuleIncludeDefinitionUtility::CreateMethodHandle($params, $code, '_this', $namespace, $uses, $conditions);
         $inf = new ModuleInclusionMethod(
             $file, 
             $name, 
@@ -153,6 +166,12 @@ class ModuleInclusionMethod implements JsonSerializable{
             throw new \IGKException(implode("\n", ['Inclusion method failed', 
             'sourceMessage:'.$ex->getMessage(),
             json_encode($this->getInfo(), JSON_PRETTY_PRINT| JSON_UNESCAPED_SLASHES)]));
+        }
+        catch(\Exception $ex){
+            throw $ex;
+        }
+        catch(\Error $ex){
+            throw $ex;
         }
     }
 }

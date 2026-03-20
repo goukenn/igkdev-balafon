@@ -1009,29 +1009,59 @@ abstract class StringUtility
 
     /**
      * split with non escaped char
-     * @param string $v 
-     * @param string $char 
+     * @param string $haystack 
+     * @param string $char split char
      * @return string[] 
      */
-    public static function SplitWithNonEscapedChar(string $v, string $char)
+    public static function SplitWithNonEscapedChar(string $haystack, string $char)
     {
         $offset = 0;
         $tab = [];
         $i = 0;
-        while (($i = strpos($v, $char, $i)) !== false) {
+        while (($i = strpos($haystack, $char, $i)) !== false) {
             if ($i > 0) {
-                if ($v[$i - 1] == '\\') {
+                if ($haystack[$i - 1] == '\\') {
                     $i++;
                     continue;
                 }
             }
-            $tab[] = substr($v, $offset, $i - $offset);
+            $tab[] = substr($haystack, $offset, $i - $offset);
             $offset = $i + 1;
             $i++;
         }
-        if ($c = substr($v, $offset)) {
+        if ($c = substr($haystack, $offset)) {
             $tab[] = $c;
         }
         return $tab;
+    }
+
+    /**
+     * 
+     * @param string $haystack 
+     * @param array $range 
+     * @return string[]|array<int, string> 
+     */
+    public static function SplitLitteral(string $haystack, array $range){
+         $v_offset = 0;
+        $v_t = [];
+        while (count($range) > 0) {
+            $q = array_shift($range);
+            if (is_array($q)) {
+                $to = $q[1];
+                $q = $q[0];
+            } else {
+                $to = $q + 1;
+            }
+            if ($q < $v_offset) {
+                return $v_t;
+            }
+            $s = substr($haystack, $v_offset, $q - $v_offset);
+            $v_offset = $to;
+            $v_t[] = $s;
+        }
+        if (!empty(trim($s = substr($haystack, $v_offset)))) {
+            $v_t[] = $s;
+        }
+        return array_filter($v_t);
     }
 }

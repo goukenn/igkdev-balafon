@@ -106,7 +106,7 @@ class IGKEvents extends IGKObject
     const HOOK_COMMAND = 'sys_commnand';
 
     /**
-    * Constant: hook init app.
+    * Constant: hook init app. application initialized
     * @var mixed
     */
     const HOOK_INIT_APP = "sys://hook/init_app";
@@ -308,6 +308,16 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_FIND_USER = 'sys_user_find_user_by_value';
+
+    /**
+     * base application key hook
+     */
+    const HOOK_APP_KEY = 'sys_app_hook/';
+
+    /**
+     * download asset
+     */
+    const HOOK_DOWNLOAD_ASSETS = self::HOOK_APP_KEY.':assets';
     // + | --------------------------------------------------------------------
     // + | DB HOOK
     // + |
@@ -611,7 +621,7 @@ class IGKEvents extends IGKObject
     * Constant: hook crunjob.
     * @var mixed
     */
-    const HOOK_CRUNJOB = 'on_do_cronjob';
+    const HOOK_CRONJOB = 'on_do_cronjob';
 
     /**
     * Property: methods.

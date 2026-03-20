@@ -123,9 +123,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
 
     public static function FilterArgs($a)
     {
+        $v_env = igk_environment();
         if (strpos($a, "--wdir:") === 0) {
             $g = explode(":", $a, 2);
-            if (is_dir($g[1]) || igk_io_createdir($g[1]))
+            // igk_io_create_dir not available
+            if (is_dir($g[1]) || @mkdir($g[1],0777, true))
                 chdir($g[1]);
             return null;
         }
@@ -170,6 +172,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             $m = $l[0];
             igk_environment()->set($m, $v);
             return null;
+        }
+        if (strpos($a, "--log:")===0){
+            // + | change log folder 
+            $g = strtolower(trim(implode('', array_slice(explode(":", $a, 2), 1))));
+            $v_env->set("logfile", $g); 
         }
         return $a;
     }

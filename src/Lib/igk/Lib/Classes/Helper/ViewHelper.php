@@ -715,11 +715,11 @@ class ViewHelper
                         }
                         $check_dir = false;
                     }
-                    if ($dir_exists){
+                    // if ($dir_exists){
                         array_unshift($param, $bname);
-                    } else {
-                        break;
-                    }
+                    // } else {
+                        // break;
+                    // }
                     // if (($bname != IGK_DEFAULT_VIEW_FILE) && (
                     //     igk_io_file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
                     //     if (!in_array($bname, [IGK_DEFAULT_VIEW])) {

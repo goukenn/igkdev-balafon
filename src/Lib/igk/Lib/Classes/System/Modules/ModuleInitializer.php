@@ -5,6 +5,8 @@
 // @desc: 
 namespace IGK\System\Modules;
 
+use IGK\System\Php\Helper\PhpRemoveGlobaFunc;
+use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
@@ -15,6 +17,7 @@ use IGK\System\Text\RegexMatcherUtility;
 class ModuleInitializer
 {
 
+    const CACHE_DEF = '@cache-def';
     /**
      * Property: modules.
      * @var mixed
@@ -58,44 +61,65 @@ class ModuleInitializer
     }
 
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public static function Init($module, $file, &$reference)
     {
         //$hashfile = 'modules/'.hash_file('sha256', $file);
         $hashfile = 'modules/' . hash_file('crc32b', $file) . '.json';
         $v_syscache = igk_cache();
-        if ($v_syscache->file_exists($hashfile)) {
+        $no_cache = 0;//  ($module->getName() == '.igk.redis');
+        
+        if (!$no_cache && $v_syscache->file_exists($hashfile)) {
             $data = $v_syscache->get($hashfile);
-            $r = (array)json_decode($data);
-            if (isset($r['cache'])) {
-                foreach ($r['cache'] as $k => $v) {
-                    if (empty($v->name)){
-                        $v->name = $k;
+            $r = json_decode($data, true);
+            $cache = (array)igk_getv($r, 'cache');
+            if ($cache) {
+                $c_def = self::CACHE_DEF;
+                $is_data = isset($cache[$c_def]);
+                $tdata = $is_data ? igk_getv($cache, $c_def) : $cache;
+                if (isset($tdata)) {
+                    $ns = $is_data ? igk_getv($cache, 'namespace') : null;
+                    $uses = $is_data ? igk_getv($cache, 'uses') : null;
+                    $conditions = $is_data ? igk_getv($cache, 'conditions') : null;
+                    foreach ($tdata as $k => $v) {
+                        if (!is_object($v)){
+                            $v=(object)$v;
+                        }
+                        if (empty($v->name)) {
+                            $v->name = $k;
+                        }
+                        $method = ModuleInclusionMethod::WakeUpFromCache($v, $ns, $uses, $conditions);
+                        $reference[$k] = $method;
                     }
-                    $method = ModuleInclusionMethod::WakeUpFromCache($v);
-                    $reference[$k]=$method;
-                } 
-            } 
+                }
+            }
             return $r;
         }
         $src = file_get_contents($file);
         $code = $return = null;
         $cache = ModuleIncludeDefinitionUtility::BindSourceFile($src, $file, $reference);
         self::_LoadCode($src, $code, $return);
+
+        if (is_string($code))
+            $code = PhpScriptUtility::RemoveGlobalFunc($code, ['removeEmptyLine'=>true]);
+        // if ($no_cache){
+        //     igk_wln_e("from aching....", $code);
+        // }
+
         $_ret = compact('return', 'code', 'cache');
         $v_syscache->store($hashfile, json_encode($_ret));
         return $_ret;
     }
 
     /**
-    * auto generate doc.
-    * @param string $src
-    * @param mixed & $code
-    * @param mixed & $return
-    * @return
-    */
+     * auto generate doc.
+     * @param string $src
+     * @param mixed & $code
+     * @param mixed & $return
+     * @return
+     */
     private static function _LoadCode(string $src, &$code, &$return)
     {
         // split file code 
@@ -148,7 +172,7 @@ class ModuleInitializer
             'return' => &$return,
             'replaces' => [],
             'func_name' => null,
-            'anonymous'=>null,
+            'anonymous' => null,
         ];
         // define
         $fc_handle = [
@@ -157,12 +181,11 @@ class ModuleInitializer
                 $v_defobject->replaces[] = (object)['from' => $e->from, 'to' => $e->to, 's' => ''];
             },
             'func-name' => function ($e) use ($v_defobject) {
-                if (!$v_defobject->anonymous){
+                if (!$v_defobject->anonymous) {
                     $v_defobject->func_name = $e->value;
-                }else{
+                } else {
                     $v_defobject->func_name = null;
                 }
-
             },
             'func-subblock-parentheses' => function ($e) use ($v_defobject) {
                 $v_defobject->anonymous = 1;

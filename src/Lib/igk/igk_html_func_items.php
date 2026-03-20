@@ -13,8 +13,7 @@ use IGK\Helper\BalafonJSHelper;
 use IGK\Helper\ViewHelper;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
-use IGK\Resources\R;
-use IGK\System\Configuration\ConfigurationFields;
+use IGK\Resources\R; 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\CallableConstants;
 use IGK\System\Html\Dom\Component\ActionGroupComponent;
@@ -28,30 +27,24 @@ use IGK\System\Html\Dom\HtmlLayoutViewInclusion;
 use IGK\System\Html\Dom\HtmlLooperNode;
 use IGK\System\Html\Dom\HtmlMemoryUsageInfoNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
-use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlNotifyResponse;
+use IGK\System\Html\Dom\HtmlNode; 
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGK\System\Html\Dom\HtmlSpaceNode;
-use IGK\System\Html\Dom\HtmlWebComponentNode;
-use IGK\System\Html\Dom\HtmlWigetNode;
+use IGK\System\Html\Dom\HtmlWebComponentNode; 
 use IGK\System\Html\HtmlAttribExpressionNode;
 use IGK\System\Html\HtmlHeaderLinkHost;
-use IGK\System\Html\HtmlJsOptionDefinition;
-use IGK\System\Html\HtmlLoadingContext;
+use IGK\System\Html\HtmlJsOptionDefinition; 
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUsageCondition;
 use IGK\System\Html\IFormFieldContainer;
-use IGK\System\Html\IFormFields;
-use IGK\System\Html\Templates\BindingConstants;
+use IGK\System\Html\IFormFields; 
 use IGK\System\Html\XML\XmlNode;
-use IGK\System\Http\Mail\MailPreviewNode;
-use IGK\System\IO\Path;
+use IGK\System\Http\Mail\MailPreviewNode; 
 use IGK\System\Number;
-use IGK\System\Services\LoginServiceEvents;
-use IGK\System\Uri;
+use IGK\System\Services\LoginServiceEvents; 
 use IGK\System\UriResolver;
 
-use function igk_resources_gets as __;
+use function igk_resources_gets as __; 
 
 if (!function_exists("igk_css_link_callback")) {
 	/**
@@ -2606,6 +2599,24 @@ if (!function_exists("igk_html_node_host")) {
 			}
 		}
 		return $p;
+	}
+}
+
+if (!function_exists('igk_html_host_wln')){
+	/**
+	 * 
+	 * @return void 
+	 */
+	function igk_html_host_wln($t){
+		$n = igk_create_notagnode();
+		$args = array_slice(func_get_args(), 1);
+		ob_start();
+		igk_wln(...$args);
+		$p = ob_get_contents();
+		ob_end_clean();
+		$n->setTextContent($p);
+		$t->add($n);
+		return $t;
 	}
 }
 if (!function_exists("igk_html_node_hostobdata")) {

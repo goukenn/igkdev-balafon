@@ -38,6 +38,9 @@ class session extends \IGKLibraryBase
     */
     public function init(): bool
     {
+        if (php_sapi_name()=='cli'){
+            return false;
+        }
         // initialize function
         require_once IGK_LIB_CLASSES_DIR . "/IGKSessionFileSaveHandler.php";
         require_once __DIR__ . "/Session/.functions.pinc";

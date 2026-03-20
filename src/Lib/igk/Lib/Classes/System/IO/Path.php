@@ -8,6 +8,7 @@ use Exception;
 use IGK\Constants;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
+use IGKApp;
 use IGKException; 
 /**
  * core path manipulation class 
@@ -204,8 +205,15 @@ class Path
      * @return mixed 
      */
 
+    /**
+     * get configured cached directory 
+     * @return mixed 
+     */
     public function getCacheDir(){
-        return $this->cache_dir;
+        if (IGKApp::IsInit() && !defined('IGK_CACHED_DIR')){
+            return igk_configs()->get('cache_dir') ?: $this->cache_dir;
+        }
+        return  $this->cache_dir;
     }
 
     /**
@@ -225,7 +233,7 @@ class Path
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
         $this->module_dir = str_helper::Uri(IGK_MODULE_DIR);
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
-        $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
+        $this->cache_dir = (defined('IGK_CACHED_DIR') ? constant('IGK_CACHED_DIR') : null) ?? $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
         $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
         // check an create cache folder on init - build - hook - context 
         if ($v_is_webapp && $this->cache_dir && !is_dir($this->cache_dir)){

@@ -17,6 +17,9 @@ trait ArrayAccessSelfTrait{
     * @return void
     */
     function offsetSet(mixed $n, mixed $v):void{
+        if (!method_exists($this, '_access_OffsetSet')){
+            igk_wln_e("what....");
+        }
         $this->_access_OffsetSet($n, $v);
     }
 

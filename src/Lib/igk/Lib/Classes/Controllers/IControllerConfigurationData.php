@@ -10,6 +10,7 @@ use IGK\System\IToJSon;
  * basic controller configuration data
  * @package IGK\Controllers
  * @property bool $no_auto_cache_view enable configuration data
+ * @property bool $no_auto_response_on_missing_view disable auto response on missing view. default is false
  * @property bool $subdomain_stand_alone enable application controller on subdomain is a stand alone
  * @property bool $subdomain_handle_undefined_domain enable application controller do handle undefined subdomain
  * @property string $clAppName get application name

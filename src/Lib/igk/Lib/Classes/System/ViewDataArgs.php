@@ -5,6 +5,7 @@
 namespace IGK\System;
 use ArrayAccess;
 use ArrayIterator;
+use IGK\Helper\JSon;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
@@ -67,5 +68,15 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
 
     public function get(string $key, $def_value=null){
         return igk_getv($this->p_data, $key, $def_value);
+    }
+
+    /**
+     * encode to json data expression 
+     * @param mixed $options encode options object  
+     * @param int $encode 
+     * @return string|false 
+     */
+    public function to_json($options=null, int $encode= 0){
+        return JSon::Encode($this->p_data, $options, $encode);
     }
 }

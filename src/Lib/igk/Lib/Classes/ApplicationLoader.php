@@ -436,7 +436,7 @@ class ApplicationLoader
     public function bootApp($app)
     {
         if (self::$sm_instance->_resolvConstant()) {
-            igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
+            igk_hook(IGKEvents::HOOK_APP_BOOT, array_merge([$app], compact('app')));
         }
     }
     /**

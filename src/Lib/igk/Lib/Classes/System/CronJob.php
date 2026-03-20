@@ -12,6 +12,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Cron\CronExecutionStatus;
 use IGK\System\Cron\CronScriptHandler;
 use IGK\System\Process\CronJobProcess;
+use IGKEvents;
 use Throwable;
 /**
  * 
@@ -48,8 +49,9 @@ class CronJob
                 $s = new CronScriptHandler;
                 return call_user_func_array([$s, 'handle'], func_get_args());
             });
-            igk_ilog('running.....'. count($rows));
-        }
+            igk_ilog('running...cronjob.tables rows #'. count($rows));
+        } 
+        igk_hook(IGKEvents::HOOK_CRONJOB, ['task'=>'cronjob', 'date'=> date("Ymd H:i:s")]);
         // try {
         //     igk_ilog("run cron - " . date("Ymd H:i:s"));
         //     Logger::info("#run:cron");

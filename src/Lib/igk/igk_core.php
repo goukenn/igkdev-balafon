@@ -530,6 +530,28 @@ function igk_io_get_script($f, $args = null)
     }
     return null;
 }
+
+/**
+ * retrieve base working dir.
+ * where balafon.config.xml is founded 
+ * @param $dir folder 
+ * @param $config_file configuration file to check 
+ * @return string
+ */
+function igk_io_detect_config_working_dir(string $dir, string $config_file = IGK_BALAFON_CONFIG){
+    $r = [$dir];
+    while(count($r)){
+        $q = array_shift($r);
+        $f = $q.'/'.$config_file;
+        if (file_exists($f)){
+            return $q;
+        }
+        $p = dirname($q);
+        if ($q != $p)
+            array_unshift($r, $p);
+    }
+    return $dir;
+}
  
 /**
  * evalute constant and get the value
@@ -932,8 +954,9 @@ function igk_bind_trace()
 */
 function igk_wln($msg = "")
 {
-    // BIND TRACE IF - do not include file for speed 
-    // igk_trace();
+    // + | ---------------------------------------------
+    // + | BIND TRACE IF - do not include file for speed 
+    // + | igk_trace();
     // igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
@@ -1024,16 +1047,18 @@ function igk_log_var_dump($tab, $lf = null)
     }
     $msg = $s . $LF . "(" . $LF;
     if ($tab) {
+        $ch = '';
         foreach ($tab as $k => $v) {
-            $msg .= "{$TAB}{$k}";
+            $msg .= $ch."{$TAB}{$k}";
             if (is_object($v)) {
-                $msg .= ":Object[" . get_class($v) . "]";
+                $msg .= " => Object[" . get_class($v) . "]";
             } else if (is_array($v)) {
                 $msg .= ":Array";
             } else
-                $msg .= " => " . $v;
-            $msg .= $LF;
+                $msg .= " => " . $v;            
+            $ch= ','.$LF;
         }
+        $msg.=$LF;
     }
     igk_wl($msg . ")" . $lf);
 }
@@ -1841,6 +1866,8 @@ function igk_io_arg_from($f)
  */
 function igk_io_createdir($dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
 {
+    require_once IGK_LIB_CLASSES_DIR.'/Helper/IO.php';
+    igk_wln_e("try create a directory : ", $dirname, class_exists('IGK\\Helper\\IO'));
     return IO::CreateDir($dirname, $mode);
 }
 /**
@@ -2026,13 +2053,14 @@ if (!function_exists('igk_io_workingdir')) {
     /**
      * get working directory
      * @param bool check in $_SERVER if no IGK_WORKING_DIR constant found
-     * @return void 
+     * @throws \IGK\Exception 
+     * @return string|false 
      */
     function igk_io_workingdir(bool $server = true)
     {
         $v_key = 'IGK_WORKING_DIR';
         if (defined($v_key)) {
-            return constant($v_key); // IGK_WORKING_DIR;
+            return constant($v_key);  
         }
         if ($server && isset($_SERVER[$v_key])) {
             return $_SERVER[$v_key];

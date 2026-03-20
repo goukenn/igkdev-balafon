@@ -8,6 +8,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Console\App;
 use IGK\System\Console\Colorize;
+use IGK\System\Exceptions\NotImplementException;
 use igk\System\Console\Commands\Utility;
 use function igk_resources_gets as __;
 /**
@@ -54,6 +55,8 @@ class ModuleCommand extends AppExecCommand{
         parent::showUsage();
         $v_actions = [
             'ls'=>'list all installed module',
+            'install'=>'install a module from a repos',
+            'remove'=>'remove installed module',
             'check'=>'check installed module',
         ];
         Logger::print('');
@@ -131,5 +134,13 @@ class ModuleCommand extends AppExecCommand{
             }
             Logger::print($f); 
         }
+    }
+
+
+    private function _installCommand(){
+        throw new NotImplementException();
+    }
+    private function _removeCommand(){
+        throw new NotImplementException();
     }
 }

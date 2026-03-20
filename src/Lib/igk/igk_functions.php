@@ -7297,7 +7297,7 @@ function igk_execute_time($name = null, $time = null)
  * @return array 
  * @throws Exception 
  */
-function igk_extract($obj, $list)
+function igk_extract($obj, $list, $defaults=null)
 {
     if (is_null($obj)) {
         $obj = [];
@@ -7313,7 +7313,7 @@ function igk_extract($obj, $list)
         } else {
             $d = $v;
         }
-        array_push($p, igk_getv($obj, $k, $d));
+        array_push($p, igk_getv($obj, $k, ($defaults ? igk_getv($defaults, $k) : null) ?? $d));
     }
     return $p;
 }

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System\Applications;
+
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
@@ -22,14 +23,15 @@ use IGK\System\IO\DotEnvConfiguration;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Markdown\MarkdownFileHandler;
 use IGK\System\IO\TextFileHandler;
-use IGKApp; 
+use IGKApp;
 use IGKApplicationBase;
-use IGKApplicationBootOptions; 
+use IGKApplicationBootOptions;
 use IGKEvents;
 use IGKException;
 use IGKServices;
 use ReflectionException;
 use TypeError;
+
 require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
 /**
  * application web controller 
@@ -39,26 +41,27 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
 {
 
     /**
-    * Property: file.
-    * @var mixed
-    */
+     * Property: file.
+     * @var mixed
+     */
     protected $file;
 
     /**
-    * Returns Entryfile.
-    */
-    public function getEntryfile(){
+     * Returns Entryfile.
+     */
+    public function getEntryfile()
+    {
         return $this->file;
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $render
-    * @return
-    */
+     * auto generate doc.
+     * @param mixed $render
+     * @return
+     */
     private function runEngine($render = true)
     {
-        throw new NotImplementException(__METHOD__);        
+        throw new NotImplementException(__METHOD__);
     }
     /**
      * bootstrap application
@@ -70,25 +73,32 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ReflectionException 
      */
 
-    public function bootstrap($bootoptions = null, ?callable $loader=null)
-    { 
+    public function bootstrap($bootoptions = null, ?callable $loader = null)
+    {
         // - |
         // - | clean previously set header - 
         // - | 
         if (!igk_environment()->isDev()) {
-           //
-           header_remove(null); 
-        }   
+            //
+            header_remove(null);
+        }
+        // + | --------------------------------------------------------------------
+        // + | boot modules
+        // + |
+        igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () {
+            \IGK\System\Modules\ModuleManager::Bootstrap(true);
+        });
         // + | before init application dispatch to uri handler         
         IGKApp::Init();
         // + | must setup application before call the facade 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
         if (isset($_SERVER["REQUEST_URI"]) && $uri_handler)
             $uri_handler::Handle($_SERVER["REQUEST_URI"], $this, $loader);
-        else{
-            if ($loader){
+        else {
+            if ($loader) {
                 $loader();
-            } 
+            }
+            $loader = null;
         }
         // enable benchmark        
         Benchmark::Activate(
@@ -98,9 +108,9 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         \IGK\System\Http\UriHandler::HandlePublicDir(igk_getv(parse_url($_SERVER["REQUEST_URI"]), 'path'), getcwd());
         // time : 17ms
         // resource management
-        require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
-        require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
-        require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
+        require_once IGK_LIB_CLASSES_DIR . '/Resources/R.php';
+        require_once IGK_LIB_DIR . '/Lib/functions-helpers/translation.php';
+        require_once IGK_LIB_DIR . '/Lib/functions-helpers/db.php';
         // - 
 
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
@@ -108,23 +118,23 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $this->InitCoreSystemComponent();
 
         // + | init registratation domain
-        igk_reg_component_package('web', function(string $n){
+        igk_reg_component_package('web', function (string $n) {
             return new \IGK\System\Html\Dom\HtmlNode($n);
         });
-        igk_reg_component_package('xml', function(string $n){
+        igk_reg_component_package('xml', function (string $n) {
             return new  \IGK\System\Html\XML\XmlNode($n);
         });
         // + | bootstrap web application
         // + | initialize library 
-        self::InitWebAppLibrary($this); 
-      
-        if ($loader){             
-            $loader(); 
-            if (!igk_io_file_exists(igk_io_applicationdir().'/Data/configure', true)){          
+        self::InitWebAppLibrary($this);
+
+        if ($loader) {
+            $loader();
+            if (!igk_io_file_exists(igk_io_applicationdir() . '/Data/configure', true)) {
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
-        } 
-        igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
+        }
+         igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
             $fdir = igk_io_cacheddist_jsdir();
             $dir = igk_getv($e->args, 'dir');
             $access = $fdir . "/.htaccess";
@@ -139,8 +149,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                     "</IfModule>"
                 )));
             }
-            if ($dir && ($scripts = igk_environment()->get("ScriptFolder")))
-            {
+            if ($dir && ($scripts = igk_environment()->get("ScriptFolder"))) {
                 $sdir = dirname($dir);
                 $lib_res = IGK_LIB_DIR . "/Scripts/";
                 $core_res_regex = "/\.(json|xml|jpeg|png|svg)$/i";
@@ -159,19 +168,14 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         });
         igk_reg_hook(IGKEvents::HOOK_MK_LINK, function () {
             igk_internal_reslinkaccess();
-        }); 
-        // + | --------------------------------------------------------------------
-        // + | boot modules
-        // + |
-        igk_reg_hook(IGKEvents::HOOK_APP_BOOT, function(){
-            \IGK\System\Modules\ModuleManager::Bootstrap();
         });
+     
         if ($bootoptions) {
             $options = Activator::CreateNewInstance(IGKApplicationBootOptions::class, $bootoptions);
             if ($c = $options->controller) {
                 $this->setDefaultController($c);
             }
-        }
+        }  
     }
     /**
      * shortcut to set system default controller
@@ -186,13 +190,13 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     }
 
     /**
-    * auto generate doc.
-    * @param string $file entry file
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $file entry file
+     * @return void
+     */
 
-    public function handleRequest(string $file, bool $render=true)
-    {  
+    public function handleRequest(string $file, bool $render = true)
+    {
         $srv = igk_server();
         $requestHandler = RequestHandler::getInstance();
         // 1. handle controller first
@@ -251,18 +255,18 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                     $requestHandler->redirect($this, []);
                 } else {
                     igk_set_header($srv->REDIRECT_STATUS);
-                } 
+                }
                 igk_exit();
             }
             $requestHandler->handle_route($path_info);
             // + |-------------------------------------------------------
             // + | configuration handle
             // + |
-            if (!igk_environment()->no_web_configuration()) { 
+            if (!igk_environment()->no_web_configuration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
-                }, $file))->handle_route($path_info, function()use($requestHandler, $path_info, $_redirectArgs){
-                    $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);  
+                }, $file))->handle_route($path_info, function () use ($requestHandler, $path_info, $_redirectArgs) {
+                    $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
                 });
             }
             if (!defined("IGK_REDIRECT_ACCCESS") && in_array($path_info, $access_file)) {
@@ -274,11 +278,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                     igk_exit();
                 }
             }
-            $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);     
+            $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
             igk_exit();
         }
         // : hanling core request uri
-        RequestHandler::getInstance()->handle_ctrl_request_uri(); 
+        RequestHandler::getInstance()->handle_ctrl_request_uri();
     }
     /**
      * redirect path uri
@@ -288,7 +292,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @return void 
      * @throws IGKException 
      */
-    private function _redirectUri($requestHandler, $path_info, $_redirectArgs){
+    private function _redirectUri($requestHandler, $path_info, $_redirectArgs)
+    {
         $_SERVER["REDIRECT_STATUS"] = '200';
         $_SERVER["REDIRECT_URL"] = $path_info;
         $_SERVER["REDIRECT_REQUEST_METHOD"] = $_SERVER["REQUEST_METHOD"];
@@ -312,17 +317,17 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      */
 
     public function run(string $file, $render = 1)
-    { 
+    {
         $this->file = $file;
         // + | secure port -- config  
-        SysUtils::SecurePort(); 
+        SysUtils::SecurePort();
         // + | handle cache
         // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
         try {
-            $uri=igk_io_fullrequesturi();
+            $uri = igk_io_fullrequesturi();
             RequestHandler::HandleRequestUri($uri, $this, true, $file, $render);
             if ($render) {
-                HtmlRenderer::RenderDocument(igk_app()->getDoc());       
+                HtmlRenderer::RenderDocument(igk_app()->getDoc());
                 igk_exit();
             }
         } catch (IGKException $ex) {
@@ -342,7 +347,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @return void 
      */
 
-    public static function InitWebAppLibrary($app){
+    public static function InitWebAppLibrary($app)
+    {
         $app->library('subdomain');
         $app->library('session');
         $app->library('mysql');
@@ -352,6 +358,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // register core config expression
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
 
-        igk_hook(IGKEvents::HOOK_INIT_WEB_APP_LIBRARY, ['app'=>$app]);
+        igk_hook(IGKEvents::HOOK_INIT_WEB_APP_LIBRARY, ['app' => $app]);
     }
 }

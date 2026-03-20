@@ -4,8 +4,11 @@
 // @date: 20220829 09:41:42
 // @desc: 
 namespace IGK\System\Modules;
+
 use Exception;
+use IGK\Controllers\ApplicationModuleConfigurationInfo;
 use IGK\Controllers\ApplicationModuleController;
+use IGK\System\Configuration\ModuleConfiguration;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Modules\Helpers\Utility;
@@ -13,6 +16,7 @@ use IGK\System\Regex\Replacement;
 use IGKException;
 use IGKHtmlDoc;
 use function PHPSTORM_META\map;
+
 /**
  * manager module
  * 
@@ -21,29 +25,29 @@ class ModuleManager
 {
 
     /**
-    * auto generate doc.
-    * @var array
-    */
+     * auto generate doc.
+     * @var array
+     */
     private $m_modules;
 
     /**
-    * Property: boot modules.
-    * @var mixed
-    */
+     * Property: boot modules.
+     * @var mixed
+     */
     private $m_boot_modules = [];
 
     /**
-    * auto generate doc.
-    * @var ModuleInitializer
-    */
+     * auto generate doc.
+     * @var ModuleInitializer
+     */
     private $m_init;
 
     /**
-    * .ctr
-    */
+     * .ctr
+     */
     public function __construct()
     {
-        $this->m_modules =  & igk_environment()->require_modules();
+        $this->m_modules =  &igk_environment()->require_modules();
         $this->m_init = $this->_createModuleInitializer();
     }
     /**
@@ -60,9 +64,9 @@ class ModuleManager
     }
 
     /**
-    * Restore.
-    * @param array $tab
-    */
+     * Restore.
+     * @param array $tab
+     */
     public function restore(array $tab)
     {
         $this->m_modules = $tab;
@@ -84,8 +88,8 @@ class ModuleManager
     }
 
     /**
-    * Returns count of.
-    */
+     * Returns count of.
+     */
     public function count()
     {
         return igk_count($this->m_modules);
@@ -118,7 +122,7 @@ class ModuleManager
      */
 
     public static function GetInstalledModules(): ?array
-    {  
+    {
         $d = ApplicationModules::GetCacheFile();
         if (!file_exists($d)) {
             return self::_InitModules();
@@ -126,16 +130,59 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
+    private static function _InitModuleList($list)
+    {
+        array_map(function ($s) {
+            igk_require_module($s->name);
+        }, $list);
+    }
+    /**
+     * 
+     * @return null|array 
+     */
+    public static function SystemRequireModules(): ?array
+    {
+
+        $f_cached_load = ApplicationModules::GetSystemRequireCachedFile();
+        $f_init = false;
+        $cf = igk_io_file_exists($f_cached_load, true)
+            ? json_decode(igk_io_read_allfile($f_cached_load)) : (function () use ($f_cached_load, &$f_init) {
+                $t = self::_RequiredCachedModules();
+                self::_InitModuleList($t); 
+                igk_io_w2file($f_cached_load, json_encode($t));
+                $f_init = true;
+                return $t;
+            })();
+        if (!$f_init && $cf) {
+            self::_InitModuleList($cf);
+        } 
+        return $cf;
+    }
+    private static function _RequiredCachedModules($type = true)
+    {
+        $t = [];
+        /**
+         * @var ModuleConfiguration $v
+         */
+        foreach (self::GetInstalledModules() as $v) {
+            $n = $v->autoRequire ?? null;
+            if ($n === $type) {
+                $t[] = $v;
+            }
+        }
+        return $t;
+    }
 
     /**
-    * auto generate doc.
-    * @return array
-    */
-    private static function _InitModules(){
+     * auto generate doc.
+     * @return array
+     */
+    private static function _InitModules()
+    {
         $d = ApplicationModules::GetCacheFile();
         $modir = igk_get_module_dir();
         $ln = strlen($modir) + 1;
-        $modules = igk_io_getfiles($modir, Replacement::RegexExpressionFromString("/".ApplicationModuleController::CONF_MODULE."$"));
+        $modules = igk_io_getfiles($modir, Replacement::RegexExpressionFromString("/" . ApplicationModuleController::CONF_MODULE . "$"));
         $tlist = [];
         if ($modules) {
             foreach ($modules as $f) {
@@ -160,14 +207,15 @@ class ModuleManager
      * @param string $dirname 
      * @return string|string[]|null 
      */
-    private static function _SanitizeName(string $dirname){
+    private static function _SanitizeName(string $dirname)
+    {
         return Utility::SanitizeName($dirname);
     }
 
     /**
-    * auto generate doc.
-    * @return ?array
-    */
+     * auto generate doc.
+     * @return ?array
+     */
     public static function GetAutoloadModules(): ?array
     {
         $manager = igk_environment()->getModulesManager();
@@ -176,7 +224,7 @@ class ModuleManager
         return $manager->getAutoloadModules();
     }
     /**
-     * retrieve required modules
+     * retrieve current required modules
      * @return null|array 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -190,16 +238,20 @@ class ModuleManager
         return $mod;
     }
     /**
-     * bootstrap modules
+     * bootstrap modules application
      * @return void 
      */
-
-    public static function Bootstrap()
-    { 
-        $boot_cache = igk_io_cachedir()."/.modules.boot.cache";
-        if (igk_io_file_exists($boot_cache)){
-            if (($seri = unserialize(file_get_contents($boot_cache)))!==false){
-                foreach($seri as $k){
+    public static function Bootstrap($auto_required = false)
+    {
+        self::_Init();
+        $auto_required && self::SystemRequireModules();
+    }
+    private static function _Init()
+    {
+        $boot_cache = igk_io_cachedir() . "/.modules.boot.cache";
+        if (igk_io_file_exists($boot_cache)) {
+            if (($seri = unserialize(file_get_contents($boot_cache))) !== false) {
+                foreach ($seri as $k) {
                     self::_BootModule($k);
                 }
                 return;
@@ -210,10 +262,10 @@ class ModuleManager
             $tab = (array)json_decode(file_get_contents($f));
         } else {
             $tab = self::GetInstalledModules();
-        } 
+        }
         if ($tab) {
             $info = array_filter(array_map(function ($a) {
-                if (igk_getv($a, 'autoload')){
+                if (igk_getv($a, 'autoload')) {
                     self::_BootModule($a->name);
                     return $a;
                 }
@@ -224,11 +276,12 @@ class ModuleManager
     }
 
     /**
-    * auto generate doc.
-    * @param mixed $n
-    * @return
-    */
-    private static function _BootModule($n){
+     * auto generate doc.
+     * @param mixed $n
+     * @return
+     */
+    private static function _BootModule($n)
+    {
         $mod = igk_require_module($n, function () {
             return true;
         });
@@ -243,8 +296,9 @@ class ModuleManager
      * @return bool 
      */
 
-    public function registerBoot(ApplicationModuleController $module):bool{
-        if (array_search($module, $this->m_boot_modules)===false){
+    public function registerBoot(ApplicationModuleController $module): bool
+    {
+        if (array_search($module, $this->m_boot_modules) === false) {
             $this->m_boot_modules[] = $module;
             return true;
         }
@@ -257,8 +311,9 @@ class ModuleManager
      * @return void 
      */
 
-    public static function InitDoc(IGKHtmlDoc $doc, ApplicationModuleController $module){
-        if ($module->boot){
+    public static function InitDoc(IGKHtmlDoc $doc, ApplicationModuleController $module)
+    {
+        if ($module->boot) {
             $module->boot = false;
             $module->initDoc($doc);
         }
@@ -269,7 +324,8 @@ class ModuleManager
      * @throws IGKException 
      */
 
-    public static function ResetModuleCache(){
+    public static function ResetModuleCache()
+    {
         @unlink(ApplicationModules::GetCacheFile());
         return self::_InitModules();
     }
