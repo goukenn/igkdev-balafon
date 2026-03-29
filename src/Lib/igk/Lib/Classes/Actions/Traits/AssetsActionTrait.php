@@ -4,13 +4,11 @@
 // @date: 20221212 11:31:26
 namespace IGK\Actions\Traits;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
 */
 trait AssetsActionTrait{
-
     /**
     * Assets.
     * @param null|mixed $f

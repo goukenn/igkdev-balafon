@@ -8,7 +8,6 @@ use IGK\System\EntryClassResolution;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IInjectable;
 use IGKException;
-
 /**
 * Response.
 * @package IGK\System\Http
@@ -19,12 +18,10 @@ abstract class Response implements IResponse, IInjectable{
      * @var mixed
      */
     private $body;
-
     /**
     * Returns Body.
     */
     public function getBody(){return $this->body; }
-
     /**
     * Sets Body.
     * @param mixed $body

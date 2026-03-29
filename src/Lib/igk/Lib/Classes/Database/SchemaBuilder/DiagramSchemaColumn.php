@@ -9,13 +9,11 @@ use IGK\Database\DbColumnInfo;
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramSchemaColumn implements IDiagramSchemaColumn{
-
     /**
     * Property: db column info.
     * @var mixed
     */
     private $db_columnInfo;
-
     /**
     * Unique.
     * @return IDiagramSchemaColumn
@@ -24,7 +22,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clIsUnique = true;
         return $this;
     }
-
     /**
     * Notnull.
     * @return IDiagramSchemaColumn
@@ -33,7 +30,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clNotNull = true;
         return $this;
     }
-
     /**
     * Index.
     * @return IDiagramSchemaColumn
@@ -42,7 +38,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clIsIndex = true;
         return $this;
     }
-
     /**
     * Varchar.
     * @param int $length
@@ -53,14 +48,12 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clTypeLength = $length;
         return $this;
     }
-
     /**
     * Returns Column Info.
     */
     public function getColumnInfo(){
         return $this->db_columnInfo;
     }
-
     /**
     * .ctr
     * @param string $name
@@ -70,7 +63,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo = new DbColumnInfo();
         $this->db_columnInfo->clName = $name; 
     }
-
     /**
     * Comment.
     * @param null|string $comment
@@ -80,7 +72,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clComment = $comment;
         return $this;
     }
-
     /**
     * Type.
     * @param string $type
@@ -90,14 +81,12 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clType = $type; 
         return $this;
     }
-
     /**
     * Size.
     * @param null|int $size
     * @return IDiagramSchemaColumn
     */
     public function size(?int $size): IDiagramSchemaColumn {return $this;}
-
     /**
     * Id.
     * @return IDiagramSchemaColumn
@@ -107,7 +96,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clIsPrimary =true;
         $this->db_columnInfo->clIsIndex = true; 
         return $this;}
-
     /**
     * Primary.
     * @return IDiagramSchemaColumn
@@ -115,7 +103,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     public function primary(): IDiagramSchemaColumn {
         $this->db_columnInfo->clIsPrimary =true;
         return $this;}
-
     /**
     * Autoincrement.
     * @return IDiagramSchemaColumn
@@ -124,7 +111,6 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         $this->db_columnInfo->clAutoIncrement = true;
         return $this;
     }
-
     /**
     * Default.
     * @param mixed $defaultValue

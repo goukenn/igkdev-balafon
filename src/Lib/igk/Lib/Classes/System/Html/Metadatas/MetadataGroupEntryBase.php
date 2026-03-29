@@ -4,25 +4,21 @@
 // @date: 20231221 15:12:51
 namespace IGK\System\Html\Metadatas;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 abstract class MetadataGroupEntryBase{
-
     /**
     * Property: def.
     * @var mixed
     */
     protected $m_def = [];
-
     /**
     * Map.
     * @return array
     */
     abstract function map():array;
-
     /**
     * Renders.
     */
@@ -35,7 +31,6 @@ abstract class MetadataGroupEntryBase{
         }
         return $s.'';
     }
-
     /**
     * Sets Property.
     * @param string $n
@@ -49,7 +44,6 @@ abstract class MetadataGroupEntryBase{
         $this->{$n} = $v;
         $this->m_def[$n] = $m;
     }
-
     /**
     * Returns Set Data Callback.
     */
@@ -58,7 +52,6 @@ abstract class MetadataGroupEntryBase{
             $this->setProperty($n , $v);
         };
     }
-
     /**
     * Returns true if Dirty.
     */

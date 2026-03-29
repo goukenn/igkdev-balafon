@@ -3,13 +3,11 @@ namespace IGK\Database\Macros;
 use IGK\Models\PhoneBooks;
 use IGK\Models\PhoneBookTypes;
 use IGK\Models\PhoneBookUserAssociations;
-
 /**
 * auto generate doc.
 * @package IGK\Database\Macros
 */
 class PhoneBookUserAssociationsMacros{
-
     /**
     * Returns Phone Book Details From User Guid.
     * @param string $guid
@@ -36,7 +34,6 @@ class PhoneBookUserAssociationsMacros{
      * macros to get phone entries details
      * @return void 
      */
-
     public static function getEntries(PhoneBookUserAssociations $entry){
         return self::GetPhoneBookDetailsFromUserGuid($entry->usrphb_UserGuid);
     }    

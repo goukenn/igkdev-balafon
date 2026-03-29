@@ -5,13 +5,11 @@
 namespace IGK\Database\Mapping\Traits;
 use IGK\Models\ModelBase;
 use IGKSysUtil as sysutil;
-
 /**
 * auto generate doc.
 * @package IGK\Database\Mapping
 */
 trait ModelMappingDataTrait{
-
     /**
     * Returns Model Mapping Data.
     * @param ModelBase $data

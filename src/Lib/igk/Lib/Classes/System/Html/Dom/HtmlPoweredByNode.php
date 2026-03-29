@@ -11,13 +11,11 @@ namespace IGK\System\Html\Dom;
 use function igk_resources_gets as __;
 use IGKApp;
 use IGKHtmlDoc;
-
 /**
 * Html powered by node.
 * @package IGK\System\Html\Dom
 */
 class HtmlPoweredByNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -27,7 +25,6 @@ class HtmlPoweredByNode extends HtmlNode{
      * Returns the singleton instance of this node.
      * @return static
      */
-
     public static function getItem(){
         static $_instance;
         if ($_instance==null){
@@ -39,7 +36,6 @@ class HtmlPoweredByNode extends HtmlNode{
      * Determines whether the powered-by message is visible based on app config.
      * @return bool
      */
-
     public function getIsVisible()
     {
         return !IGKApp::GetConfig("no_powered_message") && !empty($this->getContent());
@@ -57,7 +53,6 @@ class HtmlPoweredByNode extends HtmlNode{
      * Builds and returns the powered-by HTML content string.
      * @return string|null
      */
-
     public function getContent()
     {
         $uri = IGKApp::GetConfig('powered_uri');
@@ -72,7 +67,6 @@ class HtmlPoweredByNode extends HtmlNode{
      * @param mixed $options Render options, may contain a Document instance.
      * @return bool
      */
-
     protected function _acceptRender($options = null):bool
     {
         if (!$this->getIsVisible()){

@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
- 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -14,32 +13,27 @@ use IGK\Actions\MiddlewireActionBase;
 use IGK\Actions\ProjectDefaultAction;
 use IGK\Helper\StringUtility; 
 use igk\System\Console\Commands\Utility as CommandsUtility;
-
 /**
 * Make action command.
 * @package IGK\System\Console\Commands
 */
 class MakeActionCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:action";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "make new project's action. Contextual command.";
-
     /**
     * Property: options.
     * @var mixed
@@ -48,7 +42,6 @@ class MakeActionCommand extends AppExecCommand
         "--type:type" => "defaut Model type class. 'api'|'def'|'project'|'middlewire'",
         "--force" => "flag: force create action"
     ];
-
     /**
     * auto generate doc.
     * @var callable
@@ -59,18 +52,15 @@ class MakeActionCommand extends AppExecCommand
      * @var ?array|?string
      */
     var $uses;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller action_name [options]';
-
     /**
     * auto generate doc.
     * @var string $actionName the action to create
     */
-
     public function exec($command, ?string $controller = null, ?string $action_name = null)
     {
         if (is_null($action_name) && !empty($controller)) {
@@ -153,7 +143,6 @@ class MakeActionCommand extends AppExecCommand
         Logger::info('action file : ' . $acfile);
         Logger::success("Done - Make Action");
     }
-
     /**
     * auto generate doc.
     * @return
@@ -165,7 +154,6 @@ class MakeActionCommand extends AppExecCommand
         }
         return "";
     }
-
     /**
     * auto generate doc.
     * @return
@@ -177,5 +165,4 @@ class MakeActionCommand extends AppExecCommand
         }
         return [];
     }
-     
 }

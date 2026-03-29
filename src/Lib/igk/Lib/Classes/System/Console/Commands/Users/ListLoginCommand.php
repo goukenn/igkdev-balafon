@@ -7,32 +7,27 @@ use IGK\Controllers\SysDbController;
 use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class ListLoginCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:list';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='list system\'s user';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Exec.
     * @param mixed $command

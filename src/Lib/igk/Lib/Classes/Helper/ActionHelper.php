@@ -35,7 +35,6 @@ use function igk_resources_gets as __;
  */
 abstract class ActionHelper
 {
-
     /**
     * Constant: entry name.
     * @var mixed
@@ -54,7 +53,6 @@ abstract class ActionHelper
      * @param callable|null $callable 
      * @return mixed 
      */
-
     public static function DispatchToAction(string $method, string $action_class, array $arguments, ?callable $callable = null)
     {
         $verb = ["", '_' . strtolower(igk_server()->REQUEST_METHOD)];
@@ -71,13 +69,11 @@ abstract class ActionHelper
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $not notification handler
     * @return IGK\Models\IQueryResult|false
     */
-
     public static function ChangePassword(Users $u, string $password, string $repassword, $not = null)
     {
         $not = $not ?? igk_notifyctrl();
@@ -109,7 +105,6 @@ abstract class ActionHelper
      * @param mixed $token 
      * @return null|RegistrationLinks 
      */
-
     public static function GetAliveToken(string $token)
     {
         $row = RegistrationLinks::select_row([
@@ -118,13 +113,11 @@ abstract class ActionHelper
         ]);
         return $row;
     }
-
     /**
     * auto generate doc.
     * @param null|RegistrationLinks $regLink
     * @return RegistrationLinks|bool
     */
-
     public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null)
     {
         if ($row = $regLink ?? self::GetAliveToken($token)) {
@@ -153,7 +146,6 @@ abstract class ActionHelper
         }
         return false;
     }
-
     /**
     * Unregister user.
     * @param mixed $ctrl
@@ -167,7 +159,6 @@ abstract class ActionHelper
      * used to pass empty anonymous
      * @return callable 
      */
-
     public static function Nothing(): callable
     {
         return function () {
@@ -183,7 +174,6 @@ abstract class ActionHelper
      * @param bool $auto_exit 
      * @return mixed 
      */
-
     public static function HandleAction(
         string $actionClassName,
         BaseController $controller,
@@ -205,7 +195,6 @@ abstract class ActionHelper
      * @param string $name 
      * @return string 
      */
-
     public static function SanitizeMethodName(?string $name)
     {
         if ($name === null) {
@@ -221,7 +210,6 @@ abstract class ActionHelper
      * @param mixed $args 
      * @return void 
      */
-
     public static function BindRequestArgs($object, $action, &$args)
     {
         $g = new ReflectionMethod($object, $action);
@@ -237,7 +225,6 @@ abstract class ActionHelper
      * @param array $handleArgs 
      * @return bool 
      */
-
     public static function HandleArgs(string $fname, array &$handlerArgs, string $entryName = IGK_DEFAULT): bool
     {
         if ((strpos($fname, "/") !== false) && !igk_str_endwith($fname, $entryName)) {
@@ -253,7 +240,6 @@ abstract class ActionHelper
      * @param ActionBase $action 
      * @return null|Users 
      */
-
     public static function CurrentActionUserModel(ActionBase $action): ?Users
     {
         $ret = null;
@@ -276,7 +262,6 @@ abstract class ActionHelper
      * @throws ContainerExceptionInterface  
      * @throws IGKException 
      */
-
     public static function SendMail(
         BaseController $controller,
         string $to,
@@ -338,7 +323,6 @@ abstract class ActionHelper
      * @param null|string $prefix 
      * @return mixed 
      */
-
     public static function GenerateUserRegistrationLinkToken(Users $user, ?string $prefix = null)
     {
         return self::GenerateRegistrationLinkToken($user->clLogin, $user->clGuid, $prefix);
@@ -350,7 +334,6 @@ abstract class ActionHelper
      * @param null|string $prefix extra prefix
      * @return string|false 
      */
-
     public static function GenerateRegistrationLinkToken(string $login, string $guid, ?string $prefix = null)
     {
         $token = igk_encrypt($login .
@@ -383,7 +366,6 @@ abstract class ActionHelper
      * @param BaseController $controller 
      * @return null|array  
      */
-
     public static function GetActionClasses(BaseController $controller)
     {
         $dir = $controller->getClassesDir() . "/Actions";
@@ -406,7 +388,6 @@ abstract class ActionHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetExposedMethods($object_or_class)
     {
         // + | --------------------------------------------------------------------
@@ -431,13 +412,11 @@ abstract class ActionHelper
             return $n;
         }, $cl->getMethods(ReflectionMethod::IS_PUBLIC)));
     }
-
     /**
     * auto generate doc.
     * @param string $action_class_name
     * @return mixed
     */
-
     public static function GetActionName(BaseController $controller, string $action_class_name): ?string
     {
         $fs = ltrim($controller->getEntryNamespace() . "\\Actions", "\\") . "\\";
@@ -461,7 +440,6 @@ abstract class ActionHelper
      * @param string $view_action_name 
      * @return null|string 
      */
-
     public  static function ExpectedAction(BaseController $controller, string $view_action_name): ?string
     {
         $name = $view_action_name;
@@ -483,7 +461,6 @@ abstract class ActionHelper
      * @param mixed $resolved_class 
      * @return bool 
      */
-
     public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class): bool
     {
         if (self::$ResolvedClass && ($resolved_class == self::$ResolvedClass->class)) {
@@ -501,7 +478,6 @@ abstract class ActionHelper
      * @param string $action_name 
      * @return string 
      */
-
     public static function GetActionUri(BaseController $baseController, string $action_name): string
     {
         return  '/' . igk_uri(self::GetActionName($baseController, $baseController->resolveClass($action_name))) . "/";
@@ -517,7 +493,6 @@ abstract class ActionHelper
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function DoHandle(BaseController $controller, 
     string $handler_class_name, string $fname, array $params, $rep, $options = null)
     {

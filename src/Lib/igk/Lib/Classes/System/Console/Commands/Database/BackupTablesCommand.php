@@ -12,7 +12,6 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
@@ -20,37 +19,31 @@ use IGK\System\Regex\Replacement;
 */
 class BackupTablesCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:backup-tables';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'backup tables controller';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = ['--restore' => 'flag to be in restore mode'];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller outdir [options]';
-
     /**
     * Prefix handler.
     * @param string $back_name
@@ -62,7 +55,6 @@ class BackupTablesCommand extends AppExecCommand
 		$regex->add("/%n/", igk_getv($attr, 'n'));
 		return $regex->replace($back_name);
 	}
-
     /**
     * Exec.
     * @param mixed $command

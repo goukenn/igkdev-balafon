@@ -10,7 +10,6 @@ use Iterator;
  * @package IGK\Database
  */
 interface IDbQueryFetchResult extends Iterator , IDbFetchResult{
-
     /**
     * Fetches.
     * @return bool

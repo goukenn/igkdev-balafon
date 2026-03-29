@@ -3,13 +3,11 @@
 // @file: CommandRegisterCommand.php
 // @date: 20250908 10:26:59
 namespace IGK\System\Console\Commands\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\EnvironmentCommandScripts;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Commands
@@ -17,19 +15,16 @@ use function igk_resources_gets as __;
 */
 class CommandRegisterCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--command:ls';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'list registered command';
-
     /**
     * Property: options.
     * @var mixed
@@ -37,19 +32,16 @@ class CommandRegisterCommand extends AppExecCommand
     var $options = [
 		'--location' =>'flag: show default location'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'command';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -70,7 +62,6 @@ class CommandRegisterCommand extends AppExecCommand
 			$dt[] = $v->desc;
 			Logger::info(implode("\r\t\t\t", $dt));
 		}
-
 		return -1;
 	}
 }

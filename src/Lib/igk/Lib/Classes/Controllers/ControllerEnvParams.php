@@ -10,21 +10,18 @@ namespace IGK\Controllers;
  */
 class ControllerEnvParams{
     public
-
     /**
     * Constant: action view response.
     * @var mixed
     */
     const ActionViewResponse = "@ActionViewResponse";
     public
-
     /**
     * Constant: menus.
     * @var mixed
     */
     const Menus = "@menu";
     public
-
     /**
     * Constant: view loader.
     * @var mixed
@@ -38,7 +35,6 @@ class ControllerEnvParams{
      * bool disable view compilation 
      */
     public const NoCompilation = "@noCompilation";
-
     /**
     * auto generate doc.
     */    public const AllowHiddenView = "@AllowHiddenView";

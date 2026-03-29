@@ -7,20 +7,17 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Auth
 * @author C.A.D. BONDJE DOUE
 */
 class MakeRolesCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:role';
-
     /**
     * Property: desc.
     * @var mixed
@@ -28,13 +25,11 @@ class MakeRolesCommand extends AppExecCommand{
     var $desc='create a role definition file '; 
 	/* var $options=[]; */
 	/* var $category = ''; */
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

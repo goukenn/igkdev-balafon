@@ -14,19 +14,16 @@ use ReflectionException;
  * @package IGK\System\IO
  */
 final class Helper{
-
     /**
     * Constant: table property.
     * @var mixed
     */
     const TABLE_PROPERTY  = 'tables';
-
     /**
     * auto generate doc.
     * @param bool $force
     * @return array
     */
-
     public static function GenerateModel(BaseController $ctrl, callable $callback, $force=false){
         $manifest = [];
         $file = $ctrl->getDataSchemaFile();
@@ -41,13 +38,11 @@ final class Helper{
         // something to do with the manifest
         return $manifest;
     }
-
     /**
     * auto generate doc.
     * @param bool $force
     * @return array
     */
-
     public static function GenerateModelFromFile(string $file, callable $callback, $force=false){
         $manifest = [];
         $ctrl = igk_getctrl(IGKSystemController::class);

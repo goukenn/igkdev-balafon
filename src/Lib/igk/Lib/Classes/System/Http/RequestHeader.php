@@ -16,25 +16,21 @@ namespace IGK\System\Http;
  * @var ?string ACCEPT_ENCODING
  */
 class RequestHeader{
-
     /**
     * Property: prepared.
     * @var mixed
     */
     private $m_prepared;
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * .ctr
     */
     public function __construct(){
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -42,7 +38,6 @@ class RequestHeader{
     public function __get($name){
         return $this($name);
     }
-
     /**
     * Called when an object is used as a function.
     * @param string $name

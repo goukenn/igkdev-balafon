@@ -4,26 +4,22 @@
 // @date: 20231222 17:35:47
 namespace IGK\System\Database;
 use IGK\Database\DbSchemas;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 class SchemaDropColumnMigration extends SchemaMigrationItemBase
 {
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column"];
-
     /**
     * Property: cl.
     * @var mixed
     */
     private $m_cl;
-
     /**
     * Sets up.
     * @param string $table
@@ -33,7 +29,6 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
     {
         $this->raw = get_defined_vars();
     }
-
     /**
     * Up.
     */
@@ -44,7 +39,6 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
         $ctrl->db_drop_column($tb, $this->column);
         $this->m_cl = DbSchemas::GetTableColumnInfo($tb, $ctrl);
     }
-
     /**
     * Down.
     */
@@ -60,7 +54,6 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
      * get column info
      * @return mixed 
      */
-
     protected function getCl(){
         return $this->m_cl;
     }

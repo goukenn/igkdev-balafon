@@ -9,13 +9,11 @@ use IGK\System\Regex\Replacement;
 * @package IGK\System\Security\Web
 */
 class WordContentValidator extends MapContentValidatorBase{
-
     /**
     * Property: allow null.
     * @var mixed
     */
     var $allowNull;
-
     /**
     * Map.
     * @param mixed $value

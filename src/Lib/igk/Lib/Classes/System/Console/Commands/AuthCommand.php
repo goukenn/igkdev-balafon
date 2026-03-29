@@ -19,43 +19,36 @@ use SQLQueryUtils;
  */
 class AuthCommand extends AppExecCommand
 {
-
     /**
     * Property: group.
     * @var mixed
     */
     var $group = "management";
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--auth";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'Manage auth';
-
     /**
     * Constant: available action.
     * @var mixed
     */
     const AVAILABLE_ACTION = "auths|groups|grant";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;
-
     /**
     * Property: action helps.
     * @var mixed
     */
     var $action_helps = [];
-
     /**
     * Help.
     */
@@ -76,7 +69,6 @@ class AuthCommand extends AppExecCommand
             }
         }
     }
-
     /**
     * Exec.
     * @param mixed $command

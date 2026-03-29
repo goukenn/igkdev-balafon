@@ -6,13 +6,11 @@ namespace IGK\Helper\Actions;
 use IGK\Actions\Dispatcher;
 use IGK\Models\Users;
 use ReflectionMethod;
-
 /**
 * auto generate doc.
 * @package IGK\Helper\Actions
 */
 class UserManagement{
-
     /**
     * Post.
     * @param mixed $name
@@ -25,7 +23,6 @@ class UserManagement{
             return call_user_func_array([$this, $fc], $args);
         }
     }
-
     /**
     * Returns.
     * @param mixed $name
@@ -38,7 +35,6 @@ class UserManagement{
             return call_user_func_array([$this, $fc], $args);
         }
     }
-
     /**
     * Block post.
     * @param Users $user
@@ -48,7 +44,6 @@ class UserManagement{
         $r = $user->save();
         return ['data'=>['success'=>$r, "status"=>$user->clStatus, 'id'=>$user->clId, 'guid'=>$user->clGuid]];
     }
-
     /**
     * Enables post.
     * @param Users $user

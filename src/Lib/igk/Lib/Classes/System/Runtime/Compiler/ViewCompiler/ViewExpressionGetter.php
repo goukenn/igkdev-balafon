@@ -10,19 +10,16 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression;
 use IGK\System\ViewExtractArgHelper;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressionGetter extends ViewExpressionBase{
-
     /**
     * Listener: listener.
     * @var mixed
     */
     var $listener;
-
     /**
     * .ctr
     * @param mixed & $variables
@@ -32,7 +29,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
         parent::__construct($variables);
         $this->listener = $listener;
     }
-
     /**
     * Eval.
     * @param mixed $src
@@ -42,7 +38,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
         $src = "return ".rtrim($src,';').";";
         return call_user_func_array($this->listener, func_get_args());
     }
-
     /**
     * Access offset get.
     * @param mixed $name
@@ -82,7 +77,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
         // $args = new ViewExtractArgHelper($name, $p);
         // return $args;
     }
-
     /**
     * Access offset set.
     * @param mixed $name
@@ -91,7 +85,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
     protected function _access_OffsetSet($name, $value){
         throw new OperationNotAllowedException("Expression Getter can't set value");
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -106,13 +99,11 @@ class ViewExpressionGetter extends ViewExpressionBase{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function getValue($name){
         // for real value
         $p = ViewExpressionArgHelper::GetVar($name);
         return $p;
     }
-
     /**
     * get string presentation.
     */

@@ -8,7 +8,6 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use ReflectionMethod;
-
 /**
 * Extension utils.
 * @package IGK\System

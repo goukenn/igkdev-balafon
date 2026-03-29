@@ -13,61 +13,51 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Responses
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Responses
 */
 class UserResponse
 {
-
     /**
     * Property: user.
     * @var mixed
     */
     var $user;
-
     /**
     * Property: groups.
     * @var mixed
     */
     var $groups;
-
     /**
     * Property: auths.
     * @var mixed
     */
     var $auths;
-
     /**
     * Property: token info.
     * @var mixed
     */
     var $token_info;
-
     /**
     * Property: message.
     * @var mixed
     */
     var $message;
-
     /**
     * Property: user app.
     * @var mixed
     */
     var $user_app;
-
     /**
     * Property: controller.
     * @var mixed
     */
     var $controller;
-
     /**
     * auto generate doc.
     * @param Users $user
@@ -76,7 +66,6 @@ class UserResponse
     private static function _CreateUserData(Users $user){
         return $user->CreateUserApiResponseData();
     }
-
     /**
     * Creates Response From User Model.
     * @param Users $user
@@ -85,13 +74,11 @@ class UserResponse
         $data = self::_CreateUserData($user);
         return $data;
     }
-
     /**
     * auto generate doc.
     * @param bool $rememberme
     * @return mixed
     */
-
     public static function CreateResponse(IUserProfile $profile, BaseController $ctrl, IAuthenticatorService $authenticator, bool $rememberme=false)
     {
         $app = $profile->user();
@@ -99,7 +86,6 @@ class UserResponse
         $token = $authenticator->getNewToken($user, $ctrl, $rememberme); 
         return self::CreateResponseFromSystemUser($ctrl, $user, $app, $token); 
     }
-
     /**
     * Creates Response From System User.
     * @param BaseController $ctrl
@@ -116,7 +102,6 @@ class UserResponse
         igk_hook('filter_user_response_data', (object)['data'=>& $data]);
         return Activator::CreateNewInstance(static::class, $data);
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */

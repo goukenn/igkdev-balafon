@@ -9,18 +9,15 @@ use IGKException;
 * Represent IGKInvalidXmlReadException class
 */
 class InvalidXmlReadException extends IGKException{
-
     /**
     * Property: offset.
     * @var mixed
     */
     var $offset;
-
     /**
     * auto generate doc.
     * @param mixed $offset the default value is 0
     */
-
     public function __construct($msg, $offset=0){
         parent::__construct($msg);
         $this->offset=$offset;

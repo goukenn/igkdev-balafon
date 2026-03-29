@@ -3,13 +3,11 @@
 // @file: IGlobalModelFileController.php
 // @date: 20230526 00:15:42
 namespace IGK\Controllers;
-
 /**
 * auto generate doc.
 * @package IGK\Controllers
 */
 interface IGlobalModelFileController{
-
     /**
     * Injects Base Model.
     * @return bool

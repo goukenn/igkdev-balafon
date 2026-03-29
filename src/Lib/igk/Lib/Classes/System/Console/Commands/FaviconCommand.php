@@ -7,7 +7,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\RegexConstant;
 use IGK\System\Regex\RegexHelper;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -15,19 +14,16 @@ use IGK\System\Regex\RegexHelper;
 */
 class FaviconCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--favicon';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc ='retrieve default icon';
-
     /**
     * Property: options.
     * @var mixed
@@ -36,19 +32,16 @@ class FaviconCommand extends AppExecCommand
 		"--html"=>"flag: active html rendering",
 		"--type:expected_type"=>"'base64' | 'html' | 'svg' | 'png' default is 'base64'"
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'sys';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * auto generate doc.
     * @param string $type
@@ -59,7 +52,6 @@ class FaviconCommand extends AppExecCommand
 			return $type;
 		return null;
 	}
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -69,7 +61,6 @@ class FaviconCommand extends AppExecCommand
 		if (property_exists($command->options, '--html'))
 			return 'html';
 	}
-
     /**
     * Exec.
     * @param mixed $command
@@ -116,14 +107,12 @@ class FaviconCommand extends AppExecCommand
 		igk_exit();
 	}
 }
-
 /**
 * Image html template.
 * @package IGK\System\Console\Commands
 */
 class ImageHtmlTemplate
 {
-
     /**
     * Treat.
     * @param array $data
@@ -133,7 +122,6 @@ class ImageHtmlTemplate
 			return igk_getv($data, $m['name']);
 		}, $this->render()); 
 	}
-
     /**
     * Renders.
     */

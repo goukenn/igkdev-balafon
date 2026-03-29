@@ -19,25 +19,21 @@ require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php
 */
 class ControllerConfigurationData extends ConfigurationData implements ArrayAccess{
     use ConfigArrayAccessTrait;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $ctrl;
-
     /**
     * Property: changed.
     * @var mixed
     */
     private $m_changed=0;
-
     /**
     * Property: autosave.
     * @var mixed
     */
     private $m_autosave;
-
     /**
     * Property: secrets.
     * @var mixed
@@ -48,11 +44,9 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
      * @param string $key 
      * @return bool 
      */
-
     public function isSecret(string $key) : bool{
         return key_exists($key, $this->m_secrets);
     }
-
     /**
     * Sets Auto Save.
     * @param bool $autosave
@@ -61,26 +55,22 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         $this->m_autosave = $autosave;
         $this->m_change = 0;
     }
-
     /**
     * To array.
     */
     public function to_array(){
         return (array)$this->m_configs;
     }
-
     /**
     * To json.
     */
     public function to_json(){
         return json_encode($this->m_configs);
     }
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public function __construct($ctrl){
         if(!$ctrl)
             igk_die(__("ctrl can't be null"));
@@ -89,30 +79,24 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         $this->m_autosave = true;
         $this->m_configs=igk_createobj();       
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __get($n){
         return $this->get($n, null);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __isset($n){
         return isset($this->m_configs->$n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function __set($n, $v){
         if (is_object($m = igk_conf_get($this->m_configs, $n)) && ($m instanceof SysConfigExpression)){
             if (($v!==null) && is_string($v)){
@@ -130,16 +114,13 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
      * get configuration file
     * @return string 
     */
-
     public function getConfigFile(){
         return igk_dir($this->ctrl->getConfigFile());
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
     */
-
     public function initConfigSetting(\stdClass $t, $file=null){
         $f= $file ?? $this->getConfigFile();
         $def = null; 
@@ -210,7 +191,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_environment()->loading_context = null;
         return $t;
     }
-
     /**
     * auto generate doc.
     */
@@ -227,7 +207,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     /**
     * reload configuration setting
     */
-
     public function reloadConfiguration(){
         igk_die(__METHOD__." Not implement");
     }
@@ -238,7 +217,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private function setupCtrlConfigSettings(){
         igk_die(__METHOD__." Not implement");
     }
-
     /**
     * auto generate doc.
     */
@@ -261,7 +239,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
      * @return mixed 
      * @throws IGKException 
      */
-
     public function get($xpath, $default= null){
         $v = igk_conf_get($this->m_configs, $xpath, $default);
         if (is_object($v) && ($v instanceof SysConfigExpression)){

@@ -3,14 +3,12 @@
 // @file: MakeAbstractEnumClassCommand.php
 // @date: 20251205 12:15:01
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\Traits\EnumeratesConstants;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -18,19 +16,16 @@ use IGK\System\Traits\EnumeratesConstants;
 */
 class MakeAbstractEnumClassCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--make:enum';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'make abstract enum class';
-
     /**
     * Property: options.
     * @var mixed
@@ -41,19 +36,16 @@ class MakeAbstractEnumClassCommand extends AppExecCommand
 		'--strict' => 'flag: enable declare strict',
 		'--no-save' => 'flag: do not save file'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller name value [options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -89,10 +81,8 @@ class MakeAbstractEnumClassCommand extends AppExecCommand
 					return 'case ' . self::_ToIdentifier($t) . ';';
 			}, explode(',', $value)));
 		}
-
 		$builder = new PHPScriptBuilder;
 		$ns = $ctrl->getEntryNamespace();
-
 		$builder->name($n)
 			->namespace($ns)
 			->uses([
@@ -105,8 +95,6 @@ class MakeAbstractEnumClassCommand extends AppExecCommand
 				!$enum ? "use EnumeratesConstants;" : null,
 				implode("\n", $g)
 			])));
-
-
 		$s = $builder->render();
 		if ($no_save) {
 			igk_wln($s);

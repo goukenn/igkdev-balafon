@@ -17,7 +17,6 @@ use IGKEvents;
 * 
 * @package IGK\Controllers\Traits
 */
-
 /**
 * auto generate doc.
 * @package IGK\Controllers\Traits
@@ -198,7 +197,6 @@ trait ControllerDbExtensionTrait{
             return  $ad->sendQuery($query);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $column
@@ -221,7 +219,6 @@ trait ControllerDbExtensionTrait{
         $ad = self::getDataAdapter($ctrl);  
         return $ad->dropAllUniqueContraints($table);
     }
-
     /**
     * Db drop index.
     * @param BaseController $ctrl
@@ -240,7 +237,6 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
-
     /**
     * Db drop column.
     * @param BaseController $ctrl
@@ -266,7 +262,6 @@ trait ControllerDbExtensionTrait{
      * @param mixed $info 
      * @return true|void 
      */
-
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
         $ad = self::getDataAdapter($ctrl); 

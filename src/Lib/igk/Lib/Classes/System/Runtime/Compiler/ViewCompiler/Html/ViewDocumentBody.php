@@ -6,20 +6,17 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 use IGK\System\Html\Dom\HtmlBodyNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Html
 */
 class ViewDocumentBody extends HtmlNoTagNode implements IViewCompilerArgument{
     use ViewCompilerArgumentNodeTrait;
-
     /**
     * Property: body.
     * @var mixed
     */
     private $m_body;
-
     /**
     * Initializes.
     */
@@ -27,7 +24,6 @@ class ViewDocumentBody extends HtmlNoTagNode implements IViewCompilerArgument{
     {
         $this->m_body = new HtmlBodyNode;
     }
-
     /**
     * Returns Body Box.
     */

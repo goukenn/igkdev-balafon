@@ -8,25 +8,21 @@ use IGK\System\IO\Path;
 * 
 * @package IGK\System\IO\Storage
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Storage
 */
 class StorageBuilder implements IStorageBuilder{
-
     /**
     * Property: storage.
     * @var mixed
     */
     var $storage;
-
     /**
     * Property: prefix.
     * @var mixed
     */
     var $prefix;
-
     /**
     * .ctr
     * @param IStorage $storage
@@ -37,13 +33,11 @@ class StorageBuilder implements IStorageBuilder{
         $this->storage = $storage;
         $this->prefix = $prefix;
     }
-
     /**
     * auto generate doc.
     * @param bool $ovewrite
     * @return IStorageInfo
     */
-
     public function store($file, bool $ovewrite=false, ?string $type=null): ?IStorageInfo{
         if (!is_string($file) && is_array($file)){
             if (count($file)>1)
@@ -57,7 +51,6 @@ class StorageBuilder implements IStorageBuilder{
             return $info;
         }
     }
-
     /**
     * Deletes.
     * @param string $path
@@ -73,7 +66,6 @@ class StorageBuilder implements IStorageBuilder{
      * @param null|string $type 
      * @return IStorageInfo 
      */
-
     public function __invoke($file, bool $ovewrite=false, ?string $type=null){
         return $this->store($file, $ovewrite, $type);
     }

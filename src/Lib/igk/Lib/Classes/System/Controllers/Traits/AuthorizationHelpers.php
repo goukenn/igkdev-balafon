@@ -3,10 +3,8 @@
 // @file: AuthorizationHelpers.php
 // @date: 20251210 18:59:08
 namespace IGK\System\Controllers\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Users;
-
 /**
 * auto generate doc.
 * @package IGK\System\Controllers\Traits
@@ -21,7 +19,6 @@ trait AuthorizationHelpers{
      * @return bool 
      */
     public static function isUserAllowedTo(BaseController $ctrl, string $auth, $user =null):bool{
- 
         $user = $user ?? $ctrl->getUser();
         if (!$user){
             return false;

@@ -3,10 +3,7 @@
 // @file: PhoneBookPreferences.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * User's preferences
 * @package IGK\Models
@@ -31,43 +28,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookPreferences extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphbp_Id";
-
     /**
     * Constant: fd entry guid.
     * @var mixed
     */
     const FD_ENTRY_GUID="rcphbp_EntryGuid";
-
     /**
     * Constant: fd phone guid.
     * @var mixed
     */
     const FD_PHONE_GUID="rcphbp_phoneGuid";
-
     /**
     * Constant: fd user guid.
     * @var mixed
     */
     const FD_USER_GUID="rcphbp_userGuid";
-
     /**
     * Constant: fd type id.
     * @var mixed
     */
     const FD_TYPE_ID="rcphbp_TypeId";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphbp_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed
@@ -85,7 +75,6 @@ class PhoneBookPreferences extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphbp_Id";
-
     /**
     * Property: unique columns.
     * @var mixed

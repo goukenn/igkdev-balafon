@@ -13,7 +13,6 @@ use IGK\Models\Users;
  * @property bool $remembeme 
  */
 interface IUserProfile{
-
     /**
     * Returns Controller.
     * @return ?BaseController
@@ -26,18 +25,15 @@ interface IUserProfile{
      * @param BaseController $ctrl controller 
      * @return bool 
      */
-
     function auth($type, bool $strict=true, ?BaseController $ctrl=null):bool; 
     /**
      * get system's user model
      * @return Users 
      */
-
     function model(): ?\IGK\Models\Users;
     /**
      * get project's user model
      * @return ModelBase 
      */
-
     function user(): ?\IGK\Models\ModelBase;
 }

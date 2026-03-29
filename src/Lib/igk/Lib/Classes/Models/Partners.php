@@ -3,10 +3,7 @@
 // @file: Partners.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * store local sites partner.
 * @package IGK\Models
@@ -27,31 +24,26 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry if not exists. check for unique column.
 * */
 class Partners extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
-
     /**
     * Constant: fd cl category.
     * @var mixed
     */
     const FD_CL_CATEGORY="clCategory";
-
     /**
     * Constant: fd cl web site.
     * @var mixed
     */
     const FD_CL_WEB_SITE="clWebSite";
-
     /**
     * Constant: fd cl description.
     * @var mixed

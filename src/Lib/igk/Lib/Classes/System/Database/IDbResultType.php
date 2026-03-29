@@ -3,7 +3,6 @@
 // @file: IDbResultType.php
 // @date: 20231221 06:21:39
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database

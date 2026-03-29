@@ -11,13 +11,11 @@ namespace IGK\Helper;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
 use function igk_resources_gets as __;
-
 /**
 * Menu utils.
 * @package IGK\Helper
 */
 final class MenuUtils{
-
     /**
     * Builds Db Menu.
     * @param mixed $target
@@ -27,7 +25,6 @@ final class MenuUtils{
     public static function BuildDbMenu($target, $table, $tab){
         self::BuildMenu($target, $tab, $menu, $pages);
     }
-
     /**
     * Builds Menu.
     * @param mixed $targetNode
@@ -70,7 +67,6 @@ final class MenuUtils{
             }
         }
     }
-
     /**
     * Returns Menu Level.
     * @param mixed $menu
@@ -84,7 +80,6 @@ final class MenuUtils{
         }
         return $i;
     }
-
     /**
     * Returns Parent Name.
     * @param mixed $name
@@ -106,7 +101,6 @@ final class MenuUtils{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array & $pages reference page
@@ -148,7 +142,6 @@ final class MenuUtils{
         $target->li()->a() 
         ->setAttribute("href", $menu->getUri())->Content=__("menu.".$menu->Name);
     }
-
     /**
     * Initializes Menu Array.
     * @param mixed $target

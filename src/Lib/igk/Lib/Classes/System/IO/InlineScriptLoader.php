@@ -5,20 +5,17 @@
 namespace IGK\System\IO;
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */
 class InlineScriptLoader implements IHtmlGetValue{
-
     /**
     * Property: file.
     * @var mixed
     */
     protected $file;
-
     /**
     * .ctr
     * @param string $file
@@ -32,11 +29,9 @@ class InlineScriptLoader implements IHtmlGetValue{
      * @param mixed $options 
      * @return string 
      */
-
     public function getValue($options = null) { 
         return $this->content();
     }
-
     /**
     * Content.
     * @return string

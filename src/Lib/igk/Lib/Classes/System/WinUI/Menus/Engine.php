@@ -14,13 +14,11 @@ use IGKException;
  */
 class Engine{
     use ResolveUriTrait;
-
     /**
     * Property: register.
     * @var mixed
     */
     private static $sm_register;
-
     /**
     * Registers Icon Engine Callback.
     * @param string $name
@@ -32,7 +30,6 @@ class Engine{
         }
         return self::$sm_register[$name] = $callback;
     }
-
     /**
     * Returns Icon Engine Callback.
     * @param string $name
@@ -40,13 +37,11 @@ class Engine{
     public static function GetIconEngineCallback(string $name){
         return self::$sm_register ? igk_getv(self::$sm_register, $name) : null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return void
     */
-
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
         $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
         $icon = $options ? igk_getv($options, 'icon') : null;
@@ -64,7 +59,6 @@ class Engine{
         $a->className = $v_class_name;
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
-
     /**
     * Builds Sub Menu Item.
     * @param HtmlNode $hi
@@ -72,7 +66,6 @@ class Engine{
     public function buildSubMenuItem(HtmlNode $hi ){  
         throw new IGKException('not implement '.__METHOD__);     
     }
-
     /**
     * Builds Item.
     * @param HtmlNode $hi

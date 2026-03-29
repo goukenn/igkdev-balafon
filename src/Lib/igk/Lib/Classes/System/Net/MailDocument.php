@@ -7,13 +7,11 @@ namespace IGK\System\Net;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlRenderer;
-
 /**
 * Mail document.
 * @package IGK\System\Net
 */
 class MailDocument extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -25,7 +23,6 @@ class MailDocument extends HtmlNode{
      * @param object|null $option Rendering options; defaults to mail context.
      * @return string
      */
-
     public function render($option=null){
         if ($option==null){
             $option = (object)["Context"=>HtmlContext::Mail];

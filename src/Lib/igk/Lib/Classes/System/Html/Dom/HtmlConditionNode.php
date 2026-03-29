@@ -6,25 +6,21 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlConditionNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk:if-condition';
-
     /**
     * Property: condition.
     * @var mixed
     */
     var $condition;
-
     /**
     * Sets Sys Attribute.
     * @param mixed $key
@@ -40,7 +36,6 @@ class HtmlConditionNode extends HtmlNode{
         }
         return parent::setSysAttribute($key, $value);
     }
-
     /**
     * Renders.
     * @param null|mixed $options

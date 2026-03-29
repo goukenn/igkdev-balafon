@@ -9,31 +9,26 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use igk\System\Console\Commands\Utility;
 use IGK\System\EntryClassResolution;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class MakeManifestCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:manifest";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "make new project's manifest";
-
     /**
     * Property: options.
     * @var mixed
@@ -42,7 +37,6 @@ class MakeManifestCommand extends AppExecCommand{
         "--name"=>"display name of the application",
         "--force"=>"force generation" 
     ];
-
     /**
     * Exec.
     * @param mixed $command
@@ -78,7 +72,6 @@ class MakeManifestCommand extends AppExecCommand{
         \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }
-
     /**
     * Help.
     */

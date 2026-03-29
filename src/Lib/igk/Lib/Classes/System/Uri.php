@@ -11,49 +11,41 @@ use IGKException;
  */
 class Uri
 {
-
     /**
     * Constant: temp env key.
     * @var mixed
     */
     const TEMP_ENV_KEY = "sys://temp_uri";
-
     /**
     * Property: protocol.
     * @var mixed
     */
     private $m_protocol;
-
     /**
     * Property: domain.
     * @var mixed
     */
     private $m_domain;
-
     /**
     * Property: port.
     * @var mixed
     */
     private $m_port;
-
     /**
     * Path to path.
     * @var mixed
     */
     private $m_path;
-
     /**
     * Property: query.
     * @var mixed
     */
     private $m_query;
-
     /**
     * Property: options.
     * @var mixed
     */
     private $m_options;
-
     /**
     * Property: fragment.
     * @var mixed
@@ -67,7 +59,6 @@ class Uri
      * @return string 
      * @throws IGKException 
      */
-
     public static function BuildUri($uri, ?array $append_args = [], ?array $exclude_query = null, $append = true)
     {
         $q = parse_url($uri);
@@ -99,7 +90,6 @@ class Uri
         }
         return $cpath;
     }
-
     /**
     * From parse url.
     * @param array $data
@@ -116,7 +106,6 @@ class Uri
         ]));
         return new Uri($url);
     }
-
     /**
     * Returns.
     * @param string $name
@@ -126,7 +115,6 @@ class Uri
     {
         return igk_environment()->getArray(self::TEMP_ENV_KEY, $name, $default);
     }
-
     /**
     * Registers.
     * @param string $name
@@ -141,12 +129,10 @@ class Uri
      * @param string $uri 
      * @return void 
      */
-
     public function __construct(string $uri)
     {
         self::_Parse($this, $uri);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -171,7 +157,6 @@ class Uri
      * get detected string option 
      * @return null|string 
      */
-
     public function getOptions():?string{
         return $this->m_options;
     }
@@ -179,7 +164,6 @@ class Uri
      * get parse query option
      * @return array 
      */
-
     public function getParseOptions():array{
         return igk_get_query_options($this->m_options);
     }
@@ -187,7 +171,6 @@ class Uri
      * get site uri. combine protocol and domain name
      * @return string 
      */
-
     public function getSiteUri()
     {
         return implode("", array_filter([
@@ -215,7 +198,6 @@ class Uri
      * get full uri
      * @return string 
      */
-
     public function getFullUri(): string
     {
         return implode("", array_filter([
@@ -233,7 +215,6 @@ class Uri
      * get query string
      * @return string
      */
-
     public function getQuery():?string{
         return $this->m_query;
     }
@@ -241,7 +222,6 @@ class Uri
      * get request uri
      * @return string 
      */
-
     public function getRequestUri():string{
         return "/".ltrim(implode("", [
             $this->m_path,
@@ -250,5 +230,4 @@ class Uri
             $this->m_fragment ? "#" . $this->m_fragment : null
         ]), '/');
     }
-    
 }

@@ -9,13 +9,11 @@ namespace IGK\System\Html\Dom\Dependency;
  * @package IGK\System\Html\Dom
  */
 class ContentDependOn{
-
     /**
     * Name of arg name.
     * @var mixed
     */
     var $argName;
-
     /**
     * Renders.
     * @param null|mixed $options

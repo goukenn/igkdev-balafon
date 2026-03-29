@@ -8,13 +8,11 @@ namespace IGK\System\Services;
 * @package IGK\System\Services
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Services
 */
 interface IMakeProjectServiceProvider{
-
     /**
     * auto generate doc.
     * @param array &$bind

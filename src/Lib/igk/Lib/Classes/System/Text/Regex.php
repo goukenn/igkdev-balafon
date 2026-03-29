@@ -3,20 +3,16 @@
 // @file: Regex.php
 // @date: 20260204 09:30:05
 namespace IGK\System\Text;
-
-
 /**
 * 
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 abstract class Regex{
-
     /**
     * auto generate doc.
     * @param mixed $default

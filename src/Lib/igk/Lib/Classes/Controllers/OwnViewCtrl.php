@@ -9,31 +9,26 @@ use IGKObject;
 * represent a own view controller objet.
 */
 final class OwnViewCtrl extends IGKObject  {
-
     /**
     * Property: ctrls.
     * @var mixed
     */
     private $m_ctrls;
-
     /**
     * Property: instance.
     * @var mixed
     */
     static $sm_instance;
-
     /**
     * auto generate doc.
     */
     private function __construct(){
         $this->m_ctrls=array();
     }
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public static function Contains($ctrl){
         $i=self::getInstance();
         if($ctrl && ($n=strtolower($ctrl->getName())) && isset($i->m_ctrls[$n])){
@@ -41,7 +36,6 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return false;
     }
-
     /**
     * auto generate doc.
     */
@@ -51,7 +45,6 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return self::$sm_instance;
     }
-
     /**
     * auto generate doc.
     */
@@ -59,12 +52,10 @@ final class OwnViewCtrl extends IGKObject  {
         $i=self::getInstance();
         return $i->m_ctrls;
     }
-
     /**
     * auto generate doc.
     * @param mixed $handleevent the default value is 1
     */
-
     public static function RegViewCtrl($ctrl, $handleevent=1){
         $i=self::getInstance();
         if($i->m_ctrls == null){
@@ -78,18 +69,15 @@ final class OwnViewCtrl extends IGKObject  {
             }
         }
     }
-
     /**
     * auto generate doc.
     */
     public function __serialize(){
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $s
     */
-
     public function __unserialize($s){}
 }

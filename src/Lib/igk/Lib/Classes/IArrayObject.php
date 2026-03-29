@@ -4,11 +4,9 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK;
-
 use ArrayAccess;
 use Countable;
 use IGK\System\IToArray;
-
 /**
 * Interface for array object.
 * @package IGK

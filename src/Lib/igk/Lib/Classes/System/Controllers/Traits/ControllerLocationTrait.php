@@ -4,13 +4,11 @@
 // @date: 20230316 09:12:42
 namespace IGK\System\Controllers\Traits;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\System\Controllers\Traits
 */
 trait ControllerLocationTrait{
-
     /**
     * Returns View Dir.
     */
@@ -18,7 +16,6 @@ trait ControllerLocationTrait{
     {
         return Path::Combine($this->getDeclaredDir(), IGK_VIEW_FOLDER);
     }
-
     /**
     * Returns Articles Dir.
     */
@@ -26,7 +23,6 @@ trait ControllerLocationTrait{
     {
         return Path::Combine($this->getDeclaredDir(), IGK_ARTICLES_FOLDER);
     }
-
     /**
     * Returns Scripts Dir.
     */

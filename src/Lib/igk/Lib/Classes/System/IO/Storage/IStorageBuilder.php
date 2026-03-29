@@ -3,13 +3,11 @@
 // @file: IStorageBuilder.php
 // @date: 20230305 19:21:02
 namespace IGK\System\IO\Storage;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Storage
 */
 interface IStorageBuilder{
-
     /**
     * Store.
     * @param string $file

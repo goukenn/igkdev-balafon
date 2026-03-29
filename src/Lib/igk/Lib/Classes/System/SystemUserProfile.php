@@ -18,13 +18,11 @@ abstract class SystemUserProfile implements IUserProfile
      * overriding constant to setup profile model class 
      */
     const profileModelClass=null;
-
     /**
     * Constant: init project db user method.
     * @var mixed
     */
     const initProjectDbUserMethod = 'initProjectDbUser';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -45,12 +43,10 @@ abstract class SystemUserProfile implements IUserProfile
      * @var mixed
      */
     protected $m_controller;
-
     /**
     * auto generate doc.
     * @return void
     */
-
     protected function __construct()
     {
     }
@@ -58,7 +54,6 @@ abstract class SystemUserProfile implements IUserProfile
      * retrieve the controller 
      * @return null|BaseController 
      */
-
     public function getController(): ?BaseController {
         return $this->m_controller;
     }
@@ -68,7 +63,6 @@ abstract class SystemUserProfile implements IUserProfile
      * @param bool $strict if array must match all requirement
      * @return bool 
      */
-
     public function auth($type, bool $strict=true, ?BaseController $ctrl=null): bool {        
         return $this->m_profile->auth($type, $strict, $ctrl);
     }
@@ -76,7 +70,6 @@ abstract class SystemUserProfile implements IUserProfile
      * get the model class 
      * @return ?Users 
      */
-
     public function model(): ?\IGK\Models\Users{
         if (!($this->m_model)|| ($this->m_model->is_mock())){
             return null;
@@ -88,7 +81,6 @@ abstract class SystemUserProfile implements IUserProfile
      * @param mixed $userInfo 
      * @return static 
      */
-
     public static function Create($userInfo, BaseController $controller)
     {   
         if (is_null($userInfo)){
@@ -106,7 +98,6 @@ abstract class SystemUserProfile implements IUserProfile
         $c->registerProfile(); 
         return $c;
     }
-
     /**
     * auto generate doc.
     */
@@ -126,22 +117,18 @@ abstract class SystemUserProfile implements IUserProfile
         } 
         return $l;
     }
-
     /**
     * auto generate doc.
     * @param string $model_class
     * @return mixed
     */
-
     protected function createNewProjectUser(Users $user, string $model_class){
         return $model_class::insertIfNotExists($user->to_array());
     }
-
     /**
     * auto generate doc.
     * @param mixed $smodel_class
     */
-
     protected function getdbCacheColumnList($smodel_class){
         $column = $smodel_class::FD_USER_ID;
         $prop = IGK_FD_GUID;
@@ -155,7 +142,6 @@ abstract class SystemUserProfile implements IUserProfile
      * @param mixed $ctrl 
      * @return static 
      */
-
     public static function GetUserProfile($ctrl){
         return $ctrl->getUser();
     }
@@ -163,17 +149,14 @@ abstract class SystemUserProfile implements IUserProfile
      * to string name profile
      * @return mixed 
      */
-
     public function __toString()
     {
         return $this->clLogin;
     }
     /** display full name */
-
     public function display(): string{
         return implode(' ', array_filter([$this->clFirstName, $this->clLastName]));
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -187,6 +170,5 @@ abstract class SystemUserProfile implements IUserProfile
      * register a user profile with initial profile setting. bind to group or user 
      * @return mixed 
      */
-
     protected abstract function registerProfile();
 }

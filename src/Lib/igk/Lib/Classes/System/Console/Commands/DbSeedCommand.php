@@ -4,38 +4,32 @@
 // @date: 20230509 08:40:53
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DbSeedCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:seed';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='seed controller\'s database';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category='db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage  = "[controller] [class] [options]";
 	/* var $options=[]; */
-
     /**
     * Exec.
     * @param mixed $command

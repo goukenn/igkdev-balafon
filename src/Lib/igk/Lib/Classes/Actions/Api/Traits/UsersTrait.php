@@ -11,7 +11,6 @@ use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Api\Traits
@@ -109,7 +108,6 @@ trait UsersTrait
         ];
         return $this->_getPagerResult(Users::model(), $conditions, igk_getr("p", 1), 20);
     }
-
     /**
     * auto generate doc.
     * @param ModelBase $model

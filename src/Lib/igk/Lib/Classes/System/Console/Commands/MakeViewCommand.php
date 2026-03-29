@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -13,32 +12,27 @@ use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
-
 /**
 * Make view command.
 * @package IGK\System\Console\Commands
 */
 class MakeViewCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:view";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "make new project's view";
-
     /**
     * Property: options.
     * @var mixed
@@ -52,7 +46,6 @@ class MakeViewCommand extends AppExecCommand
         '--clear-cache' => 'flag: clear cache',
         "--scaffold:[scaffoldtype]" => "type of view to generate. default is null. or builder"
     ];
-
     /**
     * Property: usage.
     * @var mixed
@@ -62,7 +55,6 @@ class MakeViewCommand extends AppExecCommand
      * exec command. 
      * controller viewname
      */
-
     public function exec($command, $controller = null, $viewname = "")
     {
         $gctrl = igk_getv($command->options, "--controller");
@@ -113,7 +105,6 @@ class MakeViewCommand extends AppExecCommand
         $bind = [];
         $scaffold = igk_getv($command->options, '--scaffold');
         $force = property_exists($command->options, '--force');
-
         if ($style) {
             $bind[Path::Combine(
                 $ctrl->getStylesDir(),
@@ -124,7 +115,6 @@ class MakeViewCommand extends AppExecCommand
                 igk_io_w2file($file, $sb . '');
             };
         }
-
         $bind[$dir . "/{$viewname}"] = function ($file) use ($viewname, $author, $scaffold) {
             // TODO : FROM Scaffold generate the base document 
             $src = $this->getInitViewContent($viewname, $scaffold);
@@ -161,11 +151,9 @@ class MakeViewCommand extends AppExecCommand
         }
         Logger::success("done\n");
     }
-
     /**
     * Help.
     */
-
     public function help()
     {
         Logger::print("-");
@@ -173,14 +161,12 @@ class MakeViewCommand extends AppExecCommand
         Logger::print("-\n");
         parent::help();
     }
-
     /**
     * Returns Init View Content.
     * @param string $viewname
     * @param null|string $type
     * @return string
     */
-
     public function getInitViewContent(string $viewname, ?string $type = null): string
     {
         if ($type) {
@@ -196,13 +182,11 @@ class MakeViewCommand extends AppExecCommand
         }
         return  "\$t->div()->Content = 'View : $viewname';";
     }
-
     /**
     * Returns Styled Def Data.
     * @param string $ext
     * @return string
     */
-
     public static function GetStyledDefData(string $ext): string
     {
         $s = '';

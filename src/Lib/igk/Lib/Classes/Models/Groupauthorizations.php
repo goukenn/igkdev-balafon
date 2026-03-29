@@ -3,10 +3,7 @@
 // @file: Groupauthorizations.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store framework group authorisation
 * @package IGK\Models
@@ -29,37 +26,31 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\IGK\Models\Groups $clGroup_Id, int|\IGK\Models\Authorizations $clAuth_Id, string $clGrant, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class Groupauthorizations extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl group id.
     * @var mixed
     */
     const FD_CL_GROUP_ID="clGroup_Id";
-
     /**
     * Constant: fd cl auth id.
     * @var mixed
     */
     const FD_CL_AUTH_ID="clAuth_Id";
-
     /**
     * Constant: fd cl grant.
     * @var mixed
     */
     const FD_CL_GRANT="clGrant";
-
     /**
     * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreate_At";
-
     /**
     * Constant: fd cl update at.
     * @var mixed
@@ -69,7 +60,6 @@ class Groupauthorizations extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%groupauthorizations";
-
     /**
     * Property: unique columns.
     * @var mixed

@@ -18,25 +18,21 @@ use L81Controller;
 * 
 * @package IGK\System\Console\Commands\Database
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class InitDbCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command="--db:initdb";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='init databases';
-
     /**
     * Property: options.
     * @var mixed
@@ -46,25 +42,21 @@ class InitDbCommand extends AppExecCommand{
 		'--force'=>'flag: force file creation',
 		// '--downgrade'=>'flag: downgrade',
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] [options]';
-
     /**
     * auto generate doc.
     * @param null|string $ctrl
     * @return int
     */
-
     public function exec($command, ?string $ctrl = null) { 
 		$c = null;
 		DbCommandHelper::Init($command);

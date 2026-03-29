@@ -3,31 +3,26 @@
 // @file: Installer.php
 // @date: 20251120 16:01:35
 namespace IGK\Composer;
-
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 use IGK\System\Console\Commands\Utility;
 use IGK\System\Installers\InstallSite;
 use IGK\System\IO\Path;
-
 defined('IGK_COMPOSE_DEBUG_INSTALLER') || (defined('IGK_VERSION') && die('balafon framework. already defined'));
 require_once __DIR__ . '/../../../igk_framework.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Console/Commands/Utility.php';
-
 /**
  * 
  * @package IGK\Composer
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Composer
 */
 class Installer
 {
-
     /**
     * auto generate doc.
     * @return never
@@ -38,14 +33,11 @@ class Installer
         echo '* --------------------------------------------------------', PHP_EOL;
         echo '* running post install', PHP_EOL;
         echo '* --------------------------------------------------------', PHP_EOL;
-
         $chdir = getcwd();
         $argv = igk_getv($_SERVER, 'argv');
         igk_debug_wln('VERSION: ' . IGK_VERSION);
         igk_debug_wln('cwd: ' . $chdir);
         igk_debug_wln('argv: ' . json_encode($argv));
-
-
         $v_moveto_vendor = false;
         $vendor_dir = $chdir . '/vendor';
         $args = [];
@@ -93,7 +85,6 @@ class Installer
         InstallSite::CreateApacheVHostFile('composer-server', $chdir, $chdir, $chdir.'/src/public');
         InstallSite::CreatePhpUnitConfig($chdir, $chdir . '/src/application',  $chdir . '/src/public');
     }
-
     /**
     * auto generate doc.
     * @param string $chdir
@@ -104,7 +95,6 @@ class Installer
     * @return
     */
     private static function _composer_install(string $chdir, &$argv, &$args, ?string &$cli, $idx) {}
-
     /**
     * auto generate doc.
     * @param string $chdir
@@ -142,14 +132,12 @@ class Installer
             igk_io_w2file( $git, implode("\n", $data) );
         }
     }
-
     /**
     * auto generate doc.
     * @param null|string $vendor_dir
     * @return void
     */
     private static function _CoreMoveToVendorDir(?string $vendor_dir = null) {}
-
     /**
     * auto generate doc.
     * @return void

@@ -7,7 +7,6 @@ use IGK\System\ViewVarExpression;
 use IGK\System\ViewEnvironmentArgs; 
 use IGK\System\ViewExtractArgHelper;
 if (!function_exists('igk_express_var')){
-
 /**
 * Igk express var.
 * @param mixed $name
@@ -32,7 +31,6 @@ function igk_express_var($name){
     }
 }
 if (!function_exists('igk_php_expression')){
-
 /**
 * Igk php expression.
 * @param mixed $expression

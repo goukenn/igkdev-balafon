@@ -8,12 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use function igk_resources_gets as __;
-
 /**
 * Igksorter.
 */
 final class IGKSorter{
-
     /**
     * Properties: asc, key.
     * @var mixed
@@ -22,7 +20,6 @@ final class IGKSorter{
     /**
      * Constructor.
      */
-
     public function __construct(){
         $this->asc=true;
     }
@@ -53,7 +50,6 @@ final class IGKSorter{
      * @param mixed $tab The array or object to sort (by reference).
      * @param mixed $key Optional key to index the sorted result by.
      */
-
     public function Sort(& $tab, $key=null){
         if(is_array($tab)){
             usort($tab, array($this, "SortValue"));
@@ -79,7 +75,6 @@ final class IGKSorter{
      * @param bool $asc Whether to sort in ascending order.
      * @return mixed The sorted array or object.
      */
-
     public static function SortByDisplay($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortKeyValue");
     }
@@ -90,7 +85,6 @@ final class IGKSorter{
      * @param bool $asc Whether to sort in ascending order.
      * @return mixed The sorted array or object.
      */
-
     public static function SortByValue($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortValue");
     }
@@ -100,7 +94,6 @@ final class IGKSorter{
      * @param mixed $b The second item to compare.
      * @return int Negative, zero, or positive comparison result.
      */
-
     public function SortKeyValue($a, $b){
         $k=$this->key;
         $s1=strtolower(__($a->$k));
@@ -114,7 +107,6 @@ final class IGKSorter{
      * @param mixed $b The second item to compare.
      * @return int Negative, zero, or positive comparison result.
      */
-
     public function SortValue($a, $b){
         $tk=$this->key;
         if(is_string($tk))

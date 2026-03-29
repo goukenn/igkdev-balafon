@@ -10,19 +10,16 @@ use IGK\Helper\Activator;
  * @package igk\db\schemaBuilder
  */
 abstract class DiagramPropertiesHost{
-
     /**
     * Property: p prefix.
     * @var mixed
     */
     protected $p_prefix;
-
     /**
     * Property: properties.
     * @var mixed
     */
     protected $m_properties;
-
     /**
     * Property: resolve link column.
     * @var mixed
@@ -33,14 +30,12 @@ abstract class DiagramPropertiesHost{
      * @var mixed
      */
     protected $m_last;
-
     /**
     * Returns Last Property.
     */
     public function getLastProperty(){
         return $this->m_last;
     }
-
     /**
     * auto generate doc.
     */
@@ -75,16 +70,13 @@ abstract class DiagramPropertiesHost{
      * return a copy of properties
      * @return mixed 
      */
-
     public function getProperties(){
         return $this->m_properties;
     }
-
     /**
     * auto generate doc.
     * @return ?array
     */
-
     public function getResolveLinks(){
         return $this->m_resolveLinkColumn;
     }

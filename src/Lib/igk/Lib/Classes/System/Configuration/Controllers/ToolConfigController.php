@@ -13,7 +13,6 @@ use function igk_resources_gets as __;
 * Represent IGKToolsCtrl class
 */
 final class ToolConfigController extends ConfigControllerBase {
-
     /**
     * Returns Name.
     * @return string
@@ -24,25 +23,21 @@ final class ToolConfigController extends ConfigControllerBase {
     /**
     * Represent getConfigPage function
     */
-
     public function getConfigPage(){
         return "toolctrl";
     }
-
     /**
     * Returns Config Group.
     */
     public function getConfigGroup(){
         return "administration";
     }
-
     /**
     * Returns Config Index.
     */
     protected function getConfigIndex(){ 
         return 1000;
     }
-
     /**
     * Returns Is Config Page Available.
     */
@@ -54,7 +49,6 @@ final class ToolConfigController extends ConfigControllerBase {
     * Represent getm_tools function
     * @return *
     */
-
     public function getm_tools(){
         static $_toolhost=null;
         if($_toolhost === null){
@@ -68,7 +62,6 @@ final class ToolConfigController extends ConfigControllerBase {
     * Represent RegisterTool function
     * @param  $ctrl
     */
-
     public function RegisterTool($ctrl){ 
         $tools=  $this->getm_tools();
         $tools->register($ctrl);				
@@ -77,7 +70,6 @@ final class ToolConfigController extends ConfigControllerBase {
     /**
     * Represent View function
     */
-
     public function View():BaseController{ 
         $t=$this->getTargetNode();
         if(!$this->getIsVisible()){
@@ -114,7 +106,6 @@ final class ToolConfigController extends ConfigControllerBase {
     /**
     * Represent view_tools_ajx function
     */
-
     public function view_tools_ajx(){
         $this->View();
         igk_wl($this->TargetNode->getinnerHtml());

@@ -3,7 +3,6 @@
 // @file: IThemeDefinition.php
 // @date: 20250924 10:29:04
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
@@ -11,5 +10,4 @@ namespace IGK\System\Html\Dom;
 * @property mixed $theme
 */
 interface IThemeDefinition{
-
 }

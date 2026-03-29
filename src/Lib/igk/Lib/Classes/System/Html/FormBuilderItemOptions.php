@@ -11,7 +11,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 class FormBuilderItemOptions implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Name of name.
     * @var mixed
@@ -27,13 +26,11 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var string|FormBuilderItemAbstractType items text|
      */
     var $type;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $allow_empty;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -44,13 +41,11 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var mixed
      */
     var $label_attr;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $required;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -71,7 +66,6 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var mixed
      */
     var $data;
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -79,7 +73,6 @@ class FormBuilderItemOptions implements ArrayAccess{
     function _access_offsetGet($n){
         return $this->$n;
     }
-
     /**
     * Access offset set.
     * @param mixed $n

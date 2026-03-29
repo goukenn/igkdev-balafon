@@ -11,7 +11,6 @@ use IGKException;
  * @package IGK\System\Html\Forms
  */
 class DefaultValidator extends FormFieldValidatorBase implements IFormValidator, IFormValidationFieldHost{
-
     /**
     * Property: field info.
     * @var mixed
@@ -22,11 +21,9 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
      * @param null|IFormValidationField $field 
      * @return void 
      */
-
     public function setFieldInfo(?IFormValidationField $field){
         $this->_fieldInfo = $field;
     }
-
     /**
     * Returns Field Info.
     * @return ?IFormValidationField
@@ -34,7 +31,6 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     public function getFieldInfo():?IFormValidationField{
         return $this->_fieldInfo;
     }
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -52,7 +48,6 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
      * @return mixed 
      * @throws IGKException 
      */
-
     protected function _validate($value, $default=null, & $error=[], $options=null){ 
         if (empty($value)){
             return $default;

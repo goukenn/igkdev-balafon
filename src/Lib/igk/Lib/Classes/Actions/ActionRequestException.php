@@ -3,10 +3,8 @@
 // @file: ActionRequestException.php
 // @date: 20240923 11:40:00
 namespace IGK\Actions;
-
 use IGK\System\Http\RequestException;
 use Throwable;
-
 /**
 * auto generate doc.
 * @package IGK\Actions
@@ -14,7 +12,6 @@ use Throwable;
 */
 class ActionRequestException extends RequestException
 {
-
     /**
     * .ctr
     * @param mixed $message
@@ -25,7 +22,6 @@ class ActionRequestException extends RequestException
     {
         return parent::__construct($code, $message, $previous);
     }
-
     /**
     * Handles.
     */

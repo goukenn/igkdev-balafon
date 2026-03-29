@@ -3,18 +3,15 @@
 // @file: ModuleIncludeDefinitionInvokeTrait
 // @date: 20260228 16:46:54
 namespace IGK\System\Modules\Traits;
-
 use Closure;
 use IGK\System\Console\Logger;
 use IGK\System\Excpetions\ApplicationModuleControllerException;
 use ReflectionMethod;
-
 /**
  * 
  * @package IGK
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
  * auto generate doc.
  * @package IGK\System\Modules\Traits

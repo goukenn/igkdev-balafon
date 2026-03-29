@@ -16,37 +16,31 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class CssProjectThemeCssColorAndPropertyExportCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--project:css-export';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='use to export project\'s css';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'project';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [option]';
-
     /**
     * Exec.
     * @param mixed $command

@@ -16,14 +16,12 @@ use ReflectionException;
  * @package IGK\System\IO\File\TmLanguage\Helper
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage\Helper
 */
 abstract class TmLanguageUtility
 {
-
     /**
     * auto generate doc.
     * @param null|ITmLanguageLoaderListener $listener
@@ -45,7 +43,6 @@ abstract class TmLanguageUtility
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param null|ITmLanguageLoaderListener $listener
@@ -122,7 +119,6 @@ abstract class TmLanguageUtility
         }
         return $cap;
     }
-
     /**
     * auto generate doc.
     * @param null|ITmLanguageLoaderListener $listener
@@ -139,7 +135,6 @@ abstract class TmLanguageUtility
             ];
         }
     }
-
     /**
     * auto generate doc.
     * @param string $file

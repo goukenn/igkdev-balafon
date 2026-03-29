@@ -3,10 +3,8 @@
 // @file: DotEnvConfiguration.php
 // @date: 20260108 10:35:09
 namespace IGK\System\IO;
-
 use AIOWPS\Firewall\File_Prefix_Trait;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
  * use to load and 
  * @package IGK\System\IO
@@ -14,37 +12,31 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class DotEnvConfiguration
 {
-
     /**
     * Property: key.
     * @var mixed
     */
     var $key;
-
     /**
     * Property: refkey.
     * @var mixed
     */
     private $m_refkey;
-
     /**
     * Property: dot env.
     * @var mixed
     */
     private static $sm_dotEnv;
-
     /**
     * Property: sys dot env.
     * @var mixed
     */
     private static $sm_sysDotEnv;
-
     /**
     * Constant: app dot env config.
     * @var mixed
     */
     const APP_DOT_ENV_CONFIG = 'dotenv_config_location_dir';
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
@@ -76,7 +68,6 @@ class DotEnvConfiguration
             $refkey = $k;
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -129,7 +120,6 @@ class DotEnvConfiguration
         }
         self::$sm_sysDotEnv = $config;
     }
-
     /**
     * .ctr
     * @param string $value
@@ -159,7 +149,6 @@ class DotEnvConfiguration
      * @param string $content 
      * @return void 
      */
-
     public static function LoadConfiguration(array &$config, string $content)
     {
         $regex = new RegexMatcherContainer;
@@ -176,7 +165,6 @@ class DotEnvConfiguration
             $key = trim($e->value);
         }, 'value' => function ($e, &$config) use (&$key) {
             $v = trim($e->value);
-
             if (is_numeric($v)) {
                 $v = floatval($v);
             } else if (in_array($cl = strtolower($v), ['true', 'false'])) {
@@ -189,7 +177,6 @@ class DotEnvConfiguration
             $config[$key] = igk_str_remove_quote($e->value);
             $key = null;
         }];
-
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 if ($fc = igk_getv($fcs, $e->tokenID)) {
@@ -206,20 +193,17 @@ class DotEnvConfiguration
      * to string
      * @return mixed 
      */
-
     public function __toString(): string
     {
         return igk_getv(self::$sm_dotEnv[$this->m_refkey], $this->key) ?? 
         igk_getv(self::_GetSysDotEnv(), $this->key) ?? '';
     }
-
     /**
      * retrieve .env configuration
      * @param string $key the key name 
      * @param mixed $default default value 
      * @return mixed 
      */
-
     public static function Get(string $key, $default = null ){
         if (self::$sm_dotEnv && isset(self::$sm_dotEnv[$key])){
             return self::$sm_dotEnv[$key];

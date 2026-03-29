@@ -17,7 +17,6 @@ use ReflectionException;
 * 
 * @package IGK\System\Http\AuthServices
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\AuthServices
@@ -40,7 +39,6 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     protected function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile{
         throw new NotImplementException(__METHOD__);
     }
-
     /**
     * Resolves Bearer Token.
     * @param bool $update
@@ -49,13 +47,11 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     public function resolveBearerToken(bool $update, & $token =null){
         return $this->getUserFromToken($update, $token);
     }
-
     /**
     * auto generate doc.
     * @param bool $rememberme remember me
     * @return ?array token info
     */
-
     public function getNewToken(Users $user, BaseController $ctrl, bool $rememberme=false): ?array{
         return $this->bearerAuthenticatorRegisterToken($user, $ctrl, $rememberme); 
     }

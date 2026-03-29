@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Html;
-
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\Activator;
@@ -23,32 +22,27 @@ use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
-
 /**
  * represent base renderer engine
  * @package IGK\System\Html
  */
 class HtmlRenderer
 {
-
     /**
     * Constant: reflect class.
     * @var mixed
     */
     const reflect_class = 'reflec_class';
-
     /**
     * Constant: render method.
     * @var mixed
     */
     const render_method = 'render';
-
     /**
     * auto generate doc.
     * @param HtmlItemBase $n
     * @return string
     */
-
     public static function SplitterJoin(HtmlItemBase $n, $separator='')
     {
         $s = '';
@@ -68,13 +62,11 @@ class HtmlRenderer
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $g
     * @return string
     */
-
     public static function Encapsulate(HtmlItemBase $s, $g): string
     {
         $t = $s->getTagName();
@@ -93,7 +85,6 @@ class HtmlRenderer
      * @return void 
      * @throws IGKException 
      */
-
     public static function AppendOptionNode($option, $node)
     {
         if (!($c = igk_getv($option, "__append__"))) {
@@ -102,19 +93,16 @@ class HtmlRenderer
         }
         array_push($option->__append__, $node);
     }
-
     /**
     * auto generate doc.
     * @return object|IHtmlRenderOptions
     */
-
     public static function CreateRenderOptions()
     {
         $o = new HtmlRendererOptions;
         self::InitRendererOption($o);
         return $o;
     }
-
     /**
     * auto generate doc.
     */
@@ -126,13 +114,11 @@ class HtmlRenderer
             $o->CacheUriLevel = explode("/", $o->CacheUri);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return ?string
     */
-
     public static function GetValue($o, $options = null)
     {
         if ($o instanceof IHtmlGetValue) {
@@ -146,7 +132,6 @@ class HtmlRenderer
     /**
      * force to render global html document
      */
-
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {
         //igk_wln_e("bind:ing");
@@ -182,7 +167,6 @@ class HtmlRenderer
      * @return void 
      * @throws IGKException 
      */
-
     public static function OutputDocument(IGKHtmldoc $doc)
     {
         $headers = [];
@@ -198,7 +182,6 @@ class HtmlRenderer
      * sanitize rendering option 
      * @param object 
      */
-
     public static function SanitizeOptions(object $options)
     {
         if (!isset($options->sanitizeRendering)) {
@@ -219,7 +202,6 @@ class HtmlRenderer
             }
         }
     }
-
     /**
     * Def options.
     * @param null|mixed & $options
@@ -243,7 +225,6 @@ class HtmlRenderer
      * @param mixed|XmlRenderOptions $options 
      * @return string 
      */
-
     public static function GetTabStop($options)
     {
         $s = "";
@@ -258,7 +239,6 @@ class HtmlRenderer
      * @param mixed $options 
      * @return void 
      */
-
     public static function UpdateInvoke(string $method, $options)
     {
         if (!isset($options->__invoke[$method])) {
@@ -267,7 +247,6 @@ class HtmlRenderer
             $options->__invoke[$method]++;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed|string $o
@@ -283,7 +262,6 @@ class HtmlRenderer
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -298,7 +276,6 @@ class HtmlRenderer
     /**
      * a way to render node
      */
-
     public static function Render(HtmlItemBase $item, $options = null)
     {
         // + | render option definition
@@ -482,7 +459,6 @@ class HtmlRenderer
         $options->child_renderCount = $child_render;
         return $s; // leave space after
     }
-
     /**
     * Mail theme rendering.
     * @param HtmlItemBase $item
@@ -528,13 +504,11 @@ class HtmlRenderer
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return string
     */
-
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
         $filter = $item->getPrefilterAttribute();
@@ -576,7 +550,6 @@ class HtmlRenderer
         }
         return  rtrim($out);
     }
-
     /**
     * Returns Attribute Array To String.
     * @param mixed $attrs
@@ -584,7 +557,6 @@ class HtmlRenderer
     */
     public static function GetAttributeArrayToString($attrs, $options = null)
     {
-
         /**
         * auto generate doc.
         * @var mixed|HtmlExpressionAttribute $v
@@ -692,7 +664,6 @@ class HtmlRenderer
      * @throws Exception 
      * @throws CssParserException 
      */
-
     public static function GetAttributeArray(HtmlItemBase $item, $options = null): array
     {
         $attribs = $item->getAttributes();
@@ -777,7 +748,6 @@ class HtmlRenderer
      * @param mixed $v
      * @param mixed $options
      */
-
     public static function GetStringAttribute($v, $options)
     {
         if (is_bool($v)) {
@@ -837,7 +807,6 @@ class HtmlRenderer
      * @return string 
      * @throws IGKException 
      */
-
     public static function GetInnerHtml(HtmlItemBase $item, $options = null)
     {
         $s = "";
@@ -868,7 +837,6 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetInneText(HtmlItemBase $item, $options = null): string
     {
         $s = "";

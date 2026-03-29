@@ -4,20 +4,17 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Core\Configuration\DirectoriesInstallsConstants;
 use IGKException;
-
 /**
  * configuration builder 
  * @package IGK\System\Console
  */
 class AppConfigs
 {
-
     /**
     * Property: author.
     * @var mixed
@@ -27,7 +24,6 @@ class AppConfigs
      * load configuration file
      */
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
-
     /**
     * Initializes.
     * @param mixed $init_data
@@ -50,7 +46,6 @@ class AppConfigs
             if (is_numeric($envprop)){
                 $envprop = $title;
             }
-
             $key = "env_" . strtolower($envprop);
             if ($n = $this->$key("{$title} :")) {
                 $init_data->add("env")->setAttribute("name", $envprop)
@@ -58,7 +53,6 @@ class AppConfigs
             }
         }
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -71,7 +65,6 @@ class AppConfigs
         }
         return igk_read_line(...$args);
     }
-
     /**
     * auto generate doc.
     * @return string|false
@@ -83,7 +76,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -96,7 +88,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -111,7 +102,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $d
@@ -126,7 +116,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -140,7 +129,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -153,7 +141,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -166,7 +153,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -179,7 +165,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prompt
@@ -199,7 +184,6 @@ class AppConfigs
      * @throws IGKException 
      * @throws Exception 
      */
-
     public static function LoadConfigurationFile(string $configFile)
     {
         $wd = dirname($configFile);
@@ -224,7 +208,6 @@ class AppConfigs
      * @param mixed $config 
      * @return void 
      */
-
     public static function InitEnvironment($config)
     {
         foreach (['IGK_MYSQL_DB_SERVER' => 'db_server'] as $k => $v) {

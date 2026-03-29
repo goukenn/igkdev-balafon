@@ -9,31 +9,26 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\TamTam\ProjectBuilderEvents;
 use function igk_resource_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Commmands
 */
 class ProjectBuildCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--project:build';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='build project for production';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Shows Usage.
     */
@@ -41,7 +36,6 @@ class ProjectBuildCommand extends AppExecCommand{
 		Logger::print($this->command." controller [options]");
 	}
 	/* var \$category; */
-
     /**
     * Exec.
     * @param mixed $command

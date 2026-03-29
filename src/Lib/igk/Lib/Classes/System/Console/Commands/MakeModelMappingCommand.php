@@ -9,38 +9,32 @@ use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class MakeModelMappingCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:model-mapping';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='make a class to map a model';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Property: usage.
     * @var mixed
@@ -49,7 +43,6 @@ class MakeModelMappingCommand extends AppExecCommand{
 	/**
 	 * location of sample . 
 	 */
-
     public function exec($command, $model_name =null, $controller=null) {
 		$ctrl = self::ResolveController($command, $controller);
 		$model = $ctrl->model($model_name);

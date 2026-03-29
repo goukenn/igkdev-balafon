@@ -4,24 +4,20 @@
 // @date: 20230525 14:13:24
 namespace IGK\System\Html\XML;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\XML
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\XML
 */
 final class XmlNodeLoader extends XmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk:xml-loader';
-
     /**
     * .ctr
     * @return
@@ -29,7 +25,6 @@ final class XmlNodeLoader extends XmlNode{
     private function __construct(){
         parent::__construct();
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -37,13 +32,11 @@ final class XmlNodeLoader extends XmlNode{
     {
         return false;
     }
-
     /**
     * auto generate doc.
     * @param string $src
     * @return static
     */
-
     public static function CreateFromContent(string $src){
         $n = new static;
         $n->load($src);

@@ -15,7 +15,6 @@ use IGK\System\WinUI\Forms\FormData;
 class ComposerPackageValidator extends FormData{
     use ComposerPackageFileTrait;
     use ObjectFormDataTrait;
-
     /**
     * Returns Data Validator Mapper.
     * @param null|array $tab
@@ -34,7 +33,6 @@ class ComposerPackageValidator extends FormData{
         $from_mapper->resolvKeys = ['require-dev'=>'requireDev'];
         return $from_mapper;
     }
-
     /**
     * Returns Content Secure.
     * @return ?array
@@ -53,7 +51,6 @@ class ComposerPackageValidator extends FormData{
             'requireDev'=>[$this, 'getRequireDev'] 
         ];
     }
-
     /**
     * Returns Require Dev.
     * @param mixed $n
@@ -71,7 +68,6 @@ class ComposerPackageValidator extends FormData{
      * expression to check that 
      * @return null|array 
      */
-
     function getNotRequired(): ?array
     {        
         return [function($a){

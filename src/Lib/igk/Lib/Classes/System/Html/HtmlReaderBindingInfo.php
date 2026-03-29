@@ -13,13 +13,11 @@ namespace IGK\System\Html;
  * @package IGK\System\Html
  */
 final class HtmlReaderBindingInfo{
-
     /**
     * Constant: path.
     * @var mixed
     */
     const PATH = __CLASS__.'::Construct';
-
     /**
     * .ctr
     * @param HtmlReader $_reader
@@ -29,7 +27,6 @@ final class HtmlReaderBindingInfo{
         igk_set_env(self::PATH, ["reader"=>$_reader, "info"=>[            
         ], "listener"=>$listener]);
     }
-
     /**
     * .destructor
     * @param mixed $v
@@ -38,7 +35,6 @@ final class HtmlReaderBindingInfo{
         $g=igk_get_env(self::PATH);
         return igk_getv($g["info"], $v);
     }
-
     /**
     * destructor
     * @param mixed $k
@@ -49,7 +45,6 @@ final class HtmlReaderBindingInfo{
         $g["info"][$k]=$v;
         igk_set_env(self::PATH, $g);
     }
-
     /**
     * Returns Info Array.
     */
@@ -57,7 +52,6 @@ final class HtmlReaderBindingInfo{
         $g=igk_get_env(self::PATH);
         return $g["info"];
     }
-
     /**
     * Returns Name.
     * @return mixed
@@ -66,7 +60,6 @@ final class HtmlReaderBindingInfo{
         $g=igk_get_env(self::PATH);
         return $g["reader"]->getName();
     }
-
     /**
     * Sets Attribute.
     * @param mixed $x
@@ -80,7 +73,6 @@ final class HtmlReaderBindingInfo{
         }
         return $this;
     }
-
     /**
     * Sets Info.
     * @param mixed $k
@@ -92,7 +84,6 @@ final class HtmlReaderBindingInfo{
         $fc[$k]=$v;
         igk_set_env(self::PATH, $g);
     }
-
     /**
     * Sets Infos.
     * @param mixed $atab

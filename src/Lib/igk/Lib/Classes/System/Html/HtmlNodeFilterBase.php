@@ -6,19 +6,16 @@
 namespace IGK\System\Html;
 use IGK\Helper\StringUtility;
 use IGKException;
-
 /**
 * Html node filter base.
 * @package IGK\System\Html
 */
 abstract class HtmlNodeFilterBase{
-
     /**
     * Binds.
     * @param mixed $node
     */
     public abstract function bind($node);
-
     /**
     * Prefilter.
     * @param mixed $name
@@ -27,7 +24,6 @@ abstract class HtmlNodeFilterBase{
     public function prefilter($name, $args){
         return null;
     }
-
     /**
     * Creates Filter.
     * @param mixed $tag
@@ -68,7 +64,6 @@ abstract class HtmlNodeFilterBase{
             $filter->bind($e->args["node"]);
         }
     }
-
     /**
     * Prefilter node hook callback.
     * @param mixed $e
@@ -89,7 +84,6 @@ abstract class HtmlNodeFilterBase{
     protected static function FilterDir(){
         return __DIR__;
     }
-
     /**
     * Returns Entry Name Space.
     */

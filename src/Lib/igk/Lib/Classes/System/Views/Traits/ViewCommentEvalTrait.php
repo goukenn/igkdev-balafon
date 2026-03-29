@@ -4,13 +4,11 @@
 // @date: 20230123 11:08:37
 namespace IGK\System\Views\Traits;
 use IGK\Helper\StringUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Views\Traits
 */
 trait ViewCommentEvalTrait{
-
     /**
     * Eval data.
     * @param string $data

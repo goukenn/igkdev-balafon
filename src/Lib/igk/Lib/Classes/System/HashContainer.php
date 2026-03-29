@@ -9,19 +9,16 @@ namespace IGK\System;
  * @package System
  */
 class HashContainer {
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
-
     /**
     * Property: code.
     * @var mixed
     */
     private $m_code;
-
     /**
     * .ctr
     * @param string $code
@@ -38,7 +35,6 @@ class HashContainer {
      * @param mixed $tab 
      * @return bool 
      */
-
     public function contains($key, $tab){
         $k = hash($this->m_code, $key);        
         $ck = $this->m_callback;

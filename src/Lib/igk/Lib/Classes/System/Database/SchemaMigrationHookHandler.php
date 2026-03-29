@@ -6,48 +6,40 @@ namespace IGK\System\Database;
 use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 class SchemaMigrationHookHandler{
-
     /**
     * Property: hooks.
     * @var mixed
     */
     private $m_hooks = [];
-
     /**
     * Property: controller.
     * @var mixed
     */
     public $controller;
-
     /**
     * Map of tables.
     * @var mixed
     */
     public $tables;
-
     /**
     * Property: links.
     * @var mixed
     */
     private  $m_Links;
-
     /**
     * Constant: on column rename.
     * @var mixed
     */
     const onColumnRename = 'onColumnRename';
-
     /**
     * auto generate doc.
     * @return
@@ -58,7 +50,6 @@ class SchemaMigrationHookHandler{
             $this->onColumnRenamed($table, $column, $new_name); 
         };
     }
-
     /**
     * Registers.
     */
@@ -66,20 +57,17 @@ class SchemaMigrationHookHandler{
          $this->initHooks();
         igk_reg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);
     }
-
     /**
     * Unregister.
     */
     public function unregister(){
         igk_unreg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     * @return void
     */
-
     protected function onColumnRenamed($table, $column, $name){
         // Logger::print('column rename : '.$column , $name); 
         /**

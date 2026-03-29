@@ -3,9 +3,7 @@
 // @file: RegexFormatStringBuilder.php
 // @date: 20250712 12:53:39
 namespace IGK\System\Text;
-
 use IGK\System\IO\StringBuilder;
-
 /**
  * base regex format string builder
  * @package IGK\System\Text
@@ -13,7 +11,6 @@ use IGK\System\IO\StringBuilder;
  */
 class RegexFormatStringBuilder
 {
-
     /**
     * auto generate doc.
     * @var StringBuilder
@@ -24,31 +21,26 @@ class RegexFormatStringBuilder
      * @var bool
      */
     var $lineFeed;
-
     /**
     * Property: tab stop.
     * @var mixed
     */
     var $tabStop = '    ';
-
     /**
     * Property: depth.
     * @var mixed
     */
     var $depth = 0;
-
     /**
     * Property: inline comment prefix.
     * @var mixed
     */
     var $inlineCommentPrefix = "\r\t\t";
-
     /**
     * Property: space.
     * @var mixed
     */
     var $space = ' ';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -58,7 +50,6 @@ class RegexFormatStringBuilder
      * get tab display
      * @return string 
      */
-
     public function tab(?int $depth=null):string
     {
         return str_repeat($this->tabStop, $depth ?? $this->depth);
@@ -68,7 +59,6 @@ class RegexFormatStringBuilder
      * @param string $data 
      * @return void 
      */
-
     public function append(string $data)
     {
         if ($this->lineFeed) {
@@ -85,7 +75,6 @@ class RegexFormatStringBuilder
         $this->lineFeed = false;
         $this->m_sb->append($data);
     }
-
     /**
     * .ctr
     */
@@ -97,12 +86,10 @@ class RegexFormatStringBuilder
      * rtrim 
      * @return StringBuilder 
      */
-
     public function rtrim()
     {
         return $this->m_sb->rtrim();
     }
-
     /**
     * get string presentation.
     */
@@ -116,7 +103,6 @@ class RegexFormatStringBuilder
      * @param string $depth 
      * @return string 
      */
-
     public static function ClueDef(string $c, string $depth)
     {
         $tab = explode("\n", $c);
@@ -154,7 +140,6 @@ class RegexFormatStringBuilder
      * append inline prefix depth
      * @return static
      */
-
     public function appendPrefixInlineComment(){
         if ($this->noInlinePrefixComment){
             $this->appendSpace();
@@ -164,7 +149,6 @@ class RegexFormatStringBuilder
         $this->append($c.$this->tab(1));
         return $this; 
     }
-
     /**
     * Append space.
     */
@@ -172,7 +156,6 @@ class RegexFormatStringBuilder
         $this->append($this->space);
         return $this;
     }
-
     /**
     * Outputs Length.
     * @return int

@@ -10,7 +10,6 @@ namespace IGK\System\Shell;
  * @method static ?string Where(string $command):?string search and resolve a command. 
  */
 class OsShell {
-
     /**
     * Property: commands.
     * @var mixed
@@ -19,7 +18,6 @@ class OsShell {
         "Unix"=>OsUnixCommand::class,
         "Window"=>OsWindowCommand::class
     ];
-
     /**
     * Exec in working dir.
     * @param string $command
@@ -36,7 +34,6 @@ class OsShell {
         chdir($bck);
         return $o;
     }
-
     /**
     * Registers.
     * @param string $type
@@ -45,7 +42,6 @@ class OsShell {
     public static function Register(string $type, string $class ){
         self::$sm_commands[$type] = $class;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $n
@@ -64,7 +60,6 @@ class OsShell {
      * @param mixed $command 
      * @return string|false 
      */
-
     public static function Exec($command){ 
         $c = exec($command, $output, $retcode);
         if (!$retcode){
@@ -72,7 +67,6 @@ class OsShell {
         }
         return '/!\error '.$c;
     }
-
     /**
     * Kill.
     * @param mixed $pid

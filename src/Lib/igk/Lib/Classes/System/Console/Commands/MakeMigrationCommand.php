@@ -17,31 +17,26 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class MakeMigrationCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--migrate';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "migrate utility";
-
     /**
     * Property: options.
     * @var mixed
@@ -49,7 +44,6 @@ class MakeMigrationCommand extends AppExecCommand{
     var $options = [
         '--all'=>'flag: in up|down action migrate all data'
     ];
-
     /**
     * Shows Usage.
     */
@@ -89,7 +83,6 @@ class MakeMigrationCommand extends AppExecCommand{
      * @return void 
      * @throws IGKException 
      */
-
     public function exec($command, ?string $action = null, ?string $controller = null ) { 
         $offset = 2;
         if ($mcontroller = igk_getv_nil($command->options, '--controller')){
@@ -129,7 +122,6 @@ class MakeMigrationCommand extends AppExecCommand{
     /**
      * create a new migration
      */
-
     public function migrate_new($command, ?BaseController $ctrl, ...$name){
         Logger::print('make new migration');
         if (is_null($ctrl)){
@@ -161,7 +153,6 @@ class MakeMigrationCommand extends AppExecCommand{
         igk_io_w2file($file, $builder->render());
         Logger::success('gen file: '.$file);
     }
-
     /**
     * Migrates up.
     * @param mixed $command
@@ -172,7 +163,6 @@ class MakeMigrationCommand extends AppExecCommand{
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->up(!$v_all); 
     }
-
     /**
     * Migrates down.
     * @param mixed $command
@@ -183,7 +173,6 @@ class MakeMigrationCommand extends AppExecCommand{
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->down(!$v_all); 
     }
-
     /**
     * Migrates rm.
     * @param mixed $command
@@ -208,7 +197,6 @@ class MakeMigrationCommand extends AppExecCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function migrate_ls($command, ?BaseController $ctrl){
         $migHandle = new MigrationHandler($ctrl);
         $m = $migHandle->getList(); 

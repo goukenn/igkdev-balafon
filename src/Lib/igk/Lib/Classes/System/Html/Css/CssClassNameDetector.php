@@ -8,14 +8,12 @@ namespace IGK\System\Html\Css;
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssClassNameDetector
 {
-
     /**
     * auto generate doc.
     * @var mixed
@@ -26,31 +24,26 @@ class CssClassNameDetector
      * @var array<ICssClassList>
      */
     var $list;
-
     /**
     * Constant: cl regex.
     * @var mixed
     */
     const CL_REGEX = "/\.\b[a-z][a-z0-9\-]*\b((?::\w+|(?:\[[a-z][a-z0-9\-]*\])))?/i";
-
     /**
     * Constant: media key.
     * @var mixed
     */
     const MEDIA_KEY = '@media';
-
     /**
     * Property: references.
     * @var mixed
     */
     private $m_references;
-
     /**
     * Map of mapped.
     * @var mixed
     */
     private $m_mapped;
-
     /**
     * Property: frames.
     * @var mixed
@@ -61,7 +54,6 @@ class CssClassNameDetector
      * @var ?string
      */
     private $m_media;
-
     /**
     * .ctr
     */
@@ -76,12 +68,10 @@ class CssClassNameDetector
      * retrieve frames 
      * @return array 
      */
-
     public function getFrames()
     {
         return $this->m_frames;
     }
-
     /**
     * auto generate doc.
     * @param mixed $d
@@ -92,13 +82,11 @@ class CssClassNameDetector
         if (trim($d))
         return $k . ":" . $d;
     }
-
     /**
     * auto generate doc.
     * @param mixed $option
     * @return string
     */
-
     public function renderToCss(array $resolv_definition, $option = null)
     {
         $option = $option ?? (object)[
@@ -140,13 +128,11 @@ class CssClassNameDetector
         }
         return implode($option->lf, $_out);
     }
-
     /**
     * auto generate doc.
     * @param static $detector
     * @return string
     */
-
     static function _RenderList($d, $c, $option, $detector)
     {
         $lf = $option->lf;
@@ -165,7 +151,6 @@ class CssClassNameDetector
         }
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param mixed $d
@@ -201,7 +186,6 @@ class CssClassNameDetector
      * @param array|null $references 
      * @throws Exception 
      */
-
     public function resolv(string $src, ?array &$references = null)
     {
         $v_c_mkey = self::MEDIA_KEY;
@@ -243,13 +227,11 @@ class CssClassNameDetector
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param int $index
     * @return mixed
     */
-
     public function getReferencedByIndex(int $index)
     {
         list($v, $k) = $this->m_mapped ?? $this->m_mapped = [array_values($this->m_references), array_keys($this->m_references)];
@@ -259,13 +241,11 @@ class CssClassNameDetector
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param string $sourcekey
     * @return mixed
     */
-
     public function getReference(string $sourcekey)
     {
         if ($sourcekey[0] != '.') {
@@ -295,7 +275,6 @@ class CssClassNameDetector
      * get regex definition 
      * @return string 
      */
-
     public function getMatchRegex()
     {
         if ($r = array_keys($this->list)) {
@@ -311,7 +290,6 @@ class CssClassNameDetector
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -327,7 +305,6 @@ class CssClassNameDetector
      * @param bool $clear 
      * @return array<string|int, \ICssClassList> 
      */
-
     public function map(array $tab, bool $clear = false)
     {
         if ($clear) {
@@ -339,7 +316,6 @@ class CssClassNameDetector
         }, $tab, array_keys($tab));
         return $this->list;
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
@@ -384,7 +360,6 @@ class CssClassNameDetector
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param string $key
@@ -414,13 +389,11 @@ class CssClassNameDetector
         if (is_object($a) && igk_environment()->isDev())
             igk_wln(__FILE__ . ":" . __LINE__, "not handle : css class ", get_class($a));
     }
-
     /**
     * auto generate doc.
     * @param null|CssClassNameDetector $detector
     * @return null
     */
-
     public static function Detect(array $a, ?CssClassNameDetector  $detector = null)
     {
         $q = $detector ?? new static;

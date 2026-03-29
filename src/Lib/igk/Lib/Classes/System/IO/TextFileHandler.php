@@ -3,7 +3,6 @@
 // @file: TextFileHandler.php
 // @date: 20260212 16:49:26
 namespace IGK\System\IO;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO
@@ -19,5 +18,4 @@ class TextFileHandler extends FileHandler{
     {
         return $content;
     }
-
 }

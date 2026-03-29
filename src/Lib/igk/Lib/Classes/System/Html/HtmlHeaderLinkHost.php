@@ -8,19 +8,16 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 /**
 * Html header link host.
 * @package IGK\System\Html
 */
 final class HtmlHeaderLinkHost{
-
     /**
     * Collection of list.
     * @var mixed
     */
     private $m_list;
-
     /**
     * Properties: private link, shared link.
     * @var mixed
@@ -29,7 +26,6 @@ final class HtmlHeaderLinkHost{
     /**
      * Constructor.
      */
-
     public function __construct(){
         $this->m_list=array();
         $this->privateLink=array();
@@ -42,7 +38,6 @@ final class HtmlHeaderLinkHost{
      * @param mixed  $node The link node to register.
      * @param bool   $temp Whether the link is temporary (private).
      */
-
     public function add($name, $node, $temp){
         if(isset($this->m_list[$name]))
             igk_die("link already referenced");
@@ -54,7 +49,6 @@ final class HtmlHeaderLinkHost{
     /**
      * Removes all registered link nodes and clears the internal lists.
      */
-
     public function clearChilds(){
         foreach($this->m_list as $v){
             igk_html_rm($v);
@@ -69,7 +63,6 @@ final class HtmlHeaderLinkHost{
      * @param string $o The name of the link to retrieve.
      * @return mixed|null
      */
-
     public function getLink($o){
         return igk_getv($this->m_list, $o);
     }

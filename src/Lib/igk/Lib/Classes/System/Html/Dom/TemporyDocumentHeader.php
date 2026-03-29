@@ -3,20 +3,17 @@
 // @file: TemporyDocumentHeader.php
 // @date: 20241016 15:50:05
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 * @author C.A.D. BONDJE DOUE
 */
 class TemporyDocumentHeader{
-
     /**
     * Property: sc.
     * @var mixed
     */
     private $sc = [];
-
     /**
     * Adds Temp Script.
     * @param string $src

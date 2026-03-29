@@ -21,19 +21,16 @@ require_once IGK_LIB_CLASSES_DIR . "/HookOptions.php";
  */
 class BalafonInstaller implements IActionResult , IBalafonInstaller
 {
-
     /**
     * Constant: installer key.
     * @var mixed
     */
     const INSTALLER_KEY = "installer://uploadfile";
-
     /**
     * Property: zipcore.
     * @var mixed
     */
     protected $zipcore = true;
-
     /**
     * Property: zipfile.
     * @var mixed
@@ -43,18 +40,15 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
      * .ctr
      * @return void 
      */
-
     public function __construct()
     {
     }
-
     /**
     * auto generate doc.
     */
     public function index()
     {
     }
-
     /**
     * Config dir.
     */
@@ -62,7 +56,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     {
         return SystemController::configDir();
     }
-
     /**
     * auto generate doc.
     * @param string $param
@@ -82,7 +75,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     /**
      * do update
      */
-
     public function update()
     {
         $zfile = igk_app()->session->getParam(self::INSTALLER_KEY);
@@ -164,7 +156,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     /**
      * receive zip file
      */
-
     public function upload()
     { 
         if (!igk_is_ajx_demand() || !igk_server()->method("POST")) {
@@ -191,7 +182,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
         }
         igk_exit();
     }
-
     /**
     * Initializes installer.
     * @param InstallerMiddleWareActions $service

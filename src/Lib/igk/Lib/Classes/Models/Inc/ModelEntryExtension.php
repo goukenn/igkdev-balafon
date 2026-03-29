@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\Models;
-
 use Closure;
 use Error;
 use Exception;
@@ -49,7 +48,6 @@ use function igk_count as fcount;
 use function igk_environment as environment;
 use function igk_form_input_type as form_input_type;
 // require_once IGK_LIB_CLASSES_DIR .
-
 /**
 * Model entry extension.
 * @package IGK\Models
@@ -58,7 +56,6 @@ abstract class ModelEntryExtension
 {
     use ModelExtensionTrait;
     use ModelInitDbExtensionTrait;
-
     /**
     * auto generate doc.
     * @param ModelBase $model
@@ -126,7 +123,6 @@ abstract class ModelEntryExtension
     {
         return $model->getController();
     }
-
     /**
     * auto generate doc.
     * @param bool $idresult
@@ -154,7 +150,6 @@ abstract class ModelEntryExtension
         }
         return $c;
     }
-
     /**
     * Updates Raw.
     * @param ModelBase $target
@@ -163,10 +158,8 @@ abstract class ModelEntryExtension
     public static function updateRaw(ModelBase $target, ModelBase $g){
         if (get_class($target) == get_class($g)) {
             $target::updateRawFrom($target, $g);
-           
         }
     }
-
     /**
     * auto generate doc.
     * @param bool $force creation of DbRowDefEntry in all case
@@ -212,7 +205,6 @@ abstract class ModelEntryExtension
         $caches[$id] = $v;
         return $v->_cache;
     }
-
     /**
     * auto generate doc.
     * @param mixed $extra append field conditions
@@ -240,7 +232,6 @@ abstract class ModelEntryExtension
         }
         return $row;
     }
-
     /**
     * Inserts Or Update.
     * @param ModelBase $model
@@ -258,7 +249,6 @@ abstract class ModelEntryExtension
         $model::update($condition, [$p => $row->{$p}]);
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $condition
@@ -317,7 +307,6 @@ abstract class ModelEntryExtension
         }
         return $row;
     }
-
     /**
     * auto generate doc.
     * @param mixed $update_extras
@@ -350,7 +339,6 @@ abstract class ModelEntryExtension
     {
         return self::select_first($model, $condition, $option, $autoclose);
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -376,7 +364,6 @@ abstract class ModelEntryExtension
             $ad->resetAutoIncrement($model->getTable(), $value);
         }
     }
-
     /**
     * auto generate doc.
     * @param ModelBase $model
@@ -386,7 +373,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->beginTransaction();
     }
-
     /**
     * auto generate doc.
     * @param ModelBase $model
@@ -396,7 +382,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->commit();
     }
-
     /**
     * Rollback.
     * @param ModelBase $model
@@ -405,7 +390,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->rollback();
     }
-
     /**
     * End transaction.
     * @param ModelBase $model
@@ -494,7 +478,6 @@ abstract class ModelEntryExtension
         }
         return $g;
     }
-
     /**
     * Queries all.
     * @param ModelBase $model
@@ -506,7 +489,6 @@ abstract class ModelEntryExtension
         $driver = $model->getDataAdapter();
         return  $driver->select($model->getTable(), $conditions, $options);
     }
-
     /**
     * Returns count of.
     * @param ModelBase $model
@@ -572,7 +554,6 @@ abstract class ModelEntryExtension
         }
         return null;
     }
-
     /**
     * Selects row query.
     * @param ModelBase $model
@@ -601,7 +582,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->select($model->getTable(), $conditions, $options);
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -633,7 +613,6 @@ abstract class ModelEntryExtension
     {
         return null;
     }
-
     /**
      * get first items 
      * @param ModelBase $model 
@@ -653,7 +632,6 @@ abstract class ModelEntryExtension
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param null|string $column
@@ -671,7 +649,6 @@ abstract class ModelEntryExtension
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array &$value
@@ -754,7 +731,6 @@ abstract class ModelEntryExtension
         $conditions = DbUtility::TreatSelectCondition($columns, $conditions ?? [], $def->prefix);
         return $driver->delete($model->getTable(), $conditions);
     }
-
     /**
     * auto generate doc.
     * @param bool $update update mode
@@ -818,7 +794,6 @@ abstract class ModelEntryExtension
         $key = $model->getPrimaryKey();
         return $model->select_row([$column ?? $key => $model->last_id()]);
     }
-
     /**
     * Last id.
     * @param ModelBase $model
@@ -827,7 +802,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->last_id();
     }
-
     /**
     * Last error.
     * @param ModelBase $model
@@ -836,7 +810,6 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->last_error();
     }
-
     /**
     * Selects rand row.
     * @param ModelBase $model
@@ -896,7 +869,6 @@ abstract class ModelEntryExtension
         }
         igk_die("factory class not found . " . $cl);
     }
-
     /**
     * View filter.
     * @param ModelBase $model
@@ -919,7 +891,6 @@ abstract class ModelEntryExtension
     {
         return "display:" . $model->to_json();
     }
-   
     /**
      * column keys
      */
@@ -983,7 +954,6 @@ abstract class ModelEntryExtension
             return $r;
         }
     }
-
     /**
     * Creates Table.
     * @param ModelBase $model
@@ -1202,7 +1172,6 @@ abstract class ModelEntryExtension
     {
         return igk_array_replace_key_array($t, $v_ofd);
     }
-
     /**
     * auto generate doc.
     * @return ?IFormFieldDbOptions
@@ -1224,7 +1193,6 @@ abstract class ModelEntryExtension
     public static function Get(ModelBase $model, ?string $column = null, $value = null, ?bool $autoinsert = null)
     {
         $v_cargs = func_num_args() - 1;
-
         if ($value instanceof $model) {
             return $value;
         }
@@ -1309,7 +1277,6 @@ abstract class ModelEntryExtension
         }
         return $o;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -1403,7 +1370,6 @@ abstract class ModelEntryExtension
     {
         return static::cacheRow($model, $primaryKeyIdentifier, false);
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -1455,7 +1421,6 @@ abstract class ModelEntryExtension
         }
         return $data;
     }
-
     /**
     * auto generate doc.
     * @param mixed $expression
@@ -1479,7 +1444,6 @@ abstract class ModelEntryExtension
         $b = get_robjs($model->getFormFields());
         return $model::update((array)$b, $model->{$model->getPrimaryKey()});
     }
-
     /**
     * Request add.
     * @param ModelBase $model
@@ -1527,7 +1491,6 @@ abstract class ModelEntryExtension
         $model->with($modelUnion, $propertyName);
         return $model;
     }
-
     /**
     * Model table info.
     * @param ModelBase $model
@@ -1567,7 +1530,6 @@ abstract class ModelEntryExtension
         }
         return $tab;
     }
-
     /**
     * auto generate doc.
     * @param ModelBase $model
@@ -1584,7 +1546,6 @@ abstract class ModelEntryExtension
         ]), null, false);
         return $res;
     }
-
     /**
     * Returns insert query.
     * @param ModelBase $model
@@ -1616,7 +1577,6 @@ abstract class ModelEntryExtension
     {
         return $className::select_query_rows([$column => $model]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $params if first item is not array will add
@@ -1626,7 +1586,6 @@ abstract class ModelEntryExtension
     {
         return self::_Add($model, false, ...array_slice(func_get_args(), 1));
     }
-
     /**
     * Adds If Not Exists.
     * @param ModelBase $model
@@ -1636,7 +1595,6 @@ abstract class ModelEntryExtension
     {
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
     }
-
     /**
     * auto generate doc.
     * @param mixed $params
@@ -1868,7 +1826,6 @@ abstract class ModelEntryExtension
         }, $keys);
         return $tkey;
     }
-
     /**
     * auto generate doc.
     * @param array $args
@@ -1886,7 +1843,6 @@ abstract class ModelEntryExtension
         }
         return $model::columnList($prefix, $l);
     }
-
     /**
     * Column select array.
     * @param ModelBase $model
@@ -1917,7 +1873,6 @@ abstract class ModelEntryExtension
         $length = intval($ln->clTypeLength ?? $def);
         return str_pad($value, $length, $pad_value, $pad);
     }
-
     /**
     * auto generate doc.
     * @param mixed $type operator type
@@ -1938,7 +1893,6 @@ abstract class ModelEntryExtension
         }
         return [$cl::table()];
     }
-
     /**
     * Joins Table Target On.
     * @param ModelBase $model
@@ -1984,7 +1938,6 @@ abstract class ModelEntryExtension
             return ($field->clModifier == 'private');
         });
     }
-
     /**
      * clean references
      * @param ModelBase $model 

@@ -9,13 +9,11 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlConfigPageNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     public $tagname = "div";
-
     /**
     * Initializes.
     */
@@ -24,7 +22,6 @@ class HtmlConfigPageNode extends HtmlNode{
         parent::initialize();
         $this->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
     }
-
     /**
     * Removes.
     */
@@ -32,7 +29,6 @@ class HtmlConfigPageNode extends HtmlNode{
     {
         igk_wln_e("try remove... ");
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

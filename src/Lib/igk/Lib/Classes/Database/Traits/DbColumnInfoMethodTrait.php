@@ -3,7 +3,6 @@
 // @file: DbColumnInfoMethodTrait.php
 // @date: 20221104 14:47:37
 namespace IGK\Database\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\Database\Traits
@@ -16,7 +15,6 @@ trait DbColumnInfoMethodTrait{
     public function IsUnsigned():bool{
         return preg_match("/u(((big|smal|tiny)?int)|float)/i", $this->clType);
     }
-
     /**
     * Returns Is Ref Id.
     * @return bool
@@ -29,7 +27,6 @@ trait DbColumnInfoMethodTrait{
      * @param mixed $t 
      * @return int|false 
      */
-
     public static function SupportTypeLength($t):bool{
         return preg_match("/((u(big|smal|tiny))?int|varchar|char|enum|guid|decimal)/i", strtolower($t));
     }

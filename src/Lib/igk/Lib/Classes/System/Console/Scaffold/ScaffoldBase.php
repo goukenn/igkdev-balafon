@@ -9,7 +9,6 @@ namespace IGK\System\Console\Scaffold;
  * @package IGK\System\Console\Scaffold
  */
 abstract class ScaffoldBase{
-
     /**
     * Property: description.
     * @var mixed
@@ -20,7 +19,6 @@ abstract class ScaffoldBase{
    * @param mixed $command 
    * @return mixed 
    */
-
     abstract function showHelp($command);
   /**
    * help command option 

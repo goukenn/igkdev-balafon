@@ -10,7 +10,6 @@ use IGK\System\Html\XML\XmlConfigurationNode;
  * @package IGK\System\Configuration
  */
 class SysConfigExpressionFactory{
-
     /**
     * Constant: key.
     * @var mixed
@@ -22,7 +21,6 @@ class SysConfigExpressionFactory{
      * @param string $class class expression to bind
      * @return void 
      */
-
     public static function Register(string $prefix, string $class){
         igk_environment()->setArray(self::KEY, $prefix, $class);
     }
@@ -31,7 +29,6 @@ class SysConfigExpressionFactory{
      * @param mixed $prefix 
      * @return void 
      */
-
     public static function UnRegister(string $prefix){
         igk_environment()->unsetInArray(self::KEY, $prefix);
     }
@@ -39,7 +36,6 @@ class SysConfigExpressionFactory{
      * get registration configuration definition 
      * @return string 
      */
-
     public static function GetRegisterRegex(): string{
         $s = [XmlConfigurationNode::SYS_CONFIG, XmlConfigurationNode::APP_CONFIG];
         if (is_array($t = igk_environment()->get(self::KEY))){
@@ -47,13 +43,11 @@ class SysConfigExpressionFactory{
         }
         return implode("|",$s);
     }
-
     /**
     * auto generate doc.
     * @param mixed $expression
     * @return object|null
     */
-
     public static function Create($name, $expression){
         if ($g = igk_environment()->getArray(self::KEY, $name)){
             if (strpos($expression, $name.".") === 0){

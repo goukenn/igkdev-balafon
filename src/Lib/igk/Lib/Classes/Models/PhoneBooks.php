@@ -3,10 +3,7 @@
 // @file: PhoneBooks.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Phone books
 * @package IGK\Models
@@ -39,43 +36,36 @@ use IGK\Models\ModelBase;
 * @method static mixed userSearchPhoneEntries(\IGK\Models\Users $user,string $search,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL) macros function
 * */
 class PhoneBooks extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphb_Id";
-
     /**
     * Constant: fd entry guid.
     * @var mixed
     */
     const FD_ENTRY_GUID="rcphb_EntryGuid";
-
     /**
     * Constant: fd type.
     * @var mixed
     */
     const FD_TYPE="rcphb_Type";
-
     /**
     * Constant: fd value.
     * @var mixed
     */
     const FD_VALUE="rcphb_Value";
-
     /**
     * Constant: fd is preferred.
     * @var mixed
     */
     const FD_IS_PREFERRED="rcphb_is_preferred";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphb_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed
@@ -97,7 +87,6 @@ class PhoneBooks extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphb_Value";
-
     /**
     * Property: unique columns.
     * @var mixed

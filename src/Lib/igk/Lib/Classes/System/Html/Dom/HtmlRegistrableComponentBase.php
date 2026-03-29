@@ -4,7 +4,6 @@
 // @date: 20230307 07:20:54
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\IHtmlRegistrableComponent;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom

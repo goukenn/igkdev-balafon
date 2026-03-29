@@ -11,13 +11,11 @@ use IGKEvents;
  * @package IGK\System\Html\SVG
  */
 class SvgListIconNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
-
     /**
     * .ctr
     * @param mixed $name
@@ -27,7 +25,6 @@ class SvgListIconNode extends HtmlNode{
         $this["class"] = "igk-svg-lst-i";
         $this["igk:svg-name"] = $name; 
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

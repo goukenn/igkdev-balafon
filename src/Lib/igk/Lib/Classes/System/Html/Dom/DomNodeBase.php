@@ -12,7 +12,6 @@ use IGKObject;
  * @package IGK\System\Html\Dom
  */
 abstract class DomNodeBase extends IGKObject{
-
     /**
     * Constant: creator prefix key.
     * @var mixed
@@ -23,7 +22,6 @@ abstract class DomNodeBase extends IGKObject{
      * @param string $type 
      * @return mixed 
      */
-
     protected abstract function setInitNodeTypeInfo(HtmlInitNodeInfo $info);
     /**
      * get init node type info
@@ -34,9 +32,7 @@ abstract class DomNodeBase extends IGKObject{
      * retrieve parent node 
      * @return ?static|mixed 
      */
-
     public abstract function getParentNode();
-
     /**
     * Returns Creator Engine.
     * @param string $name
@@ -48,13 +44,11 @@ abstract class DomNodeBase extends IGKObject{
             return $g->{$key};
         }
     }
-
     /**
     * auto generate doc.
     * @param string $name
     * @return void
     */
-
     public static function RegisterCreator(string $name, $class_name){
         $env = igk_environment();
         $g = $env->services->dom_node_creator ?? $env->services->dom_node_creator = new EnvironmentDomEngineCreator;

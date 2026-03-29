@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
-
 /**
 * Environment array exception.
 * @package IGK\System\Exceptions
 */
 class EnvironmentArrayException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $key

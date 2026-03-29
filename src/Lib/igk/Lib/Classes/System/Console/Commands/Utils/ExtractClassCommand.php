@@ -5,7 +5,6 @@
 namespace IGK\System\Console\Commands\Utils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Utils
@@ -13,37 +12,31 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 */
 class ExtractClassCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--extract-class';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'extract class from json definition';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = ['-n' => 'name of the class'];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'utils';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'file|json_data [path] [options]';
-
     /**
     * Exec.
     * @param mixed $command

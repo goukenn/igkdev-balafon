@@ -9,7 +9,6 @@ namespace IGK\Actions;
  * @package IGK\Actions
  */
 interface IInvokeAction{
-
     /**
     * Invoke.
     */

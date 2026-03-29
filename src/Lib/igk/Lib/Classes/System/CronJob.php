@@ -18,7 +18,6 @@ use Throwable;
  * 
  * @package IGK\System
  */
-
 /**
 * auto generate doc.
 * @package IGK\System
@@ -35,7 +34,6 @@ class CronJob
      * @var ?string
      */
     var $ctrl;
-
     /**
     * Executes.
     */
@@ -55,13 +53,11 @@ class CronJob
         igk_hook(IGKEvents::HOOK_CRONJOB, ['task'=>'cronjob', 'date'=> date("Ymd H:i:s")]);      
         return 0;
     }
-
     /**
     * auto generate doc.
     * @param callable $handle_cron_script
     * @return void
     */
-
     public static function ExecuteCronList(array $crons, callable $handle_cron_script, ?string $exclude_fs = null)
     {
         if (!class_exists('CommandHelper', false))

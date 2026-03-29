@@ -25,13 +25,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @var mixed
      */
     private $m_desc;
-
     /**
     * Constant: var char.
     * @var mixed
     */
     const VarChar = 'VarChar';
-
     /**
     * Locale.
     * @param string $id
@@ -48,7 +46,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         }
         return $this;
     }
-
     /**
     * Column varchar.
     * @param string $name
@@ -70,7 +67,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         )]);
         return $this;
     }
-
     /**
     * Returns Description.
     * @return ?string
@@ -79,7 +75,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     {
         return $this->m_desc;
     }
-
     /**
     * Sets Description.
     * @param null|string $description
@@ -90,7 +85,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         $this->m_desc = $description;
         return $this;
     }
-
     /**
     * .ctr
     * @param null|string $name
@@ -102,7 +96,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         $this->m_properties = [];
         $this->p_prefix = $prefix;
     }
-
     /**
     * Called when exporting with var_export().
     * @param array $data
@@ -121,7 +114,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param int $length 
      * @return $this 
      */
-
     public function email($name = "Email", $length=50, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
@@ -139,7 +131,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param int $length 
      * @return $this 
      */
-
     public function tel(string $prefix, string $name = "Tel", $length = 15)
     {
         return $this->addProperties([
@@ -159,7 +150,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $inputtype 
      * @return $this 
      */
-
     public function column(string $name, $type = "Int", $length = 9, $notnull = 0, $isunique = 0, $description = null, $inputtype = null): IDiagramSchemaEntity
     {
         $this->m_properties[$name] = Activator::CreateNewInstance(
@@ -182,7 +172,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param null|string $description 
      * @return $this 
      */
-
     public function guuid(string $name, ?string $description = null): IDiagramSchemaEntity
     {
         return $this->column($name,self::VarChar, DiagramConstants::GUID_LENGTH, 1, 1, $description);
@@ -195,7 +184,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function id($name = "clId", $length = 9, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
@@ -214,7 +202,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function primary($name = "clId", $length = 9, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
@@ -228,13 +215,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clNotNull" => 1
         ]]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $description
     * @return IDiagramSchemaEntity
     */
-
     public function unique(string $name, $length = 9, $type = self::VarChar,  $notnull = 1, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
@@ -252,7 +237,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param string $description 
      * @return IDiagramSchemaEntity 
      */
-
     public function description (?string $description):IDiagramSchemaEntity {
         $m_last = $this->getLastProperty();
         if ($m_last)
@@ -261,7 +245,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             $this->m_desc = $description;
         return $this;
     }
-
     /**
     * Text.
     * @param mixed $name
@@ -288,7 +271,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function varchar(string $name, $length = 191, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
@@ -308,7 +290,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function float(string $name,  $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
@@ -329,7 +310,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @return IDiagramSchemaEntity 
      * @throws IGKException 
      */
-
     public function link(string $name, string $table, ?string $column = null, $linkName = null, $notnull = false,
     $inputtype = "", $default = 0, $description = null
     ): IDiagramSchemaEntity
@@ -343,13 +323,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clInputType" => $inputtype, "clNotNull" => $notnull, "clLinkConstraintName" => $linkName
         ]]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $description
     * @return IDiagramSchemaEntity
     */
-
     public function link_guuid(string $name, string $table_name, $linkColumn = 'clId', $linkName = null, 
         $notnull = false,
         bool $unique=false,
@@ -374,7 +352,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function int(string $name, $length = 9, $default = 0, $description = null, ?array $extra = null): IDiagramSchemaEntity
     {
         $data = [
@@ -386,7 +363,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         }
         return $this->addProperties([$data]);
     }
-
     /**
     * Address.
     * @param string $prefix
@@ -402,7 +378,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             ["clName"=>"{$prefix}AddrCountry", "clType"=>self::VarChar, "clTypeLength"=>"4", "clDescription"=>"country's iso code"],
         ]);
     }
-
     /**
     * Date.
     * @param mixed $name
@@ -420,7 +395,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clDefault" => $default, "clNotNull" => $notnull
         ]]);
     }
-
     /**
     * Datetime.
     * @param mixed $name
@@ -443,7 +417,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param mixed $description 
      * @return $this 
      */
-
     public function primary_auto($name, $length = 9, $default = 0, $description = null)
     {
         return $this->addProperties([[
@@ -451,7 +424,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clInputType" => "int", "clDescription" => $description, "clDefault" => $default, "clNotNull" => 1, "clIsPrimary" => true, "clAutoIncrement" => 1
         ]]);
     }
-
     /**
     * Returns Name.
     */
@@ -464,7 +436,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @param string $prefix 
      * @return $this 
      */
-
     public function dateUpdate($prefix = ""): IDiagramSchemaEntity
     {
         $this->addProperties([
@@ -482,7 +453,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @return $this 
      * @throws IGKException 
      */
-
     public function setUniqueColumnMember($column, $index=1){
         foreach($column as $n){
             if ($g = igk_getv($this->m_properties, $n)){
@@ -496,7 +466,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * drop the entity definition 
      * @return void 
      */
-
     public function drop(){
         Logger::warn(sprintf('drop entity [%s]', $this->m_name));
     }

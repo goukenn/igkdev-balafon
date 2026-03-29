@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Mails;
 use IGK\System\Net\Mail;
 use IGKObjStorage;
-
 /**
 * Cron job process mail provider.
 * @package IGK\System\Process

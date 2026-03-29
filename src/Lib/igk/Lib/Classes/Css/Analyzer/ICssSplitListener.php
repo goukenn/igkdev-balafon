@@ -3,7 +3,6 @@
 // @file: ICssSplitListener.php
 // @date: 20250627 06:18:09
 namespace IGK\Css\Analyzer;
-
 /**
 * auto generate doc.
 * @package IGK\Css\Analyzer
@@ -11,7 +10,6 @@ namespace IGK\Css\Analyzer;
 */
 interface ICssSplitListener
 {
-
     /**
     * Splits.
     * @param string $value

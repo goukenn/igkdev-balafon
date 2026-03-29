@@ -24,7 +24,6 @@ use IGKResourceUriResolver;
 class HtmlScriptLoader
 {
     use ScriptTrait;
-
     /**
     * Property: options.
     * @var mixed
@@ -40,13 +39,11 @@ class HtmlScriptLoader
      * @var bool
      */
     var $production;
-
     /**
     * auto generate doc.
     * @var ?array excluded directory options
     */
     var $excludir;
-
     /**
     * Returns Exclude Dir.
     * @return array
@@ -55,7 +52,6 @@ class HtmlScriptLoader
     {
         return $this->excludir ? $this->excludir : igk_sys_js_exclude_dir();
     }
-
     /**
     * Getscript.
     * @param null|mixed $options
@@ -74,7 +70,6 @@ class HtmlScriptLoader
      * @return string|false result
      * @throws IGKException 
      */
-
     public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache=null)
     {
         $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
@@ -271,7 +266,6 @@ class HtmlScriptLoader
      * import content as module 
      * @param string $content script with module 
      */
-
     public static function ImportContentAsModule(string $content): string
     {
         $content = self::RemoveGlobalExportFromContent($content);
@@ -290,7 +284,6 @@ class HtmlScriptLoader
      * @throws IGKException 
      * @throws Exception 
      */
-
     public static function RemoveGlobalExportFromContent(string $content, & $export_list =[])
     {
         $ctx = new RegexMatcherContainer;
@@ -335,18 +328,15 @@ class HtmlScriptLoader
      * system loading accept regex 
      * @return string 
      */
-
     public static function GetLoadingAssetRegex()
     {
         return "/\.((m)?js|json|xml|svg|shader|txt)$/";
     }
-
     /**
     * auto generate doc.
     * @param string $uri
     * @return string
     */
-
     public static function GetModuleInlineScriptContent(string $file, $uri = "/")
     {
         $sb = new StringBuilder;
@@ -365,7 +355,6 @@ class HtmlScriptLoader
      * @return never 
      * @throws NotImplementException 
      */
-
     public static function GetCoreScriptInlineContent()
     {
         throw new NotImplementException(__METHOD__);

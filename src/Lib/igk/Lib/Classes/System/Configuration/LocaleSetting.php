@@ -6,32 +6,27 @@ namespace IGK\System\Configuration;
 use IGK\Helper\StringUtility;
 use IGK\Resources\R;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Configuration
 */
 class LocaleSetting{
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: setting.
     * @var mixed
     */
     private $setting;
-
     /**
     * Returns Instance.
     */
     public static function getInstance(){
         return self::$sm_instance ?? self::$sm_instance = new self;
     }
-
     /**
     * .ctr
     */
@@ -42,7 +37,6 @@ class LocaleSetting{
      * @param string $format 
      * @return mixed 
      */
-
     public static function Get(string $format){
         $format = StringUtility::CamelClassName($format);
         $i = self::getInstance();
@@ -50,7 +44,6 @@ class LocaleSetting{
             return call_user_func_array([$i, $fc], []);
         }
     }
-
     /**
     * Returns Date Format.
     */

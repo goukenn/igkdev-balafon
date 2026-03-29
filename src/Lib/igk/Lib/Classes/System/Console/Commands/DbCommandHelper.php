@@ -12,7 +12,6 @@ use IGK\System\Console\Logger;
  */
 abstract class DbCommandHelper
 {
-
     /**
     * Seeds.
     * @param null|mixed $ctrl
@@ -43,7 +42,6 @@ abstract class DbCommandHelper
             }
         }
     }
-
     /**
     * Returns Usage Command Help.
     * @return array
@@ -54,12 +52,10 @@ abstract class DbCommandHelper
         $tab = array_fill_keys(array_keys($tab), null);
         return $tab;
     }
-
     /**
     * auto generate doc.
     * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string}
     */
-
     public static function GetDbCommandsProperties()
     {
         return [
@@ -74,7 +70,6 @@ abstract class DbCommandHelper
             "-db_connexion_string" => "db_connexion_string",
         ];
     }
-
     /**
     * Initializes.
     * @param mixed $command
@@ -93,7 +88,6 @@ abstract class DbCommandHelper
             igk_environment()->querydebug = 1;
         }
     }
-
     /**
     * Shows Usage.
     */
@@ -145,7 +139,6 @@ abstract class DbCommandHelper
             ) {
                 $cnf->db_charset = $env;
             }
-
             array_filter(getenv(), function($v, $k)use($cnf){
                 if (preg_match('/^IGK_APP_CONF_/', $k, $t)){
                     $k = strtolower( substr($k, strlen($t[0])));

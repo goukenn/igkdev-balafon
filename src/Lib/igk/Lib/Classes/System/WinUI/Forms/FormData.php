@@ -21,31 +21,26 @@ abstract class FormData
 {
     use ActivableTrait;
     // + | refer to [name]ContentValidator class
-
     /**
     * Constant: sc email.
     * @var mixed
     */
     const SC_EMAIL = 'Email';
-
     /**
     * Constant: sc password.
     * @var mixed
     */
     const SC_PASSWORD = 'Password';
-
     /**
     * Constant: sc integer.
     * @var mixed
     */
     const SC_INTEGER = 'Integer';
-
     /**
     * Constant: sc number.
     * @var mixed
     */
     const SC_NUMBER = 'Number';
-
     /**
     * Constant: sc text.
     * @var mixed
@@ -56,7 +51,6 @@ abstract class FormData
      * @param null|array $fields 
      * @return array 
      */
-
     public function to_array(?array $fields = null): array{
        return (array)$this;
     }
@@ -65,7 +59,6 @@ abstract class FormData
      * @param Request $request 
      * @return ?array 
      */
-
     public function getValidationMapperFromRequest(Request $request): FormValidationData
     {
         $ls = array_keys(get_class_vars(static::class));
@@ -75,13 +68,11 @@ abstract class FormData
         $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }
-
     /**
     * auto generate doc.
     * @param mixed $tab
     * @return array
     */
-
     protected function mergeSecure($var_tab, $tab)
     {
         $rtab = [];
@@ -98,7 +89,6 @@ abstract class FormData
      * get class reference used to get properties 
      * @return string
      */
-
     protected function getValidationClassReference()
     {
         return static::class;
@@ -107,18 +97,15 @@ abstract class FormData
      * array of mapper fields
      * @return (string|int)[] 
      */
-
     protected function getMapperFields(){
         $ls = array_keys(get_class_vars($this->getValidationClassReference()));
         return $ls;
     }
-
     /**
     * auto generate doc.
     * @param null|array $tab
     * @return FormValidationData
     */
-
     protected function getDataValidatorMapper(?array $tab = null)
     {
         $ls = $this->getMapperFields();
@@ -167,7 +154,6 @@ abstract class FormData
      * associative array of default custom value
      * @return null|array 
      */
-
     public function getDefaultValues(): ?array
     {
         return null;
@@ -176,7 +162,6 @@ abstract class FormData
      * get not required fields [ key => missing default value, $key]
      * @return null|array 
      */
-
     protected function getNotRequired(): ?array
     {
         return null;
@@ -185,7 +170,6 @@ abstract class FormData
      * get content secure field
      * @return null|array 
      */
-
     protected function getContentSecureFormRequest(Request $request): ?array
     {
         return null;
@@ -195,7 +179,6 @@ abstract class FormData
      * @param Request $request 
      * @return static|false|\IGK\System\DataArgs data argument that implement static definition
      */
-
     public static function ValidateJSon(Request $request, $validator, ?array &$errors = null)
     {
         if ($g = $validator->validateJSon($request, static::class, $errors)) {
@@ -209,7 +192,6 @@ abstract class FormData
      * @param null $validator 
      * @return false|static|object validated data or false - static::class's properties only 
      */
-
     public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
     {
         if (!$data){
@@ -220,7 +202,6 @@ abstract class FormData
             (method_exists(static::class, $validata_class) ?
                 call_user_func_array([static::class, $validata_class], []) : null) ??
             new ObjectDataValidator();
-
         /**
         * auto generate doc.
         * @var {validate():null}|null $validator
@@ -251,7 +232,6 @@ abstract class FormData
      * @throws IGKException 
      * @throws Exception 
      */
-
     public static function ValidateDataAndCreateInstance($data, ?object $validator = null, ?array & $error = null){
         if ($r = self::ValidateData($data, $validator, $error)){
             return Activator::CreateNewInstance(static::class, $r->getData());
@@ -262,7 +242,6 @@ abstract class FormData
      * use to retrieve the fields to use in a form
      * @return array 
      */
-
     public static function Fields():array
     { 
         return array_keys(get_class_vars(static::class));

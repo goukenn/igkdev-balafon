@@ -10,7 +10,6 @@ use IGK\Models\ModelBase;
 * @package IGK\System\Database\Mapping
 */
 class DefaultMap{
-
     /**
     * auto generate doc.
     * @param mixed $data
@@ -27,7 +26,6 @@ class DefaultMap{
             return new MappedData((object)$out);
         }, $data);
     }
-
     /**
     * auto generate doc.
     * @param mixed $data

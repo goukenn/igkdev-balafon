@@ -4,7 +4,6 @@
 // @date: 20250627 06:20:07
 namespace IGK\Css\Analyzer;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * auto generate doc.
 * @package IGK\Css\Analyzer
@@ -12,43 +11,36 @@ use IGK\System\Text\RegexMatcherContainer;
 */
 class CssAnalyzer
 {
-
     /**
     * Property: regex.
     * @var mixed
     */
     private $m_regex;
-
     /**
     * Listener: split listener.
     * @var mixed
     */
     private $m_splitListener;
-
     /**
     * Property: selectors.
     * @var mixed
     */
     var $selectors = [];
-
     /**
     * Property: classes.
     * @var mixed
     */
     var $classes = [];
-
     /**
     * Property: identifiers.
     * @var mixed
     */
     var $identifiers = [];
-
     /**
     * Property: medias.
     * @var mixed
     */
     var $medias = [];
-
     /**
     * Returns Split Listener.
     */
@@ -56,7 +48,6 @@ class CssAnalyzer
     {
         return $this->m_splitListener;
     }
-
     /**
     * Sets Split Listerner.
     * @param null|ICssSplitListener $splitter
@@ -65,7 +56,6 @@ class CssAnalyzer
     {
         $this->m_splitListener = $splitter;
     }
-
     /**
     * Initializes.
     */
@@ -97,7 +87,6 @@ class CssAnalyzer
         $rg->begin('@\\w+', '(?=;|\{)', 'skip');
         $this->m_regex = $rg;
     }
-
     /**
     * Analyse.
     * @param string $file

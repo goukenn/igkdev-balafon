@@ -3,20 +3,17 @@
 // @file: MimeTypes.php
 // @date: 20221001 16:11:28
 namespace IGK\System\Drawing;
-
 /**
 * auto generate doc.
 * @package IGK\System\Drawing
 */
 class MimeTypes{
     public
-
     /**
     * Constant: svg.
     * @var mixed
     */
     const SVG = "image/svg+xml";
-
     /**
     * Formats.
     * @param string $data
@@ -33,7 +30,6 @@ class MimeTypes{
      * @param string $code 
      * @return string 
      */
-
     public static function SVGFormat(string $data, $code="base64"){
         return self::Format($data, self::SVG, $code);
     }

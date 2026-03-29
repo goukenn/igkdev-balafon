@@ -9,7 +9,6 @@ use Exception;
 * @package IGK\System\Mapping\Helper
 */
 abstract class ArrayMapHelper{
-
     /**
     * auto generate doc.
     * @param int $throw

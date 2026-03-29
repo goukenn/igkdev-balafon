@@ -9,13 +9,11 @@ namespace IGK\System\Database;
  * @package IGK\System\Database
  */
 class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["column"];
-
     /**
     * Up.
     */
@@ -24,7 +22,6 @@ class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl::db_alter_column($tb, $this->column, $this->new_name);
     }
-
     /**
     * Down.
     */

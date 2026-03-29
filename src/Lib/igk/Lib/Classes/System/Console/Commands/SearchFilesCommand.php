@@ -3,39 +3,33 @@
 // @file: SearchFilesCommand.php
 // @date: 20250604 15:27:20
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Text\Regex;
 use IGK\System\Text\RegexFormatMatcherUtility;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
  * 
  * @package IGK\System\Console\Commands
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
  * auto generate doc.
  * @package IGK\System\Console\Commands
  */
 class SearchFilesCommand extends AppExecCommand
 {
-
     /**
      * Property: command.
      * @var mixed
      */
     var $command = '--find';
-
     /**
      * Property: desc.
      * @var mixed
      */
     var $desc = 'find file with regex pattern';
-
     /**
      * Property: options.
      * @var mixed
@@ -44,25 +38,21 @@ class SearchFilesCommand extends AppExecCommand
         '--real-only' => 'flag: real file only',
         '--exclude:[]' => 'exclude matching pattern',
     ];
-
     /**
      * Property: category.
      * @var mixed
      */
     var $category = 'sys';
-
     /**
      * Property: usage.
      * @var mixed
      */
     var $usage = 'directory pattern [options]';
-
     /**
      * auto generate doc.
      * @param null|string $pattern
      * @return void
      */
-
     public function exec($command, ?string $dir = null, ?string $pattern = null)
     {
         $dir ?? igk_die('missing directory');
@@ -72,13 +62,11 @@ class SearchFilesCommand extends AppExecCommand
         $v_exclude = igk_getv($command->options, '--exclude');
         $pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
         if ($v_exclude) {
-
             if (!is_array($v_exclude)) {
                 $v_exclude = [$v_exclude];
             }
             $exclude = SearchFileExclusion::Create($v_exclude);
         }
-
         //if (is_link($dir)){
         $dirs = [];
         if ($dir = realpath($dir)) {
@@ -104,7 +92,6 @@ class SearchFilesCommand extends AppExecCommand
                 }
             }, true);
         }
-
         Logger::info('total: ' . $T); // count($ls));
     }
 }

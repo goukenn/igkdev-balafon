@@ -8,19 +8,16 @@ namespace IGK\System\Text;
 * @package IGK\System\Text
 */
 class TextBracket{
-
     /**
     * Property: bracket start.
     * @var mixed
     */
     var $bracketStart = "(";
-
     /**
     * Property: bracket end.
     * @var mixed
     */
     var $bracketEnd = ")";
-
     /**
     * Property: blocks.
     * @var mixed
@@ -30,7 +27,6 @@ class TextBracket{
      * reduce block to string expression
      * @return string 
      */
-
     public function reduce():string{
         $p = null;
         $q = null;
@@ -105,7 +101,6 @@ class TextBracket{
      * @param string $source 
      * @return ?TextBracket 
      */
-
     public static function Parse(string $source, $start=null, $end=null){
         $g = new static;
         if ($start && $end){
@@ -118,7 +113,6 @@ class TextBracket{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $def

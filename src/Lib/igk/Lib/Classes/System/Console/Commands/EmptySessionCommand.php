@@ -6,20 +6,17 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Library\session;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class EmptySessionCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--empty-session';
-
     /**
     * Property: desc.
     * @var mixed
@@ -28,7 +25,6 @@ class EmptySessionCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-
     /**
     * Exec.
     * @param mixed $command

@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Actions;
-
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Traits\DieRequestTrait;
 use IGKActionBase;
 use IGKUserInfo;
-
 /**
 * Action base.
 * @package IGK\Actions
@@ -37,7 +35,6 @@ abstract class ActionBase extends IGKActionBase{
         }
         return null;
     }
-
     /**
     * Returns debug information for var_dump.
     */

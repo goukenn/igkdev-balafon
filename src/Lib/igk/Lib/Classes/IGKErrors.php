@@ -12,13 +12,11 @@
  * @package 
  */
 abstract class IGKErrors{
-
     /**
     * Constant: config mis configuration.
     * @var mixed
     */
     const ConfigMisConfiguration=0x102;
-
     /**
     * Constant: no appdirdefined.
     * @var mixed

@@ -3,21 +3,18 @@
 // @file: BalafonInitEnvironment.php
 // @date: 20231019 12:57:36
 namespace IGK\System\Console;
-
 use IGK\Helper\IO;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGKAppSystem;
 use IGKEvents;
 use stdClass;
-
 /**
  * init environment balafon environment configuration
  * @package IGK\System\Console
  */
 class BalafonInitEnvironment
 {
-
     /**
     * Constant: app lib core.
     * @var mixed
@@ -28,7 +25,6 @@ class BalafonInitEnvironment
      * @param string $dir 
      * @return string|null 
      */
-
     public static function GetVendorDir(string $dir): ?string
     {
         while ($dir && ($dir != '.')) {
@@ -58,13 +54,11 @@ class BalafonInitEnvironment
         }
         return $dir;
     }
-
     /**
     * auto generate doc.
     * @param mixed $appLibCore
     * @return void
     */
-
     public function run($command, string $install_dir = 'src', string $appLibCore = self::AppLibCore)
     {
         igk_environment()->isDev() && Logger::info("--[init]--");
@@ -82,9 +76,7 @@ class BalafonInitEnvironment
         } else {
             $g = Path::ToLocalPath($install_dir, $cwd);
             $install_dir = \IGK\System\IO\Path::GetRelativePath($cwd, $g); // Path::ToLocalPath($install_dir, $cwd), $cwd);
-
         }
-
         $v_reset = property_exists($options, '--reset');
         $v_no_config = property_exists($options, "--no-config");
         $v_primary = property_exists($options, "--primary");
@@ -144,7 +136,6 @@ class BalafonInitEnvironment
             }
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
-
             $lib = ($app_dir == './' ? getcwd() : $app_dir) . $appLibCore;
             if (!file_exists($lib)) {
                 igk_io_createdir($dir = dirname($lib));
@@ -177,7 +168,6 @@ class BalafonInitEnvironment
         $opts = HtmlRenderer::CreateRenderOptions();
         $opts->Indent = true;
         Logger::info('store-global-config-data : ' . $file);
-
         $init_data['init'] = date('Y-m-d');
         igk_io_w2file($file, $init_data->render($opts));
         // + | create a symlink to balafon command line interface 
@@ -185,9 +175,6 @@ class BalafonInitEnvironment
             @symlink(Path::Combine($lib, 'bin', 'balafon'), 'balafon');
         }
         igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset' => $v_reset]);
-
-
-
         if ($v_reset) {
             IGKEvents::ClearHooks();
             // - reset environment  
@@ -204,7 +191,6 @@ class BalafonInitEnvironment
             self::_AuthFiles($command, [$app_dir, $public_dir]);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -216,13 +202,11 @@ class BalafonInitEnvironment
         foreach ($dirs as $d)
             self::_InitIOFileAuth($command, $d);
     }
-
     /**
     * auto generate doc.
     * @param mixed $app_dir
     * @return void
     */
-
     static function _InitIOFileAuth($command, string $app_dir)
     {
         // + | fix mod and owner
@@ -235,7 +219,6 @@ class BalafonInitEnvironment
             shell_exec("chown -R {$o} {$d}");
         })(realpath(dirname($app_dir)), $command);
     }
-
     /**
     * Default user group.
     */

@@ -3,13 +3,11 @@
 // @file: SessionValueOperator.php
 // @date: 20221010 01:44:07
 namespace IGK\System\Http\Session;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Session
 */
 class SessionValueOperator{
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

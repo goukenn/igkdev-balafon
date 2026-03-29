@@ -12,30 +12,25 @@ use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
 use IGKUserInfo;
-
 /**
 * auto generate doc.
 * @package IGK\System\Application
 */
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
-
     /**
     * Property: user.
     * @var mixed
     */
     private $m_user;
-
     /**
     * Property: app user.
     * @var mixed
     */
     private $m_app_user;
-
     /**
     * Registers Profile.
     */
     protected function registerProfile() { }
-
     /**
     * User.
     * @return ModelsModelBase
@@ -48,11 +43,9 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $userInfo 
      * @return void 
      */
-
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;
      }
-
     /**
     * Returns User Info.
     */
@@ -63,11 +56,9 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * get project user
      * @return mixed 
      */
-
     public function getApplicationUser():?ModelBase{
         return $this->m_app_user;
     }
-
     /**
     * Model.
     * @return Users
@@ -81,7 +72,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @return void 
      * @throws Exception 
      */
-
     public function __construct(Users $user, ?BaseController $ctrl=null, ?IGKUserInfo $profile = null) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
         $ctrl = $ctrl ?? igk_current_ctrl();
@@ -96,7 +86,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $appUser 
      * @return null|ICustomUserProfile 
      */
-
     public function bindInfo($userProfile, $appUser): ?ICustomUserProfile{ 
         $this->setUserInfo($userProfile);
         $this->m_app_user = $appUser;
@@ -108,7 +97,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $user 
      * @return static 
      */
-
     protected static function _CreateClassInstance($user){
         return new static($user, ...array_slice(func_get_args(),1));
     }

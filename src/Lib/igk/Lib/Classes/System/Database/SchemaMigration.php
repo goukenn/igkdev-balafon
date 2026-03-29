@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -41,43 +40,36 @@ use ReflectionException;
 class SchemaMigration
 {
     use SchemaGenerationFieldTrait;
-
     /**
     * Property: node.
     * @var mixed
     */
     var $node;
-
     /**
     * Property: reload.
     * @var mixed
     */
     var $reload;
-
     /**
     * Name of resovlname.
     * @var mixed
     */
     var $resovlname;
-
     /**
     * Map of table.
     * @var mixed
     */
     var $table;
-
     /**
     * Property: tbrelations.
     * @var mixed
     */
     var $tbrelations;
-
     /**
     * auto generate doc.
     * @var ?array
     */
     var $migrations;
-
     /**
     * auto generate doc.
     * @var ?array loaded entries to initialize
@@ -98,7 +90,6 @@ class SchemaMigration
      * @param mixed $ctrl 
      * @return array 
      */
-
     public function load($ctrl)
     {
         // + | --------------------------------------------------------------------
@@ -224,9 +215,6 @@ class SchemaMigration
                 if ($t_index){   
                     call_user_func_array([$this, '_load_index'], [$t_index, & $indexes]); 
                 }
-
-
-
                 $info = new SchemaMigrationInfo;
                 $info->defTableName = $stb;
                 $info->columnInfo = $c;
@@ -296,7 +284,6 @@ class SchemaMigration
         );
         return $v_result;
     }
-
     /**
     * Treat column name.
     * @param mixed $cl
@@ -313,7 +300,6 @@ class SchemaMigration
      * @param mixed &$indexes 
      * @return void 
      */
-
     protected function _load_index($list, & $indexes){
         while(count($list)>0){
             $q = array_shift($list);
@@ -329,7 +315,6 @@ class SchemaMigration
      * @param mixed $passing 
      * @return void 
      */
-
     public static function UpdateGenColumn($node, &$cl, $passing = null, $info = null)
     {
         $name = $node["name"];
@@ -444,7 +429,6 @@ class SchemaMigration
      * @param bool $reload 
      * @return static 
      */
-
     public static function LoadSchema(
         DomNodeBase $node,
         &$result,
@@ -659,7 +643,6 @@ class SchemaMigration
                 break;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
@@ -763,7 +746,6 @@ class SchemaMigration
                 break;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $tmigrations
@@ -803,7 +785,6 @@ class SchemaMigration
      * @param BaseController $ctrl 
      * @return void 
      */
-
     public function upgrade($migrations, array &$tables,  ?BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoUpgrade']);
@@ -812,7 +793,6 @@ class SchemaMigration
      * load schema and downgrade
      * @return void 
      */
-
     public function downgrade($migrations, array &$tables,  BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoDowngrade']);

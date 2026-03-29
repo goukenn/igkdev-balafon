@@ -27,25 +27,21 @@ use IGK\System\Text\RegexMatcherUtility;
  */
 class ApplicationControllerManager implements IApplicationControllerManager
 {
-
     /**
     * Property: app.
     * @var mixed
     */
     private $m_app;
-
     /**
     * Constant: init method.
     * @var mixed
     */
     const INIT_METHOD = "initComplete";
-
     /**
     * Constant: ref module token identifier.
     * @var mixed
     */
     const REF_MODULE_TOKEN_IDENTIFIER='ref-module';
-
     /**
     * Property: controllers.
     * @var mixed
@@ -56,7 +52,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * @var ?BaseController
      */
     private $m_default_controller;
-
     /**
     * .ctr
     * @param IGKApp $application
@@ -65,7 +60,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         $this->m_app = $application;
     }
-
     /**
     * Returns Registrated Named Controller.
     * @param string $name
@@ -75,7 +69,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         return SysUtils::GetControllerByName($name, false);
     }
-
     /**
     * Registers Named Controller.
     * @param string $name
@@ -85,7 +78,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         return null;
     }
-
     /**
     * Returns Default Controller.
     * @return ?BaseController
@@ -94,7 +86,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         return $this->m_default_controller;
     }
-
     /**
     * Sets Default Controller.
     * @param null|BaseController $controller
@@ -111,7 +102,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * @throws IGKException 
      * @throws ControllerNotFoundException 
      */
-
     public function getController($n, bool $throwex = true): ?BaseController
     {
         static $resolved;
@@ -162,7 +152,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return null;
     }
-
     /**
     * Returns Resolv Controller.
     */
@@ -179,7 +168,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * @param mixed $class 
      * @return mixed 
      */
-
     public static function GetResolvName($class)
     {
         $g = self::GetResolvController();
@@ -188,7 +176,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return $class;
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
@@ -212,7 +199,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * @return bool 
      * @throws IGKException 
      */
-
     public function register(BaseController $controller): bool
     {
         // + | --------------------------------------------------------------------
@@ -236,7 +222,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     /**
      * use to invoke system controller method
      */
-
     public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         // igk_sys_handle_uri($uri);
@@ -325,7 +310,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * array of loaded controller
      * @return array 
      */
-
     public function getControllers(): array
     {
         $t_ctrl = array_unique(array_values($this->m_controllers));
@@ -335,7 +319,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * get controller reference. used internally to update controller stored list 
      * @return array 
      */
-
     public function &getControllerRef(): array
     {
         return $this->m_controllers;
@@ -344,7 +327,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * list of user controllers
      * @return array 
      */
-
     public function getUserControllers(): array
     {
         $tab = $this->getControllers();
@@ -371,18 +353,15 @@ class ApplicationControllerManager implements IApplicationControllerManager
      * @throws IGKException 
      * @throws ControllerNotFoundException 
      */
-
     public function InvokePattern($pattern)
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
     }
-
     /**
     * auto generate doc.
     * @param string $reference
     * @return void
     */
-
     static function RetrieveControllerFromReference(string $reference)
     {
         $reference = trim($reference, '. ');

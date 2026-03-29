@@ -3,11 +3,8 @@
 // @filename: PhoneBooksMacros.php
 // @date: 20251219 08:07:38
 // @desc: macros function 
-
 declare(strict_types=1);
-
 namespace IGK\Database\Macros;
-
 use IGK\Database\DbQueryCondition;
 use IGK\Database\IDbQueryResult;
 use IGK\Database\PhoneBookUtility;
@@ -22,34 +19,28 @@ use IGK\System\Database\IPhoneBookDetailVisitor;
 use IGK\System\Database\PhoneBookEntryDetails;
 use IGK\System\IO\VCF\VCard;
 use IGK\System\IToJSon;
-
 /**
  * 
  * @package IGK\Database\Macros
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database\Macros
 */
 class PhoneBooksMacros
 {
-
     /**
     * Constant: phone default tel.
     * @var mixed
     */
     const PHONE_DEFAULT_TEL = 'gsm|tel|phone';
-
     /**
     * auto generate doc.
     * @param null|string $search
     * @return bool|null|IDbQueryResult|IToJSon
     */
-
     public static function userPhoneEntries(PhoneBooks $model, Users $user, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL, ?string $search = null)
     {
-
         $T1 = get_class($model);
         $cond = [];
         if ($type != '@@') {
@@ -75,27 +66,21 @@ class PhoneBooksMacros
                         sprintf('%s=%s', PhoneBookEntries::FD_GUID, PhoneBooks::FD_ENTRY_GUID),
                         'type' => 'left',
                     ]
-
                 ]
             )
             ->where(array_filter($bc));
-
-
         $r = $q->execute();
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param string $type
     * @return mixed
     */
-
     public static function userSearchPhoneEntries(PhoneBooks $model, ?Users $user, ?string $search, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL)
     {
         return $model::userPhoneEntries($user, $type ?? '@@', $search);
     }
-
     /**
      * macros funtion 
      * @param PhoneBooks $model 
@@ -104,7 +89,6 @@ class PhoneBooksMacros
      * @param string $type 
      * @return mixed 
      */
-
     public static function addPhoneBookEntry(PhoneBooks $model, Users $user, $value, $type = PhonebookTypeNames::PHT_PHONE)
     {
         return $user->addPhoneBookEntry($type, $value);
@@ -115,7 +99,6 @@ class PhoneBooksMacros
      * @param Users $user 
      * @return mixed 
      */
-
     public static function getPhoneBookEntry(PhoneBooks $model, Users $user)
     {
         return $user->getPhoneBookEntry();
@@ -125,7 +108,6 @@ class PhoneBooksMacros
      * @param PhoneBooks $model 
      * @return void 
      */
-
     public static function getEntries(PhoneBooks $model, ?string $entry = null)
     {
         if ($entry) {
@@ -144,7 +126,6 @@ class PhoneBooksMacros
             );
         }
     }
-
     /**
     * Searches For Entry.
     * @param PhoneBooks $phone
@@ -156,13 +137,11 @@ class PhoneBooksMacros
             '@@' . $phone::FD_VALUE => '%' . $search . '%s'
         ]);
     }
-
     /**
     * auto generate doc.
     * @param PhoneBooks $phone
     * @return bool
     */
-
     public static function deleteEntry(PhoneBooks $phone)
     {
         $key = $phone->EntryGuid;
@@ -173,21 +152,17 @@ class PhoneBooksMacros
                 PhoneBookEntries::FD_GUID => $key
             ]);
     }
-
     /**
     * auto generate doc.
     * @param PhoneBooks $phone
     * @return mixed
     */
-
     public static function getPhoneDetails(PhoneBooks $phone, ?IPhoneBookDetailVisitor $visitor = null)
     {
         $phone->is_mock() && igk_die('require non mocking instance object');
-
         $rh = PhoneBooks::select_all([
             PhoneBooks::FD_ENTRY_GUID => $phone->EntryGuid
         ]);
-
         $inf = Activator::CreateNewInstance(PhoneBookEntryDetails::class, []);
         foreach (
             $rh
@@ -202,13 +177,11 @@ class PhoneBooksMacros
                 if (isset($inf->{$n})) {
                     // check for cardinality 
                     // Logger::info('cardinality ...');
-
                     $g = $inf->{$n};
                     if (!is_array($g)) {
                         $g = [$g];
                     }
                     $g[] = $v;
-
                     if ($type->Cardinality > 0) {
                         if (count($g) > $type->Cardinality) {
                             igk_die('detail exceeds');
@@ -227,7 +200,6 @@ class PhoneBooksMacros
      * @param mixed $search 
      * @return mixed 
      */
-
     public static function resolve(PhoneBooks $phone, $search)
     {
         if (is_numeric($search)) {
@@ -238,13 +210,11 @@ class PhoneBooksMacros
         $r = PhoneBooks::select_all([$cl => $search]);
         return $r ? igk_getv($r, 0) : null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $search
     * @return array<\IGK\Models\PhoneBooks
     */
-
     public static function vcard(PhoneBooks $phone, ?Users $user, $search)
     {
         /**
@@ -253,7 +223,6 @@ class PhoneBooksMacros
         $r = self::userSearchPhoneEntries($phone, $user, $search, null);
         $ids = [];
         foreach ($r->to_array() as $row) {
-
             /**
             * auto generate doc.
             * @var PhoneBooks
@@ -267,7 +236,6 @@ class PhoneBooksMacros
         }
         return $ids;
     }
-
     /**
      * load vcard to user 
      * @param PhoneBooks $model 
@@ -280,9 +248,6 @@ class PhoneBooksMacros
         $user  || igk_die('required user');
         $count = 0;
         $result = PhoneBookUtility::ImportVCards($v_cards, $user, $count);
-
         return compact('count');
-
-
     }
 }

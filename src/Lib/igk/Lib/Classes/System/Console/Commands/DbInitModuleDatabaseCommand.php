@@ -5,44 +5,37 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGKModuleListMigration;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class DbInitModuleDatabaseCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--module:initdb';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='init module database';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[ '--force'=>'flag: force init db'];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'module';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'module_id [option]';
-
     /**
     * Exec.
     * @param mixed $command

@@ -13,7 +13,6 @@ use IGKObject;
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -21,76 +20,64 @@ use IGKObject;
 class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
 {
     use ActivatorPrivateInitProperty;
-
     /**
     * Property: pos.
     * @var mixed
     */
     private $pos;
-
     /**
     * Property: to.
     * @var mixed
     */
     private $to;
-
     /**
     * Property: value.
     * @var mixed
     */
     private $value;
-
     /**
     * Property: childs.
     * @var mixed
     */
     var $childs;
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * Property: dynamic.
     * @var mixed
     */
     var $_dynamic;
-
     /**
     * Getis root.
     * @return bool
     */
     public function getisRoot(): bool { return true;}
-
     /**
     * Getis root captured.
     * @return bool
     */
     public function getisRootCaptured(): bool { return true;}
-
     /**
     * Returns Pos.
     */
     public function getPos(){
         return $this->pos;
     }
-
     /**
     * Returns To.
     */
     public function getTo(){
         return $this->to;
     }
-
     /**
     * Returns Value.
     */
     public function getValue(){
         return $this->value;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -104,7 +91,6 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
         }  
         return parent::__get($n);
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -120,13 +106,11 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
         }
         parent::__set($n, $v);
     }
-
     /**
     * auto generate doc.
     * @param array $def
     * @return mixed
     */
-
     public static function CreateFrom(array $def)
     {
         $inf = Activator::CreateNewInstance(static::class, $def);

@@ -17,13 +17,11 @@ use ReflectionException;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentCssHostNode extends HtmlNode{
-
     /**
     * auto generate doc.
     * @var \IGKHtmlDoc
     */
     protected $doc;
-
     /**
     * .ctr
     * @param mixed $doc
@@ -31,7 +29,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     public function __construct($doc){
         $this->doc = $doc;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -39,7 +36,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     {
         return false;
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -58,7 +54,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      * @throws Exception 
      * @throws EnvironmentArrayException 
      */
-
     public function render($options = null)
     {     
         if (!$this->doc instanceof IGKHtmlDoc ){
@@ -82,7 +77,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $is_dev && ($s.= "<!-- start:inline style -->");
         $s .= $vs->render();
         $is_dev && ($s.= "\n<!-- end:inline style -->"); 
-         
         if ($clear){
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear(); 

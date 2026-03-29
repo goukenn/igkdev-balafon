@@ -20,29 +20,24 @@ class Logger{
      * @var mixed
      */
     private static $sm_logger;
-
     /**
     * Property: colorizer.
     * @var mixed
     */
     private static $sm_colorizer;
-
     /**
     * Constant: tab space.
     * @var mixed
     */
     const TabSpace = "\r\t\t\t\t";
-
     /**
     * auto generate doc.
     * @param mixed $logger logger object - iconsole logger object
     * @return void
     */
-
     public static function SetLogger(?IConsoleLogger $logger){
         self::$sm_logger = $logger;
     }
-
     /**
     * Sets Colorizer.
     * @param null|Colorize $cl
@@ -50,7 +45,6 @@ class Logger{
     public static function SetColorizer(?Colorize $cl){
         self::$sm_colorizer = $cl;
     }
-
     /**
     * Returns Colorizer.
     */
@@ -63,7 +57,6 @@ class Logger{
      * @param mixed $tabspace 
      * @return void 
      */
-
     public static function printr($args, $tabspace=null){
         if (is_array($args)){
             $tabspace = $tabspace ?? self::TabSpace;
@@ -72,13 +65,11 @@ class Logger{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $arguments
     * @return void|mixed
     */
-
     public static function __callStatic($name, $arguments)
     {
         if (($name!='print') && igk_environment()->NoConsoleLogger){

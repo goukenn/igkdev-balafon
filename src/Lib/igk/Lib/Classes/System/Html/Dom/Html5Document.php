@@ -10,39 +10,33 @@ use IGKObject;
 * @package IGK\System\Html\Dom
 */
 class Html5Document extends IGKObject{
-
     /**
     * Property: html.
     * @var mixed
     */
     private $m_html;
-
     /**
     * Property: body.
     * @var mixed
     */
     private $m_body;
-
     /**
     * Property: head.
     * @var mixed
     */
     private $m_head;
-
     /**
     * Returns Body.
     */
     public function getBody(){
         return $this->m_body;
     }
-
     /**
     * Returns Head.
     */
     public function getHead(){
         return $this->m_head;
     }
-
     /**
     * .ctr
     */
@@ -57,7 +51,6 @@ class Html5Document extends IGKObject{
         $this->setCharset('utf-8');
         $this->setMeta('viewport', 'width=device-width, initial-scale=1.0');
     }
-
     /**
     * Sets Charset.
     * @param mixed $value
@@ -66,7 +59,6 @@ class Html5Document extends IGKObject{
         $this->m_head->add("meta")->setAttributes(["charset"=>$value]);
         return $this;
     }
-
     /**
     * Sets Meta.
     * @param mixed $name
@@ -76,7 +68,6 @@ class Html5Document extends IGKObject{
         $this->m_head->add("meta")->setAttributes(["name"=>$name, "content"=>$content]);
         return $this;
     }
-
     /**
     * Sets Title.
     * @param null|string $title
@@ -86,7 +77,6 @@ class Html5Document extends IGKObject{
         $t->setContent($title);
         return $this;
     }
-
     /**
     * Renders.
     */

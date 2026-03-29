@@ -4,13 +4,11 @@
 // @date: 20221206 07:40:53
 namespace IGK\Core\Traits;
 use IGK\System\Exceptions\OperationNotAllowedException;
-
 /**
 * auto generate doc.
 * @package IGK\Core\Traits
 */
 trait NoDynamicPropertyTrait{
-
     /**
     * .destructor
     * @param mixed $n
@@ -18,7 +16,6 @@ trait NoDynamicPropertyTrait{
     public function __get($n){
         throw new OperationNotAllowedException(__METHOD__);
     }
-
     /**
     * destructor
     * @param mixed $n

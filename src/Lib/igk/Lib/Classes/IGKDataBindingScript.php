@@ -7,12 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkdata binding script.
 */
 final class IGKDataBindingScript extends IGKObject{
-
     /**
     * Properties: args, shifparent.
     * @var mixed
@@ -21,7 +19,6 @@ final class IGKDataBindingScript extends IGKObject{
     /**
      * Constructor.
      */
-
     public function __construct(){
         $this->_args=array();
         $this->_shifparent=0;
@@ -31,7 +28,6 @@ final class IGKDataBindingScript extends IGKObject{
      * @param string $n The property name being accessed.
      * @return mixed The peeked argument value, or null if not "args".
      */
-
     public function __get($n){
         if($n === "args")
             return $this->peek();
@@ -42,7 +38,6 @@ final class IGKDataBindingScript extends IGKObject{
      * @param string $n The property name to check.
      * @return bool True if $n equals "args", false otherwise.
      */
-
     public function __isset($n){
         return ($n === 'args');
     }
@@ -50,7 +45,6 @@ final class IGKDataBindingScript extends IGKObject{
      * Returns the total number of arguments in the stack.
      * @return int The count of stored arguments.
      */
-
     public function Count(){
         return count($this->_args);
     }
@@ -58,7 +52,6 @@ final class IGKDataBindingScript extends IGKObject{
      * Returns the current top argument without removing it from the stack.
      * @return mixed The top argument value, or null if the stack is empty.
      */
-
     public function getArgs(){
         return $this->peek();
     }
@@ -66,7 +59,6 @@ final class IGKDataBindingScript extends IGKObject{
      * Peeks at the top argument, accounting for parent shift offset.
      * @return mixed The top argument value, or null if unavailable.
      */
-
     public function peek(){
         if((($c=count($this->_args)) - $this->_shifparent) > 0){
             return $this->_args[$c - (1 + $this->_shifparent)];
@@ -77,7 +69,6 @@ final class IGKDataBindingScript extends IGKObject{
      * Removes and returns the top argument from the stack.
      * @return mixed The removed top argument value.
      */
-
     public function pop(){
         return array_pop($this->_args);
     }
@@ -85,21 +76,18 @@ final class IGKDataBindingScript extends IGKObject{
      * Pushes a new argument onto the top of the stack.
      * @param mixed $data The data to push onto the argument stack.
      */
-
     public function push($data){
         array_push($this->_args, $data);
     }
     /**
      * Resets the parent shift offset to zero.
      */
-
     public function resetShift(){
         $this->_shifparent=0;
     }
     /**
      * Sets the parent shift offset to one, skipping the topmost argument.
      */
-
     public function shiftParent(){
         $this->_shifparent=1;
     }

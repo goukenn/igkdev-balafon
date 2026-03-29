@@ -13,18 +13,15 @@ use IGK\Helper\IO;
  * @package 
  */
 class IGKSessionFileSaveHandler{
-
     /**
     * Properties: save path, sess name.
     * @var mixed
     */
     var $savePath, $sessName;
-
     /**
     * .ctr
     */
     protected function __construct(){    }
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -33,14 +30,12 @@ class IGKSessionFileSaveHandler{
     private function _getFile($id){
         return igk_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
     }
-
     /**
     * Closes.
     */
     public function close(){
         return true;
     }
-
     /**
     * Destroy.
     * @param mixed $id
@@ -51,7 +46,6 @@ class IGKSessionFileSaveHandler{
         }
         return true;
     }
-
     /**
     * Gc.
     * @param mixed $maxlifetime
@@ -63,7 +57,6 @@ class IGKSessionFileSaveHandler{
             }
         }
     }
-
     /**
     * Initializes.
     */
@@ -83,9 +76,7 @@ class IGKSessionFileSaveHandler{
      * new in session handle to just register a single object 
      * @return SessionHandlerInterface 
      */
-
     public function getSessionHandlers(): SessionHandlerInterface {
-
         $handler = new class implements SessionHandlerInterface{
             var $host;
             function close(): bool {
@@ -109,15 +100,12 @@ class IGKSessionFileSaveHandler{
         };
         $handler->host = $this;
         return $handler;
-       
     }
-
     /**
     * auto generate doc.
     * @param string $sessname
     * @return bool
     */
-
     public function open($savepath, $sessname){
         if(defined("IGK_SESS_DIR")){
             $savepath=IGK_SESS_DIR;
@@ -126,7 +114,6 @@ class IGKSessionFileSaveHandler{
         $this->sessName=$sessname;
         return IO::CreateDir($this->savePath);
     }
-
     /**
     * Reads.
     * @param mixed $id
@@ -137,12 +124,10 @@ class IGKSessionFileSaveHandler{
         }
         return (string)null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $data mixed data to write
     */
-
     public function write($id, $data){
         $f=$this->_getFile($id);
         return igk_io_w2file($f, $data);

@@ -8,18 +8,15 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\IHtmlGetValue;
-
 /**
 * Igkframe script.
 */
 final class IGKFrameScript implements IHtmlGetValue{
-
     /**
     * Type of type.
     * @var mixed
     */
     private $m_type;
-
     /**
     * Property: owner.
     * @var mixed
@@ -30,7 +27,6 @@ final class IGKFrameScript implements IHtmlGetValue{
      * @param mixed $owner The owner node of this frame script.
      * @param string $type The frame script type identifier.
      */
-
     public function __construct($owner, $type="f"){
         $this->owner=$owner;
         $this->m_type=$type;
@@ -40,7 +36,6 @@ final class IGKFrameScript implements IHtmlGetValue{
      * @param mixed $option Optional rendering option.
      * @return string The formatted JavaScript call string.
      */
-
     public function getValue($option=null){
         $n=IGK_STR_EMPTY;
         switch($n){

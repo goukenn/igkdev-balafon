@@ -11,7 +11,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use ReflectionException;
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlActiveAttrib.php";
-
 /**
 * Html attribute array.
 * @package IGK\System\Html
@@ -20,13 +19,11 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
     // protected $preserverKeys = true;
-
     /**
     * Collection of protected list.
     * @var mixed
     */
     private $m_protectedList;
-
     /**
     * Listener: add listener.
     * @var mixed
@@ -38,7 +35,6 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @return $this 
      * @throws IGKException 
      */
-
     public function activate($n)
     {
         $t = array_filter(explode(" ", $n));
@@ -47,21 +43,17 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return $this;
     }
-
     /**
     * Key exists.
     * @param mixed $n
     */
-
     public function keyExists($n)
     {
         return key_exists($n, $this->m_data);
     }
-
     /**
     * Sorts Keys.
     */
-
     public function sortKeys(){
         if($this->m_data){
             ksort($this->m_data);
@@ -72,7 +64,6 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $n 
      * @return void 
      */
-
     public function deactivate($n)
     {
         unset($this->m_data[$n]);
@@ -82,16 +73,13 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $n 
      * @return bool 
      */
-
     public function isActive($n)
     {
         return isset($this->m_data[$n]) && ($this->m_data[$n] instanceof HtmlActiveAttrib);
     }
-
     /**
     * Returns debug information for var_dump.
     */
-
     function __debugInfo()
     {
         return ["attribCount" => $this->count()];
@@ -101,7 +89,6 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $protectedlist attribute to protected with data
      * @return void 
      */
-
     public function __construct(?array $protectedlist = null)
     {
         $this->m_protectedList = $protectedlist;
@@ -109,12 +96,10 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
             $this->m_data += $protectedlist;
         }
     }
-
     /**
     * Access offset get.
     * @param mixed $n
     */
-
     protected function _access_OffsetGet($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {
@@ -122,13 +107,11 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return parent::_access_OffsetGet($n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     * @return $this|void
     */
-
     protected function _access_OffsetSet($n, $v)
     {      
         if (!is_null($this->add_listener)) {
@@ -141,12 +124,10 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return parent::_access_OffsetSet($n, $v);
     }
-
     /**
     * Access offset unset.
     * @param mixed $n
     */
-
     protected function _access_OffsetUnset($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {

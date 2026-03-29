@@ -3,7 +3,6 @@
 // @file: ConsoleUtility.php
 // @date: 20230616 11:12:43
 namespace IGK\System\Console\Helper;
-
 use Closure;
 use IGK\Helper\Utility;
 use IGK\System\Console\App;
@@ -13,20 +12,17 @@ use IGK\System\Console\ICLICommandApp;
 use IGK\System\Console\Logger;
 use IGK\Traits\BacktickHelperCommandTrait;
 use stdClass;
-
 require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
 /**
  * 
  * @package IGK\System\Console\Helper
  */
-
 /**
  * auto generate doc.
  * @package IGK\System\Console\Helper
  */
 abstract class ConsoleUtility
 {
-
     /**
      * check of help support
      * @param mixed $command 
@@ -36,7 +32,6 @@ abstract class ConsoleUtility
     {
         return php_sapi_name() == 'cli' && property_exists($command->options, '--help');
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -70,7 +65,6 @@ abstract class ConsoleUtility
                 $v = "\n\n".implode("\n", array_map(function($i, $k){
                     return $k.self::OPTIONS_TAB_SPACE.$i;
                 }, $v, array_keys($v)));
-
             }
             Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
         }
@@ -106,21 +100,18 @@ abstract class ConsoleUtility
     {
         echo ($result ? Utility::TO_JSON($result, null, JSON_PRETTY_PRINT) : '') . PHP_EOL;
     }
-
     /**
      * Constant: options tab space.
      * @var mixed
      */
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
     use BacktickHelperCommandTrait;
-
     /**
      * bind and make file 
      * @param array $bind 
      * @param mixed $command 
      * @return bool 
      */
-
     static function MakeFiles(array $bind, $command, bool $force = false)
     {
         return CommandsUtility::MakeBindFiles($command, $bind, $force);
@@ -132,7 +123,6 @@ abstract class ConsoleUtility
      * @param bool $is_force 
      * @return bool
      */
-
     public static function MakeBindFiles($command, $bind, $is_force = false): bool
     {
         $gen = false;
@@ -150,13 +140,11 @@ abstract class ConsoleUtility
         }
         return $gen;
     }
-
     /**
      * auto generate doc.
      * @param mixed $color_two
      * @return void
      */
-
     public static function PrintCommand($opts, $color_one = App::AQUA, $color_two = App::GREEN)
     {
         foreach ($opts as $k => $v) {
@@ -174,20 +162,17 @@ abstract class ConsoleUtility
      * @param bool $override 
      * @return Closure 
      */
-
     public static function TouchFileCallback($content = "", bool $override = true)
     {
         return function ($file) use ($content, $override) {
             return igk_io_w2file($file, $content, $override);
         };
     }
-
     /**
      * build package json author
      * @param mixed $command 
      * @return object 
      */
-
     public static function PackageJsonAuthor($command)
     {
         $name = $command->app->getAuthor() ?? IGK_AUTHOR;
@@ -195,13 +180,11 @@ abstract class ConsoleUtility
         $email = IGK_AUTHOR_CONTACT;
         return (object)['email' => $email, 'name' => $name, 'url' => $url];
     }
-
     /**
      * determine if argument list avec arguments
      * @param array $arg 
      * @return bool 
      */
-
     public static function HaveArg(array $arg): bool
     {
         while (count($arg)) {
@@ -212,13 +195,11 @@ abstract class ConsoleUtility
         }
         return false;
     }
-
     /**
      * build argument 
      * @param array $arg 
      * @return string 
      */
-
     public static function BuildArgs(array $arg): string
     {
         $cm = implode(' ', array_filter(array_map(function ($v, $k) {
@@ -236,13 +217,11 @@ abstract class ConsoleUtility
         }, $arg, array_keys($arg))));
         return $cm;
     }
-
     /**
      * auto generate doc.
      * @param array &$args
      * @return stdClass|ICommandOptions|mixed
      */
-
     public static function TreatCommandArgs(ICLICommandApp $app, $argv, array &$args, ?array $handle = null)
     {
         $command = igk_createobj();
@@ -302,7 +281,6 @@ abstract class ConsoleUtility
                 }
             }
         }
-
         return $command;
     }
 }

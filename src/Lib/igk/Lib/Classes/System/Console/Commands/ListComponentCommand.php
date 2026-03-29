@@ -16,26 +16,22 @@ use ReflectionFunction;
  * 
  * @package IGK\System\Console\Commands
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ListComponentCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--list:components';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'list installed component';
-
     /**
     * Property: options.
     * @var mixed
@@ -45,13 +41,11 @@ class ListComponentCommand extends AppExecCommand
 		"--files"=>"flag: group with file",
 		"--info"=>"flag: show info",
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'winui';
-
     /**
     * Shows Usage.
     */
@@ -60,13 +54,11 @@ class ListComponentCommand extends AppExecCommand
 		parent::showUsage();
 		Logger::info(sprintf('%s [pattern] [options]', $this->command));
 	}
-
     /**
     * auto generate doc.
     * @param string|null $pattern
     * @return void
     */
-
     public function exec($command, ?string $pattern=null)
 	{
 		if (!is_null($pattern)){

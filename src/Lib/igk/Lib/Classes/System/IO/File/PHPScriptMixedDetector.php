@@ -11,20 +11,17 @@ use IGK\System\Text\RegexMatcherUtility;
  * @package IGK\System\IO\File
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File
 */
 class PHPScriptMixedDetector
 {
-
     /**
     * Property: regex.
     * @var mixed
     */
     private $m_regex;
-
     /**
     * .ctr
     */
@@ -32,7 +29,6 @@ class PHPScriptMixedDetector
     {
         $this->initialize();
     }
-
     /**
     * Initializes.
     */
@@ -60,24 +56,20 @@ class PHPScriptMixedDetector
         $regex->match('(?<=\\?>)(([\\s\\S]*?)(?=\\<\\?)|([\\s\\S]*))', 'mixed');
         $this->m_regex = $regex;
     }
-
     /**
     * auto generate doc.
     * @param string $file
     * @return object
     */
-
     public function detectFromFile(string $file)
     {
         return $this->detectFromSource(file_get_contents($file));
     }
-
     /**
     * auto generate doc.
     * @param string $source
     * @return object|{mixed:string, source:array}
     */
-
     public function detectFromSource(string $source)
     {
         $regex = $this->m_regex;

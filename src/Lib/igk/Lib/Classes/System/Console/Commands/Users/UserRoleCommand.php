@@ -5,32 +5,27 @@
 namespace IGK\System\Console\Commands\Users;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class UserRoleCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:role';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='get user\'s roles';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Exec.
     * @param mixed $command

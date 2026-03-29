@@ -10,7 +10,6 @@ use IGK\System\Database\SQLGrammar;
  * @package 
  */
 interface IDataDriver{
-
     /**
     * Inserts.
     * @param mixed $table
@@ -24,13 +23,11 @@ interface IDataDriver{
      * @return null|string 
      */
     function getDbName():?string;
-
     /**
     * Returns Version.
     * @return string
     */
     function getVersion():string;
-
     /**
     * Returns Type.
     * @return string
@@ -42,56 +39,47 @@ interface IDataDriver{
      * @param null|int $length 
      * @return bool 
      */
-
     function allowTypeLength(string $type, ?int $length = null):bool;
     /**
      * get if driver is connected
      * @return bool 
      */
-
     function getIsConnect(): bool;
-
     /**
     * Returns Filter.
     * @return bool
     */
     function getFilter():bool;
-
     /**
     * Returns true if Type Supported.
     * @param string $type
     * @return bool
     */
     function isTypeSupported(string $type):bool;
-
     /**
     * Escape.
     * @param null|string $column
     * @return string
     */
     function escape(?string $column=null):string;
-
     /**
     * Escape string.
     * @param null|string $v
     * @return string
     */
     function escape_string(?string $v=null):string;
-
     /**
     * Escape table name.
     * @param string $v
     * @return string
     */
     function escape_table_name(string $v):string;
-
     /**
     * Escape table column.
     * @param string $v
     * @return string
     */
     function escape_table_column(string $v):string;
-
     /**
     * Pushes Relations.
     * @param string $tbname
@@ -100,14 +88,12 @@ interface IDataDriver{
     */
     function pushRelations(string $tbname, $v);
     function supportDefaultValue(string $type):bool;
-
     /**
     * Returns true if Auto Increment Type.
     * @param string $type
     * @return bool
     */
     function isAutoIncrementType(string $type):bool;
-
     /**
     * Table exists.
     * @param string $table
@@ -115,7 +101,6 @@ interface IDataDriver{
     * @return bool
     */
     function tableExists(string $table, bool $throwex=true): bool;
-
     /**
     * Sends Query.
     * @param string $query
@@ -136,7 +121,6 @@ interface IDataDriver{
      * @param mixed $tinf 
      * @return mixed 
      */
-
     function getDataValue($value, $tinf);
     /**
      * check if data type support length
@@ -148,21 +132,17 @@ interface IDataDriver{
      * get if support engine
      * @return bool 
      */
-
     function getEngineSupport():bool;
-
     /**
     * Creates Alter Table Format.
     * @return string
     */
     function createAlterTableFormat():string;
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return bool
     */
-
     function filterColumn($columninfo, $value):bool;
     /**
      * resolv driver parameter
@@ -171,14 +151,12 @@ interface IDataDriver{
      * @param mixed $tableInfo 
      * @return null|string 
      */
-
     function getParam(string $key, $rowInfo=null, $tableInfo=null) : ?string;
     /**
      * get format created table 
      * @param null|array $options 
      * @return string 
      */
-
     function getCreateTableFormat(?array $options=null): ?string;
     /**
      * create table info query
@@ -187,16 +165,13 @@ interface IDataDriver{
      * @param string $dbname 
      * @return string 
      */
-
     function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname):string;
     /**
      * check that a constraint exists
      * @param string $name 
      * @return bool 
      */
-
     function constraintExists(string $name):bool;
-
     /**
     * Constraint foreign key exists.
     * @param string $name
@@ -209,14 +184,12 @@ interface IDataDriver{
      * @param mixed $column 
      * @return null|string 
      */
-
     function remove_foreign(string $name, string $column):?string;
     /**
      * flag data
      * @param bool $flag 
      * @return mixed 
      */
-
     function setForeignKeyCheck($flag);
     /**
      * in query builder retrieve column charset 

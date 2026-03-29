@@ -9,7 +9,6 @@ use IGK\Helper\Activator;
 * @package IGK\System\Traits
 */
 trait ActivableTrait {
-
     /**
     * auto generate doc.
     * @param mixed $array

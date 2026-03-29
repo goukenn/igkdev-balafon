@@ -11,13 +11,11 @@ use IGK\System\EntryClassResolution;
  * @package IGK\System\Library
  */
 class mysql extends \IGKLibraryBase{
-
     /**
     * Constant: igkmysqldata adapter.
     * @var mixed
     */
     const IGKMYSQLDataAdapter = 'IGKMYSQLDataAdapter';
-
     /**
     * Initializes.
     * @return bool

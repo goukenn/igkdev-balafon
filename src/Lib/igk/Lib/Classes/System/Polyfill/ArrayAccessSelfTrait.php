@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Polyfill;
-
 /**
 * Trait providing array access self functionality.
 * @package IGK\System\Polyfill
 */
 trait ArrayAccessSelfTrait{
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -22,7 +20,6 @@ trait ArrayAccessSelfTrait{
         }
         $this->_access_OffsetSet($n, $v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -32,7 +29,6 @@ trait ArrayAccessSelfTrait{
         $g =  $this->_access_OffsetGet($n);
         return $g;
     }
-
     /**
     * Offset unset.
     * @param mixed $n
@@ -41,7 +37,6 @@ trait ArrayAccessSelfTrait{
     function offsetUnset(mixed $n):void{
         $this->_access_OffsetUnset($n);
     }
-
     /**
     * Offset exists.
     * @param mixed $n

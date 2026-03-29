@@ -3,7 +3,6 @@
 // @file: DbUtility.php
 // @date: 20230118 11:28:43
 namespace IGK\System\Database\Helper;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
@@ -19,14 +18,12 @@ use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use IGKSysUtil;
-
 /**
  * database helper utility class 
  * @package IGK\System\Database\Helper
  */
 abstract class DbUtility
 {
-
     /**
     * Escape slashes value for json detection.
     * @param string $value
@@ -39,7 +36,6 @@ abstract class DbUtility
      * prepare columnt list 
      * @var array
      */
-
     public static function PrepareColumnList(array $columns, string $prefix = IGK_FIELD_PREFIX): array
     {
         $user_tab_c = array_combine($columns, array_map(function ($a) use ($prefix) {
@@ -49,13 +45,11 @@ abstract class DbUtility
         }, $columns));
         return $user_tab_c;
     }
-
     /**
     * auto generate doc.
     * @param mixed $columns
     * @return void
     */
-
     public static function TreatColumnsCondition(&$conditions, $columns)
     {
         if (!$conditions) return;
@@ -74,7 +68,6 @@ abstract class DbUtility
      * @param string $prefix 
      * @return string 
      */
-
     public static function TreatColumnName(string $columnName, ?string $prefix)
     {
         if ($prefix && !igk_str_startwith($columnName, $prefix)) {
@@ -88,7 +81,6 @@ abstract class DbUtility
      * @param null|string $prefix 
      * @return string|string[]|null 
      */
-
     public static function RemoveColumnPrefixName(string $columnName, ?string $prefix)
     {
         if ($prefix) {
@@ -96,13 +88,11 @@ abstract class DbUtility
         }
         return $columnName;
     }
-
     /**
     * auto generate doc.
     * @param mixed $tables
     * @return mixed
     */
-
     public static function ExportToXMLSchemaData(BaseController $ctrl, $tables)
     {
         $xml = HtmlNode::CreateWebNode('dbdataschema');
@@ -131,13 +121,11 @@ abstract class DbUtility
         }
         return $xml;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return void
     */
-
     public static function UpdateDbSchema(BaseController $ctrl, $options = null)
     {
         $file = $ctrl::getDataSchemaFile();
@@ -158,7 +146,6 @@ abstract class DbUtility
         }
         return igk_io_w2file($ofile, $src);
     }
-
     /**
     * auto generate doc.
     */
@@ -189,7 +176,6 @@ abstract class DbUtility
      * @param null|string $prefix 
      * @return string
      */
-
     public static function GetLinkColumn($columnInfo, $column, ?string $prefix = null)
     {
         // 
@@ -214,7 +200,6 @@ abstract class DbUtility
      * @param mixed $conditions 
      * @return array<string|int, mixed> 
      */
-
     public static function TreatSelectCondition(array $columns, array $conditions, ?string $prefix = null)
     {
         $keys = array_keys($conditions);
@@ -245,7 +230,6 @@ abstract class DbUtility
      * @return array<string, IDbColumnInfo>|false 
      * @throws IGKException 
      */
-
     public static function GetReversalUniqueColumn(string $table_name, bool $use_autoincrement = false)
     {
         $r = DbSchemas::GetTableColumnInfo($table_name);
@@ -267,7 +251,6 @@ abstract class DbUtility
      * @return mixed|<string,DbReverseMappingLink>
      * @throws IGKException 
      */
-
     public static function GetReversalMappingLink(ModelBase $model)
     {
         // load link definition if mandatory
@@ -296,7 +279,6 @@ abstract class DbUtility
      * @param mixed $condition 
      * @return array 
      */
-
     public static function PreparateConditionsListToAvoidDuplicate($columns, $condition)
     {
         $tab = [];
@@ -349,7 +331,6 @@ abstract class DbUtility
      * @param string $prefix 
      * @return array<int|string, mixed> 
      */
-
     public static function MapSysValues(array $data, string $prefix = IGK_FIELD_PREFIX)
     {
         return array_combine(array_map(function ($a) use ($prefix) {
@@ -357,13 +338,11 @@ abstract class DbUtility
             return $a;
         }, array_keys($data)), array_values($data));
     }
-
     /**
     * auto generate doc.
     * @param array $conditions link model conditions
     * @return void
     */
-
     public static function CleanRereference(ModelBase $model, ModelBase $link, string $model_column, 
         string $link_column,
         array $conditions)
@@ -378,11 +357,9 @@ abstract class DbUtility
         //     (($l = SQLGrammar::GetCondString($driver, $conditions)) ? ' WHERE ' . $l : '')
         // ); 
         // Logger::info(implode("\n", ['the query '.$query]));
-
         $rd = $link->get_query($conditions, ['Columns'=>[$link_column]]); 
         return $model->delete([
             SQLQueryFieldPrefixOperators::IN($model_column)=>$rd
         ]);
-
     }
 }

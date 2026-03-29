@@ -10,19 +10,16 @@ use IGK\Controllers\BaseController;
  * @package 
  */
 abstract class HtmlComponents {
-
     /**
     * Constant: component.
     * @var mixed
     */
     const Component = "Component";
-
     /**
     * Constant: ajxtab control.
     * @var mixed
     */
     const AJXTabControl = "AJXTabControl";
-
     /**
     * .ctr
     * @return
@@ -32,7 +29,6 @@ abstract class HtmlComponents {
 	/**
 	 * get paramater attached to controller name
 	 */
-
     public static function GetParam(BaseController $controller, $controllerName, $default =null){
 		return $default;
 	}

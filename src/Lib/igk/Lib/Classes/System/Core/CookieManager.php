@@ -3,23 +3,19 @@
 // @file: CookieManager.php
 // @date: 20251114 08:23:36
 namespace IGK\System\Core;
-
 use IGK\Helper\StringUtility;
 use PHPStan\PhpDocParser\Parser\StringUnescaper;
-
 /**
  * 
  * @package IGK\System\Core
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Core
 */
 class CookieManager
 {
-
     /**
     * auto generate doc.
     * @return void
@@ -34,7 +30,6 @@ class CookieManager
     public static function Handle()
     {
         $c = new static;
-
         $keys = array_keys($_COOKIE);
         while (count($keys)) {
             $q = array_shift($keys);

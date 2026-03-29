@@ -4,13 +4,11 @@
 // @date: 20230303 21:32:35
 namespace IGK\System\Security\Web;
 use IGK\System\Html\HtmlRenderer;
-
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
 */
 class HtmlContentValidator extends MapContentValidatorBase{
-
     /**
     * Property: notvalid msg.
     * @var mixed
@@ -21,7 +19,6 @@ class HtmlContentValidator extends MapContentValidatorBase{
      * @var string[]
      */
     var $skipTag = ['style','script'];
-
     /**
     * Validates.
     * @param mixed & $value

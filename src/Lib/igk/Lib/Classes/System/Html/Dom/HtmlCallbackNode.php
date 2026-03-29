@@ -9,18 +9,15 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 use IGKOb;
-
 /**
 * auto generate doc.
 */
 final class HtmlCallbackNode extends HtmlNode{
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     var $callback;
-
     /**
     * Accept render.
     * @param null|mixed $option
@@ -33,19 +30,16 @@ final class HtmlCallbackNode extends HtmlNode{
      * @param null|callable $callback 
      * @return void 
      */
-
     public function __construct(?callable $callback=null){
         parent::__construct('igk:callbacknode');
         $this->callback = $callback;
     }
-
     /**
     * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
-
     /**
     * Renders.
     * @param null|mixed $options

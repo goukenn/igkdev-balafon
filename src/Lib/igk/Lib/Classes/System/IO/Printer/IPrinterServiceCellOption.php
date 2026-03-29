@@ -1,6 +1,5 @@
 <?php
 namespace IGK\System\IO\Printer;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Printer

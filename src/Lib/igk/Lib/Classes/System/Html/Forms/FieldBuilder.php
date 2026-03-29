@@ -6,7 +6,6 @@ namespace IGK\System\Html\Forms;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms
@@ -17,7 +16,6 @@ class FieldBuilder implements IteratorAggregate
      * field that support length 
      */
     const LengthFields =  ['text', 'password', 'textarea'];
-
     /**
     * Property: data.
     * @var mixed
@@ -28,7 +26,6 @@ class FieldBuilder implements IteratorAggregate
      * @var mixed
      */
     private $m_current;
-
     /**
     * To array.
     */
@@ -36,7 +33,6 @@ class FieldBuilder implements IteratorAggregate
     {
         return $this->m_data;
     }
-
     /**
     * Returns Iterator.
     * @return Traversable
@@ -45,7 +41,6 @@ class FieldBuilder implements IteratorAggregate
     {
         return new ArrayIterator($this->m_data);
     }
-
     /**
     * auto generate doc.
     * @param string $key
@@ -61,7 +56,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_data[$key] = &$this->m_current;
         return $this->m_current;
     }
-
     /**
     * Text.
     * @param string $name
@@ -72,7 +66,6 @@ class FieldBuilder implements IteratorAggregate
         $this->_add($name, $attribs);
         return $this;
     }
-
     /**
     * Password.
     * @param string $name
@@ -84,7 +77,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["type"] = 'password';
         return $this;
     }
-
     /**
     * Radio.
     * @param string $name
@@ -96,7 +88,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["type"] = 'radio';
         return $this;
     }
-
     /**
     * Checkbox.
     * @param string $name
@@ -108,7 +99,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["type"] = 'checkbox';
         return $this;
     }
-
     /**
     * Datetime.
     * @param string $name
@@ -120,7 +110,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["type"] = 'datetime';
         return $this;
     }
-
     /**
     * Email.
     * @param string $name
@@ -132,7 +121,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["type"] = 'email';
         return $this;
     }
-
     /**
     * Number.
     * @param string $name
@@ -151,7 +139,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|array $attribs 
      * @return $this 
      */
-
     public function select(string $name, $data, ?array $attribs = null)
     {
         $this->m_current = $this->_add($name, $attribs);
@@ -165,7 +152,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|array $attribs 
      * @return $this 
      */
-
     public function hidden(string $name, $data, ?array $attribs = null)
     {
         $this->m_current = $this->_add($name, $attribs);
@@ -179,7 +165,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|array $attribs 
      * @return $this 
      */
-
     public function datalist(string $name, $data, ?array $attribs = null)
     {
         $this->m_current = $this->_add($name, $attribs);
@@ -192,7 +177,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|array $attribs 
      * @return $this 
      */
-
     public function textarea(string $name, ?array $attribs = null)
     {
         $this->m_current = $this->_add($name, $attribs);
@@ -204,7 +188,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|string $caption 
      * @return $this 
      */
-
     public function fieldset(?string $caption = null)
     {
         $m =  ['type' => 'fieldset'];
@@ -221,7 +204,6 @@ class FieldBuilder implements IteratorAggregate
      * mark end fieldset 
      * @return $this 
      */
-
     public function endfieldset()
     {
         if ($this->m_current) {
@@ -232,7 +214,6 @@ class FieldBuilder implements IteratorAggregate
         return $this;
     }
     // setter
-
     /**
     * Placeholder.
     * @param string $n
@@ -246,7 +227,6 @@ class FieldBuilder implements IteratorAggregate
         }
         return $this;
     }
-
     /**
     * Max length.
     * @param string $n
@@ -260,7 +240,6 @@ class FieldBuilder implements IteratorAggregate
         }
         return $this;
     }
-
     /**
     * Label.
     * @param string $text
@@ -270,7 +249,6 @@ class FieldBuilder implements IteratorAggregate
         $this->m_current["text"] = $text;
         return $this;
     }
-
     /**
     * Id.
     * @param string $id
@@ -282,7 +260,6 @@ class FieldBuilder implements IteratorAggregate
         }
         return $this;
     }
-
     /**
     * Allows Empty.
     * @param null|bool $allow
@@ -299,7 +276,6 @@ class FieldBuilder implements IteratorAggregate
      * @param mixed $data 
      * @return $this 
      */
-
     public function emptyValue($data)
     {
         if ($this->m_current) {
@@ -311,7 +287,6 @@ class FieldBuilder implements IteratorAggregate
      * html items actions bars
      * @param array|callable of fields action bar
      */
-
     public function actionbar($fields)
     {
         $action = igk_html_node_actionbar($fields);
@@ -323,7 +298,6 @@ class FieldBuilder implements IteratorAggregate
      * @param null|string $pattern 
      * @return static
      */
-
     public function pattern(?string $pattern = null){
         if ($this->m_current) {
             if (in_array(igk_getv($this->m_current, 'type', 'text'), self::LengthFields)) {

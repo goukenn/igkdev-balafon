@@ -5,20 +5,17 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
-
 /**
 * Schema create table migration.
 * @package IGK\System\Database
 */
 class SchemaCreateTableMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "description" ];
     // source column to restore
-
     /**
     * Property: columns.
     * @var mixed
@@ -29,7 +26,6 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
      *
      * @return void
      */
-
     public function up(){
         if (empty($this->columns))
             return;
@@ -42,7 +38,6 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
      *
      * @return void
      */
-
     public function down()
     {
         $ctrl = $this->getMigration()->controller;
@@ -55,7 +50,6 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
      * @param mixed $childs The child nodes to process.
      * @return void
      */
-
     protected function loadChilds($childs){
         // @author: C.A.D. BONDJE DOUE
         // @filename: SchemaCreateTableMigration.php

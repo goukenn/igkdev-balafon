@@ -10,7 +10,6 @@ use IGK\System\Html\IHtmlGetValue;
  * @package IGK\System\Configuration
  */
 class SysConfigExpression implements IHtmlGetValue{
-
     /**
     * Property: expression.
     * @var mixed
@@ -21,7 +20,6 @@ class SysConfigExpression implements IHtmlGetValue{
      * @var string
      */
     protected $tag= 'sys';
-
     /**
     * .ctr
     * @param mixed $expression
@@ -30,7 +28,6 @@ class SysConfigExpression implements IHtmlGetValue{
     {
         $this->expression = $expression;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -38,7 +35,6 @@ class SysConfigExpression implements IHtmlGetValue{
     public function getValue($options = null) { 
        return $this->getStoreValue(); 
     }
-
     /**
     * get string presentation.
     */
@@ -46,7 +42,6 @@ class SysConfigExpression implements IHtmlGetValue{
     {
         return (string)igk_configs()->get($this->expression);
     }
-
     /**
     * Returns Store Value.
     */

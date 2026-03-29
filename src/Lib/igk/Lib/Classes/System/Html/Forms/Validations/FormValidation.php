@@ -17,11 +17,9 @@ require_once __DIR__ . "/IFormPatternValidator.php";
  */
 class FormValidation
 {
-
     /**
     * auto generate doc.
     */    var $skipNullValue = true;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -112,7 +110,6 @@ class FormValidation
         } 
         return $result;
     }
-
     /**
     * auto generate doc.
     * @param array $request array that simulate the request
@@ -227,7 +224,6 @@ class FormValidation
         }
         return $result;
     }
-
     /**
     * auto generate doc.
     * @param null|string $type

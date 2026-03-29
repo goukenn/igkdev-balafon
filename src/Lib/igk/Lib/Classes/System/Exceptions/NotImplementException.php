@@ -10,7 +10,6 @@ use function igk_resources_gets as __;
 * represent a igk not implement exception
 */
 class NotImplementException extends IGKException{
-
     /**
     * auto generate doc.
     * @param mixed $func

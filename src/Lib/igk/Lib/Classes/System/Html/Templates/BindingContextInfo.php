@@ -20,7 +20,6 @@ class BindingContextInfo{
      * @var ?IGK\Controllers\BaseController 
      */
     var $ctrl;
-
     /**
     * get string presentation.
     */
@@ -28,7 +27,6 @@ class BindingContextInfo{
     {
         return json_encode(array_filter((array)$this));
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -39,7 +37,6 @@ class BindingContextInfo{
         }
         throw new BindingContextPropertyNotFoundException($n);
     }
-
     /**
     * To array.
     */

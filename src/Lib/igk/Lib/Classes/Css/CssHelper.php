@@ -9,7 +9,6 @@ namespace IGK\Css;
  * @package IGK\Css
  */
 abstract class CssHelper{
-
     /**
     * Map to file callback.
     */

@@ -13,7 +13,6 @@ use IGKCaches;
 use IGKCssDefaultStyle;
 use IGKException;
 use ReflectionException;
-
 /**
 * Css theme compiler.
 * @package IGK\Css
@@ -30,7 +29,6 @@ class CssThemeCompiler
      * @var mixed
      */
     var $gcl;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -46,7 +44,6 @@ class CssThemeCompiler
      * @var array
      */
     var $resolv = [];
-
     /**
     * .ctr
     * @param mixed $colors
@@ -57,13 +54,11 @@ class CssThemeCompiler
         $this->designmode = $designmode;
         $this->gcl = $colors;
     }
-
     /**
     * auto generate doc.
     * @param null|ICssStyleContainer $parentTheme
     * @return string
     */
-
     public function treatValue(string $value, ICssStyleContainer $theme, ?ICssStyleContainer $parentTheme = null)
     {
         $result = "";
@@ -74,7 +69,6 @@ class CssThemeCompiler
      * @param string $value 
      * @return bool 
      */
-
     public static function CanCompile(string $value)
     {
         return (strpos($value, "[") !== false) || (strpos($value, "{") !== false);
@@ -95,7 +89,6 @@ class CssThemeCompiler
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
-
     public static function CompileAndRenderTheme(
         HtmlDocTheme $theme,
         string $docid,
@@ -111,7 +104,6 @@ class CssThemeCompiler
         $no_systheme = 0;
         $render_f = false;
         $lf = $minfile ? IGK_LF: "";
-        
         if ($css_cache && igk_io_file_exists($cf, true)) {
             // + | check if one of included file changed
             $array = $theme->to_array();
@@ -154,7 +146,6 @@ class CssThemeCompiler
         }
         return $no_systheme;
     }
-
     /**
     * Cache css store and export.
     * @param mixed $express_cf
@@ -164,7 +155,6 @@ class CssThemeCompiler
     * @param mixed $theme_export
     * @param mixed $resolver
     */
-
     static function CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver){
         igk_css_bind_sys_global_files($theme);
         igk_css_load_theme($theme);

@@ -23,31 +23,26 @@ use Logger;
  */
 class SchemaDiagramVisitor extends DiagramVisitor
 {
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * Property: migrations.
     * @var mixed
     */
     private $m_migrations = [];
-
     /**
     * Callback handler for entity handler.
     * @var mixed
     */
     private $m_entityHandler;
-
     /**
     * Property: operation.
     * @var mixed
@@ -59,7 +54,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param object $schemaInfo 
      * @return void 
      */
-
     public function __construct(BaseController $controller, $schemaInfo, $operation = 'migrate')
     {
         $this->m_controller = $controller;
@@ -71,7 +65,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param mixed $entity 
      * @return void 
      */
-
     public function visitDiagramEntity($entity)
     {
         $defTableName = $entity->getName();
@@ -103,7 +96,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param DiagramMigration $migration 
      * @return void 
      */
-
     public function visitDiagramMigration(DiagramMigration $migration)
     {
         /// TODO: add visit diagram migration 
@@ -151,7 +143,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
             $this->m_migrations[] = $mig;
         }
     }
-
     /**
     * Callback handler for callback.
     * @var mixed
@@ -161,7 +152,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * finish diagram visit 
      * @return null|string 
      */
-
     public function complete(): ?string
     {
         if ($this->m_migrations) {
@@ -192,14 +182,12 @@ class SchemaDiagramVisitor extends DiagramVisitor
         return null;
     }
 }
-
 /**
 * Func handler.
 * @package IGK\Database\SchemaBuilder
 */
 class funcHandler
 {
-
     /**
     * Callback handler for callback.
     * @var mixed

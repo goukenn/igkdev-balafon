@@ -6,14 +6,12 @@ namespace IGK\Database\SchemaBuilder\Entities;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\Database\SchemaBuilder\Entities
 */
 class AddColumnEntity extends Factory implements IDiagramVisitorEntity
 {
-
     /**
     * Updates Schema.
     * @param mixed $schemaInfo
@@ -40,7 +38,6 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
      * @return SchemaBuilderMigration 
      * @throws IGKException 
      */
-
     public function setup(BaseController $controller, $schema, $props): SchemaBuilderMigration
     {
         $this->_controller = $controller;

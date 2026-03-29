@@ -9,25 +9,21 @@ namespace IGK\System\Security\Web;
  */
 class NumberContentValidator extends MapContentValidatorBase
 {
-
     /**
     * Property: notvalid msg.
     * @var mixed
     */
     protected $notvalid_msg = 'not a valid number.';
-
     /**
     * Property: missing default value.
     * @var mixed
     */
     var $missingDefaultValue = null;
-
     /**
     * Property: default value.
     * @var mixed
     */
     var $defaultValue = 0;
-
     /**
     * Validates.
     * @param mixed & $value

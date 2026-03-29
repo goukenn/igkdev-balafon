@@ -9,31 +9,26 @@ use Exception;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class RegexReplaceContent{
-
     /**
     * Property: info.
     * @var mixed
     */
     var $info;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $replaceListener;
-
     /**
     * auto generate doc.
     * @param mixed $replaceListener
     * @return string
     */
-
     public function replaceWith (string $source, RegexMatcherContainer $container, $replaceListener = null ){
         $offset = 0;
         $output = '';

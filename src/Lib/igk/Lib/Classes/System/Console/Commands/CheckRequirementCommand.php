@@ -6,32 +6,27 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Requirement;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class CheckRequirementCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--check-requirement';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='check requirement'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category='system';
-
     /**
     * Exec.
     * @param mixed $command

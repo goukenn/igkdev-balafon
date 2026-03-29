@@ -4,37 +4,31 @@
 // @date: 20221230 19:31:10
 namespace IGK\System\Html\Css;
 use IGKMedia;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssMapTheme{
-
     /**
     * Property: media.
     * @var mixed
     */
     var $media;
-
     /**
     * Property: lk.
     * @var mixed
     */
     var $lk;
-
     /**
     * Flag: is primary theme.
     * @var mixed
     */
     var $is_primaryTheme;
-
     /**
     * Property: skip property.
     * @var mixed
     */
     var $skipProperty;
-
     /**
     * .ctr
     * @param IGKMedia $media
@@ -51,7 +45,6 @@ class CssMapTheme{
      * map definition 
      * @return void 
      */
-
     public function map(){
         $g = & $this->media->getDef(); // ->getAttributes();
         if (!$g)return;

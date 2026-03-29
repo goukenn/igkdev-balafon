@@ -13,107 +13,88 @@ use IGK\System\Html\Traits\HostableItemTrait;
 final class HtmlFormNode extends HtmlNode
 {
     use HostableItemTrait;
-
     /**
     * Constant: urlencoded.
     * @var mixed
     */
     const URLEncoded = "application/x-www-form-urlencoded";
-
     /**
     * Property: bodydiv.
     * @var mixed
     */
     private $m_bodydiv;
-
     /**
     * Property: footdiv.
     * @var mixed
     */
     private $m_footdiv;
-
     /**
     * Property: definition.
     * @var mixed
     */
     private $m_definition;
-
     /**
     * Type of enc type.
     * @var mixed
     */
     private $m_encType;
-
     /**
     * Property: nofoot.
     * @var mixed
     */
     private $m_nofoot;
-
     /**
     * Property: notitle.
     * @var mixed
     */
     private $m_notitle;
-
     /**
     * Property: topdiv.
     * @var mixed
     */
     private $m_topdiv;
-
     /**
     * Property: max file size.
     * @var mixed
     */
     private $_max_file_size;
-
     /**
     * Property: max upload file.
     * @var mixed
     */
     private $_max_upload_file;
-
     /**
     * Property: prevent max file upload.
     * @var mixed
     */
     private $_prevent_max_file_upload;
-
     /**
     * auto generate doc.
     * @return HtmlItemBase
     */
-
     public function getBodyContent(): HtmlItemBase{
         return $this->m_bodydiv;
     }
-
     /**
     * auto generate doc.
     * @return HtmlItemBase
     */
-
     public function getFooterContent(): HtmlItemBase{
         return $this->m_footdiv;
     }
-
     /**
     * auto generate doc.
     * @return $this
     */
-
     public function multipart()
     {
         $this['enctype'] = IGK_HTML_ENCTYPE;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $o the default value is null
     */
-
     protected function _acceptRender($options = null): bool
     {
         $e = $this->m_topdiv->Content;
@@ -121,12 +102,10 @@ final class HtmlFormNode extends HtmlNode
         $this->m_footdiv->setIsVisible($this->m_footdiv->gethasContent() && !$this->m_nofoot);
         return true;
     }
-
     /**
     * auto generate doc.
     * @param mixed $nofoot the default value is true
     */
-
     public function __construct($action = ".", $method = "POST", $notitle = false, $nofoot = true)
     {
         parent::__construct("form");
@@ -153,7 +132,6 @@ final class HtmlFormNode extends HtmlNode
         $this->m_definition->Add($this->m_footdiv);
         parent::_Add($this->m_definition);
     }
-
     /**
     * Sets MAX FILE SIZE.
     * @param mixed $size
@@ -162,7 +140,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->_update_node($this->_max_file_size, $size,'MAX_FILE_SIZE');
     }
-
     /**
     * Sets MAX UPLOAD FILE.
     * @param null|int $count
@@ -170,7 +147,6 @@ final class HtmlFormNode extends HtmlNode
     public function setMAX_UPLOAD_FILE(?int $count=null){
         return $this->_update_node($this->_max_upload_file, $count,'MAX_UPLOAD_FILE');
     }
-
     /**
     * Prevent max file upload.
     */
@@ -182,7 +158,6 @@ final class HtmlFormNode extends HtmlNode
         }
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed & $prop
@@ -208,22 +183,18 @@ final class HtmlFormNode extends HtmlNode
         }
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed $index the default value is null
     */
-
     protected function _Add($item, $index = null): bool
     {
         return $this->m_bodydiv->_Add($item);
     }
-
     /**
     * auto generate doc.
     * @param mixed $index the default value is null
     */
-
     public function add($nameoritem, $attributes = null, $index = null)
     {
         return $this->m_bodydiv->add($nameoritem, $attributes, $index);
@@ -231,22 +202,18 @@ final class HtmlFormNode extends HtmlNode
     /**
      * input environement confirmation
      */
-
     public function addConfirm($v = 1)
     {
         return $this->addInput("confirm", "hidden", $v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function addHidden($n, $v)
     {
         return $this->addInput($n, "hidden", $v);
     }
-
     /**
     * auto generate doc.
     */
@@ -259,7 +226,6 @@ final class HtmlFormNode extends HtmlNode
         $i["type"] = "hidden";
         return $i;
     }
-
     /**
     * auto generate doc.
     */
@@ -267,7 +233,6 @@ final class HtmlFormNode extends HtmlNode
     {
         $this->m_bodydiv->clearChilds();
     }
-
     /**
     * auto generate doc.
     */
@@ -275,7 +240,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this["action"];
     }
-
     /**
     * auto generate doc.
     */
@@ -283,7 +247,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_bodydiv;
     }
-
     /**
     * auto generate doc.
     */
@@ -291,7 +254,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return null;
     }
-
     /**
     * auto generate doc.
     */
@@ -299,7 +261,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_encType;
     }
-
     /**
     * auto generate doc.
     */
@@ -307,7 +268,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_footdiv;
     }
-
     /**
     * auto generate doc.
     */
@@ -315,7 +275,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this["method"];
     }
-
     /**
     * auto generate doc.
     */
@@ -323,7 +282,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_nofoot;
     }
-
     /**
     * auto generate doc.
     */
@@ -331,7 +289,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_notitle;
     }
-
     /**
     * auto generate doc.
     */
@@ -339,68 +296,56 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_topdiv->Content;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setAction($value)
     {
         $this->setAttribute("action", $value);
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setContent($v)
     {
         $this->m_bodydiv->setContent($v);
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setEncType($value)
     {
         $this->m_encType = $value;
         $this['enctype'] = $value;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setMethod($value)
     {
         $this->setAttribute("method", $value);
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setNoFoot($value)
     {
         $this->m_nofoot = $value;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setNoTitle($value)
     {
         $this->m_notitle = $value;
@@ -410,7 +355,6 @@ final class HtmlFormNode extends HtmlNode
      * set for mtitle
      * @param mixed $value
      */
-
     public function setTitle($value)
     {
         $this->m_topdiv->Content = $value;

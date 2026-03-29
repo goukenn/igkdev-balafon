@@ -34,33 +34,27 @@ use IGK\Constants;
 use IGKEvents;
 use function igk_resources_gets as __;
 use stdClass;
-
-
 /**
  * make new project 
  * @package IGK\System\Console\Commands
  */
 class MakeProjectCommand extends AppExecCommand
 {
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:project";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "make new project.";
-
     /**
     * Property: options.
     * @var mixed
@@ -77,7 +71,6 @@ class MakeProjectCommand extends AppExecCommand
         "--conf:[name=value]" => "set configuration",
         "--version" => "application version"
     ];
-
     /**
     * Name of entry namespace.
     * @var mixed
@@ -88,7 +81,6 @@ class MakeProjectCommand extends AppExecCommand
      * @var mixed
      */
     protected $author;
-
     /**
     * Exec.
     * @param mixed $command
@@ -153,12 +145,9 @@ class MakeProjectCommand extends AppExecCommand
         // + | --------------------------------------------------------------------
         // + | bind readme definition 
         // + |
-        
         $bind[$dir.'/README.md']=function($file){
             $sb = new StringBuilder;
             $sb->appendLine("# Balafon's projects");
-
-
             igk_io_w2file($file, $sb.'');
         };
         $this->_bind_articles($bind, $dir);
@@ -455,13 +444,11 @@ EOF;
                 ]));
             };
         }
-        
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
-
         if (empty(igk_configs()->default_controller)){
             $cnf = igk_configs();
             $cnf->default_controller = $clname;
@@ -469,7 +456,6 @@ EOF;
         }
         Logger::success("done\n");
     }
-
     /**
     * Store article.
     * @param mixed $f
@@ -480,7 +466,6 @@ EOF;
         $builder->type("function")->file(basename($f));
         igk_io_w2file($f, $builder->render());
     }
-
     /**
     * Bind articles.
     * @param array & $bind
@@ -497,7 +482,6 @@ EOF;
             }
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -518,7 +502,6 @@ EOF;
             $bind[$dir . "/Configs/Lang/lang." . $l . IGK_LANG_FILE_EXTENSION] = $touch;
         }
     }
-
     /**
     * Bind layout.
     * @param array & $bind
@@ -552,7 +535,6 @@ EOF;
             igk_io_w2file($f, $builder->render());
         };
     }
-
     /**
     * Bind database.
     * @param array & $bind
@@ -606,7 +588,6 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
     }
-
     /**
     * auto generate doc.
     * @param mixed & $bind
@@ -644,7 +625,6 @@ EOF;
         };
     }
     ///<summary>Represente help function</summary>
-
     /**
     * Help.
     */

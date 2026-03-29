@@ -9,13 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
-
 /**
 * Xml processor.
 * @package IGK\System\Html\XML
 */
 final class XmlProcessor extends XmlNode{
-
     /**
     * auto generate doc.
     * @param mixed $type processor type
@@ -24,21 +22,18 @@ final class XmlProcessor extends XmlNode{
     public function __construct(string $type="xml"){
         parent::__construct($type);
     }
-
     /**
     * Returns Can Add Childs.
     */
     public function getCanAddChilds(){        
         return false;
     }
-
     /**
     * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
-
     /**
     * Renders.
     * @param null|mixed $options

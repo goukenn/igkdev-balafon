@@ -12,31 +12,26 @@ use IGKException;
 * @package IGK\System\Traits
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Traits
 */
 trait DynamicActivableTrait{
-
     /**
     * Property: data.
     * @var mixed
     */
     protected $data;
-
     /**
     * To array.
     * @return ?array
     */
     public function to_array(): ?array {return $this->data; }
-
     /**
     * .destructor
     * @param mixed $n
     */
     public function __get($n){ return igk_getv($this->data, $n); }
-
     /**
     * destructor
     * @param mixed $n
@@ -47,20 +42,16 @@ trait DynamicActivableTrait{
      * to implement serialisation
      * @return mixed 
      */
-
     public function _json_serialize(){
         return $this->data;
     }
-
     /**
     * auto generate doc.
     * @return string|false
     */
-
     public function to_json($option = NULL, int $flag = 0){
         return JSon::Encode($this->data, JSonEncodeOption::IgnoreEmpty());
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $n

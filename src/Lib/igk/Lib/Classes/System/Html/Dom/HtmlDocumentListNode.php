@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlNode;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentListNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -21,13 +20,11 @@ class HtmlDocumentListNode extends HtmlNode{
      * @var mixed
      */
     // var $dd;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     // var $dt;
-
     protected function initialize()
     {
         parent::initialize();
@@ -40,14 +37,12 @@ class HtmlDocumentListNode extends HtmlNode{
      * clear childs 
      * @return static
      */
-
     public function clearChilds()
     {
         parent::clearChilds();
         $this->initialize();
         return $this;
     }
-
     /**
     * auto generate doc.
     * @return bool

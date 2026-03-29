@@ -10,7 +10,6 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -46,13 +45,11 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
      * @var mixed
      */
     var $flag;
-
     /**
     * Property: flag options.
     * @var mixed
     */
     var $flagOptions;
-
     /**
     * Property: skip white space.
     * @var mixed
@@ -68,37 +65,31 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
      * @var ?ViewTokenBlock
      */
     var $block;
-
     /**
     * Property: comment.
     * @var mixed
     */
     var $comment;
-
     /**
     * Property: modifiers.
     * @var mixed
     */
     var $modifiers = [];
-
     /**
     * Property: php doc.
     * @var mixed
     */
     var $phpDoc;
-
     /**
     * Property: struct info.
     * @var mixed
     */
     var $struct_info;
-
     /**
     * auto generate doc.
     * @var ?ReadTokenOptions
     */
     var $options;
-
     /**
     * Outputs.
     * @return ?string

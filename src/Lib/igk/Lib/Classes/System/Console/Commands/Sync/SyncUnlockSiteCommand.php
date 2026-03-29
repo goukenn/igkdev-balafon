@@ -10,25 +10,21 @@ use IGK\System\Console\Logger;
  * clear cache in ftp sync server */
 class SyncUnlockSiteCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:unlock-site";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync unlock site";
-
     /**
     * Exec.
     * @param mixed $command

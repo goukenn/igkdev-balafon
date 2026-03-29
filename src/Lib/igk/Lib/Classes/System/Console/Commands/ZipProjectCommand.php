@@ -7,31 +7,26 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;  
 use IGK\System\Number;
-
 /**
 * Zip project command.
 * @package IGK\System\Console\Commands
 */
 class ZipProjectCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--project:zip";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "zip balafon project";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "project";
-
     /**
     * Property: usage.
     * @var mixed
@@ -40,7 +35,6 @@ class ZipProjectCommand extends AppExecCommand{
     /**
      * exec the command
      */
-
     public function exec($command, $controller=null, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

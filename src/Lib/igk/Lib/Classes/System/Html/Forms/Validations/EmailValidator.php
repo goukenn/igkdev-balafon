@@ -12,7 +12,6 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms
  */
 class EmailValidator extends FormFieldValidatorBase implements IFormValidator{
-
     /**
     * Validate.
     * @param mixed $value
@@ -31,7 +30,6 @@ class EmailValidator extends FormFieldValidatorBase implements IFormValidator{
         }
         $error[] = 'email is not valid.';
     }
-
     /**
     * Asserts Validate.
     * @param mixed $value

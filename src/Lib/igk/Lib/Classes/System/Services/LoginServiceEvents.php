@@ -9,7 +9,6 @@ namespace IGK\System\Services;
  * @package IGK\System\Services
  */
 class LoginServiceEvents{
-
     /**
     * Constant: login with social button.
     * @var mixed

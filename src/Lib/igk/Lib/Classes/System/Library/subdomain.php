@@ -19,25 +19,21 @@ use IGKValidator;
  * @package IGK\System\Library
  */
 class subdomain{
-
     /**
     * Property: subdomain.
     * @var mixed
     */
     var $subdomain;
-
     /**
     * Property: subdomain info.
     * @var mixed
     */
     var $subdomainInfo;
-
     /**
     * Property: boot args.
     * @var mixed
     */
     var $boot_args;
-
     /**
     * Initializes.
     * @return bool
@@ -59,7 +55,6 @@ class subdomain{
         }
         return false;
     }
-
     /**
     * Bootapp.
     */

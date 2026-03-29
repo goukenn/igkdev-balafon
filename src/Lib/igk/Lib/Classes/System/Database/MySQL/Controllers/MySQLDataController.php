@@ -14,7 +14,6 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
-
     /**
     * Constant: drop table query.
     * @var mixed

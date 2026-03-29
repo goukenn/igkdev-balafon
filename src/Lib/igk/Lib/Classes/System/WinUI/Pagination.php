@@ -8,7 +8,6 @@ use Exception;
 use IGK\Helper\UriHelper; 
 use IGKException;
 use function igk_resources_gets as __;
-
 /**
 * Pagination.
 * @package IGK\System\WinUI
@@ -43,19 +42,16 @@ class Pagination{
      * @var string
      */
     var $className = "igk-pagination";
-
     /**
     * Property: page query.
     * @var mixed
     */
     var $pageQuery;
-
     /**
     * auto generate doc.
     * @param string $p request page field
     * @return void
     */
-
     public function __construct(int $itemPerPage, int $total, $p="p", $default_page=1, $shift=1)
     {
         if (!$default_page){
@@ -79,7 +75,6 @@ class Pagination{
      * @return mixed|object
      * @throws IGKException 
      */
-
     public function list($ajx=0, $request_uri = null){ 
         $total = floor($this->total/$this->count)+1;
         $n = igk_create_node("ul");
@@ -121,21 +116,18 @@ class Pagination{
         $this->_postfix($n, $u,   $total , $ajx);
         return $n;
     }
-
     /**
     * Geta.
     * @param mixed $n
     * @param mixed $ajx
     * @param mixed $param
     */
-
     function _geta($n, $ajx, $param){
         if ($ajx){
             return $n->ajx($param);
         }
         return $n->a($param);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -159,7 +151,6 @@ class Pagination{
             break;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -179,11 +170,9 @@ class Pagination{
             break;
         }
     }
-
     /**
     * Returns Limit.
     */
-
     public function getLimit(){     
         $p = $this->page - 1;   
         return implode(",", [($p * $this->count),  

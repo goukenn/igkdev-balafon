@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Rendering;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Rendering\Traits\ScopedNodeTrait;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Rendering
@@ -13,7 +12,6 @@ use IGK\System\Html\Rendering\Traits\ScopedNodeTrait;
 */
 class ScopedNode extends HtmlItemBase implements IHtmlRederingCallback{
     use ScopedNodeTrait;
-
     /**
     * .ctr
     * @param string $tagname

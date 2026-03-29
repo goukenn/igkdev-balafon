@@ -11,7 +11,6 @@ use function igk_resources_gets as __;
  * @package IGK\System\Security
  */
 class CrefNotValidException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $code

@@ -3,17 +3,14 @@
 // @file: DbRowDefEntry.php
 // @date: 20251125 19:47:26
 namespace IGK\Database;
-
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use Iterator;
-
 /**
  * 
  * @package IGK\Database
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database
@@ -35,19 +32,16 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @var object
      */
     private $m_it_info;
-
     /**
     * auto generate doc.
     * @var null|bool
     */
     private $m_strict;
-
     /**
      * model class 
      * @var mixed
      */
     private $m_model;
-
     /**
     * auto generate doc.
     * @param null|bool $strict
@@ -61,7 +55,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
         $this->m_strict = $strict;
         $this->m_model = $model ? get_class($model) : null;
     }
-
     /**
     * Returns Entry Values.
     * @return array
@@ -70,7 +63,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         return (array)$this->m_ref;
     }
-
     /**
     * Initializes Def Array.
     * @return array
@@ -79,7 +71,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         return array_fill_keys(array_keys((array)$this->m_ref), 1);
     }
-
     /**
     * get the current reference
     * @return mixed
@@ -90,17 +81,14 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
             return igk_getv($this->m_ref, StringUtility::AutoPrefix($k, $this->m_prefix)); 
         return null;
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function next(): void
     {
         $this->m_it_info->key++;
     }
-
     /**
     * Key.
     * @return mixed
@@ -111,9 +99,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
             return $this->m_it_info->tab[$k];
         }
         return null;
-
     }
-
     /**
     * Valid.
     * @return bool
@@ -122,7 +108,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         return $this->m_it_info->key < $this->m_it_info->count;
     }
-
     /**
     * Rewind.
     * @return void
@@ -152,7 +137,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
         } 
         return $tab;
     }
-
     /**
     * .destructor
     * @param string $name
@@ -168,7 +152,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
             }
         }
     }
-
     /**
     * destructor
     * @param string $name
@@ -196,7 +179,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @param string $name 
      * @return bool 
      */
-
     public function keyExists(string $name): bool
     {
         return property_exists($this->m_ref, $name);
@@ -206,12 +188,10 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @param string $n 
      * @return void 
      */
-
     function __unset(string $n)
     {
         unset($this->m_ref->$n);
     }
-
     /**
     * check if isset innaccessible property
     * @param string $n
@@ -220,13 +200,11 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     {
         return $this->keyExists($n);
     }
-
     /**
      * load from array
      * @param array $data 
      * @return static 
      */
-
     public function loadFromArray(array $data)
     {
         $tab = $this->reccords();
@@ -244,7 +222,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @return mixed 
      * @throws mixed 
      */
-
     public function __call($name, $arguments)
     {
         if ($cl = $this->m_model){
@@ -255,7 +232,6 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
         }
         throw new \Exception(sprintf('%s, Not allowed in dbrow entry reccord', $name));
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

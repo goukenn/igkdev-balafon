@@ -3,25 +3,21 @@
 // @file: HtmlTableHeaderInfo.php
 // @date: 20230525 18:08:30
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlTableHeaderInfo{
-
     /**
     * Property: title.
     * @var mixed
     */
     var $title;
-
     /**
     * Property: key.
     * @var mixed
     */
     var $key;
-
     /**
     * Returns true if Empty.
     * @return bool
@@ -29,7 +25,6 @@ class HtmlTableHeaderInfo{
     public function isEmpty():bool{
         return empty($this->key);
     }
-
     /**
     * Fill empty.
     * @param HtmlNode $td
@@ -39,7 +34,6 @@ class HtmlTableHeaderInfo{
     public function fillEmpty(HtmlNode $td, $data, int $pos){
         $td->space();
     }
-
     /**
     * Fill content.
     * @param HtmlNode $td

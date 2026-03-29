@@ -13,32 +13,27 @@ use IGK\System\Html\Traits\HostableItemTrait;
 * @package IGK\System\Http\Mail
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 */
 class MailPreviewNode extends HtmlNode
 {
     use HostableItemTrait;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = 'div';
-
     /**
     * Property: theme resolver.
     * @var mixed
     */
     private $m_theme_resolver;
-
     /**
     * Collection of resolved list.
     * @var mixed
     */
     var $resolvedList = [];
-
     /**
     * Initializes.
     */
@@ -48,7 +43,6 @@ class MailPreviewNode extends HtmlNode
         $resolver = new CssThemeResolver;
         $this->m_theme_resolver = $resolver;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
@@ -80,7 +74,6 @@ class MailPreviewNode extends HtmlNode
         }
         return [];
     }
-
     /**
     * auto generate doc.
     * @param mixed $i

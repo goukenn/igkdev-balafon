@@ -8,7 +8,6 @@ namespace IGK\System\Polyfill;
  * trait for json serialisation
  */
 trait JsonSerializableTrait{
-
     /**
     * Json serialize.
     */

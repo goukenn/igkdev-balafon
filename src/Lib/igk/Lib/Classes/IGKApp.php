@@ -21,38 +21,32 @@ require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
  * @property IGKAppSetting $settings application setting - store in session if library 'session' is available
  * 
  */
-
 /**
 * auto generate doc.
 * @package
 */
 class IGKApp extends IGKObject
 {
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: application.
     * @var mixed
     */
     private $m_application;
-
     /**
     * Property: app info.
     * @var mixed
     */
     private $m_appInfo;
-
     /**
     * Property: settings.
     * @var mixed
     */
     private $m_settings;
-
     /**
     * Property: controller manager.
     * @var mixed
@@ -63,7 +57,6 @@ class IGKApp extends IGKObject
      * @var bool
      */
     private $m_initialized;
-
     /**
     * Property: f.
     * @var mixed
@@ -77,18 +70,15 @@ class IGKApp extends IGKObject
      * context states 
      */
     const INIT_CONTEXT = 'init';
-
     /**
     * Constant: run context.
     * @var mixed
     */
     const RUN_CONTEXT = 'run';
-
     /**
      * get app configuration settings
      * @return mixed 
      */
-
     public static function GetConfig($key, $default=null){
         return IGKAppConfig::getInstance()->Data->get($key, $default);
     }
@@ -96,7 +86,6 @@ class IGKApp extends IGKObject
      * engine application
      * @return IGKApplicationBase 
      */
-
     public function getApplication(){
         return $this->m_application;
     }
@@ -104,12 +93,10 @@ class IGKApp extends IGKObject
      * return the application instance
      * @return mixed 
      */
-
     public static function getInstance()
     {
         return self::$sm_instance;
     }
-
     /**
     * .ctr
     * @return
@@ -120,12 +107,10 @@ class IGKApp extends IGKObject
      * create controller manager
      * @return IApplicationControllerManager
      */
-
     protected function createControllerManager(): IApplicationControllerManager{
         //:: return IGKControllerManagerObject::getInstance();
         return new ApplicationControllerManager($this, $this->m_appInfo);
     }
-
     /**
     * get string presentation.
     */
@@ -133,7 +118,6 @@ class IGKApp extends IGKObject
     {
         return "igk framework - app[Version:" . IGK_VERSION . "]";
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -143,7 +127,6 @@ class IGKApp extends IGKObject
     {
         igk_die(sprintf(__("app - setting property not allowed [%s]"), $n));
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -164,7 +147,6 @@ class IGKApp extends IGKObject
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     public function getSettings(){
         $app = $this->getApplication();
         if (is_null($app)){
@@ -201,7 +183,6 @@ class IGKApp extends IGKObject
     * get environment base controller
     * @return BaseController|null base controller
     */
-
     public function getBaseCurrentCtrl(){
         return igk_environment()->basectrl;
     }
@@ -209,7 +190,6 @@ class IGKApp extends IGKObject
     * change environment base controller
     * @param mixed $v
     */
-
     public function setBaseCurrentCtrl(?BaseController $v){    
 		igk_environment()->basectrl =  $v; 
         return $this;
@@ -217,18 +197,15 @@ class IGKApp extends IGKObject
     /**
     * view mode setting - require session
     */
-
     public function getViewMode(){
 		if (!isset($this->getSettings()->{IGK_VIEW_MODE_FLAG}))
 			return IGKViewMode::VISITOR;
         return $this->getSettings()->{IGK_VIEW_MODE_FLAG}; 
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setViewMode($v){
         $m = $this->getViewMode();
         if($m === $v)
@@ -242,7 +219,6 @@ class IGKApp extends IGKObject
     * get api current page folder
     * @return ?string
     */
-
     public function getCurrentPageFolder(){        
         $_is_phar=defined("IGK_PHAR_CONTEXT");
         if($_is_phar){
@@ -266,7 +242,6 @@ class IGKApp extends IGKObject
         }
         return IGK_HOME_PAGEFOLDER;
     }
-
     /**
     * Returns Current Page.
     */
@@ -278,7 +253,6 @@ class IGKApp extends IGKObject
      * @return IGKSession 
      * @throws IGKException 
      */
-
     public function getSession(){
         /**
          * @var object|null $sm_session session marker
@@ -293,7 +267,6 @@ class IGKApp extends IGKObject
             $init = 1;
         }
         if ($init){
-
             /**
             * auto generate doc.
             * @var IGKAppInfoStorage $appinfo
@@ -314,7 +287,6 @@ class IGKApp extends IGKObject
      * @return \IGK\Controllers\IControllerManagerObject controller manager
      * @throws IGKException 
      */
-
     public function getControllerManager(){
         if (is_null($this->m_controllerManager) && !($this->m_controllerManager = $this->createControllerManager())){
             igk_die(__("failed to create app's controller manager"));
@@ -332,7 +304,6 @@ class IGKApp extends IGKObject
     *  get the global document
     * @return IGKHtmlDoc core document
     */
-
     public function getDoc(){
         static $v_doc=null;
         if(!self::IsInit()){            
@@ -350,7 +321,6 @@ class IGKApp extends IGKObject
         }
         return $v_doc;        
     }
-
     /**
     * Returns true if Init.
     */
@@ -361,7 +331,6 @@ class IGKApp extends IGKObject
      * balafon engine
      * @return void 
      */
-
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
     {      
         $_env = igk_environment();        
@@ -382,7 +351,6 @@ class IGKApp extends IGKObject
         }   
         self::_InitHookLogic($_hookArgs);   
     }
-
     /**
     * auto generate doc.
     * @param mixed $_hookArgs
@@ -408,7 +376,6 @@ class IGKApp extends IGKObject
      * @param IGKApplicationBase $app 
      * @return static 
      */
-
     public static function RunApiEngine(IGKApplicationBase $app): IGKApp {    
         if ( self::$sm_instance !=null){
             igk_die("App already started ... ");
@@ -425,7 +392,6 @@ class IGKApp extends IGKObject
      * @return object 
      * @throws IGKException 
      */
-
     protected function createAppInfo()
     {
         return  (object)[
@@ -443,7 +409,6 @@ class IGKApp extends IGKObject
     /**
     * destroy the application
     */
-
     public static function Destroy(){
         if(self::$sm_instance !== null){
             igk_hook("sys://events/destroyapp", [self::$sm_instance, __FUNCTION__]);
@@ -457,13 +422,11 @@ class IGKApp extends IGKObject
      * @param string $serviceName 
      * @return ?IApplicationService|mixed service to return  
      */
-
     public function getService(string $serviceName){
         return IGKServices::Get($serviceName);
     }
     //-------------------------------------------------------------------------------------
     // |+ self hosted application context
-
     /**
     * Property: context.
     * @var mixed
@@ -473,7 +436,6 @@ class IGKApp extends IGKObject
      * get the current definition context
      * @return ?string
      */
-
     public function getContext(): ?string{
         return $this->m_context;
     }
@@ -484,7 +446,6 @@ class IGKApp extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function Init(){
         if (!is_null(self::$sm_instance)){
             igk_die('application already initialized : '.self::$sm_instance->m_context );
@@ -511,7 +472,6 @@ class IGKApp extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function BootLogicCallback($e){       
         $app = $e->args[0];
         $_hookArgs = $e->args[1]['hookArgs'];

@@ -5,7 +5,6 @@
 // @desc: resource inline
 namespace IGK\System\Html\Css;
 use IGK\Css\ICssResourceResolver;
-
 /**
 * Embed resource resolver.
 * @package IGK\System\Html\Css

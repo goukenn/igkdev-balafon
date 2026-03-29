@@ -11,7 +11,6 @@ namespace IGK\Controllers;
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
 use IGK\System\Html\HtmlUtils;
-
 /**
 * Debug controller.
 * @package IGK\Controllers

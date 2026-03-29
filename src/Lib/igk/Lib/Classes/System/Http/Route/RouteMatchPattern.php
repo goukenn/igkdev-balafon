@@ -5,7 +5,6 @@
 // @desc: route pattern 
 namespace IGK\System\Http\Route;
 use IGK\System\Regex\MatchPattern;
-
 /**
 * Route match pattern.
 * @package IGK\System\Http\Route

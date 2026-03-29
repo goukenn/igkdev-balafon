@@ -4,13 +4,11 @@
 // @date: 20231229 17:05:43
 namespace IGK\System\Html\Forms\Validations;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 */
 class AssocArrayValidator extends FormFieldValidatorBase{
-
     /**
     * Validate.
     * @param mixed $value
@@ -24,7 +22,6 @@ class AssocArrayValidator extends FormFieldValidatorBase{
         }
         $error[] = __('not an associative array');
     }
-
     /**
     * Asserts Validate.
     * @param mixed $value

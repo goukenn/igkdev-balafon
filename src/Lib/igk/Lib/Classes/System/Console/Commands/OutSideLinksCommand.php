@@ -12,47 +12,39 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
-
 use Illuminate\Support\Facades\Log;
-
 /**
 * Out side links command.
 * @package IGK\System\Console\Commands
 */
 class OutSideLinksCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--outsidelinks";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "utility";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "retrieve all outside links";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [ 
     ];
-
     /**
     * Exec.
     * @param mixed $command
     * @param null|mixed $path
     * @param mixed $viewname
     */
-
     public function exec($command, $path=null, $viewname=""){
         if (empty($path)){
             $path = getcwd();
@@ -81,11 +73,9 @@ class OutSideLinksCommand extends AppExecCommand{
         Logger::print(implode("\n", $links));        
         Logger::success("done\n");
     }
-
     /**
     * Help.
     */
-
     public function help(){
         parent::help();
         Logger::print("-");

@@ -8,19 +8,16 @@ use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionArgNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
-
     /**
     * Property: expression.
     * @var mixed
     */
     var $expression;
-
     /**
     * Property: value.
     * @var mixed
@@ -31,7 +28,6 @@ class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
      * @var false
      */
     var $extract = false;
-
     /**
     * .ctr
     * @param mixed $expression
@@ -44,14 +40,12 @@ class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
         $this->value = $value;        
         $this->extract = $extract;
     }
-
     /**
     * Returns Expression.
     */
     public function getExpression() {
         return "$".$this->expression;
     }
-
     /**
     * Returns Iterator.
     * @return Traversable
@@ -59,7 +53,6 @@ class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
     public function getIterator(): Traversable {
         return new ArrayIterator([$this->expression, $this->value]);
      }
-
     /**
     * get string presentation.
     */
@@ -70,7 +63,6 @@ class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
      * create expression node
      * @return void 
      */
-
     public function createExpressionNode(){
         return new ExpressionArgNode($this."");  
     }

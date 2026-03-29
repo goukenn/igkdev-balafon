@@ -16,7 +16,6 @@ use IGKViewMode;
 use IGK\IUriActionRegistrableController;
 use IGK\IWebPageController;
 use IGK\System\Http\RequestResponseCode;
-
 /**
 * Default page controller.
 * @package IGK\Controllers
@@ -35,7 +34,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         return 1;
     }
     public final
-
     /**
     * Evaluate uri.
     * @param null|mixed $patterninfo
@@ -165,7 +163,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $do_rendering($t, $doc, $nav);
         return true;
     }
-
     /**
     * Returns Additional Config Info.
     */
@@ -176,14 +173,12 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         );
     }
     ///get the name of the page that control this controller
-
     /**
     * Returns Basic Uri Pattern.
     */
     public function getBasicUriPattern(){
         return $this->getConfig(IGK_CTRL_CNF_BASEURIPATTERN);
     }
-
     /**
     * Returns Extra Title.
     */
@@ -192,7 +187,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             return " - ".__("title.".$this->CurrentPage.".webpage");
         return IGK_STR_EMPTY;
     }
-
     /**
     * Returns Is Visible.
     * @return bool
@@ -206,14 +200,12 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $v=($cp != IGK_CONFIG_MODE) && (strtolower($cnf->default_controller) == strtolower($this->Name));
         return $v;
     }
-
     /**
     * Returns Reg Invoke Uri.
     */
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-
     /**
     * Returns Reg Uri Action.
     */
@@ -223,7 +215,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             return null;
         return "".$primary.IGK_REG_ACTION_METH;
     }
-
     /**
     * Handles redirection uri.
     * @param mixed $uri
@@ -248,7 +239,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $this->evaluateUri($e);
         return true;
     }
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -257,7 +247,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         parent::initComplete();
         igk_app()->session->addUserChangedEvent($this, "View");
     }
-
     /**
     * Initializes Document.
     * @param mixed $doc
@@ -269,7 +258,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             $doc->Favicon=new IGKHtmlRelativeUriValueAttribute($p);
         }
     }
-
     /**
     * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
@@ -281,7 +269,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $t->setClass("+".$t->$k());
         return $t;
     }
-
     /**
     * Returns true if handle uri.
     * @param null|mixed $uri
@@ -301,7 +288,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $c=igk_getv($p, "function");
         return false;
     }
-
     /**
     * Returns true if Func Uri Available.
     * @param mixed & $m
@@ -319,7 +305,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         }
         return false;
     }
-
     /**
     * Loads Template.
     */
@@ -328,26 +313,22 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $this->saveCtrl();
         $this->View();
     }
-
     /**
     * Loads Web Theme.
     * @param mixed $file
     */
     public function loadWebTheme($file){    }
-
     /**
     * Manage error uri request.
     * @param mixed $uri
     */
     public function manageErrorUriRequest($uri){    }
-
     /**
     * On menu page changed.
     */
     protected function OnMenuPageChanged(){
         $this->View();
     }
-
     /**
     * Page folder changed.
     */
@@ -355,7 +336,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         if($this->IsVisible)
             $this->View();
     }
-
     /**
     * Restore ctrl.
     */
@@ -367,14 +347,12 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             unlink($f);
         }
     }
-
     /**
     * Saves Ctrl.
     */
     public function saveCtrl(){
         igk_zip_create_file($this->getDeclaredDir()."/.".$this->Name.".bck.zip", $this->getDeclaredDir());
     }
-
     /**
     * Sets Additional Config Info.
     * @param mixed & $t
@@ -383,7 +361,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $t["clDefaultPage"]=igk_getr("clDefaultPage");
         return 1;
     }
-
     /**
     * Sets Page Name.
     * @param mixed $value
@@ -391,7 +368,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     public function setPageName($value){
         $this->m_pageview=$value;
     }
-
     /**
     * View.
     * @return BaseController

@@ -6,26 +6,22 @@
 namespace IGK\XSD;
 use ArrayAccess;
 use IGKXmlNode;
-
 /**
 * Xsd element builder.
 * @package IGK\XSD
 */
 class XsdElementBuilder extends XsdElement 
 {
-
     /**
     * Property: builder.
     * @var mixed
     */
     private $m_builder;
-
     /**
     * Property: defining.
     * @var mixed
     */
     private $_defining;
-
     /**
     * .ctr
     * @return
@@ -33,13 +29,11 @@ class XsdElementBuilder extends XsdElement
     private function __construct()
     {
     }
-
     /**
     * auto generate doc.
     * @param XsdBuilder $builder
     * @return XsdElementBuilder
     */
-
     public static function Create(IGKXmlNode $node, XsdBuilder $builder)
     {
         $n = new XsdElementBuilder;
@@ -47,23 +41,19 @@ class XsdElementBuilder extends XsdElement
         $n->m_builder = $builder;
         return $n;
     }
-
     /**
     * Sets Attribute.
     * @param mixed $name
     * @param mixed $value
     */
-
     public function setAttribute($name, $value){
         $this->m_node->setAttribute($name, $value);
         return $this;
     }
-
     /**
     * Sets Default.
     * @param mixed $defaultvalue
     */
-
     public function setDefault($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
@@ -74,12 +64,10 @@ class XsdElementBuilder extends XsdElement
         }
         return $this;
     }
-
     /**
     * Sets Fixed.
     * @param mixed $defaultvalue
     */
-
     public function setFixed($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
@@ -90,13 +78,11 @@ class XsdElementBuilder extends XsdElement
         }
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed|null $attributes
     * @return void
     */
-
     public function addComplexType(array $defs, $attributes=null, $type="sequence", $tattributes=null)
     {
         if (!in_array($type, explode("|","choice|sequence|all"))){

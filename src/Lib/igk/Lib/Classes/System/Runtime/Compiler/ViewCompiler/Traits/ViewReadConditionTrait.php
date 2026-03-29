@@ -4,13 +4,11 @@
 // @date: 20221027 07:35:26
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
 */
 trait ViewReadConditionTrait{
-
     /**
     * Read condition.
     * @param ReadTokenOptions $options
@@ -35,7 +33,6 @@ trait ViewReadConditionTrait{
      * @param mixed $value 
      * @return void 
      */
-
     protected function _endReadCondition(ReadTokenOptions $options, $id, $value){
         $fop = $options->flagOptions;
         $this->_popFlag($options);
@@ -47,7 +44,6 @@ trait ViewReadConditionTrait{
             $options->buffer .= sprintf("(%s)", $fop->condition);
         }
     }
-
     /**
     * Handle read condition.
     * @param ReadTokenOptions $options

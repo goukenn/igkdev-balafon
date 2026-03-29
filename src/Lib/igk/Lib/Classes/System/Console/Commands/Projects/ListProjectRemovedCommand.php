@@ -13,26 +13,22 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKAppSystem;
 use IGKSysUtil;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 */
 class ListProjectRemovedCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--project:removed';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'list removed project';
-
     /**
     * Property: options.
     * @var mixed
@@ -40,13 +36,11 @@ class ListProjectRemovedCommand extends AppExecCommand
     var $options = [
 		'--restore' => 'flag restore removed project list '
 	];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'action* [options]';
-
     /**
     * Shows Usage.
     */
@@ -60,7 +54,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 		}
 	}
 	/* var $category='project'; */
-
     /**
     * Exec.
     * @param mixed $command
@@ -122,7 +115,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 	 * @param string $project_dir 
 	 * @return void 
 	 */
-
     public static function InstallProject(string $project_dir): bool
 	{
 		$v_o = false;

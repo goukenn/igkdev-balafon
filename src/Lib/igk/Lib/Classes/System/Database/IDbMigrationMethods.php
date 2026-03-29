@@ -8,7 +8,6 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 interface IDbMigrationMethods{
-
     /**
     * Db add column.
     * @param string $table

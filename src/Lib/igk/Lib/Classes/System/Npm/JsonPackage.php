@@ -14,7 +14,6 @@ use ReflectionException;
  * 
  * @package IGK\System\Npm
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Npm
@@ -22,7 +21,6 @@ use ReflectionException;
 class JsonPackage
 {
     use JsonPackagePropertyTrait;
-
     /**
     * auto generate doc.
     * @param string $file

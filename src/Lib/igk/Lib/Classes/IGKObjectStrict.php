@@ -7,12 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkobject strict.
 */
 final class IGKObjectStrict{
-
     /**
     * Property: ins.
     * @var mixed
@@ -24,7 +22,6 @@ final class IGKObjectStrict{
      * @param array $params The arguments passed to the call.
      * @return null Always returns null.
      */
-
     public function __call($n, $params){
         return null;
     }
@@ -38,7 +35,6 @@ final class IGKObjectStrict{
      * @param string $key The property key to retrieve.
      * @return mixed The value stored under the given key.
      */
-
     public function __get($key){
         return igk_getv($this->m_ins, $key);
     }
@@ -47,7 +43,6 @@ final class IGKObjectStrict{
      * @param string $key The property key to set.
      * @param mixed $value The value to assign.
      */
-
     public function __set($key, $value){
         if(!isset($this->m_ins, $key))
             igk_die("setting of $key is not allowed");
@@ -58,7 +53,6 @@ final class IGKObjectStrict{
      * @param array $arraykey An array of string key names to allow.
      * @return static|null A new instance with allowed keys, or null on failure.
      */
-
     public static function Create($arraykey){
         if(is_array($arraykey) && igk_count($arraykey) > 0){
             $m=array();

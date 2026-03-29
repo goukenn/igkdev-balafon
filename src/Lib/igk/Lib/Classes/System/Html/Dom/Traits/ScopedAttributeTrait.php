@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace  IGK\System\Html\Dom\Traits;
-
 /**
 * Trait providing scoped attribute functionality.
 * @package IGK\System\Html\Dom\Traits
 */
 trait ScopedAttributeTrait{
-
     /**
     * Returns Scoped.
     * @return bool
@@ -18,7 +16,6 @@ trait ScopedAttributeTrait{
     public function getScoped():bool{
         return $this->isActive("scoped");
     }
-
     /**
     * Sets Scoped.
     * @param bool $scope

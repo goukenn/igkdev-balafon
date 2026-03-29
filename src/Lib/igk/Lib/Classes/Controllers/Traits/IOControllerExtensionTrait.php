@@ -30,7 +30,6 @@ trait IOControllerExtensionTrait{
         }
         return $new_path;
     }
-
     /**
     * auto generate doc.
     * @param mixed $path

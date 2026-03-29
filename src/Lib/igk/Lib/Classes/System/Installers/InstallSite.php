@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Installers;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Console\AppConfigs;
 use IGK\System\Console\Logger;
@@ -16,7 +15,6 @@ use IGKAppSystem;
 use IGKEvents;
 use IGKException;
 use IO;
-
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 require_once __DIR__ . "/InstallerUtils.php";
 /**
@@ -25,7 +23,6 @@ require_once __DIR__ . "/InstallerUtils.php";
  */
 class InstallSite
 {
-
     /**
     * auto generate doc.
     * @param array $options extra options
@@ -36,7 +33,6 @@ class InstallSite
         $installer = new self();
         return $installer->installSite($folder, $listen, $environment, $options);
     }
-
     /**
     * auto generate doc.
     * @param array $options parameter
@@ -255,7 +251,6 @@ class InstallSite
         }
         return true;
     }
-
     /**
     * auto generate doc.
     * @param string $c_public
@@ -281,7 +276,6 @@ class InstallSite
         $ob = ob_get_clean();
         igk_io_w2file($folder . "/phpunit.xml.dist", $ob);
     }
-
     /**
     * auto generate doc.
     * @param string $environment
@@ -291,8 +285,7 @@ class InstallSite
     {
         $t_conf_file = $folder . "/vhost.conf";
         igk_io_w2file(
-            $t_conf_file,
-            <<<EOF
+            $t_conf_file,<<<EOF
 {$listen}<IfDefine !ServerName>
 ServerName {$servername}
 </IfDefine>
@@ -328,8 +321,7 @@ AddEncoding deflate js
 #</IfModule>
 </Directory>
 </VirtualHost>
-EOF
-        );
+EOF        );
     }
     /**
      * generate composer file

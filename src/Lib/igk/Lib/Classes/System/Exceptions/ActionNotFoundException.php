@@ -12,7 +12,6 @@ use function igk_resources_gets as __;
  * @package IGK\System\Exceptions
  */
 class ActionNotFoundException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $name
@@ -24,7 +23,6 @@ class ActionNotFoundException extends IGKException{
             sprintf(__("Action [%s] not found"), $name),
             404, $throwable );
     }
-
     /**
     * Headers.
     */

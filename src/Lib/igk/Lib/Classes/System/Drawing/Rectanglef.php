@@ -12,13 +12,11 @@ use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
-
 /**
 * Rectanglef.
 * @package IGK\System\Drawing
 */
 final class Rectanglef extends IGKObject{
-
     /**
     * Properties: h, w, x, y.
     * @var mixed
@@ -32,7 +30,6 @@ final class Rectanglef extends IGKObject{
      * @param float $width  The width of the rectangle.
      * @param float $height The height of the rectangle.
      */
-
     public function __construct($x=0, $y=0, $width=0, $height=0){
         $this->m_x=$x;
         $this->m_y=$y;
@@ -44,7 +41,6 @@ final class Rectanglef extends IGKObject{
      *
      * @return string
      */
-
     public function __toString(){
         return "Rectanglef [x:".$this->X." y:".$this->Y."; width: ".$this->Width." ;height: ".$this->Height."]";
     }
@@ -53,7 +49,6 @@ final class Rectanglef extends IGKObject{
      *
      * @return float
      */
-
     public function getHeight(){
         return $this->m_h;
     }
@@ -62,7 +57,6 @@ final class Rectanglef extends IGKObject{
      *
      * @return float
      */
-
     public function getWidth(){
         return $this->m_w;
     }
@@ -71,7 +65,6 @@ final class Rectanglef extends IGKObject{
      *
      * @return float
      */
-
     public function getX(){
         return $this->m_x;
     }
@@ -80,7 +73,6 @@ final class Rectanglef extends IGKObject{
      *
      * @return float
      */
-
     public function getY(){
         return $this->m_y;
     }
@@ -89,7 +81,6 @@ final class Rectanglef extends IGKObject{
      *
      * @param float $value The new height value.
      */
-
     public function setHeight($value){
         $this->m_h=$value;
     }
@@ -98,7 +89,6 @@ final class Rectanglef extends IGKObject{
      *
      * @param float $value The new width value.
      */
-
     public function setWidth($value){
         $this->m_w=$value;
     }
@@ -107,7 +97,6 @@ final class Rectanglef extends IGKObject{
      *
      * @param float $value The new x-coordinate value.
      */
-
     public function setX($value){
         $this->m_x=$value;
     }
@@ -116,7 +105,6 @@ final class Rectanglef extends IGKObject{
      *
      * @param float $value The new y-coordinate value.
      */
-
     public function setY($value){
         $this->m_y=$value;
     }

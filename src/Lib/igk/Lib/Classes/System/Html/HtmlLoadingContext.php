@@ -39,7 +39,6 @@ class HtmlLoadingContext{
      * @var ?array
      */
     var $ignore_tags;
-
     /**
     * Property: context loading.
     * @var mixed
@@ -49,12 +48,10 @@ class HtmlLoadingContext{
      * get current loading context
      * @return ?static
      */
-
     public static function GetCurrentContext(){
         $g= self::$sm_context_loading ? igk_getv(self::$sm_context_loading, 0) : null;// [] igk_environment()->peek(self::class);
         return $g ? $g[0] : null;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -72,7 +69,6 @@ class HtmlLoadingContext{
      * @return void 
      * @throws EnvironmentArrayException 
      */
-
     public static function PushContext(HtmlLoadingContext $context, HtmlItemBase $parent){
         $sm_context_loading = & self::_RefLoading();
         // $def = [get_class($context), $parent];
@@ -83,7 +79,6 @@ class HtmlLoadingContext{
             igk_hook(IGKEvents::HOOK_HTML_LOADING_CONTEXT_REGISTER, [$context, $parent]);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed & $sm_context_loading
@@ -94,7 +89,6 @@ class HtmlLoadingContext{
         self::_LoadContext($sm_context_loading, $def);
         $def[0]->initialize();  
     }
-
     /**
     * auto generate doc.
     * @param mixed & $sm_context_loading
@@ -110,7 +104,6 @@ class HtmlLoadingContext{
      * @param mixed|bool|object $uninitialize 
      * @return void 
      */
-
     public static function PopContext($uninitialize=false){ 
         if (!self::$sm_context_loading){
             return;
@@ -140,7 +133,6 @@ class HtmlLoadingContext{
      * get count countext
      * @return int<0, max>|int 
      */
-
     public static function CountCountext(){
         $i = -1;
         if ($c = self::$sm_context_loading){ //  igk_environment()->get(self::class)){
@@ -148,13 +140,11 @@ class HtmlLoadingContext{
         }
         return $i;
     }
-
     /**
     * Initializes.
     */
     protected function initialize(){
     }
-
     /**
     * Uninitialize.
     */
@@ -168,7 +158,6 @@ class HtmlLoadingContext{
      * @return bool 
      * @throws EnvironmentArrayException 
      */
-
     public static function SurroundWith(IHtmlContextContainer $container, $callable, &...$args):bool{
         $sm_context_loading = & self::_RefLoading(); //  $sm_context_loading;
         $c = $container->getContext() ?? igk_die('missing HtmlContext container');

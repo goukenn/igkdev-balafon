@@ -8,19 +8,16 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
-
 /**
 * Sync composer command.
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncComposerCommand extends SyncAppExecCommandBase{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:composer";
-
     /**
     * Property: desc.
     * @var mixed
@@ -30,7 +27,6 @@ class SyncComposerCommand extends SyncAppExecCommandBase{
      * get merged scripts
      * @return string[] 
      */
-
     protected function getMergedScripts(){
         return [
             IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
@@ -46,7 +42,6 @@ class SyncComposerCommand extends SyncAppExecCommandBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function exec($command, ...$args) { 
         $this->syncScriptCommand($command, "install-composer.php", ["args"=>$args]); 
     } 

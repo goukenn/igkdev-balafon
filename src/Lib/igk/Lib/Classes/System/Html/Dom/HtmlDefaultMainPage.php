@@ -8,25 +8,21 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGK\Resources\R;
 use IGKEvents;
 use IGKException;
 use function igk_html_host  as _h; 
-
 /**
  * defaut home page
  * @package IGK\System\Html\Dom
  */
 final class HtmlDefaultMainPage extends HtmlNode
 {
-
     /**
     * Property: instance.
     * @var mixed
     */
     static $sm_instance;
-
     /**
     * Returns Page Title.
     * @return string
@@ -34,13 +30,11 @@ final class HtmlDefaultMainPage extends HtmlNode
     public function getPageTitle():string{
         return 'Balafon Startup Page!';
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return bool
     */
-
     protected function _acceptRender($options = null): bool
     {
         if (!$this->getIsVisible()) {
@@ -64,7 +58,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         // attach author community - node 
         $g = igk_create_notagnode();
         $g->author_community(); 
-
         if ($doc) {
             if (function_exists('igk_google_addfont')){
                 igk_google_addfont($doc, "Roboto");
@@ -92,12 +85,10 @@ final class HtmlDefaultMainPage extends HtmlNode
         parent::__construct("div");
         $this["class"] = "igk-project-start google-Roboto igk-parentscroll dispflex flex-column fith flex-justify-sb overflow-y-a";
     }
-     
     /**
      * singleton instance 
      * @return static 
      */
-
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -105,12 +96,10 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return self::$sm_instance;
     }
-
     /**
     * auto generate doc.
     * @return int|bool
     */
-
     public function getIsVisible()
     {
         if (igk_get_env("sys://defaultpage/off") == 1) {

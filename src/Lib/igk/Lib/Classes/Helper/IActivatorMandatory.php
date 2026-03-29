@@ -8,7 +8,6 @@ namespace IGK\Helper;
 * @package IGK\Helper
 */
 interface IActivatorMandatory{
-
     /**
     * Returns Mandatory.
     * @return array

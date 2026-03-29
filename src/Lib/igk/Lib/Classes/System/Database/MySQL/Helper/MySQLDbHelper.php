@@ -11,14 +11,12 @@ use IGK\System\IO\StringBuilder;
  * 
  * @package IGK\System\Database\MySQL\Helper
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Database\MySQL\Helper
 */
 class MySQLDbHelper
 {
-
     /**
     * Property: ad.
     * @var mixed
@@ -34,7 +32,6 @@ class MySQLDbHelper
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public static function BackupToCSV(IGKCSVDataAdapter $adapter, MySQLDbAdapter $mysql, array $tables, $skip_array = [])
     {
         $error = [];
@@ -65,7 +62,6 @@ class MySQLDbHelper
         }
         return $out;
     }
-
     /**
     * Backup to sql.
     * @param MySQLDbAdapter $mysql
@@ -127,13 +123,11 @@ EOF);
         }
         return $sb . '';
     }
-
     /**
     * auto generate doc.
     * @param string $table
     * @return string
     */
-
     public static function GetDatableCreateQuery($ad, string $table){
         $db_name = $ad->getDbName();
         $table_comment = null;
@@ -201,7 +195,6 @@ EOF);
         Logger::info($q);
         return $q;
     }
-
     /**
     * Dump value.
     * @param mixed $v
@@ -225,7 +218,6 @@ EOF);
         //$v = stripslashes($v);
         return igk_str_surround($v, "'");
     }
-
     /**
     * Dump insert table.
     * @param mixed $rows

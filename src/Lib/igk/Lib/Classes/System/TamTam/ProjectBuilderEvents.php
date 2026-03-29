@@ -8,19 +8,16 @@ namespace IGK\System\TamTam;
 * @package IGK\System\TamTam
 */
 abstract class ProjectBuilderEvents{
-
     /**
     * Constant: before build.
     * @var mixed
     */
     const BEFORE_BUILD = 'BEFORE_GRAPH_BUILD';
-
     /**
     * Constant: build.
     * @var mixed
     */
     const BUILD = 'GRAPH_BUILD';
-
     /**
     * Constant: after build.
     * @var mixed

@@ -3,7 +3,6 @@
 // @file: CronScriptHandler.php
 // @date: 20250416 10:51:02
 namespace IGK\System\Cron;
-
 /**
 * auto generate doc.
 * @package IGK\System\Cron
@@ -15,19 +14,16 @@ namespace IGK\System\Cron;
  */
 class CronScriptHandler
 {
-
     /**
     * Property: file.
     * @var mixed
     */
     var $file;
-
     /**
     * Property: args.
     * @var mixed
     */
     var $args;
-
     /**
     * Property: status.
     * @var mixed
@@ -37,7 +33,6 @@ class CronScriptHandler
      * argument to handler 
      * @return int status code  
      */
-
     public function handle()
     {
         extract($this->args = func_get_arg(1));

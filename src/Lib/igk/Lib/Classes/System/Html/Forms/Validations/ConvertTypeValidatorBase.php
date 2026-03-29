@@ -10,37 +10,31 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms\Validations
  * @author C.A.D BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 */
 abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
 {
-
     /**
     * Type of type.
     * @var mixed
     */
     protected $m_type;
-
     /**
     * Collection of support array.
     * @var mixed
     */
     private $m_supportArray = true;
-
     /**
     * auto generate doc.
     * @param bool $support_array
     * @return $this
     */
-
     public function supportArray(bool $support_array): static{
         $this->m_supportArray = $support_array;
         return $this;
     }
-
     /**
     * Returns Support Array.
     * @return bool
@@ -52,7 +46,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
      * the return type 
      * @return null|string 
      */
-
     public function getReturnType(): ?string
     {
         return $this->m_type;
@@ -62,7 +55,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
      * @param null|string $type 
      * @return static 
      */
-
     public function returnType(?string $type):static
     {
         $this->m_type = $type;
@@ -73,12 +65,10 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
      * @param mixed $value 
      * @return bool 
      */
-
     public function assertValidate($value): bool
     {
         return is_null($value) || is_object($value) || is_array($value);
     }
-
     /**
     * Validate.
     * @param mixed $value
@@ -142,7 +132,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
         }
         $error[] = 'not a valid data';
     }
-
     /**
     * Returns Fields.
     * @return array

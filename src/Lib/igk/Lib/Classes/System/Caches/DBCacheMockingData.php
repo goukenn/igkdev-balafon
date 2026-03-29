@@ -5,37 +5,31 @@
 // @desc: help mock data on loading system db cache structure
 namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
-
 /**
 * Dbcache mocking data.
 * @package IGK\System\Caches
 */
 class DBCacheMockingData {
-
     /**
     * Map of table.
     * @var mixed
     */
     var $table;
-
     /**
     * Property: controller.
     * @var mixed
     */
     var $controller;
-
     /**
     * Map of table row reference.
     * @var mixed
     */
     var $tableRowReference;
-
     /**
     * Map of def table name.
     * @var mixed
     */
     var $defTableName;
-
     /**
     * .ctr
     * @param string $table

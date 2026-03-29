@@ -8,13 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 /**
 * Html form inner node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlFormInnerNode extends HtmlNode{
-
     /**
     * Property: form.
     * @var mixed
@@ -24,7 +22,6 @@ final class HtmlFormInnerNode extends HtmlNode{
      * Constructor.
      * @param mixed $form The form node this inner node belongs to.
      */
-
     public function __construct($form){
         parent::__construct( "igk:form-inner");
         $this->m_form=$form;
@@ -33,7 +30,6 @@ final class HtmlFormInnerNode extends HtmlNode{
      * Indicates that this node does not render its tag.
      * @return bool
      */
-
     public function getCanRenderTag()
     {
         return false;

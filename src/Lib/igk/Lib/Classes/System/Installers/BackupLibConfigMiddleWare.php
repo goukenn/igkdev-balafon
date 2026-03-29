@@ -10,20 +10,17 @@ use function igk_resources_gets as __;
  * @package IGK\System\Installers
  */
 final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Property: config.
     * @var mixed
     */
     private $m_config;
-
     /**
     * Returns Message.
     */
     public function getMessage(){
         return __("backup library configuration");
     }
-
     /**
     * Invoke.
     */
@@ -40,7 +37,6 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
         }
         $this->next();
     }
-
     /**
     * Abort.
     */

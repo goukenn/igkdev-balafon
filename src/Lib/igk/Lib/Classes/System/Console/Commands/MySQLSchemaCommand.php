@@ -12,25 +12,21 @@ require_once IGK_LIB_DIR."/api/.mysql.pinc";
  * @package IGK\System\Console\Commands
  */
 class MySQLSchemaCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:mysql-schema";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "get mysql stored schema";
-
     /**
     * Property: options.
     * @var mixed
@@ -38,7 +34,6 @@ class MySQLSchemaCommand extends AppExecCommand{
     var $options = [
         '--prefix-table'=>'flag allow prefix on view'
     ];
-
     /**
     * Exec.
     * @param mixed $command

@@ -3,19 +3,16 @@
 // @file: SchemaAddIndexMigration.php
 // @date: 20231222 16:48:41
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 class SchemaAddIndexMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "columns"];
-
     /**
     * Sets up.
     * @param string $table
@@ -24,7 +21,6 @@ class SchemaAddIndexMigration extends SchemaMigrationItemBase{
     public function setup(string $table, $columns){
         $this->raw = get_defined_vars();
     }
-
     /**
     * Up.
     */
@@ -34,7 +30,6 @@ class SchemaAddIndexMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl->db_add_index($tb, $this->columns) ;// , $cl, $after);
     }
-
     /**
     * Down.
     */

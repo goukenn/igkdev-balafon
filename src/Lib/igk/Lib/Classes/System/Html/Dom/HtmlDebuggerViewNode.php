@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGKEvents;
-
 /**
 * Html debugger view node.
 * @package IGK\System\Html\Dom
 */
 class HtmlDebuggerViewNode extends HtmlNode{
-
     /**
     * .ctr
     */
@@ -20,20 +18,16 @@ class HtmlDebuggerViewNode extends HtmlNode{
         parent::__construct("igk:debugger-view");
         parent::_Add(new HtmlHookNode(IGKEvents::HOOK_DEBUGGER_VIEW, null));
     }
-
     /**
     * Returns Can Render Tag.
     */
-
     public function getCanRenderTag()
     {
         return false;
     }
-
     /**
     * Returns Message.
     */
-
     public function getMessage(){
         return null;
     }

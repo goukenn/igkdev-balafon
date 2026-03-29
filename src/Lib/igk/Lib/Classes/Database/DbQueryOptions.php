@@ -9,7 +9,6 @@ namespace IGK\Database;
  * @package IGK\Database
  */
 class DbQueryOptions implements IDbQueryOptions{
-
     /**
     * Constant: prop columns.
     * @var mixed
@@ -30,7 +29,6 @@ class DbQueryOptions implements IDbQueryOptions{
      * @var mixed
      */
     var $OrderBy;
-
     /**
     * auto generate doc.
     * @var mixed

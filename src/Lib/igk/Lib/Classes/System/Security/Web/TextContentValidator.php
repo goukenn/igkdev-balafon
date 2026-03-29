@@ -7,13 +7,11 @@ namespace IGK\System\Security\Web;
 * 
 * @package IGK\System\Security\Web
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
 */
 class TextContentValidator extends MapContentValidatorBase{
-
     /**
     * auto generate doc.
     * @param mixed $key

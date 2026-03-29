@@ -21,7 +21,6 @@ use ReflectionClass;
  * 
  * @package IGK\Controllers
  */
-
 /**
 * auto generate doc.
 * @package IGK\Controllers
@@ -29,19 +28,16 @@ use ReflectionClass;
 abstract class PageControllerBase extends ControllerTypeBase 
     implements IUriActionRegistrableController, ILibaryController
 {
-
     /**
     * Constant: page constant.
     * @var mixed
     */
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
-
     /**
     * Constant: page user.
     * @var mixed
     */
     const PAGE_USER=self::PAGE_CONSTANT + 1;
-
     /**
     * Constant: page template.
     * @var mixed
@@ -50,7 +46,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     /**
      * init view
      * */
-
     protected function _initView(){ 
         $this->register_autoload();
         parent::_initView();
@@ -59,12 +54,10 @@ abstract class PageControllerBase extends ControllerTypeBase
      * get buffer output
      * @return mixed 
      */
-
     public function get_output(){
         $s=$this->getEnvParam("_output");
         return $s;
     }
-
     /**
     * Returns Table Const.
     * @param mixed $n
@@ -77,7 +70,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $n;
     }
-
     /**
     * Returns User Dir.
     */
@@ -86,7 +78,6 @@ abstract class PageControllerBase extends ControllerTypeBase
             return $this->getDataDir()."/users/".$u->clLogin;
         return null;
     }
-
     /**
     * Returns User Setting File.
     */
@@ -96,7 +87,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return null;
     }
-
     /**
     * Returns User Settings.
     */
@@ -113,7 +103,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         $this->setEnvParam(self::ENV_PARAM_USER_SETTINGS, $settings);
         return $settings;
     }
-
     /**
     * Handles redirection uri.
     * @param mixed $u
@@ -122,7 +111,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     public function handle_redirection_uri($u, $forcehandle=1){
         return false;
     }
-
     /**
     * Handles Page.
     * @param mixed $ctrl
@@ -131,7 +119,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     public static function HandlePage($ctrl, $view){
         return $ctrl->handleView($view);
     }
-
     /**
     * Handles View.
     * @param mixed $view
@@ -145,13 +132,11 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
-
     /**
     * auto generate doc.
     * @param object $u
     * @return IUserProfile
     */
-
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
             $cl = $this->resolveClass(EntryClassResolution::UserProfile);
@@ -163,7 +148,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $u;
     }
-
     /**
     * Navtohome.
     */
@@ -172,7 +156,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         $c=$this->getAppUri();
         igk_navto($c);
     }
-
     /**
     * Store user settings.
     */
@@ -199,7 +182,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     /**
     *  get a application document. getDoc return the global document
     */
-
     protected function getAppDocument($newdoc=false){
         return igk_get_document($this::name("app_document"), $newdoc);
     }

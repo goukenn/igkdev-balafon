@@ -19,7 +19,6 @@ require_once IGK_LIB_CLASSES_DIR . "/Helper/ControllerHelper.php";
  */
 final class CacheConfigs
 {
-
     /**
     * Property: instance.
     * @var mixed
@@ -35,31 +34,26 @@ final class CacheConfigs
      * @var bool
      */
     private $changed = false;
-
     /**
     * Property: update references.
     * @var mixed
     */
     private $m_update_references = [];
-
     /**
     * Property: changed prop.
     * @var mixed
     */
     private $m_changed_prop = [];
-
     /**
      * store file mtime
      * @var mixed
      */
     private $mtime;
-
     /**
     * Property: config times.
     * @var mixed
     */
     private $config_times = [];
-
     /**
     * Cache: disbale cache store.
     * @var mixed
@@ -69,7 +63,6 @@ final class CacheConfigs
      * get cache file 
      * @return string 
      */
-
     public function getCacheFile():string
     {
         return igk_io_cachedir() . "/.configs.cache";
@@ -80,7 +73,6 @@ final class CacheConfigs
     private function __construct()
     {
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -89,7 +81,6 @@ final class CacheConfigs
     public function __get($n){
         igk_die("try access ". $n);
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -102,7 +93,6 @@ final class CacheConfigs
      * get instance
      * @return static
      */
-
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -141,7 +131,6 @@ final class CacheConfigs
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetCachedOption(BaseController $controller, $name, $defaut = null)
     {
         $i = self::getInstance();
@@ -191,7 +180,6 @@ final class CacheConfigs
         $i->m_changed_prop[$binhash]['keys'][self::_GetKey($controller, $name)] = 1;
         return self::registerCache($controller, $name, $v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $controller
@@ -202,7 +190,6 @@ final class CacheConfigs
     {
         return get_class($controller) . "/" . $name;
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -235,7 +222,6 @@ final class CacheConfigs
      * @param mixed $value 
      * @return void 
      */
-
     public static function SetCachedOption(BaseController $controller, $name, $value)
     {
         $i = self::getInstance();
@@ -252,7 +238,6 @@ final class CacheConfigs
             return true;
         }
     }
-
     /**
     * Registers Cache.
     * @param BaseController $controller
@@ -280,7 +265,6 @@ final class CacheConfigs
      * @return void 
      * @throws IGKException 
      */
-
     public static function storeCacheOptions()
     {
         $i = self::getInstance();
@@ -307,7 +291,6 @@ final class CacheConfigs
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetCachedSetting($name, $key, $default = null)
     {
         if (defined("IGK_TEST_INIT"))
@@ -326,7 +309,6 @@ final class CacheConfigs
      * @return void 
      * @throws IGKException 
      */
-
     public static function RegisterCacheSetting(string $name, string $key, $value)
     {
         $options = igk_getv(self::getInstance()->cacheOptions, $name);

@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Actions;
-
 use Exception;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
@@ -35,7 +34,6 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
-
 /**
  * Action Middleware
  * use to process method with specific checkMiddle - route 
@@ -107,7 +105,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         return true;
     }
-
     /**
     * auto generate doc.
     * @param mixed $arguments
@@ -268,7 +265,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     // + | bind action
                     array_unshift($arguments, $name);
                     array_unshift($arguments, $this->ctrl);
-
                     return RouteActionHandler::Handle($v, ...$arguments);
                 } else {
                     // + | is accessible but route verbs not matching 
@@ -325,9 +321,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 return;
             }
         }
-
-
-
         if ($security = self::_ParseSecurity($v_refmethod, $p)) {
             $ctrl = $host->getController();
             $reader = StringBlockReader::Annotation();
@@ -336,7 +329,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             self::_HandleSecurity($ctrl, $user, $args);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $args
@@ -388,13 +380,11 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
-
         $v_uses = [
             SecurityAnnotation::class => 'security',
             AuthAnnotation::class=>'auth'
         ];
         $annotations = AnnotationHelper::GetAnnotations($v_refmethod, $v_uses);
-
         if ($annotations) {
             list($security, $auth) = igk_extract($annotations, 'security|auth');
             if ($security instanceof SecurityAnnotation) {
@@ -424,7 +414,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
@@ -436,10 +425,8 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     */
     private static function _HandleMethodAccessSecurity(BaseController $ctrl, $p, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
-
         $c_mid_key = IGKEvents::HOOK_MIDDLEWARE_ACTION;
         list($strict, $auth, $args) = igk_extract($p, 'strict|auth|args'); 
-
         $fc_auth = function ($e) {
             if ($e->args->access) {
                 return;

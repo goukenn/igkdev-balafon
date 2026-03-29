@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Html;
-
 use Closure;
 use Error;
 use Exception;
@@ -21,7 +20,6 @@ use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 use IGK\System\Number;
 use IGKEnvironmentConstants;
 use function igk_resources_gets as __;
-
 /**
  * default form builder
  * @package IGK\System\Html
@@ -33,13 +31,11 @@ class FormBuilder
      * @var Closure|array|IFormBuilderDataSource
      */
     var $datasource;
-
     /**
     * Constant: env css.
     * @var mixed
     */
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
-
     /**
     * auto generate doc.
     * @var array{number: "text", tel: "text", float: "text", int: "text", email: "email", password: "password", text: "text", date: "date", datetime: "datetime-local", json: "text", radio: "radio", checkbox: "checkbox", file: "file", hidden: "hidden", datetime-local: "datetime-local"}
@@ -61,7 +57,6 @@ class FormBuilder
         "hidden" => "hidden",
         "datetime-local" => "datetime-local"
     ];
-
     /**
     * auto generate doc.
     * @var array{float: "igk-form-control number", double: "igk-form-control number", number: "igk-form-control number", int: "igk-form-control integer", text: "igk-form-control text", mail: "igk-form-control mail", url: "igk-form-control url", password: "igk-form-control password", email: "igk-form-control email", datetime: "igk-form-control datetime", datetime-local: "igk-form-control datetime-local"}
@@ -113,7 +108,6 @@ class FormBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function build(array $formFields, $render = 0, $engine = null, $tag = "div")
     {
         $o = "";
@@ -196,7 +190,6 @@ class FormBuilder
             $_type = strtolower(isset($v["type"]) ? $v["type"] : "text");
             $_allow_empty = isset($v["allow_empty"]) ? $v["allow_empty"] : "";
             $_empty_value = isset($v["empty_value"]) ? $v["empty_value"] : "0";
-
             if ($acomponent = igk_getv($v, 'afterComponent')) {
                 unset($v['afterComponent']);
             }
@@ -206,7 +199,6 @@ class FormBuilder
             // if ($_attribs = igk_getv($v, 'attribs')) {
             //     unset($v['attribs']);
             // }
-
             // + | --------------------------------------------------------------------
             // + | handle special type 
             // + |
@@ -255,7 +247,6 @@ class FormBuilder
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
             $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
             $bind_class_name = igk_getv($v, 'class_name');
-
             if (!$this->isHtmlType($_type) && is_subclass_of($_type, FormBuilderItemAbstractType::class)) {
                 $v_ctype = new $_type();
                 $v_ctype->setName($k);
@@ -487,11 +478,9 @@ class FormBuilder
             if ($v_error) {
                 $o .= '<div class="error-tip">' . __($v_error) . '</div>';
             }
-
             if ($acomponent) {
                 $o .= self::RenderComponent($acomponent);
             }
-
             if ($_is_div) {
                 $o .= "</{$tag}>";
             }
@@ -535,7 +524,6 @@ class FormBuilder
                     if (igk_array_is_assoc_only($v)) {
                         $bindValue($o, $fieldset, $name, $v);
                     } else {
-
                         $ct = count($v);
                         $jc = 0;
                         for ($i = 0; $i < $ct; $i++) {
@@ -594,7 +582,6 @@ class FormBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function RenderComponent($component)
     {
         $o = '';
@@ -611,7 +598,6 @@ class FormBuilder
         }
         return $o;
     }
-
     /**
     * auto generate doc.
     * @param mixed & $tattrib
@@ -637,18 +623,15 @@ class FormBuilder
      * @param string $type 
      * @return int|false 
      */
-
     protected function isHtmlType(string $type)
     {
         return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number|file)/", $type);
     }
-
     /**
     * auto generate doc.
     * @param mixed $b
     * @return int
     */
-
     protected static function _SelectSortBySorkByText($a, $b)
     {
         $getv = function ($a, $tab) {
@@ -672,7 +655,6 @@ class FormBuilder
      * @return mixed 
      * @throws Exception 
      */
-
     protected function _getDataSourceValue($value, $id)
     {
         $_value = $value;
@@ -687,13 +669,11 @@ class FormBuilder
         }
         return $_value;
     }
-
     /**
     * auto generate doc.
     * @param null|array $def_data
     * @return mixed|null|array
     */
-
     public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {
         $_source = $this->datasource;
@@ -711,7 +691,6 @@ class FormBuilder
      * @param mixed $value 
      * @return void 
      */
-
     public static function SelectOptions($data, $key, $value)
     {
         $list = [];
@@ -723,7 +702,6 @@ class FormBuilder
         }
         return $list;
     }
-
     /**
     * Builds submit.
     * @param string & $o
@@ -751,7 +729,6 @@ class FormBuilder
      * @return void 
      * @throws Exception 
      */
-
     protected static function _LoadClassDefinition(&$tm, &$arg)
     {
         foreach (['class', 'classname', 'className'] as $ck) {
@@ -766,7 +743,6 @@ class FormBuilder
         // update merged attribes
         $tm = array_merge($tm, $arg);
     }
-
     /**
     * Builds button.
     * @param string & $o

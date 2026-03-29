@@ -12,33 +12,28 @@ use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
-
 /**
 * Schema change column migration.
 * @package IGK\System\Database
 */
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
 {
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column", 'tag'];
     // source column to restore
-
     /**
     * Property: column info.
     * @var mixed
     */
     var $columnInfo;
-
     /**
     * Property: columns.
     * @var mixed
     */
     private $columns;
-
     /**
     * .ctr
     * @param mixed $migrations
@@ -52,7 +47,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * @return void 
      * @throws Exception 
      */
-
     public function up()
     {
         if (!$this->columnInfo) {
@@ -111,7 +105,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * down migrate
      * @return void 
      */
-
     public function down()
     {
         if (!$this->columnInfo)
@@ -125,7 +118,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * @param mixed $childs 
      * @return void 
      */
-
     protected function loadChilds($childs)
     {
         $this->columns = [];

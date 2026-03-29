@@ -7,25 +7,21 @@ namespace IGK\System\Console;
 use IGK\Resources\R;
 require_once __DIR__.'/IConsoleLogger.php';
 /** @package IGK\System\Console */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
 */
 class ConsoleLogger implements IConsoleLogger{
-
     /**
     * Property: app.
     * @var mixed
     */
     var $app;
-
     /**
     * Property: private offscreen.
     * @var mixed
     */
     private $m_privateOffscreen;
-
     /**
     * .ctr
     * @param mixed $app
@@ -34,7 +30,6 @@ class ConsoleLogger implements IConsoleLogger{
     {
         $this->app = $app;
     }
-
     /**
     * Warn.
     * @param mixed $msg
@@ -42,7 +37,6 @@ class ConsoleLogger implements IConsoleLogger{
     public function warn($msg){
         $this->app->print_off($this->app::Gets(App::PURPLE, $msg));
     }
-
     /**
     * Danger.
     * @param mixed $msg
@@ -50,7 +44,6 @@ class ConsoleLogger implements IConsoleLogger{
     public function danger($msg){        
         $this->app->print_off($this->app::Gets(App::RED, $msg));
     }
-
     /**
     * Success.
     * @param mixed $msg
@@ -59,7 +52,6 @@ class ConsoleLogger implements IConsoleLogger{
         $s = $this->app::Gets(App::GREEN, $msg); 
         $this->app->print($s);  
     }
-
     /**
     * Info.
     * @param mixed $msg
@@ -67,7 +59,6 @@ class ConsoleLogger implements IConsoleLogger{
     public function info($msg){
         $this->app->print($this->app::Gets(App::YELLOW, $msg));
     }
-
     /**
     * Logs.
     * @param mixed $msg
@@ -75,17 +66,14 @@ class ConsoleLogger implements IConsoleLogger{
     public function log($msg){
         $this->app->print($msg);
     }
-
     /**
     * auto generate doc.
     * @param mixed $msg
     * @return void
     */
-
     public function print($msg){
         $this->app->print($msg);
     }
-
     /**
     * Resources.
     * @param mixed $r
@@ -98,7 +86,6 @@ class ConsoleLogger implements IConsoleLogger{
        $c = empty($c = igk_getv($tlang, $r)) ? $r : $c; 
        return $c;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -108,7 +95,6 @@ class ConsoleLogger implements IConsoleLogger{
             include(R::GetCurrentLangPath());
         return $l;
     }
-
     /**
     * Offscreen.
     * @return ?IConsoleLogger

@@ -8,17 +8,14 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System;
-
 use Exception;
 use function igk_resources_gets as __;
-
 /**
  * use to manager number 
  * @package IGK\System
  */
 final class Number
 {
-
     /**
     * Property: size format.
     * @var mixed
@@ -30,20 +27,17 @@ final class Number
         "Kb" => 1024,
         "B" => 1
     );
-
     /**
      * check if number is roman litteral 
      * @param mixed $string 
      * @return bool 
      */
-
     static function IsRomanNumeral($string): bool
     {
         // Pattern pour les chiffres romains valides
         $pattern = '/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/'; 
         return preg_match($pattern, $string) === 1;
     }
-
     /**
     * auto generate doc.
     * @param mixed $d
@@ -56,7 +50,6 @@ final class Number
         } else
             return 10 + (ord($d) - ord('A'));
     }
-
     /**
     * From base.
     * @param mixed $d
@@ -73,7 +66,6 @@ final class Number
         }
         return $o;
     }
-
     /**
     * Returns Memory Size.
     * @param mixed $value
@@ -90,7 +82,6 @@ final class Number
         }
         return "0 byte";
     }
-
     /**
     * auto generate doc.
     * @param mixed $r
@@ -101,7 +92,6 @@ final class Number
         $g = ($r >= 10) ? chr(ord("A") + ($r - 10)) : $r;
         return $g;
     }
-
     /**
     * To base.
     * @param mixed $d
@@ -150,13 +140,11 @@ final class Number
         }
         return $o;
     }
-
     /**
     * auto generate doc.
     * @param string $value
     * @return int|float|void
     */
-
     public static function MemoryToBytes(string $value)
     {
         if (is_numeric($value)) {
@@ -184,7 +172,6 @@ final class Number
      * @param string|int $q 
      * @return void 
      */
-
     public static function IsZeroIndexNumber($q)
     {
         return (is_string($q) && (strlen($q) > 0) && ($q === '0')) ||

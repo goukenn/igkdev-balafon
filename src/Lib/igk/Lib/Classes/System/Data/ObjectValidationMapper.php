@@ -10,68 +10,57 @@ use IGK\System\Security\Web\ObjectContentValidator;
 * 
 * @package IGK\System\Data
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Data
 */
 class ObjectValidationMapper{
-
     /**
     * Property: resolv data.
     * @var mixed
     */
     protected $_resolv_data;
-
     /**
     * Property: errors.
     * @var mixed
     */
     protected $m_errors;
-
     /**
     * Property: not required.
     * @var mixed
     */
     protected $m_not_required;
-
     /**
     * Property: default values.
     * @var mixed
     */
     protected $m_defaultValues;
-
     /**
     * Property: resolv keys.
     * @var mixed
     */
     protected $m_resolvKeys;
-
     /**
     * Map of mapper.
     * @var mixed
     */
     var $mapper;
-
     /**
     * Property: validating.
     * @var mixed
     */
     var $validating = 0;
-
     /**
     * Property: default content validator.
     * @var mixed
     */
     var $defaultContentValidator;
-
     /**
     * Returns Default Content Validator.
     */
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new ObjectContentValidator;
     }
-
     /**
     * .ctr
     * @param mixed $map
@@ -86,17 +75,14 @@ class ObjectValidationMapper{
         $this->m_not_required = $not_required;
         $this->m_resolvKeys = $resolv_keys;
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function isValidate():bool
     {
         return empty($this->m_errors) && !$this->validating;
     }
-
     /**
     * Validates.
     * @param mixed $data
@@ -173,7 +159,6 @@ class ObjectValidationMapper{
      * get map
      * @return mixed 
      */
-
     public function map($outMap = null)
     {
         if ($this->isValidate()) {

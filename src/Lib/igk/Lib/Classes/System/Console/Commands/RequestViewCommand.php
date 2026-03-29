@@ -3,7 +3,6 @@
 // @file: RequestCommand.php
 // @date: 20221114 01:53:54
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
@@ -17,32 +16,27 @@ use IGK\System\Http\RequestPreparer;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class RequestViewCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--request:view';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'request view call';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller request [options]';
-
     /**
     * Shows Options.
     */
@@ -70,7 +64,6 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -94,14 +87,11 @@ class RequestViewCommand extends AppExecCommand
         $ctrl->register_autoload();
         self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
-
         if ($method && $files){
             if (!is_array($files))
                 $files = [$files];
-
             $this->initFiles($files);
         }
-        
         if ($json = igk_getv($command->options, '--json')) {
             if (igk_io_file_exists($json)) {
                 $json = file_get_contents($json);
@@ -146,7 +136,6 @@ class RequestViewCommand extends AppExecCommand
         }
         error_clear_last();
     }
-
     /**
     * auto generate doc.
     * @param array $files
@@ -157,7 +146,6 @@ class RequestViewCommand extends AppExecCommand
         while(count($files)>0){
             $q = array_shift($files);
             list($file, $name) = igk_extract(explode(';', $q, 2),'0|1');
-
             $name = $name ?? 'file_'.$count;
             $temp_file = tempnam(sys_get_temp_dir(),'file');
             @unlink($temp_file);
@@ -181,7 +169,6 @@ class RequestViewCommand extends AppExecCommand
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function doRequest($command, string $path)
     {
         $ctrl = self::GetController(igk_configs()->default_controller, false)

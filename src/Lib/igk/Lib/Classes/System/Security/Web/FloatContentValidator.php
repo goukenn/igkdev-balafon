@@ -3,7 +3,6 @@
 // @file: FloatContentValidator.php
 // @date: 20230303 20:55:11
 namespace IGK\System\Security\Web;
-
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web

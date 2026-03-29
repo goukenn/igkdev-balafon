@@ -3,13 +3,11 @@
 // @file: IControllerManagerObject.php
 // @date: 20220909 11:14:19
 namespace IGK\Controllers;
-
 /**
 * auto generate doc.
 * @package IGK\Controllers
 */
 interface IControllerManagerObject{
-
     /**
     * Returns Controller.
     * @param mixed $name
@@ -17,7 +15,6 @@ interface IControllerManagerObject{
     * @return ?BaseController
     */
     function getController($name, bool $throwException = true): ?BaseController;
-
     /**
     * Registers.
     * @param BaseController $controller
@@ -25,7 +22,6 @@ interface IControllerManagerObject{
     */
     function register(BaseController $controller); 
     function getDefaultController(): ?BaseController;
-
     /**
     * Sets Default Controller.
     * @param null|BaseController $controller
@@ -38,20 +34,17 @@ interface IControllerManagerObject{
      * array of all controllers
      * @return array 
      */
-
     function getControllers():array;
     /**
      * list of project controller
      * @return array 
      */
-
     function getUserControllers():array;
     /**
      * get registrated named controller
      * @param string $name 
      * @return null|BaseController 
      */
-
     function getRegistratedNamedController(string $name): ?BaseController;
     /**
      * register named controller
@@ -59,7 +52,6 @@ interface IControllerManagerObject{
      * @param BaseController $controller 
      * @return mixed 
      */
-
     function registerNamedController(string $name, BaseController $controller);
     /**
      * invoke pattern

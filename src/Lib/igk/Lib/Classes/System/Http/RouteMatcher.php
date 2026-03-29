@@ -6,36 +6,30 @@
 namespace IGK\System\Http;
 use IGK\Models\Users;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package App\Actions\Dashboard
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class RouteMatcher extends RouteHandler{
-
     /**
     * auto generate doc.
     * @var self route matcher chain
     */
     private $chainTo;
-
     /**
     * Property: root.
     * @var mixed
     */
     private $root;
-
     /**
     * Property: throw class.
     * @var mixed
     */
     private $throwClass;
-
     /**
     * .ctr
     * @param mixed $controller
@@ -45,12 +39,10 @@ class RouteMatcher extends RouteHandler{
     {   
         parent::__construct("m:matcher", $controller);
     }
-
     /**
     * auto generate doc.
     * @return RouteMatcher
     */
-
     function next (){
         if ($this->root ==null){
             $this->root = $this;
@@ -64,14 +56,12 @@ class RouteMatcher extends RouteHandler{
      * get root chain
      * @return mixed 
      */
-
     function root(){
         if ($this->root === null){
             return $this;
         }
         return $this->root;
     }
-
     /**
     * Creates.
     * @param mixed $controller
@@ -80,7 +70,6 @@ class RouteMatcher extends RouteHandler{
         $m = new self($controller);
         return $m;
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -88,7 +77,6 @@ class RouteMatcher extends RouteHandler{
     {
         return [];
     }
-
     /**
     * get string presentation.
     */
@@ -100,7 +88,6 @@ class RouteMatcher extends RouteHandler{
      * handle all 
      * @return mixed 
      */
-
     public function checkAll(bool $throwException=true){
         /**
          * @var self $rc self
@@ -123,7 +110,6 @@ class RouteMatcher extends RouteHandler{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     */

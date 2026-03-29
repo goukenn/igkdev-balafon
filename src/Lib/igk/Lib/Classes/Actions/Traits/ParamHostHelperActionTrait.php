@@ -8,7 +8,6 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait ParamHostHelperActionTrait{
-
     /**
     * Returns Params.
     * @param mixed $entry
@@ -21,7 +20,6 @@ trait ParamHostHelperActionTrait{
         }
         return $g;
     }
-
     /**
     * Sets Params.
     * @param mixed $entry

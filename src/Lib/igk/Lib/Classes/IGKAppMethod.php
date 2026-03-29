@@ -7,102 +7,85 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkapp method.
 */
 final class IGKAppMethod{
-
     /**
     * Constant: callable func.
     * @var mixed
     */
     const CALLABLE_FUNC=8;
-
     /**
     * Constant: callable user func.
     * @var mixed
     */
     const CALLABLE_USER_FUNC=16;
-
     /**
     * Constant: class method.
     * @var mixed
     */
     const CLASS_METHOD=2;
-
     /**
     * Constant: c callablen.
     * @var mixed
     */
     const C_CALLABLEN=37;
-
     /**
     * Constant: c class.
     * @var mixed
     */
     const C_CLASS=33;
-
     /**
     * Constant: c idn.
     * @var mixed
     */
     const C_IDN=38;
-
     /**
     * Constant: c methodn.
     * @var mixed
     */
     const C_METHODN=34;
-
     /**
     * Constant: c objn.
     * @var mixed
     */
     const C_OBJN=35;
-
     /**
     * Constant: c pevn.
     * @var mixed
     */
     const C_PEVN=36;
-
     /**
     * Constant: function method.
     * @var mixed
     */
     const FUNCTION_METHOD=3;
-
     /**
     * Constant: methname.
     * @var mixed
     */
     const METHNAME=32;
-
     /**
     * Constant: object method.
     * @var mixed
     */
     const OBJECT_METHOD=1;
-
     /**
     * Constant: object method closure.
     * @var mixed
     */
     const OBJECT_METHOD_CLOSURE=4;
-
     /**
     * Property: .
     * @var mixed
     */
     private $m_;
-
     /**
     * Property: object.
     * @var mixed
     */
     private $_object;
-
     /**
     * Property: class.
     * @var mixed
@@ -115,7 +98,6 @@ final class IGKAppMethod{
      * @param array  $v Arguments passed to the method.
      * @return void
      */
-
     public function __call($d, $v){
         igk_die("call ".$d);
     }
@@ -132,7 +114,6 @@ final class IGKAppMethod{
      * @param mixed  $v Value to set.
      * @return void
      */
-
     public function __set($n, $v){
         igk_die("setting ".$n);
     }
@@ -141,7 +122,6 @@ final class IGKAppMethod{
      *
      * @return array
      */
-
     public function __sleep(){
         $t=igk_reflection_get_member($this);
         if($this->m_ && $this->m_->isEmpty()){
@@ -154,7 +134,6 @@ final class IGKAppMethod{
      *
      * @return string
      */
-
     public function __toString(){
         $v_pattern=IGK_STR_EMPTY;
         $m=$this->m_;
@@ -204,7 +183,6 @@ final class IGKAppMethod{
      * @param mixed  $event           Associated event.
      * @return IGKAppMethod|null
      */
-
     public static function Create($class_or_object, & $method, $event){
         $c=$class_or_object;
         $out=null;
@@ -257,7 +235,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getCallable(){
         return $this->m_->getFlag(self::C_CALLABLEN);
     }
@@ -266,7 +243,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getClass(){
         return $this->m_->getFlag(self::C_CLASS);
     }
@@ -275,7 +251,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getId(){
         return $this->m_->getFlag(self::C_IDN);
     }
@@ -284,7 +259,6 @@ final class IGKAppMethod{
      *
      * @return string|null
      */
-
     public function getIdKey(){
         $m=$this->getMethodName();
         switch($this->getType()){
@@ -305,7 +279,6 @@ final class IGKAppMethod{
      *
      * @return string
      */
-
     public function getMethodName(): string{
         return $this->m_->getFlag(self::C_METHODN);
     }
@@ -314,7 +287,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getObject(){
         return $this->m_->getFlag(self::C_OBJN);
     }
@@ -323,7 +295,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getParentEvent(){
         return $this->m_->getFlag(self::C_PEVN);
     }
@@ -332,7 +303,6 @@ final class IGKAppMethod{
      *
      * @return mixed
      */
-
     public function getType(){
         return $this->m_->getFlag(-1);
     }
@@ -343,7 +313,6 @@ final class IGKAppMethod{
      * @param mixed $args   The event arguments.
      * @return mixed
      */
-
     public function Invoke($sender, $args){
         try {
             $extra=array($sender, $args);
@@ -390,7 +359,6 @@ final class IGKAppMethod{
      * @param mixed      $event The event to check registration for.
      * @return bool
      */
-
     public function IsRegistered($tab, $event){
         if($tab == null)
             return false;
@@ -419,7 +387,6 @@ final class IGKAppMethod{
      * @param string $method          Method name to match.
      * @return bool
      */
-
     public function match($class_or_object, $method){
         $_cl=$this->getClass();
         $m=$this->getMethodName();
@@ -446,7 +413,6 @@ final class IGKAppMethod{
      * @param mixed  $obj       The object to compare against.
      * @return bool
      */
-
     public function matchParam($paramname, $obj){
         return igk_getv($this->getClass()->clParam, $paramname) === $obj;
     }
@@ -456,7 +422,6 @@ final class IGKAppMethod{
      * @param mixed $n The callable to store.
      * @return void
      */
-
     public function setCallable($n){
         $this->m_->setFlag(self::C_CALLABLEN, $n);
     }
@@ -466,7 +431,6 @@ final class IGKAppMethod{
      * @param mixed $n The class name to store.
      * @return void
      */
-
     public function setClass($n){
         $this->m_->setFlag(self::C_CLASS, $n);
     }
@@ -476,7 +440,6 @@ final class IGKAppMethod{
      * @param mixed $n The identifier to store.
      * @return void
      */
-
     public function setId($n){
         $this->m_->setFlag(self::C_IDN, $n);
     }
@@ -486,7 +449,6 @@ final class IGKAppMethod{
      * @param string $n The method name to store.
      * @return void
      */
-
     public function setMethodName($n){
         $this->m_->setFlag(self::C_METHODN, $n);
     }
@@ -496,7 +458,6 @@ final class IGKAppMethod{
      * @param mixed $n The object to store.
      * @return void
      */
-
     public function setObject($n){
         $this->m_->setFlag(self::C_OBJN, $n);
     }
@@ -506,7 +467,6 @@ final class IGKAppMethod{
      * @param mixed $n The parent event to store.
      * @return void
      */
-
     public function setParentEvent($n){
         $this->m_->setFlag(self::C_PEVN, $n);
     }
@@ -516,7 +476,6 @@ final class IGKAppMethod{
      * @param mixed $t The type constant to store.
      * @return void
      */
-
     public function setType($t){
         $this->m_->setFlag(-1, $t);
     }

@@ -10,7 +10,6 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaBuilderMigration{
-
     /**
     * Property: controller.
     * @var mixed
@@ -21,7 +20,6 @@ class SchemaBuilderMigration{
      * @var mixed
      */
     var $listener;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -39,7 +37,6 @@ class SchemaBuilderMigration{
      * @return object 
      * @throws IGKException 
      */
-
     public function __call($name, $arguments)
     {
         $cl = __NAMESPACE__."\\Schema".ucfirst($name)."Migration";
@@ -53,12 +50,10 @@ class SchemaBuilderMigration{
         }
         throw new IGKException("schema builder not allowed : $cl::".$name);
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){
@@ -70,7 +65,6 @@ class SchemaBuilderMigration{
         }
         return true;
     }
-
     /**
     * Downgrade.
     */
@@ -85,7 +79,6 @@ class SchemaBuilderMigration{
         }
         return true;
     }
-
     /**
     * .ctr
     */

@@ -9,7 +9,6 @@ namespace IGK\System\Console;
  * @package IGK\System\Console
  */
 class Utils{
-
     /**
     * Generates Configuration.
     * @param mixed $public_dir

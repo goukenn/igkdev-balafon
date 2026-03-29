@@ -7,31 +7,26 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DbUpdateControllerSchemaCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:schema-update';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'udpate data-schema and increment the release version';
-
     /**
     * Shows Usage.
     */
@@ -39,7 +34,6 @@ class DbUpdateControllerSchemaCommand extends AppExecCommand{
         parent::showUsage();
         Logger::print(sprintf("%s controller [file]", $this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command

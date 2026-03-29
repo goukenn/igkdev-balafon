@@ -4,7 +4,6 @@
 // @date: 20220805 17:02:34
 // @desc: 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-
 /**
 * auto generate doc.
 * @param string $prefix prefix of class to prepend
@@ -41,7 +40,6 @@ function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
         = $style;
 }
 if (false == function_exists('import')){
-
     /**
     * auto generate doc.
     * @param mixed $uri

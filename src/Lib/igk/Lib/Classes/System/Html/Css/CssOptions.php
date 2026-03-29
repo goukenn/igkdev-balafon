@@ -3,19 +3,16 @@
 // @file: CssOptions.php
 // @date: 20221202 08:57:43
 namespace IGK\System\Html\Css;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssOptions implements ICssDefinition{
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $value
@@ -24,7 +21,6 @@ class CssOptions implements ICssDefinition{
     {
         $this->value = $value;
     }
-
     /**
     * Returns Definition.
     * @return ?string

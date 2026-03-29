@@ -3,25 +3,21 @@
 // @file: DbInitManagement.php
 // @date: 20251112 14:45:20
 namespace IGK\Database\Helpers;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
-
 /**
  * 
  * @package IGK\Database\Helper
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database\Helpers
 */
 class DbInitManagement
 {
-
     /**
     * auto generate doc.
     * @param null|BaseController $controller
@@ -39,7 +35,6 @@ class DbInitManagement
         $auth = Authorizations::createIfNotExists($top);
         return [$group, $auth];
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
@@ -60,8 +55,6 @@ class DbInitManagement
             //     }
             // }
         }
-        
-        
         $tpro = null;
         $pro = $controller->configFile('profiles');
         if ($pro && igk_io_file_exists($pro)) {
@@ -71,7 +64,6 @@ class DbInitManagement
             return;
         $roles = []; // mean groups
         $auths = []; // mean auths
-       
         $v_auths = [];
         if ($keyname) {
             $v_auths['clController'] = $keyname;

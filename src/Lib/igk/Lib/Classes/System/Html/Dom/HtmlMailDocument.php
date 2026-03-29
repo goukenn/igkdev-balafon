@@ -11,28 +11,23 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Net\MailAttachementContainer;
-
 /**
 * Igkhtml mail doc.
 * @package IGK\System\Html\Dom
 */
 final class IGKHtmlMailDoc extends HtmlNode{
-
     /**
     * Properties: attachement, app, message, theme.
     * @var mixed
     */
     private $_attachement, $m_app, $m_message, $m_theme;
-
     /**
     * Accept render.
     * @param null|mixed $options
     */
-
     public function _acceptRender($options=null){
         return true;
     }
-
     /**
     * .ctr
     */
@@ -47,7 +42,6 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $this->m_message=$this->div();
         $this->setId("message");
     }
-
     /**
     * auto generate doc.
     * @param mixed $target
@@ -76,18 +70,15 @@ final class IGKHtmlMailDoc extends HtmlNode{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return
     */
     private function _initTheme(){    }
-
     /**
     * Creates From Document.
     * @param mixed $doc
     */
-
     public static function CreateFromDocument($doc){
         if($doc == null)
             return null;
@@ -95,36 +86,28 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $c->m_doc=$doc;
         return $c;
     }
-
     /**
     * Returns Attachement.
     */
-
     public function getAttachement(){
         return $this->_attachement;
     }
-
     /**
     * Returns Message.
     */
-
     public function getMessage(){
         return $this->m_message;
     }
-
     /**
     * Returns Theme.
     */
-
     public function getTheme(){
         return $this->m_theme;
     }
-
     /**
     * Inner html.
     * @param null|mixed & $options
     */
-
     protected function innerHTML(& $options=null){
         $out="";
         $s=new HtmlStyleNode();        
@@ -146,7 +129,6 @@ final class IGKHtmlMailDoc extends HtmlNode{
      * @param mixed $theme 
      * @return void 
      */
-
     public function loadTheme($theme){
         $this->_copyAddBuildDefinition($this->m_theme, $theme);
         foreach($theme->getMedias() as $k=>$m){
@@ -155,20 +137,16 @@ final class IGKHtmlMailDoc extends HtmlNode{
                 $this->_copyAddBuildDefinition($r, $m);
         }
     }
-
     /**
     * Renders.
     * @param null|mixed $o
     */
-
     public function render($o=null){
         return $this->renderDoc();
     }
-
     /**
     * Renders Doc.
     */
-
     public function renderDoc(){
         $this->_attachement=new MailAttachementContainer();
         $p= HtmlRenderer::CreateRenderOptions();
@@ -182,14 +160,12 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $s .= "</html>";
         return $s;
     }
-
     /**
     * Sends Mail.
     * @param mixed $to
     * @param mixed $from
     * @param mixed $subject
     */
-
     public function sendMail($to, $from, $subject){
         $src=$this->render();
         $g=igk_mail_sendmail($to, $from, $subject, $src, null, $this->_attachement ? $this->_attachement->getList(): null, "text/html");

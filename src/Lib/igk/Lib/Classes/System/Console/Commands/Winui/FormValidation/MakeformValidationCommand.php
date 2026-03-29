@@ -16,39 +16,33 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\Forms\FormValidationData;
 use Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Winui\FormValidation
 * @author C.A.D. BONDJE DOUE
 */
 class MakeformValidationCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:form-validation';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='make a form validation. Contextual command*.'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = CommandCategories::MAKE;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] name [options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -64,7 +58,6 @@ class MakeformValidationCommand extends AppExecCommand{
 		Utility::MakeBindFiles($command, $bind, false);
 		ConsoleLogger::success('done');
 	 }
-
     /**
     * Binding list.
     * @param string $dir
@@ -98,7 +91,6 @@ class MakeformValidationCommand extends AppExecCommand{
 	  * @return void 
 	  * @throws Exception 
 	  */
-
     static function ContextController($command, & $controller, & $name){
 		if (is_null($name)){
 			if (property_exists($command->options, '--controller')){

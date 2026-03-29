@@ -8,13 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 /**
 * Html ctrl node item base.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
-
     /**
     * Property: ctrl.
     * @var mixed
@@ -24,7 +22,6 @@ abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
      * Constructor.
      * @param string $tag The HTML tag name for this node.
      */
-
     public function __construct($tag){
         parent::__construct($tag);
     }
@@ -32,7 +29,6 @@ abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
      * Returns the controller instance associated with this node.
      * @return mixed
      */
-
     public function getCtrl(){
         return igk_getctrl($this->m_ctrl);
     }
@@ -41,7 +37,6 @@ abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
      * @param mixed $v The controller identifier or instance to associate.
      * @return static
      */
-
     public function setCtrl($v){
         $this->m_ctrl=$v;
         return $this;

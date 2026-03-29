@@ -5,19 +5,16 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class GetModuleCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--get-module';
-
     /**
     * Property: desc.
     * @var mixed
@@ -25,7 +22,6 @@ class GetModuleCommand extends AppExecCommand{
     var $desc='get module command';
 	/* var $options=[]; */
 	/* var \$category; */
-
     /**
     * Exec.
     * @param mixed $command

@@ -8,7 +8,6 @@ namespace IGK\System\Html\Forms\Validations;
 * @package IGK\System\Html\Forms\Validations
 */
 abstract class InspectorFormFieldModelValidationBase extends InspectorFormFieldValidationBase{
-
     /**
     * Model map.
     * @return array

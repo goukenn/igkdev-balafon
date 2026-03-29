@@ -3,32 +3,27 @@
 // @file: ActionGroupBuilder.php
 // @date: 20221123 22:41:16
 namespace IGK\System\Html\Dom\Component;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom\Component
 */
 class ActionGroupBuilder{
-
     /**
     * Property: target.
     * @var mixed
     */
     var $target;
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options;
-
     /**
     * Adds Seperator.
     */
     public function addSeperator(){
         return $this->target->span()->setClass('igk-sep');
     }
-
     /**
     * Input.
     * @param null|mixed $name
@@ -40,7 +35,6 @@ class ActionGroupBuilder{
         $i->setClass('action-item');
         return $i;
     }
-
     /**
     * Builds.
     * @param array $items

@@ -4,7 +4,6 @@
 // @date: 20221003 07:45:23
 namespace IGK\System\Applications;
 use IGKCssApplication;
-
 /**
 * auto generate doc.
 * @package IGK\System\Applications

@@ -9,7 +9,6 @@ namespace IGK\System\Configuration\Controllers;
 * @author C.A.D. BONDJE DOUE
 */
 final class ConfigurationTerminalController extends ConfigControllerBase{
-
     /**
     * Returns Name.
     * @return string
@@ -17,14 +16,12 @@ final class ConfigurationTerminalController extends ConfigControllerBase{
     public function getName(): string{
         return '{CFBCE372-3778-469B-7C41-D888CC220998}';
     }
-
     /**
     * Returns Config Page.
     */
     public function getConfigPage(){
         return "cli-terminal";
     }
-
     /**
     * Returns Config Group.
     */

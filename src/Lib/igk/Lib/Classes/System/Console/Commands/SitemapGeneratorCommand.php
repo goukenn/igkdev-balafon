@@ -20,13 +20,11 @@ use ReflectionException;
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sitemap:gen";
-
     /**
     * Property: desc.
     * @var mixed
@@ -38,7 +36,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @param mixed $controller 
      * @return void 
      */
-
     public function exec($command, $controller =null) {
         $curi = igk_io_baseuri();
         $baseuri = igk_getv($command->options, "--baseuri", $curi);
@@ -55,7 +52,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
         $baseuri = $baseuri.str_replace($curi, "", $ctrl->getAppUri()); 
         echo self::GenerateSiteMap($ctrl->getViews(false, true), $baseuri);
     }
-
     /**
     * Returns Project Indexes.
     */
@@ -86,7 +82,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws Exception 
      * @throws IGKException 
      */
-
     public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
@@ -120,13 +115,11 @@ class SitemapGeneratorCommand extends AppExecCommand{
         }
         return $s; 
     }
-
     /**
     * auto generate doc.
     * @param array|null &$error
     * @return int|null|string
     */
-
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,

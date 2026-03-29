@@ -17,7 +17,6 @@ use IGKException;
  * 
  * @package IGK\System\Compilers
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Compilers
@@ -48,7 +47,6 @@ class BalafonCacheViewCompiler{
         $f = self::TreatOuput($output . $src . $extra, $file, $args);
         return $f;
     }
-
     /**
     * auto generate doc.
     * @param mixed $args
@@ -77,14 +75,12 @@ class BalafonCacheViewCompiler{
         $cout =  $compiler->compile([$file]); 
         return $cout;
     }
-
     /**
     * Returns Bind View Compiler Handler.
     * @param BaseController $controller
     */
     public static function GetBindViewCompilerHandler(BaseController $controller){
         $__igk_attr__ = Closure::fromCallable(function($arr){
-
             /**
             * auto generate doc.
             * @var ViewHandler $q

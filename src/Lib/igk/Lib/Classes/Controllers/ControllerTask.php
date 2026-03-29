@@ -13,19 +13,16 @@ use IGK\System\Http\RouteActionHandler;
  * @package IGK\Controllers
  */
 abstract class ControllerTask{
-
     /**
     * Property: controller.
     * @var mixed
     */
     protected $controller;
-
     /**
     * auto generate doc.
     * @var RouteActionHandler
     */
     protected $route;
-
     /**
     * .ctr
     * @param mixed $controller
@@ -37,7 +34,6 @@ abstract class ControllerTask{
         $this->route = $route;  
         $this->init(); 
     }
-
     /**
     * Initializes.
     */
@@ -50,9 +46,7 @@ abstract class ControllerTask{
      * index start entry task
      * @return mixed 
      */
-
     abstract function index();
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name

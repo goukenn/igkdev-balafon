@@ -10,32 +10,27 @@ use ReflectionClass;
 // + | ENV : Controller Cache list : so we can easely retrieve detected 
 // + | loaded controller 
 // + |
-
 /**
 * auto generate doc.
 * @package IGK\System\Caches
 */
 class EnvControllerCacheList{
    //  use CachableDataTrait;
-
     /**
     * Constant: file.
     * @var mixed
     */
     const FILE = ".env.controller.cache";
-
     /**
     * Cache: cachelist.
     * @var mixed
     */
     private static $sm_cachelist;
-
     /**
     * Property: changed.
     * @var mixed
     */
     private static $sm_changed;
-
     /**
     * Returns Cache File.
     */
@@ -46,7 +41,6 @@ class EnvControllerCacheList{
      * get declared class list
      * @return mixed 
      */
-
     public static function GetControllersClasses(){ 
         if (is_null(self::$sm_cachelist)){ 
             $tab = false;

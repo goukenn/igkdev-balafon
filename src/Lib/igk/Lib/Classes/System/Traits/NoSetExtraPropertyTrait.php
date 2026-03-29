@@ -6,7 +6,6 @@ use function igk_resources_gets as __;
  */
 trait NoSetExtraPropertyTrait
 {
-
     /**
     * destructor
     * @param mixed $n

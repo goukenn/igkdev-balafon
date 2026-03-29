@@ -9,7 +9,6 @@ use IGK\System\Text\RegexMatcherPattern;
 * @package IGK\System\IO\File\TmLanguage
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage
@@ -21,7 +20,6 @@ interface ITmLanguageLoaderListener{
      * @return RegexMatcherPattern 
      */
     function createPattern($definition) : RegexMatcherPattern;
-
     /**
     * auto generate doc.
     * @param mixed $repository

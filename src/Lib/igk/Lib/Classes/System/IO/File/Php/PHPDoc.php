@@ -12,7 +12,6 @@ namespace IGK\System\IO\File\Php;
  */
 class PHPDoc{
     // var $var;
-
     /**
     * get string presentation.
     */
@@ -20,7 +19,6 @@ class PHPDoc{
     {
         return $this->getValue();
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -29,7 +27,6 @@ class PHPDoc{
     {
         return null;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -45,7 +42,6 @@ class PHPDoc{
      * get value
      * @return string 
      */
-
     public function getValue():string{
         $g = [];
         if ($c = $this->comment){
@@ -72,7 +68,6 @@ class PHPDoc{
      * @param null|string $comment 
      * @return $this 
      */
-
     public function var(string $name, ?string $type=null, ?string $comment=null){
       $g = null;
       if(property_exists($this, "var")) 

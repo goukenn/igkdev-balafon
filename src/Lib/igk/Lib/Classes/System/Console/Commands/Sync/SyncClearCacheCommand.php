@@ -9,25 +9,21 @@ use IGK\System\Console\Logger;
  * clear cache in ftp sync server */
 class SyncClearCacheCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:clearcache";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync:ftp clear cache";
-
     /**
     * Exec.
     * @param mixed $command

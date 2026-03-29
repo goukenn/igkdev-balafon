@@ -5,27 +5,23 @@
 namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
-
 /**
 * auto generate doc.
 * @package IGK\System\Caches
 */
 class EnvControllerCacheRoute implements IControllerCacheChain{
     public
-
     /**
     * Constant: file.
     * @var mixed
     */
     const FILE = SystemUriActionController::CACHE_FILE;
-
     /**
     * Returns Cache File.
     */
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::FILE;
     }
-
     /**
     * Updates.
     * @param BaseController $controller
@@ -33,7 +29,6 @@ class EnvControllerCacheRoute implements IControllerCacheChain{
     */
     public function update(BaseController $controller):void{
     }
-
     /**
     * Complete.
     * @return void

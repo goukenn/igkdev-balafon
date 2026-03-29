@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\XSD;
 use IGKXmlNode;
-
 /**
 * Xsd attribute builder.
 * @package IGK\XSD
 */
 class XsdAttributeBuilder extends XsdElement{
-
     /**
     * .ctr
     * @return
@@ -19,7 +17,6 @@ class XsdAttributeBuilder extends XsdElement{
     private function __construct()
     {
     }
-
     /**
     * Creates.
     * @param IGKXmlNode $node
@@ -32,7 +29,6 @@ class XsdAttributeBuilder extends XsdElement{
         $n->m_builder = $builder;
         return $n;
     }
-
     /**
     * Sets Require.
     * @param mixed $b

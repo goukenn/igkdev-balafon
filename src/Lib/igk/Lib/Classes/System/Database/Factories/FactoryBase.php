@@ -12,31 +12,26 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Database\Factories
  */
 abstract class FactoryBase {
-
     /**
     * Count: count.
     * @var mixed
     */
     protected $count;
-
     /**
     * Property: model.
     * @var mixed
     */
     protected $model;
-
     /**
     * Index: index.
     * @var mixed
     */
     protected $index;
-
     /**
     * Property: data.
     * @var mixed
     */
     protected $data;
-
     /**
     * Property: errors.
     * @var mixed
@@ -45,27 +40,22 @@ abstract class FactoryBase {
     /**
      * helper retrieve model utility
      */
-
     protected function modelUtility(string $name){
 		return $this->model->getController()->modelUtility($name);
 	}
-
     /**
     * Returns Errors.
     */
     protected function getErrors(){
         return $this->m_errors;
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     protected function can(){
         return rand(0,1) === 1;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -74,7 +64,6 @@ abstract class FactoryBase {
     public function __set($n, $v){
         igk_die("Not allowed: ".$n);
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -82,7 +71,6 @@ abstract class FactoryBase {
     public function __get($n){
         igk_die("Not allowed: ".$n);
     }
-
     /**
     * .ctr
     * @param ModelBase $model
@@ -99,7 +87,6 @@ abstract class FactoryBase {
      * override to reset factory
      * @return void 
      */
-
     protected function reset(){
     }
     /**
@@ -107,7 +94,6 @@ abstract class FactoryBase {
      * @param null|array $error 
      * @return $this 
      */
-
     public function setError(?array & $error){
         $this->m_errors = & $error;
         return $this;
@@ -116,7 +102,6 @@ abstract class FactoryBase {
      * initilize dependency and return the number of max created element
      * @return void 
      */
-
     protected function dependOn(int $max){
         return $max;
     }
@@ -124,7 +109,6 @@ abstract class FactoryBase {
      * create model and return response
      * @return ?array|mixed
      */
-
     public function create(): ?array{ 
         $response = null;
         $g = $this->dependOn($this->count);
@@ -158,6 +142,5 @@ abstract class FactoryBase {
      * return new entry definition. Fake
      * @return ?array 
      */
-
     abstract function definition(): ?array;
 }

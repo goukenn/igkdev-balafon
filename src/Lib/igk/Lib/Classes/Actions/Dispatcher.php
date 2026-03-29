@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: action dispatcher 
 namespace IGK\Actions;
-
 use Closure;
 use Exception;
 use IGK\Actions\IActionProcessor;
@@ -36,37 +35,31 @@ use ReflectionType;
 use TypeError;
 use function igk_resources_gets as __;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
 /**
  * default action dispactcher
  */
 class Dispatcher implements IActionProcessor, IActionDispatcher
 {
-
     /**
      * Constant: dispatch method.
      * @var mixed
      */
     const DISPATCH_METHOD = 'Dispatch';
-
     /**
      * Constant: instance.
      * @var mixed
      */
     const INSTANCE = IGKServices::KEY_INSTANCE;
-
     /**
      * auto generate doc.
      * @var null|ActionBase|IActionProcessor|object
      */
     private $m_host;
-
     /**
      * Property: macro.
      * @var mixed
      */
     private static $sm_macro;
-
     /**
      * Property: matches.
      * @var mixed
@@ -81,23 +74,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param null|IGKActionBase $host 
      * @return void 
      */
-
     public function __construct(?ActionBase $host)
     {
         $this->m_host = $host;
     }
-
     /**
      * auto generate doc.
      * @param string $actionName
      * @return void
      */
-
     public function setBaseActionName(string $actionName)
     {
         $this->m_host->baseActionName = $actionName;
     }
-
     /**
      * Returns Base Action Name.
      * @return string
@@ -106,7 +95,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->m_host->baseActionName;
     }
-
     /**
      * Returns Controller.
      */
@@ -114,7 +102,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->m_host ? $this->m_host->getController() : null;
     }
-
     /**
      * Returns Host.
      */
@@ -122,7 +109,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->m_host;
     }
-
     /**
      * Skip verb check.
      * @param string $action_name
@@ -135,13 +121,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return false;
     }
-
     /**
      * auto generate doc.
      * @param mixed $args
      * @return mixed
      */
-
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
@@ -155,7 +139,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw new OperationNotAllowedException('Dispatcher failed: ' . $ex->getMessage(), 405, $ex);
         }
     }
-
     /**
      * Triggered when calling an inaccessible or undefined static method.
      * @param mixed $name
@@ -174,7 +157,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return (new static(null))->$name(...$args);
     }
-
     /**
      * Invoke.
      * @param string $name
@@ -184,7 +166,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->__call($name, $args);
     }
-
     /**
      * Triggered when calling an inaccessible or undefined method on an object.
      * @param mixed $name
@@ -213,13 +194,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         throw new ActionNotFoundException($name);
     }
-
     /**
      * auto generate doc.
      * @param mixed $args
      * @return void
      */
-
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
         $args = self::GetInjectArgs($g, $args);
@@ -233,7 +212,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetInjectArgsByParameters($parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -250,7 +228,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, ?IInjectedArgHost $host = null): array
     {
         $parameters = $g->getParameters();
@@ -261,7 +238,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         self::_GetInjectedParameters($targs, $parameters, $args, $host);
         return $targs;
     }
-
     /**
      * auto generate doc.
      * @param ?IInjectedArgHost $host injected argument host
@@ -285,7 +261,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         $v_is_debug = igk_is_debug() && igk_environment()->get('debug/dispatcher');
         foreach ($parameters as $k) {
             $v_is_debug && Logger::info(sprintf('update-dispatcher : %s next %s', $k, $i));
-
             $c = $arg = igk_getv($args, $i);
             $c_update_i = false;
             $v_precision = null;
@@ -301,9 +276,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     }
                     igk_die(sprintf(__('argument %s not matching'), $i));
                 }
-
-
-
                 if ($type == 'string') {
                     $targs[] = $c;
                     $i++;
@@ -323,8 +295,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 $v_primary = IGKType::IsPrimaryType($type);
                 $v_injectable = !$v_primary && IGKType::IsInjectable($type);
                 $v_ci = null;
-
-
                 if (is_string($c) && $v_injectable && !$v_injector->injector($type) && class_exists($c) && is_subclass_of($c, $type)) {
                     $v_refcl = igk_sys_reflect_class($c);
                     $v_precision = $c;
@@ -342,7 +312,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         }
                     }
                 }
-
                 if (
                     $v_injectable &&
                     $services && isset($services[$type])
@@ -356,7 +325,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                             }
                             $rtype[DispatcherService::TYPE_PRECISION] = $v_precision;
                         }
-
                         $v_ci = $v_ci ?? self::GetInstanceServiceFromArrayDefinition($rtype, $type, $services);
                         // + | --------------------------------------------------------------------
                         // + | retrieve service instance definition
@@ -431,17 +399,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return $targs;
     }
-
     /**
      * auto generate doc.
      * @param mixed &$services
      * @return void
      */
-
     protected static function _UpdateService(array &$services)
     {
         $lbService = IGKServices::getInstance()->services();
-   
         foreach ($lbService as $k => $m) {
             if (isset($services[$k])) {
                 $g = $services[$k];
@@ -458,7 +423,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $type 
      * @return ?mixed 
      */
-
     public static function GetInstanceServiceFromArrayDefinition(array $rtype, $type)
     {
         $v_ci = null;
@@ -478,7 +442,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetInjectTypeInstance($class_name)
     {
         return self::_GetInjectable($class_name, []);
@@ -504,7 +467,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             ];
             // extract injector server 
         }
-
         if (is_subclass_of($type, ModelBase::class)) {
             // use injector to register injection -
             return null;
@@ -526,7 +488,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $v_host 
      * @return void 
      */
-
     public static function LoadInjectableAndServices(?array &$services, $v_host)
     {
         $thost = [$v_host];

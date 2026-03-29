@@ -9,7 +9,6 @@ namespace IGK;
  * @package IGK
  */
 abstract class IGKTranslator{
-
     /**
     * Returns.
     * @param mixed $n

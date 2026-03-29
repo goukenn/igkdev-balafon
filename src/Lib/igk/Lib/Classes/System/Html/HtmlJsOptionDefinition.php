@@ -4,25 +4,21 @@
 // @date: 20230429 23:03:49
 namespace IGK\System\Html;
 use IGK\Helper\BalafonJSHelper;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlJsOptionDefinition implements IHtmlGetValue{
-
     /**
     * Property: callbable.
     * @var mixed
     */
     private $m_callbable;
-
     /**
     * Name of name.
     * @var mixed
     */
     private $m_name;
-
     /**
     * .ctr
     * @param string $name
@@ -34,7 +30,6 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
         $this->m_name = $name;
         $this->m_callbable = $options;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -56,7 +51,6 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
      * @param mixed $options 
      * @return HtmlJsOptionDefinition|string 
      */
-
     public static function GetJsScript(string $name, $options){
         if ($options instanceof \Closure){
 		    return new \IGK\System\Html\HtmlJsOptionDefinition($name, $options);

@@ -16,7 +16,6 @@ use IGKException;
  */
 trait ClassFileVersionLoaderTrait
 {
-
     /**
     * Property: load classes.
     * @var mixed
@@ -26,11 +25,9 @@ trait ClassFileVersionLoaderTrait
      * get local application classes cache file
      * @return string 
      */
-
     public static function GetLocalAppClassesCacheFile(){
         return igk_io_cachedir() . "/.classes.cache";
     }
-
     /**
     * Registers Class.
     * @param string $file
@@ -71,7 +68,6 @@ trait ClassFileVersionLoaderTrait
         }
         $this->_load_classes["c"] = 1;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -90,7 +86,6 @@ trait ClassFileVersionLoaderTrait
      * @return ?string the registrated class 
      * @throws IGKException 
      */
-
     public function getRegisterClass(string $classname, ?string $version=null ): ?string    
     {       
         if (!empty($this->_load_classes) && !is_null($index = igk_getv($this->_load_classes["cl"], $classname))) {

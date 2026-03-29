@@ -7,35 +7,29 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkview mode.
 */
 final class IGKViewMode extends IGKObject{
-
     /**
     * Constant: administrator.
     * @var mixed
     */
     const ADMINISTRATOR=6;
-
     /**
     * Constant: visitor.
     * @var mixed
     */
     const VISITOR=1;
-
     /**
     * Constant: webmaster.
     * @var mixed
     */
     const WEBMASTER=2;
-
     /**
     * auto generate doc.
     * @return string
     */
-
     public static function GetSystemViewMode(): string{
         $m=igk_app()->getViewMode();
         $t=array();
@@ -45,31 +39,25 @@ final class IGKViewMode extends IGKObject{
         }
         return implode(",", array_filter($t));
     }
-
     /**
     * auto generate doc.
     * @param mixed $view
     */
-
     public static function IsSupportViewMode($view){
         return ((igk_app()->getViewMode() & $view) == $view);
     }
-
     /**
     * auto generate doc.
     * @param mixed $mode
     * @return bool
     */
-
     public static function IsViewMode($mode): bool{
         return self::IsSupportViewMode($mode);
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public static function IsWebMaster(): bool{
         return self::IsSupportViewMode(IGKViewMode::WEBMASTER);
     }

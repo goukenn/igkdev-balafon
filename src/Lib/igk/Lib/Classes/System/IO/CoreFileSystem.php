@@ -11,13 +11,11 @@ namespace IGK\System\IO;
  * @package IGK\System\IO
  */
 abstract class CoreFileSystem{
-
     /**
     * Constant: inc extension.
     * @var mixed
     */
     const INC_EXTENSION = '.pinc';
-
     /**
     * auto generate doc.
     * @var string base path of the file system
@@ -27,7 +25,6 @@ abstract class CoreFileSystem{
      * check if path is dir
      * @return bool 
      */
-
     public function isDir(){
         return is_dir($this->path); 
     }
@@ -35,7 +32,6 @@ abstract class CoreFileSystem{
      * check if path is file
      * @return bool 
      */
-
     public function isFile(){
         return is_file($this->path);
     }
@@ -45,7 +41,6 @@ abstract class CoreFileSystem{
      * @param mixed $timespan duration of the cache
      * @return bool 
      */
-
     public function expired(string $path, $timespan){
         $path = $this->getCacheFilePath($path);
         if (($lm = $this->lastModified($path)) === false){
@@ -58,7 +53,6 @@ abstract class CoreFileSystem{
      * @param mixed $path 
      * @return int|false 
      */
-
     public function lastModified(string $path){
         $c = $path;
         if (self::Exists($c)){   
@@ -71,7 +65,6 @@ abstract class CoreFileSystem{
      * @param string $path 
      * @return bool 
      */
-
     public static function Exists(string $path):bool{
         return igk_io_file_exists($path);
     }
@@ -80,7 +73,6 @@ abstract class CoreFileSystem{
      * @param string $path path 
      * @return static|null 
      */
-
     public static function Create(string $path){
         if ((static::class != self::class) && igk_io_file_exists($path)){
             $m = new static($path);
@@ -105,14 +97,12 @@ abstract class CoreFileSystem{
      * @param string $ext extension to add to path
      * @return string cache path
      */
-
     public function getCacheFilePath(string $path, string $ext=".php"): string{
         return implode(DIRECTORY_SEPARATOR, [$this->_getDir(), sha1($path).$ext]);
     }
     /**
      * return the full path
      */
-
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }
@@ -121,7 +111,6 @@ abstract class CoreFileSystem{
      * @param string $path 
      * @return bool 
      */
-
     public function cacheExpired(string $path){
         $p = filemtime($path);
         if (igk_io_file_exists($file = $this->getCacheFilePath($path))){

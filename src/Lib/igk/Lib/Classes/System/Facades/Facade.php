@@ -12,7 +12,6 @@ use Exception;
 * @package IGK\Systems\Facades
 */
 class Facade{
-
     /**
     * auto generate doc.
     * @param mixed $f

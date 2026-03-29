@@ -10,13 +10,11 @@ use IGK\Controllers\BaseController;
  * @package IGK\System\Process
  */
 abstract class CronJobProcessProviderBase{
-
     /**
     * Property: fields.
     * @var mixed
     */
     protected $fields = [];
-
     /**
     * Treat.
     * @param mixed $options
@@ -24,7 +22,6 @@ abstract class CronJobProcessProviderBase{
     public function treat($options){
         return igk_get_robjs($this->fields, 0, $options);
     }
-
     /**
     * Exec.
     * @param mixed $name

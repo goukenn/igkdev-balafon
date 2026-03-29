@@ -11,7 +11,6 @@ namespace IGK\System\Configuration;
  * represent the xpath configuration
  */
 class XPathConfig{
-
     /**
     * Property: config.
     * @var mixed
@@ -27,7 +26,6 @@ class XPathConfig{
      * @var bool
      */
     var $initController = true;
-
     /**
     * .ctr
     * @param mixed $config
@@ -39,11 +37,9 @@ class XPathConfig{
      * get the config by XPath 
      * 
      */
-
     public function get($path, $default=null, $strict=0){
         return igk_conf_get($this->m_config, $path, $default, $strict);
     }
-
     /**
     * .destructor
     * @param mixed $n

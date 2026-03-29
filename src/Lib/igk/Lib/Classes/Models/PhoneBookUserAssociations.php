@@ -3,10 +3,7 @@
 // @file: PhoneBookUserAssociations.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * User's Phone books
 * @package IGK\Models
@@ -28,31 +25,26 @@ use IGK\Models\ModelBase;
 * @method static mixed getEntries() macros function
 * */
 class PhoneBookUserAssociations extends ModelBase{
-
     /**
     * Constant: fd usrphb id.
     * @var mixed
     */
     const FD_USRPHB_ID="rcphb_usrphb_Id";
-
     /**
     * Constant: fd usrphb user guid.
     * @var mixed
     */
     const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
-
     /**
     * Constant: fd usrphb phone book entry guid.
     * @var mixed
     */
     const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
-
     /**
     * Constant: fd usrphb create at.
     * @var mixed
     */
     const FD_USRPHB_CREATE_AT="usrphb_Create_At";
-
     /**
     * Constant: fd usrphb update at.
     * @var mixed
@@ -74,7 +66,6 @@ class PhoneBookUserAssociations extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphb_usrphb_UserGuid";
-
     /**
     * Property: unique columns.
     * @var mixed

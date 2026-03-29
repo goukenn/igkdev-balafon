@@ -3,7 +3,6 @@
 // @file: BalafonInitCommand.php
 // @date: 20231019 13:07:41
 namespace IGK\System\Console\Commands;
-
 use IGK\Constants;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\App;
@@ -12,31 +11,26 @@ use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Console\Logger;
 use IGKAppSystem;
 use IGKEvents; 
-
 /**
  * 
  * @package IGK\System\Console\Commands
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class BalafonInitCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = Constants::INIT_COMMAND;
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'initiliaze environment';
-
     /**
     * Property: options.
     * @var mixed
@@ -53,25 +47,21 @@ class BalafonInitCommand extends AppExecCommand
 		'--clean'=>'flag: clean install directory',
 		'--install-dir'=>'change the install diectory'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'system';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'install_dir [options]';
-
     /**
     * auto generate doc.
     * @param mixed $argv
     * @return void
     */
-
     public static function Handle(& $no_init_environment, array $argv){
 		$v_env = igk_environment();
 		$no_init_environment = false;
@@ -82,13 +72,11 @@ class BalafonInitCommand extends AppExecCommand
 			$no_init_environment = true;
 		}
 	}
-
     /**
     * auto generate doc.
     * @param null|string $install_dir
     * @return null
     */
-
     public function exec($command, ?string $install_dir = 'src')
 	{
 		$install_dir = empty($install_dir) ? 'src' : $install_dir;
@@ -113,7 +101,6 @@ class BalafonInitCommand extends AppExecCommand
 		igk_wln("install: ".$install_dir);
 		return (new BalafonInitEnvironment())->run($command, $install_dir);
 	}
-
     /**
     * .ctr
     */
@@ -122,7 +109,6 @@ class BalafonInitCommand extends AppExecCommand
 		parent::__construct();
 		$this->registerHook();
 	}
-
     /**
     * Registers Hook.
     */
@@ -134,7 +120,6 @@ class BalafonInitCommand extends AppExecCommand
 			$argv = &$e->args['argv'];
 			$app = $e->args['app'];
 			$l = array_search('--env-only', $argv); 
-			
 			if (($argv[1] == $this->command) && (false===$l)) {
 	 			App::ResetCommandWorkingDir();
 				$args = [];

@@ -3,7 +3,6 @@
 // @file: JSon.php
 // @date: 20230103 23:37:50
 namespace IGK\Helper;
-
 use Exception;
 use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\IO\JSon\Annotations\JSonBindAsAnnotation;
@@ -19,20 +18,17 @@ use JsonSerializable;
 use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 use stdClass;
-
 /**
  * helper to encode in json 
  * @package IGK\Helper
  */
 class JSon
 {
-
     /**
      * Constant: map to object method.
      * @var mixed
      */
     const _map_to_object_method = '_map_to_object';
-
     /**
      * Constant: json pretty view.
      * @var mixed
@@ -43,13 +39,11 @@ class JSon
      * @var JSonEncodeOption
      */
     protected $m_options;
-
     /**
      * auto generate doc.
      * @var mixed
      */
     protected $m_data;
-
     /**
      * auto generate doc.
      * @var mixed
@@ -60,7 +54,6 @@ class JSon
      * @param int $encode 
      * @return string|false 
      */
-
     public function enc(int $encode)
     {
         if (is_null($this->m_data)) {
@@ -69,7 +62,6 @@ class JSon
         $root = $this->get_root_data($this->m_data);
         return $root ? json_encode($root, $encode) : null;
     }
-
     /**
      * Filter array.
      * @param mixed & $tv
@@ -83,13 +75,11 @@ class JSon
             $tv = array_filter(array_map([$this, 'filter_array'], $tv));
         }
     }
-
     /**
      * auto generate doc.
      * @param mixed $data
      * @return mixed
      */
-
     public function get_root_data($data)
     {
         $root = $keys = $c = null;
@@ -142,7 +132,6 @@ class JSon
         $root = $data;
         return $root;
     }
-
     /**
      * Map to object.
      * @param mixed $data
@@ -155,7 +144,6 @@ class JSon
         }
         return $data;
     }
-
     /**
      * auto generate doc.
      * @param mixed $a
@@ -179,7 +167,6 @@ class JSon
      * @return mixed 
      * @throws IGKException 
      */
-
     public function filter_array($a)
     {
         if (is_object($a)) {
@@ -193,7 +180,6 @@ class JSon
         }
         return $a;
     }
-
     /**
      * auto generate doc.
      * @param mixed & $tv
@@ -290,7 +276,6 @@ class JSon
         }
         $tv = $root;
     }
-
     /**
     * auto generate doc.
     * @param mixed $tv
@@ -321,7 +306,6 @@ class JSon
      * @param int $encode 
      * @return string|false 
      */
-
     public static function Encode($data, $options = null, int $encode = JSON_UNESCAPED_SLASHES)
     {
         if (is_null($options)) {
@@ -367,7 +351,6 @@ class JSon
         }
         return $r;
     }
-
     /**
      * .ctr
      */
@@ -379,7 +362,6 @@ class JSon
      * @param int $js_options 
      * @return string|false 
      */
-
     public static function EncodeForHtmlAttribute($data, $encode_options, int $js_options = JSON_UNESCAPED_SLASHES)
     {
         $s = self::Encode($data, $encode_options);
@@ -395,7 +377,6 @@ class JSon
      * @throws JSonBindAsException missing required properties
      * @remarks properties with JSonBindAsAnnotation will define requirement of binding data
      */
-
     public static function BindData($object_or_class, $data, $throw_error = true)
     {
         if (is_string($object_or_class) && class_exists($object_or_class)) {
@@ -488,13 +469,11 @@ class JSon
         }
         return $object_or_class;
     }
-
     /**
      * auto generate doc.
      * @param mixed $data
      * @return string|false
      */
-
     public static function EncodeWithNoEmpty($data)
     {
         return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);

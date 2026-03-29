@@ -7,7 +7,6 @@ use Exception;
 use IGK\Models\ModelBase;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database\Mapping
@@ -36,7 +35,6 @@ class ModelArrayMapping{
         $this->info = $model->getTableInfo();
         $this->model = $model;
     }
-
     /**
     * Called when an object is used as a function.
     * @param mixed $a

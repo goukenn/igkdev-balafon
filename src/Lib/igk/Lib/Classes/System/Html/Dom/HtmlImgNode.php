@@ -12,19 +12,16 @@ use IGKException;
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
-
     /**
     * auto generate doc.
     * @param string $src uri
     */
     public function __construct($src=null){
         parent::__construct('igk-img');
-    
         $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
         $this->setSrc($src);
     }
-
     /**
     * Creates Attribute Array.
     */
@@ -39,7 +36,6 @@ class HtmlImgNode extends HtmlNode{
      * @return $this 
      * @throws IGKException 
      */
-
     public function setSrc($source){ 
         if (is_null($source)){
             unset($this["src"]);
@@ -53,7 +49,6 @@ class HtmlImgNode extends HtmlNode{
         }
         return $this;
     }
-
     /**
     * Returns Src.
     */
@@ -64,7 +59,6 @@ class HtmlImgNode extends HtmlNode{
      * is self closing tag
      * @return bool 
      */
-
     public function closeTag():bool
     {
         return true;

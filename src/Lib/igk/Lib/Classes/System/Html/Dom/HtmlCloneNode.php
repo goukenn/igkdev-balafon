@@ -8,25 +8,21 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlCloneNode extends HtmlNode{
-
     /**
     * Property: target.
     * @var mixed
     */
     var $target;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname ='igk-clone-node';
-
     /**
     * Property: children.
     * @var mixed
     */
     var $children= false;
-
     /**
     * .ctr
     * @param HtmlItemBase $c
@@ -38,14 +34,12 @@ class HtmlCloneNode extends HtmlNode{
         $this->target = $c;
         parent::__construct();
     }
-
     /**
     * Returns Target Node.
     */
     public function getTargetNode(){
         return $this->target; 
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -53,7 +47,6 @@ class HtmlCloneNode extends HtmlNode{
     {
         return false;
     }
-
     /**
     * Sets For Children.
     * @param bool $children
@@ -62,14 +55,12 @@ class HtmlCloneNode extends HtmlNode{
         $this->children = $children; 
         return $this;
     }
-
     /**
     * Returns For Childrend.
     */
     public function getForChildrend(){
         return $this->children;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
@@ -87,13 +78,11 @@ class HtmlCloneNode extends HtmlNode{
      * @param mixed $value 
      * @return $this 
      */
-
     public function setAttribute($key, $value)
     {
         $this->target->setAttribute($key, $value);
         return $this;
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -101,7 +90,6 @@ class HtmlCloneNode extends HtmlNode{
     {
         return false;
     }
-
     /**
     * Returns Is Visible.
     */

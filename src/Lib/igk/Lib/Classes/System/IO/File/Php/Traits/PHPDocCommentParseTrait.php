@@ -3,14 +3,11 @@
 // @file: PHPDocCommentParseTrait.php
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
-
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\Php\Traits
 */
-
 /**
  * auto generate doc.
  * @package IGK\System\IO\File\Php\Traits
@@ -22,7 +19,6 @@ trait PHPDocCommentParseTrait
      * @var mixed
      */
     protected static $sm_loading;
-
     /**
     * auto generate doc.
     * @param string $k
@@ -101,7 +97,6 @@ trait PHPDocCommentParseTrait
         }
         return $g;
     }
-
     /**
      * auto generate doc.
      * @return string

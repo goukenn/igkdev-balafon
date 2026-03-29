@@ -13,32 +13,27 @@ use IGK\System\Console\Logger;
 use IGK\System\Delegates\InvocatorListDelegate;
 use IGKModuleListMigration;
 use Illuminate\Database\Console\Seeds\SeedCommand;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ResetDbCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:resetdb";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "reset database";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: options.
     * @var mixed
@@ -50,13 +45,11 @@ class ResetDbCommand extends AppExecCommand
         "--querydebug" => "flag: activate query debug",
         "--controller:controller_name" => "set controller"
     ];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] [db-command-options] [options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -108,7 +101,6 @@ class ResetDbCommand extends AppExecCommand
      * @param bool $force 
      * @return void 
      */
-
     public function controllerResetDatabase($c, bool $force, bool $seed=false, bool $clean=false){
         foreach ($c as $m) {
             $n = get_class($m);
@@ -127,7 +119,6 @@ class ResetDbCommand extends AppExecCommand
             }
         }
     }
-
     /**
     * Global reset database.
     * @param bool $force
@@ -185,7 +176,6 @@ class ResetDbCommand extends AppExecCommand
      * @param mixed $command 
      * @return void 
      */
-
     public function seedController($command){ 
         $seed = $command->app->command["--db:seed"];
         $fc = $seed["0"];

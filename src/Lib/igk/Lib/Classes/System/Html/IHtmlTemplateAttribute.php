@@ -8,7 +8,6 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 interface IHtmlTemplateAttribute{
-
     /**
     * Expression.
     * @return string

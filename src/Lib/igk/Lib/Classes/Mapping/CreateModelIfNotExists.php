@@ -3,25 +3,21 @@
 // @file: CreateModelIfNotExists.php
 // @date: 20230123 13:16:26
 namespace IGK\Mapping;
-
 /**
 * auto generate doc.
 * @package IGK\Mapping
 */
 class CreateModelIfNotExists{
-
     /**
     * Property: model.
     * @var mixed
     */
     var $model ;
-
     /**
     * Callback handler for def callback.
     * @var mixed
     */
     var $defCallback;
-
     /**
     * .ctr
     * @param mixed $model
@@ -32,7 +28,6 @@ class CreateModelIfNotExists{
         $this->model  = $model;        
         $this->defCallback = $defCallback;
     }
-
     /**
     * Called when an object is used as a function.
     * @param mixed $v

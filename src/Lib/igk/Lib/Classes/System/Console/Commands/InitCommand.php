@@ -23,31 +23,26 @@ use function igk_resources_gets as __;
  */
 class InitCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--command:init";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "initialize balafon command cache";
-
     /**
     * Constant: baseclass command.
     * @var mixed
     */
     const BASECLASS_COMMAND = Constants::BASECLASS_COMMAND;
-
     /**
     * auto generate doc.
     * @param mixed $command
     * @return void
     */
-
     public function exec($command)
     {
         igk_set_timeout(0);

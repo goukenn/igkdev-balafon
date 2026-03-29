@@ -5,26 +5,22 @@
 namespace IGK\System;
 use IGK\Constants;
 use IGK\System\Configuration\EntityConfigurationSchema;
-
 /**
 * represent a project configuration file 
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */
 class ConfigurationFile extends EntityConfigurationSchema{
-
     /**
     * Constant: default mainjs.
     * @var mixed
     */
     const DEFAULT_MAINJS = 'default.js';
-
     /**
     * Constant: config file.
     * @var mixed
     */
     const CONFIG_FILE = Constants::PROJECT_CONF_FILE;
-   
     /**
      * array of require module
      * @var ?string[]
@@ -40,13 +36,11 @@ class ConfigurationFile extends EntityConfigurationSchema{
      * @var ?ConfigurationWorkbenchInfo
      */
     var $workbench;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $build;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -57,7 +51,6 @@ class ConfigurationFile extends EntityConfigurationSchema{
      * @var mixed
      */
     var $scripts;
-
     /**
      * default user profile
      * @var mixed
@@ -67,7 +60,6 @@ class ConfigurationFile extends EntityConfigurationSchema{
      * retrieve the main JS
      * @return mixed 
      */
-
     function getMainJS(){
         if ($this->mainJS){
             return $this->mainJS;

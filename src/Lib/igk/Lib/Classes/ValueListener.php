@@ -8,23 +8,19 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK;
-
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\HtmlUtils;
 use IGKObject;
-
 /**
  * represent a value helper
  * @package 
  */
 final class ValueListener extends IGKObject implements IHtmlGetValue{
-
     /**
     * Properties: attr, owner.
     * @var mixed
     */
     private $m_attr, $m_owner;
-
     /**
     * .ctr
     * @param mixed $owner
@@ -34,7 +30,6 @@ final class ValueListener extends IGKObject implements IHtmlGetValue{
         $this->m_owner=$owner;
         $this->m_attr=$attr;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -53,7 +48,6 @@ final class ValueListener extends IGKObject implements IHtmlGetValue{
         }
         return null;
     }
-
     /**
     * get string presentation.
     */

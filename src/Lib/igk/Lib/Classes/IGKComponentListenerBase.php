@@ -7,12 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkcomponent listener base.
 */
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IParamHostService{
-
     /**
     * .ctr
     */
@@ -20,12 +18,10 @@ abstract class IGKComponentListenerBase extends IGKParamStorage implements IPara
         parent::__construct();
     }
     final
-
     /**
     * Returns Uri.
     * @param mixed $n
     */
-
     function getUri($n){
         return igk_get_component_uri($this, $n);
     }

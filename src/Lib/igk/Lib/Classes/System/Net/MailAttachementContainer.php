@@ -10,13 +10,11 @@
 namespace IGK\System\Net;
 use IGKObject;
 use IGK\IMailAttachmentContainer;
-
 /**
 * Mail attachement container.
 * @package IGK\System\Net
 */
 final class MailAttachementContainer extends IGKObject implements IMailAttachmentContainer{
-
     /**
     * Properties: files, ids.
     * @var mixed
@@ -25,7 +23,6 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
     /**
      * Constructor.
      */
-
     public function __construct(){
         $this->m_files=array();
     }
@@ -37,7 +34,6 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
      * @param string|null $cid         Optional content ID.
      * @return MailAttachement
      */
-
     public function attachContent($content, $contentType=IGK_CT_PLAIN_TEXT, $cid=null){
         $attach=new MailAttachement();
         $attach->Content=$content;
@@ -55,7 +51,6 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
      * @param string|null $cid         Optional content ID.
      * @return MailAttachement|null
      */
-
     public function attachFile($file, $contentType=IGK_CT_PLAIN_TEXT, $cid=null){
         if(!igk_io_file_exists($file))
             return null;
@@ -81,7 +76,6 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
      *
      * @return array
      */
-
     public function getList(){
         return $this->m_files;
     }

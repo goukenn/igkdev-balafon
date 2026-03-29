@@ -4,15 +4,12 @@
 // @desc: macros for model ReferenceModels
 // @date: 20251203 12:54:33
 namespace IGK\Database\Macros;
-
 use IGK\Models\ReferenceModels;
-
 /**
  * 
  * @package IGK\Database\Macros
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database\Macros
@@ -28,7 +25,6 @@ abstract class ReferenceModelsMacros
     private static function _GetRefCondition(int $uid, string $modelname): array{
         return ["clModel" =>sprintf('%s:/%s', $uid, $modelname)];
     }
-
     /**
     * auto generate doc.
     * @param string $modelname
@@ -46,7 +42,6 @@ abstract class ReferenceModelsMacros
         }
         return 1;
     }
-
     /**
     * auto generate doc.
     * @param string $modelname

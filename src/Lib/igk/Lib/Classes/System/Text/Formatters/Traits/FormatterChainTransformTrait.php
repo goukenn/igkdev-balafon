@@ -3,22 +3,18 @@
 // @file: FormatterChainTransformTrait.php
 // @date: 20250807 11:27:07
 namespace IGK\System\Text\Formatters\Traits;
-
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text\Formatters\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait FormatterChainTransformTrait{
-
     /**
     * Property: sub chain.
     * @var mixed
     */
     protected $m_sub_chain;
-
     /**
     * Saves State.
     * @param RegexMatcherContainer $regex
@@ -37,7 +33,6 @@ trait FormatterChainTransformTrait{
         $state['e_transform'] = $this->m_transform; 
         return $state;
     }
-
     /**
     * Restore state.
     * @param RegexMatcherContainer $regex
@@ -62,7 +57,6 @@ trait FormatterChainTransformTrait{
      * @param string $v 
      * @return mixed 
      */
-
     public function chainTransfrom(RegexMatcherContainer $regex, array $patterns, string $v) {  
       //  return $v; 
         $state = $this->saveState($regex);         

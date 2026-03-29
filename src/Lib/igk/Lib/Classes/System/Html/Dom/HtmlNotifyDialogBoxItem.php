@@ -9,25 +9,21 @@ use IGK\ValueListener;
 * Represent IGKHtmlNotifyDialogBoxItem class
 */
 final class HtmlNotifyDialogBoxItem extends HtmlNode {
-
     /**
     * Property: message.
     * @var mixed
     */
     private $m_Message;
-
     /**
     * Property: title.
     * @var mixed
     */
     private $m_title;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
-
     /**
     * auto generate doc.
     */
@@ -42,7 +38,6 @@ if(ns_igk)ns_igk.winui.notify.init();
 EOF;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -50,7 +45,6 @@ EOF;
         return $this->m_Message;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -60,12 +54,10 @@ EOF;
     ///<summary></summary>
     ///<param name="title"></param>
     ///<param name="msg"></param>
-
     /**
     * auto generate doc.
     * @param mixed $msg
     */
-
     public function show($title, $msg){
         $this->m_title=$title;
         $this->m_Message=$msg;

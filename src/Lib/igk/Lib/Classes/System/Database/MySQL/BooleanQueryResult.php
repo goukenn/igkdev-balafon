@@ -11,19 +11,16 @@ use IGKObject;
  * @package IGK\System\Database\MySQL
  */
 class BooleanQueryResult extends IGKObject implements IDbResultType{
-
     /**
     * Property: result.
     * @var mixed
     */
     private $m_result;
-
     /**
     * Property: srcquery.
     * @var mixed
     */
     private $m_srcquery;
-
     /**
     * Property: last error.
     * @var mixed
@@ -33,25 +30,21 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
      * get stored last error 
      * @return mixed 
      */
-
     public function getLastError(){
         return $this->m_last_error;
     }
-
     /**
     * Returns Src Query.
     */
     public function getSrcQuery(){
         return $this->m_srcquery;
     }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return $this->m_result;
     }
-
     /**
     * .ctr
     * @param bool $result
@@ -64,7 +57,6 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
         $this->m_srcquery = $srcquery; 
         $this->m_last_error = $last_error;
     }
-
     /**
     * Returns Value.
     */
@@ -75,25 +67,21 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
      * get the result 
      * @return bool 
      */
-
     public function success(): bool{
         return $this->m_result;
     }
-
     /**
     * Returns Row Count.
     */
     public function getRowCount(){
         return 0;
     }
-
     /**
     * Returns Rows.
     */
     public function getRows(){
         return [];
     }
-
     /**
     * Returns Row At Index.
     * @param int $index
@@ -107,7 +95,6 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
      * query is result type
      * @return bool 
      */
-
     public function resultTypeIsBoolean():bool{
         return true;
     }

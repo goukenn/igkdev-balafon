@@ -3,7 +3,6 @@
 // @file: HtmlNodeTagExplosionDefinition.php
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
-
 use Exception;
 use IGK\Core\EvalBinding;
 use IGK\Helper\ViewHelper;
@@ -18,7 +17,6 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
  * explode tag definition 
  * @package IGK\System\Html
@@ -26,7 +24,6 @@ use ReflectionException;
 class HtmlNodeTagExplosionDefinition
 {
     use HtmlNodeTagExplosionTrait;
-
     /**
     * Constant: split.
     * @var mixed
@@ -35,31 +32,26 @@ class HtmlNodeTagExplosionDefinition
     // + | --------------------------------------------------------------------
     // + | prefix definition 
     // + |
-
     /**
     * Constant: identifier.
     * @var mixed
     */
     const identifier = '#';
-
     /**
     * Constant: name.
     * @var mixed
     */
     const name = '%';
-
     /**
     * Constant: classes.
     * @var mixed
     */
     const classes = '.';
-
     /**
     * Constant: def method.
     * @var mixed
     */
     const DEF_METHOD = 'DefinitionArgs';
-
     /**
     * auto generate doc.
     * @var HtmlNodeBuilder
@@ -69,13 +61,11 @@ class HtmlNodeTagExplosionDefinition
      * explode definition 
      */
     protected $split = self::split;
-
     /**
     * Property: static.
     * @var mixed
     */
     private static $sm_static;
-
     /**
     * .ctr
     * @param HtmlNodeBuilder $builder
@@ -88,18 +78,15 @@ class HtmlNodeTagExplosionDefinition
      * get core builder 
      * @return static
      */
-
     public static function Core()
     {
         return self::$sm_static ?? self::$sm_static = new static(new HtmlNodeBuilder(igk_create_notagnode()));
     }
-
     /**
     * auto generate doc.
     * @param array $data
     * @return mixed
     */
-
     public function setup($node, $data, $tnode = null)
     {
         $bck = $this->builder->t;
@@ -120,7 +107,6 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function explode(string $tagname, &$pnode, $context = null)
     {
         //  $context = $context ?? $this->getContext();
@@ -174,7 +160,6 @@ class HtmlNodeTagExplosionDefinition
      * @param mixed $i 
      * @return mixed 
      */
-
     public static function DefinitionArgs($i)
     {
         if (!is_string($i)) {
@@ -212,7 +197,6 @@ class HtmlNodeTagExplosionDefinition
         }
         return $active_attrib;
     }
-
     /**
      * explode tag definitions 
      * @param string $tagname 
@@ -223,7 +207,6 @@ class HtmlNodeTagExplosionDefinition
      * @throws ReflectionException 
      * @deprecated
      */
-
     public static function ExplodeTag(string $tagname, $context = null): array
     {
         $id = null;
@@ -319,9 +302,6 @@ class HtmlNodeTagExplosionDefinition
         }
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
-
-
-
     /**
      * explode tag 2
      * @param string $tagname 
@@ -330,7 +310,6 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws Exception 
      */
-
     public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
@@ -341,13 +320,9 @@ class HtmlNodeTagExplosionDefinition
         $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'litteral');
         $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
-
         $pbrank->patterns = [
-
             $pbrank
         ];
-
-
         $v_b->patterns = [
             $v_b,
             $v_s
@@ -440,12 +415,10 @@ class HtmlNodeTagExplosionDefinition
         }
         return igk_extract($definition, 'tagname|id|classes|args|name|attr');
     }
-
     /**
     * auto generate doc.
     * @return ConfigurationReader
     */
-
     protected static function InitConfigurationReader()
     {
         $r = new ConfigurationReader();
@@ -457,7 +430,6 @@ class HtmlNodeTagExplosionDefinition
         $r->valueEscapeDelimiter = "()";
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param mixed $e
@@ -471,7 +443,6 @@ class HtmlNodeTagExplosionDefinition
             throw new HtmlNodeTagExplosionTagNameAlreadyDefineException($t);
         $def['tagname'] = $t;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -492,7 +463,6 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function CreateNodes(string $tag_def, ...$args)
     {
         $ctn = new RegexMatcherContainer;
@@ -542,7 +512,6 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function CreateNodeArg(string $tagname, ...$index_or_args)
     {
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname);

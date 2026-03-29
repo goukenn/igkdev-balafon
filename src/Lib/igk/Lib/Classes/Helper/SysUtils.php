@@ -21,7 +21,6 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
-
 /**
 * Sys utils.
 * @package IGK\Helper
@@ -46,7 +45,6 @@ class SysUtils{
             }
         }    
     }
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
@@ -173,7 +171,6 @@ class SysUtils{
     public static function GetApplicationModule($file){
         return igk_get_module(igk_get_module_name(dirname($file)));
     }
-
     /**
     * auto generate doc.
     * @return array list of controller installed in project folder
@@ -194,7 +191,6 @@ class SysUtils{
         }
         return $projects_ctrl;
     }
-
     /**
     * Returns Declared Methods.
     * @param mixed $class
@@ -211,7 +207,6 @@ class SysUtils{
             return null;
         },$ref->getMethods( ReflectionMethod::IS_PUBLIC)));
     }
-
     /**
     * auto generate doc.
     * @param array|\IayObject $n  item to convert
@@ -225,7 +220,6 @@ class SysUtils{
             return $n;
         return $n->to_array();
     }
-
     /**
     * Notifies.
     * @param mixed $message
@@ -250,7 +244,6 @@ class SysUtils{
         } 
         igk_exit();
     }
-
     /**
     * Initializes Class Fields.
     * @param mixed $c
@@ -273,7 +266,6 @@ class SysUtils{
             $n->$k = igk_getv($tag, $k, $c);
         } 
     }
-
     /**
     * Asserts notify.
     * @param mixed $condition
@@ -321,7 +313,6 @@ class SysUtils{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @return null|BaseController subdomain controller
@@ -331,7 +322,6 @@ class SysUtils{
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
-
     /**
     * auto generate doc.
     * @param string $name

@@ -5,34 +5,29 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class ListComponentPackageCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--component-package:list';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='list system\'s node package namespaces'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'sys';
 	/* var $usage = ''; */
-
     /**
     * Exec.
     * @param mixed $command

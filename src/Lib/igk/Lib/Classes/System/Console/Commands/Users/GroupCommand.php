@@ -7,38 +7,32 @@ use IGK\Helper\JSon;
 use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class GroupCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:group';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='view user\'s group';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'login [option]';
-
     /**
     * Exec.
     * @param mixed $command

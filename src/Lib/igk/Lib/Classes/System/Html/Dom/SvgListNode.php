@@ -8,13 +8,11 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class SvgListNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk:svg-list';
-
     /**
     * Initializes.
     */

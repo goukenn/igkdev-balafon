@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:56
 // @desc:
 namespace IGK\System\Html\Forms\Validations;
-
 /**
 * Double validator.
 * @package IGK\System\Html\Forms\Validations

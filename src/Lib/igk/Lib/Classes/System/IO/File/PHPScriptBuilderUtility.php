@@ -6,21 +6,18 @@
 // @file: PHPScriptBuilderUtility.php
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
-
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use Illuminate\Validation\Rules\In;
 use ReflectionClass;
 use ReflectionMethod;
-
 /**
  * Phpscript builder utility.
  * @package IGK\System\IO\File
  */
 abstract class PHPScriptBuilderUtility
 {
-
     /**
      * auto generate doc.
      * @param mixed ...$sources
@@ -89,7 +86,6 @@ abstract class PHPScriptBuilderUtility
         $s = (strpos($tsrc, "<?php") === 0) ? '' : "<?php\n";
         return $s . $tsrc;
     }
-
     /**
      * auto generate doc.
      * @param null|string $desc
@@ -127,7 +123,6 @@ abstract class PHPScriptBuilderUtility
         }, $comments));
         return $src;
     }
-
     /**
      * auto generate doc.
      * @param mixed $data
@@ -168,7 +163,6 @@ abstract class PHPScriptBuilderUtility
             ->type($type)->defs($def);
         return $sb->render();
     }
-
     /**
      * extract parameter list from func definition 
      * @param string $src 

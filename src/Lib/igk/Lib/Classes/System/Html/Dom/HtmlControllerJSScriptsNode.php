@@ -12,14 +12,12 @@ use IGK\System\IO\StringBuilder;
  */
 class HtmlControllerJSScriptsNode extends HtmlNode
 {
-
     /**
     * Property: item.
     * @var mixed
     */
     static $sm_item;
     use HtmlDocumentOnlyTrait;
-
     /**
     * Returns Item.
     */
@@ -29,7 +27,6 @@ class HtmlControllerJSScriptsNode extends HtmlNode
             self::$sm_item = new static;
         return self::$sm_item;
     }
-
     /**
     * .ctr
     * @return
@@ -38,7 +35,6 @@ class HtmlControllerJSScriptsNode extends HtmlNode
     {
         $this->tagname = "igk-controller-js";
     }
-
     /**
     * Renders.
     * @param null|mixed $options

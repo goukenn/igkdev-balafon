@@ -10,22 +10,18 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTypeBase;
 use IGK\Helper\IO;
-
 /**
 * Igkcontroller type manager.
 */
 final class IGKControllerTypeManager{
-
     /**
     * Property: tab manager.
     * @var mixed
     */
     static $tabManager;
-
     /**
     * Returns Controller Types.
     */
-
     public static function GetControllerTypes(){
         if(self::$tabManager == null){
             $tab=array();
@@ -43,12 +39,10 @@ final class IGKControllerTypeManager{
         }
         return self::$tabManager;
     }
-
     /**
     * Returns Custom Config Info.
     * @param BaseController $controller
     */
-
     public static function GetCustomConfigInfo(BaseController $controller){
         if(method_exists($controller, __FUNCTION__))
             return $controller->GetCustomConfigInfo();

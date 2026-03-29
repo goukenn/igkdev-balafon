@@ -5,64 +5,53 @@
 // @desc: php interface document 
 namespace IGK\System\IO\File\Php;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * Php interface document.
 * @package IGK\System\IO\File\Php
 */
 class PhpInterfaceDocument{
-
     /**
     * Type of type.
     * @var mixed
     */
     public $type = "interface";
-
     /**
     * Name of name.
     * @var mixed
     */
     public $name;
-
     /**
     * Name of namespace.
     * @var mixed
     */
     public $namespace;
-
     /**
     * Property: file.
     * @var mixed
     */
     public $file;
-
     /**
     * Property: doc.
     * @var mixed
     */
     public $doc;
-
     /**
     * Listener: listener.
     * @var mixed
     */
     private $m_listener;
-
     /**
     * auto generate doc.
     * @param ?callable|IInvokeAction #phpDocListener
     * @return void
     */
-
     public function __construct($phpDocListener)
     {
         $this->m_listener = $phpDocListener;
     }
-
     /**
     * Generates.
     */
-
     public function generate(){
         $o = $this->_getPhpDoc();
         $builder = new PHPScriptBuilder();        
@@ -75,7 +64,6 @@ class PhpInterfaceDocument{
             ->phpdoc($o);
         return $builder->render();
     }
-
     /**
     * auto generate doc.
     * @return

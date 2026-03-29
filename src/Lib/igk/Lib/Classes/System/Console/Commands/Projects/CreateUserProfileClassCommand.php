@@ -14,26 +14,22 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\SystemUserProfile;
 use IGK\System\Traits\EnumeratesConstants;
-
 /**
 * auto generate doc.
 * @package IGK\\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */
 class CreateUserProfileClassCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:userprofile-class';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='scaffold file to enable project\'s controller user profile management';
-
     /**
     * Property: options.
     * @var mixed
@@ -41,19 +37,16 @@ class CreateUserProfileClassCommand extends AppExecCommand{
     var $options=[
 		'--force'=>'flags used to reset '
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category="make";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

@@ -9,13 +9,11 @@ namespace IGK\System\Traits;
 * @package IGK\System\Traits
 */
 trait StoredPropertiesTrait{
-
     /**
     * Property: properties.
     * @var mixed
     */
     protected $m_properties = [];
-
     /**
     * Returns Property.
     * @param mixed $n
@@ -23,7 +21,6 @@ trait StoredPropertiesTrait{
     public function getProperty($n){
         return igk_getv($this->m_properties, $n);
     }
-
     /**
     * Sets Property.
     * @param mixed $n

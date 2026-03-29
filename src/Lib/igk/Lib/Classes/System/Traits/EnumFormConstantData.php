@@ -3,7 +3,6 @@
 // @file: EnumFormConstantData.php
 // @date: 20260207 17:39:35
 namespace IGK\System\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Traits
@@ -12,7 +11,6 @@ namespace IGK\System\Traits;
 trait EnumFormConstantData
 {
     use EnumeratesConstants;
-
     /**
     * Form select data.
     */

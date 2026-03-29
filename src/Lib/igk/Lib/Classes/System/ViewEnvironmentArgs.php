@@ -179,7 +179,6 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var ?string
      */
     var $css_def;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -190,20 +189,16 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var mixed
      */
     var $def;
-
     /**
      * global error provided by action call
      * @var mixed
      */
     var $error;
-
     /**
      * the attached submit domain 
      * @var ?string
      */
     var $subdomain;
-
-
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -245,7 +240,6 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $name
@@ -254,14 +248,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
     { 
         return property_exists($this, $name);
     }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return __CLASS__;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -271,7 +263,6 @@ class ViewEnvironmentArgs implements ArrayAccess{
             return $this->$n;
         }
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -282,7 +273,6 @@ class ViewEnvironmentArgs implements ArrayAccess{
             $this->$n = $v;
         }
     }
-
     /**
     * Access offset exists.
     * @param mixed $n

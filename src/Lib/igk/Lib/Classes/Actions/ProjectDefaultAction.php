@@ -12,7 +12,6 @@ use IGK\System\Http\ResponseHtmlRenderer;
 use IGK\System\Http\WebFileResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\MimeType;
-
 /**
 * Project default action.
 * @package IGK\Actions
@@ -24,14 +23,12 @@ abstract class ProjectDefaultAction extends ActionBase{
      * @var mixed
      */
     protected $manifest_cache;
-
     /**
     * Logout.
     */
     public function logout(){
         $this->ctrl->logout(1);
     }
-
     /**
     * Manifest json.
     */
@@ -51,7 +48,6 @@ abstract class ProjectDefaultAction extends ActionBase{
             throw new RequestException(RequestResponseCode::NotFound);
        }
     }
-
     /**
     * Handles calls to undefined methods.
     * @param mixed $name

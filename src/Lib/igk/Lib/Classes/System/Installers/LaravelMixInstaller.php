@@ -8,13 +8,11 @@ use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
 use IGKException;
-
 /**
 * Os window command.
 * @package IGK\System\Installers
 */
 class OsWindowCommand extends OsShell{
-
     /**
     * Where.
     * @param mixed $cmd

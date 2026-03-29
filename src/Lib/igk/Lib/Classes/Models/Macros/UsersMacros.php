@@ -153,7 +153,6 @@ abstract class UsersMacros
     {
         return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME()), $model->groups());
     }
-
     /**
     * Returns Authorization Names.
     * @param Users $model
@@ -165,7 +164,6 @@ abstract class UsersMacros
     /**
      * get user form guid :
      */
-
     public static function fromGuid(Users $model, string $guid)
     {
         return $model->GetCache(Users::FD_CL_GUID, $guid);
@@ -174,7 +172,6 @@ abstract class UsersMacros
      * initialize system user 
      * @return void 
      */
-
     public static function InitSystemUsers()
     {
         $d = igk_configs()->website_domain;
@@ -244,7 +241,6 @@ abstract class UsersMacros
             Users::create($u);
         }
     }
-
     /**
      * just register an user
      * @param Users $model 
@@ -253,7 +249,6 @@ abstract class UsersMacros
      * @param null|array $extra 
      * @return null|bool|DataAdapterBase|Users 
      */
-
     public static function registerUserByLoginPassAndExtra(Users $model, string $login, ?string $pwd=null, ?array $extra=null){
         return Users::insertIfNotExists(
 			[
@@ -265,6 +260,5 @@ abstract class UsersMacros
 			],
 			true
 		);
-
     }
 }

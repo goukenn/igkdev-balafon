@@ -12,18 +12,15 @@ namespace IGK\Manager;
 * Framework manager
 */
 class BalafonFrameworkManager{
-
     /**
     * Property: handle all action.
     * @var mixed
     */
     var $handleAllAction;
-
     /**
     * auto generate doc.
     * @param mixed $args
     */
-
     public function __call($name, $args){
         $f="igk_".$name;
         if(function_exists($f)){
@@ -33,14 +30,12 @@ class BalafonFrameworkManager{
             echo "command [{$name}] not found";
         }
     }
-
     /**
     * auto generate doc.
     */
     public function __construct(){
         $this->handleAllAction=1;
     }
-
     /**
     * auto generate doc.
     */
@@ -50,18 +45,15 @@ class BalafonFrameworkManager{
     /**
     * echo help message
     */
-
     public function help(){
         echo "help ";
     }
-
     /**
     * auto generate doc.
     */
     public function install(){
         echo "running install";
     }
-
     /**
     * auto generate doc.
     */

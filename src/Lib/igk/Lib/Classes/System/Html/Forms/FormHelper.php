@@ -11,7 +11,6 @@ use IGKException;
  * @package 
  */
 class FormHelper{
-
     /**
     * Converts To Input Date Timelocal.
     * @param string $datevalue
@@ -24,11 +23,9 @@ class FormHelper{
      * get submit callable
      * @return Closure 
      */
-
     public static function submit(){
         return Closure::fromCallable("igk_html_submit");
     }
-
     /**
     * Form action host.
     * @param mixed $form
@@ -39,7 +36,6 @@ class FormHelper{
             return $callback($a, $form);
         };
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -48,26 +44,22 @@ class FormHelper{
     public static function __callStatic($name, $args){
         return null;
     }
-
     /**
     * auto generate doc.
     * @param null|array $options
     * @return void
     */
-
     public static function SelectOptions($data, string $key, string  $name,?array $options=null){
         if ($options && !key_exists('no_sort_text', $options))
             $options['no_sort_text'] = 1;
        $data = FormUtils::SelectData($data, $key, $name, $options); 
         return implode("", array_map(self::_InitOption($options), $data));
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return Closure
     */
-
     public static function  _InitOption($options){
         //
         return function ($d)use($options){
@@ -88,7 +80,6 @@ class FormHelper{
      * @param null|string $year 
      * @return array 
      */
-
     public static function YearMounthSelection(?string $year = null){
         $d = [];
         if (is_null($year)){

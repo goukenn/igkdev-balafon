@@ -9,7 +9,6 @@ namespace IGK\System\Html\Helpers;
  * @package IGK\System\Html\Helpers
  */
 class HtmlLoop{
-
     /**
     * Lists.
     * @param mixed $n

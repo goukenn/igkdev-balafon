@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
-
 /**
 * Core generation.
 * @package IGK\System\Configuration

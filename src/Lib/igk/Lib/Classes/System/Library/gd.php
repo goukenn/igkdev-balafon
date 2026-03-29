@@ -5,7 +5,6 @@
 // @desc:
 namespace IGK\System\Library;
 use IGKGD;
-
 /**
 * Gd.
 * @package IGK\System\Library

@@ -9,25 +9,21 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 use IGKQueryResult;
-
 /**
 * Db data query result.
 * @package IGK\Database
 */
 final class DbDataQueryResult extends IGKQueryResult{
-
     /**
     * Constant: create row.
     * @var mixed
     */
     const CREATE_ROW="obj://createrow";
-
     /**
     * Properties: columns, rows.
     * @var mixed
     */
     private $m_columns, $m_rows;
-
     /**
     * .ctr
     */
@@ -35,40 +31,32 @@ final class DbDataQueryResult extends IGKQueryResult{
         $this->m_columns=array();
         $this->m_rows=array();
     }
-
     /**
     * To array.
     * @return ?array
     */
-
     public function to_array(): ?array {
         return $this->m_rows;
     }
-
     /**
     * Returns Row At Index.
     * @param mixed $index
     */
-
     public function getRowAtIndex($index){
         return igk_getv($this->m_rows, $index);
     }
-
     /**
     * Success.
     * @return bool
     */
-
     public function success(): bool
     {
         return true;
     }
-
     /**
     * Adds Columns.
     * @param mixed $tab
     */
-
     public function addColumns($tab){
         foreach($tab as $k){
             $d=igk_createobj();
@@ -77,12 +65,10 @@ final class DbDataQueryResult extends IGKQueryResult{
             $this->m_columns[]=$d;
         }
     }
-
     /**
     * Adds Row.
     * @param mixed $row
     */
-
     public function addRow($row){
         $d=self::CREATE_ROW;
         if(is_object($row) && isset($row->$d) && ($row->$d == 1)){
@@ -99,11 +85,9 @@ final class DbDataQueryResult extends IGKQueryResult{
         }
         $this->m_rows[]=$drow;
     }
-
     /**
     * Creates Row.
     */
-
     public function createRow(){
         $c=igk_createobj();
         foreach($this->m_columns as $v){
@@ -114,27 +98,21 @@ final class DbDataQueryResult extends IGKQueryResult{
         $c->$d=1;
         return $c;
     }
-
     /**
     * Returns Columns.
     */
-
     public function getColumns(){
         return $this->m_columns;
     }
-
     /**
     * Returns Row Count.
     */
-
     public function getRowCount(){
         return igk_count($this->m_rows);
     }
-
     /**
     * Returns Rows.
     */
-
     public function getRows(){
         return $this->m_rows;
     }

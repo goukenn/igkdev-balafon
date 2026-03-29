@@ -7,13 +7,11 @@ use IGK\Resources\R;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Commmands
 */
 class MakeUtility {
-
     /**
     * Creates Empty Script Callback.
     */
@@ -36,7 +34,6 @@ class MakeUtility {
      * @return void 
      * @throws IGKException 
      */
-
     public static function BindDefaultLangSupport($command, $dir, & $bind){
         if (!igk_getv($command->options, "--no-init-lang")){
             if ($v_langs = R::GetSupportedLangs()){

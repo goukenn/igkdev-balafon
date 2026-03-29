@@ -6,7 +6,6 @@
 namespace IGK\Helper;
 use Closure;
 use IGK\System\Console\Logger;
-
 /**
 * File builder helper.
 * @package IGK\Helper

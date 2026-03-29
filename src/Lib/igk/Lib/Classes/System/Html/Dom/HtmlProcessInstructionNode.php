@@ -10,19 +10,16 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGKException;
-
 /**
 * Html process instruction node.
 * @package IGK\System\Html\Dom
 */
 class HtmlProcessInstructionNode extends HtmlNode{
-
     /**
     * Property: no close.
     * @var mixed
     */
     private  $m_noClose;
-
     /**
     * .ctr
     * @param mixed $content
@@ -33,49 +30,39 @@ class HtmlProcessInstructionNode extends HtmlNode{
         $this->content = $content;
         $this->m_noClose = $noClose; 
     }
-
     /**
     * Get rendering children.
     * @param null|mixed $option
     */
-
     protected function _getRenderingChildren($option=null){
         return null;
     }
-
     /**
     * Returns string representation.
     */
-
     public function __toString(){
         return __CLASS__."#".$this->render();
     }
-
     /**
     * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
-
     protected function _addChild($item, $index=null){
         return false;
     }
-
     /**
     * Adds.
     * @param mixed $item
     * @param null|mixed $attributes
     * @param null|mixed $index
     */
-
     public function add($item, $attributes=null, $index=null){
         return null;
     }
-
     /**
     * Returns Can Render Tag.
     */
-
     public function getCanRenderTag(){
         return false;
     }
@@ -85,7 +72,6 @@ class HtmlProcessInstructionNode extends HtmlNode{
      * @return bool 
      * @throws IGKException 
      */
-
     public static function IsPhpCloseInstruct($option){
         $g = igk_getv($option, 'lastRendering');
         if($g && ($g instanceof self)){
@@ -93,12 +79,10 @@ class HtmlProcessInstructionNode extends HtmlNode{
         }
         return false;
     }
-
     /**
     * Renders.
     * @param null|mixed $options
     */
-
     public function render($options=null){
         $src=$this->getContent();
         if($compiler=igk_getv($options, "PHP.Compiler")){

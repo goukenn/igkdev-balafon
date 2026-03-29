@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
-
 /**
 * Controller request not found request response.
 * @package IGK\System\Http
 */
 class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse{
-
     /**
     * Property: message.
     * @var mixed
@@ -23,7 +21,6 @@ class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse
      * @param string $uri        The requested URI that was not found.
      * @param mixed  $controller The controller handling the request.
      */
-
     public function __construct($uri, $controller)
     {
         $this->code = RequestResponseCode::NotFound;

@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTask;
@@ -44,7 +43,6 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR . "/Helper/Traits/IOPathCheckerTrait.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php";
 /** @package  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
@@ -66,18 +64,15 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @var mixed
      */
     public $configs;
-
     /**
     * Property: environment.
     * @var mixed
     */
     public $environment;
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function getInitEnvironmentFileStructure()
     {
         return igk_environment()->NoAppInitFileStruct;
@@ -85,7 +80,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     /**
      * initialize application modules 
      * */
-
     public static function InitModule($v_pdir, $conf, &$argv)
     {
         if (!preg_match("/--module:/", implode(' ', $argv))) {
@@ -104,7 +98,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @return void 
      * @throws Exception 
      */
-
     public static function InitProject($v_pdir, $conf, &$argv)
     {
         if (!preg_match("/--controller:/", implode(' ', $argv))) {
@@ -120,7 +113,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function FilterArgs($a)
     {
         $v_env = igk_environment();
@@ -199,7 +191,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -267,22 +258,17 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         if (extension_loaded("gd")) {
             $this->library("gd");
         }
-       
         $this->InitCoreSystemComponent();
         // init sys components -  
-
-        
         igk_hook("console::app_cli_bootstrap", $this);
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
     }
-
     /**
     * auto generate doc.
     * @param int $render
     * @return string|int
     */
-
     public function run(string $entryfile, $render = 1)
     {
         // + | --------------------------------------------------------------------------
@@ -296,21 +282,18 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         igk_configs()->no_db_route = 1;
         igk_register_service('balafon', 'cli', new BalafonCLIService);
         $argv = &$_SERVER['argv'];
-
         // preprocess command line arguments 
         $hook_options = [];
         if ($e = igk_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, ['argv' => &$argv, 'app' => $this], $hook_options)) {
             return 0;
         }
         IGKApp::StartEngine($this);
-        
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
     /**
      * return primary command array
      * @return array
      */
-
     public function getPrimaryCommand(array $argv): array
     {
         // + |--------------------------------------------------------
@@ -494,15 +477,12 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             '--run' => [
                 function ($v, $command = null) {
                     $command->exec = function ($command, ?string $file = null) {
-
                         if (property_exists($command->options, '--command:ls')) {
-
                             $def = EnvironmentCommandScripts::GetCacheDefinition();
                             Logger::print('commands');
                             foreach ($def as $k => $v) {
                                 Logger::info($k);
                             }
-
                             return -1;
                         }
                         if (empty($file)) {
@@ -659,7 +639,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param array $argv 
      * @return void 
      */
-
     protected function initCommand(array $command, array $argv)
     {
         igk_environment()->NoAppInitFileStruct = true;
@@ -688,13 +667,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             \IGK\System\Console\Commands\BalafonInitCommand::Handle($this->no_init_environment, $argv);
         }
     }
-
     /**
     * auto generate doc.
     * @param null|BaseController $ctrl
     * @return void
     */
-
     public static function BindCommandUser($command, ?BaseController $ctrl = null, &$user = null)
     {
         $user = null;
@@ -707,13 +684,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             $ctrl::login($user, null, false);
         }
     }
-
     /**
     * auto generate doc.
     * @param null|Users $user
     * @return void
     */
-
     public static function BindCommandController(BaseController $ctrl, ?Users $user = null)
     {
         igk_environment()->set(IGKEnvironment::CURRENT_CTRL, $ctrl);
@@ -724,7 +699,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * get working dirctory
      * @return ?string
      */
-
     public function getWorkingDir()
     {
         return $this->basePath;
@@ -734,7 +708,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param mixed &$argv 
      * @return void 
      */
-
     public static function InitAndTreatArgument(&$argv)
     {
         (function (&$argv) {
@@ -802,7 +775,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             // + | so working dir fallback
             // + | 
             if (Constants::INIT_COMMAND != igk_getv($argv, 1)){ 
-
                 if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])) {
                     if (is_dir($wdir)) {
                         //  + | add include path to path separator

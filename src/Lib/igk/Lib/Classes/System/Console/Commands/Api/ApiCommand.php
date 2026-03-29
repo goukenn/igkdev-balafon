@@ -8,43 +8,36 @@ use IGK\Helper\ArrayUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Api
 */
 class ApiCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--api';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='api utility ';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'api';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'action [options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -56,7 +49,6 @@ class ApiCommand extends AppExecCommand{
 			$this->$fc($command);
 		}
 	}
-
     /**
     * Help.
     */
@@ -67,7 +59,6 @@ class ApiCommand extends AppExecCommand{
 	 * list api url 
 	 * @return void 
 	 */
-
     public function action_ls(){
 		$v_fc_showRoute = function($routes){
 			foreach($routes as $k=>$r){

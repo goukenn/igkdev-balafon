@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlNoTagNode;
-
 /**
 * Html head preload node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlHeadPreloadNode extends HtmlNoTagNode{
-
     /**
     * Property: instance.
     * @var mixed
@@ -28,7 +26,6 @@ final class HtmlHeadPreloadNode extends HtmlNoTagNode{
      *
      * @return self
      */
-
     public static function getItem(){
         if (is_null(self::$sm_instance)){
             self::$sm_instance = new self;

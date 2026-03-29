@@ -9,13 +9,11 @@ namespace IGK\System\XML;
  * @package 
  */
 class XMLExpressionAttribute implements IHtmlGetValue{
-
     /**
     * Property: value.
     * @var mixed
     */
     private $m_value;
-
     /**
     * .ctr
     * @param string $expression
@@ -23,7 +21,6 @@ class XMLExpressionAttribute implements IHtmlGetValue{
     public function __construct(string $expression){
         $this->m_value = $expression;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options

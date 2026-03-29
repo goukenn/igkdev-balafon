@@ -4,13 +4,11 @@
 // @date: 20231221 14:20:45
 namespace IGK\System\Html\Metadatas\Traits;
 use IGK\System\Html\Metadatas\MetaDataHost;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas\Traits
 */
 trait HtmlDocMetadataTrait{
-
     /**
     * Property: metadata.
     * @var mixed
@@ -20,7 +18,6 @@ trait HtmlDocMetadataTrait{
      * get method data binding 
      * @return mixed 
      */
-
     public function getMetadatas(){
         if (is_null($this->m_metadata)){
             $this->m_metadata = new MetaDataHost($this);

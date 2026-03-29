@@ -3,7 +3,6 @@
 // @file: IAppModule.php
 // @date: 20250815 21:25:04
 namespace IGK\System\Core;
-
 /**
 * auto generate doc.
 * @package IGK\System\Core
@@ -11,5 +10,4 @@ namespace IGK\System\Core;
 * @method void didInitModule() inject method to controller
 */
 interface IAppModule{
-
 }

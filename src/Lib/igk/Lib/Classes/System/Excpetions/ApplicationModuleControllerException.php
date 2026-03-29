@@ -3,25 +3,21 @@
 // @file: ApplicationModuleControllerException.php
 // @date: 20260320 08:14:30
 namespace IGK\System\Excpetions;
-
 use Error;
 use IGK\Controllers\ApplicationModuleController;
 use IGKException;
 use Throwable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Excpetions
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Excpetions
 */
 class ApplicationModuleControllerException extends IGKException{
     private $m_controller;
-
     /**
     * .ctr
     * @param ApplicationModuleController $controller
@@ -35,7 +31,6 @@ class ApplicationModuleControllerException extends IGKException{
         $this->m_controller= $controller;
         parent::__construct($message, $code, $throwable); 
     }
-
     /**
     * auto generate doc.
     * @return ApplicationModuleController

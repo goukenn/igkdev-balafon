@@ -19,14 +19,12 @@ use ReflectionException;
  * @package IGK\Controllers
  */
 final class SysDbController extends NonVisibleControllerBase implements IDatabaseHost{
-
     /**
     * Returns Can Init Db.
     */
     public function getCanInitDb(){
         return true;
     }
-
     /**
     * Drops Db.
     * @param mixed $navigate
@@ -42,28 +40,24 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
             }
         }
     }
-
     /**
     * Returns Db Constant File.
     */
     public function getDbConstantFile(){
         return igk_sys_db_constant_cache();
     }
-
     /**
     * Returns Entry Namespace.
     */
     protected function getEntryNamespace(){
         return rtrim(\IGK::class, "\\");
     }
-
     /**
     * Returns Classes Dir.
     */
     public function getClassesDir(){
         return IGK_LIB_CLASSES_DIR;
     }
-
     /**
     * Returns Articles Dir.
     */
@@ -71,7 +65,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     { 
         return IGK_LIB_DIR."/".IGK_ARTICLES_FOLDER;
     }
-
     /**
     * Returns Info Data Entry.
     * @param mixed $name
@@ -88,7 +81,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
             "clDataType"=>$expression
         );
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
@@ -97,17 +89,14 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     private function setUserTypeInfo($t){
         $this->setParam("usertypeinfo", $t);
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function & getuserTypeInfo(){
         $r=$this->getParam("usertypeinfo");
         return $r;
     }
-
     /**
     * Returns Name.
     * @return string
@@ -119,18 +108,15 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
      * get use of data schema
      * @return true 
      */
-
     public function getUseDataSchema():bool{
         return true;
     }
-
     /**
     * Returns Data Dir.
     */
     public function getDataDir(){
         return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
     }
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -139,7 +125,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         parent::initComplete();
         $this->RegValueTypeArray("USERTOKENID", null, 1, 1);
     }
-
     /**
     * Initialized.
     * @param mixed $cl
@@ -147,7 +132,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     public static function Initialized($cl){
         return false;
     }
-
     /**
     * Returns true if Function Exposed.
     * @param mixed $func
@@ -155,7 +139,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     public function IsFunctionExposed($func){
         return igk_is_conf_connected();
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
@@ -175,5 +158,4 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         $utypeinfo[$name]=$tab;
         $this->setUserTypeInfo($utypeinfo);
     }
-  
 }

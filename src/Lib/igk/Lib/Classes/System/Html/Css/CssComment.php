@@ -8,13 +8,11 @@ namespace IGK\System\Html\Css;
 * @package IGK\System\Html\Css
 */
 class CssComment implements ICssDefinition{
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $value
@@ -23,7 +21,6 @@ class CssComment implements ICssDefinition{
     {
         $this->value = $value;
     }
-
     /**
     * Returns Definition.
     * @return ?string
@@ -31,7 +28,6 @@ class CssComment implements ICssDefinition{
     public function getDefinition(): ?string { 
         return $this->value;
     }
-
     /**
     * get string presentation.
     */

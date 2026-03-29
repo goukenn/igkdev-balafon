@@ -8,13 +8,11 @@ namespace IGK\Traits;
 * @package IGK\Traits
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\Traits
 */
 trait BacktickHelperCommandTrait{
-
     /**
     * auto generate doc.
     * @param mixed $back_tick_command_result

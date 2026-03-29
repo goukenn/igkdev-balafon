@@ -3,18 +3,15 @@
 // @file: ServiceNameConstants.php
 // @date: 20250929 18:42:31
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ServiceNameConstants{
-
     /**
     * Constant: mail service.
     * @var mixed
     */
     const MailService = 'MailService';
-
 }

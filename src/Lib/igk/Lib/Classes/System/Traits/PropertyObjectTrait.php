@@ -3,14 +3,12 @@
 // @file: PropertyObjectTrait.php
 // @date: 20241108 16:31:12
 namespace IGK\System\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait PropertyObjectTrait{
-
     /**
     * .destructor
     * @param mixed $key
@@ -21,7 +19,6 @@ trait PropertyObjectTrait{
         }
         return null;
     }
-
     /**
     * destructor
     * @param mixed $name

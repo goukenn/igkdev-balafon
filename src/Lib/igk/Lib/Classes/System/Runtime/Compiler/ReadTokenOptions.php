@@ -3,13 +3,11 @@
 // @file: ReadTokenOptions.php
 // @date: 20221019 16:12:51
 namespace IGK\System\Runtime\Compiler;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenOptions implements IReadTokenOptions{
-
     /**
     * Property: source.
     * @var mixed
@@ -144,7 +142,6 @@ class ReadTokenOptions implements IReadTokenOptions{
      * @var false
      */
     var $stop_read = false;
-
     /**
     * Property: exit detecteds.
     * @var mixed

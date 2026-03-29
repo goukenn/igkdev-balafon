@@ -17,7 +17,6 @@ use IGKException;
  * @package IGK\Database
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database
@@ -62,7 +61,6 @@ class PhoneBookUtility
         }
         return PhoneBooks::select_all($conditions, ['Distinct'=>true, 'Columns'=>[PhoneBooks::FD_ENTRY_GUID]]);
     }
-
     /**
     * auto generate doc.
     * @param string $type
@@ -77,7 +75,6 @@ class PhoneBookUtility
         'organization'=>'ORG',
         'gsm'=>'TEL', 'phone'=>'TEL'], strtolower($type));
     }
-
     /**
     * auto generate doc.
     * @param null|Users $user
@@ -183,7 +180,6 @@ class PhoneBookUtility
         ->execute(true, $options); 
         return $tab;
     }
-
     /**
     * auto generate doc.
     * @param null|Users $user
@@ -207,7 +203,6 @@ class PhoneBookUtility
         PhoneBookEntries::delete($conditions);
         return $delete;
     }
-
     /**
     * auto generate doc.
     * @param string $type
@@ -221,7 +216,6 @@ class PhoneBookUtility
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param null|Users $user
@@ -264,7 +258,6 @@ class PhoneBookUtility
         }
         return false;
     }
-
     /**
     * Phone detail list.
     * @param mixed $entries

@@ -4,11 +4,9 @@
 // @date: 20220830 09:47:38
 // @desc: 
 namespace IGK\System\IO\Configuration;
-
 use Closure;
 use IGK\System\IO\EnumDefinitionReader;
 use stdClass;
-
 /**
  * String configuration reader. 
  * @package IGK\System\Configuration
@@ -55,7 +53,6 @@ class ConfigurationReader
      * @var mixed
      */
     protected $m_ln;
-
     /**
     * Property: result.
     * @var mixed
@@ -71,19 +68,16 @@ class ConfigurationReader
      * @var mixed
      */
     var $escape_end;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $valueEscapeDelimiter;
-
     /**
     * Constant: mode name.
     * @var mixed
     */
     const MODE_NAME = 1;
-
     /**
     * Constant: mode value.
     * @var mixed
@@ -100,7 +94,6 @@ class ConfigurationReader
      * @param mixed $expression 
      * @return string 
      */
-
     public function treatExpression(string $text, &$expression)
     {
         $expression = [];
@@ -122,7 +115,6 @@ class ConfigurationReader
             }
         return $l;
     }
-
     /**
     * .ctr
     */
@@ -134,7 +126,6 @@ class ConfigurationReader
      * @param null|Closure $callback 
      * @return false|stdClass 
      */
-
     public function read(string $value, ?int $length = null, ?Closure $callback = null)
     {
         if (
@@ -228,7 +219,6 @@ class ConfigurationReader
         }
         return false;
     }
-
     /**
     * Get active attrib.
     * @param string $name
@@ -246,12 +236,10 @@ class ConfigurationReader
      * get the result of last reading string
      * @return mixed 
      */
-
     public function getResult()
     {
         return $this->m_result;
     }
-
     /**
     * Rm string mark.
     * @param mixed $str
@@ -265,7 +253,6 @@ class ConfigurationReader
         }
         return $str;
     }
-
     /**
     * Can read.
     * @return bool
@@ -280,7 +267,6 @@ class ConfigurationReader
         }
         return false;
     }
-
     /**
     * Read name.
     * @return ?string
@@ -289,7 +275,6 @@ class ConfigurationReader
     {
         return trim($this->_readData($this->separator) ?? '');
     }
-
     /**
     * Read value.
     * @return ?string
@@ -298,7 +283,6 @@ class ConfigurationReader
     {
         return trim($this->_readData($this->delimiter, true) ?? '');
     }
-
     /**
     * Read data.
     * @param string $end
@@ -306,7 +290,6 @@ class ConfigurationReader
     */
     protected function _readData(string $end, ?bool $read_value = false)
     {
-
         /**
         * auto generate doc.
         * @var ?string $d
@@ -366,7 +349,6 @@ class ConfigurationReader
         }
         return $d;
     }
-
     /**
     * auto generate doc.
     * @param string $ch
@@ -377,7 +359,6 @@ class ConfigurationReader
     {
         return $ch == $end;
     }
-
     /**
     * Returns Errors.
     */
@@ -389,7 +370,6 @@ class ConfigurationReader
      * create a css value reader
      * @return ConfigurationReader 
      */
-
     public static function CreateCssValueReader()
     {
         $reader = new self;
@@ -401,7 +381,6 @@ class ConfigurationReader
      * create a connection string value reader
      * @return ConfigurationReader 
      */
-
     public static function CreateConnexionStringValueReader()
     {
         $reader = new self;
@@ -411,7 +390,6 @@ class ConfigurationReader
      * create environment value reader
      * @return ConfigurationReader 
      */
-
     public static function CreateEnvironmentValueReader()
     {
         $reader = new self;
@@ -422,13 +400,11 @@ class ConfigurationReader
     /**
      * direct parsing
      */
-
     public static function Parse(string $value)
     {
         $reader = new self;
         return $reader->read($value);
     }
-
     /**
     * Parses Enum Litteral Value.
     * @param string $value

@@ -14,7 +14,6 @@ use ReflectionException;
  * mysql query driver 
  */
 class DbQueryDriver extends DatabaseDbQueryDriver {
-
     /**
     * Getselectdb.
     */
@@ -31,7 +30,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function Create($options=null, & $error = null ){
         $o = parent::Create($options, $error); 
         return $o;
@@ -40,7 +38,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
      * retrieve the version
      * @return string 
      */
-
     public function getVersion():string{
         if ($this->m_resource){
             return $this->m_resource->server_info;
@@ -53,7 +50,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
      * @return bool 
      * @throws IGKException possibility of no default type zone
      */
-
     protected function initialize($resource): bool {
         $time_zone = igk_configs()->get('date_time_zone', Constants::DEFAULT_TIME_ZONE);
         $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $resource);
@@ -66,7 +62,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         }
         return false;
     }
-
     /**
     * auto generate doc.
     */

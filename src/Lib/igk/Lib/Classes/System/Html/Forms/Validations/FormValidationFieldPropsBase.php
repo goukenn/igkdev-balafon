@@ -7,13 +7,11 @@ namespace IGK\System\Html\Forms\Validations;
 * 
 * @package IGK\System\Html\Forms\Validations
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations
 */
 abstract class FormValidationFieldPropsBase{
-
     /**
     * auto generate doc.
     * @var ?name of the validation parameter
@@ -34,7 +32,6 @@ abstract class FormValidationFieldPropsBase{
      * @var ?bool
      */
     var $allowEmpty;
-
     /**
     * auto generate doc.
     * @var ?ObjectStorage of the field information

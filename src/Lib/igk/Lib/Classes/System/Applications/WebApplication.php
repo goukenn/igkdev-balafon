@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System\Applications;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
@@ -31,7 +30,6 @@ use IGKException;
 use IGKServices;
 use ReflectionException;
 use TypeError;
-
 require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
 /**
  * application web controller 
@@ -39,13 +37,11 @@ require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
  */
 class WebApplication extends IGKApplicationBase implements IRequestFileHandler
 {
-
     /**
      * Property: file.
      * @var mixed
      */
     protected $file;
-
     /**
      * Returns Entryfile.
      */
@@ -53,7 +49,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     {
         return $this->file;
     }
-
     /**
      * auto generate doc.
      * @param mixed $render
@@ -72,7 +67,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function bootstrap($bootoptions = null, ?callable $loader = null)
     {
         // - |
@@ -112,11 +106,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         require_once IGK_LIB_DIR . '/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR . '/Lib/functions-helpers/db.php';
         // - 
-
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
-
         $this->InitCoreSystemComponent();
-
         // + | init registratation domain
         igk_reg_component_package('web', function (string $n) {
             return new \IGK\System\Html\Dom\HtmlNode($n);
@@ -127,7 +118,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // + | bootstrap web application
         // + | initialize library 
         self::InitWebAppLibrary($this);
-
         if ($loader) {
             $loader();
             if (!igk_io_file_exists(igk_io_applicationdir() . '/Data/configure', true)) {
@@ -169,7 +159,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         igk_reg_hook(IGKEvents::HOOK_MK_LINK, function () {
             igk_internal_reslinkaccess();
         });
-     
         if ($bootoptions) {
             $options = Activator::CreateNewInstance(IGKApplicationBootOptions::class, $bootoptions);
             if ($c = $options->controller) {
@@ -183,18 +172,15 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @return void 
      * @throws IGKException 
      */
-
     public function setDefaultController(?BaseController $controller)
     {
         igk_app()->getControllerManager()->setDefaultController($controller);
     }
-
     /**
      * auto generate doc.
      * @param string $file entry file
      * @return void
      */
-
     public function handleRequest(string $file, bool $render = true)
     {
         $srv = igk_server();
@@ -315,7 +301,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ReflectionException 
      * @throws TypeError 
      */
-
     public function run(string $file, $render = 1)
     {
         $this->file = $file;
@@ -346,7 +331,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @param mixed $app 
      * @return void 
      */
-
     public static function InitWebAppLibrary($app)
     {
         $app->library('subdomain');
@@ -357,7 +341,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $app->library('curl');
         // register core config expression
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
-
         igk_hook(IGKEvents::HOOK_INIT_WEB_APP_LIBRARY, ['app' => $app]);
     }
 }

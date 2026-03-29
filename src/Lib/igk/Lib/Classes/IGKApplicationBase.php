@@ -8,12 +8,10 @@ use IGK\System\IO\DotEnvConfiguration;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Markdown\MarkdownFileHandler;
 use IGK\System\IO\TextFileHandler;
-
 /**
  * 
  * @package 
  */
-
 /**
 * auto generate doc.
 * @package
@@ -24,13 +22,11 @@ abstract class IGKApplicationBase{
      * @var array
      */
     private $lib = [];
-
     /**
     * Property: library.
     * @var mixed
     */
     private $m_library;
-
     /**
     * Property: app builder.
     * @var mixed
@@ -46,7 +42,6 @@ abstract class IGKApplicationBase{
      * @var mixed
      */
     protected $_entry_file;
-
     /**
     * .destructor
     * @param mixed $n
@@ -60,7 +55,6 @@ abstract class IGKApplicationBase{
      * init not environment
      * @return mixed 
      */
-
     public function getNoEnvironment(){
         return $this->no_init_environment;
     }
@@ -69,7 +63,6 @@ abstract class IGKApplicationBase{
      * @param mixed $name 
      * @return mixed
      */
-
     public function options($name, $default=null){
         return false;
     }
@@ -77,7 +70,6 @@ abstract class IGKApplicationBase{
      * get library list
      * @return ?IGKObjectStorage 
      */
-
     public function getLibrary(){
         return $this->m_library;
     }
@@ -86,7 +78,6 @@ abstract class IGKApplicationBase{
      * @param mixed $libname 
      * @return mixed 
      */
-
     protected function library($libname)
     {
         if ($this->m_library == null){
@@ -107,7 +98,6 @@ abstract class IGKApplicationBase{
         }
         return $c;
     }
-
     /**
     * Returns Builder.
     */
@@ -117,12 +107,10 @@ abstract class IGKApplicationBase{
         }
         return $this->m_appBuilder;
     }
-
     /**
     * auto generate doc.
     * @return IGK\System\AppBuilder
     */
-
     protected function createAppBuilder(){
         return new \IGK\System\AppBuilder();
     }
@@ -131,7 +119,6 @@ abstract class IGKApplicationBase{
      * @param mixed $libname 
      * @return bool 
      */
-
     public function lib($libname):bool{
         return isset($this->lib[$libname]);
     }
@@ -139,16 +126,13 @@ abstract class IGKApplicationBase{
      * initialize application environment
      * @return mixed 
      */
-
     abstract function bootstrap();
     /**
      * run application
      * @param string $entryfile 
      * @return mixed 
      */
-
     abstract function run(string $entryfile, $render=1);
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -156,7 +140,6 @@ abstract class IGKApplicationBase{
     {
         return [];
     }
-
     /**
     * Returns Entry File.
     */
@@ -167,12 +150,9 @@ abstract class IGKApplicationBase{
      * init core system component
      * @return void 
      */
-
     protected function initCoreSystemComponent(){
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
-
         FileHandler::Register('.md|'.FileHandler::FILE_CONTEXT_VIEW, new MarkdownFileHandler);
         FileHandler::Register('.txt|'.FileHandler::FILE_CONTEXT_VIEW, new TextFileHandler);
-
     }
 }

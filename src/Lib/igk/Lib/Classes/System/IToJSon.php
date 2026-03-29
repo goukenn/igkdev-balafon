@@ -8,13 +8,11 @@ namespace IGK\System;
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System
 */
 interface IToJSon{
-
     /**
     * auto generate doc.
     * @param int $flag json_encode flag

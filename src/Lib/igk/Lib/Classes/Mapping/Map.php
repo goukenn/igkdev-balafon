@@ -22,7 +22,6 @@ class Map{
         }
         return $target;
     }
-
     /**
     * Returns Map Info.
     * @param string $property

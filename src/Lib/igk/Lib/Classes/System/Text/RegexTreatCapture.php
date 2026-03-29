@@ -10,7 +10,6 @@ use Exception;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -19,31 +18,26 @@ class RegexTreatCapture{
     // + | --------------------------------------------------------------------
     // + | private members
     // + |
-
     /**
     * Property: source value.
     * @var mixed
     */
     private $m_source_value;
-
     /**
     * Property: captures.
     * @var mixed
     */
     private $m_captures;
-
     /**
     * Property: treat capture.
     * @var mixed
     */
     private $m_treat_capture;
-
     /**
     * Property: offset.
     * @var mixed
     */
     private $m_offset;
-
     /**
     * Property: info.
     * @var mixed
@@ -54,19 +48,16 @@ class RegexTreatCapture{
      * @var mixed
      */
     var $treatListener;
-
     /**
     * Constant: mark key.
     * @var mixed
     */
     const MARK_KEY = '\0:mark';
-
     /**
     * Constant: regex flag.
     * @var mixed
     */
     const REGEX_FLAG = PREG_OFFSET_CAPTURE;
-
     /**
     * .ctr
     * @param string $source_value
@@ -87,7 +78,6 @@ class RegexTreatCapture{
      * @param array $capture 
      * @return void 
      */
-
     public function setRegexCaptures(array $captures){
         list($this->m_source_value, $this->m_offset) = array_shift($captures);
         $this->m_captures = $captures;
@@ -97,7 +87,6 @@ class RegexTreatCapture{
      * treat source capture 
      * @return string 
      */
-
     public function treat($listener=null){
         $listener = $listener ?? $this->treatListener;
         return self::TreatCapture($this->m_source_value, $this->m_offset, $this->m_info, $this->m_treat_capture, $listener);
@@ -107,7 +96,6 @@ class RegexTreatCapture{
      * @param array $captures 
      * @return array<int|string, object> 
      */
-
     public static function OrderCaptures(array $captures){
         $get_parent = function ($cap_info, $inf) {
             while (count($cap_info) > 0) {
@@ -162,13 +150,11 @@ class RegexTreatCapture{
      * @param null|array<int|string, string|callable>  $treat_capture 
      * @return null|static 
      */
-
     public static function CreateFromRegexResult(?array $tab, array $treat_capture){
         if (is_null($tab) || !$tab){
             return null;
         }
         $v = array_shift($tab);
-
         /**
         * auto generate doc.
         */
@@ -183,7 +169,6 @@ class RegexTreatCapture{
      * @return mixed 
      * @throws Exception 
      */
-
     public static function TreatCapture(string $source_value, int $offset, array $capture_info, $capture, $callable){
         $mark_key = self::MARK_KEY;
         $v_output = '';

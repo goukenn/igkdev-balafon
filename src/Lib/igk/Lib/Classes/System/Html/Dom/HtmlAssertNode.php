@@ -14,31 +14,26 @@ use IGK\System\Html\Traits\HostableItemTrait;
  */
 class HtmlAssertNode extends HtmlItemBase{
     use HostableItemTrait;
-
     /**
     * Property: condition.
     * @var mixed
     */
     private $condition;
-
     /**
     * Property: node.
     * @var mixed
     */
     private $node;
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $callback;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:assert";
-
     /**
     * .ctr
     * @param bool $condition
@@ -49,12 +44,10 @@ class HtmlAssertNode extends HtmlItemBase{
         $this->node = $node;
         $this->setFlag("NO_TEMPLATE",1); 
     }
-
     /**
     * Returns Can Render Tag.
     */
     public function getCanRenderTag() { return false; }
-
     /**
     * Returns Is Visible.
     */
@@ -62,7 +55,6 @@ class HtmlAssertNode extends HtmlItemBase{
     { 
         return $this->condition;
     }
-
     /**
     * Get rendering children.
     * @param null|mixed $options

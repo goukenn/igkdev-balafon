@@ -3,10 +3,7 @@
 // @file: DataTypes.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store framework data types
 * @package IGK\Models
@@ -25,25 +22,21 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clRegex) add entry if not exists. check for unique column.
 * */
 class DataTypes extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
-
     /**
     * Constant: fd cl description.
     * @var mixed
     */
     const FD_CL_DESCRIPTION="clDescription";
-
     /**
     * Constant: fd cl regex.
     * @var mixed

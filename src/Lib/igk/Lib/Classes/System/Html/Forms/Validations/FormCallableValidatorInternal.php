@@ -9,13 +9,11 @@ namespace IGK\System\Html\Forms\Validations;
  * @package IGK\System\Html\Forms
  */
 class FormCallableValidatorInternal extends FormFieldValidatorBase implements IFormValidator{
-
     /**
     * Property: callable.
     * @var mixed
     */
     private $m_callable;
-
     /**
     * .ctr
     * @param callable $call
@@ -24,7 +22,6 @@ class FormCallableValidatorInternal extends FormFieldValidatorBase implements IF
     {
         $this->m_callable = $call;
     }
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -33,7 +30,6 @@ class FormCallableValidatorInternal extends FormFieldValidatorBase implements IF
     public function assertValidate($value): bool { 
         return false;
     }
-
     /**
     * Validate.
     * @param mixed $value

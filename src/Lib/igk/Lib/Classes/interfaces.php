@@ -4,11 +4,9 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK;
-
 use IGK\Database\IDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * auto generate doc.
 * @package 1
@@ -16,32 +14,26 @@ use IGK\System\Html\Dom\HtmlNode;
 */
  interface IComponentInfo{
  }
-
 /**
 * Interface for db get table reference handler.
 * @package IGK
 */
 interface IDbGetTableReferenceHandler{
-
     /**
     * Returns Data Tables Reference.
     * @param mixed & $table
     */
     public function getDataTablesReference(& $table);
-
     /**
     * Resolv table definition.
     * @param string $table
     */
     public function resolvTableDefinition(string $table);
 }
-
-
 /**
 * represent IIAction Result interface
 */
 interface IActionResult{
-
     /**
     * auto generate doc.
     */    function index();
@@ -56,7 +48,6 @@ interface IController{
     */
     function getName():string;
 }
-
 /**
 * Interface for node controller.
 * @package IGK
@@ -66,18 +57,15 @@ interface INodeController extends IController{
     * retriev e the target node  
     */
     function getTargetNode() : HtmlNode;
-
     /**
     * auto generate doc.
     */    function getTargetNodeId();
 }
-
 /**
 * Interface for view controller.
 * @package IGK
 */
 interface IViewController{
-
     /**
     * View.
     */
@@ -87,13 +75,11 @@ interface IViewController{
 * RepresentIControllerInitListener interface
 */
 interface IControllerInitListener{
-
     /**
     * auto generate doc.
     * @param mixed $name
     */
     function addDir($name);
-
     /**
     * auto generate doc.
     * @param mixed $source
@@ -104,11 +90,9 @@ interface IControllerInitListener{
 * RepresentICssCtrlHost interface
 */
 interface ICssCtrlHost{
-
     /**
     * auto generate doc.
     */    function bindCss();
-
     /**
     * auto generate doc.
     * @param mixed $doc the default value is null
@@ -119,7 +103,6 @@ interface ICssCtrlHost{
 * RepresentICtrlDirManagement interface
 */
 interface ICtrlDirManagement{
-
     /**
     * auto generate doc.
     */    function getDataDir();
@@ -127,19 +110,15 @@ interface ICtrlDirManagement{
     * 
     */
     function getDeclaredDir() : string;
-
     /**
     * auto generate doc.
     */    function getName();
-
     /**
     * auto generate doc.
     */    function getResourcesDir();
-
     /**
     * auto generate doc.
     */    function getStylesDir();
-
     /**
     * auto generate doc.
     */    function getViewDir();
@@ -148,11 +127,9 @@ interface ICtrlDirManagement{
 * base data adapter operation
 */
 interface IDataAdapter{
-
     /**
     * auto generate doc.
     */    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
-
     /**
     * auto generate doc.
     */    function setForeignKeyCheck($check);
@@ -165,20 +142,17 @@ interface IDataTable{}
 * RepresentIDbUtility interface
 */
 interface IDbUtility{
-
     /**
     * auto generate doc.
     * @param mixed $leaveopen the default value is false
     */
     function insertIfNotExists(string $table, $obj, $leaveopen=false);
 }
-
 /**
 * Interface for db model.
 * @package IGK
 */
 interface IDbModel{
-
     /**
     * Returns Table.
     */
@@ -189,75 +163,62 @@ interface IDbModel{
 * engine form builder interface
 */
 interface IFormBuilderEngine{
-
     /**
     * auto generate doc.
     * @param mixed $text the default value is null
     */
     function addButton($id, $type='submit', $text=null);
-
     /**
     * auto generate doc.
     * @param mixed $attribs the default value is null
     */
     function addCheckbox($id, $value=null, $attribs=null);
-
     /**
     * auto generate doc.
     * @param mixed $style the default value is null
     */
     function addControl($id, $type='text', $style=null);
-
     /**
     * auto generate doc.
     */    function addGroup();
-
     /**
     * auto generate doc.
     * @param mixed $class the default value is null
     */
     function addLabel($id, $class=null);
-
     /**
     * auto generate doc.
     * @param mixed $style the default value is null
     */
     function addLabelControl($id, $value=null, $type='text', $style=null);
-
     /**
     * auto generate doc.
     * @param mixed $filter the default value is null
     */
     function addLabelSelect($id, $entries, $filter=null);
-
     /**
     * auto generate doc.
     * @param mixed $value the default value is null
     */
     function addLabelTextarea($id, $value=null);
-
     /**
     * auto generate doc.
     * @param mixed $attribs the default value is null
     */
     function addRadioButton($id, $value=null, $attribs=null);
-
     /**
     * auto generate doc.
     * @param mixed $value the default value is null
     */
     function addTextarea($id, $value=null);
-
     /**
     * auto generate doc.
     * @param mixed $attribs the default value is null
     */
     function addTextfield($id, $value=null, $attribs=null);
-
     /**
     * auto generate doc.
     */    function getView();
-
     /**
     * auto generate doc.
     * @param mixed $host
@@ -268,7 +229,6 @@ interface IFormBuilderEngine{
 * RepresentIFrameController interface
 */
 interface IFrameController{
-
     /**
     * auto generate doc.
     * @param mixed $remove the default value is true
@@ -279,21 +239,17 @@ interface IFrameController{
 * Represent a web component interface
 */
 interface IHtmlComponent{
-
     /**
     * auto generate doc.
     */    function getComponentId();
-
     /**
     * auto generate doc.
     * @param mixed $uri
     */
     function getComponentUri($uri);
-
     /**
     * auto generate doc.
     */    function getController();
-
     /**
     * auto generate doc.
     * @param mixed $param the default value is null
@@ -304,11 +260,9 @@ interface IHtmlComponent{
 * use to indicate that an element can store a cookie to client size
 */
 interface IHtmlCookieItem{
-
     /**
     * auto generate doc.
     */    function getCookieId();
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -319,19 +273,16 @@ interface IHtmlCookieItem{
 * RepresentIHtmlLoadContent interface
 */
 interface IHtmlLoadContent {
-
     /**
     * auto generate doc.
     * @param mixed $context the default value is null
     */
     function LoadExpression($data, $context=null);
-
     /**
     * auto generate doc.
     * @param mixed $file
     */
     function LoadFile($file);
-
     /**
     * auto generate doc.
     * @param mixed $article
@@ -342,24 +293,20 @@ interface IHtmlLoadContent {
 * RepresentIHtmlUriItem interface
 */
 interface IHtmlUriItem{
-
     /**
     * auto generate doc.
     */    function getUri();
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
     function setUri($v);
 }
-
 /**
 * Interface for listener.
 * @package IGK
 */
 interface IListener{
-
     /**
     * Registers.
     * @param mixed $name
@@ -371,13 +318,11 @@ interface IListener{
 * RepresentIMailAttachmentContainer interface
 */
 interface IMailAttachmentContainer{
-
     /**
     * auto generate doc.
     * @param mixed $cid the default value is null
     */
     function attachContent($content, $type=IGK_CT_PLAIN_TEXT, $cid=null);
-
     /**
     * auto generate doc.
     * @param mixed $cid the default value is null
@@ -388,61 +333,51 @@ interface IMailAttachmentContainer{
 * notification message
 */
 interface INotifyMessage {
-
     /**
     * auto generate doc.
     * @param mixed $message
     */
     function addError($message);
-
     /**
     * auto generate doc.
     * @param mixed $keymessage
     */
     function addErrorr($keymessage);
-
     /**
     * auto generate doc.
     * @param mixed $message
     */
     function addInfo($message);
-
     /**
     * auto generate doc.
     * @param mixed $keymessage
     */
     function addInfor($keymessage);
-
     /**
     * auto generate doc.
     * @param mixed $message
     */
     function addMsg($message);
-
     /**
     * auto generate doc.
     * @param mixed $keymessage
     */
     function addMsgr($keymessage);
-
     /**
     * auto generate doc.
     * @param mixed $message
     */
     function addSuccess($message);
-
     /**
     * auto generate doc.
     * @param mixed $keymessage
     */
     function addSuccessr($keymessage);
-
     /**
     * auto generate doc.
     * @param mixed $message
     */
     function addWarning($message);
-
     /**
     * auto generate doc.
     * @param mixed $keymessage
@@ -453,21 +388,17 @@ interface INotifyMessage {
 * RepresentIParamHostService interface
 */
 interface IParamHostService{
-
     /**
     * auto generate doc.
     * @param mixed $default the default value is null
     */
     function getParam($name, $default=null);
-
     /**
     * auto generate doc.
     */    function getParamKeys();
-
     /**
     * auto generate doc.
     */    function resetParam();
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -478,13 +409,11 @@ interface IParamHostService{
 * RepresentIParentDocumentHost interface
 */
 interface IParentDocumentHost{
-
     /**
     * auto generate doc.
     * @param mixed $document
     */
     function BindScriptTo($document);
-
     /**
     * auto generate doc.
     */    function getDoc();
@@ -493,7 +422,6 @@ interface IParentDocumentHost{
 *  represent query result interface
 */
 interface IQueryResult{
-
     /**
     * auto generate doc.
     * @param mixed $index
@@ -514,7 +442,6 @@ interface IQueryResult{
 * RepresentISystemUser interface
 */
 interface ISystemUser {
-
     /**
     * auto generate doc.
     */    function getLogin();
@@ -523,13 +450,11 @@ interface ISystemUser {
 * RepresentIUriActionListener interface
 */
 interface IUriActionListener{
-
     /**
     * auto generate doc.
     * @param mixed $render the default value is 1
     */
     function invokeUriPattern($e, $render=1);
-
     /**
     * auto generate doc.
     * @param mixed $uri
@@ -540,7 +465,6 @@ interface IUriActionListener{
 * RepresentIUriActionRegistrableController interface
 */
 interface IUriActionRegistrableController{
-
     /**
     * auto generate doc.
     */    function getBasicUriPattern();
@@ -548,7 +472,6 @@ interface IUriActionRegistrableController{
     * registrated invocation uri
     */
     function getRegInvokeUri();
-
     /**
     * auto generate doc.
     */    function getRegUriAction();
@@ -557,11 +480,9 @@ interface IUriActionRegistrableController{
 * RepresentIUserController interface
 */
 interface IUserController{
-
     /**
     * auto generate doc.
     */    function connect();
-
     /**
     * auto generate doc.
     */    function signup();
@@ -570,7 +491,6 @@ interface IUserController{
 * RepresentIWebAdministrativeCtrl interface
 */
 interface IWebAdministrativeCtrl {
-
     /**
     * auto generate doc.
     */    function getConfigNode();
@@ -579,7 +499,6 @@ interface IWebAdministrativeCtrl {
 * RepresentIWebPageChildCtrontroller interface
 */
 interface IWebPageChildCtrontroller{
-
     /**
     * auto generate doc.
     */    function getWebParentCtrl();
@@ -598,15 +517,12 @@ interface IDbManager {
     * @return mixed
     */
     function connect();
-
 }
-
 /**
 * Interface for db sqlmanager.
 * @package IGK
 */
 interface IDbSQLManager extends IDbManager{
-
     /**
     * auto generate doc.
     * @param mixed $tableName
@@ -617,7 +533,6 @@ interface IDbSQLManager extends IDbManager{
 * RepresentIDataController interface
 */
 interface IDataController extends IController {
-
     /**
     * auto generate doc.
     */    function getDataAdapterName();
@@ -625,7 +540,6 @@ interface IDataController extends IController {
     * return primary data table info or mixed array of table info
     */
     function getDataTableInfo();
-
     /**
     * auto generate doc.
     */    function getDataTableName();
@@ -634,24 +548,20 @@ interface IDataController extends IController {
 * RepresentIWebController interface
 */
 interface IWebController extends IController {
-
     /**
     * auto generate doc.
     */    function getChilds();
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
     function regChildController($ctrl);
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
     function unregChildController($ctrl);
 }
-
 /**
 * Interface for get value.
 * @package IGK
@@ -667,17 +577,14 @@ interface IGetValue{
 * RepresentIQueryConditionalExpression interface
 */
 interface IQueryConditionalExpression extends IGetValue {
-
     /**
     * auto generate doc.
     * @param AND
     */
     function add($expression, $operator="AND");
-
     /**
     * auto generate doc.
     */    function getCount();
-
     /**
     * auto generate doc.
     * @param mixed $expression
@@ -688,7 +595,6 @@ interface IQueryConditionalExpression extends IGetValue {
 * RepresentIWebPageController interface
 */
 interface IWebPageController{
-
     /**
     * auto generate doc.
     * @param mixed $file

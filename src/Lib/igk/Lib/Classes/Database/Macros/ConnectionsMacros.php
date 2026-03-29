@@ -4,22 +4,18 @@
 // @desc: macros for model Connections
 // @date: 20260102 10:13:01
 namespace IGK\Database\Macros;
-
 use IGK\Models\Connections;
 use IGK\Models\Users;
-
 /**
 * 
 * @package IGK\Database\Macros
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\Database\Macros
 */
 abstract class ConnectionsMacros{
-
     /**
     * auto generate doc.
     * @param null|Users $user

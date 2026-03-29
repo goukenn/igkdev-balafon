@@ -13,37 +13,31 @@ use IGK\System\Html\Css\CssUtils;
 * @package IGK\System\Console\Commands\CssCommands
 */
 class CssLibraryExportCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--css:lib-export';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'css';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'help export css class selection from file';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'filename [options]';
-
     /**
     * auto generate doc.
     */

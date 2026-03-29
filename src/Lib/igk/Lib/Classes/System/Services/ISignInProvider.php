@@ -20,7 +20,6 @@ interface ISignInProvider{
      * @return bool 
      */
     function login(callable $callable) : bool;
-
     /**
     * Redirects To.
     * @param mixed $uri

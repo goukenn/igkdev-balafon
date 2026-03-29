@@ -4,25 +4,21 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyMainScript extends HtmlScriptNode{
-
     /**
     * Property: item.
     * @var mixed
     */
     static $item;
-
     /**
     * Property: scripts.
     * @var mixed
     */
     private $m_scripts = [];
-
     /**
     * Adds Script.
     * @param mixed $key
@@ -44,7 +40,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         }
         return igk_count($this->m_scripts);
     }
-
     /**
     * Adds Script Node.
     * @param mixed $id
@@ -53,7 +48,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     public function addScriptNode($id, $n){
         return $this->m_bodyMainScript->addScriptNode($id, $n);
     }
-
     /**
     * Append script.
     * @param mixed $scriptFile
@@ -61,7 +55,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     public function appendScript($scriptFile){
         return $this->appendScript($scriptFile);
     }
-
     /**
     * Removes Script.
     * @param mixed $index
@@ -73,7 +66,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             $this->_initValue();
         }
     }
-
     /**
     * Returns Script At.
     * @param mixed $index
@@ -81,7 +73,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     public function getScriptAt($index){
         return igk_getv($this->m_scripts, $index, null);
     }
-
     /**
     * Returns Item.
     */
@@ -90,7 +81,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             self::$item = new self();
         return self::$item;
     }
-
     /**
     * .ctr
     */
@@ -100,7 +90,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         // avoid defering on script
         $this->activate('defer');
     }
-
     /**
     * Get rendering children.
     * @param null|mixed $options
@@ -112,7 +101,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             count($this->m_scripts)>0 ? new SourceScriptRenderer($this->m_scripts) : null
         ]);
     }
-
     /**
     * Accept render.
     * @param null|mixed $options
@@ -125,19 +113,16 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         return true; 
     }
 }
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 final class SourceScriptRenderer extends HtmlNode{
-
     /**
     * Property: scripts.
     * @var mixed
     */
     private $m_scripts;
-
     /**
     * .ctr
     * @param mixed $scripts
@@ -146,7 +131,6 @@ final class SourceScriptRenderer extends HtmlNode{
     {
         $this->m_scripts = $scripts;
     }
-
     /**
     * Renders.
     * @param null|mixed $options

@@ -14,7 +14,6 @@ use ReflectionException;
  */
 abstract class ApiController extends ControllerTypeBase{
     // use ApplicationUserProfileTrait;
-
     /**
     * Bootstrap.
     * @param mixed $app

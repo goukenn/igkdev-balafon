@@ -3,7 +3,6 @@
 // @file: RegexMatcherContainer.php
 // @date: 20240913 10:19:11
 namespace IGK\System\Text;
-
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -16,11 +15,9 @@ use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGKException;
 use IGKServices;
 use stdClass;
-
 // + | --------------------------------------------------------------------
 // + | - priority to end regex
 // + |
-
 /**
  * extract definitio beetween begin/end definition 
  * @package IGK\System\Text
@@ -28,14 +25,12 @@ use stdClass;
  */
 class RegexMatcherContainer implements IRegexMatcherContainer
 {
-
     /**
      * Constant: regex option.
      * @var mixed
      */
     const REGEX_OPTION = '/^\(\?\b(?P<add>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b(:\b(?P<remove>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b)?\)/';
     // shared loading formatters
-
     /**
      * Property: loading formatters.
      * @var mixed
@@ -45,7 +40,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * detect contain start line 
      */
     const REGEX_START_LINE = '/(?<!\\\\|\w|\[)\^/';
-
     /**
      * Constant: regex continues empty line.
      * @var mixed
@@ -55,37 +49,31 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * detect contain end line 
      */
     const REGEX_END_LINE = '/(?<!\\\)\\$/';
-
     /**
      * Constant: begin end type.
      * @var mixed
      */
     const BEGIN_END_TYPE = RegexMatcherPattern::BEGIN_END_TYPE;
-
     /**
      * Constant: begin while type.
      * @var mixed
      */
     const BEGIN_WHILE_TYPE = 'begin/while';
-
     /**
      * Constant: match type.
      * @var mixed
      */
     const MATCH_TYPE = 'match';
-
     /**
      * Constant: include.
      * @var mixed
      */
     const INCLUDE = 'include';
-
     /**
      * Property: last.
      * @var mixed
      */
     private $m_last;
-
     /**
      * Property: ignore scoped.
      * @var mixed
@@ -96,7 +84,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?array
      */
     private $m_initialPatterns;
-
     /**
      * Type of type.
      * @var mixed
@@ -113,50 +100,41 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var bool
      */
     var $autoStore = true;
-
     /**
      * when end detect on empty child skip to end of line 
      * @var bool
      */
     var $autoSkipEndCapture = true;
-
-
     /**
      * flag to enable capture continuation - to implement 
      * @var bool
      */
     var $continueCapture = false;
-
     /**
      * flag to indicate detection will use multiple line regex
      * @var mixed
      */
     var $splittingDefinition;
-
     /**
      * auto generate doc.
      * @var ?IRegexMatchPatternStateListener
      */
     var $matchPatternStateListener;
-
     /**
      * auto generate doc.
      * @var ?IRegexMatchPatternOutpuTreatmentListener
      */
     var $ouputTreatmentListener;
-
     /**
      * engine pattern listener
      * @var ?callable
      */
     var $enginePatternListener;
-
     /**
      * capture pattern listener
      * @var ?callable
      */
     var $captureHandlerListener;
-
     /**
      * auto generate doc.
      * @var ?callable
@@ -182,7 +160,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?int
      */
     private $m_last_offset;
-
     /**
      * last detecting
      * @var mixed 
@@ -199,7 +176,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     private $m_tag;
-
     /**
      * Property: ref only.
      * @var mixed
@@ -210,7 +186,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var  
      */
     private $m_engine_treatment_info;
-
     /**
      * show options
      * @var mixed
@@ -221,35 +196,29 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?string
      */
     var $patternCreatorClass;
-
     /**
      * auto generate doc.
      * @return ?IRegexMatcherEngineInfo
      */
-
     public function getEngineInfo()
     {
         return $this->m_engine_treatment_info;
     }
-
     /**
      * auto generate doc.
      * @param ?IRegexMatcherEngineInfo  $info
      * @return void
      */
-
     public function setEngineInfo(?IRegexMatcherEngineInfo $info)
     {
         $this->m_engine_treatment_info = $info;
     }
-
     /**
      * load from json data
      * @param string $file 
      * @param ?string $pattern_class_name
      * @return static
      */
-
     public static function LoadFromFile(string $file, ?string $pattern_class_name = null)
     {
         $c = new static;
@@ -281,7 +250,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return mixed 
      * @throws Exception 
      */
-
     protected function _fix_loading($rp)
     {
         $tdb = [$rp];
@@ -323,13 +291,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $root;
     }
-
     /**
      * get last inserted match information 
      * @return ?RegexMatcherPattern
      * @throws Exception 
      */
-
     public function last()
     {
         if (!is_null($this->m_last)) {
@@ -342,12 +308,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * array list of matcher
      * @return array 
      */
-
     public function getMatcher()
     {
         return $this->m_matcher;
     }
-
     /**
      * Sets Matcher.
      * @param array $patterns
@@ -356,7 +320,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         $this->m_matcher = $patterns;
     }
-
     /**
      * auto generate doc.
      * @var array
@@ -372,13 +335,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var ?int
      */
     private $m_pos;
-
     /**
      * auto generate doc.
      * @param string $id
      * @return mixed
      */
-
     public function getMatcherByRefId(string $id)
     {
         return igk_getv($this->m_references, $id);
@@ -387,7 +348,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * clear all definitions
      * @return void 
      */
-
     public function clear()
     {
         $this->m_matcher = [];
@@ -397,7 +357,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * reset detection
      * @return void 
      */
-
     public function resetTreatment()
     {
         $this->m_pos = 0;
@@ -406,7 +365,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $this->m_last_offset = null;
         $this->m_last_detect = null;
     }
-
     /**
      * .ctr
      */
@@ -422,7 +380,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return object|RegexMatcherCapture|void 
      * @throws Exception 
      */
-
     public function end($info, string $source, int &$offset)
     {
         // $boffset = $offset; // <- backup offset 
@@ -461,7 +418,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * save container state
      * @return mixed 
      */
-
     public function saveState()
     {
         ($f = $this->matchPatternStateListener) ? $f->saveState() : null;
@@ -478,7 +434,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * restore container state
      * @return mixed 
      */
-
     public function restoreState(?array $states = null)
     {
         if ($states) {
@@ -496,19 +451,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * get read output
      * @return null|string|void 
      */
-
     public function getOuput()
     {
         if ($f = $this->ouputTreatmentListener)
             return $f->getOutput();
     }
-
     /**
      * auto generate doc.
      * @param int & $offset
      * @return ?RegexMatcherCapture
      */
-
     protected function _treatEnd($info, $source, int &$offset)
     {
         $tabinfo = [$info];
@@ -518,7 +470,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_nextline_offset = strpos($source, "\n", $offset);
         $v_sln = strlen($source);
         $v_end_of_source = $offset >= $v_sln;
-
         // if ($v_size == 0) {
         if (($v_size == 0) && (!$info->start)) {
             /// TODO: TREAT matching 
@@ -556,16 +507,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // + |
                     // <- skip to end of line
                     ($this->autoSkipEndCapture) && self::_SkipToEndOfLine($offset, $v_sln, $v_nextline_offset);
-
-
                     return $e;
             }
         }
         if ($v_end_of_source) {
             return $this->_endinfo($info, $source, $offset, []);
         }
-
-
         $v_continue = false;
         $v_continueRead = false;
         $v_boffset = $offset;
@@ -635,8 +582,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     if ($this->m_ignoreScoped === $info->match) {
                         $b = false;
                     }
-
-
                     if (($b !== false) && ($tab = $this->_matchOffset($b, $source, $offset, $start_line))) {
                         $v_current_offset = $tab[0][1];
                         $v_ms = strlen($tab[0][0]);
@@ -820,7 +765,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * call with the treat method to handle capture treatment or custom replacement techniques
      * @return string 
      */
-
     protected function _treatEndCaptures($info, string $value, ?array $endCap = null): string
     {
         $v_t = [];
@@ -915,7 +859,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * detect info comparaison
      * @param RegexDetectInfo $info parent info 
      */
-
     protected function _handleComparedMatchItem(RegexDetectInfo $info, RegexDetectInfo $compared_end, int &$offset, &$v_continue = false)
     {
         $l = $compared_end;
@@ -934,8 +877,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $info->endType = 'end';
             $offset = $l->pos;
             // <- skip to end position 
-
-
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
                 'tag' => '3',
@@ -1055,7 +996,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 }
             }
         }
-
         // if ($start_line && (($next_line == false) || ($next_line==$offset))) {
         //     //skip end of line  
         // } else {
@@ -1135,7 +1075,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if (!$patterns) {
             return null;
         };
-
         $g = new static;
         $this->_initSubMatcherContainer($g);
         $g->m_matcher = $patterns;
@@ -1144,7 +1083,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $tpos = $offset;
         return $g->detect($source, $tpos);
     }
-
     /**
      * auto generate doc.
      * @param mixed $p
@@ -1154,7 +1092,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         $this->m_parentInfo = $p;
     }
-
     /**
      * auto generate doc.
      * @param static $g
@@ -1167,7 +1104,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
          */
         $g->patternCreatorClass = $this->patternCreatorClass;
     }
-
     /**
      * reduce an return the mininum of this 
      * @param mixed &$result 
@@ -1206,7 +1142,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $o = '';
         $is_empty_line = $b == RegexMatcherUtility::REGEX_EMPTY_LINE;
         if ($b) {
-
             $b = RegexMatcherUtility::ConverToRegex($b);
         }
         if ($b) {
@@ -1233,7 +1168,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return mixed 
      * @throws Exception 
      */
-
     public static function GetPatternType($k): string
     {
         $v_type = igk_getv($k, 'type');
@@ -1248,7 +1182,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param int $offset The offset position to update
      * @return ?IRegexMatcherDetectInfo
      */
-
     public function detect(string $source, int &$offset)
     {
         $v_flag_current = false;
@@ -1323,7 +1256,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 if ($v_skip_detect && ($v_skip_detect === $k)) {
                     continue;
                 }
-
                 $v_type = self::GetPatternType($k);
                 switch ($v_type) {
                     case self::BEGIN_END_TYPE:
@@ -1408,7 +1340,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * retrieve class creator
      * @return string 
      */
-
     protected function _getClassCreator(): string
     {
         if ($cl = $this->patternCreatorClass) {
@@ -1416,16 +1347,13 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $cl ?? RegexMatcherPattern::class;
     }
-
     /**
      * auto generate doc.
      * @param null|string $refid
      * @return $this
      */
-
     public function begin(string $expression, ?string $end = null, ?string $tokenID = null, ?string $refid = null, ?array $patterns = null)
     {
-
         $inf =  Activator::CreateNewInstance($this->_getClassCreator(), [
             $this,
             'type' => RegexMatcherPattern::BEGIN_END_TYPE,
@@ -1444,7 +1372,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $this;
     }
-
     /**
      * While.
      * @param string $expression
@@ -1478,7 +1405,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
     public function match(string $expression, ?string $tokenID = null, ?string $refid = null, ?array $pattern = null)
     {
         $inf = Activator::CreateNewInstance($this->_getClassCreator(), [
@@ -1496,13 +1422,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $this->m_matcher[] = $inf;
         return $this;
     }
-
     /**
      * auto generate doc.
      * @param mixed $tab
      * @return RegexMatcherPattern
      */
-
     public function referenceOnly()
     {
         if (is_null($this->m_refOnly)) {
@@ -1514,13 +1438,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $this->m_refOnly;
     }
-
     /**
      * auto generate doc.
      * @param ?callable $filter callable {(string $g)=>boolean}
      * @return array
      */
-
     public function extract(string $src, $filter = null, &$offset = 0)
     {
         $match = [];
@@ -1539,7 +1461,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return void 
      * @throws Exception 
      */
-
     public function treat(string &$src, callable $callable, string $end_token_id = '__end__')
     {
         $pos = 0;
@@ -1555,7 +1476,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $v_otl->output = $src;
             $v_ref = true;
         }
-
         // + | save treatment info 
         $this->m_engine_treatment_info = (object)Activator::CreateNewInstance(RegexMatcherEngineInfo::class, [
             'type' => __FUNCTION__,
@@ -1613,7 +1533,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * get end last position 
      * @return null|int 
      */
-
     public function getLastPosition()
     {
         return $this->m_pos;
@@ -1625,7 +1544,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
     public function appendStringDetection($tokenID = 'string', bool $escaped = false)
     {
         $l = $this->begin("(\"|')", "\\1", $tokenID)->last();
@@ -1642,7 +1560,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param bool $escaped 
      * @return RegexMatcherPattern 
      */
-
     public function createStringPattern($tokenID = 'string', bool $escaped = false): RegexMatcherPattern
     {
         $l = $this->createPattern(['begin' => "(\"|')", "end" => "\\1", "tokenID" => $tokenID]);
@@ -1653,7 +1570,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $l;
     }
-
     /**
      * helper mark some definition 
      * @param string $mark 
@@ -1661,8 +1577,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
-    public function appendSingleLineComment($mark = '\/\/', $tokenID = 'single-comment')
+    public function appendSingleLineComment($mark = '\/\/', $tokenID = 'single-comment'): RegexMatcherContainer
     {
         $this->match($mark . ".+", $tokenID);
         return $this;
@@ -1673,8 +1588,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
-    public function appendBrank($tokenId = 'brank', $refid = null)
+    public function appendBrank($tokenId = 'brank', $refid = null): RegexMatcherContainer
     {
         $this->begin('\(', '\)', $tokenId, $refid);
         return $this;
@@ -1686,7 +1600,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
     public function appendCurlyBrank($tokenId = 'curly-brank', $refid = null)
     {
         $this->begin('\{', '\}', $tokenId, $refid);
@@ -1699,38 +1612,35 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-
-    public function appendSquareBrank($tokenId = 'square-brank', $refid = null)
+    public function appendSquareBrank($tokenId = 'square-brank', $refid = null): RegexMatcherContainer
     {
         $this->begin('\[', '\]', $tokenId, $refid);
         return $this;
     }
-
     /**
      * auto generate doc.
      * @param mixed $refid
      * @return $this
      */
-
-    public function appendCommentDocBlock($tokenId = 'comment-docbloc', $refid = null)
+    public function appendCommentDocBlock($tokenId = 'comment-docbloc', $refid = null): RegexMatcherContainer
     {
         $this->begin('\/\*\*', '\*\/', $tokenId, $refid);
         return $this;
     }
     /**
      * append empty line detection 
+     * - ^[^\\S\\n]*(?=\\n)
+     * - ^\\h*(?=\\n)
      * @param string $tokenID 
      * @return $this 
      * @throws IGKException 
      * @throws Exception 
      */
-
-    public function appendEmptyLineDetection(string $tokenID = 'empty-line')
+    public function appendEmptyLineDetection(string $tokenID = 'empty-line'): RegexMatcherContainer
     {
         $this->match(RegexMatcherUtility::REGEX_EMPTY_LINE, $tokenID)->last();
         return $this;
     }
-
     /**
      * Append multiline comment.
      * @param mixed $begin
@@ -1743,7 +1653,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $this->begin($begin, $end, $tokenId, $refid);
         return $this;
     }
-
     /**
      * Init treat closure.
      * @param mixed $mark
@@ -1765,8 +1674,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return ?string 
      * @throws Exception 
      */
-
-    public static function _TreatCaptures($captures, $cap, string $sourceValue, &$option = null)
+    private static function _TreatCaptures($captures, $cap, string $sourceValue, &$option = null)
     {
         $offset = 0;
         ksort($captures);
@@ -1806,7 +1714,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param RegexMatcherPattern $pattern 
      * @return void 
      */
-
     public function append(RegexMatcherPattern $pattern)
     {
         if ($pattern && ($pattern->getMatcher() === $this)) {
@@ -1823,7 +1730,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param ?array $patterns 
      * @return void 
      */
-
     public function setInitialPatterns(?array $patterns)
     {
         $this->m_initialPatterns = $patterns;
@@ -1833,7 +1739,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param string $name scopeName of the definition
      * @return array assoc array of definitions 
      */
-
     public function export($name): array
     {
         $ct = new RegexMatcherContainerTmLanguageConverter;
@@ -1847,18 +1752,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @throws IGKException 
      * @throws Exception 
      */
-
     public static function EncodeToJSON($container, string $name)
     {
         return JSon::Encode($container->export($name), JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
-
     /**
      * auto generate doc.
      * @var array $list
      * @return void
      */
-
     public function loadRepository($list)
     {
         $cl = $this->_getClassCreator();
@@ -1885,7 +1787,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param array $cap tab regex result 
      * @return object[] 
      */
-
     public static function CreateChainList($cap)
     {    /// TODO Fix name with chain list in capture regex do same ref 3 time 
         $root = (object)[];
@@ -1933,13 +1834,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $li;
     }
-
     /**
      * auto generate doc.
      * @param mixed $chainList
      * @return mixed
      */
-
     public static function TreatCaptures(array $captures, $cap, string $sourceValue, &$option = null, $chainList = null)
     {
         $chainList  = $chainList ?? self::CreateChainList($cap);
@@ -2023,13 +1922,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $rv;
     }
-
     /**
      * auto generate doc.
      * @param array $args
      * @return RegexMatcherPattern
      */
-
     public function createPattern(array $args): RegexMatcherPattern
     {
         // running state or resolving pattern
@@ -2065,7 +1962,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param int $offset 
      * @return string 
      */
-
     public function replace(string $src, callable $callback, int $offset = 0): string
     {
         $o = '';

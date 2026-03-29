@@ -3,7 +3,6 @@
 // @file: IDbQueryOptions.php
 // @date: 20240914 10:19:09
 namespace IGK\Database;
-
 /**
 * auto generate doc.
 * @package IGK\Database

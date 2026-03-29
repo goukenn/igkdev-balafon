@@ -3,10 +3,7 @@
 // @file: Groups.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store framework groups
 * @package IGK\Models
@@ -29,37 +26,31 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clController, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class Groups extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
-
     /**
     * Constant: fd cl description.
     * @var mixed
     */
     const FD_CL_DESCRIPTION="clDescription";
-
     /**
     * Constant: fd cl controller.
     * @var mixed
     */
     const FD_CL_CONTROLLER="clController";
-
     /**
     * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreate_At";
-
     /**
     * Constant: fd cl update at.
     * @var mixed
@@ -69,7 +60,6 @@ class Groups extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%groups";
-
     /**
     * Property: unique columns.
     * @var mixed

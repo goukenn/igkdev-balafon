@@ -9,7 +9,6 @@ namespace IGK\System\Library;
  * @package IGK\System\Library
  */
 class zip extends \IGKLibraryBase{
-
     /**
     * Initializes.
     * @return bool

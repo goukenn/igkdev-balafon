@@ -3,10 +3,7 @@
 // @file: UserInfoTypes.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * store use information types.
 * @package IGK\Models
@@ -29,37 +26,31 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry if not exists. check for unique column.
 * */
 class UserInfoTypes extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
-
     /**
     * Constant: fd cl data type.
     * @var mixed
     */
     const FD_CL_DATA_TYPE="clDataType";
-
     /**
     * Constant: fd cl regex.
     * @var mixed
     */
     const FD_CL_REGEX="clRegex";
-
     /**
     * Constant: fd cl cardinality.
     * @var mixed
     */
     const FD_CL_CARDINALITY="clCardinality";
-
     /**
     * Constant: fd cl type.
     * @var mixed

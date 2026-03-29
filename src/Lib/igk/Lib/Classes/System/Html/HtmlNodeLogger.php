@@ -9,13 +9,11 @@ namespace IGK\System\Html;
 */
 class HtmlNodeLogger
 {
-
     /**
     * Property: t.
     * @var mixed
     */
     var $t;
-
     /**
     * .ctr
     * @param mixed $t
@@ -24,7 +22,6 @@ class HtmlNodeLogger
     {
         $this->t = $t;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name

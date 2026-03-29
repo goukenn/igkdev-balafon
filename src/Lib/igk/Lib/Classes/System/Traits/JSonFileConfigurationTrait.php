@@ -8,7 +8,6 @@ namespace IGK\System\Traits;
 * @package IGK\System\Traits
 */
 trait JSonFileConfigurationTrait{
-
     /**
     * auto generate doc.
     * @param string $file
@@ -21,7 +20,6 @@ trait JSonFileConfigurationTrait{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $datacreate from configuration data

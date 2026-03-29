@@ -13,37 +13,31 @@ use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 */
 class IGKResourceUriResolver
 {
-
     /**
     * Property: environment.
     * @var mixed
     */
     private $environment;
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Flag: hash path.
     * @var mixed
     */
     private $m_hashPath;
-
     /**
     * Property: options.
     * @var mixed
     */
     private $m_options;
-
     /**
     * Constant: default mask.
     * @var mixed
@@ -54,7 +48,6 @@ class IGKResourceUriResolver
      * @var bool
      */
     var $fulluri;
-
     /**
     * .ctr
     * @return
@@ -67,7 +60,6 @@ class IGKResourceUriResolver
     /**
      * mark path that need to be hashed before resolution
      */
-
     public function hashPath(?string $path = null)
     {
         $this->m_hashPath = $path ? $this->resolve($path, ["initHash" => 1]) : null;
@@ -76,7 +68,6 @@ class IGKResourceUriResolver
      * resolver instance
      * @return self
      */
-
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -89,7 +80,6 @@ class IGKResourceUriResolver
      * all public directory must have 775 mask 
      * @return void 
      */
-
     public function prepareEnvironment()
     {
         $app_dir = igk_io_applicationdir();    
@@ -136,7 +126,6 @@ class IGKResourceUriResolver
             igk_io_w2file($c, $_access, false);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $j
@@ -187,7 +176,6 @@ class IGKResourceUriResolver
      * @return null|string 
      * @throws IGKException 
      */
-
     public function resolve(string $path, $options = null) : ?string
     {
         static $appData = null;
@@ -266,7 +254,6 @@ class IGKResourceUriResolver
         }
         return igk_io_currentrelativeuri($relative);
     }
-
     /**
     * Resolves Full Uri.
     * @param mixed $uri
@@ -279,7 +266,6 @@ class IGKResourceUriResolver
         }
         return igk_io_baseuri() . "/" . $data;
     }
-
     /**
     * Resolves Only.
     * @param string $file

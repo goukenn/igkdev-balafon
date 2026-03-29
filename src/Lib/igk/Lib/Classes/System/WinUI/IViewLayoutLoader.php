@@ -5,7 +5,6 @@
 // @desc: layout loader interface
 namespace IGK\System\WinUI;
 use IGK\Controllers\BaseController;
-
 /**
 * Interface for view layout loader.
 * @package IGK\System\WinUI

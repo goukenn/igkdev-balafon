@@ -9,13 +9,11 @@ namespace IGK\Database\SchemaBuilder;
  * @package igk\db\schemaBuilder
  */
 class DiagramVisitor extends DiagramVisitorBase{
-
     /**
     * Property: diagram.
     * @var mixed
     */
     var $diagram;
-
     /**
     * Starts.
     * @return ?string
@@ -23,7 +21,6 @@ class DiagramVisitor extends DiagramVisitorBase{
     public function start():?string{
         return null;
     }
-
     /**
     * Complete.
     * @return ?string
@@ -36,7 +33,6 @@ class DiagramVisitor extends DiagramVisitorBase{
      * @param mixed $item 
      * @return null 
      */
-
     public function visit($item){
         if (is_object($item)){
         $fc = "visit".basename(igk_uri(get_class($item)));  
@@ -49,7 +45,6 @@ class DiagramVisitor extends DiagramVisitorBase{
      * @param mixed $item 
      * @return false 
      */
-
     public function acceptVisit($item):bool
     {
         if (is_object($item)){

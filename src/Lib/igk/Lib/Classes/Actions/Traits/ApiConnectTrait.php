@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Request;
 use IGK\System\Http\WebResponse;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits

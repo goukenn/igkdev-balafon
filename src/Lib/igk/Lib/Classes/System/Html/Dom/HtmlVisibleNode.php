@@ -9,13 +9,11 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlVisibleNode extends HtmlNode{
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
-
     /**
     * Returns Can Render Tag.
     */
@@ -28,13 +26,11 @@ class HtmlVisibleNode extends HtmlNode{
      * @param bool|callable $callback 
      * @return void 
      */
-
     function __construct($callback)
     {
         parent::__construct("igk:visible");
         $this->m_callback = $callback;
     }
-
     /**
     * Returns Is Visible.
     */

@@ -29,7 +29,6 @@ use function igk_resources_gets;
  * 
  * @package IGK\Helper
  */
-
 /**
 * auto generate doc.
 * @package IGK\Helper
@@ -37,31 +36,26 @@ use function igk_resources_gets;
 class Database
 {
     // + | init data field constants
-
     /**
     * Constant: insert extra fields method.
     * @var mixed
     */
     const InsertExtraFieldsMethod = 'InsertExtraFields';
-
     /**
     * Constant: auto insert cache method.
     * @var mixed
     */
     const AutoInsertCacheMethod = 'AutoInsertCache';
-
     /**
     * Property: shared info.
     * @var mixed
     */
     static $sm_shared_info;
-
     /**
     * auto generate doc.
     * @param mixed $model_class
     * @return null|string
     */
-
     public static function GetPhpDocMacrosDefintionToInject($model_class): ?string
     {
         if (!($cl = self::GetMacroClass($model_class))) {
@@ -75,7 +69,6 @@ class Database
      * @param null|string $model_class 
      * @return null|string 
      */
-
     public static function GetPhpDocMacrosDefinitionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
         $v_macro_class = $macro_class;
         $g = igk_sys_reflect_class($v_macro_class);
@@ -119,13 +112,11 @@ class Database
         }
         return $sb.'';
     }
-
     /**
     * auto generate doc.
     * @param string|\IGK\Models\ModelBase $model
     * @return string
     */
-
     public static function GetMacroClass($model): ?string
     {
         $instance = null;
@@ -150,7 +141,6 @@ class Database
      * @param array<key,DbColumnInfo> $info 
      * @return mixed 
      */
-
     public static function GetValueFromLayoutInfo($value, $name,  $info = null)
     {
         if ($info) {
@@ -163,7 +153,6 @@ class Database
         }
         return $value;
     }
-
     /**
     * Returns true if Number.
     * @param mixed $t
@@ -172,7 +161,6 @@ class Database
     {
         return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -187,7 +175,6 @@ class Database
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetInfo(string $n)
     {
         return igk_getv(self::$sm_shared_info, $n);
@@ -197,7 +184,6 @@ class Database
      * @param BaseController $controller 
      * @return bool 
      */
-
     public static function InitData(BaseController $controller): bool
     {
         $controller->register_autoload();
@@ -227,7 +213,6 @@ class Database
      * @param null|BaseController $controller 
      * @return string|string[]|null 
      */
-
     public static function GetCleanTableName(string $table, ?BaseController $controller = null)
     {
         $v = Constants::MODEL_TABLE_REGEX;
@@ -259,7 +244,6 @@ class Database
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function InitConstansts(string $constants, $model_or_class, callable $c)
     {
         $ref = igk_sys_reflect_class($constants);
@@ -278,7 +262,6 @@ class Database
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function InitConstanstsColumn(string $constant_class, $model_or_class, string $c)
     {
         foreach ($constant_class::GetConstants() as $v) {
@@ -287,7 +270,6 @@ class Database
             ]);
         }
     }
-
     /**
     * Initializes System Db.
     * @param bool $force
@@ -306,13 +288,11 @@ class Database
         self::$sm_shared_info = [];
         unset($dbinitializer);
     }
-
     /**
     * auto generate doc.
     * @param mixed $etb
     * @return void
     */
-
     public static function CreateTableBase(BaseController $controller, $tb, $etb = null, $adapter = null)
     {
         $ctrl = $controller;
@@ -373,7 +353,6 @@ class Database
      * @param bool $force force to init logic
      * @return void 
      */
-
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force)
     {
         SchemaBuilderHelper::Migrate($definitions);
@@ -386,13 +365,11 @@ class Database
         // + |        
         $controller->InitDataBaseModel($definitions, $force);
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
     * @return void
     */
-
     public static function InitDataEntries(BaseController $controller)
     {
         // check if controller can process 
@@ -425,13 +402,11 @@ class Database
             $call && $cl::Init($controller);
         }
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
     * @return void
     */
-
     public static function DropForeignKeys(BaseController $controller)
     {
         $tableinfo = $controller->getDataTableInfo();
@@ -443,7 +418,6 @@ class Database
         }
         return false;
     }
-
     /**
     * Drops Uniques Contraints.
     * @param BaseController $controller
@@ -465,7 +439,6 @@ class Database
      * @return array|null 
      * @throws IGKException 
      */
-
     public static function DropTableFromRegex(BaseController $ctrl, string $regex)
     {
         $db = igk_get_data_adapter($ctrl, true);
@@ -494,7 +467,6 @@ class Database
      * @param null|string $prefix 
      * @return string 
      */
-
     public static function AutoPrefixColumn(string $column, ?string $prefix=null): string{
         return StringUtility::AutoPrefix($column, $prefix);        
     }

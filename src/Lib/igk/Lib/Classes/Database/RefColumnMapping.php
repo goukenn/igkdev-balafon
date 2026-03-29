@@ -10,35 +10,29 @@ use Traversable;
 * 
 * @package IGK\Database
 */
-
 /**
 * auto generate doc.
 * @package IGK\Database
 */
 class RefColumnMapping implements IteratorAggregate{
-
     /**
     * Property: ref columns.
     * @var mixed
     */
     private $m_refColumns;
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * auto generate doc.
     * @param array $columns column mapping definition. array<{real_colum=>mapping_column}|column>
     */
-
     public function __construct(array $data, array $columns){
         $this->m_data  = $data;
         $this->m_refColumns = $columns;
     }
-
     /**
     * Returns Alias.
     */
@@ -58,7 +52,6 @@ class RefColumnMapping implements IteratorAggregate{
     /**
      * get iteraatr definitions 
      */
-
     public function getIterator(): Traversable { 
         $m = [];
         foreach($this->m_refColumns as $k=>$v){
@@ -75,7 +68,6 @@ class RefColumnMapping implements IteratorAggregate{
         }
         return new ArrayIterator($m); 
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $name
@@ -86,7 +78,6 @@ class RefColumnMapping implements IteratorAggregate{
             return true;
         }
     }
-
     /**
     * .destructor
     * @param mixed $name

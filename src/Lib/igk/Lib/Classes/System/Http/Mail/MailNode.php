@@ -3,7 +3,6 @@
 // @file: MailNode.php
 // @date: 20250427 08:38:47
 namespace IGK\System\Http\Mail;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Mail
@@ -11,25 +10,21 @@ namespace IGK\System\Http\Mail;
 */
 class MailNode extends MailNodeBase
 {
-
     /**
     * Property: inline style.
     * @var mixed
     */
     private $m_inline_style = '';
-
     /**
     * Property: render options.
     * @var mixed
     */
     private $m_render_options;
-
     /**
     * Property: resolver.
     * @var mixed
     */
     private $m_resolver;
-
     /**
     * .ctr
     * @param mixed $options
@@ -42,7 +37,6 @@ class MailNode extends MailNodeBase
         $this->m_render_options = $options;
         $this->m_resolver = $resolver;
     }
-
     /**
     * Sets Class.
     * @param mixed $value
@@ -50,7 +44,6 @@ class MailNode extends MailNodeBase
     public function setClass($value){
         // no class preview
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -60,7 +53,6 @@ class MailNode extends MailNodeBase
     {
         return implode(' ',   array_map([$this, '_class_to_style'], array_filter(explode(' ', $v . ''))));
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -71,7 +63,6 @@ class MailNode extends MailNodeBase
         $cc = $this->m_resolver;
         return $cc($i);
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -92,7 +83,6 @@ class MailNode extends MailNodeBase
         }
         return parent::_access_OffsetSet($n, $v);
     }
-
     /**
     * Access offset get.
     * @param mixed $k

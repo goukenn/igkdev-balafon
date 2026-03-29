@@ -34,7 +34,6 @@ class WebFileResponse extends RequestResponse{
      * @var int?
      */
     var $cache;
-
     /**
     * .ctr
     * @param string $file
@@ -45,7 +44,6 @@ class WebFileResponse extends RequestResponse{
         $this->file = $file;
         $this->content_type = $content_type;
     }
-
     /**
     * Renders.
     */
@@ -56,7 +54,6 @@ class WebFileResponse extends RequestResponse{
         $s= ob_get_clean();
         return $s;
     }
-
     /**
     * Outputs.
     */

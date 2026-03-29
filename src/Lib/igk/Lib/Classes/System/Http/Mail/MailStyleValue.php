@@ -4,7 +4,6 @@
 // @date: 20250427 08:37:58
 namespace IGK\System\Http\Mail;
 use IGK\System\Html\IHtmlStyleAtribute;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Mail
@@ -15,13 +14,11 @@ use IGK\System\Html\IHtmlStyleAtribute;
  */
 final class MailStyleValue implements IHtmlStyleAtribute
 {
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $value
@@ -30,7 +27,6 @@ final class MailStyleValue implements IHtmlStyleAtribute
     {
         $this->value = $value;
     }
-
     /**
     * get string presentation.
     */
@@ -38,7 +34,6 @@ final class MailStyleValue implements IHtmlStyleAtribute
     {
         return $this->getValue() . '';
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options

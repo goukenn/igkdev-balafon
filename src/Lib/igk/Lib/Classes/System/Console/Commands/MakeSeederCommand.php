@@ -9,34 +9,28 @@ use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
-
 use IGKDbModelUtility;
-
 /**
 * Make seeder command.
 * @package IGK\System\Console\Commands
 */
 class MakeSeederCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:seeder";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "make project's seeder";
-
     /**
     * Property: options.
     * @var mixed
@@ -50,7 +44,6 @@ class MakeSeederCommand extends AppExecCommand
      * @param string $modelname  The model name to base the seeder on.
      * @return bool|void Returns false on validation failure, void on success.
      */
-
     public function exec($command, $controller = "", $modelname = "")
     {
         if (empty($controller)) {
@@ -98,7 +91,6 @@ class MakeSeederCommand extends AppExecCommand
      *
      * @return void
      */
-
     public function help()
     {
         Logger::print("-");

@@ -9,7 +9,6 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 * @package IGK\System\IO
 */
 class EnumDefinitionReader extends ConfigurationReader{
-
     /**
     * Read name.
     * @return ?string
@@ -17,7 +16,6 @@ class EnumDefinitionReader extends ConfigurationReader{
     protected function _readName(): ?string{
         return trim($this->_readData($this->separator) ?? '');
     }
-
     /**
     * Read litteral end.
     * @param string $ch

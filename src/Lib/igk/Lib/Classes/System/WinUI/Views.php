@@ -12,7 +12,6 @@ use function igk_resources_gets as __;
  * @method static void ActionBarConfirmDialog() action bar confirm dialog callable
  */
 class Views {
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -25,7 +24,6 @@ class Views {
         }
         return null;
     }
-
     /**
     * View contact.
     * @param mixed $n
@@ -43,7 +41,6 @@ class Views {
         }
         $s->span()->Content = igk_getv($info, "text", $key ? __($key):null);       
     }
-
     /**
     * Model view limit.
     * @param mixed $target
@@ -71,7 +68,6 @@ class Views {
         }
         return $pan;
     }
-
     /**
     * Model view handle limit.
     * @param mixed $host
@@ -88,7 +84,6 @@ class Views {
             $host->add($limit->list());
         }
     }
-
     /**
     * View action bar confirm dialog.
     * @param mixed $a

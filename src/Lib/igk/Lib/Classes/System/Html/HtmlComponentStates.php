@@ -9,7 +9,6 @@ namespace IGK\System\Html;
  * @package 
  */
 abstract class HtmlComponentStates{
-
     /**
     * Constant: states.
     * @var mixed

@@ -10,20 +10,17 @@ use function igk_resources_gets as __;
 * Represent SuccessMiddleWare class
 */
 final class SuccessMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Constant: event.
     * @var mixed
     */
     const EVENT = __CLASS__."::Complete";
-
     /**
     * auto generate doc.
     */
     public function getMessage(){
         return __("welldone");
     }
-
     /**
     * auto generate doc.
     */

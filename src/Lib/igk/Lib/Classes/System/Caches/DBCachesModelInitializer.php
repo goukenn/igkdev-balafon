@@ -25,13 +25,11 @@ use IGKSysUtil;
  */
 class DBCachesModelInitializer
 {
-
     /**
     * Map of table info.
     * @var mixed
     */
     private $tableInfo;
-
     /**
     * Property: loaded.
     * @var mixed
@@ -42,7 +40,6 @@ class DBCachesModelInitializer
      * @var bool
      */
     private $m_migration = false;
-
     /**
     * .ctr
     * @return
@@ -52,7 +49,6 @@ class DBCachesModelInitializer
      * create an instance for migration purpose
      * @return DBCachesModelInitializer 
      */
-
     public static function InitMigration($plist)
     {
         $item = new self;
@@ -67,7 +63,6 @@ class DBCachesModelInitializer
      * @return DBCachesModelInitializer 
      * @throws IGKException 
      */
-
     public static function Init($plist, bool $force = false, bool $clean = false)
     {
         $item = new self;
@@ -82,7 +77,6 @@ class DBCachesModelInitializer
      * @return void 
      * @throws IGKException 
      */
-
     public function bootStrap(bool $force = false, bool $clean = false)
     {
         if (!$this->tableInfo) {
@@ -138,7 +132,6 @@ class DBCachesModelInitializer
         $plist->tables = [];
         $plist->defs = [];
     }
-
     /**
     * auto generate doc.
     * @param mixed $defs
@@ -164,7 +157,6 @@ class DBCachesModelInitializer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function getModelDefaultSourceDeclaration(string $name, string $table, $migrationInfo, BaseController $ctrl, 
     ?string $comment = null, ?string $prefix=null, ?string $display_expression=null)
     {
@@ -179,13 +171,11 @@ class DBCachesModelInitializer
         });
         return $sb;
     }
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
     * @return array
     */
-
     public function dBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl, ?string $prefix)
     {
         $tab = [];
@@ -216,13 +206,11 @@ class DBCachesModelInitializer
         }, $tab);
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param string $type
     * @return void
     */
-
     public function getPhpDocDefaultLinkType(string $type)
     {
         $type = strtolower($type);
@@ -238,7 +226,6 @@ class DBCachesModelInitializer
         }
         return 'string';
     }
-
     /**
     * Remove prefix.
     * @param string $name
@@ -251,13 +238,11 @@ class DBCachesModelInitializer
         }
         return $name;
     }
-
     /**
     * auto generate doc.
     * @param bool $extra
     * @return string
     */
-
     public function getPhpDoPropertyType(string $name, $info, BaseController $ctrl, $extra = false, ?string $prefix= null)
     {
         if ($prefix){
@@ -308,7 +293,6 @@ class DBCachesModelInitializer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function getLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {
         $gu = null;

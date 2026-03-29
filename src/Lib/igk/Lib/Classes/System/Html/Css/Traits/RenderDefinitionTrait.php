@@ -12,14 +12,12 @@ use ReflectionException;
  * 
  * @package IGK\System\Html\Css\Traits
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css\Traits
 */
 trait RenderDefinitionTrait
 {
-
     /**
     * auto generate doc.
     * @param ?ICssRenderOption $option

@@ -22,31 +22,26 @@ use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
-
 /**
 * Make db macros command.
 * @package IGK\System\Console\Commands
 */
 class MakeDbMacrosCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:model-macros";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "make model's macros class";
-
     /**
     * Property: options.
     * @var mixed
@@ -56,13 +51,11 @@ class MakeDbMacrosCommand extends AppExecCommand{
         "--clearcache"=>"clear cache",
         "--force"=>"destroy existing macros if exists",
     ];
-
     /**
     * Property: help.
     * @var mixed
     */
     var $help = "[options] controller macrosName";
-
     /**
     * auto generate doc.
     * @var callable
@@ -73,12 +66,10 @@ class MakeDbMacrosCommand extends AppExecCommand{
      * @var ?array|?string
      */
     var $uses;
-
     /**
     * auto generate doc.
     * @var string $actionName the action to create
     */
-
     public function exec($command, $controller="", $action_name=""){
         if (empty($controller)){
             Logger::danger("controller is required");
@@ -153,7 +144,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
             \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("Done - Make Macros for model");
     }
-
     /**
     * auto generate doc.
     * @return
@@ -164,7 +154,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         return "";
     }
-
     /**
     * auto generate doc.
     * @return
@@ -175,11 +164,9 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         return [];
     }
-
     /**
     * Help.
     */
-
     public function help(){
         Logger::print("-");
         Logger::info("Make db model macros");

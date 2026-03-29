@@ -7,20 +7,17 @@ use Exception;
 use IGK\Models\Configurations;
 use IGKException;
 use ReflectionClass;
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI
 * @author C.A.D. BONDJE DOUE
 */
 class LayoutRules{
-
     /**
     * Constant: textarea height.
     * @var mixed
     */
     const TEXTAREA_HEIGHT = '18rem';
-
     /**
     * Constant: padding.
     * @var mixed
@@ -33,7 +30,6 @@ class LayoutRules{
      * @throws Exception 
      * @throws IGKException 
      */
-
     public static function Get($name){
         $p = igk_sys_reflect_class(static::class);
         $const = $p->getConstants();

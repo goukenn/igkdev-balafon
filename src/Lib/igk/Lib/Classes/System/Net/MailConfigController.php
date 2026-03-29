@@ -24,7 +24,6 @@ use ReflectionException;
  */
 class MailConfigController extends ConfigControllerBase
 {
-
     /**
     * Returns Config Page.
     */
@@ -32,7 +31,6 @@ class MailConfigController extends ConfigControllerBase
     {
         return "mailserver";
     }
-
     /**
     * Returns Name.
     */
@@ -40,7 +38,6 @@ class MailConfigController extends ConfigControllerBase
     {
         return IGK_MAIL_CTRL;
     }
-
     /**
     * auto generate doc.
     * @param mixed $mail
@@ -55,7 +52,6 @@ class MailConfigController extends ConfigControllerBase
         $mail->SmtpHost = igk_configs()->mail_server;
         $mail->SocketType = igk_configs()->mail_authtype;
     }
-
     /**
     * Initializes Mail Setting.
     */
@@ -65,7 +61,6 @@ class MailConfigController extends ConfigControllerBase
         ini_set("SMTP", igk_configs()->mail_server);
         ini_set("sendmail_from", igk_configs()->mail_admin);
     }
-
     /**
     * Returns true if Function Exposed.
     * @param mixed $func
@@ -77,7 +72,6 @@ class MailConfigController extends ConfigControllerBase
             return true;
         return parent::IsFunctionExposed($func);
     }
-
     /**
     * Locks mail.
     */
@@ -96,7 +90,6 @@ class MailConfigController extends ConfigControllerBase
      * @return void 
      * @throws IGKException 
      */
-
     public function mail_testmail()
     {
         $app = igk_app();
@@ -129,7 +122,6 @@ class MailConfigController extends ConfigControllerBase
         igk_environment()->replace_uri = igk_io_baseuri().igk_io_request_uri_path(); 
         $this->msbox = $msbox;
     }
-
     /**
     * Mail update.
     */
@@ -171,7 +163,6 @@ class MailConfigController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
-
     /**
     * On mail sended.
     * @param mixed $args
@@ -180,7 +171,6 @@ class MailConfigController extends ConfigControllerBase
     {
         igk_hook("MailSend", array($this, $args));
     }
-
     /**
     * Registers.
     */
@@ -202,7 +192,6 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
-
     /**
     * Removes Mail Send Event.
     * @param mixed $obj
@@ -212,7 +201,6 @@ class MailConfigController extends ConfigControllerBase
     {
         igk_die(__METHOD__ . " Not Obselete");
     }
-
     /**
     * Sends contactmail.
     * @param mixed $fromName
@@ -270,7 +258,6 @@ class MailConfigController extends ConfigControllerBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function sendmail(?string $from, string $to, ?string $subject, ?string $message,
         ?string $reply = null, 
         $attachement = null, 
@@ -283,7 +270,6 @@ class MailConfigController extends ConfigControllerBase
         }
         return Mail::Mail($to, $subject, $message, $from, $reply, $attachement, $type, $fromTitle);
     }
-
     /**
     * Sendmailto.
     */
@@ -299,7 +285,6 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
-
     /**
     * View.
     * @return BaseController

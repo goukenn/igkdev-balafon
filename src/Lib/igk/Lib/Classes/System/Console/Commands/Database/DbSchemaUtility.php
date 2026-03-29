@@ -12,19 +12,16 @@ use IGKException;
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class DbSchemaUtility{
-
     /**
     * Property: file.
     * @var mixed
     */
     var $file;
-
     /**
     * .ctr
     * @param mixed $controller
@@ -33,16 +30,13 @@ class DbSchemaUtility{
     {
         $this->file = $controller->getDataSchemaFile();    
     }
-
     /**
     * auto generate doc.
     * @return HtmlReaderDocument|null
     */
-
     public function load(){
         return HtmlReader::LoadFile($this->file);
     }
-
     /**
     * Store.
     * @param mixed $node

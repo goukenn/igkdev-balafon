@@ -3,10 +3,7 @@
 // @file: Crons.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store cron job
 * @package IGK\Models
@@ -35,55 +32,46 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, string $process, string $script, string $options, string $class, int $status, string|datetime $create_at ="CURRENT_TIMESTAMP", string|datetime $update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Crons extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="crons_id";
-
     /**
     * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="crons_name";
-
     /**
     * Constant: fd process.
     * @var mixed
     */
     const FD_PROCESS="crons_process";
-
     /**
     * Constant: fd script.
     * @var mixed
     */
     const FD_SCRIPT="crons_script";
-
     /**
     * Constant: fd options.
     * @var mixed
     */
     const FD_OPTIONS="crons_options";
-
     /**
     * Constant: fd class.
     * @var mixed
     */
     const FD_CLASS="crons_class";
-
     /**
     * Constant: fd status.
     * @var mixed
     */
     const FD_STATUS="crons_status";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="crons_create_at";
-
     /**
     * Constant: fd update at.
     * @var mixed

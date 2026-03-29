@@ -3,7 +3,6 @@
 // @filename: ConfigureController.php 
 // @desc:  Configuration Controller page  
 namespace IGK\System\Configuration\Controllers;
-
 use Exception;
 use Google\Service\ToolResults\Execution;
 use IGK\Controllers\BaseController;
@@ -37,32 +36,27 @@ use IGKValidator;
 use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 use function igk_resources_gets as __;
-
 /**
  *  Configuration Controller
  * @package IGK\System\Configuration\Controllers
  */
 final class ConfigureController extends BaseController implements IConfigController
 {
-
     /**
     * Constant: connexion frame.
     * @var mixed
     */
     const CONNEXION_FRAME = IGK_CONNEXION_FRAME;
-
     /**
     * Constant: cfg user.
     * @var mixed
     */
     const CFG_USER = IGK_CFG_USER;
-
     /**
     * Property: config setting.
     * @var mixed
     */
     private $m_configSetting;
-
     /**
     * Returns Can Init Db.
     * @return bool
@@ -71,7 +65,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return false;
     }
-
     /**
     * Returns View Dir.
     */
@@ -83,7 +76,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::getViewDir();
     }
-
     /**
     * Returns Config File.
     */
@@ -91,7 +83,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return implode("/", [IGK_LIB_DIR, IGK_DATA_FOLDER, IGK_CTRL_CONF_FILE]);
     }
-
     /**
     * Returns Data Schema File.
     */
@@ -104,7 +95,6 @@ final class ConfigureController extends BaseController implements IConfigControl
      * @param null|string $fname 
      * @return IViewLayoutLoader 
      */
-
     protected function createViewLoader(?string $fname = null): ?IViewLayoutLoader
     {
         return new ConfigurationPageViewLoader($this);
@@ -113,7 +103,6 @@ final class ConfigureController extends BaseController implements IConfigControl
      * configuration controller
      * @return object 
      */
-
     protected function _loadCtrlConfig()
     {
         return (object)[];
@@ -126,12 +115,10 @@ final class ConfigureController extends BaseController implements IConfigControl
     //  }
     ///<summary></summary>
     ///<param name="n"></param>
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __get($n)
     {
         if (in_array($n, ['MainView']) || method_exists($this, 'get' . ucfirst($n))) {
@@ -144,7 +131,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::__get($n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
@@ -160,7 +146,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $div->addLabel("a_html_cache")->setClass("dispib")->Content = __("Html Cache");
         $div->addToggleStateButton("a_html_cache", "on", igk_sys_is_htmlcaching())->setClass("dispib")->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
@@ -175,7 +160,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bar->addAJXAButton($this->getUri("viewLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("View global log");
         $bar->addAJXAButton($this->getUri("clearLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("Clear Log");
     }
-
     /**
     * auto generate doc.
     */
@@ -198,7 +182,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         $this->setEnvParam("conf://initPageConfig", null);
     }
-
     /**
     * auto generate doc.
     */
@@ -207,12 +190,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_dev_wln("no ie 6 supported");
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $param
     */
-
     function _checkedItemConfig($target, $name, $param)
     {
         $target->add("label", array("for" => $name))->Content = __("lb." . $param);
@@ -221,7 +202,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         if (igk_configs()->$param)
             $chb["checked"] = "true";
     }
-
     /**
     * auto generate doc.
     * @param mixed $e
@@ -257,12 +237,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $e = $this->getConfigSettings()->configEntries;
         \IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $e);
     }
-
     /**
     * auto generate doc.
     * @param mixed $context the default value is null
     */
-
     protected function _selectMenu($page, $context = null)
     {
         igk_getctrl(IGK_MENU_CTRL)->selectConfigMenu($page, ConfigureController::class);
@@ -280,7 +258,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             /// TODO: SEND MAIL CONFIG NOTIFICATION 
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $node
@@ -303,11 +280,9 @@ final class ConfigureController extends BaseController implements IConfigControl
             $t->Content = $v->TagName;
         }
     }
-
     /**
     * auto generate doc.
     */
-
     public function activehtmlCache_ajx()
     {
         if (igk_getr("cache")) {
@@ -316,27 +291,22 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_sys_disable_html_caching();
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $method
     */
-
     public function addConfigSettingChangedEvent($obj, $method)
     {
         igk_die(__METHOD__ . " Obselete");
     }
-
     /**
     * auto generate doc.
     * @param mixed $method
     */
-
     public function addConfigUserChangedEvent($obj, $method)
     {
         igk_die(__METHOD__ . " Obselete");
     }
-
     /**
     * auto generate doc.
     */
@@ -350,7 +320,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_navto_home(null);
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $user
@@ -361,19 +330,16 @@ final class ConfigureController extends BaseController implements IConfigControl
         $adm_pwd = strtolower(igk_configs()->admin_pwd);
         return (($adm == $user->clLogin) && ($adm_pwd == $user->clPwd));
     }
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public function checkConfigDataChanged($ctrl)
     {
         if (IGKAppConfig::getInstance()->checkConfigDataChanged($ctrl)) {
             $this->onConfigSettingChanged();
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -429,7 +395,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $r->RenderXML();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */
@@ -444,7 +409,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_navto_referer();
     }
-
     /**
     * auto generate doc.
     */
@@ -463,7 +427,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_exit();
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -472,12 +435,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         $this->SelectedConfigCtrl = null;
         igk_getctrl(IGK_SESSION_CTRL)->ClearS();
     }
-
     /**
     * auto generate doc.
     * @param mixed $navigate the default value is true
     */
-
     public function ClearSessionAndReconnect($navigate = true)
     {
         if ($this->getIsConnected()) {
@@ -489,7 +450,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_navtocurrent();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $content
@@ -498,12 +458,10 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return true;
     }
-
     /**
     * auto generate doc.
     * @param mixed $outdir the default value is null
     */
-
     public function conf_install_platform($file = null, $outdir = null)
     {
         $odir = $outdir == null ? igk_io_basedir() : $outdir;
@@ -538,12 +496,10 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param mixed $ruri the default value is null
     */
-
     public function conf_install_update($ruri = null)
     {
         if (!igk_is_conf_connected()) {
@@ -578,7 +534,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $rep->renderAJX();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */
@@ -594,7 +549,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_app()->getDoc()->Theme->save();
         igk_notifyctrl()->addMsgr("msg.runCtrlConfigComplete");
     }
-
     /**
     * auto generate doc.
     */
@@ -620,7 +574,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
      * general config ajx 
      */
-
     public function configure_search_ajx()
     {
         if (!igk_is_ajx_demand()) {
@@ -639,7 +592,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     /**
      * global configure setting request
      */
-
     public function configure_settings()
     {
         if (!igk_is_conf_connected()) {
@@ -660,7 +612,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param /(.)\*\/
@@ -780,7 +731,6 @@ igk.ready(function(){
 EOF;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -797,12 +747,10 @@ EOF;
     ///<param name="u" default="null"></param>
     ///<param name="pwd" default="null"></param>
     ///<param name="redirect" default="true"></param>
-
     /**
     * auto generate doc.
     * @param mixed $redirect the default value is true
     */
-
     public function connectToConfig($u = null, $pwd = null, $redirect = true)
     {
         // igk_ilog('try connectToConfig');
@@ -851,7 +799,6 @@ EOF;
         }
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -860,7 +807,6 @@ EOF;
         return ($this->getIsConnected());
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -869,7 +815,6 @@ EOF;
         return $this->getConfigSettings()->configEntries;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -878,7 +823,6 @@ EOF;
         return $this->getEnvParam("configFrame");
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -893,7 +837,6 @@ EOF;
         return $configMenu;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -906,7 +849,6 @@ EOF;
         return $confNode;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -916,12 +858,10 @@ EOF;
     }
     ///<summary></summary>
     ///<return refout="true"></return>
-
     /**
     * auto generate doc.
     * @return *
     */
-
     public function getConfigSettings()
     {
         $s = null;
@@ -934,7 +874,6 @@ EOF;
         }
         return $this->m_configSetting;
     }
-
     /**
     * Returns Articles Dir.
     */
@@ -946,13 +885,11 @@ EOF;
     /**
      * get config user
      */
-
     public function getConfigUser()
     {
         return $this->getParam(self::CFG_USER);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -961,7 +898,6 @@ EOF;
         return $this->getConfigSettings()->ConfigView;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -970,7 +906,6 @@ EOF;
         return igk_sys_db_constant_cache();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -979,7 +914,6 @@ EOF;
         return ($this->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -988,7 +922,6 @@ EOF;
         return ($this->getIsConnected()) && (igk_app()->CurrentPageFolder == IGK_CONFIG_MODE);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -997,7 +930,6 @@ EOF;
         return defined('IGK_CONF_CONNECT') || ($this->getConfigUser() !== null);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1006,7 +938,6 @@ EOF;
         return $this->getIsAvailable() && igk_const_defined("IGK_CONFIG_PAGE", 1);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1015,7 +946,6 @@ EOF;
         return IGK_CONF_CTRL;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1040,7 +970,6 @@ EOF;
         igk_exit();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1067,7 +996,6 @@ EOF;
     /**
      * get selected controller instance
      */
-
     public function getSelectedConfigCtrl()
     {
         if (!empty($sl = $this->getConfigSettings()->SelectedController)) {
@@ -1078,7 +1006,6 @@ EOF;
         }
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1087,7 +1014,6 @@ EOF;
         return igk_getv($this->getConfigSettings(), "SelectedMenuName");
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1101,12 +1027,10 @@ EOF;
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="callback"></param>
-
     /**
     * auto generate doc.
     * @param mixed $callback
     */
-
     public function init_param_callback($name, $callback)
     {
         $bar = $this->getParam($name);
@@ -1117,7 +1041,6 @@ EOF;
         return $bar;
     }
     ///register config controlleur
-
     /**
     * auto generate doc.
     */
@@ -1127,7 +1050,6 @@ EOF;
         OwnViewCtrl::RegViewCtrl($this);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1376,11 +1298,9 @@ EOF;
         return $bfrm;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
-
     protected function initTargetNode(): HtmlNode
     {
         $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
@@ -1394,7 +1314,6 @@ EOF;
         // $node->add($v_cnf); 
         return $node;
     }
-
     /**
     * Init web authn.
     * @return ?WebAuthn
@@ -1413,7 +1332,6 @@ EOF;
      * @throws Exception 
      * @throws IGKException 
      */
-
     public function toggle_webauth_requirement()
     {
         igk_server()->method('POST') || igk_die('not a valid request');
@@ -1430,7 +1348,6 @@ EOF;
      * @throws IGKException 
      * @throws WebAuthnException 
      */
-
     public function webauthn_create_get()
     {
         igk_server()->method('POST') || igk_die('not a valid request');
@@ -1493,7 +1410,6 @@ EOF;
      * @throws WebAuthnException 
      * @throws IGKException 
      */
-
     public function webauthn_create_register()
     {
         //igk_server()->method('POST') || igk_die('invoke method not a valid request');
@@ -1539,12 +1455,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="f"></param>
-
     /**
     * auto generate doc.
     * @param mixed $f
     */
-
     public function IsFunctionExposed($f)
     {
         if (igk_is_conf_connected()) {
@@ -1559,12 +1473,10 @@ EOF;
     ///<summary></summary>
     ///<param name="redirect" default="true"></param>
     ///<param name="detroysession" default="true"></param>
-
     /**
     * auto generate doc.
     * @param mixed $detroysession the default value is true
     */
-
     public function logout($redirect = true, $detroysession = true)
     {
         if ($this->getIsConnected()) {
@@ -1579,7 +1491,6 @@ EOF;
         }
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1589,7 +1500,6 @@ EOF;
             $this->m_configSettingChangedEvent->Call($this, null);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1599,12 +1509,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="msg"></param>
-
     /**
     * auto generate doc.
     * @param mixed $msg
     */
-
     public function onHandleSessionEvent($msg)
     {
         switch ($msg) {
@@ -1617,7 +1525,6 @@ EOF;
     /**
      * preview referer result
      */
-
     public function preview_result_ajx()
     {
         $d = igk_create_node();
@@ -1643,24 +1550,20 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="navigate" default="true"></param>
-
     /**
     * auto generate doc.
     * @param mixed $navigate the default value is true
     */
-
     public function reconnect($navigate = true)
     {
         $this->ClearSessionAndReconnect($navigate);
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public function registerConfig($ctrl)
     {
         $c = $this->getParam("m_confctrls", array());
@@ -1670,7 +1573,6 @@ EOF;
     /**
      *  override register Hook
      */
-
     protected function registerHook()
     {
         igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, function () {
@@ -1679,12 +1581,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="uri"></param>
-
     /**
     * auto generate doc.
     * @param mixed $uri
     */
-
     public function reloadConfig($uri)
     {
         $tab = igk_getquery_args($uri);
@@ -1692,12 +1592,10 @@ EOF;
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $method the default value is null
     */
-
     public function removeConfigSettingChangedEventt($obj, $method = null)
     {
         igk_die(__METHOD__ . " Obselete");
@@ -1705,12 +1603,10 @@ EOF;
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $method the default value is null
     */
-
     public function removeConfigUserChangedEvent($obj, $method = null)
     {
         igk_die(__METHOD__ . " Obselete");
@@ -1721,7 +1617,6 @@ EOF;
      * @return void 
      * @throws IGKException 
      */
-
     public function resetconfig()
     {
         if (igk_qr_confirm()) {
@@ -1736,12 +1631,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="value"></param>
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function setConfigFrame($value)
     {
         $this->setEnvParam("configFrame", $value);
@@ -1762,12 +1655,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="v"></param>
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setConfigView($v)
     {
         $this->getConfigSettings()->ConfigView = $v;
@@ -1775,12 +1666,10 @@ EOF;
     ///<summary></summary>
     ///<param name="p" default="null"></param>
     ///<param name="stored"></param>
-
     /**
     * auto generate doc.
     * @param mixed $stored the default value is 0
     */
-
     public function setpage($p = null, $stored = 0)
     {
         $key = "cnf://no_reload";
@@ -1847,7 +1736,6 @@ EOF;
     ///$ctrl = selected config controller
     ///$menuname = menu name
     ///$context = from context. info
-
     /**
     * auto generate doc.
     */
@@ -1863,7 +1751,6 @@ EOF;
         }
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1873,7 +1760,6 @@ EOF;
         $this->setpage("configurationmenusetting", 1);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1883,7 +1769,6 @@ EOF;
         $this->setpage("phpinfo", 1);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1893,7 +1778,6 @@ EOF;
         $this->setpage("serverinfo", 1);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1902,7 +1786,6 @@ EOF;
         $this->View();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1940,7 +1823,6 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1949,7 +1831,6 @@ EOF;
         $this->_send_notification_mail();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1968,7 +1849,6 @@ EOF;
         igk_navtocurrent("/#adminpwd-form");
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1985,7 +1865,6 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -1999,7 +1878,6 @@ EOF;
         $this->View();
         igk_navtocurrent('?l=' . $cnf->default_lang);
     }
-
     /**
     * Returns Ctrl File.
     * @param mixed $path
@@ -2010,7 +1888,6 @@ EOF;
             return $path;
         return igk_dir(IGK_LIB_DIR . DIRECTORY_SEPARATOR . $path);
     }
-
     /**
     * Returns Styles Dir.
     */
@@ -2022,7 +1899,6 @@ EOF;
     /**
      * update domain configuration settings
      */
-
     public function update_domain_setting()
     {
         $d = igk_getr("website_domain", IGK_DOMAIN);
@@ -2066,7 +1942,6 @@ EOF;
     /**
      * base configuration view
      */
-
     public function View(): BaseController
     {
         if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
@@ -2162,7 +2037,6 @@ EOF;
     /**
      * view logs
      */
-
     public function viewLogs()
     {
         $log = igk_ilog_file();
@@ -2186,7 +2060,6 @@ EOF;
         }
         return $d;
     }
-
     /**
     * Runcron.
     */
@@ -2200,7 +2073,6 @@ EOF;
         igk_notifyctrl("run:cron")->addSuccess("cron executed");
         igk_navto_referer();
     }
-
     /**
     * auto generate doc.
     * @return
@@ -2209,13 +2081,11 @@ EOF;
     {
         return  new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
     }
-
     /**
     * auto generate doc.
     * @param mixed $box
     * @return void
     */
-
     protected function webauth_view_config($box)
     {
         igk_display_error(true);

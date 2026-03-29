@@ -12,45 +12,38 @@ use IGK\System\Console\Scaffold\ActionScaffold;
 use IGK\System\Console\Scaffold\AuthScaffold;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use ReflectionClass;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ScaffoldCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--scaffold";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "scaffold";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "scaffold command line";
-
     /**
     * Property: scaffold.
     * @var mixed
     */
     static $sm_scaffold;
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [
     ];
-
     /**
     * auto generate doc.
     * @return
@@ -75,7 +68,6 @@ class ScaffoldCommand extends AppExecCommand
             }
         }
     }
-
     /**
     * Registers Scaffold.
     * @param string $name
@@ -93,7 +85,6 @@ class ScaffoldCommand extends AppExecCommand
             self::$sm_scaffold[$name] = $cl;
         }
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -120,7 +111,6 @@ class ScaffoldCommand extends AppExecCommand
         }
         return $result;
     }
-
     /**
     * Help.
     * @param mixed ...$args

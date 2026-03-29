@@ -8,37 +8,31 @@ namespace IGK\System\Configuration;
 * @package IGK\System\Configuration
 */
 class ProjectInfo{
-
     /**
     * Constant: type project.
     * @var mixed
     */
     const TYPE_PROJECT = 'project';
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Path to base dir.
     * @var mixed
     */
     var $base_dir;
-
     /**
     * Type of type.
     * @var mixed
     */
     var $type = self::TYPE_PROJECT;
-
     /**
     * auto generate doc.
     * @var ?ProjectConfiguration
     */
     var $configs;
-
     /**
     * auto generate doc.
     */    var $settings;

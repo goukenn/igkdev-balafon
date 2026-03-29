@@ -11,13 +11,11 @@ namespace IGK\Controllers;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGKEvents;
-
 /**
 * User group controller.
 * @package IGK\Controllers
 */
 final class UserGroupController extends NonVisibleControllerBase{
-
     /**
     * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
@@ -25,7 +23,6 @@ final class UserGroupController extends NonVisibleControllerBase{
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
-
     /**
     * Returns Data Table Name.
     * @return ?string
@@ -33,7 +30,6 @@ final class UserGroupController extends NonVisibleControllerBase{
     public function getDataTableName(): ?string{
         return Usergroups::table();
     }
-
     /**
     * Registers Hook.
     */

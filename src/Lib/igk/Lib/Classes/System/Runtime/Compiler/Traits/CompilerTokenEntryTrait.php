@@ -3,13 +3,11 @@
 // @file: CompilerTokenEntryTrait.php
 // @date: 20221021 08:50:18
 namespace IGK\System\Runtime\Compiler\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenEntryTrait{
-
     /**
     * Compile file.
     * @param string $file
@@ -28,7 +26,6 @@ trait CompilerTokenEntryTrait{
      * @return null|string 
      * @throws IGKException 
      */
-
     public function compileSource(string $source): ?string
     {
         $this->parseToken($source);

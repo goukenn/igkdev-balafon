@@ -3,25 +3,21 @@
 // @file: HtmlExtraHeaderScriptHost.php
 // @date: 20221120 12:10:54
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 final class HtmlExtraHeaderScriptHost extends HtmlNode{
-
     /**
     * Collection of list.
     * @var mixed
     */
     private $m_list;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk-extra-header-script';
-
     /**
     * Creates.
     * @param array $list
@@ -33,7 +29,6 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
         $g->m_list = $list;
         return $g;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -41,7 +36,6 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     {
         return false;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
@@ -52,7 +46,6 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
             array_map([$this, '_init_list'], $this->m_list, array_keys($this->m_list))
             : null;        
     }
-
     /**
     * auto generate doc.
     * @param mixed $a

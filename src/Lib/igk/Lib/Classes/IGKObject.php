@@ -7,7 +7,6 @@
 * Represent the base IGK object class
 */
 class IGKObject {
-
     /**
     * auto generate doc.
     * @param string $key
@@ -18,7 +17,6 @@ class IGKObject {
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -33,7 +31,6 @@ class IGKObject {
         return get_class($this);
     }
     ///get object osed to compare
-
     /**
     * auto generate doc.
     */    public function __wakeup(){
@@ -41,7 +38,6 @@ class IGKObject {
             call_user_func_array([$this, 'registerHook'], []);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed * $value
@@ -53,7 +49,6 @@ class IGKObject {
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $method
@@ -61,7 +56,6 @@ class IGKObject {
     public function callEvent($event, $method){
         throw new IGKException(__METHOD__." Not implement");
     }
-
     /**
     * auto generate doc.
     * @param mixed $obj
@@ -76,7 +70,6 @@ class IGKObject {
     * used to dispose and release element
     */
     public function dispose(){}
-
     /**
     * auto generate doc.
     */    protected function getCmpObj(){}
@@ -94,7 +87,6 @@ class IGKObject {
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value

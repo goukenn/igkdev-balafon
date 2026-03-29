@@ -9,25 +9,21 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlNotifyResponse extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
-
     /**
     * Property: autohide.
     * @var mixed
     */
     private $autohide;
-
     /**
     * Name of name.
     * @var mixed
     */
     private $name;
-
     /**
     * Type of notifytype.
     * @var mixed
@@ -38,12 +34,10 @@ class HtmlNotifyResponse extends HtmlNode{
      * @param null|bool $autohide 
      * @return void 
      */
-
     public function setAutohide(?bool $autohide){
         $this->autohide = $autohide;
         return $this;
     }
-
     /**
     * Sets Notify Type.
     * @param mixed $type
@@ -52,7 +46,6 @@ class HtmlNotifyResponse extends HtmlNode{
         $this->m_notifytype = $type;
         return $this;
     }
-
     /**
     * .ctr
     * @param mixed $name
@@ -64,7 +57,6 @@ class HtmlNotifyResponse extends HtmlNode{
         $this->name = $name;
         parent::__construct();
     }
-
     /**
     * Initializes.
     */
@@ -78,28 +70,23 @@ class HtmlNotifyResponse extends HtmlNode{
             $this["title"] = $this->name;
         } 
     }
-
     /**
     * auto generate doc.
     * @return false
     */
-
     public function getCanAddChilds()
     {
         return false;
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function getIsVisible(): bool
     {
         $not = igk_notifyctrl($this->name);
         return $not && ($t = $not->getTab()) && (count($t)> 0);
     }
-
     /**
     * Accept render.
     * @param null|mixed $options
@@ -117,7 +104,6 @@ class HtmlNotifyResponse extends HtmlNode{
             $this["class"] = '+igk-anim-autohide'; 
         return true;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options

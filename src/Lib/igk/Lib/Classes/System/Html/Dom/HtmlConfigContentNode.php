@@ -9,13 +9,11 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlConfigContentNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     public $tagname = "div";
-
     /**
     * Initializes.
     */
@@ -24,7 +22,6 @@ class HtmlConfigContentNode extends HtmlNode{
         parent::initialize();
         $this->setId("igk-cnf-content")->setClass("igk-cnf-content");
     }
-
     /**
     * Removes.
     */

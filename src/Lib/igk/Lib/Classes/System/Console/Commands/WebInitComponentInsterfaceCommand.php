@@ -9,26 +9,22 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use ReflectionFunction;
-
 /**
 * Web init component insterface command.
 * @package IGK\System\Console\Commands
 */
 class WebInitComponentInsterfaceCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--web:init-component";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "init component file interface helper";
-
     /**
     * Property: category.
     * @var mixed
@@ -40,7 +36,6 @@ class WebInitComponentInsterfaceCommand extends AppExecCommand
      * @param mixed $command The command context object.
      * @return void
      */
-
     public function exec($command)
     {
         $doc = new \IGK\System\IO\File\Php\PhpInterfaceDocument([PhpHelper::class, "HtmlComponentDocumention"]);

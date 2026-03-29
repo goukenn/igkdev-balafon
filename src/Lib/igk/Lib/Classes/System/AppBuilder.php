@@ -14,7 +14,6 @@ use function igk_resources_gets as __;
  */
 class AppBuilder extends MacrosConstant{
     use MacrosTrait;
-
     /**
     * auto generate doc.
     * @param string $name
@@ -29,7 +28,6 @@ class AppBuilder extends MacrosConstant{
     public function registerService(string $name, string $instance_class){
         return IGKServices::Register($name, $instance_class);
     }
-
     /**
     * Invoke macros.
     * @param mixed $macros

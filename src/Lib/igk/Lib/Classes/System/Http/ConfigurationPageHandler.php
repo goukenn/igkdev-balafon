@@ -10,38 +10,32 @@ use IGK\Server;
 use IGK\System\IO\Path;
 use IGKException; 
 use ReflectionException;
-
 /**
 * Configuration page handler.
 * @package IGK\System\Http
 */
 class ConfigurationPageHandler
 {
-
     /**
     * Property: route.
     * @var mixed
     */
     var $route;
-
     /**
     * Property: engine.
     * @var mixed
     */
     var $engine;
-
     /**
     * Property: file.
     * @var mixed
     */
     var $file;
-
     /**
     * auto generate doc.
     * @param null|string $route
     * @return void
     */
-
     public function __construct($engine, ?string $file = null, ?string $route = null)
     {
         $this->file = $file;
@@ -58,7 +52,6 @@ class ConfigurationPageHandler
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     public function handle_route(string $path_info, ?callable $redirect_callback = null)
     {
         $v_path = 0;

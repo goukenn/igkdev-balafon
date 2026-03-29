@@ -4,19 +4,16 @@
 // @date: 20220830 11:35:12
 // @desc: 
 namespace IGK\System\IO\Configuration;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Configuration
 */
 class ConfigurationEncoder{
-
     /**
     * Property: separator.
     * @var mixed
     */
     var $separator = '=';
-
     /**
     * Property: delimiter.
     * @var mixed
@@ -27,7 +24,6 @@ class ConfigurationEncoder{
      * @param mixed $data 
      * @return string 
      */
-
     public function encode($data){
         $sb = '';
         $sep = '';

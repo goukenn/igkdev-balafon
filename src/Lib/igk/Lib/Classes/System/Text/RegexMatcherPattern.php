@@ -9,32 +9,27 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use IGKObject;
 use JsonSerializable;
-
 /**
 * 
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer, JsonSerializable{
     use ArrayAccessSelfTrait;
-
     /**
     * Constant: match type.
     * @var mixed
     */
     const MATCH_TYPE = 'match';
-
     /**
     * Constant: begin end type.
     * @var mixed
     */
     const BEGIN_END_TYPE = 'begin/end';
-
     /**
     * Constant: begin while type.
     * @var mixed
@@ -101,29 +96,24 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var ?array
      */
     var $captures;
-
     /**
     * auto generate doc.
     */    var $patterns;
-
     /**
      * get/set to ask container detection to move forward if stopped on non empty block 
      * @var ?bool
      */
     var $scopedBoundary;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     private $m_matcher;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     private $m_type;
-
     /**
     * Json serialize.
     * @return mixed
@@ -133,14 +123,12 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         unset($l->type);
         return $l;
      }
-
     /**
     * Returns Type.
     */
     public function getType(){
         return $this->m_type;
     }
-
     /**
     * Sets Type.
     * @param mixed $v
@@ -148,7 +136,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     public function setType($v){
         $this->m_type = $v;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -156,7 +143,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     protected function _access_OffsetGet($n){
         return $this->{$n};
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -166,7 +152,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     protected function _access_OffsetSet($n, $v){
         // not allowed
     }
-
     /**
     * .ctr
     * @param RegexMatcherContainer $matcher
@@ -179,7 +164,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * retrieve the matcher 
      * @return mixed 
      */
-
     public function getMatcher(){
         return $this->m_matcher;
     }
@@ -187,7 +171,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * create a new matcher page 
      * @return static 
      */
-
     public function match(string $pattern, ?string $tokenId = null, $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
@@ -206,7 +189,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @return static 
      * @throws IGKException 
      */
-
     public function begin(string $begin, ?string $end=null, ?string $tokenId = null, ?string $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
@@ -227,7 +209,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @return mixed 
      * @throws IGKException 
      */
-
     public function while(string $begin, ?string $end=null, ?string $tokenId = null, ?string $refid=null, ?array $pattern=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
@@ -245,7 +226,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @return static 
      * @throws IGKException 
      */
-
     public function createEscapedString(?string $tokenID='string-escaped-litteral',?string $refid=null){
         $g = $this->begin("('|\")", "\\1", $tokenID, $refid);
         $escaped = self::Match("\\\\.");
@@ -259,7 +239,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @param RegexMatcherPattern $c 
      * @return void 
      */
-
     public function append(RegexMatcherPattern $c){
         if($c->m_matcher === $this->m_matcher){
             if (is_null($this->patterns))
@@ -272,7 +251,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * get matching type depeing on value 
      * @return string 
      */
-
     public static function GetMatcherType(RegexMatcherPattern $matcher){
         list($begin, $while, $end, $match) = igk_extract($matcher, 'begin|while|end|match');
         if ($match){

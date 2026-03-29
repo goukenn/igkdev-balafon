@@ -16,7 +16,6 @@ use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
  */
 class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
 {
-
     /**
     * Property: validator.
     * @var mixed
@@ -32,13 +31,11 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * @var ?int
      */
     var $minLength;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $pattern;
-
     /**
     * auto generate doc.
     * @var string
@@ -73,12 +70,10 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * get the attribute validator
      * @return mixed 
      */
-
     public function getValidator()
     {
         return $this->m_validator;
     }
-
     /**
     * Sets Params.
     * @param array $params
@@ -87,7 +82,6 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
     {
         parent::setParams($params);
     }
-
     /**
     * .ctr
     * @param null|string $validator
@@ -102,7 +96,6 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
             }
         }
     }
-
     /**
     * Sets Type.
     * @param null|string $type

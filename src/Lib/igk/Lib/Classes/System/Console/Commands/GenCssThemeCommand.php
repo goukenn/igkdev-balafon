@@ -8,37 +8,31 @@ use IGK\Css\CssThemeOptions;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssUtils;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class GenCssThemeCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--project:css-dist';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "get controller's css distribution";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = "";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'css';
-
     /**
     * Property: options.
     * @var mixed
@@ -47,7 +41,6 @@ class GenCssThemeCommand extends AppExecCommand{
         '--theme:(name)'=>'set preferered theme\'s name. dark|light|both default is both.',
         '--prefix:(prefix)'=>'set prefix to use for render',
     ];
-
     /**
     * Shows Usage.
     */
@@ -55,7 +48,6 @@ class GenCssThemeCommand extends AppExecCommand{
         parent::showUsage();
         Logger::warn($this->command ." controller [options]");
     }
-
     /**
     * Exec.
     * @param mixed $command

@@ -3,7 +3,6 @@
 // @file: NotRegistrableControllerBase.php
 // @date: 20230309 12:51:40
 namespace IGK\Controllers;
-
 /**
 * auto generate doc.
 * @package IGK\Controllers

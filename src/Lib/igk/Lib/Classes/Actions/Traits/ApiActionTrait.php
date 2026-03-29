@@ -8,7 +8,6 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait ApiActionTrait{
-
     /**
     * Property: exit after handle.
     * @var mixed

@@ -10,14 +10,12 @@
 namespace IGK\System\Html;
 use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
-
 /**
 * Html reader document.
 * @package IGK\System\Html
 */
 final class HtmlReaderDocument extends XmlNode
 {
-
     /**
     * .ctr
     */
@@ -25,22 +23,18 @@ final class HtmlReaderDocument extends XmlNode
     {
         parent::__construct("DocumentToRender");
     }
-
     /**
     * Returns properties to serialize.
     */
-
     public function __sleep()
     {
         $t = [];
         return $t;
     }
-
     /**
     * Copy to.
     * @param mixed $target
     */
-
     public function CopyTo($target)
     {
         $t = ($c = $this->getChilds()) ? SysUtils::ToArray($c) : null;
@@ -51,22 +45,18 @@ final class HtmlReaderDocument extends XmlNode
             $target->add($k);
         }
     }
-
     /**
     * Rende ajx.
     * @param null|mixed $o
     */
-
     public function RendeAJX($o = null)
     {
         parent::renderAJX($o);
     }
-
     /**
     * Renders.
     * @param null|mixed $options
     */
-
     public function render($options = null)
     {
         $out = IGK_STR_EMPTY;

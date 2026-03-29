@@ -10,31 +10,26 @@ use stdClass;
 * 
 * @package IGK\System\Html\Css
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssSession extends IGKObject{
-
     /**
     * Constant: app theme name.
     * @var mixed
     */
     const APP_THEME_NAME = 'igk_app_theme_name';
-
     /**
     * Property: data.
     * @var mixed
     */
     private $_data;
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Returns Instance.
     */
@@ -44,7 +39,6 @@ class CssSession extends IGKObject{
 		} 
 		return self::$sm_instance;
 	}
-
     /**
     * auto generate doc.
     * @return
@@ -61,7 +55,6 @@ class CssSession extends IGKObject{
 		}
 		return $data;
 	}
-
     /**
     * .destructor
     * @param mixed $n
@@ -69,7 +62,6 @@ class CssSession extends IGKObject{
     public function __get($n){
 		return $this->get($n);
 	}
-
     /**
     * destructor
     * @param mixed $n
@@ -80,7 +72,6 @@ class CssSession extends IGKObject{
             $data->$n = $v;
         }
     }
-
     /**
     * Returns Theme.
     * @param mixed $default
@@ -89,13 +80,11 @@ class CssSession extends IGKObject{
     public function getTheme($default='light'):?string{
         return $this->get('theme', $default);
     }
-
     /**
     * auto generate doc.
     * @param string $value
     * @return $this
     */
-
     public function setTheme(string $value){
         $this->__set("theme", $value);
         return $this;
@@ -107,7 +96,6 @@ class CssSession extends IGKObject{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function get($n, $default=null){
         return igk_getv($this->_session_data(), $n, $default);
     }

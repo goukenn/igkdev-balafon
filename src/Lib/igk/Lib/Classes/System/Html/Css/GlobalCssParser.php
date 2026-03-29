@@ -6,19 +6,16 @@ use IGK\System\IO\Configuration\ConfigurationReader;
  * @package IGK\System\Html\Css
  */
 class GlobalCssParser{
-
     /**
     * Property: definition.
     * @var mixed
     */
     var $definition;
-
     /**
     * Property: source.
     * @var mixed
     */
     var $source;
-
     /**
     * .ctr
     * @return
@@ -26,7 +23,6 @@ class GlobalCssParser{
     private function __construct()
     {
     }
-
     /**
     * Parses.
     * @param string $content

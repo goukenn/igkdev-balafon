@@ -8,26 +8,22 @@ use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Modules
 */
 class MakeClassCommandCommand extends AppExecCommand{
 	use ClassBuilderTrait;
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--module:make-command';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='make module\'s command';
-
     /**
     * Property: category.
     * @var mixed
@@ -37,7 +33,6 @@ class MakeClassCommandCommand extends AppExecCommand{
 	// 	'--base'=>'flag: enable abstract base-definition'
 	// ];
 	/* var $category; */
-
     /**
     * Exec.
     * @param mixed $command

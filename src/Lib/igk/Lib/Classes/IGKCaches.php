@@ -12,7 +12,6 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
 use IGK\System\IO\Path;
-
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
@@ -22,19 +21,16 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
  */
 final class IGKCaches
 {
-
     /**
     * Property: storage.
     * @var mixed
     */
     private $m_storage = [];
-
     /**
     * auto generate doc.
     * @var IGKCaches caches
     */
     private static $sm_instance;
-
     /**
     * Returns Instance.
     */
@@ -45,7 +41,6 @@ final class IGKCaches
         }
         return self::$sm_instance;
     }
-
     /**
     * .ctr
     * @return
@@ -59,12 +54,10 @@ final class IGKCaches
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function ResolvPath($file)
     {
         return $file;
     }
-
     /**
     * Handles Cache.
     */
@@ -89,7 +82,6 @@ final class IGKCaches
      * get system cache uri
      * @return (string|bool)[]  uri and zip flag 
      */
-
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
         $o = "";
@@ -122,14 +114,12 @@ final class IGKCaches
      * @param string|IGK\Controllers\BaseController $controller 
      * @return bool 
      */
-
     public static function IsCachedUri(string $requestUri, $controller = null)
     {
         list($uri, $zip) = self::CacheUri($controller, $requestUri);
         $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
         return igk_io_file_exists($file,true);
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -153,7 +143,6 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem|null  
      */
-
     public static function article_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -162,7 +151,6 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem  
      */
-
     public static function page_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -170,7 +158,6 @@ final class IGKCaches
     /**
      * init and get css filesystem caching
      */
-
     public static function css_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -179,12 +166,10 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem  
      */
-
     public static function js_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
     }
-
     /**
     * auto generate doc.
     * @param BaseControleller $ctrl
@@ -193,7 +178,6 @@ final class IGKCaches
     private static function ctrl_filesystem(BaseController $ctrl){
         return self::__callStatic(__FUNCTION__, [$ctrl]);
     }
-
     /**
     * auto generate doc.
     * @param string $dir
@@ -206,7 +190,6 @@ final class IGKCaches
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @return FileSystem|null
@@ -215,7 +198,6 @@ final class IGKCaches
     { 
         return self::__init_cache(igk_io_cachedir() . "/storage/views");
     }
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
@@ -226,7 +208,6 @@ final class IGKCaches
         return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(Constants::FILE_PATH_HASH_ALGO,
          $ctrl->name('cache'))));
     }
-
     /**
     * auto generate doc.
     * @return FileSystem|null
@@ -235,7 +216,6 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/articles"); // igk_environment()->getViewCacheDir());
     }
-
     /**
     * auto generate doc.
     * @return FileSystem|null
@@ -244,7 +224,6 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/pages");
     }
-
     /**
     * auto generate doc.
     * @return FileSystem|null
@@ -255,7 +234,6 @@ final class IGKCaches
         $js->default_extension = '.js';
         return $js;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -270,7 +248,6 @@ final class IGKCaches
      * @param int $mtime time to check
      * @return bool 
      */
-
     public static function CheckCaches($files, int $mtime, & $file = null):bool
     {
         foreach ($files as $f) {
@@ -283,7 +260,6 @@ final class IGKCaches
         }
         return false;
     }
-
     /**
      * store cache data 
      * @param mixed $file 

@@ -24,25 +24,21 @@ use ReflectionException;
  * @package IGK\System\Console\Commands
  */
 class InitDataSchemaSQLCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:schema";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "get controller db schema";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: options.
     * @var mixed
@@ -52,19 +48,16 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         "file*"=>"schema file to export",
         "-o:[xml|json]"=>"export type xml|json"
     ];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] [file] [options]';
-
     /**
     * auto generate doc.
     * @param mixed $file
     * @return int
     */
-
     public function exec($command,  $ctrl=null, $file=null)
     {    
         require_once(__DIR__."/.InitDataSchemaController.pinc");
@@ -112,7 +105,6 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         // Logger::success("Schema complete");
         return 0;
     }
-
     /**
     * Help.
     */

@@ -3,7 +3,6 @@
 // @file: FormatterBase.php
 // @date: 20250730 09:52:59
 namespace IGK\System\Text\Formatters;
-
 use Closure;
 use Error;
 use Exception;
@@ -19,7 +18,6 @@ use IGK\System\Text\Traits\ReplaceUtilityTrait;
 use IGKException;
 use IGKObject;
 use ReflectionException;
-
 /**
  * formatter 
  * @package IGK\System\Text\Formatters
@@ -29,7 +27,6 @@ abstract class FormatterBase extends IGKObject
 {
     use ReplaceUtilityTrait;
     use SystemStateFlagTrait;
-
     /**
     * Listener: visitor listener.
     * @var mixed
@@ -40,32 +37,27 @@ abstract class FormatterBase extends IGKObject
      * @var ?bool
      */
     var $eof;
-
     /**
      * render output with splitter
      * @var mixed
      */
     var $lineSplitter;
-
     /**
     * Property: host engine.
     * @var mixed
     */
     protected $m_host_engine;
-
     /**
     * Property: parent engine.
     * @var mixed
     */
     protected $m_parent_engine;
-
     /**
     * Property: sb.
     * @var mixed
     */
     protected $m_sb;
     // protected $m_marked;
-
     /**
     * Property: depth.
     * @var mixed
@@ -75,7 +67,6 @@ abstract class FormatterBase extends IGKObject
      * sub list definition 
      */
     protected $m_sub;
-
     /**
     * auto generate doc.
     * @var int
@@ -86,12 +77,10 @@ abstract class FormatterBase extends IGKObject
      * @var mixed
      */
     protected $m_transform;
-
     /**
      * hosted engine
      * @return null|mixed 
      */
-
     public function hostEngine()
     {
         return $this->m_host_engine;
@@ -100,7 +89,6 @@ abstract class FormatterBase extends IGKObject
      * get depth
      * @return int 
      */
-
     public function getDepth()
     {
         return $this->m_depth;
@@ -110,12 +98,10 @@ abstract class FormatterBase extends IGKObject
      * @param int $depth 
      * @return void 
      */
-
     protected function setDepth(int $depth)
     {
         $this->m_depth = $depth;
     }
-
     /**
     * .ctr
     */
@@ -124,7 +110,6 @@ abstract class FormatterBase extends IGKObject
         $this->m_sb = new StringBuilder;
         $this->m_sub = [];
     }
-
     /**
     * Returns Formatter Engine.
     * @param mixed $m
@@ -136,13 +121,11 @@ abstract class FormatterBase extends IGKObject
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array $patterns initialize patterns
     * @return ?string
     */
-
     public function exec($regex, string $src, bool $useSource = false, ?array $patterns = null)
     {
         $e = null;
@@ -185,10 +168,8 @@ abstract class FormatterBase extends IGKObject
      * @param mixed $parentEngine 
      * @return void 
      */
-
     protected function updateDefinitionFrom($parentEngine)
     {
-
         $this->m_sub = &$parentEngine->m_sub;
         $this->m_offset = &$parentEngine->m_offset;
         $this->m_depth = &$parentEngine->m_depth;
@@ -204,7 +185,6 @@ abstract class FormatterBase extends IGKObject
      * @param array $v_def 
      * @return mixed|void 
      */
-
     protected function _treat(string $tid, string $value, $e, $v_def = [])
     {
         $m = null;
@@ -218,7 +198,6 @@ abstract class FormatterBase extends IGKObject
             return $m;
         }
     }
-
     /**
     * Chain transfrom.
     * @param RegexMatcherContainer $regex
@@ -231,11 +210,9 @@ abstract class FormatterBase extends IGKObject
      * @param mixed $formatter 
      * @return Closure(string $v, mixed $cap, string $source, int $pos, string $type): mixed 
      */
-
     public static function CreateTreatmentListener($formatter)
     {
         return function (string $v, $cap, string $source, int $pos, string $type) use ($formatter) {
-
             $q = $formatter;
             $cl = null;
             $e = $q->m_transform;
@@ -269,7 +246,6 @@ abstract class FormatterBase extends IGKObject
             return $m;
         };
     }
-
     /**
     * Transform capture.
     * @param string $v
@@ -278,13 +254,11 @@ abstract class FormatterBase extends IGKObject
     {
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param ?IReplaceCapturedFormatDefinition $e
     * @return string
     */
-
     public function transform(IReplaceCapturedFormatDefinition $e): string
     {
         $v_def = [];
@@ -319,53 +293,44 @@ abstract class FormatterBase extends IGKObject
         $this->m_transform = null;
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param string $cname
     * @return ?callable
     */
-
     protected function getPreserveCallback(string $cname)
     {
         if (in_array($cname, ['trim', 'rtrim', 'ltrim'])) {
             return $cname;
         }
     }
-
     /**
     * auto generate doc.
     * @param array $v_def
     * @return array
     */
-
     protected function _treatResolveCaptureLogic(IReplaceCapturedFormatDefinition $e, array $v_def)
     {
         return $v_def;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     * @return mixed
     */
-
     protected function _treatFormatLogic($e, $v)
     {
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v_def
     * @return mixed
     */
-
     protected function _beforeTreatFormatLogic($e, $v_def)
     {
         $tid = $e->tokenID;
         $s = $e->value;
-
         if ($tid) {
             $tid = explode(' ', $tid)[0];
             if ($m = $this->_treat($tid, $s, $e, $v_def)) {
@@ -379,13 +344,11 @@ abstract class FormatterBase extends IGKObject
         $g = $this->_fallbackReplace($e->tokenID ?? 'preserve', $g);
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param string $value
     * @return string
     */
-
     protected function _fallbackReplace(string $tid, string $value): string
     {
         $g = $value;
@@ -403,29 +366,23 @@ abstract class FormatterBase extends IGKObject
         $g = '' . igk_html_host('span.' . $cl, $g);
         return $g;
     }
-
     /**
     * Returns Transform Obj.
     * @param RegexMatcherCapture $e
     * @return IReplaceCapturedFormatDefinition
     */
     abstract function getTransformObj(RegexMatcherCapture $e): IReplaceCapturedFormatDefinition;
-
     /**
     * Did treat chain listener.
     * @param IReplaceCapturedFormatDefinition $ce
     */
     protected function didTreatChainListener(IReplaceCapturedFormatDefinition $ce) {}
-
-
-
     /**
      * override this to handle before treat chains
      * @param RegexMatcherCapture $chain 
      * @param IReplaceCapturedFormatDefinition $ce 
      * @return void 
      */
-
     protected function willTreatChainListener(RegexMatcherCapture $chain, IReplaceCapturedFormatDefinition $ce)
     {
         $ce->isDirty != (strlen(trim($ce->value)) > 0);
@@ -436,7 +393,6 @@ abstract class FormatterBase extends IGKObject
      * @return void 
      * @throws Error 
      */
-
     public function format(RegexMatcherCapture $e, ?string $source = null)
     {
         $tid = $e->tokenID;
@@ -462,7 +418,6 @@ abstract class FormatterBase extends IGKObject
                 $this->_treatChains($e, $chains, function ($chain) use ($ce) {
                     call_user_func_array([$this, 'willTreatChainListener'], [$chain, $ce]);
                 });
-
             $this->didTreatChainListener($ce);
         } else {
             $s = $e->value;
@@ -476,8 +431,6 @@ abstract class FormatterBase extends IGKObject
                 }
             }
         }
-        
-
         $e->value = ($e->match->ignoreOnEOF && $this->eof) ? '': $this->transform($ce);
         if ($e->parentInfo) {
             array_unshift($sub, $e);
@@ -485,8 +438,6 @@ abstract class FormatterBase extends IGKObject
             $prev = $this->getFlag('prev'); // previous chain block 
             $skipped = $this->getFlag('skipped'); // skipped 
             $line_flag = $this->getFlag('line-flag'); // skipped 
-
-
             if ($source) {
                 $before = substr($source, $offset, $e->from - $offset);
                 if (strlen($before) > 0) {
@@ -522,20 +473,17 @@ abstract class FormatterBase extends IGKObject
             $this->setFlag('prev', $e);
         }
     }
-
     /**
     * Splitter join.
     * @return string
     */
     abstract function splitterJoin(): string;
-
     /**
      * flags on data 
      * @param null|array $flags 
      * @param string $id 
      * @return bool 
      */
-
     public static function ResolveFlag(?array $flags, string $id): bool
     {
         if (!$flags)
@@ -549,7 +497,6 @@ abstract class FormatterBase extends IGKObject
      * @param mixed $chains 
      * @return string|string[] 
      */
-
     protected function _treatChains(RegexMatcherCapture $e, $chains, ?callable $willTreatChainListener = null)
     {
         $offset = 0;
@@ -566,12 +513,10 @@ abstract class FormatterBase extends IGKObject
         $n .= substr($v, $offset);
         return $n;
     }
-
     /**
     * auto generate doc.
     * @return string
     */
-
     public function output(?string $source = null): string
     {
         if ($source) {
@@ -584,7 +529,6 @@ abstract class FormatterBase extends IGKObject
         $s = $this->m_sb . '';
         return ltrim($s);
     }
-
     /**
     * Treat before.
     * @param string $before
@@ -596,7 +540,6 @@ abstract class FormatterBase extends IGKObject
         }
         return $before;
     }
-
     /**
     * Tab.
     */

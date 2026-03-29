@@ -3,7 +3,6 @@
 // @file: IHtmlRegistrableComponent.php
 // @date: 20230307 07:19:38
 namespace IGK\System\Html;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html

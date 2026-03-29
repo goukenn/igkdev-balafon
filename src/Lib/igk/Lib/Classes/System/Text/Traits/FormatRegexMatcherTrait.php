@@ -3,12 +3,10 @@
 // @file: FormatRegexMatcherTrait.php
 // @date: 20250727 12:03:04
 namespace IGK\System\Text\Traits;
-
 use Closure;
 use Exception;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text\Traits
@@ -40,7 +38,6 @@ trait FormatRegexMatcherTrait
             return self::TreatFormatCapture($s, $e, $captures, $e->captures, $format);
         }];
     }
-
     /**
     * Treat capture.
     * @param string $value
@@ -52,7 +49,4 @@ trait FormatRegexMatcherTrait
     {
         return $value;
     }
-  
-   
-
 }

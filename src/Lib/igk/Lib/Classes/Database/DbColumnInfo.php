@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Database;
-
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
 use IGK\Models\DataTypes;
@@ -13,7 +12,6 @@ use IGKException;
 use IGKObject;
 use IGKSysUtil;
 use ReflectionException;
-
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
 /**
  * Represent DbColumnInfo class
@@ -22,7 +20,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 {
     use DbColumnInfoTrait;
     use DbColumnInfoMethodTrait;
-
     /**
     * Constant: type length regex.
     * @var mixed
@@ -33,7 +30,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @param mixed $name 
      * @return static 
      */
-
     public static function CreateAutoInc($name)
     {
         return new static(['clName' => $name, 'clAutoIncrement' => true, 'clIsUnique' => true]);
@@ -42,21 +38,17 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * get if this column info must be consider as a dump fields
      * @return bool 
      */
-
     public function getIsDumpField(): bool
     {
         return DbUtils::GetIsDumpField($this);
     }
-
     /**
     * auto generate doc.
     * @param mixed $array the default value is null
     */
-
     public function __construct($array = null)
     {
         $this->clType = "Int";
-
         $this->initialize($array);
         // + | -------------------------------------------------
         // + | fix resolved data 
@@ -87,7 +79,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @param null|array|object $array 
      * @return void 
      */
-
     protected function initialize($array = null)
     {
         if (is_array($array)) {
@@ -136,7 +127,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             $this->clDefault = null;
         }
     }
-
     /**
     * auto generate doc.
     * @param static $q
@@ -161,7 +151,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         $q->clLinkType = $lnk;
     }
-
     /**
     * auto generate doc.
     * @param static $q
@@ -225,7 +214,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * return validator class 
      * @return null|string 
      */
-
     public function getValidatorClass()
     {
         $val = $this->clValidator;
@@ -248,7 +236,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @throws ReflectionException 
      * @throws IGKException 
      */
-
     public static function CreateDefArrayFromClass(string $class_name)
     {
         $g = igk_sys_reflect_class($class_name);
@@ -315,7 +302,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * return a filtered array of property
      * @return array 
      */
-
     public function to_array()
     {
         $c = [];
@@ -334,13 +320,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $c;
     }
-
     /**
     * auto generate doc.
     * @param mixed &$tbrelation
     * @return DbColumnInfo
     */
-
     public static function CreateWithRelation($attribs, $tb, $ctrl, &$tbrelation = null)
     {
         $cl = new DbColumnInfo(igk_to_array($attribs));
@@ -354,12 +338,10 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $cl;
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
     */
-
     public function __get($key)
     {
         $d = get_class_vars(get_class($this));
@@ -368,12 +350,10 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         igk_die("__get Not implements : " . $key . " " . get_class($this));
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     */
-
     public function __set($key, $value)
     {
         igk_die("variable : [" . $key . "] Not Implements");
@@ -381,13 +361,11 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     /**
      * display value
      */
-
     public function __toString()
     {
         return "DbColumnInfo[#" . $this->clName . "]";
     }
     ///get association info array
-
     /**
     * auto generate doc.
     */
@@ -409,7 +387,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $t;
     }
-
     /**
     * auto generate doc.
     */
@@ -417,7 +394,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         return get_class_vars("DbColumnInfo");
     }
-
     /**
     * auto generate doc.
     */
@@ -434,7 +410,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @param DbColumnInfo $v 
      * @return null|int|string 
      */
-
     public static function GetRowDefaultValue(IDbColumnInfo $v)
     {
         if ($v->clNotNull) {
@@ -465,7 +440,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @param mixed $value 
      * @return bool
      */
-
     public static function IsDbColumnInfoFunction(IDbColumnInfo $v, $value): bool
     {
         if ($value == 'Now()') {
@@ -473,7 +447,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return false;
     }
-
     /**
     * Returns true if Number.
     * @param IDbColumnInfo $v

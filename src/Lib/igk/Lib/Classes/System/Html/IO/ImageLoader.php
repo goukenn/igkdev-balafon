@@ -6,31 +6,26 @@ namespace IGK\System\Html\IO;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\IO
 */
 class ImageLoader{
-
     /**
     * Path to outdir.
     * @var mixed
     */
     var $outdir;
-
     /**
     * Flag: hash.
     * @var mixed
     */
     var $hash = "crc32b";
-
     /**
     * Property: loaded.
     * @var mixed
     */
     private $m_loaded = [];
-
     /**
     * Called when an object is used as a function.
     * @param mixed $uri
@@ -67,7 +62,6 @@ class ImageLoader{
             Logger::danger("failed : ");
         }
     }
-
     /**
     * Loads Content.
     * @param mixed $src

@@ -17,14 +17,12 @@ use IGKEvents;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\Controllers\Traits
 */
 trait ControllerRequestExtensionTrait
 {
-
     /**
     * auto generate doc.
     * @return
@@ -38,7 +36,6 @@ trait ControllerRequestExtensionTrait
         ];
         return $v_backup;
     }
-
     /**
     * auto generate doc.
     * @param mixed $data

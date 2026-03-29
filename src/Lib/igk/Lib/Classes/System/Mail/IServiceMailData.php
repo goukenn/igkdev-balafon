@@ -8,7 +8,6 @@ namespace IGK\System\Mail;
 * @package IGK\System\Mail
 */
 interface IServiceMailData{
-
     /**
     * Returns Mail Data.
     * @return ?array

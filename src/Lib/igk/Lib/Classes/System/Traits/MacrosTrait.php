@@ -5,20 +5,17 @@
 // @desc: 
 namespace IGK\System\Traits;
 use Closure;
-
 /**
 * auto generate doc.
 * @package IGK\System\Traits
 */
 trait MacrosTrait
 {
-
     /**
     * Property: macros.
     * @var mixed
     */
     private static $macros;
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -34,7 +31,6 @@ trait MacrosTrait
             return static::_InvokeMacros(self::$macros, $name, $arguments);
         }
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -45,7 +41,6 @@ trait MacrosTrait
         array_unshift($arguments, $this);
         return self::__callStatic($name, $arguments);
     }
-
     /**
     * Initializes Macros.
     * @param mixed & $macros

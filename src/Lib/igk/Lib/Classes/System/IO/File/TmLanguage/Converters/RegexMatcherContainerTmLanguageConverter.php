@@ -3,7 +3,6 @@
 // @file: RegexMatcherContainerTmLanguageConverter.php
 // @date: 20250704 13:51:16
 namespace IGK\System\IO\File\TmLanguage\Converters;
-
 use Exception;
 use Error;
 use IGK\Helper\Activator;
@@ -15,32 +14,27 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Converters
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage\Converters
 */
 class RegexMatcherContainerTmLanguageConverter
 {
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * Property: references.
     * @var mixed
     */
     private $m_references = [];
-
     /**
     * Remove type.
     * @param mixed $a
@@ -77,7 +71,6 @@ class RegexMatcherContainerTmLanguageConverter
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function convert(RegexMatcherContainer $ctn, string $scopeName):array
     {
         $this->m_data = Activator::CreateNewInstance(RegexMatcherContainerTmDefinition::class, (object)[
@@ -89,7 +82,6 @@ class RegexMatcherContainerTmLanguageConverter
         ]);
         $this->m_references = [];
         if ($d = $ctn->getMatcher()) {
-
             // normalize 
             $refdata = [];
             $datas = [];
@@ -120,7 +112,6 @@ class RegexMatcherContainerTmLanguageConverter
                     $patterns[] = $q;
                     continue;
                 }
-
                 $id = spl_object_id($q);
                 $o = $this->_unsetPrivateMembers((array)$q);
                 if ($dc = igk_getv($q, 'patterns')){
@@ -146,7 +137,6 @@ class RegexMatcherContainerTmLanguageConverter
         $data = $this->m_data->jsonSerialize();        
         return $data;
     }
-
     /**
     * auto generate doc.
     * @param array $tab
@@ -164,7 +154,6 @@ class RegexMatcherContainerTmLanguageConverter
         }
         return $tr;
     }
-
     /**
     * auto generate doc.
     * @param array $tab
@@ -187,7 +176,6 @@ class RegexMatcherContainerTmLanguageConverter
      * @return mixed|array|void
      * @throws Exception 
      */
-
     protected function _chainRepository(&$repository, RegexMatcherPattern $q)
     {
         $r = $this->_unsetPrivateMembers((array)$q);
@@ -196,12 +184,10 @@ class RegexMatcherContainerTmLanguageConverter
             return;
         }
         //unset private members
-
         $tc = [];
         $ref_include = 0;
         while (count($patterns) > 0) {
             $v_cp = $this->_unsetPrivateMembers((array)array_shift($patterns));
-
             if (false === ($ind = array_search($v_cp, $this->m_references))) {
                 $this->m_references[] = $v_cp;
                 $tc[] = $v_cp;
@@ -213,7 +199,6 @@ class RegexMatcherContainerTmLanguageConverter
                 $n = (array)$v_cp;
                 unset($n['patterns']);
                 $trp = (array)$n;
-
                 if (false !== ($l = array_search($v_cp, $this->m_data->patterns, true))) {
                     // replace patterns with repository access@
                     $this->m_data->patterns[$l] = [
@@ -226,17 +211,13 @@ class RegexMatcherContainerTmLanguageConverter
                     'include' => '#' . $idx
                 ];
             }
-
             if ($cpattern = igk_getv($v_cp, 'patterns')) {
                 $v_tcp = [];
                 foreach ($cpattern as $tpattern) {
                     $v_tcp = $this->_unsetPrivateMembers((array)$tpattern);
-
                     $ind = array_search($v_cp, $this->m_references);
-
                     igk_wln(__FILE__ . ":" . __LINE__, $ind);
                 }
-
                 $v_cp['patterns'] = $v_tcp;
             }
         }
@@ -244,10 +225,8 @@ class RegexMatcherContainerTmLanguageConverter
         if ($ref_include) {
             $r = ['include' => $ref_include];
         }
-
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param mixed $ind

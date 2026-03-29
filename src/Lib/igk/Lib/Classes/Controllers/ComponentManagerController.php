@@ -4,14 +4,11 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
-
 use __PHP_Incomplete_Class;
 use stdClass;
-
 // // /**
 // * component manager controller
 // */
-
 /**
 * Component manager controller.
 * @package IGK\Controllers
@@ -28,7 +25,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         igk_app()->settings->appInfo->components = null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $obj
@@ -37,7 +33,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         $setting=& $this->getSettings();
         return igk_array_value_exist($setting->objs, $obj);
     }
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -45,7 +40,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     public function getComponentById($id){
         return igk_getv($this->m_ids, $id);
     }
-
     /**
     * auto generate doc.
     * @param mixed $host
@@ -59,7 +53,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     public function getComponents(){
         return $this->getm_objs();
     }
-
     /**
     * auto generate doc.
     * @param mixed $obj
@@ -79,37 +72,31 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     */    public function getm_ids(){
         return $this->settings->ids;
     }
-
     /**
     * auto generate doc.
     */    public function getm_objs(){
         return $this->settings->objs;
     }
-
     /**
     * auto generate doc.
     */    public function getm_srcs(){
         return $this->settings->srcs;
     }
-
     /**
     * auto generate doc.
     */    public function getm_uris(){
         return $this->settings->uris;
     }
-
     /**
     * auto generate doc.
     */    public function getName(): string{
         return IGK_COMPONENT_MANAGER_CTRL;
     }
-
     /**
     * auto generate doc.
     * @return mixed|array settings
@@ -125,7 +112,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         return $setting;
     }
-
     /**
     * auto generate doc.
     * @param mixed $obj the default value is null
@@ -138,7 +124,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         $this->getsettings()->uris[$id]=get_class($obj);
         return $u;
     }
-
     /**
     * auto generate doc.
     */    protected function initComplete($context=null){
@@ -193,7 +178,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
             igk_exit();
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $node
@@ -202,7 +186,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 		$node = $e->args[0];
         $this->Unregister($node);
     }
-
     /**
     * auto generate doc.
     * @param mixed $componentInterface the default value is true
@@ -210,7 +193,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     public function Register($obj, $componentInterface=true){
 		return; 
     }
-
     /**
     * auto generate doc.
     * @param mixed $obj

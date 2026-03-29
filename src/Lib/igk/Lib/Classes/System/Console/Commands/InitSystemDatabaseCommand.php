@@ -11,32 +11,27 @@ use IGK\Helper\Database;
 use IGK\Helpers\DbUtilityHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class InitSystemDatabaseCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--dbsys:initdb";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'init core system db';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category="sys:db";
-
     /**
     * Property: options.
     * @var mixed
@@ -45,7 +40,6 @@ class InitSystemDatabaseCommand extends AppExecCommand
         '--force'=>'flag: force database initialisation model',
         '--drop'=>'flag: drop database before initialize',
     ];
-
     /**
     * Exec.
     * @param mixed $command

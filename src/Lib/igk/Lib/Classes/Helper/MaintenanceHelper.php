@@ -8,20 +8,17 @@ use IGK\System\Installers\InstallerUtils;
 /**
  * 
  */
-
 /**
 * auto generate doc.
 * @package IGK\Helper
 */
 class MaintenanceHelper
 {
-
     /**
     * Constant: lock file.
     * @var mixed
     */
     const lockFile = ".maintenance.lock";
-
     /**
     * Locks Site.
     * @param string $bdir
@@ -50,13 +47,11 @@ RewriteRule ^(/)?(.)*$  "index.php" [QSA,L]
 </IfModule>
 EOF        );
     }
-
     /**
     * auto generate doc.
     * @param string $bdir
     * @return void
     */
-
     public static function UnlockSite(string $bdir)
     {
         if (!igk_io_file_exists($lock = $bdir ."/".self::lockFile)) {

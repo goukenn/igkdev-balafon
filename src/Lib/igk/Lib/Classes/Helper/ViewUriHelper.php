@@ -9,19 +9,16 @@ use IGK\Controllers\BaseController;
  * uri helper controller
  */
 class ViewUriHelper{
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $controller;
-
     /**
     * Name of fname.
     * @var mixed
     */
     private $fname;
-
     /**
     * .ctr
     * @param BaseController $controller
@@ -32,7 +29,6 @@ class ViewUriHelper{
         $this->controller = $controller;
         $this->fname = $fname;
     }
-
     /**
     * Uri.
     * @param null|string $path

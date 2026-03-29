@@ -12,32 +12,27 @@ use IGK\Helper\UriHelper;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlAHref extends IGKObject implements IHtmlGetValue
 {
-
     /**
     * Constant: owner.
     * @var mixed
     */
     const OWNER = 2;
-
     /**
     * Constant: uri.
     * @var mixed
     */
     const URI = 1;
-
     /**
     * Property: .
     * @var mixed
     */
     private $_;
-
     /**
     * .ctr
     * @param mixed $a
@@ -47,7 +42,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
         $this->_ = array();
         $this->_[self::OWNER] = $a;
     }
-
     /**
     * auto generate doc.
     * @param mixed $option
@@ -123,7 +117,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
         // }
         return $bck;
     }
-
     /**
     * Returns Design Mode.
     */
@@ -131,7 +124,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     {
         return igk_is_design_mode();
     }
-
     /**
     * Returns Owner.
     */
@@ -139,7 +131,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     {
         return igk_getv($this->_, self::OWNER);
     }
-
     /**
     * Returns Uri.
     */
@@ -147,7 +138,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     {
         return igk_getv($this->_, self::URI);
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -156,7 +146,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     {
         return $this->_checkLnk($options);
     }
-
     /**
     * Sets Uri.
     * @param mixed $v
@@ -165,7 +154,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     {
         $this->_[self::URI] = $v;
     }
-
     /**
     * Sets Value.
     * @param mixed $v

@@ -4,13 +4,11 @@
 // @date: 20220531 13:35:47
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
-
 /**
 * Diagram html visitor.
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramHtmlVisitor extends DiagramVisitor{
-
     /**
     * Visit diagram entity.
     * @param mixed $entity

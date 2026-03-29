@@ -10,26 +10,22 @@ use IGKHtmlDoc;
  * 
  * @package IGK\System\Html\Metadatas
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 class MetaDataHost
 {
-
     /**
     * Property: host.
     * @var mixed
     */
     private $m_host;
-
     /**
     * Property: register.
     * @var mixed
     */
     private $m_register;
-
     /**
     * .ctr
     * @param IGKHtmlDoc $host
@@ -38,7 +34,6 @@ class MetaDataHost
     {
         $this->m_host = $host;
     }
-
     /**
     * auto generate doc.
     */
@@ -58,7 +53,6 @@ class MetaDataHost
      * @return void 
      * @throws IGKException 
      */
-
     public function bind(array $settings)
     {
         $register = &$this->m_register;

@@ -11,7 +11,6 @@ use IGK\System\IInjectable;
  * @package 
  */
 class IGKType{
-
     /**
     * Returns Type.
     * @param mixed $m
@@ -36,13 +35,11 @@ class IGKType{
             return 'float';
         }
     }
-
     /**
     * auto generate doc.
     * @param string $base_type
     * @return bool
     */
-
     public static function ParameterIsTypeOf(ReflectionParameter $param, string $base_type):bool{
         $r = false;
         if ($param->hasType()){
@@ -54,13 +51,11 @@ class IGKType{
         }
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param ReflectionType $t
     * @return mixed
     */
-
     public static function GetName(ReflectionType $t){
         //+ work arround to avoid getName not implement in php 7.+ 8.0
         if (method_exists($t, $fc = "getName")){
@@ -72,7 +67,6 @@ class IGKType{
      * @param string $type 
      * @return bool 
      */
-
     public static function IsPrimaryType(string $type){
         return in_array($type, explode('|', "int|float|bool|double|void|array|string|callable"));
     }
@@ -81,14 +75,12 @@ class IGKType{
      * @param string $type 
      * @return bool 
      */
-
     public static function IsInjectable(string $type):bool{
         if( is_bool($v = igk_reflection_class_isabstract($type))){
             if ($v){
                 return false;
             }
         } 
-
         return is_subclass_of($type, IInjectable::class) || 
                is_subclass_of($type, BaseController::class);
     }
@@ -97,7 +89,6 @@ class IGKType{
      * @param string $methodName 
      * @return bool 
      */
-
     public static function IsMagicMethod(string $methodName):bool{
         return in_array($methodName, explode("|", 
             "__construct|__get|__call|__classStatic|__isset|__wakeup|__sleep|__toString"));

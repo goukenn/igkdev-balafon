@@ -9,19 +9,16 @@ namespace IGK\System\Html\Dom;
  * @package 
  */
 class Factory{
-
     /**
     * Property: instance.
     * @var mixed
     */
     static $sm_instance;
-
     /**
     * Property: actions.
     * @var mixed
     */
     private $m_actions;
-
     /**
     * .ctr
     * @return
@@ -29,7 +26,6 @@ class Factory{
     private function __construct(){        
         $this->m_actions = [];
     }
-
     /**
     * Returns Instance.
     */
@@ -39,7 +35,6 @@ class Factory{
         }
         return self::$sm_instance; 
     }
-
     /**
     * Registers.
     * @param mixed $tagname
@@ -52,7 +47,6 @@ class Factory{
         }
         self::getInstance()->m_actions[$tagname][$funcName] = $callback;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -64,7 +58,6 @@ class Factory{
         $callable = $arguments[1];
         self::Register($name, $funcName, $callable);
     }
-
     /**
     * Handles. Check
     * @param string $name
@@ -74,7 +67,6 @@ class Factory{
     public function handle(string $name, string $funcName): bool{
         return isset($this->m_actions[$name][$funcName]);
     }
-
     /**
     * Invoke.
     * @param mixed $name
@@ -87,7 +79,6 @@ class Factory{
         }
         return null; // $callback(...$arguments); // call_user_func_array()
     }
-
     /**
     * Invoke on.
     * @param HtmlItemBase $host

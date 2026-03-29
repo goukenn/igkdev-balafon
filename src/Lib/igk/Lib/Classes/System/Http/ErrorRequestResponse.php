@@ -7,25 +7,21 @@ namespace IGK\System\Http;
 use IGK\Helper\JSon as HelperJSon;
 use IGK\System\Html\Dom\HtmlDocTheme; 
 use function igk_resources_gets as __;
-
 /**
 * Error request response.
 * @package IGK\System\Http
 */
 class ErrorRequestResponse extends RequestResponse{
-
     /**
     * Type of type.
     * @var mixed
     */
     var $type = "json";
-
     /**
     * Property: code.
     * @var mixed
     */
     var $code = RequestResponseCode::BadRequest;
-
     /**
     * Property: message.
     * @var mixed
@@ -38,7 +34,6 @@ class ErrorRequestResponse extends RequestResponse{
      * @param string|null $message Optional error message.
      * @param array|null  $headers Optional response headers.
      */
-
     public function __construct($code, $message=null, $headers=null){
         $this->code = $code;
         $this->message = $message;
@@ -50,7 +45,6 @@ class ErrorRequestResponse extends RequestResponse{
      *
      * @return void
      */
-
     protected function _setHeader(){
         parent::_setHeader();
     }
@@ -59,7 +53,6 @@ class ErrorRequestResponse extends RequestResponse{
      *
      * @return string|null
      */
-
     public function render(){
         $obj = ["response"=>(object)[
             "code"=>$this->code,
@@ -94,7 +87,6 @@ class ErrorRequestResponse extends RequestResponse{
      *
      * @return string
      */
-
     public function getErrorStyle(){
         $theme = new HtmlDocTheme(null, -1, false);
         $theme["*, html, body"] = "margin:0px; padding:0px;";

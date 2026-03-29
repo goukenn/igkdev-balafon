@@ -6,38 +6,32 @@ namespace IGK\System\Html\Dom;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlNodeBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlLayoutViewInclusion extends HtmlNode
 {
-
     /**
     * Path to path.
     * @var mixed
     */
     var $path;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:view-include";
-
     /**
     * Property: args.
     * @var mixed
     */
     var $args;
-
     /**
     * Returns Can Render Tag.
     */
@@ -45,7 +39,6 @@ class HtmlLayoutViewInclusion extends HtmlNode
     {
         return false;
     }
-
     /**
     * .ctr
     * @param string $path
@@ -57,7 +50,6 @@ class HtmlLayoutViewInclusion extends HtmlNode
         $this->path = $path;
         $this->ctrl = $ctrl;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options
@@ -81,7 +73,6 @@ class HtmlLayoutViewInclusion extends HtmlNode
         }
         return false;
     }
-
     /**
     * Returns Path.
     */

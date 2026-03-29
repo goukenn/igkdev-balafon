@@ -15,38 +15,32 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKModuleListMigration;
 !defined('IGK_CONSOLE_HTRAIT') &&  define('IGK_CONSOLE_HTRAIT', str_repeat('-', 60));
-
 /**
 * Db migrate command.
 * @package IGK\System\Console\Commands
 */
 class DbMigrateCommand extends AppExecCommand
 {
-
     /**
     * Constant: h trait.
     * @var mixed
     */
     const H_TRAIT = IGK_CONSOLE_HTRAIT;
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:migrate';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'migration command';
-
     /**
     * Property: options.
     * @var mixed
@@ -55,22 +49,18 @@ class DbMigrateCommand extends AppExecCommand
         '--no-clear-db-cache'=>'flag: do not clear db cache',
         '--force'=>"flag: force module class creation"
     ];
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function showUsage(){
         parent::showCommandUsage('controller [options]');
     }
-
     /**
     * Exec.
     * @param mixed $command
     * @param null|mixed $ctrl
     */
-
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);

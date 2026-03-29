@@ -3,13 +3,11 @@
 // @file: AccessibilityTrait.php
 // @date: 20230315 09:24:56
 namespace IGK\System\Html\Dom\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom\Trait
 */
 trait AccessibilityTrait{
-
     /**
     * Aria controls.
     * @param null|string $value
@@ -18,7 +16,6 @@ trait AccessibilityTrait{
         $this['aria-controls'] = $value;
         return $this;
     }
-
     /**
     * Aria labelledby.
     * @param null|string $value
@@ -32,7 +29,6 @@ trait AccessibilityTrait{
      * @param null|string $value 
      * @return $this 
      */
-
     public function ariaLabel(?string $value){
         $this['aria-label'] = $value;
         return $this;

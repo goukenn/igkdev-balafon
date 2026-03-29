@@ -3,14 +3,12 @@
 // @file: RefDataArgs.php
 // @date: 20251023 23:30:42
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */
 class RefDataArgs extends DataArgs{
-
     /**
     * .ctr
     * @param mixed $t
@@ -25,11 +23,9 @@ class RefDataArgs extends DataArgs{
      * @param mixed $v 
      * @return void 
      */
-
     function __set($n, $v){
         $this->p_data[$n] = $v;
     }
-
     /**
     * Access offset set.
     * @param mixed $n

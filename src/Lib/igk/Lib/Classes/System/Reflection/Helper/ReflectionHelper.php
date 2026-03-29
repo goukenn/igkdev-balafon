@@ -8,14 +8,12 @@ use ReflectionProperty;
  * 
  * @package IGK\System\Reflection\Helper
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Reflection\Helper
 */
 class ReflectionHelper
 {
-
     /**
     * auto generate doc.
     * @param callable|null $filter
@@ -54,7 +52,6 @@ class ReflectionHelper
         }
         return $v_params;
     }
-
     /**
     * Property has type.
     * @param ReflectionProperty $prop
@@ -65,13 +62,11 @@ class ReflectionHelper
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
     * @return array
     */
-
     public static function DebugOnlyPublicMember($i):array{
         $r = [];
         $tab = (array)$i;

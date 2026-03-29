@@ -3,22 +3,18 @@
 // @file: RequestPreparer.php
 // @date: 20251211 12:06:41
 namespace IGK\System\Http;
-
 use IGK\System\IO\Path;
 use IGK\System\Uri;
-
 /**
 * 
 * @package IGK\System\Http
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class RequestPreparer{
-
     /**
     * Constant: pkey.
     * @var mixed
@@ -50,18 +46,15 @@ class RequestPreparer{
         if ($method){
             $_SERVER['REQUEST_METHOD'] = strtoupper($method);
         }
-
         igk_server()->prepareServerInfo();
         $uri = igk_getv(parse_url(igk_server()->REQUEST_URI), 'path');
         Request::getInstance()->getQueryInfo()->query_options = (($s = igk_getv(explode(';', $uri, 2), 1)) ? igk_get_query_options($s) : null); 
         return $path;
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public static function PopPrepareForRequest(){
         if($storage = igk_pop_env(self::PKEY)){
             list($s,$r,$i) = igk_extract($storage, implode('|', range(0,2)));
@@ -70,6 +63,5 @@ class RequestPreparer{
             $_REQUEST = $r;
             Request::getInstance()->getQueryInfo()->query_options = $i;
         }
-
     }
 }

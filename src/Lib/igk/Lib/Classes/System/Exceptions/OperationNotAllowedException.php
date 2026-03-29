@@ -10,7 +10,6 @@ use Throwable;
 * @package IGK\System\Exceptions
 */
 class OperationNotAllowedException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $msg

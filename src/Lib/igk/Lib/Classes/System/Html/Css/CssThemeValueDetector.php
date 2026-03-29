@@ -7,7 +7,6 @@ use Exception;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -24,7 +23,6 @@ class CssThemeValueDetector{
      * @var bool
      */
     var $removeStaticProps;
-
     /**
     * .ctr
     */
@@ -32,7 +30,6 @@ class CssThemeValueDetector{
         $this->treatGlobal = true;
         $this->removeStaticProps = true;
     }
-
     /**
     * Returns true if Global Expression.
     * @param string $name
@@ -49,7 +46,6 @@ class CssThemeValueDetector{
         $v = preg_replace("/\s+/", " ", $value);
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param string $value
@@ -68,7 +64,6 @@ class CssThemeValueDetector{
      * @return string 
      * @throws Exception 
      */
-
     public static function RemoveTransformLitteralFrom(string $v, 
         bool $remove_global=false,
         bool $remove_static_property=false)
@@ -170,7 +165,6 @@ class CssThemeValueDetector{
      * @param string $value 
      * @return string 
      */
-
     public function treat(string $value){
         $s = $value;
         $s = self::RemoveTransformLitteralFrom($s, $this->treatGlobal, $this->removeStaticProps);   

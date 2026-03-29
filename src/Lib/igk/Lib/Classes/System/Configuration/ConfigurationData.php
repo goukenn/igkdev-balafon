@@ -7,19 +7,16 @@ namespace IGK\System\Configuration;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKObject;
-
 /**
 * auto generate doc.
 */
 class ConfigurationData extends IGKObject implements ArrayAccess{  
     use ArrayAccessSelfTrait;
-
     /**
     * Property: configs.
     * @var mixed
     */
     protected  $m_configs;
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -35,7 +32,6 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
         }
         $this->m_configs[$n] = $v;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -43,7 +39,6 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     protected function _access_OffsetGet($n){
         return igk_getv($this->m_configs,$n);
     }
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -51,7 +46,6 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     protected function _access_offsetExists($n){
         return isset($this->m_configs[$n]);
     }
-
     /**
     * Access offset unset.
     * @param mixed $n

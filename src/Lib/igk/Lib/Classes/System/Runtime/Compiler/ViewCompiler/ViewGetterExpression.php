@@ -16,25 +16,21 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
 */
 class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Name of name.
     * @var mixed
     */
     private $m_name;
-
     /**
     * Property: value.
     * @var mixed
     */
     private $m_value;
-
     /**
     * Property: resolv.
     * @var mixed
     */
     private $m_resolv;
-
     /**
     * .ctr
     * @param mixed $name
@@ -50,11 +46,9 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
      * expression to resolv and render data
      * @return string 
      */
-
     public function getExpression() { 
         return '$'.$this->m_name;
     }
-
     /**
     * Returns Inner Value.
     * @param ViewGetterExpression $item
@@ -67,7 +61,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
      * @param ViewGetterExpression $item 
      * @return mixed 
      */
-
     public static function GetRealValue(ViewGetterExpression $item){
         $v_v = self::GetInnerValue($item);
         if ($v_v instanceof ViewExpressionEval){
@@ -75,7 +68,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         }
         return $v_v;
     }
-
     /**
     * get string presentation.
     */
@@ -85,7 +77,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         $this->m_resolv = "";
         return '<?= $'.$this->m_name.$c.' ?>';
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -103,7 +94,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         );
         return $this;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -112,7 +102,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         $this->m_resolv .= "->".$n;
         return $this;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -121,7 +110,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     public function __set($n, $v){
         // throw new NotImplementException(__METHOD__);
     }
-
     /**
     * Access offset get.
     * @param mixed $name
@@ -133,7 +121,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         $this->m_resolv .= "[".$name."]";
         return $this;
     }
-
     /**
     * Creates Expression Node.
     */
@@ -144,19 +131,16 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         return new ExpressionNode('<?= '.$m.'$'.$this->m_name.$c.') ?>');          
     }
 }
-
 /**
 * Expression node.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ExpressionNode extends ExpressionNodeBase{
-
     /**
     * Property: expression.
     * @var mixed
     */
     var $expression;
-
     /**
     * .ctr
     * @param string $expression
@@ -166,7 +150,6 @@ class ExpressionNode extends ExpressionNodeBase{
         $this->expression = $expression;
         parent::__construct();
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -174,7 +157,6 @@ class ExpressionNode extends ExpressionNodeBase{
     {
         return false;
     }
-
     /**
     * Renders.
     * @param null|mixed $options

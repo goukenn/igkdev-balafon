@@ -11,7 +11,6 @@ use IGK\System\Html\Dom\HtmlCssLinkNode;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocCoreStyle extends HtmlCssLinkNode{
-
     /**
     * .ctr
     * @param mixed $link
@@ -22,7 +21,6 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
     {     
         parent::__construct($link, $sys, $defer);
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

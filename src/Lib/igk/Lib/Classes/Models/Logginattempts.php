@@ -3,10 +3,7 @@
 // @file: Logginattempts.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store migrations
 * @package IGK\Models
@@ -27,31 +24,26 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Logginattempts extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd logginattempts login.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_LOGIN="logginattempts_login";
-
     /**
     * Constant: fd logginattempts try.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_TRY="logginattempts_try";
-
     /**
     * Constant: fd logginattempts create at.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_CREATE_AT="logginattempts_createAt";
-
     /**
     * Constant: fd logginattempts update at.
     * @var mixed

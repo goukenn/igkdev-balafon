@@ -3,25 +3,21 @@
 // @file: TextBrackerBlockInfo.php
 // @date: 20221023 10:15:46
 namespace IGK\System\Text;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class TextBrackerBlockInfo{
-
     /**
     * Property: buffer.
     * @var mixed
     */
     var $buffer = "";
-
     /**
     * Count: count.
     * @var mixed
     */
     var $count = 0;
-
     /**
     * Property: blocs.
     * @var mixed
@@ -32,7 +28,6 @@ class TextBrackerBlockInfo{
      * @var TextBrackerBlockInfo
      */
     var $parent;
-
     /**
     * get string presentation.
     */

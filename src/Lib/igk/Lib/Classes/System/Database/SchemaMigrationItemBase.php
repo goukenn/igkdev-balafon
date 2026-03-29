@@ -10,43 +10,36 @@ use Google\Service\Vision\Property;
 use IGKException;
 use IGKHtmlCommentItem;
 /** @package  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 abstract class SchemaMigrationItemBase{
-
     /**
     * Property: migration.
     * @var mixed
     */
     private $m_migration;
-
     /**
     * Property: raw.
     * @var mixed
     */
     protected $raw;
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties;
-
     /**
     * auto generate doc.
     * @return ?ISchemaMigrationInfoListener
     */
-
     public function getMigrationInfoListener(){
         if ($mig = $this->getMigration()){
             return $mig->migrationListener;
         }
         return null;
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $name
@@ -54,7 +47,6 @@ abstract class SchemaMigrationItemBase{
     public function __isset($name){
         return  property_exists($this->raw, $name);
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -62,14 +54,12 @@ abstract class SchemaMigrationItemBase{
     public function __get($name){
         return igk_getv($this->raw, $name);
     }
-
     /**
     * Returns Migration.
     */
     public function getMigration(){
         return $this->m_migration;
     }
-
     /**
     * .ctr
     * @param SchemaBuilderMigration $migration
@@ -77,7 +67,6 @@ abstract class SchemaMigrationItemBase{
     function __construct(SchemaBuilderMigration $migration){
         $this->m_migration = $migration;
     }
-
     /**
     * Loads.
     * @param mixed $node
@@ -96,7 +85,6 @@ abstract class SchemaMigrationItemBase{
      * @return bool|mixed
      * @throws \Exception on requirement failed
      */
-
     protected function checkRequirement(){
     }
     /**
@@ -104,21 +92,18 @@ abstract class SchemaMigrationItemBase{
      * @param mixed $childs 
      * @return void 
      */
-
     protected function loadChilds($childs){
     }
     /**
      * up the migration
      * @return void 
      */
-
     public function up(){
     }
     /**
      * down migration item
      * @return void 
      */
-
     public function down(){
     }
 }

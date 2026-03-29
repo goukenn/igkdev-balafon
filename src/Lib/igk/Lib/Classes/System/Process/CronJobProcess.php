@@ -13,13 +13,11 @@ use IGKException;
  * 
  * @package IGK\System\Process
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Process
 */
 class CronJobProcess{
-
     /**
     * Constant: mail script.
     * @var mixed
@@ -29,7 +27,6 @@ class CronJobProcess{
      * create a new cronjob identifier
      * @return string 
      */
-
     public static function NewCronJobIdentifier(){
         return igk_create_guid();
     }
@@ -47,7 +44,6 @@ class CronJobProcess{
      * @throws ContainerExceptionInterface 
      * @throws IGKException 
      */
-
     public static function Register($name, $script, $options, ?BaseController $ctrl=null){
         if ($options && ($provider = self::GetJobProcessProvider($script))){
             $options = $provider->treat($options);
@@ -60,13 +56,11 @@ class CronJobProcess{
             "crons_options"=>json_encode($options, JSON_UNESCAPED_SLASHES)
         ]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $script_file
     * @return CronJobProcessMailProvider
     */
-
     public static function GetJobProcessProvider($script_file){
         $tab = & igk_environment()->createArray("sys://cronProccess");
         if ($cl = igk_getv($tab, $script_file)){
@@ -84,7 +78,6 @@ class CronJobProcess{
      * @param  ?array $args argument to pass
      * @return bool 
      */
-
     public static function RunFile(){
         (func_num_args()!=2) && igk_die('missing required argument. expected 2');
         extract(func_get_arg(1));

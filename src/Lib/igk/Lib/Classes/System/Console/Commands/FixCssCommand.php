@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -13,19 +12,16 @@ use IGK\System\IO\File\PHPScriptBuilder;
  * @package IGK\System\Console\Commands
  */
 class FixCssCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--fix:css";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "Fixing";
-
     /**
     * Property: desc.
     * @var mixed
@@ -34,7 +30,6 @@ class FixCssCommand extends AppExecCommand{
     /**
      * exec the command
      */
-
     public function exec($command, $path=null, $ctrl=null)
     { 
         Logger::info("fix css file");
@@ -104,7 +99,6 @@ class FixCssCommand extends AppExecCommand{
             Logger::danger("file not found or not defined");
         }
     }
-
     /**
     * Ignore list.
     * @param mixed $clear
@@ -121,7 +115,6 @@ class FixCssCommand extends AppExecCommand{
         igk_environment()->set(__METHOD__, $g);
         return $g;
     }
-
     /**
     * Value to string.
     * @param mixed $v
@@ -133,13 +126,11 @@ class FixCssCommand extends AppExecCommand{
         return $v;
     }
 }
-
 /**
 * Expression handler.
 * @package IGK\System\Console\Commands
 */
 class ExpressionHandler{
-
     /**
     * auto generate doc.
     * @param mixed $arguments
@@ -153,7 +144,6 @@ class ExpressionHandler{
             return $v;
         }, $arguments );
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -163,7 +153,6 @@ class ExpressionHandler{
     {
         return "\".\$ctrl::".$name."(".implode(", ",self::get_arg_s($arguments)).").\"";
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name

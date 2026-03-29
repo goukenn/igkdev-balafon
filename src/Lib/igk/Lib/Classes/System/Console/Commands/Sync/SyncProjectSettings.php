@@ -10,7 +10,6 @@ use IGK\System\IO\Path;
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncProjectSettings{
-
     /**
     * Constant: p file.
     * @var mixed
@@ -26,17 +25,14 @@ class SyncProjectSettings{
      * @param mixed $jsond_data 
      * @return self 
      */
-
     public static function Load($jsond_data){
         return Activator::CreateNewInstance(self::class, $jsond_data);
     }
-
     /**
     * auto generate doc.
     * @param mixed $excludir
     * @return void
     */
-
     public static function InitProjectExcludeDir(string $pdir, & $excludedir){
         $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
         if (igk_io_file_exists($fc = Path::Combine($pdir, self::P_FILE))){

@@ -14,7 +14,6 @@ use IGK\System\IO\Path;
  * @package IGK\System\Html\Forms\helpers
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Helper
@@ -47,7 +46,6 @@ class RequestFileUtility
             call_user_func_array($fc_upload,[$value, $identifier]);
         }
     }
-
     /**
     * auto generate doc.
     * @param string $destination
@@ -62,7 +60,6 @@ class RequestFileUtility
             $value->moveUploadTo(Path::Combine( $destination, $k));
         })->bindTo((object)get_defined_vars());
     }
-
     /**
     * auto generate doc.
     */    public static function GuidAndExtensionCallback(){

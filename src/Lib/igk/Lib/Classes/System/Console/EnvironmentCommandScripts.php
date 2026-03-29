@@ -3,7 +3,6 @@
 // @file: EnvironmentCommandScripts.php
 // @date: 20250907 23:42:59
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
@@ -12,20 +11,17 @@ use IGK\System\IO\Path;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKEvents;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Console
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
 */
 class EnvironmentCommandScripts
 {
-
     /**
     * Cache: caches.
     * @var mixed
@@ -35,7 +31,6 @@ class EnvironmentCommandScripts
      * get cached definition 
      * @return mixed 
      */
-
     public static function GetCacheDefinition(){
         if (is_null(self::$sm_caches)){
             self::EnvLoad();
@@ -46,17 +41,14 @@ class EnvironmentCommandScripts
      * get cache file 
      * @return string 
      */
-
     static function GetCacheFile(): string
     {
         return Path::Combine(igk_io_cachedir(), '.env.commands.cache');
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     static function EnvLoad()
     {
         $f = self::GetCacheFile();
@@ -70,7 +62,6 @@ class EnvironmentCommandScripts
         }
         self::$sm_caches = $data ?? self::DetectCachingCommand();
     }
-
     /**
     * Store cache.
     */
@@ -84,12 +75,10 @@ class EnvironmentCommandScripts
         $sb = implode("\n", ['<?php', sprintf('return [%s];', StringUtility::DumpArray($tab))]);
         igk_io_w2file($f, $sb);
     }
-
     /**
     * auto generate doc.
     * @return array
     */
-
     static function DetectCachingCommand(?string $dir = null)
     {
         $dir = $dir ?? self::DefaultCommandLocation();
@@ -104,13 +93,11 @@ class EnvironmentCommandScripts
      * get default command location 
      * @return ?string
      */
-
     public static function DefaultCommandLocation(){
         return igk_configs()->commands_dir ??
         igk_app()->getApplication()->configs->commands_dir ?? 
         Path::Combine(Path::getInstance()->getApplicationDir(), 'Lib/igk/scripts/commands');
     }
-
     /**
     * auto generate doc.
     */
@@ -133,13 +120,11 @@ class EnvironmentCommandScripts
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed &$definition
     * @return void
     */
-
     static function LoadDefinition(string $file, &$definition)
     {
         $c_command = &$definition;
@@ -166,10 +151,7 @@ class EnvironmentCommandScripts
                     $stop = true;
                 }
             }
-
         ];
-
-
         $start = false;
         $stop = false;
         while (!$stop && ($g = $regex->detect($src, $pos))) {
@@ -194,8 +176,6 @@ class EnvironmentCommandScripts
             $tab['desc'] = igk_getv($info, 'desc');
         }
         $i = Activator::CreateNewInstance(CommandInfo::class, $tab);
-
-
         if (!empty($i->name)) {
             $c_command[$i->name] = $i;
         }

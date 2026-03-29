@@ -3,33 +3,28 @@
 // @file: EngineReadArgs.php
 // @date: 20251021 08:07:28
 namespace IGK\System\Core;
-
 use Error;
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Core
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Core
 */
 class EngineReadArgs
 {
-
     /**
     * Property: context.
     * @var mixed
     */
     var $context;
-
     /**
     * .ctr
     * @param mixed $context
@@ -38,12 +33,10 @@ class EngineReadArgs
     {
         $this->context = $context;
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     protected function evalContext()
     {
         extract(func_get_arg(1) ?? []);
@@ -54,7 +47,6 @@ class EngineReadArgs
      * @param string $e 
      * @return void 
      */
-
     public function evalExpression(string $src)
     {
         $r = $this->evalContext('return $context->' . $src . ';', $this->context);
@@ -71,7 +63,6 @@ class EngineReadArgs
      * @throws Exception 
      * @throws IGKException 
      */
-
     public function readCurlBranketDefinition(string $src, int &$position)
     {
         $regex = new RegexMatcherContainer;
@@ -86,7 +77,6 @@ class EngineReadArgs
             $string,
             $bcurl
         ];
-
         $v_detect_arg->patterns = [
             $string
         ];
@@ -104,7 +94,6 @@ class EngineReadArgs
      * @throws Error 
      * @throws Exception 
      */
-
     protected function _treat($src, $pos, $handlers, $regex)
     {
         $replaces = [];
@@ -126,7 +115,6 @@ class EngineReadArgs
         }
         return $out;
     }
-
     /**
     * Handlers.
     */
@@ -137,7 +125,6 @@ class EngineReadArgs
                 $te = $e->value;
                 $src = substr(substr($te, 0, -2), 4);
                 $r = $this->evalExpression($src);
-
                 $replaces[] = (object)['from' => $e->from, 'to' => $e->to, 'value' => $r];
             },
             'detect-curl-args' => function ($e, &$replaces) {
@@ -149,7 +136,6 @@ class EngineReadArgs
         ];
         return $handlers;
     }
-
     /**
     * Replace list.
     * @param mixed $o
@@ -164,7 +150,6 @@ class EngineReadArgs
             return $a->from <=> $b->from;
         });
         $offset = 0;
-
         while (count($replaces)) {
             $q = array_shift($replaces);
             if ($q->from < $from) {
@@ -177,7 +162,6 @@ class EngineReadArgs
         $v .= substr($ts, $offset);
         return $v;
     }
-
     /**
     * Global regex.
     * @param mixed $regex
@@ -185,16 +169,13 @@ class EngineReadArgs
     protected function _global_regex($regex)
     {
         $v_detect_arg = $regex->begin('\[\[:@(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\]\]', 'detect-args')->last();
-
         return $v_detect_arg;
     }
-
     /**
     * auto generate doc.
     * @param mixed $context
     * @return void
     */
-
     public static function TreatGlobalArgs(string $src, $context)
     {
         $c = new static(['context' => new DataArgs($context ?? [])]);

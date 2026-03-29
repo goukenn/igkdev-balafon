@@ -3,19 +3,16 @@
 // @file: HtmlHostChildren.php
 // @date: 20230418 15:40:03
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 final class HtmlHostChildren extends HtmlItemBase{
-
     /**
     * Property: children.
     * @var mixed
     */
     var $children;
-
     /**
     * Returns Can Render Tag.
     */
@@ -23,7 +20,6 @@ final class HtmlHostChildren extends HtmlItemBase{
     {
         return false;
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -31,7 +27,6 @@ final class HtmlHostChildren extends HtmlItemBase{
     {
         return false;
     }
-
     /**
     * .ctr
     * @param array $children
@@ -41,7 +36,6 @@ final class HtmlHostChildren extends HtmlItemBase{
         parent::__construct();
         $this->children = $children;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options

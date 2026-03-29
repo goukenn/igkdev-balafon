@@ -20,7 +20,6 @@ trait ModelTableConstantTrait{
     //  * @var mixed
     //  */
     //  protected static $field_name;
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -41,7 +40,6 @@ trait ModelTableConstantTrait{
      * @return void 
      */
     public static function InitData(){
-
         /**
         * auto generate doc.
         * @var mixed|string $cl
@@ -54,7 +52,6 @@ trait ModelTableConstantTrait{
         $fn = $tfn; // cl::$field_name;
         $init_fields = method_exists(static::class, $fc);
         $v_constants = $cl::GetConstants();
-
         foreach($v_constants as $ut){
             $fields = [
                 $fn=>$ut

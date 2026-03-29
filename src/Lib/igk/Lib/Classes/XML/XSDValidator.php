@@ -5,7 +5,6 @@
 // @desc: 
 namespace IGK\XML;
 use DOMDocument;
-
 /**
 * Xsdvalidator.
 * @package IGK\XML
@@ -46,7 +45,6 @@ class XSDValidator
         }
         return !$success;
     }
-
     /**
     * auto generate doc.
     * @return ?bool

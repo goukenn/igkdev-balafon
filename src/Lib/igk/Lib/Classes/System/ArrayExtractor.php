@@ -10,13 +10,11 @@ use IGKException;
  * @package IGK\System
  */
 class ArrayExtractor{
-
     /**
     * Property: key.
     * @var mixed
     */
     var $key;
-
     /**
     * .ctr
     * @param string $key
@@ -31,11 +29,9 @@ class ArrayExtractor{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function map($p){ 
         return igk_getv($p, $this->key);
     }
-
     /**
     * Li.
     * @param mixed $p

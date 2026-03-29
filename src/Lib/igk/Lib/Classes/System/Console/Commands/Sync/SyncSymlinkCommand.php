@@ -20,45 +20,38 @@ use IGK\System\Regex\Replacement;
  */
 class SyncSymlinkCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:symlink";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "create site symbolic link";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: help.
     * @var mixed
     */
     var $help = "";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [
     ];
-
     /**
     * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf("%s path site_target [options]", $this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command

@@ -73,7 +73,6 @@ class RouteActionHandler extends RouteHandler
         }
         return  $path;
     }
-
     /**
     * auto generate doc.
     * @param null|string $baseUri
@@ -96,7 +95,6 @@ class RouteActionHandler extends RouteHandler
         }
         return null;
     }
-
     /**
     * Returns Path Uri.
     */
@@ -114,7 +112,6 @@ class RouteActionHandler extends RouteHandler
      * @param Users $user 
      * @return bool
      */
-
     public function isAuth(Users $user): bool
     {
         // + | --------------------------------------------------------------------
@@ -129,7 +126,6 @@ class RouteActionHandler extends RouteHandler
         }
         return true;
     }
-
     /**
     * Processes.
     * @param mixed ...$arguments
@@ -145,7 +141,6 @@ class RouteActionHandler extends RouteHandler
         }
         return $this->_processAction($controller, ...array_slice(func_get_args(), 1));
     }
-
     /**
     * Handles.
     * @param mixed $route
@@ -158,7 +153,6 @@ class RouteActionHandler extends RouteHandler
         }
         return $route->process(...$arguments);
     }
-
     /**
     * Returns Bind Class.
     */
@@ -247,7 +241,6 @@ class RouteActionHandler extends RouteHandler
                 return call_user_func_array($func_name, $args);                
         }
     }
-
     /**
     * auto generate doc.
     * @param RouteActionHandler $route

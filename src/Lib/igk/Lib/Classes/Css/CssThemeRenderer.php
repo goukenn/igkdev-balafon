@@ -11,7 +11,6 @@ use IGK\System\Diagnostics\Benchmark;
  */
 class CssThemeRenderer
 {
-
     /**
     * auto generate doc.
     * @var bool
@@ -52,7 +51,6 @@ class CssThemeRenderer
      * @var no systheme
      */
     private $m_noSysTheme;
-
     /**
     * auto generate doc.
     * @param string $globaId global id
@@ -65,7 +63,6 @@ class CssThemeRenderer
         }
         $this->m_globalId = $globaId;
     }
-
     /**
     * auto generate doc.
     * @return

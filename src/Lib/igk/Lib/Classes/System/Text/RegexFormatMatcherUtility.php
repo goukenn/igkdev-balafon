@@ -3,16 +3,13 @@
 // @file: RegexFormatMatcherUtility.php
 // @date: 20250712 12:52:06
 namespace IGK\System\Text;
-
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
 class RegexFormatMatcherUtility{
-
     /**
     * Replaces Chain.
     * @param string $value

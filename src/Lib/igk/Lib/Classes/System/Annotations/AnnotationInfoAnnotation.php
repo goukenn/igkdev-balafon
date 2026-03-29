@@ -19,7 +19,6 @@ class AnnotationInfoAnnotation extends AnnotationBase implements IAnnotation{
      * allow multiple
      */
     var $multiple = false;
-
     /**
     * auto generate doc.
     * @param null|string $m

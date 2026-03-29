@@ -3,19 +3,16 @@
 // @file: SchemaRenameTableMigration.php
 // @date: 20230117 09:33:45
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 class SchemaRenameTableMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "to"];
-
     /**
     * Up.
     */
@@ -23,7 +20,6 @@ class SchemaRenameTableMigration extends SchemaMigrationItemBase{
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
     }
-
     /**
     * Down.
     */

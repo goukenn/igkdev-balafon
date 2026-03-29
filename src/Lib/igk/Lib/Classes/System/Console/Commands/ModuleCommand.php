@@ -16,37 +16,31 @@ use function igk_resources_gets as __;
  * @package IGK\System\Console\Commands
  */
 class ModuleCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--module";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "module";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "module management command";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = "action [options]";
-
     /**
     * Shows Usage.
     */
@@ -64,7 +58,6 @@ class ModuleCommand extends AppExecCommand{
         Logger::print('');
         Utility::PrintCommand($v_actions);
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -87,7 +80,6 @@ class ModuleCommand extends AppExecCommand{
            break;
        }
     }
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -108,7 +100,6 @@ class ModuleCommand extends AppExecCommand{
         Logger::SetColorizer(new Colorize());
         igk_wln_e('module found:', $mod->getDeclaredDir(), json_encode($info, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES));
     }
-
     /**
     * auto generate doc.
     * @return
@@ -135,7 +126,6 @@ class ModuleCommand extends AppExecCommand{
             Logger::print($f); 
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -143,7 +133,6 @@ class ModuleCommand extends AppExecCommand{
     private function _installCommand(){
         throw new NotImplementException();
     }
-
     /**
     * auto generate doc.
     * @return

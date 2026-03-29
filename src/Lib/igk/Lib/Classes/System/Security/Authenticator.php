@@ -10,13 +10,11 @@ use IGK\System\Database\IUserProfile;
  * @package IGK\System\Security
  */
 class Authenticator{
-
     /**
     * Property: user.
     * @var mixed
     */
     private $m_user;
-
     /**
     * .ctr
     * @param IUserProfile $user
@@ -25,7 +23,6 @@ class Authenticator{
     {
         $this->m_user = $user;
     }
-
     /**
     * Auth.
     * @param mixed $param

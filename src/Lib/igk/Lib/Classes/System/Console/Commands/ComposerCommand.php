@@ -6,43 +6,36 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ComposerCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--composer';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='help manage balafon composer packages';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options=[];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'composer';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'composer_args [options]';
-
     /**
     * Exec.
     * @param mixed $command

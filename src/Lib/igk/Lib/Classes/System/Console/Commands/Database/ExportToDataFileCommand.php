@@ -15,44 +15,37 @@ use IGKException;
 * @package IGK\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class ExportToDataFileCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:export';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='export structured data'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller model outputfile [options]';
-
     /**
     * auto generate doc.
     * @param null|string $file
     * @return void
     */
-
     public function exec($command, ?string $controller=null, ?string $model=null, ?string $file=null) { 
 		$ctrl = self::GetController($controller);
 		!$model && igk_die('require model');		

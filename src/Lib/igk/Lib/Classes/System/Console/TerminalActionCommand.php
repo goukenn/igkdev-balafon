@@ -25,7 +25,6 @@ class TerminalActionCommand
      * @var array
      */
     protected $commands = [];
-
     /**
     * Property: errors.
     * @var mixed
@@ -35,7 +34,6 @@ class TerminalActionCommand
      * retun command line
      * @return int 
      */
-
     public function run()
     {
         $result = 0;
@@ -68,7 +66,6 @@ class TerminalActionCommand
         } while ($e);
         return $result;
     }
-
     /**
     * On exit.
     */
@@ -76,7 +73,6 @@ class TerminalActionCommand
     {
         $this->_clearLastErrors();
     }
-
     /**
     * auto generate doc.
     * @return
@@ -88,7 +84,6 @@ class TerminalActionCommand
             $this->errors[] = $l_error;
         }
     }
-
     /**
     * Run command.
     */
@@ -100,7 +95,6 @@ class TerminalActionCommand
         ]);
         return var_dump(@eval("return " . self::_GetCommand(func_get_arg(0)) . ";"));
     }
-
     /**
     * auto generate doc.
     * @param string $cmd

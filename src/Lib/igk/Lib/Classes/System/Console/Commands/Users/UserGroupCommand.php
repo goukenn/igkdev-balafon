@@ -8,25 +8,21 @@ use IGK\Helper\Authorization;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
 use JSon;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class UserGroupCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:bind-group';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='bind user to group. prefix with (-) sign to remove from group.';
-
     /**
     * Property: options.
     * @var mixed
@@ -34,19 +30,16 @@ class UserGroupCommand extends AppExecCommand{
     var $options=[
 		'--controller'=>'set controller'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'user group[] [options]';
-
     /**
     * Exec.
     * @param mixed $command

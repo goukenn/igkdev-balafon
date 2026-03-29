@@ -17,34 +17,28 @@ use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\Installers\LaravelMixInstaller;
 use IGKCaches;
-
 use IGKEvents;
-
 /**
 * Install site command.
 * @package IGK\System\Console\Commands
 */
 class InstallSiteCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--install-site";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'sys';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "create new site";
-
     /**
     * Property: options.
     * @var mixed
@@ -65,14 +59,12 @@ class InstallSiteCommand extends AppExecCommand
         "--no-subdomain"=>"disable subdomain support",
         "--no-webconfig"=>"disable web configuration",
     ];
-
     /**
     * Exec.
     * @param mixed $command
     * @param mixed $install_dir
     * @param mixed $viewname
     */
-
     public function exec($command, $install_dir = "", $viewname = "")
     {
         $force = property_exists($command->options, "--force");
@@ -169,11 +161,9 @@ class InstallSiteCommand extends AppExecCommand
             Logger::danger("failed to install site " . $install_dir . "\n");
         }
     }
-
     /**
     * Help.
     */
-
     public function help()
     {
         Logger::print("-");
@@ -186,7 +176,6 @@ class InstallSiteCommand extends AppExecCommand
         Logger::print("\n\n");
         $this->showOptions();
     }
-
     /**
     * auto generate doc.
     * @return

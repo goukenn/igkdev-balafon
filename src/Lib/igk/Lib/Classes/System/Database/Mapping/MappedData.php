@@ -10,7 +10,6 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database\Mapping
@@ -22,7 +21,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     * @var mixed
     */
     private $m_data = [];
-
     /**
     * .ctr
     * @param mixed $data
@@ -32,7 +30,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
             $this->$k = $v;
         }
     }
-
     /**
     * Json serialize.
     * @param bool $ignore_null
@@ -45,8 +42,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
         $opts->ignore_empty = $ignore_empty;
         return JSon::Encode($this->m_data);
     } 
-
-
     /**
     * To array.
     * @return array
@@ -54,7 +49,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     public function to_array():array{
         return $this->m_data;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -64,7 +58,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
         // $this->$n = $v;
         $this->m_data[$n] = $v;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -72,7 +65,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     public function __get($n){
         return igk_getv($this->m_data, $n);
     }
-
     /**
     * Serialize.
     */

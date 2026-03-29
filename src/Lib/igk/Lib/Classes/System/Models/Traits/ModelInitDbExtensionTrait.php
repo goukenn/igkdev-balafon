@@ -4,7 +4,6 @@
 // @date: 20230831 17:02:41
 namespace IGK\System\Models\Traits;
 use IGK\Models\ModelBase;
-
 /**
 * auto generate doc.
 * @package IGK\System\Models\Traits

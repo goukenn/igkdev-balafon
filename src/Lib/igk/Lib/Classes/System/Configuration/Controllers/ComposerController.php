@@ -10,7 +10,6 @@ use function igk_resources_gets as __;
 * class used to register global user in system
 */
 class ComposerController extends ConfigControllerBase {
-
     /**
     * Returns Name.
     * @return string
@@ -18,14 +17,12 @@ class ComposerController extends ConfigControllerBase {
     public function getName(): string{
         return IGK_COMPOSER_CTRL;
     }
-
     /**
     * Returns Config Page.
     */
     public function getConfigPage(){
         return "composer";
     }
-
     /**
     * Returns Config Group.
     */
@@ -36,12 +33,10 @@ class ComposerController extends ConfigControllerBase {
      * enable or not the use of this configuration
      * @return true 
      */
-
     public function getIsConfigPageAvailable()
     {
         return true;
     }
-
     /**
     * Returns Is Visible.
     * @return bool
@@ -50,7 +45,6 @@ class ComposerController extends ConfigControllerBase {
     {
         return true;
     }
-
     /**
     * View.
     * @return BaseController
@@ -62,7 +56,6 @@ class ComposerController extends ConfigControllerBase {
         $t->panelbox()->host([$this, "_composer_pan"], $this);
         return $this;
     }
-
     /**
     * Composer pan.
     * @param mixed $n
@@ -95,7 +88,6 @@ class ComposerController extends ConfigControllerBase {
     private function getComposerVersion(){
         return $this->_exec_command("--version");
     }
-
     /**
     * auto generate doc.
     * @param mixed $command

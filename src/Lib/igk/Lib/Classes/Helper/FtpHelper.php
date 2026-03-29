@@ -5,14 +5,12 @@
 // @desc: 
 namespace IGK\Helper;
 use IGK\System\Console\Logger;
-
 /**
 * Ftp helper.
 * @package IGK\Helper
 */
 class FtpHelper
 {
-
     /**
     * File exists.
     * @param mixed $res
@@ -47,7 +45,6 @@ class FtpHelper
         @ftp_chdir($ftpresourse, $bckdir);        
         return $r;
     }
-
     /**
     * Rm dir.
     * @param mixed $ftpresourse
@@ -96,7 +93,6 @@ class FtpHelper
     public static function RmFile($res, $path){        
         return @ftp_delete($res, $path);
     }
-
     /**
     * Rename file.
     * @param mixed $res

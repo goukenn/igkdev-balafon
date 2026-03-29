@@ -11,19 +11,16 @@ use IGK\Controllers\BaseController;
  */
 class TemplateArgInfo
 {
-
     /**
     * Property: args.
     * @var mixed
     */
     private $args;
-
     /**
     * Property: creationargs.
     * @var mixed
     */
     private $creationargs;
-
     /**
     * Sets Creation Arg.
     * @param mixed $args
@@ -32,7 +29,6 @@ class TemplateArgInfo
     {
         $this->creationargs = $args;
     }
-
     /**
     * Returns Args.
     */
@@ -58,7 +54,6 @@ class TemplateArgInfo
         return implode(", ", array_keys($this->args));
         //return "@@ctrl, @@args";
     }
-
     /**
     * Pushes.
     * @param mixed $params

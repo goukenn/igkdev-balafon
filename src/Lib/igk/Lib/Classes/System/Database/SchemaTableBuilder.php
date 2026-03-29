@@ -29,7 +29,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         }
         return $this;
     }
-
     /**
     * Description.
     * @param null|string $description
@@ -44,7 +43,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
             $this->setDescription($description);
         return $this;
     }
-
     /**
     * Int.
     * @param string $name
@@ -57,7 +55,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         return $this;
     }
     // public function int(string $name): IDiagramSchemaEntity { return $this; }
-
     /**
     * Column.
     * @param string $id
@@ -70,7 +67,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         $this->_add_column($id, $type, $length);
         return $this;
     }
-
     /**
     * Id.
     * @param string $id
@@ -89,7 +85,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         );
         return $this;
     }
-
     /**
     * Varchar.
     * @param string $id
@@ -106,7 +101,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         );
         return $this;
     }
-
     /**
     * Address.
     * @param string $id
@@ -116,7 +110,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Date update.
     * @param null|string $prefix
@@ -126,7 +119,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Link guuid.
     * @param string $name
@@ -145,7 +137,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Text.
     * @param string $id
@@ -155,7 +146,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Email.
     * @param mixed $name
@@ -170,7 +160,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Link.
     * @param string $name
@@ -208,7 +197,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         );
         return $this;
     }
-
     /**
     * Float.
     * @param string $name
@@ -218,7 +206,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Unique.
     * @param string $name
@@ -228,7 +215,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Primary.
     * @param string $name
@@ -238,7 +224,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this;
     }
-
     /**
     * Sets Description.
     * @param null|string $description
@@ -254,7 +239,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
      * @param mixed $schema 
      * @return SchemaTableBuilder 
      */
-
     public static function Create($node, $schema)
     {
         $c = new static();
@@ -262,7 +246,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         $c->_schema = $schema;
         return $c;
     }
-
     /**
     * Column attributes.
     * @param array $attributes
@@ -271,13 +254,11 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     {
         return $this->_addcolumnAttributes($attributes);
     }
-
     /**
     * auto generate doc.
     * @param null|array $options
     * @return IGK\System\Database\this
     */
-
     public function column_varchar(string $name, int $length, ?array $options = null): static
     {
         if ($length <= 0) {
@@ -302,13 +283,11 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
             $column_member_index
         );
     }
-
     /**
     * auto generate doc.
     * @param null|int $column_member_index
     * @return $this
     */
-
     protected function _add_column(
         string $name,
         string $type,

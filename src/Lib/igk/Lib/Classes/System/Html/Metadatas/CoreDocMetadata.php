@@ -10,133 +10,111 @@ use ReflectionProperty;
 * 
 * @package IGK\System\Html\Metadatas
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 class CoreDocMetadata extends MetadataGroupEntryBase{
-
     /**
     * Name of application name.
     * @var mixed
     */
     var $applicationName;
-
     /**
     * Property: generator.
     * @var mixed
     */
     var $generator;
-
     /**
     * Property: theme color.
     * @var mixed
     */
     var $themeColor;
-
     /**
     * Property: color scheme.
     * @var mixed
     */
     var $colorScheme;
-
     /**
     * Property: creator.
     * @var mixed
     */
     var $creator;
-
     /**
     * Property: publisher.
     * @var mixed
     */
     var $publisher;
-
     /**
     * Property: robots.
     * @var mixed
     */
     var $robots;
-
     /**
     * Property: alternates.
     * @var mixed
     */
     var $alternates;
-
     /**
     * Property: icons.
     * @var mixed
     */
     var $icons;
-
     /**
     * Property: manifest.
     * @var mixed
     */
     var $manifest;
-
     /**
     * Property: classification.
     * @var mixed
     */
     var $classification;
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category;
-
     /**
     * Property: other.
     * @var mixed
     */
     var $other;
-
     /**
     * Property: archives.
     * @var mixed
     */
     var $archives;
-
     /**
     * Property: abstract.
     * @var mixed
     */
     var $abstract;
-
     /**
     * Property: itunes.
     * @var mixed
     */
     var $itunes;
-
     /**
     * Property: assets.
     * @var mixed
     */
     var $assets;
-
     /**
     * Property: bookmarks.
     * @var mixed
     */
     var $bookmarks;
-
     /**
     * Property: apple itunes app.
     * @var mixed
     */
     var $appleItunesApp;
-
     /**
     * auto generate doc.
     * @var null|array|IGK\System\Html\Metadatas\formatDetection
     */
     var $formatDetection;
-
     /**
     * Map.
     * @return array
@@ -153,7 +131,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         }
         return $mapped; 
     }
-
     /**
     * Sets Property.
     * @param string $n
@@ -210,7 +187,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         }
         parent::setProperty($n, $v);
     }
-
     /**
     * Handles archives.
     * @param mixed $v
@@ -224,7 +200,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         $link['href'] = $v;
         return $v;
     }
-
     /**
     * Handles format Detection.
     * @param mixed $v
@@ -242,7 +217,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
             return $s;
         }
     }
-
     /**
     * Binds Meta Def.
     * @param mixed $name

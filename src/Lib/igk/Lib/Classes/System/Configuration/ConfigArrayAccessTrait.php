@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
-
 /**
 * Trait providing config array access functionality.
 * @package IGK\System\Configuration
 */
 trait ConfigArrayAccessTrait {
-
     /**
     * Offset unset.
     * @param mixed $n
@@ -19,7 +17,6 @@ trait ConfigArrayAccessTrait {
     public function offsetUnset(mixed  $n): void{
         unset($this->m_configs->$n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -27,7 +24,6 @@ trait ConfigArrayAccessTrait {
     public function offsetExists($n):bool{
         return isset($this->m_configs->$n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -35,7 +31,6 @@ trait ConfigArrayAccessTrait {
     public function offsetGet(mixed $n):mixed{
         return igk_getv($this->m_configs, $n);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v

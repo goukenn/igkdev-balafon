@@ -3,79 +3,67 @@
 // @file: ModuleInclusionMethod
 // @date: 20260228 13:59:29
 namespace IGK\System\Modules;
- 
 use IGK\System\Polyfill\JsonSerializableTrait; 
 use JsonSerializable;
-
 /**
 * auto generate doc.
 * @package IGK
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Modules
 */
 class ModuleInclusionMethod implements JsonSerializable{
     use JsonSerializableTrait;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_callback;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_namespace;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_file;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_at;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_name;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_src;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_params;
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_uses;
- 
     /**
     * .ctr
     * @param string $file
@@ -105,7 +93,6 @@ class ModuleInclusionMethod implements JsonSerializable{
     public function setNamespace(?string $ns){
         $this->m_namespace = $ns;
     }
-
     /**
     * auto generate doc.
     * @return mixed
@@ -138,7 +125,6 @@ class ModuleInclusionMethod implements JsonSerializable{
             $code);
         return $inf; 
     }
-
     /**
     * auto generate doc.
     * @return array{file: string}
@@ -149,7 +135,6 @@ class ModuleInclusionMethod implements JsonSerializable{
             'file'=>$this->m_file.':'.$this->m_at
         ];
     }
-
     /**
     * Used by var_dump() to customize debug output.
     * @return
@@ -160,7 +145,6 @@ class ModuleInclusionMethod implements JsonSerializable{
             'module-inclusion-method'=>$this->getInfo()
         ];
     }
-
     /**
     * auto generate doc.
     * @param mixed $o
@@ -170,7 +154,6 @@ class ModuleInclusionMethod implements JsonSerializable{
         $this->m_callback = $this->m_callback->bindTo($o);
         return $this;
     }
-
     /**
     * Called when an object is used as a function.
     * @return

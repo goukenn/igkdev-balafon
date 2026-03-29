@@ -12,43 +12,36 @@ use IGKException;
 */
 abstract class NonVisibleControllerBase extends BaseController {
     use NoDbActiveControllerTrait;
-
     /**
     * auto generate doc.
     */    public function getCanAddChild(){
         return false;
     }
-
     /**
     * auto generate doc.
     */    public function getcanDelete(){
         return false;
     }
-
     /**
     * auto generate doc.
     */    public function getcanModify(){
         return false;
     }
-
     /**
     * auto generate doc.
     */    public function getIsVisible():bool{
         return false;
     }
-
     /**
     * auto generate doc.
     */    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return null;
     }
-
     /**
     * auto generate doc.
     */    public function View():BaseController{
         throw new IGKException("Not implement");
     }
-
     /**
     * Returns true if Function Exposed.
     * @param mixed $func

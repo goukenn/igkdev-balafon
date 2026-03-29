@@ -14,7 +14,6 @@ use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKViewMode;
 use function igk_resources_gets as __;
-
 /**
 * Html session block node.
 * @package IGK\System\Html\Dom
@@ -165,7 +164,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         }
         , IGK_HTML_NOTAG_ELEMENT);
     }
-
     /**
     * auto generate doc.
     * @var mixed

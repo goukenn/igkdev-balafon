@@ -5,7 +5,6 @@ namespace IGK\System\Console;
  * @package IConsoleLogger
  */
 interface IConsoleLogger{
-
     /**
     * Logs.
     * @param mixed $msg

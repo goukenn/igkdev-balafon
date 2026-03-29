@@ -3,10 +3,7 @@
 // @file: PhoneBookEntries.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store book entries
 * @package IGK\Models
@@ -27,31 +24,26 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $Guid, string|?\IGK\Models\Users $user_guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookEntries extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphbe_Id";
-
     /**
     * Constant: fd guid.
     * @var mixed
     */
     const FD_GUID="rcphbe_Guid";
-
     /**
     * Constant: fd user guid.
     * @var mixed
     */
     const FD_USER_GUID="rcphbe_user_guid";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphbe_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed

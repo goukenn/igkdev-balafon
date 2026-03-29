@@ -7,13 +7,11 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
-
 /**
 * Article content binding helper.
 * @package IGK\Helper
 */
 class ArticleContentBindingHelper{
-
     /**
     * Constant: pipe arg format.
     * @var mixed
@@ -22,7 +20,6 @@ class ArticleContentBindingHelper{
     /**
      * get system binding array of 
      */
-
     public static function GetData($data): array{
         $v_result = [];
         if (!is_null($data)){
@@ -42,7 +39,6 @@ class ArticleContentBindingHelper{
      * @param BaseController $ctrl 
      * @return false|string 
      */
-
     public static function GetBindingArticle(BaseController $ctrl, string $article){
         $sysdb = SysDbController::ctrl();
         $p = [$ctrl];
@@ -63,7 +59,6 @@ class ArticleContentBindingHelper{
      * @param mixed|null $args 
      * @return void 
      */
-
     public static function BindContent(string $content, $args){
         if ($args){
             foreach($args as $k=>$v){ 

@@ -12,37 +12,31 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use function igk_resources_gets as __; 
 require_once(__DIR__."/InstallerActionMiddleWare.pinc");
-
 /**
 * auto generate doc.
 * @package IGK\System\Installers
 */
 class BalafonProjectInstaller extends BalafonInstaller{
-
     /**
     * Property: controller.
     * @var mixed
     */
     protected $controller;
-
     /**
     * Property: zipcore.
     * @var mixed
     */
     protected $zipcore = false;
-
     /**
     * auto generate doc.
     * @param InstallerMiddleWareActions $service
     * @return void
     */
-
     protected function init_installer(InstallerMiddleWareActions $service){
         $c = igk_getr("controller");
         $key=self::INSTALLER_KEY;
         $this->controller = igk_getctrl($c, false) ?? die("controller not found:$c");
         // disable warning
-
         /**
         * auto generate doc.
         * @var mixed
@@ -62,19 +56,16 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $service->add(new SuccessProjectInstallMiddleWare());
     }
 }
-
 /**
 * Backup project middle ware.
 * @package IGK\System\Installers
 */
 class BackupProjectMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $controller;
-
     /**
     * .ctr
     * @param BaseController $controller
@@ -83,26 +74,20 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
     { 
         $this->controller = $controller;
     }
-
     /**
     * Returns Message.
     */
-
     public function getMessage(){
         return __("Backup project ... {0}", get_class($this->controller));
     }
-
     /**
     * Abort.
     */
-
     public function abort(){
     }
-
     /**
     * Invoke.
     */
-
     public function invoke(){
         $dir = $this->controller->getDeclaredDir();
         $fname = igk_str_ns(get_class($this->controller))."_".date("Ymd");
@@ -117,32 +102,25 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
         $this->next();
     }
 }
-
 /**
 * Extract project libary middle ware.
 * @package IGK\System\Installers
 */
 class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Returns Message.
     */
-
     public function getMessage(){
         return __("Extract project library cache ...");
     }
-
     /**
     * Abort.
     */
-
     public function abort(){
     }
-
     /**
     * Invoke.
     */
-
     public function invoke(){
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
@@ -166,32 +144,25 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         $this->next();
     }
 }
-
 /**
 * Success project install middle ware.
 * @package IGK\System\Installers
 */
 class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Returns Message.
     */
-
     public function getMessage(){ 
         return __("project update well done");
     }
-
     /**
     * Abort.
     */
-
     public function abort(){
     }
-
     /**
     * Invoke.
     */
-
     public function invoke(){
         // igk_ilog("installer complete");
         $srv=$this->getServiceInfo();       
@@ -203,7 +174,6 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
 * Represent RenameLibaryMiddleWare class
 */
 class RenameProjectMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * auto generate doc.
     */
@@ -215,14 +185,12 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
             rename($libdir, dirname($libdir)."/".$project_name);
         }
     }
-
     /**
     * auto generate doc.
     */
     public function getMessage(){
         return "rename project";
     }
-
     /**
     * auto generate doc.
     */

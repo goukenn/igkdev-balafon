@@ -9,25 +9,21 @@ namespace IGK\Controllers;
  * @package 
  */
 class ControllerAutoLoad{
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * Property: autoloadfile.
     * @var mixed
     */
     private $m_autoloadfile;
-
     /**
     * Name of hookname.
     * @var mixed
     */
     private $m_hookname;
-
     /**
     * .ctr
     * @param BaseController $controller
@@ -40,7 +36,6 @@ class ControllerAutoLoad{
         $this->m_autoloadfile  = $file;
         $this->m_hookname = $hookname;
     }
-
     /**
     * Called when an object is used as a function.
     */

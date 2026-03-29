@@ -9,19 +9,16 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 final class RegexCaptureMarker{
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * Collection of list.
     * @var mixed
     */
     var $list;
-
     /**
     * .ctr
     * @param mixed $value

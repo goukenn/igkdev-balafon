@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI
 */
 class DashboardItem extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed

@@ -14,7 +14,6 @@ use ReflectionException;
 * @package IGK\Framework
 */
 class Application extends IGKApplicationBase{
-
     /**
     * Runs.
     * @param string $entryfile
@@ -32,7 +31,6 @@ class Application extends IGKApplicationBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function bootstrap($bootoptions=null, ?callable $loader=null) {    
         IGKApp::Init();
         if($loader){

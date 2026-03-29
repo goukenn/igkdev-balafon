@@ -20,55 +20,46 @@ use IGK\System\IO\StringBuilder;
 final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
 {
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
-
     /**
     * Constant: custom color.
     * @var mixed
     */
     const CUSTOM_COLOR = 0x1;
-
     /**
     * Constant: default theme.
     * @var mixed
     */
     const DEFAULT_THEME = 0x2;
-
     /**
     * Constant: files theme.
     * @var mixed
     */
     const FILES_THEME = 0x5;
-
     /**
     * Constant: font theme.
     * @var mixed
     */
     const FONT_THEME = 0x3;
-
     /**
     * Constant: media id.
     * @var mixed
     */
     const MEDIA_ID = 0x0;
-
     /**
     * Constant: properties theme.
     * @var mixed
     */
     const PROPERTIES_THEME = 0x4;
-
     /**
     * Constant: animations.
     * @var mixed
     */
     const ANIMATIONS = 0x06;
-
     /**
     * Property: .
     * @var mixed
     */
     private $_;
-
     /**
     * .ctr
     * @param mixed $type
@@ -85,7 +76,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * @param mixed $definition 
      * @return mixed 
      */
-
     public function animation(string $name, $definition) {
         $d = CssUtils::BlockDefinition($definition);
         if (!isset($this->_[self::ANIMATIONS])){
@@ -93,7 +83,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         $this->_[self::ANIMATIONS][$name] = sprintf('@keyframes %s{%s}', $name, $d);
     }
-
     /**
     * Clone.
     * @param IGKMedia $media
@@ -104,12 +93,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $c->_ = array_combine(array_keys($media->_), array_values($media->_)); //merge($media->_);
         return $c;
     }
-
     /**
     * auto generate doc.
     * @return string
     */
-
     public function __toString()
     {
         return __CLASS__;
@@ -118,12 +105,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * get media properties
      * @return array 
      */
-
     public function getProperties()
     {
         return igk_getv($this->_, self::PROPERTIES_THEME);
     }
-
     /**
     * Clears.
     */
@@ -139,7 +124,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * @return CssSupport 
      * @throws IGKException 
      */
-
     public function supports(string $rule)
     {
         $key = "@supports (" . trim($rule) . ")";
@@ -152,7 +136,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $this[$key] = $s;
         return $s;
     }
-
     /**
     * Binds Support.
     * @param CssSupport $support
@@ -166,7 +149,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * return a copy of this media storage
      * @return array 
      */
-
     public function to_array()
     {
         foreach ([
@@ -185,7 +167,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * @param array $data 
      * @return void 
      */
-
     public function load_data(array $data)
     {
         $this->_ = [
@@ -205,7 +186,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return true;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -218,7 +198,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return $o;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -228,7 +207,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         // do nothing
     }
-
     /**
     * Called before serialize() — defines which properties to serialize.
     */
@@ -249,7 +227,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * @throws IGKException 
      * @throws CssParserException 
      */
-
     public function getCssDef(
         ICssStyleContainer $theme,
         ?ICssStyleContainer $systheme,
@@ -299,7 +276,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $o .= $this->getPropertiesCssDef($theme, $systheme, $minfile, $themeexport);
         return $o;
     }
-
     /**
     * Returns Properties Css Def.
     * @param ICssStyleContainer $theme
@@ -331,12 +307,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * get theme definition
      * @return array|null 
      */
-
     public function &getDef()
     {
         return $this->getFlag(self::DEFAULT_THEME);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -350,7 +324,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return $g;
     }
-
     /**
     * Returns Id.
     */
@@ -362,12 +335,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      * get if this media storage is empty
      * @return bool 
      */
-
     public function isEmpty()
     {
         return count($this->_) == 0;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -379,7 +350,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $this->_[$n] = $v;
         return $this;
     }
-
     /**
     * Loads Def.
     * @param array $def

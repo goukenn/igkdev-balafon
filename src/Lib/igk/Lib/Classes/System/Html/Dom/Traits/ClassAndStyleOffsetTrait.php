@@ -8,7 +8,6 @@ use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
 use IGK\System\Html\IHtmlContextContainer;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom\Traits
@@ -83,7 +82,6 @@ trait ClassAndStyleOffsetTrait{
     protected function offsetSetExpression($k, $v){
     }
     ///get sytem attribute loading context
-
     /**
     * Returns Loading Context.
     */

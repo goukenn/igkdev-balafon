@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Polyfill;
-
 /**
 * Trait providing event property array access functionality.
 * @package IGK\System\Polyfill
 */
 trait EventPropertyArrayAccessTrait{
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -18,7 +16,6 @@ trait EventPropertyArrayAccessTrait{
     public function offsetExists($i):bool{
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -32,7 +29,6 @@ trait EventPropertyArrayAccessTrait{
         }
         return $this->_p;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -47,7 +43,6 @@ trait EventPropertyArrayAccessTrait{
             $fc($this);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $i

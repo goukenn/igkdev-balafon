@@ -8,31 +8,26 @@ use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Illuminate\Database\Eloquent\Builder;
-
 /**
 * auto generate doc.
 * @package igk\db\schemaBuilder
 */
 class DiagramFormActionVisitor extends DiagramVisitor{
-
     /**
     * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
-
     /**
     * Property: builder.
     * @var mixed
     */
     var $builder;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * .ctr
     * @param mixed $ctrl
@@ -41,7 +36,6 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     {
         $this->ctrl = $ctrl;
     }
-
     /**
     * Starts.
     * @return ?string
@@ -52,7 +46,6 @@ class DiagramFormActionVisitor extends DiagramVisitor{
         $this->builder->type("function");
         return null;
     }
-
     /**
     * Complete.
     * @return ?string
@@ -60,7 +53,6 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     public function complete():?string{
         return  $this->builder->render();
     }
-
     /**
     * Visit diagram entity.
     * @param mixed $entity

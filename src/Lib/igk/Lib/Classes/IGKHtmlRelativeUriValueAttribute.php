@@ -14,13 +14,11 @@ use IGK\System\Html\Dom\HtmlItemAttribute;
  * @package 
  */
 final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
-
     /**
     * Property: lnk.
     * @var mixed
     */
     private $m_lnk;
-
     /**
     * .ctr
     * @param null|string $uri
@@ -28,21 +26,18 @@ final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
     public function __construct(?string $uri=null){
         $this->m_lnk=$uri;
     }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return $this->getValue(null);
     }
-
     /**
     * Returns Lnk.
     */
     public function getLnk(){
         return $this->m_lnk;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options

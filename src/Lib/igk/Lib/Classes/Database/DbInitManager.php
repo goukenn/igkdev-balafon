@@ -3,7 +3,6 @@
 // @file: DbInitManager.php
 // @date: 20221118 09:03:41
 namespace IGK\Database;
-
 use Exception;
 use Error;
 use IGK\Controllers\BaseController;
@@ -12,18 +11,15 @@ use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGKException;
-
 /**
 * 
 * @package IGK\Database
 */
-
 /**
 * auto generate doc.
 * @package IGK\Database
 */
 class DbInitManager{
-
     /**
     * Initializes.
     * @param BaseController $controller
@@ -34,23 +30,19 @@ class DbInitManager{
         // + |
         $this->initProfile($controller);
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
     * @return void
     */
-
     protected function initProfile(BaseController $controller){
         // igk_debug_wln('init controller profiles ... ');
         DbInitManagement::InitControllerProfile($controller);
     }
-
     /**
     * auto generate doc.
     * @param string $name
     */
-
     protected function _registerGroupAndAuth(string $name, ?BaseController $controller){
         return DbInitManagement::RegisterGroupAndAuth($name, $controller);
     }

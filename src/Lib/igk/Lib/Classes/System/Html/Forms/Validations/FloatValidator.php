@@ -4,14 +4,12 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
-
 /**
 * Float validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class FloatValidator extends FormFieldValidatorBase implements IFormValidator
 {
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -21,7 +19,6 @@ class FloatValidator extends FormFieldValidatorBase implements IFormValidator
     {
         return is_numeric($value);
     }
-
     /**
     * Validate.
     * @param mixed $value

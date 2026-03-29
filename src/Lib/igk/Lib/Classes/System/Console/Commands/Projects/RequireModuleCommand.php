@@ -6,38 +6,32 @@ namespace IGK\System\Console\Commands\Projects;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonConfiguration;
 use stdClass;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Project
 */
 class RequireModuleCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--project:require';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='add required to project\'s controller configuration'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'project';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller module [options]';
-
     /**
     * Exec.
     * @param mixed $command

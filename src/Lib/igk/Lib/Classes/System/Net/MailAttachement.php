@@ -9,19 +9,16 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Net;
 use IGKObject;
-
 /**
 * Mail attachement.
 * @package IGK\System\Net
 */
 class MailAttachement extends IGKObject{
-
     /**
     * Property: content.
     * @var mixed
     */
     private $m_content;
-
     /**
     * Properties: cid, content type, link, name, type, visible.
     * @var mixed
@@ -30,7 +27,6 @@ class MailAttachement extends IGKObject{
     /**
      * Constructor.
      */
-
     public function __construct(){
         $this->ContentType=IGK_CT_PLAIN_TEXT;
         $this->Visible=false;
@@ -40,7 +36,6 @@ class MailAttachement extends IGKObject{
      *
      * @return string|null
      */
-
     public function getContent(){
         return $this->m_content;
     }
@@ -50,7 +45,6 @@ class MailAttachement extends IGKObject{
      *
      * @return string|null
      */
-
     public function getData(){
         if($this->Type == "Content")
             return $this->m_content ? chunk_split(base64_encode($this->m_content), 76, IGK_CLF) : null;
@@ -65,7 +59,6 @@ class MailAttachement extends IGKObject{
      * @param string $content The content to set.
      * @return static
      */
-
     public function setContent($content){
         $this->m_content=$content;
         return $this;

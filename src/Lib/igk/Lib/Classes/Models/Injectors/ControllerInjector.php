@@ -12,13 +12,11 @@ use IGK\System\IInjector;
  * @package IGK\Models\Injectors
  */
 class ControllerInjector implements IInjector{
-
     /**
     * Property: controller.
     * @var mixed
     */
     protected $controller;
-
     /**
     * .ctr
     * @param null|BaseController $controller
@@ -33,14 +31,12 @@ class ControllerInjector implements IInjector{
      * @param null|string $type 
      * @return mixed 
      */
-
     public function resolve($value, ?string $type=null){      
         if ($value instanceof BaseController){
             return $value;
         }
         return $this->controller;        
     }
-
     /**
     * get string presentation.
     */

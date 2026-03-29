@@ -9,7 +9,6 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 * @package IGK\System\Html\Css
 */
 class CssStringConverter extends ConfigurationReader{
-
     /**
     * Property: delimiter.
     * @var mixed

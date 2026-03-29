@@ -12,14 +12,12 @@ use IGKException;
 use ReflectionMethod;
 use ReflectionProperty;
 use Reflector;
-
 /**
 * auto generate doc.
 * @package IGK\System\Helper
 */
 final class AnnotationHelper
 {
-
     /**
     * Constant: regex uses.
     * @var mixed

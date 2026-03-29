@@ -2,8 +2,6 @@
 // @author: C.A.D. BONDJE DOUE
 // @date: 20260222 15:59:55
 namespace IGK\System\Html\Dom;
-
-
 /**
 * Html - core components
 * @package IGK\System\Html\Dom

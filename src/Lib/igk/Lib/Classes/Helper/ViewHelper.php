@@ -40,19 +40,16 @@ use function igk_resources_gets as __;
 class ViewHelper
 {
     use IOSearchFileTrait;
-
     /**
     * Constant: arg key.
     * @var mixed
     */
     const ARG_KEY = "sys://io/query_args";
-
     /**
     * Constant: redirect param name.
     * @var mixed
     */
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
-
     /**
     * Constant: private view arg.
     * @var mixed
@@ -63,20 +60,17 @@ class ViewHelper
      * @param string $path 
      * @return ((string|null)|array<int, string>)[] 
      */
-
     public static function PrepareViewArgFromPath(string $path){
         $tview = array_filter(explode("/", $path));
         $view = array_shift($tview);
         $args =$tview;
         return [$view, $args];
     }
-
     /**
     * auto generate doc.
     * @param string $n
     * @return string
     */
-
     public static function TreatViewNameForClassDefinition(string $n)
     {
         $tn = explode('/', $n);
@@ -97,7 +91,6 @@ class ViewHelper
      * @param mixed $value 
      * @return bool
      */
-
     public static function Set($name, $value)
     {
         if ($current_ctrl = self::CurrentCtrl()) {
@@ -106,13 +99,11 @@ class ViewHelper
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $default
     * @return mixed
     */
-
     public static function Get($name, $default = null)
     {
         if ($current_ctrl = self::CurrentCtrl()) {
@@ -126,7 +117,6 @@ class ViewHelper
      * get all current controller view sets
      * @return mixed|void 
      */
-
     public static function Sets()
     {
         if ($current_ctrl = self::CurrentCtrl()) {
@@ -137,7 +127,6 @@ class ViewHelper
      * get handler info
      * @return \IGK\System\Views\IViewHandlerInfo
      */
-
     public static function GetHandlerInfo()
     {
         $cp = FileHandler::GetViewContextFileHandlers() ?? [];
@@ -158,7 +147,6 @@ class ViewHelper
      * @param string $scaffoldtype 
      * @return null|IGK\Helper\IViewScaffoldBuilder 
      */
-
     public static function GetViewScaffold(string $scaffoldtype): ?IViewScaffoldBuilder
     {
         return null;
@@ -171,7 +159,6 @@ class ViewHelper
      * @throws ContainerExceptionInterface 
      * @throws IGKException 
      */
-
     public static function Home(?string $path = null)
     {
         $dir = self::CurrentCtrl()->getViewDir();
@@ -186,7 +173,6 @@ class ViewHelper
      * @param ActionFormOptions|array $name 
      * @return null|callable 
      */
-
     public static function Form(string $name, $options = null)
     {
         //get action handler
@@ -210,7 +196,6 @@ class ViewHelper
             }
         };
     }
-
     /**
     * auto generate doc.
     * @param null|mixed $args
@@ -253,7 +238,6 @@ class ViewHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function Import(string $file, ?array $param = null, ?BaseController $controller = null): Closure
     {
         if (is_null($controller) && is_null($controller = self::CurrentCtrl())) {
@@ -294,7 +278,6 @@ class ViewHelper
      * @param string $name path or name
      * @return string
      */
-
     public static function Uri(?string $name = null)
     {
         $ctrl = self::CurrentCtrl();
@@ -315,7 +298,6 @@ class ViewHelper
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function Inc()
     {
         if (func_num_args() == 0) {
@@ -345,7 +327,6 @@ class ViewHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function Include()
     {
         if (func_num_args() == 0) {
@@ -384,7 +365,6 @@ class ViewHelper
      * @throws Exception 
      * @throws CssParserException 
      */
-
     public static function View($file, $args = [])
     {
         if (self::Include($file, $args)) {
@@ -401,7 +381,6 @@ class ViewHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function RequireOnce($file)
     {
         if (!igk_io_file_exists($file = func_get_arg(0))) {
@@ -421,7 +400,6 @@ class ViewHelper
      * @param string $fname 
      * @return string 
      */
-
     public static function BaseUriPath(BaseController $ctrl, string $fname): string
     {
         return (new Uri($ctrl::uri($fname)))->getPath();
@@ -431,7 +409,6 @@ class ViewHelper
      * @return string|void 
      * @throws IGKException 
      */
-
     public static function BaseViewUri(){
         if ($fname = self::GetViewArgs('fname')){
             $c = self::CurrentCtrl();
@@ -446,7 +423,6 @@ class ViewHelper
      * @return HtmlItemBase 
      * @throws IGKException 
      */
-
     public static function Article(string $article, ?array $arguments = null, ?BaseController $ctrl = null)
     {
         $ctrl = $ctrl ?? self::CurrentCtrl();
@@ -465,7 +441,6 @@ class ViewHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         return ControllerExtension::forceDirEntry($ctrl, $fname, $redirect_request);
@@ -515,7 +490,6 @@ class ViewHelper
      * retrieve the included view file
      * @return string
      */
-
     public static function File()
     {
         return  igk_environment()->last(IGKEnvironmentConstants::VIEW_FILE_CACHES);
@@ -526,7 +500,6 @@ class ViewHelper
      * @throws IGKException 
      * @throws Deprecated 
      */
-
     public static function Dir(?string $path = null): ?string
     {
         if ($file = self::File()) {
@@ -538,17 +511,14 @@ class ViewHelper
      * get current controller
      * @return null|BaseController current controller
      */
-
     public static function CurrentCtrl(): ?BaseController
     {
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
-
     /**
     * auto generate doc.
     * @return null|BaseController
     */
-
     public static function BaseController(): ?BaseController
     {
         return SysUtils::CurrentBaseController();
@@ -557,7 +527,6 @@ class ViewHelper
      * get controller current document
      * @return IGKHtmlDoc 
      */
-
     public static function CurrentDocument()
     {
         return self::CurrentCtrl()->getCurrentDoc();
@@ -569,7 +538,6 @@ class ViewHelper
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetArgs($n = null, $default = null)
     {
         $s = igk_environment()->get(self::ARG_KEY);
@@ -582,7 +550,6 @@ class ViewHelper
      * @param mixed $t 
      * @return void 
      */
-
     public static function RegisterArgs($t)
     {
         igk_set_env(self::ARG_KEY, $t);
@@ -594,7 +561,6 @@ class ViewHelper
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetViewArgs(?string $param = null, $default = null)
     {
         $t = self::GetViewContextArgs();
@@ -606,12 +572,10 @@ class ViewHelper
         }
         return $t ?? [];
     }
-
     /**
     * auto generate doc.
     * @return mixed|ViewEnvironmentArgs
     */
-
     public static function GetViewContextArgs(?string $filter_context = null)
     {
         $tab =  igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
@@ -620,7 +584,6 @@ class ViewHelper
         }
         return $tab;
     }
-
     /**
     * Returns Uri Helper.
     * @param mixed $fname
@@ -634,12 +597,10 @@ class ViewHelper
      * get User Profiles access
      * @return object 
      */
-
     public static function GetUserProfile()
     {
         return self::CurrentCtrl()->getUser();
     }
-
     /**
     * Returns Check User Profile.
     * @param bool $redirect
@@ -657,7 +618,6 @@ class ViewHelper
      * @param null|string $path 
      * @return string  
      */
-
     public static function GetView(?string $path = null)
     {
         $f = implode("/", array_filter([self::CurrentCtrl()->getViewDir(), ltrim($path ?? "", "/")]));
@@ -673,7 +633,6 @@ class ViewHelper
      * @param mixed $param params to return
      * @return null|string 
      */
-
     public static function ResolveViewFile(string $viewDir, string $view, string $f, $checkfile = 1, &$param = null): ?string
     {
         $s = null;
@@ -711,7 +670,6 @@ class ViewHelper
                                 return $c;
                             } 
                             $dir_exists = true;
-                            
                         }
                         $check_dir = false;
                     }
@@ -754,7 +712,6 @@ class ViewHelper
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param string $path
@@ -777,7 +734,6 @@ class ViewHelper
      * @throws ContainerExceptionInterface 
      * @throws IGKException 
      */
-
     public static function GetViews($recursive = true, $pattern = null, ?BaseController $controller = null)
     {
         $ctrl = $controller ?? self::CurrentCtrl();
@@ -803,7 +759,6 @@ class ViewHelper
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     static function LoadCurrentTheme(HtmlDocTheme $theme, ?BaseController $ctrl = null)
     {
         $ctrl = $ctrl ?? self::CurrentCtrl();
@@ -813,7 +768,6 @@ class ViewHelper
      * in view context
      * @return bool 
      */
-
     public static function InViewContext()
     {
         return self::CurrentCtrl() && 1;

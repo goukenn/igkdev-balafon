@@ -29,7 +29,6 @@ class JSonBindAsAnnotation extends AnnotationBase
      * @var ?boolean
      */
     var $required;
-
     /**
     * Sets Required.
     * @param mixed $v
@@ -38,13 +37,11 @@ class JSonBindAsAnnotation extends AnnotationBase
     {
         $this->required =  boolval($v);
     }
-
     /**
     * auto generate doc.
     * @param ?string $type
     * @return void
     */
-
     public function __construct(?string $type = null)
     {
         $this->type = $type ?? 'string';
@@ -53,7 +50,6 @@ class JSonBindAsAnnotation extends AnnotationBase
      * get bind base converter 
      * @return array 
      */
-
     public static function GetBaseConverter()
     {
         return [
@@ -86,13 +82,11 @@ class JSonBindAsAnnotation extends AnnotationBase
             }
         ];
     }
-
     /**
     * auto generate doc.
     * @param mixed $object_or_class
     * @return array<int|string
     */
-
     public static function GetRequiredProperties($object_or_class)
     {
         $properties = self::GetJSonByAsProperties($object_or_class);
@@ -100,13 +94,11 @@ class JSonBindAsAnnotation extends AnnotationBase
             return $p->required;
         });
     }
-
     /**
     * auto generate doc.
     * @param mixed $class_name
     * @return array
     */
-
     public static function GetJSonByAsProperties($class_name, $uses = null)
     {
         $reflect = igk_sys_reflect_class($class_name);
@@ -128,7 +120,6 @@ class JSonBindAsAnnotation extends AnnotationBase
         igk_sys_reflect_class_unset($reflect);
         return $cp;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v_typeresolve
@@ -142,13 +133,11 @@ class JSonBindAsAnnotation extends AnnotationBase
         }
         return $type;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return void
     */
-
     public function Convert($value, $options)
     {
         $converter = self::GetBaseConverter();
@@ -199,18 +188,15 @@ class JSonBindAsAnnotation extends AnnotationBase
      * @return mixed|void 
      * @throws Exception 
      */
-
     public static function ResolveConverter($converter, string $type)
     {
         return igk_getv($converter, $type) ?? self::GetObjConverter($type);
     }
-
     /**
     * auto generate doc.
     * @param string $type
     * @return void
     */
-
     static function GetObjConverter(string $type)
     {
         if (class_exists($type)) {
@@ -224,7 +210,6 @@ class JSonBindAsAnnotation extends AnnotationBase
      * get binding resolved controller 
      * @return mixed 
      */
-
     public static function GetResolvedController()
     {
         return igk_environment()->jsonBindAsAnnotationController;
@@ -234,7 +219,6 @@ class JSonBindAsAnnotation extends AnnotationBase
      * @param null|BaseController $ctrl 
      * @return void 
      */
-
     public static function SetResolvedController(?BaseController $ctrl)
     {
         igk_environment()->jsonBindAsAnnotationController = $ctrl;

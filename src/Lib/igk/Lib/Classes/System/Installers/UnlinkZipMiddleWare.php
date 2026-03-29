@@ -6,13 +6,11 @@
 namespace IGK\System\Installers;
 use IGK\Helper\IO;
 use function igk_resources_gets as __;
-
 /**
 * Unlink zip middle ware.
 * @package IGK\System\Installers
 */
 final class UnlinkZipMiddleWare extends InstallerActionMiddleWare{
-
     /**
     * Invoke.
     */
@@ -24,7 +22,6 @@ final class UnlinkZipMiddleWare extends InstallerActionMiddleWare{
         } 
         $this->next();
     }
-
     /**
     * Returns Message.
     */

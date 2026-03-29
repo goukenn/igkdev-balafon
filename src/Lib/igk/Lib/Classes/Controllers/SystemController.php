@@ -19,7 +19,6 @@ use IGKResourceUriResolver;
  * @package IGK\Controllers
  */
 final class SystemController extends NonVisibleControllerBase{
-
     /**
     * Returns App Uri.
     * @param null|string $path
@@ -30,7 +29,6 @@ final class SystemController extends NonVisibleControllerBase{
         $uri = igk_register_temp_uri(static::class);
         return implode("/", [$uri, $path]);        
     }
-
     /**
     * Logout.
     */
@@ -43,14 +41,12 @@ final class SystemController extends NonVisibleControllerBase{
         $redirect = urldecode(igk_getr("redirect_uri", "/")); 
         igk_navto($redirect);
     }
-
     /**
     * .ctr
     */
     public function __construct(){
         parent::__construct();
     }
-
     /**
     * auto generate doc.
     * @param mixed $frm
@@ -89,7 +85,6 @@ final class SystemController extends NonVisibleControllerBase{
             $div->addNotifyBox("danger")->Content="/!\ No fonts definition found";
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -119,7 +114,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return null;
     }
-
     /**
     * Change lang ajx.
     * @param null|mixed $lang
@@ -152,7 +146,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         igk_exit();
     }
-
     /**
     * Change theme.
     * @param mixed $name
@@ -167,14 +160,12 @@ final class SystemController extends NonVisibleControllerBase{
         igk_css_render_balafon_style(igk_app()->getDoc());
         igk_exit();
     }
-
     /**
     * Returns Font Dir.
     */
     public function getFontDir(){
         return igk_io_syspath(IGK_RES_FONTS);
     }
-
     /**
     * Returns Font List.
     */
@@ -189,7 +180,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return $fontlist;
     }
-
     /**
     * Returns Name.
     * @return string
@@ -197,7 +187,6 @@ final class SystemController extends NonVisibleControllerBase{
     public function getName(): string{
         return IGK_SYS_CTRL;
     }
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -205,7 +194,6 @@ final class SystemController extends NonVisibleControllerBase{
     protected function initComplete($context=null){
         parent::initComplete();
     }
-
     /**
     * Installfont.
     * @param null|mixed $name
@@ -222,7 +210,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return false;
     }
-
     /**
     * Installfont ajx.
     */
@@ -240,7 +227,6 @@ final class SystemController extends NonVisibleControllerBase{
             $frm->renderAJX();
         }
     }
-
     /**
     * Returns true if Function Exposed.
     * @param mixed $n
@@ -248,7 +234,6 @@ final class SystemController extends NonVisibleControllerBase{
     public function IsFunctionExposed($n){
         return true;
     }
-
     /**
     * Mod rewrite.
     */
@@ -260,19 +245,16 @@ final class SystemController extends NonVisibleControllerBase{
         igk_wl(0);
         igk_exit();
     }
-
     /**
     * Updates.
     */
     public function update(){    }
-
     /**
     * Upload.
     */
     public function upload(){
         igk_wln_e("upload file ");
     }
-
     /**
     * View font list.
     */
@@ -280,7 +262,6 @@ final class SystemController extends NonVisibleControllerBase{
         $r=$this->_getFontList();
         igk_wl($r);
     }
-
     /**
     * View install font form.
     * @param mixed $node

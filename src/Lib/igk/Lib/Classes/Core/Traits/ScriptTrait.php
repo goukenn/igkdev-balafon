@@ -17,14 +17,12 @@ use IGKValidator;
  * 
  * @package IGK\Core\Traits
  */
-
 /**
 * auto generate doc.
 * @package IGK\Core\Traits
 */
 trait ScriptTrait
 {
-
     /**
     * auto generate doc.
     */    public static function GetCoreScriptInlineContent($manager): ?string

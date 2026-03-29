@@ -21,43 +21,36 @@ use ReflectionException;
  */
 class QueryBuilder
 {
-
     /**
     * Property: conditions.
     * @var mixed
     */
     private $m_conditions;
-
     /**
     * Property: options.
     * @var mixed
     */
     private $m_options;
-
     /**
     * Property: model.
     * @var mixed
     */
     private $m_model;
-
     /**
     * Property: with.
     * @var mixed
     */
     private $m_with;
-
     /**
     * Count: with total count.
     * @var mixed
     */
     private $m_withTotalCount;
-
     /**
     * Listener: row listener.
     * @var mixed
     */
     private $m_row_listener;
-
     /**
     * Constant: joins.
     * @var mixed
@@ -68,13 +61,11 @@ class QueryBuilder
      * @param bool|string $value 
      * @return $this 
      */
-
     public function withTotalCount($value)
     {
         $this->m_withTotalCount = $value;
         return $this;
     }
-
     /**
     * Append columns.
     * @param null|array $columns
@@ -97,7 +88,6 @@ class QueryBuilder
      * @param null|string $key 
      * @return $this 
      */
-
     public function with($table, ?string $key = null, ?bool $ignore_data = false)
     {
         if (!$this->m_with)
@@ -109,7 +99,6 @@ class QueryBuilder
         $this->m_with[$table] = $cinfo;
         return $this;
     }
-
     /**
     * .ctr
     * @param ModelBase $model
@@ -127,12 +116,10 @@ class QueryBuilder
      * @param mixed $condition 
      * @return array 
      */
-
     public static function LeftJoin($condition)
     {
         return ["type" => QueryBuilderConstant::LeftJoin, $condition];
     }
-
     /**
     * Inner join.
     * @param mixed $condition
@@ -141,7 +128,6 @@ class QueryBuilder
     {
         return ["type" => QueryBuilderConstant::InnerJoin, $condition];
     }
-
     /**
     * Or.
     * @param array $conditions
@@ -155,7 +141,6 @@ class QueryBuilder
      * @param mixed $string 
      * @return DbExpression 
      */
-
     public static function Expression($string)
     {
         return new DbExpression($string);
@@ -165,7 +150,6 @@ class QueryBuilder
      * @param array $condition 
      * @return static 
      */
-
     public function conditions(?array $condition = null)
     {
         $this->m_conditions = $condition;
@@ -176,7 +160,6 @@ class QueryBuilder
      * @param array $condition 
      * @return static 
      */
-
     public function where(array $condition)
     {
         return $this->conditions($condition);
@@ -186,7 +169,6 @@ class QueryBuilder
      * @param ?callable $callback 
      * @return $this 
      */
-
     public function registerRowListener($callback){
         $this->m_row_listener = $callback;
         return $this;
@@ -201,7 +183,6 @@ class QueryBuilder
      * @example \
      * ::prepare()->join(["table1"=>["table1.id=table2.id", "type"=>"left", "alias"=>"GTab"]])
      */
-
     public function join(array $join)
     {
         foreach (array_keys($join) as $k) {
@@ -225,7 +206,6 @@ class QueryBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function join_left(string $table, string $condition, ?string $alias = null)
     {
         $rc = [$condition, "type" => QueryBuilderConstant::LeftJoin];
@@ -245,12 +225,10 @@ class QueryBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function join_left_on(string $table, string $first_column, string $second_column, ?string $alias = null)
     {
         return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column), $alias);
     }
-
     /**
     * Joins table.
     * @param string $table
@@ -267,7 +245,6 @@ class QueryBuilder
      * @param ?int $limit_max
      * @return $this 
      */
-
     public function limit($limit_raw, ?int $max = null)
     {
         if (!is_null($limit_raw)) {
@@ -282,7 +259,6 @@ class QueryBuilder
         $this->m_options[QueryOptions::LIMIT] = $limit_raw;
         return $this;
     }
-
     /**
     * Latest.
     * @param null|string $column
@@ -300,7 +276,6 @@ class QueryBuilder
      * @param array $columnsList 
      * @return $this 
      */
-
     public function columns(?array $columnsList = null)
     {
         $this->m_options["Columns"] = $columnsList;
@@ -312,7 +287,6 @@ class QueryBuilder
      * @return $this 
      * 
      */
-
     public function orderBy(?array $order = null)
     {
         $this->m_options[QueryOptions::ORDER_BY] = $order;
@@ -323,7 +297,6 @@ class QueryBuilder
      * @param null|\callbable|Closure $filter 
      * @return $this 
      */
-
     public function filter(?callable $filter = null)
     {
         $this->m_options[DbConstants::CALLBACK_OPTS] = $filter;
@@ -334,7 +307,6 @@ class QueryBuilder
      * @param bool $distinct 
      * @return $this 
      */
-
     public function distinct(bool $distinct = true)
     {
         if ($distinct)
@@ -347,7 +319,6 @@ class QueryBuilder
      * send query
      * @return IGK\Models\IQueryResult 
      */
-
     public function query()
     {
         if (!isset($this->m_options["primaryKey"])) {
@@ -359,7 +330,6 @@ class QueryBuilder
      * get rows form request
      * @return mixed 
      */
-
     public function query_rows()
     {
         if ($r = $this->query()) {
@@ -371,7 +341,6 @@ class QueryBuilder
      * retrieve the query to send
      * @return ?string 
      */
-
     public function get_query()
     {
         if (!isset($this->m_options["primaryKey"])) {
@@ -397,18 +366,15 @@ class QueryBuilder
      * retrieve select sub query to send. remove the trailling ";"
      * @return string 
      */
-
     public function get_sub_query()
     {
         return rtrim($this->get_query(), " ;");
     }
-
     /**
     * auto generate doc.
     * @param null|object $options
     * @return static
     */
-
     public function setOptions($options = null)
     {
         $this->m_options = (array)$options;
@@ -419,7 +385,6 @@ class QueryBuilder
      * @return null|IGK\Database\IDbFetchResult 
      * @throws IGKException 
      */
-
     public function query_fetch($options=null)
     {
         // + | --------------------------------------------------------------------
@@ -443,7 +408,6 @@ class QueryBuilder
      * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
      * @throws IGKException 
      */
-
     public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
@@ -505,7 +469,6 @@ class QueryBuilder
             return [IGKSysUtil::DBGetTableName($a->clLinkType, $ctrl), $a->clLinkColumn, $table, $property];
         }, $ref));
     }
-
     /**
     * auto generate doc.
     * @param mixed $with
@@ -526,7 +489,6 @@ class QueryBuilder
         }
         return $row;
     }
-
     /**
     * auto generate doc.
     * @param mixed $linktab linktables
@@ -617,7 +579,6 @@ class QueryBuilder
      * @return mixed 
      * @throws IGKException 
      */
-
     public function select_row()
     {
         if (($result = $this->query_fetch())
@@ -627,7 +588,6 @@ class QueryBuilder
             return $result->row();
         }
     }
-
     /**
     * get string presentation.
     */
@@ -639,7 +599,6 @@ class QueryBuilder
      * get model
      * @return ModelBase 
      */
-
     public function model()
     {
         return $this->m_model;
@@ -650,14 +609,12 @@ class QueryBuilder
      * @return mixed 
      * @throws IGKException 
      */
-
     public function get()
     {
         if ($tab = $this->execute()) {
             return  $tab->getRows(); //->to_array();
         }
     }
-
     /**
     * Group by.
     * @param null|array $column

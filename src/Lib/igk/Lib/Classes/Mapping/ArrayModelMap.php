@@ -9,7 +9,6 @@ namespace IGK\Mapping;
  * @package IGK\Mapping
  */
 class ArrayModelMap extends SingleMapBase{
-
     /**
     * Map.
     * @param mixed $data

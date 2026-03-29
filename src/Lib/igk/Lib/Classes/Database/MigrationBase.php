@@ -10,7 +10,6 @@ use IGK\System\Database\SchemaMigrationBuilder;
 * @package IGK\Database
 */
 abstract class MigrationBase{
-
     /**
     * Up.
     * @param SchemaMigrationBuilder $builder

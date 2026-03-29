@@ -3,7 +3,6 @@
 // @file: IExecCommand.php
 // @date: 20260113 08:27:37
 namespace IGK\System\Console\Commands;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Command
@@ -11,5 +10,4 @@ namespace IGK\System\Console\Commands;
 * @property ?object $options
 */
 interface IExecCommand{
-
 }

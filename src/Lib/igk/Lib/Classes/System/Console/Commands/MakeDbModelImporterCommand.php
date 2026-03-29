@@ -9,26 +9,22 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class MakeDbModelImporterCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:db-model-importer';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='make database model importer';
-
     /**
     * Property: options.
     * @var mixed
@@ -36,19 +32,16 @@ class MakeDbModelImporterCommand extends AppExecCommand{
     var $options=[
 		'--force'=>'flag: force creations'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller model [class]';
-
     /**
     * Exec.
     * @param mixed $command

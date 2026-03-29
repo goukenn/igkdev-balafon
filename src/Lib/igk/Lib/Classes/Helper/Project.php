@@ -20,7 +20,6 @@ class Project{
             '.git', '.vscode', 'node_modules', '.DS_Store'
         ],1);
     }
-
     /**
     * Returns Project Invocator Init Db List.
     * @param BaseController $sysdb

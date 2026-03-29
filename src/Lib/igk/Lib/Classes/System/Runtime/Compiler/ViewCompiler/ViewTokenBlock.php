@@ -6,25 +6,21 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\ReadTokenMergeOption;
 use IGK\System\Runtime\Compiler\ReadTokenUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewTokenBlock{
-
     /**
     * Constant: token types.
     * @var mixed
     */
     const TOKEN_TYPES = "try|catch|finaly|if|elseif|else|switch|case|default|for|foreach|while|do";
-
     /**
     * Type of type.
     * @var mixed
     */
     var $type;
-
     /**
     * Property: parent.
     * @var mixed
@@ -50,19 +46,16 @@ class ViewTokenBlock{
      * @var int
      */
     var $depth = 0;
-
     /**
     * Property: tabstop.
     * @var mixed
     */
     var $tabstop = "\t";
-
     /**
     * Property: structs.
     * @var mixed
     */
     var $structs = [];
-
     /**
     * .ctr
     * @param string $type
@@ -74,14 +67,12 @@ class ViewTokenBlock{
         }
         $this->type = $type;
     }
-
     /**
     * Returns Token Type Array.
     */
     public function getTokenTypeArray(){
         return explode("|", self::TOKEN_TYPES);
     }
-
     /**
     * Generates Code.
     */
@@ -96,7 +87,6 @@ class ViewTokenBlock{
         $sb->append(sprintf('%s', $endtag));
         return ''.$sb;
     }
-
     /**
     * Returns Code Block.
     */
@@ -107,7 +97,6 @@ class ViewTokenBlock{
      * return generated code string
      * @return string 
      */
-
     public function getCodeString(){
         $tab = $this->blocks;
         $p = null;

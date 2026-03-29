@@ -4,13 +4,11 @@
 // @date: 20221026 17:15:51
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 trait ViewCompilerReadSwitchCaseTrait{
-
     /**
     * Read switch case block.
     * @param ReadTokenOptions $options
@@ -21,7 +19,6 @@ trait ViewCompilerReadSwitchCaseTrait{
         igk_die("switch case not implement ):)");
         // $this->flagHandler = [$this, '_readHandleSwitchCaseBlock'];       
     }
-
     /**
     * Read handle switch case block.
     * @param ReadTokenOptions $options
@@ -32,7 +29,6 @@ trait ViewCompilerReadSwitchCaseTrait{
     protected function _readHandleSwitchCaseBlock(ReadTokenOptions $options , ?string $id, string $value):bool{
         return true;
     }
-
     /**
     * End handle switch case block.
     * @param ReadTokenOptions $options

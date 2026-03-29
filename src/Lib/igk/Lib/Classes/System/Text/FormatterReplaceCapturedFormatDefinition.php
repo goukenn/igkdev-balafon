@@ -3,7 +3,6 @@
 // @file: FormatterReplaceCapturedFormatDefinition.php
 // @date: 20250806 20:45:12
 namespace IGK\System\Text;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -25,7 +24,6 @@ abstract class FormatterReplaceCapturedFormatDefinition implements IReplaceCaptu
      * @var ?bool
      */
     var $isSplitted;
-
     /**
     * Returns Has Sub Children.
     * @return bool
@@ -33,5 +31,4 @@ abstract class FormatterReplaceCapturedFormatDefinition implements IReplaceCaptu
     public function getHasSubChildren(): bool { 
         return true && $this->chains;
     } 
-    
 }

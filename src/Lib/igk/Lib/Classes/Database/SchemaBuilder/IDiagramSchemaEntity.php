@@ -8,21 +8,18 @@ use IGK\Database\DbConstants;
  * 
  * @package IGK\Database\SchemaBuilder
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database\SchemaBuilder
 */
 interface IDiagramSchemaEntity
 {
-
     /**
     * auto generate doc.
     * @param string $id
     * @return self
     */
     function id(string $id): IDiagramSchemaEntity;
-
     /**
     * Varchar.
     * @param string $id
@@ -30,21 +27,18 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function varchar(string $id, int $length= DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
-
     /**
     * Address.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
     function address(string $id): IDiagramSchemaEntity;
-
     /**
     * Date update.
     * @param null|string $prefix
     * @return IDiagramSchemaEntity
     */
     function dateUpdate(?string $prefix = null): IDiagramSchemaEntity;
-
     /**
     * Locale.
     * @param string $id
@@ -52,13 +46,11 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function locale(string $id, int $length=DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
-
     /**
     * auto generate doc.
     * @param mixed $description
     * @return self
     */
-
     function link_guuid(
         string $name,
         string $table_name,
@@ -71,7 +63,6 @@ interface IDiagramSchemaEntity
         $default = 0,
         $description = null
     ): IDiagramSchemaEntity;
-
     /**
     * Column.
     * @param string $id
@@ -80,7 +71,6 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function column(string $id, $type = 'Int', $length = 9): IDiagramSchemaEntity;
-
     /**
     * Column varchar.
     * @param string $id
@@ -89,14 +79,12 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function column_varchar(string $id, int $length,?array $options = null): IDiagramSchemaEntity;
-
     /**
     * Text.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
     function text(string $id): IDiagramSchemaEntity;
-
     /**
     * Email.
     * @param mixed $name
@@ -108,7 +96,6 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
-
     /**
     * Link.
     * @param string $name
@@ -131,7 +118,6 @@ interface IDiagramSchemaEntity
         $default = 0,
         $description = null
     ): IDiagramSchemaEntity;
-
     /**
     * Int.
     * @param string $name
@@ -139,21 +125,18 @@ interface IDiagramSchemaEntity
     * @return IDiagramSchemaEntity
     */
     function int(string $name, int $length = 9): IDiagramSchemaEntity;
-
     /**
     * Float.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
     function float(string $name): IDiagramSchemaEntity;
-
     /**
     * Unique.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
     function unique(string $name): IDiagramSchemaEntity;
-
     /**
     * Primary.
     * @param string $name
@@ -165,13 +148,11 @@ interface IDiagramSchemaEntity
      * @param null|string $description 
      * @return IDiagramSchemaEntity 
      */
-
     function setDescription(?string $description): IDiagramSchemaEntity;
     /**
      * set last column or entity description
      * @param null|string $description 
      * @return IDiagramSchemaEntity 
      */
-
     function description(?string $description): IDiagramSchemaEntity;
 }

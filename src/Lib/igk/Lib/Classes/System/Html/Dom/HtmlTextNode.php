@@ -9,14 +9,12 @@ use IGK\XML\XMLNodeType;
  * represent text done
  */
 class HtmlTextNode extends HtmlItemBase{
-
     /**
     * Returns Can Render Tag.
     */
     function getCanRenderTag(){
         return false;
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -24,14 +22,12 @@ class HtmlTextNode extends HtmlItemBase{
     {
         return false;
     }
-
     /**
     * Returns Node Type.
     */
     public function getNodeType(){
         return XMLNodeType::TEXT;
     }
-
     /**
     * .ctr
     * @param mixed $content
@@ -40,7 +36,6 @@ class HtmlTextNode extends HtmlItemBase{
         parent::__construct();
         $this->content = $content;
     }
-
     /**
     * Renders.
     * @param null|mixed $options
@@ -48,7 +43,6 @@ class HtmlTextNode extends HtmlItemBase{
     public function render($options=null){
         return $this->content; 
     }
-
     /**
     * Sets Content.
     * @param mixed $value

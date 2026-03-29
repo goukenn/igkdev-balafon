@@ -12,39 +12,33 @@ use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\IViewLayoutLoader;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class MakeViewLoaderCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--make:view-layout';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='make a view layout class';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller name [options]';
-
     /**
     * Exec.
     * @param mixed $command

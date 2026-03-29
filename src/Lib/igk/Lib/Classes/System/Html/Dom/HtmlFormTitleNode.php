@@ -8,14 +8,12 @@ namespace IGK\System\Html\Dom;
 * Represent IGKHTmlFormTitle class
 */
 final class HtmlFormTitleNode extends HtmlNode{
-
     /**
     * auto generate doc.
     */    public function __construct(){
         parent::__construct("div");
         $this["class"]="title";
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null

@@ -54,7 +54,6 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @var mixed
      */
     var $endCaptures;
-
     /**
     * auto generate doc.
     * @var merge captures / begin / match
@@ -80,13 +79,11 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @var ?object
      */
     var $option;
-
     /**
      * is empty line detected 
      * @var ?bool
      */
     var $emptyLine;
-
     /**
      * old current detected info object . use on end treatment
      * @var .null
@@ -99,7 +96,6 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     public function getisRoot():bool{
         return is_null($this->parentInfo);
     }
-
     /**
     * Getis root captured.
     * @return bool
@@ -111,7 +107,6 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * check if end
      * @return bool 
      */
-
     public function getisEnd():bool{
         $m = $this->match;
         if ($m && ($m->type == 'match')){
@@ -133,7 +128,6 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     public function getisTreatedValue(){
         return $this->value != $this->sourceValue;
     }
-
     /**
     * Updates With.
     * @param mixed $data
@@ -142,5 +136,4 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
         $this->parentInfo->value .= " ---- ";
         throw new \Exception('not implement');
     }
-     
 }

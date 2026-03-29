@@ -8,19 +8,16 @@ namespace IGK\Database;
 * @package IGK\Database
 */
 interface IDbColumnInfo extends IDbColumnProperties{
-
     /**
     * Returns true if Unsigned.
     * @return bool
     */
     function IsUnsigned():bool;
-
     /**
     * Returns Is Ref Id.
     * @return bool
     */
     function getIsRefId():bool;
-
     /**
     * Returns Is Dump Field.
     * @return bool

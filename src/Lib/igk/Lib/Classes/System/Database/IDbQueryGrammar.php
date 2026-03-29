@@ -40,7 +40,6 @@ interface IDbQueryGrammar extends IGrammar {
      * @return mixed 
      */
     function createUpdateQuery(string $table_name, $values): ?string;
-
     /**
     * auto generate doc.
     * @param ?string $db db name

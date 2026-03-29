@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 require_once IGK_LIB_DIR . "/igk_html_utils.php";
 require_once IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlProcessInstructionNode.php';
-
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -38,50 +36,42 @@ use IGKException;
 use IGKObject;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
 * Html reader.
 * @package IGK\System\Html
 */
 final class HtmlReader extends IGKObject
 {
-
     /**
     * Constant: expression args.
     * @var mixed
     */
     const EXPRESSION_ARGS = "[[:@raw]], [[:@ctrl]]";
-
     /**
     * Constant: args attribute.
     * @var mixed
     */
     const ARGS_ATTRIBUTE = "igk:args";
-
     /**
     * Constant: ref attribute.
     * @var mixed
     */
     const REF_ATTRIBUTE = "igk:ref-attribute";
-
     /**
     * Constant: read xml.
     * @var mixed
     */
     const READ_XML =  "XML";
-
     /**
     * Constant: read html.
     * @var mixed
     */
     const READ_HTML = "HTML";
-
     /**
     * Constant: load expression.
     * @var mixed
     */
     const LOAD_EXPRESSION = "LoadExpression";
-
     /**
     * Properties: attribs, context level, has attrib, hfile, self close, is empty, mmodel, name, nodes, no
     * @var mixed
@@ -94,38 +84,32 @@ final class HtmlReader extends IGKObject
      * @var ?HtmlItemBase
      */
     private $m_last_read_node;
-
     /**
     * auto generate doc.
     * @var ?IHtmlReadContextOptions|mixed
     */
     private $m_context;
     // $m_self_close;
-
     /**
     * Collection of self closing items.
     * @var mixed
     */
     private $m_self_closing_items;
-
     /**
     * Property: errors.
     * @var mixed
     */
     private $m_errors = [];
-
     /**
     * Properties: item creator listener, opener type.
     * @var mixed
     */
     private static $sm_ItemCreatorListener, $sm_openertype = [];
-
     /**
     * Property: length.
     * @var mixed
     */
     private $m_length;
-
     /**
     * Property: loop binding depth.
     * @var mixed
@@ -141,7 +125,6 @@ final class HtmlReader extends IGKObject
      * @var ?bool
      */
     private $m_skip_content_mode;
-
     /**
     * Property: ss.
     * @var mixed
@@ -151,13 +134,11 @@ final class HtmlReader extends IGKObject
      * return the reader open type
      * @return mixed 
      */
-
     public static function GetOpenerContext()
     {
         $c = count(self::$sm_openertype);
         return $c > 0 ? self::$sm_openertype[$c - 1] : null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $template template
@@ -180,8 +161,6 @@ final class HtmlReader extends IGKObject
                 igk_set_env("sys:://expression_context", $n_options);
                 if ($cnode->getIsVisible() && $data) {
                     $v_bcontext = $reader->m_context;
-
-
                     $v_bind = new HtmlTemplateReaderDataBinding(
                         $cnode,
                         $src,
@@ -238,13 +217,11 @@ final class HtmlReader extends IGKObject
         }
         return 1;
     }
-
     /**
     * auto generate doc.
     * @param mixed $data
     * @return null|array
     */
-
     public static function ToBindingArrayDefinition($data): ?array
     {
         if (is_int($data)) {
@@ -259,7 +236,6 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="text"></param>
-
     /**
     * .ctr
     * @param mixed $text
@@ -315,7 +291,6 @@ final class HtmlReader extends IGKObject
         }
         return $name;
     }
-
     /**
     * auto generate doc.
     * @param bool $replace_expression
@@ -635,7 +610,6 @@ final class HtmlReader extends IGKObject
         }
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param string $name
@@ -736,7 +710,6 @@ final class HtmlReader extends IGKObject
      * get the string context
      * @throws Exception not a valid context
      */
-
     public function GetStringContext()
     {
         if (!$this->m_context) {
@@ -753,7 +726,6 @@ final class HtmlReader extends IGKObject
     ///<param name="v" ref="true"></param>
     ///<param name="offset" ref="true"></param> 
     ///<param name="skip" default="1"></param>
-
     /**
     * auto generate doc.
     * @param bool $skip skip detected expression : transform to
@@ -796,7 +768,6 @@ final class HtmlReader extends IGKObject
     ///<param name="n"></param>
     ///<param name="tab"></param>
     ///<param name="args"></param>
-
     /**
     * auto generate doc.
     * @param mixed $cnode
@@ -825,7 +796,6 @@ final class HtmlReader extends IGKObject
     ///<param name="topnode"></param>
     ///<param name="cnode"></param>
     ///<param name="node"></param>
-
     /**
     * auto generate doc.
     * @param mixed $topnode
@@ -848,7 +818,6 @@ final class HtmlReader extends IGKObject
     ///<param name="n"></param>
     ///<param name="k"></param>
     ///<param name="cnode"></param>
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -870,7 +839,6 @@ final class HtmlReader extends IGKObject
     ///<param name="name"></param>
     ///<param name="tab_doc"></param>
     ///<param name="pargs"></param>
-
     /**
     * auto generate doc.
     * @param HtmlReader $reader
@@ -898,7 +866,6 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="cnode">node to close</param>
     ///<param name="tag">tag name that referrer to </param>
-
     /**
     * auto generate doc.
     * @param mixed $cnode
@@ -967,7 +934,6 @@ final class HtmlReader extends IGKObject
     ///<param name="v" ref="true"></param>
     ///<param name="attribs" default="[[]" ref="true"></param>
     ///<param name="callback" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $callback
@@ -1172,7 +1138,6 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>read the model</summary>
     ///<param name="context">name of the function that call the read model</param>
-
     /**
     * auto generate doc.
     * @param string $caller_context from Load|LoadExpression
@@ -1404,13 +1369,11 @@ final class HtmlReader extends IGKObject
         }
         self::_PopContext();
     }
-
     /**
     * auto generate doc.
     * @param mixed $caller_context
     * @return void
     */
-
     protected static function _ReadModelEndElement($reader, &$v_tags, &$cnode, $tab_doc, $caller_context)
     {
         $v_n = $reader->getName();
@@ -1511,7 +1474,6 @@ final class HtmlReader extends IGKObject
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $krsv
@@ -1535,13 +1497,11 @@ final class HtmlReader extends IGKObject
      * return attributes
      * @return null|Iterable 
      */
-
     public function Attribs()
     {
         return $this->m_attribs;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     * @return
@@ -1555,7 +1515,6 @@ final class HtmlReader extends IGKObject
      * close the reader in case of file reading
      * @return void 
      */
-
     public function close()
     {
         if ($this->hfile)
@@ -1564,12 +1523,10 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="file"></param>
-
     /**
     * Creates.
     * @param string $file
     */
-
     public static function Create(string $file)
     {
         if (is_file($file)) {
@@ -1585,13 +1542,11 @@ final class HtmlReader extends IGKObject
         return null;
     }
     ///<summary>create Element</summary>
-
     /**
     * Creates Element.
     * @param mixed $nodetype
     * @param mixed $value
     */
-
     public static function CreateElement($nodetype, $value = IGK_STR_EMPTY)
     {
         $v = null;
@@ -1607,14 +1562,12 @@ final class HtmlReader extends IGKObject
         return $v;
     }
     ///<summary>createnode </summary>
-
     /**
     * Creates Node.
     * @param mixed $name
     * @param null|mixed $args
     * @param null|HtmlItemBase $currentNode
     */
-
     public static function CreateNode($name, $args = null, ?HtmlItemBase $currentNode = null)
     {
         if (is_callable(self::$sm_ItemCreatorListener)) {
@@ -1630,11 +1583,9 @@ final class HtmlReader extends IGKObject
         return HtmlNode::CreateWebNode($name, $args);
     }
     ///<summary>Represente GetAttributeRegex function</summary>
-
     /**
     * Returns Attribute Regex.
     */
-
     public static function GetAttributeRegex()
     {
         $machv = "(?P<value>";
@@ -1650,7 +1601,6 @@ final class HtmlReader extends IGKObject
      * create a binding info 
      * @return HtmlReaderBindingInfo 
      */
-
     protected function createBindingInfo()
     {
         $bindinfo = new HtmlReaderBindingInfo($this, function ($k, $v) {
@@ -1664,47 +1614,38 @@ final class HtmlReader extends IGKObject
      * get reader loading context.
      * @return mixed 
      */
-
     public function getContext()
     {
         return $this->m_context;
     }
     ///<summary></summary>
-
     /**
     * Returns Node Type.
     */
-
     public function getNodeType()
     {
         return $this->m_nodetype;
     }
     ///<summary></summary>
-
     /**
     * Returns Source.
     */
-
     public function getSource()
     {
         return $this->m_text;
     }
     ///<summary></summary>
-
     /**
     * Returns Value.
     */
-
     public function getValue()
     {
         return $this->m_v;
     }
     ///<summary></summary>
-
     /**
     * Returns true if has Attrib.
     */
-
     public function HasAttrib()
     {
         return $this->m_hasAttrib;
@@ -1714,7 +1655,6 @@ final class HtmlReader extends IGKObject
      * get if the current reading node is empty
      * @return mixed 
      */
-
     public function IsEmpty()
     {
         return $this->m_isEmpty;
@@ -1722,7 +1662,6 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="node" ref="true"></param>
     ///<param name="tagName"></param>
-
     /**
     * auto generate doc.
     * @param mixed & $node
@@ -1755,12 +1694,10 @@ final class HtmlReader extends IGKObject
     ///<param name="text"></param>
     ///<param name="context" default="null"></param>
     ///<param name="listener" default="null"></param>
-
     /**
     * auto generate doc.
     * @param callable $listener creator to call
     */
-
     public static function Load(string $text,  $context = null, ?callable $listener = null)
     {
         $tab_doc = null;
@@ -1790,13 +1727,11 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="text"></param>
     ///<param name="context" default="null"></param>
-
     /**
     * Loads Expression.
     * @param mixed $text
     * @param null|mixed $context
     */
-
     public static function LoadExpression($text, $context = null)
     {
         $tab_doc = null;
@@ -1809,12 +1744,10 @@ final class HtmlReader extends IGKObject
         return $tab_doc;
     }
     ///<summary>load the html file</summary>
-
     /**
     * Loads File.
     * @param mixed $file
     */
-
     public static function LoadFile($file)
     {
         if (is_file($file)) {
@@ -1837,12 +1770,10 @@ final class HtmlReader extends IGKObject
         igk_die("file : " . $file . " doesn't exist");
     }
     ///<summary> load in xml opening context</summary>
-
     /**
     * Loads XML.
     * @param mixed $content
     */
-
     public static function LoadXML($content)
     {
         self::_PushContext(self::READ_XML);
@@ -1850,7 +1781,6 @@ final class HtmlReader extends IGKObject
         self::_PopContext();
         return $d;
     }
-
     /**
     * auto generate doc.
     * @param mixed $context
@@ -1860,7 +1790,6 @@ final class HtmlReader extends IGKObject
     {
         array_push(self::$sm_openertype, $context);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -1871,12 +1800,10 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="file"></param>
-
     /**
     * Loads XMLFile.
     * @param mixed $file
     */
-
     public static function LoadXMLFile($file)
     {
         self::_PushContext(self::READ_XML);
@@ -1885,26 +1812,21 @@ final class HtmlReader extends IGKObject
         return $d;
     }
     ///<summary>get name</summary>
-
     /**
     * Returns Name.
     */
-
     public function getName()
     {
         return $this->m_name;
     }
     ///<summary>loading context</summary>
-
     /**
     * Proc tag close.
     */
-
     public function procTagClose()
     {
         return $this->m_procTagClose;
     }
-
     /**
     * auto generate doc.
     * @param mixed $context
@@ -1952,7 +1874,6 @@ final class HtmlReader extends IGKObject
      * @param string $tag 
      * @return bool 
      */
-
     public function isSupportedExpressionTag(string $tag): bool
     {
         return in_array($tag, explode('|', 'script|style|code|textarea'));
@@ -1963,7 +1884,6 @@ final class HtmlReader extends IGKObject
      * @return bool 
      * @throws IGKException 
      */
-
     public function read(): bool
     {
         static $_tagRegexValueRgx = null;
@@ -2202,7 +2122,6 @@ final class HtmlReader extends IGKObject
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param null|string $value
@@ -2218,7 +2137,6 @@ final class HtmlReader extends IGKObject
     }
     ///<summary>Represente ReadAttributes function</summary>
     ///<param name="value"></param>
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -2229,11 +2147,9 @@ final class HtmlReader extends IGKObject
         die("not implement" . __METHOD__);
     }
     ///read tag name
-
     /**
     * Reads Name.
     */
-
     public function ReadName()
     {
         $v_evaltransform = is_object($this->m_context) ? igk_getv($this->m_context, "transformToEval", false) : false;
@@ -2244,14 +2160,12 @@ final class HtmlReader extends IGKObject
      * get if element is self closed
      * @return ?bool 
      */
-
     public function getSelfClosed()
     {
         return $this->m_selfClose;
     }
     ///<summary>Represente ReadProcessText function</summary>
     ///<param name="reader"></param>
-
     /**
     * auto generate doc.
     * @param mixed $reader
@@ -2358,7 +2272,6 @@ final class HtmlReader extends IGKObject
         }
     }
     ///<summary>set loading  context</summary>
-
     /**
     * auto generate doc.
     * @param mixed $context
@@ -2369,22 +2282,18 @@ final class HtmlReader extends IGKObject
         $this->m_context = $context;
     }
     ///<summary>set root node creator</summary>
-
     /**
     * Sets Creator.
     * @param mixed $listener
     */
-
     public static function SetCreator($listener)
     {
         self::$sm_ItemCreatorListener = $listener;
     }
     ///<summary></summary>
-
     /**
     * Skip.
     */
-
     public function Skip()
     {
         if ($this->m_nodetype == XMLNodeType::ELEMENT) {

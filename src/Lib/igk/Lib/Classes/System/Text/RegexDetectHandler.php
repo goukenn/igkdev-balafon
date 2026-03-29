@@ -5,43 +5,36 @@
 namespace IGK\System\Text;
 use Exception;
 use IGK\Helper\Activator;
-
 /**
 * 
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class RegexDetectHandler{
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $startTokenListener;
-
     /**
     * auto generate doc.
     * @var ?callable($e
     */
     var $itemTokenListener;
-
     /**
     * Property: marker.
     * @var mixed
     */
     private $m_marker;
-
     /**
     * auto generate doc.
     * @var RegexMatcherContainer
     */
     public $regex;
-
     /**
     * .ctr
     * @param RegexMatcherContainer $regex
@@ -50,7 +43,6 @@ class RegexDetectHandler{
         $this->regex = $regex;
         $this->m_marker = new RegexMatcherInitMarker;
     }
-
     /**
     * Handle detect.
     * @param string $src
@@ -85,7 +77,6 @@ class RegexDetectHandler{
      * @return void 
      * @throws Exception 
      */
-
     public function detect(string $src, callable $callable, ?callable $preload=null){
         $regex = $this->regex;
         $pos = 0;
@@ -102,7 +93,6 @@ class RegexDetectHandler{
         ]);
         $v_bckr = $regex->getEngineInfo();
         $regex->setEngineInfo($engineInfo);
-
         while($g = $regex->detect($src, $pos)){
             if ($preload){
                 $preload($g, $src, $pos);

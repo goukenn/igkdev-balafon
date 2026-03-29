@@ -3,7 +3,6 @@
 // @file: ListMacrosCommand.php
 // @date: 20240104 08:40:30
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
@@ -13,7 +12,6 @@ use IGK\System\Console\Logger;
 use PhpParser\Node\Expr\Instanceof_;
 use ReflectionFunction;
 use ReflectionMethod;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
@@ -21,19 +19,16 @@ use ReflectionMethod;
 */
 class ListMacrosCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:macros';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'list controller\'s model macros';
-
     /**
     * Property: options.
     * @var mixed
@@ -41,19 +36,16 @@ class ListMacrosCommand extends AppExecCommand
     var $options=[
 		'--all'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller modelName* [options]';
-
     /**
     * Exec.
     * @param mixed $command

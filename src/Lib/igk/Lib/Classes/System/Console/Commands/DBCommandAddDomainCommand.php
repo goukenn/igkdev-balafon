@@ -10,49 +10,41 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Models\Domains;
-
 /**
 * Dbcommand add domain command.
 * @package IGK\System\Console\Commands
 */
 class DBCommandAddDomainCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--domain";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "set controller as domain";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "administration";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [];
-
     /**
     * Shows Usage.
     */
-
     public function showUsage(){
         Logger::print(sprintf( "%s domain_name controller [options]", $this->command));
     }
     /**
      * exec the command
      */
-
     public function exec($command, ?string $domainname = null, $controller = null)
     {
         if (is_null($domainname)) {

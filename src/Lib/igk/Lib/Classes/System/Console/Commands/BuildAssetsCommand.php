@@ -6,25 +6,21 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGKEvents;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class BuildAssetsCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--build:assets';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category='build';
-
     /**
     * Property: desc.
     * @var mixed
@@ -32,7 +28,6 @@ class BuildAssetsCommand extends AppExecCommand{
     var $desc='invoke asset builder - raise Build_asset event';
 	/* var $options=[]; */
 	/* var $category; */
-
     /**
     * Exec.
     * @param mixed $command
@@ -51,7 +46,6 @@ class BuildAssetsCommand extends AppExecCommand{
 		igk_hook(IGKEvents::BUILD_ASSETS, ['cmd'=>'console']);		
 		Logger::success('done');  
 	}
-
     /**
     * Builds Assets.
     * @param mixed $modules

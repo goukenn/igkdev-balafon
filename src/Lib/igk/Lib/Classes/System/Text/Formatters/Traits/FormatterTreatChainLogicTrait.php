@@ -3,35 +3,29 @@
 // @file: FormatterTreatChainLogicTrait.php
 // @date: 20250807 11:20:18
 namespace IGK\System\Text\Formatters\Traits;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Text\IReplaceCapturedFormatDefinition;
-
 /**
  * 
  * @package IGK\System\Text\Formatters\Traits
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text\Formatters\Traits
 */
 trait FormatterTreatChainLogicTrait
 {
-
     /**
     * Property: chain logic.
     * @var mixed
     */
     protected $m_chain_logic = [];
-
     /**
     * auto generate doc.
     * @param IReplaceCapturedFormatDefinition $e
     * @return void
     */
-
     protected function beforeFormat(IReplaceCapturedFormatDefinition $e)
     {
         $p = null;
@@ -43,7 +37,6 @@ trait FormatterTreatChainLogicTrait
         $closing = $curr_info && ($last && ($curr_info === $last));
         if (($p = $curr_info) ||  ($closing && ($p = $curr_info)) || (($p = $q->parentInfo) && ((!$chains_logic) || ($e->info !== $chains_logic[0])))
         ) {
-
             // detecting information 
             // $same_pos = false;
             $v_detected = [];
@@ -79,7 +72,6 @@ trait FormatterTreatChainLogicTrait
      * @return void 
      * @throws Exception 
      */
-
     protected function afterFormat(IReplaceCapturedFormatDefinition $e)
     {
         $chains_logic = &$this->m_chain_logic;
@@ -102,7 +94,6 @@ trait FormatterTreatChainLogicTrait
                 }
                 array_pop($chains_logic);
             }
-
             // close parent position step 
         }
     }

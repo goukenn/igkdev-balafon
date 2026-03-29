@@ -23,25 +23,21 @@ require_once IGK_LIB_DIR . "/api/igk_api.php";
  */
 class DbCleanCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:clean";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "clean database";
-
     /**
     * Exec.
     * @param mixed $command

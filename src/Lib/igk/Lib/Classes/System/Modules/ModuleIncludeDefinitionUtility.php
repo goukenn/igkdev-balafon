@@ -3,34 +3,28 @@
 // @file: ModuleIncludeDefinitionUtility
 // @date: 20260228 13:59:29
 namespace IGK\System\Modules;
-
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
-
 use function igk_resource_gets_map;
-
 /**
  * auto generate doc.
  * @package IGK
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
  * auto generate doc.
  * @package IGK\System\Modules
  */
 class ModuleIncludeDefinitionUtility
 {
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     const DEBUG_KEY = 'debug-module-include-utility';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -59,7 +53,6 @@ class ModuleIncludeDefinitionUtility
         }
         return $t;
     }
-
     /**
      * auto generate doc.
      * @param string $param
@@ -83,7 +76,6 @@ class ModuleIncludeDefinitionUtility
             $t = $uses ? implode("\n", $uses) : "";
             $code = $ns . $t . $code;
         }
-
         $fc = (function ($param, $code, $selfKey) {
             $__def = [
                 $param,
@@ -110,10 +102,8 @@ class ModuleIncludeDefinitionUtility
                 return call_user_func_array($__def['invoke']->bindTo($this), [$tab, $__def[1]]);
             };
         })($param, $code, $selfKey);
-
         return $fc;
     }
-
     /**
      * auto generate doc.
      * @param string $file
@@ -212,8 +202,6 @@ class ModuleIncludeDefinitionUtility
                 $fc_info->params = null;
                 $fc_info->code = null;
             },
-
-
         ], $fc_handle ?? []);
         $v_is_debug = igk_is_debug(self::DEBUG_KEY);
         while ($g = $regex->detect($src, $pos)) {
@@ -225,10 +213,8 @@ class ModuleIncludeDefinitionUtility
                 }
             }
         }
-
         // $hfile = fopen($file, 'r') ?? igk_die('can open a file');
         // $y = 0;
-
         // $regex->splittingDefinition = true;
         // while (!feof($hfile)) {
         //     $line = fgets($hfile);
@@ -244,14 +230,12 @@ class ModuleIncludeDefinitionUtility
         //     }
         // }
         // fclose($hfile);
-
         // foreach($caches as $r){
         //     if ($fc_info->namespace){
         //         $r->setNamespace($fc_info->namespace);
         //     }           
         // }
         foreach ($func_list as $c) {
-
             $g = self::CreateMethodHandle(
                 $c->params ?? '',
                 $c->code,
@@ -269,7 +253,6 @@ class ModuleIncludeDefinitionUtility
                 $c->code
             );
         }
-
         if ($caches && (($fc_info->namespace) || $fc_info->conditions || ($fc_info->uses))) {
             return igk_createobj(array_filter([
                 'namespace' => $fc_info->namespace,
@@ -280,7 +263,6 @@ class ModuleIncludeDefinitionUtility
         }
         return $caches;
     }
-
     /**
      * auto generate doc.
      * @return
@@ -293,9 +275,7 @@ class ModuleIncludeDefinitionUtility
         $comments[] = $regex->appendMultilineComment()->last();
         $heredoc = [];
         RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);
-
         $root_condition = $regex->begin('\\b(?P<type>if|else|elseif)\\b', '(?<=,|\})', 'root-condition')->last();
-
         //$regex->begin('\\buse\\b', '(?<=;)', 'function-skip');
         $ns_def = $regex->begin('\\bnamespace\\b\\s*(?P<n>[a-zA-Z][a-zA-Z0-9_]*(\\\\[a-zA-Z][a-zA-Z0-9_]*)*)', '(?<=;|\})', 'namespace')->last();
         $ns_block =  $regex->createPattern([
@@ -307,12 +287,10 @@ class ModuleIncludeDefinitionUtility
         $ns_usedef->patterns = [
             $comments,
         ];
-
         $ns_def->patterns = [
             $comments,
             $ns_block,
         ];
-
         $func = $regex->begin('\\bfunction\\b', '(?<=;|\})', 'function')->last();
         $func_code_block = $regex->createPattern([
             'begin' => '\{',
@@ -324,7 +302,6 @@ class ModuleIncludeDefinitionUtility
             'end' => '\]',
             'tokenID' => 'func-array'
         ]);
-
         $func_param_block = $regex->createPattern([
             'begin' => '\(',
             'end' => '\)',
@@ -364,13 +341,11 @@ class ModuleIncludeDefinitionUtility
             $func_param_block,
             $func_code_block
         ];
-
         $func_code_block->patterns = [
             $comments,
             $heredoc,
             $func_code_block
         ];
-
         $ns_block->patterns = [
             $comments,
             $heredoc,

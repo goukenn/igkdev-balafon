@@ -4,13 +4,11 @@
 // @date: 20230914 09:48:49
 namespace IGK\System\Http;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 abstract class HttpUtility{
-
     /**
     * Constant: ext mime types.
     * @var mixed
@@ -33,7 +31,6 @@ abstract class HttpUtility{
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetContentTypeFromExtension(string $ext, $default = "text/plain"){
         return igk_getv(self::EXT_MIME_TYPES, $ext, $default);
     }
@@ -43,7 +40,6 @@ abstract class HttpUtility{
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetExtensionFromContentType(string $mimetype, $default='html'){
         $mime_list = igk_environment()->mimetypes ?? [];
         return igk_getv(array_merge([
@@ -64,7 +60,6 @@ abstract class HttpUtility{
      * @return string 
      * @throws IGKException 
      */
-
     public static function GetBaseHost(?string $uri):string{
         $q = parse_url($uri ?? '/');
         $host = igk_getv($q, 'host');
@@ -73,7 +68,6 @@ abstract class HttpUtility{
         }
         return $host ?? '/';
     }
-
     /**
     * Returns Base Uri.
     * @param string $uri

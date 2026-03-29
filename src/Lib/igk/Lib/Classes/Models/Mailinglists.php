@@ -3,10 +3,7 @@
 // @file: Mailinglists.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * store mailing lists.
 * @package IGK\Models
@@ -35,55 +32,46 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Mailinglists extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd clml email.
     * @var mixed
     */
     const FD_CLML_EMAIL="clml_email";
-
     /**
     * Constant: fd clml state.
     * @var mixed
     */
     const FD_CLML_STATE="clml_state";
-
     /**
     * Constant: fd clml source.
     * @var mixed
     */
     const FD_CLML_SOURCE="clml_source";
-
     /**
     * Constant: fd clml locale.
     * @var mixed
     */
     const FD_CLML_LOCALE="clml_locale";
-
     /**
     * Constant: fd clml init.
     * @var mixed
     */
     const FD_CLML_INIT="clml_init";
-
     /**
     * Constant: fd clml agent.
     * @var mixed
     */
     const FD_CLML_AGENT="clml_agent";
-
     /**
     * Constant: fd clml create at.
     * @var mixed
     */
     const FD_CLML_CREATE_AT="clml_create_at";
-
     /**
     * Constant: fd clml update at.
     * @var mixed

@@ -19,31 +19,26 @@ use IGK\Tests\BaseTestCase;
 use IGK\Constants;
 use IGKEvents;
 use function igk_resources_gets as __;
-
 /**
 * Make module command.
 * @package IGK\System\Console\Commands
 */
 class MakeModuleCommand extends AppCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:module";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "make new module.";
-
     /**
     * Property: options.
     * @var mixed
@@ -62,7 +57,6 @@ class MakeModuleCommand extends AppCommand{
      * @param mixed $command The command context object.
      * @return void
      */
-
     public function run($args, $command)
     {
         $command->exec = function($command, ?string $name=null){
@@ -246,7 +240,6 @@ class MakeModuleCommand extends AppCommand{
      * @param string      $version The module version string.
      * @return string The formatted module definition block.
      */
-
     static function EntryModuleDefinition($author=null, $e_ns=null, $version="1.0" ){
         return <<<EOF
 //------------------------------------------------

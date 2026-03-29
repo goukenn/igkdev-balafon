@@ -8,19 +8,16 @@
 * represent application context
 */
 abstract class IGKAppContext{
-
     /**
     * Constant: initializing.
     * @var mixed
     */
     const initializing="initializing";
-
     /**
     * Constant: running.
     * @var mixed
     */
     const running="running";
-
     /**
     * Constant: starting.
     * @var mixed

@@ -7,13 +7,11 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
-
 /**
 * Uri helper.
 * @package IGK\Helper
 */
 abstract class UriHelper{
-
     /**
     * Constant: uri sys replace.
     * @var mixed
@@ -27,19 +25,16 @@ abstract class UriHelper{
      * @param mixed $port 
      * @return string 
      */
-
     public static function GetCmdAction(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null){
         if ($port)
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";
         //return igk_io_baseuri() . $port . "/{$ctrl->getName()}/{$u}";
     }
-
     /**
     * Uri sys replace.
     * @param string $uri
     */
-
     public static function UriSysReplace(string $uri){
         $v_regex = "/%(?P<name>(".self::URI_SYS_REPLACE."))%/i";
         return preg_replace_callback( $v_regex, function($m){
@@ -59,7 +54,6 @@ abstract class UriHelper{
      * @return array
      * @throws IGKException 
      */
-
     public static function GetQueryTab(string $uri){
         $d = parse_url($uri);
         parse_str(igk_getv($d, "query", ""), $d);

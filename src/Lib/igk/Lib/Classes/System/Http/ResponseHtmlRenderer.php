@@ -4,31 +4,26 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
-
 /**
 * Response html renderer.
 * @package IGK\System\Http
 */
 class ResponseHtmlRenderer{
-
     /**
     * Property: node.
     * @var mixed
     */
     private $m_node;
-
     /**
     * Property: obj.
     * @var mixed
     */
     private $m_obj;
-
     /**
     * Property: refs.
     * @var mixed
     */
     private $m_refs;
-
     /**
     * .ctr
     * @param mixed $node
@@ -38,11 +33,9 @@ class ResponseHtmlRenderer{
         $this->m_node = $node;
         $this->m_obj = $object;
     }
-
     /**
     * Renders.
     */
-
     public function render(){
         $this->m_refs = [];
         $this->m_node->clearChilds();
@@ -54,13 +47,11 @@ class ResponseHtmlRenderer{
         // $this->m_node->addObData($this->m_obj);
         return $this->m_node->render();
     }
-
     /**
     * Visit dd.
     * @param mixed $c
     * @param mixed $m
     */
-
     public function visitDd($c, $m){
         $cp = [[$c, $m]];
         while($q = array_pop($cp)){

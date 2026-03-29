@@ -7,32 +7,27 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\Tests\Controllers\ModuleBaseTestCase;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ModuleMakeClassCommand extends AppExecCommand{
     use ClassBuilderTrait;
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--module:make-class';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'module';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'help create a class|interface|trait for module';
-
     /**
     * Property: options.
     * @var mixed
@@ -42,14 +37,12 @@ class ModuleMakeClassCommand extends AppExecCommand{
         "--desc:[text]" => "description of the class",
         "--test" => "create a test file"
     ];
-
     /**
     * Shows Usage.
     */
     public function showUsage(){
         $this->showCommandUsage(" module [class_path] [options]");
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -92,7 +85,6 @@ class ModuleMakeClassCommand extends AppExecCommand{
         if ($test){
             $ns .= '\\Tests';
         }
-        
         if ($f = $this->makeClass($command, $dir, $class_path, $type, $ns,$extends, $desc, $force )){
             Logger::success($f);
             return 0;

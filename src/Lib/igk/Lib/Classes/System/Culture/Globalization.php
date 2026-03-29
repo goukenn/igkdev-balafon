@@ -4,49 +4,41 @@
 // @date: 20230517 10:46:38
 namespace IGK\System\Culture;
 use IGK\Resources\R;
-
 /**
 * auto generate doc.
 * @package IGK\System\Culture
 */
 abstract class Globalization{
-
     /**
     * Property: decimal separator.
     * @var mixed
     */
     var $decimalSeparator = '.';
-
     /**
     * Name of currency name.
     * @var mixed
     */
     var $currencyName = 'EUR';
-
     /**
     * Property: currency symbol.
     * @var mixed
     */
     var $currencySymbol = '€';
-
     /**
     * Property: format.
     * @var mixed
     */
     var $format = '%.2f';
-
     /**
     * Property: symbol post fix.
     * @var mixed
     */
     var $symbolPostFix = true;
-
     /**
     * Property: reg globals.
     * @var mixed
     */
     static $sm_regGlobals;
-
     /**
     * .ctr
     */
@@ -57,7 +49,6 @@ abstract class Globalization{
      * @param string $v 
      * @return null|string 
      */
-
     public function getLitteralValue(string $v):?string{
         if (is_numeric($v)){
             $fm = $this->format;
@@ -66,7 +57,6 @@ abstract class Globalization{
         }
         return null;
     }
-
     /**
     * From currency format.
     * @param string $format

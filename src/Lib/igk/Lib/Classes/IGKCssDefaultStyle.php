@@ -20,67 +20,56 @@ use IGK\System\IToArray;
 final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess, ICssStyleContainer, IToArray
 {
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
-
     /**
     * Constant: colors rule.
     * @var mixed
     */
     const COLORS_RULE = 5;
-
     /**
     * Constant: declared rule.
     * @var mixed
     */
     const DECLARED_RULE = 1;
-
     /**
     * Constant: files bind temp rule.
     * @var mixed
     */
     const FILES_BIND_TEMP_RULE = 9;
-
     /**
     * Constant: files rule.
     * @var mixed
     */
     const FILES_RULE = 4;
-
     /**
     * Constant: flag rule.
     * @var mixed
     */
     const FLAG_RULE = 2;
-
     /**
     * Constant: font rule.
     * @var mixed
     */
     const FONT_RULE = 7;
-
     /**
     * Constant: params rule.
     * @var mixed
     */
     const PARAMS_RULE = 6;
-
     /**
     * Constant: properties.
     * @var mixed
     */
     const PROPERTIES = 0;
-
     /**
     * Constant: symbols rule.
     * @var mixed
     */
     const SYMBOLS_RULE = 3;
-
     /**
     * Constant: temp files rule.
     * @var mixed
     */
     const TEMP_FILES_RULE = 8;
-
     /**
     * Constant: set flag.
     * @var mixed
@@ -95,7 +84,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * flag used to disable theme dynamic rendering for controller.
      */
     const ST_NO_THEME_RENDERING_FLAG = 'no_theme_rendering';
-
     /**
     * Property: .
     * @var mixed
@@ -106,7 +94,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * @param string $defname 
      * @return void 
      */
-
     public function clearPropertyDef(string $defname)
     {
         if (isset($this->_[self::PROPERTIES])) {
@@ -114,13 +101,11 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             unset($g[$defname]);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return $this
     */
-
     public function setStyleFlag(string $name, $value)
     {
         if (isset($this->_[self::SET_FLAG])) {
@@ -144,7 +129,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * @return mixed 
      * @throws IGKException 
      */
-
     public function unsetStyleFlag(string $name)
     {
         $v = null;
@@ -158,7 +142,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $v;
     }
-
     /**
     * .ctr
     * @param mixed & $setting
@@ -168,7 +151,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $uri = igk_io_request_uri();
         $this->_ = &$setting;
     }
-
     /**
     * Returns Declared Rules.
     */
@@ -186,7 +168,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * @throws IGKException 
      */
     protected function _bindProperties(& $g, $i, $v){
-        
         if (is_null($i)){
             if ($v){
                 $g[] = $v;
@@ -207,7 +188,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * @return HtmlDocTheme 
      * @example _ $def->supports('backdrop-filter: blur(2px)') 
      */
-
     public function supports(string $rule)
     {
         $key = "@supports (" . $rule . ")";
@@ -221,7 +201,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $trule[$key] = $rule;
         return $rule;
     }
-
     /**
     * Returns Properties.
     */
@@ -229,7 +208,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         return igk_getv($this->_, self::PROPERTIES);
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -245,7 +223,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     ///<summary></summary>
     ///<param name="n"></param>
     ///<param name="v"></param>
-
     /**
     * destructor
     * @param mixed $n
@@ -255,7 +232,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         igk_die(__METHOD__ . " not allowed [{$n}]");
     }
-
     /**
     * get string presentation.
     */
@@ -267,7 +243,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * return a copy array presentation of this style
      * @return array 
      */
-
     public function to_array(): ?array
     {
         // + |------------------------------------------------------
@@ -278,7 +253,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $o;
     }
-
     /**
     * Loads data.
     * @param array $data
@@ -315,7 +289,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="expression"></param>
-
     /**
     * Adds Rule.
     * @param mixed $name
@@ -326,7 +299,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $rule = &$this->_[self::DECLARED_RULE];
         $rule[$name] = $expression;
     }
-
     /**
     * Clears.
     */
@@ -354,7 +326,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             }
         }
     }
-
     /**
     * Clears Files.
     */
@@ -362,7 +333,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         unset($this->_[self::FILES_RULE]);
     }
-
     /**
     * Returns Attributes.
     */
@@ -370,12 +340,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         return igk_getv($this->_, self::PROPERTIES);
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function getdef()
     {
         return $this->getAttributes();
@@ -384,7 +352,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * retrieve binded temp file 
      * @param bool $clear clear the temp binding files
      */
-
     public function getBindTempFiles($clear = 0)
     {
         $r = igk_getv($this->_, self::FILES_BIND_TEMP_RULE);
@@ -393,7 +360,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $r;
     }
-
     /**
     * Returns Cl.
     */
@@ -405,7 +371,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     /**
      * clear color rules
      */
-
     public function clearColors(){
         unset($this->_[self::COLORS_RULE]);
     }
@@ -414,12 +379,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
      * @return mixed 
      * @throws IGKException 
      */
-
     public function getFiles()
     {
         return igk_getv($this->_, self::FILES_RULE);
     }
-
     /**
     * Returns Font.
     */
@@ -428,7 +391,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $g = &$this->prepareStorage(self::FONT_RULE);
         return $g;
     }
-
     /**
     * Returns Has Rules.
     */
@@ -437,7 +399,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $tab = igk_getv($this->_, self::DECLARED_RULE);
         return $tab && (igk_count($tab) > 0);
     }
-
     /**
     * Returns Params.
     */
@@ -446,7 +407,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $g = &$this->prepareStorage(self::PARAMS_RULE);
         return $g;
     }
-
     /**
     * Returns Rules.
     */
@@ -461,7 +421,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $g;
     }
-
     /**
     * Returns Rules String.
     * @param null|mixed $lineseparator
@@ -485,7 +444,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $o;
     }
-
     /**
     * Returns Symbols.
     */
@@ -493,13 +451,11 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         return igk_getv($this->_, self::SYMBOLS_RULE);
     }
-
     /**
     * auto generate doc.
     * @param bool $clear
     * @return mixed
     */
-
     public function &getTempFiles($clear = false)
     {
         $g = &$this->prepareStorage(self::TEMP_FILES_RULE);
@@ -511,7 +467,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -528,7 +483,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         }
         return $g;
     }
-
     /**
     * Reg symbol.
     * @param mixed $file
@@ -539,7 +493,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $tab[$file] = $file;
         $this->_[self::SYMBOLS_RULE] = $tab;
     }
-
     /**
     * Resets Params.
     */
@@ -547,7 +500,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         unset($this->_[self::PARAMS_RULE]);
     }
-
     /**
     * Rm rule.
     * @param mixed $name
@@ -557,7 +509,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $rule = &$this->_[self::DECLARED_RULE];
         unset($rule[$name]);
     }
-
     /**
     * Sets Bind Temp Files.
     * @param mixed $files
@@ -570,7 +521,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             $this->_[self::FILES_BIND_TEMP_RULE] = igk_io_collapse_path($files);
         }
     }
-
     /**
     * Sets Cl.
     * @param mixed $n
@@ -581,7 +531,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $g = &$this->prepareStorage(self::COLORS_RULE);
         $g[$n] = $v;
     }
-
     /**
     * Sets Files.
     * @param mixed $files
@@ -595,12 +544,10 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             $this->_[self::FILES_RULE] = $rf;
         }
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function reverseDefinitionProperties()
     {
         if (isset($this->_[self::PROPERTIES])) {

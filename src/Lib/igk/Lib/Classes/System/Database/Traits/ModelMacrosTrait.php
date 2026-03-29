@@ -3,9 +3,7 @@
 // @file: ModelMacrosTrait.php
 // @date: 20251125 19:01:42
 namespace IGK\System\Database\Traits;
-
 use IGK\Models\ModelBase;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database\Traits
@@ -13,12 +11,10 @@ use IGK\Models\ModelBase;
 */
 trait ModelMacrosTrait
 {
-
     /**
     * Get auto insert definition.
     */
     protected abstract function _GetAutoInsertDefinition();
-
     /**
     * Auto insert cache.
     * @param ModelBase $model

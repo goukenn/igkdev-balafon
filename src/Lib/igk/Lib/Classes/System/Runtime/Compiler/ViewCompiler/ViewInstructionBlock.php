@@ -9,7 +9,6 @@ use Countable;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -17,31 +16,26 @@ use Traversable;
 class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
 {
     use ArrayAccessSelfTrait;
-
     /**
     * Property: blocks.
     * @var mixed
     */
     private $m_blocks = [];
-
     /**
     * Property: marker.
     * @var mixed
     */
     private $m_marker = 0;
-
     /**
     * Property: space comment.
     * @var mixed
     */
     var $space_comment = 1;
-
     /**
     * Property: pattern marker.
     * @var mixed
     */
     var $pattern_marker = "/\/\/\s*\+\s*\|/";
-
     /**
     * Returns count of.
     * @return int
@@ -50,7 +44,6 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     {
         return count($this->m_blocks);
     }
-
     /**
     * Returns Iterator.
     * @return Traversable
@@ -59,7 +52,6 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     {
         return new ArrayIterator($this->m_blocks);
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -68,7 +60,6 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     {
         return $this->m_blocks[$n];
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -96,7 +87,6 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
         }
         return $this;
     }
-
     /**
     * Returns Block Reference.
     */
@@ -108,7 +98,6 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
      * shift block
      * @return mixed 
      */
-
     public function shift()
     {
         return array_shift($this->m_blocks);

@@ -21,37 +21,31 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 final class PicResConfigurationController extends ConfigControllerBase{
-
     /**
     * Constant: datafile.
     * @var mixed
     */
     const DATAFILE="Data/upload.csv";
-
     /**
     * Constant: key files.
     * @var mixed
     */
     const KEY_FILES="sys://ctrl/allpics";
-
     /**
     * Constant: picres flag.
     * @var mixed
     */
     const PICRES_FLAG=1;
-
     /**
     * Constant: picres key.
     * @var mixed
     */
     const PICRES_KEY="PicResChanged";
-
     /**
     * Constant: targetdir.
     * @var mixed
     */
     const TARGETDIR=IGK_RES_FOLDER."/Img";
-
     /**
     * Returns Is Visible.
     * @return bool
@@ -59,14 +53,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
     public function getIsVisible():bool{
         return false;
     }
-
     /**
     * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable(){
         return false;
     }
-
     /**
     * Returns Config Group.
     */
@@ -74,7 +66,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         igk_trace();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $div
@@ -96,7 +87,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frm->addBtn("upload", __("btn.upload"));
         return $frm;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -114,7 +104,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         return $r;
     }
     ///init default resources
-
     /**
     * auto generate doc.
     * @param null|mixed & $tab
@@ -124,7 +113,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $dir=IGK_LIB_DIR."/Default/R/Img";
         $this->initPicturesRes($dir, $tab);
     }
-
     /**
     * Load data.
     * @param null|mixed & $tab
@@ -144,7 +132,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return $g;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -179,7 +166,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $frm->addAJXButton($this->getUri("uploadpic_ajx"))->Content="uploadpics";
         $frm->addInput("confirm", "hidden", 0);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -197,7 +183,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $ext
@@ -207,7 +192,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $ext=$this->_getexts();
         return isset($ext[strtolower($ext)]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $g
@@ -216,7 +200,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     private function _updateRes($g){
         igk_set_env(self::KEY_FILES, $g);
     }
-
     /**
     * Adds res.
     * @param mixed $name
@@ -231,7 +214,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return false;
     }
-
     /**
     * Deleteall.
     */
@@ -256,7 +238,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
             $frame->Form->Div->Content=__(IGK_MSG_ALLPICS_QUESTION);
         }
     }
-
     /**
     * Delfile.
     */
@@ -279,7 +260,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
-
     /**
     * Dropdir.
     */
@@ -295,7 +275,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         igk_navtocurrent();
     }
-
     /**
     * Returns All Pics.
     */
@@ -306,21 +285,18 @@ final class PicResConfigurationController extends ConfigControllerBase{
             return $g;
         });
     }
-
     /**
     * Returns Config Page.
     */
     public function getConfigPage(){
         return "pictureresconfig";
     }
-
     /**
     * Returns Current Page.
     */
     public function getCurrentPage(){
         return $this->getParam("currentPage");
     }
-
     /**
     * Returns Img Uri.
     * @param mixed $name
@@ -345,7 +321,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return igk_html_resolv_img_uri(igk_io_basedir($b));
     }
-
     /**
     * Returns Name.
     * @return string
@@ -353,14 +328,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
     public function getName(): string{
         return IGK_PIC_RES_CTRL;
     }
-
     /**
     * Returns Pic Res.
     */
     public function getPicRes(){
         return $this->getEnvParam("@PictureRes");
     }
-
     /**
     * Returns Res Files.
     */
@@ -370,14 +343,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
             return $t;
         });
     }
-
     /**
     * Returns Search Key.
     */
     public function getSearchKey(){
         return null;
     }
-
     /**
     * Gotodefaultview.
     */
@@ -385,7 +356,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->setCurrentPage(null);
         $this->View();
     }
-
     /**
     * Initializes Pictures Res.
     * @param mixed $dir
@@ -404,7 +374,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->_updateRes($g);
         $tab=$g;
     }
-
     /**
     * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
@@ -412,7 +381,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return igk_create_node("div", array("class"=>strtolower($this->Name)));
     }
-
     /**
     * Loadfile.
     */
@@ -461,7 +429,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
-
     /**
     * Loadtempfile.
     * @param mixed $tempfile
@@ -494,7 +461,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
             }
         }
     }
-
     /**
     * Notifies.
     * @param null|mixed $c
@@ -503,7 +469,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     public function notify($c=null, $t=null){
         $this->_loadData();
     }
-
     /**
     * On handle system event.
     * @param mixed $msg
@@ -518,7 +483,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
             break;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
@@ -529,7 +493,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
             $this->_loadData();
         }
     }
-
     /**
     * Reg picture.
     * @param mixed $name
@@ -542,7 +505,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->_updateRes($g);
     }
-
     /**
     * Removes broken file.
     */
@@ -569,7 +531,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
-
     /**
     * Searchentry.
     */
@@ -577,7 +538,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->m_searchentry=strtolower(igk_getr("q"));
         $this->View();
     }
-
     /**
     * auto generate doc.
     * @param mixed $page
@@ -586,7 +546,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     private function setCurrentPage($page){
         $this->setParam("currentPage", $page);
     }
-
     /**
     * Setdir.
     */
@@ -594,7 +553,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->m_selectedir=basename(base64_decode(igk_getr("d", null)));
         $this->View();
     }
-
     /**
     * Sets Pic Res.
     * @param mixed $t
@@ -602,7 +560,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     protected function setPicRes($t){
         $this->setEnvParam("@PictureRes", $t);
     }
-
     /**
     * Shows loadfile frame.
     */
@@ -613,7 +570,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $d->clearChilds();
         $frm=$this->_addLoadPicForm($d);
     }
-
     /**
     * Showentries.
     */
@@ -676,7 +632,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         HtmlUtils::AddBtnLnk($div, "btn.loadfile", $this->getUri("show_loadfile_frame"));
         HtmlUtils::AddBtnLnk($div, __("btn.RemoveBrokenfiles"), $this->getUri("remove_broken_file"));
     }
-
     /**
     * Uploadpic ajx.
     */
@@ -686,7 +641,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $cl=$rd->addCol()->div();
         igk_ajx_panel_dialog("Upload Pictures", $div);
     }
-
     /**
     * View.
     * @return BaseController
@@ -709,7 +663,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return $this;
     }
-
     /**
     * Viewpic.
     * @param null|mixed $name
@@ -726,7 +679,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         igk_exit();
     }
-
     /**
     * Viewpic ajx.
     */

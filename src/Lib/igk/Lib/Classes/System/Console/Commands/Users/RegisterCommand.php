@@ -8,25 +8,21 @@ use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 */
 class RegisterCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:register';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='register command user';
-
     /**
     * Property: options.
     * @var mixed
@@ -34,19 +30,16 @@ class RegisterCommand extends AppExecCommand{
     var $options=[
 		'--activate'=>'flag: active the user'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'login [firstname] [lastname] [options]';
-
     /**
     * Exec.
     * @param mixed $command
@@ -72,6 +65,5 @@ class RegisterCommand extends AppExecCommand{
 			return -1;
 		}	
 		Logger::success('done');
-		
 	}
 }

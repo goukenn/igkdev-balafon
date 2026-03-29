@@ -29,85 +29,71 @@ use function igk_resources_gets as __;
  */
 abstract class DbSchemas
 {
-
     /**
     * Constant: entries tag.
     * @var mixed
     */
     const ENTRIES_TAG = IGK_ENTRIES_TAGNAME;
-
     /**
     * Constant: data definition.
     * @var mixed
     */
     const DATA_DEFINITION = IGK_DATA_DEF_TAGNAME;
-
     /**
     * Constant: row tag.
     * @var mixed
     */
     const ROW_TAG = "Row";
-
     /**
     * Constant: rows tag.
     * @var mixed
     */
     const ROWS_TAG = "Rows";
-
     /**
     * Constant: migration tag.
     * @var mixed
     */
     const MIGRATION_TAG = "Migration";
-
     /**
     * Constant: migrations tag.
     * @var mixed
     */
     const MIGRATIONS_TAG = "Migrations";
-
     /**
     * Constant: relations tag.
     * @var mixed
     */
     const RELATIONS_TAG = "Relations";
-
     /**
     * Constant: relation tag.
     * @var mixed
     */
     const RELATION_TAG = "Relation";
-
     /**
     * Constant: column tag.
     * @var mixed
     */
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
-
     /**
     * Constant: gen columns.
     * @var mixed
     */
     const GEN_COLUMNS = IGK_GEN_COLUMS;
-
     /**
     * Constant: rt requireschema tag.
     * @var mixed
     */
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
-
     /**
     * Constant: rt schema tag.
     * @var mixed
     */
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
-
     /**
     * Constant: index.
     * @var mixed
     */
     const Index = 'Index';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -122,7 +108,6 @@ abstract class DbSchemas
      * is loading from schema
      * @return ?bool 
      */
-
     public static function IsLoadingFromSchema(): ?bool
     {
         return self::$sm_isLoadingFromSchema;
@@ -132,7 +117,6 @@ abstract class DbSchemas
      * @param BaseController $controller 
      * @return void 
      */
-
     public static function ClearControllerSchema(BaseController $controller)
     {
         $v_tab = &self::$sm_schemas;
@@ -140,13 +124,11 @@ abstract class DbSchemas
             unset($v_tab[$file]);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $data
     * @return mixed
     */
-
     public static function LoadRelations($schema, $data)
     {
         $n = $schema->add(self::RELATIONS_TAG);
@@ -155,13 +137,11 @@ abstract class DbSchemas
         }
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed $data
     * @return mixed
     */
-
     public static function LoadMigrations($schema, $data)
     {
         $n = $schema->add(self::MIGRATIONS_TAG);
@@ -170,7 +150,6 @@ abstract class DbSchemas
         }
         return $n;
     }
-
     /**
     * Loads Entries.
     * @param mixed $schema
@@ -184,7 +163,6 @@ abstract class DbSchemas
         }
         return $n;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -194,7 +172,6 @@ abstract class DbSchemas
     {
         die("call static method not allowed." . __CLASS__);
     }
-
     /**
     * Schema def.
     */
@@ -218,7 +195,6 @@ abstract class DbSchemas
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException  
      */
-
     public static function LoadSchema(string $file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
         if (!igk_io_cache_file_exists($file)) {
@@ -269,7 +245,6 @@ abstract class DbSchemas
      * @return object 
      * @throws IGKException 
      */
-
     public static function GetDefinition(XmlNode $d, ?BaseController $ctrl = null, bool $resolvname = true, string $operation = DbSchemasConstants::Migrate)
     {
         $tables = array();
@@ -297,7 +272,6 @@ abstract class DbSchemas
      * @param bool $reload 
      * @return mixed 
      */
-
     public static function LoadSchemaArray(
         $n,
         &$tables,
@@ -337,7 +311,6 @@ abstract class DbSchemas
      * create and empty table row
      * @return stdClass|null 
      */
-
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
     {
         static $sm_cacheinfo = null;
@@ -366,7 +339,6 @@ abstract class DbSchemas
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetTableColumnInfo(string $tablename, ?BaseController $ctrl = null)
     {
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, null);
@@ -385,7 +357,6 @@ abstract class DbSchemas
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetTableRowReference(string $tablename, ?BaseController $ctrl = null)
     {
         return  DBCaches::GetColumnInfo($tablename, $ctrl);
@@ -395,7 +366,6 @@ abstract class DbSchemas
      * @param array<IDbColumnInfo>|object<IDbColumnInfo> $tableRowReference 
      * @param mixed $dataobj object to reference of
      */
-
     public static function CreateObjFromInfo($tableRowReference, $dataobj = null, ?string $prefix = null): ?object
     {
         // + | --------------------------------------------------------------------
@@ -434,7 +404,6 @@ abstract class DbSchemas
      * @param object|ISchemaInfo $dataschema schema info, 
      * @param object $adapter data adapter 
      */
-
     public static function InitData(BaseController $ctrl, $dataschema, $adapter)
     {
         $r = $dataschema;
@@ -463,7 +432,6 @@ abstract class DbSchemas
      * reset loading schema - 
      * @return void 
      */
-
     public static function ResetSchema()
     {
         self::$sm_schemas = [];

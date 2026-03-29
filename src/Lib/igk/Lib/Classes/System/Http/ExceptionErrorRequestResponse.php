@@ -5,19 +5,16 @@
 namespace IGK\System\Http;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class ExceptionErrorRequestResponse extends ErrorRequestResponse{
-
     /**
     * Property: exception.
     * @var mixed
     */
     private $m_exception;
-
     /**
     * .ctr
     * @param \Exception $ex
@@ -32,7 +29,6 @@ class ExceptionErrorRequestResponse extends ErrorRequestResponse{
      * @return HtmlItemBase 
      * @throws IGKException 
      */
-
     public function title(){
         $n = igk_create_node('div');
         $n->h1()->Content = get_class($this->m_exception);

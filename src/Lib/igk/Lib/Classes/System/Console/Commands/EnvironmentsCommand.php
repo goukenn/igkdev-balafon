@@ -8,31 +8,26 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class EnvironmentsCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--environment";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'sys';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "display environment setting";
-
     /**
     * Exec.
     * @param mixed $command

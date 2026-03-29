@@ -3,10 +3,7 @@
 // @file: Migrations.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store migrations
 * @package IGK\Models
@@ -31,43 +28,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $migration_name, int $migration_batch, string $migration_desc, string $migration_controller, string|datetime $migration_create_at ="NOW()", string|datetime $migration_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Migrations extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd migration name.
     * @var mixed
     */
     const FD_MIGRATION_NAME="migration_name";
-
     /**
     * Constant: fd migration batch.
     * @var mixed
     */
     const FD_MIGRATION_BATCH="migration_batch";
-
     /**
     * Constant: fd migration desc.
     * @var mixed
     */
     const FD_MIGRATION_DESC="migration_desc";
-
     /**
     * Constant: fd migration controller.
     * @var mixed
     */
     const FD_MIGRATION_CONTROLLER="migration_controller";
-
     /**
     * Constant: fd migration create at.
     * @var mixed
     */
     const FD_MIGRATION_CREATE_AT="migration_create_at";
-
     /**
     * Constant: fd migration update at.
     * @var mixed

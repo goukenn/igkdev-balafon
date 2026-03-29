@@ -13,13 +13,11 @@ use IGKEvents;
  * @package IGK\System\Database
  */
 class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column","new_name"];
-
     /**
     * .ctr
     * @param mixed $migration
@@ -28,7 +26,6 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
     {
         parent::__construct($migration);
     }
-
     /**
     * Up.
     */
@@ -53,7 +50,6 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
         Logger::warn("rename column - ".$table." ".$column ." > ". $new_name);
         igk_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, ['column'=>$column, "name"=>$new_name /*, "table"=>$table*/]);
     }
-
     /**
     * Down.
     */

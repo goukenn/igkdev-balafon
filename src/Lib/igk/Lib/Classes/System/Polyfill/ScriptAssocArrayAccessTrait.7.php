@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Polyfill;
-
 /**
 * Trait providing script assoc array access functionality.
 * @package IGK\System\Polyfill
 */
 trait ScriptAssocArrayAccessTrait{
-
     /**
     * auto generate doc.
     * @param mixed $k
@@ -18,7 +16,6 @@ trait ScriptAssocArrayAccessTrait{
     function offsetExists($k):bool{
         return isset($this->data[$k]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -26,7 +23,6 @@ trait ScriptAssocArrayAccessTrait{
     public function offsetGet($key){
         return igk_getv($this->data, $key);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -35,7 +31,6 @@ trait ScriptAssocArrayAccessTrait{
         $this->data[$k]=$v;
         $this->store(1);        
     }
-
     /**
     * auto generate doc.
     * @param mixed $k

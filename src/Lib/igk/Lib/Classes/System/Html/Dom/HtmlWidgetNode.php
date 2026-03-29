@@ -9,13 +9,11 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlWidgetNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
-
     /**
     * .ctr
     * @param null|mixed $tagname
@@ -23,7 +21,6 @@ class HtmlWidgetNode extends HtmlNode{
     public function __construct($tagname=null){
         parent::__construct($tagname);
     }
-
     /**
     * Initializes.
     */

@@ -7,25 +7,21 @@ use IGK\Helper\JSon;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class GetControllerSchemaTablesCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:schema-tables';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='get controller schema table';
-
     /**
     * Property: options.
     * @var mixed
@@ -33,19 +29,16 @@ class GetControllerSchemaTablesCommand extends AppExecCommand{
     var $options=[
 		'-o:xml|json'=>'get output type'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

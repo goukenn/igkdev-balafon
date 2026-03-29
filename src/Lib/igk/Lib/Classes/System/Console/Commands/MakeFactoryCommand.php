@@ -11,53 +11,44 @@ use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
-
 use IGKDbModelUtility;
-
 /**
 * Make factory command.
 * @package IGK\System\Console\Commands
 */
 class MakeFactoryCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:factory";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "make project's factory. use %sys% for system controller.";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [];
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = "[modelname --controller:controller]|[controller [modelname]] [option]";
-
     /**
     * Exec.
     * @param mixed $command
     * @param mixed $controller
     * @param mixed $modelname
     */
-
     public function exec($command, $controller = "", $modelname = "")
     {
         $ctrl = null;
@@ -97,7 +88,6 @@ class MakeFactoryCommand extends AppExecCommand
             Logger::warn(sprintf('missing model [%s]', $modelname));  
         }
         $fields = igk_map_array_to_str($fields);// var_export($fields, true);   
-
         $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);
@@ -119,11 +109,9 @@ class MakeFactoryCommand extends AppExecCommand
         }
         Logger::success("done\n");
     }
-
     /**
     * Help.
     */
-
     public function help()
     {
         Logger::print("-");

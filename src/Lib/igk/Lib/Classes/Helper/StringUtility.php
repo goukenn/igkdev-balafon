@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
@@ -13,37 +12,31 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\Helper
  */
-
 /**
  * auto generate doc.
  * @package IGK\Helper
  */
 abstract class StringUtility
 {
-
     /**
      * Constant: identifier token.
      * @var mixed
      */
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     /**
      * Constant: default trim char.
      * @var mixed
      */
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
-
     /**
      * auto generate doc.
      * @param array *71280add
      * @return bool
      */
-
     public static function StrArrayContains(string $name, array $list): bool
     {
         $l = $list;
@@ -60,14 +53,12 @@ abstract class StringUtility
      * @param string $s 
      * @return string 
      */
-
     public static function FuncName(string $s): string
     {
         $s = preg_replace("/[^a-z_]/i", "_", $s);
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
     }
-
     /**
      * auto append prefix to column 
      * @param null|string $prefix
@@ -83,13 +74,11 @@ abstract class StringUtility
         }
         return $column;
     }
-
     /**
      * auto generate doc.
      * @param array $tab
      * @return string
      */
-
     public static function DumpArray(array $tab): string
     {
         $sb = new StringBuilder;
@@ -112,7 +101,6 @@ abstract class StringUtility
      * @param int $pos 
      * @return string 
      */
-
     public static function ReadLine(string $content, int &$pos)
     {
         $lin = strpos($content, "\n", $pos);
@@ -131,7 +119,6 @@ abstract class StringUtility
      * @param string $condition 
      * @return string 
      */
-
     public static function ReduceConditionBlock(string $condition)
     {
         $g = $condition;
@@ -161,7 +148,6 @@ abstract class StringUtility
      * @param int $pos 
      * @return mixed 
      */
-
     public static function ReadBrank(string $ln, int &$pos)
     {
         $ch = $ln[$pos];
@@ -182,7 +168,6 @@ abstract class StringUtility
         }
         return $ch;
     }
-
     /**
      * Not null or empty filter callback.
      */
@@ -204,7 +189,6 @@ abstract class StringUtility
      * @param string $splitter 
      * @return string 
      */
-
     public static function GetConstantName(string $s)
     {
         return strtoupper(self::GetSnakeKebab($s, false));
@@ -215,7 +199,6 @@ abstract class StringUtility
      * @param string $splitter 
      * @return string 
      */
-
     public static function GetSnakeKebab(string $haystack, ?bool $hiphen = false)
     {
         $s_out = '';
@@ -264,7 +247,6 @@ abstract class StringUtility
      * @param null|string $end_quote 
      * @return string new string
      */
-
     public static function RemoveQuote(string $data, string $start_quote = '"', ?string $end_quote = null)
     {
         $end_quote = $end_quote ?? $start_quote;
@@ -276,13 +258,11 @@ abstract class StringUtility
         }
         return $data;
     }
-
     /**
      * auto generate doc.
      * @param string $text
      * @return string
      */
-
     public static function RemoveAccents(string $text)
     {
         $accents = [
@@ -312,10 +292,8 @@ abstract class StringUtility
      * @param string $text 
      * @return string 
      */
-
     public static function Slugify(string $text): string
     {
-
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
         // $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
         $text = self::RemoveAccents($text);
@@ -331,20 +309,17 @@ abstract class StringUtility
      * @param string $namespace 
      * @return string 
      */
-
     public static function NS(string $namespace): string
     {
         $ns = str_replace("/", "\\", $namespace);
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
     }
-
     /**
      * auto generate doc.
      * @param null|string $controller
      * @return string
      */
-
     public static function AuthorizationPath(string $name, ?string $controller): string
     {
         return implode("@", array_filter([$controller, $name]));
@@ -354,12 +329,10 @@ abstract class StringUtility
      * @param BaseController $controller 
      * @return string 
      */
-
     public static function GetControllerKeyName(BaseController $controller): string
     {
         return igk_uri(get_class($controller));
     }
-
     /**
      * Returns Application Mail Title.
      * @param BaseController $controller
@@ -378,7 +351,6 @@ abstract class StringUtility
      * @param string $lastName 
      * @return string|null 
      */
-
     public static function DisplayName(?string $firstName = null, ?string $lastName = null): ?string
     {
         $r = null;
@@ -394,7 +366,6 @@ abstract class StringUtility
      * @return bool
      * @throws IGKException 
      */
-
     public static function UriStart(string $haystack, string $compare): bool
     {
         $haystack = rtrim($haystack, "/");
@@ -406,7 +377,6 @@ abstract class StringUtility
         }
         return false;
     }
-
     /**
      * Name display.
      * @param null|string $firstname
@@ -416,7 +386,6 @@ abstract class StringUtility
     {
         return implode(" ", array_filter([ucfirst($firstname ?? ""), strtoupper($lastname ?? "")]));
     }
-
     /**
      * Date display.
      * @param mixed $date
@@ -431,7 +400,6 @@ abstract class StringUtility
         //return igk_format_date($date, "Y-m-d", igk_configs()->get("date_display_format", "Y-m-d"));
         return igk_format_date($date, $in, $out);
     }
-
     /**
      * Location display.
      * @param null|string $location
@@ -440,7 +408,6 @@ abstract class StringUtility
     {
         return $location;
     }
-
     /**
      * Rm sub string.
      * @param string $str
@@ -456,7 +423,6 @@ abstract class StringUtility
      * @param string $name 
      * @return string 
      */
-
     public static function CamelClassName(?string $name = null)
     {
         if ($name == null)
@@ -464,7 +430,6 @@ abstract class StringUtility
         $name = preg_replace("#[^0-9a-z]#i", "_", $name);
         return str_replace("_", "", ucwords(ucfirst($name), "_"));
     }
-
     /**
      * Identifier.
      * @param string $n
@@ -485,7 +450,6 @@ abstract class StringUtility
             return null;
         return $n;
     }
-
     /**
      * Sanitize line.
      * @param string $str
@@ -500,14 +464,12 @@ abstract class StringUtility
     /**
      * convert to uri presentation
      */
-
     public static function Uri(?string $u = "")
     {
         if ($u === null)
             return $u;
         return str_replace("\\", "/", $u);
     }
-
     /**
      * Uri combine.
      * @param mixed ...$args
@@ -519,7 +481,6 @@ abstract class StringUtility
     /**
      * convert to path presentation
      */
-
     public static function Dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         $g = self::Uri($dir);
@@ -528,24 +489,20 @@ abstract class StringUtility
         $g = str_replace("/", $dir, $g);
         return $g;
     }
-
     /**
      * auto generate doc.
      * @param mixed $pattern
      */
-
     public static function Contains($text, $pattern)
     {
         if (!empty($pattern))
             return (strstr($text, $pattern) != null);
         return true;
     }
-
     /**
      * auto generate doc.
      * @param mixed $pattern
      */
-
     public static function EndWith($chaine, $pattern)
     {
         // $chaine = trim($chaine);
@@ -563,7 +520,6 @@ abstract class StringUtility
      * regex detection of formatted string
      * @param string $s formatted string. 
      */
-
     public static function Format($s)
     {
         $c = preg_match_all("/\{(?P<value>[0-9]+)\}/i", $s, $match);
@@ -581,12 +537,10 @@ abstract class StringUtility
         return $s;
     }
     //@chaine : string where to operate
-
     /**
      * auto generate doc.
      * @param mixed $offset the default value is 0
      */
-
     public static function IndexOf($chaine, $research, $offset = 0)
     {
         if (empty($chaine) || empty($research))
@@ -596,12 +550,10 @@ abstract class StringUtility
             return -1;
         return $i;
     }
-
     /**
      * auto generate doc.
      * @param mixed $key the default value is true
      */
-
     public static function Join($tab, $separator = ",", $key = true)
     {
         $s = IGK_STR_EMPTY;
@@ -619,23 +571,19 @@ abstract class StringUtility
         }
         return $s;
     }
-
     /**
      * auto generate doc.
      * @param mixed $pattern
      */
-
     public static function StartWith($chaine, $pattern)
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
     //@personal sub
-
     /**
      * auto generate doc.
      * @param mixed $length the default value is null
      */
-
     public static function Sub($chaine, $start, $length = null)
     {
         if ($length) {
@@ -650,7 +598,6 @@ abstract class StringUtility
      * @param string $token 
      * @return string 
      */
-
     public static function ReadIdentifier(string $hastack, int &$offset = 1, string $token = self::IDENTIFIER_TOKEN): string
     {
         $s = "";
@@ -667,7 +614,6 @@ abstract class StringUtility
      * @param string $tab 
      * @return string 
      */
-
     public static function IndentContent(string $data, $tab = "\t")
     {
         $data = implode("\n", array_map(function ($s) use ($tab) {
@@ -675,7 +621,6 @@ abstract class StringUtility
         }, explode("\n", $data)));
         return $data;
     }
-
     /**
      * Single quote replace.
      * @param string $src
@@ -695,13 +640,11 @@ abstract class StringUtility
         });
         return $src;
     }
-
     /**
      * auto generate doc.
      * @param string $separator
      * @return array
      */
-
     public static function ReadArgs(string $data, $separator = ",")
     {
         if (preg_match("/['\"]/", $separator)) {
@@ -793,7 +736,6 @@ abstract class StringUtility
         }
         return $args;
     }
-
     /**
      * Reads Array Constants.
      * @param mixed $v
@@ -858,7 +800,6 @@ abstract class StringUtility
      * @param string $ch 
      * @return string
      */
-
     public static function StringValue(string $v, $ch = "'"): string
     {
         if ((strpos($v, $ch) === 0) &&
@@ -875,7 +816,6 @@ abstract class StringUtility
      * @param int $offset the offset
      * @return string 
      */
-
     public static function Insert(string $haystack, string $insert, int $offset)
     {
         return substr($haystack, 0, $offset) .
@@ -889,7 +829,6 @@ abstract class StringUtility
      * @param int $length 
      * @return string 
      */
-
     public static function ReplaceAtOffset(string $haystack, string $insert, int $offset, int $length)
     {
         return  substr($haystack, 0, $offset) .
@@ -898,7 +837,6 @@ abstract class StringUtility
                 $offset + $length
             );
     }
-
     /**
      * Displays Address.
      * @param null|string $street
@@ -942,7 +880,6 @@ abstract class StringUtility
      * @param mixed $format 
      * @return mixed 
      */
-
     public static function FormatIfNotNull($value, $format)
     {
         if (!is_null($value)) {
@@ -958,7 +895,6 @@ abstract class StringUtility
      * @param string $identifer 
      * @return string
      */
-
     public static function SanitizeIdentifier(string $identifer): string
     {
         $rp = new Replacement();
@@ -973,7 +909,6 @@ abstract class StringUtility
      * @param mixed $tab 
      * @return string 
      */
-
     public static function ArrayToEnvironment($tab): string
     {
         return implode("\n", array_filter(array_map(function ($v, $k) {
@@ -983,13 +918,11 @@ abstract class StringUtility
             return $k . '=' . $v;
         }, $tab, array_keys($tab))));
     }
-
     /**
      * auto generate doc.
      * @param string $value
      * @return string
      */
-
     public static function ConstantToCamelCaseClassName(string $value): string
     {
         return implode("", array_map("ucfirst", array_map("strtolower", explode("_", $value))));
@@ -999,14 +932,12 @@ abstract class StringUtility
      * @param string $value 
      * @return string 
      */
-
     public static function PathToClassName(string $value): string
     {
         $value = str_replace('-', '_', $value);
         $action_name = implode('', array_map('ucfirst',  array_filter(explode('_', $value))));
         return implode("/", array_map('ucfirst', explode('/', $action_name)));
     }
-
     /**
      * split with non escaped char
      * @param string $haystack 
@@ -1034,7 +965,6 @@ abstract class StringUtility
         }
         return $tab;
     }
-
     /**
     * auto generate doc.
     * @param string $haystack
@@ -1065,7 +995,6 @@ abstract class StringUtility
         }
         return array_filter($v_t);
     }
-
     /**
     * auto generate doc.
     * @return string[]
@@ -1077,13 +1006,11 @@ abstract class StringUtility
             $q = array_shift($range);
             $c = explode($q, $haystack, 2);
             if (count($c) == 2) {
-
                 $r[] = $c[0];
                 $haystack = $c[1];
                 if ($infinite)
                     $range[] = $q;
             } else {
-
                 $r[] = $haystack;
                 $haystack = null;
                 break;

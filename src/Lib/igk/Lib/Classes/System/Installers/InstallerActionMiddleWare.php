@@ -9,19 +9,16 @@ use Exception;
 * Represent InstallerActionMiddleWare class
 */
 class InstallerActionMiddleWare implements IMiddleWareAction{
-
     /**
     * Property: next.
     * @var mixed
     */
     private $_next;
-
     /**
     * Property: service.
     * @var mixed
     */
     private $_service;
-
     /**
     * Invoke.
     */
@@ -30,7 +27,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     /**
     * abort action independly
     */
-
     public function abort(){
         if ($this->_service->Current > 0){
             $this->_service->Current--;
@@ -43,7 +39,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     /**
     * get current message title
     */
-
     public function getMessage(){
         return get_class($this);
     }
@@ -51,7 +46,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     * get service info
     * @var object
     */
-
     public function getServiceInfo(){
         return $this->_service;
     }
@@ -59,19 +53,16 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     * go to next action and invoke
     */
     public final
-
     function next(){
         if($this->_next){
             $this->_service->Current++;
             $this->_next->invoke();
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $service the default value is null
     */
-
     public static function Run($list, $index, ?InstallerMiddleWareActions $service){
         $c=$list[$index]; 
         $_service=(object)array(

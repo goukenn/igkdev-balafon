@@ -10,7 +10,6 @@ use function igk_resources_gets as __;
 * @package IGK\System\Security\Web
 */
 class EmailContentValidator  extends MapContentValidatorBase{
-
     /**
     * auto generate doc.
     * @param mixed $error

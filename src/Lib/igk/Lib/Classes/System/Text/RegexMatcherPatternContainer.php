@@ -3,20 +3,17 @@
 // @file: RegexMatcherPatternContainer.php
 // @date: 20250816 09:36:08
 namespace IGK\System\Text;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
 class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegexMatcherPatternContainer{
-
     /**
     * Property: regex.
     * @var mixed
     */
     private $m_regex;
-
     /**
     * .ctr
     * @param mixed $regex
@@ -26,7 +23,6 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
         parent::__construct($matcher);
         $this->m_regex = $regex; 
     }
-
     /**
     * Returns Type.
     */
@@ -34,7 +30,6 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
     {
         return 'include';
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -45,7 +40,6 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
         }
         return $this->m_regex->{$name};
     }
-
     /**
     * destructor
     * @param mixed $name
@@ -54,7 +48,6 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
     public function __set($name, $v){
         $this->m_regex->{$name} = $v;
     }
-
     /**
      * matching info container 
      * @param null|RegexDetectInfo &$info 
@@ -62,7 +55,6 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
      * @param int &$offset 
      * @return void 
      */
-
     public function startMatch(?RegexDetectInfo $parent_info, ?RegexDetectInfo & $info, string $source, int & $offset){
         $this->m_regex->resetTreatment();
         $this->m_regex->setParentInfo($parent_info);

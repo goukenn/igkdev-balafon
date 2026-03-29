@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
-
 /**
 * Argument type not valid exception.
 * @package IGK\System\Exceptions
 */
 class ArgumentTypeNotValidException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $index

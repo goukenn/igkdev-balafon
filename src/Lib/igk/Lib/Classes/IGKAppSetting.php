@@ -4,20 +4,17 @@
 // @date: 20220803 13:48:54
 // @desc: 
 ///<summary>
-
 /**
 * auto generate doc.
 * @package IGK
 * @property \IGKAppInfoStorage $appInfo application storage info
 */
 class IGKAppSetting{
-
     /**
     * Property: info.
     * @var mixed
     */
     private $info;
-
     /**
     * Returns Info.
     */
@@ -29,12 +26,10 @@ class IGKAppSetting{
      * @param object $info 
      * @return void 
      */
-
     public function __construct(object $info){
         if (!is_object($info)) die("info not valid");
         $this->info = $info;
     }
-
     /**
     * Called after unserialize().
     */
@@ -42,7 +37,6 @@ class IGKAppSetting{
     {
         igk_wln_e("wake up appsetting");
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -56,7 +50,6 @@ class IGKAppSetting{
         }
         return null;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -74,7 +67,6 @@ class IGKAppSetting{
      * return application storage info
      * @return IGKAppInfoStorage 
      */
-
     public function getAppInfo(){
         static $storage;
         if (($storage===null) || ($storage!== $this->info->appInfo)){
@@ -82,7 +74,6 @@ class IGKAppSetting{
         }
         return $storage;
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */

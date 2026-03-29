@@ -14,32 +14,27 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class AddColumnDataSchemaCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:schema-add-column';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='dbschema: add new column to controller\'s project tables';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category="db";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'table_name column_definition [controller]';
-
     /**
     * Exec.
     * @param mixed $command

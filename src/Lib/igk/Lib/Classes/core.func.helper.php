@@ -3,14 +3,10 @@
 // @filename: core.func.helper.php
 // @date: 20251121 10:41:27
 // @desc: define fonction in IGK namespace
-
 // + | --------------------------------------------------------------------
 // + | 
 // + |
-
 namespace IGK;
-
-
 if (!function_exists('typeof')){
     /**
      * type of definition 

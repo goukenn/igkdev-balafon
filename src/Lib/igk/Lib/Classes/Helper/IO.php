@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Helper;
-
 use Exception;
 use GPBMetadata\Google\Firestore\V1Beta1\Write;
 use IGK\Helper\StringUtility as IGKString;
@@ -17,7 +16,6 @@ use IGK\System\IO\Path;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
  * IO utility helper
  * @package IGK\Helper
@@ -26,13 +24,11 @@ class IO
 {
     use IOSearchFileTrait;
     use IOPathCheckerTrait;
-
     /**
      * Constant: input stream.
      * @var mixed
      */
     const INPUT_STREAM = 'php://input';
-
     /**
      * Constant: stdin stream.
      * @var mixed
@@ -43,13 +39,11 @@ class IO
      * @param string $buffer 
      * @return string 
      */
-
     public static function MimeTypeFromBuffer(string $buffer)
     {
         $finfo = new \finfo(\FILEINFO_MIME_TYPE);
         return $finfo->buffer($buffer);
     }
-
     /**
     * auto generate doc.
     * @param string $file
@@ -59,7 +53,6 @@ class IO
     {
         $tab = null;
         if ($fileinfo  = finfo_open(FILEINFO_MIME_TYPE)) {
-
             $tab = finfo_file($fileinfo, $file);
             finfo_close($fileinfo);
             if ($tab=='text/plain'){
@@ -71,8 +64,6 @@ class IO
         }
         return $tab;
     }
-
-
     /**
      * Resolves File Ext.
      * @param mixed $file
@@ -93,13 +84,11 @@ class IO
         }
         return null;
     }
-
     /**
      * auto generate doc.
      * @param string $path
      * @return mixed
      */
-
     public static function ResolveDirRealPath(string $basedir, string $path)
     {
         $found = true;
@@ -125,7 +114,6 @@ class IO
      * @return bool 
      * @Exception 
      */
-
     public static function CleanDir(string $dir): bool
     {
         if ($hdir = @opendir($dir)) {
@@ -148,7 +136,6 @@ class IO
     /**
      * create a IgnoreHiddenDirAndFile 
      */
-
     public static function IgnoreHiddenDirAndFileCallback()
     {
         return function ($f) {
@@ -167,7 +154,6 @@ class IO
      * @return string|false|void 
      * @throws IGKException 
      */
-
     public static function CreateTempDir(string $prefix)
     {
         $tempdir = sys_get_temp_dir();
@@ -185,7 +171,6 @@ class IO
      * @return string 
      * @throws Exception 
      */
-
     public static function CreateTempFile(string $directory, string $ext = '.tmp', string $prefix = '')
     {
         $file = tempnam($directory, $prefix);
@@ -200,7 +185,6 @@ class IO
      * @param null|string $tempdir 
      * @return string|false 
      */
-
     public static function GetTempFile(string $prefix, ?string $tempdir = null)
     {
         $tempdir = $tempdir ?? sys_get_temp_dir();
@@ -214,7 +198,6 @@ class IO
      * @return string|null 
      * @throws IGKException 
      */
-
     public static function CheckFileVersion($path, $pattern = '/^balafon\.(?P<version>[0-9]+(\.[0-9]+){0,3})/')
     {
         $dir = dirname($path);
@@ -245,7 +228,6 @@ class IO
      * @param mixed $value 
      * @return string 
      */
-
     public static function ResolvPathConstant($dir, $value)
     {
         $p = realpath($value);
@@ -254,7 +236,6 @@ class IO
         }
         return $p;
     }
-
     /**
      * auto generate doc.
      */
@@ -287,7 +268,6 @@ class IO
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function CollapsePath(string $str)
     {
         $tp = array_flip(igk_environment()->getEnvironmentPath());
@@ -310,13 +290,11 @@ class IO
         }
         return $path;
     }
-
     /**
      * auto generate doc.
      * @param string $c parent path
      * @return bool
      */
-
     public static function IsSubDir($p, $c)
     {
         if (DIRECTORY_SEPARATOR != "/") {
@@ -334,7 +312,6 @@ class IO
     /**
      * create a symlinks
      */
-
     public static function SymLink($target, $cibling)
     {
         $r = false;
@@ -352,7 +329,6 @@ class IO
         $r = is_link($cibling);
         return $r;
     }
-
     /**
      * auto generate doc.
      * @param mixed $separator the default value is DIRECTORY_SEPARATOR
@@ -367,22 +343,18 @@ class IO
         }
         return $path;
     }
-
     /**
      * auto generate doc.
      * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
      */
-
     public static function AppendToFileAsUTF8WBOM($filename, $content, $chmod = IGK_DEFAULT_FILE_MASK)
     {
         return self::WriteToFile($filename, $content, true, $chmod, "a+");
     }
-
     /**
      * auto generate doc.
      * @param mixed $overwrite the default value is false
      */
-
     public static function CopyFiles($inputDir, $outputDir, $recursive = false, $overwrite = false)
     {
         $ddir = [["d" => $inputDir, "path" => $outputDir]];
@@ -417,12 +389,10 @@ class IO
             }
         }
     }
-
     /**
      * auto generate doc.
      * @param mixed $mode the default value is IGK_DEFAULT_FOLDER_MASK
      */
-
     public static function CreateDir(string $dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
     {
         // \IGK\System\Console\Logger::debug('create dir : '.$dirname);
@@ -431,7 +401,6 @@ class IO
     /**
      *  Create a directory recursivily
      */
-
     public static function CreateRDir($dir, $root = false)
     {
         if (empty($dir)) {
@@ -456,7 +425,6 @@ class IO
     /**
      * DIRECTORY FUNCTION.
      */
-
     public static function GetBaseDir($dir = null)
     {
         return igk_io_basedir($dir);
@@ -465,7 +433,6 @@ class IO
      *  get relative path according to the IGK_APP_DIR
      * @param mixed $dir must be a full path to existing file or existing directory
      */
-
     public static function GetBaseDirRelativePath($dir, $separator = DIRECTORY_SEPARATOR)
     {
         $doc_root = self::GetBaseDir();
@@ -474,7 +441,6 @@ class IO
     /**
      * GET BASE FOLDER FULLPATH
      */
-
     public static function GetBaseFolderFullpath($dir)
     {
         $d = igk_app()->CurrentPageFolder;
@@ -486,17 +452,14 @@ class IO
      * get the current base uri according to local specification
      * @param mixed $dir null or existing fullpath directory or file element.
      */
-
     public static function GetBaseUri($dir = null, $secured = false, &$path = null)
     {
         return igk_io_baseuri($dir, $secured, $path);
     }
-
     /**
      * auto generate doc.
      * @param mixed $separator the default value is DIRECTORY_SEPARATOR
      */
-
     public static function GetChildRelativePath($source, $destination, $separator = DIRECTORY_SEPARATOR)
     {
         $doc_root = igk_uri($source);
@@ -518,7 +481,6 @@ class IO
     /**
      * get current directory
      */
-
     public static function GetCurrentDir()
     {
         return getcwd();
@@ -527,7 +489,6 @@ class IO
     /**
      * get relative path according to IGK_APP_DIR base dir
      */
-
     public static function GetCurrentDirRelativePath($dir, $mustexists = 1, $separator = DIRECTORY_SEPARATOR)
     {
         $doc = igk_io_rootdir();
@@ -562,7 +523,6 @@ class IO
      * return relative uri from server requested URI
      * @param mixed $dir full path to resources
      */
-
     public static function GetCurrentRelativeUri($dir = IGK_STR_EMPTY, ?string $path = null)
     {
         if (strpos($dir, "./") === 0) {
@@ -611,7 +571,6 @@ class IO
     /**
      * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
      */
-
     public static function GetDir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null) {
@@ -633,7 +592,6 @@ class IO
      * retrieve only file 
      * @param mixed $folder
      */
-
     public static function GetDirFileList($folder)
     {
         if (!is_dir($folder))
@@ -657,7 +615,6 @@ class IO
      * retrieve only folder
      * @param mixed $folder
      */
-
     public static function GetDirList($folder)
     {
         if (!is_dir($folder))
@@ -682,7 +639,6 @@ class IO
      * @param  string|string[] $folder folder list 
      * @return false|string|string[] 
      */
-
     public static function GetList($folder)
     {
         if (!is_dir($folder))
@@ -706,7 +662,6 @@ class IO
      * @param ?string|callable $match
      * @param bool $recursive the default value is false
      */
-
     public static function GetDirs(string $dir, $match, bool $recursive = false)
     {
         if (is_dir($dir) === false)
@@ -752,12 +707,10 @@ class IO
         }
         return $v_out;
     }
-
     /**
      * auto generate doc.
      * @param string $filename
      */
-
     public static function GetFileExt(string $filename)
     {
         $pathinfo = pathinfo($filename);
@@ -769,12 +722,10 @@ class IO
         }
         return null;
     }
-
     /**
      * auto generate doc.
      * @param string $filename
      */
-
     public static function GetFileName(string $filename)
     {
         $pathinfo = pathinfo($filename);
@@ -789,7 +740,6 @@ class IO
      * @param ?array|mixed * $excludedir. dir_name or full_directory_path the default value is null. "@--ignore_hidden--" is a flag used to ignore hidden folder in search
      * @param callable $callback callback called* $excludedir the default value is null
      */
-
     public static function GetFiles($dir, $match, $recursive = false, ?array &$excludedir = null, ?callable $callback = null)
     {
         if (is_dir($dir) === false)
@@ -828,7 +778,6 @@ class IO
         $is_excludir_array = is_array($excludedir);
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
-
             if (isset($excludedir[$q]) || ($is_excludir_array && (\in_array($q, $excludedir) || \in_array(basename($q), $excludedir)))) {
                 continue;
             }
@@ -877,12 +826,10 @@ class IO
         }
         return $v_out;
     }
-
     /**
      * auto generate doc.
      * @param mixed $size
      */
-
     public static function GetFileSize($size)
     {
         if ($size == 0)
@@ -901,12 +848,10 @@ class IO
         );
         return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
     }
-
     /**
      * auto generate doc.
      * @param mixed $recursive the default value is true
      */
-
     public static function GetPictureFile($dir, $recursive = true)
     {
         if (is_dir($dir) === false)
@@ -945,12 +890,10 @@ class IO
         }
         return $tab;
     }
-
     /**
      * auto generate doc.
      * @param mixed $secure the default value is false
      */
-
     public static function GetPort($secure = false)
     {
         $p = igk_getv($_SERVER, 'SERVER_PORT');
@@ -964,7 +907,6 @@ class IO
      * @param mixed $targetdir path from directory 
      * @param mixed $separator the default value is DIRECTORY_SEPARATOR
      */
-
     public static function GetRelativePath($sourcepath, $targetdir, $separator = DIRECTORY_SEPARATOR)
     {
         return Path::GetRelativePath($sourcepath, $targetdir, $separator);
@@ -1009,7 +951,6 @@ class IO
         // }
         // return $s;
     }
-
     /**
      * auto generate doc.
      * @param mixed $bdir
@@ -1032,7 +973,6 @@ class IO
         }
         return empty($dir) ? null : self::__fixPath($dir);
     }
-
     /**
      * auto generate doc.
      */
@@ -1046,7 +986,6 @@ class IO
      * Get the Root directory according to DocumentRoot apache configuration
      * @param mixed $dir relative dirctory that will be append to result
      */
-
     public static function GetRootBaseDir($dir = "")
     {
         $s = self::GetBaseDir();
@@ -1078,7 +1017,6 @@ class IO
     /**
      *  get relative path according to the DOCUMENT_ROOT
      */
-
     public static function GetRootRelativePath(?string $dir = null, $separator = DIRECTORY_SEPARATOR)
     {
         $doc_root = igk_io_rootdir();
@@ -1098,12 +1036,10 @@ class IO
             $dir = $c . $separator . $dir;
         return igk_uri(empty($dir) ? null : self::__fixPath($dir));
     }
-
     /**
      * auto generate doc.
      * @param mixed $secured the default value is null
      */
-
     public static function GetRootUri($uri = IGK_STR_EMPTY, $secured = null)
     {
         if (!$secured && igk_sys_srv_is_secure())
@@ -1125,12 +1061,10 @@ class IO
         $out = str_replace('\\', '/', $out);
         return $out;
     }
-
     /**
      * auto generate doc.
      * @param mixed $separator the default value is DIRECTORY_SEPARATOR
      */
-
     public static function GetSysRelativePath($dir, $doc_root, $separator = DIRECTORY_SEPARATOR)
     {
         if (empty($dir) || empty($doc_root))
@@ -1166,13 +1100,11 @@ class IO
      * check if this path exists and is abolute path
      * @param mixed $uri
      */
-
     public static function IsAbsolutePath($uri): bool
     {
         $uri = igk_dir($uri);
         return igk_io_file_exists($uri) && ($uri == igk_realpath($uri));
     }
-
     /**
      * Returns true if Detected Absolute Path.
      * @param string $path
@@ -1188,12 +1120,10 @@ class IO
             return str_starts_with($path, '/');
         }
     }
-
     /**
      * auto generate doc.
      * @param mixed $dir
      */
-
     public static function IsDirEmpty($dir)
     {
         if (!is_dir($dir))
@@ -1217,7 +1147,6 @@ class IO
     /**
      * check is this file is present on server .symbolink link resolved
      */
-
     public static function IsRealAbsolutePath($uri)
     {
         $uri = igk_dir($uri);
@@ -1226,7 +1155,6 @@ class IO
     /**
      * read entiere file in one shot. speed for small file
      */
-
     public static function ReadAllText($filename)
     {
         if (!is_file($filename))
@@ -1249,12 +1177,10 @@ class IO
         }
         return $str;
     }
-
     /**
      * auto generate doc.
      * @param mixed $ln
      */
-
     public static function ReadFile($f, $offset, $ln)
     {
         if (!igk_io_file_exists($f))
@@ -1270,12 +1196,10 @@ class IO
         }
         return null;
     }
-
     /**
      * auto generate doc.
      * @param mixed $dir
      */
-
     public static function RemoveFirstDirectorySeparator($dir)
     {
         while ((!empty($dir) && ($dir[0] == DIRECTORY_SEPARATOR))) {
@@ -1286,7 +1210,6 @@ class IO
     /**
      * REMOVE FOLDER
      */
-
     public static function RmDir($dir, $recursive = true, $callback = null)
     {
         if (!is_dir($dir))
@@ -1337,12 +1260,10 @@ class IO
         }
         return igk_count($kdir) == 0;
     }
-
     /**
      * auto generate doc.
      * @param mixed $pattern the default value is null
      */
-
     public static function RmFiles($dir, $pattern = null)
     {
         if (!is_dir($dir))
@@ -1366,17 +1287,14 @@ class IO
     /**
      * write text to a file
      */
-
     public static function WriteToFile($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
     {
         return igk_io_save_file_as_utf8_wbom($filename, $content, $overwrite, $chmod, $type);
     }
-
     /**
      * auto generate doc.
      * @param mixed $chmod the default value is IGK_DEFAULT_FILE_MASK
      */
-
     public static function WriteToFileAsUtf8WBOM($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK)
     {
         return self::WriteToFile($filename, $content, $overwrite, $chmod);
@@ -1388,7 +1306,6 @@ class IO
      * @param int $end 
      * @return string 
      */
-
     public static function ReadLines(string $filename, int $start, int $end)
     {
         $g = explode("\n", file_get_contents($filename));
@@ -1404,7 +1321,6 @@ class IO
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function GetUnixPath(string $path, bool $mustExist = false, $start = "/"): ?string
     {
         if (!igk_environment()->isUnix() || ($path[0] != "/")) {

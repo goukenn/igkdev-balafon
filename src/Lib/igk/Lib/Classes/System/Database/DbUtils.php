@@ -18,7 +18,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
-
 /**
 * Db utils.
 * @package IGK\System\Database
@@ -43,7 +42,6 @@ class DbUtils
         }
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -85,7 +83,6 @@ class DbUtils
             } 
         } 
     }
-
     /**
     * auto generate doc.
     * @param mixed $b
@@ -106,7 +103,6 @@ class DbUtils
         }
         return 1;
     }
-
     /**
     * auto generate doc.
     * @param BaseController $controller
@@ -204,7 +200,6 @@ class DbUtils
         // }
         return $tp;
     }
-
     /**
     * Returns Declared Column Constants.
     * @param ModelBase $model
@@ -219,7 +214,6 @@ class DbUtils
         }
         return $l;
     }
-
     /**
     * auto generate doc.
     * @param IDbColumnInfo $column_info

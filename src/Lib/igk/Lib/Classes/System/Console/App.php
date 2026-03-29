@@ -17,14 +17,12 @@ use IGKException;
 use ReflectionException;
 use stdClass;
 use Throwable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
 */
 class App implements ICLICommandApp
 {
-
     /**
     * Constant: green.
     * @var mixed
@@ -137,7 +135,6 @@ class App implements ICLICommandApp
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
-
         if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile(), true)) {
             Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
@@ -146,7 +143,6 @@ class App implements ICLICommandApp
             unset($v_cmd);
         } // + | load commands 
         $command_args = AppCommand::GetCommands($app);
- 
         if ($command_args) {
             foreach ($command_args as $c) {
                 $callbable = null;
@@ -172,13 +168,11 @@ class App implements ICLICommandApp
                 $handle[trim($n)] = $b;
             }
         }
-    
         ksort($command);
         $app->commands = $command;
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
         self::ResetCommandWorkingDir();       
-        
         return self::Exec($app, $tab) ?? 0;
     }
     /**
@@ -222,7 +216,6 @@ class App implements ICLICommandApp
                 ];
             }
         }
-  
         foreach ($v_tcommands as $n => $b) {
             if (count($c = explode(',', $n)) > 1) {
                 array_map(function ($i) use (&$handle, $b) {
@@ -252,8 +245,6 @@ class App implements ICLICommandApp
         $show_help = true;
         // create command object
         $command = ConsoleUtility::TreatCommandArgs($app, $tab, $args, $handle);
-        
-         
         try {
             $action = $command->exec;  
             if ($action) {

@@ -3,7 +3,6 @@
 // @file: IGrammar.php
 // @date: 20230305 21:56:20
 namespace IGK\Database;
-
 /**
 * auto generate doc.
 * @package IGK\Database

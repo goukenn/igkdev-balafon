@@ -19,32 +19,27 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ViewCompilerCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--compile-view";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "compile view file";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "compilation";
-
     /**
     * Property: options.
     * @var mixed
@@ -52,14 +47,12 @@ class ViewCompilerCommand extends AppExecCommand
     var $options = [
         "--cache" => "for cache."
     ];
-
     /**
     * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf('%s file [controller] [options]', $this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -103,7 +96,6 @@ class ViewCompilerCommand extends AppExecCommand
         //     echo "finish:".$fc($compiler, $src);
         // }
     }
-
     /**
     * Creates Eval Code.
     * @param BaseController $controller
@@ -121,7 +113,6 @@ class ViewCompilerCommand extends AppExecCommand
         })->bindTo($controller);
     }
 }
-
 /**
 * No data provided.
 * @package IGK\System\Console\Commands
@@ -129,7 +120,6 @@ class ViewCompilerCommand extends AppExecCommand
 class NoDataProvided implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
-
     /**
     * Access offset get.
     * @param mixed $index

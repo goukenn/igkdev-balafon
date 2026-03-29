@@ -8,7 +8,6 @@ namespace IGK\System\Html\Dom;
 * no tag definition 
 */
 class HtmlNoTagNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -17,18 +16,15 @@ class HtmlNoTagNode extends HtmlNode{
     /**
     * .ctr
     */
-
     public function __construct(){       
         parent::__construct();
     }
     /**
     * can render tag
     */
-
     public function getCanRenderTag(){ 
         return false;
     }
-
     /**
     * Returns Is Active.
     */

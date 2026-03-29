@@ -17,7 +17,6 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenStateBufferTrait;
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -29,31 +28,26 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     use CompilerTokenBracketTrait;
     use CompilerTokenReadStructHandlerTrait;
     use CompilerTokenCommentHandlerTrait;
-
     /**
     * auto generate doc.
     * @var ViewTokenizeOptions
     */
     private $m_tokenOptions;
-
     /**
     * Property: converter.
     * @var mixed
     */
     var $converter;
-
     /**
     * Property: flags.
     * @var mixed
     */
     private $m_flags = [];
-
     /**
     * Property: clodeblock.
     * @var mixed
     */
     private $m_clodeblock = [];
-
     /**
     * .ctr
     */
@@ -61,7 +55,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     {
         $this->m_tokenOptions = new ViewTokenizeOptions();
     }
-
     /**
     * Handle white space.
     * @param mixed $options
@@ -70,7 +63,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     */
     protected function _handleWhiteSpace($options, $id, $value){
     }
-
     /**
     * Handles Token.
     * @param ReadTokenOptions $options
@@ -249,7 +241,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         return true;
     }
-
     /**
     * auto generate doc.
     * @param ViewTokenizeOptions $option
@@ -293,7 +284,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             return $this->handleGlobalUseFlag($flag, $option, $id, $value);
         }
     }
-
     /**
     * Compile source.
     * @param string $source
@@ -304,7 +294,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         $this->parseToken($source);
         return $this->mergeSourceCode();
     }
-
     /**
     * Merges Source Code.
     * @return ?string
@@ -313,7 +302,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     {
         return $this->m_tokenOptions->output();
     }
-
     /**
     * auto generate doc.
     * @param ViewTokenizeOptions $options
@@ -391,7 +379,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         return true;
     }
-
     /**
     * auto generate doc.
     * @param ViewTokenizeOptions $options
@@ -413,7 +400,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->block = $v_block->parent;
     }
-
     /**
     * auto generate doc.
     * @param ViewTokenizeOptions $options
@@ -440,7 +426,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->skipWhiteSpace = 1;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -456,7 +441,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             $options->flagOptions = null;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
@@ -469,7 +453,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             "options" => $options->flagOptions
         ]);
     }
-
     /**
     * Handles Read Class.
     * @param mixed & $flag

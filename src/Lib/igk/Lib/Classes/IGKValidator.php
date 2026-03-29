@@ -18,43 +18,36 @@ use function igk_resources_gets as __;
  */
 final class IGKValidator extends IGKObject
 {
-
     /**
     * Constant: int regex.
     * @var mixed
     */
     const INT_REGEX = \IGK\System\Regex\RegexConstant::INT_REGEX;
-
     /**
     * Constant: pwd min length.
     * @var mixed
     */
     const PWD_MIN_LENGTH = IGK_PWD_LENGTH;
-
     /**
     * Constant: email regex.
     * @var mixed
     */
     const EMAIL_REGEX = '/^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6}$/i';
-
     /**
     * Property: cibling.
     * @var mixed
     */
     private $sm_cibling;
-
     /**
     * Property: enode.
     * @var mixed
     */
     private $sm_enode;
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * auto generate doc.
     */
@@ -63,12 +56,10 @@ final class IGKValidator extends IGKObject
         $this->sm_enode = igk_create_node_arg("div.error");
         $this->sm_cibling = array();
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     */
-
     public static function AddCibling($name)
     {
         $e = self::getInstance();
@@ -77,12 +68,10 @@ final class IGKValidator extends IGKObject
             $e->sm_cibling[$v] = 1;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $errormsg the default value is IGK_STR_EMPTY
     */
-
     public static function Assert(bool $condition, bool &$error, $node = null, $errormsg = IGK_STR_EMPTY)
     {
         if (!$condition) {
@@ -92,7 +81,6 @@ final class IGKValidator extends IGKObject
             }
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -100,12 +88,10 @@ final class IGKValidator extends IGKObject
     {
         return self::getInstance()->sm_cibling;
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     */
-
     public static function ContainCibling($name)
     {
         $e = self::getInstance();
@@ -114,7 +100,6 @@ final class IGKValidator extends IGKObject
     /**
      * retrieve validation error node 
      */
-
     public static function Error()
     {
         return self::getInstance()->sm_enode;
@@ -122,7 +107,6 @@ final class IGKValidator extends IGKObject
     /**
      * global validation instance
      */
-
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -132,12 +116,10 @@ final class IGKValidator extends IGKObject
         }
         return self::$sm_instance;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public static function GetPattern($n)
     {
         static $patterns = null;
@@ -152,7 +134,6 @@ final class IGKValidator extends IGKObject
     /**
      * represent initilalize the validator node
      */
-
     public static function Init()
     {
         $e = self::getInstance();
@@ -160,41 +141,33 @@ final class IGKValidator extends IGKObject
         $e->sm_cibling = array();
         return $e->sm_enode;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public static function IsDate($v) {}
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public static function IsDouble($v)
     {
         return is_Double($v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $mail
     */
-
     public static function IsEmail($mail)
     {
         if (self::IsStringNullOrEmpty($mail))
             return false;
         return preg_match(self::EMAIL_REGEX, $mail);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public static function IsFloat($v)
     {
         return is_float($v);
@@ -204,7 +177,6 @@ final class IGKValidator extends IGKObject
      * @param null|string $v 
      * @return bool 
      */
-
     public static function IsGUID(?string $v = null)
     {
         return !is_null($v) && (strlen($v) == Constants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
@@ -212,7 +184,6 @@ final class IGKValidator extends IGKObject
     /**
      * check password validity confirmation
      */
-
     public static function ValidatePassword($pwd, $rpwd): bool
     {
         if ($pwd && ($pwd == $rpwd)) {
@@ -220,22 +191,18 @@ final class IGKValidator extends IGKObject
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public static function IsInt($v)
     {
         return is_numeric($v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $p
     */
-
     public static function IsIpAddress(string $p)
     {
         if (is_null($p)) {
@@ -243,12 +210,10 @@ final class IGKValidator extends IGKObject
         }
         return preg_match(IGK_IPV4_REGEX, trim($p));
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public static function IsString($v)
     {
         return is_string($v);
@@ -256,7 +221,6 @@ final class IGKValidator extends IGKObject
     /**
      * check is null or empty.
      */
-
     public static function IsStringNullOrEmpty($v, $cibling = null, $msg = "error...")
     {
         $v = (($v == null) || (is_string($v) && (strlen($v) == 0)));
@@ -268,7 +232,6 @@ final class IGKValidator extends IGKObject
     /**
      * check if full uri
      */
-
     public static function IsUri($v)
     {
         if (empty($v))
@@ -283,12 +246,10 @@ final class IGKValidator extends IGKObject
         // $r = !$r || preg_match( "#^/(index\.php/)?\{[^\}]+]\}#i", $v);
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param mixed $o
     */
-
     public static function IsValidPwd($o)
     {
         static $validator;
@@ -297,13 +258,11 @@ final class IGKValidator extends IGKObject
         }
         return $validator->validate($o) == $o;
     }
-
     /**
     * auto generate doc.
     * @param mixed * $error
     * @return bool|object
     */
-
     public static function Validate($o, $fields, &$error, bool $validate = true)
     {
         $g = self::getInstance()->sm_enode;

@@ -27,7 +27,6 @@ use ReflectionException;
  * 
  * @package IGK\System\Caches
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Caches
@@ -38,25 +37,21 @@ class DBCaches
      * base name of schema definition to store 
      */
     const CACHE_FILE_NAME = '.data-schema.definition.cache';
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: db initializer.
     * @var mixed
     */
     private $m_db_initializer;
-
     /**
     * Property: db init request.
     * @var mixed
     */
     private $m_db_init_request;
-
     /**
     * Property: mock.
     * @var mixed
@@ -72,7 +67,6 @@ class DBCaches
      * @param BaseController $controller 
      * @return <string, SchemaMigrationInfo>[]
      */
-
     public static function GetControllerDataTableDefinition(BaseController $controller){
         if (!self::getInstance()->m_init_cache){
             self::Init();
@@ -95,7 +89,6 @@ class DBCaches
      * init db request 
      * @return mixed 
      */
-
     public static function InitRequest()
     {
         return self::getInstance()->m_db_init_request;
@@ -104,7 +97,6 @@ class DBCaches
      * retrieve the full cache directory 
      * @return string 
      */
-
     public static function GetCacheFile()
     {
         $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
@@ -115,12 +107,10 @@ class DBCaches
      * retrieve cached data
      * @return array 
      */
-
     public static function GetCacheData()
     {
         return self::getInstance()->m_tableInfo;
     }
-
     /**
     * Returns Cache Initializer.
     */
@@ -128,12 +118,10 @@ class DBCaches
     {
         return self::getInstance()->m_db_initializer;
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public static function IsInitializing()
     {
         return self::getInstance()->m_initializing;
@@ -143,13 +131,11 @@ class DBCaches
      * @var array
      */
     private $m_tableInfo = [];
-
     /**
     * Cache: init cache.
     * @var mixed
     */
     private $m_init_cache = false;
-
     /**
     * Property: initializing.
     * @var mixed
@@ -173,7 +159,6 @@ class DBCaches
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     public static function Init()
     {
         $i = self::getInstance();
@@ -187,7 +172,6 @@ class DBCaches
      * @return never 
      * @throws NotImplementException 
      */
-
     public static function Reset(bool $force=false)
     {
         static::getInstance()->_clearAndReload($force);
@@ -199,7 +183,6 @@ class DBCaches
      * @return SchemaMigrationInfo|array 
      * @throws IGKException 
      */
-
     public static function GetColumnInfo(string $table, ?BaseController $controller = null, & $table_info = null)
     {
         return static::getInstance()->resolve($table, $controller, $table_info);
@@ -208,7 +191,6 @@ class DBCaches
      * get table information
      * @return ?SchemaMigrationInfo
      */
-
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
         $v_i = static::getInstance();
@@ -227,7 +209,6 @@ class DBCaches
         }
         return $c;
     }
-
     /**
     * Returns.
     * @param string $n
@@ -243,7 +224,6 @@ class DBCaches
      * @param mixed $info 
      * @return void 
      */
-
     public static function Register(string $table,  $info)
     {
         $g = static::getInstance();
@@ -253,12 +233,10 @@ class DBCaches
      * helper: clear db caches
      * @return void 
      */
-
     public static function Clear()
     {
         static::getInstance()->_clear();
     }
-
     /**
     * .ctr
     * @return
@@ -266,7 +244,6 @@ class DBCaches
     private function __construct()
     {
     }
-
     /**
     * get string presentation.
     */
@@ -308,7 +285,6 @@ class DBCaches
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     protected function _initDbCache(bool $force=false)
     {
         if ($this->m_initializing) {
@@ -418,7 +394,6 @@ class DBCaches
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     public static function Update(BaseController $controller, $storeCache = false)
     {
         $init = new DatabaseInitializer;
@@ -434,7 +409,6 @@ class DBCaches
      * get stored controller table info definitions
      * @return array 
      */
-
     public function getDefs()
     {
         return $this->m_db_defs;
@@ -446,7 +420,6 @@ class DBCaches
      * @return mixed 
      * @throws IGKException 
      */
-
     public function resolve(string $table, ?BaseController $controller = null, & $table_info = null)
     {
         if ($this->m_initializing) {
@@ -501,7 +474,6 @@ class DBCaches
         $table_info = $ref_def;
         return $ref_def->tableRowReference;
     }
-
     /**
     * auto generate doc.
     * @param mixed $m
@@ -522,7 +494,6 @@ class DBCaches
         }
         return $m;
     }
-
     /**
     * auto generate doc.
     * @param array $data
@@ -556,7 +527,6 @@ class DBCaches
         )));
         igk_io_w2file(self::GetCacheFile(), $src);  
     }
-
     /**
     * Returns Class Key Entry Definition.
     * @param BaseController $controller
@@ -578,7 +548,6 @@ class DBCaches
      * @param BaseController $controller 
      * @return void 
      */
-
     public static function ClearControllerCache(BaseController $controller)
     {
         $v_i = self::getInstance();
@@ -609,7 +578,6 @@ class DBCaches
      * @return bool 
      * @throws IGKException 
      */
-
     public static function ResolvAndInitDbTableCacheInfo(string $tb, & $tbinfo){
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
             $tables[$tb] = $tbinfo;

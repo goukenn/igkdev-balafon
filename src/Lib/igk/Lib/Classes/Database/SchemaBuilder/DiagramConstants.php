@@ -5,31 +5,26 @@
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
 use IGK\Constants;
-
 /**
 * Diagram constants.
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramConstants{
-
     /**
     * Constant: guid length.
     * @var mixed
     */
     const GUID_LENGTH =  Constants::GUID_LENGTH;
-
     /**
     * Constant: name length.
     * @var mixed
     */
     const NAME_LENGTH = 30;
-
     /**
     * Constant: title length.
     * @var mixed
     */
     const TITLE_LENGTH = 60;
-
     /**
     * Constant: path length.
     * @var mixed

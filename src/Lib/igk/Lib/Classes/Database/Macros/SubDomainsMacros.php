@@ -11,7 +11,6 @@ use IGK\Models\SubDomains;
 * @package IGK\Database\Macros
 */
 abstract class SubDomainsMacros{
-
     /**
     * Returns All Activate Domain.
     * @param SubDomains $model
@@ -38,7 +37,6 @@ abstract class SubDomainsMacros{
      * @param null|string $view 
      * @return null|SubDomains 
      */
-
     public static function RegisterSubDomain(SubDomains $model, string $domain, BaseController $controller, ?string $view = null){
         return $model::createIfNotExists([
             SubDomains::FD_CLNAME=>$domain,

@@ -10,37 +10,31 @@ use Exception;
  * 
  * @package IGK\XSD
  */
-
 /**
 * auto generate doc.
 * @package IGK\XSD
 */
 class XsdBuilder extends XsdElement implements ArrayAccess{
-
     /**
     * Constant: schema.
     * @var mixed
     */
     const SCHEMA = "http://www.w3.org/2001/XMLSchema";
-
     /**
     * Constant: any attribute.
     * @var mixed
     */
     const ANY_ATTRIBUTE = -1; //strict any attribute
-
     /**
     * Constant: any attribute lax.
     * @var mixed
     */
     const ANY_ATTRIBUTE_LAX = -2; //strict any attribute
-
     /**
     * Constant: any attribute skip.
     * @var mixed
     */
     const ANY_ATTRIBUTE_SKIP = -3; //strict any attribute
-
     /**
     * Property: notation.
     * @var mixed
@@ -53,7 +47,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * @param mixed|null $attributes for reference  
      * @return XsdGroup 
      */
-
     public function CreateGroup($name, $items, $attributes=null, $type="sequence"): XsdGroup{
         if (!in_array($type, explode("|", "choice|sequence|all"))){
             die("type not valie");
@@ -64,7 +57,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $g->attributes = $attributes;
         return $g;
     }
-
     /**
     * Creates Choice.
     * @param mixed $name
@@ -79,7 +71,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $g->attributes = $attributes;
         return $g;
     }
-
     /**
     * .ctr
     */
@@ -93,7 +84,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * @param string $documentation 
      * @return $this 
      */
-
     public function setNotation($appinfo, $documentation=""){
         $notation = $this->m_notation ?? $this->m_node->add("xs:annotation");
         $notation->clearChilds();
@@ -102,12 +92,10 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $this->m_notation = $notation;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function render(){
         return $this->m_node->render();
     }
@@ -115,7 +103,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * add type element
      * @return XsdElementBuilder
      */
-
     public function addElement($name):XsdElementBuilder{
         $n = $this->m_node->add("xs:element")->setAttribute("name", $name);
         return XsdElementBuilder::Create($n, $this);
@@ -126,7 +113,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * @param mixed $type 
      * @return XsdAttributeBuilder 
      */
-
     public function addAttribute($name, $type):XsdAttributeBuilder{
         $n = $this->m_node->add("xs:attribute")
         ->setAttribute("name", $name)
@@ -134,7 +120,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         ;
         return XsdAttributeBuilder::Create($n, $this);
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
@@ -150,7 +135,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $e;
     }
-
     /**
     * Adds Group Element.
     * @param mixed $name
@@ -160,7 +144,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $this->_buildGroup($name, $items);
         return $this;
     }
-
     /**
     * Adds Group Attributes.
     * @param mixed $name
@@ -178,7 +161,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $this;
     }
-
     /**
     * Adds Enum Element.
     * @param mixed $name
@@ -193,7 +175,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $this;
     }
-
     /**
     * Adds Enum Type.
     * @param mixed $name
@@ -208,7 +189,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $this;
     }
-
     /**
     * Adds Pattern Element.
     * @param mixed $name
@@ -221,13 +201,11 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $res->add("xs:pattern")->setAttribute("value", $pattern);        
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $type white space type
     * @return $this
     */
-
     public function addWhiteSpaceElement($name, $type){
         $e = $this->m_node->add("xs:element")->setAttribute("name", $name);
         $res = $e->add("xs:simpleType")->add("xs:restriction");
@@ -235,7 +213,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $res->add("xs:whiteSpace")->setAttribute("value", $type);        
         return $this;
     }
-
     /**
     * Adds Length Restriction Element.
     * @param mixed $name
@@ -256,7 +233,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * @param mixed|array $sequences 
      * @return XsdBuilder 
      */
-
     public function addComplexTypeElement($name, $sequences = [], $attributes =null, $ctype=
     XsdBuilderUtility::SEQUENCE): XsdBuilder{
         $e = XsdBuilderUtility::BuildComplexType($this->m_node, $sequences, $ctype);
@@ -270,7 +246,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $this;
     }
-
     /**
     * Adds Attribute Only Complex Type Element.
     * @param mixed $name

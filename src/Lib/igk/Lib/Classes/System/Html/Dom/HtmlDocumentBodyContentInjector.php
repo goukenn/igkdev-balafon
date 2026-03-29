@@ -9,7 +9,6 @@ namespace IGK\System\Html\Dom;
 * @author C.A.D. BONDJE DOUE
 */
 class HtmlDocumentBodyContentInjector{
-
     /**
     * Collection of list.
     * @var mixed
@@ -20,31 +19,26 @@ class HtmlDocumentBodyContentInjector{
      * @param string $key 
      * @return bool 
      */
-
     public function contains(string $key){
         return $this->m_list && key_exists($key, $this->m_list);
     }
-
     /**
     * auto generate doc.
     * @param mixed $callback
     * @return void
     */
-
     public function register(string $id, $callback){
         if (is_null($this->m_list)){
             $this->m_list = [];
         }
         $this->m_list[$id] = $callback;
     }
-
     /**
     * Clears.
     */
     public function clear(){
         $this->m_list = [];
     }
-
     /**
     * Returns Items.
     */

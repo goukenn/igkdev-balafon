@@ -10,20 +10,17 @@
 namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
-
 /**
 * Html attrib expression node.
 * @package IGK\System\Html
 */
 class HtmlAttribExpressionNode extends XmlNode
 {
-
     /**
     * Property: node args.
     * @var mixed
     */
     var  $node_args;
-
     /**
     * Property: target node.
     * @var mixed
@@ -35,7 +32,6 @@ class HtmlAttribExpressionNode extends XmlNode
      * @param HtmlItemBase $cnode The target HTML node to bind attributes to.
      * @param array        $c     The context arguments for attribute expressions.
      */
-
     public function __construct(HtmlItemBase $cnode, array $c)
     {
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
@@ -47,7 +43,6 @@ class HtmlAttribExpressionNode extends XmlNode
      *
      * @return bool
      */
-
     public function getCanAddChild()
     {
         return false;
@@ -55,7 +50,6 @@ class HtmlAttribExpressionNode extends XmlNode
     /**
      * Processes and applies attribute expressions to the target node after loading.
      */
-
     public function loadingComplete()
     {
         $context = null;

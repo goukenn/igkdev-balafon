@@ -11,31 +11,26 @@ use stdClass;
 * @package IGK\System\Runtime\Compiler\Html
 */
 class ViewDocumentHandler implements IViewCompilerArgument{
-
     /**
     * Property: head.
     * @var mixed
     */
     var $head;
-
     /**
     * Property: body.
     * @var mixed
     */
     var $body;
-
     /**
     * Property: metas.
     * @var mixed
     */
     var $metas;
-
     /**
     * Property: changed.
     * @var mixed
     */
     private $m_changed;
-
     /**
     * .ctr
     */
@@ -44,14 +39,12 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         $this->head = new ViewDocumentHead();
         $this->metas = new stdClass();
     }
-
     /**
     * Returns Metas.
     */
     public function getMetas(){
         return $this->metas;
     }
-
     /**
     * Returns Instruction.
     * @param mixed $reset
@@ -66,13 +59,11 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         }
         return $s;
      }
-
     /**
     * Renders Accessiblity.
     */
     public function renderAccessiblity(){
      }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -81,7 +72,6 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     public function __call($name, $args){
         throw new NotImplementException(__CLASS__."::".$name);
     }
-
     /**
     * Adds Temp Style.
     */
@@ -90,7 +80,6 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         $n["rel"] = "stylesheet";
         return $n;
     }
-
     /**
     * Adds Temp Script.
     */
@@ -98,7 +87,6 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         $n = igk_create_node('script');
         return $n;
     }
-
     /**
     * Returns Body.
     */

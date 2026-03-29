@@ -5,13 +5,11 @@ use IGKEvents;
 // @author: C.A.D. BONDJE DOUE
 // @description:
 // @copyright: igkdev © 2021
-
 /**
 * Html body box node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyBoxNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -21,7 +19,6 @@ class HtmlBodyBoxNode extends HtmlNode{
      * Constructor.
      * @param HtmlNode $parent The parent HTML node to attach this box to.
      */
-
     public function __construct(HtmlNode $parent)
     {
         $this->m_parent = $parent;

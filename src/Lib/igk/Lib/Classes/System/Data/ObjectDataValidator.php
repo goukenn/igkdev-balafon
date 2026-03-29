@@ -39,7 +39,6 @@ class ObjectDataValidator implements IDataValidator{
         $requestData = new DataArgs($r);
         return true;
     }
-
     /**
     * Returns Data Validator Mapper.
     */

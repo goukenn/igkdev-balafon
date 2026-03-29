@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc:
 namespace IGK\System\Html\Dom;
-
 /**
 * Html style node.
 * @package IGK\System\Html\Dom
 */
 class HtmlStyleNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -19,7 +17,6 @@ class HtmlStyleNode extends HtmlNode{
     /**
      * Constructor.
      */
-
     public function __construct(){
         parent::__construct();
         $this["type"] = "text/css";

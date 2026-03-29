@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\Forms\IFormValidationField;
 use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations

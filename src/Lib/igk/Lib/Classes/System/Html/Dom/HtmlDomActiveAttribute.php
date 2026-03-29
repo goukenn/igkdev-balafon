@@ -3,19 +3,16 @@
 // @file: HtmlDomActiveAttribute.php
 // @date: 20230417 16:32:04
 namespace IGK\System\Html\Dom;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 final class HtmlDomActiveAttribute{
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Returns Instance.
     */

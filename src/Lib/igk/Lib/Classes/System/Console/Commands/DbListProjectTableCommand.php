@@ -8,31 +8,26 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
-
 /**
 * Db list project table command.
 * @package IGK\System\Console\Commands
 */
 class DbListProjectTableCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     public $command = "--db:list-project-tables";
-
     /**
     * Property: category.
     * @var mixed
     */
     public $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     public $desc = "list project's stored tables";
-
     /**
     * Property: usage.
     * @var mixed
@@ -45,7 +40,6 @@ class DbListProjectTableCommand extends AppExecCommand{
      * @param string|null $controller The controller name to look up.
      * @return int Returns 0 on success or -1 on failure.
      */
-
     public function exec($command, ?string $controller=null)
     {
         if (is_null($controller)){

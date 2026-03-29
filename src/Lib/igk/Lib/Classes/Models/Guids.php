@@ -3,10 +3,7 @@
 // @file: Guids.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store guid on db for living purpose. link to change password for exemple.
 * @package IGK\Models
@@ -25,25 +22,21 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGUID, string $clDesc, string|datetime $clCreateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Guids extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl guid.
     * @var mixed
     */
     const FD_CL_GUID="clGUID";
-
     /**
     * Constant: fd cl desc.
     * @var mixed
     */
     const FD_CL_DESC="clDesc";
-
     /**
     * Constant: fd cl create at.
     * @var mixed

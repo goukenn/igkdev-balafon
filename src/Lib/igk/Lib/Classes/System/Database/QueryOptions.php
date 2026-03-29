@@ -15,31 +15,26 @@ class QueryOptions{
      * @var bool
      */
     var $noPrimaryKey;
-
     /**
     * Constant: callback property.
     * @var mixed
     */
     const CallbackProperty = \IGK\Database\DbConstants::CALLBACK_OPTS;
-
     /**
     * Constant: joins.
     * @var mixed
     */
     const JOINS = 'Joins';
-
     /**
     * Constant: limit.
     * @var mixed
     */
     const LIMIT = 'Limit';
-
     /**
     * Constant: order by.
     * @var mixed
     */
     const ORDER_BY = 'OrderBy';
-
     /**
     * Constant: group by.
     * @var mixed

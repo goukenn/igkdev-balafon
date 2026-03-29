@@ -19,55 +19,46 @@ use IGKException;
 class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
 {
     use ArrayAccessSelfTrait;
-
     /**
     * Map of def table name.
     * @var mixed
     */
     var $defTableName;
-
     /**
     * Property: column info.
     * @var mixed
     */
     var $columnInfo;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $controller;
-
     /**
     * Property: description.
     * @var mixed
     */
     var $description;
-
     /**
     * Property: entries.
     * @var mixed
     */
     var $entries;
-
     /**
     * Map of table row reference.
     * @var mixed
     */
     var $tableRowReference;
-
     /**
     * Property: model class.
     * @var mixed
     */
     var $modelClass;
-
     /**
     * Map of table name.
     * @var mixed
     */
     var $tableName;
-
     /**
     * Property: definition resolver.
     * @var mixed
@@ -85,7 +76,6 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @return ?bool
      */
     // var $constant;
-
     /**
     * auto generate doc.
     * @var ?array<SchemaForeignConstraintInfo>
@@ -96,14 +86,12 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @var ?string
      */
     var $prefix;
-
     /**
      * confiugred indexed
      * @param mixed $n 
      * @return ?array 
      */
     var $indexes;
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -114,7 +102,6 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
             return $this->$n;
         }
     }
-
     /**
     * .ctr
     */
@@ -126,7 +113,6 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function CreateFromCacheInfo($d, $gctrl)
     {
         return Activator::CreateNewInstance(static::class,  [
@@ -145,10 +131,8 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * return model instance
      * @return ?ModelBase 
      */
-
     public function model()
     {
-
         /**
         * auto generate doc.
         * @var BaseController $ctrl

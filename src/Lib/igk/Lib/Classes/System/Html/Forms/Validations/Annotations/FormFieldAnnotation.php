@@ -13,7 +13,6 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInternalIDSupport, IFormFieldValidationStoreError, IFormFieldFile{
-
     /**
     * auto generate doc.
     * @var mixed
@@ -59,7 +58,6 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @var ?string
      */
     private $m_internal_id;
-
     /**
     * Property: validation error.
     * @var mixed
@@ -70,11 +68,9 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @param mixed $error 
      * @return void 
      */
-
     public function setError($error):void{
         $this->m_validation_error = $error;
     }
-
     /**
     * Returns Error.
     */
@@ -85,7 +81,6 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * set internal identification
      * @return null|string 
      */
-
     public function getInternalId(){
         return $this->m_internal_id;
     }
@@ -94,27 +89,22 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @param mixed $v 
      * @return void 
      */
-
     public function setInternalId($v){
         $this->m_internal_id = $v;
     }
-
     /**
     * auto generate doc.
     * @param null|string $value
     * @return void
     */
-
     public function setLabel_Text(?string $value){
         $this->label_text = $value;
     }
-
     /**
     * auto generate doc.
     * @param mixed &$contentTab
     * @return void
     */
-
     public static function BeforeCreateInstance($reader, & $contentTab){
         $tab = explode('|', 'allowNull|required|allowEmpty');
         foreach($tab as $k){
@@ -130,7 +120,6 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @throws IGKException 
      * @throws Exception 
      */
-
     public function __construct(?string $validator=null)
     {
         parent::__construct($validator);

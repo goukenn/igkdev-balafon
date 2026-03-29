@@ -8,13 +8,11 @@ namespace IGK\Traits;
 * @package IGK\Traits
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\Traits
 */
 trait GetPropertyCallbackTrait{
-
     /**
     * auto generate doc.
     * @param mixed $key

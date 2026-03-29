@@ -15,7 +15,6 @@ use function igk_resources_gets as __;
  */
 class FileValidator extends FormFieldValidatorBase implements IFormValidator
 {
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -26,7 +25,6 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
         /// TODO: Expect file validation data 
         return false;
     }
-
     /**
     * Validate.
     * @param mixed $value

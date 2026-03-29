@@ -5,14 +5,12 @@
 namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
 {
-
     /**
     * Property: condition.
     * @var mixed
@@ -23,7 +21,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
      * @var array
      */
     var $args = [];
-
     /**
     * Property: return.
     * @var mixed
@@ -43,12 +40,10 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
      * get if method is anonymous
      * @return bool 
      */
-
     public function getIsAnonymous(): bool
     {
         return empty($this->name);
     }
-
     /**
     * Returns Header.
     */
@@ -67,7 +62,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
      * @return void 
      * @throws IGKException 
      */
-
     public function buildBuffer(?IReadTokenMergeOption $options=null)
     {  
         $v_buffer = $this->buffer;
@@ -125,7 +119,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
         }
         $this->m_output = $sb . '';
     }
-
     /**
     * Initializes Flag Option.
     * @param ReadTokenOptions $options
@@ -134,7 +127,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     {
         return ["op" => "name", "condition" => false, "argType" => null, "type" => null];
     }
-
     /**
     * Updates Parent Buffer.
     * @return bool
@@ -143,7 +135,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     {
         return $this->getIsAnonymous();
     }
-
     /**
     * Generates Php Doc.
     * @param mixed $options

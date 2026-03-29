@@ -14,7 +14,6 @@ use IGK\System\IO\StringBuilder;
  */
 class ResponseHandler
 {
-
     /**
     * Request handler mime type.
     */
@@ -35,7 +34,6 @@ class ResponseHandler
      * @return mixed 
      * @throws IGKException 
      */
-
     public function HandleReponse($r, $code = RequestResponseCode::Ok)
     {
         $e = 0;

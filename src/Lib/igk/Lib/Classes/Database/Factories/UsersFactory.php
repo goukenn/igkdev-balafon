@@ -12,7 +12,6 @@ use IGK\System\Traits\ComposerFakerTrait;
 */
 class UsersFactory extends FactoryBase{
 	use ComposerFakerTrait;
-
     /**
     * Definition.
     * @return ?array

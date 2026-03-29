@@ -3,45 +3,38 @@
 // @file: BindingExpressionReader.php
 // @date: 20230517 14:33:31
 namespace IGK\System\Templates;
-
 use Closure;
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Html\HtmlBindingRawTransform;
 use IGK\System\Html\Templates\BindingContextInfo;
-
 /**
  * treat binding content
  * @package IGK\System\Templates
  */
 class BindingExpressionReader
 {
-
     /**
     * Constant: binding raw property.
     * @var mixed
     */
     const BINDING_RAW_PROPERTY = 'raw';
-
     /**
     * Property: start marker.
     * @var mixed
     */
     var $startMarker = '{{';
-
     /**
     * Property: end marker.
     * @var mixed
     */
     var $endMarker = '}}';
-
     /**
     * Property: escaped char.
     * @var mixed
     */
     var $escapedChar = "'";
-
     /**
     * Property: text.
     * @var mixed
@@ -52,13 +45,11 @@ class BindingExpressionReader
      * @var ?string
      */
     var $value;
-
     /**
     * auto generate doc.
     * @var bool
     */
     var $escaped = false;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -79,7 +70,6 @@ class BindingExpressionReader
      * @var bool
      */
     var $skipMode;
-
     /**
     * auto generate doc.
     * @var expression arg for skip mode
@@ -90,7 +80,6 @@ class BindingExpressionReader
      * @var mixed
      */
     var $expressionValueName;
-
     /**
     * Name of expression tag name.
     * @var mixed
@@ -100,7 +89,6 @@ class BindingExpressionReader
      * read marker 
      * @return bool 
      */
-
     public function read(): bool
     {
         $this->escaped = false;
@@ -173,7 +161,6 @@ class BindingExpressionReader
      * @param ?array|callable array of data or a callable $listener 
      * @return string 
      */
-
     public function treatContent(string $content, $listener = null)
     {
         $v = '';
@@ -191,8 +178,6 @@ class BindingExpressionReader
                     $data = array_merge($cdp, $data);
                 }
             }
-
-
             $listener = function () {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? [$v_rk  => new DataArgs([])]));
                 // $__c = $ctrl; 
@@ -275,7 +260,6 @@ class BindingExpressionReader
      * @param mixed $expression 
      * @return string 
      */
-
     public function tranformExpressionToEval($expression)
     {
         $pipe = null;
@@ -285,7 +269,6 @@ class BindingExpressionReader
         }
         return sprintf('<?= %s ?>', $v);
     }
-
     /**
     * auto generate doc.
     * @param mixed $data

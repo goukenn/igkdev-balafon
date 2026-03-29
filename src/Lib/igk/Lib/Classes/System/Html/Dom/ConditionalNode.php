@@ -5,38 +5,32 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\StringBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class ConditionalNode extends HtmlNode
 {
-
     /**
     * Constant: lower than ie9.
     * @var mixed
     */
     const LOWER_THAN_IE9 = 'if lt IE 9';
-
     /**
     * Constant: lower or equal to ie9.
     * @var mixed
     */
     const LOWER_OR_EQUAL_TO_IE9 = 'if lte IE 9';
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:condition";
-
     /**
     * Property: condition.
     * @var mixed
     */
     var $condition = "";
-
     /**
     * Returns Can Render Tag.
     */
@@ -49,7 +43,6 @@ class ConditionalNode extends HtmlNode
      * @param mixed $options 
      * @return string 
      */
-
     public function render($options = null)
     {
         $sb = new StringBuilder;

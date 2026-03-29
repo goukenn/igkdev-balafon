@@ -5,26 +5,22 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI
 */
 class DashboardBase extends HtmlNode{
-
     /**
     * Property: register.
     * @var mixed
     */
     private static $sm_register = [];
-
     /**
     * Returns Can Add Childs.
     */
     public function getCanAddChilds(){ 
         return false;
     }
-
     /**
     * Registers.
     * @param mixed $name
@@ -33,7 +29,6 @@ class DashboardBase extends HtmlNode{
     public static function Register($name, $class){
         self::$sm_register[$name] = $class;
     }
-
     /**
     * Un register.
     * @param mixed $name
@@ -41,14 +36,12 @@ class DashboardBase extends HtmlNode{
     public static function UnRegister($name){
         unset(self::$sm_register[$name]);
     }
-
     /**
     * Registers List.
     */
     public static function RegisterList(){
         return self::$sm_register;
     }
-
     /**
     * Creates.
     * @param string $name
@@ -71,7 +64,6 @@ class DashboardBase extends HtmlNode{
      * @param array $params 
      * @return void 
      */
-
     public function initParam(array $params){
     }
 }

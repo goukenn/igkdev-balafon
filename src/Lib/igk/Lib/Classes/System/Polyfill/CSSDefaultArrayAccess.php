@@ -6,13 +6,11 @@
 namespace IGK\System\Polyfill;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
-
 /**
 * Trait providing cssdefault array access functionality.
 * @package IGK\System\Polyfill
 */
 trait CSSDefaultArrayAccess{
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -23,7 +21,6 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
@@ -40,7 +37,6 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($tab, $key);
     }
-
     /**
     * auto generate doc.
     * @param ?string $v
@@ -54,7 +50,6 @@ trait CSSDefaultArrayAccess{
         $g= & $this->_[$t_KEY];
         $this->_bindProperties($g, $i, $v); 
     }
-
     /**
     * auto generate doc.
     * @param mixed $i

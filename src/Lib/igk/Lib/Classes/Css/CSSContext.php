@@ -10,32 +10,27 @@ use IGKResourceUriResolver;
  * context to initialize
  */
 class CSSContext{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $ctrl;
-
     /**
     * Property: theme.
     * @var mixed
     */
     private $theme;
-
     /**
     * Property: instance.
     * @var mixed
     */
     static $sm_instance;
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){
     }
-
     /**
     * Initializes.
     * @param mixed $ctrl
@@ -49,7 +44,6 @@ class CSSContext{
         self::$sm_instance->theme = $theme;
         return self::$sm_instance;
     }
-
     /**
     * Resolv.
     * @param mixed $file
@@ -60,7 +54,6 @@ class CSSContext{
             return IGKResourceUriResolver::getInstance()->resolve($c);
         return "";
     }
-
     /**
     * Sets Class Def.
     * @param mixed $def

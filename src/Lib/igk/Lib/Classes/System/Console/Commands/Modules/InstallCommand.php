@@ -3,7 +3,6 @@
 // @file: InstallCommand.php
 // @date: 20230702 19:01:23
 namespace IGK\System\Console\Commands\Modules;
-
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
 use IGK\Constants;
@@ -13,32 +12,27 @@ use IGK\System\Installers\ModuleInstaller;
 use IGK\System\IO\Path;
 use IGK\System\Modules\ModuleManager;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Modules
 */
 class InstallCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--module:install';
-
     /**
     * Constant: url.
     * @var mixed
     */
     const URL = Constants::MODULE_PACKAGE_LIST_URI;
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'install module package';
-
     /**
     * Property: options.
     * @var mixed
@@ -46,13 +40,11 @@ class InstallCommand extends AppExecCommand
     var $options=[
 		'--force'=>'flag: for new installation'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'module';
-
     /**
     * Exec.
     * @param mixed $command
@@ -66,8 +58,6 @@ class InstallCommand extends AppExecCommand
 		if (!$force && $mod){
 			igk_die('module already exists');
 		}
-
-
 		if ($result = igk_curl_post_uri(self::URL . base64_encode($module_name), null, null, [
 			'Content-Type:application/json'
 		])) {

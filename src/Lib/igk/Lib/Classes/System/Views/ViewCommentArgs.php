@@ -14,19 +14,16 @@ use ReflectionException;
 */
 class ViewCommentArgs{
     use ViewCommentEvalTrait;
-
     /**
     * Property: info.
     * @var mixed
     */
     private static $sm_info =[];
-
     /**
     * Property: entries.
     * @var mixed
     */
     private $m_entries;
-
     /**
     * Property: activates.
     * @var mixed
@@ -34,19 +31,16 @@ class ViewCommentArgs{
     private $activates = [
         "MainLayout"
     ];
-
     /**
     * Constant: comment expression regex.
     * @var mixed
     */
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
-
     /**
     * auto generate doc.
     * @param mixed $file
     * @return bool
     */
-
     public static function Check(string $comment, string $file): bool{
         if (isset(self::$sm_info[$file])){
             return self::$sm_info[$file]->getBool($comment);
@@ -57,7 +51,6 @@ class ViewCommentArgs{
         self::$sm_info[$file] = $g;
         return $g->getBool($comment);
     }
-
     /**
     * Returns.
     * @param mixed $n
@@ -65,7 +58,6 @@ class ViewCommentArgs{
     public function get($n){
         return igk_getv($this->m_entries , $n);
     }
-
     /**
     * Returns Bool.
     * @param mixed $n
@@ -75,7 +67,6 @@ class ViewCommentArgs{
         $c = igk_getv($this->m_entries , $n); 
         return boolval($c); 
     }
-
     /**
     * auto generate doc.
     * @param mixed $tab
@@ -98,7 +89,6 @@ class ViewCommentArgs{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -106,7 +96,6 @@ class ViewCommentArgs{
     private function _getViewCommandProcess(){
         return null; //  new ViewCompileProcessCommandHandler($this);
     }
-
     /**
     * auto generate doc.
     * @param string $expression
@@ -115,7 +104,6 @@ class ViewCommentArgs{
     private function _evaluate(string $expression){
         $this->evalData($expression);
     }
-
     /**
     * Main layout.
     */

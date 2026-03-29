@@ -14,37 +14,31 @@ use stdClass;
  * @package IGK\System\Diagnostics
  */
 class Benchmark{
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: enabled.
     * @var mixed
     */
     public  static $Enabled;
-
     /**
     * Property: mark.
     * @var mixed
     */
     private $mark = [];
-
     /**
     * Property: configs.
     * @var mixed
     */
     private $m_configs;
-
     /**
     * Constant: request param.
     * @var mixed
     */
     const REQUEST_PARAM = "IGK_BENCHMARK";
-
     /**
     * .ctr
     * @return
@@ -53,7 +47,6 @@ class Benchmark{
         $this->m_configs = new BenchmarkOptions();
         $this->m_configs->dieOnError = false;
     }
-
     /**
     * Returns Instance.
     */
@@ -69,7 +62,6 @@ class Benchmark{
      * @return void 
      * @throws IGKException 
      */
-
     public static function Activate(bool $enabled, ?array $options=null){
         self::$Enabled = $enabled;
         if ($options){
@@ -83,7 +75,6 @@ class Benchmark{
      * @param float $duration duration
      * @return void 
      */
-
     public static function expect(string $name, float $duration, ?string $message=null){
         if (!self::$Enabled){
             return;
@@ -111,13 +102,11 @@ class Benchmark{
             unset($m[$name]);
         }
     }
-
     /**
     * auto generate doc.
     * @param bool $unset unset the mark measure
     * @return int|float|void
     */
-
     public static function measure(string $name, bool $unset = false){
         if (!self::$Enabled){
             return;
@@ -137,7 +126,6 @@ class Benchmark{
      * @param mixed $name 
      * @return void 
      */
-
     public static function mark($name){
         self::getInstance()->mark[$name] = igk_sys_request_time();
     }
@@ -147,13 +135,11 @@ class Benchmark{
      * @return void 
      * @throws IGKException 
      */
-
     public static function write(...$args){
         if (self::$Enabled){
             igk_wln($args);
         }
     }
-
     /**
     * Logs.
     * @param mixed ...$args
@@ -168,11 +154,9 @@ class Benchmark{
      * @param bool $b 
      * @return void 
      */
-
     public function dieOnError(bool $b){
         $this->m_configs->dieOnError = $b;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

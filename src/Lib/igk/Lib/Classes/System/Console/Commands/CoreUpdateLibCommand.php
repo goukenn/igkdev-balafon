@@ -8,37 +8,31 @@ use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Installers\BalafonInstaller;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class CoreUpdateLibCommand extends AppExecCommand{
-
     /**
     * Constant: get uri.
     * @var mixed
     */
     const GET_URI = "https://igkdev.com/balafon/get-download";
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--update-corelib';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'utils';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'update or restore core library';
-
     /**
     * Exec.
     * @param mixed $command
@@ -79,7 +73,6 @@ class CoreUpdateLibCommand extends AppExecCommand{
     /**
      * check core library
      */
-
     static function CheckZipFile(string $file, & $errors = null) :bool{
         $s = igk_zip_unzip_filecontent($file, "manifest.xml");
         if (empty($s)) {

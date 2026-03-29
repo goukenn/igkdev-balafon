@@ -57,7 +57,6 @@ interface IPrinterService extends IInjectable{
     function printPdf();
     function addPage();
     function getPageWidth() : int;
-
     /**
     * Returns Page Height.
     * @return int
@@ -68,6 +67,5 @@ interface IPrinterService extends IInjectable{
      * @param mixed $size 
      * @return mixed 
      */
-
     function setFontSize($size);
 }

@@ -4,43 +4,36 @@
 // @date: 20221116 12:24:15
 namespace IGK\Database;
 use ArrayAccess;
-
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * auto generate doc.
 * @package IGK\Database
 */
 class DbModuleReferenceTable implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Map of tabledef.
     * @var mixed
     */
     private $m_tabledef;
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * Property: source.
     * @var mixed
     */
     private $m_source;
-
     /**
     * Property: request changed.
     * @var mixed
     */
     private $m_request_changed = [];
-
     /**
     * .ctr
     * @param IDbGetTableReferenceHandler $controller
@@ -57,7 +50,6 @@ class DbModuleReferenceTable implements ArrayAccess{
      * update reference
      * @return array 
      */
-
     public function udpate(){              
         if ($rc = $this->m_request_changed){
             foreach($rc as $v){
@@ -70,18 +62,15 @@ class DbModuleReferenceTable implements ArrayAccess{
      * get table reference definition
      * @return null|array 
      */
-
     public function & getRefTableDefinition():?array{
         return  $this->m_tabledef;
     }
-
     /**
     * Returns Table Definition.
     */
     public function getTableDefinition(){
         return $this->m_tabledef;
     }
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -89,7 +78,6 @@ class DbModuleReferenceTable implements ArrayAccess{
     public function _access_offsetExists($n){
         return key_exists($n, $this->m_tabledef);
     }
-
     /**
     * Access offset get.
     * @param mixed $n

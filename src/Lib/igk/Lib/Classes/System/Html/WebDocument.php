@@ -10,49 +10,41 @@ use IGKObject;
 * @package IGK\System\Html
 */
 class WebDocument extends IGKObject{
-
     /**
     * Property: html document.
     * @var mixed
     */
     private $m_html_document;
-
     /**
     * Property: head.
     * @var mixed
     */
     private $m_head;
-
     /**
     * Property: body.
     * @var mixed
     */
     private $m_body;
-
     /**
     * Property: title.
     * @var mixed
     */
     private $m_title;
-
     /**
     * Property: charset.
     * @var mixed
     */
     private $m_charset;
-
     /**
     * Type of doc type.
     * @var mixed
     */
     public $docType = 'html';
-
     /**
     * Property: charset.
     * @var mixed
     */
     public $charset = 'UTF-8';
-
     /**
     * .ctr
     */
@@ -60,17 +52,14 @@ class WebDocument extends IGKObject{
     {
         $this->_initialize();
     }
-
     /**
     * Returns Head.
     */
     public function getHead(){return $this->m_head; }
-
     /**
     * Returns Body.
     */
     public function getBody(){return $this->m_body; }
-
     /**
     * Initialize.
     */
@@ -83,7 +72,6 @@ class WebDocument extends IGKObject{
             return $this->charset;
         });
     }
-
     /**
     * Sets Title.
     * @param string $title
@@ -98,7 +86,6 @@ class WebDocument extends IGKObject{
      * @param mixed $options 
      * @return string 
      */
-
     public function render($options=null){
         return implode("\n",[
             '<!DOCTYPE '.$this->docType.'>',

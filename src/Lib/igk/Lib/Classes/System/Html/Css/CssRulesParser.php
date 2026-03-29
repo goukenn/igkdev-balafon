@@ -3,8 +3,6 @@
 // @file: CssRulesParser.php
 // @date: 20250628 22:08:34
 namespace IGK\System\Html\Css;
-
-
 use IGK\System\Text\RegexMatcherContainer;
 /**
  * parse css string content and return and array of string 
@@ -13,13 +11,11 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class CssRulesParser
 {
-
     /**
     * Property: regex.
     * @var mixed
     */
     private $m_regex;
-
     /**
     * .ctr
     * @return
@@ -28,7 +24,6 @@ class CssRulesParser
     {
         $this->m_regex = $this->_initRegexContainer();
     }
-
     /**
     * Init regex container.
     */
@@ -87,13 +82,11 @@ class CssRulesParser
         $c->append($glue_space);
         return $c;
     }
-
     /**
     * auto generate doc.
     * @param string $src
     * @return array
     */
-
     public static function Parse(string $src): array
     {
         $tab = [];

@@ -12,25 +12,21 @@ use SQLQueryUtils;
  * @package IGK\System\Console\Commands
  */
 class JSCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--js:dist";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "get core minified js";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "js";
-
     /**
     * Property: options.
     * @var mixed
@@ -38,7 +34,6 @@ class JSCommand extends AppExecCommand{
     var $options = [
         '--js-debug'=>'flag: js debug on generation'
     ];
-
     /**
     * Exec.
     * @param mixed $command

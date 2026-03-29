@@ -12,7 +12,6 @@ use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
-
 /**
 * auto generate doc.
 * @package IGK\System\Library
@@ -31,7 +30,6 @@ class session extends \IGKLibraryBase
     public function isRenew():bool{
         return !is_null($this->m_new_session_id);
     }
-
     /**
     * Initializes.
     * @return bool
@@ -60,7 +58,6 @@ class session extends \IGKLibraryBase
      * check that session can start
      * @return bool 
      */
-
     public function canStartSession(): bool
     {
         $v_env = igk_environment();
@@ -110,7 +107,6 @@ class session extends \IGKLibraryBase
      * @param string $session_id 
      * @return string 
      */
-
     public static function SessionPath(string $session_id): string
     {
         $v_p = Path::Combine(session_save_path(), IGK_SESSION_FILE_PREFIX . $session_id); 
@@ -121,7 +117,6 @@ class session extends \IGKLibraryBase
      * @return void|bool 
      * @throws IGKException 
      */
-
     public function start($reset = 0)
     {
         $ie_diagnonstic = igk_server()->HTTP_REFERER == "diagnostics://5/";
@@ -198,7 +193,6 @@ class session extends \IGKLibraryBase
      * @param string $id new id
      * @return bool 
      */
-
     public function restart(string $id)
     {
         session_id($id);
@@ -208,7 +202,6 @@ class session extends \IGKLibraryBase
      * close the started session
      * @return void 
      */
-
     public function close()
     {
         @igk_sess_write_close();
@@ -217,7 +210,6 @@ class session extends \IGKLibraryBase
      * destroy session
      * @return void 
      */
-
     public function destroy()
     {
         $sess_id = session_name();
@@ -238,7 +230,6 @@ class session extends \IGKLibraryBase
      * @param mixed $id 
      * @return bool 
      */
-
     public function unlink($id)
     {
         $d = ini_get("session.save_path");
@@ -254,7 +245,6 @@ class session extends \IGKLibraryBase
      * @return bool 
      * @throws IGKException 
      */
-
     public function changeTo($newid): bool
     {
         $m_sid = session_id();

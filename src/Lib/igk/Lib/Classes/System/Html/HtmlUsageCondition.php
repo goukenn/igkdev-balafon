@@ -14,7 +14,6 @@ use IGKObject;
  * @package 
  */
 final class HtmlUsageCondition extends IGKObject implements IHtmlGetValue{
-
     /**
     * Returns Value.
     * @param null|mixed $o

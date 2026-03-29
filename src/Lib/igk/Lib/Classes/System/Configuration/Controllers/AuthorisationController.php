@@ -21,13 +21,11 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKSysUtil;
 use function igk_resources_gets as __;
-
 /**
 * Authorisation controller.
 * @package IGK\System\Configuration\Controllers
 */
 class AuthorisationController extends ConfigControllerBase{
-
     /**
     * Returns Name.
     * @return string
@@ -35,14 +33,12 @@ class AuthorisationController extends ConfigControllerBase{
     public function getName(): string{
         return  IGK_AUTH_CTRL;
     }
-
     /**
     * Returns Is Available.
     */
     public function getIsAvailable(){
         return true;
     }
-
     /**
     * Returns Is Visible.
     * @return bool
@@ -51,7 +47,6 @@ class AuthorisationController extends ConfigControllerBase{
     {
         return true;
     }
-
     /**
     * Returns Is Config Page Available.
     */
@@ -71,7 +66,6 @@ class AuthorisationController extends ConfigControllerBase{
     public function getConfigPage(){
         return "auth";
     }
-
     /**
     * Initializes Config Menu.
     */
@@ -156,7 +150,6 @@ class AuthorisationController extends ConfigControllerBase{
         }  
         return $r;
     }
-
     /**
     * Auth level ajx.
     */
@@ -457,7 +450,6 @@ class AuthorisationController extends ConfigControllerBase{
         });
         return $this;		 
     }
-
     /**
     * Auth management ajx.
     */
@@ -538,7 +530,6 @@ class AuthorisationController extends ConfigControllerBase{
 JS;
         return $n;
     }
-
     /**
     * Lists group ajx.
     */

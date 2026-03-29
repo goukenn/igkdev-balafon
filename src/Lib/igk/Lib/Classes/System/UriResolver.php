@@ -3,10 +3,8 @@
 // @file: UriResolver.php
 // @date: 20250925 12:56:28
 namespace IGK\System;
-
 use IGK\Helper\ViewHelper;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\System

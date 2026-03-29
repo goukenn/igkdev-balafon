@@ -13,25 +13,21 @@ use IGKException;
  * clear cache in ftp sync server */
 class SyncInstallSiteCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:install-site";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync install site from sync configuration";
-
     /**
     * Property: options.
     * @var mixed
@@ -42,13 +38,11 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
         "--admin-login" =>"set configuration login",
         "--admin-pwd"   =>"set configuration login",
     ];
-
     /**
     * auto generate doc.
     * @param mixed $command
     * @return mixed
     */
-
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){

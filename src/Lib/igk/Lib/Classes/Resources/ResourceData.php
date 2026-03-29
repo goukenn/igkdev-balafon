@@ -13,13 +13,11 @@ use IGKValidator;
  * @package IGK\Resources
  */
 class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $value
@@ -28,7 +26,6 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
     {
         $this->value = $value;
     }
-
     /**
     * get string presentation.
     */
@@ -36,7 +33,6 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
     {
         return $this->value;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $option

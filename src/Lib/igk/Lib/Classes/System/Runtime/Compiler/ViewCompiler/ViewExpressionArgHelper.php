@@ -5,7 +5,6 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
@@ -15,25 +14,21 @@ abstract class ViewExpressionArgHelper{
      * define setter object variable : new ViewExpressionSetter($vars);
      */
     const SETTER_VAR = '___IGK_PHP_SETTER_VAR___';
-
     /**
     * Constant: getter var.
     * @var mixed
     */
     const GETTER_VAR = '___IGK_PHP_GETTER_VAR___';
-
     /**
     * Constant: expression.
     * @var mixed
     */
     const EXPRESSION = '___IGK_PHP_EXPRESSION___';
-
     /**
     * Constant: response.
     * @var mixed
     */
     const RESPONSE = '___IGK_PHP_RESPONSE___';
-
     /**
     * Property: variables.
     * @var mixed
@@ -45,7 +40,6 @@ abstract class ViewExpressionArgHelper{
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function GetVar(string $name){
         $c = igk_array_peek_last(self::$Variables); 
         if ($c){

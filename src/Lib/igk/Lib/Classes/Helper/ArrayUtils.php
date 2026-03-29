@@ -5,7 +5,6 @@
 // @desc: 
 namespace IGK\Helper;
 use IGK\System\IO\StringBuilder;
-
 /**
 * Array utils.
 * @package IGK\Helper
@@ -22,13 +21,11 @@ class ArrayUtils{
 		}
 		return $value;
 	}
-
     /**
     * auto generate doc.
     */    public static function MergeWith(array & $source, array $array_to_merge){
         $source = array_merge($source, $array_to_merge ); 
     }
-
     /**
     * auto generate doc.
     * @param mixed $property
@@ -40,7 +37,6 @@ class ArrayUtils{
             array_unshift($array, $search);
         }
     }
-
     /**
     * Fill key with property.
     * @param array & $table
@@ -55,7 +51,6 @@ class ArrayUtils{
         $table =  $t;
     }
     ///<sumamry> clear table</summary>
-
     /**
     * Clean.
     * @param array & $table
@@ -63,7 +58,6 @@ class ArrayUtils{
     public static function Clean (array & $table){
         $table = [];  
     }
-
     /**
     * auto generate doc.
     * @param mixed $a
@@ -100,7 +94,6 @@ class ArrayUtils{
         $sb->set(sprintf('[%s]',$s));
         return ''.$sb;
     }
-
     /**
     * auto generate doc.
     * @param bool $merging
@@ -138,7 +131,6 @@ class ArrayUtils{
             $array[] = $k;
         }
     }
-
     /**
     * auto generate doc.
     * @param array &$tab

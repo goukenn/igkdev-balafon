@@ -3,10 +3,7 @@
 // @file: Humans.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * store human list
 * @package IGK\Models
@@ -25,25 +22,21 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGender, string $clFirstName, string $clLastName) add entry if not exists. check for unique column.
 * */
 class Humans extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl gender.
     * @var mixed
     */
     const FD_CL_GENDER="clGender";
-
     /**
     * Constant: fd cl first name.
     * @var mixed
     */
     const FD_CL_FIRST_NAME="clFirstName";
-
     /**
     * Constant: fd cl last name.
     * @var mixed

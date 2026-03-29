@@ -10,13 +10,11 @@ use IGK\Controllers\BaseController;
  * @package IGK\System\Html\Dom
  */
 class HtmlCtrlNode extends HtmlNode {
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * .ctr
     * @param BaseController $controller
@@ -27,7 +25,6 @@ class HtmlCtrlNode extends HtmlNode {
         parent::__construct($tagname);
         $this->m_controller = $controller;        
     }
-
     /**
     * Initializes.
     */
@@ -35,7 +32,6 @@ class HtmlCtrlNode extends HtmlNode {
     {
         $this['igk-type'] = 'controller';
     }
-
     /**
     * Returns Is Visible.
     */

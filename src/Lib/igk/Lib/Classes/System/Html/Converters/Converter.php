@@ -12,19 +12,16 @@ use IGKException;
  */
 class Converter
 {
-
     /**
     * Property: ignore empty.
     * @var mixed
     */
     var $ignoreEmpty = 1;
-
     /**
     * Property: tag.
     * @var mixed
     */
     var $tag = "notagnode";
-
     /**
     * Collection of numeric array tag.
     * @var mixed
@@ -37,7 +34,6 @@ class Converter
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function Convert($o)
     {
         $tag = $this->tag;

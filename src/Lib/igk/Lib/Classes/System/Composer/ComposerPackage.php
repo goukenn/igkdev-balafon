@@ -9,14 +9,12 @@ use IGK\System\Composer\Traits\ComposerPackageFileTrait;
 /**
  * @package IGK\System\Composer
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Composer
 */
 class ComposerPackage{
     use ComposerPackageFileTrait;
-
     /**
     * auto generate doc.
     * @param string $file

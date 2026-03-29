@@ -3,16 +3,13 @@
 // @file: RegexDetectBuffer.php
 // @date: 20250702 12:29:43
 namespace IGK\System\Text;
-
 use Exception;
 use IGK\System\Console\Logger;
-
 /**
  * 
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -24,86 +21,71 @@ class RegexDetectBuffer
      * @var string
      */
     var $output = '';
-
     /**
     * Property: offset.
     * @var mixed
     */
     var $offset = 0;
-
     /**
     * Property: source.
     * @var mixed
     */
     var $source;
-
     /**
     * Property: line feed separator.
     * @var mixed
     */
     var $lineFeedSeparator = "\n";
-
     /**
     * auto generate doc.
     * @var ?string
     */
     var $depth;
-
     /**
     * Property: line feed.
     * @var mixed
     */
     var $lineFeed = false;
-
     /**
     * Property: replace.
     * @var mixed
     */
     var $replace = [];
-
     /**
     * Listener: tab listener.
     * @var mixed
     */
     var $tabListener;
-
     /**
     * auto generate doc.
     * @var ?string
     */
     var $flag;
-
     /**
     * Listener: init format builder listener.
     * @var mixed
     */
     private $m_initFormatBuilderListener;
-
     /**
     * auto generate doc.
     * @param null|callable $init
     * @return void
     */
-
     public function setinitFormatBuilderListener(?callable $init){
         $this->m_initFormatBuilderListener = $init;
     }
-
     /**
     * auto generate doc.
     * @return string
     */
-
     public function __toString()
     {
         return $this->output.'';
     }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function isEmpty()
     {
         return empty(trim($this->output));
@@ -114,7 +96,6 @@ class RegexDetectBuffer
      * @param string $value 
      * @return void 
      */
-
     function replace(RegexMatcherCapture $e, string $value = '')
     {
         igk_is_debug() && Logger::warn('replace: ['.json_encode($value).']');
@@ -133,7 +114,6 @@ class RegexDetectBuffer
         $this->offset = $e->to;
         $this->lineFeed = $this->lineFeed || $this->checkLineFeed($value);
     }
-
     /**
     * Checks Line Feed.
     * @param string $v
@@ -142,7 +122,6 @@ class RegexDetectBuffer
     {
         return preg_match("/\}$/", $v);
     }
-
     /**
     * End.
     */
@@ -150,7 +129,6 @@ class RegexDetectBuffer
     {
         $this->output .= substr($this->source, $this->offset);
     }
-
     /**
     * Outputs.
     */
@@ -159,14 +137,12 @@ class RegexDetectBuffer
         $this->end();
         return $this->output;
     }
-
     /**
     * Rtrim.
     */
     function rtrim(){
         $this->output = rtrim($this->output);
     }
-
     /**
     * Initializes Format Builder.
     */
@@ -175,13 +151,11 @@ class RegexDetectBuffer
             return $fc() ?? igk_die('failed to initialize listener');
         }
     }
-
     /**
     * auto generate doc.
     * @param IRegexMatcherEndDetectionInfo $e
     * @return void
     */
-
     public function bindReplacement($e, ?callable $update = null)
     {
         $v_rp = &$this->replace;
@@ -191,7 +165,6 @@ class RegexDetectBuffer
                 $cp = array_pop($v_rp);
                 if ($cp[0]->from == $e->from) {
                     self::BuildChain($this, $cp, $v_rp, $e, $update);
-                   
                     $v_rp[] = $cp;
                 } else {
                     igk_die('not a valid replacement list');
@@ -222,7 +195,6 @@ class RegexDetectBuffer
             }
         }
     }
-
     /**
     * Outputs Length.
     * @return int
@@ -230,7 +202,6 @@ class RegexDetectBuffer
     public function outputLength():int{
         return strlen($this->output);
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
@@ -250,7 +221,6 @@ class RegexDetectBuffer
             $cp[1] = '' . $s;
         }
     }
-
     /**
     * Clears Output.
     */
@@ -262,7 +232,6 @@ class RegexDetectBuffer
      * @param string $source 
      * @return void 
      */
-
     public function append(string $source){
         $this->output.= $source;
     }
@@ -271,7 +240,6 @@ class RegexDetectBuffer
      * @param null|int $depth 
      * @return string 
      */
-
     public function tab(?int $depth=null):string{
         if ($fc = $this->tabListener){
             return $fc($depth);

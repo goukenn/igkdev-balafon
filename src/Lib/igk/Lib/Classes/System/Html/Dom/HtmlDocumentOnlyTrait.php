@@ -9,7 +9,6 @@ namespace IGK\System\Html\Dom;
  */
 trait HtmlDocumentOnlyTrait
 {
-
     /**
     * Returns Can Add Childs.
     */
@@ -17,7 +16,6 @@ trait HtmlDocumentOnlyTrait
     {
         return false;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -25,7 +23,6 @@ trait HtmlDocumentOnlyTrait
     {
         return false;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

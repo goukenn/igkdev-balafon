@@ -4,7 +4,6 @@
 // @date: 20220829 09:41:42
 // @desc: 
 namespace IGK\System\Modules;
-
 use Exception;
 use IGK\Controllers\ApplicationModuleConfigurationInfo;
 use IGK\Controllers\ApplicationModuleController;
@@ -16,32 +15,27 @@ use IGK\System\Regex\Replacement;
 use IGKException;
 use IGKHtmlDoc;
 use function PHPSTORM_META\map;
-
 /**
  * manager module
  * 
  */
 class ModuleManager
 {
-
     /**
      * auto generate doc.
      * @var array
      */
     private $m_modules;
-
     /**
      * Property: boot modules.
      * @var mixed
      */
     private $m_boot_modules = [];
-
     /**
      * auto generate doc.
      * @var ModuleInitializer
      */
     private $m_init;
-
     /**
      * .ctr
      */
@@ -54,7 +48,6 @@ class ModuleManager
      * reset the loaded module and return previous backup
      * @return array 
      */
-
     public function reset()
     {
         $bck = array_combine(array_keys($this->m_modules), array_values($this->m_modules));
@@ -62,7 +55,6 @@ class ModuleManager
         $this->m_init->reset();
         return $bck;
     }
-
     /**
      * Restore.
      * @param array $tab
@@ -81,12 +73,10 @@ class ModuleManager
      * get reference to modules list
      * @return array 
      */
-
     public function &get()
     {
         return $this->m_modules;
     }
-
     /**
      * Returns count of.
      */
@@ -98,7 +88,6 @@ class ModuleManager
      * return initialized modules 
      * @return ModuleInitializer 
      */
-
     public function init()
     {
         if (is_null($this->m_init)) {
@@ -110,7 +99,6 @@ class ModuleManager
      * create module inistializer
      * @return ModuleInitializer 
      */
-
     protected function _createModuleInitializer()
     {
         return new ModuleInitializer;
@@ -120,7 +108,6 @@ class ModuleManager
      * @return null|array 
      * @throws IGKException 
      */
-
     public static function GetInstalledModules(): ?array
     {
         $d = ApplicationModules::GetCacheFile();
@@ -130,7 +117,6 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
-
     /**
     * auto generate doc.
     * @param mixed $list
@@ -142,14 +128,12 @@ class ModuleManager
             igk_require_module($s->name);
         }, $list);
     }
-
     /**
     * auto generate doc.
     * @return null|array
     */
     public static function SystemRequireModules(): ?array
     {
-
         $f_cached_load = ApplicationModules::GetSystemRequireCachedFile();
         $f_init = false;
         $cf = igk_io_file_exists($f_cached_load, true)
@@ -165,7 +149,6 @@ class ModuleManager
         } 
         return $cf;
     }
-
     /**
     * auto generate doc.
     * @param mixed $type
@@ -185,7 +168,6 @@ class ModuleManager
         }
         return $t;
     }
-
     /**
      * auto generate doc.
      * @return array
@@ -224,7 +206,6 @@ class ModuleManager
     {
         return Utility::SanitizeName($dirname);
     }
-
     /**
      * auto generate doc.
      * @return ?array
@@ -242,7 +223,6 @@ class ModuleManager
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public static function GetRequiredModules(): ?array
     {
         if ($mod = igk_environment()->require_modules()) {
@@ -259,7 +239,6 @@ class ModuleManager
         self::_Init();
         $auto_required && self::SystemRequireModules();
     }
-
     /**
     * auto generate doc.
     * @return
@@ -292,7 +271,6 @@ class ModuleManager
             igk_io_w2file($boot_cache, serialize(array_keys($info)));
         }
     }
-
     /**
      * auto generate doc.
      * @param mixed $n
@@ -313,7 +291,6 @@ class ModuleManager
      * @param ApplicationModuleController $module 
      * @return bool 
      */
-
     public function registerBoot(ApplicationModuleController $module): bool
     {
         if (array_search($module, $this->m_boot_modules) === false) {
@@ -328,7 +305,6 @@ class ModuleManager
      * @param ApplicationModuleController $module 
      * @return void 
      */
-
     public static function InitDoc(IGKHtmlDoc $doc, ApplicationModuleController $module)
     {
         if ($module->boot) {
@@ -341,7 +317,6 @@ class ModuleManager
      * @return array 
      * @throws IGKException 
      */
-
     public static function ResetModuleCache()
     {
         @unlink(ApplicationModules::GetCacheFile());

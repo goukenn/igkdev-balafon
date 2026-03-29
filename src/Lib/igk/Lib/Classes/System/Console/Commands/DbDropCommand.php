@@ -9,43 +9,36 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGKException;
 use function igk_resources_gets as __;
-
 /**
 * Db drop command.
 * @package IGK\System\Console\Commands
 */
 class DbDropCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     public $command = "--db:droptables";
-
     /**
     * Property: category.
     * @var mixed
     */
     public $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     public $desc = "drop project's stored tables";
-
     /**
     * Property: usage.
     * @var mixed
     */
     public $usage = "controller";
-
     /**
     * Exec.
     * @param mixed $command
     * @param null|string $controller
     */
-
     public function exec($command, ?string $controller=null)
     { 
         if (!$controller){

@@ -14,31 +14,26 @@ namespace IGK\System\Html\Metadatas;
      *
 */
 class AppLinkMetadata extends MetadataGroupEntryBase{
-
     /**
     * Identifier: al iosapp id.
     * @var mixed
     */
     var $alIOSAppId;
-
     /**
     * Property: al iosurl.
     * @var mixed
     */
     var $alIOSUrl;
-
     /**
     * Property: al android package.
     * @var mixed
     */
     var $alAndroidPackage;
-
     /**
     * Property: al android url.
     * @var mixed
     */
     var $alAndroidUrl;
-
     /**
     * Map.
     * @return array

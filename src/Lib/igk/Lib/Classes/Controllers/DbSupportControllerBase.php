@@ -6,18 +6,15 @@
 namespace IGK\Controllers;
 use IGK\Controllers\RootControllerBase;
 use IGKDbModelUtility;
-
 /**
 * auto generate doc.
 */
 abstract class DbSupportControllerBase extends RootControllerBase{
-
     /**
     * Returns Data Table Name.
     * @return ?string
     */
     protected abstract function getDataTableName(): ?string;
-
     /**
     * Returns Use Data Schema.
     * @return bool
@@ -27,7 +24,6 @@ abstract class DbSupportControllerBase extends RootControllerBase{
      * get the data table info
      * @return null 
      */
-
     protected function getDataTableInfo(){
         return null;
     }
@@ -35,7 +31,6 @@ abstract class DbSupportControllerBase extends RootControllerBase{
      * create a db utility class
      * @return mixed 
      */
-
     protected function getDb(){
         static $db;
         if($db === null){

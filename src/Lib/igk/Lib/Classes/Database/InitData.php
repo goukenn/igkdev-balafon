@@ -8,13 +8,11 @@ use IGK\Models\PhoneBookTypes;
 use IGK\System\Constants\PhonebookTypeNames; 
 use IGK\System\Database\InitBase;
 use IGK\System\WinUI\LayoutRules;
-
 /**
 * Init data.
 * @package IGK\Database
 */
 class InitData extends InitBase{
-
     /**
     * Initializes.
     * @param ControllersSysDbController $controller

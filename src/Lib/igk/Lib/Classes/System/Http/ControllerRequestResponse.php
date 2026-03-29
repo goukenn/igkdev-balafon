@@ -10,19 +10,16 @@ use IGK\Controllers\BaseController;
  * @package IGK\System\Http
  */
 class ControllerRequestResponse extends RequestResponse{
-
     /**
     * Property: uri.
     * @var mixed
     */
     var $uri;
-
     /**
     * Property: controller.
     * @var mixed
     */
     var $controller;
-
     /**
     * .ctr
     * @param string $uri
@@ -33,7 +30,6 @@ class ControllerRequestResponse extends RequestResponse{
         $this->$controller = $controller; 
         parent::__construct();
     }
-
     /**
     * Renders.
     */

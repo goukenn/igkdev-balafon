@@ -3,7 +3,6 @@
 // @file: ISchemaMigrationInfoListener.php
 // @date: 20250124 14:25:37
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database

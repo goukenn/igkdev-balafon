@@ -19,13 +19,11 @@ use IGKResourceUriResolver;
 final class HtmlCoreJSScriptsNode extends HtmlNode
 {
     use ScriptTrait;
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Returns Item.
     */
@@ -36,7 +34,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         }
         return self::$sm_instance;
     }
-
     /**
     * .ctr
     * @return
@@ -44,7 +41,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     private function __construct(){
         parent::__construct("igk:js-core-script");
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -52,7 +48,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     {
         return false;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -60,7 +55,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     {
         return false;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options
@@ -70,7 +64,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     {
         return $this->getIsVisible() && igk_getv($options, "Document");        
     }
-
     /**
     * Get rendering children.
     * @param null|mixed $options
@@ -79,7 +72,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     {
         return null;
     }
-
     /**
     * Renders.
     * @param null|mixed $options

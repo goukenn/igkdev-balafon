@@ -10,30 +10,25 @@ use IGK\System\Templates\BindingExpressionReader;
 * Represent IGKHtmlExpressionNodeItem class
 */
 class HtmlExpressionNode extends HtmlNode{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: raw.
     * @var mixed
     */
     var $raw;
-
     /**
     * Property: opener context.
     * @var mixed
     */
     var $openerContext;
-
     /**
     * auto generate doc.
     * @param mixed $ctrl the default value is null
     */
-
     public function __construct($args=null, $ctrl=null, $openerContext=null){
         parent::__construct(IGK_ENGINE_EXPRESSION_NODE);
         $this->raw=$args;
@@ -44,17 +39,14 @@ class HtmlExpressionNode extends HtmlNode{
      * render tag name
      * @return bool 
      */
-
     public function getCanRenderTag()
     { 
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
     */
-
     public function render($options=null){
         $src = $this["expression"];
         if (empty($src)){

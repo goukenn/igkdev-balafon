@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlNode;
  * @package IGK\System\WinUI
  */
 class View{
-
     /**
     * .ctr
     * @param null|array $options
@@ -19,7 +18,6 @@ class View{
     {   
         $this->init($options);
     }
-
     /**
     * Initializes.
     * @param null|array $options
@@ -32,7 +30,6 @@ class View{
             }
         }
     }
-
     /**
     * Resets.
     */
@@ -41,7 +38,6 @@ class View{
             $this->$k = null;
         }
     }
-
     /**
     * Called when an object is used as a function.
     */
@@ -56,7 +52,6 @@ class View{
     /**
      * view of the compoent
      */
-
     public function view(HtmlNode $n){
         // implement to build custom view
     }

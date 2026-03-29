@@ -10,14 +10,12 @@ use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
-
 /**
 * Css theme resolver.
 * @package IGK\Css
 */
 class CssThemeResolver
 {
-
     /**
     * auto generate doc.
     * @var ?bool
@@ -33,31 +31,26 @@ class CssThemeResolver
      * @var ?HtmlDocTheme
      */
     var $parent;
-
     /**
     * Property: last.
     * @var mixed
     */
     var $last;
-
     /**
     * Property: designmode.
     * @var mixed
     */
     var $designmode = false;
-
     /**
     * Property: resolv.
     * @var mixed
     */
     var $resolv = [];
-
     /**
     * Property: start.
     * @var mixed
     */
     var $start = false;
-
     /**
     * Property: colordef.
     * @var mixed
@@ -68,163 +61,136 @@ class CssThemeResolver
      * @var ?ICssResourceResolver
      */
     var $resolver;
-
     /**
     * Constant: attr resolv.
     * @var mixed
     */
     const ATTR_RESOLV = 'resolv';
-
     /**
     * Constant: attr trans.
     * @var mixed
     */
     const ATTR_TRANS = 'trans';
-
     /**
     * Constant: attr transform.
     * @var mixed
     */
     const ATTR_TRANSFORM = 'transform';
-
     /**
     * Constant: attr anim.
     * @var mixed
     */
     const ATTR_ANIM = 'anim';
-
     /**
     * Constant: attr animation.
     * @var mixed
     */
     const ATTR_ANIMATION = 'animation';
-
     /**
     * Constant: attr color.
     * @var mixed
     */
     const ATTR_COLOR= 'cl';
-
     /**
     * Constant: attr var.
     * @var mixed
     */
     const ATTR_VAR= 'var';
-
     /**
     * Constant: attr background color.
     * @var mixed
     */
     const ATTR_BACKGROUND_COLOR= 'bgcl';
-
     /**
     * Constant: attr foreground color.
     * @var mixed
     */
     const ATTR_FOREGROUND_COLOR= 'fcl';
-
     /**
     * Constant: attr fit.
     * @var mixed
     */
     const ATTR_FIT = 'fit';
-
     /**
     * Constant: attr var property.
     * @var mixed
     */
     const ATTR_VAR_PROPERTY = 'varp';
-
     /**
     * Constant: attr font.
     * @var mixed
     */
     const ATTR_FONT = 'ft';
-
     /**
     * Constant: attr font name.
     * @var mixed
     */
     const ATTR_FONT_NAME = 'ftn';
-
     /**
     * Constant: attr resource.
     * @var mixed
     */
     const ATTR_RESOURCE = 'res';
-
     /**
     * Constant: attr background resource.
     * @var mixed
     */
     const ATTR_BACKGROUND_RESOURCE= 'bgres';
-
     /**
     * Constant: attr uri.
     * @var mixed
     */
     const ATTR_URI = 'uri';
-
     /**
     * Constant: attr border color.
     * @var mixed
     */
     const ATTR_BORDER_COLOR = 'bcl';
-
     /**
     * Constant: attr svg.
     * @var mixed
     */
     const ATTR_SVG = 'svg';
-
     /**
     * Constant: attr filter.
     * @var mixed
     */
     const ATTR_FILTER = 'filter';
-
     /**
     * Constant: attr prop.
     * @var mixed
     */
     const ATTR_PROP = 'prop';
-
     /**
     * Constant: attr property.
     * @var mixed
     */
     const ATTR_PROPERTY = 'pr';
-
     /**
     * Constant: attr sys bgcl.
     * @var mixed
     */
     const ATTR_SYS_BGCL = 'sysbgcl';
-
     /**
     * Constant: attr sys fcl.
     * @var mixed
     */
     const ATTR_SYS_FCL = 'sysfcl';
-
     /**
     * Constant: attr sys color.
     * @var mixed
     */
     const ATTR_SYS_COLOR = 'syscl';
-
     /**
     * Constant: attr sys bcl.
     * @var mixed
     */
     const ATTR_SYS_BCL = 'sysbcl';
-
     /**
     * Constant: attr g resolv mode.
     * @var mixed
     */
     const ATTR_G_RESOLV_MODE = 'sys';
-
     /**
     * Constant: attr g theme resolv mode.
     * @var mixed
@@ -238,7 +204,6 @@ class CssThemeResolver
      * @throws IGKException 
      * @throws CssParserException 
      */
-
     public function treatThemeValue(string $value, $theme_export){
         if (!empty($v = $this->treat($value, $theme_export))){
             return $this->treatInlineValue($v);
@@ -251,7 +216,6 @@ class CssThemeResolver
      * @return null|string 
      * @throws IGKException 
      */
-
     public function treatInlineValue(string $value){
         $v = $value;
         if (!empty($v) && ($gp = CssParser::Parse($v))){
@@ -264,7 +228,6 @@ class CssThemeResolver
      * @param string $value 
      * @return string 
      */
-
     public function treat(string $value, bool $themeexport = false)
     {
         // + | check not expression 
@@ -420,7 +383,6 @@ class CssThemeResolver
         $this->resolv[$v_def] = $v;
         return $v;
     }
-
     /**
     * auto generate doc.
     * @param string $v
@@ -447,7 +409,6 @@ class CssThemeResolver
     /**
      * treat css  value
      */
-
     public function treat_value(string $v, bool $themeexport)
     {
         $reg = IGK_CSS_TREAT_REGEX;
@@ -477,13 +438,11 @@ class CssThemeResolver
      * reset theme treatment
      * @return void 
      */
-
     public function reset()
     {
         $this->resolv = [];
         $this->start = null;
     }
-
     /**
     * auto generate doc.
     * @param string & $v
@@ -802,7 +761,6 @@ class CssThemeResolver
         }
         return $tf;
     }
-
     /**
     * auto generate doc.
     * @param IGK\Css\newColor #Parameter#d4a73315
@@ -825,7 +783,6 @@ class CssThemeResolver
         }
         return trim($ncl);
     }
-
     /**
     * auto generate doc.
     * @param mixed $ncl
@@ -835,13 +792,11 @@ class CssThemeResolver
     protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
-
     /**
     * Get fcl.
     * @param mixed $value
     * @param mixed $resolved
     */
-
     protected function _get_fcl($value, $resolved=false){   
         if ($resolved){
             return sprintf("color: %s;", $value);

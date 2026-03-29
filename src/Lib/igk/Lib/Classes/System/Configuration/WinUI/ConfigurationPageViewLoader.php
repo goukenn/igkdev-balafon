@@ -7,20 +7,17 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ViewLayoutBase;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\WinUI\IViewLayoutLoader;
-
 /**
 * auto generate doc.
 * @package IGK\System\Configuration\WinUI
 * @author C.A.D. BONDJE DOUE
 */
 class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutLoader{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
-
     /**
     * .ctr
     * @param ConfigureController $ctrl
@@ -29,7 +26,6 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     {
         $this->m_ctrl = $ctrl;
     }
-
     /**
     * Returns Controller.
     * @return BaseController
@@ -37,7 +33,6 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     public function getController(): BaseController {
         return $this->m_ctrl;
     }
-
     /**
     * Includes.
     * @param string $file
@@ -46,7 +41,6 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     public function include(string $file, ?array $args) {  
         igk_include_view_file($this->getController(), $file, true, $args);   
     }
-
     /**
     * Returns View Loader.
     */

@@ -3,18 +3,15 @@
 // @file: PhpRemoveGlobaFunc.php
 // @date: 20260320 14:22:53
 namespace IGK\System\Php\Helper;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
 * auto generate doc.
 * @package IGK\System\Php\Helper
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Php\Helper
@@ -22,7 +19,6 @@ use IGK\System\Text\RegexMatcherUtility;
 class PhpRemoveGlobaFunc
 {
     var $removeEmptyLine;
-
     /**
     * auto generate doc.
     * @return RegexMatcherContainer
@@ -34,7 +30,6 @@ class PhpRemoveGlobaFunc
         $p->begin('\?>', '<\?(php\\b|=)', 'outside-php-block')->last();
         $v_rp_php_doc = $p->begin('\/\*\*', '\*\/', 'php-doc')->last();
         $v_rp_empty_line = $p->match('^(\\s*?\\n)+', 'rp-empty-line')->last();
-
         $v_rp_cond = $p->begin('\\b(if|else|else)\\b', '(?<=;|\})')->last();
         $v_rp_func = $p->begin('\\b(function)\\b', '(?<=(;|\}))', 'rp-function')->last();
         $v_rp_block = $p->begin('\\{', '\\}', 'rp-block')->last();
@@ -44,15 +39,12 @@ class PhpRemoveGlobaFunc
         $heredoc = [];
         $string = $p->appendStringDetection('string', true)->last();
         RegexMatcherUtility::AppendPhpHereDoc($p, $heredoc);
-
         $v_rp_cond_block = $p->begin('\{', '\}', 'rp-cond-block')->last();
-
         $v_rp_cond->patterns = [
             $v_rp_php_doc,
             $v_rp_cond_block,
             $v_rp_empty_line
         ];
-
         $v_off = [
             $comment,
             $heredoc,
@@ -63,7 +55,6 @@ class PhpRemoveGlobaFunc
             'begin' => '\\(',
             'end' => '\\)'
         ]);
-
         $v_parenthese->patterns = [
             $v_off,
             $v_parenthese
@@ -83,8 +74,6 @@ class PhpRemoveGlobaFunc
             $string,
             $v_parenthese
         ];
-
-
         $v_rp_block->patterns = [
             $comment,
             $heredoc,
@@ -108,7 +97,6 @@ class PhpRemoveGlobaFunc
         ];
         return $p;
     }
-
     /**
     * auto generate doc.
     * @return array{function: \Closure(mixed $e, mixed $fc_info): void}
@@ -157,7 +145,6 @@ class PhpRemoveGlobaFunc
             }
         ];
     }
-
     /**
     * auto generate doc.
     * @param string $src

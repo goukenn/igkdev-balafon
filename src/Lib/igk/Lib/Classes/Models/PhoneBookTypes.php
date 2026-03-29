@@ -3,10 +3,7 @@
 // @file: PhoneBookTypes.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Phone book's type
 * @package IGK\Models
@@ -29,37 +26,31 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $Name, string $Cat, int $Cardinality, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookTypes extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphbt_Id";
-
     /**
     * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="rcphbt_Name";
-
     /**
     * Constant: fd cat.
     * @var mixed
     */
     const FD_CAT="rcphbt_Cat";
-
     /**
     * Constant: fd cardinality.
     * @var mixed
     */
     const FD_CARDINALITY="rcphbt_Cardinality";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphbt_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed

@@ -8,13 +8,11 @@ namespace IGK\System\Database;
 * Represent IGKNoDbConnection class
 */
 class NoDbConnection{
-
     /**
     * Name of db name.
     * @var mixed
     */
     var $db_name;
-
     /**
     * get string presentation.
     */
@@ -22,7 +20,6 @@ class NoDbConnection{
     {
         return __CLASS__;
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -30,74 +27,61 @@ class NoDbConnection{
     {
         return [];
     }
-
     /**
     * auto generate doc.
     */
     function close(){}
-
     /**
     * auto generate doc.
     */
     function closeAll(){}
-
     /**
     * auto generate doc.
     */
     function connect(){
         return false;
     }
-
     /**
     * auto generate doc.
     */
     function initForInitDb(){}
-
     /**
     * auto generate doc.
     */
     function insert(){
         return false;
     }
-
     /**
     * auto generate doc.
     */
     public function openCount(){
         return -1;
     }
-
     /**
     * Returns true if Connect.
     */
     public function isConnect(){
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $query
     */
-
     function sendQuery($query){
         return null;
     }
-
     /**
     * auto generate doc.
     */
     function setCloseCallback(){}
-
     /**
     * auto generate doc.
     */
     function setOpenCallback(){}
-
     /**
     * auto generate doc.
     */
     function flushForInitDb(){}
-
     /**
     * Returns Version.
     * @return string
@@ -105,7 +89,6 @@ class NoDbConnection{
     function getVersion():string{
         return '';
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $n
@@ -114,7 +97,6 @@ class NoDbConnection{
     public function __call($n, $name){
         return null;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name
@@ -124,7 +106,6 @@ class NoDbConnection{
     { 
         return null;        
     }
-
     /**
     * Table exists.
     * @return bool
@@ -132,7 +113,6 @@ class NoDbConnection{
     public function tableExists():bool{
         return false;
     }
-
     /**
     * Returns Is Connect.
     * @return bool

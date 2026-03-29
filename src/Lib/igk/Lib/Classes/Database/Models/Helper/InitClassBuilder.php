@@ -14,7 +14,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
 use IGKException;
-
 /**
  * intialize core class 
  * @package IGK\Database\Models\Helper

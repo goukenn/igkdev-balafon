@@ -14,7 +14,6 @@ use stdClass;
  * @package IGK\System\Diagnostics
  */
 class BenchmarkOptions{
-
     /**
     * Property: die on error.
     * @var mixed

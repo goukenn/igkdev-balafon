@@ -3,27 +3,23 @@
 // @file: ReplaceUtilityTrait.php
 // @date: 20250730 08:33:24
 namespace IGK\System\Text\Traits;
-
 use Closure;
 use IGK\System\Text\Formatters\IRegexFormatterCaptureInfo;
 use IGK\System\Text\IReplaceCapturedFormatDefinition;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
  * 
  * @package IGK\System\Text\Traits
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text\Traits
 */
 trait ReplaceUtilityTrait
 {
-
     /**
      * resolve capture to glue for format
      * @param mixed $e 
@@ -34,7 +30,6 @@ trait ReplaceUtilityTrait
      */
     public static function ResolveCapture($e, array &$v_def)
     {
-
         $v_type = RegexMatcherUtility::GetPatternType($e->match);
         if ($v_type == RegexMatcherPattern::BEGIN_END_TYPE) {
             $b_cap = $e->match->beginCaptures ?? $e->match->captures ?? [];
@@ -45,7 +40,6 @@ trait ReplaceUtilityTrait
                 $d = $e->endCaptures;
                 $v_def['end'] = self::TreatFormatCapture($d[0][0], $e, $e_cap, $e->endCaptures, $e->endCaptures[0][0], $d[0][1]);
             }
-
             $v_def['begin_captures'] = $b_cap;
             $v_def['end_captures'] = $e_cap;
         } else if ($v_type == RegexMatcherPattern::BEGIN_WHILE_TYPE) {
@@ -53,7 +47,6 @@ trait ReplaceUtilityTrait
             $e_cap = $e->match->endWhileCaptures ?? $e->match->captures;
             $v_def['begin'] = self::TreatFormatCapture($e->beginCaptures[0][0], $e, $b_cap, $e->beginCaptures, $e->beginCaptures[0][0]);
             $v_def['end'] = self::TreatFormatCapture($e->endCaptures[0][0], $e, $e_cap, $e->endCaptures, $e->endCaptures[0][0]);
-
             $v_def['begin_captures'] = $b_cap;
             $v_def['end_captures'] = $e_cap;
         } else {
@@ -65,7 +58,6 @@ trait ReplaceUtilityTrait
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param Closure(string $s):string|string|null|array<string> $rp
@@ -73,7 +65,6 @@ trait ReplaceUtilityTrait
     */
     static function ReplaceData(string $s, $e, $rp = null, $property = 'replaceWith')
     {
-
         if (!is_null($rp = $rp ?? igk_getv($e->match, $property))) {
             $v_t = RegexMatcherContainer::GetPatternType($e->match);
             $g = '/^(.+)$/m';
@@ -87,7 +78,6 @@ trait ReplaceUtilityTrait
         }
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param string $replace replace data
@@ -102,7 +92,6 @@ trait ReplaceUtilityTrait
         $s = preg_replace($pattern, $replace, $s);
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param string $s
@@ -119,23 +108,19 @@ trait ReplaceUtilityTrait
         }
         return $rp;
     }
-
     /**
     * auto generate doc.
     * @param array $tab
     */
     public static function ReplaceRegexMatcherCaptureGlobal(string $rp, array $tab)
     {
-
         $rp = preg_replace_callback("/(?!=\\\\)(?:\\$(\\d+))/", function ($a) use ($tab) {
             if ($l = igk_getv($tab, $a[1])) {
                 return $l[0];
             }
         }, $rp);
-
         return $rp;
     }
-
     /**
     * auto generate doc.
     * @param mixed $format
@@ -152,7 +137,6 @@ trait ReplaceUtilityTrait
         $treat = $e->match->getMatcher()->captureTreatmentListener ?? function (string $s, $cap, $sourceValue, $pos) {
             return self::TreatCaptureReplace($s, $cap, $sourceValue, $pos) ?? $s;
         };
-
         /**
         * auto generate doc.
         * @var IRegexFormatterCaptureInfo $v
@@ -181,7 +165,6 @@ trait ReplaceUtilityTrait
         }
         return $ts;
     }
-
     /**
     * auto generate doc.
     * @param string $s
@@ -203,7 +186,6 @@ trait ReplaceUtilityTrait
         }
         return null;
     }
-
     /**
      * update captured definition
      * @param IReplaceCapturedFormatDefinition $e 

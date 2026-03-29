@@ -3,19 +3,16 @@
 // @file: HtmlAttributeExpression.php
 // @date: 20221109 14:22:51
 namespace IGK\System\Html;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlAttributeExpression implements IHtmlGetValue{
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * .ctr
     * @param string $data
@@ -29,7 +26,6 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param string $data 
      * @return void 
      */
-
     public function prepend(string $data){
         $this->m_data = $data.$this->m_data;
     }
@@ -38,7 +34,6 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param string $data 
      * @return void 
      */
-
     public function append(string $data){
         $this->m_data = $this->m_data.$data;
     }
@@ -47,11 +42,9 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param mixed $options 
      * @return null|string 
      */
-
     public function getValue($options = null):?string{
         return $this->m_data;
     }
-
     /**
     * get string presentation.
     */

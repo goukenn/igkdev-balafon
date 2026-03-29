@@ -8,25 +8,21 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 abstract class FormBuilderItemAbstractType{
-
     /**
     * Property: attribs.
     * @var mixed
     */
     protected $attribs;
-
     /**
     * Name of name.
     * @var mixed
     */
     protected $name;
-
     /**
     * Identifier: id.
     * @var mixed
     */
     protected $id;
-
     /**
     * Sets Id.
     * @param null|string $id
@@ -34,7 +30,6 @@ abstract class FormBuilderItemAbstractType{
     public function setId(?string $id){
         $this->id = $id;
     }
-
     /**
     * Sets Name.
     * @param string $name
@@ -42,7 +37,6 @@ abstract class FormBuilderItemAbstractType{
     public function setName(string $name){
         $this->name = $name;
     }
-
     /**
     * Sets Attributes.
     * @param mixed $attribs
@@ -54,6 +48,5 @@ abstract class FormBuilderItemAbstractType{
      * render the custom component
      * @return null|string 
      */
-
     public abstract function render():?string;
 }

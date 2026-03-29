@@ -11,7 +11,6 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms
  */
 class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -20,7 +19,6 @@ class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
     public function assertValidate($value): bool { 
         return $value && is_string($value);
     }
-
     /**
     * Validate.
     * @param mixed $value

@@ -16,61 +16,51 @@ require_once __DIR__."/helper-functions.php";
  */
 class ViewBlockCompiler
 {
-
     /**
     * Property: controller.
     * @var mixed
     */
     var $controller;
-
     /**
     * Property: detector.
     * @var mixed
     */
     var $detector;
-
     /**
     * Property: variables.
     * @var mixed
     */
     var $variables = [];
-
     /**
     * Property: extract.
     * @var mixed
     */
     private $m_extract;
-
     /**
     * Property: header.
     * @var mixed
     */
     var $header;
-
     /**
     * Listener: listener.
     * @var mixed
     */
     private $m_listener;
-
     /**
     * Property: source.
     * @var mixed
     */
     private $m_source;
-
     /**
     * Property: init.
     * @var mixed
     */
     private $m_init = false;
-
     /**
     * Property: compiler args.
     * @var mixed
     */
     private static $sm_compiler_args = [];
-
     /**
     * Property: source.
     * @var mixed
@@ -81,13 +71,11 @@ class ViewBlockCompiler
      * @param string $src 
      * @return bool|string 
      */
-
     public function compile(string $src)
     {
         $this->m_source = $src;
         return $this->_execute();
     }
-
     /**
     * .ctr
     * @param bool $extract
@@ -96,7 +84,6 @@ class ViewBlockCompiler
     {
         $this->m_extract = $extract;
     }
-
     /**
     * Initialize.
     */
@@ -154,7 +141,6 @@ class ViewBlockCompiler
         $vars[ViewExpressionArgHelper::EXPRESSION] = new ViewExpression($vars, $v_eval, $this->m_extract);
         $vars[ViewExpressionArgHelper::RESPONSE] = new ViewExpression($vars, $v_eval, $this->m_extract);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -175,7 +161,6 @@ class ViewBlockCompiler
         ob_end_clean();
         return $p;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -225,7 +210,6 @@ class ViewBlockCompiler
             return func_get_arg(0);
         })->bindTo($this->controller);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -284,7 +268,6 @@ class ViewBlockCompiler
         array_pop(ViewExpressionArgHelper::$Variables);
         return $n;
     }
-
     /**
     * Complete.
     * @return ?string

@@ -8,19 +8,16 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\CallableConstants;
-
 /**
 * Igkcss component style.
 */
 final class IGKCssComponentStyle extends IGKObject{
-
     /**
     * Property: loaded styles.
     * @var mixed
     */
     private $m_loadedStyles;
     ///.ctr
-
     /**
     * .ctr
     * @return
@@ -28,11 +25,9 @@ final class IGKCssComponentStyle extends IGKObject{
     private function __construct(){
         $this->m_loadedStyles=array();
     }
-
     /**
     * Returns Instance.
     */
-
     public static function getInstance(){
         $k=igk_get_instance_key(__CLASS__);
         $v=igk_app()->session->getParam($k);
@@ -42,13 +37,11 @@ final class IGKCssComponentStyle extends IGKObject{
         }
         return $v;
     }
-
     /**
     * Reg file.
     * @param mixed $file
     * @param null|mixed $host
     */
-
     public function regFile($file, $host=null){
         if(!igk_io_file_exists($file))
             return null;

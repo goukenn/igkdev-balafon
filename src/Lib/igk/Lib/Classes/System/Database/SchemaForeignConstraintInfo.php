@@ -3,7 +3,6 @@
 // @file: SchemaForeignConstraintInfo.php
 // @date: 20230203 22:10:38
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database

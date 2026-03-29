@@ -30,31 +30,26 @@ require_once IGK_LIB_DIR . "/api/.mysql.pinc";
  */
 class MySQLCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:mysql";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "mysql db management command";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Constant: actions.
     * @var mixed
     */
     const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
-
     /**
     * Property: action helps.
     * @var mixed
@@ -65,7 +60,6 @@ class MySQLCommand extends AppExecCommand
         'query'=>'send manual query to mysql dbms',
         '--filter'
     ];
-
     /**
     * Property: options.
     * @var mixed
@@ -73,7 +67,6 @@ class MySQLCommand extends AppExecCommand
     var $options = [
         '--filter:filter_def'=>'set filter definition used in action.'
     ];
-
     /**
     * Sends Query.
     * @param mixed $query
@@ -89,7 +82,6 @@ class MySQLCommand extends AppExecCommand
         }
         return true;
     }
-
     /**
     * Help.
     */
@@ -113,7 +105,6 @@ class MySQLCommand extends AppExecCommand
             Logger::print($rs);
         }
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -277,7 +268,6 @@ class MySQLCommand extends AppExecCommand
                 case "preview_create_query":
                     return $this->preview_create_query($ctrl, ...array_slice(func_get_args(), 2));
                 case "resetdb":
-
                 /**
                 * auto generate doc.
                 * @var mixed
@@ -317,7 +307,6 @@ class MySQLCommand extends AppExecCommand
         }
         return -1;
     }
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -344,13 +333,11 @@ class MySQLCommand extends AppExecCommand
             }
         } 
     }
-
     /**
     * auto generate doc.
     * @param string $query
     * @return string
     */
-
     public function action_query($command, string $query){
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         // $g = SysDbController::ctrl(true);\
@@ -379,7 +366,6 @@ class MySQLCommand extends AppExecCommand
             Logger::info("# preview create query");
             igk_environment()->mysql_query_filter = 1;
             if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
-
                 /**
                 * auto generate doc.
                 * @var mixed
@@ -399,7 +385,6 @@ class MySQLCommand extends AppExecCommand
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param DataAdapter $ad
@@ -445,7 +430,6 @@ class MySQLCommand extends AppExecCommand
         }
         echo $dump;
     }
-
     /**
     * auto generate doc.
     * @param string $zipfile
@@ -593,7 +577,6 @@ class MySQLCommand extends AppExecCommand
             $ad->close();
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $ad
@@ -605,7 +588,6 @@ class MySQLCommand extends AppExecCommand
     private static function update_data($ad, $table, $entry, $mode){
         $ad->insert($table, $entry);
     }
-
     /**
     * auto generate doc.
     * @param mixed $ad

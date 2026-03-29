@@ -12,7 +12,6 @@ use IGKValidator;
  * @package IGK\Models\Injectors
  */
 class ModelBaseInjector implements IInjector{
-
     /**
     * Property: model.
     * @var mixed
@@ -22,11 +21,9 @@ class ModelBaseInjector implements IInjector{
      * retrieve the stored model 
      * @return null|ModelBase 
      */
-
     public function getModel(){
         return $this->model;
     }
-
     /**
     * .ctr
     * @param null|ModelBase $model
@@ -40,7 +37,6 @@ class ModelBaseInjector implements IInjector{
      * @param mixed $id
      * @return mixed 
      */
-
     public function resolve($id, ?string $type=null){
         if (is_null($id)){ 
             igk_die("failed to resolve from [id] can not be null");

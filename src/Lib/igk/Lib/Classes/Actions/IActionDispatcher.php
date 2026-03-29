@@ -3,13 +3,11 @@
 // @file: IActionDispatcher.php
 // @date: 20230520 19:56:07
 namespace IGK\Actions;
-
 /**
 * auto generate doc.
 * @package IGK\Actions
 */
 interface IActionDispatcher{
-
     /**
     * Sets Base Action Name.
     * @param string $actionName
@@ -17,7 +15,6 @@ interface IActionDispatcher{
     */
     function setBaseActionName(string $actionName);
     function getBaseActionName():string;
-
     /**
     * Invoke.
     * @param string $action

@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlItemBase;
  * @package IGK\System\Html\XML
  */
 class XmlNode extends HtmlItemBase{
-
     /**
     * .ctr
     * @param null|mixed $tagname
@@ -26,13 +25,11 @@ class XmlNode extends HtmlItemBase{
      * @param string $text 
      * @return $this 
      */
-
     public function comment(?string $text){
         $c = new XmlComment($text);
         $this->add($c);
         return $c;
     }
-
     /**
     * Closes Tag.
     * @return bool
@@ -40,7 +37,6 @@ class XmlNode extends HtmlItemBase{
     public function closeTag():bool{
         return true;
     }
-
     /**
     * Creates Web Node.
     * @param mixed $n

@@ -21,7 +21,6 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 abstract class ConfigControllerBase extends BaseController implements IConfigController
 {
     use NoDbActiveControllerTrait;
-
     /**
     * auto generate doc.
     * @return string
@@ -30,7 +29,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return strtolower(static::class);
     }
-
     /**
     * Returns Use Data Schema.
     * @return bool
@@ -42,7 +40,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return false;
     }
-
     /**
     * Returns View Dir.
     */
@@ -53,7 +50,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getViewDir();
     }
-
     /**
     * Returns Articles Dir.
     */
@@ -64,7 +60,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getViewDir();
     }
-
     /**
     * Returns Data Dir.
     */
@@ -84,24 +79,20 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     protected function getConfig($name, $default = null)
     {
         return $this->getConfigs()->get($name, $default);
     }
-
     /**
     * auto generate doc.
     * @param mixed $title
     */
-
     protected function addTitle($node, $title)
     {
         $d = $node->div();
         $d["class"] = "igk-cnf-title";
         $d->Content = __($title);
     }
-
     /**
     * auto generate doc.
     */
@@ -109,7 +100,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
     }
-
     /**
     * auto generate doc.
     */
@@ -117,7 +107,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigCtrl()->getConfigNode();
     }
-
     /**
     * auto generate doc.
     */
@@ -125,7 +114,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "default";
     }
-
     /**
     * auto generate doc.
     */
@@ -133,7 +121,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "./help/help." . $this->Name;
     }
-
     /**
     * auto generate doc.
     */
@@ -141,7 +128,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_is_conf_connected();
     }
-
     /**
     * auto generate doc.
     */
@@ -154,7 +140,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $v = $cnf->getIsConnected();
         return $v;
     }
-
     /**
     * auto generate doc.
     */
@@ -165,7 +150,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             $c->registerConfig($this);
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -207,12 +191,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $funcName
     */
-
     protected function IsFunctionExposed(string $function)
     {
         if (!igk_is_conf_connected() || igk_configs()->get("no_web_configuration")) {
@@ -223,7 +205,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * base show Configuration of the controller
      */
-
     public function showConfig()
     {
         // show config must be call one per configuration setting
@@ -249,12 +230,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * used to initialize the config view node
      */
-
     protected function viewConfig($target, $titlekey, $descfile)
     {
         return igk_html_ctrl_view_config($this, $target, $titlekey, $descfile);
     }
-
     /**
     * Select config view.
     * @param mixed $ctrl

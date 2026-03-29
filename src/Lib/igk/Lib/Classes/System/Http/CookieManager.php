@@ -3,7 +3,6 @@
 // @file: CookieManager.php
 // @date: 20221009 04:10:08
 namespace IGK\System\Http;
-
 use IGKEvents;
 use IGKException;
 /**
@@ -11,7 +10,6 @@ use IGKException;
 * @package IGK\System\Http
 */
 class CookieManager{
-
     /**
     * Property: instance.
     * @var mixed
@@ -31,13 +29,11 @@ class CookieManager{
      * @var false
      */ 
     private $m_saved = false;
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * Returns Instance.
     */
@@ -47,7 +43,6 @@ class CookieManager{
         }
         return self::$sm_instance;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -70,7 +65,6 @@ class CookieManager{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function get($n){
         return igk_getv($this->_getdata(), $n);
     }
@@ -80,13 +74,11 @@ class CookieManager{
      * @param mixed $v 
      * @return void 
      */
-
     public function set($n, $v){
         $d = $this->_getdata();
         $d->$n = $v;
         $this->m_saved = true;
     }
-
     /**
     * .ctr
     * @return

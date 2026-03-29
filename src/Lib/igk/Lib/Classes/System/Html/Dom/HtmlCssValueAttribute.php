@@ -7,19 +7,16 @@ namespace IGK\System\Html\Dom;
 use IGK\Css\CssThemeCompiler;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\IHtmlStyleAtribute;
-
 /**
 * Html css value attribute.
 * @package IGK\System\Html\Dom
 */
 class HtmlCssValueAttribute implements IHtmlStyleAtribute{
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $value
@@ -28,12 +25,10 @@ class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     {
         $this->value = $value;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
     */
-
     public function getValue($options = null) { 
         if (isset($options->Document) && CssThemeCompiler::CanCompile($this->value)){
             $systheme = $options->Document->getSysTheme();

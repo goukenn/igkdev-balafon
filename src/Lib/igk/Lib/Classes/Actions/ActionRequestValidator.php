@@ -9,20 +9,17 @@ use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGK\System\WinUI\Forms\RequestValidatorBase;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\Actions
 */
 class ActionRequestValidator extends RequestValidatorBase implements IActionRequestValidator
 {
-
     /**
     * Property: action.
     * @var mixed
     */
     var $action;
-
     /**
     * .ctr
     * @param mixed $action
@@ -43,7 +40,6 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
      * @return bool 
      * @throws IGKException 
      */
-
     public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, 
      & $requestData = null,  ?array &$error = null,
      ?array $resolvKeys=null): bool    

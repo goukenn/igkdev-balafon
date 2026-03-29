@@ -3,13 +3,11 @@
 // @file: CompilerTokenStateBufferTrait.php
 // @date: 20221021 09:50:56
 namespace IGK\System\Runtime\Compiler\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenStateBufferTrait{
-
     /**
     * Pushes Buffer.
     * @param mixed $options
@@ -23,7 +21,6 @@ trait CompilerTokenStateBufferTrait{
         array_push($options->buffers,['id'=>$id, 'buffer'=>& $bckBuffer]);
         $options->buffer = &$buffer;
     }
-
     /**
     * Pops Buffer.
     * @param mixed $options

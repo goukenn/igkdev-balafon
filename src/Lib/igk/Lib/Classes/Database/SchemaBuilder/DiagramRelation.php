@@ -4,43 +4,36 @@
 // @date: 20220531 16:28:07
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
-
 /**
 * auto generate doc.
 * @package igk\db\schemaBuilder
 */
 class DiagramRelation extends DiagramPropertiesHost{
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Property: sc.
     * @var mixed
     */
     var $sc;
-
     /**
     * Property: dc.
     * @var mixed
     */
     var $dc;
-
     /**
     * Type of start type.
     * @var mixed
     */
     var $startType;
-
     /**
     * Type of end type.
     * @var mixed
     */
     var $endType;
-
     /**
     * .ctr
     * @param string $relationName
@@ -64,7 +57,6 @@ class DiagramRelation extends DiagramPropertiesHost{
         $this->endType = $endType;
         $this->m_properties = [];
     }
-
     /**
     * Returns Definition.
     */

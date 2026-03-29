@@ -3,7 +3,6 @@
 // @file: EventArgs.php
 // @date: 20260206 13:28:03
 namespace IGK\System\Core;
-
 /**
 * auto generate doc.
 * @package IGK\System\Core
@@ -11,13 +10,11 @@ namespace IGK\System\Core;
 */
 class EventArgs
 {
-
     /**
     * Property: empty.
     * @var mixed
     */
     private  static $Empty;
-
     /**
     * Property: props.
     * @var mixed
@@ -28,7 +25,6 @@ class EventArgs
      * @param string $key 
      * @return mixed 
      */
-
     public function get(string $key){
         return igk_getv($this->m_props, $key);
     }
@@ -36,7 +32,6 @@ class EventArgs
      * get empty object 
      * @return mixed 
      */
-
     public static function Empty()
     {
         if (empty(self::$Empty)) {
@@ -44,7 +39,6 @@ class EventArgs
         }
         return self::$Empty;
     }
-
     /**
     * .ctr
     * @param null|mixed $props

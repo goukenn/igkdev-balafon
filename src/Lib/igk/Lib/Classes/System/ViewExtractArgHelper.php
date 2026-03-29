@@ -10,20 +10,17 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * @package IGK\System
 */
 class ViewExtractArgHelper implements ArrayAccess{
-
     /**
     * Property: output.
     * @var mixed
     */
     private $_output = "";
-
     /**
     * Name of name.
     * @var mixed
     */
     private $_name;
     use ArrayAccessSelfTrait;
-
     /**
     * .ctr
     * @param string $name
@@ -32,7 +29,6 @@ class ViewExtractArgHelper implements ArrayAccess{
     {
         $this->_name = $name;
     }
-
     /**
     * get string presentation.
     */
@@ -40,7 +36,6 @@ class ViewExtractArgHelper implements ArrayAccess{
     {
         return sprintf("<?= $%s ?>", $this->_name.$this->_output);
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -49,7 +44,6 @@ class ViewExtractArgHelper implements ArrayAccess{
         $this->_output.="->".$n;
         return $this;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -58,7 +52,6 @@ class ViewExtractArgHelper implements ArrayAccess{
     public function __set($n, $args){
         igk_die("set view arg helper not allowed");
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -71,7 +64,6 @@ class ViewExtractArgHelper implements ArrayAccess{
         );
         return $this;
     }
-
     /**
     * Access offset get.
     * @param mixed $name

@@ -11,7 +11,6 @@ use IGKValidator;
  * @package IGK\System\Console
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
@@ -28,7 +27,6 @@ class Colorize
      * @var mixed
      */
     var $colors;
-
     /**
     * Init regex matcher container.
     * @param RegexMatcherContainer $match
@@ -41,7 +39,6 @@ class Colorize
         $match->match("(\\}|\\])", "emarker");
         $match->match("\b(null|true|false)\b", "words");
     }
-
     /**
     * Init color.
     * @return array
@@ -55,13 +52,11 @@ class Colorize
             "secret"=>"\e[38;2;30;154;42m",
         ];
     }
-
     /**
     * auto generate doc.
     * @param mixed $filter
     * @return null|string
     */
-
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null):?string
     {
         if (is_null($match)) {

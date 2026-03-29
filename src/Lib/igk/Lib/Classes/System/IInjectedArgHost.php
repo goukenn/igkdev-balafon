@@ -3,8 +3,6 @@
 // @file: IInjectedArgHost.php
 // @date: 20251221 20:37:59
 namespace IGK\System;
-
-
 /**
 * interface used to retrieve injected args
 * @package IGK\System

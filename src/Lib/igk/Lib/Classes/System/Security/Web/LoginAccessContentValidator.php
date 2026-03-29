@@ -11,7 +11,6 @@ use function igk_resources_gets as __;
  */
 class LoginAccessContentValidator extends MapContentValidatorBase
 {
-
     /**
     * auto generate doc.
     * @param mixed $error

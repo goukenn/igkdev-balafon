@@ -11,22 +11,18 @@ namespace IGK\System\Middlewares;
 * Represent IGKRunCallbackMiddleware class
 */
 class RunCallbackMiddleware extends BalafonMiddleware{
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $callback;
-
     /**
     * auto generate doc.
     * @param closure callback
     */
-
     public function __construct($callback){
         $this->callback=$callback;
     }
-
     /**
     * auto generate doc.
     */

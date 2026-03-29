@@ -4,32 +4,27 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\System\Http\Request;
-
 /**
 * Igkroutes.
 */
 class IGKRoutes
 {
-
     /**
     * Constant: reg key.
     * @var mixed
     */
     const REG_KEY = "sys://reg/systemuri";
-
     /**
     * Property: request entry.
     * @var mixed
     */
     static $request_entry;
-
     /**
     * Registers.
     * @param mixed $u
     * @param mixed $callback
     * @param mixed $prehandle
     */
-
     public static function Register($u, $callback, $prehandle = 1)
     {
         // TODO : remove register
@@ -46,7 +41,6 @@ class IGKRoutes
      * @param mixed $callback 
      * @return void 
      */
-
     public static function Invoke($uri, $u, $callback)
     {
         $uri_key = self::REG_KEY;

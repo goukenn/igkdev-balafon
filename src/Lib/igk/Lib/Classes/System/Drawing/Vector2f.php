@@ -9,19 +9,16 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
 use IGKObject;
-
 /**
 * Vector2f.
 * @package IGK\System\Drawing
 */
 final class Vector2f extends IGKObject{
-
     /**
     * Properties: x, y.
     * @var mixed
     */
     private $m_x, $m_y;
-
     /**
     * .ctr
     * @param mixed $x
@@ -31,57 +28,45 @@ final class Vector2f extends IGKObject{
         $this->m_x=$x;
         $this->m_y=$y;
     }
-
     /**
     * Returns string representation.
     */
-
     public function __toString(){
         return "IGKVector2f [x:".$this->X." y:".$this->Y."]";
     }
-
     /**
     * From string.
     * @param mixed $data
     */
-
     public static function FromString($data){
         $b=explode(";", $data);
         list($X, $Y)
         =count($b) == 2 ? $b: array($data, $data);
         return new Vector2f($X, $Y);
     }
-
     /**
     * Returns X.
     */
-
     public function getX(){
         return $this->m_x;
     }
-
     /**
     * Returns Y.
     */
-
     public function getY(){
         return $this->m_y;
     }
-
     /**
     * Sets X.
     * @param mixed $value
     */
-
     public function setX($value){
         $this->m_x=$value;
     }
-
     /**
     * Sets Y.
     * @param mixed $value
     */
-
     public function setY($value){
         $this->m_y=$value;
     }

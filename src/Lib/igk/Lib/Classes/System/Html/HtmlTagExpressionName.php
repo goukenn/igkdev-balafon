@@ -3,19 +3,16 @@
 // @file: HtmlTagExpressionName.php
 // @date: 20221018 11:21:15
 namespace IGK\System\Html;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlTagExpressionName{
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * .ctr
     * @param mixed $name
@@ -24,7 +21,6 @@ class HtmlTagExpressionName{
     {
         $this->name = $name;
     }
-
     /**
     * get string presentation.
     */

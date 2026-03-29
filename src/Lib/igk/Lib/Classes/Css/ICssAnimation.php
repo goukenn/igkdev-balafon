@@ -3,7 +3,6 @@
 // @file: ICssAnimation.php
 // @date: 20250409 11:46:53
 namespace IGK\Css;
-
 /**
 * auto generate doc.
 * @package IGK\Css

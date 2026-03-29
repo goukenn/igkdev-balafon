@@ -9,19 +9,16 @@ namespace IGK\System\Html;
  * @package IGK\System\Html
  */
 class PropertyVisibleWatcher{
-
     /**
     * Property: p.
     * @var mixed
     */
     private $p;
-
     /**
     * Property: prop.
     * @var mixed
     */
     private $prop;
-
     /**
     * .ctr
     * @param mixed $c
@@ -31,7 +28,6 @@ class PropertyVisibleWatcher{
         $this->p = $c;
         $this->prop = $prop;
     }
-
     /**
     * Called when an object is used as a function.
     */
@@ -39,7 +35,6 @@ class PropertyVisibleWatcher{
     {
         return $this->visible();
     }
-
     /**
     * Visible.
     */

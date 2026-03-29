@@ -11,72 +11,60 @@ use ReflectionMethod;
 * used to generate file
 */
 class WsdlFile extends IGKObject {
-
     /**
     * Property: attributes.
     * @var mixed
     */
     private $m_attributes;
-
     /**
     * Property: binding.
     * @var mixed
     */
     private $m_binding;
-
     /**
     * Property: cservice.
     * @var mixed
     */
     private $m_cservice;
-
     /**
     * Property: def.
     * @var mixed
     */
     private $m_def;
-
     /**
     * Property: message.
     * @var mixed
     */
     private $m_message;
-
     /**
     * Type of porttype.
     * @var mixed
     */
     private $m_porttype;
-
     /**
     * Property: service.
     * @var mixed
     */
     private $m_service;
-
     /**
     * Property: srv.
     * @var mixed
     */
     private $m_srv;
-
     /**
     * Property: uri.
     * @var mixed
     */
     private $m_uri;
-
     /**
     * Property: uri.
     * @var mixed
     */
     private $uri;
-
     /**
     * auto generate doc.
     * @param mixed $attributes the default value is null
     */
-
     public function __construct($name, $uri, $attributes=null){
         $this->m_uri=$uri;
         $this->m_attributes=$attributes;
@@ -93,12 +81,10 @@ class WsdlFile extends IGKObject {
         $this->m_binding=$this->m_def->addChildNodeView("binding");
         $this->m_service=$this->m_def->addChildNodeView("service");
     }
-
     /**
     * auto generate doc.
     * @param encoded
     */
-
     public function addBindingService($name, $style="rpc", $porttype=null, $enctype='encoded'){
         $c=$this->m_binding->AddChild();
         $c["name"]=$name;
@@ -109,12 +95,10 @@ class WsdlFile extends IGKObject {
         }
         return $c;
     }
-
     /**
     * auto generate doc.
     * @param mixed $porttype the default value is null
     */
-
     public function addMethod($n, $input, $output=null, $porttype=null){
         $m=$this->m_message->AddChild();
         $m["name"]=$n."Request";
@@ -141,12 +125,10 @@ class WsdlFile extends IGKObject {
         $op->addNode("input")->setAttribute("message", "igkns:".$n."Request");
         $op->addNode("output")->setAttribute("message", "igkns:".$n."Response");
     }
-
     /**
     * auto generate doc.
     * @param mixed $loc
     */
-
     public function addService($srvname, $doc, $srv, $loc){
         $d=$this->m_service->AddChild();
         $d["name"]=$srvname;
@@ -158,12 +140,10 @@ class WsdlFile extends IGKObject {
         $this->m_cservice=$d;
         return $d;
     }
-
     /**
     * auto generate doc.
     * @param sample:demo
     */
-
     protected function addServiceOperation($srv, $name, $type="encoded", $urn="sample:demo"){
         $op=$srv->addNode("operation");
         $op["name"]=$name;

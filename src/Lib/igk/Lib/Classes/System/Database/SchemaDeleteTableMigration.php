@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
-
 /**
 * Schema delete table migration.
 * @package IGK\System\Database
 */
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
@@ -23,21 +21,17 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
      * @var array
      */
     var $tables = [];
-
     /**
     * Up.
     */
-
     public function up(){    
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl->getDataAdapter()->dropTable($tb);       
     }
-
     /**
     * Down.
     */
-
     public function down()
     {  
         //restore current table definition
@@ -48,7 +42,6 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
      * @param mixed $childs 
      * @return void 
      */
-
     protected function loadChilds($childs){  
         $this->tables = [];
         $ctrl = $this->getMigration()->controller;

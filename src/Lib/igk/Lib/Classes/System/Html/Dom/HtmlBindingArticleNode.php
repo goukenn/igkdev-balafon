@@ -5,43 +5,36 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
 class HtmlBindingArticleNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:binding-article";
-
     /**
     * Property: file.
     * @var mixed
     */
     var $file;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * Index: index.
     * @var mixed
     */
     var $index;
-
     /**
     * Property: target.
     * @var mixed
@@ -53,20 +46,17 @@ class HtmlBindingArticleNode extends HtmlNode{
      */
     var $caching = false;
     // binding counter:
-
     /**
     * Count: count.
     * @var mixed
     */
     private static $sm_Count;
-
     /**
     * Resets Binding Counter.
     */
     public static function ResetBindingCounter(){
         static::$sm_Count = 0;
     }
-
     /**
     * .ctr
     */
@@ -75,7 +65,6 @@ class HtmlBindingArticleNode extends HtmlNode{
         $this->index = self::$sm_Count;
         self::$sm_Count++;  
     }
-
     /**
     * Returns Can Render Tag.
     * @return bool
@@ -83,7 +72,6 @@ class HtmlBindingArticleNode extends HtmlNode{
     function getCanRenderTag():bool{
         return false;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
@@ -92,7 +80,6 @@ class HtmlBindingArticleNode extends HtmlNode{
     {
         return [];
     }
-
     /**
     * Renders.
     * @param null|mixed $options
@@ -125,7 +112,6 @@ class HtmlBindingArticleNode extends HtmlNode{
             return $sb;
         }
     }
-
     /**
     * auto generate doc.
     * @return

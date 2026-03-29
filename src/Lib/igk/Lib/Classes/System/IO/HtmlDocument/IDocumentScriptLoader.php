@@ -10,7 +10,6 @@ use IGKHtmlDoc;
 * @author C.A.D. BONDJE DOUE
 */
 interface IDocumentScriptLoader{
-
     /**
     * Loads Scripts.
     * @param IGKHtmlDoc $doc

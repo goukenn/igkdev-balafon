@@ -4,13 +4,11 @@
 // @date: 20221116 13:08:10
 namespace IGK\Helper;
 use IGK\Controllers\BaseController;
-
 /**
 * auto generate doc.
 * @package IGK\Helpers
 */
 class DbUtilityHelper{
-
     /**
     * Invoke on start drop table.
     * @param BaseController $controller
@@ -19,7 +17,6 @@ class DbUtilityHelper{
     public static function InvokeOnStartDropTable(BaseController $controller, $autoclose=true){
         return self::InvokeEventCommand($controller, 'onStartDropTable', $autoclose);
     }
-
     /**
     * Invoke event command.
     * @param BaseController $controller

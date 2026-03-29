@@ -13,32 +13,27 @@ use IGK\System\Console\Logger;
  */
 class dropUserCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--users:remove';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='remove user'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'users';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'login [option]';
-
     /**
     * Exec.
     * @param mixed $command

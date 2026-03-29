@@ -33,57 +33,48 @@ use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
 use IGKException;
-
 /**
 * Sync app exec command base.
 * @package IGK\System\Console\Commands\Sync
 */
 abstract class SyncAppExecCommandBase extends AppExecCommand{
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
     // + | entry config tagname
-
     /**
     * Constant: self key config.
     * @var mixed
     */
     const SELF_KEY_CONFIG = 'ftp-sync';
     // + | configuration keys
-
     /**
     * Constant: session dir.
     * @var mixed
     */
     const SESSION_DIR = "session_dir";
-
     /**
     * Constant: app dir.
     * @var mixed
     */
     const APP_DIR = "application_dir";
-
     /**
     * Constant: project dir.
     * @var mixed
     */
     const PROJECT_DIR = "project_dir";
-
     /**
     * Constant: release dir.
     * @var mixed
     */
     const RELEASE_DIR = "release_dir";
-
     /**
     * Constant: site dir.
     * @var mixed
     */
     const SITE_DIR = "site_dir";
-
     /**
     * Constant: home dir.
     * @var mixed
@@ -96,7 +87,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @return mixed 
      * @throws Exception 
      */
-
     protected function initSyncSetting($command, & $setting){
         $setting = null;
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
@@ -165,13 +155,11 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         ];
         return $sync;
     }
-
     /**
     * Starts.
     * @param mixed $command
     * @param mixed & $setting
     */
-
     protected function start($command, &$setting){
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
             return $c;
@@ -181,14 +169,12 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         }
         return $h;
     }
-
     /**
     * Connects.
     * @param mixed $server
     * @param mixed $user
     * @param mixed $pwd
     */
-
     protected function connect($server, $user, $pwd){
         $h = null;
         // connect to ftp server
@@ -204,13 +190,11 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         }
         return $h;
     }
-
     /**
     * Removes Cache.
     * @param mixed $ftp
     * @param mixed $app_dir
     */
-
     protected function removeCache($ftp, $app_dir){        
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
     }
@@ -220,7 +204,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @param mixed $dir 
      * @return void 
      */
-
     protected function emptyDir($ftp, string $dir){
         FtpHelper::RmDir($ftp, $dir); 
         FtpHelper::CreateDir($ftp, $dir);
@@ -230,7 +213,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @param array|string installed script 
      * @param string $token $ref token
      */
-
     public static function GetScriptInstall($script, & $token, $name=null){
         $src = null;
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
@@ -278,25 +260,20 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * generate sync command token-
      * @return string 
      */
-
     protected static function GenerateSyncCommandToken(){
         return base64_encode(date("Ymd") .'-'.rand(2, 85) . igk_create_guid());
     }
-
     /**
     * Returns Merged Scripts.
     */
-
     protected function getMergedScripts(){
         return [];
     }
-
     /**
     * auto generate doc.
     * @param mixed $args
     * @return mixed|void
     */
-
     protected function syncScriptCommand($command, $script, $args){
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
@@ -342,11 +319,9 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             Logger::danger(igk_curl_status());
         }
     }
-
     /**
     * Returns Help Options.
     */
-
     public function getHelpOptions(){
         return ['--no-timeout'=>'flag: disable timeout'];
     }

@@ -21,7 +21,6 @@ abstract class HtmlContext extends HtmlRenderingContext{
      * html tag that denied a close tag
      */
     const EmptyTags =  "br|hr|img|input|source|link|meta|base|col|embed|param|track|wbr";
-
     /**
     * .ctr
     */
@@ -31,7 +30,6 @@ abstract class HtmlContext extends HtmlRenderingContext{
      * empty tag list 
      * @return string[] 
      */
-
     public static function GetEmptyTagArray(){
         static $clTag = null;
         if ($clTag === null){
@@ -39,7 +37,6 @@ abstract class HtmlContext extends HtmlRenderingContext{
         }
         return $clTag;
     }
-
     /**
     * Returns Close Tag Array.
     */

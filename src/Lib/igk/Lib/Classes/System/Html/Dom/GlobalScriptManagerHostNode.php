@@ -8,13 +8,11 @@ namespace IGK\System\Html\Dom;
 * used to render global script
 */
 final class GlobalScriptManagerHostNode extends HtmlNode{
-
     /**
     * auto generate doc.
     */    public function __construct(){
         parent::__construct('igk:scripthostnode');
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
@@ -26,7 +24,6 @@ final class GlobalScriptManagerHostNode extends HtmlNode{
         }
         return $v;
     }
-
     /**
     * Returns Can Render Tag.
     */

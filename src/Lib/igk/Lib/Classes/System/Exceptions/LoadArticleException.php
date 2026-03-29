@@ -5,13 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
-
 /**
 * Load article exception.
 * @package IGK\System\Exceptions
 */
 class LoadArticleException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $key

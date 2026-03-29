@@ -8,7 +8,6 @@ namespace IGK\System\Html\Traits;
 * @package IGK\System\Html\Traits
 */
 trait FieldsDefintionItemTrait{
-
     /**
     * Fields.
     * @param array $items

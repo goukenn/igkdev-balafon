@@ -3,20 +3,17 @@
 // @file: CssDefintionPropertyLoader.php
 // @date: 20240212 09:53:43
 namespace IGK\System\Html\Css;
-
 /**
 * Use to load property data
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
 class CssDefintionPropertyLoader{
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data = [];
-
     /**
     * Loads.
     * @param array $data
@@ -24,7 +21,6 @@ class CssDefintionPropertyLoader{
     public function load(array $data){
         $this->m_data = array_merge($this->m_data, $data);
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -32,7 +28,6 @@ class CssDefintionPropertyLoader{
     {
         return [];
     }
-
     /**
     * get string presentation.
     */

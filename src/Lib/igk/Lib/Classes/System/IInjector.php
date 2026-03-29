@@ -7,13 +7,11 @@ namespace IGK\System;
 * 
 * @package IGK\System
 */
-
 /**
 * auto generate doc.
 * @package IGK\System
 */
 interface IInjector{
-
     /**
     * auto generate doc.
     * @param mixed $value

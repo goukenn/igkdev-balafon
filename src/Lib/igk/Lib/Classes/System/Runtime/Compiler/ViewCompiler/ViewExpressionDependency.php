@@ -6,38 +6,32 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewExpressionDependency implements ArrayAccess{
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * Property: expression.
     * @var mixed
     */
     var $expression;
-
     /**
     * Property: eval value.
     * @var mixed
     */
     var $evalValue;
     use ArrayAccessSelfTrait;
-
     /**
     * .ctr
     * @param mixed $value
@@ -49,7 +43,6 @@ class ViewExpressionDependency implements ArrayAccess{
         $this->name = $name;
         $this->expression = '';
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -58,7 +51,6 @@ class ViewExpressionDependency implements ArrayAccess{
         $this->expression .= "->".escapeshellarg($name);
         return $this;
     }
-
     /**
     * get string presentation.
     */
@@ -67,7 +59,6 @@ class ViewExpressionDependency implements ArrayAccess{
         $v = $this->value;
         return $v;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -76,7 +67,6 @@ class ViewExpressionDependency implements ArrayAccess{
         $this->expression .= sprintf("[%s]", escapeshellarg($n));
         return $this;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name

@@ -7,14 +7,12 @@ namespace IGK\System\Html;
 use ArrayAccess;
 use IGK\System\Collections\ArrayList;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * Html child array.
 * @package IGK\System\Html
 */
 class HtmlChildArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Activate.
     * @param mixed $n
@@ -22,7 +20,6 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     public function activate($n){
         $this->m_data[$n] = HtmlActiveAttrib::getInstance();
     }
-
     /**
     * Deactivate.
     * @param mixed $n
@@ -30,7 +27,6 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     public function deactivate($n){
         unset($this->m_data[$n]);
     }
-
     /**
     * Returns debug information for var_dump.
     */
@@ -38,7 +34,6 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     {
         return ["childCount"=>$this->count()];
     }
-
     /**
     * Removes.
     * @param mixed $item
@@ -48,7 +43,6 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
             unset($this->m_data[$index]);
         }
     }
-
     /**
     * Clears.
     */
@@ -67,7 +61,6 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
             return $ai <=> $bi;
         });  
     }
-
     /**
     * First.
     */
@@ -75,9 +68,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
         if (count($this->m_data)){
             return $this->m_data[0];
         }
-
     }
-
     /**
     * Last.
     */

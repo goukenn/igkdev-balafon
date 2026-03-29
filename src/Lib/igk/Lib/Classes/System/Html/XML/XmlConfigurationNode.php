@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\XML;
-
 use IGK\System\Configuration\SysAppConfigExpression;
 use IGK\System\Configuration\SysConfigExpression;
 use IGK\System\Html\HtmlUtils;
@@ -13,19 +12,16 @@ use IGK\System\Html\HtmlUtils;
  * @package IGK\System\Html\XML
  */
 class XmlConfigurationNode extends XmlNode{
-
     /**
     * Constant: sys config.
     * @var mixed
     */
     const SYS_CONFIG = 'sys';
-
     /**
     * Constant: app config.
     * @var mixed
     */
     const APP_CONFIG = 'app';
-
     /**
     * .ctr
     * @param mixed $tagname
@@ -41,7 +37,6 @@ class XmlConfigurationNode extends XmlNode{
      * @param mixed $indexOrargs 
      * @return $this 
      */
-
     public function add($n, $attributes = null, $indexOrargs = null){
         if (!($n instanceof self))
         {
@@ -64,14 +59,12 @@ class XmlConfigurationNode extends XmlNode{
                     return $g;
                 }                
             }
-
             /**
             * auto generate doc.
             */
         }
         return parent::add($n, $attributes, $indexOrargs);
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
@@ -87,12 +80,10 @@ class XmlConfigurationNode extends XmlNode{
         }
         return $g; 
     }
-
     /**
     * auto generate doc.
     * @return SysAppConfigExpression|SysConfigExpression|null|object|string
     */
-
     public function getInnerHtml()
     {
         $s = trim(parent::getInnerHtml());     

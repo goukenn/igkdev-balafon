@@ -13,7 +13,6 @@ use Prophecy\Util\StringUtil;
  * @package IGK\System\Configuration
  */
 class SysAppConfigExpression implements IHtmlGetValue{
-
     /**
     * Property: expression.
     * @var mixed
@@ -24,7 +23,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
      * @var string
      */
     protected $tag= "app";
-
     /**
     * .ctr
     * @param string $expression
@@ -36,7 +34,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
         }
         $this->expression = $expression;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -44,7 +41,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
     public function getValue($options = null) { 
        return $this->getStoreValue(); 
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -55,7 +51,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
         }
         return null;
     }
-
     /**
     * get string presentation.
     */
@@ -63,7 +58,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
     {
         return (string)$this->__get(StringUtility::CamelClassName($this->expression));
     }
-
     /**
     * Returns Store Value.
     */
@@ -72,7 +66,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
             return sprintf("{{ %s.%s }}", $this->tag, $ex);
         return null;
     }
-
     /**
     * Returns Web Site URI.
     */

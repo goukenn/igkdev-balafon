@@ -6,31 +6,26 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * Update lib core command.
 * @package IGK\System\Console\Commands
 */
 class UpdateLibCoreCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--updatecore";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "update core by copy it to location";
-
     /**
     * Exec.
     * @param mixed $command
     * @param null|mixed $path
     */
-
     public function exec($command, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

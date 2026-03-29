@@ -3,13 +3,11 @@
 // @file: IDbSendQueryListenerSupport.php
 // @date: 20231220 12:33:55
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 interface IDbSendQueryListenerSupport{
-
     /**
     * Sets Send Db Query Listener.
     * @param null|IDbSendQueryListener $listener

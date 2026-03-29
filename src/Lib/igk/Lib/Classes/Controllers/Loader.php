@@ -20,37 +20,31 @@ use ReflectionException;
 * represent internal core loader
 */
 class Loader implements IResponse {
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * Property: output.
     * @var mixed
     */
     private $m_output;
-
     /**
     * Listener: listener.
     * @var mixed
     */
     private $m_listener;
-
     /**
     * Cache: cache fs.
     * @var mixed
     */
     private $_cache_fs;
-
     /**
     * Property: loader load files.
     * @var mixed
     */
     private $loader_load_files = [];
-
     /**
     * Loaded files.
     */
@@ -65,7 +59,6 @@ class Loader implements IResponse {
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function output($render=1) {         
         $m = $this->m_controller->_output.$this->m_output;
         $this->m_output = ""; 
@@ -79,7 +72,6 @@ class Loader implements IResponse {
      * get the button 
      * @return ?string
      */
-
     public function getBuffer(): ?string{
         return $this->m_output;
     }
@@ -88,31 +80,26 @@ class Loader implements IResponse {
     * dispatch call to controller
     * @return mixed|void
     */
-
     public function __call($n, $args){
         if(method_exists($this->m_controller, $n)){
             return call_user_func_array(array($this->m_controller, $n), $args);
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public function __construct($ctrl, $listener){
         $this->m_controller=$ctrl;
         $this->m_output="";
 		$this->m_listener = $listener;
         $this->_cache_fs = FileSystem::Create(igk_environment()->getViewCacheDir());
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __get($n){
         if(method_exists($this, $m="get".$n)){
             return call_user_func_array(array($this, $m), array());
@@ -121,7 +108,6 @@ class Loader implements IResponse {
             return $this->m_controller->$n;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $data
@@ -136,12 +122,10 @@ class Loader implements IResponse {
         })->bindTo($this->m_controller);
         $fc($file, $data); 
     }
-
     /**
     * auto generate doc.
     * @param mixed $render the default value is 1
     */
-
     public function article($file, $raw=null, $render=1){
         if (empty($f= realpath($file)))
             $f = $this->m_controller->getArticle($file);
@@ -151,7 +135,6 @@ class Loader implements IResponse {
         $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
         return $n;
     }
-
     /**
     * auto generate doc.
     */
@@ -161,7 +144,6 @@ class Loader implements IResponse {
     /**
     * check an resolve view file
     */
-
     public function igk_io_file_exists($view){
         if (preg_match('/RegexContainer.d.js/', $view)){
             igk_wln_e(__FILE__.":".__LINE__ , "finish");
@@ -176,14 +158,12 @@ class Loader implements IResponse {
         }
         return false;
     }
-
     /**
     * auto generate doc.
     */
     public function getConfigs(){
         return $this->m_controller->getConfigs();
     }
-
     /**
     * auto generate doc.
     */
@@ -193,7 +173,6 @@ class Loader implements IResponse {
     /**
     * retreive controller output buffer
     */
-
     public function getOutput($clear=false){
         $c = $this->m_output;
         if ($clear){
@@ -201,7 +180,6 @@ class Loader implements IResponse {
         }
         return $c;
     }
-
     /**
     * auto generate doc.
     */
@@ -211,7 +189,6 @@ class Loader implements IResponse {
     /**
     *  use to load model utility class
     */
-
     public function model($name, $refname=null, $forceloading=false){
         $n=$refname ? $refname: $name;
         $igk_c=$this->m_controller;
@@ -247,7 +224,6 @@ class Loader implements IResponse {
     /**
     *  include view file
     */
-
     public function view($file, $data=array(), $render=0){
         $cfile = $f=$this->m_controller->getViewFile($file);
         if (!$cfile){
@@ -296,7 +272,6 @@ class Loader implements IResponse {
      * @throws ReflectionException 
      * @throws Exception 
      */
-
     public function bind(string $file, $data=array(), $render=0){
         $n = igk_create_node("NoTagNode");
         $n->div()->article($this->m_controller, $file, $data);
@@ -308,13 +283,11 @@ class Loader implements IResponse {
         }
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $args
     * @return mixed
     */
-
     public function loadComponent(string $file, $t, $args=null){ 
         $fc = Closure::fromCallable(function($file, $t, $args=null){
             if ($args)
@@ -325,13 +298,11 @@ class Loader implements IResponse {
         })->bindTo($this->m_controller); 
         return $fc($file, $t, $args);
     }
-
     /**
     * auto generate doc.
     * @param mixed $viewargs
     * @return void
     */
-
     public function include(string $file, $viewargs=null){ 
         if (igk_io_file_exists($file)){
             $fc = Closure::fromCallable(function($file, $args){
@@ -348,7 +319,6 @@ class Loader implements IResponse {
      * include layout directory 
      * @return mixed
      */
-
     public function layouts(string $path, $viewargs=null){
         $ctrl = $this->m_controller;
         if ($dir = $ctrl->getConfigs()->get('layoutDir')){

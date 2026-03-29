@@ -9,31 +9,26 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ClearSessionCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--clearsession";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "clear session command";
-
     /**
     * Property: expired duration.
     * @var mixed
     */
     var $expired_duration;
-
     /**
     * Property: skip.
     * @var mixed
@@ -42,14 +37,12 @@ class ClearSessionCommand extends AppExecCommand{
     /**
      * exec the command
      */
-
     public function exec($command)
     { 
         if ($command){
            $this->expired_duration = igk_getv($command->options, '--living');
         }
         //defined("NO")
-
         /**
         * auto generate doc.
         * @var SessionController $sess

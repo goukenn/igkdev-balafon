@@ -16,7 +16,6 @@ use ReflectionException;
 * @author C.A.D. BONDJE DOUE
 */
 class InitDataAnnotation extends AnnotationBase{
-
     /**
     * auto generate doc.
     * @param BaseController $controller

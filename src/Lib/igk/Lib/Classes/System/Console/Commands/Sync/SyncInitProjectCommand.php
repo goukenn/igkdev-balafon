@@ -7,31 +7,26 @@ use IGK\Helper\JSon;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKEvents;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class SyncInitProjectCommand extends SyncAppExecCommandBase{
-
     /**
     * Constant: conf file.
     * @var mixed
     */
     const CONF_FILE = '.balafon-sync.project.json';
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command="--sync:init-project";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "initialize sync project - configuration file";
-
     /**
     * Property: options.
     * @var mixed
@@ -40,7 +35,6 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
         "--force"=>"flag: force config file creation",
         "--ignoredirs:dir"=>"directory or expression to ignore"
     ];
-
     /**
     * Property: usage.
     * @var mixed
@@ -50,7 +44,6 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
      * init command - by register event 
      * @return void 
      */
-
     public static function InitCommand(){
         igk_reg_hook(IGKEvents::HOOK_COMMAND, function($e){
             extract($e->args);
@@ -61,7 +54,6 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
             }  
         });
     }
-
     /**
     * Exec.
     * @param mixed $command

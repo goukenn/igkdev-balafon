@@ -3,31 +3,26 @@
 // @file: ViewHandler.php
 // @date: 20221031 15:43:24
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewHandler{
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: tab.
     * @var mixed
     */
     var $tab = [];
-
     /**
     * Property: attrib bind.
     * @var mixed
     */
     var $attribBind = false;
-
     /**
     * Returns Instance.
     */
@@ -35,7 +30,6 @@ class ViewHandler{
         is_null(self::$sm_instance) && self::$sm_instance = new self;
         return self::$sm_instance;
     }
-
     /**
     * .ctr
     * @return
@@ -43,7 +37,6 @@ class ViewHandler{
     private function __construct(){  
         $this->tab = ["class"=>null, "style"=>null];      
     }
-
     /**
     * Attrib string.
     */

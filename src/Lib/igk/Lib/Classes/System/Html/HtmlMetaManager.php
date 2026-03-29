@@ -16,68 +16,57 @@ use IGKObject;
  * @package IGK\System\Html
  */
 final class HtmlMetaManager extends IGKObject{
-
     /**
     * Constant: attr content.
     * @var mixed
     */
     const ATTR_CONTENT="content";
     // + | IE tools charset must be specified first
-
     /**
     * Constant: meta charset.
     * @var mixed
     */
     const META_CHARSET = 0;
-
     /**
     * Constant: meta author.
     * @var mixed
     */
     const META_AUTHOR=0x1;
-
     /**
     * Constant: meta content type.
     * @var mixed
     */
     const META_CONTENT_TYPE=self::META_AUTHOR + 0x4;
-
     /**
     * Constant: meta copyright.
     * @var mixed
     */
     const META_COPYRIGHT=self::META_AUTHOR + 0x1;
-
     /**
     * Constant: meta desc.
     * @var mixed
     */
     const META_DESC=self::META_AUTHOR + 0x2;
-
     /**
     * Constant: meta keywords.
     * @var mixed
     */
     const META_KEYWORDS=self::META_AUTHOR + 0x3;
-
     /**
     * Constant: meta generator.
     * @var mixed
     */
     const META_GENERATOR=self::META_AUTHOR + 0x5;
-
     /**
     * Constant: meta viewport.
     * @var mixed
     */
     const META_VIEWPORT=self::META_AUTHOR + 0x6;
-
     /**
     * Constant: meta lastupdate.
     * @var mixed
     */
     const META_LASTUPDATE=self::META_AUTHOR + 0x7;
-
     /**
     * Constant: meta color scheme.
     * @var mixed
@@ -93,14 +82,12 @@ final class HtmlMetaManager extends IGKObject{
      * @var mixed
      */
     private $m_key_metas = [];
-
     /**
     * .ctr
     */
     public function __construct(){
         $this->_initMetas();
     }
-
     /**
     * Custom serialization logic.
     */
@@ -117,14 +104,12 @@ final class HtmlMetaManager extends IGKObject{
             return json_encode($g);
         return '';
     }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return __CLASS__;
     }
-
     /**
     * Custom unserialization logic.
     * @param mixed $s
@@ -138,7 +123,6 @@ final class HtmlMetaManager extends IGKObject{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -187,7 +171,6 @@ final class HtmlMetaManager extends IGKObject{
      * @return int 
      * @throws IGKException 
      */
-
     public function addMeta(string $name, $meta){
         $bmeta=igk_getv($this->m_metas, $name);
         // + | --------------------------------------------------------------------
@@ -211,42 +194,36 @@ final class HtmlMetaManager extends IGKObject{
         }
         return 0;
     }
-
     /**
     * Returns Author.
     */
     public function getAuthor(){
         return HtmlUtils::GetValue($this->m_metas[self::META_AUTHOR][self::ATTR_CONTENT]);
     }
-
     /**
     * Returns Content Type.
     */
     public function getContentType(){
         return HtmlUtils::GetValue($this->m_metas[self::META_CONTENT_TYPE][self::ATTR_CONTENT]);
     }
-
     /**
     * Returns Copyright.
     */
     public function getCopyright(){
         return HtmlUtils::GetValue($this->m_metas[self::META_COPYRIGHT][self::ATTR_CONTENT]);
     }
-
     /**
     * Returns Description.
     */
     public function getDescription(){
         return HtmlUtils::GetValue($this->m_metas[self::META_DESC][self::ATTR_CONTENT]);
     }
-
     /**
     * Returns Keywords.
     */
     public function getKeywords(){
         return HtmlUtils::GetValue($this->m_metas[self::META_KEYWORDS][self::ATTR_CONTENT]);
     }
-
     /**
     * Returns Meta By Id.
     * @param mixed $name
@@ -257,7 +234,6 @@ final class HtmlMetaManager extends IGKObject{
         }
         return null;
     }
-
     /**
     * Renders.
     * @param null|mixed $options
@@ -298,13 +274,11 @@ final class HtmlMetaManager extends IGKObject{
         },[$options] );
         return $o;// .$s;
     }
-
     /**
     * auto generate doc.
     * @param array $attributes assoc array
     * @return void
     */
-
     public function appendKeyMeta($name, array $attributes){
         if (!isset($this->m_key_metas[$name])){
             $this->m_key_metas[$name] = [];
@@ -312,14 +286,12 @@ final class HtmlMetaManager extends IGKObject{
         $this->m_key_metas[$name][] = $attributes;
         return $this;
     }
-
     /**
     * Clears Key Meta.
     */
     public function clearKeyMeta(){
         $this->m_key_metas = [];
     }
-
     /**
     * Rm meta.
     * @param mixed $name
@@ -329,7 +301,6 @@ final class HtmlMetaManager extends IGKObject{
             unset($this->m_metas[$name]);
         }
     }
-
     /**
     * Sets Attribute.
     * @param mixed $key
@@ -340,7 +311,6 @@ final class HtmlMetaManager extends IGKObject{
         $this->m_metas[$key][$attr]=$value;
         $this->m_metas[$key]["changed"]=1;
     }
-
     /**
     * Sets Charset.
     * @param string $charset
@@ -348,7 +318,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setCharset(string $charset){
         $this->m_metas[self::META_CHARSET] = ['charset'=>$charset];
     }
-
     /**
     * Sets Author.
     * @param mixed $value
@@ -356,7 +325,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setAuthor($value){
         $this->updateContent(self::META_AUTHOR, $value);
     }
-
     /**
     * Sets Content Type.
     * @param mixed $value
@@ -364,7 +332,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setContentType($value){
         $this->updateContent(self::META_CONTENT_TYPE, $value);
     }
-
     /**
     * Sets Copyright.
     * @param mixed $value
@@ -372,7 +339,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setCopyright($value){
         $this->updateContent(self::META_COPYRIGHT, $value);
     }
-
     /**
     * Sets Last Update.
     * @param mixed $value
@@ -380,7 +346,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setLastUpdate($value){
         $this->updateContent(self::META_LASTUPDATE, $value);
     }
-
     /**
     * Sets Description.
     * @param mixed $value
@@ -388,7 +353,6 @@ final class HtmlMetaManager extends IGKObject{
     public function setDescription($value){
         $this->updateContent(self::META_DESC, $value);
     }
-
     /**
     * Sets Keywords.
     * @param mixed $value
@@ -399,7 +363,6 @@ final class HtmlMetaManager extends IGKObject{
         }else 
             $this->updateContent(self::META_KEYWORDS, $value);
     }
-
     /**
     * Updates Content.
     * @param mixed $key
@@ -417,7 +380,6 @@ final class HtmlMetaManager extends IGKObject{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function get($name){
         foreach($this->m_metas as $t){
             if (igk_getv($t, "name")==$name){

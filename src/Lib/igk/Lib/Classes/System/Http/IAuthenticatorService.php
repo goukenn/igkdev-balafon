@@ -5,13 +5,11 @@
 namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
 use IGK\System\IInjectable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 interface IAuthenticatorService extends IInjectable{
-
     /**
     * Returns New Token.
     * @param \IGK\Models\Users $user

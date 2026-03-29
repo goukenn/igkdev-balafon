@@ -11,7 +11,6 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ResponseUtility{
-
     /**
     * auto generate doc.
     * @param null|array $allowed_header

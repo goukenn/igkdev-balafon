@@ -9,19 +9,16 @@ namespace IGK\System\Database;
  * @package IGK\System\Database
  */
 class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column"];
-
     /**
     * Property: column info.
     * @var mixed
     */
     public $columnInfo;
-
     /**
     * Checks Requirement.
     */
@@ -34,7 +31,6 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
             igk_die("missing 'column' property");
         }
     }
-
     /**
     * Up.
     */
@@ -47,7 +43,6 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
             $ctrl::db_rm_column($tb, $this->column);
         }
     }
-
     /**
     * Down.
     */

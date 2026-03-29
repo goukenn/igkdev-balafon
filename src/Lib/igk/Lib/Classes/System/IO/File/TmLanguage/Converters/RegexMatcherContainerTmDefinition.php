@@ -3,41 +3,34 @@
 // @file: RegexMatcherContainerTmDefinition.php
 // @date: 20250704 13:50:33
 namespace IGK\System\IO\File\TmLanguage\Converters;
-
 use Exception;
 use JsonSerializable;
-
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Converters
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage\Converters
 */
 class RegexMatcherContainerTmDefinition implements JsonSerializable
 {
-
     /**
     * Name of scope name.
     * @var mixed
     */
     var $scopeName;
-
     /**
     * Property: version.
     * @var mixed
     */
     var $version;
-
     /**
     * Property: repository.
     * @var mixed
     */
     var $repository;
-
     /**
     * Property: patterns.
     * @var mixed
@@ -48,26 +41,22 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * @var array
      */
     private $m_d = [];
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return void
     */
-
     public function __set($name, $value)
     {
         if (preg_match("/^\\$/", $name)) {
             $this->m_d[$name] = $value;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     * @return mixed|void
     */
-
     public function __get($name)
     {
         if (preg_match("/^\\$/", $name)) {
@@ -78,7 +67,6 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * serialize object 
      * @return mixed 
      */
-
     public function jsonSerialize(): mixed
     {
         $ref = (array)$this;

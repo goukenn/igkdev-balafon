@@ -3,25 +3,21 @@
 // @file: ViewVarExpression.php
 // @date: 20221010 21:40:24
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
 */
 class ViewVarExpression{
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     * @param string $name
@@ -32,7 +28,6 @@ class ViewVarExpression{
         $this->name = $name;
         $this->value = $value;
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -40,7 +35,6 @@ class ViewVarExpression{
     public function __get($name){
         return $this->value->$name;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name

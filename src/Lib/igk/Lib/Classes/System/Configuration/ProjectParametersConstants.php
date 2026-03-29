@@ -8,7 +8,6 @@ namespace IGK\System\Configuration;
 * @package IGK\System\Configuration
 */
 abstract class ProjectParametersConstants{
-
     /**
     * Constant: cl data table prefix.
     * @var mixed

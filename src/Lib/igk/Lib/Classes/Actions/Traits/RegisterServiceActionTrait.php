@@ -24,7 +24,6 @@ trait RegisterServiceActionTrait{
         }
         throw new ActionNotFoundException($t);        
     }
-
     /**
     * auto generate doc.
     * @return
@@ -42,7 +41,6 @@ trait RegisterServiceActionTrait{
         $g = $this->getController();
         igk_navto($g::uri("/?q=MailService&r=".$r));
     }
-
     /**
     * auto generate doc.
     * @return

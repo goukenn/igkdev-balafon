@@ -4,12 +4,10 @@
 // @date: 20220803 13:50:44
 // @desc: 
 namespace IGK\System\Traits;
-
 /**
 * auto generate doc.
 */
 trait MethodPropertyChainTrait{
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $n
@@ -27,7 +25,6 @@ trait MethodPropertyChainTrait{
         return $this;
     }
     // use of this trait require a isAllowed method in order to work properly
-
     /**
     * .destructor
     * @param mixed $n

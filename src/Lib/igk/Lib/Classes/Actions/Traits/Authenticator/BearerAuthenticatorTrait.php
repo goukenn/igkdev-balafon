@@ -3,7 +3,6 @@
 // @file: BearerAuthenticatorTrait.php
 // @date: 20230515 10:40:52
 namespace IGK\Actions\Traits\Authenticator;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\Activator;
@@ -15,26 +14,22 @@ use IGK\System\Core\Security\AuthenticationInfo;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits\Authenticator
 */
 trait BearerAuthenticatorTrait
 {
-
     /**
     * Property: bearer authenticator cookie life.
     * @var mixed
     */
     protected $_bearerAuthenticatorCookieLife = 3600;
-
     /**
     * Property: bearer authenticator token hash.
     * @var mixed
     */
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
-
     /**
     * Property: bearer authenticator cookie life constants.
     * @var mixed
@@ -46,19 +41,16 @@ trait BearerAuthenticatorTrait
      * @param mixed &$token 
      * @return null|ModelBase 
      */
-
     protected abstract function getUserFromToken(bool $update = true, &$token = null): ?ModelBase;
     /**
      * create use profile from application'user
      */
-
     protected abstract function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile;
     /**
      * get token user or die
      * @return ?ModelBase
      * @throws IGKException 
      */
-
     protected function getUserFromTokenOrDie($update = true, &$token = null)
     {
         $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
@@ -69,7 +61,6 @@ trait BearerAuthenticatorTrait
      * @param mixed $user 
      * @return string 
      */
-
     protected function bearerAuthenticatorCreateToken($user, string $prefix = "blf-"): string
     {
         $str = $this->_bearerAuthenticatorTokenHash . date('YmdHis') . $user->clGuid;
@@ -80,7 +71,6 @@ trait BearerAuthenticatorTrait
      * @param mixed $users 
      * @return ?array 
      */
-
     protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme = false): ?array
     {
         if ($user->clStatus != 1) {
@@ -126,7 +116,6 @@ trait BearerAuthenticatorTrait
         igk_set_cookie('token', $token, true, $this->_bearerAuthenticatorCookieLife);
         return ['token' => $token, 'expire' => $exp_format, 'start' => $start, 'remember-me' => $rememberme];
     }
-
     /**
     * Bearer authenticator get user profile info.
     * @param \IGK\Models\Users $user

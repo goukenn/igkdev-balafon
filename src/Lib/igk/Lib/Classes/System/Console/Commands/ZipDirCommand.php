@@ -8,25 +8,21 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use ZipArchive;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ZipDirCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--zip';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='zip directory';
-
     /**
     * Property: options.
     * @var mixed
@@ -35,7 +31,6 @@ class ZipDirCommand extends AppExecCommand{
 		'--regex:[]'=>'exclude file pattern'
 	]; 
 	/* var $category; */
-
     /**
     * Exec.
     * @param mixed $command

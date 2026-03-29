@@ -3,13 +3,11 @@
 // @file: MakePageCommand.php
 // @date: 20251209 14:49:36
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\ControllerTask;
 use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -17,37 +15,31 @@ use IGK\System\IO\File\PHPScriptBuilder;
 */
 class MakePageCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--make:page';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'make a project-controller page ';
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

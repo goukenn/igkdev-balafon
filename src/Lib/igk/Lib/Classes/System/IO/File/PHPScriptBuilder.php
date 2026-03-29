@@ -4,11 +4,9 @@
 // @desc: PhpScript builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
-
 /**
  * php script builder
  * @package IGK\System\IO\File
@@ -28,20 +26,17 @@ use IGKException;
  */
 class PHPScriptBuilder
 {
-
     /**
     * Property: no header comment.
     * @var mixed
     */
     var $no_header_comment;
-
     /**
     * Property: author.
     * @var mixed
     */
     var $author;
     use StoredPropertiesTrait;
-
     /**
     * Creates Empty Script Callback.
     */
@@ -53,7 +48,6 @@ class PHPScriptBuilder
             igk_io_w2file($file, $g->render());
         };
     }
-
     /**
     * .ctr
     */
@@ -61,7 +55,6 @@ class PHPScriptBuilder
     {
         $this->author = IGK_AUTHOR;
     }
-
     /**
     * .destructor
     * @param mixed $name
@@ -70,7 +63,6 @@ class PHPScriptBuilder
     {
         return $this->getProperty($name);
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -90,7 +82,6 @@ class PHPScriptBuilder
      * @return void 
      * @throws IGKException 
      */
-
     public static function WriteArray($file, $tab, $desc = "")
     {
         $builder = new static;
@@ -105,13 +96,11 @@ class PHPScriptBuilder
             ->defs("return [$s];");
         igk_io_w2file($file, $builder->render());
     }
-
     /**
     * auto generate doc.
     * @param string $desc
     * @return void
     */
-
     public static function WriteData($file, $data, $desc = "")
     {
         $builder = new static;
@@ -123,7 +112,6 @@ class PHPScriptBuilder
             ->defs("return {$data};");
         igk_io_w2file($file, $builder->render());
     }
-
     /**
     * Renders.
     */
@@ -156,12 +144,9 @@ class PHPScriptBuilder
                 "// @date: " . date("Ymd H:i:s")
             ])) . $lf;
         }
-
         if ($this->strict) {
             $h .= 'declare(strict_types=1);' . $lf;
         }
-
-
         if ($ns = $this->namespace) {
             $h .= "namespace " . $ns . ";\n\n";
         }
@@ -277,7 +262,6 @@ class PHPScriptBuilder
      * get script file header
      * @return string
      */
-
     public static function GenScriptFileHeader($options)
     {
         $l = igk_extract_var(
@@ -291,7 +275,6 @@ class PHPScriptBuilder
         }
         return implode("\n", $tb);
     }
-
     /**
     * auto generate doc.
     * @param mixed & $h

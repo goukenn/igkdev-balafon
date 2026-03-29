@@ -8,7 +8,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -30,7 +29,6 @@ class CssKeyFrame implements ICssDefinition{
      * @var ?CssKeyFrame
      */
     var $parent;
-
     /**
     * .ctr
     * @param string $name
@@ -50,7 +48,6 @@ class CssKeyFrame implements ICssDefinition{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function getDefinition($option=null):?string{
         return '@keyframes '.$this->name.'{'.self::RenderDefinition($this->def, $option).'}';
     }

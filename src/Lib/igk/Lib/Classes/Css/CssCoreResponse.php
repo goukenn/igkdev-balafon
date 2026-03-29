@@ -5,19 +5,16 @@
 // @desc: 
 namespace IGK\Css;
 use IGK\System\Http\WebResponse;
-
 /**
 * Css core response.
 * @package IGK\Css
 */
 class CssCoreResponse extends WebResponse{
-
     /**
     * Property: file.
     * @var mixed
     */
     var $file;
-
     /**
     * Cache: no cache.
     * @var mixed
@@ -28,7 +25,6 @@ class CssCoreResponse extends WebResponse{
      *
      * @param mixed $content The CSS content for the response.
      */
-
     public function __construct($content)
     {
         parent::__construct($content, 200, [

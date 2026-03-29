@@ -6,13 +6,11 @@ namespace IGK\System\TamTam;
 use IGK\System\Configuration\ProjectSettings;
 use IGK\System\Data\ObjectDataValidator;
 use IGK\System\WinUI\Forms\FormData;
-
 /**
 * auto generate doc.
 * @package IGK\System\TamTam
 */
 class ProjectSettingValidationData extends FormData{
-
     /**
     * Creates Validator Instance.
     */
@@ -23,11 +21,9 @@ class ProjectSettingValidationData extends FormData{
      * override class reference 
      * @return string 
      */
-
     protected function getValidationClassReference(){
         return ProjectSettings::class;
     }
-
     /**
     * Returns Not Required.
     * @return ?array

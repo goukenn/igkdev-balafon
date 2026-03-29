@@ -38,25 +38,21 @@ class CssParser implements ArrayAccess
      */
     private $m_definition;
     use ArrayAccessSelfTrait;
-
     /**
     * Constant: match var.
     * @var mixed
     */
     const MATCH_VAR = "/^var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)$/i";
-
     /**
     * Constant: match resolve var.
     * @var mixed
     */
     const MATCH_RESOLVE_VAR = "/var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)/i";
-
     /**
     * Property: line feed.
     * @var mixed
     */
     var $lineFeed = '';
-
     /**
     * .ctr
     * @return
@@ -66,22 +62,18 @@ class CssParser implements ArrayAccess
      * get json definition
      * @return string|false 
      */
-
     public function to_json($mode = JSON_PRETTY_PRINT)
     {
         return json_encode($this->m_definition, $mode);
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function to_array()
     {
         return $this->m_definition;
     }
-
     /**
     * auto generate doc.
     * @param mixed $d
@@ -92,7 +84,6 @@ class CssParser implements ArrayAccess
     {
         return $k . ":" . $d;
     }
-
     /**
     * To css.
     */
@@ -107,7 +98,6 @@ class CssParser implements ArrayAccess
             return $v;
         }, $this->m_definition, array_keys($this->m_definition)));
     }
-
     /**
     * auto generate doc.
     * @param string $content
@@ -414,7 +404,6 @@ class CssParser implements ArrayAccess
         }
         return $def;
     }
-
     /**
     * auto generate doc.
     * @param string $content
@@ -458,7 +447,6 @@ class CssParser implements ArrayAccess
         $def = new CssKeyFrame($v_name, $media);
         return $def;
     }
-
     /**
     * auto generate doc.
     * @param string $content
@@ -486,7 +474,6 @@ class CssParser implements ArrayAccess
      * @param string $content 
      * @return CssParser 
      */
-
     public static function Parse(string $content): self
     {
         $g = new self();
@@ -494,7 +481,6 @@ class CssParser implements ArrayAccess
         $g->m_definition = self::__ReadDefinition($content);
         return $g;
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -504,7 +490,6 @@ class CssParser implements ArrayAccess
     {
         $this->m_definition[$n] = $v;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -513,7 +498,6 @@ class CssParser implements ArrayAccess
     {
         return igk_getv($this->m_definition, $n);
     }
-
     /**
     * Access offset unset.
     * @param mixed $n
@@ -522,7 +506,6 @@ class CssParser implements ArrayAccess
     {
         unset($this->m_definition[$n]);
     }
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -535,7 +518,6 @@ class CssParser implements ArrayAccess
      * retrieve margin definition
      * @return array 
      */
-
     public function margin()
     {
         return $this->_get_size_def("margin");
@@ -544,12 +526,10 @@ class CssParser implements ArrayAccess
      * retrieve padding definition
      * @return array 
      */
-
     public function padding()
     {
         return $this->_get_size_def("padding");
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
@@ -596,7 +576,6 @@ class CssParser implements ArrayAccess
      * parsing position
      * @return array 
      */
-
     public function position()
     {
         $t = $r = $b = $l = 'auto';
@@ -620,7 +599,6 @@ class CssParser implements ArrayAccess
      * retrieve porder definition
      * @return object 
      */
-
     public function border()
     {
         $res = [];
@@ -664,7 +642,6 @@ class CssParser implements ArrayAccess
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function getColors()
     {
         $colors = [];
@@ -715,7 +692,6 @@ class CssParser implements ArrayAccess
         }
         return $colors;
     }
-
     /**
     * auto generate doc.
     * @param string $name
@@ -736,7 +712,6 @@ class CssParser implements ArrayAccess
         }
         return igk_getv($root,  $name);
     }
-
     /**
     * Treat extrat property.
     * @param mixed & $rdef
@@ -776,7 +751,6 @@ class CssParser implements ArrayAccess
      * render document 
      * @return null|string 
      */
-
     public function render(): ?string
     {
         $sb = new StringBuilder;

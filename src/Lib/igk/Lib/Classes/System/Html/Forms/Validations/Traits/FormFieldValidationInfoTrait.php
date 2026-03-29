@@ -8,7 +8,6 @@ namespace IGK\System\Html\Forms\Validations\Traits;
 * @package IGK\System\Html\Forms\Validations\Traits
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations\Traits
@@ -29,7 +28,6 @@ trait FormFieldValidationInfoTrait{
      * @var ?bool
      */
     var $allowNull = false;
-
     /**
     * auto generate doc.
     * @var ?bool

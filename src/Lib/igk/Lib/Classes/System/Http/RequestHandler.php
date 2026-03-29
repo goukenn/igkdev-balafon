@@ -23,13 +23,11 @@ use function igk_resources_gets as __;
  */
 class RequestHandler
 {
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * Property: ctrl request.
     * @var mixed
@@ -40,19 +38,16 @@ class RequestHandler
      * @var mixed
      */
     var $context;
-
     /**
     * auto generate doc.
     * @return RequestHandler instance
     */
-
     public static function getInstance()
     {
         if (self::$sm_instance === null)
             self::$sm_instance = new self();
         return self::$sm_instance;
     }
-
     /**
     * .ctr
     * @return
@@ -72,7 +67,6 @@ class RequestHandler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function HandleRequestUri(string $uri, ?IRequestFileHandler $fileHandler=null, bool $web=true, ?String $file=null, bool $render=true){
         if(igk_io_handle_system_command($uri)){
             if ($web)
@@ -91,17 +85,14 @@ class RequestHandler
      * @return false 
      * @throws IGKException 
      */
-
     public static function IsHandling(string $uri){        
         return $uri == self::getInstance()->m_ctrl_request;
     }
-
     /**
     * auto generate doc.
     * @param IGK\System\Http\Routes|null #Parameter#ebc966f5
     * @return void
     */
-
     public function handle_route($path, ?RouteCollection $routes = null)
     {
         $this->context = ['type'=>'handle_route', 'uri' => $path];
@@ -144,7 +135,6 @@ class RequestHandler
      * @return void 
      * @throws IGKException 
      */
-
     public function handle_uri($u = null)
     {
         // igk_trace(); 
@@ -198,7 +188,6 @@ class RequestHandler
      * @return int|void|null|false 
      * @throws IGKException 
      */
-
     public function handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
     {
         if (igk_environment()->handle_ctrl_request){
@@ -277,7 +266,6 @@ class RequestHandler
      * handle redirect
      * @return void 
      */
-
     public function redirect(IGKApplicationBase $application, $args = [])
     {
         // igk_environment()->write_debug("Redirect start : ".igk_sys_request_time()); 
@@ -417,7 +405,6 @@ class RequestHandler
     /**
      * handle command application command action
      */
-
     public function handle_cmd_action(string $redirect)
     {
         $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
@@ -436,7 +423,6 @@ class RequestHandler
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function handle_guid_action(string $guid, $query = null, ?string $version = "")
     {
         igk_header_no_cache();

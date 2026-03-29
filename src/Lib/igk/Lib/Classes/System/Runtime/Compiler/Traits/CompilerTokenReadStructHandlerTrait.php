@@ -5,7 +5,6 @@
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
@@ -13,7 +12,6 @@ use IGK\System\Runtime\Compiler\IReadTokenOptions;
 trait CompilerTokenReadStructHandlerTrait
 {
     use CompilerTokenBracketTrait;
-
     /**
     * Handles Read Class.
     * @param mixed & $flag
@@ -74,7 +72,6 @@ trait CompilerTokenReadStructHandlerTrait
      * @return bool 
      * @throws IGKException 
      */
-
     protected function handleGlobalUseFlag(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $uses = &$options->uses;

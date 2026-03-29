@@ -9,25 +9,21 @@ namespace IGK\Controllers;
  * @package 
  */
 class ViewLayoutCaller{
-
     /**
     * Property: arguments.
     * @var mixed
     */
     var $arguments;
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Property: host.
     * @var mixed
     */
     var $host;
-
     /**
     * Invoke.
     * @param mixed $node

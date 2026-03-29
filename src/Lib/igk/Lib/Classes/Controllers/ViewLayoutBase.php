@@ -22,14 +22,12 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
      * @var ConfigurationData
      */
     protected $m_configs;
-
     /**
     * Returns Configs.
     */
     public function getConfigs(){
         return $this->m_configs;
     }
-
     /**
     * Returns Controller.
     * @return BaseController
@@ -38,7 +36,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
     {
         return $this->controller;
     }
-
     /**
     * .ctr
     * @param BaseController $controller
@@ -49,7 +46,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
         $this->m_configs = new ConfigurationData;
         $this->initialize();
     }
-
     /**
     * Initializes.
     */
@@ -60,7 +56,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
      * @param mixed $file 
      * @return bool 
      */
-
     protected function exists($file){
         return !empty($file) && igk_io_file_exists($file, true);
     }

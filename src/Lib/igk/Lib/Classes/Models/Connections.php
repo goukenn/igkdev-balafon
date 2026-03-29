@@ -3,10 +3,7 @@
 // @file: Connections.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store started connexions
 * @package IGK\Models
@@ -33,49 +30,41 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Connections extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl user guid.
     * @var mixed
     */
     const FD_CL_USER_GUID="clUser_Guid";
-
     /**
     * Constant: fd cl token.
     * @var mixed
     */
     const FD_CL_TOKEN="clToken";
-
     /**
     * Constant: fd cl token info.
     * @var mixed
     */
     const FD_CL_TOKEN_INFO="clTokenInfo";
-
     /**
     * Constant: fd cl date time.
     * @var mixed
     */
     const FD_CL_DATE_TIME="clDateTime";
-
     /**
     * Constant: fd cl from.
     * @var mixed
     */
     const FD_CL_FROM="clFrom";
-
     /**
     * Constant: fd cnx create at.
     * @var mixed
     */
     const FD_CNX_CREATE_AT="cnx_createAt";
-
     /**
     * Constant: fd cnx update at.
     * @var mixed

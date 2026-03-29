@@ -11,13 +11,11 @@ use IGK\System\Services\SignProvider;
 */
 trait ServiceLoginActionTrait{
     use FormLoginActionTrait;
-
     /**
     * Property: service login signin view.
     * @var mixed
     */
     protected $serviceLoginSigninView = 'ServiceLogin';
-
     /**
     * Service login.
     */
@@ -26,7 +24,6 @@ trait ServiceLoginActionTrait{
             $this->redirect = $this->getController()->uri('');
         }         
     }
-
     /**
     * Connects.
     */

@@ -8,7 +8,6 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Html\XML\XmlNodeLoader;
 use IGK\System\Regex\Replacement;
-
 /**
 * auto generate doc.
 * @package IGK\System\SVG\Traits

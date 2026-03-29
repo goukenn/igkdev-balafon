@@ -13,14 +13,12 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use ModelBase;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Scaffold
 */
 class AuthScaffold extends ScaffoldBase
 {
-
     /**
     * Property: description.
     * @var mixed
@@ -34,7 +32,6 @@ class AuthScaffold extends ScaffoldBase
      * @param string|null $name       Optional name for the scaffold.
      * @return void
      */
-
     public function exec($command, $controller = null, ?string $name = null)
     {
         if (property_exists($command->options, "--help")) {
@@ -49,7 +46,6 @@ class AuthScaffold extends ScaffoldBase
      * @param mixed $command The command object used to display help output.
      * @return void
      */
-
     public function showHelp($command)
     {
         Logger::print(App::Gets(App::BLUE_I, "params"));
@@ -66,7 +62,6 @@ class AuthScaffold extends ScaffoldBase
      * @param string|null $name       Optional name for the scaffold.
      * @return bool|void
      */
-
     protected function run($command, $controller = null, ?string $name=null)
     {
         $model = igk_getv($command->options, "--model");

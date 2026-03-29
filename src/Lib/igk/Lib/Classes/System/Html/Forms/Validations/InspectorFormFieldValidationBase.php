@@ -38,7 +38,6 @@ abstract class InspectorFormFieldValidationBase implements
         $data = (array)$request->getFormData();  
         return $this->validate($data, $error);
     }
-
     /**
     * Returns Validation Fields.
     */
@@ -56,7 +55,6 @@ abstract class InspectorFormFieldValidationBase implements
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function validate($data, ?array & $error=[]){        
         $fields = $this->getValidationFields();
         $validations = [];
@@ -120,17 +118,14 @@ abstract class InspectorFormFieldValidationBase implements
      * on validateion complete 
      * @return void 
      */
-
     protected function onValidationComplete($data, $validations){
         // override to validate 
     }
-
     /**
     * auto generate doc.
     * @param null|string $class_name
     * @return array<string
     */
-
     static function GetFormDataFieldProperties(?string $class_name=null, ?array $def=null){
         $v_errors = FormEnvironmentProperties::get_validation_error(); 
         $class_name = $class_name ?? static::class;
@@ -173,13 +168,11 @@ abstract class InspectorFormFieldValidationBase implements
         }
         return $v_filter_p; 
     }
-
     /**
     * auto generate doc.
     * @param mixed $context
     * @return array
     */
-
     public function getFields($context = null): array { 
         $list = self::GetFormDataFieldProperties();
         return $list;

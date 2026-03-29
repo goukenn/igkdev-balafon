@@ -11,12 +11,10 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
     * auto generate doc.
     * @package IGK\System
     */
-
     /**
     * auto generate doc.
     * @package IGK\System
     */
-
     /**
     * auto generate doc.
     * @package IGK\System
@@ -25,7 +23,6 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
     }
     class_alias('auto_load_IModuleDefinition', 'IModuleDefinition');
 }
-
 /**
 * auto generate doc.
 * @package IGK\System
@@ -33,7 +30,6 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
 * @method static string info
 */
 abstract class Modules implements IModuleDefinition{
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

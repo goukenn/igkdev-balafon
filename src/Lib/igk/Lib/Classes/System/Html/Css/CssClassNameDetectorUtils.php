@@ -10,13 +10,11 @@ use IGK\System\Text\RegexMatcherContainer;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 abstract class CssClassNameDetectorUtils{
-
     /**
     * auto generate doc.
     * @param string $filename
@@ -34,7 +32,6 @@ abstract class CssClassNameDetectorUtils{
         } 
         return $detector->resolv($src);
     }
-
     /**
     * auto generate doc.
     * @param mixed &$references
@@ -82,7 +79,6 @@ abstract class CssClassNameDetectorUtils{
         }
         return $detector->resolv(implode("\n", array_unique($expression)), $references);
     }
-
     /**
     * Detect from phtml source.
     * @param CssClassNameDetector $detector
@@ -92,13 +88,11 @@ abstract class CssClassNameDetectorUtils{
     public static function DetectFromPHtmlSource(CssClassNameDetector $detector, string $source, & $references=null){
         return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
     }
-
     /**
     * auto generate doc.
     * @param mixed &$references
     * @return mixed
     */
-
     public static function DetectFromHtmlSource($detector , $source, & $references = null){        
         $container = new RegexMatcherContainer;
         $container->begin("<!--", "-->", "comment"); 

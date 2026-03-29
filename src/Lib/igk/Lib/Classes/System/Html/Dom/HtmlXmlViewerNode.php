@@ -13,7 +13,6 @@ use IGK\XML\XMLNodeType;
 * Represent IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
-
     /**
     * Property: cdata.
     * @var mixed
@@ -22,13 +21,11 @@ final class HtmlXmlViewerNode extends HtmlNode {
     /**
     * contruct xml viewer
     */
-
     public function __construct(){
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
         $this->m_cdata = new HtmlCommentNode();
     }
-
     /**
     * Returns Content.
     * @param null|mixed $options
@@ -36,18 +33,15 @@ final class HtmlXmlViewerNode extends HtmlNode {
     public function getContent($options = null){ 
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array|mixed $v
     * @return $this
     */
-
     public function setContent($v){
         $this->m_cdata->Content = $v; 
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $depth
@@ -59,7 +53,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param null|mixed $options
@@ -69,7 +62,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
     {
         return [$this->m_cdata];
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -77,12 +69,10 @@ final class HtmlXmlViewerNode extends HtmlNode {
     {
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $t
     */
-
     public function initDemo($t){
         $t->div()->addSectionTitle(5)->Content="Samples ";
         $t->div()->addPhpCode()->Content="\$t->addXmlViewer()->Load('[xml_content]');";
@@ -94,12 +84,10 @@ EOF        , HtmlContext::XML);
     ///<summary></summary>
     ///<param name="content"></param>
     ///<param name="context" default="XML"></param>
-
     /**
     * auto generate doc.
     * @param mixed $context the default value is XML
     */
-
     public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
             return;
@@ -117,12 +105,10 @@ EOF        , HtmlContext::XML);
     ///<param name="r"></param>
     ///<param name="target"></param>
     ///<param name="depth"></param>
-
     /**
     * auto generate doc.
     * @param mixed $depth the default value is 0
     */
-
     public function loadItem($r, $target, $depth=0){
         $this->__renderDepth($target, $depth);
         $target->add("span")->setClass("s")->Content="&lt;".$r->TagName;

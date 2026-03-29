@@ -15,25 +15,21 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaBuilderHelper{
-
     /**
     * Property: output.
     * @var mixed
     */
     protected $_output;
-
     /**
     * Property: schema.
     * @var mixed
     */
     protected $_schema;
-
     /**
     * Property: inf.
     * @var mixed
     */
     private $m_inf = [];
-
     /**
     * Property: last column.
     * @var mixed
@@ -43,11 +39,9 @@ class SchemaBuilderHelper{
      * get last column info blueprint node
      * @return null|IGK\System\Database\HmtlItemBase 
      */
-
     protected function getLastColumnInfo():?HtmlItemBase{
         return $this->m_last_column;
     }
-
     /**
     * Returns Definition.
     * @param mixed $n
@@ -55,7 +49,6 @@ class SchemaBuilderHelper{
     public function getDefinition($n){
         return igk_getv($this->m_inf, $n);
     }
-
     /**
     * Addcolumn attributes.
     * @param mixed $attributes
@@ -77,7 +70,6 @@ class SchemaBuilderHelper{
      * @return false 
      * @throws IGKException 
      */
-
     public static function Migrate($options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{
@@ -101,7 +93,6 @@ class SchemaBuilderHelper{
      * @return bool 
      * @throws IGKException 
      */
-
     public static function Downgrade( $options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{

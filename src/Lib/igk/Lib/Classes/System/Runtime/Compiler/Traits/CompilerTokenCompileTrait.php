@@ -7,19 +7,16 @@ namespace IGK\System\Runtime\Compiler\Traits;
 * 
 * @package IGK\System\Runtime\Compiler
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenCompileTrait{
-
     /**
     * auto generate doc.
     * @var ?ReadTokenOptions
     */
     var $options;
-
     /**
     * Compile source.
     * @param string $source
@@ -30,7 +27,6 @@ trait CompilerTokenCompileTrait{
         $this->parseToken($source); 
         return $this->mergeSourceCode();
     }
-
     /**
     * Compile file.
     * @param string $file

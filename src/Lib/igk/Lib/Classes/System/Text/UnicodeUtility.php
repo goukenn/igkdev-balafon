@@ -3,21 +3,17 @@
 // @file: UnicodeUtility.php
 // @date: 20260220 12:14:23
 namespace IGK\System\Text;
-
-
 /**
  * 
  * @package IGK\System\Text
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class UnicodeUtility
 {
-
     /**
     * auto generate doc.
     * @param int $hex
@@ -27,7 +23,6 @@ class UnicodeUtility
     {
         $codepoint = $hex;
         $bytes = [];
-
         if ($codepoint <= 0x7F) {
             // 1 byte: 0xxxxxxx
             $bytes[] = $codepoint;
@@ -51,11 +46,9 @@ class UnicodeUtility
                 sprintf("Invalid codepoint: U+%X (max U+10FFFF)", $codepoint)
             );
         }
-
         $hexBytes  = array_map(fn($b) => strtoupper(sprintf('%02X', $b)), $bytes);
         $escape    = implode('', array_map(fn($h) => "\\x{$h}", $hexBytes));
         $utf8Char  = mb_chr($codepoint, 'UTF-8'); // implode('', array_map('chr', $bytes));
-
         return [
             'codepoint' => sprintf('U+%04X', $codepoint),
             'bytes'     => $hexBytes,           // ['F0', '9F', '98', '80']
@@ -65,7 +58,6 @@ class UnicodeUtility
             'utf8'      => $utf8Char,           // char réel 😀
         ];
     }
-
     /**
     * auto generate doc.
     * @param int $hex
@@ -75,7 +67,6 @@ class UnicodeUtility
     {
         return igk_getv(self::UnicodeToUtf8Bytes($hex), 'utf8');
     }
-
     /**
     * auto generate doc.
     * @param int $code
@@ -87,7 +78,6 @@ class UnicodeUtility
         $r = self::Char($code);
         return $k . $r;
     }
-
     /**
     * Regional indicator.
     * @param string $letter
@@ -97,13 +87,11 @@ class UnicodeUtility
     {
         return 0x1F1E6 + (ord(strtoupper($letter)) - ord('A'));
     }
-
     /**
     * auto generate doc.
     * @param BE
     * @return void
     */
-
     public static function EmojisFlag(string $countryCode){
         return self::RegionalChar(
             self::RegionalIndicator($countryCode[0]),

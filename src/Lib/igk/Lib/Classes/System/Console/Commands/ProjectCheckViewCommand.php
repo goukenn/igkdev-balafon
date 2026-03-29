@@ -14,25 +14,21 @@ use IGK\System\Console\App;
  * @package IGK\System\Console\Commands
  */
 class ProjectCheckViewCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--project:check-view";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "project";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "check -lint all views";
-
     /**
     * Shows Usage.
     */
@@ -41,7 +37,6 @@ class ProjectCheckViewCommand extends AppExecCommand{
         Logger::info("--project:check-view ");
         DbCommandHelper::ShowUsage();
     }
-
     /**
     * Exec.
     * @param mixed $command

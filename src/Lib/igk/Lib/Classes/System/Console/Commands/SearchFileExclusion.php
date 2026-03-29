@@ -3,26 +3,22 @@
 // @file: SearchFileExclusion.php
 // @date: 20260307 12:47:59
 namespace IGK\System\Console\Commands;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class SearchFileExclusion{
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     private $m_patterns;
-
     /**
     * auto generate doc.
     * @var mixed
@@ -34,9 +30,7 @@ class SearchFileExclusion{
      * @return void 
      */
     private function __construct(){
-        
     }
-
     /**
     * auto generate doc.
     * @param array $patterns
@@ -45,12 +39,10 @@ class SearchFileExclusion{
     */
     public static function Create(array $patterns, $ignoreCase = false){
         $s = new static;
-
         $s->m_patterns = $patterns;
         $s->ignoreCase = $ignoreCase;
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param string $haystack
@@ -67,7 +59,6 @@ class SearchFileExclusion{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param string $q

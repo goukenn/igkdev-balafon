@@ -10,14 +10,12 @@ use IGK\System\WinUI\Forms\FormData;
 * 
 * @package IGK\System\Npm
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Npm
 */
 class JsonPackageValidator extends FormData{
     use JsonPackagePropertyTrait;
-
     /**
     * Returns Content Secure Form Request.
     * @param Request $request
@@ -27,12 +25,10 @@ class JsonPackageValidator extends FormData{
     {
       return $this->getContentSecure();
     }
-
     /**
     * auto generate doc.
     * @return null|array if assoc and validation : return treated value
     */
-
     protected function getContentSecure():?array{
         return [
             "author"=>function($n, $key, & $error){
@@ -65,7 +61,6 @@ class JsonPackageValidator extends FormData{
             }
         ];
     }
-
     /**
     * Returns Data Validator Mapper.
     * @param null|array $tab
@@ -80,7 +75,6 @@ class JsonPackageValidator extends FormData{
      * return list of not required field or regex data
      * @return null|array 
      */
-
     function getNotRequired(): ?array
     {
         $not = explode('|', 'name|description|main|keywords|author|license|devDependencies');

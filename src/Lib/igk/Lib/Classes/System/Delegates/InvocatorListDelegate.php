@@ -3,38 +3,32 @@
 // @file: InvocatorListDelegate.php
 // @date: 20221117 11:41:35
 namespace IGK\System\Delegates;
-
 /**
 * auto generate doc.
 * @package IGK\System\Delegates
 */
 class InvocatorListDelegate{
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
-
     /**
     * Collection of hostlist.
     * @var mixed
     */
     private $m_hostlist;
-
     /**
     * Property: shared intances.
     * @var mixed
     */
     private static $sm_shared_intances;
-
     /**
     * Returns Items.
     */
     public function getItems(){
         return $this->m_hostlist;
     }
-
     /**
     * .ctr
     * @return
@@ -42,7 +36,6 @@ class InvocatorListDelegate{
     private function __construct()
     {
     }
-
     /**
     * Creates.
     * @param array $array
@@ -55,7 +48,6 @@ class InvocatorListDelegate{
         self::$sm_shared_intances = $invocator;
         return $invocator;
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -66,7 +58,6 @@ class InvocatorListDelegate{
             call_user_func_array([$b, $name], $arguments);
         }
     }
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

@@ -10,7 +10,6 @@ use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionParameter;
-
 /**
 * Php helper.
 * @package IGK\Helper
@@ -29,7 +28,6 @@ class PhpHelper{
         }
         return null;
     }
-
     /**
     * String to class constants.
     * @param string $data
@@ -66,7 +64,6 @@ class PhpHelper{
         $c = igk_str_rm_last($c, '*/', 1);
         return $c;
     }
-
     /**
     * auto generate doc.
     * @return string
@@ -104,7 +101,6 @@ class PhpHelper{
                 //igk_wln_e($f, $params, $params[0], $m);
             }
             $c = self::GetCommentSummary($ref->getDocComment());
-
             $o .= "@method {$r} ".$p."($m) {$c}\n"; 
         } 
         return $o;
@@ -137,7 +133,6 @@ class PhpHelper{
         }
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param array<\ReflectionParameter> $params

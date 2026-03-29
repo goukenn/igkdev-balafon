@@ -10,25 +10,21 @@ use IGK\System\IO\StringBuilder;
  * simple pagination class helper
  */
 class Paginator{
-
     /**
     * Property: page.
     * @var mixed
     */
     private $page;
-
     /**
     * Property: max entry.
     * @var mixed
     */
     private $maxEntry;
-
     /**
     * Property: entries.
     * @var mixed
     */
     private $entries;
-
     /**
     * Paginator.
     * @param mixed $maxEntry
@@ -38,7 +34,6 @@ class Paginator{
         $this->maxEntry = $maxEntry;
         $this->page = igk_getr($queryTag, 1);
     }
-
     /**
     * Returns links.
     */
@@ -46,7 +41,6 @@ class Paginator{
         $c = igk_create_node("ul");
         return $c->render();
     }
-
     /**
     * Returns limit raw.
     */
@@ -57,7 +51,6 @@ class Paginator{
             ($this->page * $this->maxEntry) + $this->maxEntry
         ];
     }
-
     /**
     * Returns limit.
     */
@@ -65,7 +58,6 @@ class Paginator{
         $c = $this->get_limit_raw();
         return sprintf("Limit %s,%s", $c[0], $c[1]);
     }
-
     /**
     * Sets total.
     * @param mixed $v
@@ -73,7 +65,6 @@ class Paginator{
     public function set_total($v){
         $this->maxEntry = $v;
     }
-
     /**
     * Page links.
     */

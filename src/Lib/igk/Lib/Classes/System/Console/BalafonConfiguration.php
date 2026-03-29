@@ -12,7 +12,6 @@ use IGKException;
 * @package IGK\System\Console
 */
 class BalafonConfiguration{
-
     /**
     * auto generate doc.
     * @var string
@@ -48,7 +47,6 @@ class BalafonConfiguration{
      * @var mixed
      */
     var $build;
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
@@ -66,7 +64,6 @@ class BalafonConfiguration{
     public static function LoadConfig(BaseController $ctrl){
         return json_decode(file_get_contents(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE )));
     }
-
     /**
     * Store config.
     * @param BaseController $ctrl

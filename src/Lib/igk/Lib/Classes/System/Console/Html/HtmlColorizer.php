@@ -15,7 +15,6 @@ use IGK\System\Text\RegexMatcherContainer;
  * @package 
  */
 class HtmlColorizer extends Colorize{
-
     /**
     * Init color.
     * @return array
@@ -26,7 +25,6 @@ class HtmlColorizer extends Colorize{
            'tagname'=>"\e[38;2;170;65;30m" 
         ]);
     }
-
     /**
     * Init regex matcher container.
     * @param RegexMatcherContainer $match
@@ -43,13 +41,11 @@ class HtmlColorizer extends Colorize{
         $match->match('(?i)<!DOCTYPE\b', 'tagname');
         $match->match('>', 'tagname');
     }
-
     /**
     * auto generate doc.
     * @param mixed $filter
     * @return ?string
     */
-
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null): ?string
     {
         return parent::__invoke($s,$match, $filter);

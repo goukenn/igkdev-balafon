@@ -3,7 +3,6 @@
 // @file: IDbSQLGrammarExtraOptions.php
 // @date: 20240906 08:24:28
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database

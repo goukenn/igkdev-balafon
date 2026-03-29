@@ -8,7 +8,6 @@ namespace IGK\System\IO;
 * @package IGK\System\IO
 */
 interface IAssetManager{
-
     /**
     * Adds Assets.
     * @param string $file_or_reference

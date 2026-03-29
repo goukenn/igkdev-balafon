@@ -9,7 +9,6 @@ namespace IGK\System\Html;
 * @author C.A.D. BONDJE DOUE
 */
 interface IHtmlHostContextContainer{
-
     /**
     * Returns Rendering Context Data.
     */

@@ -9,13 +9,11 @@ namespace IGK\System\IO\File;
  * @package 
  */
 class IniFile{
-
     /**
     * Property: configs.
     * @var mixed
     */
     private $m_configs = [];
-
     /**
     * .destructor
     * @param mixed $n
@@ -23,7 +21,6 @@ class IniFile{
     public function __get($n){
         return igk_getv($this->m_configs, $n);
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -36,14 +33,12 @@ class IniFile{
         }
         $this->m_configs[$n] = $v;
     }
-
     /**
     * To array.
     */
     public function to_array(){
         return $this->m_configs; 
     }
-
     /**
     * Comment.
     * @param mixed $d
@@ -54,7 +49,6 @@ class IniFile{
             unset($this->m_configs[$d]);
         }
     }
-
     /**
     * Activate.
     * @param mixed $d
@@ -66,13 +60,11 @@ class IniFile{
             return true;
         }
     }
-
     /**
     * auto generate doc.
     * @param string $file
     * @return null|self
     */
-
     public static function LoadConfig(string $file){
         $conf = [];
         array_map(
@@ -94,7 +86,6 @@ class IniFile{
         return $c;
     }
     //store to file
-
     /**
     * Store.
     * @param string $file

@@ -3,16 +3,13 @@
 // @file: ServiceContainerTrait.php
 // @date: 20250809 16:12:42
 namespace IGK\System\Services\Traits;
-
 use IGK\Services\IAppService;
 use IGKServices;
-
 /**
  * 
  * @package IGK\System\Services\Trait
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Services\Traits
@@ -24,13 +21,11 @@ trait ServiceContainerTrait
      * @var array
      */
     protected $m_container;
-
     /**
     * Name of name.
     * @var mixed
     */
     protected $m_name;
-
     /**
     * Sets Name.
     * @param null|string $name
@@ -39,7 +34,6 @@ trait ServiceContainerTrait
     {
         $this->m_name = $name;
     }
-
     /**
     * Returns Name.
     * @return ?string
@@ -48,12 +42,10 @@ trait ServiceContainerTrait
     {
         return $this->m_name;
     }
-
     /**
     * auto generate doc.
     * @return array
     */
-
     public function listServicesKeys(): array
     {
         $c = [];
@@ -72,7 +64,6 @@ trait ServiceContainerTrait
      * init all services 
      * @return array 
      */
-
     public function initAllSevices(): array
     {
         $all = [];
@@ -81,7 +72,6 @@ trait ServiceContainerTrait
         }
         return $all;
     }
-
     /**
     * .ctr
     */
@@ -89,7 +79,6 @@ trait ServiceContainerTrait
     {
         $this->m_container = [];
     }
-
     /**
     * Returns.
     * @param string $name
@@ -99,19 +88,16 @@ trait ServiceContainerTrait
     {
         return igk_getv($this->m_container, $name);
     }
-
     /**
     * auto generate doc.
     * @param IAppService $service
     * @return bool
     */
-
     public function register(string $name, IAppService $service): bool
     {
         $this->m_container[$name] = $service;
         return true;
     }
-
     /**
     * Returns count of.
     * @return int

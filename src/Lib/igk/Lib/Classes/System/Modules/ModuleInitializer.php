@@ -4,19 +4,16 @@
 // @date: 20220829 09:55:54
 // @desc: 
 namespace IGK\System\Modules;
-
 use IGK\System\Php\Helper\PhpRemoveGlobaFunc;
 use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
  * initializer modules
  * @package IGK\System\Modules
  */
 class ModuleInitializer
 {
-
     /**
     * auto generate doc.
     * @var mixed
@@ -28,7 +25,6 @@ class ModuleInitializer
      * @var mixed
      */
     protected $m_modules = [];
-
     /**
      * Resets.
      */
@@ -36,7 +32,6 @@ class ModuleInitializer
     {
         $this->m_modules = [];
     }
-
     /**
      * Returns.
      * @param string $path
@@ -45,7 +40,6 @@ class ModuleInitializer
     {
         return igk_getv($this->m_modules, $this->_get_key($path));
     }
-
     /**
      * Registers.
      * @param mixed $path
@@ -55,7 +49,6 @@ class ModuleInitializer
     {
         $this->m_modules[$this->_get_key($path)] = $module;
     }
-
     /**
      * Get key.
      * @param string $path
@@ -64,7 +57,6 @@ class ModuleInitializer
     {
         return "sys://modules/" . strtolower(str_replace("/", ".", igk_uri($path)));
     }
-
     /**
      * auto generate doc.
      * @return void
@@ -75,7 +67,6 @@ class ModuleInitializer
         $hashfile = 'modules/' . hash_file('crc32b', $file) . '.json';
         $v_syscache = igk_cache();
         $no_cache = 0;//  ($module->getName() == '.igk.redis');
-        
         if (!$no_cache && $v_syscache->file_exists($hashfile)) {
             $data = $v_syscache->get($hashfile);
             $r = json_decode($data, true);
@@ -106,18 +97,15 @@ class ModuleInitializer
         $code = $return = null;
         $cache = ModuleIncludeDefinitionUtility::BindSourceFile($src, $file, $reference);
         self::_LoadCode($src, $code, $return);
-
         if (is_string($code))
             $code = PhpScriptUtility::RemoveGlobalFunc($code, ['removeEmptyLine'=>true]);
         // if ($no_cache){
         //     igk_wln_e("from aching....", $code);
         // }
-
         $_ret = compact('return', 'code', 'cache');
         $v_syscache->store($hashfile, json_encode($_ret));
         return $_ret;
     }
-
     /**
      * auto generate doc.
      * @param string $src
@@ -135,10 +123,8 @@ class ModuleInitializer
         $innerdef[] = $regex->appendStringDetection('string', true)->last();
         RegexMatcherUtility::AppendPhpHereDoc($regex, $innerdef);
         $regex->autoStore = true;
-
         $v_block = $regex->begin('\{', '\}', 'block')->last();
         $regex->begin('\\buse\\b', '(?<=;|\\})', 'use-skip')->last();
-
         $v_func = $regex->begin('\\bfunction\\b', '(?<=;|\\})', 'module-function')->last();
         $v_return = $regex->begin('\\breturn\\b', ';', 'module-return')->last();
         $func_name = $regex->createPattern([
@@ -204,10 +190,6 @@ class ModuleInitializer
                 $v_defobject->anonymous = null;
             }
         ];
-
-
-
-
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 $id = $e->tokenID;

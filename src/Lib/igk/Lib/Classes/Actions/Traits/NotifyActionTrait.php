@@ -3,7 +3,6 @@
 // @file: NotifyActionTrait.php
 // @date: 20221117 21:42:51
 namespace IGK\Actions\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
@@ -14,7 +13,6 @@ trait NotifyActionTrait{
      * @var mixed
      */
     var $notifyActionName;
-
     /**
     * Error.
     * @param string $message
@@ -23,7 +21,6 @@ trait NotifyActionTrait{
         $not = $this->getNoticationController();
         return $not->error($message);        
     }
-
     /**
     * Danger.
     * @param string $message
@@ -32,7 +29,6 @@ trait NotifyActionTrait{
         $not = $this->getNoticationController();
         return $not->danger($message);        
     }
-
     /**
     * Success.
     * @param string $message
@@ -41,7 +37,6 @@ trait NotifyActionTrait{
         $not = $this->getNoticationController();
         return $not->success($message);        
     }
-
     /**
     * Msg.
     * @param string $message
@@ -51,7 +46,6 @@ trait NotifyActionTrait{
         $not = $this->getNoticationController();
         return $not->msg($message, $type);        
     }
-
     /**
     * Notifies.
     * @param string $message
@@ -62,7 +56,6 @@ trait NotifyActionTrait{
             return $not->msg($message, $type);
         }
     }
-
     /**
     * Returns Notication Controller.
     */

@@ -13,13 +13,11 @@ use ReflectionFunction;
  */
 class TemplateEngine
 {
-
     /**
     * Property: start.
     * @var mixed
     */
     var $start;
-
     /**
     * auto generate doc.
     * @param mixed $rffunc
@@ -40,7 +38,6 @@ class TemplateEngine
         }
         return $info;
     }
-
     /**
     * Renders.
     * @param mixed $node

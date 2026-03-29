@@ -17,7 +17,6 @@ use ReflectionProperty;
  */
 abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
 {
-
     /**
     * auto generate doc.
     * @return array
@@ -93,7 +92,6 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return $data;
     }
-
     /**
     * Returns Form Field Property Type.
     * @param ReflectionProperty $props
@@ -111,7 +109,6 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return self::GetPropsType($props, $r) ?? 'text';
     }
-
     /**
     * Returns Props Type.
     * @param ReflectionProperty $props
@@ -131,7 +128,6 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return null;
     }
-
     /**
     * Returns Field Type From Primitive.
     * @param string $type

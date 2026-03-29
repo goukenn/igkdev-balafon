@@ -3,7 +3,6 @@
 // @file: ViewTokenExpressionConverter.php
 // @date: 20221021 08:35:29
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -24,7 +23,6 @@ class ViewTokenExpressionConverter{
      * @var string
      */
     var $tabstop = "";
-
     /**
     * Converts.
     * @param string $source

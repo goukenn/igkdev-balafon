@@ -14,13 +14,11 @@ use IGK\IControllerInitListener;
  * represent a listener object used to initialize ontroller environment
  */
 class ControllerInitListener implements IControllerInitListener{
-
     /**
     * Properties: folder, type.
     * @var mixed
     */
     private $m_folder, $m_type;
-
     /**
     * .ctr
     * @param mixed $folder
@@ -33,7 +31,6 @@ class ControllerInitListener implements IControllerInitListener{
             igk_die("can't created dir : ".$folder);
         }
     }
-
     /**
     * Adds Dir.
     * @param mixed $dir
@@ -41,7 +38,6 @@ class ControllerInitListener implements IControllerInitListener{
     public function addDir($dir){
         IO::CreateDir($this->m_folder."/{$dir}");
     }
-
     /**
     * Adds Source.
     * @param mixed $name

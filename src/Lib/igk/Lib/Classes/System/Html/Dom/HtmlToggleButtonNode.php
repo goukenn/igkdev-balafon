@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
-
 /**
 * Html toggle button node.
 * @package IGK\System\Html\Dom
 */
 class HtmlToggleButtonNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -19,7 +17,6 @@ class HtmlToggleButtonNode extends HtmlNode{
     /**
      * Initializes the toggle button with default CSS classes and data attributes.
      */
-
     protected function initialize()
     {
         $this["class"]="igk-toggle-button";
@@ -32,7 +29,6 @@ class HtmlToggleButtonNode extends HtmlNode{
      * @param int $c Number of icon bars to add.
      * @return static
      */
-
     public function addBar($c=1){
         $this->clearChilds();
         for($i=0; $i < $c; $i++)

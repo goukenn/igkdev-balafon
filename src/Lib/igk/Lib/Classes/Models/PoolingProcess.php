@@ -3,10 +3,7 @@
 // @file: PoolingProcess.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Pooling process
 * @package IGK\Models
@@ -35,55 +32,46 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PoolingProcess extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="pproc_id";
-
     /**
     * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="pproc_name";
-
     /**
     * Constant: fd pid.
     * @var mixed
     */
     const FD_PID="pproc_pid";
-
     /**
     * Constant: fd ip.
     * @var mixed
     */
     const FD_IP="pproc_ip";
-
     /**
     * Constant: fd session id.
     * @var mixed
     */
     const FD_SESSION_ID="pproc_session_id";
-
     /**
     * Constant: fd data.
     * @var mixed
     */
     const FD_DATA="pproc_data";
-
     /**
     * Constant: fd description.
     * @var mixed
     */
     const FD_DESCRIPTION="pproc_description";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="pproc_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed

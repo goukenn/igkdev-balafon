@@ -10,13 +10,11 @@ use IGK\System\Configuration\ConfigData;
  * @package IGK\System\WinUI
  */
 class PageLayout{
-
     /**
     * Constant: limits.
     * @var mixed
     */
     const Limits = [20,50,100];
-
     /**
     * Constant: current limit.
     * @var mixed
@@ -36,7 +34,6 @@ class PageLayout{
      * get 
      * @return ConfigData|int 
      */
-
     public static function ItemLimits(){
         $limit = igk_configs()->get("pagelayout_limit");
         if ($limit>0){
@@ -44,7 +41,6 @@ class PageLayout{
         }
         return self::CurrentLimit;
     }
-
     /**
     * destructor
     * @param mixed $name
@@ -54,7 +50,6 @@ class PageLayout{
     {
         $this->options[$name] = $value;
     }
-
     /**
     * .destructor
     * @param mixed $name

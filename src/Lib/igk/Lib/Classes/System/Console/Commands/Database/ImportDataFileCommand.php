@@ -6,26 +6,22 @@ namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbImportFile;
-
 /**
 * auto generate doc.
 * @package IGK\\System\Console\Commands\Database
 * @author C.A.D. BONDJE DOUE
 */
 class ImportDataFileCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:import';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='import data from description file';
-
     /**
     * Property: options.
     * @var mixed
@@ -36,19 +32,16 @@ class ImportDataFileCommand extends AppExecCommand{
 		"--autoregister"=>"flag: autore register unknow entries"
 		// "-t:type"=>"force file as type json|csv"
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category="db";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = "([controller] model [options]";
-
     /**
     * Exec.
     * @param mixed $command

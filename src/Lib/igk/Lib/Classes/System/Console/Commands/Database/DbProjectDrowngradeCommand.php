@@ -10,38 +10,32 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\SchemaMigrationInfo;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class DbProjectDrowngradeCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:downgrade';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='downgrade project database';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'sys:db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

@@ -3,20 +3,17 @@
 // @file: HtmlNodeTagExplosionTrait.php
 // @date: 20240119 11:47:11
 namespace IGK\System\Html\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait HtmlNodeTagExplosionTrait{
-
     /**
     * Property: split.
     * @var mixed
     */
     protected $split = '>';
-
     /**
     * Explode tag definition.
     * @param string $tagname

@@ -6,20 +6,17 @@
 namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * Igkcss color host.
 * @package IGK\Css
 */
 class IGKCssColorHost implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Constant: primary color.
     * @var mixed
     */
     const PRIMARY_COLOR = 'inherit';
-
     /**
     * Property: .
     * @var mixed
@@ -36,7 +33,6 @@ class IGKCssColorHost implements ArrayAccess{
      * @param mixed $color Reference to the color array.
      * @return static
      */
-
     public static function Create(& $color){
         $c = new self();
         $c->_ = & $color;
@@ -49,7 +45,6 @@ class IGKCssColorHost implements ArrayAccess{
      * @param mixed $v The value to set.
      * @return void
      */
-
     public function _access_offsetSet($n,$v):void{
         $this->_[$n] = $v;
     }
@@ -59,7 +54,6 @@ class IGKCssColorHost implements ArrayAccess{
      * @param mixed $n The offset key.
      * @return mixed
      */
-
     public function _access_offsetGet($n){
         return igk_getv($this->_, $n);
     }
@@ -69,7 +63,6 @@ class IGKCssColorHost implements ArrayAccess{
      * @param mixed $n The offset key.
      * @return void
      */
-
     public function _access_offsetUnset($n):void{
         unset($this->_[$n]);
     }
@@ -79,7 +72,6 @@ class IGKCssColorHost implements ArrayAccess{
      * @param mixed $n The offset key.
      * @return bool
      */
-
     public function _access_offsetExists($n):bool{
         return key_exists($n, $this->_);
     }

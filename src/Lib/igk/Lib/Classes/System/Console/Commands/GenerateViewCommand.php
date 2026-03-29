@@ -6,19 +6,16 @@ namespace IGK\System\Console\Commands;
 use IGK\DocumentParser\DocumentParser;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Command
 */
 class GenerateViewCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--gen:view";
-
     /**
     * Property: options.
     * @var mixed
@@ -26,26 +23,22 @@ class GenerateViewCommand extends AppExecCommand{
     var $options = [
         "--shared"=>"flag: share resources"
     ];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "tools";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "generate view";
-
     /**
     * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf("%s controller domain [view]", $this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command

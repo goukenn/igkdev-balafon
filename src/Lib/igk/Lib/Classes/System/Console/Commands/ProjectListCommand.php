@@ -13,31 +13,26 @@ use IGKException;
  * @package IGK\System\Console\Commands
  */
 class ProjectListCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--project:list";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "project";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "List installed project";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'filter [options]';
-
     /**
     * Property: options.
     * @var mixed
@@ -50,7 +45,6 @@ class ProjectListCommand extends AppExecCommand{
      * @return void 
      * @throws IGKException 
      */
-
     public function exec($command, $pattern =".+") {  
         $c = igk_sys_get_projects_controllers(); 
         $t = [];

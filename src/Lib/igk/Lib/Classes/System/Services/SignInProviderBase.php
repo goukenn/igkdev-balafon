@@ -16,7 +16,6 @@ abstract class SignInProviderBase{
      * @var true
      */
     protected $navigate_onlogin = true;
-
     /**
     * Property: response.
     * @var mixed
@@ -27,7 +26,6 @@ abstract class SignInProviderBase{
      * @var mixed
      */
     protected $successURL;
-
     /**
     * Sets Success URL.
     * @param null|string $uri
@@ -35,14 +33,12 @@ abstract class SignInProviderBase{
     public function setSuccessURL(?string $uri=null){
         $this->successURL = $uri;
     }
-
     /**
     * Returns Success URL.
     */
     public function getSuccessURL(){
         return $this->successURL;
     }
-
     /**
     * Returns Response.
     */
@@ -54,7 +50,6 @@ abstract class SignInProviderBase{
      * @param mixed $value 
      * @return void 
      */
-
     public function setResponse($value){
         $this->response = $value;
     }

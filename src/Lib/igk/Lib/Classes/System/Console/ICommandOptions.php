@@ -3,8 +3,6 @@
 // @file: ICommandOptions.php
 // @date: 20260306 11:09:24
 namespace IGK\System\Console;
-
-
 /**
 * 
 * @package IGK\System\Console
@@ -15,11 +13,9 @@ namespace IGK\System\Console;
 * @property array $commands array of command definition 
 * @property ?bool $waitForNextEntryFlag wait for next entry flag  
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
 */
 interface ICommandOptions{
-
 }

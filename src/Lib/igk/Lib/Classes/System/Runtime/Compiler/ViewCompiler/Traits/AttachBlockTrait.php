@@ -6,14 +6,12 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
 use IGK\Helper\Activator;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewReadBlockFlagInfo;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
 */
 trait AttachBlockTrait
 {
-
     /**
     * Attache block.
     * @param mixed $block

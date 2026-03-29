@@ -5,32 +5,27 @@ namespace IGK\System\Http;
 // @date: 20220311 08:32:47
 // @desc: store status code definitions 
 require_once __DIR__.'/RequestResponseCode.php';
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class StatusCode extends RequestResponseCode
 {
-
     /**
     * Constant: bad request.
     * @var mixed
     */
     const BAD_REQUEST = 400;
-
     /**
     * Constant: unauthorized.
     * @var mixed
     */
     const UNAUTHORIZED = 401;
-
     /**
     * Constant: forbiden.
     * @var mixed
     */
     const FORBIDEN = 403;
-
     /**
     * Returns Status.
     * @param int $code

@@ -3,7 +3,6 @@
 // @file: TokenHelper.php
 // @date: 20230304 20:05:33
 namespace IGK\Helper;
-
 /**
 * auto generate doc.
 * @package IGK\Helpers

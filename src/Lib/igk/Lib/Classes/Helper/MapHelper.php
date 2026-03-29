@@ -11,7 +11,6 @@ use IGKException;
  * 
  * @package IGK\Help
  */
-
 /**
 * auto generate doc.
 * @package IGK\Helper
@@ -79,7 +78,6 @@ class MapHelper
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array|IDataMapper $map

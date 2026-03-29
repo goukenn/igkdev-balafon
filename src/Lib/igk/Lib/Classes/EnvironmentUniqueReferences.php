@@ -5,7 +5,6 @@
 namespace IGK;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * auto generate doc.
 * @package IGK
@@ -13,13 +12,11 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 class EnvironmentUniqueReferences implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * Access offset get.
     * @param mixed $v
@@ -27,7 +24,6 @@ class EnvironmentUniqueReferences implements ArrayAccess{
     protected function _access_offsetGet($v){
         return igk_getv($this->m_data, $v);
     }
-
     /**
     * Access offset set.
     * @param mixed $k

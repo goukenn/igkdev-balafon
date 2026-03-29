@@ -7,31 +7,26 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompilerBockInfo{
-
     /**
     * Constant: condition block.
     * @var mixed
     */
     const CONDITION_BLOCK = "if|while|foreach|elseif|for|switch|catch";
-
     /**
     * Constant: inner block.
     * @var mixed
     */
     const INNER_BLOCK = "else|elseif|case|default";
-
     /**
     * auto generate doc.
     * @var string
     */
     var $type;
-
     /**
     * auto generate doc.
     * @var ?ViewCompilerBockInfo
@@ -52,13 +47,11 @@ class ViewCompilerBockInfo{
      * @var string
      */
     var $buffer = "";
-
     /**
     * Flag: is close.
     * @var mixed
     */
     private $m_isClose;
-
     /**
     * .ctr
     * @param string $type
@@ -72,11 +65,9 @@ class ViewCompilerBockInfo{
      * require condition block
      * @return bool 
      */
-
     public function requireCondition():bool{
         return in_array($this->type, explode("|", self::CONDITION_BLOCK));
     }
-
     /**
     * Starts Block.
     */
@@ -92,7 +83,6 @@ class ViewCompilerBockInfo{
         }
         return $this->type.$c.":";
     }
-
     /**
     * End block.
     */
@@ -103,7 +93,6 @@ class ViewCompilerBockInfo{
         }
         return sprintf("end%s;", $this->type);
     }
-
     /**
     * Returns true if Inner Block.
     * @return bool
@@ -116,7 +105,6 @@ class ViewCompilerBockInfo{
      * @param string $type 
      * @return bool 
      */
-
     public function childOf(string $type):bool{
         $tab =[
             "if"=>["else","elseif"],
@@ -127,21 +115,18 @@ class ViewCompilerBockInfo{
         $g = igk_getv($tab, $type);
         return array_search($this->type, $g) !== false;
     }
-
     /**
     * Returns true if Child Container.
     */
     public function isChildContainer(){
         return in_array($this->type, ["if", "switch", "case", "default"]);
     }
-
     /**
     * Closes.
     */
     public function close(){
         $this->m_isClose = true;
     }
-
     /**
     * Closed.
     */

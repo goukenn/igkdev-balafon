@@ -8,13 +8,11 @@ use IGK\Helper\Activator;
 * 
 * @package IGK\System\Html\Metadatas
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas
 */
 class AppleWebAppMetadata extends MetadataGroupEntryBase{
-
     /**
     * auto generate doc.
     * @var yes
@@ -30,11 +28,9 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
      * @var null|'black-translucent'|'black'|'default'
      */
     var $appleWebAppStatusBarStyle;
-
     /**
     * auto generate doc.
     */    var $appleWebAppStartupImage;
-
     /**
     * Map.
     * @return array
@@ -47,7 +43,6 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
             'appleWebAppStartupImage'=>'apple-mobile-web-app-startup-image',
         ];
     }
-
     /**
     * Sets Property.
     * @param string $n

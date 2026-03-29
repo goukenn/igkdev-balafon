@@ -4,20 +4,17 @@
 // @date: 20220425 15:39:28
 // @desc: web response
 namespace IGK\System\Http;
-
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKEvents;
 use IGKHtmlDoc;
 use IHeaderResponse;
-
 /**
  * represent a web rendering result
  * @package IGK\System\Http
  */
 class WebResponse extends RequestResponse
 {
-
     /**
     * Property: node.
     * @var mixed
@@ -28,7 +25,6 @@ class WebResponse extends RequestResponse
      * @var mixed
      */
     var $cache;
-
     /**
     * Property: headers.
     * @var mixed
@@ -36,13 +32,11 @@ class WebResponse extends RequestResponse
     public $headers = [
         "Content-Type: text/html"
     ];
-
     /**
     * auto generate doc.
     * @param mixed $header
     * @return void
     */
-
     public function __construct($node_or_message, int $code = 200, $header = null)
     {
         $this->code = $code;
@@ -51,7 +45,6 @@ class WebResponse extends RequestResponse
             $this->headers = $header;
         }
     }
-
     /**
     * Renders.
     */
@@ -77,7 +70,6 @@ class WebResponse extends RequestResponse
     /**
      * output web document
      */
-
     public function output()
     {
         $cache = $this->cache;

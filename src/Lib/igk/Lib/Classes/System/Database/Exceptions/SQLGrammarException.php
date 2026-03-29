@@ -5,14 +5,12 @@
 namespace IGK\System\Database\Exceptions;
 use IGKException;
 use Throwable;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database\Exceptions
 * @author C.A.D. BONDJE DOUE
 */
 class SQLGrammarException extends IGKException{
-
     /**
     * .ctr
     * @param mixed $msg

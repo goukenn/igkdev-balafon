@@ -9,7 +9,6 @@ use ZipArchive;
 * @package IGK\System
 */
 class Requirement{
-
     /**
     * Property: requirements.
     * @var mixed
@@ -19,11 +18,9 @@ class Requirement{
      * after check get requirement
      * @return mixed 
      */
-
     public function getRequirements(){
         return $this->m_requirements;
     }
-
     /**
     * Checks.
     * @return bool

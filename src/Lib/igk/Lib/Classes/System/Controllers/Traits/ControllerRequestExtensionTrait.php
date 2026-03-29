@@ -3,26 +3,22 @@
 // @file: ControllerRequestExtensionTrait.php
 // @date: 20251211 07:43:25
 namespace IGK\System\Controllers\Traits;
- 
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\ViewHelper;
 use IGK\System\Controllers\IControllerRequestInfo;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestPreparer;
-
 /**
 * 
 * @package IGK\System\Controllers\Traits
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Controllers\Traits
 */
 trait ControllerRequestExtensionTrait{
-
     /**
     * auto generate doc.
     * @param string|IControllerRequestInfo $info
@@ -50,7 +46,6 @@ trait ControllerRequestExtensionTrait{
             $view .= '/'.implode("/", $args);
             $args = [];
         }
-
         $ctrl->setCurrentView($view, true, null, $args); 
         RequestPreparer::PopPrepareForRequest();
         $t = $ctrl->getTargetNode(); 

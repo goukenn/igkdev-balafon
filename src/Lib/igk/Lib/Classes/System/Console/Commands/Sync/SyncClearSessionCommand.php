@@ -12,25 +12,21 @@ use IGK\System\IO\Path;
  *  */
 class SyncClearSessionCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:clearsession";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync:ftp clear session";
-
     /**
     * Exec.
     * @param mixed $command

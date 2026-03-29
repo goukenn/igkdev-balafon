@@ -13,7 +13,6 @@ use IGKException;
  */
 class CompilerNodeModifyDetector extends HtmlNode
 {
-
     /**
     * Property: modify.
     * @var mixed
@@ -24,25 +23,21 @@ class CompilerNodeModifyDetector extends HtmlNode
      * @var mixed
      */
     private $m_document;
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:compiler-modifynode-detector";
-
     /**
     * Property: freeze clear modify.
     * @var mixed
     */
     private $m_freezeClearModify = false;
-
     /**
     * Property: sys modify.
     * @var mixed
     */
     static $sm_sys_modify = false;
-
     /**
     * Callback handler for filter callback.
     * @var mixed
@@ -53,7 +48,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * @var mixed
      */
     private $m_class_array =[];
-
     /**
     * Constant: clear flag param.
     * @var mixed
@@ -64,7 +58,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * @param null|IViewCompilerArgument $value 
      * @return void 
      */
-
     public function setDocument(?IViewCompilerArgument $value=null){
         $this->m_document = $value;
     }
@@ -72,7 +65,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * get the compiler document
      * @return null|IViewCompilerArgument 
      */
-
     public function getDocument():?IViewCompilerArgument{
         return $this->m_document;
     }
@@ -81,7 +73,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * @return HtmlNode 
      * @throws IGKException 
      */
-
     public function clearChilds()
     {        
         $this->m_class_array = [];
@@ -93,7 +84,6 @@ class CompilerNodeModifyDetector extends HtmlNode
         }
         return parent::clearChilds();
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -102,7 +92,6 @@ class CompilerNodeModifyDetector extends HtmlNode
     {
         return null;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -117,12 +106,10 @@ class CompilerNodeModifyDetector extends HtmlNode
      * detect node modification
      * @return bool 
      */
-
     public function getModify(): bool
     {
         return $this->m_modify || ($this->getChildCount() > 0) || (igk_count($this->m_attributes) > 0);
     }
-
     /**
     * Returns Freeze Clear Modify.
     */
@@ -130,7 +117,6 @@ class CompilerNodeModifyDetector extends HtmlNode
     {
         return $this->m_freezeClearModify;
     }
-
     /**
     * Sets Freeze Clear Modify.
     * @param bool $freeze
@@ -139,7 +125,6 @@ class CompilerNodeModifyDetector extends HtmlNode
     {
         $this->m_freezeClearModify = $freeze;
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -161,7 +146,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * init node modication to handle node creation detection
      * @return void 
      */
-
     public static function Init(): bool
     {
         if (!self::$sm_filter_callback) {
@@ -173,7 +157,6 @@ class CompilerNodeModifyDetector extends HtmlNode
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $e
@@ -188,7 +171,6 @@ class CompilerNodeModifyDetector extends HtmlNode
      * remove node modification detection
      * @return void 
      */
-
     public static function UnInit()
     {
         (self::$sm_filter_callback) && igk_unreg_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, self::$sm_filter_callback);
@@ -198,12 +180,10 @@ class CompilerNodeModifyDetector extends HtmlNode
     /** 
      * system modifity on compilation
      */
-
     public static function SysModify(): bool
     {
         return self::$sm_sys_modify;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -211,7 +191,6 @@ class CompilerNodeModifyDetector extends HtmlNode
     {
         return false;
     }
-
     /**
     * Sets Content.
     * @param mixed $v

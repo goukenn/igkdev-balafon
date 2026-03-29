@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms;
-
 use IGK\System\Html\Forms\Validations\IFormValidationInfo;
 use IGK\System\Html\IFormFieldOptions;
 /**
@@ -17,7 +16,6 @@ class FieldInfo implements IFormFieldOptions{
      * @var  null|string|'text'
      */
     var $type;
-
     /**
     * auto generate doc.
     * @var null|string
@@ -48,7 +46,6 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?int
      */
     var $minLength;
-
     /**
      * allow empty value
      * @var mixed
@@ -59,7 +56,6 @@ class FieldInfo implements IFormFieldOptions{
      * @var mixed
      */
     var $allowNull = false;
-
     /**
     * .ctr
     */

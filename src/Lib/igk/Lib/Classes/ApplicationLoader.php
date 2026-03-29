@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK;
-
 use Closure;
 use IGK\Helper\IO;
 use IGK\System\IO\Path;
@@ -16,7 +15,6 @@ use IGKEnvironment;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 require_once IGK_LIB_CLASSES_DIR . '/System/Traits/ClassFileVersionLoaderTrait.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/EntryClassResolution.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
@@ -25,7 +23,6 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IO/Path.php';
  * 
  * @package 
  */
-
 /**
  * auto generate doc.
  * @package IGK
@@ -62,7 +59,6 @@ class ApplicationLoader
      * load callable
      */
     private $callables = [];
-
     /**
      * auto generate doc.
      * @var string loading context
@@ -89,7 +85,6 @@ class ApplicationLoader
     {
         return  IGK_LIB_DIR . "/.Caches/.included." . implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])) . ".cache";
     }
-
     /**
      * .ctr
      * @param null|mixed $context
@@ -144,7 +139,6 @@ class ApplicationLoader
         $this->callables[] = get_defined_vars();
         $this->sorted = 1;
     }
-
     /**
      * auto generate doc.
      * @param mixed $entryNS
@@ -168,7 +162,6 @@ class ApplicationLoader
         }
         return false;
     }
-
     /**
      * auto generate doc.
      * @param mixed $a
@@ -185,7 +178,6 @@ class ApplicationLoader
         $y = $b['priority'];
         return $x == $y ? 0 : $y - $x / abs($y - $x);
     }
-
     /**
      * auto generate doc.
      * @return
@@ -234,7 +226,6 @@ class ApplicationLoader
         }
         return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, EntryClassResolution::IGK);
     }
-
     /**
      * auto generate doc.
      * @param bool $auto_register auto register cache class if found.
@@ -337,7 +328,6 @@ class ApplicationLoader
         }
         return $result;
     }
-
     /**
      * auto generate doc.
      * @param mixed $classname
@@ -557,7 +547,6 @@ class ApplicationLoader
             return 0;
         };
     }
-
     /**
      * Try require once load file.
      * @param string $filekey

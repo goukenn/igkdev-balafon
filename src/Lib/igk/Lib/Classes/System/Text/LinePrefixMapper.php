@@ -7,19 +7,16 @@ namespace IGK\System\Text;
 * 
 * @package IGK\System\Text
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 */
 class LinePrefixMapper{
-
     /**
     * auto generate doc.
     * @var string
     */
     var $prefix;
-
     /**
     * auto generate doc.
     * @var string

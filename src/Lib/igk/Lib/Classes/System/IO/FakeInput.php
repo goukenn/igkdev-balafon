@@ -8,7 +8,6 @@ namespace IGK\System\IO;
 * @package IGK\System\IO
 */
 abstract class FakeInput{
-
     /**
     * Returns Raw.
     */

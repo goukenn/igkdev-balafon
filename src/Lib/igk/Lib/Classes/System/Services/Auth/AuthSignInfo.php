@@ -9,43 +9,36 @@ namespace IGK\System\Services\Auth;
  * @package IGK\System\Services\Auth
  */
 class AuthSignInfo{
-
     /**
     * Property: login.
     * @var mixed
     */
     var $login;
-
     /**
     * Property: verified.
     * @var mixed
     */
     var $verified;
-
     /**
     * Property: email.
     * @var mixed
     */
     var $email;
-
     /**
     * Property: gender.
     * @var mixed
     */
     var $gender;
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Name of firstname.
     * @var mixed
     */
     var $firstname;
-
     /**
     * Name of lastname.
     * @var mixed

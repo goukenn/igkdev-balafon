@@ -3,13 +3,11 @@
 // @file: IStorage.php
 // @date: 20230305 19:17:22
 namespace IGK\System\IO\Storage;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Storage
 */
 interface IStorage{
-
     /**
     * Store.
     * @param string $file
@@ -17,7 +15,6 @@ interface IStorage{
     * @return ?string
     */
     function store(string $file, bool $ovewrite=false): ?string;
-
     /**
     * Deletes.
     * @param string $path

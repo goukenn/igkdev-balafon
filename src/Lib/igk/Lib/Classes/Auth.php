@@ -3,7 +3,6 @@
 // @file: Auth.php
 // @date: 20221111 09:18:45
 namespace IGK;
-
 /**
 * auto generate doc.
 * @package IGK

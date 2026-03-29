@@ -3,19 +3,16 @@
 // @file: SessionOperatorIncCallback.php
 // @date: 20221010 01:48:20
 namespace IGK\System\Http\Session;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http\Session
 */
 class SessionOperatorIncCallback extends SessionOperatorBase {
-
     /**
     * Property: step.
     * @var mixed
     */
     var $step;
-
     /**
     * .ctr
     * @param null|int $step
@@ -24,7 +21,6 @@ class SessionOperatorIncCallback extends SessionOperatorBase {
     {
         $this->step = is_null($step) ? 1: $step;
     }
-
     /**
     * Invoke.
     * @param mixed $a

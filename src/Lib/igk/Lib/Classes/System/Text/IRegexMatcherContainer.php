@@ -3,14 +3,12 @@
 // @file: IRegexMatcherContainer.php
 // @date: 20241107 05:10:19
 namespace IGK\System\Text;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
 interface IRegexMatcherContainer{
-
     /**
     * Matches.
     * @param string $match

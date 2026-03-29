@@ -5,20 +5,17 @@
 namespace IGK\System\IO\JSon;
 use IGK\Helper\Activator;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\JSon
 * @author C.A.D. BONDJE DOUE
 */
 class JSonObjClassConverter extends JSonBindToConverterBase{
-
     /**
     * Type of type.
     * @var mixed
     */
     private $type;
-
     /**
     * .ctr
     * @param mixed $type
@@ -33,7 +30,6 @@ class JSonObjClassConverter extends JSonBindToConverterBase{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function convert($value, $options=null) {  
         if (is_null($value)){
             return null;

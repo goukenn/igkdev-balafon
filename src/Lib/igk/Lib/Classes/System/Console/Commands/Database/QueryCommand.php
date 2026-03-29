@@ -5,38 +5,32 @@
 namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 class QueryCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:query';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='model fetch query';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category="sys:db";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = "model [controller] [options]";
-
     /**
     * Exec.
     * @param mixed $command

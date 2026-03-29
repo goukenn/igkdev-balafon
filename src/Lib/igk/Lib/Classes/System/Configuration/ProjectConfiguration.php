@@ -3,13 +3,11 @@
 // @file: ProjectConfiguration.php
 // @date: 20230414 14:16:49
 namespace IGK\System\Configuration;
-
 use Exception;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
-
 /**
 * represent project configuration settings
 * @package IGK\System\Configuration
@@ -45,31 +43,26 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var ?array<string>
      */
     var $exposedDir;
-
     /**
      * entry namespace
      * @var ?string
      */
     var $entryNamespace;
-
     /**
      * keys word to used 
      * @var ?string[]|string
      */
     var $keywords;
-
     /**
      * configuration file workbench information 
      * @var ?ConfigurationWorkbenchInfo
      */ 
     var $workbench;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $default_user_profile;
-
     /**
      * contribution of this project 
      * @var ?array
@@ -80,13 +73,11 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var ?array 
      */
     var $events;
-
     /**
     * auto generate doc.
     * @var ?string
     */
     private static $sm_config;
-
     /**
     * auto generate doc.
     * @param string $file

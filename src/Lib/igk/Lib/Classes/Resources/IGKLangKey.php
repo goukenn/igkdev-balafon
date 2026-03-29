@@ -12,30 +12,25 @@ use function igk_resources_gets as __;
 * represent a language key entries. it support IHtmlGetValue for getting and setting the values
 */
 final class IGKLangKey implements IHtmlGetValue {
-
     /**
     * Property: args.
     * @var mixed
     */
     var $args;
-
     /**
     * Property: def.
     * @var mixed
     */
     var $def;
-
     /**
     * Property: key.
     * @var mixed
     */
     var $key;
-
     /**
     * auto generate doc.
     * @param mixed $args the default value is null
     */
-
     public function __construct($key, $default, $args=null){
         if(empty($key))
             igk_die("key is null or empty");
@@ -46,16 +41,13 @@ final class IGKLangKey implements IHtmlGetValue {
     /**
     * display value
     */
-
     public function __toString(){
         return $this->key;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
     */
-
     public function getValue($options=null){
         $s=__($this->key);
         $c=0;
@@ -88,12 +80,10 @@ final class IGKLangKey implements IHtmlGetValue {
         }
         return html_entity_decode($s);
     }
-
     /**
     * auto generate doc.
     * @param mixed $args
     */
-
     public static function GetValueKeys($s, $args){
         $macth=array();
         $c=preg_match_all("/\{(?P<value>[0-9]+)\}/i", $s, $match);

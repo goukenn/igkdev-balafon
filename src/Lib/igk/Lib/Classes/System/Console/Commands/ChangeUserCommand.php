@@ -5,39 +5,33 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class ChangeUserCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--users:change';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'change user\'s definition';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'login [--set:column=value] [options]';
-
     /**
     * Exec.
     * @param mixed $command

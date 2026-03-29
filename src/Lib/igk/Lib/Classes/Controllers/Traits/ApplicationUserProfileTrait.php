@@ -11,7 +11,6 @@ use IGK\System\EntryClassResolution;
 * 
 * @package IGK\Controllers\Traits
 */
-
 /**
 * auto generate doc.
 * @package IGK\Controllers\Traits
@@ -24,7 +23,6 @@ trait ApplicationUserProfileTrait{
     protected function getApplicationUserModel(): ?string{
         return $this->resolveClass(EntryClassResolution::Models."/Users");
     }
-
     /**
     * auto generate doc.
     * @return array
@@ -32,7 +30,6 @@ trait ApplicationUserProfileTrait{
     protected function createApplicationUserInfo(){
         return [];
     }
-
     /**
     * auto generate doc.
     * @param null|object $u use info
@@ -66,7 +63,6 @@ trait ApplicationUserProfileTrait{
             }            
         );
     }
-
     /**
     * auto generate doc.
     * @param mixed $newDefinition

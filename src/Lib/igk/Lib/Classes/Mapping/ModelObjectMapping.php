@@ -25,7 +25,6 @@ class ModelObjectMapping{
      * @var ?array
      */
     var $mapping;
-
     /**
     * .ctr
     * @param \IGK\Models\ModelBase $model
@@ -41,7 +40,6 @@ class ModelObjectMapping{
      * @param mixed $ob object to bind 
      * @return object|bool 
      */
-
     public function map($data, $ob=null){
         $keys = array_fill_keys($this->model->colKeys(), 1); 
         $result = false;

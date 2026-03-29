@@ -25,25 +25,21 @@ use IGK\System\Security\Web\HeaderAccessObject;
 * @property bool $IS_WEBAPP to detect application that request ajx demand
 */
 final class Server implements IToArray{
-
     /**
     * Property: data.
     * @var mixed
     */
     private $data;
-
     /**
     * Property: access control.
     * @var mixed
     */
     private $m_access_control;
-
     /**
     * Property: access object.
     * @var mixed
     */
     private $m_access_object;
-
     /**
     * Property: server.
     * @var mixed
@@ -53,7 +49,6 @@ final class Server implements IToArray{
      * get if server request in access control
      * @return ?bool 
      */
-
     public function getAccessControl(){
         return $this->m_access_control;
     }
@@ -61,11 +56,9 @@ final class Server implements IToArray{
      * access-control data object
      * @return null|HeaderAccessObject 
      */
-
     public function getAccessObject():?HeaderAccessObject{
         return $this->m_access_object;
     }
-
     /**
     * auto generate doc.
     */
@@ -77,7 +70,6 @@ final class Server implements IToArray{
         return false;
     }
     ///get if this server runing on the loal server
-
     /**
     * Returns true if Local.
     */
@@ -91,11 +83,9 @@ final class Server implements IToArray{
      * get remote ip
      * @return mixed 
      */
-
     public static function RemoteIp(){
         return self::getInstance()->REMOTE_ADDR;
     }
-
     /**
     * Server address.
     */
@@ -106,23 +96,19 @@ final class Server implements IToArray{
      * check server is url  encoded data
      * @return bool 
      */
-
     public function isURLEncoded(){
         return $this->CONTENT_TYPE == 'application/x-www-form-urlencoded';
     }
-
     /**
     * auto generate doc.
     */
     private function __construct(){ 
         $this->prepareServerInfo();
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __get($n){
         if(isset($this->data[$n]))
             return $this->data[$n];
@@ -132,7 +118,6 @@ final class Server implements IToArray{
      * check accepts encoding support
      * @param params hom
      */
-
     public function accepts($list){
         $accept = $this->HTTP_ACCEPT_ENCODING;
         if (is_array($list) && !is_null($accept)){
@@ -144,21 +129,17 @@ final class Server implements IToArray{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     */
-
     public function __isset($n){
         return isset($this->data[$n]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function __set($n, $v){
         if ($n == "REQUEST_STRING"){
             igk_wln_e("try change request uri ", $v);
@@ -169,7 +150,6 @@ final class Server implements IToArray{
         else
             $this->data[$n]=$v;
     }
-
     /**
     * Accept.
     * @param mixed $type
@@ -190,7 +170,6 @@ final class Server implements IToArray{
         $mtype = igk_getv($accept_type, $type, null);
         return $mtype && in_array($mtype, $a);
     }
-
     /**
     * Returns.
     * @param mixed $name
@@ -199,63 +178,53 @@ final class Server implements IToArray{
     public function get($name, $default=null){
         return igk_getv($this->data, $name, $default);
     }
-
     /**
     * auto generate doc.
     * @return Server
     */
-
     public static function getInstance(){
         if (self::$sm_server ===null){
             self::$sm_server = new self();
         }
         return self::$sm_server;
     }
-
     /**
     * Event stream request.
     */
     public function eventStreamRequest(){
         return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
     }
-
     /**
     * auto generate doc.
     * @param mixed $file
     */
-
     public function IsEntryFile($file){
         return $file === realpath($this->SCRIPT_FILENAME);
     }
     /**
     * check if this request is POST
     */
-
     public function ispost(){
         return $this->REQUEST_METHOD == "POST";
     }
     /**
     * check for method
     */
-
     public function method($type=null){
 			if ($type===null)
 				return $this->REQUEST_METHOD;
         return $this->REQUEST_METHOD == $type;
     }
-
     /**
     * Returns true if Multipart Form Data.
     */
     public function isMultipartFormData(){
         return strpos($this->CONTENT_TYPE, IGK_HTML_ENCTYPE) === 0;
     }
-
     /**
     * auto generate doc.
     * @return ?string
     */
-
     public function script_dir(){
         if ($f = $this->SCRIPT_FILENAME){
             return dirname($f);
@@ -265,7 +234,6 @@ final class Server implements IToArray{
     /**
     * preparet server information 
     */
-
     public function prepareServerInfo(){
         $this->data=array();
         foreach($_SERVER as $k=>$v){          
@@ -359,7 +327,6 @@ final class Server implements IToArray{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $secured
@@ -387,7 +354,6 @@ final class Server implements IToArray{
         $out=str_replace('\\', '/', $out);
         return $out;
     }
-
     /**
     * Returns Port.
     * @param mixed $secure
@@ -398,21 +364,18 @@ final class Server implements IToArray{
             return $p;
         return null;
     }
-
     /**
     * Returns true if secure.
     */
     public function is_secure(){
         return $this->HTTPS == "on";
     }
-
     /**
     * auto generate doc.
     */
     public function to_array(): ?array{
         return $this->data;
     }
-
     /**
     * Request time.
     */
@@ -424,7 +387,6 @@ final class Server implements IToArray{
      * get upload info
      * @var IGK\getUploadAJXInfo
      */
-
     public function getUploadAJXInfo(){
         $finfo = null;
 		if (igk_is_ajx_demand()){
@@ -439,11 +401,9 @@ final class Server implements IToArray{
     /**
      * retrieve the configuration path
      */
-
     public function getConfigurationPath():string{
         return SystemUriActionController::GetConfigurationPath();
     }
-
     /**
     * Returns Configuration Setting Path.
     * @return string

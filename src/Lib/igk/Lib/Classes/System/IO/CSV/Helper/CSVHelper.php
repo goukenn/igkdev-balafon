@@ -3,20 +3,17 @@
 // @file: CSVHelper.php
 // @date: 20231017 23:19:24
 namespace IGK\System\IO\CSV\Helper;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\CSV\Helper
 */
 class CSVHelper
 {
-
     /**
     * Constant: csv read serial.
     * @var mixed
     */
     const CSV_READ_SERIAL = 1;
-
     /**
     * Returns true if Delimeter Escaped.
     * @param string $src
@@ -28,7 +25,6 @@ class CSVHelper
         }
         return false;
     }
-
     /**
     * Checks Delimiter.
     * @param string $src
@@ -48,7 +44,6 @@ class CSVHelper
      * @param callable|null $callback 
      * @return array 
      */
-
     public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         $v_is_read_serialize = $flags && (($flags & self::CSV_READ_SERIAL) == self::CSV_READ_SERIAL);

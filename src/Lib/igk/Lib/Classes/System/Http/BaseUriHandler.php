@@ -8,26 +8,22 @@ use IGKApplicationBase;
  * 
  * @package IGK\System\Http
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 abstract class BaseUriHandler
 {
-
     /**
     * Property: routes.
     * @var mixed
     */
     protected $m_routes;
-
     /**
     * Property: application.
     * @var mixed
     */
     protected $m_application;
-
     /**
     * .ctr
     */
@@ -35,7 +31,6 @@ abstract class BaseUriHandler
     {
         $this->m_routes = $this->initRoutes();
     }
-
     /**
     * Initializes Routes.
     */
@@ -43,13 +38,11 @@ abstract class BaseUriHandler
     {
         return [];
     }
-
     /**
     * auto generate doc.
     * @param null|IGKApplicationBase $application
     * @return void
     */
-
     public static function Handle(string $uri, ?IGKApplicationBase $application =null, ?callable $bootload=null )
     {
         $g = new static;

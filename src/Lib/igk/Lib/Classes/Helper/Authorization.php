@@ -28,7 +28,6 @@ use function igk_resources_gets as __;
 * @package IGK\Helper
 */
 class Authorization{
-
     /**
     * auto generate doc.
     * @param mixed $auth_name

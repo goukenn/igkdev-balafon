@@ -3,10 +3,7 @@
 // @file: ConnectAttempts.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store connection attempts
 * @package IGK\Models
@@ -31,43 +28,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $cxnId, string $cxnAttempt, string $cxnAccount, int $cxnGeoX, int $cxnGeoY, string|datetime $cxnCreate_At ="NOW()", string|datetime $cxnUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class ConnectAttempts extends ModelBase{
-
     /**
     * Constant: fd cxn id.
     * @var mixed
     */
     const FD_CXN_ID="cxnId";
-
     /**
     * Constant: fd cxn attempt.
     * @var mixed
     */
     const FD_CXN_ATTEMPT="cxnAttempt";
-
     /**
     * Constant: fd cxn account.
     * @var mixed
     */
     const FD_CXN_ACCOUNT="cxnAccount";
-
     /**
     * Constant: fd cxn geo x.
     * @var mixed
     */
     const FD_CXN_GEO_X="cxnGeoX";
-
     /**
     * Constant: fd cxn geo y.
     * @var mixed
     */
     const FD_CXN_GEO_Y="cxnGeoY";
-
     /**
     * Constant: fd cxn create at.
     * @var mixed
     */
     const FD_CXN_CREATE_AT="cxnCreate_At";
-
     /**
     * Constant: fd cxn update at.
     * @var mixed

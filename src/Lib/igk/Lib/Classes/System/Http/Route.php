@@ -23,13 +23,11 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  */
 class Route
 {
-
     /**
     * Constant: default entry method.
     * @var mixed
     */
     const DEFAULT_ENTRY_METHOD = 'index';
-
     /**
     * Property: controller.
     * @var mixed
@@ -65,7 +63,6 @@ class Route
      * @var string
      */
     protected $path = "";
-
     /**
     * Property: controller.
     * @var mixed
@@ -75,7 +72,6 @@ class Route
      * route verbs supports
      */
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -86,7 +82,6 @@ class Route
         $this->path = $n;
         $this->controller = $v;
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -97,7 +92,6 @@ class Route
      * @param mixed $controller 
      * @return void 
      */
-
     public static function LoadConfig(BaseController $controller)
     {
         if (igk_io_file_exists($cf = $controller::configFile("routes"), true)) {
@@ -116,7 +110,6 @@ class Route
      * @return mixed 
      * @throws IGKException 
      */
-
     public static function Uri_List(BaseController $controller, $classpath)
     {
         self::LoadConfig($controller);
@@ -127,7 +120,6 @@ class Route
      * get match all route 
      * @return Route 
      */
-
     public static function GetMatchAll(): Route
     {
         static $sm_route;
@@ -142,7 +134,6 @@ class Route
      * retrieve all route collection
      * @return array  
      */
-
     public static function GetRoutes()
     {
         return array_filter(array_map(function ($v) {
@@ -160,7 +151,6 @@ class Route
      * @param string|array|callable $handleClass method or action
      * @return RouteActionHandler|RouteHandler 
      */
-
     public static function RegisterAction(string $actionClass, string $path, $handleClass = null)
     {
         /**
@@ -188,14 +178,12 @@ class Route
      * @param string $controller controller in use
      * @return RouteHandler route handler
      */
-
     public static function RegisterRoute(string $path, string $controller)
     {
         $c = new RouteHandler($path, $controller);
         self::$sm_routes[] = $c;
         return $c;
     }
-
     /**
     * Returns Action.
     * @param mixed $actionClass
@@ -204,13 +192,11 @@ class Route
     {
         return igk_getv(self::$sm_actions, $actionClass);
     }
-
     /**
     * auto generate doc.
     * @param mixed $arguments
     * @return RouteActionHandler|RouteHandler
     */
-
     public static function __callStatic($name, $arguments)
     {
         $verbs = explode('|', self::SUPPORT_VERBS);
@@ -231,7 +217,6 @@ class Route
      * @return null|\IGK\System\Http\RouteActionHandler route action handler 
      * @throws IGKException 
      */
-
     public static function GetRouteByName($name, $classPath = null)
     {
         $actions = null;
@@ -258,7 +243,6 @@ class Route
      * get the current user
      * @return mixed 
      */
-
     public static function user(): ?IUserProfile
     {
         return self::$sm_controller ? self::$sm_controller->getUserProfile() : null;

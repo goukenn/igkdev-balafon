@@ -11,13 +11,11 @@ use IGK\System\Database\SchemaMigrationItemBase;
  * @package IGK\System\Database
  */
 class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "from", "on", "columns", 'foreignKeyName'];
-
     /**
     * Up.
     */
@@ -48,12 +46,10 @@ class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function down(){
         igk_dev_wln_e(__FILE__.":".__LINE__ , "down....add constraint key .... not implement");
     }

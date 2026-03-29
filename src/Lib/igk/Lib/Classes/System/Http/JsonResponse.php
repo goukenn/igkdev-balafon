@@ -11,19 +11,16 @@ use IGK\Helper\Utility;
  * @package IGK\System\Http
  */
 class JsonResponse extends RequestResponse{
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * Property: headers.
     * @var mixed
     */
     var $headers = ["Content-Type:application/json"];
-
     /**
     * Property: ignore empty.
     * @var mixed
@@ -34,7 +31,6 @@ class JsonResponse extends RequestResponse{
      * @var ?bool
      */
     var $pretty_print;
-
     /**
     * .ctr
     * @param mixed $data
@@ -60,7 +56,6 @@ class JsonResponse extends RequestResponse{
      * @return void 
      * @throws Exception 
      */
-
     public function render(){
         $n = $this->data;
         $s = "";

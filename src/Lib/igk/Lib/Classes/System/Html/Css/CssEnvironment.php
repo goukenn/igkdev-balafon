@@ -3,19 +3,16 @@
 // @file: CssEnvironment.php
 // @date: 20230314 11:53:48
 namespace IGK\System\Html\Css;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 abstract class CssEnvironment{
-
     /**
     * Constant: key.
     * @var mixed
     */
     const KEY = __CLASS__.":/init";
-
     /**
     * Returns Init Class.
     * @param string $cl
@@ -33,7 +30,6 @@ abstract class CssEnvironment{
         igk_environment()->set(self::KEY, $g);
         return $g[$cl];
     }
-
     /**
     * auto generate doc.
     * @return

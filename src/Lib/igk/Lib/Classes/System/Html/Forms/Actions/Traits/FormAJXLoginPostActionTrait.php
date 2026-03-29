@@ -18,14 +18,12 @@ use ReflectionException;
  * 
  * @package IGK\System\Html\Forms\Actions\Traits
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Actions\Traits
 */
 trait FormAJXLoginPostActionTrait
 {
-
     /**
     * auto generate doc.
     * @param bool $redirect
@@ -48,7 +46,6 @@ trait FormAJXLoginPostActionTrait
             $this->die("login failed.---", 403);
         }
     }
-
     /**
     * auto generate doc.
     * @param IAuthenticatorService $authenticator
@@ -56,7 +53,6 @@ trait FormAJXLoginPostActionTrait
     */
     public function login_post(Request $request, IAuthenticatorService $authenticator)
     {
-
         /**
         * auto generate doc.
         * @var ?object $requestData
@@ -74,7 +70,6 @@ trait FormAJXLoginPostActionTrait
         }
         return $this->die("Unauthenticated", 401);
     }
-
     /**
     * auto generate doc.
     * @param Users $user

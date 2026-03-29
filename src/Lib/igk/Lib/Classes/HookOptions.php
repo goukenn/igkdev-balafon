@@ -9,19 +9,16 @@ namespace IGK;
  * @package IGK
  */
 class HookOptions implements IHookOptions{
-
     /**
     * Property: default.
     * @var mixed
     */
     var $default;
-
     /**
     * Type of type.
     * @var mixed
     */
     var $type;
-
     /**
     * Property: output.
     * @var mixed

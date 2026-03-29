@@ -22,7 +22,6 @@ use IGK\System\IToJSon;
  * @property ?string $cssThemePrefix controller's default theme prefix
  */
 interface IControllerConfigurationData extends IToArray, IToJSon{
-
     /**
     * Returns.
     */

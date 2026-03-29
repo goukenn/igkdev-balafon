@@ -7,25 +7,21 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * Clear cache command.
 * @package IGK\System\Console\Commands
 */
 class ClearCacheCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--clearcache";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "clear cache command";
-
     /**
     * Property: category.
     * @var mixed
@@ -34,7 +30,6 @@ class ClearCacheCommand extends AppExecCommand{
     /**
      * exec the command
      */
-
     public function exec($command)
     { 
         //defined("NO")

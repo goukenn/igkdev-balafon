@@ -32,31 +32,26 @@ use ReflectionException;
  */
 class SyncProjectCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:project";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync project through ftp configuration";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: help.
     * @var mixed
     */
     var $help = "ftp sync project";
-
     /**
     * Property: options.
     * @var mixed
@@ -71,13 +66,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      * @var bool
      */
     var $use_zip;
-
     /**
     * Cache: remove cache.
     * @var mixed
     */
     private $remove_cache = false;
-
     /**
     * Sync single file.
     * @param mixed $command
@@ -115,7 +108,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         ftp_close($h);
         return true;
     }
-
     /**
     * auto generate doc.
     * @param mixed $setting
@@ -133,7 +125,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         $o_dir = $setting[$path_key] . "/" . $project;
         return $o_dir;
     }
-
     /**
     * Exec.
     * @param mixed $command
@@ -144,7 +135,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         }
-
         /**
         * auto generate doc.
         * @var mixed $excludedir
@@ -295,7 +285,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         ftp_close($h);
         error_clear_last();
     }
-
     /**
     * auto generate doc.
     * @param mixed $v_files
@@ -321,7 +310,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             }
         }
     }
-
     /**
     * Removes Cache.
     * @param mixed $ftp
@@ -333,7 +321,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             parent::removeCache($ftp, $app_dir . "/.Caches");
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $ftp
@@ -354,7 +341,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             return $g;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $ftp
@@ -417,7 +403,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      */
     private function _installZipProject($controller, $exclude, $h, $setting)
     {
-
         /**
         * auto generate doc.
         * @var mixed $token
@@ -480,7 +465,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public static function SyncAndInstall(
         $h,
         $project_name,
@@ -533,7 +517,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             Logger::warn($response);
         }
     }
-
     /**
     * Shows Usage.
     */

@@ -11,20 +11,17 @@ use IGK\System\Text\RegexMatcherContainer;
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssMinifier
 {
-
     /**
     * Constant: css props.
     * @var mixed
     */
     const CSS_PROPS = "\\b(?:--|[a-zA-Z]+)[a-zA-Z\-0-9]*\\b";
-
     /**
     * Constant: css provider props.
     * @var mixed
@@ -35,13 +32,11 @@ class CssMinifier
      * @var ?bool
      */
     var $preserveComment;
-
     /**
     * Property: container.
     * @var mixed
     */
     private $m_container;
-
     /**
     * Returns Regex Container.
     */
@@ -58,7 +53,6 @@ class CssMinifier
         //$patterns[] = $container->match('[a-zA-Z][a-zA-Z0-9\-]*', 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
-
         $patterns[] = $container->match('(?<=\\s)\{\\s*', 'curl-provider');
         $patterns[] = $container->match('(?<=\\s)\}\\s*', 'curl-end-provider');
         // priority to skip space
@@ -77,18 +71,14 @@ class CssMinifier
         $g->patterns = $patterns;
         return $container;
     }
-
     /**
     * auto generate doc.
     * @param string $css
     * @return string
     */
-
     public function minify(string $css)
     {   
         //return $css;     
-
-
         $container = $this->getRegexContainer(); 
         // $container->resetTreatment();
         $lpos = 0;

@@ -3,9 +3,7 @@
 // @file: MardownFileHandler.php
 // @date: 20260212 16:40:53
 namespace IGK\System\IO\Markdown;
-
 use IGK\System\IO\FileHandler;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Markdown
@@ -23,5 +21,4 @@ class MarkdownFileHandler extends FileHandler{
         $n->markdown($content);
         return $n->render();
     }
-
 }

@@ -11,13 +11,11 @@ use ReflectionException;
 * @package IGK\System\Html\Forms
 */
 class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
-
     /**
     * Property: skip all.
     * @var mixed
     */
     var $skip_all;
-
     /**
     * Property: allowed tags.
     * @var mixed
@@ -28,7 +26,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @param mixed $value 
      * @return bool 
      */
-
     public function assertValidate($value): bool {
         return is_string($value);
     }
@@ -42,7 +39,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     protected function _validate($value, $default=null, array & $error=[], ?object $options=null) { 
         if ($this->assertValidate($value)){
             $value = $this->treatValue($value);
@@ -57,7 +53,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function treatvalue(string $value){
         $ln = strlen($value);
         $cpos = $pos = 0;
@@ -82,7 +77,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
         $output.= substr($value, $cpos);
         return $output;
     }
-
     /**
     * Returns Attribute Content.
     * @param mixed $value
@@ -117,7 +111,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
         }
         return null;
     }
-
     /**
     * Reads Tag Name.
     * @param string $value

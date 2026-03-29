@@ -5,26 +5,22 @@
 namespace IGK\System\Console\Commands\Sync;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Sync
 * @author C.A.D. BONDJE DOUE
 */
 class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--sync:command';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='execute balafon sync command';
-
     /**
     * Property: options.
     * @var mixed
@@ -33,13 +29,11 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 		'--name:[host-target]'=>'set host target'
 	];
 	/* var $category = ''; */
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[options] -- ...command-args to exectue';
-
     /**
     * Exec.
     * @param mixed $command

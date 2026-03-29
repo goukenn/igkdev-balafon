@@ -3,14 +3,11 @@
 // @file: SystemStateFlagTrait.php
 // @date: 20250801 04:10:37
 namespace IGK\System\Core\Traits;
-
-
 /**
  * 
  * @package IGK\System\Core\Traits
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Core\Traits
@@ -22,7 +19,6 @@ trait SystemStateFlagTrait
      * @var array
      */
     protected $m_flags = [];
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -32,7 +28,6 @@ trait SystemStateFlagTrait
     {
         $this->m_flags[$name] = $value;
     }
-
     /**
     * auto generate doc.
     * @param no-flag
@@ -42,7 +37,6 @@ trait SystemStateFlagTrait
     {
         return igk_getv($this->m_flags, $name);
     }
-
     /**
     * auto generate doc.
     * @param no-flag
@@ -52,7 +46,6 @@ trait SystemStateFlagTrait
     {
         unset($this->m_flags[$name]);
     }
-
     /**
     * Isset flag.
     * @param string $name
@@ -62,7 +55,6 @@ trait SystemStateFlagTrait
     {
         return isset($this->m_flags[$name]);
     }
-
     /**
     * Clears Flags.
     */
@@ -70,7 +62,6 @@ trait SystemStateFlagTrait
     {
         $this->m_flags = [];
     }
-
     /**
     * Loads Flags.
     * @param array $flags
@@ -79,14 +70,12 @@ trait SystemStateFlagTrait
     {
         $this->m_flags = $flags;
     }
-
     /**
      * bind flags 
      * @param mixed $flag 
      * @param null|callable $filter 
      * @return void 
      */
-
     public function updateFlags($flag, ?callable $filter = null)
     {
         $filter = $filter ?? function ($k) {

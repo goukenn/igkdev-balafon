@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
-
 use Exception;
 use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
@@ -49,7 +48,6 @@ class ConfigData
     ///conffile : configuration file
     ///configctrl : hosted controller
     ///entries: default entry
-
     /**
     * auto generate doc.
     */    public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
@@ -59,7 +57,6 @@ class ConfigData
         $this->m_configEntries = $entries;
         $this->m_extra = $extra;
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
@@ -81,7 +78,6 @@ class ConfigData
     // {
     //     return isset($this->m_configEntries[$key]);
     // }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -95,7 +91,6 @@ class ConfigData
         }
         return isset($this->m_configEntries[$n]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
@@ -125,7 +120,6 @@ class ConfigData
     {
         return "IGKConfigurationData [Count: " . count($this->m_configEntries) . "]";
     }
-
     /**
     * auto generate doc.
     * @param mixed $default the default value is null
@@ -169,21 +163,18 @@ class ConfigData
     {
         return $this->m_extra ? array_keys($this->m_extra) : null;
     }
-
     /**
     * auto generate doc.
     */    public function getEntries()
     {
         return $this->m_configEntries;
     }
-
     /**
     * auto generate doc.
     */    public function getEntriesKeys()
     {
         return array_keys($this->m_configEntries);
     }
-
     /**
     * auto generate doc.
     */    public function saveData($force = false)
@@ -197,7 +188,6 @@ class ConfigData
         ($r = igk_io_w2file($file, $out, true)) && FileWriter::Invalidate($file);
         return $r;
     }
-
     /**
     * auto generate doc.
     * @param mixed $entries
@@ -232,7 +222,6 @@ class ConfigData
         if ($name)
             $this->m_configEntries[$name] = $value;
     }
-
     /**
     * auto generate doc.
     */    public function SortByKeys()
@@ -258,7 +247,6 @@ class ConfigData
         }
         return $this->get($key);
     }
-
     /**
     * Menu default page.
     */
@@ -266,7 +254,6 @@ class ConfigData
     {
         return $this->get("menu_default_page", "default");
     }
-
     /**
     * Reload.
     */
@@ -279,7 +266,6 @@ class ConfigData
      * get the primary configuration file
      * @return ?string 
      */
-
     public function getConfigFile()
     {
         return $this->m_confile;
@@ -289,7 +275,6 @@ class ConfigData
      * @return mixed 
      * @throws IGKException 
      */
-
     public function website_title($default="IGKDEV"){
         return $this->get(__FUNCTION__, $default);
     }
@@ -299,7 +284,6 @@ class ConfigData
      * @return mixed 
      * @throws IGKException 
      */
-
     public function assets_cache_output($default=3600){
         return $this->get(__FUNCTION__, $default);
     }

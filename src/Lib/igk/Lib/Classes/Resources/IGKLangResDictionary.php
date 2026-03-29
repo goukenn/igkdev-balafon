@@ -15,53 +15,43 @@ use Traversable;
 */
 final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     use ArrayAccessSelfTrait;
-
     /**
     * Property: f.
     * @var mixed
     */
     private $_f;
-
     /**
     * auto generate doc.
     */
     public function __construct(){}
-
     /**
     * auto generate doc.
     * @param mixed $i
     */
-
     protected function _access_offsetExists($i){
         $i = strtolower($i);
         return isset($this->_f[$i]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
     */
-
     protected function _access_offsetGet($i){
         $i = strtolower($i);
         return igk_getv($this->_f, $i);
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     protected function _access_offsetSet($i, $v){   
         $i = strtolower($i);
         $this->_f[$i]=$v;
     }
-
     /**
     * auto generate doc.
     * @param mixed $i
     */
-
     protected function _access_offsetUnset($i){
         $i = strtolower($i);
         unset($this->_f[$i]);
@@ -69,7 +59,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     /**
     *  get sorted keys
     */
-
     public function _access_sortKeys(){
         if(($this->_f == null) || (igk_count($this->_f) == 0)){
             return false;
@@ -78,7 +67,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         igk_usort($keys, "igk_key_sort");
         return $keys;
     }
-
     /**
     * Loads.
     * @param string $file
@@ -91,7 +79,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         })->bindTo(null);
         $this->_f = array_change_key_case($fc($file, ["l"=> $this->_f]), CASE_LOWER);        
     }
-
     /**
     * Sets.
     * @param mixed $key
@@ -100,7 +87,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     public function set($key, $value){
         $this->_f[$key] = $value;
     }
-
     /**
     * Returns Iterator.
     * @return Traversable
@@ -112,7 +98,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
      * clear dictionary
      * @return void 
      */
-
     public function clear(){
         $this->_f = [];
     }
@@ -120,7 +105,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
      * sort keys array 
      * @return array 
      */
-
     public function sortKeys(): array{
         $tab = array_keys($this->_f);
         ksort($tab);

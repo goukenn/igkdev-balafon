@@ -21,19 +21,16 @@ use IGK\System\Npm\JsonPackage;
  */
 class ProjectInfoCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--project:info';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'view project\'s store information';
-
     /**
     * Property: options.
     * @var mixed
@@ -42,19 +39,16 @@ class ProjectInfoCommand extends AppExecCommand
 		'--base-dir' => 'flag: render only declared directory',
 		'--logo' => 'flag: render only svg logo',
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "project";
-
     /**
     * Constant: cnf file.
     * @var mixed
     */
     const CNF_FILE = Constants::PROJECT_CONF_FILE;
-
     /**
     * Exec.
     * @param mixed $command
@@ -62,7 +56,6 @@ class ProjectInfoCommand extends AppExecCommand
     */
     public function exec($command, ?string $controller = null)
 	{
-	 
 		$ctrl = ($controller ? self::GetController($controller) : null) ?? 
 			igk_die(igk_resources_gets("missing controller"), 1, Constants::ERROR_MISSING_CONTROLLER);
 		$dir = $ctrl->getDeclaredDir();
@@ -91,7 +84,6 @@ class ProjectInfoCommand extends AppExecCommand
 		$inf->base_dir = $dir;
 		$inf->name = $ctrl->getName();
 		$inf->isSysController = BaseController::IsSystemController($ctrl); 
-		
 		$se = [];
 		$cnf = $ctrl->getConfigs();
 		// + | -----------------------------------------------------

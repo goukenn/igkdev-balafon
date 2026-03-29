@@ -10,31 +10,26 @@ use function igk_resources_gets as __;
 * Installer middel ware storage
 */
 class InstallerMiddleWareActions{
-
     /**
     * Collection of list.
     * @var mixed
     */
     private $_list;
-
     /**
     * Path to base dir.
     * @var mixed
     */
     var $BaseDir;
-
     /**
     * Cache: cache dir.
     * @var mixed
     */
     var $CacheDir;
-
     /**
     * Path to lib dir.
     * @var mixed
     */
     var $LibDir;
-
     /**
     * Property: success.
     * @var mixed
@@ -50,7 +45,6 @@ class InstallerMiddleWareActions{
      * @var bool 
      */
     var $fromUpload;
-
     /**
     * auto generate doc.
     */
@@ -61,7 +55,6 @@ class InstallerMiddleWareActions{
      * abort list
      * @return void 
      */
-
     public function abort(){
         // if (count($this->_list)>0){
         //     $this->_list[0]->abort();
@@ -73,12 +66,10 @@ class InstallerMiddleWareActions{
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $middle
     */
-
     public function add(IMiddleWareAction $middle){
         if(!is_object($middle)){
             return;}
@@ -93,16 +84,13 @@ class InstallerMiddleWareActions{
      * is event stream request
     * @return bool
     */
-
     public function isEventStream():bool{
         return igk_server()->eventStreamRequest();
     }
-
     /**
     * auto generate doc.
     * @return mixed
     */
-
     public function process(){
         if(count($this->_list)<=0)
             return false;
@@ -111,12 +99,10 @@ class InstallerMiddleWareActions{
         }
         return $this->Success;
     }
-
     /**
     * auto generate doc.
     * @param mixed $msg
     */
-
     public function write($msg){
         if($this->isEventStream()){
             igk_flush_write($msg);

@@ -14,7 +14,6 @@ use IGKCSVDataAdapter;
 use IGKException;
 use ReflectionException;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
-
 /**
 * auto generate doc.
 * @package IGK\Helper

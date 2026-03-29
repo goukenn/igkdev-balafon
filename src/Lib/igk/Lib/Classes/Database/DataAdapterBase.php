@@ -18,43 +18,36 @@ use function igk_getv as getv;
 abstract class DataAdapterBase extends IGKObject implements IDataDriver
 {
     // + | register user
-
     /**
     * Property: reg adapter.
     * @var mixed
     */
     private static $sm_regAdapter;
-
     /**
     * Name of name.
     * @var mixed
     */
     protected $m_name;
-
     /**
     * Property: relations.
     * @var mixed
     */
     protected $m_relations;
-
     /**
     * Property: filter column.
     * @var mixed
     */
     protected $m_filter_column = true;
-
     /**
     * Property: lengthdata.
     * @var mixed
     */
     protected static $LENGTHDATA = ["int", "varchar", "char", "decimal"];
-
     /**
     * auto generate doc.
     * @param string $tablename
     * @return mixed
     */
-
     public function select_all(string $tablename) {}
     /**
      * get tor set the resolve link listener 
@@ -64,14 +57,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
      * inject a send db query listener 
      * */
-
     public abstract function setSendDbQueryListener(?IDbSendQueryListener $listener);
     /**
      * get the send db query listener
      * @return null|IDbSendQueryListener 
      */
     public abstract function getSendDbQueryListener(): ?IDbSendQueryListener;
-
     /**
     * Returns Has Error.
     */
@@ -79,7 +70,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return false;
     }
-
     /**
     * Returns Error Code.
     */
@@ -87,7 +77,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return 0;
     }
-
     /**
     * Returns Error.
     */
@@ -100,12 +89,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string $context context that ask to process 
      * @return bool
      */
-
     public function canProcess(string $context)
     {
         return true;
     }
-
     /**
     * Returns Engine Support.
     * @return bool
@@ -118,22 +105,18 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * get the filter column flags
      * @return bool 
      */
-
     public function getFilter(): bool
     {
         return $this->m_filter_column;
     }
-
     /**
     * auto generate doc.
     * @param bool $filter
     * @return void
     */
-
     public function setFilter(bool $filter){
         $this->m_filter_column = $filter;
     }
-
     /**
     * Returns Is Length Data.
     * @param string $type
@@ -148,7 +131,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param null|array $options 
      * @return string 
      */
-
     public function createAlterTableFormat(?array $options = null): string
     {
         return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
@@ -159,7 +141,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param IGK\Database\adName #Parameter#830480dd 
      * @return void 
      */
-
     public static function IsRegister(?string $adName = null)
     {
         return $adName && isset(self::$sm_regAdapter[$adName]);
@@ -169,9 +150,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string $tablename 
      * @return mixed 
      */
-
     abstract function getDataTableDefinition(string $tablename);
-
     /**
     * Returns Adapter.
     * @param mixed $controllerOrAdpaterName
@@ -193,13 +172,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return self::CreateDataAdapter($n, $throwException);
     }
-
     /**
     * auto generate doc.
     * @param mixed $columninfo
     * @return false|void
     */
-
     public function pushRelations(string $table, $columninfo)
     {
         if (!$this->m_relations)
@@ -221,7 +198,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $tableInfo 
      * @return false|void 
      */
-
     public function pushEntries(string $table, $entries, $tableInfo)
     {
         if (!$this->m_relations)
@@ -237,7 +213,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $ctrl 
      * @return void 
      */
-
     public function beginInitDb($ctrl = null)
     {
         $this->m_relations = (object)["relations" => [], "entries" => [], "ctrl" => $ctrl];
@@ -248,7 +223,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return void 
      * @throws IGKException 
      */
-
     public function endInitDb(array $tb)
     {
         if (is_null($this->m_relations)) {
@@ -326,7 +300,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         // unset($this->m_relations);
         $this->m_relations = null;
     }
-
     /**
     * Returns Name.
     */
@@ -338,7 +311,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * get last error
      * @return mixed 
      */
-
     public abstract function last_error();
     /**
      * send query to database
@@ -349,14 +321,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return null|bool|IDbQueryResult|mixed result data
      * @throws \Error if query is null
      */
-
     public abstract function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false);
-
     /**
     * auto generate doc.
     * @return null|IDbQueryGrammar grammar object
     */
-
     public function getGrammar()
     {
         return null;
@@ -367,7 +336,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $tinf 
      * @return string|null 
      */
-
     public function GetExpressQuery($express, $tinf, $seperator = '.')
     {
         if ($this->resolveLinkListener) {
@@ -386,34 +354,26 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $tablename
     */
-
     public function ClearTable($tablename) {}
-
     /**
     * auto generate doc.
     */
     abstract public function close();
     abstract function exist_column(string $table, string $column, $db = null): bool;
-
     /**
     * auto generate doc.
     * @param mixed $params
     */
-
     protected function configure($params) {}
-
     /**
     * auto generate doc.
     * @param mixed $ctrl the default value is null
     */
-
     abstract public function connect($ctrl = null);
-
     /**
     * auto generate doc.
     * @param string $ctrl adapter to create 
@@ -470,13 +430,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $list
     * @return void
     */
-
     public static function Register($list)
     {
         $adapts = &igk_environment()->createArray("db_adapters");
@@ -486,7 +444,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             }
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -500,7 +457,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string $options driver table options
      * @param bool
      */
-
     public function createTable(string $tablename, $columninfoArray, $entries = null, ?string $desc = null, $options = null)
     {
         return false;
@@ -510,7 +466,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string|array<string> $tablename 
      * @return bool
      */
-
     public function dropTable($tablename)
     {
         return false;
@@ -523,47 +478,38 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $columnkey 
      * @return null|DbLinkExpression 
      */
-
     public function createLinkExpression($table, $column, $value, $columnkey)
     {
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $entries
     */
-
     public function delete($tablename, $condition = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
-
     /**
     * auto generate doc.
     * @return false
     */
-
     public function beginTransaction()
     {
         return false;
     }
-
     /**
     * auto generate doc.
     * @return false
     */
-
     public function commit()
     {
         return false;
     }
-
     /**
     * auto generate doc.
     * @return false
     */
-
     public function rollback()
     {
         return false;
@@ -573,7 +519,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param bool $result 
      * @return void 
      */
-
     public function endTransaction(bool $result)
     {
         if ($result) {
@@ -588,12 +533,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param null|IGK\Database\ModelBase $model 
      * @return null|IDbFetchResult|DbFetchResult 
      */
-
     public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
     {
         return null;
     }
-
     /**
     * Last id.
     */
@@ -601,17 +544,14 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return -1;
     }
-
     /**
     * auto generate doc.
     * @param mixed $tablename
     */
-
     public function deleteAll($tablename, $condition = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
-
     /**
     * auto generate doc.
     */
@@ -619,12 +559,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         $this->deleteAll($tablename, $condition);
     }
-
     /**
     * auto generate doc.
     */
     public function flushForInitDb($complete = null) {}
-
     /**
     * auto generate doc.
     */
@@ -636,7 +574,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return self::$sm_regAdapter;
     }
-
     /**
     * auto generate doc.
     */
@@ -647,12 +584,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
      * get the db identifier
      */
-
     public function getDbIdentifier()
     {
         return "db";
     }
-
     /**
     * auto generate doc.
     */
@@ -660,7 +595,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return true;
     }
-
     /**
     * auto generate doc.
     */
@@ -674,7 +608,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return false 
      * @throws IGKException 
      */
-
     public function insert($table, $entries, $tableinfo = null, bool $throwException = true)
     {
         if ($throwException) {
@@ -685,7 +618,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
      * start 
      */
-
     public static function Load()
     {
         if (defined("IGK_INIT"))
@@ -764,11 +696,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             igk_io_w2file($fc, $m);
         }
     }
-
     /**
     * auto generate doc.
     */
-
     public function makeCurrent()
     {
         DbQueryDriver::$Config["db"] = $this->getDbIdentifier();
@@ -776,12 +706,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
      *  override to manage the open connection counter
      */
-
     public function openCount()
     {
         return 0;
     }
-
     /**
     * auto generate doc.
     */
@@ -791,13 +719,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         self::$sm_regAdapter = array();
         self::LoadAdapter();
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return null|\IGK\Database\DbQueryResult
     */
-
     public function select($tablename, $condition = null, $options = null)
     {
         return null;
@@ -807,7 +733,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string $tbname
      * @return ?IDbQueryResult $tbname table
      */
-
     public function selectAll(string $tbname)
     {
         return null;
@@ -819,7 +744,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $options 
      * @return int|\IGK\Database\DbQueryResult
      */
-
     public function selectCount(string $tbname, ?array $where = null, ?array $options = null)
     {
         return 0;
@@ -828,29 +752,23 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * return select query
      * @return string|null
      */
-
     public function get_query(string $tbname, ?array $where = null, ?array $options = null)
     {
         throw new IGKException('not implement');
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
     */
-
     public function selectAndWhere($tablename, $conditions = null, $options = null)
     {
         igk_die("function " . __FUNCTION__ . " not implements");
     }
-
     /**
     * auto generate doc.
     * @param mixed $dbname
     */
-
     public function selectdb(?string $dbname = null) {}
-
     /**
     * auto generate doc.
     */
@@ -858,12 +776,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $entrie
     */
-
     public function update($tablename, $entries, $condition = null, $tableinfo = null)
     {
         return false;
@@ -872,6 +788,5 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * list supported tables
      * @return mixed 
      */
-
     abstract function listTables();
 }

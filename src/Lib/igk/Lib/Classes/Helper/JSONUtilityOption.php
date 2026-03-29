@@ -9,19 +9,16 @@ namespace IGK\Helper;
  * @package IGK\Helper
  */
 class JSONUtilityOption{
-
     /**
     * Property: ignore empty.
     * @var mixed
     */
     var $ignore_empty;
-
     /**
     * Property: default ouput.
     * @var mixed
     */
     var $default_ouput;
-
     /**
     * .ctr
     * @param mixed $ignore_empty

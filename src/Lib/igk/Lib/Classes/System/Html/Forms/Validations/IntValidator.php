@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
-
 /**
 * Int validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -22,7 +20,6 @@ class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
         }
         return false;
      }
-
     /**
     * Validate.
     * @param mixed $value

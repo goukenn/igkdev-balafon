@@ -3,14 +3,12 @@
 // @file: JSonBindToConverterBase.php
 // @date: 20250128 13:20:16
 namespace IGK\System\IO\JSon;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\JSon
 * @author C.A.D. BONDJE DOUE
 */
 abstract class JSonBindToConverterBase{
-
     /**
     * Called when an object is used as a function.
     * @param mixed $value
@@ -25,6 +23,5 @@ abstract class JSonBindToConverterBase{
      * @param mixed $value 
      * @return mixed 
      */
-
     abstract function convert($value, $options=null);
 }

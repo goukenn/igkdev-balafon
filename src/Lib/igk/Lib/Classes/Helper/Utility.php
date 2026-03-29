@@ -7,13 +7,11 @@ namespace IGK\Helper;
 use Exception; 
 use IGK\System\Http\RequestUtility;
 use stdClass;
-
 /**
 * Utility.
 * @package IGK\Helper
 */
 abstract class Utility {
-
     /**
     * Post cref.
     * @param callable $callback
@@ -26,7 +24,6 @@ abstract class Utility {
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param bool $update
@@ -63,7 +60,6 @@ abstract class Utility {
     public static function To_JSON($raw , $options=null, $json_option = JSON_UNESCAPED_SLASHES){
         return JSon::Encode($raw, $options, $json_option);       
     }
-
     /**
     * auto generate doc.
     * @param string $clasname

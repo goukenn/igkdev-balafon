@@ -11,7 +11,6 @@ use IGK\System\Number;
 *  used for referencing global value data
 */
 final class ReferenceModelController extends NonVisibleControllerBase{
-
     /**
     * auto generate doc.
     * @param mixed $ref the default value is 6
@@ -19,25 +18,21 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     public function get_ref($ctrl, $model=null, $base=36, $ref=6){
         return \IGK\Models\ReferenceModels::get_ref($ctrl, $model, $base, $ref); 
     }
-
     /**
     * auto generate doc.
     */    public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
-
     /**
     * auto generate doc.
     */    public function getDataTableName(): ?string{
         return \IGK\Models\ReferenceModels::table(); 
     }
-
     /**
     * auto generate doc.
     */    public function getName(): string{
         return IGK_CB_REF_CTRL;
     }
-
     /**
     * auto generate doc.
     * @param mixed $prefix the default value is null

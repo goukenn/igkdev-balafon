@@ -9,20 +9,17 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * 
 * @package IGK\System\Html\Dom\Traits
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom\Traits
 */
 trait HtmlNodeContainerTrait{
     use ArrayAccessSelfTrait;
-
     /**
     * Property: host.
     * @var mixed
     */
     var $host;
-
     /**
     * Returns Can Render Tag.
     */
@@ -30,7 +27,6 @@ trait HtmlNodeContainerTrait{
     {
         return false;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
@@ -39,7 +35,6 @@ trait HtmlNodeContainerTrait{
     {
         return [$this->host];
     }
-
     /**
     * Sets Attribute.
     * @param mixed $n
@@ -49,18 +44,15 @@ trait HtmlNodeContainerTrait{
         $this->host->setAttribute($n, $value);
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     * @return $this
     */
-
     public function setContent($n){
         $this->host->setContent(...func_get_args());
         return $this;
     }
-
     /**
     * Sets Class.
     * @param mixed $v
@@ -69,7 +61,6 @@ trait HtmlNodeContainerTrait{
         $this->host->setClass($v);
         return $this;
     }
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -78,7 +69,6 @@ trait HtmlNodeContainerTrait{
     function _access_OffsetSet($n, $v){
         $this->host->_access_OffsetSet($n, $v);
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -87,7 +77,6 @@ trait HtmlNodeContainerTrait{
         $g =   $this->host->_access_OffsetGet($n);
         return $g;
     }
-
     /**
     * Access offset unset.
     * @param mixed $n
@@ -95,7 +84,6 @@ trait HtmlNodeContainerTrait{
     function _access_OffsetUnset( $n){
         $this->host->_access_OffsetUnset($n);
     }
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -108,7 +96,6 @@ trait HtmlNodeContainerTrait{
     // public function __call($n, $arg){
     //     return $this->host->__call($n, $arg);
     // }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $n
@@ -123,7 +110,6 @@ trait HtmlNodeContainerTrait{
         } 
         return parent::__call($n, $arg); 
     }
-
     /**
     * Returns Flag.
     * @param mixed $k
@@ -132,7 +118,6 @@ trait HtmlNodeContainerTrait{
     public function getFlag($k, $default = null){
         return $this->host->getFlag($k, $default);
     }
-
     /**
     * Sets Flag.
     * @param mixed $k
@@ -142,7 +127,6 @@ trait HtmlNodeContainerTrait{
         $this->host->setFlag($k, $value);
         return $this;
     }
-
     /**
     * Add.
     * @param mixed $n

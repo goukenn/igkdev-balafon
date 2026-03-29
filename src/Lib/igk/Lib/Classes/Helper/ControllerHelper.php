@@ -10,7 +10,6 @@ use IGK\Controllers\BaseController;
  * @package IGK\Helper
  */
 class ControllerHelper{
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

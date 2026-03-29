@@ -4,14 +4,12 @@
 // @date: 20241020 18:28:14
 namespace IGK\Helper;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * auto generate doc.
 * @package IGK\Helper
 * @author C.A.D. BONDJE DOUE
 */
 class JSTreatment{
-
     /**
     * Removes Outside Symbol.
     * @param string $t

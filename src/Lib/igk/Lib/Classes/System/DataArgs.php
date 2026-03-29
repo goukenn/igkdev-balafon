@@ -19,25 +19,21 @@ use Traversable;
 class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
-
     /**
     * Property: p data.
     * @var mixed
     */
     protected $p_data;
-
     /**
     * Json serialize.
     */
     public function _json_serialize(){ 
         return self::Extract($this);
     }
-
     /**
     * auto generate doc.
     * @return Traversable<mixed
     */
-
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->p_data, 0);
@@ -46,11 +42,9 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * retrieve affected data
      * @return mixed 
      */
-
     public function getData(){
         return $this->p_data;
     }
-
     /**
     * Access offset get.
     * @param mixed $index
@@ -59,7 +53,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     {
         return igk_getv($this->p_data, $index);
     }
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -69,18 +62,15 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
             return isset($this->p_data->{$n});
         return isset($this->p_data[$n]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     * @return mixed
     */
-
     public function __get($name)
     {
         return igk_getv($this->p_data, $name);
     }
-
     /**
     * .ctr
     * @param mixed $data
@@ -93,7 +83,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * return the string result
      * @return string|false 
      */
-
     public function __toString()
     {
         if (is_numeric($this->p_data)){
@@ -103,7 +92,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         }
         return json_encode($this->p_data);
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -121,7 +109,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * @return array 
      * @throws Exception 
      */
-
     public function mapToArray(array $mapping_table, ?callable $treat_value = null){
         $c = [];
         foreach($mapping_table as $k=>$v){
@@ -130,7 +117,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         }
         return $c;
     }
-
     /**
     * Extracts.
     * @param mixed $raw

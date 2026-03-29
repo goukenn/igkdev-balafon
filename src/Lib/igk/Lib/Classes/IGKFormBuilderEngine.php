@@ -7,20 +7,16 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\IFormBuilderEngine;
-
 /**
 * Igkform builder engine.
 */
 class IGKFormBuilderEngine implements IFormBuilderEngine{
-
     /**
     * Property: frm.
     * @var mixed
     */
     protected $frm;
-
     /**
     * Property: group.
     * @var mixed
@@ -33,7 +29,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array  $arguments The arguments passed to the method.
      * @return static
      */
-
     public function __call($n, $arguments){
         if((strlen($n) > 3) && (substr($n, 0, 3) == "add")){
             $view=$this->getView();
@@ -47,7 +42,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      *
      * @param mixed $frm The form host object to use as the view.
      */
-
     public function __construct($frm){
         $this->setView($frm);
     }
@@ -57,7 +51,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param string $n The property name.
      * @return mixed
      */
-
     public function __get($n){
         if(strtolower($n) == "frm"){
             return $this->frm;
@@ -70,7 +63,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param string $n The property name.
      * @param mixed  $v The value to assign.
      */
-
     public function __set($n, $v){
         if((strtolower($n) == "frm") && ($v != null)){
             $this->frm=$v;
@@ -84,7 +76,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null $filter  Optional filter configuration for value/key mapping.
      * @param mixed|null $id      Optional identifier used for the selected value lookup.
      */
-
     protected function _initEntries($c, $entries, $filter=null, $id=null){
         $fobj=["selected"=>0, "value"=>IGK_FD_ID, "key"=>"clName"];
         $callback=null;
@@ -137,7 +128,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param string|null $text The button label text.
      * @return static
      */
-
     public function addButton($id, $type='submit', $text=null){
         $this->getView()->addButton($id, $type)->Content=$text ?? __('btn.'.$id);
         return $this;
@@ -150,7 +140,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null $attribs Optional attributes, including 'text' for a label span.
      * @return static
      */
-
     public function addCheckbox($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $i=$this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -169,7 +158,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null  $attribs Optional HTML attributes to set on the input.
      * @return static
      */
-
     public function addControl($id, $type='text', $style=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -188,7 +176,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      *
      * @return static
      */
-
     public function addGroup(){
         $g=$this->frm->div();
         $g["class"]="igk-form-group";
@@ -203,7 +190,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param string|null $text  Optional label text; falls back to translation.
      * @return static
      */
-
     public function addLabel($id, $class=null, $text=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -221,7 +207,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param mixed|null $style Optional style specification.
      * @return static
      */
-
     public function addLabelControl($id, $value=null, $type='text', $style=null){
         extract(igk_html_extract_id($id));
         $__rv=get_defined_vars();
@@ -237,7 +222,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null $filter  Optional filter configuration for value/key mapping.
      * @return static
      */
-
     public function addLabelSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
@@ -251,7 +235,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param mixed|null $value Optional initial value for the textarea.
      * @return static
      */
-
     public function addLabelTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
@@ -265,7 +248,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param string   $tag      The HTML tag for the element (default: 'div').
      * @return static
      */
-
     public function addObData($callback, $tag='div'){
         $this->getView()->addObData($callback, $tag);
         return $this;
@@ -278,7 +260,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null $attribs Optional attributes, including 'text' for a label span.
      * @return static
      */
-
     public function addRadioButton($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -296,7 +277,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param array|null $filter  Optional filter configuration for value/key mapping.
      * @return static
      */
-
     public function addSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $c=$this->getView()->addSelect($id);
@@ -313,7 +293,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param mixed|null $value Optional initial value for the textarea.
      * @return static
      */
-
     public function addTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $a=$this->getView()->addTextarea($id);
@@ -327,7 +306,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      * @param mixed|null $value   Optional initial value.
      * @param array|null $attribs Optional HTML attributes.
      */
-
     public function addTextfield($id, $value=null, $attribs=null){
         $this->addLabelControl($id);
     }
@@ -336,7 +314,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      *
      * @return mixed|null
      */
-
     public function getLastChild(){
         $view=$this->getView();
         if($view && $view->ChildCount > 0){
@@ -350,7 +327,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      *
      * @return mixed|null
      */
-
     public function getView(){
         $c=null;
         if($this->group){
@@ -365,7 +341,6 @@ class IGKFormBuilderEngine implements IFormBuilderEngine{
      *
      * @param mixed $frm The form host object.
      */
-
     public function setView($frm){
         if(!is_object($frm))
             igk_die("engine host required");

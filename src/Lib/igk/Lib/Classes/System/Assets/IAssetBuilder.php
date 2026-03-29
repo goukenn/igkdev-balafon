@@ -8,7 +8,6 @@ namespace IGK\System\Assets;
 * @package IGK\System\Assets
 */
 interface IAssetBuilder{
-
     /**
     * Builds.
     * @param mixed $module

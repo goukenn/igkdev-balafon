@@ -7,7 +7,6 @@ namespace IGK\Database\SchemaBuilder;
 use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
-
 /**
 * Diagram helper.
 * @package IGK\Database\SchemaBuilder

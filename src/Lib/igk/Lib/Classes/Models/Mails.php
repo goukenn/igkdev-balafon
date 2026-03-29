@@ -3,10 +3,7 @@
 // @file: Mails.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store mails
 * @package IGK\Models
@@ -31,43 +28,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $mail_from, int $mail_try, int $mail_status, string $mail_data, string|datetime $mail_updateAt, string|datetime $mail_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Mails extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd mail from.
     * @var mixed
     */
     const FD_MAIL_FROM="mail_from";
-
     /**
     * Constant: fd mail try.
     * @var mixed
     */
     const FD_MAIL_TRY="mail_try";
-
     /**
     * Constant: fd mail status.
     * @var mixed
     */
     const FD_MAIL_STATUS="mail_status";
-
     /**
     * Constant: fd mail data.
     * @var mixed
     */
     const FD_MAIL_DATA="mail_data";
-
     /**
     * Constant: fd mail create at.
     * @var mixed
     */
     const FD_MAIL_CREATE_AT="mail_createAt";
-
     /**
     * Constant: fd mail update at.
     * @var mixed

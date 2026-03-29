@@ -19,19 +19,16 @@ use function igk_resources_gets as __;
 * Represent IGKSQLDataAdapter class
 */
 abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreator, IDbSendQueryListenerSupport{
-
     /**
     * Constant: db information schema.
     * @var mixed
     */
     const DB_INFORMATION_SCHEMA = "information_schema";
-
     /**
     * Listener: listener.
     * @var mixed
     */
     private $m_listener;
-
     /**
     * Sets Send Db Query Listener.
     * @param null|IDbSendQueryListener $listener
@@ -39,24 +36,20 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) {
         $this->m_listener = $listener; 
     }
-
     /**
     * Returns Send Db Query Listener.
     * @return ?IDbSendQueryListener
     */
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
-
     /**
     * auto generate doc.
     * @param mixed $t
     * @deprecated since 11.7.05.19 use SQLGrammar insteed
     * @return mixed
     */
-
     public static function ResolvType($t){        
         return SQLQueryUtils::ResolvType($t);
     }
-
     /**
     * Filters Column.
     * @param mixed $columninfo
@@ -71,7 +64,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
      * @param null|array $options 
      * @return string 
      */
-
     public function getCreateTableFormat(?array $options=null):string{
         return "CREATE TABLE IF NOT EXISTS %s;";
     }
@@ -83,7 +75,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
      * @return null|string 
      * @throws IGKException 
      */
-
     public function getParam($k, $rowInfo=null, $tinfo=null): ?string{
         static $configs;
         if ($configs===null){
@@ -106,7 +97,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
      * @param mixed $columnkey 
      * @return DbLinkExpression 
      */
-
     public function createLinkExpression($table, $column, $value, $columnkey){
         return new DbLinkExpression($table, $column, $value, $columnkey);      
     }
@@ -114,22 +104,18 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
      * get grammar 
      * @return ?SQLGrammar 
      */
-
     public function getGrammar(){
         return $this->create_grammar() ?? die("grammar can't be found");
     }
-
     /**
     * auto generate doc.
     * @return SQLGrammar
     */
-
     protected function create_grammar(){        
         $grammar = new SQLGrammar($this);
         // $grammar->driver = $this;
         return $grammar;
     }
-
     /**
     * Escape.
     * @param null|string $str
@@ -145,7 +131,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
      * @return mixed 
      * @throws Exception 
      */
-
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
         $adapter->selectdb(static::DB_INFORMATION_SCHEMA); 
@@ -153,7 +138,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $adapter->selectdb($r);
         return $h->getRowAtIndex(0);
     }
-
     /**
     * Resolv column info.
     * @param mixed $adapter
@@ -203,12 +187,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         //+ insert and update function ignored
         return $cl; 
     }
-
     /**
     * auto generate doc.
     * @param mixed $condition
     */
-
     public function delete($tbname, $conditions=null){
         $query = $this->getGrammar()->createDeleteQuery($tbname, $conditions);		
         return $this->sendQuery($query); 
@@ -216,7 +198,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     /**
     * delete all from table
     */
-
     public function deleteAll($tbname, $condition=null){
         $query = $this->getGrammar()->createDeleteQuery($tbname, $condition);		
         return $this->sendQuery($query); 
@@ -224,19 +205,15 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     /**
     * setup manager config for next operation
     */
-
     protected function initConfig(){}
-
     /**
     * auto generate doc.
     * @param mixed $tableinfo the default value is null
     */
-
     public function insert($tbname, $values, $tableinfo=null, bool $throwException = true){
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
         return $this->sendQuery($query);  
     }
-
     /**
     * auto generate doc.
     */
@@ -246,38 +223,31 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     * @param mixed $options callback or igk_db_create_opt_obj()
     * @return object query result
     */
-
     public function select($tbname, $where=null, $options=null, $throwex=false, $autoclose=false){
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		
         return $this->sendQuery($query, $throwex, $options, $autoclose);   
     }
-
     /**
     * auto generate doc.
     * @param mixed $tbname
     */
-
     public function selectAll($tbname){
         $query = $this->getGrammar()->createSelectQuery($tbname);
         return $this->sendQuery($query, $tbname);
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
     */
-
     public function selectAndWhere($tbname, $condition=null, $options=null){       
         if ($query = $this->getGrammar()->createSelectQuery($tbname, $condition, $options)){
             return $this->sendQuery($query, $tbname, $options);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $tabinfo the default value is null
     */
-
     public function update($tablename, $entry, $condition=null, $tabinfo=null){
         // $this->dieNotConnect();
         $query = $this->getGrammar()->createUpdateQuery($tablename, $entry, $condition, $tabinfo);
@@ -285,13 +255,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         $s=$this->sendQuery($query, $tablename);
         return $s;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return string|null
     */
-
     public function getFuncValue($type, $value){
         switch($type){
             case "IGK_PASSWD_ENCRYPT":
@@ -299,13 +267,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         } 
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $value
     * @return mixed
     */
-
     public function getObjValue($value, ?string $for=null, $tableInfo = null){
         if ($value instanceof \IGK\Models\ModelBase){
             if ($for && $tableInfo){
@@ -325,7 +291,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         }
         return null;
     }
-
     /**
     * Returns Ob Expression.
     * @param mixed $value

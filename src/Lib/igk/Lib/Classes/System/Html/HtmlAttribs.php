@@ -12,38 +12,32 @@ use IGK\System\Html\Dom\HtmlDomActiveAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\XmlNode;
 use IGK\System\Html\HtmlExpressionAttribute;
-
 /**
 * Igkhtml attribs.
 */
 class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
     use IGK\System\Polyfill\IteratorTrait;
-
     /**
     * Constant: activate.
     * @var mixed
     */
     const ACTIVATE=1;
-
     /**
     * Constant: attribs.
     * @var mixed
     */
     const ATTRIBS=2;
-
     /**
     * Constant: iterator.
     * @var mixed
     */
     const ITERATOR=3;
-
     /**
     * Constant: owner.
     * @var mixed
     */
     const OWNER=4;
-
     /**
     * Property: f.
     * @var mixed
@@ -54,7 +48,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      *
      * @param HtmlItemBase $owner The HTML node that owns these attributes
      */
-
     public function __construct(HtmlItemBase $owner){
         if ($owner === null)
             igk_die("owner must be a HTML Item Base");
@@ -67,7 +60,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      *
      * @return string A descriptive string with count and type info
      */
-
     public function __toString(){
         return "IGKHtmlAttribs [".$this->getcount()."] : ".$this->tobj;
     }
@@ -77,7 +69,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      * @param mixed $key The attribute name to look up
      * @return bool True if the attribute exists, false otherwise
      */
-
     protected function _access_offsetExists($key): bool{
         if(is_object($key))
             igk_die("offsetExists ::keys is object ");
@@ -90,7 +81,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      * @param mixed $key The attribute name to retrieve
      * @return mixed The attribute value or null
      */
-
     protected function _access_offsetGet($key){
         $g=$this->getAttributes();
         if($g && isset($g[$key]))
@@ -103,7 +93,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      * @param mixed $key   The attribute name to set
      * @param mixed $value The value to assign
      */
-
     function _access_offsetSet($key, $value){
         $o=$this->getOwner();
         switch(strtolower($key)){
@@ -157,7 +146,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
      *
      * @param mixed $key The attribute name to remove
      */
-
     function _access_offsetUnset($key): void{
         $g=$this->getAttributes();
         if($g){
@@ -165,7 +153,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $this->_f->freeFlag(self::ATTRIBS);
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -175,7 +162,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         $this->_f->setFlag(self::ACTIVATE, $g);
         return $g;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -185,32 +171,26 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         $this->_f->setFlag(self::ATTRIBS, $g);
         return $g;
     }
-
     /**
     * Iterator current.
     */
-
     protected function _iterator_current(){
         $o=$this->_f->getFlag(self::ITERATOR);
         $a=$this->getActivateAttribs();
         $v_out=isset($a[$o->it_key]) ? HtmlDomActiveAttribute::getInstance(): $o->it_vtab[$o->it_key];
         return $v_out;
     }
-
     /**
     * Iterator key.
     */
-
     protected function _iterator_key(){
         $o=$this->_f->getFlag(self::ITERATOR);
         return $o->it_key;
     }
-
     /**
     * Activate.
     * @param mixed $n
     */
-
     public function activate($n){
         if(empty($n))
             return;
@@ -221,20 +201,16 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         }
         $this->_f->updateFlag(self::ACTIVATE, $g);
     }
-
     /**
     * Clears.
     */
-
     public function Clear(){
         $this->_f->Clear();
     }
-
     /**
     * Deactivate.
     * @param mixed $n
     */
-
     public function deactivate($n){
         $g=$this->_f->getFlag(self::ACTIVATE);
         if($g){
@@ -242,11 +218,9 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $this->_f->updateFlag(self::ACTIVATE, $g);
         }
     }
-
     /**
     * Dispose.
     */
-
     public function Dispose(){
         foreach($this->getAttributes() as $v){
             if(is_object($v) && method_exists(get_class($v), __FUNCTION__)){
@@ -254,58 +228,46 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             }
         }
     }
-
     /**
     * Returns Activate Attribs.
     */
-
     public function getActivateAttribs(){
         $g=$this->_f->getFlag(self::ACTIVATE);
         if($g)
             return $g;
         return null;
     }
-
     /**
     * Returns Attributes.
     */
-
     public function getAttributes(){
         return $this->_f->getFlag(self::ATTRIBS);
     }
-
     /**
     * Returns Count.
     */
-
     public function getCount(){
         $c=0;
         $g=$this->_f->getFlag(self::ACTIVATE);
         $c=igk_count($this->getAttributes()) + ($g ? igk_count($g): 0);
         return $c;
     }
-
     /**
     * Returns NS.
     */
-
     public function getNS(){
         return $this->_f->getFlag(IGK_DEFINEDNS_FLAG);
     }
-
     /**
     * Returns Owner.
     */
-
     public function getOwner(){
         return $this->_f->getFlag(self::OWNER);
     }
-
     /**
     * Next.
     * @return void
     */
-
     function next(): void{
         $o=$this->_f->getFlag(self::ITERATOR);
         $o->it_index++;
@@ -314,14 +276,12 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         }
     }
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
-
     /**
     * Offset set expression.
     * @param mixed $key
     * @param mixed $value
     * @return void
     */
-
     function offsetSetExpression($key, $value): void{
         if(preg_match("/^@igk:expression/", $key)){
             if((($g=$this->getAttributes()) !== null) || (($g=$this->_initattribs()) !== null)){
@@ -335,12 +295,10 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         }
         $this->Set($key, $value);
     }
-
     /**
     * Rewind.
     * @return void
     */
-
     function rewind(): void{
         $attr=$this->getAttributes() ?? array();
         $g=$this->_f->getFlag(self::ACTIVATE) ?? array();
@@ -358,13 +316,11 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $o->it_key=null;
         $this->_f->setFlag(self::ITERATOR, $o);
     }
-
     /**
     * Sets.
     * @param mixed $key
     * @param mixed $value
     */
-
     function Set($key, $value){
         if(@preg_match("/^xmlns(:(?P<prefix>(.)+)){0,1}$/", trim($key), $tab)){
             $ns=$this->_f->getFlag(IGK_DEFINEDNS_FLAG) ?? array();
@@ -399,19 +355,15 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $g[$key]=$value;
         $this->_f->updateFlag(self::ATTRIBS, $g);
     }
-
     /**
     * To array.
     */
-
     public function to_array(){
         return $this->getAttributes();
     }
-
     /**
     * To arrayi.
     */
-
     public function to_arrayi(){
         $d=[];
         foreach($this->getAttributes() as $k=>$v){
@@ -420,12 +372,10 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         }
         return $d;
     }
-
     /**
     * Valid.
     * @return bool
     */
-
     function valid(): bool{
         $o=$this->_f->getFlag(self::ITERATOR);
         $v=(($o->it_index>=0) && ($o->it_index < $o->it_total));

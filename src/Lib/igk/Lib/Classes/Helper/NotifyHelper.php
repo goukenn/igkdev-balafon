@@ -9,13 +9,11 @@ use Exception;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
 * Notify helper.
 * @package IGK\Helper
 */
 class NotifyHelper{
-
     /**
     * auto generate doc.
     * @param string $error error message

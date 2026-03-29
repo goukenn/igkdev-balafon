@@ -3,13 +3,11 @@
 // @file: IDbRetrieveColumnInfoDriver.php
 // @date: 20231221 06:58:20
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 interface IDbRetrieveColumnInfoDriver{
-
     /**
     * Returns Column Info.
     * @param string $table

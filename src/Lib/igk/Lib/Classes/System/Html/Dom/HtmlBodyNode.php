@@ -8,31 +8,26 @@ require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
-
 /**
 * Html body node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "body";
-
     /**
     * Property: bodybox.
     * @var mixed
     */
     private $m_bodybox;
-
     /**
     * Property: body main script.
     * @var mixed
     */
     private $m_bodyMainScript;
-
     /**
     * Property: inline theme.
     * @var mixed
@@ -43,7 +38,6 @@ class HtmlBodyNode extends HtmlNode{
      * @var mixed
      */
     private $m_appendContent;
-
     /**
     * .ctr
     */
@@ -55,12 +49,10 @@ class HtmlBodyNode extends HtmlNode{
     // // // // public function addScriptNode($id, $n){
     //     return $this->m_bodyMainScript->addScriptNode($id, $n);
     // }
-
     /**
     * Removes Script.
     * @param mixed $scriptFile
     */
-
     public function removeScript($scriptFile){
         return $this->m_bodyMainScript->removeScript($scriptFile);
     }
@@ -70,15 +62,12 @@ class HtmlBodyNode extends HtmlNode{
      * @param mixed $scriptFile 
      * @return mixed 
      */
-
     public function appendScript($id, $scriptFile){ 
         return $this->m_bodyMainScript->addScript($id, $scriptFile);
     }
-
     /**
     * Returns Append Content.
     */
-
     public function getAppendContent(){
         if($this->m_appendContent === null){
             $this->m_appendContent = new HtmlNoTagNode();
@@ -86,7 +75,6 @@ class HtmlBodyNode extends HtmlNode{
         return $this->m_appendContent;
     }
     ///load addition script content when page request loaded.
-
     /**
     * auto generate doc.
     */
@@ -97,27 +85,22 @@ class HtmlBodyNode extends HtmlNode{
      * retrieve the body box 
      * @return mixed 
      */
-
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
             $this->m_bodybox = new HtmlBodyBoxNode($this);
         }
         return $this->m_bodybox;
     }
-
     /**
     * Adds Body Box.
     */
-
     public function addBodyBox(){
         return $this->getBodyBox();
     }
-
     /**
     * Get rendering children.
     * @param null|mixed $options
     */
-
     protected function _getRenderingChildren($options = null)
     { 
         $doc = igk_getv($options, RenderOptionProperties::DOCUMENT);

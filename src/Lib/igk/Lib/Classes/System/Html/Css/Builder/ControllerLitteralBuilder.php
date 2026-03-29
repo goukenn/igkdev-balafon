@@ -15,31 +15,26 @@ use IGKValidator;
  */
 class ControllerLitteralBuilder
 {
-
     /**
     * Property: output file.
     * @var mixed
     */
     var $outputFile;
-
     /**
     * Property: controller.
     * @var mixed
     */
     var $controller;
-
     /**
     * Path to output dir.
     * @var mixed
     */
     var $outputDir;
-
     /**
     * Property: resources.
     * @var mixed
     */
     private $m_resources;
-
     /**
     * Resplace res path.
     * @param mixed $path
@@ -54,7 +49,6 @@ class ControllerLitteralBuilder
         $rp->add("#/{$asset}#", "/assets/");
         return $rp->replace($path);
     }
-
     /**
     * Builds.
     */
@@ -95,7 +89,6 @@ class ControllerLitteralBuilder
         $css = preg_replace('/\*#\s*sourceMappingURL\s*=\s*[^\*]+\*\/\//', '', $css);
         igk_io_w2file($this->outputFile, $css);
     }
-
     /**
     * Store css.
     * @param mixed $file
@@ -103,7 +96,6 @@ class ControllerLitteralBuilder
     protected function _store_css($file)
     {
     }
-
     /**
     * Store js.
     * @param mixed $file

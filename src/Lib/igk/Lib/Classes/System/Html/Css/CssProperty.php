@@ -4,38 +4,32 @@
 // @date: 20221202 12:40:26
 namespace IGK\System\Html\Css;
 use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssProperty implements ICssDefinition{
     use RenderDefinitionTrait;
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Property: conditions.
     * @var mixed
     */
     var $conditions;
-
     /**
     * Property: def.
     * @var mixed
     */
     var $def = [];
-
     /**
     * Property: parent.
     * @var mixed
     */
     var $parent;
-
     /**
     * .ctr
     * @param string $name
@@ -48,7 +42,6 @@ class CssProperty implements ICssDefinition{
         $this->conditions = $conditions;
         $this->parent = $parent;
     }
-
     /**
     * Returns Definition.
     * @return ?string

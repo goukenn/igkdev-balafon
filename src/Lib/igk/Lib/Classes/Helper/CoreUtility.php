@@ -5,7 +5,6 @@
 namespace IGK\Helper;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\Helper

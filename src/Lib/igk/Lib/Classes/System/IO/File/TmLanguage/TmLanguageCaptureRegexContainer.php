@@ -6,26 +6,22 @@ namespace IGK\System\IO\File\TmLanguage;
 use IGK\Helper\Activator;
 use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage
 * @author C.A.D. BONDJE DOUE
 */
 class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
-
     /**
     * Property: patterns.
     * @var mixed
     */
     private $m_patterns;
-
     /**
     * Property: container.
     * @var mixed
     */
     private $m_container;
-
     /**
     * .ctr
     * @param mixed $container
@@ -35,7 +31,6 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
         $this->m_container = $container;
         $this->m_patterns = [];
     }
-
     /**
     * Matches.
     * @param string $match
@@ -53,7 +48,6 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
         ]);
         $this->m_patterns[]=  $inf;
      }
-
     /**
     * Begin.
     * @param string $begin
@@ -73,7 +67,6 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
         ]);
         $this->m_patterns[]=  $inf;
      }
-
     /**
     * While.
     * @param string $begin
@@ -97,7 +90,6 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      * retrieve the pattern
      * @return array 
      */
-
     public function getPatterns(){
         return $this->m_patterns;
     }
@@ -106,7 +98,6 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      * @param RegexMatcherPattern $c 
      * @return void 
      */
-
     public function append(RegexMatcherPattern $c){
         if($c->getMatcher() === $this->m_container){
             if (is_null($this->m_patterns))

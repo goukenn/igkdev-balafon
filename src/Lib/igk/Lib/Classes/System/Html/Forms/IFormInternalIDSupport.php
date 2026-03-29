@@ -8,13 +8,11 @@ namespace IGK\System\Html\Forms;
 * @package IGK\System\Html\Forms
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms
 */
 interface IFormInternalIDSupport{
-
     /**
     * auto generate doc.
     * @return ?string

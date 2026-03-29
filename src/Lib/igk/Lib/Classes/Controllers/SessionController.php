@@ -18,13 +18,11 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGK\System\Http\Cookies;
 use IGKEvents;
-
 /**
 * Session controller.
 * @package IGK\Controllers
 */
 final class SessionController extends BaseController{
-
     /**
     * auto generate doc.
     * @return
@@ -32,7 +30,6 @@ final class SessionController extends BaseController{
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
     }
-
     /**
     * Changeviewmode.
     */
@@ -50,7 +47,6 @@ final class SessionController extends BaseController{
         igk_navto_referer();
         igk_exit();
     }
-
     /**
     * Clears All S.
     */
@@ -61,7 +57,6 @@ final class SessionController extends BaseController{
             $l=igk_io_baseuri();
         igk_navto($l);
     }
-
     /**
     * Clears All Session.
     */
@@ -84,7 +79,6 @@ final class SessionController extends BaseController{
             igk_navtobaseuri();
         }
     }
-
     /**
     * Clearcache.
     */
@@ -98,7 +92,6 @@ final class SessionController extends BaseController{
     //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
     //     return $g;
     // }
-
     /**
     * Clears S.
     * @param mixed $navigate
@@ -133,21 +126,18 @@ final class SessionController extends BaseController{
             igk_navto(igk_io_baseuri());
         } 
     }
-
     /**
     * Config property changed.
     */
     public function configPropertyChanged(){
         $this->View();
     }
-
     /**
     * Conf user changed.
     */
     public function ConfUserChanged(){
         $this->View();
     }
-
     /**
     * Forceview.
     */
@@ -156,7 +146,6 @@ final class SessionController extends BaseController{
             igk_hook(IGKEvents::HOOK_FORCE_VIEW, [$this]);
         }
     }
-
     /**
     * Returns Is Visible.
     * @return bool
@@ -166,7 +155,6 @@ final class SessionController extends BaseController{
             return false;
         return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (Server::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
-
     /**
     * Returns Name.
     * @return string
@@ -174,7 +162,6 @@ final class SessionController extends BaseController{
     public function getName(): string{
         return IGK_SESSION_CTRL;
     }
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -217,7 +204,6 @@ final class SessionController extends BaseController{
             // igk_wln_e("init session controller --- ");
         });
     }
-
     /**
     * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
@@ -225,7 +211,6 @@ final class SessionController extends BaseController{
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return  new HtmlSessionBlockNode($this);
     }
-
     /**
     * Invmodule.
     */
@@ -252,7 +237,6 @@ final class SessionController extends BaseController{
         igk_set_env(__METHOD__, null);
         igk_exit();
     }
-
     /**
     * Notifies forceview.
     */
@@ -260,7 +244,6 @@ final class SessionController extends BaseController{
         R::LoadLang();
         $this->View();
     }
-
     /**
     * On handle system event.
     * @param mixed $msg
@@ -273,7 +256,6 @@ final class SessionController extends BaseController{
             break;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $o
@@ -289,14 +271,12 @@ final class SessionController extends BaseController{
             igk_html_add($n, $e->body);
         }
     }
-
     /**
     * Page changed.
     */
     public function PageChanged(){
         $this->View();
     }
-
     /**
     * Runs Cron.
     */
@@ -342,7 +322,6 @@ final class SessionController extends BaseController{
         $doc->Dispose();
         igk_exit();
     }
-
     /**
     * Updates setting.
     */

@@ -13,20 +13,17 @@ use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 use function igk_clamp as clamp;
-
 /**
 * Colorf.
 * @package IGK\System\Drawing
 */
 class Colorf extends IGKObject
 {
-
     /**
     * Properties: a, b, g, r.
     * @var mixed
     */
     private $m_A, $m_B, $m_G, $m_R;
-
     /**
     * auto generate doc.
     * @param mixed $cl
@@ -46,13 +43,11 @@ class Colorf extends IGKObject
             $cl->m_B = $b; 
         }
     }
-
     /**
     * auto generate doc.
     * @param string $v
     * @return void
     */
-
     public static function ConvertStringToRGBA(string $v)
     {
         $v = str_replace("#", IGK_STR_EMPTY, $v);
@@ -89,12 +84,10 @@ class Colorf extends IGKObject
         }
         return [$r, $g, $b, $a];
     }
-
     /**
     * From string.
     * @param mixed $v
     */
-
     public static function FromString($v)
     {
         $t = igk_css_get_color_value($v);
@@ -109,91 +102,73 @@ class Colorf extends IGKObject
         self::__bindStringData($cl, $t);
         return $cl;
     }
-
     /**
     * Returns A.
     */
-
     public function getA()
     {
         return $this->m_A;
     }
-
     /**
     * Returns B.
     */
-
     public function getB()
     {
         return $this->m_B;
     }
-
     /**
     * Returns G.
     */
-
     public function getG()
     {
         return $this->m_G;
     }
-
     /**
     * Returns R.
     */
-
     public function getR()
     {
         return $this->m_R;
     }
-
     /**
     * Loadw.
     * @param mixed $v
     */
-
     public function loadw($v)
     {
         self::__bindStringData($this, $v);
     }
-
     /**
     * Sets A.
     * @param mixed $value
     */
-
     public function setA($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_A = $value;
     }
-
     /**
     * Sets B.
     * @param mixed $value
     */
-
     public function setB($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_B = $value;
     }
-
     /**
     * Sets G.
     * @param mixed $value
     */
-
     public function setG($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_G = $value;
     }
-
     /**
     * Sets R.
     * @param mixed $value
     */
-
     public function setR($value)
     {
         if (($value >= 0) && ($value <= 1.0))
@@ -203,7 +178,6 @@ class Colorf extends IGKObject
      * convert to byte data 
      * @return Color
      */
-
     public function toByte(): Color
     {
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A);
@@ -212,7 +186,6 @@ class Colorf extends IGKObject
      * convert to webcolor 
      * @return string 
      */
-
     public function toWebColor(): string{
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A)->toWebColor();
     }

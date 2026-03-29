@@ -17,7 +17,6 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 final class DatabaseConfigurationController extends ConfigControllerBase{
-
     /**
     * .ctr
     */
@@ -25,7 +24,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     {
         parent::__construct(); 
     }
-
     /**
     * Returns Name.
     * @return string
@@ -33,7 +31,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     public function getName(): string{
         return IGK_DB_CONF_CTRL;
     }
-
     /**
     * Returns Config Page.
     */
@@ -41,7 +38,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     { 
         return 'db';
     }
-
     /**
     * Initializes Db System.
     */
@@ -56,7 +52,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function View():BaseController{ 
         $t = $this->getTargetNode(); 
         $builder = new HtmlNodeBuilder($t);
@@ -86,7 +81,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function update(){
         if (igk_getr('btn_initdb')){
             $this->initDbSystem();

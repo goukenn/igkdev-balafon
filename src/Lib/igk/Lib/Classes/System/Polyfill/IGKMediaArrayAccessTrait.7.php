@@ -4,14 +4,12 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Polyfill;
-
 /**
 * Trait providing igkmedia array access functionality.
 * @package IGK\System\Polyfill
 */
 trait IGKMediaArrayAccessTrait
 {
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -23,7 +21,6 @@ trait IGKMediaArrayAccessTrait
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -35,7 +32,6 @@ trait IGKMediaArrayAccessTrait
         }
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -49,7 +45,6 @@ trait IGKMediaArrayAccessTrait
         }
         $g[$n]=$v;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n

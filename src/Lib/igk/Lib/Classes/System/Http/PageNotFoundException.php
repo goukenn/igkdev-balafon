@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class PageNotFoundException extends RequestException{
-
     /**
     * .ctr
     * @param null|mixed $uri

@@ -8,18 +8,15 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\IHtmlGetValue;
-
 /**
 * Igkjspost frame cmd.
 */
 class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
-
     /**
     * Properties: global, obj, t.
     * @var mixed
     */
     private $m_global, $m_obj, $m_t;
-
     /**
     * .ctr
     * @param mixed $obj
@@ -33,12 +30,10 @@ class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
         $this->m_t=$t;
         $this->m_global=$global;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
     */
-
     public function getValue($options=null){
         $s=$this->m_obj->getValue($options);
         if(preg_match("/^javascript:/", $s)){

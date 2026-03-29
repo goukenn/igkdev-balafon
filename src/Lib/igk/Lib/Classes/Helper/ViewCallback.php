@@ -10,7 +10,6 @@ use IGK\Controllers\ViewLayoutCaller;
  * @package IGK\Helper
  */
 abstract class ViewCallback{
-
     /**
     * Triggered when calling an inaccessible or undefined static method.
     * @param mixed $name

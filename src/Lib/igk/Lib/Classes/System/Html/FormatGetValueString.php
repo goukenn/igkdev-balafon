@@ -9,32 +9,27 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 use IGKObject;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
-
     /**
     * Properties: member, obj.
     * @var mixed
     */
     private $m_member, $m_obj;
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){    }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return "IGKFormatGetValueString::". $this->getValue();
     }
-
     /**
     * Creates.
     * @param mixed $obj
@@ -48,7 +43,6 @@ final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
         $out->m_member=$property;
         return $out;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options

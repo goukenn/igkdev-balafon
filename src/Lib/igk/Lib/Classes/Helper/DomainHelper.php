@@ -7,13 +7,11 @@ namespace IGK\Helper;
 * 
 * @package IGK\Helper
 */
-
 /**
 * auto generate doc.
 * @package IGK\Helper
 */
 class DomainHelper{
-
     /**
     * auto generate doc.
     * @param string $hayhstack

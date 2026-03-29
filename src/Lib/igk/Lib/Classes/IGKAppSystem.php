@@ -12,14 +12,12 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Caches\EnvControllerCacheList;
-
 /**
  * system core 
  * @package 
  */
 class IGKAppSystem
 {
-
     /**
     * Constant: conf file.
     * @var mixed
@@ -29,7 +27,6 @@ class IGKAppSystem
      * check if configuration file is initialize
      * @return bool 
      */
-
     public static function IsConfigured(): bool
     {
         if (!IGKApp::IsInit()) {
@@ -56,7 +53,6 @@ class IGKAppSystem
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function InitEnv(string $dirname, IGKApp $app)
     {
         if (!is_dir($dirname))
@@ -66,7 +62,6 @@ class IGKAppSystem
         if (defined("IGK_INIT") && IGK_INIT) {
             return;
         }
-
         $path = Path::getInstance();
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
@@ -91,10 +86,8 @@ class IGKAppSystem
         closedir($hdir);
         $env->set(IGKEnvironment::INIT_APP, 1);
         if (!$env->NoAppInitFileStruct) {
-
             self::_InitEnvironmentFileStructure($dirname, $app_dir, $project_dir, $path);
             $env->NoAppInitFileStruct = false;
-
             $v_cpath = Path::getInstance();
             $v_tdirs = array_filter([
                 $v_cpath->getModuleDir(),
@@ -131,7 +124,6 @@ class IGKAppSystem
             "domain_name" => !IGKValidator::IsIPAddress($ips) ? $ips : IGK_DOMAIN,
         ]);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -157,7 +149,6 @@ class IGKAppSystem
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function InstallDir(
         string $idx,
         string $app_dir,
@@ -168,7 +159,6 @@ class IGKAppSystem
         ?array $options = null
     ) {
         igk_debug_wln(__FILE__ . ":" . __LINE__, 'installing directory ' . $app_dir);
-
         $access = "deny from all";
         $old = umask(0);
         $is_primary = ($app_dir == $dirname);
@@ -195,11 +185,9 @@ class IGKAppSystem
             IO::CreateDir($d);
             igk_io_save_file_as_utf8($d . "/.htaccess", "allow from all", true);
         }
-
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/ie.css", "@import url(\"base.css\");", true);
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/mod.css", "@import url(\"base.css\");", true);
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/base.css", igk_css_get_default_style(), true);
-
         $theme = IGK_DEFAULT_THEME_FOLDER . "/default.theme";
         $v_f = IO::ReadAllText($theme);
         if (!empty($v_f)) {
@@ -259,7 +247,6 @@ class IGKAppSystem
      * @return void 
      * @throws IGKException 
      */
-
     public static function LoadEnvironment(IGKApp $app)
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {
@@ -297,7 +284,6 @@ class IGKAppSystem
         $tab = EnvControllerCacheList::GetControllersClasses();
         $c->load($tab, $manager, $loader);
     }
-
     /**
     * .ctr
     * @return

@@ -9,26 +9,22 @@ use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */
 class BuildCssCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--project:build-css';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='css. generate project\'s style theme';
-
     /**
     * Property: options.
     * @var mixed
@@ -36,19 +32,16 @@ class BuildCssCommand extends AppExecCommand{
     var $options=[
 		'-f:file'=>'file to parse'
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "project";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [file] [options]';
-
     /**
     * Exec.
     * @param mixed $command

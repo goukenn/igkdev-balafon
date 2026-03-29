@@ -10,7 +10,6 @@ use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
 * Binding pipe expression info.
 * @package IGK\System\Html\Templates

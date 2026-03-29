@@ -3,7 +3,6 @@
 // @file: IDataValidator.php
 // @date: 20230309 22:03:51
 namespace IGK\System\Data;
-
 /**
 * auto generate doc.
 * @package IGK\System\Data

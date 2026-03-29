@@ -8,13 +8,11 @@ namespace IGK\System\Html\Dom;
 * before next sibling, call configuration callback every time AcceptRender is called 
 */
 final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
-
     /**
     * Listener: listener.
     * @var mixed
     */
     private $listener;
-
     /**
     * .ctr
     * @param callable $listener
@@ -23,7 +21,6 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
         parent::__construct();
         $this->listener = $listener;        
     }
-
     /**
     * Returns Can Add Childs.
     */
@@ -31,7 +28,6 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     {
         return false;
     }
-
     /**
     * Returns Can Render Tag.
     */
@@ -39,7 +35,6 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     {
         return false;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

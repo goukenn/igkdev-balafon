@@ -3,10 +3,7 @@
 // @file: Users.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * User's tables
 * @package IGK\Models
@@ -67,109 +64,91 @@ use IGK\Models\ModelBase;
 * @method static mixed resolve($data) macros function
 * */
 class Users extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl login.
     * @var mixed
     */
     const FD_CL_LOGIN="clLogin";
-
     /**
     * Constant: fd cl guid.
     * @var mixed
     */
     const FD_CL_GUID="clGuid";
-
     /**
     * Constant: fd cl pwd.
     * @var mixed
     */
     const FD_CL_PWD="clPwd";
-
     /**
     * Constant: fd cl first name.
     * @var mixed
     */
     const FD_CL_FIRST_NAME="clFirstName";
-
     /**
     * Constant: fd cl last name.
     * @var mixed
     */
     const FD_CL_LAST_NAME="clLastName";
-
     /**
     * Constant: fd cl display.
     * @var mixed
     */
     const FD_CL_DISPLAY="clDisplay";
-
     /**
     * Constant: fd cl locale.
     * @var mixed
     */
     const FD_CL_LOCALE="clLocale";
-
     /**
     * Constant: fd cl picture.
     * @var mixed
     */
     const FD_CL_PICTURE="clPicture";
-
     /**
     * Constant: fd cl level.
     * @var mixed
     */
     const FD_CL_LEVEL="clLevel";
-
     /**
     * Constant: fd cl status.
     * @var mixed
     */
     const FD_CL_STATUS="clStatus";
-
     /**
     * Constant: fd cl date.
     * @var mixed
     */
     const FD_CL_DATE="clDate";
-
     /**
     * Constant: fd cl last login.
     * @var mixed
     */
     const FD_CL_LAST_LOGIN="clLastLogin";
-
     /**
     * Constant: fd cl parent id.
     * @var mixed
     */
     const FD_CL_PARENT_ID="clParent_Id";
-
     /**
     * Constant: fd cl class name.
     * @var mixed
     */
     const FD_CL_CLASS_NAME="clClassName";
-
     /**
     * Constant: fd clcreate at.
     * @var mixed
     */
     const FD_CLCREATE_AT="clcreate_at";
-
     /**
     * Constant: fd clupdate at.
     * @var mixed
     */
     const FD_CLUPDATE_AT="clupdate_at";
-
     /**
     * Constant: fd cl deactivate at.
     * @var mixed

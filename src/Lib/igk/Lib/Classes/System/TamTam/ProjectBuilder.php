@@ -15,7 +15,6 @@ use IGK\Constants;
 * @package IGK\System\TamTam
 */
 class ProjectBuilder{
-
     /**
     * Property: setting.
     * @var mixed
@@ -26,13 +25,11 @@ class ProjectBuilder{
      * @var ?string
      */
     var $configFile;
-
     /**
     * Constant: builder entry class.
     * @var mixed
     */
     const BUILDER_ENTRY_CLASS='System\\Build\\ProjectBuilder';
-
     /**
     * .ctr
     */
@@ -41,7 +38,6 @@ class ProjectBuilder{
         igk_reg_hook(ProjectBuilderEvents::BUILD, [$this, 'build']);
         igk_reg_hook(ProjectBuilderEvents::BEFORE_BUILD, [$this, 'beforeBuild']);
     }
-
     /**
     * Builds.
     * @param mixed $e
@@ -81,7 +77,6 @@ class ProjectBuilder{
             },$v_plugins, array_keys($v_plugins)); 
         }
     }
-
     /**
     * Before build.
     * @param mixed $e
@@ -104,14 +99,12 @@ class ProjectBuilder{
             Logger::danger('missing configuration file: '. $cnf);
         }
     }
-
     /**
     * After build.
     * @param mixed $e
     */
     public function afterBuild($e){
     }
-
     /**
     * Returns Setting Validation Data Class.
     */

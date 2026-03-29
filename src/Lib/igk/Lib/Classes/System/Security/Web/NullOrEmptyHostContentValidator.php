@@ -5,13 +5,11 @@ namespace IGK\System\Security\Web;
  * @package IGK\System\Security\Web
  */
 class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
-
     /**
     * Property: parent.
     * @var mixed
     */
     private $parent;
-
     /**
     * .ctr
     * @param mixed $parent
@@ -20,7 +18,6 @@ class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
     {
         $this->parent = $parent;
     }
-
     /**
     * Map.
     * @param mixed $value

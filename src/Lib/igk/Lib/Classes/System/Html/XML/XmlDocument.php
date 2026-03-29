@@ -9,19 +9,16 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
-
 /**
 * Xml document.
 * @package IGK\System\Html\XML
 */
 class XmlDocument extends XmlNode{
-
     /**
     * Type of doc type.
     * @var mixed
     */
     private $_docType;
-
     /**
     * .ctr
     * @param mixed $tag
@@ -31,12 +28,10 @@ class XmlDocument extends XmlNode{
         parent::__construct($tag);
         $this->_docType=$docType;
     }
-
     /**
     * Renders.
     * @param null|mixed $option
     */
-
     public function render($option=null){
         $sb=igk_xml_header().PHP_EOL;
         if($this->_docType)

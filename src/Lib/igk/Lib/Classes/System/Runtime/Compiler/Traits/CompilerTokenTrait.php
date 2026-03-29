@@ -4,19 +4,16 @@
 // @date: 20221019 16:13:42
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenTrait{
-
     /**
     * Property: read options.
     * @var mixed
     */
     private $m_read_options;
-
     /**
     * Parses Token.
     * @param string $source
@@ -50,7 +47,6 @@ trait CompilerTokenTrait{
         } 
         $this->endHandleToken($options);
     }
-
     /**
     * Check here doc document.
     * @param mixed $options
@@ -67,7 +63,6 @@ trait CompilerTokenTrait{
                 break;
         }
     }
-
     /**
     * Creates Read Options Token.
     */
@@ -78,7 +73,6 @@ trait CompilerTokenTrait{
         // igk_debug_wln_e("no comment", $this->noComment);
         return $g;
     }
-
     /**
     * End handle token.
     * @param mixed $options

@@ -11,78 +11,65 @@ use IGK\ValueListener;
 * Represent HtmlSearchNode class
 */
 final class HtmlSearchNode extends HtmlNode {
-
     /**
     * Property: ajx.
     * @var mixed
     */
     private $m_AJX;
-
     /**
     * Identifier: target id.
     * @var mixed
     */
     private $m_TargetId;
-
     /**
     * Property: ajxfunc.
     * @var mixed
     */
     private $m_ajxfunc;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
-
     /**
     * Property: frm.
     * @var mixed
     */
     private $m_frm;
-
     /**
     * Property: input.
     * @var mixed
     */
     private $m_input;
-
     /**
     * Property: link.
     * @var mixed
     */
     private $m_link;
-
     /**
     * Property: method.
     * @var mixed
     */
     private $m_method;
-
     /**
     * Property: prop.
     * @var mixed
     */
     private $m_prop;
-
     /**
     * Property: search.
     * @var mixed
     */
     private $m_search;
-
     /**
     * Property: uri.
     * @var mixed
     */
     private $m_uri;
-
     /**
     * auto generate doc.
     * @param mixed $target the default value is null
     */
-
     public function __construct($uri=null, $search=null, $prop="q", $ajx=0, $target=null){
         parent::__construct("div");
         $this["class"]="clsearch search_fcl";
@@ -95,35 +82,30 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_TargetId=$target;
         $this->initView();
     }
-
     /**
     * auto generate doc.
     */
     public function getAJX(){
         return $this->m_AJX;
     }
-
     /**
     * auto generate doc.
     */
     public function getMethod(){
         return $this->m_method;
     }
-
     /**
     * auto generate doc.
     */
     public function getTargetId(){
         return $this->m_TargetId;
     }
-
     /**
     * auto generate doc.
     */
     public function getUri(){
         return $this->m_uri;
     }
-
     /**
     * auto generate doc.
     */
@@ -178,52 +160,42 @@ final class HtmlSearchNode extends HtmlNode {
             $frm["igk-ajx-form-target"]=null;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setAJX($v){
         $this->m_AJX=$v;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setMethod($v){
         $this->m_method=$v;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setTargetId($v){
         $this->m_TargetId=$v;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setUri($v){
         $this->m_uri=$v;
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function setValue($v){
         $this->m_search=$v;
         return $this;

@@ -7,32 +7,27 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use ZipArchive;
-
 /**
 * Zip wp plugin command.
 * @package IGK\System\Console\Commands
 */
 class ZipWpPluginCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--zipwp_plugin";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "zip wordpress plugin";
-
     /**
     * Exec.
     * @param mixed $command
     * @param null|mixed $sourcepath
     * @param null|mixed $path
     */
-
     public function exec($command, $sourcepath=null, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

@@ -8,38 +8,32 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\InitBase;
 use IGK\System\EntryClassResolution;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class DbInitDataCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--db:initdata';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='initialize data command'; 
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category='db';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [action_name] [options]';
-
     /**
     * Exec.
     * @param mixed $command

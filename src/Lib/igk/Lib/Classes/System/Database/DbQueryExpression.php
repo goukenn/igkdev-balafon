@@ -3,27 +3,23 @@
 // @file: DbQueryExpression.php
 // @date: 20250618 09:53:28
 namespace IGK\System\Database;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 * @author C.A.D. BONDJE DOUE
 */
 class DbQueryExpression{
-
     /**
     * Property: expression.
     * @var mixed
     */
     private $m_expression;
-
     /**
     * Returns Value.
     */
     public function getValue(){
         return $this->m_expression;
     }
-
     /**
     * Sets Value.
     * @param string $v
@@ -31,7 +27,6 @@ class DbQueryExpression{
     protected function setValue(string $v){
         $this->m_expression = $v;
     }
-
     /**
     * .ctr
     * @return
@@ -43,7 +38,6 @@ class DbQueryExpression{
      * @param string $expression 
      * @return static 
      */
-
     public static function Create(string $expression){
         $x = new static;
         $x->m_expression = $expression;

@@ -24,31 +24,26 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $phone_book_guid, int|\IGK\Models\PhoneBookTypes $type_id, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookPreferredEntries extends ModelBase{
-
     /**
     * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphpd_id";
-
     /**
     * Constant: fd phone book guid.
     * @var mixed
     */
     const FD_PHONE_BOOK_GUID="rcphpd_phone_book_guid";
-
     /**
     * Constant: fd type id.
     * @var mixed
     */
     const FD_TYPE_ID="rcphpd_type_id";
-
     /**
     * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphpd_Create_At";
-
     /**
     * Constant: fd update at.
     * @var mixed
@@ -70,7 +65,6 @@ class PhoneBookPreferredEntries extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphpd_phone_book_guid";
-
     /**
     * Property: unique columns.
     * @var mixed

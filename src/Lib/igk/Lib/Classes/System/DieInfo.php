@@ -3,7 +3,6 @@
 // @file: DieInfo.php
 // @date: 20230118 18:01:10
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
@@ -14,13 +13,11 @@ class DieInfo{
      * @var 
      */
     var $message;
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options;
-
     /**
     * .ctr
     * @param string $message
@@ -31,7 +28,6 @@ class DieInfo{
         $this->message = $message;
         $this->options = $options;
     }
-
     /**
     * get string presentation.
     */

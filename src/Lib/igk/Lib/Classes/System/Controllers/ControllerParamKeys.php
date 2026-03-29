@@ -3,14 +3,12 @@
 // @file: ControllerParamKeys.php
 // @date: 20250626 09:07:37
 namespace IGK\System\Controllers;
-
 /**
 * auto generate doc.
 * @package IGK\System\Controllers
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ControllerParamKeys{
-
     /**
     * Constant: actions instances.
     * @var mixed

@@ -4,19 +4,16 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
 */
 abstract class Helper{
-
     /**
     * Property: init.
     * @var mixed
     */
     static $_init;
-
     /**
     * Polyfill trait.
     * @param mixed $file
@@ -35,7 +32,6 @@ abstract class Helper{
         }
         return false;
     }
-
     /**
     * Init.
     */

@@ -11,26 +11,22 @@ use IGK\System\Services\SignProvider;
 use IGKException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use function igk_resources_gets as __ ;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Actions\Traits
 */
 trait FormLoginActionTrait{
     use ActionFormHandlerTrait;
-
     /**
     * Property: form login action remember me.
     * @var mixed
     */
     var $formLoginActionRememberMe = true;
-
     /**
     * Property: form login action register uri.
     * @var mixed
     */
     var $formLoginActionRegisterUri = "registerLogin";
-
     /**
     * Property: form login action login.
     * @var mixed
@@ -44,7 +40,6 @@ trait FormLoginActionTrait{
      * @throws IGKException 
      * @throws BindingResolutionException 
      */
-
     protected function form_login($form, $options = null)
     { 
         $user = ViewHelper::CurrentCtrl()->getUser();

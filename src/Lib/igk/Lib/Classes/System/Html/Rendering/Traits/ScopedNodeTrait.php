@@ -3,20 +3,17 @@
 // @file: ScopedNodeTrait.php
 // @date: 20241016 13:35:45
 namespace IGK\System\Html\Rendering\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Rendering\Trait
 * @author C.A.D. BONDJE DOUE
 */
 trait ScopedNodeTrait{
-
     /**
     * Property: before render.
     * @var mixed
     */
     private $m_beforeRender;
-
     /**
     * Property: after render.
     * @var mixed
@@ -27,11 +24,9 @@ trait ScopedNodeTrait{
      * @param ?callable $callback 
      * @return void 
      */
-
     public function beforeRender($callback){
         $this->m_beforeRender = $callback;
     }
-
     /**
     * After render.
     * @param mixed $callable
@@ -39,7 +34,6 @@ trait ScopedNodeTrait{
     public function afterRender($callable){
         $this->m_afterRender = $callable;
     }
-
     /**
     * Before render callback.
     * @param mixed $options
@@ -50,7 +44,6 @@ trait ScopedNodeTrait{
             $c($options, $setting);
         }
     }
-
     /**
     * After render callback.
     * @param mixed $options

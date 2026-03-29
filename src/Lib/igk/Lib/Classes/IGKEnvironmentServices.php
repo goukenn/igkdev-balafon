@@ -3,26 +3,22 @@
 // @file: IGKEnvironmentServices.php
 // @date: 20240929 13:45:10
 namespace IGK;
-
 /**
 * auto generate doc.
 * @package IGK
 * @author C.A.D. BONDJE DOUE
 */
 class IGKEnvironmentServices{
-
     /**
     * Property: creator.
     * @var mixed
     */
     private $m_creator;
-
     /**
     * Property: services.
     * @var mixed
     */
     private $m_services;
-
     /**
     * .ctr
     */
@@ -30,7 +26,6 @@ class IGKEnvironmentServices{
     {
         $this->m_services = [];
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -44,7 +39,6 @@ class IGKEnvironmentServices{
      * @param mixed $cl 
      * @return void 
      */
-
     public function register(string $n, $cl){
         if ($cl === null){
             unset($this->m_services[$n]);

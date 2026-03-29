@@ -9,22 +9,18 @@ use \IGKObject;
 * Represent IGKMySQLTimeManager class
 */
 final class IGKMySQLTimeManager extends IGKObject{
-
     /**
     * Property: ad.
     * @var mixed
     */
     var $ad;
-
     /**
     * auto generate doc.
     * @param mixed $ad
     */
-
     public function __construct($ad){
         $this->ad=$ad;
     }
-
     /**
     * auto generate doc.
     */

@@ -11,25 +11,21 @@ use ZipArchive;
  * restore db from dump json
  */
 class LoadDumpCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:load-dump";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "Load database dump file";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * auto generate doc.
     */
@@ -99,7 +95,6 @@ class LoadDumpCommand extends AppExecCommand{
     /**
      * - `help`
      */
-
     public function help(){
         parent::help();
         Logger::print(Logger::TabSpace. " [options] file\n");
@@ -107,7 +102,6 @@ class LoadDumpCommand extends AppExecCommand{
         Logger::print("--wordpress" . Logger::TabSpace." activate wordpress dumping");
         Logger::print("--resettables".Logger::TabSpace ." reset tables"); 
     }
-
     /**
     * auto generate doc.
     * @param mixed $row
@@ -121,7 +115,6 @@ class LoadDumpCommand extends AppExecCommand{
             $row->post_modified_gmt = $row->post_date;
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $row

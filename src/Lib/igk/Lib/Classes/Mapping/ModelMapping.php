@@ -20,13 +20,11 @@ class ModelMapping implements IDataMapper{
      * @var ?array
      */
     var $references;
-
     /**
     * Map of mapkey.
     * @var mixed
     */
     private $m_mapkey;
-
     /**
     * .ctr
     * @param mixed $model_or_model_class
@@ -44,7 +42,6 @@ class ModelMapping implements IDataMapper{
      * @return null|array 
      * @throws IGKException 
      */
-
     public function map($key, $value): ?array{        
         $map_ref= $key;
         if ($tabinfo = $this->model->getTableInfo()){ 
@@ -73,7 +70,6 @@ class ModelMapping implements IDataMapper{
         }
         return [$key, $value]; 
     }
-
     /**
     * Called when an object is used as a function.
     * @param mixed $row

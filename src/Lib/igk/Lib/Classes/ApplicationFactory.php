@@ -9,13 +9,11 @@ namespace IGK;
  * @package IGK
  */
 abstract class ApplicationFactory{
-
     /**
     * Constant: app class.
     * @var mixed
     */
     const APP_CLASS = 'IGK\\System\\Applications';
-
     /**
     * Property: factory.
     * @var mixed
@@ -23,13 +21,11 @@ abstract class ApplicationFactory{
     private static $sm_factory = [
         'framework'=>self::APP_CLASS
     ];
-
     /**
     * auto generate doc.
     * @param mixed $class
     * @return void
     */
-
     public static function Register($name, $class){
         if (class_exists($class, false) && is_subclass_of($class, \IGKApplicationBase::class)){
             self::$sm_factory[$name] = $class;
@@ -40,7 +36,6 @@ abstract class ApplicationFactory{
      * @param string $type 
      * @return null|object|\IGK\Core\IApplication 
      */
-
     public static function Create(string $type){      
         if (isset(self::$sm_factory[$type])){
             $cl = self::$sm_factory[$type];

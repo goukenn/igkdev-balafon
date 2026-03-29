@@ -22,86 +22,72 @@ use function igk_resources_gets as __;
 * IGKResource Class. represent resource / lang / resource management
 */
 final class R extends IGKObject {
-
     /**
     * Constant: default lang.
     * @var mixed
     */
     const DEFAULT_LANG="fr";
-
     /**
     * Property: lang changed date.
     * @var mixed
     */
     private $m_langChangedDate;
-
     /**
     * Property: lang files.
     * @var mixed
     */
     private $m_langFiles;
-
     /**
     * Property: langctrl.
     * @var mixed
     */
     private $m_langctrl;
-
     /**
     * Property: langloaded.
     * @var mixed
     */
     private $m_langloaded;
-
     /**
     * Property: instance.
     * @var mixed
     */
     static $sm_instance;
-
     /**
     * Property: key var.
     * @var mixed
     */
     static $sm_keyVAR;
-
     /**
     * Property: keys added.
     * @var mixed
     */
     var $KeysAdded;
-
     /**
     * Property: lang changed event.
     * @var mixed
     */
     var $LangChangedEvent;
-
     /**
     * Property: page lang changed event.
     * @var mixed
     */
     var $PageLangChangedEvent;
-
     /**
     * Property: static.
     * @var mixed
     */
     private $sm_static;
-
     /**
     * Constant: handler key.
     * @var mixed
     */
     const _HANDLER_KEY = __CLASS__.'@string_resource_handler';
-
     /**
     * Returns String Resource Handler.
     */
     public static function GetStringResourceHandler(){
         return igk_environment()->peek(self::_HANDLER_KEY);
     }
-
     /**
     * Sets String Resource Handler.
     * @param null|callable $v
@@ -117,7 +103,6 @@ final class R extends IGKObject {
      * @var mixed dictionary
      */
     var $langRes;
-
     /**
     * auto generate doc.
     */
@@ -125,7 +110,6 @@ final class R extends IGKObject {
     /**
     * set the langage key
     */
-
     public static function AddLang($key, $value){
         if(!empty($key))
             self::getInstance()->langRes[strtolower(trim($key))]=$value;
@@ -135,7 +119,6 @@ final class R extends IGKObject {
      * @return string  
      * @throws IGKException 
      */
-
     public static function GetLocale(){
         $n = self::GetCurrentLang();
         $c = $n;
@@ -145,7 +128,6 @@ final class R extends IGKObject {
         }
         return sprintf("%s_%s", strtolower($n), strtoupper($c));
     }
-
     /**
     * Localize.
     * @param string $text
@@ -160,13 +142,11 @@ final class R extends IGKObject {
         }
         return __($text, ...$args);
     }
-
     /**
     * auto generate doc.
     * @param string $locale
     * @return bool
     */
-
     public static function SupportLang(string $locale):bool{
         return preg_match(sprintf("/%s/i", self::GetSupportLangRegex()), $locale);
     }
@@ -175,16 +155,13 @@ final class R extends IGKObject {
      * @return string[] 
      * @throws IGKException 
      */
-
     public static function GetSupportedLangs(){
         return array_filter(explode("|", self::GetSupportLangRegex()));
     }
-
     /**
     * auto generate doc.
     * @param fr
     */
-
     public static function ChangeLang($lang="fr"){
         $app=igk_app();
         $v=self::getInstance();
@@ -206,7 +183,6 @@ final class R extends IGKObject {
         igk_set_env($key, null);
         return $r;
     }
-
     /**
     * auto generate doc.
     */
@@ -217,7 +193,6 @@ final class R extends IGKObject {
             self::SaveLang(null);
         }
     }
-
     /**
     * auto generate doc.
     */
@@ -231,14 +206,12 @@ final class R extends IGKObject {
     /**
     *  get the current language file
     */
-
     public static function GetCurrentLangPath($folder=null){
         if($folder == null)
             $folder=IGK_LIB_DIR."/Default/Lang";
         $lg=self::GetCurrentLang();
         return $folder."/".IGK_LANG_FILE_PREFIX.$lg.IGK_LANG_FILE_EXTENSION;
     }
-
     /**
     * auto generate doc.
     */
@@ -252,7 +225,6 @@ final class R extends IGKObject {
     /**
     * get resource image uri
     */
-
     public static function GetImgResUri($name, & $path=null, $check=true): ?string {
         $v=igk_getctrl(IGK_PIC_RES_CTRL);
         if($v){
@@ -260,12 +232,10 @@ final class R extends IGKObject {
         } 
         return null;
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
     */
-
     public static function GetImgUri($name){
         $v=igk_getctrl(IGK_PIC_RES_CTRL);
         if($v){
@@ -273,7 +243,6 @@ final class R extends IGKObject {
         }
         return IGK_STR_EMPTY;
     }
-
     /**
     * auto generate doc.
     */
@@ -285,12 +254,10 @@ final class R extends IGKObject {
         }
         return self::$sm_instance;
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
     */
-
     public static function GetKeyValue($key){
         $v=self::getInstance();
         return igk_getv($v->langRes, $key);
@@ -298,11 +265,9 @@ final class R extends IGKObject {
     /**
     *  get Language key
     */
-
     public static function GetLang($keys){
         return new IGKLangExpression($keys);
     }
-
     /**
     * auto generate doc.
     */
@@ -312,7 +277,6 @@ final class R extends IGKObject {
     /**
     * get string expression
     */
-
     public static function Gets(string $key){
         if(igk_current_context() == IGKAppContext::initializing){ 
             if (igk_environment()->get("app_type") == IGKAppType::balafon){            
@@ -354,13 +318,11 @@ final class R extends IGKObject {
         }
         return $key;
     }
-
     /**
     * auto generate doc.
     * @param string $name
     * @return mixed
     */
-
     public function handleLangPrefix(string $name){
         $nkey = function($n){
             return explode('.', $n,2)[1];
@@ -383,7 +345,6 @@ final class R extends IGKObject {
         }
         return $lang;
     }
-
     /**
     * auto generate doc.
     * @param mixed $key
@@ -396,7 +357,6 @@ final class R extends IGKObject {
      * get support lang regex
     * @var string
     */
-
     public static function GetSupportLangRegex(){
         $cnf = igk_configs();
         $r = $cnf->get("support_lang", $cnf->default_lang);
@@ -405,7 +365,6 @@ final class R extends IGKObject {
         }
         return $r ?? 'en'; 
     }
-
     /**
     * auto generate doc.
     */
@@ -433,12 +392,10 @@ EOF;
     ///<summary></summary>
     ///<param name="ctrl"></param>
     ///<param name="files" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $files the default value is null
     */
-
     public static function LoadCtrlLang($ctrl, $files=null){  
         if (!($ctrl instanceof BaseController)){
             return;
@@ -474,7 +431,6 @@ EOF;
             }
         }
     }
-
     /**
     * Exists.
     * @param string $file
@@ -486,13 +442,11 @@ EOF;
      * reload language definition 
      * @return void 
      */
-
     public static function Reload(){
         self::getInstance()->m_langloaded = false;
         self::LoadLang();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -522,12 +476,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="file"></param>
-
     /**
     * auto generate doc.
     * @param mixed $file
     */
-
     public static function LoadLangFiles($file){
         if(igk_io_file_exists($file)){
             $v=self::getInstance();
@@ -539,12 +491,10 @@ EOF;
     ///<summary></summary>
     ///<param name="file"></param>
     ///<param name="override" default="true"></param>
-
     /**
     * auto generate doc.
     * @param mixed $override the default value is true
     */
-
     public static function LoadLangFileXml($file, $override=true){
         if(!igk_io_file_exists($file))
             return;
@@ -566,7 +516,6 @@ EOF;
     /**
     * get new key string value from controller
     */
-
     public static function ncgets($ctrl, $key){
         if(empty($key) || ($ctrl == null))
             return null;
@@ -576,7 +525,6 @@ EOF;
     /**
     * get new language expression
     */
-
     public static function ngets($key){
         if($key == null)
             return null;
@@ -611,28 +559,23 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="key"></param>
-
     /**
     * auto generate doc.
     * @param mixed $key
     */
-
     protected function OnKeyAdded($key){
         igk_hook("LangKeyAdded", func_get_args());
     }
     ///<summary></summary>
     ///<param name="key"></param>
-
     /**
     * auto generate doc.
     * @param mixed $key
     */
-
     protected function OnLangChangedEvent($key){        
         igk_hook(IGKEvents::HOOK_LANG_CHANGED, []);
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -645,7 +588,6 @@ EOF;
     /**
     * register a language controller
     */
-
     public static function RegLangCtrl($ctrl){
         $_instance=self::getInstance();
         if($_instance->m_langctrl == null)
@@ -661,12 +603,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="name"></param>
-
     /**
     * auto generate doc.
     * @param mixed $name
     */
-
     public static function RemoveKey($name){
         $name=strtolower($name);
         $v=self::getInstance();
@@ -677,7 +617,6 @@ EOF;
         return false;
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -686,7 +625,6 @@ EOF;
         $v->langRes=array();
     }
     ///<summary></summary>
-
     /**
     * auto generate doc.
     */
@@ -725,12 +663,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="filename" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $filename the default value is null
     */
-
     public static function SaveLangXml($filename=null){
         $q=self::getInstance();
         $out=igk_create_node("resources");
@@ -766,12 +702,10 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="ctrl"></param>
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
     */
-
     public static function UnRegLangCtrl($ctrl){
         $_instance=self::getInstance();
         if($_instance->m_langctrl == null)
@@ -784,7 +718,6 @@ EOF;
      * @param string $filename,
      * @param array options
      */
-
     public static function IncludeLang(){
         if (func_num_args()!=2){
             igk_die("expected 2 argument");

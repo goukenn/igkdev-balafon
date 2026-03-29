@@ -5,7 +5,6 @@
 // @desc: 
 namespace IGK\Database\SchemaBuilder\Svg\Html;
 use IGK\System\Html\IHtmlGetValue;
-
 /**
 * auto generate doc.
 * @package igk\db\schemaBuilder
@@ -16,13 +15,11 @@ class BoxDimension implements IHtmlGetValue{
      * @var mixed
      */
     var $value;
-
     /**
     * .ctr
     */
     public function __construct(){        
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options

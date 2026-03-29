@@ -5,24 +5,20 @@
 // @desc: code node
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
-
 /**
 * Html code node.
 * @package IGK\System\Html\Dom
 */
 class HtmlCodeNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "code";
-
     /**
     * Sets Content.
     * @param mixed $v
     */
-
     public function setContent($v){
         if (is_string($v)){
             $v = self::TreatContent($v);
@@ -33,7 +29,6 @@ class HtmlCodeNode extends HtmlNode{
     /**
      * treat inner content presentation
      */
-
     static function TreatContent(string $content){
         // transform outisze string litterl 
         $sb = $content;
@@ -42,12 +37,10 @@ class HtmlCodeNode extends HtmlNode{
         $sb = preg_replace('/</', '&lt;', $sb);
         return $sb;
     }
-
     /**
     * Returns Rendered Childs.
     * @param null|mixed $options
     */
-
     public function getRenderedChilds($options = null)
     {
         $childs = parent::getRenderedChilds($options);

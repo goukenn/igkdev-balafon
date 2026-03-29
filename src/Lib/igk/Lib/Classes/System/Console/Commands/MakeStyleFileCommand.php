@@ -18,32 +18,27 @@ use function igk_resources_gets as __;
 * @package IGK\System\Console\Commands
 */
 class MakeStyleFileCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:style";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "make style file";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'make';
-
     /**
     * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf("%s [controller] name", $this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command

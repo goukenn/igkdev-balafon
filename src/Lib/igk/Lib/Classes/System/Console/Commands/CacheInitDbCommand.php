@@ -7,25 +7,21 @@ use IGK\System\Console\AppExecCommand;
  * @package IGK\System\Console
  */
 class InitDbCacheCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:clearcache';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'clear db cache';
-
     /**
     * Exec.
     * @param mixed $command

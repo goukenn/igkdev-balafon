@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\System\ApplicationSessionStorage;
-
 /**
  * application session info storage. help reduce the coast of session file 
  * @package IGK
@@ -16,13 +15,11 @@ use IGK\System\ApplicationSessionStorage;
  * @property bool $config in config mode
  */
 class IGKAppInfoStorage extends IGKObject{
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * .ctr
     * @param null|object $o
@@ -35,7 +32,6 @@ class IGKAppInfoStorage extends IGKObject{
     * application storage 
     * @return object 
     */
-
     protected function createSessionInfoStorage(){
         $src = new ApplicationSessionStorage;
         $src->components = igk_prepare_components_storage();
@@ -48,14 +44,12 @@ class IGKAppInfoStorage extends IGKObject{
         //     "components" => igk_prepare_components_storage()
         // ];
     }
-
     /**
     * Returns Data.
     */
     public function & getData(){
         return $this->data;
     }
-
     /**
     * Returns Session.
     */
@@ -63,7 +57,6 @@ class IGKAppInfoStorage extends IGKObject{
         $g = & $this->data->session;
         return $g;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -76,7 +69,6 @@ class IGKAppInfoStorage extends IGKObject{
             $this->data->$n = $v;
         }
     }
-
     /**
     * unset innacessible property
     * @param mixed $n
@@ -84,7 +76,6 @@ class IGKAppInfoStorage extends IGKObject{
     public function __unset($n){
         unset($this->data->$n); 
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -97,7 +88,6 @@ class IGKAppInfoStorage extends IGKObject{
         }
         return $g;
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -105,7 +95,6 @@ class IGKAppInfoStorage extends IGKObject{
     {
         return [];
     }
-
     /**
     * Store.
     * @param string $n
@@ -115,7 +104,6 @@ class IGKAppInfoStorage extends IGKObject{
         $this->$n = $v;
         return $this;
     }
-
     /**
     * Returns Ref.
     * @param string $n

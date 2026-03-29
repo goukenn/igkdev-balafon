@@ -10,25 +10,21 @@ use JsonSerializable;
  * @package IGK\System\IO\Configuration
  */
 class ConfigurationObject implements JsonSerializable{
-
     /**
     * Property: key.
     * @var mixed
     */
     var $key;
-
     /**
     * Property: value.
     * @var mixed
     */
     var $value;
-
     /**
     * .ctr
     */
     public function __construct(){        
     }
-
     /**
     * Json serialize.
     * @return mixed
@@ -36,7 +32,6 @@ class ConfigurationObject implements JsonSerializable{
     public function jsonSerialize(): mixed { 
         return json_encode((array)$this);
     }
-
     /**
     * get string presentation.
     */

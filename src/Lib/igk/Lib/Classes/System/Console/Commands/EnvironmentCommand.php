@@ -10,26 +10,22 @@ use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Constants;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
 class EnvironmentCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--env';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='view environment definition';
-
     /**
     * Property: options.
     * @var mixed
@@ -37,13 +33,11 @@ class EnvironmentCommand extends AppExecCommand{
     var $options=[
 		"--no-color"=>"flag: disable use of color"
 	];
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category;
-
     /**
     * Environment.
     */
@@ -57,7 +51,6 @@ class EnvironmentCommand extends AppExecCommand{
 		}
 		return $env;
 	}
-
     /**
     * Exec.
     * @param mixed $command

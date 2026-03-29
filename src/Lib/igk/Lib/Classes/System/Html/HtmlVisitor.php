@@ -21,7 +21,6 @@ class HtmlVisitor
      * @var  @var callable ($n, bool $first_child, bool $last_child, bool $end):void
      */
     var $endVisitorListener;
-
     /**
     * auto generate doc.
     * @var callable ($n
@@ -37,7 +36,6 @@ class HtmlVisitor
      * @var mixed
      */
     protected $skip_end;
-
     /**
     * .ctr
     * @param HtmlItemBase $t
@@ -50,12 +48,10 @@ class HtmlVisitor
      * skip visit.
      * @return $this 
      */
-
     public function skipVisit(){
         $this->skip = true;
         return $this;
     }
-
     /**
     * Before begin visit.
     * @param HtmlItemBase $n
@@ -67,10 +63,8 @@ class HtmlVisitor
      * base visit algorithm
      * @return void 
      */
-
     public function visit()
     {
-
         /**
         * auto generate doc.
         * @var HtmlItemBase $n

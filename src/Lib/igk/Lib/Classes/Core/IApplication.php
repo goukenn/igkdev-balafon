@@ -8,7 +8,6 @@ namespace IGK\Core;
  * an application interface
 */
 interface IApplication {
-
     /**
     * Bootstrap.
     */

@@ -8,13 +8,11 @@ use IGK\System\Console\Commands\BalafonCLICommand;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console
 */
 class BalafonCLIService{
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -27,7 +25,6 @@ class BalafonCLIService{
         // + | get balafon command to call 
         throw new IGKException(sprintf('cli %s command not found', $name));
     }
-
     /**
     * Creates Project Class.
     * @param BaseController $ctrl
@@ -64,7 +61,6 @@ class BalafonCLIService{
         igk_is_debug() && Logger::info('generate: '.$file);
         return igk_io_w2file($file, $builder->render());
     }
-
     /**
     * Called when an object is used as a function.
     */

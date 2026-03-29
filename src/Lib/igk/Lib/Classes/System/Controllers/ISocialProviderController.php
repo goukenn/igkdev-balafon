@@ -8,7 +8,6 @@ namespace IGK\System\Controllers;
 * @package IGK\System\Controllers
 */
 interface ISocialProviderController{
-
     /**
     * Registers Providers.
     */

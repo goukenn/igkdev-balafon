@@ -4,13 +4,11 @@
 // @date: 20230308 03:11:16
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 abstract class ModuleExecCommandBase extends AppExecCommand{
-
     /**
     * Property: module.
     * @var mixed

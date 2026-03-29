@@ -11,7 +11,6 @@ use IGK\System\Traits\NoSetExtraPropertyTrait;
  */
 class ControllerInfo{
     use NoSetExtraPropertyTrait;
-
     /**
     * Count: init count.
     * @var mixed

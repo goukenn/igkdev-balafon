@@ -8,19 +8,16 @@ namespace IGK\System;
 * @package IGK\System
 */
 class HookHandler{
-
     /**
     * Property: callable.
     * @var mixed
     */
     private $callable;
-
     /**
     * Property: args.
     * @var mixed
     */
     private $args;
-
     /**
     * .ctr
     * @param mixed $callable
@@ -31,7 +28,6 @@ class HookHandler{
         $this->callable = $callable;
         $this->args = $args;
     }
-
     /**
     * Invoke.
     * @param mixed $e

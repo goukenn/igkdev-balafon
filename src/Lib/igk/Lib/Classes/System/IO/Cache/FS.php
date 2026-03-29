@@ -13,13 +13,11 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class FS{
-
     /**
     * Cache: caches.
     * @var mixed
     */
     private $m_caches;
-
     /**
     * Cache: auto cache.
     * @var mixed
@@ -29,7 +27,6 @@ class FS{
      * get cache file path
      * @return string 
      */
-
     public static function CacheFile(){
         return igk_io_cachedir()."/.fs-caches.php";
     }
@@ -38,7 +35,6 @@ class FS{
      * @param string $file 
      * @return bool 
      */
-
     public function fileExists(string $file, bool $autocheck=false){
         $l = isset($this->m_caches[$file]);
         // igk_dev_wln($file, $autocheck);
@@ -66,7 +62,6 @@ class FS{
      * @param string $file 
      * @return bool 
      */
-
     public function checkExists(string $file):bool{
         if (!$this->fileExists($file)){
             if (file_exists($file)){
@@ -77,7 +72,6 @@ class FS{
         }
         return true;
     }
-
     /**
     * Loads Cache.
     */
@@ -88,7 +82,6 @@ class FS{
             $this->_registerStoreCache(); 
         }
     }
-
     /**
     * Register store cache.
     */
@@ -104,12 +97,10 @@ class FS{
                 }
         });
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function storeCache(){
         $sb = new StringBuilder;
         $ch ='';

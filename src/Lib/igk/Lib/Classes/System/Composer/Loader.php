@@ -11,31 +11,26 @@ use IGK\System\Console\Logger;
  */
 class Loader
 {
-
     /**
     * Property: package file.
     * @var mixed
     */
     private $package_file;
-
     /**
     * Property: init.
     * @var mixed
     */
     private $init;
-
     /**
     * Property: to merge.
     * @var mixed
     */
     private $to_merge;
-
     /**
     * Constant: spl autoload unregister.
     * @var mixed
     */
     const spl_autoload_unregister = 'spl_autoload_unregister';
-
     /**
     * Constant: spl autoload register.
     * @var mixed
@@ -46,7 +41,6 @@ class Loader
      * @var array
      */
     var $registerMissings = [];
-
     /**
     * Registers.
     * @param string $path
@@ -56,7 +50,6 @@ class Loader
         $this->package_file = $path;
         spl_autoload_register([$this, "_autoload"]);
     }
-
     /**
     * auto generate doc.
     * @param mixed $f
@@ -88,7 +81,6 @@ class Loader
         array_map(self::spl_autoload_register, $this->to_merge);
         return $found;
     }
-
     /**
     * Final.
     * @param mixed $f

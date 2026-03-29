@@ -6,37 +6,31 @@
 namespace IGK\Database;
 use IGKException;
 use Exception;
-
 /**
 * Db link expression.
 * @package IGK\Database
 */
 class DbLinkExpression extends DbExpression{
-
     /**
     * Map of link table.
     * @var mixed
     */
     public $linkTable;
-
     /**
     * Name of column name.
     * @var mixed
     */
     public $columnName;
-
     /**
     * Property: column value.
     * @var mixed
     */
     public $columnValue;
-
     /**
     * Property: primary column.
     * @var mixed
     */
     public $primaryColumn;
-
     /**
     * .ctr
     * @param mixed $linkTable
@@ -51,13 +45,11 @@ class DbLinkExpression extends DbExpression{
         $this->columnValue = $columnValue; 
         $this->primaryColumn = $primaryColumn;
     }
-
     /**
     * auto generate doc.
     * @param IGrammarOptions|object $grammarOptions
     * @return null|string|void
     */
-
     public function getValue($grammarOptions=null){
         //link value 
         if ($grammarOptions==null){

@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 use IGK\System\Console\Logger;
 use IGKObject;
 /**
@@ -16,7 +15,6 @@ use IGKObject;
  * @package IGK\System\Html
  */
 final class HtmlActiveAttrib extends IGKObject{
-
     /**
     * Returns Instance.
     */

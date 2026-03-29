@@ -7,12 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkdate time.
 */
 class IGKDateTime extends IGKObject{
-
     /**
     * Properties: day, hour, min, month, sec, year.
     * @var mixed
@@ -27,7 +25,6 @@ class IGKDateTime extends IGKObject{
      *
      * @return string
      */
-
     public function __toString(){
         return "IGKDateTime:[".$this->day."-".$this->month."-".$this->year."]";
     }
@@ -38,7 +35,6 @@ class IGKDateTime extends IGKObject{
      * @param IGKDateTime|null $date2 The second date.
      * @return int
      */
-
     public static function compareDate($date1, $date2){
         if(!$date1 || !$date2)
             return -2;
@@ -53,7 +49,6 @@ class IGKDateTime extends IGKObject{
      * @param string $value  The date string to parse.
      * @return IGKDateTime|null
      */
-
     public static function CreateFrom($format, $value){
         $tab=(object)date_parse_from_format($format, $value);
         if($tab->error_count == 0){
@@ -72,21 +67,17 @@ class IGKDateTime extends IGKObject{
         }
         return null;
     }
-
     /**
     * Returns Age.
     * @param mixed $birthdate
     */
-
     public static function GetAge($birthdate){
         return (new DateTime())->diff(new DateTime($birthdate))->y;
     }
-
     /**
     * Returns Date.
     * @param mixed $format
     */
-
     public function getDate($format){
         $s=$format;
         $s=str_replace("Y", $this->year, $s);
@@ -97,81 +88,63 @@ class IGKDateTime extends IGKObject{
         $s=str_replace("s", $this->sec, $s);
         return $s;
     }
-
     /**
     * Getday.
     */
-
     public function getday(){
         return $this->m_day;
     }
-
     /**
     * Gethour.
     */
-
     public function gethour(){
         return $this->m_hour;
     }
-
     /**
     * Getmin.
     */
-
     public function getmin(){
         return $this->m_min;
     }
-
     /**
     * Getmonth.
     */
-
     public function getmonth(){
         return $this->m_month;
     }
-
     /**
     * Getsec.
     */
-
     public function getsec(){
         return $this->m_sec;
     }
-
     /**
     * Getyear.
     */
-
     public function getyear(){
         return $this->m_year;
     }
-
     /**
     * Returns true if Date Equal.
     * @param mixed $date1
     * @param mixed $date2
     */
-
     public static function isDateEqual($date1, $date2){
         return self::compareDate($date1, $date2) == 0;
     }
-
     /**
     * Returns true if Date Month Equal.
     * @param mixed $date1
     * @param mixed $date2
     */
-
     public static function isDateMonthEqual($date1, $date2){
         return (self::IsDateYearEqual($date1, $date2) === true) && ($date1->month == $date2->month);
     }
-
     /**
     * Returns true if Date Year Equal.
     * @param mixed $date1
     * @param mixed $date2
     */
-
     public static function isDateYearEqual($date1, $date2){
         if(!$date1 || !$date2)
             return -2;

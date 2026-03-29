@@ -7,32 +7,27 @@ use ArrayAccess;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpression implements ArrayAccess{
-
     /**
     * Property: variables.
     * @var mixed
     */
     private $m_variables;
-
     /**
     * Property: extract.
     * @var mixed
     */
     var $extract;
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     var $callback;
     use ArrayAccessSelfTrait;
-
     /**
     * .ctr
     * @param mixed & $variables
@@ -44,7 +39,6 @@ class ViewExpression implements ArrayAccess{
         $this->extract = $extract;
         $this->callback = $callback;
     }
-
     /**
     * Access offset get.
     * @param mixed $expression
@@ -85,7 +79,6 @@ class ViewExpression implements ArrayAccess{
         }
         // get evaluation response 
         $response = igk_getv($this->m_variables, ViewExpressionArgHelper::RESPONSE);
-
         if ($this->extract){
             if ($expression instanceof ViewExpressionEval){
                 return $expression;
@@ -98,7 +91,6 @@ class ViewExpression implements ArrayAccess{
         }
         return $response;
     }
-
     /**
     * Access offset set.
     * @param mixed $expression

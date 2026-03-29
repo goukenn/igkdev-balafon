@@ -11,13 +11,11 @@ use IGK\System\Html\HtmlRenderer;
  * @package IGK\System\Html\XML
  */
 class XmlComment extends HtmlItemBase{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:comment";
-
     /**
     * .ctr
     * @param null|string $data
@@ -27,14 +25,12 @@ class XmlComment extends HtmlItemBase{
         parent::__construct();
         $this->setContent($data);
     }
-
     /**
     * Returns Can Add Childs.
     */
     public function getCanAddChilds(){
         return false;
     }
-
     /**
     * Renders.
     * @param null|mixed $options
@@ -47,7 +43,6 @@ class XmlComment extends HtmlItemBase{
             return "<!-- " .trim($c). " -->";
         return null;
     }
-
     /**
     * Returns Can Render Tag.
     */

@@ -13,19 +13,16 @@ use IGK\System\IToArray;
  * @package 
  */
 class IGKObjStorage implements IToArray{
-
     /**
     * Property: init.
     * @var mixed
     */
     private $m_init;
-
     /**
     * Property: storage.
     * @var mixed
     */
     private $m_storage = [];
-
     /**
     * .ctr
     * @param null|array $tab
@@ -39,7 +36,6 @@ class IGKObjStorage implements IToArray{
             $this->m_init = false;
         }
     }
-
     /**
     * .destructor
     * @param mixed $v
@@ -50,7 +46,6 @@ class IGKObjStorage implements IToArray{
         }
         return null;
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -65,19 +60,16 @@ class IGKObjStorage implements IToArray{
         }
         $this->m_storage[$n]=$v;
     }
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return __CLASS__;
     }
-
     /**
     * auto generate doc.
     * @return null|array
     */
-
     public function to_array():?array{
         $tab = array_slice($this->m_storage,0); 
         return $tab;
@@ -86,11 +78,9 @@ class IGKObjStorage implements IToArray{
      * return json data
      * @return string|false 
      */
-
     public function to_json(){
         return json_encode($this->to_array());
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $name
@@ -99,7 +89,6 @@ class IGKObjStorage implements IToArray{
     {
         return key_exists($name, $this->m_storage);
     }
-
     /**
     * Isset.
     * @param mixed $name

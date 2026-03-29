@@ -5,39 +5,33 @@
 namespace IGK\System\Console\Commands\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
 * @author C.A.D. BONDJE DOUE
 */
 class ActivateCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--users:activate';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='activate the current user';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'users';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'login';
-
     /**
     * Exec.
     * @param mixed $command

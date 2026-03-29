@@ -9,31 +9,26 @@ namespace IGK\System\Console;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class CommandCategories{
-
     /**
     * Constant: make.
     * @var mixed
     */
     const MAKE = 'make';
-
     /**
     * Constant: database.
     * @var mixed
     */
     const DATABASE = 'db';
-
     /**
     * Constant: user.
     * @var mixed
     */
     const USER = 'users';
-
     /**
     * Constant: project.
     * @var mixed
     */
     const PROJECT = 'project';
-
     /**
     * Constant: modules.
     * @var mixed

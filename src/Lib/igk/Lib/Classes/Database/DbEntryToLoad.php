@@ -9,19 +9,16 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 use IGKObject;
-
 /**
 * Db entry to load.
 * @package IGK\Database
 */
 final class DbEntryToLoad extends IGKObject{
-
     /**
     * Properties: ctrl, entries, tablename.
     * @var mixed
     */
     var $ctrl, $entries, $tablename;
-
     /**
     * .ctr
     * @param mixed $ctrl
@@ -33,11 +30,9 @@ final class DbEntryToLoad extends IGKObject{
         $this->tablename=$tablename;
         $this->entries=$entries;
     }
-
     /**
     * Loads Entries.
     */
-
     public function loadEntries(){
         igk_db_load_entries($this->ctrl, $this->tablename, $this->entries);
     }

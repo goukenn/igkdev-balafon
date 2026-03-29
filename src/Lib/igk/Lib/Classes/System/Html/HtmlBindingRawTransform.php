@@ -24,7 +24,6 @@ class HtmlBindingRawTransform
      * @var mixed
      */
     var $pipe;
-
     /**
     * Property: root context.
     * @var mixed
@@ -40,7 +39,6 @@ class HtmlBindingRawTransform
      * @var mixed
      */
     var $key;
-
     /**
     * .ctr
     * @param string $name
@@ -49,7 +47,6 @@ class HtmlBindingRawTransform
     {
         $this->name = $name;
     }
-
     /**
     * get string presentation.
     */

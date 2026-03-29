@@ -3,10 +3,7 @@
 // @file: ReferenceModels.php
 // @date: 20260102 09:35:11
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store reference domain
 * @package IGK\Models
@@ -25,19 +22,16 @@ use IGK\Models\ModelBase;
 * @method static ?\IGK\Models\ReferenceModels update_ref_nextnumber(int $uid,string $modelname) macros function
 * */
 class ReferenceModels extends ModelBase{
-
     /**
     * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
-
     /**
     * Constant: fd cl model.
     * @var mixed
     */
     const FD_CL_MODEL="clModel";
-
     /**
     * Constant: fd cl next value.
     * @var mixed

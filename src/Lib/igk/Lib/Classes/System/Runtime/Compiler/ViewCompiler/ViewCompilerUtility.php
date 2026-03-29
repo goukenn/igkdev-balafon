@@ -18,7 +18,6 @@ use IGKException;
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -95,7 +94,6 @@ abstract class ViewCompilerUtility
     public static function CompileBlocks($blocks, StringBuilder $sb, $options, ?string $header = null,
         ?array $variable =null)
     {
-
         /**
         * auto generate doc.
         * @var ?object $p

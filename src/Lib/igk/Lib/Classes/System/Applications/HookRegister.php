@@ -3,11 +3,9 @@
 // @file: HookRegister.php
 // @date: 20221116 00:53:02
 namespace IGK\System\Applications;
-
 use IGK\System\Core\CookieManager;
 use IGKEvents;
 use IGKServices;
-
 /**
 * auto generate doc.
 * @package IGK\System\Applications
@@ -52,14 +50,11 @@ class HookRegister
                 $description
             );
         });
-
         if ($_COOKIE && preg_match('/\\b__blf_/', implode('|', array_keys($_COOKIE)))) {
             igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function () {
                 $cl = IGKServices::Get('CookieManager') ?? CookieManager::class;
                 $cl::Handle();
             });
-
-
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () {
                 $v_k = 'session-flag';
                 $flag = igk_environment()->{$v_k};

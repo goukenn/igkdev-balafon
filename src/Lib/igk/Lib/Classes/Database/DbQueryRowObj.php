@@ -17,31 +17,26 @@ use Iterator;
 class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use ArrayAccessSelfTrait;
 	use IteratorTrait;
-
     /**
     * Property: rows.
     * @var mixed
     */
     private $m_rows;
-
     /**
     * Property: it current.
     * @var mixed
     */
     private $it_current;
-
     /**
     * Property: it keys.
     * @var mixed
     */
     private $it_keys;
-
     /**
     * Property: it key.
     * @var mixed
     */
     private $it_key;
-
     /**
     * .ctr
     * @return
@@ -53,18 +48,15 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * @return mixed 
 	 * @throws Exception 
 	 */
-
     public function column(int $index){
 		return igk_getv(array_keys($this->m_rows), $index);
 	}
-
     /**
     * get string presentation.
     */
     public function __toString(){
         return "[".__CLASS__."]";
     }
-
     /**
     * Used by var_dump() to customize debug output.
     */
@@ -76,7 +68,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * get the first value
 	 * @return mixed 
 	 */
-
     public function firstValue(){
 		$c = $this->m_rows;
 		return array_shift($c);
@@ -85,12 +76,10 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * get the last value
 	 * @return mixed 
 	 */
-
     public function lastValue(){
 		$c = $this->m_rows;
 		return array_pop($c);
 	}
-
     /**
     * To json.
     * @param null|mixed $flag
@@ -98,7 +87,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function to_json($flag = null){
         return Utility::To_JSON($this->m_rows, null, $flag);
     }
-
     /**
     * Creates.
     * @param mixed $tab
@@ -110,7 +98,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		$g->m_rows = $tab;
 		return $g;
 	}
-
     /**
     * To array.
     * @param mixed $filter
@@ -128,7 +115,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		}
 		return $tab;
 	}
-
     /**
     * Access exists.
     * @param mixed $i
@@ -136,7 +122,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     protected function _access_Exists($i){ 
 		return isset($this->m_rows[$i]);
 	}
-
     /**
     * Access offset exists.
     * @param mixed $i
@@ -144,7 +129,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     protected function _access_offsetExists($i){
 		return isset($this->m_rows[$i]);
     }
-
     /**
     * Access offset set.
     * @param mixed $i
@@ -153,7 +137,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     protected function _access_offsetSet($i, $v){
 		$this->m_rows[$i] = $v;
 	}
-
     /**
     * Access offset get.
     * @param mixed $i
@@ -164,7 +147,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		}
 		return null;
 	}
-
     /**
     * Access offset unset.
     * @param mixed $i
@@ -172,7 +154,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     protected function _access_offsetUnset($i){
 		 unset( $this->m_rows[$i]);
 	}
-
     /**
     * check if isset innaccessible property
     * @param mixed $i
@@ -180,7 +161,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function __isset($i){ 
 		return $this->OffsetExists($i);
 	}
-
     /**
     * .destructor
     * @param mixed $i
@@ -188,7 +168,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function __get($i){  
 		return $this[$i];
 	}
-
     /**
     * destructor
     * @param mixed $i
@@ -197,7 +176,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function __set($i,$v){
 		$this[$i] = $v;
 	}
-
     /**
     * unset innacessible property
     * @param mixed $n
@@ -205,21 +183,18 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function __unset($n){
         $this->OffsetUnset($n);
     }
-
     /**
     * Iterator current.
     */
     public function _iterator_current (){
 		return $this->it_current;
 	}
-
     /**
     * Iterator key.
     */
     public function _iterator_key (){
 		return $this->it_keys[$this->it_key];
 	}
-
     /**
     * Iterator next.
     */
@@ -231,7 +206,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		}else
 			$this->it_current = null;
 	}
-
     /**
     * Iterator rewind.
     */
@@ -241,7 +215,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		$s =  $this->it_keys[$this->it_key];
 		$this->it_current = $this[$s];
 	}
-
     /**
     * Iterator valid.
     */
@@ -253,11 +226,9 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * @param mixed $name 
 	 * @return bool 
 	 */
-
     public function columnExists($name):bool{
 		return key_exists($name, $this->m_rows);
 	}
-
     /**
     * Returns count of.
     * @return int

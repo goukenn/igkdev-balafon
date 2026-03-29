@@ -8,13 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 /**
 * Html nsvalue attribute.
 * @package IGK\System\Html\Dom
 */
 final class HtmlNSValueAttribute implements IHtmlGetValue{
-
     /**
     * Properties: n, ns.
     * @var mixed
@@ -26,7 +24,6 @@ final class HtmlNSValueAttribute implements IHtmlGetValue{
      * @param mixed $n  The HTML node to check for namespace membership.
      * @param mixed $ns The namespace value to return when the node qualifies.
      */
-
     public function __construct($n, $ns){
         $this->m_ns=$ns;
         $this->m_n=$n;
@@ -36,7 +33,6 @@ final class HtmlNSValueAttribute implements IHtmlGetValue{
      *
      * @return string
      */
-
     public function __toString(){
         return __CLASS__.":ns:".$this->m_ns;
     }
@@ -46,7 +42,6 @@ final class HtmlNSValueAttribute implements IHtmlGetValue{
      * @param mixed $options Optional rendering options.
      * @return mixed The namespace string or null.
      */
-
     public function getValue($options=null){
         if(igk_html_is_ns_child($this->m_n)){
             return $this->m_ns;

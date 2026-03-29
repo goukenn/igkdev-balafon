@@ -8,13 +8,11 @@ use IGK\System\Http\Request;
 * 
 * @package IGK\System\Traits
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Traits
 */
 trait ObjectFormDataTrait{
-
     /**
     * Returns Content Secure Form Request.
     * @param Request $request
@@ -24,7 +22,6 @@ trait ObjectFormDataTrait{
     {
       return $this->getContentSecure();
     }
-
     /**
     * Returns Data Validator Mapper.
     * @param null|array $tab
@@ -35,11 +32,9 @@ trait ObjectFormDataTrait{
         $from_mapper->mapper =  $this->mergeSecure( $from_mapper->mapper ,$this->getContentSecure() ?? []);  
         return $from_mapper;
     }
-
     /**
     * auto generate doc.
     * @return null|array if assoc and validation : return treated value
     */
-
     protected abstract function getContentSecure():?array;
 }

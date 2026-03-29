@@ -4,13 +4,11 @@
 // @date: 20221117 15:39:50
 namespace IGK\System\Controllers\Traits;
 use IGK\Controllers\BaseController;
-
 /**
 * auto generate doc.
 * @package IGK\Systems\Controllers\Traits
 */
 trait ReigsterUserProfileControllerActionTrait{
-
     /**
     * Registers.
     * @param BaseController $controller

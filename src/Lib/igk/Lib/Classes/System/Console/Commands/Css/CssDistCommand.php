@@ -11,31 +11,26 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Console\Commands
  */
 class CssDistCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--css:dist";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "get core balafon css";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "css";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
-
     /**
     * Property: options.
     * @var mixed
@@ -44,7 +39,6 @@ class CssDistCommand extends AppExecCommand{
         "--min-file"=>"flag: min file",
         "--theme-export"=>"flag: theme export",
     ];
-
     /**
     * auto generate doc.
     */

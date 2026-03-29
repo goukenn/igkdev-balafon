@@ -8,61 +8,51 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\XML;
-
 /**
 * Xmlnode type.
 * @package IGK\XML
 */
 abstract class XMLNodeType{
-
     /**
     * Constant: cdata.
     * @var mixed
     */
     const CDATA=5;
-
     /**
     * Constant: comment.
     * @var mixed
     */
     const COMMENT=3;
-
     /**
     * Constant: element.
     * @var mixed
     */
     const ELEMENT=1;
-
     /**
     * Constant: endelement.
     * @var mixed
     */
     const ENDELEMENT=4;
-
     /**
     * Constant: none.
     * @var mixed
     */
     const NONE=-1;
-
     /**
     * Constant: processor.
     * @var mixed
     */
     const PROCESSOR=2;
-
     /**
     * Constant: text.
     * @var mixed
     */
     const TEXT=6;
-
     /**
     * Constant: inner text.
     * @var mixed
     */
     const INNER_TEXT = 7;
-
     /**
     * Constant: doctype.
     * @var mixed
@@ -74,7 +64,6 @@ abstract class XMLNodeType{
      * @param int $i The node type constant value.
      * @return string
      */
-
     public static function GetString($i){
         switch($i){
             case self::NONE:

@@ -3,9 +3,7 @@
 // @file: FormatterPattern.php
 // @date: 20250803 02:49:09
 namespace IGK\System\Text\Formatters;
-
 use IGK\System\Text\RegexMatcherPattern;
-
 /**
  * pattern extension for formatting text code 
  * @package IGK\System\Text\Formatters
@@ -13,14 +11,11 @@ use IGK\System\Text\RegexMatcherPattern;
  */
 class FormatterPattern extends RegexMatcherPattern
 {
-
-
     /**
      * force matching pattern 
      * @var mixed
      */
     var $replacementMatch;
-
     /**
      * get/set splitline use replaced data
      * @var mixed
@@ -31,36 +26,30 @@ class FormatterPattern extends RegexMatcherPattern
      * @var ?bool
      */
     var $splitLine;
-
     /**
      * get/set the used class definition 
      * @var ?string
      */
     var $class;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $lineFeed;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $isBlock;
-
     /**
      * disable this formatting
      * @var ?bool
      */
     var $offScreen;
-
     /**
      * block that allow block level - concatenation - 
      */
     var $isContinueBlock;
-
     /**
      * if array assoc array 
      * @var ?string|string[]|closure(string $select):string
@@ -71,8 +60,6 @@ class FormatterPattern extends RegexMatcherPattern
      * @var ?bool|'rtrim'|'trim'|'ltrim'
      */
     var $preserveContent;
-
-
     /**
      * get/set activate or not some particular flag on transform      
      * @var array|array[string>bool]
@@ -88,13 +75,11 @@ class FormatterPattern extends RegexMatcherPattern
      * @var ?bool
      */
     var $matchSplitOnParent;
-
     /**
      * match concern line feed
      * @var ?bool
      */
     var $matchLineFeed;
-
     /**
      * ignore detection on end of source
      * @var mixed

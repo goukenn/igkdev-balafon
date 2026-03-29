@@ -11,38 +11,32 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 */
 class RemoveProjectCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--project:remove';
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc='remove install project';
 	/* var $options=[]; */
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'project';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
-
     /**
     * Exec.
     * @param mixed $command

@@ -12,25 +12,21 @@ use ReflectionException;
  * 
  * @package IGK\System\Http
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class DocumentRequestResponse extends RequestResponse{
-
     /**
     * Property: response.
     * @var mixed
     */
     private $response;
-
     /**
     * auto generate doc.
     * @param IGKHtmlDocument $document
     * @return void
     */
-
     public function __construct(IGKHtmlDoc $document, $code=200){
         $this->response = $document;
         $this->code = $code;
@@ -42,7 +38,6 @@ class DocumentRequestResponse extends RequestResponse{
      * @throws ReflectionException 
      * @throws CssParserException 
      */
-
     public function render(){
         return $this->response->render();
     }

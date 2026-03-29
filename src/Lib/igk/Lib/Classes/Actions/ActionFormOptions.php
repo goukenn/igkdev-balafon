@@ -15,13 +15,11 @@ class ActionFormOptions extends IGKObject{
      * @var mixed
      */
     var $referer;
-
     /**
     * Property: good uri.
     * @var mixed
     */
     var $good_uri;
-
     /**
     * Property: no register.
     * @var mixed

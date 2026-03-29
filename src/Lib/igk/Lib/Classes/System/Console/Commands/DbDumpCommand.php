@@ -21,25 +21,21 @@ use IGKNonVisibleControllerBase;
  * @package IGK\System\Console\Commands
  */
 class DbDumpCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:dump";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "dump controller database from schema definition";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: options.
     * @var mixed
@@ -50,25 +46,21 @@ class DbDumpCommand extends AppExecCommand{
         "-o"=>"export type xml|json",
         '--inject'=>'flag: replace dump fields to schema',
     ];
-
     /**
     * Property: help.
     * @var mixed
     */
     var $help = "--db:dump controller [output_file] [-o:xml|json]";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [outfile] [options]';
-
     /**
     * Property: entries.
     * @var mixed
     */
     private $_entries;
-
     /**
     * Exec.
     * @param mixed $command
@@ -139,7 +131,6 @@ class DbDumpCommand extends AppExecCommand{
         // Logger::success("Schema complete");
         return 0;
     }
-
     /**
     * Returns Generator.
     * @param mixed $type
@@ -147,7 +138,6 @@ class DbDumpCommand extends AppExecCommand{
     public function getGenerator($type){ 
         return $this; 
     }
-
     /**
     * Generate.
     * @param BaseController $ctrl
@@ -156,7 +146,6 @@ class DbDumpCommand extends AppExecCommand{
     * @param mixed & $manifest
     */
     public function _generate(BaseController $ctrl, $table, $info, & $manifest = []){
-
         /**
         * auto generate doc.
         * @var \IGK\System\Database\MySQL\IGKMySQLQueryResult $g query result
@@ -182,7 +171,6 @@ class DbDumpCommand extends AppExecCommand{
         } 
         $this->_entries[$tb] = $rest;
     }
-
     /**
     * auto generate doc.
     * @return

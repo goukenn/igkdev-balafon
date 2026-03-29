@@ -3,7 +3,6 @@
 // @file: ExpressionEvalEngineTrait.php
 // @date: 20240123 13:12:18
 namespace IGK\System\Html\Templates\Engine\Traits;
-
 use Exception;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
@@ -11,7 +10,6 @@ use IGK\System\Templates\BindingExpressionReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Templates\Engine\Traits
@@ -59,7 +57,6 @@ trait ExpressionEvalEngineTrait
                     }
                     $s .= substr($content, $offset, $e->from-$offset) . $v_escape . $v;
                     //$content = str_replace($v_v, $v_escape . $v, $content);
-
                     $offset = $e->to;
                 } 
             }

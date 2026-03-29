@@ -4,7 +4,6 @@
 // @date: 20250627 06:18:41
 namespace IGK\Css\Analyzer;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * auto generate doc.
 * @package IGK\Css\Analyzer
@@ -12,13 +11,11 @@ use IGK\System\Text\RegexMatcherContainer;
 */
 class CssSpeudoSplitter implements ICssSplitListener
 {
-
     /**
     * Property: rg.
     * @var mixed
     */
     private $m_rg;
-
     /**
     * .ctr
     */
@@ -27,7 +24,6 @@ class CssSpeudoSplitter implements ICssSplitListener
         $this->m_rg = new RegexMatcherContainer;
         $this->initialize($this->m_rg);
     }
-
     /**
     * Initializes.
     * @param mixed $rg
@@ -37,7 +33,6 @@ class CssSpeudoSplitter implements ICssSplitListener
         $rg->appendStringDetection();
         $rg->match(',', 'split');
     }
-
     /**
     * Splits.
     * @param string $value

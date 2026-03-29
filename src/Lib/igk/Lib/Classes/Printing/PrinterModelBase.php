@@ -4,19 +4,16 @@
 // @date: 20230202 07:47:01
 namespace IGK\Printing;
 use IGK\System\IO\Printer\IPrinterService;
-
 /**
 * auto generate doc.
 * @package IGK\Printing
 */
 abstract class PrinterModelBase implements IPrinterModel{
-
     /**
     * Property: printer service.
     * @var mixed
     */
     protected $_printer_service;
-
     /**
     * Sets Printer Service.
     * @param null|IPrinterService $service
@@ -24,7 +21,6 @@ abstract class PrinterModelBase implements IPrinterModel{
     public function setPrinterService(?IPrinterService $service) {
         $this->_printer_service = $service;
      }
-
     /**
     * Prints.
     * @param bool $exit
@@ -44,6 +40,5 @@ abstract class PrinterModelBase implements IPrinterModel{
      * @param IPrinterService $device 
      * @return mixed 
      */
-
     protected abstract function render(IPrinterService $device);
 }

@@ -5,38 +5,32 @@
 // @desc: 
 namespace IGK\CGI;
 use IGK\System\Html\HtmlReader;
-
 /**
 * auto generate doc.
 * @package IGK\CGI
 */
 class IGKCGIServer
 {
-
     /**
     * Property: sm temp file.
     * @var mixed
     */
     private static $smTempFile;
-
     /**
     * Callback handler for reg file callback.
     * @var mixed
     */
     private static $sm_regFileCallback;
-
     /**
     * Property: server info.
     * @var mixed
     */
     private static $sm_serverInfo;
-
     /**
     * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
-
     /**
     * .destructor
     * @param mixed $v
@@ -44,14 +38,12 @@ class IGKCGIServer
     public function __get($v){
         return igk_getv(self::$sm_serverInfo, $v);
     }
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){
     }
-
     /**
     * auto generate doc.
     * @param mixed $file
@@ -69,7 +61,6 @@ class IGKCGIServer
         }
         self::$smTempFile[] = $file;
     }
-
     /**
     * auto generate doc.
     * @return
@@ -78,7 +69,6 @@ class IGKCGIServer
         self::$sm_instance = new IGKCGIServer();
         return self::$sm_instance;
     }
-
     /**
     * Upload data.
     */
@@ -89,7 +79,6 @@ class IGKCGIServer
         return null;
     }
     // prepare cgi server
-
     /**
     * Prepares.
     */

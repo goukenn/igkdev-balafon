@@ -20,31 +20,26 @@ use IGK\System\Shell\OsShell;
  */
 class SyncModuleCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:module";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync module through ftp-sync configuration";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: help.
     * @var mixed
     */
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
-
     /**
     * Property: options.
     * @var mixed
@@ -53,7 +48,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         '--no-test'=>'flag: disable unit testing',
         '--name:[sync-name]'=>'sync name'
     ];
-
     /**
     * Property: usage.
     * @var mixed
@@ -64,13 +58,11 @@ class SyncModuleCommand extends SyncAppExecCommandBase
      * @var bool
      */
     var $use_zip;
-
     /**
     * Cache: remove cache.
     * @var mixed
     */
     private $remove_cache = false;
-
     /**
     * Exec.
     * @param mixed $command
@@ -127,7 +119,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         }
         error_clear_last();
     }
-
     /**
     * Sync module.
     * @param ApplicationModuleController $module
@@ -198,7 +189,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             Logger::warn($response);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed & $token
@@ -213,7 +203,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
                 'install.module.script.pinc'
             ], $token, $name);      
     }
-
     /**
     * Removes Cache.
     * @param mixed $ftp

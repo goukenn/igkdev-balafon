@@ -9,25 +9,21 @@ namespace IGK\System\Html\Dom;
  * @package 
  */
 abstract class HtmlRelConstants {
-
     /**
     * Constant: no operner.
     * @var mixed
     */
     const NoOperner = "noopener";
-
     /**
     * Constant: stylesheet.
     * @var mixed
     */
     const Stylesheet = "stylesheet";
-
     /**
     * Constant: icon.
     * @var mixed
     */
     const Icon = "icon";
-
     /**
     * .ctr
     * @return

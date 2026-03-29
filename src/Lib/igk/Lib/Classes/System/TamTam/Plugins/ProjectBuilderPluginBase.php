@@ -6,7 +6,6 @@ namespace IGK\System\TamTam\Plugins;
 use IGK\Controllers\BaseController;
 use IGK\System\Console\BalafonCLIService;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\TamTam\Plugins
@@ -26,7 +25,6 @@ abstract class ProjectBuilderPluginBase{
     protected function getCLIService(): ?BalafonCLIService{
         return igk_get_service('balafon', 'cli'); 
     }
-
     /**
     * Generates Action.
     * @param BaseController $baseController

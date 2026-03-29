@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\SVG;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\CssParserException;
@@ -14,31 +13,26 @@ use IGK\System\Html\Dom\SvgListNode;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 /**
  * document page svg list renderer
  */
 class SvgRenderer
 {
-
     /**
     * Path to register path.
     * @var mixed
     */
     public static $RegisterPath = [];
-
     /**
     * Collection of render list.
     * @var mixed
     */
     private static $sm_renderList = false;
-
     /**
     * Constant: folder.
     * @var mixed
     */
     const FOLDER = __CLASS__ . "::svgLibFolder";
-
     /**
     * Constant: render list method.
     * @var mixed
@@ -48,7 +42,6 @@ class SvgRenderer
      * return svg folder 
      * @return mixed 
      */
-
     public static function GetPath($name, &$class = null)
     {
         if (!empty($name)) {
@@ -67,7 +60,6 @@ class SvgRenderer
      * return svg key folder 
      * @return array 
      */
-
     public static function GetSvgFolder()
     {
         $svg_folder = igk_environment()->get(self::FOLDER) ?? [];
@@ -80,7 +72,6 @@ class SvgRenderer
      * @return void 
      * @throws EnvironmentArrayException 
      */
-
     public static function RegisterFolder(string $folder, ?string $targetLib = null)
     {
         if (is_dir($folder)) {
@@ -97,7 +88,6 @@ class SvgRenderer
      * @param mixed $name 
      * @return bool 
      */
-
     public static function Exists(string $name)
     {
         $f = self::GetSvgFolder();
@@ -108,13 +98,11 @@ class SvgRenderer
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return void
     */
-
     public static function AcceptRenderList($options)
     {
         if (!self::$sm_renderList) {
@@ -139,7 +127,6 @@ class SvgRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public static function RenderList($e)
     {
         $options = igk_getv($e->args, "options");
@@ -148,7 +135,6 @@ class SvgRenderer
         // clear the registrated path
         self::$RegisterPath = [];
     }
-
     /**
     * Renders SVGList.
     * @param null|mixed $options
@@ -159,7 +145,6 @@ class SvgRenderer
     {
         ob_start();
         if ($list =  self::$RegisterPath) {
-
             if ($debug) {
                 echo "<!-- SVG LIST -->\n";
             }
@@ -180,7 +165,6 @@ class SvgRenderer
         ob_end_clean();
         return $s;
     }
-
     /**
     * Registers Icon.
     * @param mixed $name
@@ -190,7 +174,6 @@ class SvgRenderer
     {
         return self::svgNewIcons($name);
     }
-
     /**
     * auto generate doc.
     * @param mixed $name

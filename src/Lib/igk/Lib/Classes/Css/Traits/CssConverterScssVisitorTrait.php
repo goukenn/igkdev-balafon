@@ -3,19 +3,16 @@
 // @file: CssConverterScssVisitorTrait.php
 // @date: 20230125 17:55:13
 namespace IGK\Css\Traits;
-
 /**
 * auto generate doc.
 * @package IGK\Css\Traits
 */
 trait CssConverterScssVisitorTrait
 {
-
     /**
     * Visit return.
     */
     protected function _visit_return() {}
-
     /**
     * Read block.
     * @param mixed $converter
@@ -46,7 +43,6 @@ trait CssConverterScssVisitorTrait
         }
         $tab[$v_1] = $body;
     }
-
     /**
     * Visit keyframes.
     * @param mixed $options
@@ -55,7 +51,6 @@ trait CssConverterScssVisitorTrait
     {
         $this->_ReadBlock($this, $this->keyframes, $options);
     }
-
     /**
     * Visit webkit keyframes.
     * @param mixed $options
@@ -67,7 +62,6 @@ trait CssConverterScssVisitorTrait
         if ($tab)
             $this->keyframes['@-moz-webkit'][array_keys($tab)[0]] = array_values($tab)[0];
     }
-
     /**
     * Visit moz keyframes.
     * @param mixed $options
@@ -79,7 +73,6 @@ trait CssConverterScssVisitorTrait
         if ($tab)
             $this->keyframes['@-moz-keyframes'][array_keys($tab)[0]] = array_values($tab)[0];
     }
-
     /**
     * Visit function.
     * @param mixed $options
@@ -109,7 +102,6 @@ trait CssConverterScssVisitorTrait
         }
         $this->functions[$v_1] = $body;
     }
-
     /**
     * Visit debug.
     * @param mixed $options

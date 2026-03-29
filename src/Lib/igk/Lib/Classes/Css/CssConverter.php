@@ -8,50 +8,42 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\Css
 */
 class CssConverter{
     use CssConverterScssVisitorTrait;
-
     /**
     * Property: length.
     * @var mixed
     */
     var $length;
-
     /**
     * Property: src.
     * @var mixed
     */
     var $src;
-
     /**
     * Property: imports.
     * @var mixed
     */
     private $imports = [];
-
     /**
     * Property: variables.
     * @var mixed
     */
     private $variables = [];
-
     /**
     * Property: functions.
     * @var mixed
     */
     private $functions = [];
-
     /**
     * Property: medias.
     * @var mixed
     */
     private $medias = [];
-
     /**
     * Property: keyframes.
     * @var mixed
@@ -62,55 +54,46 @@ class CssConverter{
      * @var mixed
      */
     private $source_file;
-
     /**
     * Constant: mode root.
     * @var mixed
     */
     const MODE_ROOT = 0;
-
     /**
     * Constant: mode attrib.
     * @var mixed
     */
     const MODE_ATTRIB = 1;
-
     /**
     * Constant: mode value.
     * @var mixed
     */
     const MODE_VALUE = 2;
-
     /**
     * Constant: mode selector.
     * @var mixed
     */
     const MODE_SELECTOR = 3;
-
     /**
     * Constant: media key.
     * @var mixed
     */
     const MEDIA_KEY = '@media';
-
     /**
     * Constant: media variables key.
     * @var mixed
     */
     const MEDIA_VARIABLES_KEY = '@variables';
-
     /**
     * Constant: media function key.
     * @var mixed
     */
     const MEDIA_FUNCTION_KEY = '@function';
-
     /**
     * Constant: media keyframe key.
     * @var mixed
     */
     const MEDIA_KEYFRAME_KEY = '@keyframes';
-
     /**
     * auto generate doc.
     * @return
@@ -119,7 +102,6 @@ class CssConverter{
         $this->imports = [];
         $this->variables = [];
     }
-
     /**
     * Parses Scss Content.
     * @param string $content
@@ -130,7 +112,6 @@ class CssConverter{
         $this->length = strlen($content);
         return $this->parse();
     }
-
     /**
     * Parses Form SCSS.
     * @param string $file
@@ -149,7 +130,6 @@ class CssConverter{
      * @return array 
      * @throws IGKException 
      */
-
     public function parse()
     {
         $offset = 0;
@@ -226,7 +206,6 @@ class CssConverter{
         }
         return $response;
     }
-
     /**
     * auto generate doc.
     * @param mixed & $offset
@@ -394,7 +373,6 @@ class CssConverter{
         }
         return $data;
     }
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -456,7 +434,6 @@ class CssConverter{
         }
         return trim($sl);
     }
-
     /**
     * auto generate doc.
     * @param mixed $src
@@ -479,7 +456,6 @@ class CssConverter{
         }
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed $name
@@ -495,7 +471,6 @@ class CssConverter{
             Logger::danger("missing visitor for ".$name);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $gt
@@ -507,7 +482,6 @@ class CssConverter{
         $this->medias = array_merge($this->medias, igk_getv($gt, self::MEDIA_KEY, []));
         $this->functions = array_merge($this->functions, igk_getv($gt, self::MEDIA_FUNCTION_KEY, []));
     }
-
     /**
     * Visit import.
     * @param mixed $options
@@ -550,7 +524,6 @@ class CssConverter{
             $iv .= $ch;
         }
     }
-
     /**
     * Visit media.
     * @param mixed $options
@@ -588,7 +561,6 @@ class CssConverter{
         }
         return false;
     }
-
     /**
     * auto generate doc.
     * @param mixed $src

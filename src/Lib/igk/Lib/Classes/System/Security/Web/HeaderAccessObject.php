@@ -13,13 +13,11 @@ use IGKException;
 */
 class HeaderAccessObject{ 
     use ActivableTrait;
-
     /**
     * Constant: auth bearer.
     * @var mixed
     */
     const AUTH_BEARER = 'Bearer';
-
     /**
     * Constant: auth basic.
     * @var mixed
@@ -45,12 +43,10 @@ class HeaderAccessObject{
      * @var ?string
      */
     var $origin;
-
     /**
     * auto generate doc.
     * @return string
     */
-
     public function getAuthType(){
         $g = explode(' ', $this->authorization);
         return $g[0];
@@ -61,19 +57,16 @@ class HeaderAccessObject{
      * @throws IGKException 
      * @remark bearer token list
      */
-
     public function getBearerToken(){
         $g = explode(' ', $this->authorization);
         if ($g[0] == self::AUTH_BEARER){
             return trim(igk_getv($g, 1, ''));
         }
     }
-
     /**
     * auto generate doc.
     * @return string|void
     */
-
     public function getBasicToken(){
         $g = explode(' ', $this->authorization);
         if ($g[0] == self::AUTH_BASIC){
@@ -84,7 +77,6 @@ class HeaderAccessObject{
      * maybe passed in basic authentication service
      * @return array 
      */
-
     public static function HandleBasicAuth(){
         $user = igk_server()->PHP_AUTH_USER;
         $pwd =  igk_server()->PHP_AUTH_PW;
@@ -95,7 +87,6 @@ class HeaderAccessObject{
      * @param mixed $data 
      * @return static 
      */
-
     public static function CreateFromData($data){
         return Activator::CreateNewInstance(self::class, $data);
     }

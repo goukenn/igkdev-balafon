@@ -13,13 +13,11 @@ namespace IGK\System\Database\Migrations;
  * @package IGK\System\Database\Migrations
  */
 abstract class Migration{
-
     /**
     * Up.
     */
     public function up(){
     }
-
     /**
     * Down.
     */

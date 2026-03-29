@@ -14,7 +14,6 @@ use IGK\System\Security\Web\RequestValiationMapper;
 * @package IGK\System\WinUI\Forms
 */
 abstract class RequestValidatorBase extends ObjectDataValidator implements IActionRequestValidator{
-
     /**
     * Validates JSon.
     * @param Request $request
@@ -34,7 +33,6 @@ abstract class RequestValidatorBase extends ObjectDataValidator implements IActi
         }
         return false;
     }
-
     /**
     * Validates.
     * @param mixed $data

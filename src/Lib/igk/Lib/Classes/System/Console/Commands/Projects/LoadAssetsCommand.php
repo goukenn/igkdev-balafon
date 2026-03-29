@@ -3,24 +3,20 @@
 // @file: LoadAssetsCommand.php
 // @date: 20260317 13:40:49
 namespace IGK\System\Console\Commands\Projects;
-
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 */
 class LoadAssetsCommand extends AppExecCommand{
 	var $command='--project:store-asset';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -30,7 +26,6 @@ class LoadAssetsCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-
     /**
     * auto generate doc.
     * @param mixed $command

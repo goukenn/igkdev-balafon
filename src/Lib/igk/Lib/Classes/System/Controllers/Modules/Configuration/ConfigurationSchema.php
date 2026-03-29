@@ -3,15 +3,12 @@
 // @file: ConfigurationSchema.php
 // @date: 20251023 21:02:01
 namespace IGK\System\Controllers\Modules\Configuration;
-
 use IGK\System\Configuration\EntityConfigurationSchema;
-
 /**
 * 
 * @package IGK\System\Controllers\Modules\Configuration
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Controllers\Modules\Configuration
@@ -32,7 +29,6 @@ class ConfigurationSchema extends EntityConfigurationSchema {
      * @var mixed
      */
     var $license;
-
     /**
     * auto generate doc.
     * @var ?array
@@ -48,24 +44,20 @@ class ConfigurationSchema extends EntityConfigurationSchema {
      * @var ?string
      */
     var $author;
-
     /**
      * array of composer's package definition 
      * @var mixed
      */
     var $composerRequire;
-
     /**
      * array of node's package definition 
      */
     var $nodeRequire;
-
     /**
     * auto generate doc.
     * @var mixed
     */
     var $entryNamespace;
-
     /**
      * represent a type/categorie of the module
      * @var null|'balafon-core-module'|string

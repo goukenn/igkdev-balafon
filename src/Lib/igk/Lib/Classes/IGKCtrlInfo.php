@@ -12,13 +12,11 @@
  * @package 
  */
 final class IGKCtrlInfo extends IGKObject{
-
     /**
     * Properties: support multiple, add new, childs, name, type, type created.
     * @var mixed
     */
     private $m_SupportMultiple, $m_addNew, $m_childs, $m_name, $m_type, $m_typeCreated;
-
     /**
     * .ctr
     * @param mixed $name
@@ -31,7 +29,6 @@ final class IGKCtrlInfo extends IGKObject{
         $this->m_addNew=true;
         $this->_initInfo();
     }
-
     /**
     * auto generate doc.
     * @return
@@ -47,21 +44,18 @@ final class IGKCtrlInfo extends IGKObject{
             $this->m_addNew=$this->m_SupportMultiple || (count($this->m_childs) < 1);
         }
     }
-
     /**
     * Returns Can Add New.
     */
     public function getCanAddNew(){
         return $this->m_addNew;
     }
-
     /**
     * Returns Created.
     */
     public function getCreated(){
         return $this->m_typeCreated;
     }
-
     /**
     * Returns Name.
     * @return mixed
@@ -69,7 +63,6 @@ final class IGKCtrlInfo extends IGKObject{
     public function getName(): mixed{
         return $this->m_name;
     }
-
     /**
     * Returns Type.
     */

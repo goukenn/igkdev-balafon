@@ -3,37 +3,31 @@
 // @file: Version.php
 // @date: 20230118 12:10:18
 namespace IGK\System;
-
 /**
 * auto generate doc.
 * @package IGK\System
 */
 class Version{
-
     /**
     * Property: major.
     * @var mixed
     */
     var $major;
-
     /**
     * Property: minor.
     * @var mixed
     */
     var $minor=0;
-
     /**
     * Property: build.
     * @var mixed
     */
     var $build=0;
-
     /**
     * Property: release.
     * @var mixed
     */
     var $release=0;
-
     /**
     * Parses.
     * @param string $version
@@ -58,7 +52,6 @@ class Version{
         }
         return $o;
     }
-
     /**
     * Returns Array Value.
     * @param mixed $tab
@@ -74,7 +67,6 @@ class Version{
         }
         return $o;
     }
-
     /**
     * get string presentation.
     */

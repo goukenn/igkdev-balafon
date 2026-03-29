@@ -16,7 +16,6 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
-
     /**
     * Property: fill properties.
     * @var mixed
@@ -26,7 +25,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
      * list of column info
      */
     protected $columns;
-
     /**
     * Loads Childs.
     * @param mixed $childs
@@ -45,7 +43,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             }
         }   
     }
-
     /**
     * Checks Requirement.
     */
@@ -55,7 +52,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             igk_die("missing 'table' property");
         }
     }
-
     /**
     * Sets up.
     * @param string $table
@@ -66,12 +62,10 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $this->raw = (object)['table'=>$table, 'after'=>$after];
         $this->columns = [$column];
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function up(){ 
         $v_table = $this->table;
         $ctrl = $this->getMigration()->controller;
@@ -103,12 +97,10 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             $migListerner->regDefTableChanged($tb);
         }
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

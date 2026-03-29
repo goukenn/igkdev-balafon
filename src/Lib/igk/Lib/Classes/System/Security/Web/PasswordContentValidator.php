@@ -11,7 +11,6 @@ use function igk_resources_gets as __;
  */
 class PasswordContentValidator extends MapContentValidatorBase
 {
-
     /**
     * Validates.
     * @param mixed & $value

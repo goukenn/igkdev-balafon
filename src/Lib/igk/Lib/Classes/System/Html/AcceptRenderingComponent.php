@@ -10,31 +10,26 @@ use Exception;
 * @author C.A.D. BONDJE DOUE
 */
 class AcceptRenderingComponent{
-
     /**
     * Identifier: guid.
     * @var mixed
     */
     var $guid;
-
     /**
     * Property: script.
     * @var mixed
     */
     private $m_script;
-
     /**
     * Property: styles.
     * @var mixed
     */
     private $m_styles;
-
     /**
     * Property: injects.
     * @var mixed
     */
     private $m_injects;
-
     /**
     * .ctr
     * @param string $guid
@@ -43,7 +38,6 @@ class AcceptRenderingComponent{
     {
         $this->guid = $guid;
     }
-
     /**
     * Script.
     */
@@ -53,13 +47,11 @@ class AcceptRenderingComponent{
         }
         return $this->m_script;
     }
-
     /**
     * auto generate doc.
     * @param mixed $options
     * @return false|void
     */
-
     public function __invoke($n, $options){
         if (!$n->acceptRender($options))
             return false;

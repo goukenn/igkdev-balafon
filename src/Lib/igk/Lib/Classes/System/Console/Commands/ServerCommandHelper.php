@@ -6,7 +6,6 @@
 // usage command exemple : 
 // --user:4 -db_server:0.0.0.0 --querydebug --debug --controller:TonerAfrikaController -srv_request_uri://localhost:7300 -srv_host:'presentation' -srv_name:'jum' -srv_root:src/public -srv_https:1
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use Error;
 use IGK\System\Console\Logger;
@@ -23,7 +22,6 @@ use IGKValidator;
 abstract class ServerCommandHelper
 {
     //load command serve command
-
     /**
     * Returns Db Commands Properties.
     */
@@ -47,7 +45,6 @@ abstract class ServerCommandHelper
             '-srv_ajx'=>'ajx' // set command to ajx request 
         ];
     }
-
     /**
     * Returns Usage Command Help.
     */
@@ -66,7 +63,6 @@ abstract class ServerCommandHelper
      * @throws IGKException 
      * @throws Error 
      */
-
     public static function Init($command)
     {
         global $_REQUEST;
@@ -128,7 +124,6 @@ abstract class ServerCommandHelper
         igk_server()->IS_WEBAPP = 0;
         Path::getInstance()->prepareData();
     }
-
     /**
     * Shows Usage.
     */

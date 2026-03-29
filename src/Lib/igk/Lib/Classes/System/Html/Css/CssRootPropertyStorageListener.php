@@ -3,14 +3,12 @@
 // @file: CssRootPropertyStorageListener.php
 // @date: 20241030 16:47:01
 namespace IGK\System\Html\Css;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
 class CssRootPropertyStorageListener implements ICssStoreRootListener{
-
     /**
     * Property: roots.
     * @var mixed
@@ -21,7 +19,6 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
      * @param array $tab 
      * @return void 
      */
-
     public function store(array $tab){
         if (is_null($this->m_roots)){
             $this->m_roots =  $tab;
@@ -35,7 +32,6 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
      * render root 
      * @return string 
      */
-
     public function render(){
         return $this->m_roots ? 
             sprintf(':root{%s}',igk_css_array_key_map_implode($this->m_roots)) : null; 

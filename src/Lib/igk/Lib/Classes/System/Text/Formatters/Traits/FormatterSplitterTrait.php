@@ -3,13 +3,11 @@
 // @file: FormatterSplitterTrait.php
 // @date: 20250730 12:55:17
 namespace IGK\System\Text\Formatters\Traits;
-
 use Closure;
 use Exception;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Text\IReplaceCapturedFormatDefinition;
 use IGK\System\Text\RegexMatcherCapture;
-
 /**
  * splitter formatter definition 
  * @package IGK\System\Text\Formatters\Traits
@@ -17,25 +15,21 @@ use IGK\System\Text\RegexMatcherCapture;
  */
 trait FormatterSplitterTrait
 {
-
     /**
     * Property: splitter join.
     * @var mixed
     */
     private $m_splitter_join;
-
     /**
     * Property: split node.
     * @var mixed
     */
     private $m_split_node;
-
     /**
     * Property: marked.
     * @var mixed
     */
     protected $m_marked;
-
     /**
     * Outputs.
     * @param null|string $source
@@ -46,7 +40,6 @@ trait FormatterSplitterTrait
         $s = $this->_treatOuput(parent::output($source));
         return $s;
     }
-
     /**
     * Treat ouput.
     * @param string $o
@@ -58,24 +51,20 @@ trait FormatterSplitterTrait
         }
         return $o;
     }
-
     /**
     * auto generate doc.
     * @param string $v
     * @return string
     */
-
     protected function willFormatContentBeforePrefixTabStop(string $v): string
     {
         return ltrim($v);
     }
-
     /**
     * auto generate doc.
     * @param array $args
     * @return mixed
     */
-
     protected function _dispatch($e, string $fname, array $args)
     {
         return call_user_func_array([$e, $fname], $args);
@@ -87,7 +76,6 @@ trait FormatterSplitterTrait
      * @param mixed $chainCallback on chain  
      * @return string[]|string 
      */
-
     protected function _treatChains(RegexMatcherCapture $e, $chains, ?callable $chainCallback = null)
     {
         $n = $cp = null;
@@ -105,7 +93,6 @@ trait FormatterSplitterTrait
         $skipline = false;
         // UPDATE: skip next line before join the content flag
         $v_skipNextSplitLine = false;
-
         while (count($chains)) {
             $r = array_shift($chains);
             //$v_skipNextSplitLine = $this->getFlag('line-flag');
@@ -166,13 +153,11 @@ trait FormatterSplitterTrait
         }
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed &$list
     * @return void
     */
-
     protected function formatSplittedList(RegexMatcherCapture $e, array &$list)
     {
         $dt = &$list;
@@ -206,7 +191,6 @@ trait FormatterSplitterTrait
      * @return void 
      * @throws Exception 
      */
-
     protected function _treatFlags(IReplaceCapturedFormatDefinition $e)
     {
         if (!$flags = $e->match->flags) {
@@ -226,12 +210,9 @@ trait FormatterSplitterTrait
      * @param IReplaceCapturedFormatDefinition $e 
      * @return string 
      */
-
     public function transform(IReplaceCapturedFormatDefinition $e): string
     {
         $tv = $e->value;
-
-
         if (!is_array($tv)) {
             $tv = [$tv];
         }
@@ -281,7 +262,6 @@ trait FormatterSplitterTrait
      * @throws ReflectionException 
      * @throws CssParserException 
      */
-
     public function splitterJoin(): string
     {
         if (is_null($this->m_splitter_join)) {

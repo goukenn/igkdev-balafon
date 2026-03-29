@@ -4,7 +4,6 @@
 // @date: 20250129 07:36:04
 namespace IGK\System\IO\JSon;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\JSon

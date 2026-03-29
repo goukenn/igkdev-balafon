@@ -23,7 +23,6 @@ trait InvokeMethodActionTrait{
         }
         return null; 
     }
-
     /**
     * auto generate doc.
     * @param array $arguments

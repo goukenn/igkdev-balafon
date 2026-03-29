@@ -20,37 +20,31 @@ use ReflectionException;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
 */
 class CssControllerStyleRenderer{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: defctrl.
     * @var mixed
     */
     var $defctrl;
-
     /**
     * Property: doc.
     * @var mixed
     */
     var $doc;
-
     /**
     * Property: debug.
     * @var mixed
     */
     var $debug;
-
     /**
     * Property: primary theme.
     * @var mixed
@@ -66,7 +60,6 @@ class CssControllerStyleRenderer{
      * @var mixed
      */
     var $theme;
-
     /**
     * Identifier: doc id.
     * @var mixed
@@ -85,7 +78,6 @@ class CssControllerStyleRenderer{
      * @throws Exception 
      * @throws CssParserException 
      */
-
     public static function RenderStyle(?BaseController $ctrl, ?HtmlDocTheme $theme=null){
         $c = new static;
         $c->ctrl = $ctrl;
@@ -93,12 +85,10 @@ class CssControllerStyleRenderer{
         $c->theme = $theme;
         return $c->output();
     }
-
     /**
     * auto generate doc.
     * @return CssCoreResponse
     */
-
     public function output(){
         ob_start();
         echo '@charset "utf-8";' . "\n";
@@ -145,8 +135,6 @@ class CssControllerStyleRenderer{
             $vtheme->reset();
             igk_sess_write_close();
             $vtheme->load_data($seridata);
-           
-            
             // + | ---------------------------------------------------------------
             // + | bind controller definition   
             if ($ctrl && !$v_no_theme_rendering) {
@@ -167,7 +155,6 @@ class CssControllerStyleRenderer{
                 echo ("/* document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}");
             }
             // + | compile render systheme
-             
              \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
                  $vsystheme,
                  $doc->getId(),

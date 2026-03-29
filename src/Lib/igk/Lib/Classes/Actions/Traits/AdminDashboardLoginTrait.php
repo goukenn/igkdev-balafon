@@ -5,14 +5,12 @@
 namespace IGK\Actions\Traits;
 use IGK\System\Http\Request;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
 */
 trait AdminDashboardLoginTrait{
     #region login - logout request
-
     /**
     * Logout get.
     */
@@ -25,7 +23,6 @@ trait AdminDashboardLoginTrait{
      * @return bool 
      * @throws IGKException 
      */
-
     public function login_post(Request $request){ 
         $notkey = $this->baseActionName ?? 'login';      
         $ctrl = $this->getController();

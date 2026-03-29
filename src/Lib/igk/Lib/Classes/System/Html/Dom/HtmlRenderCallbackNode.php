@@ -9,26 +9,22 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlRenderCallbackNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:render-callback-node";
-
     /**
     * Callback handler for callbackobj.
     * @var mixed
     */
     private $m_callbackobj;
-
     /**
     * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
-
     /**
     * .ctr
     * @param mixed $callbackobj
@@ -37,7 +33,6 @@ class HtmlRenderCallbackNode extends HtmlNode{
         parent::__construct();
         $this->m_callbackobj = $callbackobj;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

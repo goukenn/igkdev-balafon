@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
-
 /**
 * Trait providing controller uri functionality.
 * @package IGK\Controllers
 */
 trait ControllerUriTrait {
-
     /**
     * auto generate doc.
     * @param mixed $function the default value is null
@@ -29,7 +27,6 @@ trait ControllerUriTrait {
         }
         return "./?".http_build_query($out).$g;
     }
-
     /**
     * auto generate doc.
     * @param mixed $uri
@@ -40,7 +37,6 @@ trait ControllerUriTrait {
             $out .= "&".$uri;
         return $out;
     }
-
     /**
     * auto generate doc.
     * @param mixed $page

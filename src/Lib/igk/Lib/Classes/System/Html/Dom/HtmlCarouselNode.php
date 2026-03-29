@@ -15,13 +15,11 @@ use IGKException;
  * @package IGK\System\Html\Dom
  */
 class HtmlCarouselNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
-
     /**
     * Initializes.
     */
@@ -34,13 +32,11 @@ class HtmlCarouselNode extends HtmlNode{
      * @return mixed 
      * @throws IGKException 
      */
-
     public function addSlide(){
         $n = $this->add("div");
         $n["class"] = "igk-winui-carousel-slide";
         return $n;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

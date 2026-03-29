@@ -5,13 +5,11 @@
 namespace IGK\System\Database;
 use IGK\Database\IDbColumnInfo;
 use IGK\System\Models\IModelDefinitionInfo;
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
 */
 interface IOneTableDataBaseDefinition extends IDataBaseDefinition{
-
     /**
     * Returns Model Definition.
     * @return IModelDefinitionInfo

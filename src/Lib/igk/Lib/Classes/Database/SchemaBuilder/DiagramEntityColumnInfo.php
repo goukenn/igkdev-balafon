@@ -12,7 +12,6 @@ use IGK\System\Database\DbUtils;
  * 
  * @package 
  */
-
 /**
 * auto generate doc.
 * @package IGK\Database\SchemaBuilder
@@ -21,7 +20,6 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
 {
      use DbColumnInfoTrait;
      use DbColumnInfoMethodTrait;
-
     /**
     * .ctr
     */
@@ -30,12 +28,10 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
           $this->clType = "Int";
           $this->clTypeLength = 9;
      }
-
     /**
     * auto generate doc.
     * @return bool
     */
-
     public function getIsDumpField(): bool
      {
           return DbUtils::GetIsDumpField($this);

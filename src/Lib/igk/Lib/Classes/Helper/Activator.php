@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Actions\IActionRequestValidator;
 use IGK\System\Console\Logger;
@@ -19,25 +18,21 @@ use IGKType;
 use JsonSerializable;
 use ReflectionClass;
 use ReflectionProperty;
-
 /**
  * 
  * @package IGK\Helper;
  */
-
 /**
 * auto generate doc.
 * @package IGK\Helper
 */
 class Activator
 {
-
     /**
     * Property: dyn sources.
     * @var mixed
     */
     private static $sm_dyn_sources;
-
     /**
     * Property: dyn class.
     * @var mixed
@@ -84,17 +79,14 @@ class Activator
             '    } ',
             '} ',
         ]);
-
         self::$sm_dyn_sources[$interface] = [$src, $p];
         eval($src);
     }
-
     /**
     * auto generate doc.
     * @param mixed $resolver
     * @return object
     */
-
     public static function CreateFromInterface(string $interface, $resolver = null)
     {
         $root = $g = igk_sys_reflect_class($interface);
@@ -191,7 +183,6 @@ class Activator
      * @param mixed $class_name 
      * @return array 
      */
-
     public static function GetClassVar($class_name)
     {
         return get_class_vars($class_name);
@@ -199,7 +190,6 @@ class Activator
     /**
      * create new instanace and validate
      */
-
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, &$errors = null)
     {
         $validation = (method_exists($class_name, $fc = 'ValidationData') ?
@@ -220,7 +210,6 @@ class Activator
      * @param string $class_name 
      * @return mixed 
      */
-
     public static function CreateFrom($options, string $class_name)
     {
         if (is_null($options)) {
@@ -242,7 +231,6 @@ class Activator
      * @throws IGKException 
      * @throws Exception class not found
      */
-
     public static function CreateNewInstance($class_name, $data = null, bool $fullfill = false)
     {
         if ($data instanceof $class_name) {
@@ -319,13 +307,11 @@ class Activator
         }
         return $g;
     }
-
     /**
     * auto generate doc.
     * @param mixed $def definition
     * @return void
     */
-
     public static function InitPrivatePropety(callable $callable, $inf, $def)
     {
         if ($fc = $callable->bindTo($inf)) {
@@ -339,7 +325,6 @@ class Activator
      * @return void 
      * @throws IGKException 
      */
-
     public static function BindProperties($p, $v)
     {
         $tvar = array_keys(get_class_vars(get_class($p)));
@@ -348,13 +333,11 @@ class Activator
             $p->$k = $m;
         }
     }
-
     /**
     * auto generate doc.
     * @param string $className
     * @return array
     */
-
     public static function GetInstanceProperties(string $className): array
     {
         $props = [];
@@ -365,7 +348,6 @@ class Activator
             $ref = array_shift($q);
             $id = $ref->getName();
             if (isset($treats[$id])) continue;
-
             $treats[$id] = 1;
             if ($comment = $ref->getDocComment()) {
                 $props = array_merge(self::_GetDocumentProperties($comment), $props);
@@ -381,7 +363,6 @@ class Activator
         }
         return $props;
     }
-
     /**
     * auto generate doc.
     * @param string $doc_comments
@@ -389,7 +370,6 @@ class Activator
     */
     private static function _GetDocumentProperties(string $doc_comments)
     {
-
         $regex = new RegexMatcherContainer;
         $f_props = $regex->begin('@property\\b', '$', 'f-props')->last();
         $f_props->patterns = [

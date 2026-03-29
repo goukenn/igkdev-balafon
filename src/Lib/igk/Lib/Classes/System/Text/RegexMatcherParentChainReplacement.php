@@ -3,7 +3,6 @@
 // @file: RegexMatcherParentChainReplacement.php
 // @date: 20250617 12:49:56
 namespace IGK\System\Text;
-
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -11,13 +10,11 @@ namespace IGK\System\Text;
 */
 class RegexMatcherParentChainReplacement
 {
-
     /**
     * Property: chain parent.
     * @var mixed
     */
     private $m_chain_parent;
-
     /**
     * .ctr
     */
@@ -31,7 +28,6 @@ class RegexMatcherParentChainReplacement
      * @param IRegexEndInfo $e 
      * @return void 
      */
-
     public function mark(string $value, $e)
     {
         $cp = null;
@@ -53,7 +49,6 @@ class RegexMatcherParentChainReplacement
             }
         }
     }
-
     /**
     * Replaces Chain.
     * @param mixed $g

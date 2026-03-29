@@ -22,7 +22,6 @@ use function igk_resources_gets as __;
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
 {
-
     /**
     * Path to dir.
     * @var mixed
@@ -64,7 +63,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * const activate the main layout param
      */
     const MAIN_LAYOUT_PARAM = "@MainLayout";
-
     /**
     * Initializes.
     */
@@ -82,7 +80,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * get location location 
      * @return void 
      */
-
     public function dir()
     {
         return $this->m_dir ?? Path::Combine($this->controller->getDeclaredDir(), "/ViewLayout");
@@ -94,7 +91,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function interup()
     {
         HtmlRenderer::RenderDocument(igk_app()->getDoc());
@@ -104,7 +100,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * get object reference params - layout
      * @return mixed 
      */
-
     public function param()
     {
         return $this->m_params ?? $this->m_params = igk_createobj();
@@ -114,7 +109,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @param string $file 
      * @return bool
      */
-
     public function getLayoutIsSingleView(string $file)
     {
         $ctrl = $this->getController();
@@ -134,7 +128,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @throws EnvironmentArrayException 
      * @throws Exception 
      */
-
     public function include(string $file, ?array $args = null)
     {
         $v_is_ajx_view_request = preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
@@ -168,7 +161,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             igk_include_view_file($ctrl, $v_header, true, $args);
         }
         $response = igk_include_view_file($ctrl, $file, $v_no_cache, $args); 
-
         if (!$v_main && $v_footer && $this->exists($v_footer)) {
             igk_include_view_file($this->controller, $v_footer, true, $args);
         }
@@ -177,7 +169,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $this->didRegisterIconLibrary($lib); 
         return $response;
     }
-
     /**
     * auto generate doc.
     * @param mixed $file
@@ -199,7 +190,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @param IGK\Controllers\args|null *2c206736 
      * @return void 
      */
-
     public function import(string $file, ?array $args = null)
     {
         return ViewHelper::Include($file, $args);
@@ -208,7 +198,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * afert view inclusion
      * @return void 
      */
-
     protected function afterInc()
     {
         // to some thing after inclusion
@@ -218,7 +207,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @param string $file 
      * @return bool 
      */
-
     public function isMainLayout(string $file): bool
     {
         return $this->{'@MainLayout'} || ViewCommentArgs::Check("@MainLayout()", $file);
@@ -227,7 +215,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * get page title 
      * @return string
      */
-
     public function getPageTitle(string $title, $main = false): string
     {
         return $main ?
@@ -242,7 +229,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * login form callback
      * @return callable
      */
-
     public function loginForm()
     {
         return function ($b) {
@@ -254,13 +240,11 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $b->add($form);
         };
     }
-
     /**
     * auto generate doc.
     * @param mixed $lib
     * @return never
     */
-
     public function didRegisterIconLibrary($lib){
         foreach($lib as $context=>$list){
             $list = array_unique($list, SORT_STRING);

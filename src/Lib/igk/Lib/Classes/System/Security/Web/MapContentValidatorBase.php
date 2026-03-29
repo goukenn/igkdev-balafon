@@ -9,38 +9,32 @@ use function igk_resources_gets as __;
 * 
 * @package IGK\System\Security\Web
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
 */
 abstract class MapContentValidatorBase
 {
-
     /**
     * Property: validators.
     * @var mixed
     */
     private static $sm_validators;
-
     /**
     * Property: notvalid msg.
     * @var mixed
     */
     protected $notvalid_msg = 'not a valid number.';
-
     /**
     * Property: missing default value.
     * @var mixed
     */
     protected $missingDefaultValue = null;
-
     /**
     * Property: default value.
     * @var mixed
     */
     protected $defaultValue = null;
-
     /**
     * Property: allow null value.
     * @var mixed
@@ -50,7 +44,6 @@ abstract class MapContentValidatorBase
      * allow null value
      * @return bool 
      */
-
     public function getAllowNullValue(){
         return $this->allowNullValue;
     }
@@ -59,7 +52,6 @@ abstract class MapContentValidatorBase
      * @param bool $allowNull 
      * @return $this 
      */
-
     public function allowNull(bool $allowNull){
         $this->allowNullValue = $allowNull;
         return $this;
@@ -68,11 +60,9 @@ abstract class MapContentValidatorBase
      * check if can update setting
      * @return bool 
      */
-
     public function canUpdateSetting():bool{
         return true;
     }
-
     /**
     * Updates Setting.
     * @param mixed $defaultValue
@@ -88,7 +78,6 @@ abstract class MapContentValidatorBase
         $this->allowNullValue = $allowNullValue;
     }
     public final
-
     /**
     * Called when an object is used as a function.
     * @param mixed $value
@@ -109,7 +98,6 @@ abstract class MapContentValidatorBase
      * @param mixed $missing key not provider in request
      * @return mixed 
      */
-
     public function map($value, $key, &$error, bool $missing=false, bool $required = true){
         if (is_null($value)){
             if (!$this->allowNullValue && $this->defaultValue && $required ){
@@ -127,7 +115,6 @@ abstract class MapContentValidatorBase
             return false;
         return $cvalue;
     }
-
     /**
     * Validates.
     * @param mixed & $value
@@ -135,12 +122,10 @@ abstract class MapContentValidatorBase
     * @return bool
     */
     protected abstract function validate(& $value, $key) : bool;
-
     /**
     * auto generate doc.
     * @return static
     */
-
     public static function Get(string $t)
     {
         $cl = igk_str_ns( Path::Combine(__NAMESPACE__, sprintf('%sContentValidator', $t)));
@@ -158,12 +143,10 @@ abstract class MapContentValidatorBase
      * create a new instance of the validator
      * @return object 
      */
-
     public function createNewInstance(){
         $cl = static::class;
         return new $cl();
     }
-
     /**
     * Handles Error.
     * @param mixed $value

@@ -19,25 +19,21 @@ use IGKEvents;
 use ReflectionClass;
 use ReflectionException;
 require_once(__DIR__."/AppCommandConstant.php");
-
 /**
 * App command.
 * @package IGK\System\Console
 */
 abstract class AppCommand {
-
     /**
     * Constant: env key.
     * @var mixed
     */
     const ENV_KEY = "balafon/command_args";
-
     /**
     * Constant: options tab space.
     * @var mixed
     */
     const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
-
     /**
     * Constant: init command method.
     * @var mixed
@@ -73,7 +69,6 @@ abstract class AppCommand {
      * @var mixed
      */
     var $usage;
-
     /**
     * Property: app.
     * @var mixed
@@ -84,7 +79,6 @@ abstract class AppCommand {
      * @param mixed $usage 
      * @return void 
      */
-
     protected function showCommandUsage(?string $usage=null){
         Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? $this->usage));
     }
@@ -96,7 +90,6 @@ abstract class AppCommand {
      * @return void 
      * @throws EnvironmentArrayException 
      */
-
     public static function Register($command, callable $callable, $desc=""){
         $o = igk_createobj();
         $o->command = $command;
@@ -110,7 +103,6 @@ abstract class AppCommand {
      * @param int $id 
      * @return void 
      */
-
     public static function BindUser(BaseController $controller, int $id){
         if ($user = \IGK\Models\Users::Get(\IGK\Models\Users::FD_CL_ID, $id)){
             $controller::login($user, null, false);
@@ -124,7 +116,6 @@ abstract class AppCommand {
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-
     public static function GetCommands(){
         static $loaded_command = null;
         if ($loaded_command === null){
@@ -205,7 +196,6 @@ abstract class AppCommand {
      * @param mixed $command 
      * @return mixed 
      */
-
     public function run($args, $command){
         if ($fc = $this->callable){
             $argument = func_get_args();
@@ -216,7 +206,6 @@ abstract class AppCommand {
      * help view
      * @return void 
      */
-
     public function help(){
         igk_hook(IGKEvents::COMMAND_HELP_HOOK, ['command'=>$this]);
         Logger::print("");        
@@ -233,7 +222,6 @@ abstract class AppCommand {
      * show command usage
      * @return void 
      */
-
     protected function showUsage(){
         if ($u = $this->usage){
             self::showCommandUsage($u);
@@ -243,7 +231,6 @@ abstract class AppCommand {
      * show command options
      * @return void 
      */
-
     protected function showOptions(){
         $opts = $this->options ??[];
         igk_hook(IGKEvents::COMMAND_HELP_OPTIONS_HOOK, ['command'=>$this, 'options'=> & $opts]);
@@ -275,7 +262,6 @@ abstract class AppCommand {
                 $v = "\n\n".implode("\n", array_map(function($i, $k){
                     return $k.self::OPTIONS_TAB_SPACE.$i;
                 }, $v, array_keys($v)));
-
             }
             Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
         }
@@ -288,7 +274,6 @@ abstract class AppCommand {
      * @param mixed $extra 
      * @return void 
      */
-
     public static function Generate($command, array $bind, ...$extra){    
         foreach($bind as $path=>$callback){
             if (!igk_io_file_exists($path)){
@@ -301,7 +286,6 @@ abstract class AppCommand {
      * @param mixed $command 
      * @return mixed 
      */
-
     public function getAuthor($command){
         if (!$command->app){
             return IGK_AUTHOR;
@@ -313,7 +297,6 @@ abstract class AppCommand {
      * @param mixed $command 
      * @return mixed 
      */
-
     public static function CreateOptionsCommandFrom($command, ?array $options=null){
         $c = (object)$command;
         unset($c->options);

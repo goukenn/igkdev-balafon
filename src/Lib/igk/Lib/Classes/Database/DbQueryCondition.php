@@ -9,31 +9,26 @@ use Exception;
 * @package IGK\Database
 */
 class DbQueryCondition{
-
     /**
     * Property: row.
     * @var mixed
     */
     private $row;
-
     /**
     * Property: data.
     * @var mixed
     */
     private $m_data;
-
     /**
     * Property: operand.
     * @var mixed
     */
     var $operand = 'AND';
-
     /**
     * Constant: op and.
     * @var mixed
     */
     const OP_AND = 'AND';
-
     /**
     * Constant: op or.
     * @var mixed
@@ -44,24 +39,20 @@ class DbQueryCondition{
      * @param array $data 
      * @return void 
      */
-
     public function set(?array $data){
         $this->m_data = $data;
     }
-
     /**
     * auto generate doc.
     * @param OR
     * @return void
     */
-
     public function __construct($obj, $operand='AND')
     {
         $this->row = $obj;
         $this->m_data = [];
         $this->operand = $operand;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -69,7 +60,6 @@ class DbQueryCondition{
     public function __get($n){
         return igk_getv($this->row, $n);
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -86,7 +76,6 @@ class DbQueryCondition{
         }
         $this->row->$n = $v;
     }
-
     /**
     * To array.
     */
@@ -100,18 +89,15 @@ class DbQueryCondition{
      * @return $this 
      * @throws Exception 
      */
-
     public function __call($n, $arguments){
         $this->__set($n, $arguments[0]);
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param array $list
     * @return static
     */
-
     public static function Create(array $list, $operand = self::OP_AND){
         $s = new static((object)array_fill_keys (array_keys($list), null));
         $s->m_data = $list; 

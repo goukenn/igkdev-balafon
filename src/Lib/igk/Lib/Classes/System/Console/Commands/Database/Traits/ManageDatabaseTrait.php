@@ -3,21 +3,17 @@
 // @file: ManageDatabaseTrait.php
 // @date: 20250829 15:51:06
 namespace IGK\System\Console\Commands\Database\Traits;
-
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait ManageDatabaseTrait{
-
     /**
     * Returns Model Class.
     */
     abstract function getModelClass();
-
     /**
     * Exec.
     * @param mixed $command
@@ -36,7 +32,6 @@ trait ManageDatabaseTrait{
 			Logger::print($a->name."\r\t\t\t".$a->url);
 		}, $this->getModelClass()::select_all());
 	}
-
     /**
     * Handle add.
     * @param mixed $command

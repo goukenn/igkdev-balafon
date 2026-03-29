@@ -8,25 +8,21 @@ namespace IGK\Css;
 * @package IGK\System\Css
 */
 class CssThemeOptions{
-
     /**
     * Constant: default theme name.
     * @var mixed
     */
     const DEFAULT_THEME_NAME = self::DARK_THEME_NAME;
-
     /**
     * Constant: dark theme name.
     * @var mixed
     */
     const DARK_THEME_NAME = "dark";
-
     /**
     * Constant: ligth theme name.
     * @var mixed
     */
     const LIGTH_THEME_NAME = "light";
-
     /**
     * Constant: both theme name.
     * @var mixed
@@ -47,13 +43,11 @@ class CssThemeOptions{
      * @var ?array
      */
     var $skips;
-
     /**
     * auto generate doc.
     * @var ?ICssStoreRootListener
     */
     var $rootListener;
-
     /**
     * .ctr
     */

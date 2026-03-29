@@ -9,7 +9,6 @@ use IGK\Helper\ActionHelper;
 use IGK\Models\Users;
 use IGK\System\Html\Forms\FormHelper;
 use IGKValidator;
-
 /**
 * Trait providing sys user password management action functionality.
 * @package IGK\Actions\Traits
@@ -17,7 +16,6 @@ use IGKValidator;
 trait SysUserPasswordManagementActionTrait
 {
     use RedirectHelperActionTrait;
-
     /**
     * Resets Password get.
     * @param BaseController $ctrl
@@ -61,7 +59,6 @@ trait SysUserPasswordManagementActionTrait
             igk_wln_e(__FILE__.":".__LINE__, $linkLoken.'');
         }
     }
-
     /**
     * Resets Password post.
     */

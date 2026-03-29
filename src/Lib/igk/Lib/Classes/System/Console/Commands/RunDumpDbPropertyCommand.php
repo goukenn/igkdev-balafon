@@ -8,25 +8,21 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
 */
 class RunDumpDbPropertyCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = '--db:dump-property';
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = 'db';
-
     /**
     * Property: options.
     * @var mixed
@@ -34,19 +30,16 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
     var $options = [
         '--create-query'=>'',
     ];
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = 'dump model property in controller';
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'model controller';
-
     /**
     * Shows Usage.
     */
@@ -55,7 +48,6 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
         Logger::print("Usage:\n");
         Logger::info(sprintf("%s model controller",$this->command));
     }
-
     /**
     * Exec.
     * @param mixed $command

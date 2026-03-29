@@ -12,7 +12,6 @@ use IGKException;
 * @package IGK\System\Http\Helper
 */
 class Response{
-
     /**
     * Constant: default allowed headers.
     * @var mixed
@@ -23,7 +22,6 @@ class Response{
      * @return void 
      * @throws IGKException 
      */
-
     public static function OptionResponse($data=null, $options=null){
         $_req = Request::getInstance(); 
         $data = $data ?? (igk_environment()->isDev() ?  "/Options:data,request_uri:".igk_io_request_uri():null);
@@ -38,7 +36,6 @@ class Response{
      * @return string[] 
      * @throws IGKException 
      */
-
     public static function GetHeaderOptions(?string $verb='options'){
         $verb = $verb ?? igk_server()->REQUEST_METHOD ?? 'options';
         $_req = Request::getInstance();  
@@ -68,7 +65,6 @@ class Response{
      * get bad request response
      * @return mixed 
      */
-
     public static function BadRequest(){
         static $sm_bad_request;
         if ($sm_bad_request===null){

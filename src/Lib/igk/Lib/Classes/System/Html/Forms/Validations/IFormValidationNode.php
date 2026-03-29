@@ -9,7 +9,6 @@ namespace IGK\System\Html\Forms\Validations;
  * @package IGK\System\Html\Forms
  */
 interface IFormValidationNode{
-
     /**
     * Validates Request.
     * @param mixed & $outputdata

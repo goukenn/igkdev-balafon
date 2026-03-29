@@ -3,7 +3,6 @@
 // @file: RunHookCommand.php
 // @date: 20260323 19:49:30
 namespace IGK\System\Console\Commands\Core;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\StringUtility;
@@ -15,13 +14,11 @@ use IGK\System\Html\Css\CssParser;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\Tests\BaseTestCase\ConnexionStringTest;
 use IGKEvents;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Core
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Core
@@ -29,14 +26,12 @@ use IGKEvents;
 class RunHookCommand extends AppExecCommand
 {
 	var $command = '--run:hook';
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     var $desc = 'run hooks';
-
     /**
     * auto generate doc.
     * @var mixed
@@ -47,14 +42,12 @@ class RunHookCommand extends AppExecCommand
 		'--info' => 'ask for hook command line informations'
 	];
 	/* var $category = ''; */
-
     /**
     * auto generate doc.
     * @var mixed
     * @return
     */
     var $usage = 'hookName ...args [options]';
-
     /**
     * auto generate doc.
     * @param mixed $command
@@ -80,7 +73,6 @@ class RunHookCommand extends AppExecCommand
 		$this->buildArgument($ctrl, $hookName, $arguments, $args);
 		igk_hook($hookName, $arguments);
 	}
-
     /**
     * auto generate doc.
     * @param mixed $ctrl
@@ -109,7 +101,6 @@ class RunHookCommand extends AppExecCommand
 		}
 		$arguments['ctrl'] = $ctrl;
 	}
-
     /**
     * auto generate doc.
     * @param BaseController $ctrl
@@ -128,7 +119,6 @@ class RunHookCommand extends AppExecCommand
 		}
 		return null;
 	}
-
     /**
     * auto generate doc.
     * @param string $hookName
@@ -138,7 +128,6 @@ class RunHookCommand extends AppExecCommand
     public function showHookNameInfo(string $hookName, BaseController $ctrl)
 	{
 		$options = [];
-
 		igk_hook(IGKEvents::FILTER_RUN_HOOK_COMMAND_INFO, ['name' => $hookName, 'ctrl' => $ctrl, 'options' => &$options]);
 		if (!$options) {
 			if ($cl = self::GetControllerCommandClassInfo($ctrl, $hookName)) {

@@ -3,19 +3,16 @@
 // @file: ViewRef.php
 // @date: 20221231 16:35:05
 namespace IGK\System\Html;
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 class ViewRef implements IHtmlGetValue{
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * .ctr
     * @param mixed $data
@@ -23,7 +20,6 @@ class ViewRef implements IHtmlGetValue{
     public function __construct($data){
         $this->data = $data;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $options
@@ -41,7 +37,6 @@ class ViewRef implements IHtmlGetValue{
         }
         return $this->data;
     }
-
     /**
     * get string presentation.
     */

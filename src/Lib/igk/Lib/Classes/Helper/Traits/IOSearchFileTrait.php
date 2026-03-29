@@ -4,7 +4,6 @@
 // @date: 20230323 13:08:20
 namespace IGK\Helper\Traits;
 use IGK\System\IO\Path;
-
 /**
 * auto generate doc.
 * @package IGK\Helper\Traits

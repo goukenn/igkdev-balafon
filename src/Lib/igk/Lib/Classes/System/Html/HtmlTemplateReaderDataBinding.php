@@ -15,25 +15,21 @@ use IGKException;
  */
 class HtmlTemplateReaderDataBinding
 {
-
     /**
     * Property: node.
     * @var mixed
     */
     var $node;
-
     /**
     * Property: data.
     * @var mixed
     */
     var $data;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: source.
     * @var mixed
@@ -52,7 +48,6 @@ class HtmlTemplateReaderDataBinding
      * @param null|array $data raw data
      * @return void 
      */
-
     public function __construct(HtmlItemBase $node, string $source, ?BaseController $ctrl = null, ?array $data = null, ?HtmlLoadingContextOptions $context = null)
     {
         $this->node = $node;
@@ -66,7 +61,6 @@ class HtmlTemplateReaderDataBinding
      * @return string 
      * @throws IGKException 
      */
-
     public function treat()
     {
         $data = $this->data;
@@ -122,7 +116,6 @@ class HtmlTemplateReaderDataBinding
         $cnode->setAttributes($bck_attribs);
         return $engine;
     }
-
     /**
     * auto generate doc.
     * @param array $data binding data with options attached with HtmlBindingContextOptions as loading context

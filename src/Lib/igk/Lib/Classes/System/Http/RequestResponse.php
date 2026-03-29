@@ -11,19 +11,16 @@ use IGKException;
  * 
  * @package IGK\System\Http
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 abstract class RequestResponse extends Response implements IInjectable{
-
     /**
     * Constant: response code 401 unauthorized.
     * @var mixed
     */
     const RESPONSE_CODE_401_UNAUTHORIZED= 401;
-
     /**
     * Constant: response code 403 forbiden.
     * @var mixed
@@ -42,7 +39,6 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @var mixed
      */
     var $status;
-
     /**
     * Returns Status.
     * @param mixed $code
@@ -54,13 +50,11 @@ abstract class RequestResponse extends Response implements IInjectable{
      * output the current response
      * @return void 
      */
-
     public function output(){ 
         $this->_setHeader();
         igk_wl($this->render());
         igk_exit();
     }
-
     /**
     * Set header.
     */
@@ -69,12 +63,10 @@ abstract class RequestResponse extends Response implements IInjectable{
             $this->_treat_header();
         igk_set_header($this->code, self::GetStatus($this->code), $this->headers);  
     }
-
     /**
     * Renders.
     */
     abstract function render();
-
     /**
     * Allow multiple header entry.
     * @param string $header_name
@@ -82,7 +74,6 @@ abstract class RequestResponse extends Response implements IInjectable{
     protected function _allow_multiple_header_entry(string $header_name){
         return in_array($header_name, ['Set-Cookie']);
     }
-
     /**
     * Treat header.
     */
@@ -102,7 +93,6 @@ abstract class RequestResponse extends Response implements IInjectable{
         }, $this->headers); 
         $this->headers = array_values($tab); 
     }
-
     /**
     * Cache output.
     * @param mixed $second
@@ -113,7 +103,6 @@ abstract class RequestResponse extends Response implements IInjectable{
         $this->headers[] = ("Pragma: cache");
         $this->headers[] = ("Cache-Control: max-age={$second}, public");
     }
-
     /**
     * Clears headers.
     */
@@ -128,7 +117,6 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param null|array $headers extrat header
      * @return object 
      */
-
     public static function Create(?string $type, $data,int $code=200, ?array $headers=null){
         $cl = ($type)? __NAMESPACE__."\\".ucfirst($type)."Response" : null;
         if ($cl && class_exists($cl)){
@@ -138,7 +126,6 @@ abstract class RequestResponse extends Response implements IInjectable{
         }  
         return $obj;
     }
-
     /**
     * .ctr
     */
@@ -146,12 +133,10 @@ abstract class RequestResponse extends Response implements IInjectable{
     {
         $this->status = self::GetStatus($this->code);
     }
-
     /**
     * auto generate doc.
     * @return object
     */
-
     public static function CreateResponse(){
         $type = igk_getv(["application/json"=>"json"], igk_server()->CONTENT_TYPE);
         return self::Create($type, null, 200);
@@ -161,11 +146,9 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param mixed $data 
      * @return object 
      */
-
     public function json($data){
         return static::Create(__FUNCTION__, $data);
     }
-
     /**
     * Download.
     * @param mixed $name
@@ -184,7 +167,6 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param string $type 
      * @return object 
      */
-
     public static function Response(array $data=[], $type='json'){
         $ref = Activator::CreateNewInstance(RequestResponseInfo::class, $data, true);
         return self::Create($type,

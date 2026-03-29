@@ -17,19 +17,16 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
  */
 class SchemaBuilder implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     /**
     * Property: output.
     * @var mixed
     */
     private $_output;
-
     /**
     * Property: migrations.
     * @var mixed
     */
     private $_migrations;
-
     /**
     * .ctr
     */
@@ -43,7 +40,6 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws Exception 
      */
-
     public function render($options=null){
         return rtrim($this->_output->render($options));
     }
@@ -55,7 +51,6 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function createTable(string $table, ?string $desc=null){
         $n = $this->_output->add(DbSchemas::DATA_DEFINITION);
         $n["TableName"] = $table;
@@ -68,7 +63,6 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function migrations(){
         if ($this->_migrations==null){
             $n =  $this->_output->add(DbSchemas::MIGRATIONS_TAG);
@@ -81,7 +75,6 @@ class SchemaBuilder implements ArrayAccess{
      * @param string $comment 
      * @return HtmlCommentNode 
      */
-
     public function comment(?string $comment=null): HtmlCommentNode{
         $n = new HtmlCommentNode();
         $n->setContent($comment);
@@ -89,7 +82,6 @@ class SchemaBuilder implements ArrayAccess{
         return $n;
     }
     //
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -99,7 +91,6 @@ class SchemaBuilder implements ArrayAccess{
         $this->_output[$n] = $v;
     }
     //
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -108,7 +99,6 @@ class SchemaBuilder implements ArrayAccess{
         return $this->_output[$n];
     }
     //
-
     /**
     * Access offset exists.
     * @param mixed $n
@@ -118,7 +108,6 @@ class SchemaBuilder implements ArrayAccess{
         return isset($this->_output[$n]);
     }
     //
-
     /**
     * Access offset unset.
     * @param mixed $n

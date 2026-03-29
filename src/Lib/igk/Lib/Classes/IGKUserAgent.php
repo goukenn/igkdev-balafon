@@ -7,18 +7,15 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Igkuser agent.
 */
 class IGKUserAgent{
-
     /**
     * Constant: regex android.
     * @var mixed
     */
     const REGEX_ANDROID="android";
-
     /**
     * Constant: regex android buildnumber.
     * @var mixed

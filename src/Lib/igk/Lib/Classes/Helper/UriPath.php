@@ -4,14 +4,12 @@
 // @date: 20221124 12:54:37
 namespace IGK\Helper;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\Helper
 */
 class UriPath
 {
-
     /**
     * Constant: action extention pattern.
     * @var mixed

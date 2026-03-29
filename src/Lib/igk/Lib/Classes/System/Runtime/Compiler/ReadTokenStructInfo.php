@@ -9,14 +9,12 @@ use IGKException;
  * 
  * @package IGK\System\Runtime\Compiler
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenStructInfo
 {
-
     /**
     * Property: pop buffer.
     * @var mixed
@@ -57,7 +55,6 @@ class ReadTokenStructInfo
      * @var int
      */
     var $depth = 0;
-
     /**
     * auto generate doc.
     * @var ReadTokenStructInfo
@@ -68,13 +65,11 @@ class ReadTokenStructInfo
      * @var bool
      */
     var $readCode = false;
-
     /**
     * Property: extends.
     * @var mixed
     */
     var $extends;
-
     /**
     * Property: implements.
     * @var mixed
@@ -100,13 +95,11 @@ class ReadTokenStructInfo
      * @var mixed
      */
     protected $m_output;
-
     /**
     * Property: merge variable.
     * @var mixed
     */
     var $mergeVariable =false;
-
     /**
     * .ctr
     * @param string $type
@@ -118,7 +111,6 @@ class ReadTokenStructInfo
         }
         $this->type  = $type;
     }
-
     /**
     * Returns Header.
     */
@@ -127,13 +119,11 @@ class ReadTokenStructInfo
         return sprintf("%s", implode(" ", array_filter([$mod, $this->type, 
          $this->name]))); 
     }
-
     /**
     * auto generate doc.
     * @param ReadTokenOptions $options
     * @return void
     */
-
     public function buildBuffer(?IReadTokenMergeOption $options=null)
     { 
         $v_buffer = $this->buffer ?? "";
@@ -180,7 +170,6 @@ class ReadTokenStructInfo
      * get the generated output
      * @return mixed 
      */
-
     public function output(?IReadTokenMergeOption $options=null){ 
         $bck = & $this->buffer ;
         $this->m_output = "";
@@ -190,7 +179,6 @@ class ReadTokenStructInfo
         $this->buffer = & $bck;
         return $this->m_output;
     }
-
     /**
     * Initializes Flag Option.
     * @param ReadTokenOptions $options
@@ -198,7 +186,6 @@ class ReadTokenStructInfo
     public function initFlagOption(ReadTokenOptions $options){
         return ["op"=>"name"];
     }
-
     /**
     * Updates Parent Buffer.
     * @return bool
@@ -206,7 +193,6 @@ class ReadTokenStructInfo
     public function updateParentBuffer():bool{
         return false;
     }
-
     /**
     * Generates Php Doc.
     * @param mixed $options

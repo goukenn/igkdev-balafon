@@ -3,7 +3,6 @@
 // @file: IMarkdownElementListener.php
 // @date: 20260130 18:39:27
 namespace IGK\System\IO\Markdown;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\Markdown
@@ -11,7 +10,6 @@ namespace IGK\System\IO\Markdown;
 */
 interface IMarkdownElementListener
 {
-
     /**
     * Did state changed.
     * @return string
@@ -19,21 +17,18 @@ interface IMarkdownElementListener
     function didStateChanged();
     function didHandleOutput(& $isSingleDefinition, & $output);
     function title(string $text, int $level, ?string $slug = null): string;
-
     /**
     * Par.
     * @param string $text
     * @return string
     */
     function par(string $text): string;
-
     /**
     * Default.
     * @param string $text
     * @return string
     */
     function default(string $text): string;
-
     /**
     * Filters.
     * @param mixed $token_id

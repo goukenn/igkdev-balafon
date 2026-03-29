@@ -13,7 +13,6 @@ trait DbDataDefinitionTrait{
      * @var string
      */
     var $TableName;
-
     /**
     * auto generate doc.
     * @var ?string

@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Configuration\Controllers;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -16,19 +15,16 @@ use IGK\Models\Subdomains;
 use IGKException;
 use IGKSubDomainManager;
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @package IGK\System\Configuration\Controllers
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Configuration\Controllers
 */
 final class SubDomainController extends ConfigControllerBase
 {
-
     /**
     * auto generate doc.
     * @return
@@ -46,7 +42,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-
     /**
     * auto generate doc.
     * @return
@@ -59,7 +54,6 @@ final class SubDomainController extends ConfigControllerBase
         $this->View();
         igk_ajx_replace_node($s, "#igk-cnf-content");
     }
-
     /**
     * Dom add db domain ajx.
     */
@@ -105,7 +99,6 @@ final class SubDomainController extends ConfigControllerBase
         igk_html_form_initfield($frm);
         igk_ajx_panel_dialog(__("Add domain"), $dv);
     }
-
     /**
     * Dom add db edit domain ajx.
     */
@@ -133,7 +126,6 @@ final class SubDomainController extends ConfigControllerBase
         $frm->addConfirm(1);
         igk_ajx_panel_dialog(__("Edit Domain"), $dv);
     }
-
     /**
     * Dom drop db s domain ajx.
     */
@@ -170,7 +162,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-
     /**
     * Dom drop domain ajx.
     */
@@ -213,7 +204,6 @@ final class SubDomainController extends ConfigControllerBase
         // $frame->Form->addHidden("i", igk_getr("i"));
         // $frame->renderAJX();
     }
-
     /**
     * Dom drop domaintable.
     */
@@ -245,7 +235,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-
     /**
     * Dom edit domain ajx.
     */
@@ -278,7 +267,6 @@ final class SubDomainController extends ConfigControllerBase
         }
         igk_flush_data();
     }
-
     /**
     * Returns Config Page.
     */
@@ -287,7 +275,6 @@ final class SubDomainController extends ConfigControllerBase
         return "domain";
     }   
     ///get the controller that contain domain from setting. for the first usage
-
     /**
     * Returns Domain Ctrl.
     * @param mixed $n
@@ -309,16 +296,13 @@ final class SubDomainController extends ConfigControllerBase
      * controller name 
      * @return string 
      */
-
     public function getName(): string{
         return IGK_SUBDOMAINNAME_CTRL;
     }
-
     /**
     * auto generate doc.
     * @return static
     */
-
     public function View():BaseController{
         $t = $this->TargetNode;
         if (!$this->getIsVisible()) {
@@ -330,13 +314,11 @@ final class SubDomainController extends ConfigControllerBase
         }
         return $this;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
     * @return void
     */
-
     protected function subdomain_view($n)
     {
         $ctrl = $this;
@@ -385,7 +367,6 @@ final class SubDomainController extends ConfigControllerBase
         }
        // $n->ajxa($this->getUri("update-view-list_ajx"))->Content = "Updatelist:";
     }
-
     /**
     * auto generate doc.
     * @return
@@ -396,7 +377,6 @@ final class SubDomainController extends ConfigControllerBase
         $this->subdomain_view($n);  
         igk_ajx_replace_node($n, ".subdomain-listview");
     }
-
     /**
     * Shows Config.
     */
@@ -404,5 +384,4 @@ final class SubDomainController extends ConfigControllerBase
     {
         parent::showConfig();     
     }
-  
 }

@@ -9,7 +9,6 @@ use IGK\Helper\Database;
  * @package IGK\System\Database
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Database
@@ -25,13 +24,11 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
      * @var ?string
      */
     var $file;
-
     /**
     * auto generate doc.
     * @var ?ISchemaMigrationLoadingList
     */
     var $definition;
-
     /**
     * Returns Table Schema File Definition.
     * @param string $tablename
@@ -40,24 +37,20 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     {
         return igk_getv($this->definition->tables, $tablename);
     }
-
     /**
     * Property: changes.
     * @var mixed
     */
     private $m_changes = [];
-
     /**
     * auto generate doc.
     * @param string $tablename
     * @return void
     */
-
     public function regDefTableChanged(string $tablename)
     {
         $this->m_changes[$tablename] = 1;
     }
-
     /**
     * Did migration complete.
     */

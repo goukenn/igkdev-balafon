@@ -8,13 +8,11 @@ namespace IGK\System\Http;
  * 
  * @package IGK\System\Http
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Http
 */
 class RequestUtility{
-
     /**
     * auto generate doc.
     * @param bool $update

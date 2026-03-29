@@ -6,19 +6,16 @@ namespace IGK\System\Console\Commands\Sync;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\SyncAppExecCommandBase\Sync;
 use IGK\System\Console\Logger;
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command='--sync:node-package-manager';
-
     /**
     * Property: desc.
     * @var mixed
@@ -28,7 +25,6 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
      * get merged scripts
      * @return string[] 
      */
-
     protected function getMergedScripts(){
         return [
             IGK_LIB_DIR."/Inc/core/installer-core-function.pinc",
@@ -40,7 +36,6 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
     }
 	/* var $options=[]; */
 	/* var $category; */
-
     /**
     * Exec.
     * @param mixed $command

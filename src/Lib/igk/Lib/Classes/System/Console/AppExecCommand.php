@@ -12,19 +12,16 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
-
 /**
 * App exec command.
 * @package IGK\System\Console
 */
 abstract class AppExecCommand extends AppCommand{
-
     /**
     * Property: handle.
     * @var mixed
     */
     protected $handle;
-
     /**
     * Property: colorizer.
     * @var mixed
@@ -34,7 +31,6 @@ abstract class AppExecCommand extends AppCommand{
      * user category
      */
     const USER_CAT = 'users';
-
     /**
     * Constant: sys ctrl placeholder.
     * @var mixed
@@ -47,7 +43,6 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed 
      * @throws IGKException 
      */
-
     protected static function GetOptions($command, string $list){        
         foreach(explode("|", $list) as $m){
             if ($m = igk_getv($command->options, $m)){
@@ -63,7 +58,6 @@ abstract class AppExecCommand extends AppCommand{
      * @return void 
      * @throws Exception 
      */
-
     public static function BindUserCommand($ctrl, $command, $arg='--user'){
         $uref = null;
         if ($id = intval($uref = igk_getv($command->options, $arg))) {
@@ -80,7 +74,6 @@ abstract class AppExecCommand extends AppCommand{
      * @param string $list 
      * @return true|void 
      */
-
     protected static function GetHasOptions($command, string $list){        
         foreach(explode("|", $list) as $m){
             if (property_exists($command->options, $m)){
@@ -92,7 +85,6 @@ abstract class AppExecCommand extends AppCommand{
      * get colorize 
      * @return Colorize 
      */
-
     protected function getColorizer(){
         return $this->m_colorizer ?? $this->m_colorizer = new Colorize;
         return new Colorize;
@@ -101,7 +93,6 @@ abstract class AppExecCommand extends AppCommand{
      * initialize command
      * @return void 
      */
-
     public function __construct(){
         $this->handle = [$this, "exec"];
     }
@@ -111,7 +102,6 @@ abstract class AppExecCommand extends AppCommand{
      * @param mixed $command source command options
      * @return mixed 
      */
-
     public function run($args, $command)
     {
         if ($this->handle){
@@ -132,12 +122,10 @@ abstract class AppExecCommand extends AppCommand{
             };
         }
     }
-
     /**
     * Exec.
     * @param mixed $command
     */
-
     public abstract function exec($command);
     /**
      * get controller helper
@@ -146,7 +134,6 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed|BaseController  
      * @throws IGKException 
      */
-
     protected static function GetController(?string $controller, $throwex = 1, $autoregister = true){
         if (is_null($controller)){
             if ($throwex){
@@ -169,7 +156,6 @@ abstract class AppExecCommand extends AppCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     protected function _dieController(?string $controller, bool $system=false){
 		if ($controller){
 			if ($controller != self::SYS_CTRL_PLACEHOLDER){
@@ -190,7 +176,6 @@ abstract class AppExecCommand extends AppCommand{
      * @return mixed 
      * @throws Exception 
      */
-
     public static function ResolveController($command, $controller=null, bool $fall_to_sys=true){
         $controller = $controller ?? igk_getv($command->options, '--controller' );
 		if ($controller){

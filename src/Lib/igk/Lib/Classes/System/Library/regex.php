@@ -2,7 +2,6 @@
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherParentChainReplacement;
 if (!function_exists('igk_dump_export')) {
-
     /**
     * auto generate doc.
     * @param string $m

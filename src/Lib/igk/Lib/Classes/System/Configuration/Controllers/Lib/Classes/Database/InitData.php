@@ -4,13 +4,11 @@
 namespace IGK\Database;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Database\InitBase;
-
 /**
 * auto generate doc.
 * @package IGK\Database
 */
 class InitData extends InitBase{
-
     /**
     * Initializes.
     * @param IGK\System\Configuration\Controllers\ConfigureController $controller

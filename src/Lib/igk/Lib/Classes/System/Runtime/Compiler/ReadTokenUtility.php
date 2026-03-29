@@ -6,19 +6,16 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\LinePrefixMapper;
 use IGKException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenUtility
 {
-
     /**
     * auto generate doc.
     * @param mixed $mod
@@ -98,7 +95,6 @@ class ReadTokenUtility
         }
         return $sb . "";
     }
-
     /**
     * auto generate doc.
     * @param null|StringBuilder $cheader
@@ -106,7 +102,6 @@ class ReadTokenUtility
     */
     public static function GenerateStruct($structs, bool $header = false, ?IReadTokenMergeOption $options = null)
     {
-
         /**
         * auto generate doc.
         * @var ReadTokenStructInfo|ReadTokenStructFunctionInfo $tm

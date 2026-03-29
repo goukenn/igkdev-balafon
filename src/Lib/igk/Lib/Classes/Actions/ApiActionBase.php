@@ -17,19 +17,16 @@ use Throwable;
  * @package IGK\Actions
  */
 abstract class ApiActionBase extends MiddlewireActionBase{
-
     /**
     * Property: response.
     * @var mixed
     */
     protected $response;
-
     /**
     * Property: status.
     * @var mixed
     */
     protected $status;
-
     /**
     * .ctr
     */
@@ -38,7 +35,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         parent::__construct();
         $this->status = RequestResponseCode::Ok;
     }
-
     /**
     * Die.
     * @param mixed $message
@@ -48,7 +44,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
-
     /**
     * Json.
     * @param mixed $data
@@ -62,7 +57,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
      * @param mixed $response 
      * @return bool 
      */
-
     protected function _handleResponse($response): bool
     {
         // + | --------------------------------------------------------------------
@@ -74,7 +68,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         }
         return parent::_handleResponse($response) || is_array($response); 
     }
-
     /**
     * Handle method not found.
     * @param mixed $name
@@ -84,7 +77,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         igk_ilog(sprintf('method %s not found in ', $name, get_class($this)));
         $this->die("method not found:".$name, 500);
     }
-
     /**
     * Handle throwable.
     * @param Throwable $ex
@@ -98,7 +90,6 @@ abstract class ApiActionBase extends MiddlewireActionBase{
             'message'=>"misconfiguration. Action handle throwable",
             'real_message'=>$ex->getMessage(),
             'at'=>$ex->getFile().":".$ex->getLine(),
-            
             ] : null, $ex->getCode());  
     } 
 }

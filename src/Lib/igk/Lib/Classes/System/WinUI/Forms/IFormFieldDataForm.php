@@ -9,13 +9,11 @@ use IGK\System\Html\IFormFieldContainer;
 * @package IGK\System\WinUI\Forms
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI\Forms
 */
 interface IFormFieldDataForm extends IFormFieldContainer{
-
     /**
     * auto generate doc.
     * @param mixed $context

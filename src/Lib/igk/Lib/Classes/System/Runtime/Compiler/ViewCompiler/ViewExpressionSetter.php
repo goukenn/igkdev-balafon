@@ -10,13 +10,11 @@ use IGK\System\Html\Dom\HtmlNode;
 * @package IGK\System\Runtime\Compiler
 */
 final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAccess{
-
     /**
     * Property: update.
     * @var mixed
     */
     private $m_update =false;
-
     /**
     * Property: update express.
     * @var mixed
@@ -27,7 +25,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
      * @var mixed
      */
     private $m_name;
-
     /**
     * Access offset set.
     * @param mixed $n
@@ -48,7 +45,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         else 
             $this->update_express .= var_export($v, true).";";
     }
-
     /**
     * Access offset get.
     * @param mixed $n
@@ -66,14 +62,12 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
             return $p; 
         }
     }
-
     /**
     * Returns Is Update.
     */
     public function getIsUpdate(){
         return $this->m_update;
     }
-
     /**
     * Resets Update.
     */
@@ -81,7 +75,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         $this->m_update = false;
         $this->update_express = null;
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -91,7 +84,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
             return $this->_access_OffsetGet($n);
         return $this->m_variables[$n];
     }
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $name
@@ -108,7 +100,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
      * get update expression
      * @return null 
      */
-
     public function getExpression(string $source){
         $n =  $this->m_name;
         $o = igk_getv($this->m_variables, $n);

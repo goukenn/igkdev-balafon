@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
-
 /**
 * Html select node.
 * @package IGK\System\Html\Dom
 */
 class HtmlSelectNode extends HtmlNode{
-
     /**
     * Name of tagname.
     * @var mixed
@@ -21,7 +19,6 @@ class HtmlSelectNode extends HtmlNode{
      *
      * @param bool $autoremove Whether the node should be automatically removed.
      */
-
     public function __construct(bool $autoremove=true){
         parent::__construct();    
     }

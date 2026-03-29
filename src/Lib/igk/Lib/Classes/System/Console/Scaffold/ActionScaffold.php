@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Scaffold;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Console\App;
@@ -15,25 +14,21 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Console\Scaffold
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Console\Scaffold
 */
 class ActionScaffold extends ScaffoldBase
 {
-
     /**
     * auto generate doc.
     * @var string
     */
     var $description = "generate REST action";
-
     /**
     * auto generate doc.
     * @param null|string $name
@@ -58,7 +53,6 @@ class ActionScaffold extends ScaffoldBase
         Logger::print("--model:[model_name]\r\t\t\tset the model");
         Logger::print("--force \r\t\t\tfoce model creation");
     }
-
     /**
     * Runs.
     * @param mixed $command
@@ -162,7 +156,6 @@ EOF;
         }
         Logger::success("Done. " . igk_sys_request_time());
     }
-
     /**
     * auto generate doc.
     * @param mixed $file

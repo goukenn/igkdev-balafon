@@ -85,49 +85,41 @@ class HtmlRendererOptions
      * @var ?IGKHtmlDoc
      */
     var $Document;
-
     /**
     * Property: body only.
     * @var mixed
     */
     var $BodyOnly = 0;
-
     /**
     * Property: attachement.
     * @var mixed
     */
     var $Attachement;
-
     /**
     * Property: stand alone.
     * @var mixed
     */
     var $StandAlone = 0;
-
     /**
     * Cache: cache.
     * @var mixed
     */
     var $Cache;
-
     /**
     * Cache: cache uri.
     * @var mixed
     */
     var $CacheUri = 0;
-
     /**
     * Cache: cache uri level.
     * @var mixed
     */
     var $CacheUriLevel = 0;
-
     /**
     * Property: flag no attrib escape.
     * @var mixed
     */
     var $flag_no_attrib_escape;
-
     /**
     * Property: attribute entity escape.
     * @var mixed
@@ -138,7 +130,6 @@ class HtmlRendererOptions
      * @var array
      */
     var $Tab = [];
-
     /**
     * Property: chain.
     * @var mixed
@@ -179,7 +170,6 @@ class HtmlRendererOptions
      * @var ?array|callable 
      */
     var $skipTags;
-
     /**
     * auto generate doc.
     * @var for aside items
@@ -196,7 +186,6 @@ class HtmlRendererOptions
      * @param mixed $v 
      * @return void 
      */
-
     public function __set($n, $v)
     {
         if (is_null($v)) {
@@ -211,7 +200,6 @@ class HtmlRendererOptions
      * @return mixed 
      * @throws IGKException 
      */
-
     public function __get($n)
     {
         return igk_getv($this->m_properties, $n);
@@ -222,12 +210,10 @@ class HtmlRendererOptions
      * @param mixed &$v 
      * @return void 
      */
-
     public function setRef($n, &$v)
     {
         $this->m_properties[$n] = &$v;
     }
-
     /**
     * Returns Ref.
     * @param mixed $n
@@ -240,7 +226,6 @@ class HtmlRendererOptions
         }
         return $rg;
     }
-
     /**
     * check if isset innaccessible property
     * @param mixed $n

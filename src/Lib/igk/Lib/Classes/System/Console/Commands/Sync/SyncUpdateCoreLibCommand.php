@@ -16,25 +16,21 @@ use IGK\System\Shell\OsShell;
  * clear cache in ftp sync server */
 class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--sync:update-corelib";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "sync";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "sync balafon corelib";
-
     /**
     * Property: options.
     * @var mixed
@@ -46,7 +42,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         '--no-subdomain'=>'flag: disable subdomain',
         '--no-webconfig'=>'disable web configuration'
     ];
-
     /**
     * Exec.
     * @param mixed $command

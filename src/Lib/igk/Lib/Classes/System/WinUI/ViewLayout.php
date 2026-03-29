@@ -10,19 +10,16 @@ use IGK\Constants;
 * @package IGK\System\WinUI
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI
 */
 class ViewLayout{
-
     /**
     * Property: controller.
     * @var mixed
     */
     private $m_controller;
-
     /**
     * Property: styleloaded.
     * @var mixed
@@ -37,21 +34,17 @@ class ViewLayout{
      * get base controller 
      * @return BaseController
      */
-
     public function getController(){
         return $this->m_controller;
     }
-
     /**
     * auto generate doc.
     * @param BaseController $value
     * @return void
     */
-
     public function setController(BaseController $value){
         $this->m_controller = $value;
     }
-
     /**
     * Returns true if Style Loaded.
     * @param string $file
@@ -59,7 +52,6 @@ class ViewLayout{
     public function isStyleLoaded(string $file){
         return $this->m_styleloaded && key_exists($file, $this->m_styleloaded);
     }
-
     /**
     * Style loaded.
     * @param string $file
@@ -67,7 +59,6 @@ class ViewLayout{
     public function styleLoaded(string $file){
         $this->m_styleloaded[$file] = 1;
     }
-
     /**
     * Clears Loaded Styles.
     */

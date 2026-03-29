@@ -8,31 +8,26 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressionSetterValueInfo{
-
     /**
     * Property: in use.
     * @var mixed
     */
     private $m_inUse = false;
-
     /**
     * Property: value.
     * @var mixed
     */
     private $m_value;
-
     /**
     * Identifier: id.
     * @var mixed
     */
     private $m_id;
-
     /**
     * Callback handler for update callback.
     * @var mixed
     */
     private $m_updateCallback;
-
     /**
     * .ctr
     * @param mixed $id
@@ -48,7 +43,6 @@ class ViewExpressionSetterValueInfo{
      * get value and count
      * @return mixed 
      */
-
     public function getValue(){
         if (!$this->m_inUse){
             $this->m_inUse = 1;
@@ -60,7 +54,6 @@ class ViewExpressionSetterValueInfo{
         }
         return $this->m_value;
     }
-
     /**
     * Returns Is In Use.
     */

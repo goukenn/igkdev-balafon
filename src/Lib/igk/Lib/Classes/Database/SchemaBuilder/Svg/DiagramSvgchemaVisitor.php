@@ -13,43 +13,36 @@ use IGK\System\Html\XML\XmlNode;
  * @package igk\db\schemaBuilder
  */
 class DiagramSvgchemaVisitor extends DiagramVisitor{
-
     /**
     * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
-
     /**
     * Property: defs.
     * @var mixed
     */
     private $defs = null;
-
     /**
     * Property: width.
     * @var mixed
     */
     var $width;
-
     /**
     * Property: height.
     * @var mixed
     */
     var $height;
-
     /**
     * Constant: default width.
     * @var mixed
     */
     const DEFAULT_WIDTH  = 500;
-
     /**
     * Constant: default height.
     * @var mixed
     */
     const DEFAULT_HEIGHT = 500;
-
     /**
     * Starts.
     * @return string
@@ -61,7 +54,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox='0 0 {0} {1}' width='{0}' height='{1}' >", 
             $this->width ?? self::DEFAULT_WIDTH, $this->height ?? self::DEFAULT_HEIGHT);
     }
-
     /**
     * Complete.
     * @return string
@@ -74,7 +66,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         .        
         "</svg>";
     }
-
     /**
     * Visit diagram entity.
     * @param mixed $entity

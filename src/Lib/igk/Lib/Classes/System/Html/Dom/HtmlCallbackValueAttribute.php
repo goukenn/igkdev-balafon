@@ -9,19 +9,16 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlCallbackValueAttribute extends HtmlItemAttribute{
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     var $callback;
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options;
-
     /**
     * .ctr
     * @param callable $callback
@@ -32,7 +29,6 @@ class HtmlCallbackValueAttribute extends HtmlItemAttribute{
         $this->callback = $callback;
         $this->options = $options;
     }
-
     /**
     * Returns Value.
     * @param null|mixed $option

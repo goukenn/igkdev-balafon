@@ -11,13 +11,11 @@ use IGKException;
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompileProcessCommandHandler{
-
     /**
     * auto generate doc.
     * @var IViewCompiler
@@ -34,7 +32,6 @@ class ViewCompileProcessCommandHandler{
             "@Import"=>'importFile',
             "@Include"=>'includeFile',
         ];
-
     /**
     * .ctr
     * @param IViewCompiler $compiler
@@ -43,7 +40,6 @@ class ViewCompileProcessCommandHandler{
         {
             $this->compiler = $compiler;
         }
-
     /**
     * Evaluate.
     * @param mixed $data
@@ -76,7 +72,6 @@ class ViewCompileProcessCommandHandler{
                 }
             }
         }
-
     /**
     * Reads Layout Args.
     * @param string $data
@@ -84,14 +79,12 @@ class ViewCompileProcessCommandHandler{
     public static function ReadLayoutArgs(string $data){
             return StringUtility::ReadArgs($data, ",");
         }
-
     /**
     * Renders Php Version.
     */
     public function renderPhpVersion(){
             return "echo PHP_VERSION;\n";
         }
-
     /**
     * Sets View As Main Layout.
     */
@@ -101,7 +94,6 @@ class ViewCompileProcessCommandHandler{
         /**
          * import file in layout
          */
-
     public function includeFile(string $file){  
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");
@@ -110,13 +102,11 @@ class ViewCompileProcessCommandHandler{
                 return "include '{$v_cfile}';\n";
             }
         }
-
     /**
     * auto generate doc.
     * @param string $file
     * @return string|void
     */
-
     public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;
             if (igk_io_file_exists($v_cfile = $dir."/".$file)){
@@ -138,7 +128,6 @@ class ViewCompileProcessCommandHandler{
                 return 'include '.igk_io_collapse_const_path($cache_file).";\n"; 
             }
         }
-
     /**
     * Renders Blf Version.
     */

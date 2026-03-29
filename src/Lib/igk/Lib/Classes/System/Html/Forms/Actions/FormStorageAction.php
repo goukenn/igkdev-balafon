@@ -14,31 +14,26 @@ use IGK\System\Http\Request;
  * @package 
  */
 class FormStorageAction extends ActionBase{
-
     /**
     * Property: fields.
     * @var mixed
     */
     private $m_fields;
-
     /**
     * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
-
     /**
     * Property: form cref.
     * @var mixed
     */
     var $formCref = 1;
-
     /**
     * Property: method.
     * @var mixed
     */
     var $method = "POST";
-
     /**
     * Type of enc type.
     * @var mixed
@@ -81,7 +76,6 @@ class FormStorageAction extends ActionBase{
      * @return HtmlItemBase<mixed, mixed> 
      * @throws IGKException 
      */
-
     public function form(?callable $actions=null){
         $uri = $this->uri;
         $form = igk_create_node("form");//, null, [$uri, $action]);
@@ -103,13 +97,11 @@ class FormStorageAction extends ActionBase{
         }
         return $form;
     }
-
     /**
     * auto generate doc.
     * @param callable $callback
     * @return void
     */
-
     function __construct($fields, callable $callback, $listener=null)
     {
         $this->m_fields = $fields;
@@ -117,7 +109,6 @@ class FormStorageAction extends ActionBase{
         $this->listener = is_null($listener) ? ViewHelper::CurrentCtrl() : $listener;
         $this->throwActionNotFound = false;
     }
-
     /**
     * Store.
     * @param Request $request
@@ -148,7 +139,6 @@ class FormStorageAction extends ActionBase{
      * @param mixed $params 
      * @return never 
      */
-
     public function handle_actions($fname, $params){
         $action = $this->action? $this->action: $this->uri[1];
         $o = igk_view_handle_actions($fname, [

@@ -12,19 +12,16 @@ use IGK\System\IO\File\PHPScriptBuilder;
  * @package 
  */
 class FixLangCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--fix:lang";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "Fixing";
-
     /**
     * Property: desc.
     * @var mixed
@@ -33,7 +30,6 @@ class FixLangCommand extends AppExecCommand{
     /**
      * fix language 
      */
-
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");

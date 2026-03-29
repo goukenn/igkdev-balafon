@@ -3,7 +3,6 @@
 // @file: HtmlNodeBuilder.php
 // @date: 20230311 06:46:24
 namespace IGK\System\Html;
-
 use Closure;
 use Error;
 use Exception;
@@ -21,37 +20,31 @@ use IGK\System\IToArray;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Html
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
 {
-
     /**
     * Property: context tab.
     * @var mixed
     */
     private $m_context_tab = [];
-
     /**
     * Property: template.
     * @var mixed
     */
     private $m_template = [];
-
     /**
     * Name of fallback tag name.
     * @var mixed
     */
     var $fallbackTagName = 'div';
-
     /**
     * Constant: raw context field.
     * @var mixed
@@ -62,7 +55,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @var ?string
      */
     var $contextDataArgsClass;
-
     /**
     * Property: t.
     * @var mixed
@@ -77,7 +69,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @var false
      */
     public $preserveTagCase = false;
-
     /**
     * Constant: key condition.
     * @var mixed
@@ -103,19 +94,16 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * attribute activation key ["_@"]=[]
      */
     const KEY_ATTRIBS_ACTIVATION = '_@';
-
     /**
     * Constant: key callback host.
     * @var mixed
     */
     const KEY_CALLBACK_HOST = 'fn()';
-
     /**
     * Constant: key invoke on last.
     * @var mixed
     */
     const KEY_INVOKE_ON_LAST = '::';
-
     /**
     * Constant: key invoke on parent last.
     * @var mixed
@@ -125,7 +113,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * should be use with string method name, ['::fn()'=>function()]
      */
     const KEY_INVOKE_FUNC = '::fn()';
-
     /**
     * Constant: tag key.
     * @var mixed
@@ -135,7 +122,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * tag exploder
      */
     protected $explode;
-
     /**
     * Pushes Context.
     * @param mixed $new_context
@@ -149,7 +135,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $this->m_context = $new_context;
         return $l_context;
     }
-
     /**
     * Pops Context.
     */
@@ -162,12 +147,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * set context object 
      */
-
     public function setContext(?object $context)
     {
         $this->m_context = $context;
     }
-
     /**
     * auto generate doc.
     */
@@ -184,12 +167,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function __toString()
     {
         return $this->t->render();
     }
-
     /**
     * Returns true if In Template Definition.
     */
@@ -202,7 +183,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param HtmlItemBase $node core node
      * @return void 
      */
-
     public function __construct(?HtmlItemBase $node = null)
     {
         $this->t = $node ?? igk_create_notagnode();
@@ -218,7 +198,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function build($data, ?HtmlItemBase $target = null, ?IHtmlNodeBuilderVisitor $visitor = null,  $context = null)
     {
         $this->m_context = $context ?? $this->m_context;
@@ -240,7 +219,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function setup($node, $data, &$lastchild = null)
     {
         $tnode = $node;
@@ -268,7 +246,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-
     public function __invoke($def_or_tag_expression)
     {
         $v_context = null;
@@ -303,7 +280,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         return $this->build($data, $target, $v_visitor,  $v_context);
     }
-
     /**
     * auto generate doc.
     * @param mixed & $q
@@ -326,7 +302,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function explodeTag(string $tag, &$node, $context = null)
     {
         return $this->explode->explode($tag, $node, $context ?? $this->getContext());
@@ -336,7 +311,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param HtmlItemBase $n 
      * @return string 
      */
-
     public static function Generate(HtmlItemBase $n, bool $ignore_empty_string = true): string
     {
         $g = new HtmlVisitor($n);
@@ -443,7 +417,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param ?object $visitor visitor to use
      * @return HtmlItemBase last created element node
      */
-
     public static function Init(HtmlItemBase $n, $data, ?IHtmlNodeBuilderVisitor $visitor = null)
     {
         if (!is_array($data) && is_string($data)) {
@@ -507,7 +480,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         return $_last;
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -524,7 +496,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param HtmlItemBase & $n
@@ -579,7 +550,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             unset($v[$v_ck]);
         }
     }
-
     /**
     * auto generate doc.
     * @param HtmlItemBase & $n
@@ -605,7 +575,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $n->setAttributes($attribs);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $visitor
@@ -837,7 +806,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 if ($visitor->isInTemplateDefinition()) {
                     if (($v = $v->getValue()) && $v_context)
                         $v = EngineReadArgs::TreatGlobalArgs($v, $v_context);
-
                 } else {
                     $v = $v->evaluate($v_context);
                 }
@@ -952,7 +920,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
-
     /**
     * auto generate doc.
     * @param HtmlItemBase $node
@@ -964,7 +931,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             array_shift($this->m_template);
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $_last
@@ -1012,7 +978,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param mixed $attribute 
      * @return void 
      */
-
     public function activateAttribute($node, $attribute)
     {
         if (is_string($attribute)) {
@@ -1028,13 +993,11 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param array $definition 
      * @return mixed 
      */
-
     public static function RunBuild(HtmlItemBase $node, array $definition)
     {
         $s = new static($node);
         return $s($definition);
     }
-
     /**
     * auto generate doc.
     * @param mixed $n
@@ -1049,7 +1012,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * call on create node 
      */
-
     public function onCreate(HtmlItemBase $node)
     {
         $this->_checkForTemplate($node);
@@ -1060,7 +1022,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @return void 
      * @throws Error 
      */
-
     public function onClose(HtmlItemBase $node)
     {
         $this->_popTemplateContext($node);

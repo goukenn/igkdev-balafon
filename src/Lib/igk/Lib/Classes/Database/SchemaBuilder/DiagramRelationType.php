@@ -9,37 +9,31 @@ namespace IGK\Database\SchemaBuilder;
  * @package igk\db\schemaBuilder
  */
 class DiagramRelationType{
-
     /**
     * Constant: one2many.
     * @var mixed
     */
     const one2Many = "one2many";
-
     /**
     * Constant: many2many.
     * @var mixed
     */
     const many2Many = "many2many";
-
     /**
     * Constant: one2one.
     * @var mixed
     */
     const one2one = "one2one";
-
     /**
     * Property: min.
     * @var mixed
     */
     public $min;
-
     /**
     * Property: max.
     * @var mixed
     */
     public $max;
-
     /**
     * .ctr
     * @param mixed $min
@@ -50,7 +44,6 @@ class DiagramRelationType{
         $this->min = $min;
         $this->max = $max;
     }
-
     /**
     * get string presentation.
     */

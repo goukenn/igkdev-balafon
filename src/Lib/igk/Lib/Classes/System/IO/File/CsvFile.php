@@ -3,17 +3,14 @@
 // @file: CsvFile.php
 // @date: 20230120 09:12:31
 namespace IGK\System\IO\File;
-
 use IGK\Helper\MapHelper;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\File
 */
 class CsvFile
 {
-
     /**
     * Constant: separators.
     * @var mixed
@@ -64,7 +61,6 @@ class CsvFile
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 // $tid = $e->tokenID; 
-
                 if ($e->tokenID == 'end') {
                     if ($before = substr($src, $poffset, $e->from - $poffset)) {
                         $sb .= rtrim($before);
@@ -101,7 +97,6 @@ class CsvFile
             array_shift($d);
         }
         return $d;
-
         $ignoreFirstline = $this->ignoreFirstline;
         $data = array_map(
             function ($line) use (&$ignoreFirstline) {
@@ -140,7 +135,6 @@ class CsvFile
         }, $data));
     }
     private
-
 /**
 * Parse line.
 * @param mixed $line

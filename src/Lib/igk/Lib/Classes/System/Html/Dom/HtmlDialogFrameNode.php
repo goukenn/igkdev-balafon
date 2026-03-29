@@ -10,25 +10,21 @@
 namespace IGK\System\Html\Dom;
 use IGK\Resources\R;
 use IGKEvents;
-
 /**
 * Html dialog frame node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlDialogFrameNode extends HtmlNode{
-
     /**
     * Properties: box, box content, height, title, width, callback method, close btn, close call back even
     * @var mixed
     */
     private $m_Box, $m_BoxContent, $m_Height, $m_Title, $m_Width, $m_callbackMethod, $m_closeBtn, $m_closeCallBackEvent, $m_closeMethodUri, $m_closeUri, $m_form, $m_framectrl, $m_id, $m_owner, $m_reloadcallbackMethod, $m_script;
-
     /**
     * Accept render.
     * @param null|mixed $options
     * @return bool
     */
-
     protected function _acceptRender($options = null):bool{
         if(!$this->m_framectrl || !$this->m_framectrl->ContainFrame($this->m_id, $this)){
             igk_html_rm($this);
@@ -42,7 +38,6 @@ final class HtmlDialogFrameNode extends HtmlNode{
         $this->m_Box["style"]=$def;
         return true;
     }
-
     /**
     * .ctr
     * @param mixed $framectrl
@@ -80,40 +75,32 @@ final class HtmlDialogFrameNode extends HtmlNode{
         $this->m_closeBtn["class"]="-igk-btn-lnk igk-framebox-btn-close";
         $this->m_Box["data"]=igk_create_func_callback(array($this, '__get_dialog_attrib'), null);
     }
-
     /**
     * Get dialog attrib.
     */
-
     public function __get_dialog_attrib(){
         return "\"{w:'300px', h:'800px'}\"";
     }
-
     /**
     * Adds Close Call Back Event.
     * @param mixed $obj
     * @param mixed $method
     */
-
     public function addCloseCallBackEvent($obj, $method){
         if($this->m_closeCallBackEvent != null){
             $this->m_closeCallBackEvent->add($obj, $method);
         }
     }
-
     /**
     * Clears Childs.
     */
-
     public function ClearChilds(){
         $this->m_BoxContent->clearChilds();
         return $this;
     }
-
     /**
     * Closes Method.
     */
-
     public function closeMethod(){
         if($this->m_callbackMethod){
             $c=$this->m_callbackMethod;
@@ -123,193 +110,149 @@ final class HtmlDialogFrameNode extends HtmlNode{
             $this->m_closeCallBackEvent->Call($this, null);
         }
     }
-
     /**
     * Returns Box.
     */
-
     public function getBox(){
         return $this->m_Box;
     }
-
     /**
     * Returns Box Content.
     */
-
     public function getBoxContent(){
         return $this->m_BoxContent;
     }
-
     /**
     * Getcallback method.
     */
-
     public function getcallbackMethod(){
         return $this->m_callbackMethod;
     }
-
     /**
     * Returns Close Btn.
     */
-
     public function getCloseBtn(){
         return $this->m_closeBtn;
     }
-
     /**
     * Getclose method uri.
     */
-
     public function getcloseMethodUri(){
         return $this->m_closeMethodUri;
     }
-
     /**
     * Getclose uri.
     */
-
     public function getcloseUri(){
         return $this->m_closeBtn["href"]->getValue();
     }
-
     /**
     * Returns Form.
     */
-
     public function getForm(){
         return $this->m_form;
     }
-
     /**
     * Returns Height.
     */
-
     public function getHeight(){
         return $this->m_Height;
     }
-
     /**
     * Returns Id.
     */
-
     public function getId(){
         return $this->m_id;
     }
-
     /**
     * Returns Is Visible.
     */
-
     public function getIsVisible(){
         if(!parent::getIsVisible() && !$this->m_framectrl || !$this->m_framectrl->ContainFrame($this->m_id, $this)){
             return false;
         }
         return true;
     }
-
     /**
     * Returns Owner.
     */
-
     public function getOwner(){
         return $this->m_owner;
     }
-
     /**
     * Returns Script.
     */
-
     public function getScript(){
         return $this->m_script;
     }
-
     /**
     * Returns Title.
     */
-
     public function getTitle(){
         return $this->m_Title->Content;
     }
-
     /**
     * Returns Width.
     */
-
     public function getWidth(){
         return $this->m_Width;
     }
-
     /**
     * Removes Close Call Back Event.
     * @param mixed $obj
     * @param mixed $method
     */
-
     public function removeCloseCallBackEvent($obj, $method){
         if($this->m_closeCallBackEvent != null){
             $this->m_closeCallBackEvent->remove($obj, $method);
         }
     }
-
     /**
     * Setcallback method.
     * @param mixed $value
     */
-
     public function setcallbackMethod($value){
         $this->m_callbackMethod=$value;
     }
-
     /**
     * Setclose method uri.
     * @param mixed $value
     */
-
     public function setcloseMethodUri($value){
         $this->m_closeMethod=$value;
     }
-
     /**
     * Setclose uri.
     * @param mixed $value
     */
-
     public function setcloseUri($value){
         $this->m_closeBtn["href"]=$value;
     }
-
     /**
     * Sets Form.
     * @param mixed $value
     */
-
     public function setForm($value){
         $this->m_form=$value;
     }
-
     /**
     * Sets Height.
     * @param mixed $value
     */
-
     public function setHeight($value){
         $this->m_Height=$value;
     }
-
     /**
     * Sets Title.
     * @param mixed $value
     */
-
     public function setTitle($value){
         $this->m_Title->Content=$value;
     }
-
     /**
     * Sets Width.
     * @param mixed $value
     */
-
     public function setWidth($value){
         $this->m_Width=$value;
     }

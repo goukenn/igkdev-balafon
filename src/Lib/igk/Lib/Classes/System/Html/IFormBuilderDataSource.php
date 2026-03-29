@@ -8,13 +8,11 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\Html
 */
 interface IFormBuilderDataSource{
-
     /**
     * auto generate doc.
     * @return Closure|array

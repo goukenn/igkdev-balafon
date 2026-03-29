@@ -8,20 +8,17 @@ namespace IGK\System\Html\Dom;
 * no definition 
 */
 class HtmlSpaceNode extends HtmlNode{
-
     /**
     * auto generate doc.
     */    public function __construct(){
         parent::__construct("igk:space");
     }
-
     /**
     * Returns Content.
     */
     public function getContent(){
         return "&nbsp;";
     }
-
     /**
     * auto generate doc.
     */

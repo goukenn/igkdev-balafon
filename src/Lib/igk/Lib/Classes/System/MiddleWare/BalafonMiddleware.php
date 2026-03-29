@@ -12,25 +12,21 @@ use ReflectionClass;
 * Represent IGKBalafonMiddleware class
 */
 abstract class BalafonMiddleware{
-
     /**
     * Property: next.
     * @var mixed
     */
     private $_next;
-
     /**
     * Property: manager.
     * @var mixed
     */
     private static $sm_manager;
-
     /**
     * Property: chain flag.
     * @var mixed
     */
     var $chainFlag;
-
     /**
     * auto generate doc.
     */
@@ -41,7 +37,6 @@ abstract class BalafonMiddleware{
     * @param mixed $serviceapplication service to initialize
     * @param mixed $wherelist list that store the all middleware for chain list
     */
-
     public static function Attach($middle, $service){
         if($c=$service->GetLastMiddleware()){
             $c->_next=$middle;
@@ -49,12 +44,10 @@ abstract class BalafonMiddleware{
         $service->Attach($middle);
         $middle->initialize($middle);
     }
-
     /**
     * auto generate doc.
     * @param mixed $service
     */
-
     public static function CreateMiddleware($name, $args=null, $service=null){
         if($name === __CLASS__)
             return null;
@@ -74,7 +67,6 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     */
@@ -84,7 +76,6 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
-
     /**
     * auto generate doc.
     */
@@ -96,16 +87,13 @@ abstract class BalafonMiddleware{
     * initialize the middleware
     * @param mixed $serviceIBalafonApplicationMiddlewareService instance
     */
-
     protected function initialize($service){}
-
     /**
     * auto generate doc.
     */
     public function invoke(){
         $this->next();
     }
-
     /**
     * auto generate doc.
     */
@@ -114,12 +102,10 @@ abstract class BalafonMiddleware{
             $this->_next->invoke();
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $wherelist
     */
-
     public static function Process($service, $wherelist){
         if(self::$sm_manager == null)
             self::
@@ -130,7 +116,6 @@ abstract class BalafonMiddleware{
         }
         array_shift(self::$sm_manager);
     }
-
     /**
     * auto generate doc.
     */

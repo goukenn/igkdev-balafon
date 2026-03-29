@@ -15,55 +15,46 @@ use function igk_resources_gets as __;
  * @package IGK\System\WinUI\Menus
  */
 class MenuItem{
-
     /**
     * Constant: gp name.
     * @var mixed
     */
     const GP_NAME=0x2;
-
     /**
     * Constant: name.
     * @var mixed
     */
     const NAME=0x1;
-
     /**
     * Constant: page.
     * @var mixed
     */
     const PAGE=0x6;
-
     /**
     * Constant: position.
     * @var mixed
     */
     const POSITION=0x4;
-
     /**
     * Constant: title.
     * @var mixed
     */
     const TITLE=0x5;
-
     /**
     * Constant: imagekey.
     * @var mixed
     */
     const IMAGEKEY=0x6;
-
     /**
     * Constant: uri.
     * @var mixed
     */
     const URI=0x3;
-
     /**
     * Property: .
     * @var mixed
     */
     private $_;
-
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $n
@@ -77,7 +68,6 @@ class MenuItem{
      * @return string 
      * @throws IGKException 
      */
-
     public function fullName(){
         return implode(".", array_filter([
             $this->getGroup(),
@@ -95,7 +85,6 @@ class MenuItem{
      * @param mixed $group 
      * @return void 
      */
-
     public function __construct($name, $title=null, $uri=null, $position=10, $imagekey=null, $group=null){
         $this->_=array();
         $this->setFlag(self::NAME, $name);
@@ -106,7 +95,6 @@ class MenuItem{
         $this->setFlag(self::GP_NAME, $group);
         $this->setFlag(self::IMAGEKEY, $imagekey);
     }
-
     /**
     * .destructor
     * @param mixed $n
@@ -117,7 +105,6 @@ class MenuItem{
         }
         return igk_die(__CLASS__.":::not defined ".$n);
     }
-
     /**
     * destructor
     * @param mixed $n
@@ -126,7 +113,6 @@ class MenuItem{
     public function __set($n, $v){
         igk_die("can't set : ".$n);
     }
-
     /**
     * get string presentation.
     */
@@ -136,35 +122,30 @@ class MenuItem{
     // // public function add(){
     //     igk_die(__METHOD__."");
     // }
-
     /**
     * Returns Current Page.
     */
     public function getCurrentPage(){
         return igk_getv($this->_, self::PAGE);
     }
-
     /**
     * Returns Group.
     */
     public function getGroup(){
         return igk_getv($this->_, self::GP_NAME);
     }
-
     /**
     * Returns Has Childs.
     */
     public function getHasChilds(){
         return 0;
     }
-
     /**
     * Returns Index.
     */
     public function getIndex(){
         return igk_getv($this->_, self::POSITION);
     }
-
     /**
     * Returns Name.
     * @return mixed
@@ -172,21 +153,18 @@ class MenuItem{
     public function getName(): mixed{
         return igk_getv($this->_, self::NAME);
     }
-
     /**
     * Returns Title.
     */
     public function getTitle(){
         return igk_getv($this->_, self::TITLE);
     }
-
     /**
     * Returns Uri.
     */
     public function getUri(){
         return igk_getv($this->_, self::URI);
     }
-
     /**
     * Sets Flag.
     * @param mixed $p
@@ -199,7 +177,6 @@ class MenuItem{
         else
             $this->_[$p]=$v;
     }
-
     /**
     * Sets Group.
     * @param mixed $gpName
@@ -208,7 +185,6 @@ class MenuItem{
         $this->setFlag(self::GP_NAME, $gpName);
         return $this;
     }
-
     /**
     * Sorts Menu By Display Text.
     * @param mixed $a
@@ -217,7 +193,6 @@ class MenuItem{
     public static function SortMenuByDisplayText($a, $b){
         return strcmp(__("menu.".$a->Name), __("menu.".$b->Name));
     }
-
     /**
     * Sorts Menu By Index.
     * @param mixed $a
@@ -230,7 +205,6 @@ class MenuItem{
             return self::SortMenuByName($a, $b);
         return 1;
     }
-
     /**
     * Sorts Menu By Name.
     * @param mixed $a
@@ -239,7 +213,6 @@ class MenuItem{
     public static function SortMenuByName($a, $b){
         return strcmp($a->Name, $b->Name);
     }
-
     /**
     * Updates Uri.
     * @param mixed $uri

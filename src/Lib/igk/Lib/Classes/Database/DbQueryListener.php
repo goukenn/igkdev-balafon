@@ -7,31 +7,26 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * Db query listener.
 */
 final class DbQueryListener{
-
     /**
     * Property: squery.
     * @var mixed
     */
     var $squery;
     ///query list
-
     /**
     * .ctr
     */
     public function __construct(){
         $this->squery="";
     }
-
     /**
     * Sends Query.
     * @param mixed $s
     */
-
     function sendQuery($s){
         if(preg_match("/^SELECT Count\(\*\) FROM/i", $s)){
             return null;

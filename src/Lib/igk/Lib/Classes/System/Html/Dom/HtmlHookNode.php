@@ -13,13 +13,11 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlHookNode extends HtmlNode{
-
     /**
     * Properties: event type, context.
     * @var mixed
     */
     private $m_eventType, $m_context;
-
     /**
     * .ctr
     * @param mixed $eventType
@@ -33,14 +31,12 @@ class HtmlHookNode extends HtmlNode{
     // protected function _getRenderingChildren($options=null){
     //     return null;
     // }
-
     /**
     * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
-
     /**
     * Accept render.
     * @param null|mixed $options

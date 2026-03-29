@@ -3,7 +3,6 @@
 // @file: ApplicationConfigConstants.php
 // @date: 20230120 22:55:34
 namespace IGK\System\Configuration;
-
 /**
 * auto generate doc.
 * @package IGK\System\Configuration

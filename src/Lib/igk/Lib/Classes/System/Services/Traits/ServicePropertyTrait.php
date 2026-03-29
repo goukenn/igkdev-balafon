@@ -1,22 +1,17 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ServicePropertyTrait.php 
 // @date: 20250818 07:44:49
 // @desc: service property trait 
 namespace IGK\System\Services\Traits;
-
 use IGK\Actions\DispatcherService;
 use IGK\Helper\Activator;
 use IGK\System\Services\IAppServiceProperty;
 use IGKException;
-
 use function igk_resources_gets as __;
-
 /**
  * 
  */
-
 /**
 * auto generate doc.
 * @package IGK\System\Services\Traits
@@ -40,18 +35,15 @@ trait ServicePropertyTrait{
         }
         return $tab;
     }
-
     /**
     * auto generate doc.
     * @param mixed $configs
     * @return void
     */
     public function validate($configs){
-
         $props = $this->getConfigurableProperties();
         $conf_props = [];
         $v_validate = true;
-
         foreach($props as $n=>$p){
             $l = igk_getv($configs, $n);
             if ($p->required && !isset($l)){
@@ -68,7 +60,6 @@ trait ServicePropertyTrait{
             );
         }
     }
-
     /**
     * auto generate doc.
     * @param mixed $configs

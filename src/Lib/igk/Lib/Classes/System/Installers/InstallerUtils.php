@@ -4,21 +4,18 @@
 namespace IGK\System\Installers;
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 /**
 * Installer utils.
 * @package IGK\System\Installers
 */
 final class InstallerUtils
 {
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){        
     }
-
     /**
     * auto generate doc.
     * @param mixed $option
@@ -60,7 +57,6 @@ final class InstallerUtils
         }
         return $src;
     }
-
     /**
     * Returns Config Data.
     * @param array $options
@@ -76,7 +72,6 @@ final class InstallerUtils
         }
         return trim($sb.'');
     }
-
     /**
     * No access dir.
     * @param mixed $dir

@@ -11,13 +11,11 @@ use IGK\System\Html\XML\XmlNode;
  * @package igk\db\schemaBuilder
  */
 class DiagramDbSchemaVisitor extends DiagramVisitor{
-
     /**
     * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
-
     /**
     * Starts.
     * @return ?string
@@ -26,7 +24,6 @@ class DiagramDbSchemaVisitor extends DiagramVisitor{
         $this->visitor_items = [];
         return  "<".IGK_SCHEMA_TAGNAME.">";
     }
-
     /**
     * Complete.
     * @return ?string
@@ -34,7 +31,6 @@ class DiagramDbSchemaVisitor extends DiagramVisitor{
     public function complete():?string{
         return  "</".IGK_SCHEMA_TAGNAME.">";
     }
-
     /**
     * Visit diagram entity.
     * @param mixed $entity

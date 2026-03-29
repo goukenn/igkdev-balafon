@@ -4,7 +4,6 @@
 // @date: 20220628 08:19:20
 // @desc: result response
 namespace IGK\Database;
-
 /**
 * Interface for db fetch result.
 * @package IGK\Database

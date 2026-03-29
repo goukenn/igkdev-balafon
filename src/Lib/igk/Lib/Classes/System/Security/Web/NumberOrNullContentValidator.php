@@ -9,7 +9,6 @@ namespace IGK\System\Security\Web;
 */
 class NumberOrNullContentValidator extends MapContentValidatorBase
 {
-
     /**
     * Validates.
     * @param mixed & $value
@@ -19,7 +18,6 @@ class NumberOrNullContentValidator extends MapContentValidatorBase
     protected function validate(&$value, $key): bool {
         return true;
      }
-
     /**
     * Map.
     * @param mixed $value

@@ -8,7 +8,6 @@ namespace IGK\System\WinUI\Menus;
 * @package IGK\System\WinUI\Menus
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\WinUI\Menus
@@ -19,7 +18,6 @@ class MenuItemInfo{
      * @var ?
      */
     var $id;
-
     /**
     * auto generate doc.
     * @var ?string text to display
@@ -40,7 +38,6 @@ class MenuItemInfo{
      * @var ?bool
      */
     var $ajx;
-
     /**
     * auto generate doc.
     * @var ?bool authorized

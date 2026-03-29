@@ -4,13 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
-
 /**
 * Json validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
-
     /**
     * Asserts Validate.
     * @param mixed $value

@@ -10,13 +10,11 @@ use IGKHtmlDoc;
 * Represent default script loader 
 */
 class ScriptLoader implements IDocumentScriptLoader{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: target.
     * @var mixed
@@ -27,7 +25,6 @@ class ScriptLoader implements IDocumentScriptLoader{
     * @param  $controller
     * @param  $cachetarget
     */
-
     public function __construct($controller, $cachetarget){
         $this->ctrl=$controller;
         $this->target=$cachetarget;
@@ -38,7 +35,6 @@ class ScriptLoader implements IDocumentScriptLoader{
     * @param  $folder
     * @param  $created
     */
-
     public function loadScripts(IGKHtmlDoc $doc, ?string $folder=null, bool $created=false){
         $is_prod=igk_environment()->isOPS();
         $files=igk_io_getfiles($this->ctrl->getScriptsDir(), '/\.js$/i');

@@ -3,53 +3,44 @@
 // @file: SystemPath.php
 // @date: 20250718 18:46:04
 namespace IGK\System\IO;
-
 use Exception;
 use IGKResourceUriResolver;
-
 /**
 * auto generate doc.
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO
 */
 class SystemPath{
-
     /**
     * Path to path.
     * @var mixed
     */
     var $path;
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options;
-
     /**
     * Property: query.
     * @var mixed
     */
     var $query;
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){
     }
-
     /**
     * auto generate doc.
     * @param string $path
     * @return static
     */
-
     public static function Parse(string $path){
         $p = parse_url($path);
         $s = new static;
@@ -64,7 +55,6 @@ class SystemPath{
      * @return bool 
      * @throws Exception 
      */
-
     public function exists(){
         return igk_io_file_exists($this->path, true);
     }
@@ -72,7 +62,6 @@ class SystemPath{
      * get resolve 
      * @return ?string 
      */
-
     public function resolve(){
         if ($c = IGKResourceUriResolver::getInstance()->resolve($this->path)){
             // if ($this->options){

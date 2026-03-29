@@ -12,128 +12,107 @@ use IGK\System\Text\RegexMatcherContainer;
 * @author C.A.D. BONDJE DOUE
 * @remark specification : https://www.rfc-editor.org/rfc/rfc6350.html
 */
-
 /**
 * auto generate doc.
 * @package IGK\System\IO\VCF
 */
 class VCard
 {
-
     /**
     * Property: adr.
     * @var mixed
     */
     var $ADR;
-
     /**
     * Property: bday.
     * @var mixed
     */
     var $BDAY;
-
     /**
     * Property: email.
     * @var mixed
     */
     var $EMAIL;
-
     /**
     * Property: fn.
     * @var mixed
     */
     var $FN;
-
     /**
     * Property: n.
     * @var mixed
     */
     var $N;
-
     /**
     * Name of nickname.
     * @var mixed
     */
     var $NICKNAME;
-
     /**
     * Property: note.
     * @var mixed
     */
     var $NOTE;
-
     /**
     * Property: org.
     * @var mixed
     */
     var $ORG;
-
     /**
     * Property: photo.
     * @var mixed
     */
     var $PHOTO;
-
     /**
     * Identifier: prodid.
     * @var mixed
     */
     var $PRODID;
-
     /**
     * Property: tel.
     * @var mixed
     */
     var $TEL;
-
     /**
     * Property: title.
     * @var mixed
     */
     var $TITLE;
-
     /**
     * Property: version.
     * @var mixed
     */
     var $VERSION;
-
     /**
     * Property: x socialprofile.
     * @var mixed
     */
     var $X_SOCIALPROFILE;
-
     /**
     * Property: source.
     * @var mixed
     */
     var $SOURCE;
-
     /**
     * auto generate doc.
     * @var individual
     */
     var $KIND;
-
     /**
     * Property: xml.
     * @var mixed
     */
     var $XML;
-
     /**
     * Property: anniversary.
     * @var mixed
     */
     var $ANNIVERSARY;
-
     /**
     * Property: gender.
     * @var mixed
     */
     var $GENDER;
-
     /**
     * Property: lang.
     * @var mixed
@@ -149,67 +128,56 @@ class VCard
      * @var mixed
      */
     var $GEO;
-
     /**
     * Property: role.
     * @var mixed
     */
     var $ROLE;
-
     /**
     * Property: logo.
     * @var mixed
     */
     var $LOGO;
-
     /**
     * Property: related.
     * @var mixed
     */
     var $RELATED;
-
     /**
     * Property: rev.
     * @var mixed
     */
     var $REV;
-
     /**
     * Property: sound.
     * @var mixed
     */
     var $SOUND;
-
     /**
     * Identifier: pid.
     * @var mixed
     */
     var $PID;
-
     /**
     * Map of clientpidmap.
     * @var mixed
     */
     var $CLIENTPIDMAP;
-
     /**
     * Property: key.
     * @var mixed
     */
     var $KEY;
-
     /**
     * Property: fburl.
     * @var mixed
     */
     var $FBURL;
-
     /**
     * Property: caladruri.
     * @var mixed
     */
     var $CALADRURI;
-
     /**
     * .ctr
     */
@@ -217,23 +185,19 @@ class VCard
     {
         $this->VERSION = '3.0';
     }
-
     /**
     * auto generate doc.
     * @param string $type
     * @return null
     */
-
     public function getPreferred(string $type){
         return null;
     }
-
     /**
     * auto generate doc.
     * @param array|IVCardSaveOptions $save_options
     * @return void
     */
-
     public static function Save($file, array $vcards,  $save_options = null)
     {
         $v_sb = new StringBuilder;
@@ -263,13 +227,11 @@ class VCard
         }
         return igk_io_w2file($file, rtrim($v_sb.''));
     }
-
     /**
     * auto generate doc.
     * @param string $file
     * @return mixed
     */
-
     public static function OpenFile(string $file)
     {
         $t = []; //entries;

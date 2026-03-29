@@ -8,19 +8,16 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 /**
 * auto generate doc.
 * @package IGK\System\Caches
 */
 class InitEnvControllerChain{
-
     /**
     * Property: chain.
     * @var mixed
     */
     private $m_chain = [];
-
     /**
     * Adds.
     * @param mixed $chain
@@ -30,7 +27,6 @@ class InitEnvControllerChain{
         array_push($this->m_chain, $chain);
         return $this;
     }
-
     /**
     * Updates.
     * @param mixed $ctrl
@@ -40,7 +36,6 @@ class InitEnvControllerChain{
             $k->update($ctrl);
         }
     }
-
     /**
     * Complete.
     */
@@ -59,7 +54,6 @@ class InitEnvControllerChain{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function load(array $tab, $manager, $loader){
         $no_def = [
             ApplicationModuleController::class

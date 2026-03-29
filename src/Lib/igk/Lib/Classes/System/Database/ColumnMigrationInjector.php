@@ -17,7 +17,6 @@ class ColumnMigrationInjector{
      * @var DbColumnInfo
      */
     var $info;
-
     /**
     * .ctr
     * @param DbColumnInfo $info
@@ -25,7 +24,6 @@ class ColumnMigrationInjector{
     public function __construct(DbColumnInfo $info){
         $this->info = $info;
     }
-
     /**
     * Adds.
     * @param mixed & $info
@@ -43,7 +41,6 @@ class ColumnMigrationInjector{
         } 
         $t[$nk] = $this->info;  
     }
-
     /**
     * Removes.
     * @param mixed & $info
@@ -58,7 +55,6 @@ class ColumnMigrationInjector{
      * @param callable $callable 
      * @return void 
      */
-
     public static function Inject($driver, string $table, $callable){
           // + | ---------------------------------------------
           // + | inject column info     

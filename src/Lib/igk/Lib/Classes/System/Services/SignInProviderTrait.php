@@ -6,7 +6,6 @@
 namespace IGK\System\Services;
 use IGK\Helper\ViewHelper;
 use IGKEvents;
-
 /**
 * Trait providing sign in provider functionality.
 * @package IGK\System\Services

@@ -12,31 +12,26 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Command
 */
 class DbDropForeignKeysCommand extends AppExecCommand{
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--db:drop-foreign-keys";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "db";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc = "remove all foreign keys for database";
-
     /**
     * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [model] [options]';
-
     /**
     * Exec.
     * @param mixed $command

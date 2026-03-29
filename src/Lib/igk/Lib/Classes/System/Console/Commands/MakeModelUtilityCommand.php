@@ -9,40 +9,33 @@ use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
-
 use IGKDbModelUtility;
-
 /**
 * Make model utility command.
 * @package IGK\System\Console\Commands
 */
 class MakeModelUtilityCommand extends AppExecCommand
 {
-
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--make:model-utility";
-
     /**
     * Property: category.
     * @var mixed
     */
     var $category = "make";
-
     /**
     * Property: desc.
     * @var mixed
     */
     var $desc  = "make new project's model utility";
-
     /**
     * Property: options.
     * @var mixed
     */
     var $options = [];
-
     /**
     * Property: usage.
     * @var mixed
@@ -56,7 +49,6 @@ class MakeModelUtilityCommand extends AppExecCommand
      * @param string|null $modelname  The model utility name to create.
      * @return bool|void Returns false on validation failure, void on success.
      */
-
     public function exec($command,?string $controller = null, ?string $modelname = "")
     {
         $ctrl = null;
