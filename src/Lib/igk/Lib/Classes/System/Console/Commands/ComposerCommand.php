@@ -66,7 +66,7 @@ class ComposerCommand extends AppExecCommand{
 		$arg = implode(" ", array_filter($args));
 		chdir($packages);
 		Logger::info("{$composer} {$arg}");
-		$o = `$composer $arg `;
+		$o = shell_exec("$composer $arg ");
 		echo $o;
 	}
 }

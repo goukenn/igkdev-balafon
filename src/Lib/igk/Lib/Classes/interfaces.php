@@ -612,28 +612,7 @@ interface IDbSQLManager extends IDbManager{
     * @param mixed $tableName
     */
     function dropTable(string $tableName);
-}
-/**
-* represent a module listener interface
-*/
-// interface IAppModuleListener extends IConfigController{
-//     const DATA=1;
-//     const DATA2=self::DATA + 5;
-//     const DATA3=self::DATA2;
-//     //     /**
-//     * 
-//     */
-//     function getBaseUri();
-//     //     /**
-//     * 
-//     */
-//     function getConfigs();
-//     //     //     /**
-//     * 
-//     * @param mixed $n
-//     */
-//     function getTable($n);
-// }
+} 
 /**
 * RepresentIDataController interface
 */

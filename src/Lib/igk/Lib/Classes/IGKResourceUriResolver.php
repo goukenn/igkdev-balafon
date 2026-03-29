@@ -183,19 +183,18 @@ class IGKResourceUriResolver
     /**
      * resolve path
      * @param mixed $path path to resolve
-     * @param mixed $options hashed| to hash path key
-     * @param int $generate 
+     * @param mixed $options hashed| to hash path key     
      * @return null|string 
      * @throws IGKException 
      */
 
-    public function resolve(string $path, $options = null, $generate = 1) : ?string
+    public function resolve(string $path, $options = null) : ?string
     {
         static $appData = null;
         if (empty($path))
             return null;
         $fulluri = $this->fulluri || igk_is_ajx_demand();        
-        $initHash = igk_getv($options, "initHash");
+        // $initHash = igk_getv($options, "initHash");
         $this->m_options = $options;        
         $buri = explode("?", $path);
         $path = $buri[0];
@@ -242,10 +241,10 @@ class IGKResourceUriResolver
     }
     /**
      * resolve resources uri
-     * @param string $rp 
+     * @param string $rp path 
+     * @param bool $fulluri path 
      * @return ?string
      */
-
     public function resolveResource(string $rp, bool $fulluri=false):?string{
         $v_cpath = igk_io_collapse_path($rp);
         $v_res_path = $this->_getResPath($v_cpath);

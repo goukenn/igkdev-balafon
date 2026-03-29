@@ -145,9 +145,9 @@ class InstallSiteCommand extends AppExecCommand
             if (igk_environment()->isUnix() && (get_current_user() == "root")) {
                 // + | setting user group
                 if ($ugroup){
-                    `chown -R {$ugroup} *`;
+                    shell_exec("chown -R {$ugroup} *");
                 }
-                `chmod -R 775 *`;
+                shell_exec("chmod -R 775 *");
             }
             if ($init) {
                 // + | passing init command
@@ -193,7 +193,7 @@ class InstallSiteCommand extends AppExecCommand
     */
     private function getUserGroup(){
         if (igk_environment()->isUnix()){
-            $s = `groups`;
+            $s = shell_exec("groups");
             if (preg_match("/wwww-data/", $s)){
                 return "www-data:www-data";
             }

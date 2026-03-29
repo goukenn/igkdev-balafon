@@ -851,7 +851,7 @@ class SQLGrammar implements IDbQueryGrammar
         }
         $idx = null;
         if (strtolower($column) == 'primary') {
-            $idx = `PRIMARY`;
+            $idx = "PRIMARY";
         }
         $column = $this->_get_column_list($column);
         $idx = $idx ?? strtolower('IDX_' . StringUtility::CamelClassName($column));

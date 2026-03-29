@@ -1032,7 +1032,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return $this 
      */
 
-    public function setBaseUri($baseuri)
+    public function setBaseUri($baseuri): IGKHtmlDoc
     {
         $this->m_baseuri = $baseuri;
         return $this;

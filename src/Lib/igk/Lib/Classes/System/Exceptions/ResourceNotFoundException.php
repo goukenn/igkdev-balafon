@@ -4,6 +4,8 @@
 // @date: 20220803 13:48:56
 // @desc: resource not found exception
 namespace IGK\System\Exceptions;
+
+use IGK\System\Http\RequestResponseCode;
 use IGKException;
 /**
 *  resource not found exception
@@ -21,7 +23,7 @@ class ResourceNotFoundException extends IGKException {
     * @param mixed $file
     */
 
-    public function __construct($message, $file, $code=404){
+    public function __construct($message, $file, $code= RequestResponseCode::NotFound){
         parent::__construct($message, $code);
         $this->m_file=$file;
     }

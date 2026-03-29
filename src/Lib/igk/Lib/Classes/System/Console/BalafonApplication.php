@@ -302,8 +302,8 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         if ($e = igk_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, ['argv' => &$argv, 'app' => $this], $hook_options)) {
             return 0;
         }
-
         IGKApp::StartEngine($this);
+        
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
     /**

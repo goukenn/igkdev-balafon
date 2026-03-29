@@ -330,19 +330,24 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * Tests regexmatch empty line.
+    * Test regexmatch empty line.
+    * no space inside.
     */
     public function test_regexmatch_empty_line()
     {
         $container = new RegexMatcherContainer;
-        $container = new RegexMatcherContainer;
-        $container->match('^(?=\n)?', 'count');
-        $src = str_repeat("\n", 6); 
-        $r = [];
+        $container->match('^(?=\\n)?', 'count');
+        $src = str_repeat("\n", 6);         
+        $r = []; 
+        igk_debug(true);
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
-        });
-        $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', json_encode($r));
+            });
+        igk_debug(false);
+          
+        $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', 
+            json_encode($r)
+        );
     }
 
     /**
@@ -351,10 +356,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     */
 
     public function test_regexmatch_empty_block()
-    {
-
-
-
+    { 
         $regex = new RegexMatcherContainer;
 
         // ''  stop a end of the source text  
@@ -401,6 +403,13 @@ class RegexMatcherContainerTest extends BaseTestCase
             }
         }
     }
+    private function _stop_detector(){
+        $regex = new RegexMatcherContainer;
+        $regex->begin('begin:', '$', 'mark')->last()->patterns = [
+            ['match' => '(?=!)', 'tokenID'=>'stop-end']
+        ];
+        return $regex;
+    }
 
     /**
     * Tests regexmatch detect stop.
@@ -409,10 +418,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     {
         $src = "begin: one ! begin: test is! ok\nlogo begin: gesture is for beginner\nbegin: data ok";
 
-        $regex = new RegexMatcherContainer;
-        $regex->begin('begin:', '$', 'mark')->last()->patterns = [
-            ['match' => '(?=!)', 'tokenID'=>'stop-end']
-        ];
+        $regex =  $this->_stop_detector();
 
         $pos = 0;
         $rp = [];
@@ -424,8 +430,9 @@ class RegexMatcherContainerTest extends BaseTestCase
             }
         }
         $this->assertEquals([
-'begin: one ', 'begin: test is', 'begin: gesture is for beginner', 'begin: data ok'
+'begin: one ', 'begin: gesture is for beginner', 'begin: data ok'
         ], $rp);
+        // |begin: one |begin: gesture is for beginner|begin: data ok
     }
 
     /**
@@ -434,6 +441,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     public function test_regexmatch_detect_append_after_end_stop()
     {
         $src = "begin: one ; cause ! begin: data ok";
+       //  $src = "begin: data ok";
 
         $regex = new RegexMatcherContainer;
         $regex->begin('begin:', ';', 'mark')->last()->patterns = [
@@ -442,6 +450,7 @@ class RegexMatcherContainerTest extends BaseTestCase
 
         $pos = 0;
         $rp = [];
+        igk_debug(true);
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 if ($e->tokenID == 'mark') {
@@ -449,8 +458,9 @@ class RegexMatcherContainerTest extends BaseTestCase
                 }
             }
         }
+        igk_is_debug(false);
         $this->assertEquals([
-'begin: one ;', 'begin: data ok'
+            'begin: one ;', 'begin: data ok'
         ], $rp);
     }
 

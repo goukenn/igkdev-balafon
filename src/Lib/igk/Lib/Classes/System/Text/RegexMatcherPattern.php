@@ -156,6 +156,13 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     protected function _access_OffsetGet($n){
         return $this->{$n};
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    * @return
+    */
     protected function _access_OffsetSet($n, $v){
         // not allowed
     }

@@ -97,9 +97,11 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 ->activate('igk-app-action')
                 ->setClass($v_btn_class)->Content=__("API");
             }
+            list($engine, $remote_ip) = igk_extract(igk_server(),  'SERVER_SOFTWARE|REMOTE_ADDR');
             $ul=$d->add("ul")->setId("cnf-inf")->setClass('no-selection');
-            $ul->li()->Content="Referer: ". igk_server()->REMOTE_ADDR;
+            $ul->li()->Content="Referer: ". $remote_ip;;
             $ul->li()->Content="PHP VERSION: ". PHP_VERSION;
+            $ul->li()->Content="Engine: ". $engine;
             $ul->li()->Content="CurrentLang: ". R::GetCurrentLang();
             $ul->li()->Content="CurrentPage: ". igk_app()->CurrentPage;
             $ul->li()->Content="CurrentFolder: ". igk_app()->getCurrentPageFolder();

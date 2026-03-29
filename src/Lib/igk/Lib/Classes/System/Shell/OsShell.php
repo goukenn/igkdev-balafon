@@ -32,7 +32,7 @@ class OsShell {
         if ($success){
             $success = " && echo '{$success}'";   
         }
-        $o = `$command{$success}`;        
+        $o = shell_exec("$command{$success}");        
         chdir($bck);
         return $o;
     }
@@ -79,9 +79,9 @@ class OsShell {
     */
     public static function Kill($pid){
         if (igk_environment()->isUnix()){
-            return `kill {$pid}`;
+            return shell_exec("kill {$pid}");
         }else{
-            return `taskkill /PID {$pid}`;
+            return shell_exec("taskkill /PID {$pid}");
         }
     }
 }

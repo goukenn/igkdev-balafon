@@ -77,7 +77,7 @@ class Installer
         $cmd = "cd {$chdir} && {$cli} --init --no-config --reset {$cm}";
         igk_wln('command: ' . $cmd);
         // + | init project 
-        igk_wln(`{$cmd}`);
+        igk_wln(shell_exec("{$cmd}"));
         // + | create a symlink to balafon cli
         $fs = $chdir . '/balafon';
         // + | create a symlink to balafon cli - reference link 

@@ -1036,13 +1036,14 @@ abstract class StringUtility
     }
 
     /**
-     * 
-     * @param string $haystack 
-     * @param array $range 
-     * @return string[]|array<int, string> 
-     */
-    public static function SplitLitteral(string $haystack, array $range){
-         $v_offset = 0;
+    * auto generate doc.
+    * @param string $haystack
+    * @param array $range
+    * @return string[]|array<int, string>
+    */
+    public static function SplitLitteral(string $haystack, array $range)
+    {
+        $v_offset = 0;
         $v_t = [];
         while (count($range) > 0) {
             $q = array_shift($range);
@@ -1063,5 +1064,34 @@ abstract class StringUtility
             $v_t[] = $s;
         }
         return array_filter($v_t);
+    }
+
+    /**
+    * auto generate doc.
+    * @return string[]
+    */
+    public static function SplitRange($haystack, array $range, bool $infinite = true): array
+    {
+        $r = [];
+        while (count($range)) {
+            $q = array_shift($range);
+            $c = explode($q, $haystack, 2);
+            if (count($c) == 2) {
+
+                $r[] = $c[0];
+                $haystack = $c[1];
+                if ($infinite)
+                    $range[] = $q;
+            } else {
+
+                $r[] = $haystack;
+                $haystack = null;
+                break;
+            }
+        }
+        if ($haystack) {
+            $r[] = $haystack;
+        }
+        return $r;
     }
 }

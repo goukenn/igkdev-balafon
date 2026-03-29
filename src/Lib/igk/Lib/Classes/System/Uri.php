@@ -200,8 +200,7 @@ class Uri
      * get path
      * @return ?string 
      */
-
-    public function getPath()
+    public function getPath(): ?string
     {
         return $this->m_path;
     }
@@ -209,7 +208,6 @@ class Uri
      * get the domain
      * @return ?string
      */
-
     public function getDomain(): ?string{
         return $this->m_domain;
     }

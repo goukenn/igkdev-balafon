@@ -32,6 +32,7 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
+use ReflectionType;
 use TypeError;
 use function igk_resources_gets as __;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -396,8 +397,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         continue;
                     }
                     if ($j) {
-
-                        if ($c = $j->resolve($arg, $p)) {
+                        $v_t1 = null;
+                        if(($p instanceof ReflectionType) && method_exists($p , $fc = 'getName')){
+                            $v_t1= call_user_func_array([$p,$fc],[]);
+                        }
+                        else
+                            $v_t1 = (string)$p;
+                        if ($c = $j->resolve($arg, $v_t1)) {
                             $targs[] = $c;
                             $i++;
                             continue;

@@ -13,6 +13,7 @@ if (isset($__igk_balafon_cmd_auto_clean)){
         ob_end_clean();
     }
 }
+
     
 require_once __DIR__."/../igk.environment.loading.php"; 
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/balafon-cli.php");

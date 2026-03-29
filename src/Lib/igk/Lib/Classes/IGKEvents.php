@@ -611,6 +611,13 @@ class IGKEvents extends IGKObject
     */
     const HOOK_MODULE_DID_INIT_MODULE = 'sys://module/didInitModule';
 
+
+    /**
+     * constant: hook for run command info
+     * HookArgs {'name':string};
+     */
+    const FILTER_RUN_HOOK_COMMAND_INFO = 'sys://command/hook-command-info';
+
     /**
     * Constant: viewcomplete.
     * @var mixed
@@ -872,7 +879,7 @@ class IGKEvents extends IGKObject
 
     public static function hook(string $name, $args = array(), $options = null)
     {
-        if (defined('IGK_DEBUG_HOOK') && constant('IGK_DEBUG_HOOK')){
+        if ((defined('IGK_DEBUG_HOOK') && constant('IGK_DEBUG_HOOK')) || igk_is_debug('hook')){
             igk_wln('hook: '.$name. ' '.session_id());
         }
         // + ----------------------------------------------------------------------

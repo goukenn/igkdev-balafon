@@ -136,10 +136,18 @@ class ModuleCommand extends AppExecCommand{
         }
     }
 
-
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _installCommand(){
         throw new NotImplementException();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private function _removeCommand(){
         throw new NotImplementException();
     }

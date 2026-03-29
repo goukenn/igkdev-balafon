@@ -3,6 +3,8 @@
 // @file: RequestCommand.php
 // @date: 20221114 01:53:54
 namespace IGK\System\Console\Commands;
+
+use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\App;
@@ -58,6 +60,7 @@ class RequestViewCommand extends AppExecCommand
             "--content-type:[]" => "set render content type. default is 'text/html'",
             "--render-context:[]" => "set rendering context. default is XML",
             "--no-cache" => "disable view cache",
+            "--file"=>"file to upload",
             "+ Server Request COMMAND" => "",
         ];
         $def = DbCommandHelper::GetUsageCommandHelp();
@@ -81,8 +84,9 @@ class RequestViewCommand extends AppExecCommand
             igk_die('missing controller');
             return -1;
         }
+        $files = igk_getv($command->options , '--file');
         $path = ltrim(igk_uri($request ?? ''), '/');
-        $_SERVER['REQUEST_METHOD'] = strtoupper(igk_getv($command->options, '--method', 'GET'));
+        $_SERVER['REQUEST_METHOD'] = $method = strtoupper(igk_getv($command->options, '--method', 'GET'));
         $_SERVER['REQUEST_URI'] = '/' . $path; 
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
@@ -90,6 +94,14 @@ class RequestViewCommand extends AppExecCommand
         $ctrl->register_autoload();
         self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
+
+        if ($method && $files){
+            if (!is_array($files))
+                $files = [$files];
+
+            $this->initFiles($files);
+        }
+        
         if ($json = igk_getv($command->options, '--json')) {
             if (igk_io_file_exists($json)) {
                 $json = file_get_contents($json);
@@ -133,6 +145,32 @@ class RequestViewCommand extends AppExecCommand
             echo "\n";
         }
         error_clear_last();
+    }
+
+    /**
+    * auto generate doc.
+    * @param array $files
+    * @return void
+    */
+    public function initFiles(array $files){
+        $count = 0;
+        while(count($files)>0){
+            $q = array_shift($files);
+            list($file, $name) = igk_extract(explode(';', $q, 2),'0|1');
+
+            $name = $name ?? 'file_'.$count;
+            $temp_file = tempnam(sys_get_temp_dir(),'file');
+            @unlink($temp_file);
+            copy($file, $temp_file);
+            $_FILES[$name]= [
+                'error'=>0,
+                'tmp_name'=>$temp_file,
+                'size'=>filesize($file),
+                'name'=>basename($file),
+                'type'=>IO::MimeTypeFromFile($file)
+            ];
+            $count++;
+        }
     }
     /**
      * do request 

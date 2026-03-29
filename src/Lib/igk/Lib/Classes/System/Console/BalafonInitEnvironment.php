@@ -197,7 +197,7 @@ class BalafonInitEnvironment
                 $cli = $argv[0];
                 $cmd = "$cli --init --env-only --wdir:'{$cwd}' '{$app_dir}'";
                 echo "launch: " . $cmd, PHP_EOL;
-                echo `$cmd`;
+                echo shell_exec("$cmd");
                 self::_AuthFiles($command, [$app_dir, $public_dir]);
             });
         } else {
@@ -227,12 +227,12 @@ class BalafonInitEnvironment
     {
         // + | fix mod and owner
         igk_environment()->isUnix() && ('darwin' != strtolower(PHP_OS)) && (function ($d, $command) {
-            `chmod -R 755 {$d}`;
+            shell_exec("chmod -R 755 {$d}");
             $o = igk_getv($command->options, '--file-usergroup', self::_DefaultUserGroup());
             if (false === strpos($o, ':')) {
                 $o = $o . ':' . $o;
             }
-            `chown -R {$o} {$d}`;
+            shell_exec("chown -R {$o} {$d}");
         })(realpath(dirname($app_dir)), $command);
     }
 

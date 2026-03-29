@@ -54,12 +54,13 @@ trait ModelTableConstantTrait{
         $fn = $tfn; // cl::$field_name;
         $init_fields = method_exists(static::class, $fc);
         $v_constants = $cl::GetConstants();
+
         foreach($v_constants as $ut){
             $fields = [
                 $fn=>$ut
             ];
             if ($init_fields ){
-                $r = (object)['fields'=> & $fields];
+                $r = (object)['fields'=> & $fields];                
                 call_user_func_array([static::class, $fc], [$r, $ut]);
             }
             $model::createIfNotExists($fields);

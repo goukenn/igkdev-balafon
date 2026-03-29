@@ -10,17 +10,23 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
 /**
- * 
- * @package IGK\System\Php\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Php\Helper
+* @author C.A.D. BONDJE DOUE
+*/
+
+/**
+* auto generate doc.
+* @package IGK\System\Php\Helper
+*/
 class PhpRemoveGlobaFunc
 {
     var $removeEmptyLine;
+
     /**
-     * 
-     * @return RegexMatcherContainer 
-     */
+    * auto generate doc.
+    * @return RegexMatcherContainer
+    */
     protected function _regexDefinition()
     {
         $p = new RegexMatcherContainer;
@@ -102,10 +108,11 @@ class PhpRemoveGlobaFunc
         ];
         return $p;
     }
+
     /**
-     * 
-     * @return array{function: \Closure(mixed $e, mixed $fc_info): void} 
-     */
+    * auto generate doc.
+    * @return array{function: \Closure(mixed $e, mixed $fc_info): void}
+    */
     protected function _getFuncHandle()
     {
         return [
@@ -150,11 +157,12 @@ class PhpRemoveGlobaFunc
             }
         ];
     }
+
     /**
-     * 
-     * @param string $src 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $src
+    * @return void
+    */
     public function remove(string $src)
     {
         $regex = $this->_regexDefinition();

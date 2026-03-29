@@ -270,9 +270,15 @@ class JSon
                         }
                         $tv = $m;
                     }
-                    array_unshift($tq, ['d' => $d, 'keys' => $keys, 'c' => $c, 'is_object' => $is_object]);
-                    $c->$k = new stdClass;
-                    array_unshift($tq, ['d' => $tv, 'keys' => null, 'c' => $c->$k, 'is_object' => true]);
+                    array_unshift($tq, ['d' => $d, 'keys' => $keys, 'c' => &$c, 'is_object' => $is_object]);
+                    if (is_array($tv)){
+                        $c->$k = array_filter(array_map(function ($s) {
+                            return $this->_encode_data($s);
+                        }, $tv));
+                    } else {
+                        $c->$k = new stdClass;
+                        array_unshift($tq, ['d' => $tv, 'keys' => null, 'c' => &$c->$k, 'is_object' => true]);
+                    }
                     $end = true;
                     break;
                 }
@@ -283,6 +289,30 @@ class JSon
             $root = (array)$root;
         }
         $tv = $root;
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tv
+    * @return
+    */
+    private function _encode_data($tv)
+    {
+        if (is_object($tv)) {
+            if ($tv instanceof IJSonLitteral) {
+                return $tv;
+            }
+            if ($tv instanceof JsonSerializable) {
+                if ((($m = $tv->jsonSerialize()) === null) && ($this->m_options->ignore_null)) {
+                    return null;
+                }
+                if ($this->m_options->ignore_null){
+                    $m = array_filter($m);
+                }
+                $tv = $m;
+            }
+        }
+    return $tv;
     }
     /**
      * encode data
@@ -301,6 +331,9 @@ class JSon
         }
         if ($data instanceof IToJSon) {
             return $data->to_json($options, $encode);
+        }
+        if ($data instanceof JsonSerializable) {
+            $data = $data->jsonSerialize();
         }
         $e = new static;
         $e->m_options = $options;

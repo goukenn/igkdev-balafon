@@ -800,12 +800,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * disable debug
-     * @return null 
+     * @return mixed 
      */
 
     public function __debugInfo()
     {
-        return null;
+        return [];
     }
 
     /**

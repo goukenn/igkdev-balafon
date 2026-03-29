@@ -142,7 +142,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return void 
      */
 
-    public function __construct()
+    protected function __construct()
     {
         if (empty($this->notify_name)) {
             $this->notify_name = igk_uri(static::class);
@@ -264,11 +264,10 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * create action instance on controller
     * @param mixed|null $context
     * @return static
     */
-
     public static function CreateInstance($ctrl, $context = null)
     {
         $cl = static::class;

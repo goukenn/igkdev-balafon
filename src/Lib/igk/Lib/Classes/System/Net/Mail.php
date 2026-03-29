@@ -298,12 +298,13 @@ class Mail extends IGKObject implements IMailAttachmentContainer
             // + | --------------------------------------------------------------------
             // + | configure system
             // + |
-            $this->m_useAuth = $app->Configs->mail_useauth;
-            $this->m_smtphost = $app->Configs->mail_server;
-            $this->m_user = $app->Configs->mail_user;
-            $this->m_pwd = $app->Configs->mail_password;
-            $this->m_smtp_port = $app->Configs->mail_port;
-            $this->m_socketType = $app->Configs->mail_authtype;
+            $cnf = $app->getConfigs();
+            $this->m_useAuth = $cnf->mail_useauth;
+            $this->m_smtphost = $cnf->mail_server;
+            $this->m_user = $cnf->mail_user;
+            $this->m_pwd = $cnf->mail_password;
+            $this->m_smtp_port = $cnf->mail_port;
+            $this->m_socketType = $cnf->mail_authtype;
         }
         $this->HtmlCharset = self::UTF8_CHARSET;
         $this->TextCharset = self::UTF8_CHARSET;
@@ -813,7 +814,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
                 igk_ilog("no openssl extension loaded", __METHOD__);
             }
             return false;
-        } else {
+        } else {            
             if (@mail($to, $title, $message, $header) === true) {
                 return true;
             }

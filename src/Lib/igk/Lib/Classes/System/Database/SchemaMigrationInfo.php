@@ -136,9 +136,9 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
             'description' => igk_getv($d, 'description'),
             'defTableName' => igk_getv($d, 'defTableName'),
             'controller' => $gctrl,
-            'tableName' => $d->tableName,
             'definitionResolver' => null,
-            'prefix' => igk_getv($d, 'prefix')
+            'tableName' => igk_getv($d->controller, 'tableName'),
+            'prefix' => igk_getv($d->controller, 'prefix')
         ]);
     }
     /**

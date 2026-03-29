@@ -244,24 +244,6 @@ EOF;
 
 		if (!$this->IsVisible)
 			return false;
-		$obj = $this->getUriSetting();
-
-// 		$this->m_paneAdd->script->Content = <<<EOF
-// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initdrag','{$obj->addUri}');
-// EOF;
-
-		if (isset($obj->clearUri)){
-// 			$this->m_paneClear->script->Content = <<<EOF
-// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initclearpage','{$obj->clearUri}');
-// EOF;
-	}
-
-		if (isset($obj->optsUri)){
-
-			// 			$this->m_paneOptions->script->Content = <<<EOF
-			// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initoptions','{$obj->optsUri}');
-			// EOF;
-		}
 		$this->setClass("-empty");
 		if (!$this->m_owner->getHasPage())
 			$this->setClass("+empty");

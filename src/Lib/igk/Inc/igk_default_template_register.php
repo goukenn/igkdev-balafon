@@ -131,11 +131,7 @@ function igk_template_get_piped_value($rv, $context)
                 $tcontext = array_merge($raw->getData(), igk_to_array($context));
             }
             $v = EvalBinding::EvalContentOnContext($v, $tcontext);
-        }
-        // $v = @eval("return $v;");
-        // if ($e = error_get_last()) {
-        //     igk_dev_wln_e(__FUNCTION__ . "::Error:  ", $e, "source:" . $rv, "output:" . $v, $raw, $context);
-        // }
+        } 
     } catch (ParseError $ex) {
         igk_ilog("parse failed : ", $rv);
         if (igk_environment()->isDev()) {

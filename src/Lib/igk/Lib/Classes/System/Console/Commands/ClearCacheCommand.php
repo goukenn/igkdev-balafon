@@ -40,6 +40,8 @@ class ClearCacheCommand extends AppExecCommand{
         //defined("NO")
         Logger::print("Cache directory : ".igk_io_cachedir());  
         \IGK\Helper\SysUtils::ClearCache();
+        $fc = get_included_files();
+        igk_io_w2file(getcwd().'/inc_files.json', json_encode($fc));
         Logger::success("done");
     }
 }

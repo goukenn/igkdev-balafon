@@ -145,6 +145,13 @@ abstract class DbCommandHelper
             ) {
                 $cnf->db_charset = $env;
             }
+
+            array_filter(getenv(), function($v, $k)use($cnf){
+                if (preg_match('/^IGK_APP_CONF_/', $k, $t)){
+                    $k = strtolower( substr($k, strlen($t[0])));
+                    $cnf->{$k} = $v;
+                }
+            }, 1);
         }
     }
 }

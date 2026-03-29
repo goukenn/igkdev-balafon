@@ -17,6 +17,11 @@ use IGK\System\Text\RegexMatcherUtility;
 class ModuleInitializer
 {
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     const CACHE_DEF = '@cache-def';
     /**
      * Property: modules.

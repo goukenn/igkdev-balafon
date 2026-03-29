@@ -33,6 +33,12 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     protected $version;
 
     /**
+     * autohtml entities
+     * @var bool
+     */
+    protected $autohtmlentities = false;
+
+    /**
     * Constant: accept.
     * @var mixed
     */
@@ -72,6 +78,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * auto generate doc.
     */
     public function getCanBeMerged(){
+    
         return $this->getFlag(self::CANMERGE_LINK) ?? true;
     }
 

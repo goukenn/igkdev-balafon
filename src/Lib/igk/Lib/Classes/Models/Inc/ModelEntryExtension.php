@@ -20,6 +20,7 @@ use IGK\Database\IDbQueryResult;
 use IGK\Database\RefColumnMapping;
 use IGK\Helper\Database;
 use IGK\Helper\JSon;
+use IGK\Helper\StringUtility;
 use IGK\Models\Caches\CacheModels;
 use IGK\System\Console\Logger;
 use IGK\System\Models\Traits\ModelExtensionTrait;
@@ -511,15 +512,16 @@ abstract class ModelEntryExtension
     * @param ModelBase $model
     * @param null|mixed $conditions
     * @param null|mixed $options
+    * @return int
     */
-    public static function count(ModelBase $model, $conditions = null, $options = null)
+    public static function count(ModelBase $model, $conditions = null, $options = null): int
     {
         $driver = $model->getDataAdapter();
         $r = 0;
         if ($m = $driver->selectCount($model->getTable(), $conditions, $options)) {
             $r = $m->getRowAtIndex(0)->count;
         }
-        return $r;
+        return intval($r);
     }
     /**
      * select the first item 
@@ -669,6 +671,21 @@ abstract class ModelEntryExtension
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param array &$value
+    * @param string $prefix
+    * @return void
+    */
+    public static function AutoPrefixArrayColumn(array & $value, string $prefix){
+        foreach($value as $k=>$v){
+            if (($s = StringUtility::AutoPrefix($k, $prefix))!=$k){
+                $value[$s] = $v;
+                unset($value[$k]);
+            }
+        } 
+    }
     /**
      * update model 
      * @param ModelBase $model 
@@ -683,9 +700,12 @@ abstract class ModelEntryExtension
         $primary = $model->getPrimaryKey();
         $tbinfo = $model->getTableColumnInfo();
         $table = $model->getTable();
+        $v_prefix = $model->getTableInfo()->prefix;
         if ($model->is_mock()) {
             if ($value === null) {
                 $value = $model->to_array();
+            }else if ($v_prefix && is_array($value)){
+                self::AutoPrefixArrayColumn($value, $v_prefix);
             }
             if (is_numeric($conditions)) {
                 $conditions = [$model->getPrimaryKey() => $conditions];
@@ -1197,25 +1217,25 @@ abstract class ModelEntryExtension
     /**
      * get entry model
      * @param ModelBase $model 
-     * @param mixed $column 
-     * @param mixed $id
+     * @param ?string $column column to mark, if not defined use model primary 
+     * @param mixed $value value 
      * @return object|ModelBase|null 
      */
-    public static function Get(ModelBase $model, $column = null, $id = null, $autoinsert = null)
+    public static function Get(ModelBase $model, ?string $column = null, $value = null, ?bool $autoinsert = null)
     {
         $v_cargs = func_num_args() - 1;
 
-        if ($id instanceof $model) {
-            return $id;
+        if ($value instanceof $model) {
+            return $value;
         }
         if ($v_cargs == 1) {
-            $id = $column;
+            $value = $column;
             $column = null;
         }
         if (is_null($column)) {
             $column = $model->getPrimaryKey() ?? igk_die("no primary key provided.");
         }
-        $tab = [$column => $id];
+        $tab = [$column => $value];
         $r =  $model::select_row($tab);
         if (!$r && $autoinsert) {
             if ($autoinsert instanceof \closure) {
@@ -1224,7 +1244,7 @@ abstract class ModelEntryExtension
                 $tab = $autoinsert;
             } else if ($cl = Database::GetMacroClass($model)) {
                 if (method_exists($cl, $fc = Database::AutoInsertCacheMethod)) {
-                    return call_user_func_array([$model, $fc], [$id, $tab]);
+                    return call_user_func_array([$model, $fc], [$value, $tab]);
                 }
             }
             $r = $model::insert($tab);
@@ -1242,7 +1262,7 @@ abstract class ModelEntryExtension
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetValue(ModelBase $model, string $valueColumn, string $column, $id)
+    public static function GetValue(ModelBase $model, string $valueColumn, ?string $column, $id)
     {
         if (is_null($column)) {
             $column = $model->getPrimaryKey() ?? igk_die("no primary key provided.");
@@ -1258,24 +1278,29 @@ abstract class ModelEntryExtension
      * get cached properties
      * @param ModelBase $model model to extend
      * @param string $column column name
-     * @param mixed $id value
+     * @param mixed $value value
      * @param mixed $autoinsert 
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetCache(ModelBase $model, $column, $id, $autoinsert = null): ?object
+    public static function GetCache(ModelBase $model, ?string $column, $value=null, ?bool $autoinsert = null): ?object
     {
+        if (func_num_args()==2){
+            $value = func_get_arg(1);
+            $column = null;
+        }
+        $column = $column ?? $model->getPrimaryKey();
         $cl = $model->getColumn($column);
-        $key = CacheModels::GetCacheKey($model, $cl, $id);
+        $key = CacheModels::GetCacheKey($model, $cl, $value);
         if ($o = CacheModels::Get($key)) {
             return $o;
         }
-        if (is_object($o = self::Get($model, $cl, $id, $autoinsert))) {
+        if (is_object($o = self::Get($model, $cl, $value, $autoinsert))) {
             CacheModels::Register($key, $o);
         }
         if (is_bool($o)) {
             if ($o) {
-                if ($to = $model::select_row([$column => $id])) {
+                if ($to = $model::select_row([$column => $value])) {
                     CacheModels::Register($key, $to);
                     return $to;
                 }

@@ -75,7 +75,7 @@ class Activator
         $ref[] = $interface;
         $ref = implode(", ", $ref);
         $src = implode("\n", [
-            '?><?php',
+            '?><?php ',
             "final class {$p} implements {$ref}{",
             "    use {$dyn_trait};",
             "    use {$p_trait};",

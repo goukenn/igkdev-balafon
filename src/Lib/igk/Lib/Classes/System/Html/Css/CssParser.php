@@ -9,7 +9,6 @@ use Exception;
 use Error;
 use IGK\Css\CssSupport;
 use IGK\Helper\StringUtility;
-use IGK\System\Console\Logger;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\StringBuilder;

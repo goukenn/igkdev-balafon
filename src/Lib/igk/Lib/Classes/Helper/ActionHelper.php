@@ -304,6 +304,10 @@ abstract class ActionHelper
             igk_ilog('failed to register cron job mail process');
             return false;
         }
+        if ($v_reg_info){
+            // register to cronjob dispatcher
+            return true;
+        }
         $mail = new Mail();
         $mail->addTo($to);
         $mail_title = StringUtility::GetApplicationMailTitle($controller, $mail_title);
@@ -322,6 +326,7 @@ abstract class ActionHelper
         }
         $rep = $v_reg_info && $mail->sendMail();
         if ($rep) {
+            $v_reg_info->crons_process = 1;
             $v_reg_info->crons_status = 1;
             $v_reg_info->save();
         }

@@ -224,4 +224,9 @@ abstract class EntryClassResolution
     * @var mixed
     */
     const CTRL_METHOD_INIT_USER_FROM_SYSUSER = 'initUserFromSysUser';
+
+    /**
+     * classe entry use to define hook command info help if filter hook failed 
+     */
+    const COMMAND_HELP_INFO_NS = 'System/Console/Help/';
 }

@@ -36,9 +36,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * @var mixed
     */
     private $m_errorstr;
-    // public function __debugInfo(){
-    //     return [];
-    // }
+   
 
     /**
     * Returns Hash Key.

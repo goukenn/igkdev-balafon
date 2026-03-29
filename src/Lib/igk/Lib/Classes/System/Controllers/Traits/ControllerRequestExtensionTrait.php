@@ -44,7 +44,7 @@ trait ControllerRequestExtensionTrait{
             }
         } 
         $v_uri = $ctrl::uri($path,false, false, true);                 
-        $path = RequestPreparer::PrepareForRequest($v_uri);
+        $path = RequestPreparer::PrepareForRequest($v_uri,null, $method);
         list($view, $args) = ViewHelper::PrepareViewArgFromPath($path);  
         if ($args){
             $view .= '/'.implode("/", $args);

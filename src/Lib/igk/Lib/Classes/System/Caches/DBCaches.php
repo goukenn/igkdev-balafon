@@ -82,8 +82,7 @@ class DBCaches
          * @var string $table 
          * @var SchemaMigrationInfo $info 
          */
-        $table=null;
-        $info;
+        $table=null; 
         $list = [];
         foreach($mp as $table=>$info){
             if ($info->controller == $controller){
@@ -337,8 +336,15 @@ class DBCaches
                             foreach ($v as  $d) {
                                 // + | --------------------------------------------------------------------
                                 // + | load DB cache info
-                                // + |                                
-                                $rdata[$d->tableName] = SchemaMigrationInfo::CreateFromCacheInfo($d, $gctrl);
+                                // + |  
+                                $v_tbname = $d->controller->tableName;
+                                if (!isset($v_tbname)){
+                                    igk_dev_wln_e(__FILE__.":".__LINE__ , $file, 
+                                    $d->controller->tableName,
+                                    'missing definition on <pre>', json_encode($d, JSON_PRETTY_PRINT), '</pre>');
+                                }else{                           
+                                    $rdata[$v_tbname] = SchemaMigrationInfo::CreateFromCacheInfo($d, $gctrl);
+                                }
                             }
                         }
                     } else {
@@ -508,7 +514,7 @@ class DBCaches
         }
         $keys = array_keys((array)$m);
         $var = get_class_vars(SchemaMigrationInfo::class);
-        $allowed = array_keys($var); // [ 'columnInfo', 'defTableName', 'description', 'tableName', 'defTableName'];
+        $allowed = array_keys($var); 
         foreach ($keys  as $p) {
             if (!in_array($p, $allowed)) {
                 unset($m[$p]);
@@ -522,7 +528,6 @@ class DBCaches
     * @param array $data
     * @return void
     */
-
     public static function CacheData(array $data)
     {
         $g =  (object)['m_serie' => []];

@@ -55,7 +55,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             "sync.command.pinc"
         ], $token, "remove session");
         igk_io_w2file($script_install, $sb);
-        $r = `php -l $script_install`;
+        $r = shell_exec("php -l $script_install");
         if ($r && strstr($r , 'Parse error')){
             Logger::danger("parsing error - ");
             return -103;

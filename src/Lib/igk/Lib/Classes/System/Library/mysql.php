@@ -22,7 +22,7 @@ class mysql extends \IGKLibraryBase{
     * Initializes.
     * @return bool
     */
-    public function init():bool{
+    public function init():bool{ 
         if (!extension_loaded("mysqli")){
             // missing mysqli extension
             return false;

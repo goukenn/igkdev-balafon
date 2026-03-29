@@ -15,6 +15,12 @@ namespace IGK\System\Console\Commands;
 * @package IGK\System\Console\Commands
 */
 class SearchFileExclusion{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $m_patterns;
 
     /**

@@ -11,6 +11,11 @@ use IGK\Helper\Activator;
  * @package IGK\System\Php\Helper
  * @author C.A.D. BONDJE DOUE
  */
+
+/**
+* auto generate doc.
+* @package IGK\System\Php\Helper
+*/
 abstract class PhpScriptUtility
 {
     /**

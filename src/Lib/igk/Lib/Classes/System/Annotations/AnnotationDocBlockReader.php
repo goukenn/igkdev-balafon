@@ -340,10 +340,13 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     {
         $cl = null;
         $filter = $this->m_filter;
+
+      
         if (property_exists($this, $name)) {
-            $tcontent = self::_TreatArgs($arguments[0]);
+            $tcontent = (isset($arguments[0])) ? [$arguments[0]] : null;
             $s = $tcontent ? igk_getv($tcontent, 0) : true;
             $g = $this->$name;
+
             if (isset($g) && self::$sm_loading){     
                 if ($this->_supportMutiple($name)){
                     if (!is_array($g)){
@@ -387,6 +390,24 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
                 }
             }
         }
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $callback
+    * @return
+    */
+    protected function setPropertyHandlerListener($callback){
+
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $callback
+    * @return
+    */
+    protected function setPropertyFilterListener($callback){
+
     }
 
     /**

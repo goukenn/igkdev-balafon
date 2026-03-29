@@ -416,9 +416,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
 
     /**
     * auto generate doc.
+    * @param string $ctrl adapter to create 
     * @param mixed $params the default value is null
     */
-
     public static function CreateDataAdapter($ctrl, $throwexception = true, $newAdapter = 0, $params = null)
     {
         if (empty($ctrl)) {
@@ -465,8 +465,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                 return $out;
             }
         }
-        if ($throwexception) {
-            // igk_wln_e(get_defined_vars(), $adapt, class_exists($n));
+        if ($throwexception) {     
             igk_die("DataAdapter: [" . $ctrl . "] not found. Driver class expected : " . $n);
         }
         return null;

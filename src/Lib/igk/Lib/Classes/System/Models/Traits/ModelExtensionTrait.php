@@ -25,11 +25,11 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function Get(\IGK\Models\ModelBase $model, $column = null, $id = null, $autoinsert = null);
+    public abstract static function Get(\IGK\Models\ModelBase $model, ?string $column = null, $value = null, ?bool $autoinsert = null);
     /**
      * extension methods 
      */
-    public abstract static function GetCache(\IGK\Models\ModelBase $model, $column, $id, $autoinsert = null): ?object;
+    public abstract static function GetCache(\IGK\Models\ModelBase $model, ?string $column, $value=null, ?bool $autoinsert = null): ?object;
     /**
      * extension methods 
      */

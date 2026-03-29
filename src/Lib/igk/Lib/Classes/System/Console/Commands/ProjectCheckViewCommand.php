@@ -72,7 +72,7 @@ class ProjectCheckViewCommand extends AppExecCommand{
         foreach($views as $view){
             $file = $viewDir."/".$view.IGK_VIEW_FILE_EXT;
             // lint php
-            $g = `php -l $file`;
+            $g = shell_exec("php -l $file");
             Logger::info($file);
             echo "lint : ".$g.PHP_EOL;
             try{

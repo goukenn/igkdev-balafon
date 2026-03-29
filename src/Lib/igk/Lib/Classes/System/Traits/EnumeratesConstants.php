@@ -52,7 +52,9 @@ trait EnumeratesConstants{
      */
     public static function GetConstantValue($k){
         $ref = igk_sys_reflect_class(static::class);
-        return $ref->getConstant($k);
+        if ($ref->hasConstant($k))
+            return $ref->getConstant($k);
+        return null;
     }
     /**
      * get constant value type - name

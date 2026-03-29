@@ -389,9 +389,6 @@ EOF;
 				$uri = $this->m_manager->getController()->getUri("addUri", $this->m_manager);
 			}
 			$this['igk-horizontal-pane-draggable'] = 1;
-// 			$this->m_infoboxScript->Content = <<<EOF
-// ns_igk.readyinvoke('igk.winui.horizontalScrollPane.initdrag','{$uri}');
-// EOF;
 			$this->m_infoboxScript->setIsVisible(false);
 		} else {
 			$this->m_infoboxScript->Content = null;

@@ -16,6 +16,11 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
     * auto generate doc.
     * @package IGK\System
     */
+
+    /**
+    * auto generate doc.
+    * @package IGK\System
+    */
     interface auto_load_IModuleDefinition{
     }
     class_alias('auto_load_IModuleDefinition', 'IModuleDefinition');

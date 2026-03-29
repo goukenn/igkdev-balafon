@@ -267,7 +267,8 @@ function igk_bind_module($mod, ?string $name = null, ?BaseController $controller
     $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
     if ($ctrl = $controller ?? \IGK\Helper\ViewHelper::CurrentCtrl()) {
         $g = $ctrl->getEnvParam($v_key) ?? [];
-        $g[$name] = $mod;
+        if (!is_null($name))
+            $g[$name] = $mod;
         $ctrl->setEnvParam($v_key, $g);
     }
 }

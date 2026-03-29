@@ -9,17 +9,37 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\Path;
 
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Projects
 * @author C.A.D. BONDJE DOUE
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Projects
+*/
 class LoadAssetsCommand extends AppExecCommand{
 	var $command='--project:store-asset';
-	var $desc='store an asset to a project'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
+    var $desc='store an asset to a project'; 
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-	public function exec($command, ?string $controller=null, ?string $file=null, $algo='crc32b') { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $file
+    * @param mixed $algo
+    * @return
+    */
+    public function exec($command, ?string $controller=null, ?string $file=null, $algo='crc32b') { 
 		$ctrl = self::GetController($controller) ?? igk_die('missing controller');
 		$dir = Path::Combine($ctrl->getDataDir(), 'assets');
 		$algo || igk_die('missing hash algo');

@@ -54,7 +54,8 @@ class LocaleSetting{
     /**
     * Returns Date Format.
     */
-    public function getDateFormat(){
+    public function getDateFormat(): string{
+        $k ='';
         if (__($k = "@date_format") == $k){
             switch(strtolower(R::GetCurrentLang() ?? 'fr')){
                 case 'fr':

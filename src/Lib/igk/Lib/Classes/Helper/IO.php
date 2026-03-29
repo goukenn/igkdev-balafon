@@ -62,6 +62,12 @@ class IO
 
             $tab = finfo_file($fileinfo, $file);
             finfo_close($fileinfo);
+            if ($tab=='text/plain'){
+                $ext= igk_io_path_ext($file);
+                $tab = igk_getv([
+                    'md'=>'text/markdown'
+                ], $ext, $ext);
+            }
         }
         return $tab;
     }
@@ -338,7 +344,7 @@ class IO
             if ($fc) {
                 exec("ln -s '{$target}' '$cibling'");
             } else {
-                `ln -s '$target' '$cibling'`;
+                shell_exec("ln -s '$target' '$cibling'");
             }
         } else {
             @symlink($target, $cibling);
@@ -1435,5 +1441,15 @@ class IO
             $hdir && closedir($hdir);
         }
         return $od;
+    }
+    /**
+     * create a ile 
+     * @param null|string $content 
+     * @return callable 
+     */
+    public static function TouchFileCallback(?string $content= null):callable{
+        return function ($f)use($content){
+            igk_io_w2file($f, $content);
+        };
     }
 }

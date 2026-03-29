@@ -157,7 +157,7 @@ class HtmlScriptLoader
                         continue;
                     }
                     switch (($ext)) {
-                        case ".js";
+                        case ".js":
                             $u .= "?v=" . IGK_VERSION;
                             $s .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
                             $is_core = (($tag == "igk") && (basename($f) == "igk.js"));
@@ -183,7 +183,7 @@ class HtmlScriptLoader
                 $ext = Path::GetExtension($f);
                 $F = igk_io_collapse_path($f);
                 switch (($ext)) {
-                    case ".js";
+                    case ".js":
                         $s .= IGK_START_COMMENT . "F: " . $F . "" . IGK_END_COMMENT . IGK_LF;
                         $ts = file_get_contents($f);
                         $ts = self::TreatJSSource($f, $ts, $references);

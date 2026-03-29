@@ -19,7 +19,19 @@ use JsonSerializable;
 */
 class ModuleInclusionMethod implements JsonSerializable{
     use JsonSerializableTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $m_callback;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $m_namespace;
 
     /**
@@ -57,6 +69,11 @@ class ModuleInclusionMethod implements JsonSerializable{
     */
     private $m_params;
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     private $m_uses;
  
     /**

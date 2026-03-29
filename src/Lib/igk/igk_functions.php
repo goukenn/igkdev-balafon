@@ -15345,8 +15345,11 @@ function igk_io_locate_view_file($ctrl, &$c, &$p)
 /**
  * move uploaded file to destination
  */
-function igk_io_move_uploaded_file(string $file, string $destination)
+function igk_io_move_uploaded_file(string $file, string $destination): bool
 {
+    if (php_sapi_name()=='cli'){
+        return rename($file, $destination);
+    }
     if (!move_uploaded_file($file, $destination)) {
         return false;
     }
@@ -17215,6 +17218,15 @@ function igk_json_value($v)
     }
     return $v;
 }
+/**
+ * helper: pretty json encoding
+ * @param mixed $value 
+ * @param mixed $option 
+ * @return string|false 
+ */
+function igk_json_print_pretty($value, $option=null){
+    return json_encode($value, $option ?: JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+}
 ///<summary>default key sort callback</summary>
 /**
  * default key sort callback
@@ -17369,7 +17381,7 @@ function igk_log($msg, $file, $tag = null)
  */
 function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
 {
-    $s = date("d-m-Y H:i:s:");
+    $s = date("Y-m-d H:i:s:");
     if ($tag) {
         $s .= "[{$tag}] - ";
     }

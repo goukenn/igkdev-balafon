@@ -124,6 +124,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     protected $canLoadContent;
 
     /**
+     * auto hml entities
+     * @var bool
+     */
+    protected $autohtmlentities = true;
+
+    /**
     * Sets Prefilter Attribute.
     * @param null|IHtmlPrefilterAttribute $attribFilter
     */
@@ -659,7 +665,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 
     public function setContent($value)
     {
-        // igk_debug_wln(__FILE__.":".__LINE__,  "setting node ... ".$value);
+        // if ($this->autohtmlentities && is_string($value)){
+           // $value = htmlentities($value);
+        //}
+        //igk_debug_wln_e(__FILE__.":".__LINE__,  "setting node ... ".$value);
         if (func_num_args() > 1) {
             $tab = func_get_args();
             while (count($tab) > 0) {
@@ -1130,7 +1139,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $tgname = $this->getTagName();
         // + | factory invoke
         $instance = \IGK\System\Html\Dom\Factory::getInstance();
-        if ($instance->handle($tgname, $name)) {
+        if ($tgname && $name && $instance->handle($tgname, $name)) {
             igk_html_push_node_parent($this);
             $r = $instance->Invoke($tgname, $name, $arguments);
             igk_html_pop_node_parent();

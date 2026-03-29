@@ -46,6 +46,11 @@ if (!function_exists('__')){
     * auto generate doc.
     * @package
     */
+
+    /**
+    * auto generate doc.
+    * @package
+    */
     class translation extends IGKTranslator{
     }
 }

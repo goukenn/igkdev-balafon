@@ -950,7 +950,9 @@ function igk_bind_trace()
 }
 
 /**
-* auto generate doc.
+* write to output
+* @param string ...$msg
+* @return void
 */
 function igk_wln($msg = "")
 {

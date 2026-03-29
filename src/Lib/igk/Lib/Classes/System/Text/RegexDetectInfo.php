@@ -26,7 +26,7 @@ class RegexDetectInfo{
     * auto generate doc.
     * @var mixed
     */
-    var $basePosition;
+    //var $basePosition;
 
     /**
     * auto generate doc.
@@ -81,5 +81,9 @@ class RegexDetectInfo{
     */
     public function id(){
         return $this->match->name ?? ($s =$this->match->tokenID)?explode(' ', $s)[0] : null;
+    }
+
+    public function __get(string $n){
+        igk_die('missing property ['.$n.']');
     }
 }

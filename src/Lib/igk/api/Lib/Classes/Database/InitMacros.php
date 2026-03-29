@@ -1,1 +1,3 @@
 <?php
+
+// initialize marcos definition 

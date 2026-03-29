@@ -113,7 +113,7 @@ final class ApplicationModuleController extends BaseController{
     */
     public function __debugInfo()
     {
-        return null;
+        return [];
     }
 
     /**
@@ -271,10 +271,11 @@ final class ApplicationModuleController extends BaseController{
             }
         });
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     protected function &getInvocationList()
     {
         return $this->m_fclist;
@@ -370,7 +371,7 @@ final class ApplicationModuleController extends BaseController{
                     $this->reg_function($name, $callback);
                 }, '__file__'=>$this->getDeclaredFileName()];
             })());
-             if (!empty(trim(func_get_arg(0)['code']))){
+             if (!empty(trim(func_get_arg(0)['code']))){ 
                 eval("?>".func_get_arg(0)['code']);                 
              }              
             return isset(func_get_arg(0)['return']) ? eval(func_get_arg(0)['return']) : null;
@@ -380,21 +381,24 @@ final class ApplicationModuleController extends BaseController{
             $v_is_debug = igk_is_debug(Debugs::balafon_module_loading);
             if ($__cache = \IGK\System\Modules\ModuleInitializer::Init($this, $c_cfile, $v_fclist)){
                 $v_is_debug && igk_ilog($c_cfile, 'blf-module-loading');
+                if (isset($__cache['code'])){
+                    // + | fix for php 7.3 eval code not allow strict code declaration
+                    $ch = trim($__cache['code'])=='<?php'? ' ' : '';
+                    $__cache['code'].= $ch;
+                }
+               
                 $data = call_user_func_array($v_fc, [$__cache]);
                
-                // if (!empty(trim($__cache['code'])))
-                //     eval("? >".$__cache['code']);               
-                // $data = isset($__cache['return']) ? eval($__cache['return']) : null;
                 $data = array_merge($data??[], $definition);
                 $s = $__cache['code'];
             }
         }
         catch(\TypeError $error){
-            igk_wln_e('lkjo', $__cache['code'], $error->getMessage());
+            igk_dev_wln_e('type_error', $__cache['code'], $error->getMessage());
             throw new ApplicationModuleInitException($this, 500, $error);            
         }
         catch(\Error $ex){
-            igk_wln_e('lkjs');
+            igk_dev_wln_e('error ', $ex->getMessage(), $ex->getLine(), $__cache['code']);
             // catch fatal - error
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
@@ -574,10 +578,11 @@ final class ApplicationModuleController extends BaseController{
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
     }
+
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     public function & getReferenceModuleList(){
         return $this->m_fclist;
     }

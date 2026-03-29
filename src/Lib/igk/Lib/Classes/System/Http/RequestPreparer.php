@@ -31,8 +31,7 @@ class RequestPreparer{
      * @return string 
      * 
      */
-
-    public static function PrepareForRequest(string $path, ?string $base_uri = null):string{
+    public static function PrepareForRequest(string $path, ?string $base_uri = null, ?string $method=null):string{
         $storage =[
             $_SERVER,
             $_REQUEST,
@@ -43,11 +42,14 @@ class RequestPreparer{
         igk_push_env($mkey, $storage); 
         $base_uri = $base_uri ?? igk_io_baseuri();
         $g = new Uri(\igk_uri(Path::Combine($base_uri, $path)));
-        $path = $g->getPath();
+        $path = $g->getPath() ?? '';
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
         if ($query = $_SERVER['QUERY_STRING'] = $g->getQuery()){
             parse_str($query, $_REQUEST);
         } 
+        if ($method){
+            $_SERVER['REQUEST_METHOD'] = strtoupper($method);
+        }
 
         igk_server()->prepareServerInfo();
         $uri = igk_getv(parse_url(igk_server()->REQUEST_URI), 'path');

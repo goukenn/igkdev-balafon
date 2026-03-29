@@ -137,7 +137,7 @@ class App implements ICLICommandApp
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
-   
+
         if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile(), true)) {
             Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
@@ -146,7 +146,6 @@ class App implements ICLICommandApp
             unset($v_cmd);
         } // + | load commands 
         $command_args = AppCommand::GetCommands($app);
- 
  
         if ($command_args) {
             foreach ($command_args as $c) {
@@ -179,6 +178,7 @@ class App implements ICLICommandApp
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
         self::ResetCommandWorkingDir();       
+        
         return self::Exec($app, $tab) ?? 0;
     }
     /**

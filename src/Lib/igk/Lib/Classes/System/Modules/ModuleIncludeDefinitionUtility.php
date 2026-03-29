@@ -23,7 +23,19 @@ use function igk_resource_gets_map;
  */
 class ModuleIncludeDefinitionUtility
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     const DEBUG_KEY = 'debug-module-include-utility';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return
+    */
     const SELF_REFERENCE = '_this';
     /**
      * auto generate doc.

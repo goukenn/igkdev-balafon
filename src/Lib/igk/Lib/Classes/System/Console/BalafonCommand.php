@@ -38,6 +38,6 @@ class BalafonCommand{
      */
     protected function run($commandArgs){
         $s = 'balafon '.$commandArgs;
-        return `{$s}`;
+        return shell_exec("{$s}");
     }
 }

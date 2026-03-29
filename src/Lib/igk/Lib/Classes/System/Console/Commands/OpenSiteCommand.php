@@ -51,7 +51,7 @@ class OpenSiteCommand extends AppExecCommand{
     public function exec($command, ?string $location=null) {
 		$agent = 'firefox';
 		if ($page = getenv('IGK_WEB_URL')){
-			`open -a {$agent} {$page}/{$location}`;
+			shell_exec("open -a {$agent} {$page}/{$location}");
 		}
 	}
 }

@@ -1562,8 +1562,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             if ($l) {
                 $value = $l . $value;
                 $def[''] = $value;
-            } else
+            } else{
                 $def[] = $value;
+            }
             return;
         }
         $def[$key] = $value;

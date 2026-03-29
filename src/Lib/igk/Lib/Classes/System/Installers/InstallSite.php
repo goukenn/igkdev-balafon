@@ -249,8 +249,8 @@ class InstallSite
         // + |
         if ($v_is_unix && (get_current_user() == "root")) {
             if ($ug = igk_getv($options, "user:group", "www-data:www-data")) {
-                `chown -R {$ug} {$folder}`;
-                `chmod -R 775 {$folder}`;
+                shell_exec("chown -R {$ug} {$folder}");
+                shell_exec("chmod -R 775 {$folder}");
             }
         }
         return true;

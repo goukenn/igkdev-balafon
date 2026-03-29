@@ -21,7 +21,7 @@ abstract class CoreUtility{
         $count = 0;
         $T = count($files);
         foreach($files  as $f){
-            $o = `php -l $f 2>&1 && echo 'ok'`;
+            $o = shell_exec("php -l $f 2>&1 && echo 'ok'");
             if (!$o || !igk_str_endwith(trim($o), 'ok')){
                 Logger::danger("error in $f");
                 return -3;

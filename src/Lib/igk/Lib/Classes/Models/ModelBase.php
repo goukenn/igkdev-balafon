@@ -64,9 +64,9 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static \IGK\System\Database\DbConditionExpressionBuilder query_condition(string operand); OR|AND query condition 
  * @method void set(name, value): set value
  * @method static \IGK\Database\DataAdapterBase driver() macros helper get the driver attached to the current model
- * @method static string get_insert_query() marcros helper insert query 
- * @method static ?static Get(mixed $value) macros function get row from primary key value
- * @method static ?static Get(string $column, mixed $value, $autoinsert=null) macros function get row from defined value
+ * @method static string get_insert_query() marcros helper insert query  
+ * @method static ?static Get(?string $column, mixed $value, $autoinsert=null) macros function get row from defined value
+ * @method static ?static GetCache(mixed $value) macros function get row from column will be the primary key
  * @method static ?static GetCache(string $column, mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static cacheRow(where) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class

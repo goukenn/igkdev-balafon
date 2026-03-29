@@ -66,11 +66,12 @@ class Factory{
     }
 
     /**
-    * Handles.
-    * @param mixed $name
-    * @param mixed $funcName
+    * Handles. Check
+    * @param string $name
+    * @param string $funcName
+    * @return 
     */
-    public function handle($name, $funcName){
+    public function handle(string $name, string $funcName): bool{
         return isset($this->m_actions[$name][$funcName]);
     }
 

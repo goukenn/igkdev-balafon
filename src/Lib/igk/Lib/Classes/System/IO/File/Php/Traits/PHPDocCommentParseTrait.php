@@ -23,6 +23,11 @@ trait PHPDocCommentParseTrait
      */
     protected static $sm_loading;
 
+    /**
+    * auto generate doc.
+    * @param string $k
+    * @return bool
+    */
     protected function _supportMutiple(string $k): bool
     {
         return in_array($k, ['property', 'param', 'method', 'throws', 'var', 'property_read', 'property_write', 'mixin', 'uses', 'see', 
@@ -110,6 +115,9 @@ trait PHPDocCommentParseTrait
             }
             while (count($tv) > 0) {
                 $v = array_shift($tv);
+                if (is_null($v)){
+                    $v = '';
+                }
                 if (is_array($v)){
                     if (empty($v)){
                         continue;

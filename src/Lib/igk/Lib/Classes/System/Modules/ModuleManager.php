@@ -130,16 +130,23 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $list
+    * @return
+    */
     private static function _InitModuleList($list)
     {
         array_map(function ($s) {
             igk_require_module($s->name);
         }, $list);
     }
+
     /**
-     * 
-     * @return null|array 
-     */
+    * auto generate doc.
+    * @return null|array
+    */
     public static function SystemRequireModules(): ?array
     {
 
@@ -158,6 +165,12 @@ class ModuleManager
         } 
         return $cf;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    * @return
+    */
     private static function _RequiredCachedModules($type = true)
     {
         $t = [];
@@ -246,6 +259,11 @@ class ModuleManager
         self::_Init();
         $auto_required && self::SystemRequireModules();
     }
+
+    /**
+    * auto generate doc.
+    * @return
+    */
     private static function _Init()
     {
         $boot_cache = igk_io_cachedir() . "/.modules.boot.cache";

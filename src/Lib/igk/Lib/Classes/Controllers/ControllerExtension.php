@@ -2628,7 +2628,8 @@ abstract class ControllerExtension
         $sep = "";
         $fallback = false;
         $fc_prepend = function (&$tab, $name, $level, $params) {
-            $tab = [$name => [$level, $params]] + $tab;
+            // $tab = [$name => [$level, $params]] + $tab;
+            $tab = array_merge([$name => [$level, $params]] , $tab);
         };
         // $TLevel = $params ? count($params) : 0;
         $entry_default = ($name == IGK_DEFAULT_VIEW);
@@ -2708,7 +2709,8 @@ abstract class ControllerExtension
             array_shift($margs);
         }
         if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
-            $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
+            // top last level 
+            $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = [-1, null];
         }
         ActionHelper::$ResolvedClass = null;
         return $t;
@@ -2828,7 +2830,11 @@ abstract class ControllerExtension
         }
         while (count($t) > 0) {
             $cl = array_key_first($t);
-            list($level, $params) = array_shift($t);
+            $q = array_shift($t);
+            if (!is_array($q)){
+                throw new IGKException('not an array');
+            }
+            list($level, $params) = $q;
             $fcl = $cl;
             if (!empty($ns) && (strpos($cl, $ns . "\\") === 0)) {
                 $fcl = substr($cl, $sublen);

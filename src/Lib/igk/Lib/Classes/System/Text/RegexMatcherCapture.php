@@ -112,7 +112,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @return bool 
      */
 
-    public function getisEnd(){
+    public function getisEnd():bool{
         $m = $this->match;
         if ($m && ($m->type == 'match')){
             return true;
@@ -120,10 +120,16 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
         return !is_null($this->endCaptures);
     }
     /**
+     * get must stop parent info
+     * @return bool 
+     */
+    public function getisStopParent():bool{
+        return ($this->from == $this->to ) && $this->parentInfo;
+    }
+    /**
      * get if is treated value
      * @return bool 
      */
-
     public function getisTreatedValue(){
         return $this->value != $this->sourceValue;
     }

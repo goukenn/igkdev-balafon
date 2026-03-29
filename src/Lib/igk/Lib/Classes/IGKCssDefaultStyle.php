@@ -180,19 +180,25 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     /**
      * request to append or not properties
      * @param mixed $g 
-     * @param mixed $i 
+     * @param string|int|null $i key index 
      * @param mixed $v 
      * @return void 
      * @throws IGKException 
      */
-
     protected function _bindProperties(& $g, $i, $v){
+        
+        if (is_null($i)){
+            if ($v){
+                $g[] = $v;
+            }
+            return;
+        }
         if (is_null($v)){
             unset($g[$i]);
             return;
         }
         $r = igk_getv($g, $i);
-        $s = $this->noAppendDefinition || empty($r) ? $v :  CssUtils::MergeStyleDefinition($r, $v); 
+        $s = $this->noAppendDefinition || empty($r) ? $v :  CssUtils::MergeStyleDefinition($r, $v);         
         $g[$i]=$s; 
     }
     /**

@@ -21,6 +21,13 @@ interface IMarkdownFilterHost{
     function getListTableNewIds():?int;
 
     /**
+     * register color index 
+     * @param string $color 
+     * @return int 
+     */
+    function registerColorIndex(string $color):int;
+
+    /**
     * Popup bullet list.
     * @param string $root
     * @return string
