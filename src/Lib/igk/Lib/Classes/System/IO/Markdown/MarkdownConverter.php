@@ -385,8 +385,9 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $quote = $m->match("^> (.+)?", "text-quote")->last();
         $v_tag_defition = $m->match('(<|>|≤)', 'tag-definition')->last();
         $m->match('^(\|| *)?(?:-+(?: )*\|){1,}(?:(?: )*-+( )*)?(?=\\n)?', 'table-segment');
-        $table_entry = $m->match('^(\|)?(?:(?:[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
-        //$table_entry = $m->match('^(\|)?(?:(?:(?!<=\\\)[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
+        // $table_entry = $m->match('^(\|)?(?:(?:[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
+        $table_entry = $m->match('^(?:.*(?<!\\\)\|)+.*(?=\\n)?', 'table-entry')->last();
+        $table_entry->description = 'only match table entry that pipe is not escaped';
         $header = $m->match('^#{1,6}(?: (?P<title>.+))?', "text-header")->last();
         $escaped_string = $m->referenceOnly()->match('\\\\.', "escaped");
         $mention_string = $m->match("@\b\w+\b", "at-mention")->last();
@@ -425,6 +426,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $emphasis,
             $emoji_block,
             $mention_string,
+            $m->createPattern([
+                'tokenID'=>'skip-escaped-litteral',
+                'match'=>"\\\\\|",
+            ]),
             $escaped_string,
             $fence_code,
             $v_tag_defition
@@ -804,11 +809,20 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $v_debug && Logger::info('[mdc] tokenID: ' . $g->tokenID . sprintf(": value : [%s]", $g->value));
                 $s = $this->_treat_callback($fc, $g, false, $is_sub); // call_user_func_array([$this, $fc], [$g->value, $g]);
                 if (!empty($s)) { // change the definition 
-                    $data = substr($data, 0, $g->from) . $s . substr($data, $g->to);
+                    $rs = substr($data, 0, $g->from) . $s ;
+                    $data = $rs.substr($data, $g->to);
                     $next_pos = $g->from + strlen($s);
+                    
                 }
             }
         }
+    }
+    /**
+     * just append but skip 
+     * @return void 
+     */
+    protected function _treat_skip_escaped_litteral(){  
+        return "\\|";
     }
     /**
      * Prepare text before append to buffer.

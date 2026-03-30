@@ -107,7 +107,7 @@ interface IDataDriver{
     * @param mixed $throwex
     * @param null|mixed $options
     * @param mixed $autoclose
-    * @return string
+    * @return mixed
     */
     function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
     /**

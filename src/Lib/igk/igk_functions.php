@@ -16150,8 +16150,10 @@ function igk_is_ajx_demand()
 {
     return !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) &&
         (
-            (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"))
-            || igk_server()->HTTP_IGK_AJX
+            (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") || 
+            (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"))
+            || igk_server()->HTTP_IGK_AJX ||
+            (php_sapi_name()!='cli') && igk_server()->accept('json') // <!- modern engine do not rely to it for servurity reason
         );
 }
 ///<summary>Represente igk_is_ajx_form_request function</summary>

@@ -251,10 +251,13 @@ abstract class ConsoleUtility
                 $command->waitForNextEntryFlag = false;
             }
             if (isset($handle[$v])) {
-                // if (is_null($command->exec)) {
+                // just handle command definition 
                 $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-                $action($v, $command, $c ? implode(":", array_slice($c, 1)) : []);
-                // }
+                if (is_null($command->exec)){
+                    $action($v, $command);
+                } else 
+                    $action($v, $command, $args);//, $c ? implode(":", array_slice($c, 1)) : []);
+
             } else {
                 $c = explode(":", $v);
                 $v_ts =  implode(":", array_slice($c, 1));

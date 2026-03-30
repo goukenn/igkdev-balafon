@@ -20,12 +20,11 @@ class AddTempScriptTest extends BaseTestCase{
     */
     public function test_htmldoc_addtemps_script(){
         $doc = IGKHtmlDoc::CreateDocument(-1);
-        $p = null;
-        $file = IO::CreateTempFile(IO::CreateTempDir('uri-test'), '.js');
-       
+        // $p = null; 
+        $file = IO::CreateTempFile(IO::CreateTempDir('uri-test'), '.js'); 
         $cn = $doc->addTempScript($file."?p=new_app");
         $n = $cn->render(); 
-        $abs_path = IO::IsAbsolutePath($file);
+        // $abs_path = IO::IsAbsolutePath($file);
         $this->assertEquals(
             '<script language="javascript" src="./?p=new_app" type="text/javascript"></script>', 
             $n);

@@ -306,7 +306,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                     if (is_array($command))
                         $command["debug"] = true;
                     igk_debug(1);
-                    if ($debugList){
+                    if (is_array($debugList)){
                         array_map(function($n){
                             igk_environment()->set('debug_'.$n, true);
                         }, $debugList);                        
@@ -639,12 +639,14 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param array $argv 
      * @return void 
      */
-    protected function initCommand(array $command, array $argv)
+    protected function initCommand(array $command, array & $argv)
     {
         igk_environment()->NoAppInitFileStruct = true;
+        $debug = false;
         if (in_array("--debug", $argv)) {
             $fc = $command["--debug"][0];
             $fc([], $command);
+            $debug = true;
         }else {
             $tc = array_slice($argv,1);
             $tdebug = [];
@@ -656,6 +658,14 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             if ($tdebug){
                     $fc = $command["--debug"][0];
                     $fc([], $command, $tdebug);
+                    $debug = true;
+            }
+        }
+        if ($debug){
+            foreach($argv as $k=>$c){
+                if(preg_match('/--debug\\b/', $c)){
+                    unset($argv[$k]);
+                }
             }
         }
         if (in_array('--report-error', $argv)) {

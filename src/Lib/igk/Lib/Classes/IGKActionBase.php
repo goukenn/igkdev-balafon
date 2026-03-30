@@ -448,6 +448,9 @@ abstract class IGKActionBase implements IActionProcessor
     protected function currentUser(){
         return $this->getController()->getUser();
     }
+    protected function currentUserProfile(){
+        return $this->getController()->getUserProfile();
+    }
     /**
     * .destructor
     * @param mixed $n

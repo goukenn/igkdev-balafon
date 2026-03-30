@@ -574,11 +574,7 @@ class SchemaMigration
                 break;
             case DbSchemasConstants::OP_RENAME_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                if (!isset($tables[$tb])) {
-                    /// TODO: CHECK WHY column info not renderer 
-                    // $tables[$tb] = (object)[
-                    //     'columnInfo'=>[]
-                    // ];
+                if (!isset($tables[$tb])) {                
                     break;
                 }
                 $v_table = $tables[$tb];
@@ -616,6 +612,7 @@ class SchemaMigration
                     'tableName' => $tb,
                     '::context_db' => 'from create table - SchemaMigration',
                     'controller' => $ctrl,
+                    'prefix'=> $item->prefix, 
                     'definitionResolver' => null,
                 ]);
                 if (!isset($tables[$tb])) {

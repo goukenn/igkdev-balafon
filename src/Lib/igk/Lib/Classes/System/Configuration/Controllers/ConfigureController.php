@@ -1362,7 +1362,7 @@ EOF;
             igk_json(json_encode(['error' => true, 'notice' => 'misconfiguration deserie']));
         }
         switch ($data->action) {
-            case 'get';
+            case 'get':
                 $challenge = igk_app()->session->webauthn_authenication_challenge;
                 $data = igk_getv($data, 'credentials');
                 if (empty($challenge)) {

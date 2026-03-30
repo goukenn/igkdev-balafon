@@ -191,6 +191,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn->match("\\b(a|c)\\b");
         $this->expectOutputString(implode("\n", ['a', 'c', 'b']));
         $pos = 0;
+        $ch = '';
         $ctn->treat($s, function ($g, $next_pos, $data,) use (&$ch, &$pos) {
             if ($g->parentInfo == null)
                 echo $g->value . "\n";
@@ -338,12 +339,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container = new RegexMatcherContainer;
         $container->match('^(?=\\n)?', 'count');
         $src = str_repeat("\n", 6);         
-        $r = []; 
-        igk_debug(true);
+        $r = [];  
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
-            });
-        igk_debug(false);
+            }); 
           
         $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', 
             json_encode($r)
@@ -449,16 +448,14 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
 
         $pos = 0;
-        $rp = [];
-        igk_debug(true);
+        $rp = []; 
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 if ($e->tokenID == 'mark') {
                     $rp[] = $e->value;
                 }
             }
-        }
-        igk_is_debug(false);
+        } 
         $this->assertEquals([
             'begin: one ;', 'begin: data ok'
         ], $rp);

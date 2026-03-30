@@ -734,6 +734,8 @@ abstract class ModelEntryExtension
     /**
     * auto generate doc.
     * @param bool $update update mode
+    * @param mixed|array|object $entry to insert
+    * @param bool $update update mode
     * @return null|ModelBase|bool
     */
     public static function insert(ModelBase $model, $entry, $update = true, bool $throwException = true)
@@ -743,6 +745,10 @@ abstract class ModelEntryExtension
             return false;
         }
         $info = $model->getTableColumnInfo();
+        $tabinfo = $model->getTableInfo();
+        if (($prefix = $tabinfo->prefix) && is_array($entry)){
+            SQLGrammar::AutoPrefixValue($entry, $prefix);
+        }
         if ($ad->insert($model->getTable(), $entry, $info, $throwException)) {
             if ($update) {
                 $model_class = get_class($model);

@@ -1896,7 +1896,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             }
             $cap_treat_mark[$k] = [$ch, $offset];
             return $ch;
-        }; // treat capture accept closure or definition handle
+        }; 
+        // treat capture accept closure or definition handle
         foreach ($captures as $k => $mark) {
             if (!is_numeric($k) || key_exists($k, $cap_treat_mark)) {
                 continue;

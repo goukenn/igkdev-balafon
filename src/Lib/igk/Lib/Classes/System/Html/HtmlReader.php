@@ -1225,7 +1225,7 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case XMLNodeType::CDATA:
-                case XMLNodeType::DOCTYPE;
+                case XMLNodeType::DOCTYPE:
                     $v = self::CreateElement($reader->NodeType);
                     $v->Content = $reader->getValue();
                     if (!$cnode) {

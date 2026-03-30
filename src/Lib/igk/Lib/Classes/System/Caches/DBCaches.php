@@ -99,8 +99,7 @@ class DBCaches
      */
     public static function GetCacheFile()
     {
-        $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
-        //igk_wln_e(__FILE__.":".__LINE__ , $cache_dir);
+        $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;        
         return $cache_dir;
     }
     /**
@@ -486,6 +485,7 @@ class DBCaches
         }
         $keys = array_keys((array)$m);
         $var = get_class_vars(SchemaMigrationInfo::class);
+        unset($var['definitionResolver']);
         $allowed = array_keys($var); 
         foreach ($keys  as $p) {
             if (!in_array($p, $allowed)) {

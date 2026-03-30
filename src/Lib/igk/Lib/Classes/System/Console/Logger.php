@@ -8,11 +8,11 @@ use Exception;
 /**
  * use to write logger in console data
  * @package IGK\System\Console
- * @method static void danger(string $message) - error message
- * @method static void success(string $message) - success message
- * @method static void warn(string $message) - warning message
- * @method static void info(string $message) - information message
- * @method static void print(string $message)  - just print
+ * @method static void danger(string $message) - print error message
+ * @method static void success(string $message) - print success message
+ * @method static void warn(string $message) - print warning message
+ * @method static void info(string $message) - print information message
+ * @method static void print(string $message)  - just print message
  */
 class Logger{
     /**

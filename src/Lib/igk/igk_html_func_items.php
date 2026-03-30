@@ -2569,13 +2569,22 @@ if (!function_exists("igk_html_node_horizontalpageview")) {
 if (!function_exists("igk_html_node_host")) {
 	/**
 	 * host callable to 
-	 * @param callable $callback 
+	 * @param callable|string $callback . if string custom function of 'igk_html_'+$callback name
 	 * @return mixed 
 	 * @throws Exception 
 	 * @throws IGKException 
 	 */
-	function igk_html_node_host(callable $callback, ...$args)
+	function igk_html_node_host($callback, ...$args)
 	{
+		if (!($callback instanceof \Closure)){
+			if (!is_callable($callback) && is_string($callback)){
+				if (function_exists($fc = 'igk_html_'.$callback)){
+					$callback = Closure::fromCallable($fc);
+				}else{
+					igk_die('callback is not a valid callback');
+				}
+			}
+		}
 		if (!($p = igk_html_parent_node()))
 			throw new IGKException("Parent Node not found");
 		ob_start();
@@ -6183,3 +6192,5 @@ if (!function_exists('igk_html_node_inflate')) {
 	 */
 	function igk_html_node_inflate(string $file, $data = null) {}
 }
+
+require_once __DIR__.'/Inc/html/forms/actionbar.pinc';

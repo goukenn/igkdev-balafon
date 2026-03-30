@@ -53,8 +53,7 @@ class DotEnvConfiguration
             if (!isset(self::$sm_dotEnv[$k])) {
                 $dir = $ctrl->getDeclaredDir();
                 $config = [];
-                $tc = self::_GetRefNames();
-                // igk_debug(true);
+                $tc = self::_GetRefNames(); 
                 foreach ($tc as $c) {
                     $f = Path::Combine($dir, '.env' . $c);
                     if (file_exists($f)) {

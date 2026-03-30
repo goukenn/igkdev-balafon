@@ -24,6 +24,7 @@ use IGK\Models\Users;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\OperationNotAllowedException;
 use IGK\System\IInjectedArgHost;
+use IGK\System\Security\CurrentUser;
 use IGKException;
 use IGKServices;
 use IGKType;
@@ -129,7 +130,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
-        $args = self::GetInjectArgs($g, $args);
+        if (!(($host = $g->getClosureThis()) instanceof IInjectedArgHost)){
+            $host = self::$sm_dispatcher_host;
+        }
+        if (!($host instanceof IInjectedArgHost)){
+            $host = null;
+        }
+        $args = self::GetInjectArgs($g, $args, $host);
         try {
             return $fc(...$args);
         } catch (Exception $ex) {
@@ -149,6 +156,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro[self::DISPATCH_METHOD] = function ($fc, ...$args) {
+                
                 return static::_HandleDispatch($fc, ...$args);
             };
         }
@@ -166,6 +174,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->__call($name, $args);
     }
+    private static $sm_dispatcher_host;
     /**
      * Triggered when calling an inaccessible or undefined method on an object.
      * @param mixed $name
@@ -183,6 +192,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             $v_host->getController()->{ControllerParams::REPLACE_URI} =
                 $v_host->getDefaultEntryMethod() != $name;
             $targs = array_merge([$fc], $arguments);
+            self::$sm_dispatcher_host = $this->getController();
             return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {
             if ($v_host instanceof IActionProcessor) {
@@ -446,6 +456,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return self::_GetInjectable($class_name, []);
     }
+    private static function _UseTypeCallback($e){
+        list ($type) = igk_extract($e->args, 'type');
+        $injects = & $e->args['injects'];
+        if (!isset($injects[$type])){
+            if ($type == CurrentUser::class){
+                if ($c = Users::currentUser()){
+                    $injects[$type] = new CurrentUser($c);
+                } else{
+                    $injects[$type] = null;
+                }
+            }
+        }
+    }
     /**
      * get global injectable 
      * @param mixed $type 
@@ -466,11 +489,15 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 RequestResponse::class => RequestResponse::CreateResponse(),
             ];
             // extract injector server 
+            igk_reg_hook('sys:filter_dipatcher', [self::class, '_UseTypeCallback']);
         }
         if (is_subclass_of($type, ModelBase::class)) {
             // use injector to register injection -
             return null;
         }
+        $obj = ['type'=>$type, 'injects'=>& $injects];
+        igk_hook('sys:filter_dipatcher', $obj);
+
         if (!($m = igk_getv($injects, $type))) {
             $refclass = igk_sys_reflect_class($type);
             $m = IGKServices::CreateServiceNewInstance($refclass, $args);

@@ -1,0 +1,7 @@
+<?php
+
+if (!function_exists('igk_html_actionbar_form_submit')) {
+    function igk_html_actionbar_form_submit($a){
+        $a->submit();
+    }
+}
