@@ -3,6 +3,7 @@
 // @file: RegexMatcherContainer.php
 // @date: 20240913 10:19:11
 namespace IGK\System\Text;
+
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -18,6 +19,7 @@ use stdClass;
 // + | --------------------------------------------------------------------
 // + | - priority to end regex
 // + |
+
 /**
  * extract definitio beetween begin/end definition 
  * @package IGK\System\Text
@@ -191,6 +193,13 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     private $m_options;
+
+    /**
+     * 
+     * @var mixed
+     */
+    private $m_skippedList;
+    private $m_skippedListInfo;
     /**
      * get/set injected pattern creator class
      * @var ?string
@@ -203,6 +212,48 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     public function getEngineInfo()
     {
         return $this->m_engine_treatment_info;
+    }
+
+    protected function autoSkipDefinition($detect,  & $offset, $parent=null){
+        $s = & $this->m_skippedList;
+        $parent = $parent ?? $detect->parent;
+        if ($detect->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
+            if (is_null($s)){
+                $s = [];
+            }
+            $m = $detect->match;
+            if(!in_array($m, $s)){
+                $index = count($s);
+                $s[] = $m;
+                $this->m_skippedListInfo[$index] = (object)[
+                    'parent'=>$parent,
+                    'match'=>$m
+                ]; 
+            }else{
+                igk_die('already containt in list');
+            }
+        }
+    }
+    protected function unsetSkipDefinition($match){
+        if (($idx = array_search($match, $this->m_skippedList)) !== false){
+            unset($this->m_skippedListInfo[$idx]);
+            unset($this->m_skippedList[$idx]);
+            
+            $this->m_skippedListInfo = array_values($this->m_skippedListInfo);
+            $this->m_skippedList =array_map(function($a){
+                return $a->match;
+            },$this->m_skippedListInfo );
+        }
+    }
+    protected function checkSkipDefinition($match, $parent=null):bool{
+        if ($this->m_skippedList && ($idx = array_search($match, $this->m_skippedList)) !== false){
+            $r = $this->m_skippedListInfo[$idx];
+            if ($r->parent === $parent){
+                $this->unsetSkipDefinition($match);
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * auto generate doc.
@@ -385,6 +436,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         // $boffset = $offset; // <- backup offset 
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
+
+            if ($e->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
+                $offset = $info->pos + ($e->to - $e->from);
+            }
+
             // + | --------------------------------------------------------------------
             // + | upate last info and parent definition 
             // + | 
@@ -954,22 +1010,22 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
     }
     /**
-     * check for regex with start_line detection
+     * check for regex with move to next line detection
      * @param string $regex regex againts
      * @param string $source source to check
      * @param int $offset offset to match
-     * @param bool &$start_line is start line request
+     * @param bool & $move_to_next_line is start line request
      * @return array|false 
      */
-    private function _matchOffset(string $regex, string $source, int $offset, &$start_line = false)
+    private function _matchOffset(string $regex, string $source, int $offset, &$move_to_next_line = false)
     {
         $j = null;
         $start_line = preg_match(self::REGEX_START_LINE, $regex) > 0;
-        // $end_line = ($regex!= "/$/") && preg_match(self::REGEX_END_LINE, $regex) > 0;
+
         $end_line = preg_match(self::REGEX_END_LINE, $regex) > 0;
         $result = [];
         $tab = [];
-        //$regex = empty($regex)?'/$/':$regex 
+
         $error = preg_last_error_msg();
         if ($offset <= strlen($source)) {
             // at the start of the string 
@@ -1027,7 +1083,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         // }
         if ($end_line && ($offset < $TLen)) {
-            $coffset = $offset > 0 ? ($next_line === false ? strlen($source) : $next_line) : 1;
+            $bnext_line = false;
+            // $coffset = $offset > 0 ? ($next_line === false ? $TLen: $next_line) : 1;
+            // if (igk_environment()->feature_regex_next_line_behaviour){
+            $coffset = ($next_line === false) ? $TLen : $next_line;
+            if ($next_line !== false) {
+                $bnext_line = true;
+            }
+            //}
             $v_size = abs($coffset - $offset);
             $j = substr($source, $offset, $v_size);
             // check if continue line match - for empty line 
@@ -1044,10 +1107,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 // update offset
                 self::_UpdateTabOffset($tab, $offset);
                 $result[] = $tab;
+                $move_to_next_line =  $bnext_line;
             } else if ($result && ($v_size == 0) && ($offset < $result[0][0][1])) {
                 // empty result
                 $result = [];
-                $start_line = true;
+                $move_to_next_line = true;
             }
         }
         // compare result
@@ -1059,6 +1123,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 return $a[0][1] <=> $b[0][1];
             });
             return $result[0];
+        }
+        if ($start_line && !$move_to_next_line) {
+            $move_to_next_line = true;
         }
         return false;
     }
@@ -1139,7 +1206,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     private function _startMatch(?RegexDetectInfo $info, &$result, $b, $source, &$offset, $k, &$next_line)
     {
-        $o = '';
+        // $o = '';
         $is_empty_line = $b == RegexMatcherUtility::REGEX_EMPTY_LINE;
         if ($b) {
             $b = RegexMatcherUtility::ConverToRegex($b);
@@ -1155,7 +1222,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     'match' => $k,
                     'captures' => $tab,
                     'parent' => $info,
-                    'moveToNextLine' => false, // igk_str_endwith($tab[0][0], "\n")
+                    'moveToNextLine' => $v_move_to_next_line, // igk_environment()->feature_regex_next_line_behaviour ? $v_move_to_next_line : false, 
                     'emptyLine' => $is_empty_line
                 ]);
             }
@@ -1170,6 +1237,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public static function GetPatternType($k): string
     {
+        assert(!is_null($k), 'pattern is null');
         $v_type = igk_getv($k, 'type');
         if (is_null($v_type)) {
             $v_type = $k->type = RegexMatcherUtility::GetPatternType($k);
@@ -1246,12 +1314,17 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             while (count($tm) > 0) {
                 $v_ck = key($tm);
                 $k = array_shift($tm);
-                // foreach ($m as $k) {
+                //  
                 if (is_array($k)) {
                     // + |  create an pattern object
                     $v_ctab = igk_array_is_assoc_only($k) ? $k : ['patterns' => $k];
                     $k = $this->createPattern($v_ctab);
                     $this->m_matcher[$v_ck] = $k;
+                }
+                if (igk_getv($k, 'captureMode') == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
+                    if ($this->checkSkipDefinition($k)){
+                        continue;
+                    }
                 }
                 if ($v_skip_detect && ($v_skip_detect === $k)) {
                     continue;
@@ -1334,6 +1407,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $offset = strlen($source);
             $next_line = false;
         }
+
+        $v_detect && $this->autoSkipDefinition($v_detect, $offset);
         return $v_detect;
     }
     /**
@@ -1896,7 +1971,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             }
             $cap_treat_mark[$k] = [$ch, $offset];
             return $ch;
-        }; 
+        };
         // treat capture accept closure or definition handle
         foreach ($captures as $k => $mark) {
             if (!is_numeric($k) || key_exists($k, $cap_treat_mark)) {

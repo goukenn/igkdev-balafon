@@ -5,6 +5,7 @@
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
 use IGK\Helper\StringUtility;
+use IGK\System\IO\Path;
 use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
 /**
@@ -37,6 +38,20 @@ class PHPScriptBuilder
     */
     var $author;
     use StoredPropertiesTrait;
+
+    /**
+     * get fulle namespace 
+     * @param string $type 
+     * @param null|string $namespace 
+     * @return string 
+     */
+    public static function GetFullType(string $type, ?string $namespace=null){
+        $ns = '';
+        if ($namespace){
+            $ns = $namespace;
+        }
+        return StringUtility::NS(Path::Combine($ns, $type));
+    }
     /**
     * Creates Empty Script Callback.
     */

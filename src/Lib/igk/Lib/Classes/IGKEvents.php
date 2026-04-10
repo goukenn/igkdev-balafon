@@ -497,6 +497,11 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const FILTER_LIST_AUTH_TYPE = 'filter://authentication_type';
+
+    /**
+     * Constant: filter command information
+     */
+    const FILTER_BALAFON_COMMAND_INFO= 'filter://command/info';
     /**
      * raise when a new document created
      */

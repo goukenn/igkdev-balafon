@@ -6,6 +6,7 @@ namespace IGK\System\Text;
 use ArrayAccess;
 use IGK\Helper\Activator;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IGKException;
 use IGKObject;
 use JsonSerializable;
@@ -20,6 +21,8 @@ use JsonSerializable;
 */
 class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer, JsonSerializable{
     use ArrayAccessSelfTrait;
+    use JsonSerializableTrait;
+    const AUTO_RESET_CAPTURE_MODE = 'auto-reset';
     /**
     * Constant: match type.
     * @var mixed
@@ -114,11 +117,17 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     * @var mixed
     */
     private $m_type;
+
+    /**
+     * capture mode to handle this visibilité on state 
+     * @var null|'auto-reset'
+     */
+    var $captureMode;
     /**
     * Json serialize.
     * @return mixed
     */
-    public function jsonSerialize(): mixed {
+    public function _json_serialize() {
         $l = (object)(array)$this;
         unset($l->type);
         return $l;
@@ -168,7 +177,7 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         return $this->m_matcher;
     }
     /**
-     * create a new matcher page 
+     * create a new matcher instance 
      * @return static 
      */
     public function match(string $pattern, ?string $tokenId = null, $refid=null, ?array $patterns=null){

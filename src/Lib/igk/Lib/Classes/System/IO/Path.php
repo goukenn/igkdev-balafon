@@ -8,14 +8,17 @@ use Exception;
 use IGK\Constants;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
+use IGK\Helper\Traits\IOPathCheckerTrait;
 use IGKApp;
 use IGKException; 
+require_once IGK_LIB_CLASSES_DIR .'/Helper/Traits/IOPathCheckerTrait.php';
 /**
  * core path manipulation class 
  * @package IGK\System\IO
  */
 class Path
 {
+    use IOPathCheckerTrait;
     /**
     * Path to lib dir.
     * @var mixed

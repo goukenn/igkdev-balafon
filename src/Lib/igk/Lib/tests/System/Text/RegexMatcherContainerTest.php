@@ -288,6 +288,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     public function test_regexmatch_startline_b_only()
     {
         $ctn = new RegexMatcherContainer;
+        igk_environment()->feature_regex_next_line_behaviour = true;
         $ctn->match("^b");
         $s = implode("\n", ["a", "b", "c"]);
         $this->expectOutputString("b", "mark-name");
@@ -339,7 +340,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container = new RegexMatcherContainer;
         $container->match('^(?=\\n)?', 'count');
         $src = str_repeat("\n", 6);         
-        $r = [];  
+        $r = [];      
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
             }); 

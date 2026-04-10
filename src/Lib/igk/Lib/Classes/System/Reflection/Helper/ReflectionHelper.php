@@ -15,6 +15,14 @@ use ReflectionProperty;
 class ReflectionHelper
 {
     /**
+     * retrieve public object vars. accessible outside the ReflectionHelper class 
+     * @param mixed $obj 
+     * @return array 
+     */
+    public static function GetObjectVars($obj): array{
+        return get_object_vars($obj);
+    }
+    /**
     * auto generate doc.
     * @param callable|null $filter
     * @return void

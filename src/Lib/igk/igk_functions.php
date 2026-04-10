@@ -9380,7 +9380,7 @@ function igk_get_ns_func($name)
 ///<summary></summary>
 /**
  * retrieve environment package directory
- * 
+ * @return ?string 
  */
 function igk_get_packages_dir()
 {
@@ -15385,11 +15385,19 @@ function igk_io_moveuploadedfiletodatafolder($name, $dir, $pattern = "pics_%d%")
 }
 ///<summary>Represente igk_io_packagesdir function</summary>
 /**
- * Represent igk_io_packagesdir function
+ * get package directory 
+ * @return ?string 
  */
-function igk_io_packagesdir()
+function igk_io_packagesdir():?string
 {
     return igk_get_packages_dir();
+}
+/**
+ * shortcut to get modules directory 
+ * @return ?string 
+ */
+function igk_io_modulesdir(): ?string{
+    return igk_get_module_dir();
 }
 /**
  * helper to get node module 

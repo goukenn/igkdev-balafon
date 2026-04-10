@@ -149,11 +149,11 @@ class JSon
      * @param mixed $a
      * @return
      */
-    private static function _ConvertItemObject($a)
+    private static function _ConvertItemObject($a, $option=null, int $flag=0)
     {
         if ($a instanceof JsonSerializable) {
             $a = $a->jsonSerialize();
-        }
+        } 
         if ($a instanceof IToArrayResolver) {
             $a = $a->to_array();
         } else if (!($a instanceof stdClass)) {
@@ -327,7 +327,6 @@ class JSon
         // + | --------------------------------------------------------------------
         // + | treat js data
         // + | 
-        // + |
         if ($r) {
             $container = new RegexMatcherContainer;
             $container->begin("\"\[\[js-data:", "}]]\"", "block");
@@ -471,7 +470,7 @@ class JSon
     }
     /**
      * auto generate doc.
-     * @param mixed $data
+     * @param mixed $data data to encode 
      * @return string|false
      */
     public static function EncodeWithNoEmpty($data)
