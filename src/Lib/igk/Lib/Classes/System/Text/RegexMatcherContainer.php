@@ -214,41 +214,44 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $this->m_engine_treatment_info;
     }
 
-    protected function autoSkipDefinition($detect,  & $offset, $parent=null){
-        $s = & $this->m_skippedList;
+    protected function autoSkipDefinition($detect,  &$offset, $parent = null)
+    {
+        $s = &$this->m_skippedList;
         $parent = $parent ?? $detect->parent;
-        if ($detect->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
-            if (is_null($s)){
+        if ($detect->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE) {
+            if (is_null($s)) {
                 $s = [];
             }
             $m = $detect->match;
-            if(!in_array($m, $s)){
+            if (!in_array($m, $s)) {
                 $index = count($s);
                 $s[] = $m;
                 $this->m_skippedListInfo[$index] = (object)[
-                    'parent'=>$parent,
-                    'match'=>$m
-                ]; 
-            }else{
+                    'parent' => $parent,
+                    'match' => $m
+                ];
+            } else {
                 igk_die('already containt in list');
             }
         }
     }
-    protected function unsetSkipDefinition($match){
-        if (($idx = array_search($match, $this->m_skippedList)) !== false){
+    protected function unsetSkipDefinition($match)
+    {
+        if (($idx = array_search($match, $this->m_skippedList)) !== false) {
             unset($this->m_skippedListInfo[$idx]);
             unset($this->m_skippedList[$idx]);
-            
+
             $this->m_skippedListInfo = array_values($this->m_skippedListInfo);
-            $this->m_skippedList =array_map(function($a){
+            $this->m_skippedList = array_map(function ($a) {
                 return $a->match;
-            },$this->m_skippedListInfo );
+            }, $this->m_skippedListInfo);
         }
     }
-    protected function checkSkipDefinition($match, $parent=null):bool{
-        if ($this->m_skippedList && ($idx = array_search($match, $this->m_skippedList)) !== false){
+    protected function checkSkipDefinition($match, $parent = null): bool
+    {
+        if ($this->m_skippedList && ($idx = array_search($match, $this->m_skippedList)) !== false) {
             $r = $this->m_skippedListInfo[$idx];
-            if ($r->parent === $parent){
+            if ($r->parent === $parent) {
                 $this->unsetSkipDefinition($match);
                 return true;
             }
@@ -423,6 +426,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         // $this->m_startflag = false;
     }
+    protected function _updateSkipEndCaptureMode($e, &$offset)
+    {
+        if ($e->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE) {
+            $offset = $e->from + ($e->to - $e->from);
+        }
+    }
     /**
      * do end operation 
      * @param RegexTreatMatchInfo $info object info class 
@@ -436,11 +445,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         // $boffset = $offset; // <- backup offset 
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
-
-            if ($e->match->captureMode == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
-                $offset = $info->pos + ($e->to - $e->from);
-            }
-
+            $this->_updateSkipEndCaptureMode($e, $offset);
             // + | --------------------------------------------------------------------
             // + | upate last info and parent definition 
             // + | 
@@ -1321,8 +1326,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $k = $this->createPattern($v_ctab);
                     $this->m_matcher[$v_ck] = $k;
                 }
-                if (igk_getv($k, 'captureMode') == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE){
-                    if ($this->checkSkipDefinition($k)){
+                if (igk_getv($k, 'captureMode') == RegexMatcherPattern::AUTO_RESET_CAPTURE_MODE) {
+                    if ($this->checkSkipDefinition($k)) {
                         continue;
                     }
                 }
