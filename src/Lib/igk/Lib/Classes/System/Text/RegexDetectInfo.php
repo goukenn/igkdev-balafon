@@ -8,7 +8,7 @@ namespace IGK\System\Text;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-class RegexDetectInfo{
+class RegexDetectInfo implements IRegexMatcherDetectInfo{
     /**
      * detected value 
      * @var string
@@ -73,4 +73,6 @@ class RegexDetectInfo{
     public function __get(string $n){
         igk_die('missing property ['.$n.']');
     }
+
+   
 }

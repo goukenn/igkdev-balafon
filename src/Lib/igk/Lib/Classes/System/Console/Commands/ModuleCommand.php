@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: ModuleListCommand.php
 // @date: 20220803 13:48:57
-// @desc: 
+// @desc: module base command
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -111,9 +111,10 @@ class ModuleCommand extends AppExecCommand{
             return;
         }
         foreach($mod as $k=>$v){
+            $a = is_object($v->author) ? igk_getv($v->author, 'name' ): $v->author;
             $tag = "\r\t\t";
             $f = $k;
-            $f .= "\n".$tag.$v->author;
+            $f .= "\n".$tag.$a;
             $tag .= "\t\t\t";
             $f .= $tag.$v->version;
             $tag .= "\t";
@@ -131,13 +132,13 @@ class ModuleCommand extends AppExecCommand{
     * @return
     */
     private function _installCommand(){
-        throw new NotImplementException();
+        throw new NotImplementException(__METHOD__);
     }
     /**
     * auto generate doc.
     * @return
     */
     private function _removeCommand(){
-        throw new NotImplementException();
+        throw new NotImplementException(__METHOD__);
     }
 }

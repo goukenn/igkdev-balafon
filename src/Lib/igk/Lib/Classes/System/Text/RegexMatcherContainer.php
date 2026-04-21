@@ -71,6 +71,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     const INCLUDE = 'include';
+
+    /**
+     * enable mark end of source
+     * @var ?bool
+     */
+    var $markEndOfSource;
     /**
      * Property: last.
      * @var mixed
@@ -108,7 +114,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     var $autoSkipEndCapture = true;
     /**
-     * flag to enable capture continuation - to implement 
+     * flag: to enable capture
      * @var bool
      */
     var $continueCapture = false;
@@ -154,9 +160,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private $m_last_match;
     /**
      * last match end info
-     * @var mixed
+     * @var ?RegexDetectInfo
      */
-    private $m_last_info;
+    private $m_last_detect_end_info;
     /**
      * to avoid infinite loop on match
      * @var ?int
@@ -166,7 +172,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * last detecting
      * @var mixed 
      */
-    private $m_last_detect;
+    private $m_last_detect_info;
     // private $m_startflag;
     /**
      * store prepared parent info 
@@ -195,6 +201,22 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private $m_options;
 
     /**
+     * line detection 
+     * @var mixed
+     */
+    private $m_lineBuffer;
+    /**
+     * 
+     * @var mixed
+     */
+    protected $m_lineLastDetectionInfo;
+    /**
+     * 
+     * @var mixed
+     */
+    protected $m_lineMarkSingleEndOffset;
+
+    /**
      * 
      * @var mixed
      */
@@ -214,6 +236,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $this->m_engine_treatment_info;
     }
 
+    /**
+     * 
+     * @return mixed 
+     */
+    protected function getLastDetectInfo()
+    {
+        return $this->m_last_detect_info;
+    }
+
     protected function autoSkipDefinition($detect,  &$offset, $parent = null)
     {
         $s = &$this->m_skippedList;
@@ -231,7 +262,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     'match' => $m
                 ];
             } else {
-                igk_die('already containt in list');
+                igk_die('already contain in list');
             }
         }
     }
@@ -368,9 +399,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
     /**
      * Sets Matcher.
-     * @param array $patterns
+     * @param ?array $patterns
      */
-    public function setMatcher(array $patterns)
+    public function setMatcher(?array $patterns)
     {
         $this->m_matcher = $patterns;
     }
@@ -414,17 +445,21 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     public function resetTreatment()
     {
         $this->m_pos = 0;
-        $this->m_last_info = null;
+        $this->m_last_detect_end_info = null;
         $this->m_parent = null;
         $this->m_last_offset = null;
-        $this->m_last_detect = null;
+        $this->m_last_detect_info = null;
     }
     /**
      * .ctr
      */
     public function __construct()
     {
-        // $this->m_startflag = false;
+        $this->markEndOfSource = true;
+    }
+    protected function lastOffset(?int $lastoffset)
+    {
+        $this->m_last_offset = $lastoffset;
     }
     protected function _updateSkipEndCaptureMode($e, &$offset)
     {
@@ -434,14 +469,17 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
     /**
      * do end operation 
-     * @param RegexTreatMatchInfo $info object info class 
+     * @param IRegexMatcherDetectInfo $info object info class 
      * @param string $source 
      * @param int &$offset must pass and offset to select the proper info 
      * @return object|RegexMatcherCapture|void 
      * @throws Exception 
      */
-    public function end($info, string $source, int &$offset)
+    public function end(IRegexMatcherDetectInfo $info, string $source, int &$offset)
     {
+        if ($this->_skipLineBufferEnd($source, $offset)){
+            return null;
+        }
         // $boffset = $offset; // <- backup offset 
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
@@ -450,8 +488,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             // + | upate last info and parent definition 
             // + | 
             $this->m_ignoreScoped = null;
-            $this->m_last_info = $info;
-            $this->m_parent = $e->parentInfo;
+            $this->m_last_detect_end_info = $info;
+            $this->_setParent($e->parentInfo);
             if ($e->match instanceof stdClass) {
                 igk_wln_e(__FILE__ . ":" . __LINE__, 'instance of stdClass not allowed');
             }
@@ -466,14 +504,33 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             }
             if ($e->parentInfo)
                 $e->parentInfo->start = true;
-            // + | --------------------------------------------------------------------
-            // + | update pos definition 
-            // + |
-            // if (($e->from == $e->to) && ($offset == $e->to) && ($boffset != $offset)) {
-            //     $offset++;
-            // }
         }
+        $e = $this->_treatEndSkipLineBuffer($e, $source, $offset);
         return $e;
+    }
+    /**
+     * 
+     * @param mixed $g 
+     * @param string $source 
+     * @param int $offset 
+     * @return null|mixed 
+     */
+    protected function _treatEndSkipLineBuffer($g, string $source, int $offset){
+        $v_ln = strlen($source);
+         if ($g && !$this->markEndOfSource && ($offset >= $v_ln)) { 
+            $this->m_lineLastDetectionInfo = $g;
+            if ($g->getisEnd()) {
+                $this->m_lineMarkSingleEndOffset = $g->from;
+            }
+            $this->_updateBuffer($source);
+            return null;
+        }
+        return $g;
+    }
+    private function _updateBuffer(string $value)
+    {
+        $this->m_lineBuffer = $value;
+        $this->lastOffset(null);
     }
     /**
      * save container state
@@ -484,11 +541,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         ($f = $this->matchPatternStateListener) ? $f->saveState() : null;
         return [
             'pos' => $this->m_pos,
-            'info' => $this->m_last_info,
+            'info' => $this->m_last_detect_end_info,
             'parent' => $this->m_parent,
             'lastOffset' => $this->m_last_offset,
             'patterns' => $this->m_matcher,
-            'lastDetect' => $this->m_last_detect,
+            'lastDetect' => $this->m_last_detect_info,
         ];
     }
     /**
@@ -500,11 +557,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if ($states) {
             extract(igk_extract_var($states, 'pos|info|parent|lastOffset|patterns|lastDetect'));
             $this->m_pos = $pos;
-            $this->m_last_info = $info;
+            $this->m_last_detect_end_info = $info;
             $this->m_parent = $parent;
             $this->m_last_offset = $lastOffset;
             $this->m_matcher = $patterns;
-            $this->m_last_detect = $lastDetect;
+            $this->m_last_detect_info = $lastDetect;
         }
         return ($f = $this->matchPatternStateListener) ? $f->restoreState() : null;
     }
@@ -522,7 +579,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param int & $offset
      * @return ?RegexMatcherCapture
      */
-    protected function _treatEnd($info, $source, int &$offset)
+    protected function _treatEnd($info, string $source, int &$offset)
     {
         $tabinfo = [$info];
         // skip offset update 
@@ -561,7 +618,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 case 'end':
                     // + | just end with non end capture flag the child stop it normally
                     $n = $offset;
-                    $this->m_parent = $info->parent;
+                    $this->_setParent($info->parent);
                     $e =  $this->_endinfo($info, $source, $n);
                     // + | --------------------------------------------------------------------
                     // + | add skip end element detected using internal skip definition 
@@ -595,7 +652,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 //$info->start = true;
             }
             // + | update parent info - 
-            $this->m_parent = $info->parent;
+            $this->_setParent($info->parent);
             switch ($k->type) {
                 case RegexMatcherPattern::BEGIN_END_TYPE:
                 case RegexMatcherPattern::BEGIN_WHILE_TYPE:
@@ -808,6 +865,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
     }
     /**
+     * set parent
+     * @param ?RegexDetectInfo $parent 
+     * @return void 
+     */
+    protected function _setParent(?RegexDetectInfo $parent)
+    {
+        $this->m_parent = $parent;
+    }
+    /**
      * skip to end of line definition
      * @param int &$offset 
      * @param int $strlen 
@@ -931,7 +997,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $v_continue = true;
             return;
         }
-        $this->m_parent = $info;
+        $this->_setParent($info);
         $_size = strlen($compared_end->value);
         if (!$compared_end->emptyLine && ($_size == 0)) {
             // return the base definition 
@@ -1149,20 +1215,20 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         };
         $g = new static;
         $this->_initSubMatcherContainer($g);
-        $g->m_matcher = $patterns;
+        $g->setMatcher($patterns);
         $g->setParentInfo($info);
         $g->m_tag = __METHOD__;
         $tpos = $offset;
         return $g->detect($source, $tpos);
     }
     /**
-     * auto generate doc.
-     * @param mixed $p
+     * set regex detect information 
+     * @param mixed $detectInfo
      * @return
      */
-    public function setParentInfo($p)
+    public function setParentInfo(?RegexDetectInfo $detectInfo)
     {
-        $this->m_parentInfo = $p;
+        $this->m_parentInfo = $detectInfo;
     }
     /**
      * auto generate doc.
@@ -1249,6 +1315,38 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $v_type;
     }
+
+    /**
+     * check for multi - line buffering detection  
+     * @param string $src 
+     * @param mixed $offset 
+     * @param mixed &$out 
+     * @return bool 
+     */
+    protected function _lineBufferDetected(string $src,int & $offset, & $out=null):bool{
+        $v_backupOffset = $offset;
+        $v_ln = strlen($src);
+        $out = null;
+        if (($v_backupOffset >= $v_ln) && !$this->markEndOfSource) {
+            if ($this->markEndOfSource && ($tdc = $this->getParent())) {
+                $out = $tdc;
+            } 
+            return true;  
+        }
+
+        if (!is_null($this->m_lineMarkSingleEndOffset)) {
+            $offset = $this->m_lineMarkSingleEndOffset;
+            $this->m_lineMarkSingleEndOffset = $this->m_lineLastDetectionInfo = null;
+        } else {
+            if ($p = $this->m_lineLastDetectionInfo) {
+                $offset = $p->to;
+                $this->m_lineLastDetectionInfo = null;
+                $out= $p->info;
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * detecting regex type 
      * @param string $source The input string
@@ -1257,6 +1355,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public function detect(string $source, int &$offset)
     {
+        $v_detect = null;
+        if ($this->_lineBufferDetected($source, $offset, $v_detect)){
+            return $v_detect;
+        }
         $v_flag_current = false;
         if ($this->splittingDefinition) {
             $offset = 0;
@@ -1264,38 +1366,34 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $this->m_last_offset = null;
             }
         }
-        // if (!$this->m_startflag) {
-        //     $this->m_startflag = true;  
-        // }
         $v_skip_detect = null;
         if ($p = $this->m_parent) {
-            if (($this->m_last_offset == $offset) && ($this->m_last_detect === $p)) {
+            if (($this->m_last_offset == $offset) && ($this->m_last_detect_info === $p)) {
                 igk_die(__CLASS__ . ' > parent not updated. matcher misconfiguration #' . $p->id());
             }
             $this->m_last_offset = $offset;
-            $this->m_last_detect = $p;
-            $this->m_parent = $p->parent;
-            // continue with detected parent
+            $this->m_last_detect_info = $p;
+            $this->_setParent($p->parent);
             return $p;
         }
-        if ($this->m_last_detect) {
+        if ($this->m_last_detect_info) {
             $this->m_last_offset = 0;
-            $this->m_last_detect = null;
+            $this->m_last_detect_info = null;
         }
         if (!is_null($this->m_last_offset) && ($this->m_last_offset == $offset)) {
             $error = true;
-            if (($lo = $this->m_last_info) && ($lo->pos == $offset)) {
-                //skip
+            if (($lo = $this->m_last_detect_end_info) && ($lo->pos == $offset)) {
+                // + | skip
                 $error = false;
                 if ($lo->endType == 'end') {
-                    $this->m_last_info = null;
+                    $this->m_last_detect_end_info = null;
                     $offset = $lo->pos;
                 } else {
-                    $l = strlen($this->m_last_info->value);
+                    $l = strlen($this->m_last_detect_end_info->value);
                     if ($l == 0) {
-                        $v_skip_detect = $this->m_last_info->match;
+                        $v_skip_detect = $this->m_last_detect_end_info->match;
                     }
-                    $offset = $this->m_last_info->pos + $l;
+                    $offset = $this->m_last_detect_end_info->pos + $l;
                     $v_flag_current = true;
                 }
             }
@@ -1304,7 +1402,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 throw new Exception("[BLF] - offset not update " . $offset);
         }
         $this->m_last_offset = $offset;
-        $this->m_last_detect = null;
+        $this->m_last_detect_info = null;
         // $v_end_line_detect_offset = null;
         $result = [];
         $next_line = false;
@@ -1415,6 +1513,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
 
         $v_detect && $this->autoSkipDefinition($v_detect, $offset);
         return $v_detect;
+    }
+
+    /**
+     * 
+     * @return null|RegexDetectInfo 
+     */
+    public function getParent(): ?RegexDetectInfo
+    {
+        return $this->m_parent;
     }
     /**
      * retrieve class creator
@@ -1576,7 +1683,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 // + | position changed
                 $this->m_last_offset = null;
             }
-        }
+        } 
+
         if (!$detect) {
             if ($v_ref)
                 $pos = $ln;
@@ -1584,10 +1692,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $pos = 0;
             }
         } else {
-            if (!$skip) {
-                // set the position according to the base source string
-                $src_len = strlen($src);
-                // new length 
+            if (!$skip) { 
+                $src_len = strlen($src); 
                 if (!is_null($this->m_last_offset)) {
                     $pos = $this->m_last_offset;
                 }
@@ -2057,5 +2163,39 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         $o .= substr($src, $toffset);
         return $o;
+    }
+
+    /**
+     * updateline buffer definition 
+     * @param string $line 
+     * @param mixed &$pos 
+     * @return string 
+     */
+    public function updateBufferLine(string $line, &$pos): string
+    {
+        $buff = $this->getBuffer(true) ?? '';
+        $pos = strlen($buff);
+        $line = $buff . $line;
+        return $line;
+    }
+
+    protected function getBuffer($clear = false)
+    {
+        $sb = $this->m_lineBuffer;
+        if ($clear) {
+            $this->m_lineBuffer = null;
+        }
+        return $sb;
+    }
+
+    protected function _skipLineBufferEnd(string $source, $offset)
+    {
+        $v_backupOffset = $offset;
+        $v_ln = strlen($source);
+        if ((!$this->markEndOfSource) &&
+            ($v_backupOffset >= $v_ln)
+        ) {
+            return true;
+        }
     }
 }

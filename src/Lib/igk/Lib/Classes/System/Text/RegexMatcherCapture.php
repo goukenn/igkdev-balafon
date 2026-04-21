@@ -97,14 +97,14 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
         return is_null($this->parentInfo);
     }
     /**
-    * Getis root captured.
+    * is root captured.
     * @return bool
     */
     public function getisRootCaptured():bool{
         return $this->getisRoot() && !isset($this->trailingEnd);
     }
     /**
-     * check if end
+     * is match/begin ending
      * @return bool 
      */
     public function getisEnd():bool{
@@ -135,5 +135,13 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     public function updateWith($data){
         $this->parentInfo->value .= " ---- ";
         throw new \Exception('not implement');
+    }
+
+    /**
+     * retrieve match patterns 
+     * @return null|array 
+     */
+    public function getPatterns(): ?array {
+        return $this->match->patterns;
     }
 }

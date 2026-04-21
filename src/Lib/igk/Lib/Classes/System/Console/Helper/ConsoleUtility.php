@@ -237,7 +237,9 @@ abstract class ConsoleUtility
         $args = [];
         $split = false;
         $c = null;
+        $check_first = false;
         foreach ($tab as $id => $v) {
+            
             if (!$split && $v == '--') {
                 $split = true;
                 continue;
@@ -283,6 +285,12 @@ abstract class ConsoleUtility
                         $args[] = $v;
                 }
             }
+
+            if (($check_first === false) && is_null($command->exec) && (0 === strpos($v, '--'))){
+                //throw new \Exception('command not found');
+                break;
+            }
+            $check_first = true;
         }
         return $command;
     }

@@ -1091,7 +1091,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $this->m_table->setAttributes($s);
             $this->m_table_col = count($tab);
         }
-        while ($this->m_table_col != count($tab)) {
+        while (count($tab) < $this->m_table_col ) {
             $tab[] = '';
         }
         $this->m_rows = $tab;

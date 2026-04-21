@@ -343,7 +343,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $r = [];      
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
-            }); 
+        });  
           
         $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', 
             json_encode($r)

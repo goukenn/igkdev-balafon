@@ -13,11 +13,7 @@ $v_chome = rtrim($home, '/');
 $corelib_dir = str_replace('//', '/',  rtrim(implode('/', array_filter([$v_chome ,  trim($app_dir ,'/'), 'Lib/igk'])), '/'));
 
 $cmd_arg = (isset($_REQUEST['cmd_arg']) ? $_REQUEST['cmd_arg'] : null) ?? [];
-// $cmd_arg = ['--version'];
-// if (is_link($corelib_dir)){
-//     @unlink($corelib_dir);
-// }
-// print_r($cmd_arg);
+ 
 if (!file_exists($corelib_dir)){
     $g = str_repeat('../', count(explode('/',$corelib_dir))-(count(explode('/', $home))+1));
     // echo 'create links ==> '.$g.ltrim($corelib, '/') . ' -> '. $corelib_dir;
