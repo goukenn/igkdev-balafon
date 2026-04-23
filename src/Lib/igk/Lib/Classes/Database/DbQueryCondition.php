@@ -4,6 +4,7 @@
 // @date: 20220628 15:18:02
 namespace IGK\Database;
 use Exception;
+
 /**
 * create a query condition : will check that property exists before create chaining. 
 * @package IGK\Database

@@ -4,6 +4,7 @@
 // @date: 20231221 22:10:22
 namespace IGK\System\Html\Metadatas;
 use IGK\Helper\Activator;
+
 /**
 * 
 * @package IGK\System\Html\Metadatas
@@ -22,7 +23,7 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
      * web app title 
      * @var mixed
      */
-    var $appleWebAppTitle; // -mobile-web-app-title
+    var $appleWebAppTitle; 
     /**
      * bar style 
      * @var null|'black-translucent'|'black'|'default'

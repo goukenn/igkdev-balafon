@@ -4,6 +4,7 @@
 // @date: 20220531 11:45:07
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
+
 /**
  * internal use of callable validation
  * @package IGK\System\Html\Forms

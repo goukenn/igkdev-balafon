@@ -6,6 +6,7 @@
 namespace IGK\Helper;
 use Closure;
 use IGK\System\Console\Logger;
+
 /**
 * File builder helper.
 * @package IGK\Helper
@@ -29,7 +30,7 @@ abstract class FileBuilderHelper
                         $c = Closure::fromCallable($c)->bindTo($bind);
                     }
                     $c($n);
-                }else{// just touch the file
+                }else{
                     igk_io_w2file($n, '');
                 }
                 Logger::info("generate : " . $n);

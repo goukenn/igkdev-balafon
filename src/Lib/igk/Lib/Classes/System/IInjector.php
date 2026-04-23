@@ -3,6 +3,7 @@
 // @file: IInjector.php
 // @date: 20230921 12:06:12
 namespace IGK\System;
+
 /**
 * 
 * @package IGK\System

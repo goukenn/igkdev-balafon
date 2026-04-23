@@ -6,6 +6,7 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
@@ -63,11 +64,6 @@ class HtmlConditionNode extends HtmlNode{
             $src = '<?php if ('.$this->condition.') : ?>'.$src;
             $src .= "<?php endif ; ?>";
         }
-        // igk_trace();
-        // igk_wln_e(__FILE__.":".__LINE__, $this->getAttributes()->to_array(),  
-        // "\n-- is visible not in rendering context ", "\n".$src,
-        // "\n-- condition".$this->condition
-        // );
         return $src;
     }
 }

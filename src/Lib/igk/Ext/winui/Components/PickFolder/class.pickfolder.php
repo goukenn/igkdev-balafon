@@ -3,8 +3,6 @@
 // @filename: class.pickfolder.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 
@@ -19,7 +17,6 @@ class IGKPickFolderCtrl extends NonVisibleControllerBase
 	 * @return bool Always returns false.
 	 */
 	public function getcanModify(){return false;}
-
 	/**
 	 * Indicate whether this controller allows deletion.
 	 *
@@ -27,15 +24,11 @@ class IGKPickFolderCtrl extends NonVisibleControllerBase
 	 */
 	public function getcanDelete(){return false;}
 }
-
-//define a pick folder item
-
 /**
 * Igkhtml pick folder item.
 */
 class IGKHtmlPickFolderItem extends HtmlNode
 {
-
     /**
     * Path to folder.
     * @var mixed
@@ -46,22 +39,17 @@ class IGKHtmlPickFolderItem extends HtmlNode
 	 *
 	 * @return mixed The folder value.
 	 */
-
     public function getFolder(){return $this->m_folder;}
-
 	/**
 	 * Set the folder associated with this item.
 	 *
 	 * @param mixed $value The folder value to set.
 	 * @return void
 	 */
-
     public function setFolder($value){ $this->m_folder = $value;}
-
 	/**
 	 * Constructor.
 	 */
-
     public function __construct(){
 		parent::__construct("div");
 	} 

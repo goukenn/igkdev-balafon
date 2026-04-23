@@ -9,6 +9,7 @@ use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGKControllerManagerObject;
 use IGKControllerTypeManager;
+
 /**
 * Controller used to manage controllers
 */
@@ -216,8 +217,6 @@ class $name extends {$param["extend"]}{
 EOF;
         return $out;
     }
-    ///<summary>Represente GetDefaultScript function</summary>
-    ///<param name="n"></param>
     /**
     * Represent GetDefaultScript function
     * @param  $n
@@ -231,15 +230,12 @@ default script for {$n}
 OEF;
         return $o;
     }
-    ///<summary>Represente getName function</summary>
     /**
     * Represent getName function
     */
     public function getName(): string{
         return IGK_CTRL_MANAGER;
     }
-    ///<summary>Represente IsFunctionExposed function</summary>
-    ///<param name="name"></param>
     /**
     * Represent IsFunctionExposed function
     * @param  $name
@@ -247,8 +243,6 @@ OEF;
     public function IsFunctionExposed($name){
         return true;
     }
-    ///<summary>Represente removeCtrl function</summary>
-    ///<param name="n" default="null"></param>
     /**
     * Represent removeCtrl function
     * @param  $n the default value is null
@@ -263,7 +257,6 @@ OEF;
                 if($cl){
                     $i=static::getInstance(); 
                     if ($r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n)){
-                        // reset controller cache
                         \IGK\Helper\SysUtils::ClearCache();
                     }
                 }

@@ -3,7 +3,6 @@
 // date: 2022-03-14
 // file: igk.winui.clonenode.js
 "use script";
-
 (function(){
     igk.winui.initClassControl("igk-winui-clonenode", function(){
         var t = this.getAttribute("igk:target"); 
@@ -16,13 +15,11 @@
                 g.o.removeAttribute("id");
                 g.o.removeAttribute("name");
                 g.addClass("trans-opacity no-opacity");
-              
                 this.replaceBy(g);
                 if (c){
                     var fc = new Function(c);
                     fc.apply(g);
                 }
-              
                 setTimeout(() => {
                     g.rmClass("no-opacity");
                     g.on("transitionend", function(e){
@@ -35,6 +32,5 @@
         }else{
             this.remove();
         }
-
     });
 })();

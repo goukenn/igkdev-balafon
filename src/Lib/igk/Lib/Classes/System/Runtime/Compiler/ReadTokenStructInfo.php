@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Runtime\Compiler
@@ -147,8 +148,6 @@ class ReadTokenStructInfo
         }
         $sb->appendLine("{");
         if ($this->type == "class" && $this->uses) {
-            // use in class must be traits
-            // $sb->appendLine();
             ReadTokenUtility::GenerateUses($this->uses, $sb);
             $sb->appendLine();
         }
@@ -163,7 +162,6 @@ class ReadTokenStructInfo
         }
         if ($buffer = trim($v_buffer))
             $sb->appendLine($buffer);
-        // generate
         $sb->append("}");  
     }
     /**

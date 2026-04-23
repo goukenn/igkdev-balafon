@@ -8,6 +8,7 @@ use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Modules
@@ -29,9 +30,6 @@ class MakeClassCommandCommand extends AppExecCommand{
     * @var mixed
     */
     var $category = 'module';
-	// var $options=[
-	// 	'--base'=>'flag: enable abstract base-definition'
-	// ];
 	/* var $category; */
     /**
     * Exec.
@@ -47,12 +45,11 @@ class MakeClassCommandCommand extends AppExecCommand{
 			Path::Combine(\System\Console\Commands::class, $class_name),
 			$v_base ? 'Base' : 'Command');
         $cl = $mod->resolveClass($clpath);
-		$test = false;// property_exists($command->options, "--test");
+		$test = false;
 		$desc = igk_getv($command->options, '--desc');
 		$force = property_exists($command->options, '--force');
         if (is_null($cl) || $force || !class_exists($cl)){
 			$cl = $clpath;
-            //make command  
 			$dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());       
 			if ($f = $this->makeClass($command, $dir, $cl, 'class',
 				 $mod->getEntryNamespace(), 

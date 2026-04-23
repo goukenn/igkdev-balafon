@@ -9,15 +9,12 @@
 */
 abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Registers.
     */
     public function register()
 	{
-
 	}
-
     /**
     * Subscribe.
     */
@@ -29,7 +26,6 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 		, $obj, "clEmail", "email is Null or not valid");
 		igk_val_check("IsStringNullOrEmpty", $obj, "clPwd", "password not define");
 		igk_val_check(($obj->clPwd != $obj->clRePwd), $obj, "clRePwd,clPwd", "password don't match");
-
 		if (igk_val_haserror())
 		{
 			igk_val_regParam($this, "subscribe");
@@ -41,7 +37,6 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 		}
 		igk_val_unregParam($this, "subscribe");
 	}
-
     /**
     * Initializes Environment.
     */
@@ -50,13 +45,11 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 		igk_io_save_file_as_utf8($this->_getViewFile("registration_mail"), <<<EOF
 <?php
 ?>
-EOF
-);
+EOF);
 igk_io_save_file_as_utf8($this->_getViewFile("confirmation_mail"), <<<EOF
 <?php
 ?>
-EOF
-);
+EOF);
 		igk_io_save_file_as_utf8($this->_getViewFile("subscribeform"), <<<EOF
 		\$this->TargetNode->clearChilds();
  igk_html_article(\$this , "default", \$this->TargetNode);
@@ -84,8 +77,6 @@ EOF
  \$ul->add("li", array("class"=>igk_val_cbcss(\$cb, "clPwd").""))->addSLabelInput("clPwd",  "lb.Pwd" ,"password");
  \$ul->add("li", array("class"=>igk_val_cbcss(\$cb, "clRePwd").""))->addSLabelInput("clRePwd",  "lb.RePwd" ,"password");
  \$ul->add("li", array("class"=>""))->addInput("btn_submit", "submit", R::ngets("btn.register"));
-EOF
-);
-
+EOF);
 	}
 } 

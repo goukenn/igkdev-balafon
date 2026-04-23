@@ -5,6 +5,7 @@
 // @desc: Core Logger - use in console
 namespace IGK\System\Console;
 use Exception;
+
 /**
  * use to write logger in console data
  * @package IGK\System\Console

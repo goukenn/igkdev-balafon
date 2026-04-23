@@ -1,6 +1,7 @@
 <?php
 namespace IGK\System\Traits;
 use function igk_resources_gets as __;
+
 /**
  * disable magic setting for an object
  */

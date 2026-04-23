@@ -3,6 +3,7 @@
 // @file: ModuleContributions.php
 // @date: 20251118 13:04:20
 namespace IGK\System\Configuration;
+
 /**
 * enumeration of contributions
 * @package IGK\System\Configuration

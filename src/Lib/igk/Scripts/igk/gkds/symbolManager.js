@@ -1,15 +1,11 @@
 "use strict";
 //author: CAD BONDJE DOUE
 //gkds symbol management
-
 (function() {
-
     var m_items = []; //stored symbols
-
     function __loadSymbols(data, symLoader) {
         var gkds = new igk.wo.gkds();
         gkds.canva = igk.createNode("canvas");
-
         var xml = $igk(igk.createNode("dummy").setHtml(data).o.getElementsByTagName("gkds")[0]);
         var m_node = null;
         if (xml) {
@@ -18,12 +14,10 @@
                 // console.debug(this.o.tagName);
                 if (this.o.tagName && (this.o.tagName.toLowerCase() == "layerdocument")) {
                     var doc = new igk.wo.documents(gkds);
-
                     doc.load(this);
                     doc.id = this.getAttribute("id");
                     doc.gkds = gkds;
                     m_items.push(doc);
-
                 }
                 return true;
             });
@@ -32,7 +26,6 @@
         symLoader.loadItems(m_items);
         __initglobalsymbol();
     }
-
     function __symbolLoader(uri, p) {
         var ob = igk.createNode("object");
         // ob.o.width= 48;
@@ -49,7 +42,6 @@
         ob.reg_event("error", function(evt) {
             console.error("/!\\ Error : [ igk.gkds.symbolManager] - Loading symbols failed.... " + uri);
         });
-
         function _r_fc(evt) {
             //get data	
             // console.debug("load data .. _r_fc"+ob.o.readyState);
@@ -82,7 +74,6 @@
             ob.reg_event("load", _r_fc);
         } else
             ob.reg_event("readystatechange", _r_fc);
-
         if (!m_init || (ob.o.parentNode != document.body)) {
             // !important  for ie prepend data
             ob.o.type = "text/xml";
@@ -99,7 +90,6 @@
                     });
                     return;
                 }
-
                 //edge data must be set after add to document
                 if (igk.navigator.isIEEdge()) {
                     $igk(document.body).prepend(ob);
@@ -112,8 +102,6 @@
             });
             m_init = true;
         }
-
-
         igk.appendProperties(this, {
             getSymbolBitmapData: function(id, w, h, p) {
                 var c = m_items[id];
@@ -124,7 +112,6 @@
                 if (igk.is_notdef(h)) {
                     h = 100;
                 }
-
                 c.gkds.canva.o.width = w; //100;
                 c.gkds.canva.o.height = h; //100;
                 //igk.show_prop(c.gkds.canva.o);
@@ -133,7 +120,6 @@
                 ctx.scale(w / 100.0, h / 100.0);
                 // ctx.fillStyle = '#1A1A1A';
                 // ctx.fillRect(0,0,100,100);
-
                 var s = {
                     fillStyle: p && p.fillStyle ? p.fillStyle : "#f0f",
                     fillOpacity: p && p.fillOpacity ? p.fillOpacity : 1,
@@ -159,7 +145,6 @@
             }
         });
     }
-
     var m_loader = null;
     var m_isloaded = false;
     igk.system.createNS("igk.gkds.symbolManager", {
@@ -177,7 +162,6 @@
             return null;
         }
     });
-
     function __init_symbol() {
         var d = this.getHtml();
         // console.debug("html : "+ d);
@@ -187,18 +171,14 @@
         var cl = self.getComputedStyle("color");
         var op = self.getComputedStyle("opacity");
         var s = igk.JSON.parse(self.getAttribute("igk-symbol-data"));
-
         this.setHtml(" ");
         // console.debug("get code for "+t + " "+d);
-
-
         function __view() {
             m_re = true;
             __store();
             __render();
             m_re = false;
         };
-
         function __render() {
             var w = s ? s.w : igk.getNumber(self.getComputedStyle('width'));
             var h = s ? s.h : igk.getNumber(self.getComputedStyle('height'));
@@ -215,38 +195,29 @@
                     })
             });
         }
-
         var data = {
             color: 0,
             content: ''
         };
-
         function __store() {
             for (var i in data) {
                 data[i] = self.getComputedStyle(i);
             }
         }
         __store();
-
         //alert(this.o.onDOMAttrModified);
         //igk.show_notify_prop(this.o);
- 
         var m_re = false;
         if (igk.navigator.isSafari()) {
             // console.debug("safari required a special dom mecanism");
         } else if (this.o.addEventListener) {
-
             if (MutationObserver) {
-
                 var mut = new MutationObserver(function(mutation) {
                     // console.debug("attribute changed");
                     // console.debug(mutation);
-
                 });
-
                 mut.observe(this.o, { attributes: 1 });
             } else {
-
                 this.o.addEventListener("DOMAttrModified", function(evt) {
                     // igk.show_notify_prop(evt);
                     if (m_re) {
@@ -266,18 +237,13 @@
                         }
                     }
                 });
-
             }
-
-
-
         }
         //-----------------------------------------------
         // console.debug("d");
         //igk.show_prop(document.styleSheets[0].cssRules);
         //-----------------------------------------------
         //demonstration purpose : 
-
         // this.reg_event("mouseover", function(){
         //self.setCss({color: 'red'});		
         //self.setOpacity(1);
@@ -290,8 +256,6 @@
         // console.debug("mosu e");
         // __view();
         // });
-
-
         this.data["igk-symbol-init"] = 1;
         if (igk.gkds.symbolManager.getIsLoaded()) {
             __render();
@@ -301,11 +265,8 @@
             };
             igk.publisher.register("sys://gkds/itemloaded", _f);
         }
-
     }
-
     function __initglobalsymbol() {
-
         //select all item marked with igk-symbol class and init them if symbol data loaded
         // console.debug("init symbols " + m_items.length);
         // console.debug("search ...."+ document.readyState + " "+ $igk(".igk-symbol"));
@@ -321,5 +282,4 @@
         });
     };
     igk.ajx.fn.registerNodeReady(__initglobalsymbol);
-
 })();

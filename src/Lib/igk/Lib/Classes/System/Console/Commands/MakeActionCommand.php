@@ -13,6 +13,7 @@ use IGK\Actions\MiddlewireActionBase;
 use IGK\Actions\ProjectDefaultAction;
 use IGK\Helper\StringUtility; 
 use igk\System\Console\Commands\Utility as CommandsUtility;
+
 /**
 * Make action command.
 * @package IGK\System\Console\Commands
@@ -46,7 +47,7 @@ class MakeActionCommand extends AppExecCommand
     * auto generate doc.
     * @var callable
     */
-    var $definition; // definition callback
+    var $definition; 
     /**
      * array of uses
      * @var ?array|?string

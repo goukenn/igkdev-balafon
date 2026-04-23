@@ -10,12 +10,10 @@ init: function(target, uri, width, height){
 	var img = document.createElement("img");
 	img.src = uri;
 	var m_imgw = img.width;
-	
 	img = null;
 	target.style.backgroundRepeat = "no-repeat";
 	target.style.width = width? width: "32px";
 	target.style.height = height? height: "32px";
-	
 	function __construct(){
 		var m_timeout = null;
 		var m_isplaying = false;
@@ -28,7 +26,6 @@ init: function(target, uri, width, height){
 			q.update();
 		};
 		this.update = function(){
-			
 			if (m_isplaying)
 			{
 				m_pos = (m_pos +32) % m_width;				
@@ -45,8 +42,6 @@ init: function(target, uri, width, height){
 			this.pause();
 			m_pos = 0;
 		};
-		
-		
 	}
 	var o = new __construct();
 	o.play();

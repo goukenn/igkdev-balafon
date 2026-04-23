@@ -3,7 +3,6 @@
 // @file: CssUtilsTest.php
 // @date: 20230316 17:28:12
 namespace IGK\Tests\System\Css;
-
 use IGK\System\Html\Css\CssUtils;
 use IGK\Tests\BaseTestCase;
 
@@ -12,40 +11,32 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Css
 */
 class CssUtilsTest extends BaseTestCase{
-
     /**
     * Tests detected operator.
     */
     public function test_detected_operator(){
         $tabs = CssUtils::GetClassValues("-value +info");
-
         $this->assertEquals([
             ["value", "-"],
             ["info", "+"],
         ], $tabs);
     }
-
     /**
     * Tests remove transform.
     */
     public function test_remove_transform(){
         $v =  'color:[cl:red]; [trans:2.s ease] display:block';
-        //remove brank definitions  
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('color:[cl:red];', $v);
     }
-
     /**
     * Tests remove transform before.
     */
     public function test_remove_transform_before(){
         $v =  'color:blue; border: 1px    solid [cl:red]; display:block';
-                    //remove brank definitions 
-                    
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('border:1px solid [cl:red];', $v);
     }
-
     /**
     * Tests cssutils remove transform litteral style.
     */
@@ -54,7 +45,6 @@ class CssUtilsTest extends BaseTestCase{
         $v = CssUtils::RemoveTransformLitteralFrom($v);
         $this->assertEquals('margin-top:-10px;content:\'{present   day}\';[trans:.5s all ease-out]color:indigo;', $v);
     }
-
     /**
     * Tests cssutils check default style.
     */
@@ -63,7 +53,6 @@ class CssUtilsTest extends BaseTestCase{
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('background-color:[cl:menuLayerBackground,#222a];', $v);
     }
-
     /**
     * Tests check default in string style.
     */

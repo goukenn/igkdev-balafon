@@ -16,6 +16,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\Test\IGKHtmlReaderTest;
 use IGKEvents;
 use IGKNonVisibleControllerBase;
+
 /**
  * dump controller database
  * @package IGK\System\Console\Commands
@@ -74,7 +75,7 @@ class DbDumpCommand extends AppExecCommand{
             return -1;
         }
         $type = igk_getv($command->options, "-o", "json");
-        $v_inject = property_exists($command->options, "--inject"); // , "json");
+        $v_inject = property_exists($command->options, "--inject"); 
         $ctrl::register_autoload();
         $this->_entries = [];
         $gen = $this->getGenerator($type);
@@ -128,7 +129,6 @@ class DbDumpCommand extends AppExecCommand{
             Logger::info('store schema: '.$file);
             igk_io_w2file($file, $schema->render((object)['Indent'=>true]));
         }
-        // Logger::success("Schema complete");
         return 0;
     }
     /**
@@ -158,7 +158,7 @@ class DbDumpCommand extends AppExecCommand{
         if ($g && $g->RowCount){
             $v_dumpfields = $v_tabinfo ? DbUtils::GetDumpFields($v_tabinfo->columnInfo) : null;
             if ($v_dumpfields){
-                $v_dumpfields = array_fill_keys(array_keys($v_dumpfields),1); // all is required
+                $v_dumpfields = array_fill_keys(array_keys($v_dumpfields),1); 
             }
             foreach($g->getRows() as $r){
                 $v_r = $r->to_array();
@@ -166,7 +166,7 @@ class DbDumpCommand extends AppExecCommand{
                     $v_r = igk_array_filter($v_r, $v_dumpfields, false);
                 }
                 if ($v_r)
-                $rest[] = $v_r; // r->to_array();
+                $rest[] = $v_r; 
             }
         } 
         $this->_entries[$tb] = $rest;

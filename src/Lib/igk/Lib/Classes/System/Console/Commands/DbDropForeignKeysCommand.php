@@ -7,6 +7,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
 * drop all database foreign keys
 * @package IGK\System\Console\Command

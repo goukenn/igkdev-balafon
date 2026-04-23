@@ -3,9 +3,7 @@
 // @filename: Utils.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests;
-
 use IGK\Controllers\BaseController;
 
 /**
@@ -20,9 +18,7 @@ class Utils{
      * @throws mixed 
      */
     public static function CreateController(string $classname): ?BaseController{
-    
         if (class_exists($classname) && is_subclass_of($classname , BaseController::class) && !igk_reflection_class_isabstract($classname)){
-        
             $o = new $classname();
             if (!isset(igk_environment()->AutoLoad[$classname])){ 
                 $o::register_autoload();
@@ -43,7 +39,6 @@ class Utils{
             $controller = Utils::CreateController($classname);
         return $controller;
     }
-
     /**
     * auto generate doc.
     * @param mixed $model
@@ -57,7 +52,6 @@ class Utils{
         }
         $v_definition = $controller->getDataTableDefinition();
         $v_tb = $v_definition->tables;
-        // get model or db utility 
         $model = $model ?? $controller->getDb(); 
         if ($v_tb){
             foreach(array_keys($v_tb) as $table){                
@@ -68,9 +62,7 @@ class Utils{
         }else {
             $test->fail("no tables: ".get_class($controller));
         }
-
     }
-
     /**
     * Post view.
     * @param BaseController $controller
@@ -80,7 +72,6 @@ class Utils{
     public static function PostView(BaseController $controller, $view="default", $params=null){
         self::SendView($controller, $view, $params, "POST");
     }
-
     /**
     * Returns View.
     * @param BaseController $controller
@@ -90,7 +81,6 @@ class Utils{
     public static function GetView(BaseController $controller, $view="default", $params=null){
         self::SendView($controller, $view, $params, "GET");
     }
-
     /**
     * Sends View.
     * @param BaseController $controller
@@ -102,7 +92,6 @@ class Utils{
         igk_server()->REQUEST_METHOD = $method;
         $controller->loader->View($view, ["params"=>self::_GetParams($params)]);
     }
-
     /**
     * auto generate doc.
     * @param mixed ...$params
@@ -116,5 +105,4 @@ class Utils{
         }
         return array();
     }
-    
 }

@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
-
-
 use function igk_resources_gets as __;
 
 /**
@@ -19,21 +16,18 @@ use function igk_resources_gets as __;
  */
 final class IGKConsoleToolManager extends ConfigControllerBase
 {
-
     /**
     * auto generate doc.
     */    public function getCanConfigure()
     {
         return 1;
     }
-
     /**
     * auto generate doc.
     */    public function getConfigGroup()
     {
         return "administration";
     }
-
     /**
     * Returns Config Page.
     */
@@ -41,7 +35,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return "console";
     }
-
     /**
     * auto generate doc.
     */
@@ -49,7 +42,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return "";
     }
-
     /**
     * auto generate doc.
     */
@@ -60,7 +52,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
      * 
      */
-
     /**
     * auto generate doc.
     */
@@ -68,7 +59,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return !igk_environment()->isOPS();
     }
-
     /**
     * View.
     * @return BaseController

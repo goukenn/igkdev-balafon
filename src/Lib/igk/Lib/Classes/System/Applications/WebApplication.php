@@ -30,6 +30,7 @@ use IGKException;
 use IGKServices;
 use ReflectionException;
 use TypeError;
+
 require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
 /**
  * application web controller 
@@ -69,9 +70,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      */
     public function bootstrap($bootoptions = null, ?callable $loader = null)
     {
-        // - |
-        // - | clean previously set header - 
-        // - | 
         if (!igk_environment()->isDev()) {
             //
             header_remove(null);
@@ -94,18 +92,14 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             }
             $loader = null;
         }
-        // enable benchmark        
         Benchmark::Activate(
             igk_environment()->isDev() && igk_getr(Benchmark::REQUEST_PARAM),
             ["dieOnError" => ini_get("display_errors")]
         );
         \IGK\System\Http\UriHandler::HandlePublicDir(igk_getv(parse_url($_SERVER["REQUEST_URI"]), 'path'), getcwd());
-        // time : 17ms
-        // resource management
         require_once IGK_LIB_CLASSES_DIR . '/Resources/R.php';
         require_once IGK_LIB_DIR . '/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR . '/Lib/functions-helpers/db.php';
-        // - 
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
         $this->InitCoreSystemComponent();
         // + | init registratation domain
@@ -185,8 +179,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     {
         $srv = igk_server();
         $requestHandler = RequestHandler::getInstance();
-        // 1. handle controller first
-        // $requestHandler->handle_ctrl_request_uri();
         $_redirectArgs = ["igk_index_file" => $file];
         $access_file = ["/Lib/igk/igk_init.php"];
         $ch = "";
@@ -198,7 +190,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                 igk_exit();
             }
             if (strstr(realpath($f), igk_io_cachedir() . "/dist/js/")) {
-                //deflate header                
                 if ($srv->accepts(["gzip", "deflate"])) {
                     header("Content-Encoding: deflate");
                 }
@@ -207,23 +198,14 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             readfile($f);
             igk_exit();
         }
-        //--------------------------------------------------------------
-        // | handle php-fpm
-        //--------------------------------------------------------------
         if (!$_start_index && igk_server()->FCGI_ROLE == "RESPONDER") {
             $_SERVER["REDIRECT_URL"] = $_SERVER["SCRIPT_URL"];
             $_SERVER["REDIRECT_QUERY_STRING"] = $_SERVER["SCRIPT_URL"];
             $_SERVER["REDIRECT_STATUS"] = "200";
             $srv->prepareServerInfo();
         }
-        //--------------------------------------------------------------
-        // | handle redirection
-        //--------------------------------------------------------------        
         if (!defined("IGK_REDIRECTION") && (($path_info = $srv->PATH_INFO) || !empty($path_info = urldecode($srv->REDIRECT_URL ?? "")))) {
             if ($srv->REDIRECT_URL && ($srv->REDIRECT_STATUS != '200')) {
-                // ----------------------------------------------
-                // on igkdev.com redirect Error document handling
-                // ----------------------------------------------
                 if ($path_info == "/Lib/igk/igk_redirection.php") {
                     $q = $srv->SCRIPT_URL;
                     $_SERVER["REDIRECT_URL"] = $q;
@@ -250,7 +232,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             // + |
             if (!igk_environment()->no_web_configuration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
-                    // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info, function () use ($requestHandler, $path_info, $_redirectArgs) {
                     $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
                 });
@@ -267,7 +248,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
             igk_exit();
         }
-        // : hanling core request uri
         RequestHandler::getInstance()->handle_ctrl_request_uri();
     }
     /**
@@ -307,7 +287,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // + | secure port -- config  
         SysUtils::SecurePort();
         // + | handle cache
-        // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
         try {
             $uri = igk_io_fullrequesturi();
             RequestHandler::HandleRequestUri($uri, $this, true, $file, $render);
@@ -339,7 +318,6 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $app->library('zip');
         $app->library('gd');
         $app->library('curl');
-        // register core config expression
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
         igk_hook(IGKEvents::HOOK_INIT_WEB_APP_LIBRARY, ['app' => $app]);
     }

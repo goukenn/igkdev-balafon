@@ -10,6 +10,7 @@ use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
+
 /**
 * Css theme resolver.
 * @package IGK\Css
@@ -240,12 +241,10 @@ class CssThemeResolver
         ){ 
             return $value;
         }
-        // if already resolved - return the resolved value
         if (isset($this->resolv[$value])) {
             return $this->resolv[$value];
         }
         if (!$this->start) {
-            // initialize 
             $this->start = igk_sys_request_time();
             $this->colordef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
         }  
@@ -313,7 +312,6 @@ class CssThemeResolver
                     $tv = igk_str_read_brank($g, $pos, "]", "[");
                     if (empty($tv) || isset($roots[$tv]))
                         continue;
-                    // check for next separator
                     $pos++;
                     if ($rtv == null) {
                         $roots[$tv] = $tv;
@@ -326,10 +324,6 @@ class CssThemeResolver
                         $q = array("parent" => $tv, "value" => substr($tv, $tl));
                         array_push($qlist, $q);
                     } else {
-                        // $c = new self();
-                        // $c->parent = $this->parent;
-                        // $c->theme = $this->theme;
-                        // $c->resolv = & $this->resolv;
                         $sv = $this->treat_value($tv.$stop, $themeexport);
                         if ($stop && $v){
                             $sv = rtrim($sv,$stop);
@@ -350,9 +344,6 @@ class CssThemeResolver
                             }
                             unset($roots[$tv]);
                         }
-                        // if (empty($m = trim(str_replace($tv, $sv, $g), '; '))){
-                        //     // $v = str_replace($g, $m, $v);
-                        // }
                     }
                 }
             }
@@ -461,7 +452,6 @@ class CssThemeResolver
         $v_m = $v;
         $d = null;
         if (!is_object($systheme)) {            
-            // igk_dev_wln_e(__FILE__.":".__LINE__,  "parent theme not an object");
         } else {
             $d = &$systheme->getDef()->getCl();
         }
@@ -482,13 +472,8 @@ class CssThemeResolver
             $chainColors[] = array_merge($gcl, []);
         }
         $chainColorCallback = 
-        //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
         function ($value) use (&$chainColors, $v_designmode) { 
             $resolved = & $this->themeResolved;
-            // if (strstr($value, 'rgba')){
-            //     Fix color model
-            // }
-            // detect color function or var prop
             if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value,$data)){
                 if ($data["name"]=="var"){
                     $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
@@ -587,13 +572,10 @@ class CssThemeResolver
                 $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
                 break;
             case self::ATTR_FILTER:
-                // "-moz-filter not available
-                // $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -moz-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
             case self::ATTR_RESOURCE: 
                 if ($themeexport){
-                   //  $r = ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : null;
                     $v = str_replace($v_m, 
                         ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : "", 
                         $v);
@@ -640,7 +622,6 @@ class CssThemeResolver
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-                // dectect that new design color is and bind default value
                 if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
                     $cl = &$systheme->def->getCl();
                     if ($defcl = igk_getv($tv, 1)) {
@@ -686,8 +667,6 @@ class CssThemeResolver
                 break;
             case self::ATTR_PROPERTY:
             case self::ATTR_PROP: 
-                // $g = $theme->getProperties();
-                // $p = & $systheme->getProperties();
                 $v_r = igk_css_design_property_value($value, $theme->getProperties(), $v_designmode);
                 if (!empty($v_r))
                     $v_r .= $stop;

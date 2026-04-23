@@ -9,6 +9,7 @@ use IGK\System\Database\Mapping\DefaultMap;
 use IGK\System\Database\Mapping\ModelMappingBase;
 use IGK\System\EntryClassResolution;
 use IGKException;
+
 /**
 * map database column field to object
 * @package IGK\Database\Mapping
@@ -95,7 +96,7 @@ class SysDbMapping extends ModelMappingBase{
     * auto generate doc.
     */
     protected function initInfoFromModel($model){
-        $v_tabInfo = $model->getTableInfo();//->columns();
+        $v_tabInfo = $model->getTableInfo();
         $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;
         $v_columns = $v_tabInfo->columnInfo;
         return ['columns'=>$v_columns, 'prefix'=>$v_prefix];

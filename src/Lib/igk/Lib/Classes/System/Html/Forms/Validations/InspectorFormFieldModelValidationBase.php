@@ -3,6 +3,7 @@
 // @file: InspectorFormFieldModelValidationBase.php
 // @date: 20231229 09:51:52
 namespace IGK\System\Html\Forms\Validations;
+
 /**
 * use to inspect model base data 
 * @package IGK\System\Html\Forms\Validations

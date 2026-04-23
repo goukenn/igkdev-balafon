@@ -3,6 +3,7 @@
 // @file: funcs.php
 // @date: 20230125 16:56:44
 namespace IGK\Helper\IO;
+
 /**
  * Returns the contents of a file as a string for a given line range.
  *

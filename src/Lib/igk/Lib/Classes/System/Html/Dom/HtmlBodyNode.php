@@ -2,6 +2,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\RenderOptionProperties;
 use IGKEvents;
+
 require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlDefaultMainPage.php");
 require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
 // @file: HtmlBodyNode.php
@@ -46,9 +47,6 @@ class HtmlBodyNode extends HtmlNode{
         parent::__construct();
         $this->m_bodyMainScript = new HtmlBodyMainScript();
     }
-    // // // // public function addScriptNode($id, $n){
-    //     return $this->m_bodyMainScript->addScriptNode($id, $n);
-    // }
     /**
     * Removes Script.
     * @param mixed $scriptFile
@@ -74,7 +72,6 @@ class HtmlBodyNode extends HtmlNode{
         }
         return $this->m_appendContent;
     }
-    ///load addition script content when page request loaded.
     /**
     * auto generate doc.
     */

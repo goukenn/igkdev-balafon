@@ -12,6 +12,7 @@ use IGK\System\Console\ICLICommandApp;
 use IGK\System\Console\Logger;
 use IGK\Traits\BacktickHelperCommandTrait;
 use stdClass;
+
 require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
 /**
  * 
@@ -239,7 +240,6 @@ abstract class ConsoleUtility
         $c = null;
         $check_first = false;
         foreach ($tab as $id => $v) {
-            
             if (!$split && $v == '--') {
                 $split = true;
                 continue;
@@ -253,13 +253,11 @@ abstract class ConsoleUtility
                 $command->waitForNextEntryFlag = false;
             }
             if (isset($handle[$v])) {
-                // just handle command definition 
                 $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
                 if (is_null($command->exec)){
                     $action($v, $command);
                 } else 
-                    $action($v, $command, $args);//, $c ? implode(":", array_slice($c, 1)) : []);
-
+                    $action($v, $command, $args);
             } else {
                 $c = explode(":", $v);
                 $v_ts =  implode(":", array_slice($c, 1));
@@ -285,9 +283,7 @@ abstract class ConsoleUtility
                         $args[] = $v;
                 }
             }
-
             if (($check_first === false) && is_null($command->exec) && (0 === strpos($v, '--'))){
-                //throw new \Exception('command not found');
                 break;
             }
             $check_first = true;

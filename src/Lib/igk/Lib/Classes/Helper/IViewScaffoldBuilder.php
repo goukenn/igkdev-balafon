@@ -3,6 +3,7 @@
 // @file: IViewScaffoldBuilder.php
 // @date: 20231215 16:34:05
 namespace IGK\Helper;
+
 /**
 * auto generate doc.
 * @package IGK\Helper

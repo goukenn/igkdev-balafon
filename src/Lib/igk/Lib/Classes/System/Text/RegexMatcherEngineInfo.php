@@ -3,6 +3,7 @@
 // @file: RegexMatcherEngineInfo.php
 // @date: 20250714 23:52:27
 namespace IGK\System\Text;
+
 /**
  * callable token id
  * @package IGK\System\Text

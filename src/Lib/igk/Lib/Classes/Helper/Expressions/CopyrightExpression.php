@@ -3,6 +3,7 @@
 // @file: CopyrightExpression.php
 // @date: 20230225 19:24:57
 namespace IGK\Helper\Expressions;
+
 /**
 * auto generate doc.
 * @package IGK\Helper\Expressions

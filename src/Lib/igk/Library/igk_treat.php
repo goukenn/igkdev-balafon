@@ -8,7 +8,6 @@
 // @url: https://www.igkdev.com
 
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
-
 /**
 * protect request information
 */
@@ -37,7 +36,6 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
         $source=explode("\n", $source);
     }
     if(!function_exists("igk_treat_append")){
-
 /**
 * Igk treat append.
 * @param mixed $options
@@ -56,7 +54,6 @@ function igk_treat_append($options, $t, $indent=0){
         }
     }
     if(!function_exists("igk_treat_create_options")){
-
 /**
 * Igk treat create options.
 */
@@ -66,7 +63,6 @@ function igk_treat_create_options(){
         }
     }
     if(!function_exists("igk_treat_source_expression")){
-
 /**
 * Igk treat source expression.
 * @param mixed $options
@@ -106,7 +102,6 @@ function igk_treat_source_expression($options){
             }
         }
         $flag=1;
-        //$matchFlag=0;
         $tq=array(rtrim($t));
         $offset=0;
         $auto_reset_list=isset($options->autoResetList) ? $options->autoResetList: array("operatorFlag", "mustPasLineFlag");
@@ -173,19 +168,16 @@ function igk_treat_source_expression($options){
 * Represent IGKProtectHtmlField class
 */
 class IGKProtectHtmlField{
-
     /**
     * Property: engines.
     * @var mixed
     */
     private $engines;
-
     /**
     * Property: options.
     * @var mixed
     */
     private $options;
-
     /**
     * auto generate doc.
     */
@@ -194,7 +186,6 @@ class IGKProtectHtmlField{
         $this->engines=array();
         $this->_initengines();
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
@@ -202,7 +193,6 @@ class IGKProtectHtmlField{
     private function __output($v){
         return $v;
     }
-
     /**
     * auto generate doc.
     */
@@ -249,10 +239,8 @@ class IGKProtectHtmlField{
                         $t=$s.$t;
                     }
                     else{ 
-                        // "no ed found"
                         $offset = strlen($t);
                         return $t;
-                        // igk_wln_e("something wrong ... string litteral", $t);
                     }
                     return $t;
                 }
@@ -285,7 +273,6 @@ class IGKProtectHtmlField{
                 }
         ));
     }
-
     /**
     * auto generate doc.
     */
@@ -304,12 +291,10 @@ class IGKProtectHtmlField{
             "DataLF"=>"\n"
         );
     }
-
     /**
     * auto generate doc.
     * @param mixed $v
     */
-
     public function protect($v){
         $this->_initOptions();
         $options=& $this->options;

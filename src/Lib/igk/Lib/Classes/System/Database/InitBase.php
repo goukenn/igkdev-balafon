@@ -5,6 +5,7 @@
 // @date: 20211007 08:31:28
 namespace IGK\System\Database;
 use IGK\Controllers\BaseController;
+
 /**
 * Init base.
 * @package IGK\System\Database

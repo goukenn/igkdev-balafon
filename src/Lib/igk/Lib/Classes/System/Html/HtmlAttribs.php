@@ -12,6 +12,7 @@ use IGK\System\Html\Dom\HtmlDomActiveAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\XmlNode;
 use IGK\System\Html\HtmlExpressionAttribute;
+
 /**
 * Igkhtml attribs.
 */
@@ -275,7 +276,6 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             $o->it_key=$o->it_keys[$o->it_index];
         }
     }
-    ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
     /**
     * Offset set expression.
     * @param mixed $key

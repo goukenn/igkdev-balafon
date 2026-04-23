@@ -3,16 +3,13 @@
 // @filename: IGKSitemapGeneratorTools.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 use IGK\Controllers\ToolControllerBase;
-//method 1: site map generator
 
 /**
 * Igksitemap generator tools.
 */
 final class IGKSitemapGeneratorTools extends ToolControllerBase
 {
-
 	/**
 	 * Return the URI of the tool image icon.
 	 *
@@ -30,7 +27,6 @@ final class IGKSitemapGeneratorTools extends ToolControllerBase
 	public function doAction()
 	{
 		igk_sys_gen_global_sitemap(1);
-
 		igk_notifyctrl()->addMsgr("msg.sitemapgenerated");
 		$this->refreshToolView();
 		igk_navtocurrent(); 

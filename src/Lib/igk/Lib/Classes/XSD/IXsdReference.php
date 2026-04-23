@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\XSD;
+
 /**
 * Interface for xsd reference.
 * @package IGK\XSD

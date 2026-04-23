@@ -3,6 +3,7 @@
 // @file: IToArrayResolver.php
 // @date: 20230209 17:31:57
 namespace IGK\System;
+
 /**
 * auto generate doc.
 * @package IGK\System

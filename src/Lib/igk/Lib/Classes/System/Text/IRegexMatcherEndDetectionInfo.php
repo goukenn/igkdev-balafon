@@ -3,6 +3,7 @@
 // @file: IRegexMatcherEndDetectionInfo.php
 // @date: 20250712 12:43:47
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

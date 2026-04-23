@@ -4,6 +4,7 @@
 // @date: 20221206 07:40:53
 namespace IGK\Core\Traits;
 use IGK\System\Exceptions\OperationNotAllowedException;
+
 /**
 * auto generate doc.
 * @package IGK\Core\Traits

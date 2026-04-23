@@ -1,8 +1,7 @@
 <?php
+
 $x = 999;
-
 $t->div()->setContent(igk_php_expression('$x + 10'));
-
 if ($x > 10){
     $t->div()->Content = "greather";
 } elseif ($x < 4) {

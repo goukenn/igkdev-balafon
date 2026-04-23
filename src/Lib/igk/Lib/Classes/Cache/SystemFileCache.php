@@ -4,6 +4,7 @@ use Exception;
 use IGK\Cache\CommonCache;
 use Phar;
 use function igk_resources_gets as __;
+
 /**
 * System file cache.
 * @package IGK\Cache
@@ -97,7 +98,6 @@ class SystemFileCache extends CommonCache
         $f = self::CacheFile();
         $v = false;
         if (!defined("IGK_NO_CACHE_LIB") && igk_io_file_exists($f, true)) {
-            //+ | clear lib cache
             if (self::CheckLibVersion()) {
                 @unlink($f);
                 return $v;

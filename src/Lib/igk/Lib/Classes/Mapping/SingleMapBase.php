@@ -4,6 +4,7 @@
 // @date: 20220712 10:19:04
 // @desc: 
 namespace IGK\Mapping;
+
 /**
 * Single map base.
 * @package IGK\Mapping

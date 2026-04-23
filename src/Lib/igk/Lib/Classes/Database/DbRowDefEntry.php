@@ -6,6 +6,7 @@ namespace IGK\Database;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use Iterator;
+
 /**
  * 
  * @package IGK\Database

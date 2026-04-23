@@ -3,10 +3,7 @@
 // @filename: IniFileTest.php
 // @date: 20220803 13:48:54
 // @desc: 
- 
-
 namespace IGK\Tests\System\IO\File;
-
 use IGK\System\IO\File\IniFile;
 use IGK\Tests\BaseTestCase;
 
@@ -15,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\IO\File
 */
 class IniFileTest extends BaseTestCase{
-
     /**
     * Tests create file.
     */
@@ -23,15 +19,12 @@ class IniFileTest extends BaseTestCase{
         $temp = sys_get_temp_dir()."/tempfile.ini";
         igk_io_w2file($temp, "info=12");
         $g = IniFile::LoadConfig($temp);
-
-        
         $this->assertEquals(
             ["info"=>"12"]
             , $g->to_array()
         ) ;
         unlink($temp); 
     }
-
     /**
     * Tests comment out file.
     */
@@ -44,15 +37,12 @@ class IniFileTest extends BaseTestCase{
             ["#info"=>"12"]
             , $g->to_array()
         ) ;
-
         $g->activate("info");
         $this->assertEquals(
             ["info"=>"12"]
             , $g->to_array(),
             "activation failed ..... "
         );
-
         unlink($temp); 
     }
- 
 }

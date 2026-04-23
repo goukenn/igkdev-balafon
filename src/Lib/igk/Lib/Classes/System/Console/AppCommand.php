@@ -18,6 +18,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKEvents;
 use ReflectionClass;
 use ReflectionException;
+
 require_once(__DIR__."/AppCommandConstant.php");
 /**
 * App command.
@@ -126,7 +127,6 @@ abstract class AppCommand {
                 }
                 if (is_subclass_of($cl, __CLASS__)){
                     if (!(igk_sys_reflect_class($cl))->isAbstract()){
-                        // init command that contains Init
                         if (method_exists($cl, self::INIT_COMMAND_METHOD)){
                             call_user_func_array([$cl, self::INIT_COMMAND_METHOD],[]);
                         }   
@@ -140,12 +140,10 @@ abstract class AppCommand {
             }
             if (file_exists($file = AppCommandConstant::GetCacheFile())){
                 $list = include($file);
-                // - init module
                 $mod = igk_get_modules();
                 foreach($mod as $c => $v){
                     igk_require_module($c, null, false);
                 }
-                // - 
                 foreach($list as $ctrl=>$b){
                     if (!is_string($b) && ($m = igk_getctrl($ctrl, false))){
                         $m::register_autoload();
@@ -161,13 +159,8 @@ abstract class AppCommand {
                             if(!is_string($b)){
                                 igk_die("failed: ". json_encode($b));
                             }
-                            // if (igk_io_file_exists(
                                 $b = igk_io_expand_path($b);
-                            //  )){
                                 include($b);
-                            // }else{
-                            //     continue;
-                            // }
                         }
                         if (!class_exists($ctrl)){
                             die("class [".$ctrl ."] not found or is abstract".$b);
@@ -180,10 +173,6 @@ abstract class AppCommand {
                 }
             }
             else {
-                // init command before 
-                // $init_command = new InitCommand;
-                // $cmd = null; // self::Create("");
-                // $init_command->exec($app);
                 Logger::danger("command file not present ". $file);
                 Logger::info("please run with  --command:init to initialize command's cache file ");
             }

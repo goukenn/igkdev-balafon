@@ -5,6 +5,7 @@
 namespace IGK\System\Http;
 use IGKEvents;
 use IGKException;
+
 /**
 * with session start, used to manage application manage cookies
 * @package IGK\System\Http
@@ -85,7 +86,6 @@ class CookieManager{
     */
     private function __construct()
     {
-        //register_shutdown_function(
             igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
             function(){
             if ($this->m_saved){

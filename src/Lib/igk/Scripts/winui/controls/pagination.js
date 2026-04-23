@@ -2,7 +2,6 @@
 (function() {
     if (igk.winui.paginationview)
         return;
-
     var popstate = 0;
     var current = [];
     igk.system.createNS("igk.winui.paginationview", {
@@ -40,10 +39,8 @@
                 refresh: 0,
                 cookie: 0
             });
-
             var uri = encodeURI(i.baseuri).replace("?", '\\?');
             i.regex = new RegExp("^" + uri + "");
-
             if (!popstate) {
                 // console.debug("reg event");
                 igk.winui.reg_event(window, 'popstate', function(e) {
@@ -59,21 +56,17 @@
                         // console.debug("match");
                         igk.ajx.get(du, null, _page_ready(q, i, du, du, 1));
                         current.pop();
-
                     } else {
                         current.pop();
                         current.push(document.location.href);
                         igk.ajx.get(ldu, null, _page_ready(q, i, du, du, 1));
-
                     }
-
                     e.preventDefault();
                     e.stopPropagation();
                     return;
                 });
                 popstate = 1;
             }
-
             q.select("span").each_all(function() {
                 this.addClass("igk-btn").reg_event("click", function(e) {
                     e.preventDefault();
@@ -118,8 +111,6 @@
         }
     });
 })();
-
-
 (function() {
     igk.system.createNS("igk.winui.controls.pagination", {
         init: function() { // initialize the pagination control custom control

@@ -7,6 +7,7 @@ use Error;
 use IGK\Controllers\ApplicationModuleController;
 use IGKException;
 use Throwable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Excpetions

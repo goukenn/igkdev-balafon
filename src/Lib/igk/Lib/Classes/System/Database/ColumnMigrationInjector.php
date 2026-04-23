@@ -8,6 +8,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\Helper\JSon;
 use IGKEvents;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
+
 /**
  * migration injector used to inject defenition on column migration 
  */
@@ -67,7 +68,6 @@ class ColumnMigrationInjector{
             $v_info = & $e->args["info"]; 
             $callable($v_info); 
         }); 
-        // load tatble definition an dive into injection table 
         $driver->getDataTableDefinition($table); 
         igk_unreg_hook(IGKEvents::FILTER_DB_SCHEMA_INFO, $fc); 
     }

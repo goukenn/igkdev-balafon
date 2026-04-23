@@ -1,6 +1,7 @@
 <?php
 namespace IGK\Helper;
 use Closure;
+
 /**
 * Invocation helper.
 * @package IGK\Helper

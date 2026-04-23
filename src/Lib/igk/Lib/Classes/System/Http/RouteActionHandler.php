@@ -11,6 +11,7 @@ use IGK\Actions\Dispatcher;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
+
 /**
  * route action handler
  * @package IGK\System\Http
@@ -182,7 +183,6 @@ class RouteActionHandler extends RouteHandler
         if (!$type) {
             if (is_array($v_clbind) || is_callable($v_clbind)) {
                 if (is_callable($v_clbind)) {
-                    //call static
                     $type = 1;
                     if (is_array($v_clbind)) {
                         $cl = $v_clbind[0];

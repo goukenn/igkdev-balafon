@@ -3,6 +3,7 @@
 // @file: RedirectHelperActionTrait.php
 // @date: 20221118 01:35:40
 namespace IGK\Actions\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits

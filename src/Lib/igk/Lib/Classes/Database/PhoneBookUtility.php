@@ -12,6 +12,7 @@ use IGK\Models\Users;
 use IGK\System\Console\Logger;
 use IGK\System\IO\VCF\VCard;
 use IGKException;
+
 /**
  * 
  * @package IGK\Database
@@ -29,7 +30,6 @@ class PhoneBookUtility
      * @return mixed 
      */
     public static function Search(string $pattern){
-        // search for tel and pattern
         $ids = [];
         foreach([
             PhoneBookTypeNames::PHT_NAME,
@@ -46,7 +46,6 @@ class PhoneBookUtility
         $tpatter = '';
         $conditions = ['!!'.PhoneBooks::FD_TYPE=>$ids];
         if (false !== strpos($pattern, ' ')){
-            // contains 
             $tpatter = array_map(function($a){return igk_str_surround($a, '%'); }, explode(' ', $pattern));
             array_unshift($tpatter, igk_str_surround($pattern, '%'));
             $tc = [];
@@ -91,7 +90,7 @@ class PhoneBookUtility
                     ->where([
                         PhoneBooks::FD_ENTRY_GUID => $q->Guid
                     ])->execute();
-                $v_card = null;// 
+                $v_card = null;
                 foreach ($g->getRows() as $row) {
                     $type = $row->{PhoneBookTypes::FD_NAME};
                     $v = $row->{PhoneBooks::FD_VALUE};
@@ -110,7 +109,6 @@ class PhoneBookUtility
                 }
                 if ($v_card)
                     $v_tab[$q->Guid] = $v_card;
-                //Logger::print($g->to_json());
             }
         }
         return $v_tab;
@@ -162,7 +160,6 @@ class PhoneBookUtility
         $t1 = PhoneBookTypes::table();
         $t2 = PhoneBooks::table();
         $conditions[PhoneBookTypes::FN_NAME()]= PhoneBookTypeNames::PHT_NAME;
-        // $conditions[PhoneBookTypes::FN_NAME()]= PhoneBookTypeNames::PHT_NAME;
         $options = [];
         if ($limit){
             $options['Limit'] = $limit;

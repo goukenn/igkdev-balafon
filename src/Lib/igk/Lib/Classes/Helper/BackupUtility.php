@@ -14,6 +14,7 @@ use IGKCSVDataAdapter;
 use IGKException;
 use ReflectionException;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
+
 /**
 * auto generate doc.
 * @package IGK\Helper
@@ -40,7 +41,6 @@ class BackupUtility{
         } else {
             $file .= date('Ymd').'.zip';
         }
-        // igk_sys_zip_project($ctrl, $file);
         if ($gv &&  ($dir = dirname($file))){  
             $file = $dir."/version.db";
             $tbname = 'versions';
@@ -62,7 +62,7 @@ class BackupUtility{
                         $newComment[] = $rvs->comment;
                     }
                     $newComment = json_encode(array_filter($newComment));
-                    $rvs->comment = ""; //empty($newComment) ? null : $newComment;
+                    $rvs->comment = ""; 
                     $vs->updateAt = date('Y-m-d H:i:s');
                     $litedb->update($tbname, $rvs, ['id'=>$rvs->id]);
                 }else{

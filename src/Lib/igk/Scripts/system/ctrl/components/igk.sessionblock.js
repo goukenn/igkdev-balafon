@@ -1,12 +1,9 @@
 "use strict";
-
 (function() {
     var _sblock = 0;
     igk.system.createNS("igk.ctrl.sessionblock", {
         init: function() {
-
             // console.debug("sessiong block init "+_sblock);
-
             var target = igk.getParentScript();
             if (!target || (target == window) || $igk(target).data['session.init']) {
                 console.error("/!\ can't init sessession ....");
@@ -19,19 +16,15 @@
             // $igk(target).rmClass("igk-debug-info");
             // console.debug(target);
             _sblock = script;
-
             var content = target.innerHTML;
             var info = null;
-
             //backup
             target.innerHTML = "";
             var m_nodeChild = document.createElement("div", igk.namespaces.xhtml);
             var m_visible = false;
             var m_oldh = 0;
             m_nodeChild.innerHTML = content;
-
             igk.ajx.fn.initnode(m_nodeChild);
-
             function hide_info(d) {
                 $igk(d).animate({ height: "0px", "opacity": 0 }, {
                     duration: 200,
@@ -46,9 +39,7 @@
                         info = null;
                     }
                 });
-
             }
-
             function show_info(evt) {
                 if (info != null) {
                     hide_info(info);
@@ -68,9 +59,6 @@
                     padding: "10px",
                     fontSize: "8pt"
                 });
-
-
-
                 if (d.parentNode == null)
                     document.body.appendChild(d);
                 var h = d.scrollHeight;
@@ -81,7 +69,6 @@
                 $igk(d).setOpacity(0).rmClass("dispn").animate({ height: (h + 10) + "px", opacity: 1 }, { interval: 1, duration: 20 });
                 info = d;
             };
-
             // console.debug("init session button");
             var q = $igk(target);
             q.addClass("igk-session-button").rmClass("igk-js-hide").setCss({
@@ -102,8 +89,6 @@
                 .reg_event("mouseleave", function() { $igk(target).setCss({ "backgroundPosition": "0px 0px" }); })
                 .reg_event("click", show_info);
             q.data['session.init'] = 1;
-
         }
     });
-
 })();

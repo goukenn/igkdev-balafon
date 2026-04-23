@@ -9,6 +9,7 @@ use Countable;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler

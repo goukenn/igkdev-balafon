@@ -7,6 +7,7 @@ namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKMedia;
+
 /**
 * Css support.
 * @package IGK\Css

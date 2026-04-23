@@ -6,6 +6,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
 use IGK\Helper\Activator;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewReadBlockFlagInfo;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
@@ -29,7 +30,7 @@ trait AttachBlockTrait
         }
         $block->parent = $pblock;
         $this->m_block = $block;
-        $options->flag = $flagid; //  CompilerFlagState::READ_BLOCK;
+        $options->flag = $flagid; 
         $options->flagOptions = Activator::CreateNewInstance(ViewReadBlockFlagInfo::class, [
             "type" => $value,
             "buffer" => &$block->buffer,

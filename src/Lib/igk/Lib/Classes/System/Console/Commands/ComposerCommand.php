@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -51,11 +52,6 @@ class ComposerCommand extends AppExecCommand{
 			Logger::danger("missing composer.phar");
 			return -1;
 		}
-		// if (empty($args))
-		// {
-		// 	Logger::danger("missing composer.phar");
-		// 	return -1;
-		// }
 		$arg = implode(" ", array_filter($args));
 		chdir($packages);
 		Logger::info("{$composer} {$arg}");

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\System\Http\Request;
+
 /**
 * Igkroutes.
 */
@@ -27,7 +28,6 @@ class IGKRoutes
     */
     public static function Register($u, $callback, $prehandle = 1)
     {
-        // TODO : remove register
         $request_entry = self::$request_entry ?? self::$request_entry = Request::getInstance()->requestEntry(); 
         igk_environment()->setArray(self::REG_KEY, $u, $callback);
         if ($prehandle && $request_entry){

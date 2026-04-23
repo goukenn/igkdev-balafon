@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\ApplicationController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
@@ -22,13 +21,11 @@ define("IGK_API_URI", "^/api/v2");
  */
 final class ApiFunctionController extends ApplicationController
 {
-
     /**
     * Property: message.
     * @var mixed
     */
     public $message = array();
-
     /**
     * auto generate doc.
     */
@@ -57,7 +54,6 @@ final class ApiFunctionController extends ApplicationController
      * argument
      * @param mixed $cmd the default value is null
      */
-
     public function datadb($cmd = null, ...$args)
     {
         $args = array_slice(func_get_args(), 1);
@@ -120,7 +116,6 @@ final class ApiFunctionController extends ApplicationController
                 $sync->RenderXML();
                 return;
             },
-
             "loadsyncdata" => function ($cmd, $args) use ($_api) {
                 igk_debuggerview()->clearChilds();
                 $rep = igk_create_node("reponse");
@@ -134,7 +129,6 @@ final class ApiFunctionController extends ApplicationController
                     $rep->RenderXML();
                     return;
                 }
-                //$error=false;
                 $c = preg_replace_callback(
                     "#\+@id:/{$u->clLogin}#",
                     function ($m) use ($u) {
@@ -190,7 +184,6 @@ final class ApiFunctionController extends ApplicationController
         }
         return igk_exit();
     }
-
     /**
     * auto generate doc.
     */
@@ -204,16 +197,13 @@ final class ApiFunctionController extends ApplicationController
         $node->renderAJX();
         igk_exit();
     } 
-
     /**
      * check if this controller allow view
      */
-
     public function getIsVisible():bool
     {
         return false;
     }
-
     /**
     * auto generate doc.
     */
@@ -221,7 +211,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_CTRL;
     }
-
     /**
     * auto generate doc.
     */
@@ -229,7 +218,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_URI . IGK_REG_ACTION_METH;
     }
-
     /**
     * auto generate doc.
     */
@@ -237,17 +225,14 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_VERSION;
     }
-
     /**
     * auto generate doc.
     * @param mixed $function
     */
-
     public function IsFunctionExposed($function)
     {
         return true;
     }
-
     /**
     * auto generate doc.
     */
@@ -268,10 +253,8 @@ final class ApiFunctionController extends ApplicationController
             $node->add("ExecutionResponse")->Content = $this->App->ControllerManager->InvokeFunctionUri($q);
             $this->ConfigCtrl->logout(false, true);
         }
-
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */
@@ -289,12 +272,10 @@ final class ApiFunctionController extends ApplicationController
         $node->renderAJX();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $cmd the default value is null
     */
-
     public function setup($cmd = null)
     {
         igk_wln(__FUNCTION__ . " command");

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
+
 /**
  * use to response with file
  * @package IGK\System\Http
@@ -75,7 +76,6 @@ class WebFileResponse extends RequestResponse{
             $this->headers[] = ("Cache-Control: max-age={$second}, public, immutable");
         }
         if ($type = igk_io_path_ext($this->file)){
-            // replace header from mime type 
             $mime = igk_header_mime();
             $charset = $this->charset;
             if ($charset)

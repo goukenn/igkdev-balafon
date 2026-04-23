@@ -7,6 +7,7 @@ use IGK\System\Console\Logger;
 use IGKCSVDataAdapter;
 use IGK\System\Database\MySQL\DataAdapter as MySQLDbAdapter;
 use IGK\System\IO\StringBuilder;
+
 /**
  * 
  * @package IGK\System\Database\MySQL\Helper
@@ -86,7 +87,6 @@ class MySQLDbHelper
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 EOF);
-            // CREATE TABLE QUERY
             $sb->appendLine(self::GetDatableCreateQuery($mysql, $t));  
             $sb->appendLine('/*!40101 SET character_set_client = @saved_cs_client */;');
             $sb->appendLine(
@@ -100,19 +100,6 @@ EOF);
             $sb->appendLine(sprintf('/*!40000 ALTER TABLE `%s` DISABLE KEYS */;', $t));
             // + | generate inter query value 
             $q = self::DumpInsertTable($mysql->select_all($t)->to_array());
-            // $q = new StringBuilder;
-            // $ch = '';
-            // array_map(function ($r) use ($q, &$ch) {
-            //     $q->append(
-            //         $ch.
-            //         "(" .
-            //             implode(
-            //                 ',',
-            //                 array_map([self::class, 'DumpValue'], array_values($r->to_array()))
-            //             ) . ")"
-            //     );
-            //     $ch = ',';
-            // }, $mysql->select_all($t)->to_array());
             if (!empty($q)) {
                 $sb->appendLine(sprintf('INSERT INTO `%s` VALUES %s', $t, $q . ';'));
             }
@@ -139,7 +126,6 @@ EOF);
         }
         $options = 'ENGINE=InnoDB DEFAULT CHARSET=utf8';
         $q = sprintf("CREATE TABLE IF NOT EXISTS `%s`(", $table);
-        // $g = $ad->sendQuery(sprintf("DESCRIBE `%s` FULL", $table))->to_array();
         $g = $ad->sendQuery(sprintf("SHOW FULL COLUMNS FROM `%s`", $table))->to_array();
         $fields = [];
         $info = [];
@@ -208,14 +194,10 @@ EOF);
         if (is_numeric($v) || in_array($v, ['CURRENT_TIMESTAMP'])) {
             return $v;
         } 
-        // if ($ad){
-        //     //$v = $ad->escape_string($v);
-        // }
         $v = addslashes($v);
         $v = str_replace("\n",'\n',$v);
         $v = str_replace("\t",'\t',$v);
         $v = str_replace("\r",'\r',$v); 
-        //$v = stripslashes($v);
         return igk_str_surround($v, "'");
     }
     /**

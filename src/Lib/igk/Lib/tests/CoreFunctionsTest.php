@@ -3,10 +3,7 @@
 // @filename: CoreFunctionsTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Tests;
-
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\Html\HtmlUtils;
@@ -17,7 +14,6 @@ use IGK\System\Html\HtmlUtils;
 */
 class CoreFunctionsTest extends BaseTestCase
 {
-
     /**
     * Tests func igk dirname.
     */
@@ -30,30 +26,24 @@ class CoreFunctionsTest extends BaseTestCase
         $this->assertEquals($pd1, '');
         $pd1 = igk_dirname('/draard/sdfsq');
         $this->assertEquals($pd1, '/draard');
-
     }
-
     /**
     * Tests snake 1.
     */
     public function test_snake_1(){
-
         $this->assertEquals(
             "p_presentation_avion",
             igk_str_snake("PPresentationAvion")
         );
-
         $this->assertEquals(
             "a_v_i_a_t_i_o_n",
             igk_str_snake("AVIATION")
         );
     }
-
     /**
     * Tests parse bool.
     */
     public function test_parse_bool(){
-
         $this->assertEquals(
             "false",
             igk_parsebool(false)
@@ -62,7 +52,6 @@ class CoreFunctionsTest extends BaseTestCase
             "true",
             igk_parsebool(true)
         );
-
         $this->assertEquals(
             "true",
             igk_parsebool("true")
@@ -72,7 +61,6 @@ class CoreFunctionsTest extends BaseTestCase
             igk_parsebool("false")
         );
     }
-
     /**
     * Tests Relative Path.
     */
@@ -88,13 +76,11 @@ class CoreFunctionsTest extends BaseTestCase
             igk_io_get_relativepath("/A/B/C/", "/A/B/C"),
             "Value not maching ..."
         );
-
         $this->assertEquals(
             "./C",
             igk_io_get_relativepath("/A/B/", "/A/B/C"),
             "trailing path not matching..."
         );
-
         $this->assertEquals(
             "./C/D/E",
             igk_io_get_relativepath("/A/B", "/A/B/C/D/E"),
@@ -105,7 +91,6 @@ class CoreFunctionsTest extends BaseTestCase
             igk_io_get_relativepath("/A/B/C/", "/A/C/D"),
             "Value not maching ..."
         ); 
-
         $this->assertEquals(
             "../../../C/D",
             igk_io_get_relativepath("/A/B/C/M/X", "/A/C/D")
@@ -118,10 +103,8 @@ class CoreFunctionsTest extends BaseTestCase
             null,
             igk_io_get_relativepath("c:/A/B/C", "d:/C/B/O")
         );
-
         $p = IO::GetRelativePath("/information/dir/file", "/src/public/");
         $this->assertEquals("../../src/public/", $p, "failed to resolve path");
-        
         $this->assertEquals(
             "../../../../application/Lib/igk/Scripts/igk.js",
             igk_io_get_relativepath(
@@ -131,26 +114,19 @@ class CoreFunctionsTest extends BaseTestCase
             "missing core js-failed"
         );
     }
-
     /**
     * Tests String Utility Camel Case.
     */
     public function testStringUtilityCamelCase(){
         $this->assertEquals("Default",
         StringUtility::CamelClassName("default"));
-
         $this->assertEquals("DefaultAction",
         StringUtility::CamelClassName("default____action"));
-
-
         $this->assertEquals("DefaultAction",
         StringUtility::CamelClassName("default-_action"));
-
-        // with at 
         $this->assertEquals("DefaultAction",
         StringUtility::CamelClassName("@default-_action"));
     }
-
     /**
     * Tests str remove line.
     */
@@ -159,7 +135,6 @@ class CoreFunctionsTest extends BaseTestCase
         $this->expectOutputString("la vie est belle");
         echo igk_str_remove_lines($str); 
     }
-
     /**
     * Tests str remove line 2.
     */
@@ -167,7 +142,6 @@ class CoreFunctionsTest extends BaseTestCase
         $this->expectException(\TypeError::class);
         igk_str_remove_lines(null);
     }
-
     /**
     * Tests html is html content.
     */
@@ -183,7 +157,6 @@ class CoreFunctionsTest extends BaseTestCase
         $this->assertTrue(
             HtmlUtils::IsHtmlContent("<body />"),
             "condition 3"
-
         );
         $this->assertTrue(
             HtmlUtils::IsHtmlContent("<igk:info />"),
@@ -201,7 +174,5 @@ class CoreFunctionsTest extends BaseTestCase
             HtmlUtils::IsHtmlContent("&gt;body &lt;"),
             "special case failed"
         );
- 
     }
-    
 }

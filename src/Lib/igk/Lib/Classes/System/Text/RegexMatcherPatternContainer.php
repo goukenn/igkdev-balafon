@@ -3,6 +3,7 @@
 // @file: RegexMatcherPatternContainer.php
 // @date: 20250816 09:36:08
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

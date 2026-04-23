@@ -36,7 +36,6 @@
             var eCb = f.error || null; // error callback
             var eComplete = typeof(f) == "function" ? f : f.complete;
             f = eComplete;
-
             function getNodeData(n) {
                 var dummy = igk.createNode("dummy");
                 var c = n.childNodes.length;

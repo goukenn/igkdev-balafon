@@ -4,9 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 // @test-command: phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlNodeBuildTest.php
-
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\Tests\BaseTestCase;
 
@@ -16,7 +14,6 @@ use IGK\Tests\BaseTestCase;
  */
 class HtmlNodeBuildTest extends BaseTestCase
 {
-
     /**
      * Tests subchain.
      */
@@ -25,12 +22,11 @@ class HtmlNodeBuildTest extends BaseTestCase
         $n = igk_create_notagnode();
         $d = new HtmlNodeBuilder($n);
         $d(['a > b' => [
-            "c > d" => 'info', //['div'=>'presentation'],
+            "c > d" => 'info', 
             "e" => []
         ]], $n->addNode('template'));
         $this->assertEquals('<template><a href="#"><b><c><d>info</d></c><e></e></b></a></template>', $n->render());
     }
-
     /**
      * Tests subblock ul.
      */
@@ -48,7 +44,6 @@ class HtmlNodeBuildTest extends BaseTestCase
         ], $n->addNode('template'));
         $this->assertEquals('<template><ul><li class="f">Home</li><li class="a">About</li></ul></template>', $n->render());
     }
-
     /**
      * Tests subblock chain property.
      */
@@ -64,7 +59,6 @@ class HtmlNodeBuildTest extends BaseTestCase
         ], $n->addNode('template'));
         $this->assertEquals('<template><ul><li><a href="#" to="/">Home</a></li><li><b to="/about">About</b></li></ul></template>', $n->render());
     }
-
     /**
      * Tests subchain 2.
      */
@@ -78,7 +72,6 @@ class HtmlNodeBuildTest extends BaseTestCase
         ]], $n->addNode('template'));
         $this->assertEquals('<template><a href="#"><b><c><d><div>presentation</div></d></c><e></e></b></a></template>', $n->render());
     }
-
     /**
      * Tests args value.
      */
@@ -93,7 +86,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             "form rendering failed"
         );
     }
-
     /**
      * Tests bind expression.
      */
@@ -110,7 +102,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             $d->render()
         );
     }
-
     /**
      * Tests bind expression sub tag.
      */
@@ -127,13 +118,11 @@ class HtmlNodeBuildTest extends BaseTestCase
             $d->render()
         );
     }
-
     /**
      * Tests passing data as arg.
      */
     function test_passing_data_as_arg()
     {
-
         $s = '<igk:expression-node igk:args="[[:@raw]]" expression="{{ $raw->x + 88}}"></igk:expression-node>';
         $d = igk_create_node("div");
         $d->load($s, (object)[
@@ -146,13 +135,12 @@ class HtmlNodeBuildTest extends BaseTestCase
             "passing data and operate failed"
         );
     }
-
     /**
      * Tests subitem pass.
      */
     function test_subitem_pass()
     {
-        $s = '<div *for="range(1,3)"><li>{{$raw}}</li></div>'; //<div *visible="$raw==2" id="mark"><igk:contact-block igk:args="[[:@raw]]"></igk:contact-block></div></div>';
+        $s = '<div *for="range(1,3)"><li>{{$raw}}</li></div>'; 
         $d = igk_create_node("jump");
         $d->load($s, (object)[
             "raw" => (object)["x" => 8],
@@ -164,7 +152,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             "sub item passing failed"
         );
     }
-
     /**
      * Tests render string at last.
      */
@@ -182,13 +169,11 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render method as entry child array.
      */
     function test_render_method_as_entry_child_array()
     {
-        // test array with index function attached 
         $n = igk_create_node("div");
         igk_is_debug(true);
         $s = HtmlNodeBuilder::Init($n, [
@@ -201,13 +186,11 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render method as entry child 2.
      */
     function test_render_method_as_entry_child_2()
     {
-        // test direct function attached - to target node 
         $n = igk_create_node("div");
         HtmlNodeBuilder::Init($n, [
             "div" => function ($i) {
@@ -219,26 +202,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
-        // function test_render_method_as_entry_child_2_callback()
-        // {
-        //     $n = igk_create_node("div");
-        //     HtmlNodeBuilder::Init($n, [
-        //         "div" => [
-        //             function ($i) {
-        //                 $i->text("ok1");
-        //             },
-        //             function ($i) {
-        //                 $i->text("ok2");
-        //             }
-        //         ]
-        //     ]);
-        //     $this->assertEquals(
-        //         '<div><div>ok1ok2</div></div>',
-        //         $n->render()
-        //     );
-        // }
-
     /**
      * Tests render method after node def.
      */
@@ -258,14 +221,12 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render method as entry.
      */
     function test_render_method_as_entry()
     {
         $n = igk_create_node("div");
-
         HtmlNodeBuilder::Init($n, [
             function ($i) {
                 $i->text("ok");
@@ -276,14 +237,12 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render chain.
      */
     function test_render_chain()
     {
         $n = igk_create_node("div");
-
         HtmlNodeBuilder::Init($n, [
             "header" => [],
             "main" => [],
@@ -294,7 +253,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render menus.
      */
@@ -315,7 +273,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render render with string.
      */
@@ -333,7 +290,6 @@ class HtmlNodeBuildTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
      * Tests render render with string with custom tag.
      */

@@ -10,6 +10,7 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IGKException;
 use IGKObject;
 use JsonSerializable;
+
 /**
 * 
 * @package IGK\System\Text
@@ -38,7 +39,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     * @var mixed
     */
     const BEGIN_WHILE_TYPE = 'begin/while';
-    // var $type;
     /**
      * identification tokenID reference 
      * @var mixed
@@ -117,7 +117,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     * @var mixed
     */
     private $m_type;
-
     /**
      * capture mode to handle this visibilité on state 
      * @var null|'auto-reset'
@@ -159,7 +158,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     * @return
     */
     protected function _access_OffsetSet($n, $v){
-        // not allowed
     }
     /**
     * .ctr

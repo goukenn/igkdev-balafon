@@ -3,17 +3,12 @@
 // @filename: igk_db_ctrl_resetdb.pinc
 // @date: 20220803 13:51:47
 // @desc: reset database script
-
-
 use IGK\System\Console\Logger;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
-
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
 // + |
-
-
 
 /**
  * @var BaseController $controller 
@@ -41,7 +36,6 @@ if (!$s) {
 $controller::register_autoload();
 $deflog = igk_environment()->get(__FILE__);
 $db = igk_get_data_adapter($controller);
-
 $is_connect = $db->isConnect();
 if ($deflog === null) {
     Logger::print("db-name: " . igk_configs()->db_name);
@@ -54,12 +48,10 @@ if ($deflog === null) {
 } else {
     $deflog++;
 }
-
 if (!$is_connect) {
     Logger::danger('driver not connected');
     // return false;
 }
-
 $controller->dropDb(false, $force);
 igk_set_env("sys://db_init_table/ctrl", $controller);
 Logger::info("init controller db ... ");

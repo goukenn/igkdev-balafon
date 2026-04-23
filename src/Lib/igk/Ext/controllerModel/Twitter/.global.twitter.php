@@ -10,7 +10,6 @@
 * @param mixed $showcount
 */
 function igk_html_node_twitterFollowUs($id, $showcount=0){
-	//followus
 	igk_trace();
 	igk_wln_e("die");
 	$n = igk_create_xmlnode("a");
@@ -26,16 +25,10 @@ if (\$doc){
 	return 1;
 }
 return 0;
-EOF
-,array("n"=>$n)));
-
+EOF,array("n"=>$n)));
 	$n->add($b);
 	return $n;
 }
-
-
-///<summary>twitter time line zone</summary>
-
 /**
 * Igk html node twitter time line.
 * @param mixed $id
@@ -61,10 +54,7 @@ if (\$doc){
 	igk_doc_add_tempscript(null,'{$js}', 1 , array('charset'=>'utf-8','data-lib'=>'{$lib}'));
 }
 return 0;
-EOF
-,array("n"=>$n)));
-
+EOF,array("n"=>$n)));
 	$n->add($b);
 	return $n;
 }
- 

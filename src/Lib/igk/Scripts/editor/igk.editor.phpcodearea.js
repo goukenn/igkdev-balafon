@@ -2,7 +2,6 @@
 phpcodearea
 */
 (function(){
-
 	igk.system.createNS("igk.editor.phpcodearea", {
 		init: function(tn, props) //target name, properties
 		{ 
@@ -13,7 +12,6 @@ phpcodearea
 			}
 			if (t==null)
 				return;
-			
 		}
 	});
 })();

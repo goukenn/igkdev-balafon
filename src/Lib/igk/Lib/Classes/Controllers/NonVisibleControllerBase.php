@@ -7,6 +7,7 @@ namespace IGK\Controllers;
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGKException;
+
 /**
 * Represent NonVisibleControllerBase class
 */

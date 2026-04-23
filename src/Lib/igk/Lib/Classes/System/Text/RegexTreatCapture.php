@@ -5,6 +5,7 @@
 namespace IGK\System\Text;
 use Closure;
 use Exception;
+
 /**
 * 
 * @package IGK\System\Text
@@ -123,13 +124,13 @@ class RegexTreatCapture{
                 'index' => $k_index,
                 'pos' => $pos,
                 'to' => $to,
-                'value' => $q[0], // original value
-                'data' => $q[0],  // data to replace
+                'value' => $q[0], 
+                'data' => $q[0],  
                 'childs' => [],
                 self::MARK_KEY => 0,
             ]);
             if ($cap_info) {
-                $tc = $get_parent($cap_info, $inf); //count($cap_info)>
+                $tc = $get_parent($cap_info, $inf); 
                 $inf->parent = $tc;
                 if ($tc) {
                     $tc->childs[] = $inf;
@@ -177,7 +178,6 @@ class RegexTreatCapture{
         $__handle_capture = function ($v, $cap, $callable)use(& $v_handled) {
             if (!$callable){
                 $callable = function($cap, $option){
-                    // handle - with option 
                 };
             }
             $data = null;
@@ -239,7 +239,6 @@ class RegexTreatCapture{
                 }
                 $v_cap->{$mark_key}=0;
                 $v_p = $v_cap;
-                // reset chain data 
                 while($v_p = $v_p->parent){
                     $v_p->{$mark_key}=0;
                     $v_p->data = $v_p->value; 
@@ -249,7 +248,6 @@ class RegexTreatCapture{
             while (count($v_tcap) > 0) {
                 $cap = array_shift($v_tcap);
                 if (!$cap->{$mark_key}) {
-                    // copy childrens tab
                     $c = $cap->childs;
                     $v_tcouput = null;
                     while (count($c) > 0) {
@@ -263,7 +261,6 @@ class RegexTreatCapture{
                             continue;
                         }
                         if ($q->{$mark_key}) {
-                            // already marked - update ethe v_tcouput
                             $v_tcouput[] = (object)['pos' => $q->pos, 'to' => $q->to, 'value' => $q->data];
                             continue;
                         }
@@ -275,7 +272,6 @@ class RegexTreatCapture{
                         }
                         $v_rcap = igk_getv($capture, $q->index);
                         if ($v_rcap) {
-                            // handle capture : 
                             $__handle_capture($v_rcap, $q, $callable);
                         }
                         $v_tcouput[] = (object)['pos' => $q->pos, 'to' => $q->to, 'value' => $q->data];
@@ -288,7 +284,7 @@ class RegexTreatCapture{
                     }
                     $cap->{$mark_key} = 1;
                     if (is_null($cap->parent)) {
-                        $v_toutput[] = (object)['pos' => $cap->pos, 'to' => $cap->to, 'value' => $cap->data]; // v_toutputsubstr($source_value, 0, $cap->pos). $cap->data. 
+                        $v_toutput[] = (object)['pos' => $cap->pos, 'to' => $cap->to, 'value' => $cap->data]; 
                     } else {
                         // + | force passing to parent 
                         $_p = $cap->parent;

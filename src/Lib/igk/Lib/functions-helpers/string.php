@@ -11,7 +11,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
 if (!function_exists('igk_str_add_suffix')){
-
 /**
 * Igk str add suffix.
 * @param string $content
@@ -26,8 +25,6 @@ function igk_str_add_suffix(string $content, string $suffix, bool $check=true):s
         return $content.$suffix;
     }
 }
-
-
 if (!function_exists('igk_str_replace_assoc_array')) {
     /**
      * replace assoc pattern
@@ -44,7 +41,6 @@ if (!function_exists('igk_str_replace_assoc_array')) {
     }
 }
 if (!function_exists('igk_str_preg_replace_assoc_array')) {
-
     /**
     * auto generate doc.
     * @param string $subject
@@ -58,8 +54,6 @@ if (!function_exists('igk_str_preg_replace_assoc_array')) {
         return $subject;
     }
 }
-
-
 /**
  * shortcut to string ::Format method helper
  * @param string $data format key
@@ -71,9 +65,7 @@ function igk_str_format(string $data, ...$params):string
 {
     return stringUtility::Format(...func_get_args());
 }
-
 if (!function_exists('igk_str_assert_prepend')){
-
 /**
 * Igk str assert prepend.
 * @param null|string $data
@@ -86,8 +78,6 @@ function igk_str_assert_prepend(?string $data, string $prepend){
         return $data;
     }
 }
-
-
 if (!function_exists('igk_str_escape')) {
     /**
      * use to escape char
@@ -119,7 +109,6 @@ if (!function_exists('igk_str_escape')) {
     }
 }
 if (!function_exists('igk_str_rm')) {
-
 /**
 * Igk str rm.
 * @param string $str
@@ -135,11 +124,6 @@ function igk_str_rm(string $str, int $start_index, ?int $length = null)
     }
 }
 if (!function_exists('igk_str_insert')) {
-    // function igk_str_insert(string $str, string $content, int $start_index)
-    // {
-    //     return substr($str, 0, $start_index) . $content . substr($str, $start_index);
-    // }
-
     /**
     * auto generate doc.
     * @param mixed $offset offset from where substring start
@@ -150,7 +134,6 @@ if (!function_exists('igk_str_insert')) {
         return substr($text, 0, $start) . $glue . substr($text, $offset);
     }
 }
-
 if (!function_exists('igk_str_lwfirst')) {
     /**
      * while first word segment is uppercase make it lower case 
@@ -163,7 +146,6 @@ if (!function_exists('igk_str_lwfirst')) {
         $pos = 0;
         $ln = strlen($g);
         $tokens = $tokens ?? implode('', array_map('chr', range(ord('A'), ord('Z'))));
-        // igk_wln_e("tokens", $tokens);
         while ($pos < $ln) {
             $ch = $g[$pos];
             if (strpos($tokens, $ch) === false) {
@@ -176,8 +158,6 @@ if (!function_exists('igk_str_lwfirst')) {
         return $s;
     }
 }
-
-
 if (!function_exists('igk_str_surround')) {
     /**
      * surround litteral with pattern
@@ -211,7 +191,6 @@ if (!function_exists('igk_str_strip_surround')) {
         return $haystack;
     }
 }
-
 if (!function_exists('igk_str_encode_to_utf8')) {
     /**
      * encode to utf8  - php8 > 
@@ -222,10 +201,8 @@ if (!function_exists('igk_str_encode_to_utf8')) {
     function igk_str_encode_to_utf8(?string $s, ?string $enc = null)
     {
         return mb_convert_encoding($s, 'UTF-8', $enc ?? mb_list_encodings());
-        // return mb_convert_encoding($s, 'ISO-8859-1', 'UTF-8');//$enc ?? mb_list_encodings());
     }
 }
-
 if (!function_exists('igk_str_repeat_callback')){
     /**
      * helper repleat a string expression call type
@@ -243,45 +220,32 @@ if (!function_exists('igk_str_repeat_callback')){
         return $s;
     }
 }
-
-
-
 if (!function_exists('igk_str_rm_php_csharp_summary')){
-
 /**
 * Igk str rm php csharp summary.
 * @param string $src
 */
 function igk_str_rm_php_csharp_summary(string $src){
- 
 $regex = new RegexMatcherContainer;
-
 $regex->autoStore = false;
 $sub = $regex->begin('<([a-zA-Z][a-zA-Z0-9\-:]*)', '\/>|<\/\\1\\s*>', 'sub')->last();
 $inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
-
 $regex->autoStore = true;
 $regex->appendStringDetection('string', true);
 $regex->appendCommentDocBlock();
 RegexMatcherUtility::AppendPhpHereDoc($regex);
-
- 
 $stop = $regex->createPattern(['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line']);
-
 $regex->match('<\?php(\\s*|$)', 'php-start');
 $regex->match('\?>', 'php-end');
-
 $inner->patterns = [
     $sub,
     $stop
 ];
-// $g = $regex->begin('\/\/\/\\s*<([a-zA-Z][a-zA-Z0-9\-:]*)', '(?=^\\s*[^\/])|\/>|<\/\\1\\s*>(\\s*|$)', 'summary-start')->last();
 $g = $regex->begin('(?:^\\s*|(?<=[^\/]))\/\/\/\\s*<([a-zA-Z][a-zA-Z0-9\-:]*)', '\/>|<\/\\1\\s*>(\\s*|$)', 'summary-start')->last();
 $g->patterns = [
     $inner,
     $stop
 ];
- 
 $buffer = new RegexDetectBuffer;
 $buffer->source = $src;
 $inf =(object)['start'=>false];
@@ -305,7 +269,6 @@ $inf =(object)['start'=>false];
         }
     }
 );
-
 return $buffer->output();
 }
 }

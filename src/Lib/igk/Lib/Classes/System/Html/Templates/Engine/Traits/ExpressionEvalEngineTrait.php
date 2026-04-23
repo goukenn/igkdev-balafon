@@ -10,6 +10,7 @@ use IGK\System\Templates\BindingExpressionReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Templates\Engine\Traits
@@ -29,7 +30,6 @@ trait ExpressionEvalEngineTrait
      */
     public static function EvalBindingExpression(string $content, array $data)
     {
-        // $data = (array)$options;
         $exp_reader = new BindingExpressionReader;
         $exp_reader->transformToEval = false;
         $exp_reader->skipMode = false;
@@ -56,7 +56,6 @@ trait ExpressionEvalEngineTrait
                         $v_escape = '\'';
                     }
                     $s .= substr($content, $offset, $e->from-$offset) . $v_escape . $v;
-                    //$content = str_replace($v_v, $v_escape . $v, $content);
                     $offset = $e->to;
                 } 
             }

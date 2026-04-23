@@ -4,6 +4,7 @@
 // @desc: 
 // @date: 20210723 13:13:48
 namespace IGK\System\IO;
+
 /**
 * String log builder.
 * @package IGK\System\IO

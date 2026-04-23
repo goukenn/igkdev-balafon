@@ -4,6 +4,7 @@
 // @date: 20230414 16:21:02
 namespace IGK\System\Traits;
 use IGK\System\Http\Request;
+
 /**
 * 
 * @package IGK\System\Traits

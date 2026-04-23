@@ -13,6 +13,7 @@ use IGK\System\Http\Request;
 use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
 use IGKException;
+
 /**
  * used to setup data for html's form
  * @package IGK\System\WinUI\Forms
@@ -63,8 +64,6 @@ abstract class FormData
     {
         $ls = array_keys(get_class_vars(static::class));
         $tab = $this->getContentSecureFormRequest($request) ?? [];
-        // Remove all  
-        // copy only definition
         $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }

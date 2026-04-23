@@ -16,6 +16,7 @@ use IGKEvents;
 use IGKException;
 use IGKSysUtil;
 use IGKValidator;
+
 /**
  * use macros
  * @package IGK\Models\Macros
@@ -99,7 +100,6 @@ abstract class UsersMacros
         $_commit = true;
         $r = ['user' => $model] + compact('ctrl');
         $ad = $model->getDataAdapter();
-        // ther property way to pass reference data 
         $r['$ref'] = (object)['commit'=>& $_commit];
         $ad->beginTransaction();
         try { 
@@ -127,7 +127,6 @@ abstract class UsersMacros
             return null;
         }
         $gtable = Groups::table();
-        // $ugtable =Usergroups::table(); 
         $c = Usergroups::prepare()
             ->join_left($mod->table(), Usergroups::column('clUser_Id') . ' = ' . $mod->column('clId'))
             ->join_left($gtable, Groups::column('clId') . ' = ' . Usergroups::column('clGroup_Id'))

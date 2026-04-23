@@ -9,6 +9,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Text\Regex;
 use IGK\System\Text\RegexFormatMatcherUtility;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -67,10 +68,8 @@ class SearchFilesCommand extends AppExecCommand
             }
             $exclude = SearchFileExclusion::Create($v_exclude);
         }
-        //if (is_link($dir)){
         $dirs = [];
         if ($dir = realpath($dir)) {
-            //}
             IO::GetFiles($dir, function ($f, & $excludeddir, $type='') use ($pattern, &$T, $real, $dirs, $exclude) {
                 if ($exclude) {
                     if ($exclude->check($f)) {
@@ -92,6 +91,6 @@ class SearchFilesCommand extends AppExecCommand
                 }
             }, true);
         }
-        Logger::info('total: ' . $T); // count($ls));
+        Logger::info('total: ' . $T); 
     }
 }

@@ -4,6 +4,7 @@
 // @date: 20250712 12:53:39
 namespace IGK\System\Text;
 use IGK\System\IO\StringBuilder;
+
 /**
  * base regex format string builder
  * @package IGK\System\Text

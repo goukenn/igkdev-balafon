@@ -10,6 +10,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException; 
+
 /**
  * Schema builder blueprint helper
  * @package IGK\System\Database

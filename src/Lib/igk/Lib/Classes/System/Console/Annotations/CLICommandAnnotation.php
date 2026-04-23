@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Annotations;
 use IGK\System\Annotations\AnnotationBase;
 use IGK\System\Annotations\AnnotationInfoAnnotation as Info;
+
 /**
 * annotation that indicate the cli command to be a top level command.
 * @package IGK\System\Console\Annotations

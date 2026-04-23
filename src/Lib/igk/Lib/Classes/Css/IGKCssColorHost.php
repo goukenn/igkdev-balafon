@@ -6,6 +6,7 @@
 namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * Igkcss color host.
 * @package IGK\Css

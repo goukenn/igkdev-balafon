@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
 /**
  * Creates and returns a new HTML accordeon item node.
  *

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html;
+
 /**
  * ally visible for property not null
  * @package IGK\System\Html
@@ -39,7 +40,6 @@ class PropertyVisibleWatcher{
     * Visible.
     */
     public function visible(){
-        // igk_wln_e("the p ", $this->p->{$this->prop} );
         return $this->p !==null; 
     }
 }

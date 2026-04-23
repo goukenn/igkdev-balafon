@@ -7,6 +7,7 @@ namespace IGK\System\Templates;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use ReflectionFunction;
+
 /**
  * represent a rendering template engine
  * @package IGK\System\Templates
@@ -68,7 +69,6 @@ class TemplateEngine
         $depth = 0;
         while ($node = array_pop($tab)) {
             if ($node->getFlag("NO_TEMPLATE")) {
-                // $rdinfo = $rdinfo->$rdinfo;
                 continue;
             }
             if (method_exists($node, "templateData")) {
@@ -86,7 +86,6 @@ class TemplateEngine
                     $info = $this->getFuncArgInfo($d, $node->getNodeCreationArgs());
                     $infos[$fc] = $info;
                 }
-                // info to args
                 if (!empty($args = $info->getArgs())) {
                     $attr .= "igk:args=\"" . $args . "\"";
                 }
@@ -99,10 +98,6 @@ class TemplateEngine
                     array_push($ns, $options->ns);
                 }
             }
-            // echo "<!-- ".$tagname .":".$rdinfo->tagname."-->\n";
-            // if ($tagname=="igk:article"){
-            //     igk_wln_e($p === $rdinfo->parent, $rdinfo->tagname);
-            // }
             $s .= $lf . $indent_str . "<" . $tagname;
             if (!empty($attr)) {
                 $s .= " " . $attr;
@@ -144,17 +139,15 @@ class TemplateEngine
             }
             $rdinfo->count--;
             if ($rdinfo->count <= 0) {
-                //close rd  - info - tils parent
                 do{
                 if ($indent) {
                     $lf = "\n";
                     $depth--;
                     $indent_str = str_repeat("\t", $depth);
                 }
-                $s .= $lf . $indent_str . "</" . $rdinfo->tagname . ">";// aaa {$rdinfo->count}>";       
+                $s .= $lf . $indent_str . "</" . $rdinfo->tagname . ">";
                 $rdinfo = $rdinfo->rdinfo;
                 $rdinfo->count--;
-                //igk_wln_e($rdinfo->count);
                 }
                 while( $rdinfo && ($rdinfo->count <=0) );  
             }

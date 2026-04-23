@@ -5,6 +5,7 @@
 // @desc: 
 use IGK\Traits\GetPropertyCallbackTrait;
 use IGK\Traits\SetPropertyCallbackTrait;
+
 /**
 * Abstract magic to get/set propertie
 */

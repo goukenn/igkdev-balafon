@@ -4,6 +4,7 @@
 // @date: 20221123 10:26:39
 namespace IGK\Actions\Traits;
 use IGK\System\Traits\InjectableTrait;
+
 /**
 * invoke method trait
 * @package IGK\Actions\Traits

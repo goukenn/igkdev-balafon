@@ -9,6 +9,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use igk\System\Console\Commands\Utility;
 use IGK\System\EntryClassResolution;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -66,7 +67,7 @@ class MakeManifestCommand extends AppExecCommand{
         $info->info->version = $version;
         $info->addIcon("256x256", $ctrl::asset("Img/PWA_ICONS.png"));
         $bind[$dir."/manifest.json"] = function($file)use($info){               
-            igk_io_w2file( $file,  json_encode($info->info, JSON_PRETTY_PRINT));// $builder->render());
+            igk_io_w2file( $file,  json_encode($info->info, JSON_PRETTY_PRINT));
         };
         $gen = Utility::MakeBindFiles($command, $bind, $is_force); 
         \IGK\Helper\SysUtils::ClearCache(); 

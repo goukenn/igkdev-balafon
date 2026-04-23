@@ -11,6 +11,7 @@ use IGK\System\IO\Path;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKEvents;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Console
@@ -55,7 +56,6 @@ class EnvironmentCommandScripts
         $data = file_exists($f) ?
             $data = include($f) : null;
         if ($data) {
-            // data will contains only name and file definition 
             foreach ($data as $v) {
                 self::LoadDefinition($v, $data);
             }
@@ -135,7 +135,6 @@ class EnvironmentCommandScripts
         $regex->match("[^\\s]", 'stop-header');
         $pos = 0;
         $info = igk_createobj();
-        // define
         $actions = [
             'start-proc' => function () use (&$start) {
                 $start = true;

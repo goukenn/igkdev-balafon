@@ -1,7 +1,5 @@
 "use strict";
-
 (function(){
-
     var _validator = igk.system.createNS("igk.form.validator",{
         stringIsEmpty: function(v){
             if (typeof(v)=="string")
@@ -9,8 +7,6 @@
             return !1;
         }  
     }); 
-
-
 var $js = $igk(igk.getCurrentScript());
 var q = $js.select("^form").first();
 q.qselect("label.clrequired + input").each_all(function(){
@@ -25,7 +21,6 @@ q.on("submit", function(evt){
     $igk(q.o.clLastName).rmClass("igk-danger");
     $igk(q.o.clPwd).rmClass("igk-danger");
     $igk(q.o.clRePwd).rmClass("igk-danger");
-
     if (_validator.stringIsEmpty(q.o.clLastName.value)){
         e =1;
         $igk(q.o.clLastName).addClass("igk-danger");

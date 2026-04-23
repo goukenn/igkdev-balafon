@@ -3,6 +3,7 @@
 // @file: CompilerTokenBracketTrait.php
 // @date: 20221021 11:10:03
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
@@ -15,7 +16,6 @@ trait CompilerTokenBracketTrait{
     */
     protected function _checkBracket($options, $value)
     {
-        // update branket value
         switch ($value) {
             case '{':
             case '(':

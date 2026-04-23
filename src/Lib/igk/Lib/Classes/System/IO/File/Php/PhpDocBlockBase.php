@@ -3,6 +3,7 @@
 // @file: PhpDocBlockBase.php
 // @date: 20230731 10:39:26
 namespace IGK\System\IO\File\Php;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\Php

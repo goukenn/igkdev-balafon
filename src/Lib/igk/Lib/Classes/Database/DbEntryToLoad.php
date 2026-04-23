@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 use IGKObject;
+
 /**
 * Db entry to load.
 * @package IGK\Database

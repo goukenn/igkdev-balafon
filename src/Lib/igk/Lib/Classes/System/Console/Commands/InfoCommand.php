@@ -3,7 +3,6 @@
 // @file: InfoCommand.php
 // @date: 20260401 10:27:28
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\Path;
 use IGKEvents;
@@ -29,7 +28,6 @@ class InfoCommand extends AppExecCommand{
 		$obj->packagedir = igk_io_packagesdir();
 		$obj->moduledir = igk_get_module_dir();
 		$obj->projectdir = igk_io_projectdir();
-
 		igk_hook(IGKEvents::FILTER_BALAFON_COMMAND_INFO, ['info'=>$obj]);
 		echo json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		echo "\n";

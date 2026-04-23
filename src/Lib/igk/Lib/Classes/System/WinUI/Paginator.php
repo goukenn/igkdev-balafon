@@ -6,6 +6,7 @@
 namespace IGK\System\WinUI;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\IO\StringBuilder;
+
 /**
  * simple pagination class helper
  */
@@ -69,9 +70,7 @@ class Paginator{
     * Page links.
     */
     public function page_links(){
-        // TODO: Generate page links 
         $sb = new StringBuilder;
-        // $sb->appendLine("generate page links --");
         $i =1;
         $attribs = "";
         $attribs = HtmlUtils::GetFilteredAttributeString("li", [

@@ -3,6 +3,7 @@
 // @file: DbEnvironment.php
 // @date: 20230703 15:06:04
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

@@ -25,6 +25,7 @@ use IGKType;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets;
+
 /**
  * 
  * @package IGK\Helper
@@ -197,7 +198,6 @@ class Database
             // + | init data : 
             $recursive = false;
             if (isset($cl::$RecursiveInit)){
-                // | recursive initialize to load model recursivily
                 $recursive = igk_getv(get_class_vars($cl), 'RecursiveInit');
             } 
             InitDataAnnotation::InitData($controller, $recursive);  
@@ -372,7 +372,6 @@ class Database
     */
     public static function InitDataEntries(BaseController $controller)
     {
-        // check if controller can process 
         $adapter = $controller->getDataAdapter();
         if (is_null($adapter)) {
             igk_dev_wln_e(__FILE__ . ":" . __LINE__, "adpter is null " . $controller);
@@ -380,7 +379,6 @@ class Database
         if ($adapter && !$adapter->canProcess()) {
             return;
         }
-        //initialise manager 
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |

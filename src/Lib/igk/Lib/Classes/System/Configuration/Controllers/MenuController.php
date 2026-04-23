@@ -20,6 +20,7 @@ use IGKValidator;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\Tests\Models\DbModelDefinitionInfo;
 use function igk_resources_gets as __;
+
 /**
  *  used to manage global menu and system's configuration menu.
  */
@@ -262,7 +263,6 @@ final class MenuController extends ConfigControllerBase
                     igk_wln_e("no group " . $m . " Please Configure the <b>%lib%/Data/config.menu.xml</b> --- ".$gp);
                 }
             }
-            //igk_wln_e("the text ", $text);
             $div = $cul->addAccordeon();
             foreach ($group as $k => $v) {
                 $ul = igk_create_node("div");
@@ -298,16 +298,13 @@ final class MenuController extends ConfigControllerBase
     private function _initSysConfigMenu()
     {
         igk_set_env("sys://configs/menu", $this->__loadConfigurationMenuSetting());
-        //$tab=array();
         $ctab = array();
         $v_ctab = array();
-        //$v_Menus=array();
         $v_CPages = array();
         $v_confctrl = igk_getconfigwebpagectrl();
         /// TASK: INIT Configuration Controllers
         $v_load_controller = ConfigControllerRegistry::ResolvAndInitControllers();
         $ctab = $v_confctrl->initConfigMenu();
-        // igk_wln_e("load controller .... ",  $v_load_controller);
         foreach ($v_load_controller as $v) {
             if ($v !== $v_confctrl) {
                 if (!($v instanceof ConfigControllerBase) || !$v->getIsConfigPageAvailable())
@@ -325,24 +322,19 @@ final class MenuController extends ConfigControllerBase
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
         $v_configTargetNode = igk_create_node("div");
         $v_configTargetNode["class"] = "igk-config-menu-font google-Roboto";
-        // $v_configTargetNode["igk-js-autofix"]=1;
-        // $v_configTargetNode["igk-autofix-style"]="{'left':'0px', 'top':'10px', 'bottom':'10px', 'width':'200px'}";
         $v_configTargetNode->Index = -9999;
         $v_configTargetNode->clearChilds();
         $div = $v_configTargetNode->li()->div();
         $ul = $div->add("ul");
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
-        //configuration menu tab
         igk_usort($v_ctab, $v_sortByDisplayText);
         $this->_initConfigMenu($v_CPages, $v_ctab, $v_configTargetNode->li()->ul(), true);
         $v_configTargetNode->addBalafonJS()->Content = <<<EOF
 ns_igk.readyinvoke('igk.configmenu.init', ns_igk.getParentScript());
 EOF;
         $v_configTargetNode->vscrollbar();
-        //igk_wln_e( __FILE__.":".__LINE__, $v_configTargetNode);
         return $v_configTargetNode;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -388,17 +380,12 @@ EOF;
             );
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
     private function _LoadMenu()
     {
-        // throw new IGKException(__METHOD__. " Not implement");
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="oMenu" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $oMenu the default value is null
@@ -417,8 +404,6 @@ EOF;
         $tr->add("th", array("style" => "width:8px; "))->Content = IGK_HTML_WHITESPACE;
         $tr->add("th", array("style" => "width:8px; "))->Content = IGK_HTML_WHITESPACE;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
     /**
     * auto generate doc.
     * @param mixed $target
@@ -438,7 +423,6 @@ EOF;
         $btndiv = $frm->div();
         igk_html_toggle_class($table);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -448,8 +432,6 @@ EOF;
         $this->selectConfigMenu($this->m_menu_cselected ? $this->m_menu_cselected->Name : "default");
         $this->View();
     }
-    ///<summary></summary>
-    ///<param name="newPage" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $newPage the default value is null
@@ -465,7 +447,6 @@ EOF;
         $this->View();
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -473,7 +454,6 @@ EOF;
     {
         return $this->getParam("m_CurrentPage");
     }
-    ///<summary>get config menu node</summary>
     /**
      * get config menu node
      */
@@ -481,7 +461,6 @@ EOF;
     {
         return $this->getParam(self::CONFIG_MENU_FLAG);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -489,7 +468,6 @@ EOF;
     {
         return "menu";
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -497,7 +475,6 @@ EOF;
     {
         return $this->getParam(self::CONFIG_SELECTED_GROUP);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -505,7 +482,6 @@ EOF;
     {
         return $this->getParam(self::CONFIG_SELECTED_MENU);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -513,7 +489,6 @@ EOF;
     {
         return $this->getParam(self::CONFIG_SELECTED_PAGE);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -525,7 +500,6 @@ EOF;
         }
         return $config_target; 
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -533,7 +507,6 @@ EOF;
     {
         return $this->getParam("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -541,7 +514,6 @@ EOF;
     {
         return $this->getParam("currentPageIndex", 0);
     }
-    ///<summary>get data table info</summary>
     /**
      * return data table info
      */
@@ -579,7 +551,6 @@ EOF;
             ))
         ));
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -587,7 +558,6 @@ EOF;
     {
         return '%prefix%globalmenu';
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -603,7 +573,6 @@ EOF;
             "clAvailable" => null
         );
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -616,8 +585,6 @@ EOF;
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * auto generate doc.
     * @param mixed $name
@@ -628,7 +595,6 @@ EOF;
             return $v;
         return null;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -636,7 +602,6 @@ EOF;
     {
         return IGK_MENU_CTRL;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */    public function getPageList()
@@ -645,8 +610,6 @@ EOF;
             return array_keys($this->m_Pages);
         return array();
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * auto generate doc.
     * @param mixed $name
@@ -655,7 +618,6 @@ EOF;
     {
         return $this->_getRootMenu($name);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -671,7 +633,6 @@ EOF;
         }
         return $t;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -679,13 +640,6 @@ EOF;
     {
         return $this->m_customMenu;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="ctrl"></param>
-    ///<param name="target"></param>
-    ///<param name="tab"></param>
-    ///<param name="li" default="li"></param>
-    ///<param name="selected" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $selected the default value is null
@@ -704,7 +658,6 @@ EOF;
         $this->__initBuildMenu($e, $ctrl, $target, $tab, $li, $selected);
         return $e;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -732,7 +685,6 @@ EOF;
     {
         return IGK_CSV_DATAADAPTER;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -741,8 +693,6 @@ EOF;
         $ul = igk_create_node("ul");
         return $ul;
     }
-    ///<summary></summary>
-    ///<param name="navigate" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $navigate the default value is true
@@ -755,7 +705,6 @@ EOF;
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -782,7 +731,6 @@ EOF;
         $frm->addBtn("btn_add", __("btn.Add"));
         igk_wl($frame->render());
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -799,7 +747,6 @@ EOF;
             $frame->Form->Div->Content = __(IGK_MSG_DELETEMENU_QUESTION);
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -807,7 +754,6 @@ EOF;
     {
         $this->menu_drop_selected_menu_ajx();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -833,7 +779,6 @@ EOF;
         }
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -852,7 +797,6 @@ EOF;
         $this->View();
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -867,8 +811,6 @@ EOF;
             $frame->renderAJX();
         }
     }
-    ///<summary></summary>
-    ///<param name="name" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $name the default value is null
@@ -904,7 +846,6 @@ EOF;
         $div->addHSep();
         $frm->addBtn("btn_add", __("btn.save"));
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -929,8 +870,6 @@ EOF;
         igk_wl(igk_getv($this->TargetNode->getElementsByTagName("table"), $index)->render());
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * auto generate doc.
     * @param mixed $t
@@ -993,7 +932,6 @@ EOF;
         HtmlUtils::AddBtnLnk($c, "btn.rmAll", $this->getUri("menu_Clearallmenu"));
         igk_html_toggle_class($tab);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1001,7 +939,6 @@ EOF;
     {
         $this->m_configCurrentPageChangedEvent->Call($this, null);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1009,9 +946,6 @@ EOF;
     {
         $this->m_CurrentPageChangedEvent->Call($this, null);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="saveconfig" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $saveconfig the default value is true
@@ -1044,15 +978,12 @@ EOF;
             $this->storeDBConfigsSettingMenu($saveconfig);
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
     protected function registerHook()
     {
     }
-    ///<summary></summary>
-    ///<param name="pageName"></param>
     /**
     * auto generate doc.
     * @param mixed $pageName
@@ -1064,7 +995,6 @@ EOF;
             $pages[$pageName] = array();
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1077,9 +1007,6 @@ EOF;
         $this->View();
         igk_frame_close("theme_editMenu_frame", false);
     }
-    ///<summary></summary>
-    ///<param name="page"></param>
-    ///<param name="fromcontext" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $fromcontext the default value is null
@@ -1097,9 +1024,6 @@ EOF;
             $this->setConfigSelectedMenu($menu);
         }
     }
-    ///<summary></summary>
-    ///<param name="page"></param>
-    ///<param name="index"></param>
     /**
     * auto generate doc.
     * @param mixed $index the default value is 0
@@ -1129,8 +1053,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="node"></param>
     /**
     * auto generate doc.
     * @param mixed $node
@@ -1144,8 +1066,6 @@ EOF;
             $node->add($t);
         }
     }
-    ///<summary></summary>
-    ///<param name="menu"></param>
     /**
     * auto generate doc.
     * @param mixed $menu
@@ -1154,8 +1074,6 @@ EOF;
     {
         $this->setParam(self::CONFIG_SELECTED_MENU, $menu);
     }
-    ///<summary></summary>
-    ///<param name="page"></param>
     /**
     * auto generate doc.
     * @param mixed $page
@@ -1164,18 +1082,10 @@ EOF;
     {
         $this->setParam(self::CONFIG_SELECTED_PAGE, $page);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
      */
-    // public function setconfigTargetNode($n){
-    //     $this->setParam("m_configTargetNode", $n);
-    //     return $this;
-    // }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
     * auto generate doc.
     * @param mixed $value
@@ -1193,7 +1103,6 @@ EOF;
             $this->setParam("menuhostctrl", $mhostctrl);
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1207,9 +1116,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="page"></param>
-    ///<param name="index"></param>
     /**
     * auto generate doc.
     * @param mixed $index
@@ -1228,8 +1134,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="node"></param>
     /**
     * auto generate doc.
     * @param mixed $node
@@ -1240,9 +1144,6 @@ EOF;
             $node->add($this->m_menuTargetNode);
         }
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
     /**
     * auto generate doc.
     * @param mixed $b
@@ -1284,8 +1185,6 @@ EOF;
         }
         return strcmp(igk_getv($a, IGK_FD_NAME), igk_getv($b, IGK_FD_NAME));
     }
-    ///<summary></summary>
-    ///<param name="saveconfig" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $saveconfig the default value is true
@@ -1302,8 +1201,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="pageName"></param>
     /**
     * auto generate doc.
     * @param mixed $pageName
@@ -1332,36 +1229,11 @@ EOF;
     public function getIsConfigPageAvailable(){
         return false;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
     public function View():BaseController
     {         
         return $this;
-        // if (!$this->getIsVisible()) {
-        //     if (!$this->ConfigCtrl->IsConfiguring) {
-        //         $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);
-        //     }
-        //     igk_html_rm($t);
-        //     $t->clearChilds();
-        // } else {
-        //     if (igk_sys_ischanged(self::MENU_CHANGE_KEY, $this->m_menuChangedState)) {
-        //         $this->_LoadMenu();
-        //     }
-        //     $this->ConfigNode->add($t);
-        //     $t->clearChilds();
-        //     $box = $t->addPanelBox();
-        //     $box->addSectionTitle(4)->Content = __("Menu");
-        //     $this->MenuConfig($box->div());
-        //     //
-        //     // Configure custom menu 
-        //     // 
-        //     $v_mdiv = $box->div();
-        //     $v_mdiv["class"] = "alignt marg4";
-        //     $this->_m_otherMenuView($v_mdiv);
-        // }
-        // $this->_onViewComplete();
-        // return $this;
     }
 }

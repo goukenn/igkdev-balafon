@@ -1,5 +1,4 @@
 "use strict";
-
 (function(){
     igk.system.createNS("igk.winui.searchbox", {
         search(t, ii){
@@ -19,7 +18,6 @@
             }            
         }
     });
-
     igk.winui.initClassControl("igk-winui-searchbox", function(){
         this.on("keypress", function(e){
             if (e.keyCode == igk.winui.inputKeys.Enter){
@@ -30,5 +28,4 @@
             }
         });
     });
-
 })();

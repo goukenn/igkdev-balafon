@@ -7,40 +7,31 @@
 /*
 file: class.HorizontalNavigatorCtrl
 Description: control that will host every article and navigate thru them by configuration
-
 */
-//controller code class declaration
-//file is a part of the controller tab list
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
-
 /**
  * Horizontal navigator controller 
  * @package 
  */
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
-
     /**
     * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
-
     /**
     * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
-
     /**
     * Returns Additional Default View Content.
     */
     public static function GetAdditionalDefaultViewContent(){
 		return null;
 	}
-
     /**
     * Returns Additional Config Info.
     */
@@ -57,7 +48,6 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		"translation")
 		);
 	}
-
     /**
     * Sets Additional Config Info.
     * @param mixed & $t
@@ -71,8 +61,6 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$t["clanim_NAV_ANIMTYPE"] = igk_getr("clanim_NAV_ANIMTYPE");
 		$t["clanim_NAV_AUTOPERIOD"] = igk_getr("clanim_NAV_AUTOPERIOD");
 	} 
-	//@@@ parent view control
-
     /**
     * View.
     * @return BaseController
@@ -82,22 +70,21 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$c = new JSHorizontalPane($this->TargetNode);
 		$this->buildPage($c);
 		$c->ShowBullet = true;
-		$c->AnimInterval  = igk_getv($this->Configs, "clanim_NAV_ANIMFREQUENCY", 20);//igk_get_uvar(strtoupper($this->Name."_NAV_ANIMFREQUENCY"), 20, true,"rate time in (ms > 0)");
-		$c->AnimDuration  = igk_getv($this->Configs, "clanim_NAV_ANIMDURATION", 1000);//igk_get_uvar(strtoupper($this->Name."_NAV_ANIMDURATION"), 1000, true, "time in (ms > 0)");
-		$c->IsAutoAnimate = igk_getv($this->Configs, "clanim_NAV_AUTOANIMATE", 1);//igk_get_uvar(strtoupper($this->Name."_NAV_AUTOANIMATE"), 1, true, "0 or 1");
-		$c->AnimPeriod    = igk_getv($this->Configs, "clanim_NAV_AUTOPERIOD", 10000);//igk_get_uvar(strtoupper($this->Name."_NAV_AUTOPERIOD"), 10000, true, "");
-		$c->AnimType      = igk_getv($this->Configs, "clanim_NAV_ANIMTYPE", "translation");//igk_get_uvar(strtoupper($this->Name."_NAV_ANIMTYPE"), "translation", true, "translation,fade,rotation");
+		$c->AnimInterval  = igk_getv($this->Configs, "clanim_NAV_ANIMFREQUENCY", 20);
+		$c->AnimDuration  = igk_getv($this->Configs, "clanim_NAV_ANIMDURATION", 1000);
+		$c->IsAutoAnimate = igk_getv($this->Configs, "clanim_NAV_AUTOANIMATE", 1);
+		$c->AnimPeriod    = igk_getv($this->Configs, "clanim_NAV_AUTOPERIOD", 10000);
+		$c->AnimType      = igk_getv($this->Configs, "clanim_NAV_ANIMTYPE", "translation");
 		$c->flush();
 		$this->_incViewfile("default");
 		$this->_onViewComplete();
 		return $this;
 	}
-
     /**
     * Builds Page.
     * @param mixed $pane
     */
-    protected function buildPage($pane){//build page
+    protected function buildPage($pane){
 		$t = $this->getAllArticles();
 		if (is_array($t))
 		{

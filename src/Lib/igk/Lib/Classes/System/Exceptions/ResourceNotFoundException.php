@@ -6,6 +6,7 @@
 namespace IGK\System\Exceptions;
 use IGK\System\Http\RequestResponseCode;
 use IGKException;
+
 /**
 *  resource not found exception
 */

@@ -18,6 +18,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
+
 /**
 * Db utils.
 * @package IGK\System\Database
@@ -50,7 +51,6 @@ class DbUtils
     public static function GetIsDumpField(IDbColumnInfo $column_info):bool{
         $c = $column_info;
         if (is_null($c->clIsDumpField)){
-            // auto determine if c column info is a dump field
             $d = strtolower($c->clType); 
             return !(($c->clAutoIncrement) || 
                 (($d=='datetime') && $c->clInsertFunction ||(strtolower($c->clDefault.'') == 'now()')) ||
@@ -180,7 +180,6 @@ class DbUtils
      * @throws IGKException 
      */
     public static function ModelColumns(ModelBase $model, ...$columns_list){
-        // $consts = igk_sys_reflect_class ($model)->getConstants();
         $tm = $columns_list;
         $tp = [];
         $consts = self::GetDeclaredColumnConstants($model);
@@ -191,13 +190,6 @@ class DbUtils
                 $tp[$tl[$k]] = $k;
             }
         }
-        // foreach ($consts as $ck=>$cv){
-        //     if (preg_match("/^FD_/",$ck) && !isset($tb[$ck])){
-        //         if (in_array($cv, $tm)){
-        //             $tp[$ck] = $cv;
-        //         }
-        //     }
-        // }
         return $tp;
     }
     /**

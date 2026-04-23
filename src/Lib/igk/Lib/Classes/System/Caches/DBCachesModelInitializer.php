@@ -19,6 +19,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Constants;
 use IGKException;
 use IGKSysUtil;
+
 /**
  * job is to initialize model data definition class
  * @package IGK\System\Caches
@@ -82,7 +83,7 @@ class DBCachesModelInitializer
         if (!$this->tableInfo) {
             return;
         }
-        $current = null; //  SysDbController::ctrl();
+        $current = null; 
         $plist = (object)['tables' => [], 'defs' => []];
         foreach ($this->tableInfo as $ab) {
             if (is_null($current)) {
@@ -256,7 +257,7 @@ class DBCachesModelInitializer
             // + |
             $tp = $this->getLinkType($info->clLinkType, $info->clNotNull, $ctrl);
             if ($v_lnk_column = $info->clLinkColumn) {
-                $tb = $info->clLinkType; // DbUtils::ResolvDefTableTypeName($info->clLinkType, $ctrl);
+                $tb = $info->clLinkType; 
                 if (!isset($this->tableInfo[$tb])) {
                     igk_die("failed to resolv the table info " . $tb);
                 }
@@ -308,7 +309,6 @@ class DBCachesModelInitializer
             }
             $t .= $g[$type]->modelClass;
         } else {
-            // retrieve model 
             $list = [];
             if ($ctrl) {
                 $list[] = $ctrl;
@@ -338,7 +338,6 @@ class DBCachesModelInitializer
                     $ctrl = $gu->controller;
                     $this->tableInfo[$type] = $info;
                 } else {
-                    // $gm = Database::GetInfo($type);
                     igk_die(sprintf("try to retrieve AT : " . __CLASS__ . " no info table for [%s] ", $type));
                     return null;
                 }

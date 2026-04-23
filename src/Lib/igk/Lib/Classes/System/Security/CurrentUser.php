@@ -3,7 +3,6 @@
 // @file: CurrentUser.php
 // @date: 20260329 20:39:44
 namespace IGK\System\Security;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Users;
 use IGK\System\IInjectable;
@@ -15,7 +14,6 @@ use IGK\System\IInjectable;
 */
 class CurrentUser implements IInjectable{
     private $m_user;
-
     public function model(): Users{
         return $this->m_user;
     }
@@ -30,5 +28,4 @@ class CurrentUser implements IInjectable{
     public function __get($name){
         return $this->m_user->{$name};
     }
-    
 }

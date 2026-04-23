@@ -3,25 +3,6 @@
 // @filename: Untitled-1
 // @date: 20220505 15:11:46
 // @desc: sync ftp commmand base
-// <ftp-sync name="name">
-// 		<server>server</server>
-// 		<user>user</user>
-// 		<password>pwd</password>
-// 		<core>core framework directory</core>
-// 		<site_uri></site_uri>
-// 		<application>appication directory</application>
-// 		<project>project directory</project>
-// 		<public_dir>public access directory</public_dir>
-// 		<release>where to backup project release</release>
-// 		<lib_dir>site lib directory application/Lib</lib_dir>
-//      <module_dir>dir where store modules</module_dir>
-//      <node_dir>dir where store node modules </node_dir>
-//      <module_dir>dir where store modules</module_dir>
-//      <composer_dir>dir where store composer</composer_dir>
-//      <session_dir>dir where store sessions</session_dir>  
-//      <home_dir>ftp home directory to use in case of missing $_SERVER['HOME']</home_dir>  
-// 	</ftp-sync>
-// ...
 namespace IGK\System\Console\Commands\Sync;
 use Exception;
 use IGK\Helper\FtpHelper;
@@ -33,6 +14,7 @@ use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
 use IGKException;
+
 /**
 * Sync app exec command base.
 * @package IGK\System\Console\Commands\Sync
@@ -177,13 +159,11 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     */
     protected function connect($server, $user, $pwd){
         $h = null;
-        // connect to ftp server
         if (!$h = @ftp_connect($server)) {
             Logger::danger("fail to connect to " . $server);
             error_clear_last();
             return -4;
         }
-        // authenticate 
         if (!ftp_login($h, $user, $pwd)) {
             Logger::danger("fail to login to " . $server);
             return -5;
@@ -237,7 +217,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             return false;
         }
         // + | Dont reapeat my self
-        //#{{@Inc(class.InstallerResponse.pinc)}}
         $rep = new Replacement;
         $rep->addCallable("#//\#\{\{@Inc\((?P<n>[^\)]+)\)\}\}#", function($m)use($v_bdir){
             $fn = Path::Combine($v_bdir, trim($m['n']));
@@ -299,7 +278,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             $uri . "/".$script,
             array_merge([ 
                 "token" => $token,
-                // "dir" => $dir, 
                 "force"=>property_exists($command->options, "--force"),
                 "home_dir"=>igk_getv($setting, "home_dir", ""),
                 "public_dir"=>$pdir,

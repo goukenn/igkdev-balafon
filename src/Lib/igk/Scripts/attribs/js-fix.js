@@ -11,7 +11,6 @@ igk.ctrl.bindAttribManager("igk-js-fix-loc-scroll-width", function() {
             effect: "circ",
             effectmode: "easeinout"
         };
-
         function __update() {
             var s = this.target.getAttribute("igk-js-fix-loc-scroll-width");
             var h = this.target.getAttribute("igk-js-fix-loc-scroll-height");

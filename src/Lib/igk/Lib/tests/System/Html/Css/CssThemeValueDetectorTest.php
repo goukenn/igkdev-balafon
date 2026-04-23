@@ -3,7 +3,6 @@
 // @file: CssThemeValueDetectorTest.php
 // @date: 20241030 06:45:11
 namespace IGK\Tests\System\Html\Css;
-
 use IGK\System\Html\Css\CssThemeValueDetector;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlUtils;
@@ -16,7 +15,6 @@ use IGKHtmlDoc;
 * @author C.A.D. BONDJE DOUE
 */
 class CssThemeValueDetectorTest extends BaseTestCase{
-
     /**
     * Tests csstheme remove litteral.
     */
@@ -28,7 +26,6 @@ class CssThemeValueDetectorTest extends BaseTestCase{
             $d
         );
     }
-
     /**
     * Tests csstheme remove global.
     */
@@ -40,7 +37,6 @@ class CssThemeValueDetectorTest extends BaseTestCase{
             $d
         );
     }
-
     /**
     * Tests csstheme remove property.
     */
@@ -52,7 +48,6 @@ class CssThemeValueDetectorTest extends BaseTestCase{
             $d
         );
     }
-
     /**
     * Tests csstheme treat global.
     */
@@ -61,9 +56,7 @@ class CssThemeValueDetectorTest extends BaseTestCase{
         $v ="{sys:posab, fitw} margin-top:-10px; visibility: hidden; [trans: .5s all ease-out] opacity:0; left:0px; right:0px; z-index: 100; min-height: 80px; background-color: [cl:menuLayerBackground,#222a];"; 
         $v = $detector->treat($v);
         $this->assertEquals('background-color:[cl:menuLayerBackground,#222a];', $v);
-
     }
-
     /**
     * Tests csstheme render d.
     */
@@ -72,12 +65,9 @@ class CssThemeValueDetectorTest extends BaseTestCase{
         $systheme = new HtmlDocTheme(null,'sys-temp-global'); 
         HtmlUtils::InitSystemTheme($systheme); 
         $systheme->initGlobalDefinition(true); 
-        //$b = $systheme->get_css_def();
         $s = new HtmlDocTheme;
-        $s['sample'] = "{sys:dispgrid, fitw, alignc}"; // width: 32px; {sys:dispgrid fit alignc} align-items:center;";
-
+        $s['sample'] = "{sys:dispgrid, fitw, alignc}"; 
         $n = $s->get_css_def(true, true, null,null, $systheme);
         $this->assertEquals('sample{display:grid;text-align:center !important;width:100%;}', $n);
-
     }
 }

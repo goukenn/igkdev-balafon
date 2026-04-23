@@ -3,6 +3,7 @@
 // @file: IDbResolveLinkListener.php
 // @date: 20221125 09:45:23
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

@@ -1,9 +1,9 @@
 <?php
-
 /**
  * install helper class
  * @package 
  */
+
 class InstallerResponse
 {
     var $code;

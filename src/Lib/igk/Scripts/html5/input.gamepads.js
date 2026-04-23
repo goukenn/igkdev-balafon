@@ -8,19 +8,14 @@
             return function() { webKitNavigator.getGamepads(); };
         return null;
     })();
-
-
     var _sup = igk.system.createNS("igk.html5.engineSupport", {});
     igk.defineEnum(_sup, { 'gamePad': _getPadsFunc != null });
-
-
     if (!_getPadsFunc) {
         igk.system.createNS("igk.html5.input", {
             gamePads: function() { return undefined; }
         });
         return;
     }
-
     var _gameButtons = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "SL", "SM", "L3", "R3", "PadT", "PadB", "PadL", "PadR"];
     var _playerKey = ["One", "Two", "Three", "Four"];
     var _gamePads = [];
@@ -29,11 +24,7 @@
     for (var i in _gameButtons) {
         gamePadButton[_gameButtons[i]] = j++;
     }
-
     var m_manager = null;
-
-
-
     igk.system.createNS("igk.html5.input", {
         gamePads: function() {
             if (m_manager)
@@ -49,7 +40,6 @@
                     var _p = null;
                     var _pi = null;
                     // console.debug(_pads.length);
-
                     for (var i = 0; i < _pads.length; i++) {
                         _p = _pads[i];
                         if (_p) {
@@ -68,10 +58,7 @@
             m_manager = this;
         }
     });
-
     igk.defineProperty(igk.html5.input, "gameButtons", { get: function() { return gamePadButton; } });
-
-
     function __gameInput(pad) {
         var m_gamepad = pad;
         var m_downkeys = []; //store previous downkey for release
@@ -94,37 +81,26 @@
             keyValue: function(a) {
                 return m_gamepad.buttons[a].value;
             },
-
             update: function(pad, release) {
                 m_gamepad = pad;
             }
         });
-
         function __toStringAxe() {
             return "{x:" + this.x + "y:" + this.y + "}";
         };
         igk.defineProperty(this, "LAxe", { get: function() { return { x: m_gamepad.axes[0], y: m_gamepad.axes[1], toString: __toStringAxe }; } });
         igk.defineProperty(this, "RAxe", { get: function() { return { x: m_gamepad.axes[2], y: m_gamepad.axes[3], toString: __toStringAxe }; } });
-
     }
-
     //detect game pad
     // var update=function(){
     // console.debug("run");
-
-
     // test();
     // igk.animation.getAnimationFrame()(update);
     // };
-
-
     // igk.animation.getAnimationFrame()(update);
-
-
     //what i want
     // function test(){
     // var gamePadsInput = igk.html5.input.gamePads();
-
     // gamePadsInput.update();
     // _playerOne = gamePadsInput.playerOne;
     // if (_playerOne)

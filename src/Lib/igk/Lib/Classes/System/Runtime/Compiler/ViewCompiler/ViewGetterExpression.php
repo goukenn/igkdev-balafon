@@ -10,6 +10,7 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionArgNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionNodeBase;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
+
 /**
 * use to resolve getter expression string operations
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -108,7 +109,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     * @param mixed $v
     */
     public function __set($n, $v){
-        // throw new NotImplementException(__METHOD__);
     }
     /**
     * Access offset get.

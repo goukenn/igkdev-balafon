@@ -3,7 +3,6 @@
 // @file: NodeBuilderGenerateTest.php
 // @date: 20230402 12:20:54
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\Tests\BaseTestCase;
 use IGKException;
@@ -15,7 +14,6 @@ use PHPUnit\Framework\ExpectationFailedException;
 * @package IGK\Tests\System\Html
 */
 class NodeBuilderGenerateTest extends BaseTestCase{
-
     /**
      * generate rbuilder definition 
      * @return void 
@@ -44,7 +42,6 @@ class NodeBuilderGenerateTest extends BaseTestCase{
         ]), 'igk_create_node must igk_create_rnode'), 
         HtmlNodeBuilder::Generate($d));
     }
-
     /**
     * Tests generate class.
     */
@@ -54,7 +51,6 @@ class NodeBuilderGenerateTest extends BaseTestCase{
             '$builder(["div#info%list.main.sample"=>[]]);',
         HtmlNodeBuilder::Generate($d));
     }
-
     /**
     * Tests generate class hello.
     */
@@ -65,7 +61,6 @@ class NodeBuilderGenerateTest extends BaseTestCase{
             '$builder(["div#info%list.main.sample"=>["div"=>"Hello"]]);',
         HtmlNodeBuilder::Generate($d));
     }
-
     /**
     * Tests generate class gen.
     */
@@ -77,30 +72,23 @@ class NodeBuilderGenerateTest extends BaseTestCase{
             '$builder(["div#info%list.main.sample"=>["div"=>"Hello",["@_t:div"=>"Friend"]]]);',
         HtmlNodeBuilder::Generate($d));
     }
-
     /**
     * Tests generate class stagen.
     */
     public function test_generate_class_stagen(){
         $d = igk_create_rnode('div.main.sample#info%list');
         $d->add("div > div > span > quote")->Content = "Hello";
-     
         $this->assertEquals(
             '$builder(["div#info%list.main.sample"=>["div"=>["div"=>["span"=>["quote"=>"Hello"]]]]]);',
         HtmlNodeBuilder::Generate($d));
     }
-
     /**
     * Tests generate active attribute.
     */
     public function test_generate_active_attribute(){
         $d = igk_create_rnode('div.main.sample#info!defer');     
-     
         $this->assertEquals(
-            // '$builder(["div#info%list.main.sample"=>["div"=>["div"=>["span"=>["quote"=>"Hello"]]]]]);',
             '<div class="main sample" id="info" defer></div>',
             $d->render());
-
-        //HtmlNodeBuilder::Generate($d));
     }
 }

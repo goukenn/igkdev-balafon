@@ -3,7 +3,6 @@
 // @file: TreatColumnNameTest.php
 // @date: 20240916 13:33:08
 namespace IGK\Tests\System\DBUtilityTests;
-
 use IGK\System\Database\Helper\DbUtility;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class TreatColumnNameTest extends BaseTestCase{
-
     /**
     * Tests dbutest prefixname.
     */

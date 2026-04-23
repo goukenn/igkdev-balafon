@@ -9,6 +9,7 @@ use IGK\System\Traits\MacrosConstant;
 use IGK\System\Traits\MacrosTrait;
 use IGKServices;
 use function igk_resources_gets as __;
+
 /**
  * help to build and register application definition entry
  */
@@ -38,13 +39,10 @@ class AppBuilder extends MacrosConstant{
         $key = static::class .self::StaticSeparator. $name;
         $instance = igk_getv($arguments, 0); 
         if ($fc = igk_getv($macros, $key)){
-            // static closure
-            // array_unshift($arguments, $instance); 
             return $fc(...$arguments);
         }
         $key = static::class .self::ClosureSeparator. $name;
         if ($fc = igk_getv($macros, $key)){
-            // instance closure          
             if (is_callable($fc)) {
                 $fc = Closure::fromCallable($fc);
             }

@@ -18,6 +18,7 @@ use JsonSerializable;
 use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 use stdClass;
+
 /**
  * helper to encode in json 
  * @package IGK\Helper
@@ -71,7 +72,6 @@ class JSon
         if ($fc = $this->m_options->filter_array_listener) {
             $tv = array_values(array_filter(array_map($fc, $tv)));
         } else if ($this->m_options->ignore_empty) {
-            // preserving string keys -
             $tv = array_filter(array_map([$this, 'filter_array'], $tv));
         }
     }
@@ -139,7 +139,6 @@ class JSon
     protected function _map_to_object($data)
     {
         if (is_object($data) && (($data instanceof IToArrayResolver) || method_exists($data, 'to_array'))) {
-            // recurcivity - possibility of infinity loop;
             $data = array_map([$this, __FUNCTION__], $data->to_array());
         }
         return $data;
@@ -194,7 +193,6 @@ class JSon
         $is_object = false;
         $tq = [['d' => $tv, 'keys' => $keys, 'c' => $c]];
         list($allow_empty_array) = igk_extract($this->m_options, 'allow_key_assoc_empty_array');
-        // $path = & $this->m_path;
         while (count($tq) > 0) {
             $q = array_shift($tq);
             extract($q);
@@ -229,7 +227,6 @@ class JSon
                     } else if ($this->m_options->ignore_empty) {
                         $tv = array_filter(array_map([$this, 'filter_array'], $tv));
                     } else {
-                        // transform item to native object 
                         $tv = array_map(function ($a) {
                             if (is_object($a)) {
                                 $a = self::_ConvertItemObject($a);
@@ -341,7 +338,6 @@ class JSon
                         $t = $rp->replace($g->value);
                         $t = str_replace("\\\"", "\"", $t);
                         $t = JSTreatment::RemoveOutsideSymbol($t);
-                        // $t = str_replace("\\n", "", $t);
                         $o = str_replace($g->value, $t, $o);
                         break;
                 }
@@ -384,7 +380,6 @@ class JSon
         if ($data) {
             $tprop_class = [];
             $tprop = [['o' => $object_or_class, 'd' => $data]];
-            // binding object option 
             $options = Activator::CreateNewInstance(JSonBindingValueOption::class, [
                 'bindReference' => null,
                 'handle' => false,
@@ -439,7 +434,6 @@ class JSon
                     if (!property_exists($obj, $k))
                         continue;
                     if ($ref) {
-                        // check for JSonDecodeAsAnnotation   
                         if ($_a = AnnotationHelper::GetPropertyAnnotation($obj, $k, $uses)) {
                             $c = igk_getv(array_filter($_a, function ($b) {
                                 return $b instanceof JSonBindAsAnnotation;

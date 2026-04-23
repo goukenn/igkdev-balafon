@@ -3,6 +3,7 @@
 // @file: StringValidator.php
 // @date: 20240923 11:01:37
 namespace IGK\System\Html\Forms\Validations;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations

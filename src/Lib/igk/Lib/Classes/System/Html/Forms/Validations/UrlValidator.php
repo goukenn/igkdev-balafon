@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 use IGKValidator;
 use function igk_resources_gets as __;
+
 /**
  * validator for url
  * @package IGK\System\Html\Forms
@@ -43,7 +44,6 @@ class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
         if (isset($q["query"])){
             parse_str($q["query"], $tab);
             array_map(function($a, $b)use(& $tab){
-                // $tab[$b] = htmlentities($a);
                 $tab[$b] = urldecode($a);
             }, $tab, array_keys($tab));
             $value = explode("?", $value)[0]."?".http_build_query($tab);

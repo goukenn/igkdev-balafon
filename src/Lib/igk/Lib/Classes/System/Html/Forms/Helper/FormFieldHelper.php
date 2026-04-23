@@ -7,6 +7,7 @@ use Exception;
 use IGK\System\Http\Request;
 use IGKException;
 use IGKValidator;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Helper
@@ -123,7 +124,7 @@ abstract class FormFieldHelper
             if (is_object($v_tf) && empty($v_tf->label_text)) {
                 $v_tf->label_text = __($kn);
             }
-            $nfields[$nkey] = $v_tf; // formFields[$k];
+            $nfields[$nkey] = $v_tf; 
             $sess_form_def[$nkey] = [$k, $kn]; // + | index_or_key | name
             $count++;
         }

@@ -3,7 +3,6 @@
 // @file: ProjectBuilderTest.php
 // @date: 20230309 21:36:19
 namespace IGK\Tests\System\TamTam;
-
 use IGK\System\TamTam\Helper\ProjectBuilderHelper;
 use IGK\System\TamTam\ProjectSettingValidationData;
 use IGK\Tests\BaseTestCase;
@@ -13,13 +12,11 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\TamTam
 */
 class ProjectBuilderTest extends BaseTestCase{
-
     /**
     * Tests validate data.
     */
     function test_validate_data(){
         $json_data = json_decode('{"version":"1.0"}');
         $this->assertTrue( ProjectBuilderHelper::ValidateConfigData($json_data, ProjectSettingValidationData::class) != null );
-        
     }
 }

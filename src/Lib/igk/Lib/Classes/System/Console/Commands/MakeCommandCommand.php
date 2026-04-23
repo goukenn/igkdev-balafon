@@ -10,6 +10,7 @@ use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution; 
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -51,7 +52,6 @@ class MakeCommandCommand extends AppExecCommand
     public function exec($command, ?string $controller = null, ?string $command_name = null){
         $context = $command->app->getContext();
         if ($context == 'module') {
-            //passing to module - 
             $c = new MakeClassCommandCommand;
             $module = igk_getv($command->options, "--module");
             return $c->exec($command, $module, $controller);
@@ -76,7 +76,6 @@ class MakeCommandCommand extends AppExecCommand
         $clpath = Path::Combine(EntryClassResolution::CommandEntryNS, $command_name);
         $cl = $ctrl->resolveClass($clpath);
         if (is_null($cl) || !class_exists($cl)){
-            //make command  
             $g = new MakeClassCommand();
             $defs = new StringBuilder;
             $defs->appendLine('var $command=\'command-name\';');

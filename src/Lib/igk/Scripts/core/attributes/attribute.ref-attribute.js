@@ -1,5 +1,4 @@
 "use strict";
-
 (function () { 
     const _attr = "igk:ref-attribute";
     igk.ctrl.registerAttribManager(_attr, {}); 

@@ -10,6 +10,5 @@
             this.o.parentNode.replaceChild(b.o,this.o);            
         }
         this.remove();
-
     });
 })();

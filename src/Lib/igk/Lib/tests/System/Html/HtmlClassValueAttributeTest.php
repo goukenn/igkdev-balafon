@@ -3,7 +3,6 @@
 // @file: HtmlClassValueAttributeTest.php
 // @date: 20230313 14:45:53
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
@@ -12,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlClassValueAttributeTest extends BaseTestCase{
-
     /**
     * Tests add class.
     */
@@ -22,7 +20,6 @@ class HtmlClassValueAttributeTest extends BaseTestCase{
             '', $t['class']?->getValue()
         );
     }
-
     /**
     * Tests add class array.
     */

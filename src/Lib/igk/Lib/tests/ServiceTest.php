@@ -3,9 +3,7 @@
 // @filename: ServiceTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests;
-
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 use IGKServices;
@@ -15,7 +13,6 @@ use IGKServices;
 * @package IGK\Tests
 */
 class ServiceTest extends BaseTestCase{
-
     /**
     * Tests service.
     */
@@ -38,13 +35,11 @@ class ServiceTest extends BaseTestCase{
         );
     }
 }
-
 /**
 * Dummy service.
 * @package IGK\Tests
 */
 class DummyService implements \IGK\IService{
-
     /**
     * Returns Configurable Properties.
     * @return array
@@ -52,7 +47,6 @@ class DummyService implements \IGK\IService{
     public function getConfigurableProperties(): array { 
         return [];
     }
-
     /**
     * Initializes.
     * @param null|mixed $options
@@ -63,8 +57,6 @@ class DummyService implements \IGK\IService{
         if ($fc && igk_io_file_exists($fc)){
             return true;
         }
-        //check if 
-        //found the 
         $base = Path::LocalPath(igk_io_basedir());
         while(! ($found = igk_io_file_exists($fc = $base."/.ovhconfig"))){
             if ($base == ($c=dirname($base))){
@@ -78,5 +70,4 @@ class DummyService implements \IGK\IService{
         }
         return false;
      }
-
 }

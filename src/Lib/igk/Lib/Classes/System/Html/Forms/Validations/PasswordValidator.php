@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\Forms\FieldInfo;
 use function igk_resources_gets as __;
+
 /**
  * validate pssword from fields
  * @package IGK\System\Html\Forms
@@ -26,10 +27,10 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
         }
         $ln = strlen($value);
         return (($ln>= $v_min) && ($ln<=$v_max))
-            && preg_match("/[0-9]/", $value ) // <- contains number
-            && preg_match("/[a-z]/", $value ) // <- contains lowercase letter
-            && preg_match("/[A-Z]/", $value ) // <- contains uppercase letter
-            && preg_match("/[#@_!\?]/", $value ) // <- contains special symbol
+            && preg_match("/[0-9]/", $value ) 
+            && preg_match("/[a-z]/", $value ) 
+            && preg_match("/[A-Z]/", $value ) 
+            && preg_match("/[#@_!\?]/", $value ) 
         ;
     }
     /**

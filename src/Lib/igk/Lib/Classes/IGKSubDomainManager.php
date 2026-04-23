@@ -10,6 +10,7 @@ use IGK\IUriActionRegistrableController;
 use IGK\Models\Subdomains;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\IO\Path;
+
 /**
 * subdomain manager
 */
@@ -115,7 +116,7 @@ final class IGKSubDomainManager extends IGKObject{
                 $b = include $tf;
                 if (isset($b[$subdomain])){
                     $ctrl_n = $b[$subdomain];
-                    $ctrl = igk_getctrl($ctrl_n); // b[$subdomain]);
+                    $ctrl = igk_getctrl($ctrl_n); 
                    $row = (object)[
                      'clName'=>$subdomain,
                      'clCtrl'=>$ctrl_n,
@@ -128,8 +129,6 @@ final class IGKSubDomainManager extends IGKObject{
             if (!$v_save && ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
             ]))){
-                // $v_duration = igk_sys_request_time() - $v_start;
-                // igk_wln_e("duration ", $v_duration, $t);
                 if ($ctrl = igk_getctrl($raw->clCtrl, false)){
                     $row = $raw;
                     $this->reg_domain($subdomain, $raw->clCtrl, $raw);
@@ -342,7 +341,6 @@ final class IGKSubDomainManager extends IGKObject{
         if(($domain === $bdom) || IGKValidator::IsIpAddress($domain) || ($domain == "localhost")){
             return $s;
         }
-        // remove port
         $domain = explode(":", $domain)[0];
         //
         if (($pos =  strrpos($domain, $bdom))!==false){

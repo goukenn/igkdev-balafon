@@ -1,30 +1,19 @@
 <?php
-//pane display style
- 
- 
 
 $def[".hpane-bz"]= " width:100%; position:absolute; z-index:10;display:block; height:32px; bottom:0px; text-align:center;";
 $def[".hpane-bz:after"]=  "content:' '; display:table;";
-
 $def[".igk-hpane-container .hpane-btn-p"]= "[res:navbtn_previous];";
 $def[".igk-hpane-container .hpane-btn-n"] = "[res:navbtn_next];";
 $def[".igk-hpane-container .hpane-btn-p, .igk-hpane-container .hpane-btn-n"]= "z-index:50"; 
-
-$def[".igk-hpane-container .hpane-btn"]= "position: absolute; width:48px; height:48px; opacity:0.5; [anim:opacity 0.5s ease-in]"; //made start opacity
-$def[".igk-hpane-container .hpane-btn:hover"] ="opacity:1.0"; //made start opacity
-
-
+$def[".igk-hpane-container .hpane-btn"]= "position: absolute; width:48px; height:48px; opacity:0.5; [anim:opacity 0.5s ease-in]"; 
+$def[".igk-hpane-container .hpane-btn:hover"] ="opacity:1.0"; 
 $def[".igk-hpane-container"] = "{sys:no-overflow} height:300px; [bgcl:var(--igk-hpane-background-color, #444)] ";
 $def[".igk-hpane-container > .igk-pane"]="{sys:no-overflow, posab}";
 $def[".igk-hpane-container > .igk-pane.rotation"] = "{sys:fit, posab, no-wrap, no-overflow} content: 'rotation---------------'; ";
 $def[".igk-hpane-container > .igk-pane.rotation > .igk-pane-page"] = "{sys:dispib, fit, alignt} [trans: transform .9s ease-out, left .5s ease-out]";
 $def[".igk-hpane-container > .igk-pane.rotation > .igk-pane-page .igk-pane-img"] = "{sys:fit, fitc}";
-
-//bullet
 $def[".igk-hpane-container .hpane-b"]= "{sys:dispib} [res:bullet]; width:16px; height:16px; background-repeat:no-repeat; cursor:pointer;";
 $def[".igk-hpane-container .hpane-b.igk-active"]= "background-position:-16px 0px;";
- 
-
 $def['.igk-pane-option .del'] = '[res:del_32x32]; cursor: pointer;';
 $def['.igk-pane-option .add'] = '[res:add_32x32]; cursor: cell;';
 $def['.igk-pane-option .option'] = '[res:option_32x32]; cursor: pointer;';

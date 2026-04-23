@@ -5,6 +5,7 @@
 namespace IGK\System\Security\Web;
 use IGKValidator;
 use function igk_resources_gets as __;
+
 /**
 * field content security to validate an email 
 * @package IGK\System\Security\Web

@@ -10,6 +10,7 @@ use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Constants;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -59,13 +60,13 @@ class EnvironmentCommand extends AppExecCommand{
 		$def = (object)array_fill_keys(['controller','project','context','module'],null);
 		$console = igk_environment()->console; 
 		$def->version = IGK_VERSION;
-		$def->workingDirectory = getcwd(); //$command->app->getConfigs(); //$command->workingDirectory;
+		$def->workingDirectory = getcwd(); 
 		if ($console){
 			$def->context = $console->type;
 		}
 		$ctrl = self::GetController(igk_getv($command->options,'--controller'), false);
 		$module = ($m=igk_getv($command->options,'--module')) ? igk_get_module($m) : null;
-		$def->controller = $ctrl ? $ctrl->getName() : null;//  getCurrentController();
+		$def->controller = $ctrl ? $ctrl->getName() : null;
 		$def->module = $module ? $module->getName() : null;
 		$def->env = self::Environment();
 		if ($ctrl){
@@ -73,7 +74,6 @@ class EnvironmentCommand extends AppExecCommand{
 			$buri = igk_io_baseuri() ?? ''; 
 			$def->entryuri = igk_str_rm_start($g, $buri);
 		}
-		// $def->currentUser = igk_get_system_user();
 		$cnf = (object)igk_configs()->getEntries();
 		foreach(['admin_pwd', 'db_pwd'] as $k){
 			if (property_exists($cnf, $k)){
@@ -89,7 +89,6 @@ class EnvironmentCommand extends AppExecCommand{
 		} 
 		$s = json_encode($def, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		if (!property_exists($command->options, '--no-color')){
-			// 
 			$colorizer = $this->getColorizer();
 			$s = $colorizer($s); 
 		}

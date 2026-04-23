@@ -1,5 +1,4 @@
 'use strict';
-
 (async function(){   
     /**
      * inject detectd 

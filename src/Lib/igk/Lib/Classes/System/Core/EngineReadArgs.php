@@ -9,6 +9,7 @@ use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Core
@@ -67,7 +68,6 @@ class EngineReadArgs
     {
         $regex = new RegexMatcherContainer;
         $pos = &$position;
-        // define
         $bcurl = $regex->begin('\{', '\}', 'curl')->last();
         $v_detect_arg = $this->_global_regex($regex);
         $v_detect_arg = $regex->begin('\$\{(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\}', 'detect-curl-args')->last();

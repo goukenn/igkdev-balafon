@@ -5,6 +5,7 @@ use IGKEvents;
 // @author: C.A.D. BONDJE DOUE
 // @description:
 // @copyright: igkdev © 2021
+
 /**
 * Html body box node.
 * @package IGK\System\Html\Dom

@@ -3,6 +3,7 @@
 // @file: EntryResolution.php
 // @date: 20240916 08:44:14
 namespace IGK\System;
+
 /**
  * expose class require system entries class resolutions 
  * @package IGK\System

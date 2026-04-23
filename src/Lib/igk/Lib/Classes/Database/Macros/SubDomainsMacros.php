@@ -6,6 +6,7 @@
 namespace IGK\Database\Macros;
 use IGK\Controllers\BaseController;
 use IGK\Models\SubDomains;
+
 /**
 * subdomain macros helper 
 * @package IGK\Database\Macros

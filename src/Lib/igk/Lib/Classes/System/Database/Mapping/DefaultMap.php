@@ -5,6 +5,7 @@
 namespace IGK\System\Database\Mapping;
 use IGK\Helper\SysUtils;
 use IGK\Models\ModelBase;
+
 /**
 * represent default mapping data
 * @package IGK\System\Database\Mapping

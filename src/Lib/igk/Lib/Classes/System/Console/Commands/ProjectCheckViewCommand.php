@@ -9,6 +9,7 @@ use IGK\Controllers\ControllerEnvParams;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
 use IGK\System\Console\App;  
+
 /**
  * list all project
  * @package IGK\System\Console\Commands
@@ -53,10 +54,6 @@ class ProjectCheckViewCommand extends AppExecCommand{
         }
         $withHidden = self::GetHasOptions($command, "-h|--withHidden") ?? false;
         DbCommandHelper::Init($command);
-        // $file = $ctrl->getViewFile('.forms/enterprise');
-        // $r = [];
-        // $file2 = $ctrl->getViewFile('default8.phtml', 1, $r); // $this->getViewFile($v, 1, $params)
-        // igk_wln_e($file, $file2, "------------------");
         $views = $ctrl->getViews($withHidden, true);
         $viewDir = $ctrl->getViewDir();
         $ctrl->{ControllerEnvParams::NoActionHandle} = 1;
@@ -66,7 +63,6 @@ class ProjectCheckViewCommand extends AppExecCommand{
         $t = $ctrl->getTargetNode();
         foreach($views as $view){
             $file = $viewDir."/".$view.IGK_VIEW_FILE_EXT;
-            // lint php
             $g = shell_exec("php -l $file");
             Logger::info($file);
             echo "lint : ".$g.PHP_EOL;

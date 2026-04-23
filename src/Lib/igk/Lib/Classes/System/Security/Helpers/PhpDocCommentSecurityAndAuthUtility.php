@@ -6,6 +6,7 @@ namespace IGK\System\Security\Helpers;
 use IGK\Helper\StringUtility;
 use IGK\System\IO\File\PHPDocCommentParser;
 use IGK\System\IO\StringBlockReader;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Helpers

@@ -11,6 +11,7 @@ use IGK\Helper\IO;
 use IGK\Helper\Traits\IOPathCheckerTrait;
 use IGKApp;
 use IGKException; 
+
 require_once IGK_LIB_CLASSES_DIR .'/Helper/Traits/IOPathCheckerTrait.php';
 /**
  * core path manipulation class 
@@ -212,9 +213,7 @@ class Path
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
         $this->cache_dir = (defined('IGK_CACHED_DIR') ? constant('IGK_CACHED_DIR') : null) ?? $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
         $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
-        // check an create cache folder on init - build - hook - context 
         if ($v_is_webapp && $this->cache_dir && !is_dir($this->cache_dir)){
-            // create cache directory for web app
             IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         } 
         if ($v_is_webapp && $this->public_assets_dir && !is_dir($this->public_assets_dir)){
@@ -235,7 +234,6 @@ class Path
         } else {
             $this->backup_dir = str_helper::UriCombine($this->data_dir, 'Backup');
         }
-        // used to resolve symbolic links
         $this->home_dir = igk_getv($_SERVER, "HOME", "~");
         $this->temp_dir = defined('IGK_TEMP_DIR') ? constant('IGK_TEMP_DIR') : sys_get_temp_dir();
     }
@@ -490,7 +488,6 @@ class Path
             $v_cp[] = '';
         }
         while (($v_cpath = dirname($vtarget)) && ($vtarget != $v_cpath)) {
-            // retrieve start directory to source 
             array_unshift($v_cp, basename($vtarget));
             if (strpos($vsource, $v_cpath) === 0) {
                 $v_found = true;
@@ -508,7 +505,6 @@ class Path
             }
             $l = substr($vsource, strlen($v_cpath) + 1);
             if (empty($l) || (strpos($l, "/") === false)) {
-                // found is in subfolder 
                 $v_count = 0;
             } else {
                 $v_count  = count(explode('/', ltrim($l, '/'))) - 1;
@@ -609,7 +605,6 @@ class Path
     public static function FlattenPath(string $path)
     {
         $s = trim($path);
-        // if (strpos($s, '../') > 0) {
         if (strpos($s, '../') !== false) {
             $g = explode('../', $s);
             $p = "";

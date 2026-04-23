@@ -4,6 +4,7 @@
 // @date: 20250628 22:08:34
 namespace IGK\System\Html\Css;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
  * parse css string content and return and array of string 
  * @package IGK\System\Html\Css
@@ -111,7 +112,6 @@ class CssRulesParser
         };
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
-                // Logger::info($e->tokenID);
                 $v = $e->value;
                 switch ($e->tokenID) {
                     case 'at-rule':

@@ -4,7 +4,6 @@
 //represent an horizontal scroll pane. used in combination of class.IGKJS_horizontalPane
 //--------------------------------------------------------------------------------------
 //HPane anim type supported : translation|fade|rotation
-
 //definition of hpane
 //--igk-hpane-container
 //|_______>igk-pane
@@ -13,18 +12,14 @@
 //|____________>...
 //|____________>igk-pane-page
 //|_______>igk-hpane-bz : bullet zone
-
-
 //define option of igk-hpane-container: 
 //{
 //@style:'[animType]', 
 //@animDuration::'auto animation duration
 //@showBullet:0|1
 //@showNav:0|1
-
 //styling: 1 igk-pane overflow is hidden ! important
 //for rotation
-
 (function() {
     // @ts-ignore
     if (!igk || (undefined != igk.system.getNS('igk.winui.horizontalScrollPane'))){
@@ -39,8 +34,6 @@
     var ifc = igk.fn.isItemStyleSupport;
     // @ts-ignore
     var support_transition = 0;
-
-
     // @ts-ignore
     igk.winui.horizontalScrollPane = function(t, options) {
         //.ctr horizontal pane contructor
@@ -68,7 +61,6 @@
         function __startAnim() {
             if (tout)
                 clearTimeout(tout);
-
             if ((_pos + 1) < __items().getCount()) {
                 // @ts-ignore
                 q.goNext();
@@ -77,9 +69,7 @@
                 // @ts-ignore
                 q.scrollTo(0);
             }
-
         };
-
         function __restartAnim() {
             if (tout)
                 clearTimeout(tout);
@@ -88,15 +78,12 @@
                 tout = setTimeout(__startAnim, opts.animDuration);
             }
         }
-
         function __items() {
             return pane.select(ckeys[0]);
         };
-
         function __updateBullet() {
             if (!opts.showBullets)
                 return;
-
             // @ts-ignore
             if (_bullets.active) {
                 // @ts-ignore
@@ -125,7 +112,6 @@
                     });
                     m_init = 1;
                 }
-
                 if (c.offsetLeft != 0) {
                     // @ts-ignore
                     var l = $igk(c).getComputedStyle('left');
@@ -222,9 +208,7 @@
                 _pos = 0;
                 __updateBullet();
             }
-            
         });
-
         // public injected property 
         let q_prop = this;
         this.host.addEvent("item-changed", {});
@@ -238,8 +222,6 @@
             }
         });
         g_panes[_idx] = this;
-
-
         var l = __items().getCount();
         //init bullets		
         bz.setHtml(""); //clear bullet zone
@@ -261,26 +243,21 @@
             }
             __updateBullet();
         }
-
         if (opts.showNav) {
             //init navigation button 
             t.add("div").addClass("hpane-btn hpane-btn-n")
                 // @ts-ignore
                 .setCss({ "right": "2px", "top": "50%", "marginTop": "-24px" }).reg_event("click", function() { q.goNext(); });
-
             t.add("div").addClass("hpane-btn hpane-btn-p")
                 // @ts-ignore
                 .setCss({ "left": "2px", "top": "50%", "marginTop": "-24px" }).reg_event("click", function() { q.goPrev(); });
         }
-
         if (opts.autoAnim && (l > 1) ) {
-
             setTimeout(__startAnim, opts.animDuration);
         }
     };
     // @ts-ignore
     var _class_ = igk.winui.horizontalScrollPane;
-
     // @ts-ignore
     igk.system.createNS("igk.winui.horizontalScrollPane", {
         //global static properties
@@ -301,7 +278,6 @@
             return g_panes[i];
         }
     });
-
     // @ts-ignore
     igk.ready(function() {
         // @ts-ignore
@@ -322,7 +298,5 @@
             // @ts-ignore
             igk.winui.horizontalScrollPane.init(i, options); 
         });
-
     })();
-
 })();

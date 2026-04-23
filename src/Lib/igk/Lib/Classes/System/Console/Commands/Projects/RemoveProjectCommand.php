@@ -11,6 +11,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
@@ -46,19 +47,15 @@ class RemoveProjectCommand extends AppExecCommand{
 		$ctrl = self::GetController($controller);
 		DbCommandHelper::Init($command);
 		$sm = new RemoveProjectMiddleWare;
-		// remove - all migration  
 		$mig = new MigrationHandler($ctrl);
 		$mig->down(false); 
-		// drop tables 
 		Logger::info('drop used datbase');
 		ControllerExtension::dropDb($ctrl, false, true); 
-		//+ move project to installed dir 
 		Logger::info('move project to .removed project folder');
 		IO::CreateDir($dir = IGK_PROJECT_DIR.'/.removed');
 		$v_dec = $ctrl->getDeclaredDir();
-		$v_folder = basename($v_dec); // ctrl->getDeclaredDir());
+		$v_folder = basename($v_dec); 
 		rename($v_dec, $dir.'/'.$v_folder);
-		// clear project cache 
 		Logger::info('clear cache');
 		SysUtils::ClearCache();
 	}	

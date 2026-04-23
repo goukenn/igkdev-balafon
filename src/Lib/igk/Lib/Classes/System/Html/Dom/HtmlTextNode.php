@@ -5,6 +5,7 @@
 // @desc: text node
 namespace IGK\System\Html\Dom;
 use IGK\XML\XMLNodeType;
+
 /**
  * represent text done
  */

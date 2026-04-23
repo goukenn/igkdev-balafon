@@ -13,6 +13,7 @@ use IGK\Css\ICssStyleContainer;
 use IGK\Css\ICssSupport;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\IToArray;
+
 /**
  * default style definition .
  * @package 
@@ -118,7 +119,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             if (!is_null($value)) {
                 $s = [];
                 $s[$name] = $value;
-                $this->_[self::SET_FLAG] = $s; // new array 
+                $this->_[self::SET_FLAG] = $s; 
             }
         }
         return $this;
@@ -216,13 +217,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         igk_die(__METHOD__ . " not allowed [{$n}] : ");
     }
-    // // public function __serialize(){
-    //     igk_ilog('serialize data'); 
-    //     return [serialize(array_filter($this->_))];
-    // }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * destructor
     * @param mixed $n
@@ -278,17 +272,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
             }
         }
     }
-    // public function __unserialize($seri){
-    //     igk_trace();
-    //     igk_wln_e("unserie ....");
-    //     if(is_array($seri)){
-    //         $seri=$seri[0];
-    //     }
-    //     $this->_=unserialize($seri) ?? [];
-    // }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="expression"></param>
     /**
     * Adds Rule.
     * @param mixed $name
@@ -319,7 +302,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
                     unset($this->_[$k]);
                 }
             }
-            // restore color rules 
             if ($_state) {
                 // + | restore state flag
                 $this->_[self::SET_FLAG] = $_state;
@@ -356,7 +338,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         $r = igk_getv($this->_, self::FILES_BIND_TEMP_RULE);
         if ($r && $clear) {
-            unset($this->_[self::FILES_BIND_TEMP_RULE]); //=null;
+            unset($this->_[self::FILES_BIND_TEMP_RULE]); 
         }
         return $r;
     }

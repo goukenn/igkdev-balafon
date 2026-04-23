@@ -16,6 +16,7 @@ use IGKObject;
 use IGKType;
 use ReflectionException;
 use ReflectionFunction;
+
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerEnvParams.php';
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 /**
@@ -168,13 +169,6 @@ abstract class RootControllerBase extends IGKObject{
                 if (is_null($fc) || !is_callable($fc)){
                     igk_die("macros [$name] not a callable");
                 }
-                // $ref = (new ReflectionFunction($fc));		
-                // if (($ref->getNumberOfParameters()>0) && ($t = $ref->getParameters()[0]->getType()) ){
-                //     $t = IGKType::GetName($t);
-                //     if (($t == self::class) || is_subclass_of($t, self::class)){
-                //         array_unshift($arguments, $c);
-                //     }
-                // }
                 $func_defs[$k] = $fc;
             }else {
                 $fc = $func_defs[$k];
@@ -183,10 +177,7 @@ abstract class RootControllerBase extends IGKObject{
             array_unshift($arguments, $c);
 			return $fc(...$arguments);
 		} 
-		//if ($name == "getComponentsDir"){
-			// method is probably protected
 		if (!$v_macro && !igk_environment()->get(static::class.'/bypass_method') && method_exists($c, $name)){
-			//invoke in controller context 
 			return $c::Invoke($c, $name, $arguments);
 		}	
         // + | invoke controller extension method
@@ -195,7 +186,6 @@ abstract class RootControllerBase extends IGKObject{
 		    return ControllerExtension::$name(...$arguments); 
         } else {
             if (igk_environment()->isDev()){
-                // igk_wln(array_keys($func_defs));
                 igk_die("method [$name] not found - call_static");
             } 
             throw new \IGK\System\Exceptions\ActionNotFoundException($name);
@@ -235,11 +225,7 @@ abstract class RootControllerBase extends IGKObject{
      */
     public function __set($name, $value){
         if (!$this->_setIn($name, $value)){   
-           // self::$sm_bindController = $this;
-           // passing object to setEnvParam - no getctrl required
            $this->__callStatic('invokeMacros', ['setEnvParam', $this, $name, $value]);
-           // setEnvParam($name, $value);
-           // self::$sm_bindController = null;
         }
         return $this;
     }
@@ -297,7 +283,6 @@ abstract class RootControllerBase extends IGKObject{
     */
     public function getArticleBindingContentW($name, $targetCtrlName){
         die(__METHOD__.": Not implement");
-        //return $this->getArticleBindingContent($name, igk_db_select_all(igk_getctrl($targetCtrlName)));
     }
     /**
     * get article content

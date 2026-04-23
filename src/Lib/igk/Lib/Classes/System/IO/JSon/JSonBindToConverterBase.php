@@ -3,6 +3,7 @@
 // @file: JSonBindToConverterBase.php
 // @date: 20250128 13:20:16
 namespace IGK\System\IO\JSon;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\JSon

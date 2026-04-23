@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands\Sync;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
+
 /**
  * clear sites session 
  *  */
@@ -39,7 +40,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
         if (!is_object($h = $this->connect($setting["server"],$setting["user"], $setting["password"]))){
             return $h;
         }
-        $sess_dir = Path::FlattenPath($setting[self::SESSION_DIR] ?? $setting[self::APP_DIR]."/../sesstemp"); //  ?? igk_die("no session dir provided");
+        $sess_dir = Path::FlattenPath($setting[self::SESSION_DIR] ?? $setting[self::APP_DIR]."/../sesstemp"); 
         Logger::info("remove all lived session : ". $sess_dir);
         igk_set_timeout(0);
         $script_install = igk_io_sys_tempnam("blf_module_script");

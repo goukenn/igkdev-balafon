@@ -3,6 +3,7 @@
 // @file: IDataMapper.php
 // @date: 20230302 11:10:59
 namespace IGK\Mapping;
+
 /**
 * use to map key value to [new_key, value]
 * @package IGK\Mapping

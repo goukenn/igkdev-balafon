@@ -6,6 +6,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 use IGKException;
+
 /**
  * detect modification node
  * @package IGK\System\Runtime\Compiler\Html

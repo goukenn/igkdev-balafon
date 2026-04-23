@@ -6,6 +6,7 @@ namespace IGK\Mapping;
 use IGK\Helper\MapHelper;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
+
 /**
  * default model mapping
  */
@@ -58,7 +59,6 @@ class ModelMapping implements IDataMapper{
             } 
         }
         if (is_object($value)){
-            // map submethod
             if ($this->references)
             {
                 $tkey = implode(".",array_filter([$this->m_mapkey, $map_ref]));

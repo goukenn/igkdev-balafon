@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Database/IDatabaseHost.php";
 use IGK\Helper\IO;
@@ -359,7 +360,6 @@ use IGK\\Resources\\R;
 
 EOF;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -367,7 +367,6 @@ EOF;
     {
         return 0;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -375,7 +374,6 @@ EOF;
     {
         return igk_html_resolv_img_uri($this->getDataDir() . IGK_APP_LOGO);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -383,7 +381,6 @@ EOF;
     {
         return $this->getConfig(IGK_CTRL_CNF_APPNAME, static::class);
     }
-    ///<summary>get if this application is not active</summary>
     /**
      * get if this application is not active
      */
@@ -391,8 +388,6 @@ EOF;
     {
         return $this->getConfig(IGK_CTRL_CNF_APPNOTACTIVE);
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
     * auto generate doc.
     * @return *
@@ -400,22 +395,16 @@ EOF;
     public static function &GetApps()
     {
         if (self::$sm_apps === null) {
-            // igk_wln_e("application get Apps : call");
-            // $m=igk_app()->session->getParam(__METHOD__);
             $m = igk_environment()->get(self::IGK_CTRL_APPS_KEY);
             if ($m === null) {
-                // igk_wln("new std array");
                 $m = new \stdClass();
                 $m->_ = [];
-                // $m = (object)array('_'=>array());
-                // igk_app()->session->setParam(self::IGK_CTRL_APPS_KEY, $m);
                 igk_environment()->set(self::IGK_CTRL_APPS_KEY, $m);
             }
             self::$sm_apps = &$m;
         }
         return self::$sm_apps;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -423,7 +412,6 @@ EOF;
     {
         return $this->getConfig(IGK_CTRL_CNF_TITLE);
     }
-    ///<summary>Basic uri pattern</summary>
     /**
      * Basic uri pattern
      */
@@ -451,7 +439,6 @@ EOF;
         }
         return $function;
     }
-    ///<summary>return application uri</summary>
     /**
      * return application uri
      */
@@ -501,7 +488,6 @@ EOF;
         }
         return $buri;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -509,7 +495,6 @@ EOF;
     {
         return false;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -517,7 +502,6 @@ EOF;
     {
         return $this->getConfig(IGK_CTRL_CNF_TABLEPREFIX);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -529,7 +513,6 @@ EOF;
         }
         return $db;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -537,7 +520,6 @@ EOF;
     {
         return "^(/(?P<lang>" . R::GetSupportLangRegex() . "))?" . IGK_REG_ACTION_METH_OPTIONS;
     }
-    ///<summary>get exposed functions list</summary>
     /**
      * get exposed functions list
      */
@@ -549,7 +531,6 @@ EOF;
         }
         return $exposed;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -557,10 +538,7 @@ EOF;
     {
         parent::getIsVisible();
         return ControllerExtension::getIsVisible($this);
-        //  parent::__callStatic("invokeMacros", ["getIsVisible", $this]);
-        // return $g;
     }
-    ///<summary> application by default not allowed global action</summary>
     /**
     * Returns No Global Action.
     */
@@ -568,7 +546,6 @@ EOF;
     {
         return true;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -576,7 +553,6 @@ EOF;
     {
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-    ///<summary>get sub application app uri </summary>
     /**
      * get sub application app uri
      */
@@ -591,7 +567,6 @@ EOF;
         }
         return $s;
     }
-    ///<summary>get base uri pattern configured</summary>
     /**
      * get base uri pattern configured
      */
@@ -608,7 +583,6 @@ EOF;
         }
         return null;
     }
-    ///<summary></summary>
     /**
      * init argument with application's document 
      */
@@ -626,7 +600,6 @@ EOF;
         }
         return parent::getSystemVars();
     }
-    ///<summary> base application uri handle</summary>
     /**
      *  base application uri handle
      * @param mixed|string|\IGK\System\Http\UriHandleObject $u
@@ -634,8 +607,6 @@ EOF;
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
     {
-        // D: base handle 
-        // time: 200ms. -- need to optimize
         $page = $k =
             $pattern = $p = $c =
             $param =
@@ -666,15 +637,12 @@ EOF;
         igk_ctrl_change_lang($this, $p);
         // + | get request query options 
         $query_options = igk_getv($p, 'options');
-        //passing ctrl to view for sitepam
         igk_bind_sitemap(["ctrl" => $this, "c" => $c]);
-        // include(IGK_LIB_DIR."/Inc/igk_sitemap.pinc");
         $tn = $this->getTargetNode();
         if ($this->_handle_uri_param($c, $param, $query_options)) {
             $forcehandle && igk_exit();
             return;
         }
-        // reset system variable
         $this->regSystemVars(null);
         if (empty($param))
             $param = array();
@@ -687,7 +655,6 @@ EOF;
         }
         $this->setEnvParam(IGK_VIEW_OPTIONS, $query_options);
         if (igk_sys_is_subdomain()) {
-            //check of uri access ... 
             $actionctrl = igk_getctrl(IGK_SYSACTION_CTRL, true);
             $m = $actionctrl->matche($page[0]);
             $ck = $this->getEnvParam("appkeys");
@@ -731,8 +698,6 @@ EOF;
         }
         $forcehandle && igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="code"></param>
     /**
     * auto generate doc.
     * @param mixed $code the default value is 0
@@ -770,16 +735,10 @@ EOF;
             $this->initMacros();
         } else {
             igk_reg_hook($this::hookName("register_autoload"), function ($e) {
-                // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
-                // $op_start = igk_sys_request_time();
-                // if (\IGK\Models\ModelBase::IsMacrosInitialize()){
                 // + | changed   
                 if (!igk_environment()->NO_PROJECT_AUTOLOAD) {
                     $this->initMacros();
                 }
-                //}
-                // igk_ilog("init macros duration: ". (igk_sys_request_time() - $op_start) . " ".
-                // get_class($this));
             });
         }
     }
@@ -801,7 +760,6 @@ EOF;
             }
         }
     }
-    ///<summary>init complete</summary>
     /**
      * init application complete    
      * @param mixed $context init object context 
@@ -829,8 +787,6 @@ EOF;
     {
         return null;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * auto generate doc.
     * @param mixed $ctrl
@@ -868,7 +824,6 @@ EOF;
         }
         return true;
     }
-    ///<summary>check that if the controller handle base uri</summary>
     /**
      * check that if the controller handle base uri
      */
@@ -880,7 +835,6 @@ EOF;
         }
         return $this->IsActive();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -889,8 +843,6 @@ EOF;
         $inf = igk_sys_ac_getpatterninfo();
         return (($inf != null) && preg_match(igk_sys_ac_getpattern($this->getBasicUriPattern()), igk_io_rootBaseRequestUri()));
     }
-    ///<summary></summary>
-    ///<param name="k"></param>
     /**
     * auto generate doc.
     * @param mixed $k
@@ -901,7 +853,6 @@ EOF;
             return true;
         return false;
     }
-    ///<summary>get if function is available</summary>
     /**
      * get if function is available
      */
@@ -918,7 +869,6 @@ EOF;
             return true;
         return false;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -941,7 +891,6 @@ EOF;
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -969,7 +918,6 @@ EOF;
         }
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * register action bind
      */
@@ -986,10 +934,6 @@ EOF;
             $this->setEnvParam("appkeys", $k);
         }
     }
-    ///<summary></summary>
-    ///<param name="view" default="'default'"></param>
-    ///<param name="doc" default="null"></param>
-    ///<param name="render" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $render the default value is true
@@ -997,14 +941,13 @@ EOF;
     protected function renderDefaultDoc($view = 'default', $doc = null, $render = true)
     {
         $d = $doc ?? $this->getAppDocument(true);
-        // $d= $doc ?? $this->getDoc();// true);
         if ($d === igk_app()->getDoc()) {
             igk_die("/!\\ app document match the global document. That is not allowed");
         }
         $wt = igk_app()->getConfig("website_title", igk_server()->SERVER_NAME);
         $title  = $this->getConfig(IGK_CTRL_CNF_TITLE);
         if (!empty($title))
-            $title = __("title.app_2", $title, $wt); // igk_configs()->website_title);
+            $title = __("title.app_2", $title, $wt); 
         else {
             $title = __("title.app_1", $wt);
         }
@@ -1018,8 +961,6 @@ EOF;
             HtmlRenderer::RenderDocument($d, 0, $this);
         }
     }
-    ///<summary></summary>
-    ///<param name="c"></param>
     /**
     * auto generate doc.
     * @param mixed $c
@@ -1040,7 +981,6 @@ EOF;
             igk_exit();
         }
     }
-    ///<summary> save data schema</summary>
     /**
      *  save data schema
      */
@@ -1053,8 +993,6 @@ EOF;
         }
         return $dom;
     }
-    ///<summary></summary>
-    ///<param name="t" ref="true"></param>
     /**
     * auto generate doc.
     * @param * $t
@@ -1067,8 +1005,6 @@ EOF;
         $t[IGK_CTRL_CNF_APPNOTACTIVE] = igk_getr(IGK_CTRL_CNF_APPNOTACTIVE);
         $t[IGK_CTRL_CNF_TABLEPREFIX] = igk_getr(IGK_CTRL_CNF_TABLEPREFIX);
     } 
-    ///<summary></summary>
-    ///<param name="param"></param>
     /**
     * auto generate doc.
     * @param mixed $param
@@ -1084,7 +1020,6 @@ EOF;
             Groups::insertIfNotExists(array(IGK_FD_NAME => $k));;
         }
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1099,7 +1034,6 @@ EOF;
         }
         return $cp;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -1107,7 +1041,6 @@ EOF;
     {
         igk_wln(__FUNCTION__ . " Not implements");
     }
-    ///<summary> synchronize the current user data to target server</summary>
     /**
      *  synchronize the current user data to target server
      */

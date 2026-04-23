@@ -3,8 +3,6 @@
 // @filename: IGKAccordeonHtmlItemCtrl.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\Controllers\NonVisibleControllerBase;
 
 /**
@@ -18,12 +16,10 @@ final class IGKAccordeonHtmlItemCtrl extends NonVisibleControllerBase
 	 * @return bool Always returns false.
 	 */
 	public function getcanModify(){return false;}
-
 	/**
 	 * Indicate whether this controller allows deletion.
 	 *
 	 * @return bool Always returns false.
 	 */
 	public function getcanDelete(){return false;}
-	 
 }

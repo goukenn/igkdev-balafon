@@ -5,6 +5,7 @@
 namespace IGK\System\IO;
 use Exception;
 use IGKResourceUriResolver;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO
@@ -64,9 +65,6 @@ class SystemPath{
      */
     public function resolve(){
         if ($c = IGKResourceUriResolver::getInstance()->resolve($this->path)){
-            // if ($this->options){
-            //     $c.=';'.$this->options;
-            // }
             if ($this->query){
                 $c.='?'.$this->query;
             }

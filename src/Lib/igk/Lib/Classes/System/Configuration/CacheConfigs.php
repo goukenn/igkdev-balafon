@@ -12,6 +12,7 @@ use IGKEvents;
 use IGKException;
 use ReflectionException;
 use stdClass;
+
 require_once IGK_LIB_CLASSES_DIR . "/Helper/ControllerHelper.php";
 /**
  * cache configuration options and special setting help reduce loading speed. 
@@ -142,7 +143,6 @@ final class CacheConfigs
             $inf = $i->m_changed_prop[$binhash];
             if ($inf['cftime'] == $cftime) {
                 $key = self::_GetKey($controller, $name);
-                //retrieve from cache
                 if (isset($inf['keys'][$key]) && self::_GetCacheValue($i, $controller, $name, $defaut, $value)) {
                     return $value;
                 }
@@ -156,7 +156,7 @@ final class CacheConfigs
         } else {
             $mtime = $i->config_times[$binhash];
             $diff = $cftime - $mtime;
-            $update = $diff != 0; //$cftime > $mtime;
+            $update = $diff != 0; 
             if ($update) {
                 $i->m_update_references[$binhash] = $cftime;
                 $i->changed = true;  
@@ -167,8 +167,6 @@ final class CacheConfigs
                 return $value;
             }
         }
-        // $controller->getConfigs()->storeConfig();    
-        // convert boolean value                 
         $v = $controller->getConfigs()->get($name, $defaut);
         // + | --------------------------------------------------------------------
         // + | get boolean value
@@ -208,7 +206,6 @@ final class CacheConfigs
                 $value =  igk_getv($envkeys, $name, $default);
                 return true;
             }
-            // return $defaut;
         } else if ($options && property_exists($options, $name)) {
             $value = igk_getv($options, $name, $default);
             return true;
@@ -232,7 +229,6 @@ final class CacheConfigs
                 $envkeys->$name = $value;
                 return true;
             }
-            // return $defaut;
         } else if ($options) {
             $options->$name = $value;
             return true;
@@ -269,9 +265,7 @@ final class CacheConfigs
     {
         $i = self::getInstance();
         if (!defined("IGK_TEST_INIT") && $i->changed) {
-            //--------------------------------------------------------- 
             // + |disable service worker storage
-            //---------------------------------------------------------         
             if (igk_server()->HTTP_SEC_FETCH_DEST == 'serviceworker'){
                 $i->change = false;
                 return;

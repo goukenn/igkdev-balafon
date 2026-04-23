@@ -7,6 +7,7 @@ namespace IGK\Controllers;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\ReferenceModels;
 use IGK\System\Number;
+
 /**
 *  used for referencing global value data
 */
@@ -46,8 +47,6 @@ final class ReferenceModelController extends NonVisibleControllerBase{
         $n=igk_getv($row, IGK_FD_NAME);
         $v_tmodel=($prefix ? $prefix: igk_configs()->Prefix).$row->clPrefix;
         $model = ReferenceModels::select_row(["clModel"=>$v_tmodel]);
-        // $r=igk_db_table_select_where($this->getDataTableName(), array("clModel"=>$v_tmodel));
-        // $model=$r->RowCount == 0 ? 0: $r->getRowAtIndex(0);
         $c=$model ? $model->clNextValue: null;
         $c++;
         $out=$v_tmodel."".Number::ToBase($c, 36, 6);

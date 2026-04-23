@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 use IGKOb;
+
 /**
 * auto generate doc.
 */

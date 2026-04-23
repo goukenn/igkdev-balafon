@@ -5,6 +5,7 @@
 // @desc: represent carousel compoent
 namespace IGK\System\Html\Dom;
 use IGKException;
+
 /**
  * for carousel component \
  *      activate attribute for setting

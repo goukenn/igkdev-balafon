@@ -4,6 +4,7 @@
 // @date: 20220828 11:25:26
 // @desc: resolver interface
 namespace IGK\Css;
+
 /**
  * resource resolver interface
  * @package IGK\Css

@@ -5,6 +5,7 @@
 namespace IGK\System\Controllers\Traits;
 use IGK\Controllers\BaseController;
 use IGK\Models\Users;
+
 /**
 * auto generate doc.
 * @package IGK\System\Controllers\Traits

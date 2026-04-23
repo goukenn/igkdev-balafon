@@ -3,6 +3,7 @@
 // @file: ModuleInfo.php
 // @date: 20230703 10:02:41
 namespace IGK\System\Modules;
+
 /**
 * 
 * @package IGK\System\Modules

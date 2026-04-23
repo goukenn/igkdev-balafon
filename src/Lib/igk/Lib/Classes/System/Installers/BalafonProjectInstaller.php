@@ -11,6 +11,7 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use function igk_resources_gets as __; 
+
 require_once(__DIR__."/InstallerActionMiddleWare.pinc");
 /**
 * auto generate doc.
@@ -36,18 +37,16 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $c = igk_getr("controller");
         $key=self::INSTALLER_KEY;
         $this->controller = igk_getctrl($c, false) ?? die("controller not found:$c");
-        // disable warning
         /**
         * auto generate doc.
         * @var mixed
         */
         $srv = $service;
         $service->LibDir =  IGK_LIB_DIR;
-        $srv->CoreZip = $this->zipfile; // igk_app()->session->getParam($key);
+        $srv->CoreZip = $this->zipfile; 
         $srv->controller = $this->controller;
         $srv->project_name = igk_str_snake(basename(igk_dir(get_class($this->controller))));
         $srv->intall_dir =  $this->controller->getDeclaredDir(); 
-        //igk_ilog("init project installer: ".$this->zipfile);
         $service->add(new BalafonInstallerMiddelWare());
         $service->add(new BackupProjectMiddleWare($this->controller));
         $service->add(new RenameProjectMiddleWare());
@@ -126,10 +125,7 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         $project_name  = $this->getServiceInfo()->Listener->project_name;
         $dir  = $this->getServiceInfo()->Listener->intall_dir;
         $core_zip = $this->getServiceInfo()->Listener->CoreZip;
-        // 
-        // extract zip 
         //
-        //igk_ilog("extracting::::: ".$core_zip );
         if (empty($core_zip)){
             return;
         }
@@ -164,7 +160,6 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
     * Invoke.
     */
     public function invoke(){
-        // igk_ilog("installer complete");
         $srv=$this->getServiceInfo();       
         $srv->Success=1;
         $this->next();

@@ -8,6 +8,7 @@ use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * auto generate doc.
 * @package IGK\Database
@@ -86,15 +87,11 @@ class DbModuleReferenceTable implements ArrayAccess{
         if (key_exists($n, $this->m_tabledef)){
             return $this->m_tabledef[$n];
         }
-        // possibility of definition in global system 
         /** load only definition without altering the table */
         $table = $this->m_controller->resolvTableDefinition($n);
         if (is_null($table) || is_array($table)){
             igk_wln_e(__FILE__.":".__LINE__,  "global table not found ",$n, $table);
         }
-        // $host = $this->m_controller->getHost();
-        // $hostname = $host instanceof ApplicationModuleController ? $host->getName() : 
-        //     get_class($host);
         $this->m_request_changed[$n] = & $table; 
         return $table;
     }

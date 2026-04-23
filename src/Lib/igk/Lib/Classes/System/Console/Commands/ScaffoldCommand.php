@@ -12,6 +12,7 @@ use IGK\System\Console\Scaffold\ActionScaffold;
 use IGK\System\Console\Scaffold\AuthScaffold;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use ReflectionClass;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -159,4 +160,3 @@ class ScaffoldCommand extends AppExecCommand
     }
 }
 ScaffoldCommand::RegisterScaffold("action", ActionScaffold::class);
-// ScaffoldCommand::RegisterScaffold("auth", AuthScaffold::class);

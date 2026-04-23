@@ -9,6 +9,7 @@ use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\Dom\HtmlNode; 
+
 /**
 * Represent IGKMySQLDataCtrl class
 */
@@ -23,8 +24,6 @@ class MySQLDataController extends BaseController{
     protected function getAutoGenerateModels(){
         return false;
     }
-    ////!\ not realible
-    ///<summar>/!\ delete all table from data base. return a node of</summary>
     /**
      * clean mysql database
     */
@@ -65,7 +64,6 @@ class MySQLDataController extends BaseController{
     */
     public static function DropAllRelations($adapt, $dbname){
         $bck=$dbname;
-        // $adapt->selectdb();
         $table = self::TABLE_CONSTRAINTS; 
         $g=$adapt->sendQuery("DELETE FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
@@ -81,7 +79,6 @@ class MySQLDataController extends BaseController{
         $r=0;
         $g=0;
         $bck=$dbname;
-        // $adapt->selectdb();
         $table = self::TABLE_CONSTRAINTS; 
         $e=$adapt->sendQuery("SELECT * FROM {$table} WHERE `CONSTRAINT_NAME` LIKE '".igk_db_escape_string($qregex)."' AND `CONSTRAINT_SCHEMA`='".igk_db_escape_string($dbname)."'");
         $adapt->selectdb($bck);
@@ -131,7 +128,6 @@ class MySQLDataController extends BaseController{
                 ){
                     if($node)
                         $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
-                    // $r=false;
                 }
             }
             $adapter->restoreRelationChecking();
@@ -160,18 +156,12 @@ class MySQLDataController extends BaseController{
     public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist=null, & $deleted=null, $node=null){
         $d=$adapter;
         $bck=$dbname;
-        // $rp = $d->selectdb(DataAdapter::DB_INFORMATION_SCHEMA); 
         $table = self::TABLE_CONSTRAINTS;
         $h=$d->sendQuery(
             sprintf("SELECT * FROM {$table} WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';", 
             ),
             true, null, false
         );
-        // $g = $d->sendQuery("SELECT DATABASE() as dbName");
-        // var_dump($g->getRows());
-        // igk_wln_e("esources ", igk_environment()->get("mysql_resource"), 
-        // "? = ".(igk_environment()->get("mysql_resource") === $d->getResId()) );
-        // igk_wln_e($g->getRows());
         $d->selectdb($bck);
         $r=false;
         if($h && $h->RowCount > 0){
@@ -212,7 +202,6 @@ class MySQLDataController extends BaseController{
     */
     public static function GetAllRelations($adapt, $dbname){
         $bck=$dbname;
-        // $adapt->selectdb();
         $table = self::TABLE_CONSTRAINTS;
         $g=$adapt->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'"));
         $adapt->selectdb($bck);
@@ -226,7 +215,6 @@ class MySQLDataController extends BaseController{
     */
     public static function GetConstraint_Index($a, $b, $tbase){
         $bck=$tbase;
-        // $a->selectdb();
         $table = self::TABLE_CONSTRAINTS;
         $h=$a->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".$tbase."'"));
         $i=1;
@@ -273,7 +261,6 @@ class MySQLDataController extends BaseController{
     }
     protected function initTargetNode(): ?HtmlNode
     {
-       //do nothing
        return null;
     }
     /**

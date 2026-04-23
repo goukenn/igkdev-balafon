@@ -6,6 +6,7 @@
 namespace IGK\System\Installers;
 use IGK\System\Http\AcceptMimeTypes;
 use function igk_resources_gets as __;
+
 /**
 * Installer middel ware storage
 */
@@ -56,9 +57,6 @@ class InstallerMiddleWareActions{
      * @return void 
      */
     public function abort(){
-        // if (count($this->_list)>0){
-        //     $this->_list[0]->abort();
-        // }
         if (count($this->_list)>0){
             $serv = $this->_list[0]->getServiceInfo();
             if ($serv && ($bserv = $this->_list[$serv->Current])){

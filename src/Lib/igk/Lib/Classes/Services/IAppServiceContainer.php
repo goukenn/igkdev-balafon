@@ -3,6 +3,7 @@
 // @file: IAppServiceContainer.php
 // @date: 20250809 15:27:20
 namespace IGK\Services;
+
 /**
 * represent a service c ontainer 
 * @package IGK\Services

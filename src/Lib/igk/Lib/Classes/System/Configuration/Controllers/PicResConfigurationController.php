@@ -16,6 +16,7 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\Helper\IO as IGKIO;
 use function igk_resources_gets as __;
+
 /**
  * manage picture resources
  * @package IGK\System\Configuration\Controllers
@@ -103,7 +104,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
         });
         return $r;
     }
-    ///init default resources
     /**
     * auto generate doc.
     * @param null|mixed & $tab

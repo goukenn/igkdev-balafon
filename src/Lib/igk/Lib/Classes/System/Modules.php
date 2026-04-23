@@ -3,6 +3,7 @@
 // @file: Modules.php
 // @date: 20241016 15:36:17
 namespace IGK\System;
+
 if (@file_exists(__DIR__.'/auto_inc.modules.php'))
 {
     require_once(__DIR__.'/auto_inc.modules.php');
@@ -39,4 +40,3 @@ abstract class Modules implements IModuleDefinition{
         return str_replace("_", "\\", $name);
     }
 }
-//Modules::

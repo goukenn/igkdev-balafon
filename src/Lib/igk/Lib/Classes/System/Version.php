@@ -3,6 +3,7 @@
 // @file: Version.php
 // @date: 20230118 12:10:18
 namespace IGK\System;
+
 /**
 * auto generate doc.
 * @package IGK\System
@@ -35,7 +36,6 @@ class Version{
     public static function Parse(string $version){
         $p = explode('.', $version);
         $check = true;
-        // check that every item is a number
         foreach($p as $t){
             if (!is_numeric($t)){
                 $check=false;

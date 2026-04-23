@@ -4,6 +4,7 @@
 // @date: 20230125 13:47:37
 namespace IGK\System\Security\Web;
 use IGK\System\Html\Forms\HtmlValidator;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
@@ -47,7 +48,6 @@ class SkipHtmlContentValidator extends MapContentValidatorBase
         if (strpos($value,"\xF0") !== false){
             $value = igk_str_encode_to_utf8($value);
         }
-        // $value = igk_str_encode_to_utf8($value);
         return $this->m_validator->treatValue($value);
     }
 }

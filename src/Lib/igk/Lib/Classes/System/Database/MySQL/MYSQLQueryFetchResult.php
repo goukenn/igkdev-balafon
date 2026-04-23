@@ -16,7 +16,7 @@ use IGKSorter;
 use IGK\IQueryResult;
 use Iterator;
 use ModelBase;
-///<summary>implement fetch result/summary>
+
 /**
 *  implement fetch result
 */
@@ -77,13 +77,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     */
     private $m_driver;
     use IteratorTrait;
-    // public function to_json($option = null, int $flag = 0) { }
     /**
     * To array.
     * @return ?array
     */
     public function to_array(): ?array {
-        return null;// yield $this->fetch();
+        return null;
     }
     /**
     * Generates.
@@ -156,7 +155,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
         $c->m_driver = $driver; 
         return $c;
     }
-    ///retult of the query  uses for boolean data
     /**
     * auto generate doc.
     */
@@ -221,7 +219,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
      * @throws Exception 
      */
     public function fetch():bool{
-        //create and transform to db query row object
         $callback = $this->options ? igk_getv($this->options, DbConstants::CALLBACK_OPTS) : null;
         $this->m_rowdef = null;
         if ($v_tr = igk_db_fetch_assoc($this->m_result)){ 

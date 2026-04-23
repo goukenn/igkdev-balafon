@@ -5,6 +5,7 @@
 // @file: View.php
 // @desc: helper view description files
 // @author: C.A.D. BONDJE DOUE
+
 //
 namespace IGK\Helper;
 use Closure;
@@ -175,7 +176,6 @@ class ViewHelper
      */
     public static function Form(string $name, $options = null)
     {
-        //get action handler
         $handler = self::GetViewArgs("action_handler");
         if ($handler) {
             if ($options)
@@ -183,7 +183,6 @@ class ViewHelper
                     $options = Activator::CreateNewInstance(ActionFormOptions::class, $options);
                 }
             if (method_exists($handler, 'Form')) {
-                // call a static form 
                 return $handler::Form($name, $options);
             }
         }
@@ -220,7 +219,6 @@ class ViewHelper
      */
     private static function _GetIncFile(string $file)
     {
-        // determine if file exists with extension or in view_directory
         include_once IGK_LIB_CLASSES_DIR . "/core.func.helper.php";
         $exts = [IGK_VIEW_FILE_EXT];
         if ($c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file), $exts)) {
@@ -262,7 +260,6 @@ class ViewHelper
             }
             $binIncude = InvocationHelper::Include()->bindTo($controller);
             $g = $controller->getTargetNode();
-            // replace target node 
             $controller->setTargetNode($a);
             $o = $binIncude($file, array_merge(
                 ViewHelper::GetViewArgs(),
@@ -449,14 +446,13 @@ class ViewHelper
         }
         $appuri = $ctrl->getAppUri($fname);
         $query = null;
-        // $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
         if (!empty($q = $_GET)) {
             unset($q['rwc']);
             if (!empty($q)) {
                 $query = '?' . http_build_query($q);
             }
         }
-        $ruri = igk_io_baseuri() . igk_io_request_uri_path(); // igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        $ruri = igk_io_baseuri() . igk_io_request_uri_path(); 
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
@@ -475,8 +471,6 @@ class ViewHelper
             // + | --------------------------------------------------------
             // + | Sanitize request uri
             // + | 
-            // igk_trace();
-            // igk_wln_e("try redirect on to:", $entry_is_dir, $appuri . "/".$query);
             $ctrl->setParam("redirect_request", [self::REDIRECT_PARAM_NAME => $_REQUEST]);
             igk_navto($appuri . "/" . $query);
         } else {
@@ -639,12 +633,9 @@ class ViewHelper
         $v_view_ext = $extension = IGK_DEFAULT_VIEW_EXT;
         $ext = $extension;
         $view_handler = igk_view_handler_info();
-        // igk_wln_e($view_handler);
         $v_ext_support = $view_handler->list;
         $ext_regex = $view_handler->pattern;
-        //+ | check support extension in file name
         $ext = preg_match($ext_regex, $view) ? '' : '.' . $ext;
-        //$f = $f . $ext; 
         if (!empty($ext)) {
             $ts = 1;
             $_views = array_filter(explode("/", $view));
@@ -655,8 +646,7 @@ class ViewHelper
                     $bname = basename($f);
                     $f = dirname($f);
                     $checks = array_merge([
-                        $f . "/" . $bname, // <- consider as directory 
-                        //$f."/".$bname.".".$extension
+                        $f . "/" . $bname, 
                     ], self::_AppendExtension($f . "/" . $bname, $v_ext_support));
                     $check_dir = true;
                     $dir_exists = false;
@@ -673,25 +663,10 @@ class ViewHelper
                         }
                         $check_dir = false;
                     }
-                    // if ($dir_exists){
                         array_unshift($param, $bname);
-                    // } else {
-                        // break;
-                    // }
-                    // if (($bname != IGK_DEFAULT_VIEW_FILE) && (
-                    //     igk_io_file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
-                    //     if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
-                    //         array_unshift($param, array_pop($_views));
-                    //     }
-                    //     return $c;
-                    // } else {
-                    //     array_unshift($param, array_pop($_views));
-                    // }
                 }
             }
-            // if ($s) {
             $s =  $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
-            //}
         } else {
             if (!$checkfile || ($checkfile && is_file($f))) {
                 $s = $f;

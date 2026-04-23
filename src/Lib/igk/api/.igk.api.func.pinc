@@ -7,8 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 ///*."/igkdev"
+
 /**
 */
 function igk_api_build_ctrl_manifest($ctrl, $node){

@@ -19,7 +19,6 @@ function igk_html_ob($callback){
     ob_end_clean();
     igk_wl($s);
 }
-
 /**
 * auto generate doc.
 * @param mixed $render the default value is 1
@@ -53,7 +52,6 @@ function igk_html_ob_select($id, $options, $selected=null, $display=null, $attri
         igk_wl($o);
     return $o;
 }
-
 /**
 * auto generate doc.
 * @param mixed $render the default value is 1

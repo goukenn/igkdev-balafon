@@ -4,6 +4,7 @@
 // @date: 20240201 12:26:34
 // @desc: 
 namespace IGK\Controllers;
+
 /**
  * module configuration info
  */

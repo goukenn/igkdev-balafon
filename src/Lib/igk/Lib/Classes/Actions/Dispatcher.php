@@ -36,6 +36,7 @@ use ReflectionType;
 use TypeError;
 use function igk_resources_gets as __;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
 /**
  * default action dispactcher
  */
@@ -69,7 +70,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         "int" => MatchPattern::Int,
         "float" => MatchPattern::Float,
     ];
-    ///<sumary>.ctr</summary>
     /**
      * .ctr
      * @param null|IGKActionBase $host 
@@ -156,7 +156,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro[self::DISPATCH_METHOD] = function ($fc, ...$args) {
-                
                 return static::_HandleDispatch($fc, ...$args);
             };
         }
@@ -188,7 +187,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             && (!(new ReflectionMethod($v_host, $name))->isStatic())
             && ($fc = Closure::fromCallable([$v_host, $name])->bindTo($v_host))
         ) {
-            // initialize replace uri 
             $v_host->getController()->{ControllerParams::REPLACE_URI} =
                 $v_host->getDefaultEntryMethod() != $name;
             $targs = array_merge([$fc], $arguments);
@@ -267,7 +265,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             // + |            
             self::LoadInjectableAndServices($services, $v_host);
         }
-        // $v_inject = false;
         $v_is_debug = igk_is_debug() && igk_environment()->get('debug/dispatcher');
         foreach ($parameters as $k) {
             $v_is_debug && Logger::info(sprintf('update-dispatcher : %s next %s', $k, $i));
@@ -340,7 +337,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         // + | retrieve service instance definition
                         // + |  
                         if (is_null($v_ci) && !$v_precision && class_exists($type)) {
-                            // pass resolve type to 
                             $rtype = [$type => $rtype];
                         }
                         $targs[] = $v_ci ?? DispatcherService::CreateOrGetServiceInstance($v_host, $rtype);
@@ -352,9 +348,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 }
                 if (!$v_primary && class_exists($type)) {
                     if ($v_injectable && ($v_tc = self::_GetInjectable($type, $args))) {
-                        // system injectable list 
                         $targs[] = $v_tc;
-                        // $v_inject = true;
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
@@ -488,20 +482,16 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 RequestHeader::class => new RequestHeader(),
                 RequestResponse::class => RequestResponse::CreateResponse(),
             ];
-            // extract injector server 
             igk_reg_hook('sys:filter_dipatcher', [self::class, '_UseTypeCallback']);
         }
         if (is_subclass_of($type, ModelBase::class)) {
-            // use injector to register injection -
             return null;
         }
         $obj = ['type'=>$type, 'injects'=>& $injects];
         igk_hook('sys:filter_dipatcher', $obj);
-
         if (!($m = igk_getv($injects, $type))) {
             $refclass = igk_sys_reflect_class($type);
             $m = IGKServices::CreateServiceNewInstance($refclass, $args);
-            //$m = new $type();
             $injects[get_class($m)] = $m;
         }
         if (is_callable($m)) {

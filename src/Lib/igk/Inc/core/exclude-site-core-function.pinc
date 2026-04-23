@@ -1,5 +1,4 @@
 <?php
-
 // exlucde core.pinc 
 
 $exclude_cores = [

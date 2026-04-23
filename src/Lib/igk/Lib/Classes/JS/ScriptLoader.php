@@ -6,6 +6,7 @@
 namespace IGK\JS;
 use IGK\System\IO\HtmlDocument\IDocumentScriptLoader;
 use IGKHtmlDoc;
+
 /**
 * Represent default script loader 
 */

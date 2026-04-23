@@ -8,6 +8,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Caches
@@ -64,10 +65,9 @@ class InitEnvControllerChain{
                 'source'=>$this
             ];
         foreach ($tab as $cl) {
-            if (// is_subclass_of($cl, BaseController::class) &&
+            if (
             !in_array($cl, $no_def))
              {
-                // register controller
                 $g = igk_sys_reflect_class($cl);
                 if ($g->isAbstract() || !$g->getConstructor()->isPublic()) {
                     continue;

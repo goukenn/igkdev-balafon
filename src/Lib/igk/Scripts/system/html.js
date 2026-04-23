@@ -1,7 +1,5 @@
 (function() {
-
     const createNS = igk.system.createNS;
-
     createNS("igk.html", {
         string: function(text) {
             // string text
@@ -43,5 +41,4 @@
             }
         }
     });
-
 })();

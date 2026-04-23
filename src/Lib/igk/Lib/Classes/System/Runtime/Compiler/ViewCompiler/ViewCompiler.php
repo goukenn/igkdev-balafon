@@ -21,6 +21,7 @@ use IGK\System\Views\ViewCommentArgs;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
+
 require_once __DIR__ . "/helper-functions.php";
 /**
  * BALAFON VIEW COMPILER
@@ -181,7 +182,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     */
     public function __construct()
     {
-        // parent::__construct();
         $this->instruction_blocks = new ViewInstructionBlock;
     }
     /**
@@ -240,7 +240,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     break;
                 case T_COMMENT:
                     $options->skipWhiteSpace = true;
-                    // detect layout command
                     if (preg_match($this->expression_regex, $value, $data)) {
                         if ($b = $this->evaluationComment(trim($data['expression']))) {
                             if ($this->m_block) {
@@ -266,7 +265,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     if (key_exists($value, $this->stop_strings)) {
                         $value = $this->stop_strings[$value];
                     }
-                    // start reading expression
                     $this->_readExpression($options, ":expression");
                     $options->flagOptions->buffer = $value . (($id == T_ECHO) ? " " : "");
                     $options->flagOptions->rtrim = true;
@@ -371,12 +369,10 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             $this->_readSetterVariable($options, $id, $value);
             $options->flagOptions->conditional = true;
             return true;
-            //$this->_endSetterVariable($options, $id, $value);
         }
         $fop->buffer .= $value;
         if (($value == ')') && ($fop->depth == $options->depth)){
             $this->_endConditionalExpression($options, $id, $value);
-            // igk_wln("end conditionnal: ".$fop->buffer);
         }
         return true;
     }
@@ -403,7 +399,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     */
     protected function endHandleToken($options)
     {
-        // clear container
         if ($options->flag == self::READ_EXPECT_BLOCK_CONTAINER) {
             $this->_popBuffer($options);
             $this->_popFlag($options);
@@ -444,7 +439,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             }
             $options->buffer = $sb . '';
         }
-        // parent::endHandleToken($options);
     }
     /**
     * Handle flag.
@@ -528,10 +522,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         if (!$options->struct_info) {
             if ($this->top_expression === $fop) {
                 $this->top_expression = null;
-                // if ($value == ')'){
-                //     $fop->buffer .= $value;
-                //     return $this->_appendEndEqualExpression($options, $id, $value, $fop->buffer); 
-                // }
             }
             if (count($fop->dependOn) > 0) {
                 if ($fop->split) {
@@ -601,7 +591,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 }
             }
             if ($id == T_WHITESPACE) {
-                if (!empty($value) && ($value == "\n") && $fop->ignoreDependency) { // possibility to containt white space
+                if (!empty($value) && ($value == "\n") && $fop->ignoreDependency) { 
                     $value .= $this->_getTabStop($options);
                 }
             } else if ($value == '}') {
@@ -630,7 +620,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     break;
                 case '}':
                     // + | expression auto depth 
-                    // igk_wln_e(__FILE__.":".__LINE__,  $options->skipWhiteSpace);
                     if ($options->skipWhiteSpace)
                         $fop->buffer = rtrim($fop->buffer) . "\n" . str_repeat($this->tab_stop, $options->bracketDepth);
                     break;
@@ -694,7 +683,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         switch ($value) {
             case '(':
             case '[':
-            case ')': // end setter var 
+            case ')': 
                 $v = ViewTokenizeArgConstants::SETTER_VAR . '[\'' . $name . '\']';
                 $v_buffer .= $v;
                 $this->_endSetterVariable($options, $id, $value);
@@ -706,7 +695,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     }
                 }
                 return true;
-                // return $this->_handleReadExpression($options, $id, $value);  
             case '=':
                 # affectation detection
                 if (!isset($this->m_init_variables[$name])) {
@@ -837,24 +825,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     protected function _handleReadCaseBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         throw new NotImplementException(__METHOD__);
-        // $v_block = $this->m_block;
-        // $v_flag = $options->flagOptions;
-        // $v_buffer = &$v_flag->buffer;
-        // if ($v_flag->condition) {
-        //     switch ($value) {
-        //         case ':':
-        //             $v_flag->condition = false;
-        //             $v_block->condition = trim($v_buffer);
-        //             $v_buffer = "";
-        //             break;
-        //     }
-        // } else {
-        //     if (self::IsBlockCase($id)) {
-        //         return false;
-        //     }
-        //     $v_buffer .= $value;
-        // }
-        // return true;
     }
     /**
     * Handle read block.
@@ -882,7 +852,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 break;
         }
         if ($v_flag->condition) {
-            // read condition
             $v_add = ($v_flag->depth + 1) < $options->depth;
             switch ($value) {
                 case '(':
@@ -919,19 +888,15 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 case T_ENDIF:
                 case T_ENDSWITCH:
                     $endtag = "end" . $v_flag->type;
-                    // igk_debug_wln_e(__FILE__ . ":" . __LINE__, "end litteral", $endtag, $v_flag);
                     if (($endtag == $value) && ($v_flag->litteral)) {
-                        // match expected litteral
                         $this->_endReadBlock($options, $id, $value);
                         return true;
                     }
                     break;
                 case T_STRING:
                 case T_ECHO:
-                    // leave to top handler
                     return false;
             }
-            // read code
             switch ($value) {
                 case ':':
                     $v_flag->litteral = true;
@@ -949,11 +914,9 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     }
                     if (($v_flag->depth == $options->depth) & ($v_flag->multicode)) {
                         $this->_endReadBlock($options, $id, $value);
-                        // igk_wln_e("multi code end", $v_buffer, $options->buffers);
                     }
                     break;
                 case ';':
-                    // append instruction to block
                     if (!empty($v_buffer)) {
                         $v_block->blocks[] = trim($v_buffer, self::BLOCK_TRIM_CHAR) . $value;
                     }

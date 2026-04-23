@@ -175,5 +175,4 @@
         toString: function() { return "igk.navigator"; }
     });
     m_navprop.cssDomRequire = _nav.isChrome() || _nav.isFirefox() || _nav.isSafari(); //element must be added to dom before getting css computed style
-
 })();

@@ -8,6 +8,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\SysUtils;
 use IGK\System\Database\IUserProfile;
 use IGKException;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
 /**
  * Collection of registrated routes.
@@ -227,7 +228,6 @@ class Route
                 $actions = [];
             }
         } else {
-            //search in all actions
             $actions = self::$sm_actions;
         }
         foreach ($actions as $actions) {

@@ -3,7 +3,6 @@
 // @file: TestExtensionController.php
 // @date: 20230309 12:48:27
 namespace IGK\Tests\Controllers;
-
 use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\Tests\BaseTestCase;
 

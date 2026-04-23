@@ -3,6 +3,7 @@
 // @file: IAppModule.php
 // @date: 20250815 21:25:04
 namespace IGK\System\Core;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core

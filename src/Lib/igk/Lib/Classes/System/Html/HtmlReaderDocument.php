@@ -10,6 +10,7 @@
 namespace IGK\System\Html;
 use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
+
 /**
 * Html reader document.
 * @package IGK\System\Html
@@ -38,7 +39,6 @@ final class HtmlReaderDocument extends XmlNode
     public function CopyTo($target)
     {
         $t = ($c = $this->getChilds()) ? SysUtils::ToArray($c) : null;
-        // $this->__rm_childs(__FUNCTION__);
         if ($t) foreach ($t as $k) {
             if ($k == null)
                 continue;

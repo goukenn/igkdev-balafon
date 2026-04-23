@@ -10,6 +10,7 @@ use IGK\Helper\Utility;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
+
 /**
  * Query row result 
  * @package IGK\Database

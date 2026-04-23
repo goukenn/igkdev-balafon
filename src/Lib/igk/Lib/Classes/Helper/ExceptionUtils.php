@@ -9,6 +9,7 @@ use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
 use IGKException;
+
 /**
 * auto generate doc.
 */
@@ -22,11 +23,6 @@ abstract class ExceptionUtils
         // + | --------------------------------------------------------------------
         // + | show exception 
         // + |
-        // igk_trace();
-        // igk_wln_e("handler ...");
-        // $ex_output = "";
-        // $ex_output .= "<h2>" . $ex->getMessage() . "</h2>";
-        // echo $ex_output;  
         if (!$Ex)
             return;
         $content = "";

@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
-///</summary>used in ajx context. Replace controller view</summary>
+
 /**
  * used in ajx context. Replace controller view
  */

@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Forms;
 use Closure;
 use IGKException;
+
 /**
  * helper to get basic hml form
  * @package 
@@ -69,7 +70,6 @@ class FormHelper{
                 $k_data = " data=\"" . $m_data . "\"";
             }
             if ($bas && ($bas == $d['i'])){
-                // igk_wln_e("selected ".$bas, $d['i']);
                 $k_data.= ' selected="selected"';
             }
             return '<option value="'.$d['i'].'"'.$k_data.'>'.$d['t'].'</option>';

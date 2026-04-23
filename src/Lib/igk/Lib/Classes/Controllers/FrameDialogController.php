@@ -10,6 +10,7 @@
 namespace IGK\Controllers;
 use IGK\System\Html\Dom\HtmlDialogFrameNode;
 use IGK\IFrameController;
+
 /**
 * Frame dialog controller.
 * @package IGK\Controllers

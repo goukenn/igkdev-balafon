@@ -30,6 +30,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use function igk_resources_gets as __;
+
 require_once IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 /**
@@ -185,7 +186,6 @@ abstract class HtmlUtils extends DomNodeBase
         $pnode = $g;
         $T = 0;
         while (count($childs) > 0) {
-            // add child 
             $q = array_shift($childs);
             if ($q === $g) {
                 igk_die('item was childs in list' . $q->render());
@@ -210,7 +210,6 @@ abstract class HtmlUtils extends DomNodeBase
                         $gg->load($q->getInnerHtml());
                         continue;
                     }
-                    // childs part
                     $rchilds = $q->getChilds();
                     if ($rchilds && ($qt = $rchilds->to_array())) {
                         $pr[] = [$p, $pnode];
@@ -406,7 +405,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return "text";
     }
-    ///AddImgLnk add image link
     /**
     * auto generate doc.
     */
@@ -427,7 +425,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
-    ///add button link
     /**
     * auto generate doc.
     */
@@ -442,7 +439,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $a;
     }
-    ///AddImgLnk add image link
     /**
     * auto generate doc.
     */
@@ -508,7 +504,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $frm;
     }
-    ///used to create sub menu in category
     /**
     * auto generate doc.
     */
@@ -526,7 +521,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $ul;
     }
-    ///get all element childs
     /**
     * auto generate doc.
     */
@@ -557,9 +551,6 @@ abstract class HtmlUtils extends DomNodeBase
             if (preg_match("/^\'/", $q) && preg_match("/\'$/", $q)) {
                 $v_h = "'";
             }
-            // if (igk_is_debug()){
-            //     echo "debug \n<br />";
-            // }
             if ((0 === strpos($q, $v_h)) && (strrpos($q, $v_h, -1) !== false)) {
                 $q = substr($q, 1);
                 $q = substr($q, 0, strlen($q) - 1);
@@ -979,7 +970,7 @@ abstract class HtmlUtils extends DomNodeBase
     public static function PrefilterNode($args)
     {
         $options = IGKEvents::CreateHookOptions();
-        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options); // ["output" => null]);
+        return igk_hook(\IGKEvents::FILTER_PRE_CREATE_ELEMENT, $args, $options); 
     }
     /**
     * Postfilter node.

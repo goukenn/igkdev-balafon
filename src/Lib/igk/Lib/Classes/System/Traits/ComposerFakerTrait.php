@@ -5,6 +5,7 @@
 namespace IGK\System\Traits;
 use Faker\Generator;
 use InvalidArgumentException;
+
 /**
 * 
 * @package IGK\System\Traits

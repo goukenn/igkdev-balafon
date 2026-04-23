@@ -12,6 +12,7 @@ use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
+
 /**
 * Schema change column migration.
 * @package IGK\System\Database
@@ -23,7 +24,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
     * @var mixed
     */
     protected $fill_properties = ["table", "column", 'tag'];
-    // source column to restore
     /**
     * Property: column info.
     * @var mixed
@@ -58,13 +58,9 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             return;
         }
         $table  = $this->table;
-        // if ('clUser_Id' == $this->columnInfo->clName){
-        //     Logger::warn(__FILE__.":".__LINE__ . " change ... ");
-        // }
         Logger::info(App::Gets(APP::BLUE_B, '[ db: change column ] ') . sprintf(' - %s.%s - tag: [%s]', $table, $this->columnInfo->clName, $this->tag));
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
-        // $tinfo = DbSchemas::GetTableRowReference($tb, $ctrl);
         $migration = $this->getMigration();
         $cinfo = $this->columns[0];
         if (empty($cinfo->clName))
@@ -74,11 +70,8 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
         }
         $v_column = $this->column;
         if (($mig = $migration->migrationListener) instanceof ISchemaMigrationInfoListener){
-            // treat info 
-            // 
             $v_defTable = $mig->getTableSchemaFileDefinition($tb);
             $v_prefix = $v_defTable->prefix;
-            // 
             $cinfo->clName = Database::AutoPrefixColumn($cinfo->clName, $v_prefix);
             if($link = $cinfo->clLinkColumn){
                 $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
@@ -89,10 +82,8 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             }
             $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);
         }
-        // treat column info defintion ; cause of prefix attached to table 
         try {
             if ($cinfo->clName != $v_column) {
-                // rename first 
                 $ctrl::db_rename_column($tb, $v_column, $cinfo->clName);
             }
             $ctrl::db_change_column($tb, $cinfo);

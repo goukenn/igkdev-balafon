@@ -4,6 +4,7 @@
 // @date: 20251226 13:43:35
 namespace IGK\Helper;
 use IGK\Models\ModelBase;
+
 /**
 * auto generate doc.
 * @package IGK\Helper

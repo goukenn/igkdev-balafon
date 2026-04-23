@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
@@ -15,9 +14,9 @@ use IGK\Database\DbSchemas;
 use IGK\Resources\R;
 use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\CallableConstants;
-
 use function igk_resources_gets as __;
 ///used to get relation </summary>
+
 /**
 */
 function get_relation($mysql, $tname, $clname, $dbname=null){
@@ -27,7 +26,6 @@ function get_relation($mysql, $tname, $clname, $dbname=null){
     $mysql->selectdb($r);
     return $h->getRowAtIndex(0);
 }
-
 ///<summary>Retrieve column information</summary>
 ///<param name="row"></param>
 ///<param name="v"></param>
@@ -75,7 +73,6 @@ function igk_api_get_columninfo($row, $v, $table_n, $mysql, $prefix=""){
         if (in_array($c, ["CURRENT_TIMESTAMP"]))
             $cl["clUpdateFunction"] = "Now()";
     }
-
     // + | laravel timestamp import 
     if (strtolower($cl["clType"]) == "timestamp"){
         if (in_array($n = $cl["clName"], ["created_at", "updated_at"])){
@@ -239,15 +236,10 @@ function igk_api_mysql_addcolumn($api, $tbname, $name){
 function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $callback=null){
     $tconfig = igk_api_mysql_get_config_data_schema($api, false, (object)array("check"=>1));
     if (!isset($tconfig["tbigk_users"])){
-      
         igk_wln($tconfig, igk_configs()->db_name, $api->getDataAdapter()->connect());
         igk_die("users's table not found");
     } 
- 
-
     $tdb =  igk_api_mysql_get_data_schema($api, false, (object)array("check"=>1));
-
-
     $rep=igk_create_node("data_response");
     $err=$rep->add("error-message");
     $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
@@ -307,7 +299,6 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
                 }
             }
         }
-        
         if($v_err){
             unset($ubind[$tbname]);
         }
@@ -324,11 +315,9 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
     if($err->ChildCount > 0)
         $rep["HasError"]=1;
     $option = (object)["xmldefinition"=>1];
-    
     if ($exit){
         $rep->RenderXML($option);        
     }
-
     return $rep->render();
 }
 ///<summary></summary>
@@ -464,13 +453,10 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     $count=0; 
     // inject system db controller 
     array_unshift($ctrl, SysDbController::ctrl());
-
     foreach($ctrl as $v){
         if($v->getCanInitDb() && ($v->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
             $b = BaseController::Invoke($v, "getUseDataSchema");
- 
             if(!$b){ 
-              
                 $tname=$v->getDataTableName();
                 $tinfo=$v->getDataTableInfo();
                 if(!empty($tname) && ($tinfo !== null)){
@@ -503,7 +489,6 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
                         $row["clDescription"]=igk_getv($cv, "clDescription");
                         $cinfo= $cv->columnInfo;
                         $tables[$ck]=(object)array("info"=>$cinfo, "ctrl"=>$v);
-                     
                         foreach($cinfo as $ckv){
                             $cl=$row->addNode(IGK_COLUMN_TAGNAME);
                             $cl->setAttributes((array)$ckv);
@@ -528,7 +513,6 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
         return $tables;
     return $rep;
 }
- 
 ///<summary></summary>
 ///<param name="api"></param>
 ///<param name="render" default="1"></param>
@@ -550,9 +534,6 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
     $cp = igk_getv($param, "prefix-table");
     $prefix = $param && $cp ? "%prefix%" : "";
     $v_filter = igk_getv($param,'filter'); 
-
-
-
     if ($mysql->connect()) {
         if (!($mysql->selectdb($dbname))) {
             $rep->addNode("error")->Content = __("Database {0} not selected", $dbname);
@@ -565,7 +546,6 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
                     if ($e)
                         igk_exit();
                     $rn = $table_n = $t->$n;
-                    
                     if ($cp && $prefix){
                         $rn = igk_str_rm_start($rn, $cp, 1);
                     }
@@ -737,7 +717,6 @@ function igk_api_mysql_who_use($api, $tablename=null){
         igk_exit();
     }
 }
-
 ///<summary></summary>
 ///<param name="t"></param>
 /**
@@ -796,25 +775,20 @@ function igk_api_mysql_get_table_definition($api, $row, $table_n, $mysql, $tinfo
 	$count = $tt->Rows[0]->$b;
     $row["Entries"] = $count;        
 	$row["clDescription"] = $mysql->sendQuery("SHOW TABLE STATUS WHERE NAME='".$table_n."';")->Rows[0]->Comment;
-	
 	//$tt = $mysql->sendQuery("DESCRIBE `".$t->$n."`;");
 	$tt = $mysql->sendQuery("SHOW FULL COLUMNS FROM `".$table_n."`;");
 	$unset_fields = [];
 	foreach($tt->Rows as $m=>$v){
         $cl = igk_api_get_columninfo($row, $v, $table_n, $mysql);
-        
-        
 		if ($tinfo && $cl){
             $tinfo[$v->Field] =new DbColumnInfo( $cl->Attributes->to_array());
         }
-
         if (!empty($v->Extra)){
             if (($v->Extra=="auto_increment") || (strpos($v->Extra, "on update ")!==false)){
                 $unset_fields[] = $v->Field;
             }
         }
 	}
-
 	if($entries && $count>0){
 		$n = $entries->addNode("Rows")->setAttribute("For", $table_n);
 		foreach($mysql->select($table_n)->Rows as $v){

@@ -15,6 +15,7 @@ use IGKAppSystem;
 use IGKEvents;
 use IGKException;
 use IO;
+
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 require_once __DIR__ . "/InstallerUtils.php";
 /**
@@ -87,11 +88,9 @@ class InstallSite
                     "{$c_public}/**",
                     "releases/"
                 ];
-                // generate git ignore
                 igk_io_w2file($gitignore, implode("\n", $configs));
             }
         }
-        // generate phpunit-watcher file
         if (!$is_primary && $is_dev) {
             // + | -----------------------------------------------------------
             // + | for phpunit-watcher
@@ -109,7 +108,6 @@ class InstallSite
                 "   arguments: --stop-on-failure --colors=always --testdox --bootstrap {$c_app}/Lib/igk/Lib/tests/autoload.php {$c_app}/Projects/",
             ]));
             // + | -------------------------------------------------------------------------------------------------
-            // generate phpunit.xml.dist distribution
             self::CreatePhpUnitConfig($folder, $c_app, $c_public);
         }
         // + | -------------------------------------------------------------------------------------------------
@@ -121,7 +119,6 @@ class InstallSite
         if (!is_link($lnk = $app_folder . "/Lib/igk") && !igk_io_file_exists($lnk)) {
             igk_io_createdir(dirname($lnk));
             // + | relative path is important. some directory no allow reading link resources.
-            // $v_tlib = igk_io_get_relativepath(dirname($core).'/', $lnk);
             Logger::info('create core symlink');
             $v_tlib = igk_io_get_relativepath($lnk, dirname($core));
             @symlink($v_tlib, $lnk);
@@ -144,7 +141,6 @@ class InstallSite
             igk_io_createdir($lnk);
             InstallerUtils::NoAccessDir($lnk);
         }
-        // install vendor dir
         $lnk = $app_folder . "/" . IGK_PACKAGES_FOLDER . "/" . IGK_VENDOR_FOLDER;
         if (!empty($vdir = igk_getv($options, "vendordir")) && !is_link(
             $lnk
@@ -154,7 +150,6 @@ class InstallSite
             igk_io_createdir($lnk);
             InstallerUtils::NoAccessDir($lnk);
             $base = dirname($lnk);
-            // generate composer instruction 
             $this->_generateComposer($base, ["name" => strtolower(IGK_PLATEFORM_NAME . "/site-packages")]);
         }
         $lnk = $app_folder . "/" . IGK_PROJECTS_FOLDER;

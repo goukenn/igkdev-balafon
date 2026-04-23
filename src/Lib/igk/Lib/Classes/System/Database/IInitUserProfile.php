@@ -4,6 +4,7 @@
 // @date: 20221113 10:16:58
 // @desc: 
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

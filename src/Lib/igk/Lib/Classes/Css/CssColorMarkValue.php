@@ -6,6 +6,7 @@
 namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * Css color mark value.
 * @package IGK\Css

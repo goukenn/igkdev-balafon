@@ -23,6 +23,7 @@ use IGK\System\WinUI\Views;
 use IGKEvents;
 use PhpMyAdmin\ConfigStorage\UserGroups as ConfigStorageUserGroups;
 use function igk_resources_gets as __;
+
 /**
  * use and group control
  * @package IGK\System\Configuration\Controllers
@@ -121,12 +122,11 @@ class UserAndGroupController extends ConfigControllerBase{
         $h= Authorizations::select_all($b);
         $s=0;
         if(!$h || ($h->RowCount == 0)){
-            $obj= Groupauthorizations::createEmptyRow();//  igk_db_create_row(IGK_TB_GROUPAUTHS);
+            $obj= Groupauthorizations::createEmptyRow();
             $obj->clGroup_Id=$gid->clId;
             $obj->clAuth_Id=$auth->clId;
             $obj->clGrant=1;
             Groupauthorizations::insertIfNotExists($obj->to_array());
-            // $s=igk_db_insert_if_not_exists($this, IGK_TB_GROUPAUTHS, $obj);
         }
         $ad->close();
         return $s;
@@ -211,15 +211,12 @@ class UserAndGroupController extends ConfigControllerBase{
     */
     public function group_add_group_ajx(){
         $fields = $this->getAddGroupFields();
-        // $frame=igk_html_frame($this, "group_add_new_frame");
-        // $frame->title= __("title.AddNewGroup");
-        $div= igk_create_node("div"); // $frame->BoxContent;
+        $div= igk_create_node("div"); 
         $frm=$div->form();
         $frm["action"]=$this->getUri("group_add");        
-        $frm->fields($fields); //addSLabelInput(IGK_FD_NAME, IGK_STR_EMPTY);
+        $frm->fields($fields); 
         $frm->addHSep();
         $frm->addInput("btn.add", "submit",__("btn.Add"));
-        // $frame->RenderAJX();
         igk_ajx_panel_dialog(__("add group"), $div);
     }
     /**
@@ -251,7 +248,6 @@ class UserAndGroupController extends ConfigControllerBase{
     public function group_dropgroup_ajx(){
         $id=igk_getr("clId");
         if(igk_qr_confirm() && igk_server()->method("POST")){
-            // try remove group
             if($id){
                 if (Groups::delete($id)){
                     igk_ajx_toast(__("Group removed"), "igk-success");

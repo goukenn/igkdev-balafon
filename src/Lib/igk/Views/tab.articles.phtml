@@ -9,10 +9,8 @@
 // @url: https://www.igkdev.com
 
 /** @var BaseController $s_ctrl */
-
 use function igk_resources_gets as __;
 use IGK\Resources\R;
-
 ($s_ctrl == null) && igk_die("selected controller not found");
 $div=$t;
 $v_divarticle=$div->div();
@@ -20,12 +18,10 @@ $v_divarticle["id"]="view_articles";
 if (!igk_is_ajx_demand())
 $v_divarticle->add("h3")->Content = 
 __("Article for {0}", $s_ctrl->getName());
-
 $frm=$v_divarticle->addForm();
 $frm["action"]=$ctrl->getUri("ca_add_article_frame");
 $frm->addLabel()->Content= __("Lang");
 $l= R::GetSupportedLangs();  
-
 $tab=array(IGK_ALL_LANG);
 if(count($l) > 0)
     $tab=array_merge($tab, $l);

@@ -4,6 +4,7 @@
 // @date: 20240115 10:34:09
 namespace IGK\System\IO;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO
@@ -46,7 +47,7 @@ abstract class FileHandler{
             self::$sm_handler = [];
         }
         $tab_handler = [];
-        $v_context = self::FILE_CONTEXT_GLOBAL; // 'global';
+        $v_context = self::FILE_CONTEXT_GLOBAL; 
         $tab = explode('|', $extension,2);
         if (isset($tab[1])){
             $v_context = $tab[1];

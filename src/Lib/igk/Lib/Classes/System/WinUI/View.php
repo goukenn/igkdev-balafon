@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
+
 /**
  * default viw block
  * @package IGK\System\WinUI
@@ -23,7 +24,6 @@ class View{
     * @param null|array $options
     */
     public function init(?array $options=null){
-        // init the view
         if ($options){
             foreach($this as $k=>$v){
                 $this->$k = igk_getv($options, $k, $v);
@@ -53,6 +53,5 @@ class View{
      * view of the compoent
      */
     public function view(HtmlNode $n){
-        // implement to build custom view
     }
 }

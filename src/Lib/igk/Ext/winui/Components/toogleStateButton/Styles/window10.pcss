@@ -1,4 +1,5 @@
 /* window10.pcss */
+
 .igk-win10-toggle {
   display: table;
   -webkit-tap-highlight-color: transparent;
@@ -47,12 +48,10 @@
   content: attr(data-off);
   pointer-events: none;
 }
-
 .igk-win10-toggle input:checked + div {
   background: #0078d7;
   border-color: #0078d7;
 }
-
 .igk-win10-toggle input:checked + div:before {
   color: #0078d7; 
   transform: translateX(calc(2em - 1.2em)); 
@@ -61,4 +60,3 @@
 .igk-win10-toggle input:checked + div:after { content: attr(data-on); }
 input:focus + div:after { text-decoration: underline; }
 /* end window10.pcss */
- 

@@ -6,6 +6,7 @@
 namespace IGK\XSD;
 use ArrayAccess;
 use Exception; 
+
 /**
  * 
  * @package IGK\XSD
@@ -24,17 +25,17 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     * Constant: any attribute.
     * @var mixed
     */
-    const ANY_ATTRIBUTE = -1; //strict any attribute
+    const ANY_ATTRIBUTE = -1; 
     /**
     * Constant: any attribute lax.
     * @var mixed
     */
-    const ANY_ATTRIBUTE_LAX = -2; //strict any attribute
+    const ANY_ATTRIBUTE_LAX = -2; 
     /**
     * Constant: any attribute skip.
     * @var mixed
     */
-    const ANY_ATTRIBUTE_SKIP = -3; //strict any attribute
+    const ANY_ATTRIBUTE_SKIP = -3; 
     /**
     * Property: notation.
     * @var mixed
@@ -153,9 +154,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $e = $this->m_node->add("xs:attributeGroup")->setAttribute("name", $name);
         if ($items){
             foreach($items as $k=>$v){
-                // $e->add("xs:attribute")
-                // ->setAttribute("name", $k)
-                // ->setAttribute("type", $v);
                 XsdBuilderUtility::AddSequenceElement($e, $k, $v, "xs:attribute");  
             }
         }

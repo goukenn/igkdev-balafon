@@ -4,6 +4,7 @@
 // @date: 20230302 07:39:08
 // @desc: 
 namespace IGK\System\Console;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console

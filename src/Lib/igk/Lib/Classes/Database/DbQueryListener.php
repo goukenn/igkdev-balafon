@@ -7,6 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
 /**
 * Db query listener.
 */
@@ -16,7 +17,6 @@ final class DbQueryListener{
     * @var mixed
     */
     var $squery;
-    ///query list
     /**
     * .ctr
     */

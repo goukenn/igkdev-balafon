@@ -3,6 +3,7 @@
 // @file: LifeTime.php
 // @date: 20251222 18:32:31
 namespace IGK\System\DependencyInjection;
+
 /**
 * service lifetime 
 * @package IGK\System\DependencyInjection

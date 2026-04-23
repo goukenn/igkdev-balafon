@@ -1,26 +1,14 @@
 #!/usr/bin/env php
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: mail.register.php
 // @date: 20220801 13:36:12
 // @desc: cron scripts 
-
- 
 use IGK\System\Cron\CronExecutionStatus;
 use IGK\System\Net\Mail;
-
-// igk_ilog('mail.register.php invocation......');
-// $ctrl = igk_get_defaultwebpagectrl();
-// $uri = "https://local.com:7300/registerService/activate-mail/?q=".base64_encode(http_build_query([
-//     "email"=>$to, 
-// ]));
-
  $options = (object)[
   'email'=>$to
 ];
-
- 
 $cnf = igk_configs();
 $from = $cnf->get("mail_contact", "info@".$cnf->get("website_domain"));
 $langs = []; 

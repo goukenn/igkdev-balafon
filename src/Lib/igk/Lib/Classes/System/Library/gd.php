@@ -5,6 +5,7 @@
 // @desc:
 namespace IGK\System\Library;
 use IGKGD;
+
 /**
 * Gd.
 * @package IGK\System\Library
@@ -16,7 +17,6 @@ class gd extends \IGKLibraryBase{
      * @return bool True if the GD extension is loaded and the class exists.
      */
     public function init():bool{
-        // initialize function
         if(!extension_loaded("gd")){
             return false;
         }

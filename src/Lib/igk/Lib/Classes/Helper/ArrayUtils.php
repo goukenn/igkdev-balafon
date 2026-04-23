@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\Helper;
-
 use IGK\System\IO\StringBuilder;
 
 /**
@@ -41,7 +40,6 @@ class ArrayUtils
      */
     public static function AttachValue(&$c, $value,bool $unique =false)
     {
-
         if (!is_null($c)) {
             if ($c && is_string($c))
                 $c = [$c];
@@ -78,7 +76,6 @@ class ArrayUtils
         }
         $table =  $t;
     }
-    ///<sumamry> clear table</summary>
     /**
      * Clean.
      * @param array & $table

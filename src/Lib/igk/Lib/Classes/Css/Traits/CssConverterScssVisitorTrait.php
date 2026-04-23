@@ -3,6 +3,7 @@
 // @file: CssConverterScssVisitorTrait.php
 // @date: 20230125 17:55:13
 namespace IGK\Css\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\Css\Traits

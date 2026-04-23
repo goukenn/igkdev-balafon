@@ -4,6 +4,7 @@
 // @date: 20250126 17:49:52
 namespace IGK\System\Text;
 use Exception;
+
 /**
 * 
 * @package IGK\System\Text

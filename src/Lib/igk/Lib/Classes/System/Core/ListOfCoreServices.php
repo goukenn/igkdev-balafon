@@ -3,6 +3,7 @@
 // @file: ListOfCoreServices.php
 // @date: 20250815 16:36:42
 namespace IGK\System\Core;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core

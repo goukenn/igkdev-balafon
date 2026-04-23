@@ -8,6 +8,7 @@ use IGK\Models\Mailinglists;
 use IGK\System\Exceptions\ActionNotFoundException;
 use igk_default\Actions\MailingStates;
 use ReflectionMethod;
+
 /**
 * use to register mail actions - follows us 
 * @package IGK\Actions\Traits

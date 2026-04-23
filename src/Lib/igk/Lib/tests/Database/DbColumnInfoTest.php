@@ -3,7 +3,6 @@
 // @file: DbColumnInfoTest.php
 // @date: 20240920 16:03:12
 namespace IGK\Tests\Database;
-
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbDataTypes;
 use IGK\Tests\BaseTestCase;
@@ -14,7 +13,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class DbColumnInfoTest extends BaseTestCase{
-
     /**
     * Tests dbcolumninfo createlength.
     */
@@ -24,21 +22,17 @@ class DbColumnInfoTest extends BaseTestCase{
         ]);
         $this->assertEquals(30, intval($g->clTypeLength));
         $this->assertEquals('varchar', strtolower($g->clType));
-
         $g = new DbColumnInfo([
             "clType"=>"int"
         ]);
         $this->assertEquals(11, $g->clTypeLength);
         $this->assertEquals('int', strtolower($g->clType));
-
         $g = new DbColumnInfo([
             "clType"=>"phone_number(32)"
         ]);
         $this->assertEquals( DbDataTypes::PHONE_NUMBER_MAX_LENGTH, $g->clTypeLength);
         $this->assertEquals('varchar', strtolower($g->clType));
-
     }
-
     /**
     * Tests dbcolumninfo link column definition.
     */
@@ -49,9 +43,7 @@ class DbColumnInfoTest extends BaseTestCase{
         ]);
         $this->assertEquals('targetTable', $g->clLinkType);
         $this->assertEquals('clguid', strtolower($g->clLinkColumn));
-
     }
-
     /**
     * Tests dbcolumninfo column not null.
     */
@@ -61,7 +53,6 @@ class DbColumnInfoTest extends BaseTestCase{
             "clNotNull"=>"true"
         ]);
         $this->assertTrue($g->clNotNull);
-
         $g = new DbColumnInfo([
             "clType"=>"int",
             "clNotNull"=>"false"

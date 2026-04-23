@@ -1,7 +1,6 @@
 "use strict";
 //repeat content and replace the node
 (function() {
-
     function _init() {
         var q = this;
         var s = q.o.innerHTML;
@@ -21,15 +20,12 @@
             p = g.o.firstChild;
             // console.debug("count ::: " + c);
             c++;
-
             // if (c>50)
             // break;
         }
         q.remove();
         // alert(q);
     };
-
-
     igk.winui.initClassControl("igk-winui-rc", _init, {
         desc: 'repeat-content'
     });

@@ -6,6 +6,7 @@ namespace IGK\System\Html\Forms;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms
@@ -194,8 +195,7 @@ class FieldBuilder implements IteratorAggregate
         if ($caption) {
             $m['legend'] = $caption;
         }
-        $this->m_data[] = $m; // ['type'=>'fieldset'];
-        // $this->m_current = null;
+        $this->m_data[] = $m; 
         unset($this->m_current);
         $this->m_current = null;
         return $this;
@@ -213,7 +213,6 @@ class FieldBuilder implements IteratorAggregate
         }
         return $this;
     }
-    // setter
     /**
     * Placeholder.
     * @param string $n

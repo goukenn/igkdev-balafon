@@ -3,6 +3,7 @@
 // @file: JSonFileConfigurationTrait.php
 // @date: 20230420 12:43:57
 namespace IGK\System\Traits;
+
 /**
 * for json file configuration 
 * @package IGK\System\Traits

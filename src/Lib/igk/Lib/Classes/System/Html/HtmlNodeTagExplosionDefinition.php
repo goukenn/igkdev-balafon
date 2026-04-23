@@ -17,6 +17,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
  * explode tag definition 
  * @package IGK\System\Html
@@ -109,16 +110,12 @@ class HtmlNodeTagExplosionDefinition
      */
     public function explode(string $tagname, &$pnode, $context = null)
     {
-        //  $context = $context ?? $this->getContext();
-        // $v_root_tag = $tagname;
         $id =
             $classes =
             $args =
             $name =
             $attr = null;
         $defs = [];
-        // $ln = strlen($tagname);
-        // $pos = 0;
         $v = "";
         $this->explodeTagDefinition($tagname, $defs, $v);
         $n = &$pnode;
@@ -133,7 +130,7 @@ class HtmlNodeTagExplosionDefinition
             if (!$n) {
                 igk_die("failed to add . " . $tagname);
             }
-            $this->builder->onCreate($n); //['node'=>$n,'root_tag'=>$v_root_tag]);
+            $this->builder->onCreate($n); 
             array_unshift($v_node_creates, $n);
             if ($classes) {
                 $n->setClass($classes);
@@ -172,7 +169,6 @@ class HtmlNodeTagExplosionDefinition
             return $i;
         }
         if (preg_match("/^\[.+\]/", $i)) {
-            // convert array 
             return json_decode($i);
         }
         return $i;
@@ -185,7 +181,6 @@ class HtmlNodeTagExplosionDefinition
     private static function _GetActiveAttribute(string &$a)
     {
         $active_attrib = [];
-        // add active attribute 
         while (preg_match("/(@[a-z_\-]([a-z0-9_\-]+)?)((\\s+@[a-z_\-]([a-z0-9_\-]+)?)+)?(\\s*,)/i", $a, $tbm)) {
             $s = $tbm[0];
             $a = str_replace($s, '', $a);
@@ -216,7 +211,6 @@ class HtmlNodeTagExplosionDefinition
         $attr = null;
         if (strpos($tagname, '(') !== false) {
             !preg_match("/\((?P<name>[^\)]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
-            //+| get args to setup
             $start = $pos = strpos($tagname, '(');
             $g = igk_str_read_brank($tagname, $pos, ')', '(');
             $a = substr($g, 1, -1);
@@ -225,15 +219,12 @@ class HtmlNodeTagExplosionDefinition
                 $args = array_map([self::class, self::DEF_METHOD], $args);
             }
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
-            //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
         }
         if (strpos($tagname, '[') !== false) {
             !preg_match("/\[(?P<name>[^\[\]]+)/i", $tagname, $tab) && igk_die("argument not valid. " . $tagname);
-            // get args to setups
             $start = $pos = strpos($tagname, '[');
             $g = igk_str_read_brank($tagname, $pos, ']', '[');
             $a = substr($g, 1, -1);
-            // $attr = igk_engine_get_attr_arg($a, $context);
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
             $r = self::InitConfigurationReader();
             $v_activa_attrib = self::_GetActiveAttribute($a);
@@ -257,9 +248,7 @@ class HtmlNodeTagExplosionDefinition
         if (strpos($tagname, '#') !== false) {
             $c = preg_match_all("/#(?P<name>[^\%\.#\\s\(\)!]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
-                // get id last id and remove it from tag
                 $id = $tab['name'][$i];
-                // $tagname = str_replace($tab[0][$i], '', $tagname);
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
@@ -267,10 +256,8 @@ class HtmlNodeTagExplosionDefinition
         if (strpos($tagname, '!') !== false) {
             $c = preg_match_all("/!(?P<name>[^!\%\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
-                // get id last id and remove it from tag
                 $ac = $tab['name'][$i];
                 $attr[$ac] = new HtmlActiveAttrib();
-                // $tagname = str_replace($tab[0][$i], '', $tagname);
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
@@ -279,7 +266,6 @@ class HtmlNodeTagExplosionDefinition
             $tclasses = [];
             if ($c = preg_match_all("/\.(?P<name>[^\%\.\\s#\(\)]+)/i", $tagname, $tab)) {
                 for ($i = 0; $i < $c; $i++) {
-                    // get id last id and remove it from tag
                     $tclasses[$tab['name'][$i]] = 1;
                     self::_StrRmValue($tagname, $tab[0][$i]);
                 }
@@ -295,7 +281,6 @@ class HtmlNodeTagExplosionDefinition
         if (strpos($tagname, '%') !== false) {
             $c = preg_match_all("/\%(?P<name>[^\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
-                // get id last id and remove it from tag
                 $name = $tab['name'][$i];
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
@@ -330,10 +315,10 @@ class HtmlNodeTagExplosionDefinition
         $pos = 0;
         $definition = [
             'classes' => [],
-            'id' => null, // ids 
+            'id' => null, 
             'name' => null,
             'tagname' => null,
-            'attr' => null, // active attribute ,
+            'attr' => null, 
             'args' => null,
         ];
         $list = [
@@ -482,7 +467,6 @@ class HtmlNodeTagExplosionDefinition
         if ($s = trim(substr($tag_def, $p)))
             $rf[] = $s;
         $root = $last = $parent = null;
-        // $bck_parent = igk_html_parent_node();
         while (count($rf) > 0) {
             $q = array_shift($rf);
             $targ = empty($rf) ? $args : [];

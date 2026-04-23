@@ -18,6 +18,7 @@ use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGK\Tests\BaseTestCase;
 use IGKException;
+
 /**
 * Make class command.
 * @package IGK\System\Console\Commands
@@ -206,7 +207,6 @@ class MakeClassCommand extends AppExecCommand
         }
         $context = $command->app->getContext();
         if ($context == 'module') {
-            //passing to module - 
             $c = new ModuleMakeClassCommand;
             $module = igk_getv($command->options, "--module");
             return $c->exec($command, $module, $class_path);
@@ -228,7 +228,6 @@ class MakeClassCommand extends AppExecCommand
             $class_path .= 'Test';
         }
         if (!empty($path) && !property_exists($command->options, '--ns')) {
-            // reset namespace
             $ns = "";
         }
         if (!in_array($type, ["class", "interface", "trait"])) {
@@ -265,12 +264,10 @@ class MakeClassCommand extends AppExecCommand
                 }
             }
         }
-        //igk_wln("classPath:", $classPath);
         $g = igk_dir($class_path);
         if (strpos($g, $gs = igk_dir($ns) . "/") === 0) {
             $g = ltrim(substr($g, strlen($gs)), "/");
         }
-        //if ($ctrl){
         if (($_ir = dirname($g)) != '.') {
             $ns = Path::Combine($ns, $_ir);
         }
@@ -280,9 +277,6 @@ class MakeClassCommand extends AppExecCommand
             $fname .= ".php";
         }
         $file = Path::Combine($dir, $fname);
-        // Logger::success("output: " . igk_io_basedir());
-        // Logger::success("output: " . $file);
-        // Logger::success("output: " . getcwd());
         if (!file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
             $author = $this->getAuthor($command);

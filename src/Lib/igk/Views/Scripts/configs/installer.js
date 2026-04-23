@@ -20,14 +20,12 @@ igk.system.createNS("igk.core", {
 				}
 				q.setHtml(e.data);
 			});
-			
 			source.addEventListener("error", function(e){
 				// console.debug("event finish :", e);
 				if(e.readyState == EventSource.CLOSED){
 					console.log("connection closed");
 				}
 			});
-			
 			source.addEventListener("finish", function(e){				
 				// console.debug("event finish :", e.data);
 				source.close();
@@ -37,8 +35,6 @@ igk.system.createNS("igk.core", {
 					document.location.reload(true);					
 				} 
 			});
-			 
-
 		} else {			
 			q.setHtml(igk.R.msg_installing);
 			igk.ajx.post(uri, null, function(xhr){

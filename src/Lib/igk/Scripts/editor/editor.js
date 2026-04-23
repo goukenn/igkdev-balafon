@@ -1,6 +1,4 @@
 "use strict";
-
-
 (function(){
     var _assets = {
         "bold":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTE1LjYgMTAuNzljLjk3LS42NyAxLjY1LTEuNzcgMS42NS0yLjc5IDAtMi4yNi0xLjc1LTQtNC00SDd2MTRoNy4wNGMyLjA5IDAgMy43MS0xLjcgMy43MS0zLjc5IDAtMS41Mi0uODYtMi44Mi0yLjE1LTMuNDJ6TTEwIDYuNWgzYy44MyAwIDEuNS42NyAxLjUgMS41cy0uNjcgMS41LTEuNSAxLjVoLTN2LTN6bTMuNSA5SDEwdi0zaDMuNWMuODMgMCAxLjUuNjcgMS41IDEuNXMtLjY3IDEuNS0xLjUgMS41eiIvPjwvc3ZnPg==",
@@ -27,12 +25,10 @@
             "readonly":false
         };
         var q = this; 
-        
         _editor = igk.createNode("div").addClass("igk-winui-text-editor editor");
         _content = _editor.add('div').addClass("content")
         .setAttribute("contenteditable", "true")
         .setAttribute("autofocus", "true")
-
         .setCss({
             "backgroundColor":"white",
             "position":"absolute",
@@ -63,7 +59,6 @@
             .setAttribute("name", name)
             .setAttribute("id", name)
             .setAttribute("value", "");
-
         _content.o.focus();
         igk.appendProperties(this, {
             update_value : function(t){
@@ -131,16 +126,12 @@
      * represent a plugins class
      */
     function _textEditorPlugin(){
-        
     };
-
     igk.appendProperties(_EDITOR,{
         text: _textEditorClass,
         plugin: _textEditorPlugin
     });
-
     function __init_text_editor(){
-
         var _e = new _EDITOR.text(this.getAttribute("name"));
         var _data = JSON.parse(this.getAttribute("igk:editor-data"));
         if (_data){
@@ -186,8 +177,6 @@
                 e.stopPropagation();
             });
         });
-
-
         ["alignLeft", "alignCenter", "alignRight", "justify"].forEach((i)=>{
             _ul.add("li").addClass("editor_btn").setCss({
                 "background":"url('"+_assets[i]+"')",
@@ -203,9 +192,6 @@
                 e.stopPropagation();
             });
         });
-
-
-
         ["undo", "redo"].forEach((i)=>{
             _ul.add("li").addClass("editor_btn").setCss({
                 "background":"url('"+_assets[i]+"')",
@@ -221,16 +207,12 @@
                 e.stopPropagation();
             });
         });
-
-       
         // define content view
         var _content = _e.content;        
         _content.setHtml( _e.node.o.value); 
         _e.input.o.value = _e.node.o.value; 
-
         _e.editor.add('div').addClass("footer");
         _e.editor.addClass("igk-form-control editor");
-
         function select_changed(p){
             this.p = p;
             var q = this;
@@ -245,17 +227,12 @@
                 }
             });
         };
-        
         igk.winui.reg_event(document, "selectionchange", (new select_changed(_e)).selectionChanged);        
         _e.parent.replaceChild(_e.editor.o, _e.node.o); 
         _e.editor.insertAfter(_e.input.o); 
     }
     igk.winui.initClassControl("igk-winui-text-editor", __init_text_editor);
-
-
 })();
-
-
 // + | styling command
 (function(){
     function _command(cmd){
@@ -280,7 +257,6 @@
         alignRight: _command("justifyRight"),
         justify: _command("justifyFull"),
     });
-
     igk.system.createNS("igk.editor.commands.action",{
         undo: function(){
             this.content.o.focus();

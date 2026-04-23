@@ -3,6 +3,7 @@
 // @file: IHtmlTemplateHost.php
 // @date: 20240122 14:50:14
 namespace IGK\System\Html;
+
 /**
 * represent a node that hold template
 * @package IGK\System\Html

@@ -1,5 +1,4 @@
 <?php
-
 namespace IGK\Tests;
 
 /**
@@ -7,7 +6,6 @@ namespace IGK\Tests;
 * @package IGK\Tests
 */
 abstract class ModuleBaseTestCase extends BaseTestCase{
-
     /**
     * Sets up shared resources before all tests.
     * @return void

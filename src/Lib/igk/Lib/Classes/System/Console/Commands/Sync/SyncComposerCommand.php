@@ -8,6 +8,7 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
+
 /**
 * Sync composer command.
 * @package IGK\System\Console\Commands\Sync

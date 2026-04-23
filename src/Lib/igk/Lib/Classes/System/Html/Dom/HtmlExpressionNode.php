@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlBindingRawTransform;
 use IGK\System\Templates\BindingExpressionReader;
+
 /**
 * Represent IGKHtmlExpressionNodeItem class
 */
@@ -54,7 +55,6 @@ class HtmlExpressionNode extends HtmlNode{
         }
         $script_obj=igk_html_databinding_getobjforscripting($this->ctrl);
         $sout = "";
-        // if ($script_obj){
             $_e=html_entity_decode($src); 
             $shift=0;
             if($_e[0] != "@"){
@@ -74,11 +74,9 @@ class HtmlExpressionNode extends HtmlNode{
                 $exp_reader->transformToEval = true;
             }
             $sout = $exp_reader->treatContent($_e, (object)['raw'=>$this->raw, 'ctrl'=>$this->ctrl]);
-            //$sout=igk_html_databinding_treatresponse($_e, $this->ctrl, $this->raw, null);
             if($shift){
                 $script_obj->resetShift();
             }
-        // } 
         return $sout;
     }
 }

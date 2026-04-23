@@ -3,6 +3,7 @@
 // @file: CSVHelper.php
 // @date: 20231017 23:19:24
 namespace IGK\System\IO\CSV\Helper;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\CSV\Helper
@@ -56,7 +57,6 @@ class CSVHelper
         $tpos = 0;
         $last_segment = null;
         $v_fc_add_line = function ($l) use (&$lines, $callback) {
-            //igk_dev_wln("add : ".$l);
             $lines[] = $l;
             if ($callback) {
                 if (!$callback($l)) {
@@ -67,7 +67,6 @@ class CSVHelper
         };
         $count = 0;
         $ref = [0, 0];
-        // TODO : read csv line helper
         while ($tpos < $v_tlen) {
             $lpos = strpos($src, $LF , $tpos);
             $bpos = strpos($src, $delimiter, $tpos);
@@ -114,7 +113,6 @@ class CSVHelper
                             } else {
                                 $next = strpos($src, $LF , $ref[1] + 1);
                                 if ($next === false) {
-                                    //skip to end of next delimiter
                                     $count++;
                                     $ref[1] = $ref[0]+1;
                                     break;
@@ -141,9 +139,7 @@ class CSVHelper
                 $lpos = $v_tlen;
                 break;
             } else {
-                // detect end line
                 $v_fc_add_line(substr($src, $tpos, $lpos - $tpos));
-                //$v_fc_add_line(substr($src, $tpos));//, $lpos-$tpos));
             }
             $tpos = $lpos + 1;
         }

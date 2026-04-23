@@ -7,10 +7,8 @@
 /*
 description: use to share a link to twitter
 */
-
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
-
 /**
 * Igktwitter button link ctrl.
 */
@@ -43,7 +41,6 @@ abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerType
 	{
 		$t["clTwitterUri"] = igk_getr("clTwitterUri");
 	}
-	 
 	/**
 	 * Returns the category name used to group this controller in the UI.
 	 *
@@ -52,8 +49,6 @@ abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerType
 	public static function GetCtrlCategory(){
 		return "COMMUNITY";
 	}
-	 
-
 	/**
 	 * Renders the Twitter share button with the configured URL and language.
 	 *

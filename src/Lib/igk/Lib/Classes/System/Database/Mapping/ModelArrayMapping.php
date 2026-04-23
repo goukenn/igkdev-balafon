@@ -7,6 +7,7 @@ use Exception;
 use IGK\Models\ModelBase;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database\Mapping

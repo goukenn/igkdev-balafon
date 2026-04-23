@@ -1,10 +1,8 @@
 <?php
-// function helper for regex
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherParentChainReplacement;
 
 if (!function_exists('igk_dump_export')) {
-
     /**
     * auto generate doc.
     * @param string $m
@@ -18,7 +16,6 @@ if (!function_exists('igk_dump_export')) {
             $ss = '[' . substr($ss, strpos($ss, '(') + 1);
             return $ss;
         };
-        // transform to som litteral 
         $c = new RegexMatcherContainer;
         $replace = new RegexMatcherParentChainReplacement;
         $c->autoStore = false;
@@ -27,7 +24,6 @@ if (!function_exists('igk_dump_export')) {
         $skip = $c->match('\\s+', 'skip-multispace')->last();
         $c->autoStore = true;
         $tc = $c->begin('\\barray\\b\\s*\\(', '\\)', 'array_block')->last();
-
         $tc->patterns = [$str, $skip, $tc];
         $pos = 0;
         $out = '';
@@ -39,7 +35,6 @@ if (!function_exists('igk_dump_export')) {
                         $ss = $remove_export_array($ss);
                         if ($e->parentInfo == null) {
                             $out .= $ss;
-                            // stransform
                         } else {
                             $replace->mark($ss, $e);
                         }

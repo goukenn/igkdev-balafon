@@ -7,6 +7,7 @@ use Exception;
 use IGK\Models\Configurations;
 use IGKException;
 use ReflectionClass;
+
 /**
 * auto generate doc.
 * @package IGK\System\WinUI

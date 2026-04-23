@@ -3,7 +3,6 @@
 // @file: ClassSettingBehaviourTest.php
 // @date: 20230315 10:37:48
 namespace IGK\Tests\System\Html\Dom;
-
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -11,7 +10,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html\Dom
 */
 class ClassSettingBehaviourTest extends BaseTestCase{
-
     /**
     * Tests remove class.
     */
@@ -21,7 +19,6 @@ class ClassSettingBehaviourTest extends BaseTestCase{
         $t->setClass('-cl1');
         $this->assertEquals('cl2', $t['class']->getValue());
     }
-
     /**
     * Tests remove class attr.
     */
@@ -31,6 +28,4 @@ class ClassSettingBehaviourTest extends BaseTestCase{
         $t['class']  = '-cl2';
         $this->assertEquals('cl1', $t['class']->getValue());
     }
-    
-
 }

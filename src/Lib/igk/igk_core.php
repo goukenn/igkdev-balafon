@@ -7,6 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 use IGK\ApplicationLoader;
 use IGK\Constants;
@@ -64,16 +65,7 @@ function igk_exit(int $close = 1, int $status = 0)
  */
 function igk_sess_write_close()
 {
-    //+ | ---------------------------------------------------
     /// DEBUG: Track close SESSION
-    //+ | 
-    // if (igk_environment()->isDev()) {
-    //     // igk_ilog("close session " . session_id());
-    //     // igk_ilog(igk_ob_get_func(function () {
-    //     //     igk_trace(2, 0, 0, 0, 1);
-    //     // }));
-    // } 
-    // detect closur before serialize
     if (igk_environment()->isDev()) {
         $tab = $_SESSION ?? [];
         $closure = false;
@@ -153,7 +145,6 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
         igk_wl($c);
     }
 }
-
 /**
 * Igk die s.
 * @param string $msg
@@ -202,7 +193,6 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
     }
 }
 if (!function_exists('igk_die_exception')) {
-
 /**
 * Igk die exception.
 * @param string $exception_class_name
@@ -229,7 +219,6 @@ if (!function_exists('igk_resources_gets')) {
         $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);
-            // $m = array_fill_keys(array_keys($m), $m);
             $text = implode('', array_filter(array_map(function ($a) use ($m) {
                 return igk_resource_gets_map($a, $m);
             }, $text)));
@@ -251,7 +240,6 @@ if (!function_exists('igk_resources_getsf')) {
     }
 }
 if (!function_exists('igk_resources_sprintf')) {
-
     /**
     * auto generate doc.
     * @param mixed ...$args
@@ -345,7 +333,6 @@ if (!function_exists('igk_getv_nil')) {
     }
 }
 if (!function_exists('igk_unset')) {
-
 /**
 * Igk unset.
 * @param mixed & $o
@@ -416,7 +403,6 @@ if (!function_exists('igk_geto')) {
         }
     }
 }
-
 /**
 * auto generate doc.
 * @param mixed $default the default value is null
@@ -436,7 +422,6 @@ function igk_getpv($array, $key, $default = null)
     $def = $default;
     $o = null;
     $ckey = "";
-    //, $key, $n);
     while ($array && (($q = array_shift($n)) || Number::IsZeroIndexNumber($q))) {
         $o = null;
         $ckey = $q;
@@ -466,7 +451,6 @@ function igk_getpv($array, $key, $default = null)
     }
     return $o;
 }
-
 /**
 * Igk getvfirst found.
 * @param mixed $k
@@ -517,7 +501,6 @@ if (!function_exists('igk_io_tempdir')) {
         return false;
     }
 }
-
 /**
 * auto generate doc.
 * @param mixed $args
@@ -530,7 +513,6 @@ function igk_io_get_script($f, $args = null)
     }
     return null;
 }
-
 /**
  * retrieve base working dir.
  * where balafon.config.xml is founded 
@@ -552,7 +534,6 @@ function igk_io_detect_config_working_dir(string $dir, string $config_file = IGK
     }
     return $dir;
 }
- 
 /**
  * evalute constant and get the value
  * @var sstring $name
@@ -606,7 +587,6 @@ function igk_create_instance($class_name, &$obj, $callback)
     }
     return $obj;
 }
-///get basename without extension
 /**
  * get basename without extension 
  * @param string $fname
@@ -640,7 +620,6 @@ function igk_io_remove_ext($name)
     }
     return $name;
 }
-
 /**
 * Igk io inject uri arg.
 * @param mixed $uri
@@ -738,7 +717,6 @@ function igk_is_cmd()
     }
     return ((isset($_SERVER["argv"]) && !isset($_SERVER["SERVER_PROTOCOL"]))) || igk_environment()->get("sys://func/" . __FUNCTION__);
 }
-
 /**
 * Sets cmd.
 * @param mixed $v
@@ -763,7 +741,6 @@ function igk_is_atomic()
 {
     return defined("IGK_FRAMEWORK_ATOMIC") && (IGK_FRAMEWORK_ATOMIC == 1);
 }
-
 /**
 * auto generate doc.
 * @param mixed $name
@@ -788,7 +765,6 @@ function igk_load_library($name)
     }
     return 0;
 }
-
 /**
 * Igk wl tag.
 * @param mixed $tag
@@ -813,7 +789,6 @@ function igk_sys_download_core($download = 1)
         return $tfile;
     }
 }
-
 /**
 * auto generate doc.
 */
@@ -883,7 +858,6 @@ function igk_dump_pre($p)
     var_dump($p);
     echo "</pre>";
 }
-
 /**
 * Igk dev wln.
 */
@@ -893,7 +867,6 @@ function igk_dev_wln()
         call_user_func_array("igk_wln", func_get_args());
     }
 }
-
 /**
 * Igk dev ilog.
 */
@@ -915,7 +888,6 @@ function igk_dev_wln_e()
         call_user_func_array($fc, func_get_args());
     }
 }
-
 /**
 * Binds trace.
 */
@@ -948,7 +920,6 @@ function igk_bind_trace()
         }
     }
 }
-
 /**
 * write to output
 * @param string ...$msg
@@ -959,7 +930,6 @@ function igk_wln($msg = "")
     // + | ---------------------------------------------
     // + | BIND TRACE IF - do not include file for speed 
     // + | igk_trace();
-    // igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
         $c = IGKException::GetCallingFunction($lv);
@@ -984,7 +954,6 @@ function igk_wln($msg = "")
             echo $dn;
         }
     }
-    // $LF = igk_getv($options =  igk_environment->get("sys://igk_wln"), "lf", "<br />");
     if (!($lf = igk_environment()->get(IGK_LF_KEY))) {
         $v_iscmd = igk_is_cmd();
         $lf = $v_iscmd ? IGK_CLF : "<br />";
@@ -1011,7 +980,6 @@ function igk_wln($msg = "")
         }
     }
 }
-
 /**
 * auto generate doc.
 * @param mixed $tab
@@ -1075,8 +1043,6 @@ function igk_wln_e($msg = "", ...$extra)
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
 }
-///<param name="args"> mixed| 1 array is attribute or next is considered as content to render </summary>
-
 /**
 * Igk tag wln.
 * @param mixed $tag
@@ -1102,7 +1068,6 @@ function igk_tag_wln($tag, ...$args)
     }
     igk_wl($o);
 }
-
 /**
 * auto generate doc.
 * @param mixed $ctrl
@@ -1147,7 +1112,6 @@ function igk_ob_trace($depth = 0, $sep = "", $count = -1, $header = 0)
 {
     return igk_ob_get_func('igk_trace', [2 + $depth, $sep, $count, $header]);
 }
-
 /**
 * auto generate doc.
 * @param mixed $depth the default value is 0
@@ -1160,7 +1124,6 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0, ?bool $cmd =
     $cmd = $cmd ?? igk_is_cmd();
     if ($cmd) {
         for ($i = $depth; $i < count($callers); $i++, $tc++) {
-            //+ show file before line to cmd+click to be handle
             $f = igk_getv($callers[$i], "function");
             $c = igk_getv($callers[$i], "class", "__global");
             $o .= igk_getv($callers[$i], "file") . ":" . igk_getv($callers[$i], "line") . PHP_EOL;
@@ -1175,7 +1138,6 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0, ?bool $cmd =
     if ($header) {
         $o .= "<tr style=\"background-color: \">";
         $o .= "<th>&nbsp;</th>";
-        //$o .= "<th>" . __("Line") . "</th>";
         $o .= "<th>" . __("File") . "</th>";
         $o .= "<th>" . __("Function") . "</th>";
         $o .= "<th>" . __("In") . "</th>";
@@ -1188,7 +1150,6 @@ function igk_trace($depth = 0, $sep = "", $count = -1, $header = 0, ?bool $cmd =
         $o .= "<tr style=\"background-color: " . $colors[$i % 2] . "; border-bottom: 2px solid #f3f3f3; \">";
         $o .= "<td style=\"{$tds}\">" . $tc . "</td>";
         $ln = igk_getv($callers[$i], "line");
-        //$o .= "<td style=\"{$tds}\">" . $ln . "</td>";
         $o .= "<td style=\"{$tds}\" class=\"clip_click\" >";
         $g = igk_getv($callers[$i], "file");
         if ($_base_path && $g) {
@@ -1289,7 +1250,6 @@ function igk_is_callable($tab)
 {
     if (($tab == null)||is_numeric($tab))
         return 0;
-
     if (is_callable($tab))
         return true;
     if (is_array($tab) && count($tab) > 2) {
@@ -1315,7 +1275,6 @@ function igk_hook($name, $args = array(), $options = null)
 {
     return IGKEvents::hook($name, $args, $options);
 }
-
 /**
 * Igk hook clear.
 * @param mixed $name
@@ -1324,7 +1283,6 @@ function igk_hook_clear($name)
 {
     IGKEvents::unreg_hook($name, null, true);
 }
-
 /**
 * auto generate doc.
 * @param mixed $priority the default value is 10
@@ -1538,7 +1496,6 @@ if (!function_exists('igk_conf_get')) {
                                     break;
                             }
                             if ($p) {
-                                //bind array
                                 if ($m == null) {
                                     $m = $s;
                                 } else {
@@ -1678,7 +1635,6 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
     if (empty($sdir)) {
         return null;
     }
-    // IGK\System\Diagnostics\Benchmark::mark(__FUNCTION__);
     $v_env = igk_environment();
     $dir = $sdir;
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
@@ -1689,7 +1645,6 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
     $v_env->set($excluded_key,  $m);
     return igk_loadlib_dirs($dir, $ext, $excludedir);
 }
-
 /**
 * auto generate doc.
 * @var string $dirs list of root directory
@@ -1714,7 +1669,6 @@ function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null
         if (!$hdir)
             continue;
         $file = IGK_STR_EMPTY;
-        // inlude .global.php first 
         if (!$root && $project && is_file($gdir = $dir . "/.global.php")) {
             include_once($gdir);
             $files[] = igk_uri($gdir);
@@ -1754,9 +1708,7 @@ function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null
     }
     return $files;
 }
-// ----------------------------------------
 // + | request helper function 
-// ----------------------------------------
 /**
  * retrieve from objet or table 
  * @param mixed $tab table to check
@@ -1821,8 +1773,6 @@ function igk_gets($key, $value = null)
 {
     return igk_get_tab_value($_SESSION, $key, $value);
 }
-///get request object value
-
 /**
 * auto generate doc.
 */
@@ -1914,7 +1864,6 @@ function igk_io_rm_redirectvar(&$uri, $force = 0)
             $tab = array();
             if (isset($g["query"])) {
                 parse_str($g["query"], $tab);
-                // unset redirection variable
                 foreach (array_keys($tab) as $k) {
                     if (strpos($k, "__") === 0) {
                         unset($tab[$k]);
@@ -1945,7 +1894,6 @@ function igk_createobj($tab = null)
     }
     return $o;
 }
-
 /**
 * auto generate doc.
 * @param object $n
@@ -1981,7 +1929,7 @@ function igk_sys_getdefaultctrlconf()
         "clDataAdapterName" => igk_configs()->get("default_dataadapter", IGK_CSV_DATAADAPTER),
         IGK_CTRL_CNF_USE_DATASCHEMA => false,
         "clDisplayName" => null,
-        "clRegisterName" => null,   // register name will be converted as entry namespace
+        "clRegisterName" => null,   
         "clParentCtrl" => null,
         "clTargetNodeIndex" => 0,
         "clVisiblePages" => "*",
@@ -2017,7 +1965,6 @@ function igk_sys_reflect_class($cl, &$reference = null)
     igk_trace();
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
-
 /**
 * Igk sys reflect class unset.
 * @param mixed $cl
@@ -2090,7 +2037,6 @@ if (!function_exists('igk_io_workingdir')) {
         igk_die("failed to found working directory " . getcwd());
     }
 }
-
 /**
 * auto generate doc.
 * @param tmp
@@ -2261,14 +2207,8 @@ function igk_reg_global_setting($n, $d, $desc = null)
     $obj->clDesc = $desc;
     $tab[$n] = $obj;
     igk_set_env($k, $tab);
-    // if (igk_current_context() != IGKAppContext::initializing) {
-    //     if (igk_app()->IsInit() && !isset(igk_configs()->{$n})) {
-    //         igk_configs()->{$n} = $d;
-    //     }
-    // }
     return 1;
 }
-///<return type='array'>loaded files</param>
 /**
  * load environment files
  * @param string $dirname
@@ -2308,7 +2248,6 @@ function igk_php_sversion(?string $version = PHP_VERSION): string
     $version = preg_split("/[^0-9\.]/i", $version)[0];
     return implode('.', array_slice(explode('.', $version), 0, 2));
 }
-
 /**
 * auto generate doc.
 * @param array headers list of extra header entries
@@ -2332,7 +2271,6 @@ function igk_set_header(int $code, $message = "", $headers = [])
         }
     }
     igk_clear_header_list();
-    // $v_secure = igk_configs()->force_secure_redirection;
     $msg = igk_get_header_status($code);
     $txt = "Status: {$code} $msg";
     if (!$fcall) {
@@ -2348,7 +2286,6 @@ function igk_set_header(int $code, $message = "", $headers = [])
             if ($sess_id) {
                 $sess_name = session_name();
                 $domain = igk_get_cookie_domain();
-                // $is_renew = igk_app()->getApplication()->getLibrary()->session->isRenew();
                 // + | --------------------------------------------------------------------
                 // + | attach new cookies - session if no present
                 // + |                
@@ -2463,7 +2400,6 @@ function igk_dump_array(...$args)
     igk_wl(...$args);
 }
 if (!function_exists('igk_sys_reflect_public_class_var')) {
-
     /**
     * auto generate doc.
     * @param string $class_name
@@ -2491,7 +2427,6 @@ if (!function_exists('igk_get_object_public_vars')) {
     }
 }
 if (!function_exists('igk_sys_detect_project_controller')) {
-
 /**
 * Igk sys detect project controller.
 * @param string $project_dir
@@ -2568,8 +2503,6 @@ if (!function_exists('igk_controller_from_dir')) {
         return null;
     }
 }
-
-
 if (!function_exists('igk_read_line')) {
     /**
      * write read line
@@ -2585,9 +2518,6 @@ if (!function_exists('igk_read_line')) {
         return readline();
     }
 }
-
-
-
 /**
  * just find a user
  * @param string $name 
@@ -2599,4 +2529,31 @@ function igk_sys_find_auth_user(string $name){
     }
     $r = igk_hook(IGKEvents::HOOK_FIND_USER, ['name'=>$name]);
     return $r;
+}
+if (!function_exists('igk_prop_exists')) {
+	/**
+	 * get property exists key 
+	 * @param mixed $obj
+	 * @param mixed $property string is pipe separated string or array<string>
+     * @return array
+	 */
+	function igk_prop_exists($obj, $property): array
+	{
+		if (is_string($property)) {
+			$property = explode('|', $property);
+		}
+		$r = [];
+		$fc_check = function ($obj, $v) use (&$r) {
+			return isset($obj[$v]);
+		};
+		if (is_object($obj)) {
+			$fc_check = function ($obj, $v) {
+				return property_exists($obj, $v);
+			};
+		}
+		foreach ($property as $v) {
+			$r[$v] = $fc_check($obj, $v);
+		}
+		return array_values($r);
+	}
 }

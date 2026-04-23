@@ -5,6 +5,7 @@
 namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlTextNode;
+
 /**
  * used to visit html node
  * @package IGK\System\Html
@@ -83,7 +84,6 @@ class HtmlVisitor
                 $this->beforeBeginVisit($n, $childs);
                 $counter = count($childs);
                 $has_child = $counter > 0;
-                // treatmap                
                 $check = $v_startc($n, $first_child, $has_child, $last_child);
                 if (!$this->skip) {
                     if ($has_child) {
@@ -110,7 +110,6 @@ class HtmlVisitor
                         }
                         continue;
                     } else if (is_null($check)) {
-                        // next item must be consider as first childs 
                         if (count($tq)>0){
                             $tq[0]['first_child'] = true;
                         }  else {

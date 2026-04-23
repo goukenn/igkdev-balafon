@@ -2,9 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: HtmlValidatorTest.php
 // @date: 20230117 15:13:37
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Validator/HtmlValidatorTest.php 
 namespace IGK\Tests\System\Validator;
-
 use IGK\System\Html\Forms\Validations\HtmlValidator;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Validator
 */
 class HtmlValidatorTest extends BaseTestCase{
-
     /**
     * Tests remove tag.
     */
@@ -23,7 +20,6 @@ class HtmlValidatorTest extends BaseTestCase{
         $this->assertEquals("Hello word!!!",         
         $validator->validate($s));
     }
-
     /**
     * Tests remove leave one tag.
     */

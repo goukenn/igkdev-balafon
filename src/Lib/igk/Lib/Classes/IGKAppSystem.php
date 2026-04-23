@@ -12,6 +12,7 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Caches\EnvControllerCacheList;
+
 /**
  * system core 
  * @package 
@@ -213,8 +214,6 @@ class IGKAppSystem
         IO::CreateDir($app_dir . "/cgi-bin");
         igk_io_save_file_as_utf8($app_dir . "/cgi-bin/.htaccess", "deny from all");
         igk_io_save_file_as_utf8($app_dir . "/cgi-bin/cronjob.php", igk_get_defaultcron_data(), false);
-        // 
-        // load library folder  
         //
         self::_LoadEnvFiles();
         igk_io_save_file_as_utf8($confFILE, date('Y-m-d h:i:s'), false);
@@ -277,7 +276,6 @@ class IGKAppSystem
         // + | --------------------------------------------------------------------
         // + | LOAD DB SCHEMA CACHE
         // + |
-        // EnvControllerCacheDataBase::RegisterToChain($c);
         // + | --------------------------------------------------------------------
         // + | LOAD CONTROLLER LISTS
         // + |

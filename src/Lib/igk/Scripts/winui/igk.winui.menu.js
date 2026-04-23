@@ -1,13 +1,10 @@
 "use strict";
-
 (function() {
     var selectors = {};
     var _ids = {};
-
     function uid() {
         return (performance.now().toString(36) + Math.random().toString(36)).replace(/\./g, "");
     };
-
     function _id_css(s) {
         id = s.o.getAttribute("id");
         if (!id) {
@@ -19,14 +16,12 @@
         }
         return s.getCssSelector();
     };
-
     function _addcss(id) {
         var c = igk.dom.body().add("style");
         c.o["type"] = "text/css";
         c.o["id"] = id;
         return c;
     };
-
     function get_auto_height(q) {
         var s = q.o.getAttribute("style");
         var o = q.getComputedStyle('height');
@@ -37,19 +32,14 @@
             q.o.setAttribute("style", s);
         else
             q.o.removeAttribute("style");
-
         r = (r == "0px") ? q.o.scrollHeight + "px" : r;
         return r;
     };
-
     function _change_a(a, sub) {
-
         a.addClass({
             "expand": sub.supportClass("expand"),
         });
     };
-
-
     igk.system.createNS("igk.winui.menu.accordeonMenu", {
         /**
          * init accordeonMenu accordeons menu
@@ -61,10 +51,7 @@
             var expand_item = null;
             var expand_item_a = null;
             var type = (options ? options.type : null) || 0;
-
-
             function _toggle_single(_id, sub, a) {
-
                 if (!(_id in selectors)) {
                     var mh = get_auto_height(sub);
                     _addcss(_id).o.sheet.addRule(_id + ".expand", "height:" + mh);
@@ -93,7 +80,6 @@
                 }
                 //}
                 // console.debug('change');
-
             };
             q.qselect('a').each_all(function(a) {
                 var a = this;
@@ -113,5 +99,4 @@
             });
         }
     });
-
 })();

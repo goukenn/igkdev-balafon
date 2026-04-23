@@ -7,90 +7,71 @@
 /*
 controller to load inistialization script on document
 */
-
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * Igkjsscript init ctrl.
 */
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Property: script.
     * @var mixed
     */
     private $m_script;
-
     /**
     * Support multiple.
     */
-
-    public static function SupportMultiple(){//return false to indicate that an element of this type must be unique
+    public static function SupportMultiple(){
 		return false;
 	}
-
     /**
     * Returns Can Add Child.
     */
-
     public function getCanAddChild(){
 		return false;
 	}
-
     /**
     * Returns Can Edit Data Base.
     */
-
     public function getCanEditDataBase()
 	{
 		return false;
 	}
-
     /**
     * Returns Can Edit Data Table Info.
     */
-
     public function getCanEditDataTableInfo(){
 		return false;
 	}
-
     /**
     * Initializes Target Node.
     * @return ?HtmlNode
     */
-
     protected function initTargetNode(): ?HtmlNode
 	{
 		$n =  HtmlNode::CreateWebNode("script");
 		$this->m_script = $n;
 		return null;
 	}
-
     /**
     * Returns Is Visible.
     * @return bool
     */
-
     public function getIsVisible():bool{
 		return !igk_is_confpagefolder();
 	}
-
     /**
     * Page folder changed.
     */
-
     public function pageFolderChanged()
 	{
 		$this->View();
 	}
-
     /**
     * View.
     * @return BaseController
     */
-
     public function View():BaseController
 	{
 		if ($this->IsVisible)

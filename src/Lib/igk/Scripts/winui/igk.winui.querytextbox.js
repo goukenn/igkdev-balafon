@@ -8,17 +8,13 @@
 	//---------------------------------------------------------------------------------
 	//private variable in context
 	//---------------------------------------------------------------------------------
-	
 	igk.system.createNS("igk.winui.querytextbox", {
 		init:function(target, uri)
 		{
 			if (target==null)
 				return;
-				
 			var m_target = target;
 			var m_uri = uri;
-				
-			
 			function querytextboxobj(){
 				var m_target = target;
 				var m_uri = uri;
@@ -29,7 +25,6 @@
 				this.view = document.createElement("div");
 				this.ul = null; 
 				m_target.parentNode.appendChild(this.view);
-				
 				$igk(m_target).reg_event("keyup", function(evt){ 	
 					q.update(this.value);
 				});
@@ -71,14 +66,12 @@
 							q.ul = document.createElement("ul");
 							$igk(q.ul).addClass("clselect dispb fitw fith");
 						}
-						
 						var md = document.createElement("div");
 						md.innerHTML = xhr.responseText;
 						md = md.getElementsByTagName("response")[0];
 						$igk(md).select("item").replaceTagWith(//"option"
 						"li"
 						).each(function(){							
-							
 							var a = document.createElement("a");
 							var name = this.getAttribute("name");
 							var desc = this.getAttribute("description");
@@ -97,23 +90,16 @@
 							this.o.appendChild(a);
 							return this;
 						});
-							
 						q.view.innerHTML = "";
 						q.view.appendChild(q.ul);
 						q.ul.innerHTML = md.innerHTML;
-						
 						$igk(q.ul).select("a").each(function(){  
 							this.addClass("queryboxitem dispb fitw").reg_event("click", function(evt){ _updateValue($igk(this).getAttribute("value")); evt.preventDefault(); }); 
 						return this;});
-						
 					}
 					});
-			
 			};
-		
-				
 			};			
-			
 			return new querytextboxobj(target, uri);
 		}
 	});

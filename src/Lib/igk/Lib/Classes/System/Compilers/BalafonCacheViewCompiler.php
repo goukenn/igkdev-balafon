@@ -13,6 +13,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewHandler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Compilers
@@ -33,7 +34,6 @@ class BalafonCacheViewCompiler{
      */
     public static function Compile(BaseController $controller, string $file, $args = null, $noExtra = false ){
         $extra = "";
-        // $cache = igk_cache()::view();
         $node = igk_create_notagnode();
         igk_html_article($controller, $file, $node, $args, null, false, true, false);
         ob_start();
@@ -91,7 +91,6 @@ class BalafonCacheViewCompiler{
                 $tab = explode(" ", $this->tab["class"] ?? "");
                 $carr = array_map(function($a)use(& $tab){
                     if (strpos($a,'-')===0){
-                        // remove 
                         $k = substr($a, 1);
                         if ( ($index = array_search($k, $tab)) === false){
                             unset($tab[$index]);
@@ -117,8 +116,6 @@ class BalafonCacheViewCompiler{
             }  
             unset($v, $k);
             include(func_get_arg(0));
-            // $layout->PARAMS = array_merge($layout->PARAMS ?? ["inforamation"], get_defined_vars());
-            // igk_wln_e(__FILE__.":".__LINE__,  "layout ---- ", $layout);
         })->bindTo($controller);
     }
 }

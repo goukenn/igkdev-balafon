@@ -3,10 +3,10 @@
 // @filename: MacrosHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
+
 //
 // @file: MacrosHelper.php
 // @author: C.A.D. BONDJE DOUE
-// version: 1.0
 //
 namespace IGK\Helper;
 use IGK\Models\Users;
@@ -43,7 +43,6 @@ class MacrosHelper
     public static function __callStatic($name, $arguments)
     {
         if (self::$macros == null) {
-            //init global macros function 
             self::$macros = [
                 'auth' => function ($auths, $strict = false) { 
                     /**
@@ -103,9 +102,8 @@ class MacrosHelper
             if (!is_string($auths)) {
                 return false;
             }
-            $auths = explode('|', $auths); // [$auths];
+            $auths = explode('|', $auths); 
         } 
-        // $data = $q->to_array();
         if (($g = $q->{$key}) === null) {
             $g = [];
             if ($q->clId !==null){
@@ -121,7 +119,6 @@ class MacrosHelper
         if (($is_auth = count($g) > 0)) {
             if ($strict) {
                 while ($is_auth && ($auth = array_shift($auths))) {
-                    // check all auths
                     if (!($is_auth = in_array($auth, $g))) {
                         break;
                     }

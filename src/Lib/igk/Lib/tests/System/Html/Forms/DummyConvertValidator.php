@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\Tests\System\Html\Forms;
-
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorContainerBase;
@@ -16,7 +14,6 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
      * @var ?string 
      */
     private $m_target;
-
     /**
     * Validate.
     * @param mixed $data
@@ -32,7 +29,6 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
                 return $o;
             }
         }
-
     }
     /**
      * expected value 
@@ -42,7 +38,6 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
     public function assertValidate($value): bool { 
         return is_null($value) || is_object($value) || is_array($value); 
     }
-
     /**
     * Returns Fields.
     * @return array
@@ -52,7 +47,6 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
             'dummy'=>[]
         ];
     }
-
     /**
     * Returns Target Class.
     */

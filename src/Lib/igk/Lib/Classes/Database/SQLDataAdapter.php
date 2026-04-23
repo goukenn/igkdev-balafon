@@ -15,6 +15,7 @@ use IGKSysUtil;
 use ModelBase;
 use function igk_getv as getv;
 use function igk_resources_gets as __;
+
 /**
 * Represent IGKSQLDataAdapter class
 */
@@ -113,7 +114,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     */
     protected function create_grammar(){        
         $grammar = new SQLGrammar($this);
-        // $grammar->driver = $this;
         return $grammar;
     }
     /**
@@ -184,7 +184,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
             if (in_array($c, ["CURRENT_TIMESTAMP"]))
                 $cl["clUpdateFunction"] = "Now()";
         }
-        //+ insert and update function ignored
         return $cl; 
     }
     /**
@@ -249,9 +248,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     * @param mixed $tabinfo the default value is null
     */
     public function update($tablename, $entry, $condition=null, $tabinfo=null){
-        // $this->dieNotConnect();
         $query = $this->getGrammar()->createUpdateQuery($tablename, $entry, $condition, $tabinfo);
-        // $query=IGKSQLQueryUtils::GetUpdateQuery($tablename, $entry, $condition, $tabinfo);
         $s=$this->sendQuery($query, $tablename);
         return $s;
     }

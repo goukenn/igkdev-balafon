@@ -2,7 +2,6 @@
     // file: convert.js
     // @date: 20230102 14:43:14
     // @desc: 
-
     'use strict';
     (function() {
         // igk.system.convert namespace
@@ -62,5 +61,4 @@
                 return o;
             }
         });
-
     })();

@@ -4,6 +4,7 @@
 // @date: 20230106 15:39:28
 namespace IGK\System\Html\Css;
 use IGK\System\IO\Configuration\ConfigurationReader;
+
 /**
 * use to parse css litteral
 * @package IGK\System\Html\Css
@@ -39,7 +40,6 @@ class CssStringConverter extends ConfigurationReader{
             switch($ch){
                 case '"':
                 case "'":
-                    // litteral consideration
                     $d.= igk_str_read_brank($this->m_text, $this->m_offset, $ch, $ch,null,1, 1);                   
                 break;
                 default:

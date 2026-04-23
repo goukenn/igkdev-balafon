@@ -47,7 +47,6 @@ class IncCommand{
         $response->die("call to undefined command - ".$name);
     }
 }
-
 $cmd = new IncCommand($home);
 if ($fc = igk_getr('cmd')){    
     $cmd->$fc();

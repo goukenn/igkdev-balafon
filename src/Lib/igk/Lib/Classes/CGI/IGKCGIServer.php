@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\CGI;
 use IGK\System\Html\HtmlReader;
+
 /**
 * auto generate doc.
 * @package IGK\CGI
@@ -78,7 +79,6 @@ class IGKCGIServer
         }
         return null;
     }
-    // prepare cgi server
     /**
     * Prepares.
     */
@@ -105,7 +105,6 @@ class IGKCGIServer
                     }
                     return self::getInstance();
             }
-            // case multipart/formdata
             $inf = explode(";", $ctype);
             array_shift($inf);
             $_cattr=  HtmlReader::ReadAttributes(implode(" ", $inf));
@@ -113,13 +112,12 @@ class IGKCGIServer
             $_type =null;
             $_attr =null;
             $_dtype = null;
-            $h = -1; // read mode
+            $h = -1; 
             $key = 0;
             $v = "";
             while($l = fgets($fin)){
                 $cl = trim($l);
                 if (empty($cl) && ($h==1) ){
-                    // read start read value 
                     $h = 0; 
                 }
                 else {
@@ -144,18 +142,16 @@ class IGKCGIServer
                             }
                         break;
                         case 0:
-                            // read value;
                             if ($_attr){
                                 $n = $_attr["name"];
                                 if (array_key_exists("filename", $_attr)){
                                     $error = 0;
                                     $cf = null;
-                                    // igk_wln("in array : ".$cl);
                                     if (strpos(trim($cl), $key) !== 0){                                        
                                         $cf = igk_io_sys_tempnam("cgi");
                                         $wfile = fopen($cf,"w+");
                                         if (!$wfile) 
-                                            $error = 1; // failed to create temp file
+                                            $error = 1; 
                                         else 
                                             fwrite($wfile, $l);
                                         self::RegFile($cf);
@@ -179,7 +175,6 @@ class IGKCGIServer
                                         "error"=>$error
                                     ];
                                     $_FILES[$n]=$finfo;
-                                    // igk_wln_e("read file data:", $finfo, $_attr, file_get_contents($cf));
                                     $_type = null;
                                     $_attr = null;
                                     $_dtype = null;

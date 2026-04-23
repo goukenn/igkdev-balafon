@@ -6,6 +6,7 @@ namespace IGK\System\Configuration;
 use IGK\Helper\StringUtility;
 use IGK\Resources\R;
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 * @package IGK\System\Configuration

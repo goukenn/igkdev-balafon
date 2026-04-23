@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: environment.php
 // @date: 20220831 14:22:54
@@ -13,7 +12,6 @@ function igk_set_env($k, $v)
 {
     igk_environment()->set($k, $v);
 }
-
 /**
 * auto generate doc.
 * @param mixed $default
@@ -25,7 +23,6 @@ function igk_get_env($k, $default = null)
     }
     return igk_environment()->get($k, $default);
 }
-
 /**
 * auto generate doc.
 * @param mixed $callback

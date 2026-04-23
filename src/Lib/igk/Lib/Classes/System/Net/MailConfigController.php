@@ -18,6 +18,7 @@ use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGKException;
 use IGKValidator;
 use ReflectionException;
+
 /**
  * mail configuration controller
  * @package IGK\System\Net
@@ -284,7 +285,6 @@ EOF;
         igk_app()->Doc->body->add(new HtmlSingleNodeViewerNode($m));
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * View.
     * @return BaseController
@@ -301,7 +301,6 @@ EOF;
         $c = $c->ClearChilds()->addPanelBox();
         igk_html_add_title($c, "title.configmailserver");
         $c->addPanel()->article($this, "mailserver");
-        // igk_html_article($this, "mailserver", $c->addPanel());
         $div = $c->div();
         $div->addNotifyHost("mailconfig");
         $frm = $div->addForm();
@@ -361,13 +360,6 @@ EOF;
                 'tip' => 'contact mail'
             ],
         ]);
-        // $frm->div()->host(function($t)use($cnf){$t->addLabel("cl.mailAuthType", __("clAuthType"));
-        //     $sl=igk_html_build_select($t, "clAuthType", array("ssl"=>"ssl", "tsl"=>"tsl"), null, $cnf->mail_authtype);
-        //     $sl["class"]="igk-form-control";
-        // });
-        // $frm->div()->addSLabelInput("clMailUser", "text", $cnf->mail_user);
-        // $frm->div()->addSLabelInput("clMailPwd", "password", $cnf->mail_password);
-        // $frm->div()->addSLabelInput("clContactTo", "text", $cnf->mail_contact, $attribs);
         $frm->actionbar(function ($t) {
             $t->addBtn("btn_update", __("Update"));
         });
@@ -378,12 +370,9 @@ EOF;
         $frm["class"] = "+send-mail-form";
         $fs = $frm->add("fieldset");
         $fs["style"] = "padding: 15px; margin-left:-15px; margin-right: -15px; margin-bottom: 10px; border-bottom:none;";
-        // build form 
         $fs->add("legend")->setContent(__("Test send mail"));
         $frm->host(function ($f) {
             $dv = $f->div();
-            // $dv->label()->Content = __("From");
-            // $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control");//->setAttribute("disabled", "true");
             $f->div()->addSLabelInput("clTestMail", "text", igk_configs()->mail_testmail);
             $g = $f->div()->addSLabelInput("subject", "text", "");
             $g->input->setAttribute("placeholder", __("Subject"));

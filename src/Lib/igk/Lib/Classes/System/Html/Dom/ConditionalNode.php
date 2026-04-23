@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom

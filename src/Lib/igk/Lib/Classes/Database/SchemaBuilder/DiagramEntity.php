@@ -9,6 +9,7 @@ use IGK\Helper\Activator;
 use IGK\Resources\R;
 use IGK\System\Console\Logger;
 use IGKException;
+
 /**
  * represent diagram entities
  * @package 
@@ -193,7 +194,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
                 "clDescription" => $description
             ]
         ]);
-        // return $this;
     }
     /**
      * add primary column
@@ -313,8 +313,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     public function link(string $name, string $table, ?string $column = null, $linkName = null, $notnull = false,
     $inputtype = "", $default = 0, $description = null
     ): IDiagramSchemaEntity
-    //(string $name, $table_name, $linkColumn = 'clId', $linkName = null, $notnull = false, 
-   // $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([[
             "clName" => $name, "clType" => "Int",

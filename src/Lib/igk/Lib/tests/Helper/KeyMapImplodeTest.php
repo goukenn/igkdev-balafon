@@ -2,9 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: KeyMapImplodeTest.php
 // @date: 20230307 11:59:11
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/HelperFunctions/Array/KeyMapImplodeTest.php
 namespace IGK\Tests\Helper\Array;
-
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -12,7 +10,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\HelperFunctions\Array
 */
 class KeyMapImplodeTest extends BaseTestCase{
-
     /**
     * Tests normal.
     */
@@ -23,7 +20,6 @@ class KeyMapImplodeTest extends BaseTestCase{
             $r
         );
     }
-
     /**
     * Tests normal width array.
     */
@@ -34,7 +30,6 @@ class KeyMapImplodeTest extends BaseTestCase{
             $r
         );
     }
-
     /**
     * Tests normal width index array.
     */

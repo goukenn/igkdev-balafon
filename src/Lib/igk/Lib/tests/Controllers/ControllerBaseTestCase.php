@@ -3,9 +3,7 @@
 // @filename: ControllerBaseTestCase.php
 // @date: 20220803 13:48:54
 // @desc: 
- 
 namespace IGK\Tests\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Http\RequestResponse;
 use IGK\Tests\BaseTestCase;
@@ -15,19 +13,15 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\Controllers
 */
 abstract class ControllerBaseTestCase extends BaseTestCase{
-
     /**
     * Property: controller.
     * @var mixed
     */
     protected $controller;
-    // FOR PHP+8 disable construct of
-
     /**
     * Sets up the test environment before each test.
     * @return void
     */
-
     public function setUp():void{
         parent::setUp();
         $ctrl = $this->controller;
@@ -39,22 +33,11 @@ abstract class ControllerBaseTestCase extends BaseTestCase{
             $this->controller = $ctrl;
         }  
     }
-    // public function __construct(?BaseController $ctrl = null){
-    //     parent::__construct();
-    //     if ($ctrl === null){
-    //         if ($c = igk_getv($_ENV, "IGK_TEST_CONTROLER")){
-    //             $this->controller = igk_getctrl($c); 
-    //         }
-    //     }else{
-    //         $this->controller = $ctrl;
-    //     }  
-    // }
     /**
      * handle request and return a request response
      * @param string $uri 
      * @return RequestResponse 
      */
-
     protected function handleRequest(string $uri):RequestResponse{ 
         $this->controller->getConfigs()->no_auto_cache_view = true;
 		return $this->controller::handle($uri);

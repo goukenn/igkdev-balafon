@@ -3,32 +3,25 @@
 // @filename: IGKInstallSiteConfig.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 // @file: IGKInstallSiteConfig
-// desc: install site
-//
 
+//
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase; 
 use IGK\System\Installers\InstallSite;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use function igk_resources_gets as __;
-
 /**
  * install site configs
  * @package 
  */
 class IGKInstallSiteConfig extends ConfigControllerBase
 {
-
     /**
     * Constant: ref name.
     * @var mixed
     */
     const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
-
     /**
     * Returns Name.
     * @return string
@@ -36,7 +29,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
     public function getName(): string{
 		return  self::REF_NAME;
 	}
-
     /**
     * Installs.
     * @param null|mixed $folder
@@ -48,7 +40,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 			$packagefolder = igk_get_packages_dir();
 		}
 		if ($folder == null) {
-			// install request
 			if (igk_server()->method("POST") && igk_valid_cref(1)) {
 				$folder = igk_uri(igk_getr("rootdir", $folder));
 				$packagefolder = igk_getr("packagedir", $packagefolder);
@@ -65,7 +56,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		InstallSite::Install($folder, $packagefolder, $listen, $environment);
 		igk_notifyctrl("installsite")->addSuccessr("Install site success");
 	}
-
     /**
     * .ctr
     */
@@ -73,7 +63,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	{
 		parent::__construct();
 	}
-
     /**
     * Sets Config.
     * @param mixed $c
@@ -81,7 +70,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
     public function setConfig($c)
 	{
 	}
-
     /**
     * Returns Config Page.
     */
@@ -89,7 +77,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	{
 		return "installsite";
 	}
-
     /**
     * Returns Config Group.
     */
@@ -97,7 +84,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	{
 		return "administration";
 	}
-
     /**
     * Returns Is Config Page Available.
     */
@@ -105,7 +91,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	{
 		return !igk_io_is_subdir(igk_io_applicationdir(), IGK_LIB_DIR);
 	}
-
     /**
     * Initializes Config Menu.
     */
@@ -120,7 +105,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 			)
 		];
 	}
-
     /**
     * View.
     * @return BaseController
@@ -139,7 +123,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		$form = $c->addForm();
 		$form["method"] = "POST";
 		$form["action"] = $this->getUri("install");
-
 		$form->addFields(
 			[
 				"rootdir" => ["attribs" => ["class" => "igk-form-control required", "placeholder" => __("Install site folder. use full path")]],
@@ -149,7 +132,6 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 			]
 		);
 		igk_html_form_initfield($form);
-		//+ tips information
 		$div = $form->div();
 		$div->addP()->Content = __("TIPS");
 		$div->article($this, "help.installer.tips");

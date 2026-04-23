@@ -34,6 +34,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
+
 /**
  * Action Middleware
  * use to process method with specific checkMiddle - route 
@@ -81,7 +82,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         if (!$u) {
             $token = null;
             if (in_array(BearerAuthenticatorTrait::class,  class_uses($this)) || method_exists($this, 'getUserFromToken')) {
-                // retrieve user from token 
                 if ($app_user = $this->getUserFromToken(true, $token)) {
                     if ($u = $this->userProfileFromApplicationUser($app_user)) {
                         $u = $u->model();
@@ -137,8 +137,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         $ruri = Request::getInstance()->view_args("entryuri") . $path;
         $routes = Route::GetAction(static::class);
         $method = strtolower(igk_server()->REQUEST_METHOD);
-        // $path =  "/" . trim($path, "/");
-        // detected method to invoke
         $_invoke = function ($name, $arguments, $m, &$handle) use ($method) {
             $is_index = $name !== 'index';
             $rc = [$name];
@@ -250,7 +248,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         "ruri" => $ruri
                     ]);
                     if ($v->getBindClass() === null) {
-                        // detected method to invoke 
                         if (is_numeric($name)) {
                             array_unshift($arguments, $name);
                             $name = 'index';
@@ -258,8 +255,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         if ($r = $_handling($name, $arguments, $_invoke)) {
                             return $r['result'];
                         }
-                        // no controller task setup
-                        // return null;
                     }
                     // + | -----------------------------------------------------------
                     // + | bind action
@@ -274,8 +269,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 }
             }
             if ($v_taccess){
-                // found path but not accessible 
-                // route not matching
                 $m = __('route not valid');
                 throw new ActionRequestException($m, RequestResponseCode::BadRequest);
             }
@@ -289,7 +282,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             igk_dev_wln_e("route not resolved " . $path);
             throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
         } else {
-            // no definition route found for this class suppose all method is accessible 
             if ($r = $_handling($name, $arguments, $_invoke)) {
                 return $r['result'];
             }
@@ -436,8 +428,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 igk_json([
                     'error' => true,
                     'message' => 'require auth to access object',
-                    // 'headers'=>igk_get_allheaders(),
-                    // 'server'=>$_SERVER
                 ], RequestResponseCode::Forbiden);
                 return;
             }

@@ -8,6 +8,7 @@ use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Illuminate\Database\Eloquent\Builder;
+
 /**
 * auto generate doc.
 * @package igk\db\schemaBuilder
@@ -68,12 +69,6 @@ class DiagramFormActionVisitor extends DiagramVisitor{
             ];       
         if($p = $entity->getProperties()){
             foreach($p as $l){
-                // $ul = $n->add(DbSchemas::COLUMN_TAG);
-                // $r = (array)$l;
-                // if (!DiagramEntityColumnInfo::SupportTypeLength($r["clType"])){
-                //     unset($r["clTypeLength"]);
-                // }
-                // $ul->setAttributes($r); 
             }
         }
 $_to[] = '});';

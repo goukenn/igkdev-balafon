@@ -8,6 +8,7 @@ use IGK\HookOptions;
 use IGK\IHookOptions;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Security\Authentications\Traits\UserCommunityAuthenticationTrait;
+
 require_once IGK_LIB_CLASSES_DIR.'/System/Security/Authentications/Traits/UserCommunityAuthenticationTrait.php';
 /**
  * represent app - system - controller - public hook
@@ -246,17 +247,17 @@ class IGKEvents extends IGKObject
     * Constant: hook user delete.
     * @var mixed
     */
-    const HOOK_USER_DELETE = "sys_user_delete"; // just make it inactive
+    const HOOK_USER_DELETE = "sys_user_delete"; 
     /**
     * Constant: hook user drop.
     * @var mixed
     */
-    const HOOK_USER_DROP = "sys_user_drop"; // full user removed
+    const HOOK_USER_DROP = "sys_user_drop"; 
     /**
     * Constant: hook user clean.
     * @var mixed
     */
-    const HOOK_USER_CLEAN = 'sys_user_clean'; // clean user data for database
+    const HOOK_USER_CLEAN = 'sys_user_clean'; 
     /**
     * Constant: hook find user.
     * @var mixed
@@ -287,7 +288,7 @@ class IGKEvents extends IGKObject
     * Constant: hook db migrate.
     * @var mixed
     */
-    const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
+    const HOOK_DB_MIGRATE = 'sys://db/migrate'; 
     /**
     * Constant: hook action will do action.
     * @var mixed
@@ -497,7 +498,6 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const FILTER_LIST_AUTH_TYPE = 'filter://authentication_type';
-
     /**
      * Constant: filter command information
      */
@@ -643,7 +643,6 @@ class IGKEvents extends IGKObject
             $callback($k);
         }
     }
-    ///get the number of method in this events
     /**
     * auto generate doc.
     */

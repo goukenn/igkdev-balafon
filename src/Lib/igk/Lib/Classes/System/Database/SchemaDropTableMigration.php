@@ -4,6 +4,7 @@
 // @date: 20231222 13:07:37
 namespace IGK\System\Database;
 use IGK\System\Database\SchemaMigrationItemBase;
+
 /**
 * same as delete table
 * @package IGK\Database

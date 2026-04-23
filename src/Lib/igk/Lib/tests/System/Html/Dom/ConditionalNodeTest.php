@@ -2,10 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: ConditionalNodeTest.php
 // @date: 20221130 13:26:52
-
-// run test : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/Dom/ConditionalNodeTest.php
 namespace IGK\Tests\System\Html\Dom;
-
 use IGK\System\Html\Dom\ConditionalNode;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html\Dom
 */
 class ConditionalNodeTest extends BaseTestCase{
-
     /**
     * Tests render conditional.
     */
@@ -22,8 +18,7 @@ class ConditionalNodeTest extends BaseTestCase{
         $d = new ConditionalNode;
         $d->condition = 'if lt IE 9';
         $d->script()->Content = 'console.dummy';
-        $this->assertEquals(
-<<<'HTML'
+        $this->assertEquals(<<<'HTML'
 <!--[if lt IE 9]>
 <script language="javascript" type="text/javascript">console.dummy</script>
 <![endif]-->

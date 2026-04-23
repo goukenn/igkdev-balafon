@@ -4,15 +4,9 @@
 // @date: 20220803 13:51:47
 // @desc: 
 
-
 //
-// desc : wize installation view
-// file : wizeinstall.phtml
-
 use IGK\Resources\R;
-
 use function igk_resources_gets as __;
-
 if (!function_exists('igk_use_symbols')){
     /**
      * 
@@ -70,9 +64,6 @@ $fclist = array("install" => function () {
         igk_notifyctrl("wizeinstall")->addErrorr("e.wizecontains.error");
     }
 });
-
-
-
 $is_install = (igk_getv($params, 1) == "install") || igk_getr("install");
 if ($is_install) {
     call_user_func_array($fclist["install"], $params);
@@ -80,10 +71,7 @@ if ($is_install) {
 igk_app()->session->setParam("igk_wizeinstall", 1);
 igk_google_addfont($doc, "Roboto");
 igk_google_addfont($doc, "Material+Icons");
-
-
 igk_css_reg_svg_symbol_files(IGK_LIB_DIR . "/Data/R/svg/symbols.svg");
-
 $doc = igk_get_document(__FILE__);
 $doc->Title = __("Balafon installation wizard - [{0}]", igk_getv($_SERVER, "SERVER_NAME"));
 $doc->Favicon = new IGKHtmlRelativeUriValueAttribute("Lib/igk/Default/R/Img/balafon.ico");
@@ -94,59 +82,38 @@ $t = $bbox->div();
 $t["class"] = "+igk-app-wizei +google-Roboto fit";
 $t["style"] = "background-color: #222;";
 $t->div()->setClass("posfix fitw fith logo")->Content = igk_svg_use("balafon_logo");
-//*
-
 $conf_ctrl = igk_getctrl(IGK_CONF_CTRL);
-
-// $t->div()->addDialogBox(R::gets("Install Wizard - BALAFON"));
-
 $box = $t->div()->setClass("dispflex flex-a-center fit");
-
-$dialog = $box->div()->setClass("dialog"); //->Content = "BASICS ";
-
+$dialog = $box->div()->setClass("dialog"); 
 $title = $dialog->div()->setClass("dialog-title");
 $title->addSectionTitle(4)->Content = __("Install Wizard - BALAFON");
 $v_conf_path = igk_server()->getConfigurationPath();
 $frm = $dialog->addForm();
 $frm["action"] = igk_io_baseUri() . $v_conf_path . "?wizeinstall=1";
 $frm["method"] = "POST";
-
 $frm->addInput("install", "hidden", "1");
 igk_html_form_initfield($frm);
-
 $c = $frm->addDialogBoxContent()->setStyle("background-color:#fdfdfd");
-
-
 $hpage = $c->div()->setClass("igk-hpage-view")->setId("pageview");
-
-
 $hpage->clearChilds();
 $hpage->script()->Content = file_get_contents(dirname(__FILE__) . "/.pageview.js");
-
-// igk_wln_e(
-//     __FILE__.":".__LINE__,
-//     $conf_ctrl, $conf_ctrl->getArticle("wizeinstall.welcome"));
-
 $d = $hpage->div()->setId("welcome");
 $d->addRow()->setStyle("margin:3em")->setClass("no-overflow")
     ->host(function ($a) {
         $a->div()->Content = __("wizeinstall welcome");
     })
     ->article($conf_ctrl, "wizeinstall.welcome");
-
 $d = $hpage->div()->setId("license");
 $g = $d->div();
 $gr = $g->addRow();
-$gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->Content = igk_svg_use("balafon_logo"); // "license_logo");
+$gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->Content = igk_svg_use("balafon_logo"); 
 $dvr = $gr->addCol("igk-col-3-2 igk-sm-fitw igk-xsm-fitw")->div();
 $dvr->addQuote()->addSectionTitle(4)->Content = __("Licence");
 $dvr->addReadOnlyTextZone(igk_dir(IGK_LIB_DIR . "/license.txt"))->setStyle("height: 320px; font-size:0.88em;padding:10px; ");
-
-
 $d = $hpage->div()->setId("admin");
 $g = $d->div();
 $gr = $g->addRow();
-$gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->Content = igk_svg_use("balafon_logo"); // "admin_logo"); // addSvgSymbol("admin_logo");
+$gr->addCol("igk-col-3-1 igk-xsm-dispn igk-sm-dispn")->div()->Content = igk_svg_use("balafon_logo"); 
 $cr = $gr->addCol("igk-col-3-2 igk-sm-fitw igk-xsm-fitw")->div();
 $cr->addSectionTitle(4)->Content = __("Admin");
 $cr->div()->fields(array(
@@ -181,12 +148,7 @@ $cr->div()->fields(array(
     "clDbUserPassword" => array("type" => "password"),
     "clDbUserRePassword" => array("type" => "password")
 ));
-//*/
-
-
-
 $dv = $dialog->div();
-// $dv=$c->div();
 $b = $dv->addActionBar();
 $b->addButton("Prev", __("btn.prev"))
     ->setClass("prev")->setAttribute("igk-hpageview-role", "prev")
@@ -199,7 +161,5 @@ $b->addInput("btn.send", "submit", __("btn.install"))->setClass("igk-btn igk-btn
 $dialog->div()->setStyle("padding:1.0em 0px;")->addRow()->div()->setClass("alignc")
     ->setStyle("color: #ddd")
     ->addIGKCopyright();
-
-//*/
 $doc->renderAJX();
 igk_exit();

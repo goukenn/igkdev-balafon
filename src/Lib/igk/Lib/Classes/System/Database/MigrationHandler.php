@@ -16,6 +16,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGKException;
 use ReflectionException;
+
 /**
 * use to run project migration
 * @package IGK\System\Database
@@ -49,7 +50,6 @@ class MigrationHandler{
         $new = array_slice(get_declared_classes(), $tabc);
         if ($new && (strtolower($new[0]) ==  $name)){
             $tabc += count($new);
-            // real name
             $name = $new[0];
         }
     }
@@ -80,7 +80,7 @@ class MigrationHandler{
         $ctrl = $this->m_controller; 
         $migrations = Migrations::select_all(['migration_controller'=>$ctrl->getName()]);
         ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
-        return [$files, $migrations]; // compact('files','migrations');
+        return [$files, $migrations]; 
     }
     /**
     * Returns List.
@@ -92,7 +92,6 @@ class MigrationHandler{
             $c = array_shift($files);
             $migration_name = igk_io_basenamewithoutext($c);
             preg_match(self::match, $c, $tab);
-            // $nname = $tab['name'];
             $obj = igk_createobj();
             $obj->migration_name = $migration_name;
             $obj->state = -1;
@@ -263,7 +262,6 @@ class MigrationHandler{
                     continue;
                 }
                 if ($method=='down'){
-                    //+ for down case check status 0 
                     if (!$migrations[$migration_name]->migration_batch){
                         continue;
                     }
@@ -274,13 +272,11 @@ class MigrationHandler{
                 }
                 $migrations[$migration_name]->migration_batch = $status;
                 $updates[] = $migrations[$migration_name];
-                //+ if ctrl
                 if ($ctrl && $first_only ){
                     $v_handle_db = true;
                 }
                 $v_execute = true;
             }else{
-                //+ register new migration files - with status
                 $row = \IGK\Models\Migrations::createEmptyRow();
                 $row->migration_name = $migration_name;
                 $row->migration_batch = $status;
@@ -304,7 +300,6 @@ class MigrationHandler{
                 igk_die('include file no class found .'.$name);
             }
             if ($first_only && $v_handle_db){
-                //+ stop - register register new migration 
                 $v_execute = false;
                 $status = 0;
             }

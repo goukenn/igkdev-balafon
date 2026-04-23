@@ -8,6 +8,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Services;
 use ArrayAccess;
+
 /**
 * Represent IBalafonApplicationMiddlewareService interface
 */

@@ -12,6 +12,7 @@ use IGKException;
 use IGKIterator;
 use IGKObject;
 use IGKSorter;
+
 /**
 * Db query result.
 * @package IGK\Database

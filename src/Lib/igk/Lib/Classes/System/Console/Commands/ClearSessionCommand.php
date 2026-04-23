@@ -9,6 +9,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\File\PHPScriptBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -42,7 +43,6 @@ class ClearSessionCommand extends AppExecCommand{
         if ($command){
            $this->expired_duration = igk_getv($command->options, '--living');
         }
-        //defined("NO")
         /**
         * auto generate doc.
         * @var SessionController $sess
@@ -53,14 +53,8 @@ class ClearSessionCommand extends AppExecCommand{
                 $this->skip = true;
                 return;
             }
-            // Logger::info(implode("\n", [
-            //     "Clearing session ... #".$c,
-            //     "duration? ", $this->expired_duration
-            // ]));
-            // - |  $cid=session_id();
             @igk_sess_write_close();
             $c=0;
-            // $fs = new CoreFileSystem;
             $fc = function(){return true;};
             if (!is_null($rs = $this->expired_duration)){
                 $time = time();

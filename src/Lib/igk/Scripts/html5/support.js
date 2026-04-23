@@ -18,22 +18,17 @@
 		}	
 		return m_support.audio;
 	};
-	
 igk.system.createNS("igk.html5", {
 	support:function(k){
 		k = k+"Support";
 		console.log("check support"+k);
 		return (new Function("if (typeof("+k+")) return k(); return !1;")).apply();
-
 		// if ()
-		
 		// if (eval("typeof("+k+")")){
 		// var s = eval (k+"()");
-		
 		// return s;
 		// }
 		// return 0;
 	}
 });
-
 })();

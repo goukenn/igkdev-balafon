@@ -1,5 +1,4 @@
 "use strict";
-
 (function(){
     igk.system.createNS("igk", {
         ClipBoard:{

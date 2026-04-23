@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands\Traits;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Traits
@@ -42,7 +43,6 @@ trait ClassBuilderTrait{
             if (strpos($g, $gs = igk_dir($ns) . "/") === 0) {
                 $g = ltrim(substr($g, strlen($gs)), "/");
             }
-            //if ($ctrl){
             if (($_ir = dirname($g)) != '.') {
                 $ns .= "/" . $_ir;
             }

@@ -7,6 +7,7 @@ namespace IGK\System\IO\Configuration;
 use Closure;
 use IGK\System\IO\EnumDefinitionReader;
 use stdClass;
+
 /**
  * String configuration reader. 
  * @package IGK\System\Configuration
@@ -62,7 +63,7 @@ class ConfigurationReader
      * escae start litter counter 
      * @var mixed
      */
-    var $escape_start; // ConfigurationReader
+    var $escape_start; 
     /**
      * escape start
      * @var mixed
@@ -328,14 +329,12 @@ class ConfigurationReader
             switch ($ch) {
                 case '"':
                 case "'":
-                    // litteral consideration
                     $d .= igk_str_read_brank($this->m_text, $this->m_offset, $ch, $ch, null, 1, 1);
                     break;
                 default:
                     if (is_null($d)) {
                         $d = "";
                     }
-                    // $d .= $ch;
                     if ($this->_readLitteralEnd($ch, $end)) {
                         if ($v_ecounter == 0) {
                             $this->m_offset--;

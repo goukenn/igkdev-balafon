@@ -3,6 +3,7 @@
 // @file: NumberContentValidator.php
 // @date: 20230125 13:49:42
 namespace IGK\System\Security\Web;
+
 /**
  * number content validator 
  * @package IGK\System\Security\Web

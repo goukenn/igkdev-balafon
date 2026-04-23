@@ -22,6 +22,7 @@ use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
+
 /**
  * represent base renderer engine
  * @package IGK\System\Html
@@ -134,7 +135,6 @@ class HtmlRenderer
      */
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {
-        //igk_wln_e("bind:ing");
         $igk = igk_app();
         $doc = $doc ?? $igk->getDoc();
         if ($refreshDefault) {
@@ -146,7 +146,6 @@ class HtmlRenderer
                 if (!igk_environment()->get(IGK_ENV_PAGEFOLDER_CHANGED_KEY)) {
                     $ctrl->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
                     $ctrl->setEnvParam('render_context', 'docview');
-                    // gourou d'etranglement
                     $bbox = $doc->getBody()->getBodyBox()->clearChilds();
                     if ($t = $ctrl->getTargetNode()) {
                         $bbox->add($t);
@@ -156,9 +155,7 @@ class HtmlRenderer
                 }
             }
         }
-        // -------------------
         // + | Render document
-        // -------------------  
         self::OutputDocument($doc);
     }
     /**
@@ -211,7 +208,6 @@ class HtmlRenderer
         if ($options == null) {
             $options = self::CreateRenderOptions();
         } else {
-            // sanitize options property
             if (is_array($options)){
                 $options = Activator::CreateNewInstance( HtmlRendererOptions::class, $options);  
             }
@@ -271,7 +267,6 @@ class HtmlRenderer
     private static function reduceDepth($options, $tag = null)
     {
         $options->Depth = max(0, $options->Depth - 1);
-        // igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
     }
     /**
      * a way to render node
@@ -288,12 +283,11 @@ class HtmlRenderer
             HtmlRenderingContext::Html, 
             HtmlRenderingContext::XML]
         ); 
-        //count the parent invoker
         self::UpdateInvoke(__METHOD__, $options);
         $s = "";
         $reflect = [];
         $ln = $options->LF;
-        $engine = $options->Engine; // igk_getv($options, "Engine");
+        $engine = $options->Engine; 
         if ($options->header) {
             $s = self::_GetHeader($options->header);
             $options->header = null;
@@ -304,7 +298,6 @@ class HtmlRenderer
         $v_renderingNSContext = [];
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
-                // |+ filter null items 
                 continue;
             }
             $tag = null;
@@ -374,12 +367,9 @@ class HtmlRenderer
                 if (!$havTag && $ln) {
                     $s = rtrim($s);
                     $close_ln = $ln;
-                    //  self::reduceDepth($options, 'notagnode');
-                    //  $q['next_depth'] = $options->Depth;
                 }
                 if ($havTag) {
                     $s .= "<" . $tag . "";
-                    // render attribute 
                     if (!empty($attr = static::GetAttributeString($i,  $options))) {
                         $s .= " " . rtrim($attr);
                     }
@@ -457,7 +447,7 @@ class HtmlRenderer
             }
         }
         $options->child_renderCount = $child_render;
-        return $s; // leave space after
+        return $s; 
     }
     /**
     * Mail theme rendering.
@@ -467,11 +457,10 @@ class HtmlRenderer
     */
     public static function MailThemeRendering(HtmlItemBase $item, &$attribs = [],  $options = null)
     {
-        //for mail rendering attribures
         if (!isset($options->renderTheme)) {
             $th = igk_app()->getDoc()->getTheme();
-            $options->renderTheme = $th; // doc->getTheme();
-            CssUtils::BindCoreFile($th); //->renderTheme);
+            $options->renderTheme = $th; 
+            CssUtils::BindCoreFile($th); 
         }
         if ($attribs) {
             $v_old_style = $g = $attribs["style"];
@@ -689,18 +678,13 @@ class HtmlRenderer
             }
             foreach ($attrs as $k => $v) {
                 if (($k == "@activated") && is_array($v)) {
-                    //$out .= " ";
                     foreach ($v as $ak => $av) {
-                        // $out .= $ak . " ";
                         $_result[$ak] = $ak;
                     }
                     continue;
                 }
                 $v_is_obj = is_object($v);
                 if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
-                    // if(!empty($out))
-                    //     $out .= " ";
-                    // $out .= $k . " ";
                     $_result[$k] = $k . '';
                     continue;
                 }
@@ -713,7 +697,6 @@ class HtmlRenderer
                     }
                     if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                         if (!empty($cv = $v->getValue()) || is_string($cv)) {
-                            // $out .= $k . "=\"" . $cv . "\" ";
                             $_result[$k] = static::GetStringAttribute($cv, $options);
                         }
                         continue;
@@ -722,8 +705,6 @@ class HtmlRenderer
                     }
                 }
                 if (is_numeric($c) || !empty($c)) {
-                    // if(!empty($out))
-                    //     $out .= " ";
                     if ($options && !$r && igk_getv($options, "DocumentType") == 'xml') {
                         $c = str_replace('&', '&amp;', $c);
                     }
@@ -772,8 +753,6 @@ class HtmlRenderer
         }
         if (is_array($v)) {
             $v = JSon::Encode($v);
-            // igk_show_trace();
-            // igk_wln_e(__METHOD__ . "::attribute value is array is not allowed. ".$v);
         }
         if (!igk_getv($options, "flag_no_attrib_escape")) {
             if (igk_getv($options, "attribute_entity_escape")) {
@@ -795,9 +774,7 @@ class HtmlRenderer
         } else {
             $v = str_replace("\"", "\\\"", $v);
         }
-        // clear flag for setting attribute
         unset($options->flag_no_attrib_escape);
-        // return "\"" . $v . "\"";
         return igk_str_surround($v);
     }
     /**

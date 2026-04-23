@@ -3,6 +3,7 @@
 // @file: BreadcrumbTrait.php
 // @date: 20250822 07:41:20
 namespace IGK\System\Html\Components\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Components\Traits

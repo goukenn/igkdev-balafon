@@ -1,7 +1,6 @@
 (function () {
     /**
-     * special litteral expression to get the raw method must be call without () and ``
-     */
+     * special litteral expression to get the raw method must be call without () and ``     */
     function esm(templateStrings, ...substitutions) {
         let js = templateStrings.raw[0];
         for (let i = 0; i < substitutions.length; i++) {
@@ -9,7 +8,6 @@
         }
         return 'data:text/javascript;base64,' + btoa(js);
     };
-
     igk.system.createNS("igk.system.modules", {
         response: null,
         esm: esm,

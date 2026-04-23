@@ -1,7 +1,5 @@
 <?php
-
 // init hooks
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Authorization;
 use IGK\Models\Usergroups;
@@ -17,7 +15,6 @@ igk_reg_hook(IGKEvents::HOOK_USER_ADDED, function ($e) {
         }
     }
 });
-
 igk_reg_hook(IGKEvents::HOOK_USER_DROP, function ($e) {
     list($user) = igk_extract($e->args, 'user');
     if ($e->args['$ref']->commit) {

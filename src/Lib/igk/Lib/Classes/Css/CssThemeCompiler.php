@@ -13,6 +13,7 @@ use IGKCaches;
 use IGKCssDefaultStyle;
 use IGKException;
 use ReflectionException;
+
 /**
 * Css theme compiler.
 * @package IGK\Css
@@ -124,19 +125,11 @@ class CssThemeCompiler
             if (!$must_recompile && igk_io_file_exists($express_cf, true)) {
                 $src_sys = file_get_contents($express_cf); 
             } else {
-                // igk_css_bind_sys_global_files($theme);
-                // igk_css_load_theme($theme);
-                // $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
-                // // + | cache expression
-                // igk_io_w2file($express_cf, $src_sys, true);
-                // // + | cache core 
-                // igk_io_w2file($cf, serialize($theme->to_array()));
                 $src_sys = self::CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver);  
             } 
             $render_f = true;
         } else {
             $src_sys = self::CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver); 
-            //igk_wln_e(__FILE__.":".__LINE__ ,'3', $src_sys);          
             $render_f = true;
         }
         if ($render_f){

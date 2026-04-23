@@ -3,7 +3,6 @@
 // @file: NodeBuildTest.php
 // @date: 20240109 19:55:57
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class NodeBuildTest extends BaseTestCase{
-
     /**
     * Tests list build.
     */
@@ -32,7 +30,6 @@ class NodeBuildTest extends BaseTestCase{
                 ]
             ],
         ]]);
-
         $this->assertEquals('<div><ul class="menu"><li class="item"><a href="#">Dashboard</a></li>'
         .'<li class="item"><a href="#">Users</a></li>'
         .'</ul></div>',$n->render());

@@ -7,5 +7,4 @@
     igk.appendProperties(_NS, {
         RegexContainer
     }); 
-  
 })();

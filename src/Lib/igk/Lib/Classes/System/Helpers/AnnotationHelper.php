@@ -12,6 +12,7 @@ use IGKException;
 use ReflectionMethod;
 use ReflectionProperty;
 use Reflector;
+
 /**
 * auto generate doc.
 * @package IGK\System\Helper
@@ -56,7 +57,6 @@ final class AnnotationHelper
         $rns = 0;
         while (count($tokens)) {
             $v = $q = array_shift($tokens);
-            // allow top namespace read on use read outside class-trait-interface or function declration 
             if (is_array($q)) {
                 $v = $q[1];
                 $q = $q[0];
@@ -69,7 +69,7 @@ final class AnnotationHelper
                 case T_NAMESPACE:
                     $rns = 1;
                     break;
-                case T_NAME_QUALIFIED: // 265 
+                case T_NAME_QUALIFIED: 
                     if ($rns) {
                         $info['namespace'] = $v;
                         $rns = 0;
@@ -143,10 +143,6 @@ final class AnnotationHelper
     public static function GetUses(string $class_name)
     {
         $v_update_class = function(& $v_uses, $n){
-            // sfx = Constants::ANNOTATION_SUFFIX;
-            // if (is_subclass_of($n, AnnotationBase::class) && igk_str_endwith($n, $sfx)){
-            //     $v_uses[$n] = igk_str_rm_last(basename(igk_uri($n)), $sfx);
-            // }
         };
         $ref = igk_sys_reflect_class($class_name);
         $v_fn = $ref->getFileName();
@@ -177,10 +173,9 @@ final class AnnotationHelper
             $iface = $ref->getInterfaceNames();
             $utraist = array_merge($utraist,  $iface);
             array_map(function ($a) use (&$v_tq, $v_source) {
-                $v_p = igk_sys_reflect_class($a); // new ReflectionClass($a);
+                $v_p = igk_sys_reflect_class($a); 
                 $v_tf = $v_p->getFileName();
                 if ($v_tf && !isset($v_source[$v_tf])) {
-                    // load source
                     $v_tq[$v_tf] = [$v_tf, $v_p];
                 }
             }, $utraist);

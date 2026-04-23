@@ -1,20 +1,16 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: install.project.script.pinc
 // @date: 20230207 14:38:38
 // @desc: install project script 
-
 use IGK\Controllers\BaseController;
 
 error_reporting(-1);
 ini_set('display_errors', 1);
-
 $response = new InstallerResponse();
 if ($token != igk_getr('token')) {
     $response->die("missing token", 501);
 }
-
 /**
  * project installer 
  * @package 
@@ -23,7 +19,6 @@ class ProjectInstaller
 {
     private $m_bdir;
     private $m_controller;
-
     /**
      * balafon shell command
      * @var mixed
@@ -34,7 +29,6 @@ class ProjectInstaller
      * @var mixed
      */
     var $projectName;
-
     /**
      * project manga
      * @var mixed
@@ -98,7 +92,6 @@ class ProjectInstaller
         file_put_contents($p, $content);
     }
 }
-
 $preinstall = [];
 $postinstall = [];
 $version = 0;
@@ -111,9 +104,6 @@ $outdir = "";
 $module_name = "";
 $module_version = "";
 $module_path = "";
-
- 
-
 $zip_out_dirname = igk_getr('project_entry');
 $v_chome = rtrim($home, '/');
 $corelib_dir = $v_chome . igk_getr('app_dir') . '/Lib/igk';
@@ -122,14 +112,11 @@ $project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder')
 $tempzip = null;
 $v_sys_tempdir = $install_dir . "/__temp";
 $v_projectInstaller = new ProjectInstaller($project_dir);
-
 $balafon = $corelib_dir . "/bin/balafon";
 $project_name = igk_getr('project_name');
-
 $v_projectInstaller->projectName = $project_name;
 $v_projectInstaller->balafon = $balafon;
 $v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home_dir', ''),'/');
-
 /**
  * after post install script
  * @param mixed &$postinstall 
@@ -174,16 +161,12 @@ function pre_install(&$postinstall, $f, $v_projectInstaller)
     }
     return false;
 }
-
-
 if (!file_exists($archive)) {
     $response->die(implode("\n", ["archive is not present: " . $archive, getcwd()]));
 }
-
 if ($archive && is_file($archive) && $hzip->open($archive)) {
     $error = false;
     if (!$error && (false !== ($g = $hzip->getStream("manifest.xml")))) {
-
         $data = "";
         while (!feof($g)) {
             $data .= fread($g, 4096);
@@ -192,7 +175,6 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
         $dc = (array)simplexml_load_string($data);
         isset($dc["author"]) ? $author = $dc["author"] : $error = true;
         isset($dc["version"]) ? $version = $dc["version"] : $error = true;
-
         if (isset($dc["@attributes"]["appName"])) {
             $appName = $dc["@attributes"]["appName"];
         } else {
@@ -231,7 +213,6 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
         $error_msg = "manifest file not found";
     }
     $hzip->close();
-
     @unlink($archive);
 } else {
     $response->die("can't open archive", 501);
@@ -240,14 +221,12 @@ if (!$error) {
     if (file_exists($pc = $project_dir . '/[pre-publish].php')) {
         pre_install($preinstall, $pc, $v_projectInstaller);
     }
-
     if (is_dir($project_dir)) {
         $steps[] = "zip project directory";
         $tempzip = tempnam(sys_get_temp_dir(), "prj");;
         InstallerHelper::ZipFolder($tempzip, $project_dir);
         //
     }
-
     if (is_dir($project_dir)) {
         // before remove temp project directory - keep leavedir.
         $leave_dirs = false;
@@ -282,7 +261,6 @@ if (!$error) {
             igk_io_rmdir($project_dir);
         }
     }
-
     if ($outdir && is_dir($outdir)) {
         //if (project_dir)
         $steps[] = "move install dir : " . $outdir . " -> " . $project_dir;
@@ -299,11 +277,9 @@ if (!$error) {
             foreach ($tfiles as $fc) {
                 $path = substr($fc, $ln);
                 $out = $project_dir . "/" . ltrim($path, "/");
-
                 if (file_exists($out)) {
                     continue;
                 }
-
                 $dir = dirname($out);
                 if (!is_dir($dir)) {
                     if (isset($cdir[$dir])) {
@@ -335,14 +311,10 @@ set_include_path(implode(PATH_SEPARATOR, [
     get_include_path()
 ]));
 putenv('PATH=' . implode(PATH_SEPARATOR, [$corelib_dir . "/bin", getenv('PATH')]));
-
 if (!$error && file_exists($pc = $project_dir . '/[post-publish].php')) {
     post_install($postinstall, $pc, $v_projectInstaller);
 }
 // chmod($corelib_dir."/bin/balafon", 0777);
-
-
-
 if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
     // TODO : update project
     $v_working_dir = igk_getr('working_dir') ?? InstallerHelper::LocateBaseDir($corelib_dir, 3); //.'/../../../../');
@@ -354,7 +326,6 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
         'IGK_PROJECT_DIR' => $v_working_dir . '/application/Projects',
         'REQUEST_URI'=>'', // + | empty because execution of a command require no uri access 
     ];
-
     $pre = [];
     foreach ($envs as $k => $v) {
         $s = sprintf('%s=%s', $k, $v);
@@ -377,7 +348,6 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
             $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
         }
     }
-    
     // update all relative action div
     $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug --report-error 1>&1 2>&1; echo \"\n\"$?";
     $r = InstallerHelper::HandleBacktickCommand(`{$c}`);
@@ -386,10 +356,7 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
     exit(); 
     // + | chdir($cwd);
 }
-
-
 igk_io_rmdir($v_sys_tempdir);
-
 $_vart = compact(
     "error",
     "version",

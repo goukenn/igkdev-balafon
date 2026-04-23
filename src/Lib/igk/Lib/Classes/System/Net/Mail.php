@@ -13,6 +13,7 @@ use IGK\System\Html\HtmlRenderer;
 use IGKException;
 use IGKObject;
 use IGK\IMailAttachmentContainer;
+
 /**
  * Represent a mail
  */
@@ -222,10 +223,8 @@ class Mail extends IGKObject implements IMailAttachmentContainer
         }
         $mail->addTo($to);
         if (is_array($attachement)) {
-            // $cl = \IGK\System\Net\MailAttachement::class;
             $cl = EntryClassResolution::MailAttachement;
             class_exists($cl, true) || igk_die('missing class');
-            //include_once(IGK_LIB_CLASSES_DIR . '/System/Net/MailAttachement.php');
             foreach ($attachement as $cid => $v) { 
                 $content_type = 'text/plain';
                 $name = null;
@@ -285,13 +284,13 @@ class Mail extends IGKObject implements IMailAttachmentContainer
         if (!igk_network_available()) {
             return 0;
         }
-        $errno = 0; //IGK_STR_EMPTY;
+        $errno = 0; 
         $errstr = IGK_STR_EMPTY;
         $lf = "\r\n";
         $host = $this->m_smtphost;
         $user = $this->m_user;
         $pass = $this->m_pwd;
-        $port = $this->m_smtp_port; //    
+        $port = $this->m_smtp_port; 
         $timeout = $this->m_socketTimeout;
         $socket = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if (!$socket) {
@@ -343,14 +342,12 @@ class Mail extends IGKObject implements IMailAttachmentContainer
             }
             igk_debug_wln("AUTH USER " . $user);
             fwrite($socket, base64_encode($user) . $lf);
-            //fwrite($socket, $user.IGK_CLF);
             if (!$this->server_parse($socket, '334')) {
                 $this->_closeSocket($socket);
                 return false;
             }
             igk_debug_wln("AUTH pass " . $pass);
             fwrite($socket, base64_encode($pass) . $lf);
-            //fwrite($socket, $pass.IGK_CLF);
             if (!$this->server_parse($socket, '235')) {
                 $this->_closeSocket($socket);
                 return false;
@@ -366,7 +363,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
                     $from = '<' . $t_tab['from'] . '>';
                 }
             } else {
-                // null reserved path
                 $from = "<>";
             }
             igk_debug_wln("MAIL FROM: " . $from);
@@ -395,7 +391,6 @@ class Mail extends IGKObject implements IMailAttachmentContainer
                 $this->_closeSocket($socket);
                 return false;
             }
-            // igk_debug_wln("GOOD SENDDING --- CLOSE SOCKET");
             $this->_closeSocket($socket);
             return true;
         }

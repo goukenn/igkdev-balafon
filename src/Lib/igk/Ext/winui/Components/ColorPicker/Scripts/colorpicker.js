@@ -1,11 +1,8 @@
 //color picker js
 "use strict";
 (function() {
-
     function __colorPicker(p) {
         var q = $igk(p);
-
-
         igk.appendProperties(this, {
             init: function() {
                 var _r = q.select("#clr").getItemAt(0);
@@ -17,7 +14,6 @@
                     g = 0,
                     b = 0;
                 q.o.appendChild(_o.o);
-
                 function _update_cl() {
                     var txt = "rgb(" + r + ", " + g + ", " + b + ")";
                     _o.setHtml(txt + " #" +
@@ -30,7 +26,6 @@
                         var gp = $igk(".igk-row").setCss({ backgroundColor: txt });
                     }
                     // console.debug(document.getElementsByClassName("igk-row"));//).setCss({backgroundColor: txt});
-
                 }
                 _r.postRegisterEvent(e, function(evt) {
                     r = parseInt(255 * (evt.value / 100.0));
@@ -47,7 +42,6 @@
             }
         });
     }
-
     function __circlecolorPicker(p) {
         var RADIUS = 110;
         var rRadius = 255;
@@ -55,15 +49,12 @@
         var m_cl = { r: 0, g: 0, b: 0 };
         var m_angle = 0;
         var m_d = 0;
-
         var r = q.select(".igk-circ-pan").getItemAt(0);
         var m_st = false;
         var cur = igk.createNode("div");
-
         var trackv = q.select(".igk-circ-v").getItemAt(0);
         var trackb = q.select(".igk-trb").getItemAt(0);
         var m_data = igk.JSON.parse(q.getAttribute("igk-data"));
-
         var tvalue = q.select("#clvalue").getItemAt(0);
         if (tvalue) {
             tvalue.addClass("alignc");
@@ -77,10 +68,7 @@
                 __updateview();
             }
         };
-
         trackb.o.setAttribute("igk-trb-data", "{update: function(d){ if (!d.bar.rep) d.bar.rep = d.bar.target.o['trb']; d.bar.rep.update(d.progress); } }");
-
-
         cur.setCss({
             border: "1px solid black",
             backgroundColor: "white",
@@ -88,7 +76,6 @@
             height: "4px",
             position: 'absolute'
         });
-
         var ti = igk.createNode("div");
         ti.setCss({
             border: "1px solid #444",
@@ -109,13 +96,10 @@
             position: 'absolute'
         });
         //r.addClass("posr");
-
         r.o.appendChild(cur.o);
         r.o.appendChild(tr.o);
         r.o.appendChild(ti.o);
-
         q.addEvent("igk-valuechange", { value: null, hexValue: null });
-
         igk.appendProperties(this, {
             init: function() {
                 var W = r.getWidth();
@@ -126,7 +110,6 @@
                 });
             }
         });
-
         function __getAngle(x1, y1, x2, y2) {
             var dx, dy;
             dx = x2 - x1;
@@ -145,7 +128,6 @@
                 angle += (2 * Math.PI);
             return angle;
         }
-
         function __getColor(a, r) {
             var h = (a * 255 / 360.0);
             var s = (r / 110) * 255.0;
@@ -159,7 +141,6 @@
                 t.v);  
             return m;
         }
-
         function __updateview() {
             var cl = m_cl;
             var txt = "rgb(" + cl.r + ", " + cl.g + ", " + cl.b + ")";
@@ -181,9 +162,7 @@
             }
             //DAISE EVENT for data changed	
             q.raiseEvent("igk-valuechange");
-
         };
-
         function __update(evt) {
             if (!m_st)
                 return;
@@ -192,7 +171,6 @@
             var H = r.getHeight();
             // var m_s =  parseInt((Math.max(0, Math.min( evt.clientX - l.x, W)) / W) * 10000) / 100;				
             // var m_y =  parseInt((Math.max(0, Math.min( evt.clientY - l.y, H)) / H) * 10000) / 100;				
-
             //position in x
             var Cx = W / 2;
             var Cy = H / 2;
@@ -216,7 +194,6 @@
             m_cl = __getColor(m_angle, d);
             __updateview();
         }
-
         r.reg_event("mousedown", function(evt) {
             if (m_st)
                 return;
@@ -230,13 +207,11 @@
             __update(evt);
         });
         r.reg_event("mouseup", function(evt) {
-
             igk.winui.mouseCapture.releaseCapture();
             if (!m_st)
                 return;
             __update(evt);
             m_st = false;
-
             //document.releaseCapture();
         });
     }
@@ -249,7 +224,6 @@
             }
         }
     });
-
     igk.system.createNS("igk.winui.components.circleColorPicker", {
         init: function() {
             var q = igk.getParentScript();
@@ -259,5 +233,4 @@
             }
         }
     });
-
 })();

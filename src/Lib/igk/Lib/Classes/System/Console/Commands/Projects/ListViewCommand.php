@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands\Projects;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
@@ -47,6 +48,5 @@ class ListViewCommand extends AppExecCommand{
 		array_map(function($a)use($ctrl){
 			Logger::print($a);
 		}, $views);
-		//Logger::success('done');
 	}
 }

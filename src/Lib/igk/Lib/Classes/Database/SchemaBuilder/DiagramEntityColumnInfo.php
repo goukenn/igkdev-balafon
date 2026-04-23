@@ -8,6 +8,7 @@ use IGK\Database\IDbColumnInfo;
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
 use IGK\System\Database\DbUtils;
+
 /**
  * 
  * @package 

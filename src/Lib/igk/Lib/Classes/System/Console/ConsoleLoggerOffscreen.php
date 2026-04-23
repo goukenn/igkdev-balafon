@@ -4,6 +4,7 @@
 // @date: 20240927 12:36:05
 // @desc: offscreen to write 
 namespace IGK\System\Console;
+
 /**
 * Console logger offscreen.
 * @package IGK\System\Console

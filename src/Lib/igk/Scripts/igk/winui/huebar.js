@@ -1,6 +1,5 @@
 "use strict";
 (function() {
-
     igk.system.createNS("igk.winui.huebar", {
         toWebColor: function(h, s, v) {
             var r, g, b;
@@ -42,7 +41,6 @@
             var q = $igk(igk.getParentScript());
             var c = q.select(".cur").first();
             var v = q.o.nextCibling; //.parentNode.qselect('+ .huev').first();
-
             var g = q.select('+.huev').first();
             var m_st = 0;
             var W = q.getWidth() - c.getWidth();
@@ -54,7 +52,6 @@
                     g.setHtml(Math.round(e.value) + "°");
                 });
             }
-
             function __update(e) {
                 if (!m_st) return;
                 var l = q.getScreenLocation();

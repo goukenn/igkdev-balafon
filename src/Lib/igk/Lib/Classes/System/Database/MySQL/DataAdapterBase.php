@@ -14,8 +14,7 @@ use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\Constants;
 use IGKEvents;
-// if (!defined(__FILE__)){
-//     define(__FILE__, 1);
+
 /**
  * Represent DataAdapterBase class
  */
@@ -91,7 +90,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         if ($this->connect()) {
             register_shutdown_function(
-             // igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
                 function () {
                 $c = $this->OpenCount();
                 while ($this->OpenCount() > 0) {
@@ -224,7 +222,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
                 if (!$this->getNoSelectDbErrorAutoClose()) {
                     $this->close();
                 }
-                // connected 
                 return false;
             }
             $this->_setDbName($dbname);

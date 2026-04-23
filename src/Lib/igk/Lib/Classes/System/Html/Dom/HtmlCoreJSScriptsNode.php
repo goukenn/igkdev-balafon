@@ -12,6 +12,7 @@ use IGK\System\IO\StringBuilder;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
+
 /**
  * core script rendering
  * @package IGK\System\Html\Dom
@@ -91,7 +92,6 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
             $sb->appendLine($script);
             $sb->appendLine($tabstop."<!-- end:core scripts -->");  
         } else {
-            // production script
             $sb->appendLine($script);
         }
         if($bck_def)

@@ -4,11 +4,6 @@
 // @date: 20220803 13:48:59
 // @desc: 
 
-
-//BALAFON SERVICE FUNCTION
-//Author: C.A.D. BONDJE DOUE
-//copyright: see balafon.copyright
-
 /**
 * Igk srv bind cookie.
 * @param mixed $lie
@@ -21,7 +16,6 @@ function igk_srv_bind_cookie($lie, $s){
 		$lie->__setCookie($n,$v);
 	}, $s);
 }
-
 /**
 * Igk srv soap call.
 * @param mixed $u
@@ -39,12 +33,8 @@ function igk_srv_soap_call($u, $name, $args){
 		if ($tab){
 			$cook = $tab["Set-Cookie"];
 			if (is_array($cook)){
-
 				foreach($cook as $k){
-					// igk_ilog("setting cookie".$k);
-					// preg_match_replace("/(?name=(?P<value>([^;])+)/i"
 					igk_srv_bind_cookie($lie, $k);
-					// $lie->__setCookie($k);
 				}
 			}
 		}
@@ -53,14 +43,12 @@ function igk_srv_soap_call($u, $name, $args){
 	igk_set_env(__FUNCTION__, $lie);
 	return $e;
 }
-
 /**
 * Igk srv soap session.
 */
 function igk_srv_soap_session(){
 	igk_set_env("igk_srv_soap_call://prevent_session", 1);
 }
-
 /**
 * Igk srv soap last header.
 */
@@ -75,7 +63,6 @@ function igk_srv_soap_LastHeader(){
 		$h = explode(":", $rtab[$i]);
 		$n = igk_getv($h, 0);
 		$v = substr($rtab[$i], strpos($rtab[$i], ':')+1);
-
 		if (isset($tab[$n])){
 			$rk = $tab[$n];
 			if (!is_array($rk)){
@@ -83,20 +70,17 @@ function igk_srv_soap_LastHeader(){
 			}
 			$rk[] = $v;
 			$tab[$n] = $rk;
-
 		}else
 		$tab[$n] = $v;
 	}
 	return $tab;
 }
-
 /**
 * Igk srv notexposed attr.
 * @param mixed $classname
 * @param mixed $method
 */
 function igk_srv_notexposed_attr($classname, $method){
-
 		$key = IGK_SERVICE_PREFIX_PATH.$classname."/notexposed";
 		$tab = igk_get_env($key, array());
 		$g = explode(',', strtolower($method));

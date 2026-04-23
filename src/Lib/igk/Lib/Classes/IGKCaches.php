@@ -12,6 +12,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
 use IGK\System\IO\Path;
+
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
@@ -70,7 +71,6 @@ final class IGKCaches
         $expires = 50000; 
         $fs = IGKCaches::page_filesystem();
         if (!$fs->expired($uri, $expires)) {
-            // igk_wln_e("load from cache");
             $file = $fs->getCacheFilePath($uri);
             $response = new WebFileResponse($file, "text/html");
             $response->zip = $zip;
@@ -131,7 +131,6 @@ final class IGKCaches
         if (isset($i->m_storage[$name])) {
             return $i->m_storage[$name];
         }
-        //+ init article to writes
         if (method_exists($i, $fc = "_init_{$name}_caches")) {
             ($o = $i->{$fc}(...$args)) ?? igk_die('failed to init cached');             
             $i->m_storage[$name] = $o;
@@ -214,7 +213,7 @@ final class IGKCaches
     */
     private function _init_article_filesystem_caches()
     {
-        return self::__init_cache(igk_io_cachedir() . "/storage/articles"); // igk_environment()->getViewCacheDir());
+        return self::__init_cache(igk_io_cachedir() . "/storage/articles"); 
     }
     /**
     * auto generate doc.

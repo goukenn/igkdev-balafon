@@ -3,6 +3,7 @@
 // @file: PropertyObjectTrait.php
 // @date: 20241108 16:31:12
 namespace IGK\System\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Traits

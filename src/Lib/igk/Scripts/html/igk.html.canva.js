@@ -1,9 +1,7 @@
-
 // @file: igk.html.canva
 // @description: represent a canvas document manager to used in canva
 // @create: 22/07/2014
 // 
-
 "use strict";
 (function() {
     var static_canva;

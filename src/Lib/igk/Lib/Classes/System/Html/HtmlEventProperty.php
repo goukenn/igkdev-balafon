@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 use ArrayAccess;
+
 /**
 * Html event property.
 * @package IGK\System\Html
@@ -98,7 +99,6 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
         return implode(" ", array_map(function($k)use($s){
             return "[".$k. "]=\"".$s."\"";
         },array_filter(explode(" ", $this->_n))));
-        // return "[".$this->_n. "]=\"".HtmlUtils::GetAttributeValue($s)."\"";
     }
     /**
     * Setid.

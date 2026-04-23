@@ -9,6 +9,7 @@ use IGK\Helper\IO;
 use IGK\System\Console\Commands\Utility;
 use IGK\System\Installers\InstallSite;
 use IGK\System\IO\Path;
+
 defined('IGK_COMPOSE_DEBUG_INSTALLER') || (defined('IGK_VERSION') && die('balafon framework. already defined'));
 require_once __DIR__ . '/../../../igk_framework.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Console/Commands/Utility.php';
@@ -81,7 +82,6 @@ class Installer
         ApplicationFactory::Register('composer-post-install', PostInstallApplication::class);
         // + | boot post installer 
         ApplicationLoader::Boot('composer-post-install'); 
-        // 
         InstallSite::CreateApacheVHostFile('composer-server', $chdir, $chdir, $chdir.'/src/public');
         InstallSite::CreatePhpUnitConfig($chdir, $chdir . '/src/application',  $chdir . '/src/public');
     }
@@ -144,6 +144,5 @@ class Installer
     */
     public static function PostUpdate()
     {
-        // echo 'running post update', PHP_EOL;        
     }
 }

@@ -23,6 +23,7 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\Route;
 use IGK\System\Http\Traits\HeaderOptionResponseTrait; 
 use IGK\System\Traits\InjectableTrait;
+
 /**
  * Represent view's action definition
  */
@@ -373,7 +374,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
-        $verb = $this->m_verb; // 
+        $verb = $this->m_verb; 
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
             $name = $this->defaultEntryMethod;           
@@ -395,9 +396,6 @@ abstract class IGKActionBase implements IActionProcessor
                 return $this->$fc(...$arguments);
             }
         }
-        //+ | ------------------------------------------------------------------------------------
-        //+ | dispatch to verb method    
-        //+ |
         if ($verb && method_exists($this, $fc = $name . "_" . $verb)) {
             return $this->_dispatchAndInvoke($fc, $arguments);       
         } else if ($verb == "options") {
@@ -508,7 +506,6 @@ abstract class IGKActionBase implements IActionProcessor
         // + |
         return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response) && $this->handleExit) 
         || ($response instanceof RequestResponse) || (function(Request $request){
-            // expect for default result format 
             $q = $request->getQueryInfo()->query_options;
             if ($q && (igk_getv($q, 'fmt'))){
                 return true;
@@ -557,7 +554,6 @@ abstract class IGKActionBase implements IActionProcessor
             try {
                 if ($verb = igk_server()->REQUEST_METHOD) {
                     if (!$skip_check && preg_match("/(.)_(" . Route::SUPPORT_VERBS . ")$/i", $actionMethod)
-                        // && (!preg_match("/_($verb)$/i", $actionMethod))
                     ) {
                         throw new NotAllowedRequestException(null, "blf_explicit_verb: explicit verbs not allowed missmatch");
                     }
@@ -582,11 +578,9 @@ abstract class IGKActionBase implements IActionProcessor
                         if ($v_host instanceof HeaderOptionResponseTrait){
                             $v_host->optionResponse();
                         }else {
-                            // invoke the default system response
                             \IGK\System\Http\Helper\Response::OptionResponse();
                         } 
                     }
-                    // set default configuration parameters
                     if ($v_is_dispatcher){
                         $object->setBaseActionName($baseActionName);
                         $c = $object->invoke($actionMethod, ...$args);

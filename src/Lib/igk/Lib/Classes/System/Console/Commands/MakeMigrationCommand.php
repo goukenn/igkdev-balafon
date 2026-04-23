@@ -17,6 +17,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 use ReflectionException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -86,8 +87,6 @@ class MakeMigrationCommand extends AppExecCommand{
     public function exec($command, ?string $action = null, ?string $controller = null ) { 
         $offset = 2;
         if ($mcontroller = igk_getv_nil($command->options, '--controller')){
-            // second parameter is action 
-            // $action = $controller;
             $ctrl = self::getController($mcontroller);
             $offset = 2;
         } else {

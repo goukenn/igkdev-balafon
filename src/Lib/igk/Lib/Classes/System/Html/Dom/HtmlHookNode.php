@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
 /**
  * hook callback node
  * @package IGK\System\Html\Dom
@@ -28,9 +29,6 @@ class HtmlHookNode extends HtmlNode{
         $this->m_eventType=$eventType;
         $this->m_context =$context;
     }
-    // protected function _getRenderingChildren($options=null){
-    //     return null;
-    // }
     /**
     * Returns Can Render Tag.
     */

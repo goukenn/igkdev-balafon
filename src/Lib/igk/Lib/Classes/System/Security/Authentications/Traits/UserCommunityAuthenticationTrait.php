@@ -3,6 +3,7 @@
 // @file: UserCommunityAuthenticationTrait.php
 // @date: 20251208 06:29:07
 namespace IGK\System\Security\Authentications\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Authentications\Traits

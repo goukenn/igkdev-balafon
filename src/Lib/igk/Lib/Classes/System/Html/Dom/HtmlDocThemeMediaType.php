@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 use IGKObject;
+
 /**
 * Html doc theme media type.
 * @package IGK\System\Html\Dom

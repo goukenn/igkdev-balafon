@@ -1,7 +1,6 @@
 <?php
 ///<summary>horizontal pane panel used to add animation pane on a target node</summary>
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
-
 use IGK\System\Html\Dom\HtmlNode;
 use \IGK\Constants;
 use IGKObject;

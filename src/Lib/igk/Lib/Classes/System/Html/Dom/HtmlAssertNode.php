@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Traits\HostableItemTrait;
+
 /**
  * summary html array looper.
  * Help write view and article template without the php foreach loop
@@ -60,7 +61,6 @@ class HtmlAssertNode extends HtmlItemBase{
     * @param null|mixed $options
     */
     protected function _getRenderingChildren($options =null){
-        // before render the childeren . bind callback 
         return parent::_getRenderingChildren($options);
     }
 }

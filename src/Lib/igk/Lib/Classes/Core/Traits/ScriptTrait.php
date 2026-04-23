@@ -13,6 +13,7 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use IGKValidator;
+
 /**
  * 
  * @package IGK\Core\Traits
@@ -65,7 +66,7 @@ trait ScriptTrait
         $exclude_dir = igk_sys_js_exclude_dir();
         $allowHiddenFile = $manager ? $manager->allowHiddenFile : false;
         $references = [];
-        $sources = []; //sources to load  
+        $sources = []; 
         $_autoloads_dir = [];
         $resolverfc = function ($f) use (&$s, &$tag, &$references, $lf, $manager, $allowHiddenFile, & $sources, & $_autoloads_dir) {
             if (!$allowHiddenFile && (strpos(basename($f), ".") === 0)) {
@@ -93,18 +94,13 @@ trait ScriptTrait
                     if (is_object($rg) && ($required = igk_getv($rg->required, $b_name))){
                         foreach($required as $tf){
                             $tff = Path::CombineAndFlattenPath($dir, $tf);
-                            // $sources[] = 'console.log("loading '.$tff.' ");';
                             if (($f != $tff) && !isset($sources[$tff])){
                                 $sources[$tff] = self::TreatJSSource($tff, file_get_contents($tff), $references);
                             }
                         }
                     } 
                     $sources[$f] = 
-                    // $s .= "// " . igk_io_collapse_path($f) . $lf;
-                    // $ts = file_get_contents($f);
                     self::TreatJSSource($f, file_get_contents($f), $references);
-                    // //treat source file             
-                    // $s .= $ts . $lf;
                     break;
                 default:
                     if ($manager instanceof IAssetManager) {
@@ -121,7 +117,6 @@ trait ScriptTrait
             }
             $s = "";
         }
-        // - merge source 
         if (is_null($manager) && ($references)) {
             $sb = new StringBuilder;
             $r = 0;
@@ -140,7 +135,6 @@ trait ScriptTrait
         } else {
              $out .= implode("\n", $sources);
         }
-        // . bundler treatment
         $out = self::TreatBundlerSource($out);
         return $out;
     }
@@ -190,15 +184,11 @@ trait ScriptTrait
                         break;
                     case 'import-resolution':
                         if ($url) {
-                            // replace with file content  
                             if (!isset($reference[$url])) {
                                 $reference[$url] = 1;
                             }
                             $inx = array_search($url, array_keys($reference));
-                            // return imports module reference for production . 
                             $gm = rtrim(substr($src, 0, $e->from));
-                            // if (igk_str_endwith($gm,'=')){
-                            // }
                             $ts = sprintf('__module_refs[%s].apply(window);', $inx);
                             $src = $gm . $ts . substr($src, $e->to);
                             $offset = $e->from + strlen($ts) + 1;

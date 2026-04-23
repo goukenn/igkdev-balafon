@@ -1,13 +1,9 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigurationReaderTest.php
 // @date: 20220830 09:50:18
 // @desc: 
-
 namespace IGK\Test\System\IO\Configuration;
-
 use IGK\System\IO\Configuration\ConfigurationEncoder; 
 use IGK\Tests\BaseTestCase;
 
@@ -16,7 +12,6 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Test\System\IO\Configuration
  */
 class ConfigurationEncoderTest extends BaseTestCase {
-
     /**
     * Tests connexion string encode.
     */

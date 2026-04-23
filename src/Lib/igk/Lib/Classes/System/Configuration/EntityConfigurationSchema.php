@@ -3,6 +3,7 @@
 // @file: EntityConfigurationSchema.php
 // @date: 20251024 12:03:23
 namespace IGK\System\Configuration;
+
 /**
 * base entity configuration schema
 * @package IGK\System\Core\Configuration

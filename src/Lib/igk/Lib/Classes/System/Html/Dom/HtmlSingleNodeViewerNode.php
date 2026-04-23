@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
 /**
 * Html single node viewer node.
 * @package IGK\System\Html\Dom

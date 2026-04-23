@@ -7,6 +7,7 @@ use ArrayAccess;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
@@ -49,7 +50,6 @@ class ViewExpression implements ArrayAccess{
         $restore = false;
         $bck = [];
         $src = $expression;
-        // igk_wln_e(__FILE__.":".__LINE__,  "bindf ......".$expression->source);
         if ($expression instanceof ViewExpressionEval)
         {
             if ($expression->dependOn){
@@ -64,20 +64,12 @@ class ViewExpression implements ArrayAccess{
             }
             $src = $expression->source; 
         }
-        // depend on some variables
-        // $g = $this->m_variables["x"];
-        //if ($g instanceof HtmlNode){
-            // $this->m_variables["x"] = $g->render();
-        //}
         $value = $fc(sprintf("return %s;",$src), (object)["data"=>$this->m_variables]);
-        // restore valiables
-        // $this->m_variables["x"] = $g;
         if ($restore){
             foreach($bck as $k=>$v){
                 $this->m_variables[$k]=$v;
             }
         }
-        // get evaluation response 
         $response = igk_getv($this->m_variables, ViewExpressionArgHelper::RESPONSE);
         if ($this->extract){
             if ($expression instanceof ViewExpressionEval){
@@ -86,7 +78,6 @@ class ViewExpression implements ArrayAccess{
             if (is_object($response)){
                 return $response;
             }
-            // depend on 
             return new ViewExpressionEval($expression);            
         }
         return $response;

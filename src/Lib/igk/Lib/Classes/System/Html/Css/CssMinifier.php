@@ -6,6 +6,7 @@ namespace IGK\System\Html\Css;
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
  * 
  * @package IGK\System\Html\Css
@@ -46,25 +47,23 @@ class CssMinifier
         }
         $container = $this->m_container  = new RegexMatcherContainer;
         $patterns = [];
-        $patterns[] = $container->begin("\\s*\/\*", '\*\/\\s*', 'comment')->last(); // ignore comment 
-        $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); // 
-        $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); // 
-        $patterns[] = $container->match('\\s*\\b(var|min|max|linear-gradient|color|translate(X|Y)?|scale|rotate|rgb(a)?|hsl|calc)\\b(\\s*)(?=\\()', 'method-name')->last(); // 
-        //$patterns[] = $container->match('[a-zA-Z][a-zA-Z0-9\-]*', 'property')->last(); // 
-        $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
-        $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
+        $patterns[] = $container->begin("\\s*\/\*", '\*\/\\s*', 'comment')->last(); 
+        $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); 
+        $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); 
+        $patterns[] = $container->match('\\s*\\b(var|min|max|linear-gradient|color|translate(X|Y)?|scale|rotate|rgb(a)?|hsl|calc)\\b(\\s*)(?=\\()', 'method-name')->last(); 
+        $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); 
+        $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); 
         $patterns[] = $container->match('(?<=\\s)\{\\s*', 'curl-provider');
         $patterns[] = $container->match('(?<=\\s)\}\\s*', 'curl-end-provider');
-        // priority to skip space
         $patterns[] = $container->match("(?<=\\{|:|;)\\s+", 'skip-space')->last();
         $patterns[] = $container->match("\\s+(?=\\{|:|;)", 'skip-space')->last();
         $patterns[] = $container->match("\\s+(?=\\}|\\{)", 'skip-space')->last();
-        $patterns[] = $container->match("\\s*(:|;|,|\(|\)|\[|\])\\s*", 'glue')->last(); // 
-        $patterns[] = $container->match("\\s*(~|\*|\+|\!)=\\s*", 'glue-operator')->last(); // glue operator - remove space
+        $patterns[] = $container->match("\\s*(:|;|,|\(|\)|\[|\])\\s*", 'glue')->last(); 
+        $patterns[] = $container->match("\\s*(~|\*|\+|\!)=\\s*", 'glue-operator')->last(); 
         $patterns[] = $container->match("\\s+", 'skip')->last();
-        $patterns[] = $container->match('\\s*(?:-)?(?:([0-9]+)?\.)?([0-9]+)(px|em|%|s|ms|rem|pt|pica|vh|vw|deg|rad|grad|ch)?', 'dimension')->last(); // 
-        $patterns[] = $container->match('(?i)\\s*--[a-z\\-]+\\b', 'litteral-property')->last(); // 
-        $patterns[] = $container->match("\\s*(\/|\+|-|%|\*|>|~)\\s*", 'operator')->last(); // ignore multispace 
+        $patterns[] = $container->match('\\s*(?:-)?(?:([0-9]+)?\.)?([0-9]+)(px|em|%|s|ms|rem|pt|pica|vh|vw|deg|rad|grad|ch)?', 'dimension')->last(); 
+        $patterns[] = $container->match('(?i)\\s*--[a-z\\-]+\\b', 'litteral-property')->last(); 
+        $patterns[] = $container->match("\\s*(\/|\+|-|%|\*|>|~)\\s*", 'operator')->last(); 
         $patterns[] = $container->begin("(\"|')", '\\1', 'string-litteral')->last(); 
         $g = $container->begin('{', '}', 'block')->last();
         $patterns[] = $g;
@@ -78,9 +77,7 @@ class CssMinifier
     */
     public function minify(string $css)
     {   
-        //return $css;     
         $container = $this->getRegexContainer(); 
-        // $container->resetTreatment();
         $lpos = 0;
         $ch = '';
         $q = $this;
@@ -106,20 +103,15 @@ class CssMinifier
                     case 'operator':
                     case 'operator-litteral':
                         $ch .= substr($data, $lpos, $g->from - $lpos) . sprintf('%s ', trim($g->value));
-                        //if ($g->tokenID != 'operator-litteral')
                         $glueInf[] = 1; 
                         break;
                     case 'glue':
                     case 'glue-operator':
-                        // $ts = trim($g->value);
                         $ch = rtrim($ch.substr($data, $lpos, $g->from - $lpos));
                         if ($v_tp) $ch.= ' ';
                         $ch.= trim($g->value); 
                         break;
                     case 'skip': 
-                        // -----------------------------------------------------------------------------------------
-                        // just copy
-                        // 
                         $tc = substr($data, $lpos, $g->from - $lpos) . ' ';
                         if (!empty($ch) || !empty(trim($tc)))
                         { $ch .= $tc; $glueInf[]= 1;}            
@@ -163,7 +155,7 @@ class CssMinifier
                         break;
                     case 'property':
                     case 'dimension':
-                    case 'block': // block for child
+                    case 'block': 
                     case 'speudo-class':
                         // + | just load data 
                         break;

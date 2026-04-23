@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use function igk_resources_gets as __;
 use IGK\Resources\R; 
 
@@ -19,8 +18,6 @@ $dv=$t->div();
 $dv["class"]="igk-roll-owner";
 $dv->Content=$dom;
 $dv->addRollIn()->setClass("igk-pull-right")->addAJXA($ctrl->getUri("dom_add_db_edit_domain_ajx"))->addResImg("edit_16x16");
- 
-
 $vlist=IGKSubDomainManager::getInstance()->domainList();
 if($vlist && (count($vlist) > 0) ){
     $tdv=$t->div();
@@ -32,16 +29,10 @@ if($vlist && (count($vlist) > 0) ){
         $dv->add("div")->setClass("floatl")->setStyle("width:180px;")->Content=$v;
     }
 }
-
 $t->div()->host([$this, "subdomain_view"]);
- 
-
 $b=$t->div()->form()->setClass("subdomain-action")->actionbar()->setClass("no-margin");
 $b->addAJXA($ctrl->getUri("dom_add_db_domain_ajx"))->setClass("igk-btn")->addResImg("add_16x16");
-// $a=$b->addA($ctrl->getUri("dom_drop_db_s_domain_ajx"))->setClass("igk-btn");
-// $a["onclick"]="javascript: var s = \$igk(this).select(\"^.c-z\").getItemAt(0).select(\"form\").getItemAt(0);"."ns_igk.ajx.postform(s.o, this.href, ns_igk.ajx.fn.replace_or_append_to_body); return false;";
-// $a->addResImg("drop_16x16");
-$b->addAJXA($ctrl->getUri('dom_drop_domaintable'))->setClass("igk-btn")->div() //->setStyle("line-height:1")
+$b->addAJXA($ctrl->getUri('dom_drop_domaintable'))->setClass("igk-btn")->div() 
 ->setContent(__("Clear Table"));
 $t->addBalafonJS()->Content=<<<EOF
 igk.system.createNS('igk.conf.subdomain', {
@@ -56,4 +47,3 @@ igk.system.createNS('igk.conf.subdomain', {
 	}
 });
 EOF;
-

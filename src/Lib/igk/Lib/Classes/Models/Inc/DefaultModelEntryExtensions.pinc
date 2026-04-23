@@ -3,7 +3,6 @@
 // @filename: DefaultModelEntryExtensions.pinc
 // @date: 20220429 09:21:55
 // @file : DefaultModelEntryExtensions.pinc
-
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSchemas;
 use IGK\Helper\MacrosHelper;
@@ -17,11 +16,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\QueryBuilder; 
 
-
 require_once IGK_LIB_CLASSES_DIR."/Helper/MacrosHelper.php";
- 
-
-
 // + | register user get user groups 
 Usergroups::registerMacro("getUserGroups", function(int $uid){   
     $c = $this::select_query(["clUser_Id"=>$uid],[
@@ -33,7 +28,6 @@ Usergroups::registerMacro("getUserGroups", function(int $uid){
     ]);  
     return $c ? $c->getRows() : null;
 });
-
 // + | register user authorisation checking
 Groupauthorizations::registerMacro("getUserAuths", function(int $uid){     
     $auth_table = Authorizations::table();
@@ -72,22 +66,16 @@ Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
         }
     ]);  
     return $tab; 
-
 }); 
-
 Users::registerMacro("groups", function($user=null){    
     return Usergroups::getUserGroups($this->clId);
 });
-
 // + | check auth
 Users::registerMacro("auth", MacrosHelper::auth());
-
 //+ | get current user helper 
 Users::registerMacro('currentUser', MacrosHelper::currentUser());
 //+ | check user login 
 Users::registerMacro('checkLogin', MacrosHelper::checkLogin());
-
-
 // --------------------------------------------------------------
 // get current users auths list
 // --------------------------------------------------------------
@@ -105,7 +93,6 @@ if (!IGKValidator::IsEmail($login)) {
 }
 return \IGK\Models\Users::select_row($conditions);
 });
-
 Users::registerMacro("grantAuthorization", function(string $group, string $auth, int $grant=1){
     $result = false;
     $this->beginTransaction();
@@ -129,7 +116,6 @@ Users::registerMacro("grantAuthorization", function(string $group, string $auth,
     }
     return $result;
 });
-
 Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
    // Logger::print("Grant : ".$auth ." to ". $group); 
     $auths = Authorizations::select_row(["clName"=>$auth]);
@@ -139,9 +125,7 @@ Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
     return Groupauthorizations::insertIfNotExists(
         ["clGroup_Id"=>$this->clId, "clAuth_Id"=>$auths->clId],
         ["extra"=>["clGrant"=>$grant]]);
-
 });
-
 // + | -----------------------------------------------------------
 // + | Custom macros system  - 
 // + |
@@ -152,11 +136,8 @@ Groups::registerMacro("grantAuthorization", function(string $auth, $grant=1){
 // Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
 // case sensitive extension - macros 
 Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
- 
-
 \IGK\Models\DbLogs::registerMacro("add", function(string $msg, ?string $tag=null){ 
     // + | because database can failed
-    
     static $logger;
     if (igk_environment()->NO_DB_LOG){
         return;
@@ -170,19 +151,13 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
     }
     return false;
 });
-
 \IGK\Models\Users::registerMacro("fullname", function(){
     return StringUtility::NameDisplay($this->clFirstName, $this->clLastName);
 });
-
-
 \IGK\Models\Usergroups::registerMacro("getUserGroup", function(){
     return igk_db_user_groups($this->clUser_Id);
 });
-
 \IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);
-
-
 igk_reg_hook(
     IGKEvents::HOOK_USER_CLEAN, function($e){
         list($user) = igk_extract($e->args,'user' );

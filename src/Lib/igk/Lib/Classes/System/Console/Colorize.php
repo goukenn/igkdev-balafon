@@ -6,6 +6,7 @@ namespace IGK\System\Console;
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKValidator;
+
 /**
  * 
  * @package IGK\System\Console
@@ -89,7 +90,6 @@ class Colorize
                     case 'comment':
                         $v_t[] = App::Gets(igk_getv($v_colors,$g->tokenID, App::GREEN), trim($g->value));
                     case 'string':
-                        //treat string
                         $v = $g->value;
                         $v = preg_replace("/(((http(s)?|ftp|sw|ssl|file):)?\/\/[^\s\"]+)/", App::Gets(igk_getv($v_colors,'uri'), "\$1"), $v);
                         $v = preg_replace("/([a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6})/", App::Gets(igk_getv($v_colors,'email'), "\$1"), $v);

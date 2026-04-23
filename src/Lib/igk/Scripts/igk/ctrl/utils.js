@@ -1,13 +1,9 @@
 //
 "use strict";
-
 (function(){
-	
 	//controller and article functions
 	var CA = igk.system.createNS("igk.ctrl.ca", {	
 	});
-	
-	
 	igk.appendProperties(CA, {
 		editChange: function(tq,target, uri){
 			// console.debug(target);
@@ -18,7 +14,6 @@
 					var q = window.igk.getParentById(i, target); 
 					var q_xhr = window.igk.ajx.post(uri+i.value, null, function(xhr){  
 					if (this.isReady()){ 
- 
 						if (xhr.getResponseHeader('content-type') == "application/json"){
 							var data = JSON.parse(xhr.responseText); 
 							p.setHtml(data["select_result"]);
@@ -34,7 +29,6 @@
 							} 
 							return;
 						}
-
 						this.setResponseTo(p.o);
 						var r = $igk($igk(i).o.form).select('.c-opts').getItemAt(0);
 						var tp = p.select('.c-opts').first();
@@ -42,14 +36,10 @@
 							r.setHtml(tp.getHtml()).init();
 						}
 					}
-
 				});
-
 				// q_xhr.setReponsteType("application/json");
-
 			})(tq);
 			return !1;
 		}
 	});
-	
 })();

@@ -13,6 +13,7 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenCommentHandlerTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenEntryTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenReadStructHandlerTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenStateBufferTrait;
+
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -95,7 +96,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         switch ($id) {
             case T_OPEN_TAG:
-                //ignore open tag
                 if ($_opt->start) {
                     $buffer .= $value;
                 }
@@ -109,9 +109,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                 $this->_readTokenVariable($_opt, $value);
                 break;
             case T_FUNCTION:
-                // expect anonymous function on expression
                 if ($flag == CompilerFlagState::READ_EXPRESSION) {
-                    // change flag options
                     $flagOptions = [
                         "flag" => $flagOptions,
                         "parent" => $flag,
@@ -143,7 +141,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                 $this->_resetCommentAndModifier($_opt);
                 $this->_pushFlag($_opt);
                 $flag = $id == T_CLASS ? CompilerFlagState::READ_CLASS : CompilerFlagState::READ_STRUCT;
-                // add struct to dependency
                 if ($_opt->block){
                     $_opt->block->structs[$value][] = $v_struct_info;    
                 }else{
@@ -191,12 +188,9 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                                 $n
                             );
                             $this->_popFlag($_opt);
-                            // $flag = igk_getv($flagOptions, "flag");
-                            // $flagOptions = null;
                             $buffer .= $value;
                             $_opt->skipWhiteSpace = 0;
                             $this->_pushFlag($_opt);
-                            // go to read expression
                             $flag = CompilerFlagState::READ_EXPRESSION;
                             $flagOptions = new ViewTokenizeExpressionInfo;
                             $flagOptions->variables = &$_opt->variables;
@@ -222,13 +216,10 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                             }
                             $this->_popFlag($_opt);
                             if ($flag) {
-                                // $_opt->buffer =  rtrim($_opt->buffer, ';');
                                 if ($this->_handleFlag($_opt, $id, $value)) {
                                     return true;
                                 }
                             }
-                            // $flagOptions = null;
-                            // $flag = null;
                         } else {
                             $buffer .= $value;
                         }
@@ -334,13 +325,8 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                 break;
             default:
                 if ($v_flagOptions["op"] == 'code') {
-                    // if ($id == T_VARIABLE) {
-                    //     $this->_readTokenVariable($options, $value);
-                    //     return true;
-                    // }
                     switch ($value) {
                         case ';':
-                            // in single
                             $code = trim($v_buffer);
                             if (substr($code, -1) != ';') {
                                 $code .= ';';
@@ -365,7 +351,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                             }
                         case '}':
                             if ($v_block->depth == $options->depth) {
-                                // end multi code
                                 $this->_readTokenEndBlock($options, $id, $value);
                                 return true;
                             }
@@ -499,9 +484,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                     switch ($value) {
                         case '{':
                             $struct->readCode = true;
-                            // start reading code 
-                            // $options->flagOption = null;
-                            // $flag = null;
                             $this->pushBuffer($options, $struct->buffer, 'class');
                             $struct->popBuffer = true;
                             break;

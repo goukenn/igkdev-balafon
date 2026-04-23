@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Controllers;
 use IGK\System\Traits\NoSetExtraPropertyTrait;
+
 /**
  * store controller info
  * @package IGK\System\Controller

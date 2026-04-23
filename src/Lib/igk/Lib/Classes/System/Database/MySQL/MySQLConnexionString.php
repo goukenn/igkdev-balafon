@@ -6,6 +6,7 @@
 namespace IGK\System\Database\MySQL;
 use IGK\Helper\Activator;
 use IGK\System\Html\Css\CssParser;
+
 /**
  * create sql connection string
  */

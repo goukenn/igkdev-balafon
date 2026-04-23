@@ -3,6 +3,7 @@
 // @file: ModuleInstaller.php
 // @date: 20230702 19:14:57
 namespace IGK\System\Installers;
+
 /**
 * auto generate doc.
 * @package IGK\System\Installers

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
+
 /**
 * Command environment arg loader.
 * @package IGK\System\Console

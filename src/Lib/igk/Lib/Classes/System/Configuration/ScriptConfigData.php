@@ -7,6 +7,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\ConfigurationFile;
 use IGK\System\IO\Path;
+
 /**
 * 
 * @package IGK\System\Configuration

@@ -4,6 +4,7 @@
 // @date: 20220531 09:36:43
 // @desc: 
 namespace IGK\Database;
+
 /**
  * query database option
  * @package IGK\Database

@@ -3,6 +3,7 @@
 // @file: RegexDetectInfo.php
 // @date: 20250713 08:49:09
 namespace IGK\System\Text;
+
 /**
 * info for matching detection 
 * @package IGK\System\Text
@@ -23,7 +24,6 @@ class RegexDetectInfo implements IRegexMatcherDetectInfo{
     * auto generate doc.
     * @var mixed
     */
-    //var $basePosition;
     /**
     * auto generate doc.
     * @var RegexMatcherPattern
@@ -73,6 +73,4 @@ class RegexDetectInfo implements IRegexMatcherDetectInfo{
     public function __get(string $n){
         igk_die('missing property ['.$n.']');
     }
-
-   
 }

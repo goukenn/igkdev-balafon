@@ -3,6 +3,7 @@
 // @file: CommandInfo.php
 // @date: 20250907 23:43:30
 namespace IGK\System\Console;
+
 /**
 * command definition info
 * @package IGK\System\Console

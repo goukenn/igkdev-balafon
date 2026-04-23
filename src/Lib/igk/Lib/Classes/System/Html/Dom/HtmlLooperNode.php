@@ -25,6 +25,7 @@ use ReflectionException;
 use SebastianBergmann\FileIterator\Iterator;
 use IGK\System\Html\IHtmlHostContextContainer;
 use IGK\System\Html\IHtmlTemplateHost;
+
 /**
  * summary html array looper.
  * Help write view and article template without the php foreach loop
@@ -189,7 +190,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         // +| Treat Argument to Match Logger
         $v_args = \IGK\System\Html\Templates\Engine\Helpers\LooperArgs::TreatArgument($v_args);
         if (is_string($v_args) && strstr($v_args, self::LOOPER_KEY)) {
-            // render with loopkein definition 
             if (count(self::$sm_renderingContextArgs) == 0) {
                 igk_die("not in contextual rendering raw");
             }
@@ -267,7 +267,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
                 $v_cx = HtmlRenderer::Render($tc, $t_options);
                 $sb->append($v_cx);
             } else {
-                //+ | binding text content 
                 $v_cx = HtmlRenderer::Render($tc, $t_options);
                 $dc[] = $v_cx;
                 $sb->append($v_cx);
@@ -363,8 +362,8 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         $ldcontext->transformToEval = true;
         $ldcontext->hookExpression = $hookExpression;
         $ldcontext->load_expression = false;
-        $file = igk_create_guid(); // tempnam(sys_get_temp_dir(), "host");
-        $v_base_name = 'igk-temp-hostchain'; // basename($file)
+        $file = igk_create_guid(); 
+        $v_base_name = 'igk-temp-hostchain'; 
         igk_push_article_chain($file, $ldcontext);
         try {
             igk_html_bind_article_content($n, $content, $data, $ctrl, $v_base_name, true, $ldcontext);
@@ -380,8 +379,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
      */
     public function host(callable $callback, ...$param)
     {
-        // passing to callback 
-        // clear flag - because of renderging with callback
         $this->node->setFlag(self::OVERRIDE_PARENT_TAG_FLAG, null);
         foreach ($this->args as $k => $c) {
             $callback($this->node, $c, $k, ...$param);
@@ -402,11 +399,9 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         }
         if ($this->m_template->getHasChilds()) {
             $s = $this->generateRender($this->m_template->getChilds(), $options);
-            // html
             $n = igk_create_notagnode();
             $n->load($s);
             return [$n];
-            //return [new HtmlTextNode($s)]; 
         }
         return [];
     }

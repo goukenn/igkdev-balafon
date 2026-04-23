@@ -3,6 +3,7 @@
 // @file: IRegexEndInfo.php
 // @date: 20250617 13:00:28
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

@@ -9,8 +9,6 @@
 // @url: https://www.igkdev.com
 
 /** @var BaseController $ctrl */
-
-
 foreach($ctrl->getSystemVars() as $k=>$v){
     $$k= & $v;
 }

@@ -11,6 +11,7 @@ use IGK\System\Polyfill\IteratorTrait;
 use IGKIterator;
 use IGK\IArrayObject;
 use Iterator;
+
 /**
 * Array list.
 * @package IGK\System\Collections
@@ -23,7 +24,6 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
      * @var array
      */
     protected $m_data = [];
-    // protected $preserveKey = false;
     /**
     * Property: iterator.
     * @var mixed
@@ -108,7 +108,6 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
             }
         } else {
             if($n === null){
-                //append 
                 $this->m_data[] = $v;
             }else {
                 $this->m_data[$n] = $v;

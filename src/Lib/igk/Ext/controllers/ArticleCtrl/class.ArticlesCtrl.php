@@ -9,7 +9,6 @@
 */
 class IGKArticleController extends IGKAtriclesCtrlBase
 { 
-
 	/**
 	 * Constructor.
 	 */

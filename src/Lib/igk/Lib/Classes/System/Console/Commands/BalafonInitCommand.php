@@ -11,6 +11,7 @@ use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Console\Logger;
 use IGKAppSystem;
 use IGKEvents; 
+
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -93,7 +94,6 @@ class BalafonInitCommand extends AppExecCommand
 		}
 		$cwd = $cwd ?? getcwd();
 		if (property_exists($command->options, '--no-config')) {
-			// remove configuration 
 			if (file_exists($cf = $cwd . '/' . IGK_BALAFON_CONFIG)) {
 				@unlink($cf); 
 			}

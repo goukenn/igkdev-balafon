@@ -15,6 +15,7 @@ use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
+
 /**
  * 
  * @package IGK\Database
@@ -43,7 +44,6 @@ class SQLQueryUtils
     * @var mixed
     */
     public static $LENGTHDATA = array("varchar" => "VarChar", "char" => "Char");
-    ///<summary>Represente AllowedDefValue function</summary>
     /**
     * Allowed def value.
     */

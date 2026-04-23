@@ -5,6 +5,7 @@
 namespace IGK\System\Annotations;
 use IGK\System\AnnotationBase;
 use IGK\System\IAnnotation;
+
 /**
 * balafon's annotation for describe an annotation
 * @package IGK\System\Annotations

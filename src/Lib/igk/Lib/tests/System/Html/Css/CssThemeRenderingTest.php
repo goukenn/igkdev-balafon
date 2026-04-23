@@ -3,7 +3,6 @@
 // @file: CssThemeRenderingTest.php
 // @date: 20250403 11:48:00
 namespace IGK\Tests\System\Html\Css;
-
 use IGK\System\Html\Css\CssMinifier;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\Tests\BaseTestCase;
@@ -14,7 +13,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class CssThemeRenderingTest extends BaseTestCase{
-
     /**
     * Tests csstheme minify content rendering.
     */

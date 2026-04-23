@@ -5,6 +5,7 @@
 namespace IGK\System\Exceptions;
 use IGKException;
 use Throwable;
+
 /**
 * Operation not allowed exception
 * @package IGK\System\Exceptions

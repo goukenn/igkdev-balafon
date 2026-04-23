@@ -4,6 +4,7 @@
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
+
 /**
  * use to remove column
  * @package IGK\System\Database

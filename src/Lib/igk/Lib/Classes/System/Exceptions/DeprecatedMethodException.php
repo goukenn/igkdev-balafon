@@ -4,6 +4,7 @@
 // @date: 20220908 03:41:14
 namespace IGK\System\Exceptions;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Exceptions

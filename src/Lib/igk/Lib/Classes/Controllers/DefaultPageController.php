@@ -16,6 +16,7 @@ use IGKViewMode;
 use IGK\IUriActionRegistrableController;
 use IGK\IWebPageController;
 use IGK\System\Http\RequestResponseCode;
+
 /**
 * Default page controller.
 * @package IGK\Controllers
@@ -172,7 +173,6 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             IGK_CTRL_CNF_BASEURIPATTERN=>(object)[]
         );
     }
-    ///get the name of the page that control this controller
     /**
     * Returns Basic Uri Pattern.
     */

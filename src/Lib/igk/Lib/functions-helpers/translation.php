@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: translation.php
 // @date: 20220831 19:42:32
 // @desc: stranlation helpers
-
 use IGK\IGKTranslator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
@@ -26,27 +24,22 @@ if (!function_exists('__')){
      * expose translation to other framework
      * @package 
      */
-
     /**
     * auto generate doc.
     * @package
     */
-
     /**
     * auto generate doc.
     * @package
     */
-
     /**
     * auto generate doc.
     * @package
     */
-
     /**
     * auto generate doc.
     * @package
     */
-
     /**
     * auto generate doc.
     * @package

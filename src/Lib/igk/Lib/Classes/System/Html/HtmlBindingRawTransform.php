@@ -3,6 +3,7 @@
 // @file: HtmlBindingRawTransform.php
 // @date: 20221010 14:35:02
 namespace IGK\System\Html;
+
 /**
  * use to transform binding data
  * @package IGK\System\Html

@@ -13,6 +13,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKAppSystem;
 use IGKSysUtil;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
@@ -84,7 +85,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 					rename($pdir, $i_dir =  IGK_PROJECT_DIR . "/" . $name);
 					Logger::info('clear cache');
 					SysUtils::ClearCache();
-					//+ install project - 
 					self::InstallProject($i_dir);
 				} else {
 					Logger::danger(sprintf('missing controller project directory. %s', $name));
@@ -118,9 +118,6 @@ class ListProjectRemovedCommand extends AppExecCommand
     public static function InstallProject(string $project_dir): bool
 	{
 		$v_o = false;
-		//+----------------------------------------------
-		//+ get controller in director.
-		//+----------------------------------------------
 		$loaded_fields = igk_loadlib($project_dir);
 		if ($loaded_fields) { 
 			$list = igk_sys_get_projects_controllers();

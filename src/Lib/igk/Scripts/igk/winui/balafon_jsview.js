@@ -1,5 +1,4 @@
 "use strict";
-
 (function(){
     igk.winui.initClassControl("igk-balafon-js-view", function(){
         var t = this.getAttribute("igk:default-tag") || 'div';

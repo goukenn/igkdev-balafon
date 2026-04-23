@@ -3,6 +3,7 @@
 // @file: CommandCategories.php
 // @date: 20240923 09:28:11
 namespace IGK\System\Console;
+
 /**
 * system primary category command
 * @package IGK\System\Console

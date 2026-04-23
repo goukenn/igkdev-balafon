@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Models;
 use ArrayAccess;
+
 /**
 * auto generate doc.
 * @package 1

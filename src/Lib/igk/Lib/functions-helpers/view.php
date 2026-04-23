@@ -3,13 +3,11 @@
 // @filename: view.php
 // @date: 20231228 11:27:28
 // @desc: views fonction helpers
-
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 
 if (!function_exists('igk_article')) {
-
 /**
 * Igk article.
 * @param string $file
@@ -21,7 +19,6 @@ function igk_article(string $file, $params = null)
    }
 }
 if (!function_exists('igk_asset')) {
-
 /**
 * Igk asset.
 * @param string $file
@@ -31,7 +28,6 @@ function igk_asset(string $file)
       return ViewHelper::CurrentCtrl()->asset($file);
    }
 }
-
 if (!function_exists('__')) {
    /**
     * shortcut to core translation . igk_resource_gets
@@ -48,9 +44,7 @@ if (!function_exists('__')) {
       return igk_resources_gets($msg, $default, ...$params);
    }
 }
-
 if (!function_exists('igk_view_uri')) {
-
    /**
     * initialize uri view base 
     * @param string $p 

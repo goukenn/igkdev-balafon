@@ -3,6 +3,7 @@
 // @file: CompilerTokenCompileTrait.php
 // @date: 20221024 00:25:14
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
 * 
 * @package IGK\System\Runtime\Compiler

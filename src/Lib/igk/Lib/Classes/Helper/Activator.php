@@ -18,6 +18,7 @@ use IGKType;
 use JsonSerializable;
 use ReflectionClass;
 use ReflectionProperty;
+
 /**
  * 
  * @package IGK\Helper;
@@ -91,7 +92,6 @@ class Activator
     {
         $root = $g = igk_sys_reflect_class($interface);
         $properties = [];
-        // create a container that will handle component 
         $container = new RegexMatcherContainer;
         $patterns = [
             ["match" => "(?i)\\$[a-z_][a-z0-9_]*\b", "tokenID" => "name"],
@@ -133,7 +133,6 @@ class Activator
                             $name = $type = null;
                             break;
                     }
-                    // Logger::print("sample : ".$e->tokenID . " value=[".$e->value.']');
                 }
             }
         };
@@ -145,7 +144,6 @@ class Activator
                 $v_handler($comment);
             }
             if ($g->isInterface()) {
-                // 
                 foreach ($g->getInterfaceNames() as $r) {
                     if (!isset($v_load[$r])) {
                         array_unshift($tq, igk_sys_reflect_class($r));
@@ -377,7 +375,6 @@ class Activator
             $regex->createPattern(['match' => '\\$([a-zA-Z][a-zA-Z]*)(?:\\h+(.+))*', 'tokenID' => 'f-name-desc']),
         ];
         $pos = 0;
-        // define 
         $src = $doc_comments;
         $name = $type = null;
         $props = [];

@@ -8,6 +8,7 @@ use IGK\Database\SchemaBuilder\DiagramEntityColumnInfo;
 use IGK\Database\SchemaBuilder\DiagramVisitor;
 use IGK\Database\SchemaBuilder\Svg\Html\BoxDimension;
 use IGK\System\Html\XML\XmlNode;
+
 /**
  * diagram svg schema visitor
  * @package igk\db\schemaBuilder
@@ -91,7 +92,7 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         $this->defs->add("clipPath")->setAttributes(["id"=>$_clipid])
         ->add("rect")
         ->setAttributes(
-            ["x"=>"10",//$posxDim,
+            ["x"=>"10",
             "y"=>"10",
             "width"=>$width,
             "height"=>$HeightDim,
@@ -141,7 +142,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
                 $HeightDim->value = $y-10; 
             }
         }
-        //$o .= $this->defs->render();
         return $o;
     }
 }

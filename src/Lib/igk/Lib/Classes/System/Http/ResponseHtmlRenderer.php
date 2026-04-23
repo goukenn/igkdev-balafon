@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
+
 /**
 * Response html renderer.
 * @package IGK\System\Http
@@ -44,7 +45,6 @@ class ResponseHtmlRenderer{
             $c = $this->m_node->addDD();
             $this->visitDd($c, $m);
         }
-        // $this->m_node->addObData($this->m_obj);
         return $this->m_node->render();
     }
     /**

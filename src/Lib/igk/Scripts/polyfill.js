@@ -1,10 +1,8 @@
 "use strict";
 (function() {
     //ie 11 polyfill.js
-
     var _N_ = window.Number.prototype;
     var _N = window.Number;
-
     if (!_N.isNaN)
         _N.isNaN = function(i) {
             var g = '' + i;

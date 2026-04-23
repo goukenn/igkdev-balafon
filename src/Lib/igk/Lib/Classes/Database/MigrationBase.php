@@ -5,6 +5,7 @@
 namespace IGK\Database;
 use IGK\System\Database\SchemaBuilder;
 use IGK\System\Database\SchemaMigrationBuilder;
+
 /**
 * migration base class
 * @package IGK\Database

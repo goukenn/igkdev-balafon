@@ -4,6 +4,7 @@
 // @date: 20241020 18:28:14
 namespace IGK\Helper;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * auto generate doc.
 * @package IGK\Helper
@@ -25,7 +26,6 @@ class JSTreatment{
             $token_id = $g->tokenID;
             switch($token_id){
                 case 'symbol':
-                    //remove symobl
                     $t = substr($t, 0, $rpos).substr($t, $pos);
                     $pos = $rpos;
                     break;

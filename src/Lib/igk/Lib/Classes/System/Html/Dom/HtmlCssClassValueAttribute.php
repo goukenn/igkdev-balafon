@@ -20,6 +20,7 @@ use IGKApp;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 /**
 * Html css class value attribute.
 * @package IGK\System\Html\Dom
@@ -89,7 +90,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $o = igk_unseri_data($data);
         $tab = explode(" ", $o->v);
         $this->m_classes = array_combine($tab, $tab);
-        /// TODO : TEST UN SERIALISE
         $r = igk_getv($o, "r");
         if ($r) {
             $owner = igk_get_env("sys://serialize/owner");
@@ -206,7 +206,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $v = &self::_GetRegClass();
         if (isset($v[$name])) {
             unset($v[$name]);
-            // igk_invoke_session_event(IGKApp::$REG_CSS_CLASS_EVT, array(igk_app(), null));
         }
     }
     /**
@@ -220,7 +219,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         if (is_object($class)) {
             if ($class instanceof HtmlAttributeExpression) {
                 $this->m_expressions[] = $class; 
-                return true;//$class = null;               
+                return true;
             } else if ($class instanceof DomHtmlCssClassValueAttribute){
                 $keys = $class->getKeys();
                 array_map([$this,'_add'], $keys); 
@@ -400,8 +399,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                 }
                 $b .= '' . $k;
             }
-            // treat operator 
-            // $b = preg_replace("/(^|\s+)(+|-)/", "",$b);
         }
         return empty($b) ? '' : $b;
     }

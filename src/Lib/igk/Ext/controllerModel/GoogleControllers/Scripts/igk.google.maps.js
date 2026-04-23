@@ -4,11 +4,8 @@
 //date: 02/01/2018
 //version:1.0
 //--
-
 "use strict";
-
 (function() {
-
     function hierachilist(p) {
         var tab = [];
         var rt = [{ i: p, t: '' }];
@@ -24,21 +21,18 @@
         }
         return tab;
     }
-
     function _getProperty(n_h) {
         var cl = igk.convert.toHtmlColor(n_h.getComputedStyle("color"));
         var disp = n_h.getComputedStyle("visibility");
         // if (cl == dc){
         // continue;
         // }
-
         var ms = [];
         ms.push({ color: cl });
         if (disp != "visible")
             ms.push({ visibility: 'off' });
         return ms;
     }
-
     function initDisplayStyle(map, t) {
         var p = {
             administrative: { country: 1, land_parcel: 1, locality: 1, neighborhood: 1, province: 1 },
@@ -48,13 +42,10 @@
             transit: { line: 1, station: { airport: 1, bus: 1, rail: 1 } },
             whater: 1
         };
-
         var m = { all: 1, geometry: { fill: 1, stroke: 1 }, labels: { icon: 1, text: { fill: 1, stroke: 1 } } };
-
         var tab = hierachilist(p);
         var ptab = hierachilist(m);
         var styles = [];
-
         var dc = igk.convert.toHtmlColor(igk.css.getComputedSrcStyle(t, "", "color"));
         //poi labels icon
         var gc = 34;
@@ -64,31 +55,22 @@
         var out = igk.createNode("div");
         // console.debug(dc);
         var ti = 1;
-
         var n_h = $igk(t).add("div").addClass("dispn");
-
         var ms = _getProperty(n_h);
         var bvjs = JSON.stringify(ms);
         // console.debug(bvjs);
-
-
         for (var l = 0; l < tab.length; l++) {
             var ss = tab[l];
             for (var y = ptab.length - 1; y >= 0; y--) {
                 var k = (ss + " " + ptab[y]).replace(/\./g, " ");
-
                 // if (k == "poi place_of_worship all"){
                 // console.error("sample");
                 // }
-
-
                 var parent = ss.substr(0, ss.trim().lastIndexOf("."));
                 n_h.o.className = k;
                 ms = _getProperty(n_h);
                 var vjs = JSON.stringify(ms);
-
                 if (bvjs == vjs) continue;
-
                 if (parent.length > 0) {
                     // console.debug("check "+parent);
                     if (tset[parent] == vjs) {
@@ -104,31 +86,22 @@
                         }
                     }
                     if (dcb) continue;
-
                     // console.debug("not found "+parent);
                     //tset[ss] =vjs;
                 } else {
                     tset[ss] = vjs;
                 }
-
-
-
                 out.add("div").setHtml((ti++) + ": " + ss + "==" + k + ":" + vjs);
-
-
-
                 styles.push({
                     featureType: tab[l],
                     elementType: ptab[y],
                     stylers: ms
                 });
-
                 // var hc = igk.convert.toHtmlColor(igk.css.getComputedSrcStyle(t,k, "color"));
                 // // console.debug("store  : "+ k);
                 // if (hc != dc){
                 // if (gc<=0)
                 // break;
-
                 // // var parent = ss.substr(0, ss.trim().lastIndexOf("."));
                 // // if (parent.length>0){
                 // // if (tset[parent]==hc){
@@ -138,9 +111,7 @@
                 // // }else{
                 // // tset[ss] = hc;
                 // // }
-
                 // // console.debug('parent =='+k+'=='+parent + " "+ss.trim().lastIndexOf("."));
-
                 // pset[k]= hc;
                 // console.debug("store  : "+ k+ "  ::: "+ptab[y] + " ::: "+ok+ ":::"+hc);
                 // styles.push({
@@ -158,18 +129,14 @@
         // console.debug(tset);
         // console.debug(styles.pop());
         // console.debug(styles);
-
         var STYLE_LENGTH = 2047;
         var v_ct = JSON.stringify(styles);
         t.parentNode.appendChild(out.o);
     }
-
     var m_maps = [];
     var m_sys = 0;
-
     function _initmaps() {
         $igk(document).reg_event("transitionend", function(e) {
-
             if ("width|height".indexOf(e.propertyName) != -1) {
                 //trigger refresh
                 for (var i = 0; i < m_maps.length; i++) {
@@ -179,10 +146,8 @@
             // console.debug(e);
         });
     };
-
     function _markerInfo() {
         var m_marks = [];
-
         igk.appendProperties(this, {
             clearAll: function() {
                 //clear all marker
@@ -198,7 +163,6 @@
             }
         });
     };
-
     function _refresh(m) {
         google.maps.event.trigger(m, "resize");
     }
@@ -237,7 +201,6 @@
             if (typeof(map) == 'number') {
                 map = m_maps[map];
             }
-
             if (!map)
                 return;
             var v_cm = $igk(map);
@@ -257,8 +220,6 @@
                 mk.icon = m.icon;
                 mk.title = m.title;
                 mk.inf = m;
-
-
                 if (opts && opts.click) {
                     mk.addListener('click', opts.click);
                 }
@@ -281,7 +242,6 @@
                 }
                 // console.debug('add marker');
                 // console.debug(m);
-
             }
             var center = {
                 lat: mxi + (mxa - mxi) / 2.0,
@@ -295,7 +255,6 @@
                 map.setCenter(center);
                 _refresh(map);
             }, 500);
-
             // console.debug(bounds.getCenter().lat()+"," + bounds.getCenter().lng());
             // console.debug(center);
         },
@@ -310,20 +269,15 @@
                 m_sys = 1;
             }
             var q = $igk(t);
-
             //default center zoom
             var s = q.getAttribute("igk:data");
             var data = igk.initObj(igk.JSON.parse(s), {
                 zoom: 7,
                 center: { lat: 50.41438075875331, lng: 4.904006734252908 }
             });
-
             // console.debug(data);
-
-
             //var myLatLng = {lat: -25.363, lng: 131.044};
             // var myLatLng2 = {lat:50.843004, lng:4.359926};
-
             var map = new google.maps.Map(t, {
                 zoom: data.zoom,
                 center: data.center,
@@ -337,7 +291,6 @@
                     // ,{ featureType: 'transit.station',  elementType: 'geometry',  stylers: [{color: '#FF0000'}]}
                     // ,{ featureType: 'poi',  elementType: 'all',  stylers: [{visibility: 'off'}]}
                     // ,{ featureType: 'transit',  elementType: 'all',  stylers: [{visibility: 'off'}]}
-
                 // ,{ featureType: 'road',  elementType: 'geometry',  stylers: [{ color: '#444444'}]}//default road color
                 // ,{ featureType: 'road.highway',  elementType: 'labels.text.fill',  stylers: [{color: '#FF0000'}]}
                 // ,{ featureType: 'road.local',  elementType: 'labels.text.fill',  stylers: [{ color: '#FF0000'}]}
@@ -347,15 +300,10 @@
                 // ,{ featureType: 'landscape',  elementType: 'geometry',  stylers: [{ color: '#555'}]}		
                 // ,{ featureType: 'landscape.natural.terrain',  elementType: 'geometry',  stylers: [{ color: '#606060'}]}		
                 // // ,{ featureType: 'landscape.natural.landcover ',  elementType: 'geometry',  stylers: [{ color: '#000000'}]}		
-
                 // ]
             });
-
             //var d = $igk(t).add("div").addClass("dispn options");
-
             //initDisplayStyle(map, t);
-
-
             //var m = igk.google.maps.addMarker(map, 50.841229, 4.354099);
             // m.addListener('click', function(){		
             // console.debug(this);
@@ -383,7 +331,6 @@
                             wnd.open(map, this);
                         };
                     })(mk, data, m));
-
                     if (i == 0) {
                         mxi = m.lat;
                         mxa = m.lat;
@@ -415,15 +362,11 @@
                 });
             }
             // console.debug("s");
-
             if (data.styles) {
                 // console.debug("init maps set style");
                 // map.styles =data.styles;	
                 map.setOptions({ styles: data.styles });
             }
-
-
         }
     });
-
 })();

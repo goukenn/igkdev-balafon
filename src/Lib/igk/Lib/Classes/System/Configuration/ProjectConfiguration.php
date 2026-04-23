@@ -8,6 +8,7 @@ use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
+
 /**
 * represent project configuration settings
 * @package IGK\System\Configuration

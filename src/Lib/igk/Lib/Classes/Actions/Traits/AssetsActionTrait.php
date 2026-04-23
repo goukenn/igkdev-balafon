@@ -4,6 +4,7 @@
 // @date: 20221212 11:31:26
 namespace IGK\Actions\Traits;
 use IGK\System\IO\Path;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
@@ -27,19 +28,4 @@ trait AssetsActionTrait{
 		echo file_get_contents($f); 
 		igk_exit();
 	}
-    // public function assets(){
-    //     $f = implode("/", array_merge([$this->getController()->getDataDir(), __FUNCTION__],
-    //     func_get_args()));       
-    //     // igk_wln_e("domain:::", $f, igk_io_file_exists($f));
-    //     if (igk_io_file_exists($f)){
-    //         $mime = igk_getv(igk_header_mime(), igk_io_path_ext($f), "text/plain");  
-    //         // igk_wln_e("data ", igk_io_path_ext($f), $mime)  ;        
-    //         $response = new WebFileResponse($f, $mime);
-    //         $response->zip = false;
-    //         $response->cache_output(igk_configs()->assets_cache_output());
-    //         $response->output(); 
-    //     } 
-    //     throw new ResourceNotFoundException('resource not found', '');
-    //     // throw new PageNotFoundException();    //
-    // }
 }

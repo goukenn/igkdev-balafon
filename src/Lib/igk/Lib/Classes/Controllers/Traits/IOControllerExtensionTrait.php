@@ -6,6 +6,7 @@ namespace IGK\Controllers\Traits;
 use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
+
 /**
 * input management controller macros extension 
 * @package IGK\System\Controllers\Traits

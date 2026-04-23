@@ -105,7 +105,6 @@
                       __loadAndInit();
                   });
               }
-
               function __bindGlobal(t) {
                   // call on every ajx context finish loaded		
                   for (var i = 0; i < m_globals.length; i++) {

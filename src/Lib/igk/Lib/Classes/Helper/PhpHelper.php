@@ -10,6 +10,7 @@ use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionParameter;
+
 /**
 * Php helper.
 * @package IGK\Helper
@@ -98,7 +99,6 @@ class PhpHelper{
                     }
                     return $t . "$".$p->name . $g;
                 }, $params)));
-                //igk_wln_e($f, $params, $params[0], $m);
             }
             $c = self::GetCommentSummary($ref->getDocComment());
             $o .= "@method {$r} ".$p."($m) {$c}\n"; 
@@ -151,7 +151,7 @@ class PhpHelper{
                 if (!IGKType::IsPrimaryType($r)){
                     $s .= '\\';
                 }
-                $s .= $r.' '; // IGKType::GetName($p->getType()) . " ";
+                $s .= $r.' '; 
             } 
             $s.=  '$'.$p->getName();
             $s.= self::getDefaultValue($p);

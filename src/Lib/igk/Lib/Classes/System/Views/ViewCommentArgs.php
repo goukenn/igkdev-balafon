@@ -8,6 +8,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompileProcessCommandHandler;
 use IGK\System\Views\Traits\ViewCommentEvalTrait;
 use ReflectionException;
+
 /**
 * store comment detected on a view 
 * @package IGK\System\View
@@ -94,7 +95,7 @@ class ViewCommentArgs{
     * @return
     */
     private function _getViewCommandProcess(){
-        return null; //  new ViewCompileProcessCommandHandler($this);
+        return null; 
     }
     /**
     * auto generate doc.

@@ -9,6 +9,7 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Controllers\SystemController as IGKSystemController;
 use ReflectionException;
+
 /**
  * IO Helper class 
  * @package IGK\System\IO
@@ -35,7 +36,6 @@ final class Helper{
         foreach($tables as $t=>$info){
             $callback($ctrl, $t, $info, $manifest, $force);
         }
-        // something to do with the manifest
         return $manifest;
     }
     /**
@@ -51,7 +51,6 @@ final class Helper{
         foreach($tables as $t=>$info){
             $callback($ctrl, $t, $info, $manifest, $force);
         }
-        // something to do with the manifest
         return $manifest;
     }
 }

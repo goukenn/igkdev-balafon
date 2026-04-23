@@ -3,8 +3,6 @@
 // @filename: class.IGKBillingCtrl.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-
 use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
 use igk\PDF as PDFModule;
@@ -14,7 +12,6 @@ use igk\PDF as PDFModule;
 */
 abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -22,11 +19,9 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
     protected function initComplete($context=null)
 	{ 
 		parent::initComplete();
-		//register a billing
 		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_CTRL, $this);
 		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_DETAIL_CTRL, new IGKBillingDetailsCtrl());
 	}
-
     /**
     * Store.
     * @param mixed $caddyInfo
@@ -36,9 +31,7 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 		$u = $this->app->Session->User;
 		if ( ($u==null) || ($caddyInfo==null) || igk_count($caddyInfo)==0)
 			return;
-
 		$e = new IGKBillingEntry ();
-
 		$e->clUId = $u->clId;
 		$e->clDate = igk_mysql_datetime_now();
 		$m = 0.0;
@@ -46,7 +39,6 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 		$tk = array();
 		foreach($caddyInfo as  $v)
 		{
-
 			$m += $v->getAmount();
 			$h = new IGKBillingDetailsEntry();
 			$h->clAmount = $v->getAmount();
@@ -63,8 +55,6 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 				$d->insert($v);
 			}
 		}
-
 		$this->getBillingPDF();
 	}
-	
 }

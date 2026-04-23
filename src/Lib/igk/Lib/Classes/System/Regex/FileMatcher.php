@@ -3,6 +3,7 @@
 // @file: FileMatcher.php
 // @date: 20230307 22:33:16
 namespace IGK\System\Regex;
+
 /**
  * helper used the match callable for directory
  * @package IGK\System\Regex
@@ -65,7 +66,6 @@ class FileMatcher
     public function match(?string $file)
     {
         if (!$this->m_init){
-            //parse matcher 
             $this->regex = $this->parseMachter();
             $this->m_init = true;
         }

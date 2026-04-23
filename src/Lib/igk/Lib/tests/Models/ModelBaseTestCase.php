@@ -3,10 +3,7 @@
 // @filename: ModelBaseTestCase.php
 // @date: 20220803 13:48:54
 // @desc: 
- 
-
 namespace IGK\Tests\Models;
- 
 use IGK\Tests\BaseTestCase;
 use IGK\Tests\Utils;
 
@@ -15,8 +12,6 @@ use IGK\Tests\Utils;
 * @package IGK\Tests\Models
 */
 abstract class ModelBaseTestCase extends BaseTestCase{
-    // call before all launching test - and output is consider in return of the output string test.
-
     /**
     * Sets up the test environment before each test.
     * @return void
@@ -24,19 +19,16 @@ abstract class ModelBaseTestCase extends BaseTestCase{
     protected function setUp():void{ 
         parent::setUp();
     }
-
     /**
     * Returns Default Model Name.
     */
     protected function getDefaultModelName(){
         return null;
     }
-
     /**
     * Returns Controller Class.
     */
     abstract protected function getControllerClass();
-
     /**
     * Returns Model.
     * @param null|mixed $modelName
@@ -56,13 +48,10 @@ abstract class ModelBaseTestCase extends BaseTestCase{
             $this->fail("model check failed: ".$ex->getMessage());
         }
     }
-
     /**
     * Tests db schema.
     */
     public function test_db_schema(){
         Utils::CheckControllerDataBase($this, $this->getControllerClass());
     }
-
-   
 }

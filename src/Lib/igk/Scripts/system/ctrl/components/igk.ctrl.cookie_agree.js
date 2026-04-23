@@ -1,5 +1,4 @@
 "use strict";
-
 (function() {
     function _hide(t) {
         t.on("transitionend", function() {

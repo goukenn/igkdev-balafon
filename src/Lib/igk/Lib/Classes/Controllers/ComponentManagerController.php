@@ -6,9 +6,7 @@
 namespace IGK\Controllers;
 use __PHP_Incomplete_Class;
 use stdClass;
-// // /**
-// * component manager controller
-// */
+
 /**
 * Component manager controller.
 * @package IGK\Controllers

@@ -7,14 +7,13 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-/** @var BaseController $s_ctrl */
 
+/** @var BaseController $s_ctrl */
 use function igk_resources_gets as __; 
 use IGK\Resources\R;
 use IGK\Helper\IGKControllerHelper;
 use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
-
 ($s_ctrl == null) && igk_die("selected controller not found");
     $div=$t;
 if (!igk_is_ajx_demand())

@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Exceptions;
 use IGKException;
 use function igk_resources_sprintf as __;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Exceptions

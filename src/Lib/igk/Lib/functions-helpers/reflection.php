@@ -1,11 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: reflection.php
 // @date: 20220831 14:27:24
 // @desc: reflection helpers function
-
-
 use Hamcrest\Type\IsObject;
 
 /**
@@ -51,7 +48,6 @@ function igk_reflection_class_hierachi(ReflectionClass $type)
     };
     return $q;
 }
-
 /**
 * auto generate doc.
 * @param mixed $name
@@ -105,7 +101,6 @@ function igk_reflection_func_get_args($args)
     }
     return $tc;
 }
-
 /**
 * auto generate doc.
 * @param mixed $cl
@@ -116,7 +111,6 @@ function igk_reflection_get_constants($cl)
     return $r->getConstants();
 }
 if (!function_exists('igk_reflection_get_private_member')) {
-
 /**
 * Igk reflection get private member.
 * @param mixed $cl
@@ -135,7 +129,6 @@ function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::
             }
             $tab[] = $i->name;
         }
-
         return $tab;
     }
 }
@@ -186,8 +179,6 @@ function igk_reflection_get_member($cl, $exclude_empty = 1)
     }
     return $t;
 }
-
-
 /**
  * helper get class vars
  * @param mixed $obj 
@@ -203,7 +194,6 @@ function igk_reflection_getclass_vars($obj)
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $class
@@ -213,7 +203,6 @@ function igk_reflection_getdeclared_filename($class)
     $h = igk_sys_reflect_class($class);
     return $h->getFileName();
 }
-
 /**
 * auto generate doc.
 * @param mixed $name
@@ -224,9 +213,7 @@ function igk_reflection_interface_exists($name)
         igk_die("class $name doesn't exists");
     return $name;
 }
-
 if (!function_exists('igk_reflection_get_class_properties')) {
-
     /**
      * get class public properties
      * @param string $class_name 
@@ -242,7 +229,6 @@ if (!function_exists('igk_reflection_get_class_properties')) {
             if ($non_static && $p->isStatic()) {
                 continue;
             }
-
             $t[$p->name] = $p->name;
         }
         return $t;

@@ -10,6 +10,7 @@
 namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
+
 /**
 * Html attrib expression node.
 * @package IGK\System\Html
@@ -59,7 +60,6 @@ class HtmlAttribExpressionNode extends XmlNode
         $context = $this->node_args ?? igk_get_attrib_raw_context($context);
         $p = $this->target_node;
         foreach ($m as $k => $t) {
-            // ignore attribute binding
             if (in_array($k, $_g))
                 continue;
             if ($k[0] == "*") {

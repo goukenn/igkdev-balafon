@@ -9,6 +9,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Installers\InstallerUtils;
 use IGKException;
+
 /**
  * clear cache in ftp sync server */
 class SyncInitPublicCommand extends SyncAppExecCommandBase

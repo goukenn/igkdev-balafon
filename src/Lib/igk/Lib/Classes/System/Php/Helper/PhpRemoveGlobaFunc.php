@@ -7,6 +7,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
 * auto generate doc.
 * @package IGK\System\Php\Helper
@@ -117,7 +118,6 @@ class PhpRemoveGlobaFunc
                 )) {
                     $ct = substr($fc_info->src, $e->to, $tab[0][1] - $e->to);
                     if (empty(trim($ct))) {
-                        // remove php doc
                         $fc_info->replacements[] = [$e->from, $e->to];
                     }
                 } else {
@@ -156,12 +156,11 @@ class PhpRemoveGlobaFunc
         $pos = 0;
         $fc_info = (object)[
             'name' => null,
-            'ignoreName' => false, // <- for anonym declaration function()use(){}
+            'ignoreName' => false, 
             'param' => false,
             'src' => $src,
             'replacements' => []
         ];
-        // define
         $o_crc = 0;
         $fc_handle = $this->_getFuncHandle();
         $is_debug = igk_is_debug();

@@ -3,7 +3,6 @@
 // @filename: class.IGKArticlesCtrl.php
 // @date: 20220803 13:48:59
 // @desc: 
-
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 /**

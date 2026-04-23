@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: install.module.script.pinc
 // @date: 20220729 14:31:53
 // @desc: install module script
-
 
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
@@ -15,7 +13,6 @@ if (!function_exists("igk_getr")) {
         return $default;
     }
 }
-
 if (!function_exists("igk_getv")) {
     function igk_getv($tab, $n, $default = null)
     {
@@ -68,7 +65,6 @@ if (!function_exists("igk_io_rmdir")) {
                 if (($f == ".") || ($f == ".."))
                     continue;
                 $v = igk_dir($dir . "/" . $f);
-
                 if ($callback && !$callback($v)) {
                     $leave= 1;
                     continue;
@@ -109,14 +105,12 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
-
 if (!function_exists('igk_server_resolv_home')){
     function igk_server_resolv_home(){
         $home = "/";        
         if ($user = igk_getv($_SERVER, 'USER')){
             $f = igk_getv($_SERVER, 'SCRIPT_FILENAME');
             if ($g = strpos($f, '/'.$user.'/')){
-                
                 $home = substr($f, 0,  $g+strlen($user) +1);
                 $path = dirname($f);
                 $rp = "";
@@ -126,37 +120,28 @@ if (!function_exists('igk_server_resolv_home')){
                 }
                 $tp = dirname($f)."/".$rp;
                 $_SERVER['HOME'] = $home;
-               
                 return $home;
             }
         }
         return $home;
     }
 }
-
 //#{{@Inc(class.InstallerResponse.pinc)}}
- 
-
 // %token%
-
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
-
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_server_resolv_home();
 $archive =  isset($archive) ? $archive : 
  ($glib = igk_getr("archive") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/module.zip");
-
 $response = new InstallerResponse();
 $install_dir = "";
 $app_dir = null;
 $steps = [];
-
 if(!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")){
     $response->die("request method not match", 500);
 }
 // if (!($tk = igk_getr("token")) || ($token != $tk)){
 //     $response->die("missing token", 500);
 // }
-
 if (!class_exists(ZipArchive::class)) {
     $response->die("zip archive not present", 500);
 }
@@ -167,33 +152,23 @@ $steps[] = "check archive ".$archive;
 if (!file_exists($archive)) {
     $response->die("module archive is missing.", 500);
 }
-
 $install_dir = igk_getr("install_dir");
-
-
 if ($install_dir)
     $install_dir = implode("/", [$home, trim($install_dir,"/")]);
 else
     $install_dir = __DIR__ . "/../application/Packages/Modules";
-
 if (is_link($install_dir)){
     $response->die("directory link to ", 503);
 }
-
 if (!is_dir($install_dir) && !@mkdir($install_dir, 0777, true)) {
     $response->die("failed created dir: ".$install_dir, 500);
 }
-
 $app_dir = igk_getr("app_dir");
 $install_dir = realpath($install_dir);
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
 @unlink($install_dir);
 @mkdir($temp_dir);
-
-
- 
- 
 $version = 0;
 $author = 0;
 $appName;
@@ -207,7 +182,6 @@ $zip_out_dirname = 'application_module_controller';
 if ($hzip->open($archive)) {
     $error = false;
     if (!$error && (false !== ($g = $hzip->getStream("manifest.xml")))) {
-
         $data = "";
         while (!feof($g)) {
             $data .= fread($g, 4096);
@@ -223,24 +197,16 @@ if ($hzip->open($archive)) {
             $error = true;
             $error_msg = "AppName is missing in manifest";
         }
-        
         $module_name = $attribs["module_name"];
         $module_path = $attribs["module_path"];
         $module_version = isset($attribs["module_version"]) ? $attribs["module_version"] : '1.0';
-
-    
-
-        
         if ($module_path){
             $module_path = str_replace("%modules%","", $module_path);
             $outdir = implode("/", [rtrim($install_dir,"/"), trim(str_replace(".", "/", $module_path), "/")]);    
         }else {
             $outdir = implode("/", [rtrim($install_dir,"/"), trim(str_replace(".", "/", $module_name), "/")]);
         }
-      
-
         if (!$error) {
-           
             for ($i = 0; $i < $hzip->numFiles; $i++) {
                 $fname = $hzip->getNameIndex($i);
                 // echo $fname.PHP_EOL;
@@ -255,8 +221,6 @@ if ($hzip->open($archive)) {
         $error_msg = "manifest file not found";
     }
     $hzip->close();
-
-    
     if (!$error) {
         igk_io_rmdir($outdir);
         @mkdir(dirname($outdir), 0775, true);

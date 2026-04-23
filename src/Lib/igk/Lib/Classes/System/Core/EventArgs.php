@@ -3,6 +3,7 @@
 // @file: EventArgs.php
 // @date: 20260206 13:28:03
 namespace IGK\System\Core;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core

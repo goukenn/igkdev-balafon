@@ -1,5 +1,6 @@
 <?php
 namespace IGK\System\Security\Web;
+
 /**
  * null or empty host content validator
  * @package IGK\System\Security\Web

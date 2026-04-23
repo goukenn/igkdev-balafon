@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
@@ -16,7 +15,6 @@ use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 */
 final class IGKTemplateEditor extends BaseController{
     use NoDbActiveControllerTrait;
-
     /**
     * auto generate doc.
     */    public function __construct(){

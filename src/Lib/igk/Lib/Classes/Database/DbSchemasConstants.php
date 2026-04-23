@@ -3,6 +3,7 @@
 // @file: DbSchemasConstants.php
 // @date: 20221116 23:40:56
 namespace IGK\Database;
+
 /**
 * auto generate doc.
 * @package IGK\Database

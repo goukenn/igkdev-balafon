@@ -1,11 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: igk_html_func_items.php
 // @date: 20130101 20:35:58
 // @desc: define core compoent
-
-
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
 use IGK\Helper\Activator;
@@ -43,7 +40,6 @@ use IGK\System\Http\Mail\MailPreviewNode;
 use IGK\System\Number;
 use IGK\System\Services\LoginServiceEvents;
 use IGK\System\UriResolver;
-
 use function igk_resources_gets as __;
 
 if (!function_exists("igk_css_link_callback")) {
@@ -158,7 +154,6 @@ if (!function_exists("igk_html_callback_ctrlview_acceptrender")) {
 					$c->getViewContent($v, $n, 0, $d->params);
 					$ss = ob_get_contents();
 					ob_end_clean();
-
 					if (!empty($ss)) {
 						$n->addText($ss);
 					}
@@ -190,8 +185,6 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_code_copyright_callback")) {
-	///<summary>function igk_html_code_copyright_callback</summary>
-	///<param name="ctrl"></param>
 	/**
 	 * function igk_html_code_copyright_callback
 	 * @param mixed $ctrl
@@ -206,7 +199,6 @@ if (!function_exists("igk_html_code_copyright_callback")) {
 	}
 }
 if (!function_exists("igk_html_community_view")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -224,8 +216,6 @@ if (!function_exists("igk_html_community_view")) {
 	}
 }
 if (!function_exists("igk_html_create_container_section")) {
-	///<summary>utility to create a container section</summary>
-	///<return >primary row</summary>
 	/**
 	 * utility to create a container section
 	 */
@@ -238,7 +228,6 @@ if (!function_exists("igk_html_create_container_section")) {
 	}
 }
 if (!function_exists("igk_html_handle_cssstyle")) {
-	///<summary>handle used to render css style</symmary>
 	/**
 	 * handle used to render css style
 	 */
@@ -263,8 +252,6 @@ if (!function_exists("igk_html_handle_cssstyle")) {
 	}
 }
 if (!function_exists("igk_html_node_ViewCallback")) {
-	///<summary>bind view callback to parent as text view node</summary>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $callback callback to call
@@ -284,10 +271,6 @@ if (!function_exists("igk_html_node_ViewCallback")) {
 	}
 }
 if (!function_exists("igk_html_node_a")) {
-	///<summary>create winui-a</summary>
-	///<param name="href"></param>
-	///<param name="attributes"></param>
-	///<param name="index"></param>
 	/**
 	 * create winui-a
 	 * @param mixed $href
@@ -315,7 +298,6 @@ if (!function_exists("igk_html_node_a")) {
 	}
 }
 if (!function_exists("igk_html_node_a_get")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -329,7 +311,6 @@ if (!function_exists("igk_html_node_a_get")) {
 	}
 }
 if (!function_exists("igk_html_node_a_post")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -346,8 +327,6 @@ if (!function_exists("igk_html_node_a_post")) {
 	}
 }
 if (!function_exists("igk_html_node_abbr")) {
-	///<summary>create winui-abbr</summary>
-	///<param name="title"></param>
 	/**
 	 * create winui-abbr
 	 * @param mixed $title
@@ -361,9 +340,6 @@ if (!function_exists("igk_html_node_abbr")) {
 	}
 }
 if (!function_exists("igk_html_node_abtn")) {
-	///<summary>create winui-abtn</summary>
-	///<param name="uri"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param string $role role
@@ -376,12 +352,10 @@ if (!function_exists("igk_html_node_abtn")) {
 		$n['href'] = $uri;
 		$n['role'] = $role;
 		$n->type = $type;
-		// igk_wln_e(__FILE__.":".__LINE__ , 'render.....', $n);
 		return $n;
 	}
 }
 if (!function_exists("igk_html_node_accordeon_menus")) {
-
 	/**
 	 * auto generate doc.
 	 * @param string $item
@@ -395,7 +369,6 @@ if (!function_exists("igk_html_node_accordeon_menus")) {
 	}
 }
 if (!function_exists("igk_html_node_aclearsandreload")) {
-	///<summary>create winui-aclearsandreload</summary>
 	/**
 	 * create winui-aclearsandreload
 	 */
@@ -414,8 +387,6 @@ if (!function_exists("igk_html_node_aclearsandreload")) {
 	}
 }
 if (!function_exists("igk_html_node_actionbar")) {
-	///<summary>build action bar</summary>
-	///<param name="actions"></param>
 	/**
 	 * create winui-actionbar
 	 * @param array|callable $actions array or 
@@ -453,7 +424,6 @@ if (!function_exists("igk_html_node_actiongroup")) {
 	}
 }
 if (!function_exists("igk_html_node_actions")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -478,7 +448,6 @@ if (!function_exists("igk_html_node_actions")) {
 	}
 }
 if (!function_exists("igk_html_node_address")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -488,9 +457,6 @@ if (!function_exists("igk_html_node_address")) {
 	}
 }
 if (!function_exists("igk_html_node_ajsbutton")) {
-	///<summary>create winui-ajsbutton</summary>
-	///<param name="code"></param>
-	///<param name="type"></param>
 	/**
 	 * create winui-ajsbutton
 	 * @param mixed $code
@@ -506,8 +472,6 @@ if (!function_exists("igk_html_node_ajsbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_ajspickfile")) {
-	///<param name="options">JSON Options</param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $optionsJSON Options
@@ -527,8 +491,6 @@ if (!function_exists("igk_html_node_ajspickfile")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxa")) {
-	///<summary> represent an ajx link</summary>
-	///<param name="replacemode">the content mode . value (content|node)</param>
 	/**
 	 *  represent an ajx link. use to retrieve view from framework
 	 * @param mixed $replacemode the content mode . value (content|node)
@@ -545,8 +507,6 @@ if (!function_exists("igk_html_node_ajxa")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxabutton")) {
-	///<summary>create winui-ajxabutton</summary>
-	///<param name="link"></param>
 	/**
 	 * create winui-ajxabutton
 	 * @param mixed $link
@@ -559,8 +519,6 @@ if (!function_exists("igk_html_node_ajxabutton")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxappendto")) {
-	///<summary>append async content</summary>
-	///<param name="cibling"></param>
 	/**
 	 * append async content
 	 * @param mixed $cibling
@@ -574,7 +532,6 @@ if (!function_exists("igk_html_node_ajxappendto")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxdoctitle")) {
-	///<summary>change the document code in ajx context</summary>
 	/**
 	 * change the document code in ajx context
 	 */
@@ -586,7 +543,6 @@ if (!function_exists("igk_html_node_ajxdoctitle")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxform")) {
-	///<summary>represent ajx form</summary>
 	/**
 	 * represent ajx form
 	 */
@@ -600,8 +556,6 @@ if (!function_exists("igk_html_node_ajxform")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxlnkreplace")) {
-	///<summary>create winui-ajxlnkreplace</summary>
-	///<param name="target"></param>
 	/**
 	 * create winui-ajxlnkreplace
 	 * @param mixed $target
@@ -616,12 +570,6 @@ if (!function_exists("igk_html_node_ajxlnkreplace")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxpaginationview")) {
-	///<summary>create winui-ajxpaginationview</summary>
-	///<param name="baseuri"></param>
-	///<param name="total"></param>
-	///<param name="perpage"></param>
-	///<param name="selected"></param>
-	///<param name="target"></param>
 	/**
 	 * create winui-ajxpaginationview
 	 * @param mixed $baseuri url 
@@ -636,9 +584,6 @@ if (!function_exists("igk_html_node_ajxpaginationview")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxpickfile")) {
-	///AJX
-	///<summary>ajx div component used to load a file</summary>
-	///<param name="param">json data. {accept:'image/*, text/xml', start:callback, progress:callback}</param>
 	/**
 	 * ajx div component used to load a file
 	 * @param mixed $paramjson data. {accept:'image/*, text/xml', start:callback, progress:callback}
@@ -654,9 +599,6 @@ if (!function_exists("igk_html_node_ajxpickfile")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxreplacecontent")) {
-	///<summary>create winui-ajxreplacecontent</summary>
-	///<param name="uri"></param>
-	///<param name="method"></param>
 	/**
 	 * create winui-ajxreplacecontent
 	 * @param mixed $uri
@@ -672,8 +614,6 @@ if (!function_exists("igk_html_node_ajxreplacecontent")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxreplacesource")) {
-	///<summary>create winui-ajxreplacesource</summary>
-	///<param name="selection"></param>
 	/**
 	 * create winui-ajxreplacesource
 	 * @param mixed $selection
@@ -705,7 +645,6 @@ if (!function_exists("igk_html_node_ajxtabcomponent")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxtabcontrol")) {
-	///<summary>function </summary>
 	/**
 	 * create an ajx tab control component
 	 */
@@ -715,8 +654,6 @@ if (!function_exists("igk_html_node_ajxtabcontrol")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxupdateview")) {
-	///<summary>create winui-ajxupdateview</summary>
-	///<param name="cibling"></param>
 	/**
 	 * create winui-ajxupdateview
 	 * @param mixed $cibling
@@ -730,10 +667,6 @@ if (!function_exists("igk_html_node_ajxupdateview")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxuriloader")) {
-	///<summary>append item that will be used for uri loader</summary>
-	///<param name="uri">uri to load async</param>
-	///<param name="append">append result to parent node</param>
-
 	/**
 	 * Igk html node ajxuriloader.
 	 * @param mixed $uri
@@ -781,7 +714,6 @@ if (!function_exists("igk_html_node_app_hearder_bar")) {
 	}
 }
 if (!function_exists("igk_html_node_app_login_form")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -791,11 +723,6 @@ if (!function_exists("igk_html_node_app_login_form")) {
 	}
 }
 if (!function_exists("igk_html_node_apploginform")) {
-	///<summary></summary>
-	///<param name="app"></param>
-	///<param name="baduri" default="null"></param>
-	///<param name="goodUri" default="null"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $goodUri the default value is null
@@ -809,7 +736,6 @@ if (!function_exists("igk_html_node_apploginform")) {
 	}
 }
 if (!function_exists("igk_html_node_arraydata")) {
-	///<summary>used to render data</summary>
 	/**
 	 * used to render data
 	 */
@@ -829,10 +755,6 @@ if (!function_exists("igk_html_node_arraydata")) {
 	}
 }
 if (!function_exists("igk_html_node_arraylist")) {
-	///<summary>create winui-arraylist</summary>
-	///<param name="list"></param>
-	///<param name="tag"></param>
-	///<param name="callback"></param>
 	/**
 	 * create winui-arraylist
 	 * @param mixed $list
@@ -853,8 +775,6 @@ if (!function_exists("igk_html_node_arraylist")) {
 	}
 }
 if (!function_exists("igk_html_node_article")) {
-	///<summary>bind article</summary>
-
 	/**
 	 * auto generate doc.
 	 * @param int $showAdminOption
@@ -872,7 +792,6 @@ if (!function_exists("igk_html_node_article")) {
 	}
 }
 if (!function_exists("igk_html_node_loadArticle")) {
-
 	/**
 	 * Igk html node load article.
 	 * @param BaseController $controller
@@ -891,7 +810,6 @@ if (!function_exists("igk_html_node_loadArticle")) {
 	}
 }
 if (!function_exists("igk_html_node_assertnode")) {
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $args
@@ -907,8 +825,6 @@ if (!function_exists("igk_html_node_assertnode")) {
 }
 if (!function_exists("igk_html_node_attr_expression")) {
 	// + attribute expression only use for child node
-	// engine use
-
 	/**
 	 * Igk html node attr expression.
 	 * @param null|mixed $p
@@ -937,7 +853,6 @@ if (!function_exists("igk_html_node_author_community")) {
 	}
 }
 if (!function_exists("igk_html_node_backgroundlayer")) {
-	///<summary>create winui-backgroundlayer</summary>
 	/**
 	 * create winui-backgroundlayer
 	 */
@@ -952,9 +867,6 @@ if (!function_exists("igk_html_node_backgroundlayer")) {
 	}
 }
 if (!function_exists("igk_html_node_badge")) {
-	///<summary></summary>
-	///<param name="v"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $v
@@ -968,7 +880,6 @@ if (!function_exists("igk_html_node_badge")) {
 	}
 }
 if (!function_exists("igk_html_node_balafonComponentJS")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -978,8 +889,6 @@ if (!function_exists("igk_html_node_balafonComponentJS")) {
 	}
 }
 if (!function_exists("igk_html_node_balafonjs")) {
-	///<summary>create winui-balafonjs</summary>
-	///<param name="autoremove"></param>
 	/**
 	 * create winui-balafonjs
 	 * @param mixed $autoremove
@@ -991,7 +900,6 @@ if (!function_exists("igk_html_node_balafonjs")) {
 	}
 }
 if (!function_exists("igk_html_node_bar")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -1028,11 +936,6 @@ if (!function_exists("igk_html_node_bindMenu")) {
 	}
 }
 if (!function_exists("igk_html_node_bindarticle")) {
-	///<summary>create winui-bindarticle</summary>
-	///<param name="ctrl"></param>
-	///<param name="name"></param>
-	///<param name="data"></param>
-	///<param name="showAdminOption"></param>
 	/**
 	 * create winui-bindarticle
 	 * @param mixed $ctrl
@@ -1048,10 +951,6 @@ if (!function_exists("igk_html_node_bindarticle")) {
 	}
 }
 if (!function_exists("igk_html_node_bindcontent")) {
-	///<summary>create winui-bindcontent</summary>
-	///<param name="content"></param>
-	///<param name="entries"></param>
-	///<param name="ctrl"></param>
 	/**
 	 * create winui-bindcontent
 	 * @param mixed $content
@@ -1066,7 +965,6 @@ if (!function_exists("igk_html_node_bindcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_bindscript")) {
-
 	/**
 	 * auto generate doc.
 	 * @param null|bool $production
@@ -1097,7 +995,6 @@ if (!function_exists("igk_html_node_bindscript")) {
 	}
 }
 if (!function_exists("igk_html_node_blocknode")) {
-	///<summary>create winui-blocknode</summary>
 	/**
 	 * create winui-blocknode
 	 */
@@ -1110,7 +1007,6 @@ if (!function_exists("igk_html_node_blocknode")) {
 	}
 }
 if (!function_exists("igk_html_node_bodybox")) {
-	///<summary>create winui-bodybox</summary>
 	/**
 	 * create winui-bodybox
 	 */
@@ -1122,7 +1018,6 @@ if (!function_exists("igk_html_node_bodybox")) {
 	}
 }
 if (!function_exists("igk_html_node_boxdialog")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -1134,11 +1029,6 @@ if (!function_exists("igk_html_node_boxdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_btn")) {
-	///<summary>create winui-btn</summary>
-	///<param name="name"></param>
-	///<param name="value"></param>
-	///<param name="type"></param>
-	///<param name="attributes"></param>
 	/**
 	 * create winui-btn
 	 * @param mixed $name
@@ -1157,7 +1047,6 @@ if (!function_exists("igk_html_node_btn")) {
 	}
 }
 if (!function_exists("igk_html_node_buildselect")) {
-	///<summary>build select node</summary>
 	/**
 	 * build select node
 	 */
@@ -1176,7 +1065,6 @@ if (!function_exists("igk_html_node_buildselect")) {
 	}
 }
 if (!function_exists("igk_html_node_bullet")) {
-	///<summary>create winui-bullet</summary>
 	/**
 	 * create winui-bullet
 	 */
@@ -1188,7 +1076,6 @@ if (!function_exists("igk_html_node_bullet")) {
 	}
 }
 if (!function_exists("igk_html_node_button")) {
-	///<summary>create a button </summary>
 	/**
 	 * create a button
 	 * @var string $id id for the button
@@ -1213,8 +1100,6 @@ if (!function_exists("igk_html_node_button")) {
 	}
 }
 if (!function_exists("igk_html_node_canvabalafonscript")) {
-	///<summary>create winui-canvabalafonscript</summary>
-	///<param name="uri"></param>
 	/**
 	 * create winui-canvabalafonscript
 	 * @param mixed $uri
@@ -1230,7 +1115,6 @@ if (!function_exists("igk_html_node_canvabalafonscript")) {
 	}
 }
 if (!function_exists("igk_html_node_canvaeditorsurface")) {
-	///<summary>create a canva editor surface</summary>
 	/**
 	 * create a canva editor surface
 	 */
@@ -1242,9 +1126,6 @@ if (!function_exists("igk_html_node_canvaeditorsurface")) {
 	}
 }
 if (!function_exists("igk_html_node_cardid")) {
-	///<summary>create winui-cardid</summary>
-	///<param name="src"></param>
-	///<param name="ctrl"></param>
 	/**
 	 * create winui-cardid
 	 * @param mixed $src
@@ -1267,7 +1148,6 @@ if (!function_exists("igk_html_node_cardid")) {
 	}
 }
 if (!function_exists("igk_html_node_carousel")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -1285,7 +1165,6 @@ if (!function_exists("igk_html_node_carousel")) {
 	}
 }
 if (!function_exists("igk_html_node_cell")) {
-	///<summary>create winui-cell</summary>
 	/**
 	 * create winui-cell
 	 */
@@ -1297,7 +1176,6 @@ if (!function_exists("igk_html_node_cell")) {
 	}
 }
 if (!function_exists("igk_html_node_cellrow")) {
-	///<summary>create winui-cellrow</summary>
 	/**
 	 * create winui-cellrow
 	 */
@@ -1309,8 +1187,6 @@ if (!function_exists("igk_html_node_cellrow")) {
 	}
 }
 if (!function_exists("igk_html_node_centerbox")) {
-	///<summary>create winui-centerbox</summary>
-	///<param name="content"></param>
 	/**
 	 * create winui-centerbox
 	 * @param mixed $content
@@ -1321,7 +1197,6 @@ if (!function_exists("igk_html_node_centerbox")) {
 	}
 }
 if (!function_exists("igk_html_node_checkbox")) {
-	///<summary>create a web checkbox </summary>
 	/**
 	 * create a web checkbox
 	 * @param string $id id that identify the checkbox
@@ -1337,7 +1212,6 @@ if (!function_exists("igk_html_node_checkbox")) {
 	}
 }
 if (!function_exists("igk_html_node_circlewaiter")) {
-	///<summary>create winui-circlewaiter</summary>
 	/**
 	 * create winui-circlewaiter
 	 */
@@ -1349,8 +1223,6 @@ if (!function_exists("igk_html_node_circlewaiter")) {
 	}
 }
 if (!function_exists("igk_html_node_clearboth")) {
-	///<summary></summary>
-
 	/**
 	 * auto generate doc.
 	 */	function igk_html_node_clearboth()
@@ -1361,8 +1233,6 @@ if (!function_exists("igk_html_node_clearboth")) {
 	}
 }
 if (!function_exists("igk_html_node_clearfloatbox")) {
-	///<summary>create winui-clearfloatbox</summary>
-	///<param name="t"></param>
 	/**
 	 * create winui-clearfloatbox
 	 * @param mixed $t
@@ -1375,7 +1245,6 @@ if (!function_exists("igk_html_node_clearfloatbox")) {
 	}
 }
 if (!function_exists("igk_html_node_cleartab")) {
-	///<summary>create winui-cleartab</summary>
 	/**
 	 * create winui-cleartab
 	 */
@@ -1399,8 +1268,6 @@ if (!function_exists("igk_html_node_clone")) {
 	}
 }
 if (!function_exists("igk_html_node_clonenode")) {
-	///<summary>create winui-clonenode</summary>
-	///<param name="node"></param>
 	/**
 	 * create winui-clonenode
 	 * @param mixed $node
@@ -1412,9 +1279,7 @@ if (!function_exists("igk_html_node_clonenode")) {
 		return $n;
 	}
 }
-
 if (!function_exists("igk_html_node_code")) {
-	///<summary>create base php code</summary>
 	/**
 	 * create base php code
 	 */
@@ -1426,8 +1291,6 @@ if (!function_exists("igk_html_node_code")) {
 	}
 }
 if (!function_exists("igk_html_node_col")) {
-	///<summary>create winui-col</summary>
-	///<param name="clname"></param>
 	/**
 	 * create winui-col
 	 * @param mixed $clname
@@ -1441,7 +1304,6 @@ if (!function_exists("igk_html_node_col")) {
 	}
 }
 if (!function_exists("igk_html_node_colviewbox")) {
-	///<summary>column view item</summary>
 	/**
 	 * column view item
 	 */
@@ -1453,11 +1315,6 @@ if (!function_exists("igk_html_node_colviewbox")) {
 	}
 }
 if (!function_exists("igk_html_node_combobox")) {
-	///<summary></summary>
-	///<param name="id">identify the node</param>
-	///<param name="tab">list o items</param>
-	///<param name="options" default="null"> options to manage the combobox</param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $options the default value is null
@@ -1484,9 +1341,6 @@ if (!function_exists("igk_html_node_comment")) {
 	}
 }
 if (!function_exists("igk_html_node_communitylink")) {
-	///<summary>create winui-communitylink</summary>
-	///<param name="name"></param>
-	///<param name="link"></param>
 	/**
 	 * create winui-communitylink
 	 * @param mixed $name
@@ -1502,8 +1356,6 @@ if (!function_exists("igk_html_node_communitylink")) {
 	}
 }
 if (!function_exists("igk_html_node_communitylinks")) {
-	///<summary>create winui-communitylinks</summary>
-	///<param name="tab"></param>
 	/**
 	 * create winui-communitylinks
 	 * @param mixed $tab
@@ -1518,7 +1370,6 @@ if (!function_exists("igk_html_node_communitylinks")) {
 				if ($symbols) {
 					$svg_symbol = igk_getv($symbols, $k, $k);
 				}
-
 				if (is_object($v) || is_array($v)) {
 					$uri = igk_getv($v, "uri");
 					if (($c = igk_getv($v, "auth")) && (is_callable($c) && (!$c()))) {
@@ -1538,7 +1389,6 @@ if (!function_exists("igk_html_node_communitylinks")) {
 	}
 }
 if (!function_exists("igk_html_node_component")) {
-	///<summary>used to create component</summary>
 	/**
 	 * used to create component
 	 */
@@ -1561,7 +1411,6 @@ if (!function_exists("igk_html_node_component")) {
 	}
 }
 if (!function_exists("igk_html_node_conditionalnode")) {
-	///<summary>create a node that will only be visible on conditional callback is evaluted to true</summary>
 	/**
 	 * create a node that will only be visible on conditional callback is evaluted to true
 	 */
@@ -1574,10 +1423,6 @@ if (!function_exists("igk_html_node_conditionalnode")) {
 	}
 }
 if (!function_exists("igk_html_node_configsubmenu")) {
-	///<summary></summary>
-	///<param name="menuList"></param>
-	///<param name="selected"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $selected
@@ -1598,7 +1443,6 @@ if (!function_exists("igk_html_node_configsubmenu")) {
 	}
 }
 if (!function_exists("igk_html_node_container")) {
-	///<summary>create winui-container</summary>
 	/**
 	 * create winui-container
 	 */
@@ -1610,7 +1454,6 @@ if (!function_exists("igk_html_node_container")) {
 	}
 }
 if (!function_exists("igk_html_node_containerRowCol")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -1622,8 +1465,6 @@ if (!function_exists("igk_html_node_containerRowCol")) {
 	}
 }
 if (!function_exists("igk_html_node_cookiewarning")) {
-	///<summary>create winui-cookiewarning</summary>
-	///<param name="warnurl"></param>
 	/**
 	 * create winui-cookiewarning
 	 * @param mixed $warnurl
@@ -1640,8 +1481,6 @@ if (!function_exists("igk_html_node_cookiewarning")) {
 	}
 }
 if (!function_exists("igk_html_node_copyright")) {
-	///<summary>create winui-copyright</summary>
-	///<param name="ctrl"></param>
 	/**
 	 * create winui-copyright
 	 * @param mixed $ctrl
@@ -1656,9 +1495,6 @@ if (!function_exists("igk_html_node_copyright")) {
 	}
 }
 if (!function_exists("igk_html_node_csscomponentstyle")) {
-	///<summary>create winui-csscomponentstyle</summary>
-	///<param name="file"></param>
-	///<param name="host"></param>
 	/**
 	 * create winui-csscomponentstyle
 	 * @param mixed $file
@@ -1671,8 +1507,6 @@ if (!function_exists("igk_html_node_csscomponentstyle")) {
 	}
 }
 if (!function_exists("igk_html_node_csslink")) {
-	///<summary> add css link </summary>
-	///<param name="href">mixed : string, object(that implement getValue function and refName properties) or array</param>
 	/**
 	 *  add css link
 	 * @param mixed $hrefmixed : string, object(that implement getValue function and refName properties) or array
@@ -1713,7 +1547,6 @@ if (!function_exists("igk_html_node_csslink")) {
 			if ($m)
 				return $m;
 		}
-
 		$m = new HtmlNode("link");
 		$m->setAttribute("href", new IGKHtmlRelativeUriValueAttribute($key_ref));
 		$m->setAttribute("rel", "stylesheet");
@@ -1725,7 +1558,6 @@ if (!function_exists("igk_html_node_csslink")) {
 	}
 }
 if (!function_exists("igk_html_node_cssstyle")) {
-	///<summary>represent a css style element</summary>
 	/**
 	 * represent a css style element
 	 */
@@ -1747,10 +1579,6 @@ if (!function_exists("igk_html_node_cssstyle")) {
 	}
 }
 if (!function_exists("igk_html_node_ctrlview")) {
-	///<summary>create winui-ctrlview</summary>
-	///<param name="view">view to show</param>
-	///<param name="ctrl">controller that will handle the view</param>
-	///<param name="params">params to pas to views</param>
 	/**
 	 * create winui-ctrlview
 	 * @param mixed $viewview to show
@@ -1796,12 +1624,6 @@ if (!function_exists("igk_html_node_dbTableView")) {
 			$table = $n->table();
 			$header = null;
 			$header_node = null;
-			// if (!$is_filter){
-			//    if (is_array($theader)){
-			//         $_lheader = array_fill_keys($theader);
-			//    }
-			// } 
-
 			foreach ($tabResult as $r) {
 				if (!$r)
 					continue;
@@ -1846,7 +1668,6 @@ if (!function_exists("igk_html_node_dbTableView")) {
 					}
 				}
 				$c = $table->tr();
-
 				foreach ($header as $k => $v) {
 					if (empty($v)) {
 						$c->td()->nbsp();
@@ -1874,7 +1695,6 @@ if (!function_exists("igk_html_node_dbTableView")) {
 	}
 }
 if (!function_exists("igk_html_node_dbdataschema")) {
-	///<summary>create a data base schema node </summary>
 	/**
 	 * create a data base schema node 
 	 */
@@ -1887,11 +1707,6 @@ if (!function_exists("igk_html_node_dbdataschema")) {
 	}
 }
 if (!function_exists("igk_html_node_dbentriescallback")) {
-	///<summary>create winui-dbentriescallback</summary>
-	///<param name="target"></param>
-	///<param name="callback"></param>
-	///<param name="queryResult"></param>
-	///<param name="fallback"></param>
 	/**
 	 * create winui-dbentriescallback
 	 * @param mixed $target
@@ -1916,9 +1731,6 @@ if (!function_exists("igk_html_node_dbentriescallback")) {
 	}
 }
 if (!function_exists("igk_html_node_dbresult")) {
-	///<summary>create winui-dbresult</summary>
-	///<param name="r"></param>
-	///<param name="max"></param>
 	/**
 	 * create winui-dbresult
 	 * @param mixed $r
@@ -1933,7 +1745,6 @@ if (!function_exists("igk_html_node_dbresult")) {
 	}
 }
 if (!function_exists("igk_html_node_dbselect")) {
-	///<summary>DataBase select component </summary>
 	/**
 	 * DataBase select component
 	 */
@@ -2006,7 +1817,6 @@ if (!function_exists("igk_html_node_defercsslink")) {
 	}
 }
 if (!function_exists("igk_html_node_definition")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2019,19 +1829,16 @@ if (!function_exists("igk_html_node_definition")) {
 	}
 }
 if (!function_exists("igk_html_node_definitions")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
 	function igk_html_node_definitions($args)
 	{
 		if ($q = igk_html_parent_node()) {
-
 			foreach ($args as $defs) {
 				if (($t = igk_getv_fallback($defs, "t|title")) &&
 					($def = igk_getv_fallback($defs, "d|def"))
 				) {
-
 					$q->definition($t, $def);
 				}
 			}
@@ -2040,8 +1847,6 @@ if (!function_exists("igk_html_node_definitions")) {
 	}
 }
 if (!function_exists("igk_html_node_winui_dialog")) {
-	///<summary>create a dialog host that will not being displayed</summary>
-	///<param name="title"></param>
 	/**
 	 *  create a dialog host that will not being displayed<
 	 * @param mixed $title
@@ -2055,7 +1860,6 @@ if (!function_exists("igk_html_node_winui_dialog")) {
 	}
 }
 if (!function_exists("igk_html_node_dialog_circle_waiter")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2067,8 +1871,6 @@ if (!function_exists("igk_html_node_dialog_circle_waiter")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogbox")) {
-	///<summary>create a dialog box</summary>
-	///<param name="title"></param>
 	/**
 	 * create a dialog box
 	 * @param mixed $title
@@ -2085,7 +1887,6 @@ if (!function_exists("igk_html_node_dialogbox")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogboxcontent")) {
-	///<summary>create a dialog box content</summary>
 	/**
 	 *  create a dialog box content
 	 */
@@ -2097,7 +1898,6 @@ if (!function_exists("igk_html_node_dialogboxcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogboxoptions")) {
-	///<summary>create dialogbox options node</summary>
 	/**
 	 * create dialogbox options node
 	 */
@@ -2116,8 +1916,6 @@ if (!function_exists("igk_html_node_dialogboxoptions")) {
 	}
 }
 if (!function_exists("igk_html_node_divcontainer")) {
-	///<summary>create winui-divcontainer</summary>
-	///<param name="attribs"></param>
 	/**
 	 * create winui-divcontainer
 	 * @param mixed $attribs
@@ -2130,7 +1928,6 @@ if (!function_exists("igk_html_node_divcontainer")) {
 	}
 }
 if (!function_exists("igk_html_node_dl")) {
-	///<summary>helper: create a Document list node</summary>
 	/**
 	 * helper: create a Document list node 
 	 */
@@ -2140,8 +1937,6 @@ if (!function_exists("igk_html_node_dl")) {
 	}
 }
 if (!function_exists("igk_html_node_domainlink")) {
-	///<summary>create winui-domainlink</summary>
-	///<param name="src"></param>
 	/**
 	 * create winui-domainlink
 	 * @param mixed $src
@@ -2156,7 +1951,6 @@ if (!function_exists("igk_html_node_domainlink")) {
 	}
 }
 if (!function_exists("igk_html_node_dumpdata")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2170,7 +1964,6 @@ if (!function_exists("igk_html_node_dumpdata")) {
 	}
 }
 if (!function_exists("igk_html_node_enginecontrol")) {
-	///<summary>engine control editor</summary>
 	/**
 	 * engine control editor
 	 */
@@ -2184,9 +1977,6 @@ if (!function_exists("igk_html_node_enginecontrol")) {
 	}
 }
 if (!function_exists("igk_html_node_error404")) {
-	///<summary>create winui-error404</summary>
-	///<param name="title"></param>
-	///<param name="m"></param>
 	/**
 	 * create winui-error404
 	 * @param mixed $title
@@ -2204,7 +1994,6 @@ if (!function_exists("igk_html_node_error404")) {
 	}
 }
 if (!function_exists("igk_html_node_expo")) {
-	///<summary>create winui-expo</summary>
 	/**
 	 * create winui-expo
 	 */
@@ -2216,10 +2005,6 @@ if (!function_exists("igk_html_node_expo")) {
 	}
 }
 if (!function_exists("igk_html_node_expression_node")) {
-	///<summary></summary>
-	///<param name="raw"></param>
-	///<param name="ctrl" default="null"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $ctrl the default value is null
@@ -2266,7 +2051,6 @@ if (!function_exists("igk_html_node_fields")) {
 	}
 }
 if (!function_exists("igk_html_node_fixedactionbar")) {
-	///<summary> a BJS's class control. used to show on scroll visibility. </summary>
 	/**
 	 *  a BJS's class control. used to show on scroll visibility.
 	 */
@@ -2280,7 +2064,6 @@ if (!function_exists("igk_html_node_fixedactionbar")) {
 	}
 }
 if (!function_exists("igk_html_node_fontsymbol")) {
-	///<summary>create a font symbol.</summary>
 	/**
 	 * create a font symbol.
 	 */
@@ -2309,7 +2092,6 @@ if (!function_exists("igk_html_node_fontsymbol")) {
 	}
 }
 if (!function_exists("igk_html_node_form")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2339,12 +2121,6 @@ if (!function_exists("igk_html_node_form_post")) {
 	}
 }
 if (!function_exists("igk_html_node_formactionbutton")) {
-	///<summary>create winui-formactionbutton</summary>
-	///<param name="id"></param>
-	///<param name="value"></param>
-	///<param name="uri"></param>
-	///<param name="method"></param>
-	///<param name="text"></param>
 	/**
 	 * create winui-formactionbutton
 	 * @param mixed $id
@@ -2362,7 +2138,6 @@ if (!function_exists("igk_html_node_formactionbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_formcref")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2376,10 +2151,6 @@ if (!function_exists("igk_html_node_formcref")) {
 	}
 }
 if (!function_exists("igk_html_node_formfields")) {
-	///<summary></summary>
-	///<param name="formfields"></param>
-	///<param name="engine" default="null"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $engine the default value is null
@@ -2395,8 +2166,6 @@ if (!function_exists("igk_html_node_formfields")) {
 	}
 }
 if (!function_exists("igk_html_node_formgroup")) {
-	///<summary></summary>
-
 	/**
 	 * auto generate doc.
 	 */	function igk_html_node_formgroup()
@@ -2407,7 +2176,6 @@ if (!function_exists("igk_html_node_formgroup")) {
 	}
 }
 if (!function_exists("igk_html_node_formusagecondition")) {
-	///<summary>create winui-formusagecondition</summary>
 	/**
 	 * create winui-formusagecondition
 	 */
@@ -2421,7 +2189,6 @@ if (!function_exists("igk_html_node_formusagecondition")) {
 	}
 }
 if (!function_exists("igk_html_node_frame")) {
-	///<summary>create winui-frame</summary>
 	/**
 	 * create winui-frame
 	 */
@@ -2431,11 +2198,6 @@ if (!function_exists("igk_html_node_frame")) {
 	}
 }
 if (!function_exists("igk_html_node_framedialog")) {
-	///<summary>create winui-framedialog</summary>
-	///<param name="id"></param>
-	///<param name="ctrl"></param>
-	///<param name="closeuri"></param>
-	///<param name="reloadcallback"></param>
 	/**
 	 * create winui-framedialog
 	 * @param mixed $id
@@ -2450,11 +2212,6 @@ if (!function_exists("igk_html_node_framedialog")) {
 	}
 }
 if (!function_exists("igk_html_node_galleryfolder")) {
-	///<summary></summary>
-	///<param name="ctrl"></param>
-	///<param name="folder"></param>
-	///<param name="ignorethumb" default="1"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $ignorethumb the default value is 1
@@ -2490,7 +2247,6 @@ if (!function_exists("igk_html_node_grid")) {
 	}
 }
 if (!function_exists("igk_html_node_headerbar")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2502,7 +2258,6 @@ if (!function_exists("igk_html_node_headerbar")) {
 	}
 }
 if (!function_exists("igk_html_node_hiddenFields")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -2517,7 +2272,6 @@ if (!function_exists("igk_html_node_hiddenFields")) {
 	}
 }
 if (!function_exists("igk_html_node_hlineseparator")) {
-	///<summary>create winui-hlineseparator</summary>
 	/**
 	 * create winui-hlineseparator
 	 */
@@ -2555,7 +2309,6 @@ if (!function_exists("igk_html_node_hooknode")) {
 	}
 }
 if (!function_exists("igk_html_node_horizontalpageview")) {
-	///<summary>create  winui-horizontalpageview</summary>
 	/**
 	 * create  winui-horizontalpageview
 	 */
@@ -2589,7 +2342,6 @@ if (!function_exists("igk_html_node_host")) {
 			throw new IGKException("Parent Node not found");
 		ob_start();
 		array_unshift($args, $p);
-		// if ($response = $callback($p, ...$args)) {
 		if (($response = $callback(...$args)) && ($p !== $response)) {
 			if (is_array($response)) {
 				$p->text(igk_ob_get($response));
@@ -2610,7 +2362,6 @@ if (!function_exists("igk_html_node_host")) {
 		return $p;
 	}
 }
-
 if (!function_exists('igk_html_host_wln')) {
 	/**
 	 * 
@@ -2630,7 +2381,6 @@ if (!function_exists('igk_html_host_wln')) {
 	}
 }
 if (!function_exists("igk_html_node_hostobdata")) {
-	///<summary>Hosted object data. will pass the current node to callback as first argument</summary>
 	/**
 	 * Hosted object data. will pass the current node to callback as first argument
 	 */
@@ -2655,7 +2405,6 @@ if (!function_exists("igk_html_node_hostobdata")) {
 	}
 }
 if (!function_exists("igk_html_node_hscrollbar")) {
-	///<summary>create winui-hscrollbar</summary>
 	/**
 	 * create winui-hscrollbar
 	 */
@@ -2667,7 +2416,6 @@ if (!function_exists("igk_html_node_hscrollbar")) {
 	}
 }
 if (!function_exists("igk_html_node_hsep")) {
-	///<summary>create winui-hsep</summary>
 	/**
 	 * create winui-hsep
 	 */
@@ -2677,8 +2425,6 @@ if (!function_exists("igk_html_node_hsep")) {
 	}
 }
 if (!function_exists("igk_html_node_htmlnode")) {
-	///<summary>create winui-htmlnode</summary>
-	///<param name="tag"></param>
 	/**
 	 * create winui-htmlnode
 	 * @param mixed $tag
@@ -2689,7 +2435,6 @@ if (!function_exists("igk_html_node_htmlnode")) {
 	}
 }
 if (!function_exists("igk_html_node_huebar")) {
-	///<summary>used to render a pick a huebar value</summary>
 	/**
 	 * used to render a pick a huebar value
 	 */
@@ -2726,7 +2471,6 @@ if (!function_exists("igk_html_node_if_condition")) {
 	}
 }
 if (!function_exists("igk_html_node_igkcopyright")) {
-	///<summary>create winui-igkcopyright</summary>
 	/**
 	 * create winui-igkcopyright
 	 */
@@ -2745,7 +2489,6 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 	}
 }
 if (!function_exists("igk_html_node_igkgloballangselector")) {
-	///<summary>create winui-igkgloballangselector</summary>
 	/**
 	 * create winui-igkgloballangselector
 	 */
@@ -2761,7 +2504,6 @@ if (!function_exists("igk_html_node_igkgloballangselector")) {
 	}
 }
 if (!function_exists("igk_html_node_igkglobalthemeselector")) {
-	///<summary>create winui-igkglobalthemeselector</summary>
 	/**
 	 * create winui-igkglobalthemeselector
 	 */
@@ -2776,9 +2518,6 @@ if (!function_exists("igk_html_node_igkglobalthemeselector")) {
 	}
 }
 if (!function_exists("igk_html_node_igkheaderbar")) {
-	///<summary>build igk header bar</summary>
-	///<param name="title">title to show</param>
-	///<param name="baseuri">base uri</param>
 	/**
 	 * create winui-headerbar
 	 * @param string $title
@@ -2799,7 +2538,6 @@ if (!function_exists("igk_html_node_igkheaderbar")) {
 	}
 }
 if (!function_exists("igk_html_node_igksitemap")) {
-	///<summary>create winui-igksitemap</summary>
 	/**
 	 * create winui-igksitemap
 	 */
@@ -2813,7 +2551,6 @@ if (!function_exists("igk_html_node_igksitemap")) {
 	}
 }
 if (!function_exists("igk_html_node_imagenode")) {
-	///<summary>create winui-imagenode</summary>
 	/**
 	 * create winui-imagenode
 	 */
@@ -2824,21 +2561,18 @@ if (!function_exists("igk_html_node_imagenode")) {
 	}
 }
 if (!function_exists("igk_html_node_img")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
 	function igk_html_node_img($src = null)
 	{
 		if (is_string($src)) {
-			// TODO : resolve data 
 			$src = UriResolver::ResolveControllerResource($src);
 		}
 		return new \IGK\System\Html\Dom\HtmlImgNode($src);
 	}
 }
 if (!function_exists("igk_html_node_imglnk")) {
-	///<summary>create winui-imglnk</summary>
 	/**
 	 * create winui-imglnk
 	 */
@@ -2848,7 +2582,6 @@ if (!function_exists("igk_html_node_imglnk")) {
 	}
 }
 if (!function_exists("igk_html_node_include")) {
-
 	/**
 	 * auto generate doc.
 	 * @param mixed|null $params
@@ -2875,24 +2608,11 @@ if (!function_exists("igk_html_node_include")) {
 				$ctrl::ViewInContext($cf, $params);
 				igk_environment()->unsetInArray($ck, $cf);
 			});
-			// if ($cf = $ctrl->getViewFile($view, 1)){
-			//     $t = $cf;
-			//     $args = igk_get_view_args();
-			//     $args["t"] = $f; 
-			//     $args["context"] = "include_view";
-			//     if ($params){
-			//         $args["params"] = $params;
-			//     }
-			//     $args["ctrl"] = $ctrl;
-
-			//     $bind($cf, $args);            
-			// }
 		}
 		return $f;
 	}
 }
 if (!function_exists("igk_html_node_include_js")) {
-	///<summary>include local file as javascript</summary>
 	/**
 	 * include local file as javascript
 	 */
@@ -2902,7 +2622,6 @@ if (!function_exists("igk_html_node_include_js")) {
 			$d = igk_create_xmlnode("script");
 			$d["type"] = "balafon/js-include";
 			$d["class"] = "igk-winui-balafon-js-inc";
-
 			$d->Content = implode("", [
 				"//<![CDATA[",
 				implode("", explode(
@@ -2913,14 +2632,12 @@ if (!function_exists("igk_html_node_include_js")) {
 			]);
 			$f->add($d);
 		} else {
-			// igk_trace();
 			igk_die("include js not allowed not allowed");
 		}
 		return $f;
 	}
 }
 if (!function_exists("igk_html_node_innerimg")) {
-	///<summary>create winui-innerimg</summary>
 	/**
 	 * create winui-innerimg
 	 */
@@ -2931,7 +2648,6 @@ if (!function_exists("igk_html_node_innerimg")) {
 	}
 }
 if (!function_exists("igk_html_node_input")) {
-	///<summary>function </summary>
 	/**
 	 * create input node helper
 	 * @param string|array|null $id id or arg of the input or arg
@@ -2959,14 +2675,10 @@ if (!function_exists("igk_html_node_input")) {
 			}
 		}
 		$attributes && $i->setAttributes($attributes);
-
 		return $i;
 	}
 }
 if (!function_exists("igk_html_node_jombotron")) {
-	///<summary></summary>
-	///<param name="text" default="'Jombotron'"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param Jombotron
@@ -2994,9 +2706,6 @@ if (!function_exists("igk_html_node_js_autofix_width")) {
 	}
 }
 if (!function_exists("igk_html_node_jsaextern")) {
-	///<summary>create winui-jsaextern</summary>
-	///<param name="method"></param>
-	///<param name="args"></param>
 	/**
 	 * create winui-jsaextern
 	 * @param mixed $method
@@ -3036,9 +2745,6 @@ if (!function_exists("igk_html_node_jsbindNS")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbtn")) {
-	///<summary>create winui-jsbtn</summary>
-	///<param name="script"></param>
-	///<param name="value"></param>
 	/**
 	 * create winui-jsbtn
 	 * @param mixed $script
@@ -3055,8 +2761,6 @@ if (!function_exists("igk_html_node_jsbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbtnshowdialog")) {
-	///<summary>create winui-jsbtnshowdialog</summary>
-	///<param name="id"></param>
 	/**
 	 * create winui-jsbtnshowdialog
 	 * @param mixed $id
@@ -3070,8 +2774,6 @@ if (!function_exists("igk_html_node_jsbtnshowdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbutton")) {
-	///<summary>create winui-jsbutton</summary>
-	///<param name="js"></param>
 	/**
 	 * create winui-jsbutton
 	 * @param mixed $js
@@ -3100,8 +2802,6 @@ if (!function_exists("igk_html_node_jsclone")) {
 	}
 }
 if (!function_exists("igk_html_node_jsclonenode")) {
-	///<summary>create winui-jsclonenode</summary>
-	///<param name="node"></param>
 	/**
 	 * create winui-jsclonenode
 	 * @param mixed $node
@@ -3110,7 +2810,6 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 	{
 		if (($node == null) || !is_object($node))
 			throw new IGKException("Not valid");
-
 		if (!is_subclass_of(get_class($node), HtmlItemBase::class)) {
 			throw new IGKException("not a valid item");
 		}
@@ -3123,9 +2822,6 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 	}
 }
 if (!function_exists("igk_html_node_jsclonetarget")) {
-	///<summary>create winui-jsclonetarget</summary>
-	///<param name="selector"></param>
-	///<param name="tag"></param>
 	/**
 	 * create igk-winui-clone-target class node 
 	 * @param string $selector
@@ -3140,7 +2836,6 @@ if (!function_exists("igk_html_node_jsclonetarget")) {
 	}
 }
 if (!function_exists("igk_html_node_jslogger")) {
-	///<summary>create winui-jslogger</summary>
 	/**
 	 * create winui-jslogger
 	 */
@@ -3152,7 +2847,6 @@ if (!function_exists("igk_html_node_jslogger")) {
 	}
 }
 if (!function_exists("igk_html_node_jsreadyscript")) {
-	///<summary>used to call ready invoke</summary>
 	/**
 	 * used to call ready invoke
 	 */
@@ -3164,8 +2858,6 @@ if (!function_exists("igk_html_node_jsreadyscript")) {
 	}
 }
 if (!function_exists("igk_html_node_jsreplaceuri")) {
-	///<summary>create winui-jsreplaceuri</summary>
-	///<param name="uri"></param>
 	/**
 	 * create winui-jsreplaceuri
 	 * @param string $uri
@@ -3179,7 +2871,6 @@ if (!function_exists("igk_html_node_jsreplaceuri")) {
 	}
 }
 if (!function_exists("igk_html_node_jsscript")) {
-	///<summary>used to load manually script tag</summary>
 	/**
 	 * used to load manually script tag
 	 */
@@ -3188,8 +2879,6 @@ if (!function_exists("igk_html_node_jsscript")) {
 		if (igk_io_file_exists($file)) {
 			$d = igk_create_node("script");
 			$s = file_get_contents($file);
-			// if($minify)
-			//     $s=$s;
 			$d->Content = $s;
 			return $d;
 		}
@@ -3217,7 +2906,6 @@ if (!function_exists("igk_html_node_jsscript_options")) {
 	}
 }
 if (!function_exists("igk_html_node_jsview")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3230,7 +2918,6 @@ if (!function_exists("igk_html_node_jsview")) {
 	}
 }
 if (!function_exists("igk_html_node_jswaiter")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3259,9 +2946,6 @@ if (!function_exists("igk_html_node_jumbotron")) {
 	}
 }
 if (!function_exists("igk_html_node_label")) {
-	///<summary>create winui-label</summary>
-	///<param name="for"></param>
-	///<param name="key"></param>
 	/**
 	 * create winui-label
 	 * @param ?string $for
@@ -3280,14 +2964,6 @@ if (!function_exists("igk_html_node_label")) {
 	}
 }
 if (!function_exists("igk_html_node_labelinput")) {
-	///<summary>create winui-labelinput</summary>
-	///<param name="id"></param>
-	///<param name="text"></param>
-	///<param name="type"></param>
-	///<param name="value"></param>
-	///<param name="attributes">mixed. array|json_string</param>
-	///<param name="require"></param>
-	///<param name="description"></param>
 	/**
 	 * create winui-labelinput
 	 * @param mixed $id
@@ -3300,10 +2976,9 @@ if (!function_exists("igk_html_node_labelinput")) {
 	 */
 	function igk_html_node_labelinput($id, $text, $type = "text", $value = null, $attributes = null, $require = false, $description = null)
 	{
-		$o = igk_create_notagnode(); //igk:label-input");
+		$o = igk_create_notagnode(); 
 		$o->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
 		$o->setCallback("getinput", "return \$this->input;");
-
 		$i = $o->add("label");
 		$i["for"] = $id;
 		$i->Content = $text;
@@ -3313,10 +2988,8 @@ if (!function_exists("igk_html_node_labelinput")) {
 		if ($require) {
 			$i["class"] = "clrequired";
 		}
-
 		$h = $o->addInput($id, $type, $value, $attributes);
 		$h["class"] = "+igk-form-control";
-
 		switch ($type) {
 			case "checkbox":
 			case "radio":
@@ -3335,7 +3008,6 @@ if (!function_exists("igk_html_node_labelinput")) {
 	}
 }
 if (!function_exists("igk_html_node_lborder")) {
-	///<summary>create winui-lborder</summary>
 	/**
 	 * create winui-lborder
 	 */
@@ -3347,7 +3019,6 @@ if (!function_exists("igk_html_node_lborder")) {
 	}
 }
 if (!function_exists("igk_html_node_linewaiter")) {
-	///<summary>create winui-linewaiter</summary>
 	/**
 	 * create winui-linewaiter
 	 */
@@ -3366,11 +3037,6 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_linkbtn")) {
-	///<summary>create winui-linkbtn</summary>
-	///<param name="uri"></param>
-	///<param name="img"></param>
-	///<param name="width"></param>
-	///<param name="height"></param>
 	/**
 	 * create winui-linkbtn
 	 * @param mixed $uri
@@ -3384,17 +3050,14 @@ if (!function_exists("igk_html_node_linkbtn")) {
 		$img = $n->add("img");
 		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_callback_alinktn");
 		$n->setCallback(
-			"setUri",
-			<<<EOF
+			"setUri",<<<EOF
 \$this->getParam('data')->src=\$value;
-EOF
-		);
+EOF		);
 		$n->setParam("data", (object)array("img" => $img, "w" => $width, "h" => $height, "src" => $uri));
 		return $n;
 	}
 }
 if (!function_exists("igk_html_node_list")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3415,10 +3078,6 @@ if (!function_exists("igk_html_node_list")) {
 	}
 }
 if (!function_exists("igk_html_node_livenodecallback")) {
-	///<summary>create winui-componentnodecallback</summary>
-	///<param name="listener"></param>
-	///<param name="name"></param>
-	///<param name="callback"></param>
 	/**
 	 * create winui-componentnodecallback
 	 * @param mixed $listener
@@ -3431,11 +3090,10 @@ if (!function_exists("igk_html_node_livenodecallback")) {
 		if ($livenode === null) {
 			$livenode = [];
 		}
-		$f = null; //the settings
+		$f = null; 
 		$c = $listener->getParam(IGK_NAMED_NODE_PARAM, array());
 		if (isset($c[$name])) {
 			$f = $c[$name];
-			// return $f;
 		}
 		if (!is_callable($callback)) {
 			if (!is_string($callback) || (strtolower($callback) == "componentnodecallback"))
@@ -3449,7 +3107,7 @@ if (!function_exists("igk_html_node_livenodecallback")) {
 		$args = array_merge(array($listener, $name), array_slice(func_get_args(), 3));
 		$h = call_user_func_array($callback, $args);
 		if ($h) {
-			$c[$name] = []; // $h;
+			$c[$name] = []; 
 			$h->setParam(IGK_NAMED_ID_PARAM, $name);
 			$listener->setParam(IGK_NAMED_NODE_PARAM, $c);
 			return $h;
@@ -3459,7 +3117,6 @@ if (!function_exists("igk_html_node_livenodecallback")) {
 	}
 }
 if (!function_exists("igk_html_node_load_array")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3478,10 +3135,6 @@ if (!function_exists("igk_html_node_load_array")) {
 	}
 }
 if (!function_exists("igk_html_node_localizabletext")) {
-	///<summary></summary>
-	///<param name="expression"></param>
-	///<param name="data" default="null"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $data the default value is null
@@ -3520,12 +3173,6 @@ if (!function_exists("igk_html_node_login_form")) {
 	}
 }
 if (!function_exists("igk_html_node_loop")) {
-	// function igk_html_node_extends($parentview)
-	// {
-	//     $p = igk_html_parent_node() ?? igk_die("parent required");
-	//     throw new IGKException("Not implemnts");
-	// }
-	///<summary>helper: loop thru array</summary>
 	/**
 	 * helper: loop thru array . or template binding
 	 * @param mixed|int|Iterable|IViewExpressionArg $array iterable
@@ -3547,8 +3194,6 @@ if (!function_exists("igk_html_node_loop")) {
 	}
 }
 if (!function_exists("igk_html_node_loremipsum")) {
-	///<summary>represent the loremIpSum zone</summary>
-	///<param name="mode">verbose node</param>
 	/**
 	 * represent the loremIpSum zone
 	 * @param mixed $modeverbose node
@@ -3567,10 +3212,6 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_mailto")) {
-	///<summary></summary>
-	///<param name="href"></param>
-	///<param name="text" default=""></param>
-
 	/**
 	 * auto generate doc.
 	 */	function igk_html_node_mailto($href, $text = "")
@@ -3592,7 +3233,6 @@ if (!function_exists("igk_html_node_memoryusageinfo")) {
 	}
 }
 if (!function_exists("igk_html_node_menukey")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3604,7 +3244,6 @@ if (!function_exists("igk_html_node_menukey")) {
 	}
 }
 if (!function_exists("igk_html_node_menulist")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3634,8 +3273,6 @@ if (!function_exists("igk_html_node_menus")) {
 	}
 }
 if (!function_exists("igk_html_node_moreview")) {
-	///<summary>create winui-moreview</summary>
-	///<param name="hide"></param>
 	/**
 	 * create winui-moreview
 	 * @param mixed $hide
@@ -3650,8 +3287,6 @@ if (!function_exists("igk_html_node_moreview")) {
 	}
 }
 if (!function_exists("igk_html_node_msdialog")) {
-	///<summary>create winui-msdialog</summary>
-	///<param name="id"></param>
 	/**
 	 * create winui-msdialog
 	 * @param mixed $id
@@ -3666,8 +3301,6 @@ if (!function_exists("igk_html_node_msdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_mstitle")) {
-	///<summary>create winui-mstitle</summary>
-	///<param name="key"></param>
 	/**
 	 * create winui-mstitle
 	 * @param mixed $key
@@ -3681,8 +3314,6 @@ if (!function_exists("igk_html_node_mstitle")) {
 	}
 }
 if (!function_exists("igk_html_node_navigationlink")) {
-	///<summary>create winui-navigationlink</summary>
-	///<param name="target"></param>
 	/**
 	 * create winui-navigationlink
 	 * @param mixed $target
@@ -3695,7 +3326,6 @@ if (!function_exists("igk_html_node_navigationlink")) {
 	}
 }
 if (!function_exists("igk_html_node_nbsp")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -3710,10 +3340,6 @@ if (!function_exists("igk_html_node_nbsp")) {
 	}
 }
 if (!function_exists("igk_html_node_newsletterregistration")) {
-	///<summary>create winui-newsletterregistration</summary>
-	///<param name="uri"></param>
-	///<param name="type"></param>
-	///<param name="ajx"></param>
 	/**
 	 * create winui-newsletterregistration
 	 * @param mixed $uri
@@ -3732,7 +3358,6 @@ if (!function_exists("igk_html_node_newsletterregistration")) {
 	}
 }
 if (!function_exists("igk_html_node_notagnode")) {
-	///<summary>create winui-notagnode</summary>
 	/**
 	 * create winui-notagnode
 	 */
@@ -3743,7 +3368,6 @@ if (!function_exists("igk_html_node_notagnode")) {
 	}
 }
 if (!function_exists("igk_html_node_notagobdata")) {
-	///<summary>shortcut to create ObData node with noTag to display</summary>
 	/**
 	 * shortcut to create ObData node with noTag to display
 	 */
@@ -3753,7 +3377,6 @@ if (!function_exists("igk_html_node_notagobdata")) {
 	}
 }
 if (!function_exists("igk_html_node_notification")) {
-	///<summary>used to add notification node</summary>
 	/**
 	 * used to add notification node
 	 */
@@ -3765,7 +3388,6 @@ if (!function_exists("igk_html_node_notification")) {
 	}
 }
 if (!function_exists("igk_html_node_notifyhost")) {
-	///<summary>used to bind notify global ctrl message</summary>
 	/**
 	 * used to bind notify global ctrl message
 	 */
@@ -3775,9 +3397,6 @@ if (!function_exists("igk_html_node_notifyhost")) {
 	}
 }
 if (!function_exists("igk_html_node_notifyhostbind")) {
-	///<summary>create winui-notifyhostbind</summary>
-	///<param name="name"></param>
-	///<param name="autohide"></param>
 	/**
 	 * create winui-notifyhostbind
 	 * @param mixed $name
@@ -3792,10 +3411,6 @@ if (!function_exists("igk_html_node_notifyhostbind")) {
 	}
 }
 if (!function_exists("igk_html_node_notifyzone")) {
-	///<summary>create winui-notifyzone</summary>
-	///<param name="name"></param>
-	///<param name="autohide"></param>
-	///<param name="tag"></param>
 	/**
 	 * create winui-notifyzone
 	 * @param mixed $name
@@ -3810,7 +3425,6 @@ if (!function_exists("igk_html_node_notifyzone")) {
 	}
 }
 if (!function_exists("igk_html_node_obdata")) {
-	///<summary>used to add a node with buffer content</summary>
 	/**
 	 * used to add a node with buffer content
 	 */
@@ -3857,7 +3471,6 @@ if (!function_exists("igk_html_node_obscript")) {
 	}
 }
 if (!function_exists("igk_html_node_onrendercallback")) {
-	///<summary> create node on callback. create a callback object to send to this </summary>
 	/**
 	 *  create node on callback. create a callback object to send to this
 	 */
@@ -3871,7 +3484,6 @@ if (!function_exists("igk_html_node_onrendercallback")) {
 	}
 }
 if (!function_exists("igk_html_node_page")) {
-	///<summary>create winui-page</summary>
 	/**
 	 * create winui-page
 	 */
@@ -3881,8 +3493,6 @@ if (!function_exists("igk_html_node_page")) {
 	}
 }
 if (!function_exists("igk_html_node_pageCenterBox")) {
-	///<summary> center page document</summary>
-
 	/**
 	 * Igk html node page center box.
 	 * @param null|callable $host
@@ -3902,12 +3512,10 @@ if (!function_exists("igk_html_node_pageCenterBox")) {
 		if ($host != null) {
 			$host($box);
 		}
-
 		return $_o;
 	}
 }
 if (!function_exists("igk_html_node_paginationview")) {
-	///<summary> build pagination settings</summary>
 	/**
 	 *  build pagination settings
 	 */
@@ -3969,7 +3577,6 @@ if (!function_exists("igk_html_node_paginationview")) {
 	}
 }
 if (!function_exists("igk_html_node_panelbox")) {
-	///<summary>create winui-panelbox</summary>
 	/**
 	 * create winui-panelbox
 	 */
@@ -3981,10 +3588,6 @@ if (!function_exists("igk_html_node_panelbox")) {
 	}
 }
 if (!function_exists("igk_html_node_paneldialog")) {
-	///<summary>create winui-paneldialog</summary>
-	///<param name="title"></param>
-	///<param name="content"></param>
-	///<param name="settings"></param>
 	/**
 	 * create winui-paneldialog
 	 * @param mixed $title
@@ -4008,7 +3611,6 @@ if (!function_exists("igk_html_node_paneldialog")) {
 			else
 				$ctn->add($content);
 		}
-
 		if ($settings) {
 			if ($svgBtn = igk_getv($settings, "closeBtn")) {
 				if (is_numeric($svgBtn)) {
@@ -4016,7 +3618,6 @@ if (!function_exists("igk_html_node_paneldialog")) {
 				}
 				$tl->addABtn("#")->setClass("close")->Content = igk_svg_use($svgBtn);
 			}
-
 			if ($attribs = igk_getv($settings, "attribs")) {
 				if ($cl = igk_getv($attribs, "class")) {
 					$n["class"] = $cl;
@@ -4029,8 +3630,6 @@ if (!function_exists("igk_html_node_paneldialog")) {
 	}
 }
 if (!function_exists("igk_html_node_parallaxnode")) {
-	///<summary> parallax node view</summary>
-	///<exemple> $t->addParallaxNode(igk_html_resolv_img_uri($this->getDataDir()."/R/parallax/img1.jpg"))->div()->setClass("slide_inside")->Content = "Page 1"; </exemple>
 	/**
 	 *  parallax node view
 	 */
@@ -4043,7 +3642,6 @@ if (!function_exists("igk_html_node_parallaxnode")) {
 	}
 }
 if (!function_exists("igk_html_node_picker_zone")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4060,7 +3658,6 @@ if (!function_exists("igk_html_node_picker_zone")) {
 	}
 }
 if (!function_exists("igk_html_node_popupmenu")) {
-	///<summary>create winui-popupmenu</summary>
 	/**
 	 * create winui-popupmenu
 	 */
@@ -4072,7 +3669,6 @@ if (!function_exists("igk_html_node_popupmenu")) {
 	}
 }
 if (!function_exists("igk_html_node_pre")) {
-	///<summary>pre tag with content</summary>
 	/**
 	 * create winui-pre tag
 	 * @param mixed $data 
@@ -4094,7 +3690,6 @@ if (!function_exists("igk_html_node_pre")) {
 	}
 }
 if (!function_exists("igk_html_node_printbtn")) {
-	///<summary>print button</summary>
 	/**
 	 * print button
 	 */
@@ -4107,7 +3702,6 @@ if (!function_exists("igk_html_node_printbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_progressbar")) {
-	///<summary>create winui-progressbar</summary>
 	/**
 	 * create winui-progressbar
 	 */
@@ -4136,8 +3730,6 @@ if (!function_exists("igk_html_node_radiobutton")) {
 	}
 }
 if (!function_exists("igk_html_node_readonlytextzone")) {
-	///<summary>create winui-readonlytextzone</summary>
-	///<param name="file"></param>
 	/**
 	 * create winui-readonlytextzone
 	 * @param mixed $file
@@ -4152,7 +3744,6 @@ if (!function_exists("igk_html_node_readonlytextzone")) {
 	}
 }
 if (!function_exists("igk_html_node_registermailform")) {
-	///<summary>create winui-registermailform</summary>
 	/**
 	 * create winui-registermailform
 	 */
@@ -4169,7 +3760,6 @@ if (!function_exists("igk_html_node_registermailform")) {
 	}
 }
 if (!function_exists("igk_html_node_renderingexpression")) {
-	///<summary>renderging Expression</summary>
 	/**
 	 * renderging Expression
 	 */
@@ -4184,8 +3774,6 @@ if (!function_exists("igk_html_node_renderingexpression")) {
 	}
 }
 if (!function_exists("igk_html_node_repeatcontent")) {
-	///<summary>create winui-repeatcontent</summary>
-	///<param name="number"></param>
 	/**
 	 * create winui-repeatcontent
 	 * @param mixed $number
@@ -4199,8 +3787,6 @@ if (!function_exists("igk_html_node_repeatcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_replace_uri")) {
-	///<summary></summary>
-
 	/**
 	 * auto generate doc.
 	 */	function igk_html_node_replace_uri($uri = null)
@@ -4216,7 +3802,6 @@ if (!function_exists("igk_html_node_replace_uri")) {
 	}
 }
 if (!function_exists("igk_html_node_resimg")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4233,7 +3818,6 @@ if (!function_exists("igk_html_node_resimg")) {
 	}
 }
 if (!function_exists("igk_html_node_responsenode")) {
-	///<summary>create winui-responsenode</summary>
 	/**
 	 * create winui-responsenode
 	 */
@@ -4245,7 +3829,6 @@ if (!function_exists("igk_html_node_responsenode")) {
 	}
 }
 if (!function_exists("igk_html_node_rollin")) {
-	///<summary>create winui-rollin</summary>
 	/**
 	 * create winui-rollin
 	 */
@@ -4257,7 +3840,6 @@ if (!function_exists("igk_html_node_rollin")) {
 	}
 }
 if (!function_exists("igk_html_node_roundbullet")) {
-	///<summary>create winui-roundbullet</summary>
 	/**
 	 * create winui-roundbullet
 	 */
@@ -4269,7 +3851,6 @@ if (!function_exists("igk_html_node_roundbullet")) {
 	}
 }
 if (!function_exists("igk_html_node_row")) {
-	///<summary>create winui-row</summary>
 	/**
 	 * create winui-row
 	 */
@@ -4296,8 +3877,6 @@ if (!function_exists("igk_html_node_row")) {
 	}
 }
 if (!function_exists("igk_html_node_rowcolumn")) {
-	///<summary> add a row column </summary>
-	///<param name="classLevel" > css classname that init the  column level</param>
 	/**
 	 *  add a row column
 	 * @param mixed $classLevel css classname that init the column level
@@ -4310,7 +3889,6 @@ if (!function_exists("igk_html_node_rowcolumn")) {
 	}
 }
 if (!function_exists("igk_html_node_rowcontainer")) {
-	///<summary>create winui-rowcontainer</summary>
 	/**
 	 * create winui-rowcontainer
 	 */
@@ -4322,7 +3900,6 @@ if (!function_exists("igk_html_node_rowcontainer")) {
 	}
 }
 if (!function_exists("igk_html_node_script")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 * @var ?string $script
@@ -4333,8 +3910,6 @@ if (!function_exists("igk_html_node_script")) {
 	}
 }
 if (!function_exists("igk_html_node_scrollimg")) {
-	///<summary>create winui-scrollimg</summary>
-	///<param name="src"></param>
 	/**
 	 * create winui-scrollimg
 	 * @param mixed $src
@@ -4347,8 +3922,6 @@ if (!function_exists("igk_html_node_scrollimg")) {
 	}
 }
 if (!function_exists("igk_html_node_scrollloader")) {
-	///<summary>used to load scroll Loader Item</summary>
-	///<remark>if visible will be replaced</remark>
 	/**
 	 * used to load scroll Loader Item
 	 */
@@ -4357,7 +3930,6 @@ if (!function_exists("igk_html_node_scrollloader")) {
 		if ($p = igk_html_parent_node()) {
 			$p["class"] = "igk-scroll-loader_container";
 		}
-
 		$n = igk_create_node("igk-scroll-loader");
 		$n["data"] = $src;
 		return $n;
@@ -4379,7 +3951,6 @@ if (!function_exists("igk_html_node_searchField")) {
 	}
 }
 if (!function_exists("igk_html_node_searchbox")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4393,8 +3964,6 @@ if (!function_exists("igk_html_node_searchbox")) {
 	}
 }
 if (!function_exists("igk_html_node_searchbutton")) {
-	///<summary>search button view</summary>
-	///<param name="uri"></param>
 	/**
 	 * search button view
 	 * @param mixed $uri
@@ -4411,8 +3980,6 @@ if (!function_exists("igk_html_node_searchbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_sectiontitle")) {
-	///<summary>create winui-sectiontitle</summary>
-	///<param name="level"></param>
 	/**
 	 * create winui-sectiontitle
 	 * @param mixed $level
@@ -4444,7 +4011,6 @@ if (!function_exists("igk_html_node_select")) {
 	}
 }
 if (!function_exists("igk_html_node_select_options")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4478,10 +4044,8 @@ if (!function_exists("igk_html_node_select_options")) {
 		}
 		foreach ($optionsList as $m) {
 			$o = $p->add("option");
-
 			$t = igk_getv($m, $options->display);
 			$v = igk_getv($m, $options->value);
-
 			$o["value"] = $v;
 			$o->setContent($t);
 			if ($s == $v) {
@@ -4493,7 +4057,6 @@ if (!function_exists("igk_html_node_select_options")) {
 	}
 }
 if (!function_exists("igk_html_node_selecttag")) {
-	///<summary>select tag node</summary>
 	/**
 	 * create a select tag node JS requirement
 	 * @param mixed $id 
@@ -4514,8 +4077,6 @@ if (!function_exists("igk_html_node_selecttag")) {
 	}
 }
 if (!function_exists("igk_html_node_separator")) {
-	///<summary>create winui-separator</summary>
-	///<param name="type"></param>
 	/**
 	 * create winui-separator
 	 * @param mixed $type
@@ -4535,9 +4096,6 @@ if (!function_exists("igk_html_node_separator")) {
 	}
 }
 if (!function_exists("igk_html_node_sidemenunavigation")) {
-	///<summary></summary>
-	///<param name="menulist"></param>
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $menulist
@@ -4562,8 +4120,6 @@ if (!function_exists("igk_html_node_sidemenunavigation")) {
 	}
 }
 if (!function_exists("igk_html_node_singlenodeviewer")) {
-	///<summary>mixed create a shortcut to single node viewer</summary>
-	///<param name="mixed"> node tag name or html item</param>
 	/**
 	 * mixed create a shortcut to single node viewer
 	 * @param mixed  node tag name or html item
@@ -4583,7 +4139,6 @@ if (!function_exists("igk_html_node_singlenodeviewer")) {
 	}
 }
 if (!function_exists("igk_html_node_singlerowcol")) {
-	///<summary>shortcut to call node->addRow()->addCol()-> and return the column</summary>
 	/**
 	 * shortcut to call node->addRow()->addCol()-> and return the column
 	 */
@@ -4617,11 +4172,6 @@ if (!function_exists("igk_html_node_singleviewnode")) {
 	}
 }
 if (!function_exists("igk_html_node_slabelcheckbox")) {
-	///<summary>create winui-slabelcheckbox</summary>
-	///<param name="id"></param>
-	///<param name="value"></param>
-	///<param name="attributes"></param>
-	///<param name="require"></param>
 	/**
 	 * create winui-slabelcheckbox
 	 * @param mixed $id
@@ -4640,13 +4190,6 @@ if (!function_exists("igk_html_node_slabelcheckbox")) {
 	}
 }
 if (!function_exists("igk_html_node_slabelinput")) {
-	///<summary>create winui-slabelinput</summary>
-	///<param name="id"></param>
-	///<param name="type"></param>
-	///<param name="value"></param>
-	///<param name="attributes"></param>
-	///<param name="require"></param>
-	///<param name="description"></param>
 	/**
 	 * create winui-slabelinput
 	 * @param mixed $id
@@ -4662,12 +4205,6 @@ if (!function_exists("igk_html_node_slabelinput")) {
 	}
 }
 if (!function_exists("igk_html_node_slabelselect")) {
-	///<summary>create winui-slabelselect</summary>
-	///<param name="id"></param>
-	///<param name="values"></param>
-	///<param name="valuekey"></param>
-	///<param name="defaultCallback"></param>
-	///<param name="required"></param>
 	/**
 	 * create winui-slabelselect
 	 * @param mixed $id
@@ -4700,11 +4237,6 @@ if (!function_exists("igk_html_node_slabelselect")) {
 	}
 }
 if (!function_exists("igk_html_node_slabeltextarea")) {
-	///<summary>create winui-slabeltextarea</summary>
-	///<param name="id"></param>
-	///<param name="attributes"></param>
-	///<param name="require"></param>
-	///<param name="description"></param>
 	/**
 	 * create winui-slabeltextarea
 	 * @param mixed $id
@@ -4741,7 +4273,6 @@ if (!function_exists("igk_html_node_space")) {
 	}
 }
 if (!function_exists("igk_html_node_span_label")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4762,7 +4293,6 @@ if (!function_exists("igk_html_node_span_label")) {
 	}
 }
 if (!function_exists("igk_html_node_spangroup")) {
-	///<summary>create winui-spangroup</summary>
 	/**
 	 * create winui-spangroup
 	 */
@@ -4774,7 +4304,6 @@ if (!function_exists("igk_html_node_spangroup")) {
 	}
 }
 if (!function_exists("igk_html_node_style")) {
-	///<summary>create winui-style</summary>
 	/**
 	 * create winui-style
 	 */
@@ -4785,7 +4314,6 @@ if (!function_exists("igk_html_node_style")) {
 	}
 }
 if (!function_exists("igk_html_node_submit")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4805,9 +4333,6 @@ if (!function_exists("igk_html_node_submit")) {
 	}
 }
 if (!function_exists("igk_html_node_submitbtn")) {
-	///<summary>create winui-submitbtn</summary>
-	///<param name="name"></param>
-	///<param name="key"></param>
 	/**
 	 * create winui-submitbtn
 	 * @param mixed $name
@@ -4824,7 +4349,6 @@ if (!function_exists("igk_html_node_submitbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svg_container")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4840,9 +4364,6 @@ if (!function_exists("igk_html_node_svg_container")) {
 	}
 }
 if (!function_exists("igk_html_node_svga")) {
-	///<summary>create winui-svga</summary>
-	///<param name="uri"></param>
-	///<param name="svgname"></param>
 	/**
 	 * create winui-svga
 	 * @param mixed $uri
@@ -4857,9 +4378,6 @@ if (!function_exists("igk_html_node_svga")) {
 	}
 }
 if (!function_exists("igk_html_node_svgajxformbtn")) {
-	///<summary>create winui-svgajxformbtn</summary>
-	///<param name="uri"></param>
-	///<param name="svgname"></param>
 	/**
 	 * create winui-svgajxformbtn
 	 * @param mixed $uri
@@ -4874,9 +4392,6 @@ if (!function_exists("igk_html_node_svgajxformbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svglnkbtn")) {
-	///<summary>create winui-svglnkbtn</summary>
-	///<param name="uri"></param>
-	///<param name="svgname"></param>
 	/**
 	 * create winui-svglnkbtn
 	 * @param mixed $uri
@@ -4891,8 +4406,6 @@ if (!function_exists("igk_html_node_svglnkbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svgsymbol")) {
-	///<summary>create winui-svgsymbol</summary>
-	///<param name="name"></param>
 	/**
 	 * create winui-svgsymbol
 	 * @param mixed $name
@@ -4906,8 +4419,6 @@ if (!function_exists("igk_html_node_svgsymbol")) {
 	}
 }
 if (!function_exists("igk_html_node_svguse")) {
-	///<summary>create winui-svguse</summary>
-	///<param name="name"></param>
 	/**
 	 * create winui-svguse
 	 * @param mixed $name
@@ -4920,11 +4431,6 @@ if (!function_exists("igk_html_node_svguse")) {
 	}
 }
 if (!function_exists("igk_html_node_symbol")) {
-	///<summary>create winui-symbol</summary>
-	///<param name="code"></param>
-	///<param name="w"></param>
-	///<param name="h"></param>
-	///<param name="name"></param>
 	/**
 	 * create winui-symbol
 	 * @param mixed $code
@@ -4943,7 +4449,6 @@ if (!function_exists("igk_html_node_symbol")) {
 	}
 }
 if (!function_exists("igk_html_node_sysarticle")) {
-	///<summary>used to add system article</summary>
 	/**
 	 * used to add system article
 	 */
@@ -4956,7 +4461,6 @@ if (!function_exists("igk_html_node_sysarticle")) {
 	}
 }
 if (!function_exists("igk_html_node_tabbutton")) {
-	///<summary>create winui-tabbutton</summary>
 	/**
 	 * create winui-tabbutton
 	 */
@@ -4969,7 +4473,6 @@ if (!function_exists("igk_html_node_tabbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_table")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4982,7 +4485,6 @@ if (!function_exists("igk_html_node_table")) {
 	}
 }
 if (!function_exists("igk_html_node_tableheader")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -4994,7 +4496,6 @@ if (!function_exists("igk_html_node_tableheader")) {
 			if (!$filter) {
 				if (empty($k))
 					$k = "&nbsp;";
-
 				$th->Content = $k;
 			} else
 				$filter($k, $th);
@@ -5003,7 +4504,6 @@ if (!function_exists("igk_html_node_tableheader")) {
 	}
 }
 if (!function_exists("igk_html_node_tablehost")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5015,9 +4515,6 @@ if (!function_exists("igk_html_node_tablehost")) {
 	}
 }
 if (!function_exists("igk_html_node_td")) {
-	///<summary>create winui-td</summary>
-	///<param name="for"></param>
-	///<param name="key"></param>
 	/**
 	 * create winui-td
 	 * @param mixed $for
@@ -5030,7 +4527,6 @@ if (!function_exists("igk_html_node_td")) {
 	}
 }
 if (!function_exists("igk_html_node_template")) {
-	///<summary>use to add a template node</summary>
 	/**
 	 * use to add a template node
 	 */
@@ -5042,7 +4538,6 @@ if (!function_exists("igk_html_node_template")) {
 	}
 }
 if (!function_exists("igk_html_node_text")) {
-	///<summary>create text node</summary>
 	/**
 	 * create text node
 	 */
@@ -5052,10 +4547,6 @@ if (!function_exists("igk_html_node_text")) {
 	}
 }
 if (!function_exists("igk_html_node_textarea")) {
-	///<summary>create winui-textarea</summary>
-	///<param name="name"></param>
-	///<param name="content"></param>
-	///<param name="attributes"></param>
 	/**
 	 * create winui-textarea
 	 * @param mixed $name
@@ -5080,7 +4571,6 @@ if (!function_exists("igk_html_node_textarea")) {
 	}
 }
 if (!function_exists("igk_html_node_textedit")) {
-	///<summary>represent a zone node for text edition</summary>
 	/**
 	 * represent a zone node for text edition
 	 */
@@ -5094,7 +4584,6 @@ if (!function_exists("igk_html_node_textedit")) {
 	}
 }
 if (!function_exists("igk_html_node_thumbnaildocument")) {
-	///<summary>create a thumbnail document</summary>
 	/**
 	 * create a thumbnail document
 	 */
@@ -5120,7 +4609,6 @@ if (!function_exists("igk_html_node_time")) {
 	}
 }
 if (!function_exists("igk_html_node_tip")) {
-	///<summary> represent a tip panel </summary>
 	/**
 	 *  represent a tip panel
 	 */
@@ -5132,8 +4620,6 @@ if (!function_exists("igk_html_node_tip")) {
 	}
 }
 if (!function_exists("igk_html_node_titlelevel")) {
-	///<summary>create winui-titlelevel</summary>
-	///<param name="level"></param>
 	/**
 	 * create winui-titlelevel
 	 * @param mixed $level
@@ -5146,9 +4632,6 @@ if (!function_exists("igk_html_node_titlelevel")) {
 	}
 }
 if (!function_exists("igk_html_node_titlenode")) {
-	///<summary>create winui-titlenode</summary>
-	///<param name="class"></param>
-	///<param name="text"></param>
 	/**
 	 * create winui-titlenode
 	 * @param mixed $class
@@ -5164,7 +4647,6 @@ if (!function_exists("igk_html_node_titlenode")) {
 	}
 }
 if (!function_exists("igk_html_node_toast")) {
-	///<summary>for toast message</summary>
 	/**
 	 * for toast message
 	 * attribute : 
@@ -5177,7 +4659,6 @@ if (!function_exists("igk_html_node_toast")) {
 	}
 }
 if (!function_exists("igk_html_node_toast_notify")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5207,7 +4688,6 @@ if (!function_exists("igk_html_node_toggleThemeButton")) {
 	}
 }
 if (!function_exists("igk_html_node_togglebutton")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5217,7 +4697,6 @@ if (!function_exists("igk_html_node_togglebutton")) {
 	}
 }
 if (!function_exists("igk_html_node_tooltip")) {
-	///<summary>create winui-tooltip</summary>
 	/**
 	 * create winui-tooltip
 	 */
@@ -5228,7 +4707,6 @@ if (!function_exists("igk_html_node_tooltip")) {
 	}
 }
 if (!function_exists("igk_html_node_topnavbar")) {
-	///<summary>create winui-topnavbar</summary>
 	/**
 	 * create winui-topnavbar
 	 */
@@ -5241,11 +4719,6 @@ if (!function_exists("igk_html_node_topnavbar")) {
 	}
 }
 if (!function_exists("igk_html_node_trackbarnode")) {
-	///<summary>create winui-trackbarnode</summary>
-	///<param name="id"></param>
-	///<param name="value"></param>
-	///<param name="min"></param>
-	///<param name="max"></param>
 	/**
 	 * create winui-trackbarnode
 	 * @param mixed $id
@@ -5266,7 +4739,6 @@ if (!function_exists("igk_html_node_trackbarnode")) {
 	}
 }
 if (!function_exists("igk_html_node_transitionblock")) {
-	///<summary> create a transition block node</summary>
 	/**
 	 *  create a transition block node
 	 */
@@ -5278,7 +4750,6 @@ if (!function_exists("igk_html_node_transitionblock")) {
 	}
 }
 if (!function_exists("igk_html_node_underconstructionpage")) {
-	///<summary>create winui-underconstructionpage</summary>
 	/**
 	 * create winui-underconstructionpage
 	 */
@@ -5304,7 +4775,6 @@ if (!function_exists("igk_html_node_underconstructionpage")) {
 	}
 }
 if (!function_exists("igk_html_node_userinfo")) {
-
 	/**
 	 * auto generate doc.
 	 * @param Users $user
@@ -5322,22 +4792,17 @@ if (!function_exists("igk_html_node_userinfo")) {
 	}
 }
 if (!function_exists("igk_html_node_usesvg")) {
-	///<summary>shortcut to load svg document</summary>
 	/**
 	 * shortcut to load svg document 
 	 */
 	function igk_html_node_usesvg(string $name)
 	{
-		// igk_wln_e(__FILE__.":".__LINE__ , 'using: ', $name);
 		$s = igk_create_node("span");
 		$s->Content = igk_svg_use($name);
 		return $s;
 	}
 }
 if (!function_exists("igk_html_node_videofilestream")) {
-	///<summary>create winui-videofilestream</summary>
-	///<param name="location"></param>
-	///<param name="auth"></param>
 	/**
 	 * create winui-videofilestream
 	 * @param mixed $location
@@ -5353,7 +4818,6 @@ if (!function_exists("igk_html_node_videofilestream")) {
 	}
 }
 if (!function_exists("igk_html_node_view_code")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5368,7 +4832,6 @@ if (!function_exists("igk_html_node_view_code")) {
 	}
 }
 if (!function_exists("igk_html_node_view_include")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5382,7 +4845,6 @@ if (!function_exists("igk_html_node_view_include")) {
 	}
 }
 if (!function_exists("igk_html_node_viewcontent")) {
-	///<summary>used to evaluate the content. in xpthml file the content will be evaluated</summary>
 	/**
 	 * used to evaluate the content. in xpthml file the content will be evaluated
 	 */
@@ -5395,8 +4857,6 @@ if (!function_exists("igk_html_node_viewcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_visible")) {
-	///<summary> add a visibility server node</summary>
-	///<param name="cond" type="mixed" >mixed callback or evaluable condition expression</param>
 	/**
 	 *  add a visibility server node
 	 * @param mixed cond mixed callback or evaluable condition expression
@@ -5407,9 +4867,6 @@ if (!function_exists("igk_html_node_visible")) {
 	}
 }
 if (!function_exists("igk_html_node_vscrollbar")) {
-	///<summary>create winui-vscrollbar</summary>
-	///<param name="cibling"></param>
-	///<param name="initTarget"></param>
 	/**
 	 * create winui-vscrollbar
 	 * @param mixed $cibling
@@ -5425,7 +4882,6 @@ if (!function_exists("igk_html_node_vscrollbar")) {
 	}
 }
 if (!function_exists("igk_html_node_vsep")) {
-	///<summary>create winui-vsep</summary>
 	/**
 	 * create winui-vsep
 	 */
@@ -5435,7 +4891,6 @@ if (!function_exists("igk_html_node_vsep")) {
 	}
 }
 if (!function_exists("igk_html_node_walk")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5443,7 +4898,6 @@ if (!function_exists("igk_html_node_walk")) {
 	{
 		$p = igk_html_parent_node();
 		if (is_array($items)) {
-
 			array_walk($items, function ($v) use ($p, $callback, $tagname) {
 				$callback($p->add($tagname), $v);
 			});
@@ -5452,7 +4906,6 @@ if (!function_exists("igk_html_node_walk")) {
 	}
 }
 if (!function_exists("igk_html_node_webarticle")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5462,8 +4915,6 @@ if (!function_exists("igk_html_node_webarticle")) {
 	}
 }
 if (!function_exists("igk_html_node_webglgamesurface")) {
-	///<summary>create winui-webglgamesurface</summary>
-	///<param name="listener"></param>
 	/**
 	 * create winui-webglgamesurface
 	 * @param mixed $listener
@@ -5478,7 +4929,6 @@ if (!function_exists("igk_html_node_webglgamesurface")) {
 	}
 }
 if (!function_exists("igk_html_node_webmasternode")) {
-	///<summary>create a node that will only be visible on webmaster mode context</summary>
 	/**
 	 * create a node that will only be visible on webmaster mode context
 	 */
@@ -5502,9 +4952,6 @@ if (!function_exists("igk_html_node_widget")) {
 	}
 }
 if (!function_exists("igk_html_node_word")) {
-	///<summary>create winui-word</summary>
-	///<param name="v"></param>
-	///<param name="cl"></param>
 	/**
 	 * create winui-word
 	 * @param mixed $v
@@ -5519,9 +4966,6 @@ if (!function_exists("igk_html_node_word")) {
 	}
 }
 if (!function_exists("igk_html_node_wordcasesplitter")) {
-	///<summary>create winui-wordcasesplitter</summary>
-	///<param name="v"></param>
-	///<param name="split"></param>
 	/**
 	 * create winui-wordcasesplitter
 	 * @param mixed $v
@@ -5545,7 +4989,6 @@ if (!function_exists("igk_html_node_wordcasesplitter")) {
 	}
 }
 if (!function_exists("igk_html_node_wordsplitview")) {
-	///<summary>create winui-wordsplitview</summary>
 	/**
 	 * create winui-wordsplitview
 	 */
@@ -5566,7 +5009,6 @@ if (!function_exists("igk_html_node_xmlnode")) {
 	}
 }
 if (!function_exists("igk_html_node_xmlviewer")) {
-	///<summary>function </summary>
 	/**
 	 * function __desc__
 	 */
@@ -5576,11 +5018,6 @@ if (!function_exists("igk_html_node_xmlviewer")) {
 	}
 }
 if (!function_exists("igk_html_node_xslt")) {
-	///<summary>create winui-xslt</summary>
-	///<param name="xml"></param>
-	///<param name="xslt"></param>
-	///<param name="global"></param>
-	///<param name="options"></param>
 	/**
 	 * create winui-xslt
 	 * @param mixed $xml
@@ -5607,10 +5044,6 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_xsltranform")) {
-	///<summary>create winui-xsltranform</summary>
-	///<param name="xmluri"></param>
-	///<param name="xsluri"></param>
-	///<param name="target"></param>
 	/**
 	 * create winui-xsltranform
 	 * @param mixed $xmluri
@@ -5632,7 +5065,6 @@ if (!function_exists("igk_html_node_xsltranform")) {
 	}
 }
 if (!function_exists("igk_html_node_yield")) {
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $args
@@ -5651,7 +5083,6 @@ if (!function_exists("igk_html_node_yield")) {
 	}
 }
 if (!function_exists("igk_html_set_tooltip")) {
-	///<summary>set placehost for input</summary>
 	/**
 	 * set placehost for input
 	 */
@@ -5662,7 +5093,6 @@ if (!function_exists("igk_html_set_tooltip")) {
 	}
 }
 if (!function_exists("igk_html_textareav_callback")) {
-	///<summary>function igk_html_textareav_callback</summary>
 	/**
 	 * function igk_html_textareav_callback
 	 */
@@ -5673,9 +5103,6 @@ if (!function_exists("igk_html_textareav_callback")) {
 	}
 }
 if (!function_exists("igk_html_viewcontentacceptrender")) {
-	///<summary>function igk_html_viewcontentacceptrender</summary>
-	///<param name="a"></param>
-	///<param name="b"></param>
 	/**
 	 * function igk_html_viewcontentacceptrender
 	 * @param mixed $a
@@ -5692,7 +5119,6 @@ if (!function_exists("igk_html_viewcontentacceptrender")) {
 	}
 }
 if (!function_exists("igk_html_visibleconditionalnode")) {
-	///<summary>function igk_html_visibleconditionalnode</summary>
 	/**
 	 * function igk_html_visibleconditionalnode
 	 */
@@ -5702,8 +5128,6 @@ if (!function_exists("igk_html_visibleconditionalnode")) {
 	}
 }
 if (!function_exists("igk_init_renderinglang")) {
-	///<summary>function igk_init_renderinglang</summary>
-	///<param name="sl"></param>
 	/**
 	 * function igk_init_renderinglang
 	 * @param mixed $sl
@@ -5729,8 +5153,6 @@ if (!function_exists("igk_init_renderinglang")) {
 	}
 }
 if (!function_exists("igk_init_renderingtheme_callback")) {
-	///<summary>function igk_init_renderingtheme_callback</summary>
-	///<param name="n"></param>
 	/**
 	 * function igk_init_renderingtheme_callback
 	 * @param mixed $n
@@ -5754,7 +5176,6 @@ if (!function_exists("igk_init_renderingtheme_callback")) {
 	}
 }
 if (!function_exists("igk_lang_display")) {
-	///<summary>get language display utility</summary>
 	/**
 	 * get language display utility
 	 */
@@ -5771,8 +5192,6 @@ if (!function_exists("igk_lang_display")) {
 	}
 }
 if (!function_exists("igk_min_script")) {
-	///<summary>function igk_min_script</summary>
-	///<param name="s"></param>
 	/**
 	 * helper minify script
 	 * @param mixed $s
@@ -5784,12 +5203,6 @@ if (!function_exists("igk_min_script")) {
 	}
 }
 if (!function_exists("igk_notifyhostbind_callback")) {
-	///<summary>function igk_notifyhostbind_callback</summary>
-	///<param name="host"></param>
-	///<param name="name"></param>
-	///<param name="autohide"></param>
-	///<param name="options"></param>
-	///<param name="bind"></param>
 	/**
 	 * function igk_notifyhostbind_callback
 	 * @param mixed $host
@@ -5800,7 +5213,6 @@ if (!function_exists("igk_notifyhostbind_callback")) {
 	 */
 	function igk_notifyhostbind_callback($host, $name, $autohide, $options = null, $bind = null)
 	{
-		// $bind=isset($this) ? $this: $bind;
 		$c = igk_notifyctrl();
 		$n = $c->getNotification($name) ?? $c->TargetNode;
 		if ($n && $bind) {
@@ -5815,13 +5227,6 @@ if (!function_exists("igk_notifyhostbind_callback")) {
 	}
 }
 if (!function_exists("igk_pic_zone")) {
-	///<summary>function igk_pic_zone</summary>
-	///<param name="n"></param>
-	///<param name="r"></param>
-	///<param name="c"></param>
-	///<param name="base"></param>
-	///<param name="tab"></param>
-	///<param name="offset"></param>
 	/**
 	 * function igk_pic_zone
 	 * @param mixed $n
@@ -5850,9 +5255,6 @@ if (!function_exists("igk_pic_zone")) {
 	}
 }
 if (!function_exists("igk_site_map_add_uri")) {
-	///<summary>function igk_site_map_add_uri</summary>
-	///<param name="n"></param>
-	///<param name="uri"></param>
 	/**
 	 * function igk_site_map_add_uri
 	 * @param mixed $n
@@ -5865,10 +5267,7 @@ if (!function_exists("igk_site_map_add_uri")) {
 		$c->addNode("priority")->Content = 1;
 	}
 }
-
 if (!function_exists('igk_html_node_logo')) {
-	// create a logo node
-
 	/**
 	 * Igk html node logo.
 	 * @param null|BaseController $ctrl
@@ -5883,7 +5282,6 @@ if (!function_exists('igk_html_node_logo')) {
 	}
 }
 if (!function_exists('igk_html_node_button_group')) {
-	// create a logo node 
 	/**
 	 * add a form button group
 	 * @return HtmlItemBase<mixed, string> 
@@ -5896,9 +5294,7 @@ if (!function_exists('igk_html_node_button_group')) {
 		return $n;
 	}
 }
-
 if (!function_exists('igk_html_node_connection_community')) {
-
 	/**
 	 * Igk html node connection community.
 	 * @param null|string $appName
@@ -5923,8 +5319,6 @@ if (!function_exists('igk_html_node_connection_community')) {
 		return $n;
 	}
 }
-
-
 if (!function_exists('igk_html_node_bind')) {
 	/**
 	 * binding node to 
@@ -5957,7 +5351,6 @@ if (!function_exists('igk_html_node_bind')) {
 		return $p;
 	}
 }
-
 /**
  * create a centered grid box node
  */
@@ -5976,8 +5369,6 @@ function igk_html_node_centerbox_flex()
 	$n['class'] = 'igk-centerbox-flex';
 	return $n;
 }
-
-
 if (!function_exists('igk_html_node_listitem')) {
 	/**
 	 * list items 
@@ -5995,9 +5386,7 @@ if (!function_exists('igk_html_node_listitem')) {
 		return $ul;
 	}
 }
-
 if (!function_exists('igk_html_node_flex')) {
-
 	/**
 	 * Igk html node flex.
 	 * @param mixed $tag
@@ -6009,9 +5398,7 @@ if (!function_exists('igk_html_node_flex')) {
 		return $n;
 	}
 }
-
 if (!function_exists('igk_html_node_grid')) {
-
 	/**
 	 * Igk html node flex.
 	 * @param mixed $tag
@@ -6023,13 +5410,10 @@ if (!function_exists('igk_html_node_grid')) {
 		return $n;
 	}
 }
-
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php";
 require_once IGK_LIB_DIR . "/igk_html_utils.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Helpers/factory-helper.funcs.php";
-
 if (!function_exists('igk_html_node_balafonlogo')) {
 	/**
 	 * node that contant balafon logo
@@ -6040,7 +5424,6 @@ if (!function_exists('igk_html_node_balafonlogo')) {
 	{
 		$n = igk_create_notagnode();
 		return $n->usesvg($name);
-		//return $n;
 	}
 }
 if (!function_exists('igk_html_node_spacer')) {
@@ -6065,8 +5448,6 @@ if (!function_exists('igk_html_node_spacer')) {
 		return $n;
 	}
 }
-
-
 if (!function_exists('igk_html_node_mailpreview')) {
 	/**
 	 * helper: create an mail preview node component
@@ -6077,10 +5458,7 @@ if (!function_exists('igk_html_node_mailpreview')) {
 		return new \IGK\System\Http\Mail\MailPreviewNode();
 	}
 }
-
-
 if (!function_exists('igk_html_node_dotwaiter')) {
-
 	/**
 	 * Igk html node dotwaiter.
 	 */
@@ -6094,10 +5472,7 @@ if (!function_exists('igk_html_node_dotwaiter')) {
 		return $n;
 	}
 }
-
-
 if (!function_exists('igk_html_node_breadcrumbs')) {
-
 	/**
 	 * auto generate doc.
 	 * @param mixed $ctrl
@@ -6138,12 +5513,7 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 		return $root;
 	}
 }
-
-
-// 20251007 - components
-
 if (!function_exists('igk_html_node_markdown')) {
-
 	/**
 	 * Igk html node markdown.
 	 * @param string $content
@@ -6172,7 +5542,6 @@ if (!function_exists('igk_html_node_markdown')) {
 	}
 }
 if (!function_exists('igk_html_node_x_template')) {
-
 	/**
 	 * Igk html node x template.
 	 */
@@ -6182,7 +5551,6 @@ if (!function_exists('igk_html_node_x_template')) {
 		return $n;
 	}
 }
-
 if (!function_exists('igk_html_node_inflate')) {
 	/**
 	 * inflate view dans data 
@@ -6192,5 +5560,4 @@ if (!function_exists('igk_html_node_inflate')) {
 	 */
 	function igk_html_node_inflate(string $file, $data = null) {}
 }
-
 require_once __DIR__.'/Inc/html/forms/actionbar.pinc';

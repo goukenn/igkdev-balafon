@@ -3,7 +3,6 @@
 // @file: RegexMatcherContainerTest.php
 // @date: 20240913 10:19:21
 namespace IGK\Tests\System\Text;
-
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use IGK\Tests\BaseTestCase;
@@ -13,14 +12,12 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Tests\System\Text
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Tests\System\Text
 */
 class RegexMatcherContainerTest extends BaseTestCase
 {
-
     /**
     * Tests regexmatch list.
     */
@@ -35,10 +32,8 @@ class RegexMatcherContainerTest extends BaseTestCase
             $g = $container->end($g, $src, $pos);
             $match[] = $g->value;
         }
-
         $this->assertEquals('hello friend', implode(' ', $match));
     }
-
     /**
     * Tests regexmatch detect htmlclass.
     */
@@ -52,14 +47,12 @@ class RegexMatcherContainerTest extends BaseTestCase
         $match = [];
         while ($g = $container->detect($src, $pos)) {
             $g = $container->end($g, $src, $pos);
-
             switch ($g->tokenID) {
                 case 'tag':
                     $def = (object)['ref' => null];
                     $con = new RegexMatcherContainer;
                     $con->begin("\bclass(Name)?\b\s*", "=\s*", 'class');
                     $con->begin('("|\')', "\\1", "value");
-
                     $part = $con->extract($g->value, function ($g) use ($def) {
                         if ($def->ref) {
                             if ($g->tokenID == 'value') {
@@ -80,10 +73,8 @@ class RegexMatcherContainerTest extends BaseTestCase
                     break;
             }
         }
-
         $this->assertEquals('"card presentation"', implode(' ', $match));
     }
-
     /**
     * auto generate doc.
     * @return
@@ -104,7 +95,6 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
         return $ctn;
     }
-
     /**
     * Tests regexmatch detect func skip trailing close.
     */
@@ -120,7 +110,6 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $g->value;
         });
     }
-
     /**
     * Tests regexmatch detect func 2.
     */
@@ -136,7 +125,6 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $g->value;
         });
     }
-
     /**
     * auto generate doc.
     * @return
@@ -157,7 +145,6 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
         return $ctn;
     }
-
     /**
     * Tests regexmatch detect declare func.
     */
@@ -173,15 +160,12 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $g->value;
         });
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function test_regexmatch_skip_multiline()
     {
-        // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_multiline
         $s = implode("\n", [
             "a",
             "b",
@@ -199,13 +183,11 @@ class RegexMatcherContainerTest extends BaseTestCase
         });
         echo trim($ch);
     }
-
     /**
     * Tests regexmatch skip multiline litteral.
     */
     public function test_regexmatch_skip_multiline_litteral()
     {
-        // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_multiline
         $s = implode("\n", [
             "(a:string):void;",
             "b: string;",
@@ -214,7 +196,6 @@ class RegexMatcherContainerTest extends BaseTestCase
         ]);
         $ctn = new RegexMatcherContainer;
         $brank_function = $ctn->begin("(new\\b)?\\s*(?=\()", ";", "brank-func")->last();
-
         $brank = $ctn->appendBrank()->last();
         $brank_function->patterns = [
             $brank
@@ -235,15 +216,12 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ch .= substr($s, $pos);
         echo trim($ch);
     }
-
     /**
     * Tests regexmatch skip glue.
     */
     public function test_regexmatch_skip_glue()
     {
-        // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_skip_glue
         $s = implode("\n", [
-            // " 'a' | 'b'; ",
             " 'a' | 'b' ",
             "|",
             "{ b:string }",
@@ -254,10 +232,6 @@ class RegexMatcherContainerTest extends BaseTestCase
         $glue = $ctn->match("(?<=(\}|'|\"))?\|", 'glue')->last();
         $str = $ctn->appendStringDetection()->last();
         $stop = $ctn->match("(?=;|^\w+)", 'stop-def')->last();
-        // $ctn->match('(?=\\w+|[^\\w\\s])', 'end');
-
-
-
         $this->expectOutputString(implode("\n", [
             'string:\'a\'',
             'glue:|',
@@ -278,10 +252,7 @@ class RegexMatcherContainerTest extends BaseTestCase
                 }
             }
         });
-        //$ch .= substr($s, $pos);
-
     }
-
     /**
     * Tests regexmatch startline b only.
     */
@@ -292,13 +263,11 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn->match("^b");
         $s = implode("\n", ["a", "b", "c"]);
         $this->expectOutputString("b", "mark-name");
-
         $ctn->treat($s, function ($e) {
             if ($e->getisRootCaptured())
                 echo $e->value;
         });
     }
-
     /**
     * Tests regexmatch startline ba only.
     */
@@ -308,13 +277,11 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ctn->match("^(b|a)");
         $s = implode("\n", ["a", "b", "c"]);
         $this->expectOutputString("ab", "mark-name");
-
         $ctn->treat($s, function ($e) {
             if ($e->getisRootCaptured())
                 echo $e->value;
         });
     }
-
     /**
     * Tests regexmatch number line.
     */
@@ -323,14 +290,12 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container = new RegexMatcherContainer;
         $container->match('^\d+(?=\n)?', 'count');
         $src = implode("\n", range(1, 6));
-       
         $r = []; 
         $container->treat($src,  function ($g, $next_pos) use (&$r) {
             $r[] = "capture : " . $next_pos . ":" . $g->tokenID . ": " . $g->value;
         });
         $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r));
     }
-
     /**
     * Test regexmatch empty line.
     * no space inside.
@@ -344,40 +309,30 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
         });  
-          
         $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', 
             json_encode($r)
         );
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function test_regexmatch_empty_block()
     { 
         $regex = new RegexMatcherContainer;
-
-        // ''  stop a end of the source text  
-        // '$' stop at end of the line 
         $c = $regex->createPattern([
-            // "begin"=>"begin",
-            // "end"=>"", //  "" or "$" "to stop" 
             "tokenID" => 'marking',
             "patterns" => [
                 $regex->createPattern(['match' => "\\ba\\b", "tokenID" => 'letter-a']),
                 $regex->createPattern(['match' => "\\bb\\b", "tokenID" => 'letter-b']),
             ]
         ]);
-
         $h = $regex->createPattern([
             "begin" => "begin",
-            "end" => "$", //  "" or "$" "to stop" 
+            "end" => "$", 
             "tokenID" => "group-block",
             "patterns" => [$c]
         ]);
-
         $regex->append($h);
         $src = implode("\n", [
             "begin a de jour b a b",
@@ -397,7 +352,6 @@ class RegexMatcherContainerTest extends BaseTestCase
             ''
         ]));
         while ($g = $regex->detect($src, $pos)) {
-
             if ($e = $regex->end($g, $src, $pos)) {
                 echo ($e->tokenID) . PHP_EOL;
             }
@@ -410,16 +364,13 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
         return $regex;
     }
-
     /**
     * Tests regexmatch detect stop.
     */
     public function test_regexmatch_detect_stop()
     {
         $src = "begin: one ! begin: test is! ok\nlogo begin: gesture is for beginner\nbegin: data ok";
-
         $regex =  $this->_stop_detector();
-
         $pos = 0;
         $rp = [];
         while ($g = $regex->detect($src, $pos)) {
@@ -432,22 +383,17 @@ class RegexMatcherContainerTest extends BaseTestCase
         $this->assertEquals([
 'begin: one ', 'begin: gesture is for beginner', 'begin: data ok'
         ], $rp);
-        // |begin: one |begin: gesture is for beginner|begin: data ok
     }
-
     /**
     * Tests regexmatch detect append after end stop.
     */
     public function test_regexmatch_detect_append_after_end_stop()
     {
         $src = "begin: one ; cause ! begin: data ok";
-       //  $src = "begin: data ok";
-
         $regex = new RegexMatcherContainer;
         $regex->begin('begin:', ';', 'mark')->last()->patterns = [
             ['match' => '(?=!)', 'tokenID'=>'stop-end']
         ];
-
         $pos = 0;
         $rp = []; 
         while ($g = $regex->detect($src, $pos)) {
@@ -461,18 +407,15 @@ class RegexMatcherContainerTest extends BaseTestCase
             'begin: one ;', 'begin: data ok'
         ], $rp);
     }
-
     /**
     * Tests regexmatch detect append after end stop 2.
     */
     public function test_regexmatch_detect_append_after_end_stop_2()
     {
         $src = "       g///<summary>info</summary>\nbegin: ";
-        //.$stop = ['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line'];
         $regex = new RegexMatcherContainer;
         $inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
         $inner->patterns = [ 
-            //$stop
         ];
         // + | for every line that start with /// or empty arch
         $regex->begin('(?:^\\s*|(?<=[^\/]))\/\/\/<(summary)', '<\/\\1>', 'mark')->last()->patterns = [
@@ -491,5 +434,4 @@ class RegexMatcherContainerTest extends BaseTestCase
 '///<summary>info</summary>'
         ], $rp);
     }
-
 }

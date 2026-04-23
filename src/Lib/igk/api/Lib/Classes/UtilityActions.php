@@ -12,37 +12,29 @@
 * Represent IGKApi namespace
 */
 namespace IGK\api;
-
 use IGK\Helper\IO;
-
-// DIRECT RENDERINGuse IGK\Helper\IO as IGKIO;
 /**
 * Represent UtilityActions class
 */
 class UtilityActions{
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
-
     /**
     * Property: target.
     * @var mixed
     */
     var $target;
-
     /**
     * auto generate doc.
     * @param mixed $t
     */
-
     public function __construct($ctrl, $t){
         $this->ctrl=$ctrl;
         $this->target=$t;
     }
-
     /**
     * auto generate doc.
     */

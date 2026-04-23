@@ -27,6 +27,7 @@ use IGKQueryResult;
 use ModelBase;
 use ReflectionException;
 use function igk_getv as getv;
+
 /**
  * MySQL Data Adapter 
  */
@@ -200,15 +201,12 @@ class DataAdapter extends DataAdapterBase implements
     {
         $db = $db ?? $this->getDbName() ?? igk_die("no db name");
         $grammar = $this->getGrammar();
-        // $this->selectdb();
         $q = $grammar->createSelectQuery(self::DB_INFORMATION_SCHEMA . ".COLUMNS", [
             "TABLE_NAME" => $table,
             "TABLE_SCHEMA" => $db,
             "COLUMN_NAME" => $column,
         ]);
-        //igk_wln_e("the query .... ", $q);
         $r = $this->sendQuery($q);
-        //  $this->selectdb($db);
         $row = null;
         if ($r) {
             if (($r instanceof IDbResultType) && $r->resultTypeIsBoolean()) {
@@ -230,10 +228,7 @@ class DataAdapter extends DataAdapterBase implements
     public function drop_foreign_key($table, $info)
     {
         if ($query = $this->remove_foreign($table, $info->clName)) {
-            // if (is_array($query)){
             $c = $this->sendMultiQuery($query);
-            // }
-            //$this->sendQuery($query);
         }
         // + | drop all foreign keys attached to table columns       
         if ((false !== $this->remove_reverse_foreign_keys($table, $info->clName)) && ($query = $this->remove_unique($table, $info->clName))) {
@@ -258,13 +253,11 @@ class DataAdapter extends DataAdapterBase implements
         $foreign_exists = false;
         $inno_db_table = self::DB_INFORMATION_SCHEMA . ".INNODB_FOREIGN_COLS";
         try {
-            // check that inodb 
             try {
                 $foreign_exists = $check_exist ?? $check_exist = $this->tableExists($inno_db_table);
             } catch (\Exception $ext) {
                 $foreign_exists = false;
             }
-            //   throw new \IGKException('missing column : '. $inno_db_table) ;
             if ($foreign_exists) {
                 $query = sprintf(
                     "SELECT * FROM `%s`.`TABLE_CONSTRAINTS` LEFT JOIN %s on(" .
@@ -320,8 +313,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
-        // do not select information schemas
-        // $this->selectdb(self::DB_INFORMATION_SCHEMA);
         $query = sprintf(
             "SELECT * FROM `%s`.`TABLE_CONSTRAINTS` " .
                 "WHERE TABLE_NAME='$table' and CONSTRAINT_TYPE='UNIQUE' and CONSTRAINT_SCHEMA='$db' AND CONSTRAINT_NAME='$info'",
@@ -377,7 +368,6 @@ class DataAdapter extends DataAdapterBase implements
         if ($r) {
             foreach ($r->getRows() as $row) {
                 $g = $adapter->sendQuery(sprintf("ALTER TABLE %s DROP FOREIGN KEY `%s`;", $row->c_from, $row->c_name));
-                //print_r($row->to_array());
                 if ($g instanceof BooleanQueryResult) {
                     if (!$g->success()) {
                         Logger::warn("failed to render information");
@@ -809,7 +799,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->getHasError();
     }
-    ///return true if this table still have link an register ctrl data
     /**
      * create table links definition
      */
@@ -894,7 +883,6 @@ class DataAdapter extends DataAdapterBase implements
      */
     public function getColumnInfo(string $table, ?string $column_name = null): array
     {
-        // get descriptions data for columns
         $data =  $this->getGrammar()->get_column_info($table, $column_name);
         $outdata = [];
         $data && array_map(function ($v) use ($table, &$outdata) {
@@ -953,8 +941,6 @@ class DataAdapter extends DataAdapterBase implements
         if ($listener) {
             $options = $options ?? (object)[];
             $r = $listener->sendQuery($query, $throwex, $options);
-            // if ($r === false)
-            //     return false;
             if ($r instanceof IDbQueryResult) {
                 return $r;
             }
@@ -965,7 +951,6 @@ class DataAdapter extends DataAdapterBase implements
                     if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                     } else {
-                        // $v = $r;
                         $r = new BooleanQueryResult($r, $query, $listener->getLastError());
                     }
                 }

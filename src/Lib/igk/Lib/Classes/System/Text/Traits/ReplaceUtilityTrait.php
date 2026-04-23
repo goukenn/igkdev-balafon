@@ -9,6 +9,7 @@ use IGK\System\Text\IReplaceCapturedFormatDefinition;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
  * 
  * @package IGK\System\Text\Traits

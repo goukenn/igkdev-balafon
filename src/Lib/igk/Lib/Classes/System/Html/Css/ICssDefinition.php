@@ -3,6 +3,7 @@
 // @file: ICssDefinition.php
 // @date: 20221202 09:10:44
 namespace IGK\System\Html\Css;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css

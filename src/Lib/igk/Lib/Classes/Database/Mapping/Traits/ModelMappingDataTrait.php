@@ -5,6 +5,7 @@
 namespace IGK\Database\Mapping\Traits;
 use IGK\Models\ModelBase;
 use IGKSysUtil as sysutil;
+
 /**
 * auto generate doc.
 * @package IGK\Database\Mapping

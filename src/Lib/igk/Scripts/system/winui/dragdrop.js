@@ -2,9 +2,7 @@
 // file: dragdrop.js
 // @date: 20230102 14:22:37
 // @desc: 
-
 'use strict';
-
 (function() {
     igk.system.createNS("igk.winui.dragdrop", {
         init: function(target, properties) {
@@ -100,7 +98,6 @@
             return new dragdropManager(target, properties);
         }
     });
-
     function __init_drag() {
         var opts = igk.JSON.parse(this.getAttribute("igk-draggable-data"), this);
         igk.winui.dragdrop.init(this.o, opts);

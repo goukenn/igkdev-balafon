@@ -3,8 +3,6 @@
 // @filename: content.phtml
 // @date: 20220803 13:51:47
 // @desc: 
-
- 
 use function igk_resources_gets as __;
 
 if (igk_server()->accept("json")){
@@ -15,7 +13,6 @@ if (igk_server()->accept("json")){
         "code"=>$_code,
     ], $_code); 
 } 
-
 $display_error = ini_get("display_errors");
 $is_prod = !igk_server_is_local() && !igk_configs()->error_debug && igk_sys_env_production();
 $base_path = $is_prod;
@@ -29,11 +26,8 @@ $content .= ("<div style='height:100%' > ");
     $class = $is_prod ? "prod" : "dev";
     $content .= ("<div style=\"color: $cl1; padding: 0px 20px; \">");
     $content .= ("<ul class=\"google-Roboto-Condensed $class\" >");
-   
     $from = "";
- 
     $tx = $Ex->getPrevious();
-
     while($tx){
         $file = (($file != null) ? $file: $tx->getFile());
         $from .= "<div> From : <span>".get_class($tx)."</span>";
@@ -46,27 +40,21 @@ $content .= ("<div style='height:100%' > ");
         $from ."</div>";
         $tx = $tx->getPrevious();
     } 
-
-    
     if(!$is_prod){
-        
         if (!empty($m = $Ex->getMessage())){
             $content .= ("<li><span>Message: </span>".$m."</li>");
         }
         if (($s = $Ex->getCode())>0){
             $content .= ("<li><span>Code: </span>".$s."</li>");
         }
-        // | extra information
         $content .= ("<li><span>Exception Type :</span>".get_class($Ex)."</li>");
         $file = (($file != null) ? $file: $Ex->getFile());
         $content .= ("<li><span>File :</span>". ($base_path ? igk_io_basepath($file) : $file )."</li>");
         $content .= ("<li><span>Line :</span> ".(($line != null) ? $line: $Ex->getLine())."</li>");        
         $content .= "</ul>";
-
         if (!empty($from)){
             $content .= $from;
         }
-
         $tabs = [
             "Stack traces"=>function(&$content)use($Ex, $traces, $base_path){
                 $content .= "<div>";        
@@ -97,7 +85,6 @@ $content .= ("<div style='height:100%' > ");
                     $content .= "<td>&nbsp;</td>";
                     $content .= "<td><b>Request</b></td>";
                 $content .= "</tr>";                
-
                 $content .= "<tr>";
                     $content .= "<td>URL</td>";
                     $content .= "<td>".igk_server()->REQUEST_URI."</td>";
@@ -106,7 +93,6 @@ $content .= ("<div style='height:100%' > ");
                     $content .= "<td>Method</td>";
                     $content .= "<td>".igk_server()->REQUEST_METHOD."</td>";
                 $content .= "</tr>";  
-
                 $content .= "</table>";
                 $paggig = [
                     "Headers"=>getallheaders(),
@@ -116,8 +102,6 @@ $content .= ("<div style='height:100%' > ");
                     "Cookies"=>[]
                 ];
                 foreach($paggig as $k=>$v){
-
-                
                 $content .= "<hr />";
                 $content .= "<table class=\"request\">";
                 $content .= "<tr>";
@@ -139,12 +123,6 @@ $content .= ("<div style='height:100%' > ");
                 $content .= "</table>";
                 }
             },
-            // "App"=>function(& $content){
-
-            // },
-            // "User"=>function(& $content){
-
-            // },
             "Server"=>function(& $content){
                 $content .= "<table>";
                 foreach($_SERVER as $k=>$v){
@@ -180,9 +158,7 @@ $content .= ("<div style='height:100%' > ");
                 $content .= "</table>";
             }
         ];
-
         igk_hook("ERROR_DEBUG", ["info"=>& $tab]);
-
         $mc = "<div class=\"tabcontrol\" style=\"overflow:hidden\" >";
         $content .= "<ul class=\"menu\">";
         foreach($tabs as $k=>$v){
@@ -195,23 +171,18 @@ $content .= ("<div style='height:100%' > ");
         }  
         $mc.="</div>";      
         $content .= "</ul>";
-        
         $content .= $mc;
-        // | presentation trace info 
             $content .= "</div>";
-        
         $content .= "<div class='uti-action' style='padding:0 20px;'>";
         if ($c_session = igk_getctrl(IGK_SESSION_CTRL, false)){
             $buri = $c_session::getBaseFullUri();
             if (session_id()){
             $content .= ("<a href=\"".$buri."&f=ClearS\" class=\"igk-btn\" >". __("Clear session") ."</a>");
             }
-
             $content .= ("<a href=\"".$buri."&f=clearcache\" class=\"igk-btn\" >".__("Clear Cache")."</a>");
         }
         $content .= ("<a href=\"".igk_io_baseuri()."\" class=\"igk-btn\" > Home </a>");
         $content .= "</div>";
-        
     }
     else{
         $m = $Ex->getMessage();
@@ -231,7 +202,6 @@ $content .= ("<div style='height:100%' > ");
     }  
     $content .= "</div>";
     $content .= "</div>";
-//no script rendergin
 $content .= "<noscript>";
 $content .= "Please activate javascript";
 $content .= "</noscript>";

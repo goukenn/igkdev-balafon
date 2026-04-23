@@ -11,6 +11,7 @@ use IGKException;
 // + | to avoid mixed between application shared core. need to cache file app
 // + | classes on application cache folder.
 // + |
+
 /**
  * loading version trait
  */
@@ -62,7 +63,7 @@ trait ClassFileVersionLoaderTrait
                 $this->_load_classes["versions"][$index] = [$tv => $this->_load_classes["files"][$index]];
             }
             if (empty($version)) {
-                $version = "_"; // current version
+                $version = "_"; 
             }
             $this->_load_classes["versions"][$index][$version] = $file;
         }
@@ -92,7 +93,6 @@ trait ClassFileVersionLoaderTrait
             $finfo = $this->_load_classes["files"][$index];
             $version = igk_php_sversion($version);  
             if ($tv = igk_getv($this->_load_classes["versions"], $index)) {
-                // check for version to match
                 list($major, $minor) = explode('.', $version);
                 foreach ([$major . "." . $minor, $major, "_"] as $t) {                    
                     if ($tp = igk_getv($tv, $t)) {

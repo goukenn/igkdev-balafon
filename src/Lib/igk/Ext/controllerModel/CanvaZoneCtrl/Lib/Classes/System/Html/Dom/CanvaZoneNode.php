@@ -1,5 +1,4 @@
 <?php
-
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlNode;
 
@@ -9,13 +8,11 @@ use IGK\System\Html\Dom\HtmlNode;
  */
 class CanvaZoneNode extends HtmlNode
 {
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
-
     /**
     * .ctr
     * @param mixed $ctrl
@@ -26,7 +23,6 @@ class CanvaZoneNode extends HtmlNode
 		$this["width"] = "320px";
 		$this ["height"] = "500px;";
 	}
-
     /**
     * Inner html.
     * @param null|mixed & $xmlOption

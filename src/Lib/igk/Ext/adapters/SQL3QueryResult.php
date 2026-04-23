@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\Ext\Adapters\SQLite3;
-
 use Exception;
 use IGK\Database\DbQueryResult;
 
@@ -11,65 +9,54 @@ use IGK\Database\DbQueryResult;
 */
 class SQLite3Result extends DbQueryResult
 {
-
     /**
     * Property: result.
     * @var mixed
     */
     private $m_result;
-
     /**
     * Property: info.
     * @var mixed
     */
     private $m_info;
-
     /**
     * Property: query.
     * @var mixed
     */
     private $m_query;
-
     /**
     * Property: columns.
     * @var mixed
     */
     private $m_columns;
-
     /**
     * Property: fetch.
     * @var mixed
     */
     private $m_fetch = false;
-
     /**
     * Property: rows.
     * @var mixed
     */
     private $m_rows = [];
-
     /**
     * .ctr
     * @return
     */
     private function __construct() {}
-
     /**
     * To json.
     * @param null|mixed $option
     * @param int $flag
     */
-
     public function to_json($option = null, int $flag = 0)
     {
         igk_die('not implement ' . __METHOD__);
     }
-
     /**
     * Success.
     * @return bool
     */
-
     public function success(): bool
     {
         return true;
@@ -78,29 +65,24 @@ class SQLite3Result extends DbQueryResult
      * get rows definition 
      * @return null|iterable|array 
      */
-
     public function getRows()
     {
         return $this->m_rows;
     }
-
     /**
     * To array.
     * @return ?array
     */
-
     public function to_array(): ?array
     {
         return $this->getRows();
     }
-
     /**
     * Creates Result.
     * @param mixed $result
     * @param mixed $query
     * @param mixed $info
     */
-
     public static function CreateResult($result, $query, $info)
     {
         $ri = new self;
@@ -110,12 +92,10 @@ class SQLite3Result extends DbQueryResult
         $ri->m_columns = $ri->getColumns();
         return $ri;
     }
-
     /**
     * Returns Row At Index.
     * @param int $index
     */
-
     public function getRowAtIndex(int $index)
     {
         if (!$this->m_fetch) {
@@ -134,20 +114,14 @@ class SQLite3Result extends DbQueryResult
      * @return array 
      * @throws Exception 
      */
-
     public function fetch_all()
     {
-
-        // fech all 
         while ($this->fetch());
-
         return $this->m_rows;
     }
-
     /**
     * Fetches.
     */
-
     public function fetch()
     {
         $this->m_fetch = true;
@@ -161,14 +135,12 @@ class SQLite3Result extends DbQueryResult
         }
         return $b;
     }
-
     /**
     * Returns Columns.
     */
-
     public function getColumns()
     {
-        $res = $this->m_result; //->res;
+        $res = $this->m_result; 
         if (is_null($this->m_columns)) {
             $g = igk_db_num_fields($res);
             $tb = [];

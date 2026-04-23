@@ -21,6 +21,7 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
+
 /**
 * Sys utils.
 * @package IGK\Helper
@@ -72,7 +73,6 @@ class SysUtils{
      */
     public static function PrependSysDb(array & $c){
         $sysdb = SysDbController::ctrl();
-        // prepend sys deb 
         if ( false!== ($key = array_search($sysdb, $c))){
             unset($c[$key]);
         }
@@ -318,7 +318,6 @@ class SysUtils{
     * @return null|BaseController subdomain controller
     */
     public static function CurrentBaseController(){
-        // $a = igk_app();
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
@@ -330,7 +329,6 @@ class SysUtils{
     public static function GetApplicationLibrary(string $name){
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }
-     ///JUST: store to controller
     /**
      * clear cache for base dir
      */

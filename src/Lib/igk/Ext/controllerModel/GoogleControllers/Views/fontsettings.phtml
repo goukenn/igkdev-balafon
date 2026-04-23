@@ -7,8 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use function igk_resources_gets as __;
+
 $doc->title = "Google's Fonts - Balafon";
 $t->addsectiontitle(4)->Content="Google's Fonts";
 $frm=$t->addform('font/settings');
@@ -23,13 +23,10 @@ $uri=$ctrl->geturi('install');
 $box->addbutton("btn.install")
 ->setClass("igk-btn igk-btn-default")
 ->setContent(__("Install Or Update"))->on("click", "this.o.form.action='{$uri}'; this.o.form.submit()");
-
-
 if (!igk_sys_env_production())
     $t->div()->addA($ctrl->geturi("resave"))
     ->setClass("igk-btn igk-btn-default")
     ->Content = __("Build");
-
 $box=$frm->addPanelBox();
 $box->add("h2")->Content=__("Intalled font");
 $ul=$box->add('ul');

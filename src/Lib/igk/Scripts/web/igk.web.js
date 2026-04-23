@@ -1,6 +1,5 @@
 //
 (function(){
-
 window.igk.system.createNS("igk.web",{
 "a_posturi": function(item, uri, callback)
 {

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Database\Traits;
+
 /**
  * @extends IDbColumnProperties
  */
@@ -22,7 +23,6 @@ trait DbColumnInfoTrait
    * reference key column
    * @var mixed
    */
-  // protected $clRefId;
   /**
    * set if the column is auto increment
    * @var mixed

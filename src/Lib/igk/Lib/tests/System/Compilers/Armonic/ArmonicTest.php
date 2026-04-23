@@ -4,9 +4,7 @@
 // @date: 20221019 16:02:24
 // @desc: amonic test file
 // @args : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/tests/System/Compilers/Armonic/ArmonicTest.php
-
 namespace IGK\Test\System\Compilers\Armonic;
-
 use IGK\System\Runtime\Compiler\Armonic\ArmonicCompiler;
 use IGK\Tests\BaseTestCase;
 use IGKException;
@@ -17,7 +15,6 @@ use IGKException;
 */
 class ArmonicTest  extends BaseTestCase
 {
-
     /**
     * Tests armonic global var.
     */
@@ -29,8 +26,7 @@ class ArmonicTest  extends BaseTestCase
 <?php
 $ab;
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $ab;
 PHP,
@@ -38,7 +34,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 1.
     */
@@ -50,8 +45,7 @@ PHP,
 <?php
 $a = 15;
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a = 15;
 PHP,
@@ -59,7 +53,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 2.
     */
@@ -72,8 +65,7 @@ PHP,
 $a = 15;
 $b = 485;
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a = 15;
 $b = 485;
@@ -82,7 +74,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 3.
     */
@@ -94,8 +85,7 @@ PHP,
 <?php
 $a = 15, $b = 485;
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a = 15;
 $b = 485;
@@ -104,7 +94,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 4.
     */
@@ -116,8 +105,7 @@ PHP,
 <?php
 $a = "15 - presentation";
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a = "15 - presentation";
 PHP,
@@ -125,7 +113,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global dual var.
     */
@@ -133,14 +120,12 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false;
-
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 $a = "presentation {$y} ; sample";
 $b = 13; 
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a = "presentation {$y} ; sample";
 $b = 13;
@@ -149,7 +134,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global with expression.
     */
@@ -161,8 +145,7 @@ PHP,
 <?php
 igk_demo("de presentation et d'action $x de jour"."presentation $y comme de nuit");
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 igk_demo("de presentation et d'action $x de jour" . "presentation $y comme de nuit");
 PHP,
@@ -170,7 +153,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global with expression 1.
     */
@@ -178,7 +160,6 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false; 
-        
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 igk_demo("de presentation et d'action {$x->presentation()} de jour", function(){
@@ -186,9 +167,7 @@ igk_demo("de presentation et d'action {$x->presentation()} de jour", function(){
     $c = "presentation $x";
 });
 PHP);
-
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 igk_demo("de presentation et d'action {$x->presentation()} de jour", function(){
 $a += $b;
@@ -199,7 +178,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 152.
     */
@@ -211,8 +189,7 @@ PHP,
 <?php
 $a , $c = 15, $b;
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $a, $b, $c = 15;
 PHP,
@@ -220,7 +197,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 143.
     */
@@ -228,13 +204,11 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;  
-            
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 igk_expression($x=     456, $d);
 PHP); 
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 igk_expression($x = 456, $d);
 PHP,
@@ -242,7 +216,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global var 124.
     */
@@ -254,8 +227,7 @@ PHP,
 <?php
 $x->test("la vie $hey");
 PHP);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 $x->test("la vie $hey");
 PHP,
@@ -263,7 +235,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global function.
     */
@@ -276,10 +247,7 @@ PHP,
 function A(){
 }
 PHP);
- 
-
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 
 /**
@@ -293,7 +261,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic global function 2.
     */
@@ -301,16 +268,13 @@ PHP,
     {
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false;    
- 
         $g = $armonic->compileSource(<<<'PHP'
 <?php
 function A($ax , $bx=10, $cx=80){
 return $ax + $bx;
 }
 PHP); 
- 
-        $this->assertEquals(
-<<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 
 /**
@@ -328,7 +292,6 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Tests armonic interface trait and class.
     */
@@ -337,7 +300,6 @@ PHP,
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false;
         $this->expectException(IGKException::class);   
-   
         $armonic->compileSource(<<<'PHP'
 <?php 
 interface A{
@@ -345,16 +307,13 @@ interface A{
 }
 PHP);
     }
-
     /**
     * Tests armonic interface trait and class 2.
     */
     public function test_armonic_interface_trait_and_class_2()
     {
-
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false;
-    
         $g = $armonic->compileSource(<<<'PHP'
 <?php 
 class A{
@@ -366,9 +325,7 @@ final class B{
     public $y = 0; 
 }
 PHP);  
-// igk_wln_e(__FILE__.":".__LINE__ , $g);
-        $this->assertEquals(
-            <<<'PHP'
+        $this->assertEquals(<<<'PHP'
 <?php
 
 /**
@@ -395,14 +352,11 @@ PHP,
             "failed global"
         );
     }
-
     /**
     * Test armonic interface trait and class 3.
     */
     public function _test_armonic_interface_trait_and_class_3()
     {
-        // TODO : TEST ARMONIC
-
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = false; 
         $g = $armonic->compileSource(<<<'PHP'
@@ -418,9 +372,7 @@ return "return - trait - and - class 3";
 }
 } 
 PHP);
-// igk_debug_wln_e(__FILE__.":".__LINE__, $g);
-    $this->assertEquals(
-<<<'PHP'
+    $this->assertEquals(<<<'PHP'
 <?php
 
 /**
@@ -443,9 +395,7 @@ return "return - trait - and - class 3";
 }
 }
 PHP,  $g, "not ok");
-    
     }
-
     /**
     * Tests static var in function.
     */
@@ -462,7 +412,6 @@ global $x;$a += $x . "presentation";
 $a["baseic"]="data";
 }
 PHP);  
-
         $this->assertEquals(<<<'PHP'
 <?php
 
@@ -478,9 +427,7 @@ $x = 85;
 PHP,
         $g,
         "var in not complete");
-
     }
-
     /**
     * Tests public function.
     */
@@ -497,7 +444,6 @@ class Job{
     } 
 }
 PHP); 
-
         $this->assertEquals(<<<'PHP'
 <?php
 
@@ -511,7 +457,5 @@ return $data;
 PHP,
         $g,
         "var in not complete");
-
     }
 }
- 

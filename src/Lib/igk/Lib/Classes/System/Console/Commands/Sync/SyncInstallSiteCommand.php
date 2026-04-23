@@ -9,6 +9,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Installers\InstallerUtils;
 use IGKException;
+
 /**
  * clear cache in ftp sync server */
 class SyncInstallSiteCommand extends SyncAppExecCommandBase
@@ -60,7 +61,6 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             'installer-core-function.pinc',
             'install-site.pinc'
         ], $token);
-     //igk_wln_e($install_source);
         $app_dir = $setting[self::APP_DIR];
         $sess_dir = $setting[self::SESSION_DIR] ?? $app_dir."/../sesstemp";
         FtpHelper::CreateDir($h, $app_dir);
@@ -89,7 +89,6 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             file_put_contents($local_file, $install_source); 
             ftp_put($h, $install, $local_file);
             unlink($local_file);
-            // $token = date("Ymd").rand(2, 85).igk_create_guid();
             $response = igk_curl_post_uri($uri."/install-site.php", 
                 [
                     "corelib"=>$setting["lib_dir"],

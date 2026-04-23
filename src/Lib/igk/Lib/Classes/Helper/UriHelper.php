@@ -7,6 +7,7 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
+
 /**
 * Uri helper.
 * @package IGK\Helper
@@ -29,7 +30,6 @@ abstract class UriHelper{
         if ($port)
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";
-        //return igk_io_baseuri() . $port . "/{$ctrl->getName()}/{$u}";
     }
     /**
     * Uri sys replace.

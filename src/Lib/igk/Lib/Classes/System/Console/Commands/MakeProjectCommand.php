@@ -34,6 +34,7 @@ use IGK\Constants;
 use IGKEvents;
 use function igk_resources_gets as __;
 use stdClass;
+
 /**
  * make new project 
  * @package IGK\System\Console\Commands
@@ -193,7 +194,7 @@ EOF;
             }
             ksort($tab);
             if (function_exists('readline')) {
-                Logger::info(__("Configure")); // definite keys string name
+                Logger::info(__("Configure")); 
                 $names = [
                     "clAppName" => __("Name"),
                     "clTitle" => __("Title"),
@@ -302,7 +303,6 @@ EOF;
             ]))
         );
         };
-        // Lib/autoload.php
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/autoload.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
             $builder->uses(Route::class)
@@ -315,7 +315,6 @@ EOF;
         };
         MakeUtility::BindDefaultLangSupport($command, $dir, $bind);
         $this->_initConfigurationFile($bind, $dir, get_defined_vars());
-        // configuration 
         $bind[$dir . "/" . IGK_CONF_FOLDER . "/routes.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
             $builder->uses(Route::class)
@@ -331,7 +330,6 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
-        // 
         $bind[$dir . "/" . IGK_CONF_FOLDER . "/views.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
             $builder->uses(Route::class)
@@ -363,8 +361,6 @@ EOF;
             };
         // + | init environment - data
         $bind[$dir . "/phpunit.xml.dist"] = function ($file) use ($fullClassName) {
-            // $c_app =  igk_io_expand_path("%lib%");
-            // igk_wln_e(__FILE__.":".__LINE__, $c_app,igk_io_collapse_path($file), igk_io_expand_path(igk_io_collapse_path($file)));
             $n = igk_create_xmlnode("phpunit");
             $n["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
             $n["xsi:noNamespaceSchemaLocation"] = igk_io_expand_path("%packages%") . "/vendor/phpunit/phpunit/phpunit.xsd";
@@ -375,10 +371,8 @@ EOF;
             $ts["name"] = "projects";
             $ts->add("directory")->Content = "./Lib/Tests";
             $env = $n->php();
-            // INSTALL PROJECT BASE PATH SETTING
             $env->add("env")->setAttributes(["name" => 'IGK_BASE_DIR', "value" => IGK_BASE_DIR]);
             $env->add("env")->setAttributes(["name" => "IGK_APP_DIR", "value" => IGK_APP_DIR]);
-            // PROJECT CONTROLLER
             $env->add("env")->setAttributes(["name" => "IGK_TEST_CONTROLER", "value" => $fullClassName]);
             igk_io_w2file($file, $n->render((object)["Indent" => true]));
         };
@@ -511,7 +505,6 @@ EOF;
     {
         $view_dir = implode("/", [$dir, IGK_VIEW_FOLDER]);
         $bind[$view_dir . "/.header.pinc"] = function ($f) {
-            // primary layout header
             $sb = new StringBuilder();
             $sb->appendLine('igk_google_addfont($doc, "Roboto"); ');
             $sb->appendLine('$t->setClass("+google-Roboto"); ');
@@ -526,7 +519,6 @@ EOF;
             igk_io_w2file($f, $builder->render());
         };
         $bind[$view_dir . "/.footer.pinc"] = function ($f) {
-            // footer definition
             $sb = new StringBuilder();
             $sb->appendLine('$t->div()->container()->igkcopyright(); ');
             $builder = new PHPScriptBuilder();
@@ -571,7 +563,6 @@ EOF;
             $extends = \IGK\Database\SchemaBuilder\IDiagramBuilder::class;
             $desc = null;
             $content = implode("\n", [
-                 // Schema content 
                  file_get_contents(IGK_LIB_DIR."/Inc/core/db.initschemas.pinc")
             ]);
             $builder->type("class")
@@ -624,7 +615,6 @@ EOF;
             igk_io_w2file($file, JSon::Encode($config, $options));
         };
     }
-    ///<summary>Represente help function</summary>
     /**
     * Help.
     */

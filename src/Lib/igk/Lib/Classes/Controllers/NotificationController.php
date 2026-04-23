@@ -14,6 +14,7 @@ use IGKException;
 use IGKNotifyStorage;
 use IGK\INotifyMessage;
 use function igk_resources_gets as __;
+
 /**
 * Notification controller.
 * @package IGK\Controllers
@@ -309,9 +310,6 @@ EOF;
             $this->setParam("ajx:renderincontext", null);
         }
     }
-    ///<summary></summary>
-    ///<param name="sender" default="null"></param>
-    ///<param name="args" default="null"></param>
     /**
     * Page folder changed.
     * @param null|mixed $sender
@@ -323,8 +321,6 @@ EOF;
             $this->View();
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * Registers Notification.
     * @param mixed $name
@@ -333,15 +329,11 @@ EOF;
     public function registerNotification($name, $callable){
         igk_die(__METHOD__." registerNotification ");
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * Resets Notification.
     * @param mixed $name
     */
     public function resetNotification($name){    }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * Sets Autohide.
     * @param mixed $v
@@ -349,8 +341,6 @@ EOF;
     public function setAutohide($v){
         $this->TargetNode->setAutohide($v);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * Sets Ms Error.
     * @param mixed $v
@@ -358,10 +348,6 @@ EOF;
     public function setMsError($v){
         $this->m_hasmsg=$v;
     }
-    ///<summary></summary>
-    ///<param name="notifyhost"></param>
-    ///<param name="name" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
      * bind notify controller
      * @param mixed $notifyhost 
@@ -384,8 +370,6 @@ EOF;
         }
         return $this;
     }
-    ///<summary>unregister notification</summary>
-    ///<remark>if obj is null will clear the notification event list</remark>
     /**
     * Unregister notification.
     * @param mixed $name
@@ -408,7 +392,6 @@ EOF;
         }
         return 0;
     }
-    ///<summary>free notification item</summary>
     /**
     * Unset notication.
     * @param mixed $name
@@ -418,7 +401,6 @@ EOF;
             unset($this->m_notificationChilds[$name]);
         }
     }
-    ///<summary>Render notification controller</summary>
     /**
     * View.
     * @return BaseController

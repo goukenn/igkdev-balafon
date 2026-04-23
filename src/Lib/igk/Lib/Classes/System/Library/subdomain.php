@@ -14,6 +14,7 @@ use IGKException;
 use IGKSubDomainManager;
 use IGKSystemUriActionPatternInfo;
 use IGKValidator;
+
 /**
  * subdomain management library
  * @package IGK\System\Library
@@ -61,7 +62,6 @@ class subdomain{
     public function bootapp(){
         IGKSubDomainManager::Init();
         $c = $this->boot_args;
-        // igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($c){            
             $app = $c->args["app"]->getApplication();
             if (!$app->lib("subdomain") ||
                 ($app->getLibrary()->subdomain !== $this)
@@ -72,13 +72,11 @@ class subdomain{
             if (igk_app()->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER){
                 return;
             }  
-            // register after init app 
             igk_reg_hook(IGKEvents::HOOK_AFTER_INIT_APP , function($e){
                 $file = $e->args['app']
                 ->getApplication()->getEntryfile() ?? igk_getv($_SERVER, 'SCRIPT_FILENAME');   
                 $this->__checkSubDomain($file);
             });
-        //}, 100);
     }
     /**
     * check for subdomain
@@ -98,7 +96,6 @@ class subdomain{
             $app= igk_app();
             // + | reset configuration page
             $app->settings->appInfo->store("config", null);
-            // igk_ilog([__FILE__.":".__LINE__, "reset config"]);
             $tab=explode('?', $v_ruri);
             $uri=igk_getv($tab, 0);
             $params=igk_getv($tab, 1);
@@ -113,7 +110,6 @@ class subdomain{
             $path_info = $uri;
             if (!igk_environment()->no_web_configuration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
-                    // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info, null);
             } 
             $page="{$entry}".$uri;
@@ -155,7 +151,6 @@ class subdomain{
                     $msg=__("Subdomain not accessible : {0}", $s);
                     if($def_ctrl=igk_get_defaultwebpagectrl()){
                         if ($def_ctrl->getConfigs()->subdomain_handle_undefined_domain){
-                            // passing 
                             $def_ctrl->setEnvParam(ControllerSysKeyConstants::subdomain, $s);
                         }else{                            
                             $def_ctrl->handleException(new IGKException($msg, 500), __("Subdomain error"));

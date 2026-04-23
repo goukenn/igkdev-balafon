@@ -3,9 +3,6 @@
 // @filename: class.IGKCommunityCtrl.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-//controller code class declaration
-//file is a part of the controller tab list
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
@@ -17,7 +14,6 @@ use IGK\System\Models\IModelDefinitionInfo;
 */
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Returns Name.
     * @return string
@@ -26,7 +22,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return get_class($this);
 	}
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -35,10 +30,8 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		parent::initComplete();
 		igk_db_reg_sys_ctrl("community", $this);
-		//only one instance is allowed.
 		igk_reg_hook("sys://events/community", "igk_community_init_node_callback");
 	}
-
     /**
     * Drops Controller.
     */
@@ -48,7 +41,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 		igk_notification_unreg_event("sys://events/community", "igk_community_init_node_callback");
 		igk_db_unreg_sys_ctrl("community");
 	}
-
     /**
     * Returns Can Add Child.
     */
@@ -56,7 +48,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return false;
 	}
-
     /**
     * Returns true if can Db Edit Data Type.
     */
@@ -64,7 +55,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return false;
 	}
-
     /**
     * Returns true if can Db Change Data Schema.
     */
@@ -72,7 +62,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return false;
 	}
-
     /**
     * Returns Use Data Schema.
     * @return bool
@@ -81,7 +70,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return false;
 	}
-
     /**
     * Returns Can Edit Data Table Info.
     */
@@ -89,7 +77,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return false;
 	}
-
     /**
     * Returns Data Table Name.
     * @return ?string
@@ -98,7 +85,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return "%prefix%site_community";
 	}
-
     /**
     * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
@@ -113,7 +99,6 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 			new DbColumnInfo(array(IGK_FD_NAME => "clAvailable", IGK_FD_TYPE => "Int", "clNotNull" => 1))
 		));
 	}
-
     /**
     * Initializes Db.
     * @param mixed $force
@@ -125,20 +110,14 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 		if (igk_is_conf_connected())
 			self::ctrl()->initDbFromFunctions();
 	}
-
-
-	//@@@ parent view control
-
     /**
     * View.
     * @return BaseController
     */
     public function View():BaseController
 	{	
-		// do nothing
 		return $this;
 	}
-
     /**
     * Loads Community Node.
     * @param mixed $n

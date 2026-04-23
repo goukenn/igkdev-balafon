@@ -16,7 +16,6 @@ use IGK\System\IO\StringBuilder;
 * Represent IGKInstallSiteTool class
 */
 class IGKInstallSiteTool extends ToolControllerBase{
-
     /**
     * auto generate doc.
     */    public function doAction(){
@@ -33,7 +32,6 @@ class IGKInstallSiteTool extends ToolControllerBase{
         igk_html_form_initfield($frm);
         $frame->renderAJX();
     }
-
     /**
     * auto generate doc.
     */    public function getIsAvailable(){
@@ -45,9 +43,7 @@ class IGKInstallSiteTool extends ToolControllerBase{
     public function install(){
         $g=igk_getr("dir");
         $result = igk_create_xmlnode("response");
-
         if(empty($g) || !IO::CreateDir($g)){
-
             $result->msg="failed to create {$g} directory";
             igk_json(json_encode($result));
             igk_exit();

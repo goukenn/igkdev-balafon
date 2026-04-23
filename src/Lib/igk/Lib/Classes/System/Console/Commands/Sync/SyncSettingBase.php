@@ -4,6 +4,7 @@
 // @date: 20220518 09:57:10
 // @desc: 
 namespace IGK\System\Console\Commands\Sync;
+
 /**
 * Sync setting base.
 * @package IGK\System\Console\Commands\Sync

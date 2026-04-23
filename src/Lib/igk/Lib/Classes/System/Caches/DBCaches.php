@@ -23,6 +23,7 @@ use IGKEvents;
 use IGKException;
 use IGKSysUtil;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\Caches
@@ -336,20 +337,16 @@ class DBCaches
                 }
             }
         }
-        // initialize system controller
         $this->m_init_cache = 1;
         $this->m_initializing = 1;
         $this->m_db_init_request = 1;
         igk_environment()->NO_PROJECT_AUTOLOAD = 1;
         $db = new DatabaseInitializer;
         $definition = $db->init($sysctrl);
-        $this->m_tableInfo = $definition->tables; //  array_combine(array_keys((array)$definition->tables) ,$definition->tables) ; 
+        $this->m_tableInfo = $definition->tables; 
         $this->m_db_initializer = $db;
-        // init project models definition  
         $db->loadSystemProjects();
-        // update with module 
         $db->loadSystemModules();
-        // table definition - 
         foreach ($db->getDefs() as $p) {
             list($ctrl, $info) =  $p;
             if ($ctrl == $sysctrl)
@@ -372,7 +369,6 @@ class DBCaches
         // + | load to speed loading
         // + |
         self::CacheData($this->m_tableInfo);
-        // check and init model class 
         $this->m_initializing = false;
         $this->m_db_init_request = false;
         igk_environment()->NO_PROJECT_AUTOLOAD = null;
@@ -448,7 +444,6 @@ class DBCaches
                 $db = new DatabaseInitializer;
                 $definition = $db->init($controller);
                 if (isset($definition->tables[$table])) {
-                    // table definition found - 
                     $this->m_tableInfo = array_merge($this->m_tableInfo, $definition->tables);
                     $requests_def = $definition->tables[$table];
                     self::CacheData($this->m_tableInfo);
@@ -554,7 +549,6 @@ class DBCaches
         if (!$v_i->m_init_cache) {
             DbSchemas::ClearControllerSchema($controller);
             $v_i->_initDbCache();
-            //return;
         }
         // + | --------------------------------------------------------------------
         // + | get database that match controller 
@@ -569,7 +563,6 @@ class DBCaches
             return $d;
         }, $v_tabinfo));
         // + | force reload controller schema 
-        // DbSchemas::ClearControllerSchema($controller);
     }
     /**
      * resolv and init tbinfo

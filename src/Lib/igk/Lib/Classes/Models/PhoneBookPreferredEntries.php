@@ -4,6 +4,7 @@
 // @date: 20250506 16:08:45
 namespace IGK\Models;
 use IGK\Models\ModelBase;
+
 /**
 * Store book's prefered entries
 * @package IGK\Models

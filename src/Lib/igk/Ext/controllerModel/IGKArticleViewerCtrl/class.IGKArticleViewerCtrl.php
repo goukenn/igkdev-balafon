@@ -9,18 +9,14 @@
 *author: C.A.D. Bondje doue
 *script :
 */
-
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
-
 igk_js_bind_script_folder(dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
-
 /**
 * Igkarticle viewer ctrl.
 */
 abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
 	/**
 	 * Completes the controller initialization.
 	 *
@@ -54,11 +50,7 @@ abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		return $this;
 	}
-
 }
-
-//article viewer extension function
-
 /**
  * Generates the JavaScript initialization script for an article viewer box.
  *
@@ -67,7 +59,7 @@ abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
  * @param bool   $initanimate Whether to run the open animation on initialization.
  * @return string
  */
-function igk_js_av_bind_initarticle($classname, $updatesize=true, $initanimate=true){//article viewer
+function igk_js_av_bind_initarticle($classname, $updatesize=true, $initanimate=true){
 	$s =  HtmlNode::CreateWebNode("script");
 	$r  = igk_parsebool($updatesize);
 	$h = igk_parsebool($initanimate);

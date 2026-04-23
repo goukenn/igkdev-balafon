@@ -12,12 +12,10 @@
 * Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
-// DIRECT RENDERING
 /**
 * use for google package
 */
 class IGKGooglePackage{
-
     /**
     * auto generate doc.
     */    public function Button(){
@@ -28,7 +26,6 @@ class IGKGooglePackage{
         $n->Content="Google Button";
         return $n;
     }
-
     /**
     * auto generate doc.
     * @param mixed $name

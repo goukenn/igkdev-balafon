@@ -11,6 +11,7 @@ use IGK\System\Database\DbReverseMappingLink;
 use IGK\System\Database\Helper\DbUtility;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\NotImplementException;
+
 /**
  * 
  * @package IGK\System\Database\Import
@@ -140,7 +141,6 @@ class DbModelImporterMap
             // + | retrieve link data 
             foreach ($this->m_reversal_definition as $k => $v) {
                 if (key_exists($k, $tab)) {
-                    // $this->_get_reversal_value();
                     $nv = $tab[$k];
                     $found = true;
                     $lv = $this->_resolveLinkValue($k, $v, $nv, $found);
@@ -245,7 +245,7 @@ class DbModelImporterMap
         if (!$row) return false;
         $lv = $row->{$row->getPrimaryKey()};
         $s[$nv] = $lv;
-        $this->m_resolved_values[$column_name] = $s; // update value
+        $this->m_resolved_values[$column_name] = $s; 
         $found = true;
         return $lv;
     }

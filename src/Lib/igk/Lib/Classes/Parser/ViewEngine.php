@@ -3,6 +3,7 @@
 // @filename: ViewEngine.php
 // @date: 20220803 13:48:57
 // @desc: 
+
 /**
  * view engine builder
  * @package 
@@ -14,6 +15,5 @@ class ViewEngine{
      * @return void 
      */
     public function treatInput($node){
-        // TODO Treat 
     }
 }

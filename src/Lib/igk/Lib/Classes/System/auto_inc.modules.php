@@ -2,6 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @date: 20260228 20:49:42
 namespace IGK\System;
+
 /**
 * 
 * @package IGK\System

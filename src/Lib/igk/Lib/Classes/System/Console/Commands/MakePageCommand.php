@@ -8,6 +8,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

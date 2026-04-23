@@ -6,6 +6,7 @@ namespace IGK\System\IO\VCF;
 use IGK\Helper\Activator;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * 
 * @package IGK\System\IO\VCF
@@ -234,7 +235,7 @@ class VCard
     */
     public static function OpenFile(string $file)
     {
-        $t = []; //entries;
+        $t = []; 
         $src = file_get_contents($file);
         $regex = new RegexMatcherContainer;
         $block = $regex->begin('BEGIN:VCARD', 'END:VCARD', 'block')->last();
@@ -275,7 +276,6 @@ class VCard
                         $def = [];
                         break;
                     case 'property':
-                        // DEBUG - get properties
                         if (!isset($properties[$e->value])) {
                             $properties[$e->value] = 1;
                         }
@@ -288,7 +288,6 @@ class VCard
                         break;
                     case 'value':
                         if (preg_match('/ENCODING=b/', $e->value)) {
-                            // read value until next coding data ;
                             $ln  = 0;
                             $sb = substr($e->value, strpos($e->value, ':') + 1);
                             $pos = $pos + $ln;
@@ -303,14 +302,12 @@ class VCard
                             } while ($pos < strlen($src));
                             $data = base64_decode($sb);
                             $value = new VCardEncodingBinaryData($data);
-                            //igk_io_w2file('pics.png', $data);
                         } else {
                             $tv = $value = $e->value;
                             if (($rpos = strpos($value, ':')) !== false){
                                 $tv = substr($value, $rpos + 1);
                             }
                             if ($key == 'TEL') {
-                                //just treat 
                                 $v = str_replace(' ', '', $tv);
                                 $v = preg_replace("/^00/", "+", $v);
                                 $v = preg_replace("/^04/", "+32", $v);
@@ -332,11 +329,6 @@ class VCard
         if (!empty($key) && $value){
             $def[$key] = $value;
         }
-        // extract key sorct 
-        // ksort($properties);
-        // foreach(array_keys($properties) as $v){
-        //     echo 'var $'.$v.';', PHP_EOL;
-        // }
         return $t;
     }
 }

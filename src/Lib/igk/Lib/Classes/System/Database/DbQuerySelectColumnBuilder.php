@@ -7,6 +7,7 @@ use Exception;
 use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
 use IGKException;
+
 /**
 * 
 * @package IGK\System\Database
@@ -96,11 +97,6 @@ class DbQuerySelectColumnBuilder{
                 if(is_null($v) && $cl->clNotNull){
                     $v='';
                 }
-                // if (is_null($v) && !$cl->clNotNull ){
-                //     $v='';
-                    // igk_debug_wln('condition : ', $conditions);
-                    //throw new IGKException('null value not allowed for : '. $k);
-                // }
                 $i->addUnique($k, $v); 
             }
             if ($cl->clIsUniqueColumnMember){

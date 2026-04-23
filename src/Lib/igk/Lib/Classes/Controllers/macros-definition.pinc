@@ -3,7 +3,6 @@
 // @filename: Untitled-1
 // @date: 20230113 19:34:03
 // @desc: primary controller macros definition
-
 use IGK\Controllers\RootControllerBase;
 use IGK\System\Traits\MacrosConstant;
 

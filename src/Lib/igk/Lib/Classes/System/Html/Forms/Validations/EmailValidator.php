@@ -7,6 +7,7 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\Forms\FieldInfo;
 use IGKValidator;
 use function igk_resources_gets as __;
+
 /**
  * validate pssword from fields
  * @package IGK\System\Html\Forms

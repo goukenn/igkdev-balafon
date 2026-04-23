@@ -13,6 +13,7 @@ use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 use function igk_clamp as clamp;
+
 /**
 * Colorf.
 * @package IGK\System\Drawing

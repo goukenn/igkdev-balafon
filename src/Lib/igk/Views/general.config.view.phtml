@@ -3,14 +3,12 @@
 // @filename: general.config.view.phtml
 // @date: 20220425 11:21:11
 // @desc: default configuration view node
-
 use function igk_resources_gets as __;
 
 /**
  * @var HtmlNode $t node
  * @var IGKHtmlDoc $doc document
  */
-
 $doc->Title=__("Global configurations");
 $theme = $doc->getTheme();
 $theme->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
@@ -21,14 +19,7 @@ unset($ftfile);
 igk_google_addfont($doc, "Roboto");
 $t->clearChilds();
 $t["class"]="google-Roboto";
-// $doc->head->addCssStyle("base", 0)->setAttribute("type", "text/css")->Content=<<<EOF
 // @bg_color:transparent
-
-// body.igk-body{
-// background-color:@bg_color;
-// }
-// EOF;
-
 $bbox=$t->div();
 $bbox->setClass("overflow-y-a fith");
 $hd=$bbox->div()->setClass("header");

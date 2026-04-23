@@ -4,7 +4,6 @@
 // copyright: MIT © 2022 igkdev.com
 "use strict";
 (function(){
-
     igk.system.createNS("igk.winui.carousel", {
         init(){
             // function used to initialize the carousel object
@@ -77,8 +76,5 @@
             startInterval();
         }
     });
-
-
     igk.winui.initClassControl("igk-winui-carousel", igk.winui.carousel.init);
-
 })();

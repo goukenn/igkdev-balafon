@@ -6,6 +6,7 @@
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlScriptNode;
+
 /**
 * Represent IGKHtmlScriptManager class
 */
@@ -87,7 +88,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function __toString(){
         return get_class($this);
     }
-    ///clear cache if script not loaded correctly
     /**
     * register script to script manager
     * @param string $file server script file
@@ -156,12 +156,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     */
     public function getNonMergedContent($tab=null){
         throw new Exception("Not implement = ".__METHOD__);
-        // $nonMerged=$tab == null ? $this->getMergedContent()->notMerged: $tab->notMerged;
-        // $o="";
-        // foreach($nonMerged as $v){
-        //     $o .= $v->render(null);
-        // }
-        // return $o;
     }
     /**
     * auto generate doc.

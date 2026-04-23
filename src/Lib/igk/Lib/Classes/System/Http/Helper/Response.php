@@ -7,6 +7,7 @@ use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGKException;
+
 /**
 * Request response helper
 * @package IGK\System\Http\Helper
@@ -45,13 +46,11 @@ class Response{
         $sess_name = session_name();
         if ($sess_id && !isset($_COOKIE[$sess_name])){
             $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Secure;']);
-            // $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Partitioned=true; Secure;']);
         }
         return array_merge($_vtc, [
             "Content-Type: text/html",            
-            "Access-Control-Allow-Origin: ".$_cnf->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),
+            "Access-Control-Allow-Origin: ".$_cnf->get("access-control-allow-origin", $_req->getHeader()->origin), 
             "Access-Control-Allow-Methods: ".$_cnf->get("access-control-allow-methods", "DELETE, PUT, GET, POST, STORE"),            
-            // allow credential 
             "Access-Control-Allow-Headers: ".$_cnf->get("access-control-allow-headers", 
                     // + | for dev with vite response
                     implode(', ', 

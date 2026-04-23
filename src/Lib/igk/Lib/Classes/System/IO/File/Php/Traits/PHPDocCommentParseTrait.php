@@ -4,6 +4,7 @@
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\Php\Traits
@@ -47,8 +48,6 @@ trait PHPDocCommentParseTrait
         $g->setPropertyHandlerListener($handlerCallback);
         $g->summary = '';
         /// TODO: Remove filter property 
-        // $g->m_reader = $reader;
-        // $g->m_filter = $filter;
         $summary = false;
         $content = "";
         $name = "";

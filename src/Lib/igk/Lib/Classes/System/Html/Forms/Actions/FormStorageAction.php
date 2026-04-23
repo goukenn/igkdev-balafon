@@ -9,6 +9,7 @@ use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Http\Request;
+
 /**
  * form storage action.
  * @package 
@@ -78,7 +79,7 @@ class FormStorageAction extends ActionBase{
      */
     public function form(?callable $actions=null){
         $uri = $this->uri;
-        $form = igk_create_node("form");//, null, [$uri, $action]);
+        $form = igk_create_node("form");
         $_uri = is_array($uri) ? implode("/", $uri): $uri;
         if ($this->fname && $this->action){
             $_uri = implode("/",[$this->fname, $this->action]);
@@ -114,7 +115,6 @@ class FormStorageAction extends ActionBase{
     * @param Request $request
     */
     public function store(Request $request){      
-        // validate first 
         $this->errors = null;
         if ($this->formCref){
             if (!igk_valid_cref(1, false)){

@@ -6,6 +6,7 @@ namespace IGK\System\Html\IO;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\IO
@@ -46,7 +47,7 @@ class ImageLoader{
             $g = new Uri($uri);
             $path = hash($this->hash,  $g->getPath());
             $info = igk_curl_info();
-            $mimetype = igk_getv($info, 'Content-Type'); // [CURLINFO_CONTENT_TYPE];
+            $mimetype = igk_getv($info, 'Content-Type'); 
             $ext = igk_curl_get_extension($mimetype);
             if (!preg_match("#(\.".ltrim($ext,'.').")$#", $path)){
                 $path.= $ext;
@@ -69,7 +70,6 @@ class ImageLoader{
     public function loadContent($src){
         $dv = igk_create_notagnode();
         $dv->load($src);
-        // fi
         array_map($this, array_map(function($n){
             return $n['src'];
         }, $dv->getElementsByTagName("img")));

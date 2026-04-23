@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
+
 /**
 * Interface for header response.
 * @package IGK\System\Http

@@ -24,6 +24,7 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Armonic
@@ -55,7 +56,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     * @var mixed
     */
     var $tab_stop;
-    // var $flagHandler;
     /**
      * handle white space
      * @param ReadTokenOptions $options 
@@ -66,7 +66,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected function _handleWhiteSpace(ReadTokenOptions $options, ?string $id, string &$value)
     {
         if ($id == T_WHITESPACE) {
-            // tabstop inline
             $value = strpos($value, "\n") !== false ? "\n" : " ";
             if ($options->skipWhiteSpace) {
                 $value = "";
@@ -295,7 +294,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         switch ($id) {
             case T_COMMENT:
-                // ignore comment 
                 $buffer = rtrim($buffer);
                 return true;
             case T_DOC_COMMENT:
@@ -319,10 +317,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                                 $d = trim($value);
                                 if (!empty($d)) {
                                     if ($d == '=') {
-                                        // start reading constant
                                         $flagOption->argType = 1;
                                     } else {
-                                        // reading type
                                         if ($flagOption->argType) {
                                             $struct->args[$flagOption->argName]["default"] = $d;
                                             $flagOption->argType = null;
@@ -338,7 +334,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     return true;
                 }
                 break;
-            case T_USE: // for anonymous
+            case T_USE: 
                 break;
             case T_RETURN:
                 $buffer .= $value . " ";
@@ -346,7 +342,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 $this->_readExpression($options, ":return");
                 return true;
             case T_VARIABLE:
-                // detect variable in declaration
                 $name = substr($value, 1);
                 if ($flagOption->op == "arg") {
                     $struct->args[$name] = [
@@ -355,45 +350,36 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     ];
                     $flagOption->argName = $name;
                     $flagOption->type = null;
-                    if (substr($buffer, -1) == ',') { // space variable after detections
+                    if (substr($buffer, -1) == ',') { 
                         $buffer .= ' ';
                     }
                     $buffer .= $value;
                     return true;
                 } else {
-                    // continue read var
-                    // $buffer .= $value;
                     $this->_readVariable($options, $id, $value);
-                    // $options->flagOptions->dependOn = true;
                     return true;
                 }
                 break;
             default:
                 switch ($value) {
                     case ':':
-                        // read return type
                         $flagOption->op = 'return';
                         break;
                     case '(':
-                        // start read condition 
                         $v_op = $flagOption->op;
                         if (($v_op == 'arg') || ($v_op == 'name')) {
                             $flagOption->condition = true;
                             $flagOption->op = 'arg';
                             return true;
                         } else if ($v_op == "block") {
-                            // read code block - condition 
                             $this->_readConditionBlock($options, $id, $value);
                             return true;
                         }
                         break;
                     case ')':
-                        // finish read condition - or uses in case of anonymous
                         if ($flagOption->depth == $options->depth) {
                             if ($flagOption->condition) {
-                                // first read condition
                                 $struct->condition = trim($struct->buffer);
-                                // igk_debug_wln_e("the codition ..... ", $struct->condition );
                                 if (empty($struct->name)) {
                                     $flagOption->op = 'useOrBlock';
                                 } else {
@@ -415,7 +401,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     case '{':
                         if (!$struct->readCode) {
                             $struct->readCode = true;
-                            // start reading code                      
                             $this->_pushBuffer($options, $struct->buffer, 'func_code');
                             $this->_attachFuncToParent($options, $struct);
                             return true;
@@ -428,7 +413,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                         break;
                     case ';':
                         if (!$struct->readCode) {
-                            // detect non body class
                             $this->_attachFuncToParent($options, $struct);
                             if (
                                 !empty($struct->name) &&
@@ -472,7 +456,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $options->struct_info = $options->struct_info->parent;
         if ($options->flag) {
             $this->_handleFlag($options, $id, $value);
-            // igk_debug_wln_e("after read function ", $options->flag, $value );
         }
         return true;
     }
@@ -484,7 +467,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected function _attachFuncToParent($options, $struct)
     {
         if (!$struct->getIsAnonymous()) {
-            // attach to parent only if not anonymous
             if ($struct->parent) {
                 $struct->parent->structs[$struct->type][] = $struct;
             } else {
@@ -604,11 +586,9 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 default:
                     switch ($value) {
                         case ';':
-                            // end resource
                             $flag = null;
                             break;
                         case '{':
-                            // namespace block
                             $options->isNamespaceBlock = true;
                             break;
                     }
@@ -692,7 +672,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     case '{':
                         if (!$struct->readCode) {
                             $struct->readCode = true;
-                            // start reading code                            
                             $this->_pushBuffer($options, $struct->buffer, 'struct_class');
                             return true;
                         }
@@ -724,7 +703,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $this->_popFlag($options);
         $options->struct_info = $struct->parent;
         $options->structs[$struct->type][$struct->name] = $struct;
-        // igk_debug_wln_e(__FILE__.":".__LINE__, $options->structs, $struct->output());
         return true;
     }
     #endregion
@@ -791,7 +769,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                     trim('$' . $flagOptions->name . $flagOptions->buffer)
                 );
             }
-            // igk_debug_wln(__FILE__.":".__LINE__,  "the flag", $options->flagOptions->buffer, $options->flag, $tab);
         } else {
             if ($flagOptions->render) {
                 // + | passing to global buffer
@@ -810,7 +787,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     {
         $flagOptions = $options->flagOptions;
         switch ($value) {
-            case ";": // end variable 
+            case ";": 
             case ",":
                 if ($flagOptions->render) {
                     $flagOptions->buffer = rtrim($flagOptions->buffer, ';,') . $value;
@@ -830,7 +807,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             case '/=':
             case '-=':
                 if ($value == '=') {
-                    //affectation depend on = default variable value or 
                     if ($flagOptions->render) {
                         $flagOptions->buffer .= " = ";
                     }
@@ -839,7 +815,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 break;
             case '}':
                 if ($options->curl_open) {
-                    //close curl open for read variable
                     $this->_appendVariable($options, $id, $value);
                     $options->buffer .= $value;
                     $options->curl_open = false;
@@ -850,9 +825,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
     #endregion
     #region EXPRESSION
-    //----------------------------------------------------------------------------
-    // EXPRESSION
-    //----------------------------------------------------------------------------
     /**
      * start read expression
      * @param ReadTokenOptions $options 
@@ -881,10 +853,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $fop = $options->flagOptions;
-        // switch ($value) {
-        //     case ';':
-        //     case ',':
-        // case ')': // + | add end instruction ( var = expression )
         switch ($fop->type) {
             case ':global':
             case ':return':
@@ -944,18 +912,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             case '=':
                 $v_data = $fop->buffer . ($value == ')' ? '' : $value);
                 return $this->_appendEndEqualExpression($options, $id, $value, $v_data);
-                // $this->_popBuffer($options);
-                // // $options->buffer .= $value;
-                // $this->_popFlag($options);
-                // if ($options->flag) {
-                //     $this->_appendToFlagOptionBuffer($options, $v_data); 
-                //     return $this->_handleFlag($options, $id, $value);
-                // } else {
-                //     $options->buffer .= rtrim($fop->buffer, ",;") . $value;
-                // } 
         }
-        //         break;
-        // }
         return true;
     }
     /**
@@ -1060,7 +1017,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 }
                 $options->skipWhiteSpace = false;
                 return $this->_endReadExpression($options, $id, $value);
-            case '"': // double quote start 
+            case '"': 
                 $fop->buffer .= $value;
                 if ($fop->quoteStart) {
                     $fop->quoteStart = 0;

@@ -3,6 +3,7 @@
 // @file: CompilerTokenCommentHandlerTrait.php
 // @date: 20221021 18:58:53
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits

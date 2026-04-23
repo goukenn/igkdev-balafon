@@ -1,5 +1,4 @@
 (function(){
-
     const primaryFetchConfig = {
         credentials: 'include',
         headers: { 
@@ -85,7 +84,6 @@
     Object.defineProperty(algorigthm, 'ES256', {get(){ return -7; }}); 
     Object.defineProperty(algorigthm, 'Ed25519', {get(){ return -8; }}); 
     Object.defineProperty(algorigthm, 'RS256', {get(){ return -257; }}); 
-
     const fecthWithCredentials = async function(uri, option){
         option = igk.initObj(option, primaryFetchConfig);  
         return fetch(uri,option);

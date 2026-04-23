@@ -11,6 +11,7 @@ namespace IGK\Controllers;
 use IGK\Controllers\BaseController;
 use IGKResourceUriResolver;
 use function igk_resources_gets as __;
+
 /**
 * Tool controller base.
 * @package IGK\Controllers

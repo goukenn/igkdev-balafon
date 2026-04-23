@@ -9,6 +9,7 @@ use Error;
 use Exception;
 use IGKEnvironment;
 use function \readline;
+
 /**
  * terminal action command
  * @package IGK\System\Console

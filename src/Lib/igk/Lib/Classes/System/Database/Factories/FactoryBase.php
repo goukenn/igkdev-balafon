@@ -7,6 +7,7 @@ namespace IGK\System\Database\Factories;
 use Exception;
 use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
+
 /**
  * p
  * @package IGK\System\Database\Factories
@@ -121,8 +122,6 @@ abstract class FactoryBase {
                 continue;
             }
             try{
-                // if ($v_r = $mod::createIfNotExists($def)){
-                // // }
                 if ($v_r = $this->model::create($def)){
                     if (is_null($response)){
                         $response = [];

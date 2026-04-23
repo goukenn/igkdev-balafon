@@ -7,6 +7,7 @@ namespace IGK\Models\Injectors;
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGK\System\IInjector;
+
 /**
  * controller injector
  * @package IGK\Models\Injectors

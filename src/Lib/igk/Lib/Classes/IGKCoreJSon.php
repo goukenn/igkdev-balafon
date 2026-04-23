@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\HtmlUtils;
+
 /**
 * Igkcore json.
 */
@@ -18,12 +19,6 @@ final class IGKCoreJSon extends IGKObject
     * @var mixed
     */
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
-    // private static function json_key($n){
-    //     if(preg_match_all("/^(?P<delimiter>('|\")*)(?P<key>(.)+)\\1$/i", $n, $tab)){
-    //         return $tab["key"][0];
-    //     }
-    //     return $n;
-    // }
     /**
     * To dictionary.
     * @param mixed $expression

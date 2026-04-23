@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
+
 /**
 * auto generate doc.
 * @package IGK\System\WinUI
@@ -51,7 +52,6 @@ class DashboardBase extends HtmlNode{
         if (isset(self::$sm_register[$name])){
             $cl = self::$sm_register[$name];
         } else {
-            // auto determine
            $cl = implode("\\", array_filter([igk_get_class_namespace(static::class), ucfirst($name)."Dashboard"]));
         } 
         if (($cl === null) || !class_exists($cl)){

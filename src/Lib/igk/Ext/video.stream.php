@@ -3,9 +3,7 @@
 // @filename: video.stream.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Ext;
-
 
 /**
  * to serve video stream
@@ -14,59 +12,48 @@ namespace IGK\Ext;
  * */
 class VideoStream
 {
-
     /**
     * Path to path.
     * @var mixed
     */
     private $path = "";
-
     /**
     * Property: stream.
     * @var mixed
     */
     private $stream = "";
-
     /**
     * Property: buffer.
     * @var mixed
     */
     private $buffer = 102400;
-
     /**
     * Property: start.
     * @var mixed
     */
     private $start  = -1;
-
     /**
     * Property: end.
     * @var mixed
     */
     private $end    = -1;
-
     /**
     * Property: size.
     * @var mixed
     */
     private $size   = 0;
-
     /**
     * Callback handler for cache callback.
     * @var mixed
     */
     private $m_cache_callback;
-
     /**
     * .ctr
     * @param mixed $filePath
     */
     function __construct($filePath){
         $this->path = $filePath;
-
-		// igk_die("call video stream failed ".igk_io_request_uri());
     }
-
     /**
     * Sets Cache Callback.
     * @param mixed $m
@@ -74,7 +61,6 @@ class VideoStream
     function setCacheCallback($m){
 		$this->m_cache_callback = $m;
 	}
-
     /**
     * Stops.
     */
@@ -90,7 +76,6 @@ class VideoStream
             die('Could not open stream for reading');
         }
     }
-
     /**
      * Set proper header to serve the video content
      */
@@ -98,7 +83,6 @@ class VideoStream
     {
         ob_get_clean();
         header("Content-Type: video/mp4");
-
 		if ($this->m_cache_callback){
 			$c=$this->m_cache_callback;
 			$c(); 
@@ -107,17 +91,13 @@ class VideoStream
 			header("Expires: ".gmdate('D, d M Y H:i:s', time()+2592000) . ' GMT');
 			header("Last-Modified: ".gmdate('D, d M Y H:i:s', @filemtime($this->path)) . ' GMT' );
 		}
-
         $this->start = 0;
         $this->size  = filesize($this->path);
         $this->end   = $this->size - 1;
         header("Accept-Ranges: 0-".$this->end);
-
         if (isset($_SERVER['HTTP_RANGE'])) {
-
             $c_start = $this->start;
             $c_end = $this->end;
-
             list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
             if (strpos($range, ',') !== false) {
                 header('HTTP/1.1 416 Requested Range Not Satisfiable');
@@ -129,7 +109,6 @@ class VideoStream
             }else{
                 $range = explode('-', $range);
                 $c_start = $range[0];
-
                 $c_end = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $c_end;
             }
             $c_end = ($c_end > $this->end) ? $this->end : $c_end;
@@ -150,9 +129,7 @@ class VideoStream
         {
             header("Content-Length: ".$this->size);
         }
-
     }
-
     /**
      * close curretly opened stream
      */
@@ -160,7 +137,6 @@ class VideoStream
     {
         fclose($this->stream);
     }
-
     /**
      * perform the streaming of calculated range
      */
@@ -168,8 +144,6 @@ class VideoStream
     {
         $i = $this->start;
         set_time_limit(0);
-		// igk_ilog("start");
-        // while(!connection_aborted() && !feof($this->stream) && $i <= $this->end) {
         while(!connection_aborted() && ($i <= $this->end)) {
             $bytesToRead = $this->buffer;
             if(($i+$bytesToRead) > $this->end) {
@@ -180,13 +154,10 @@ class VideoStream
             flush();
             $i += $bytesToRead;
         }
-		//igk_ilog("done : ??");//.$this->start." /{$i} :::: ".connection_aborted()  . " :::: status : ".connection_status());
     }
-
     /**
      * Start streaming video content
      */
-
     function start()
     {
         $this->open();

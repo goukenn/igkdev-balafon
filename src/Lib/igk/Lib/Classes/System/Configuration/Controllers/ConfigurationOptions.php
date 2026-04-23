@@ -4,6 +4,7 @@
 // @date: 20221123 23:49:02
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\IControllerConfigurationData;
+
 /**
  * base application controller configuration options
  * @package IGK\System\Configuration\Controllers

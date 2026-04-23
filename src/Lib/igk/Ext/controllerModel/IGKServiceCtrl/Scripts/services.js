@@ -1,14 +1,10 @@
 //script to manager script
-
 "uses strict";
-
 (function() {
-
     igk.system.createNS("igk.services", {
         invoke: function(m, c) {
             // console.debug("invoking "+m);
             var uri = window.location.href.split('#')[0];
-
             function _sendRequest() {
                 igk.ajx.postWebRequest(uri, m, "", function(xhr) {
                     if (this.isReady()) {
@@ -22,5 +18,4 @@
                 _sendRequest();
         }
     });
-
 })();

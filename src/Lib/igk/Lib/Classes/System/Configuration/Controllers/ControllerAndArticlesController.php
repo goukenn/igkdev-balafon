@@ -25,6 +25,7 @@ use IGKOb;
 use IGKValidator;
 use stdClass;
 use function igk_resources_gets as __;
+
 /**
  * configuration , controller and article controller page
  * @package IGK\System\Configuration\Controllers
@@ -111,7 +112,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 }
             }
         }
-        // $frm->div()->add("noscript")->addInput("btn_add", "submit");
     }
     /**
     * auto generate doc.
@@ -121,29 +121,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     */
     private function __viewMenuHostCtrl($t)
     {
-        // $frm = $t->AddForm();
-        // $frm->setId("menuhost-form");
-        // $frm["action"] = $this->getUri("ca_setmenuhost");
-        // $tab = self::GetSysProject(); 
-        // igk_html_add_title($frm, "title.menuController");
-        // if (igk_count($tab) == 0) {
-        //     $frm->ul()->li()->add("div")->Content = __("msg.nocontroller.for.menu");
-        // } else {
-        //     igk_html_add_title($frm, "lb.MenuHostCtrl");
-        //     $sl = $frm->addUl()->li()->add("select")->setClass("igk-form-control");
-        //     $sl->setId("clCtrlMenuHost");
-        //     $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('ca_setmenuhost_ajx&') . "'+this.id+'='+this.value, null, null);";
-        //     $sl->add("option", array("value" => IGK_STR_EMPTY))->Content = IGK_HTML_SPACE;
-        //     $v_menuhost = igk_configs()->menuHostCtrl;
-        //     foreach ($tab as $v) {
-        //         $opt = $sl->add("option", array("value" => $v->getName()));
-        //         if ($v->getName() == $v_menuhost) {
-        //             $opt["selected"] = "true";
-        //         }
-        //         $opt->Content = $v->getDisplayName();
-        //     }
-        //     $frm->div()->add("noscript")->addInput("btn_add", "submit");
-        // }
     }
     /**
     * auto generate doc.
@@ -345,7 +322,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         if (igk_count($tab = self::GetSysProject()) > 0) {
             usort($tab, function ($a, $b) {
                 return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-            }); // SORT_FLAG_CASE| SORT_REGULAR);
+            }); 
             $select = $ul->li()->select();
             $target = $this->TargetNode["id"];
             $uri = $this->getUri('select_controller_ajx&n=');
@@ -474,14 +451,10 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             'owner' => $this,
             'target' => $bar
         ]);
-        // if ( $ctrl->getUseDataSchema()) {
-        //     HtmlUtils::AddImgLnk($bar, igk_js_post_frame($this->getUri("ca_reset_db_ajx")), "db_reset_16x16")->setClass("igk-btn");
-        // }
         $groups = $bar->actiongroup();
         if (class_exists(\ZipArchive::class)) {
             $btn = igk_html_installer_button($groups, IGK\System\Installers\IGKBalafonProjectInstaller::class, __("Update Project"), "/update?controller=" . urlencode(get_class($ctrl)));
         }
-        // $groups->span()->setClass('igk-btn')->setId("update_target");
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
             ->setClass("igk-btn");
     }
@@ -495,7 +468,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $t->addNotifyHost();
         $tv = $t->addRow();
         $this->__viewDefaultPageCtrl($tv->addCol("igk-col-3-3")->div()->setClass("igk-col-view-box"));
-        // $this->__viewMenuHostCtrl($tv->addCol("igk-col-4-2 igk-col-sm-3-3")->div()->setClass("igk-col-view-box"));
         $row = $t->addRow();
         $this->_view_ctrl_EditCtrl($row->addCol("igk-col-3-3")->setId("edit_ctrl"));
         $v_dv = $row->addCol("igk-col-3-3")->div()->setClass("cnf-edit-view-result igk-row");
@@ -509,8 +481,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
 window.igk.system.createNS("igk.fn.config", {select_ctrl: function(i, targetid, uri){var q = window.igk.getParentById(i, targetid ); window.igk.ajx.post(uri, null, function(xhr){  if (this.isReady()){ this.setResponseTo(q); var p = q.getElementsByTagName('select')[0]; p.focus(); }})}});
 EOF;
     }
-    ///<summary></summary>
-    ///<param name="v_dv"></param>
     /**
     * auto generate doc.
     * @param mixed $v_dv
@@ -526,7 +496,6 @@ EOF;
                 "view_result",
                 1
             );
-            // slash is important 
             $suri = "/".ltrim(igk_register_temp_uri(__CLASS__) . "/controller", '/');
             $ctab = [
                 "Info" => (object)[
@@ -541,7 +510,6 @@ EOF;
                $txb->addTabPage($k, $v->uri, $vtab == $v->tab);
             } 
     }
-    ///<summary></summary>
     /**
     * Adds view.
     */
@@ -575,7 +543,6 @@ EOF;
         $this->View();
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * Ca add article.
     */
@@ -612,7 +579,6 @@ EOF;
         }
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Ca add article frame.
     */
@@ -643,7 +609,6 @@ EOF;
         }
         return $d;
     }
-    ///<summary></summary>
     /**
     * Ca add article frame ajx.
     */
@@ -654,7 +619,6 @@ EOF;
             $frame->renderAJX();
         }
     }
-    ///<summary>add controller request</summary>
     /**
     * Ca add ctrl.
     */
@@ -662,7 +626,6 @@ EOF;
     {
         $this->ca_add_ctrl_frame_ajx();
     }
-    ///<summary></summary>
     /**
     * Ca add ctrl frame.
     */
@@ -677,7 +640,7 @@ EOF;
             $this->view();
             igk_js_ajx_view_ctrl($this);
         }
-        $frame = igk_create_node("div"); //igk_html_frame($this, $frameid);
+        $frame = igk_create_node("div"); 
         $frame->div()->Content = "Form DATA";
         $frm = $frame->form();
         $frm["action"] = $this->getUri("ca_add_ctrl");
@@ -757,7 +720,6 @@ if (!r)
 JS;
         return $frame;
     }
-    ///<summary>view add controller frame</summary>
     /**
     * Ca add ctrl frame ajx.
     * @param mixed $renderframe
@@ -769,7 +731,6 @@ JS;
             igk_ajx_panel_dialog(__("Add new Controller"), $frame);
         }
     }
-    ///<summary>build a add view frame</summary>
     /**
     * Ca add view frame.
     */
@@ -797,7 +758,6 @@ JS;
         }
         return $frame;
     }
-    ///<summary>Request add controller</summary>
     /**
     * Ca add ctrl.
     */
@@ -830,7 +790,6 @@ JS;
             igk_exit();
         }
     }
-    ///<summary></summary>
     /**
     * Ca addfield ajx.
     */
@@ -842,7 +801,6 @@ JS;
         }
         igk_wln($c->render());
     }
-    ///<summary></summary>
     /**
     * Ca clear table list ajx.
     */
@@ -854,7 +812,6 @@ JS;
             @unlink($f);
         igk_wl($this->ca_getTableInfo()->render());
     }
-    ///<summary></summary>
     /**
     * Ca ctrl article select lang ajx.
     */
@@ -866,7 +823,6 @@ JS;
         $this->_buildViewArticle($div, $ctrl);
         igk_wl($div->getInnerHtml());
     }
-    ///<summary></summary>
     /**
     * Ca ctrl drop.
     */
@@ -874,7 +830,6 @@ JS;
     {
         $this->ca_drop_controller_ajx($this->SelectedController);
     }
-    ///<summary></summary>
     /**
     * Ca db drop db file ajx.
     */
@@ -888,7 +843,6 @@ JS;
         }
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * Ca download view.
     */
@@ -904,7 +858,6 @@ JS;
             igk_exit();
         }
     }
-    ///<summary>drop article in ajx request</summary>
     /**
     * Ca drop article ajx.
     */
@@ -944,9 +897,6 @@ JS;
             igk_notifyctrl()->TargetNode->renderAJX();
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
-    ///<param name="reconnect" default="1"></param>
     /**
     * Ca drop controller ajx.
     * @param null|mixed $ctrl
@@ -1014,7 +964,6 @@ JS;
             igk_environment()->isDev() && igk_ilog("no selected controller");
         }
     }
-    ///<summary></summary>
     /**
     * Ca drop view.
     */
@@ -1052,7 +1001,6 @@ JS;
             $this->View();
         }
     }
-    ///<summary></summary>
     /**
     * Ca dropfield.
     */
@@ -1065,7 +1013,6 @@ JS;
             igk_html_rm($tr);
         }
     }
-    ///<summary> edition d'article simple par une demande ajax</summary>
     /**
     * Ca edit article ajx.
     * @param null|mixed $ctrlid
@@ -1102,14 +1049,6 @@ JS;
         }
         igk_exit();
     }
-    ///<summary> create d'un FrameDialog pour l'édition d'article </summary>
-    ///<params>
-    ///$ctrlid: controller ou id du controller
-    ///$name: nom ou chemin d'accèss au fichier
-    ///$ajx:  s'il s'agit d'un context ajax ou nom
-    ///$mode: si mode = 1 alors le name un le chemin d'accès complet au fichier sinon il s'agit du nom dans le repertoire Articles du controlleur
-    ///$force: force creation if not exists
-    ///</params>
     /**
     * Ca edit article frame.
     * @param null|mixed $ctrlid
@@ -1150,7 +1089,6 @@ JS;
         }
         return null;
     }
-    ///<summary>Represente ca_edit_articlewtiny function</summary>
     /**
     * Ca edit articlewtiny.
     */
@@ -1177,9 +1115,6 @@ JS;
             igk_ajx_panel_dialog(__("Edit"), $frm);
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrlid" default="null"></param>
-    ///<param name="name" default="null"></param>
     /**
     * Ca edit articlewtiny f ajx.
     * @param null|mixed $ctrlid
@@ -1197,12 +1132,6 @@ JS;
             igk_ilog(base64_decode(igk_getr("fn")));
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrlid" default="null"></param>
-    ///<param name="name" default="null"></param>
-    ///<param name="ajx"></param>
-    ///<param name="mode"></param>
-    ///<param name="force" default="false"></param>
     /**
     * Ca edit articlewtiny f frame.
     * @param null|mixed $ctrlid
@@ -1241,11 +1170,6 @@ JS;
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="ctrlid" default="null"></param>
-    ///<param name="name" default="null"></param>
-    ///<param name="ajx"></param>
-    ///<param name="mode"></param>
     /**
     * Ca edit articlewtiny frame.
     * @param null|mixed $ctrlid
@@ -1285,8 +1209,6 @@ JS;
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="oldcontent" default="null"></param>
     /**
     * Ca edit ctrl ajx.
     * @param null|mixed $oldcontent
@@ -1320,8 +1242,6 @@ JS;
             igk_ajx_panel_dialog("Edit controller", $frame);
         }
     }
-    ///<summary></summary>
-    ///<param name="rendering" default="true"></param>
     /**
     * Ca edit ctrl atricles ajx.
     * @param mixed $rendering
@@ -1355,7 +1275,6 @@ JS;
             $frame->renderAJX();
         $frame->ForCtrl = $ctrl;
     }
-    ///<summary></summary>
     /**
     * Ca edit ctrl force view ajx.
     */
@@ -1366,8 +1285,6 @@ JS;
             igk_ajx_replace_ctrl_view($n);
         }
     }
-    ///<summary></summary>
-    ///<param name="render" default="true"></param>
     /**
     * Ca edit ctrl properties ajx.
     * @param mixed $render
@@ -1428,8 +1345,6 @@ JS;
             igk_ajx_panel_dialog($title, $frm);
         return $frm;
     }
-    ///<summary></summary>
-    ///<param name="render" default="true"></param>
     /**
     * Ca edit ctrl views ajx.
     * @param mixed $render
@@ -1438,7 +1353,6 @@ JS;
     {
         igk_die(__METHOD__);
     }
-    ///<summary>request edit data table structures with ajx </summary>
     /**
     * Ca edit db ajx.
     * @param null|mixed $ctrl
@@ -1479,7 +1393,6 @@ JS;
         }
         igk_wl($frame->render());
     }
-    ///<summary></summary>
     /**
     * Ca edit db close frame.
     */
@@ -1489,10 +1402,6 @@ JS;
         $key = "ctrl:ca_tabInfo" . ($table ? "/" . $table : "");
         $this->setParam($key, null);
     }
-    ///<summary>edit controller view</summary>
-    ///<param name="oldcontent" default="null">the old content</param>
-    ///<param name="errormesage" default="null">error message</param>
-    ///<param name="error" default="null"></param>
     /**
     * Ca edit view.
     * @param null|mixed $oldcontent
@@ -1538,7 +1447,6 @@ JS;
             return $frame;
         }
     }
-    ///<summary>get controller type addition info</summary>
     /**
     * Ca get ctrl type info ajx.
     */
@@ -1554,8 +1462,6 @@ JS;
             igk_notifybox_ajx("no [ca:view_frame] setup");
         }
     }
-    ///<summary></summary>
-    ///<param name="info"></param>
     /**
     * Ca get field info.
     * @param mixed $info
@@ -1594,9 +1500,6 @@ JS;
         HtmlUtils::AddImgLnk($tr->addTd(), $this->getUri("ca_dropfield&n=" . $tr["__id"]), "drop_16x16");
         return $tr;
     }
-    ///<summary>retrieve data table info</summary>
-    ///<param name="ctrl" default="null">controller table</param>
-    ///<param name="table" default="null">table name</param>
     /**
     * Ca get table info.
     * @param null|mixed $ctrl
@@ -1641,7 +1544,6 @@ JS;
         $this->setParam($key, $tb);
         return $tb;
     }
-    ///<summary></summary>
     /**
     * Ca remove child.
     */
@@ -1655,7 +1557,6 @@ JS;
         $ctrl->unregChildController($p);
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Ca remove parent.
     */
@@ -1669,7 +1570,6 @@ JS;
         $ctrl->setWebParentCtrl(null, true);
         $this->View();
     }
-    ///<summary>use to reset data base for the current controller</summary>
     /**
     * Ca reset db ajx.
     */
@@ -1693,7 +1593,6 @@ JS;
         $dc->div()->Content = __("warn.question.dbwillbedestroyed");
         $frame->renderAJX();
     }
-    ///<summary></summary>
     /**
     * Ca selected ctrl changed.
     */
@@ -1704,7 +1603,6 @@ JS;
             $t->clearChilds();
         $this->setParam("ctrl:ca_tabInfo", null);
     }
-    ///<summary></summary>
     /**
     * Ca setmenuhost.
     */
@@ -1718,7 +1616,6 @@ JS;
         igk_getctrl(IGK_MENU_CTRL)->setMenuhostCtrl($ctrl);
         igk_sys_viewctrl($v_n);
     }
-    ///<summary></summary>
     /**
     * Ca setmenuhost ajx.
     */
@@ -1726,20 +1623,17 @@ JS;
     {
         $this->ca_setmenuhost();
     }
-    ///<summary></summary>
     /**
     * Ca tabv ajx.
     */
     public function ca_tabv_ajx()
     {
         if (!igk_is_ajx_demand()) {
-            // igk_dev_wln_e('not ajx demand');
             igk_navto(igk_io_baseuri());
         }
         $g = igk_getr("g");       
         $n = igk_create_node("div");
         $n->clearChilds();
-        // igk_dev_wln(__FILE__.":".__LINE__ , 'ajx default:'.$g);
         switch ($g) {
             case 1:
                 $this->_view_default_tab($n);
@@ -1758,7 +1652,6 @@ JS;
         $n->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * Ca update articlewtiny f.
     */
@@ -1774,7 +1667,6 @@ JS;
         igk_frame_close("frame_edit_article");
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
     * Ca update ctrl properties.
     */
@@ -1826,7 +1718,6 @@ JS;
             $this->ca_edit_ctrl_properties_ajx(false);
         }
     }
-    ///<summary></summary>
     /**
     * Ca update dbdata.
     */
@@ -1852,7 +1743,6 @@ JS;
         $this->setParam("ctrl:ca_tabInfo", null);
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Ca update view.
     */
@@ -1875,7 +1765,6 @@ JS;
         $ctrl->View();
         igk_frame_close($v_frame);
     }
-    ///<summary></summary>
     /**
     * Ca view body ajx.
     */
@@ -1885,14 +1774,12 @@ JS;
         igk_loadr($uri);
         igk_app()->getControllerManager()->invokeUri($uri, true);
     }
-    ///<summary> handle view tab information </summary>
     /**
     * Controller.
     * @param mixed $view
     */
     public function controller($view = "infotab")
     {
-        // igk_dev_wln('write info tab');
         $t = igk_create_node("div")->setClass("igk-tab-container");
         if (igk_io_file_exists($file = $this->getViewFile("tab." . $view, 0))) {
             $this->loader->view($file, ["t" => $t, "viewid" => $this->_getviewid(), "s_ctrl" => igk_getctrl($this->SelectedController), "articleid" => $this->_getarticleid()]);
@@ -1903,7 +1790,6 @@ JS;
         $t->renderAJX();
         igk_exit();
     }
-    ///<summary>get an article and download it </summary>
     /**
     * Download article.
     */
@@ -1920,7 +1806,6 @@ JS;
             igk_exit();
         }
     }
-    ///<summary>remove an article.	</summary>
     /**
     * Drops article.
     */
@@ -1944,7 +1829,6 @@ JS;
             $this->View();
         }
     }
-    ///<summary></summary>
     /**
     * Edit article.
     */
@@ -1952,7 +1836,6 @@ JS;
     {
         $this->ca_edit_article_frame($this->SelectedController, igk_getr("n"));
     }
-    ///<summary></summary>
     /**
     * Edit articlewtiny.
     */
@@ -1960,7 +1843,6 @@ JS;
     {
         $this->ca_edit_articlewtiny_frame($this->SelectedController, igk_getr("n"));
     }
-    ///<summary>filter article by language</summary>
     /**
     * Filters article by lang.
     */
@@ -1969,7 +1851,6 @@ JS;
         $this->m_filter_article_lang = igk_getr("n");
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Returns Config Page.
     */
@@ -1977,7 +1858,6 @@ JS;
     {
         return "articleconfig";
     }
-    ///<summary></summary>
     /**
     * Returns Ctrl Article.
     */
@@ -1988,7 +1868,6 @@ JS;
         igk_getctrl($c)->getArticle($n);
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * Returns Name.
     * @return string
@@ -1997,7 +1876,6 @@ JS;
     {
         return IGK_CA_CTRL;
     }
-    ///<summary></summary>
     /**
     * Returns Selected Controller.
     */
@@ -2005,7 +1883,6 @@ JS;
     {
         return $this->getParam(self::SL_SELECTCONTROLLER);
     }
-    ///<summary></summary>
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -2017,7 +1894,6 @@ JS;
             $this->setup_defaultpage();
         });
     }
-    ///<summary></summary>
     /**
     * Initializes.
     */
@@ -2025,8 +1901,6 @@ JS;
     {
         igk_reg_hook("SelectedControllerChanged", array($this, "ca_selectedCtrlChanged"));
     }
-    ///<summary></summary>
-    ///<param name="funcname"></param>
     /**
     * Returns true if Function Exposed.
     * @param mixed $funcname
@@ -2038,7 +1912,6 @@ JS;
             return true;
         return parent::IsFunctionExposed($funcname);
     }
-    ///<summary></summary>
     /**
     * Lst adapter ajx.
     */
@@ -2053,7 +1926,6 @@ JS;
         $n->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * On selected controller changed.
     */
@@ -2061,7 +1933,6 @@ JS;
     {
         igk_hook("SelectedControllerChanged", $this, array($this->getSelectedController()));
     }
-    ///<summary>search article . reload the view</summary>
     /**
     * Searches article.
     */
@@ -2070,7 +1941,6 @@ JS;
         $this->m_search_article = igk_getr("m_search_article");
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Searches view.
     */
@@ -2079,7 +1949,6 @@ JS;
         $this->m_search_view = igk_getr("m_search_view");
         $this->View();
     }
-    ///<summary></summary>
     /**
     * Selects controller ajx.
     */
@@ -2096,7 +1965,6 @@ JS;
         $data["selected"] = $this->SelectedController;
         return new JsonResponse(json_encode($data));
     }
-    ///<summary>set the default page controller</summary>
     /**
     * Setdefaultpage.
     */
@@ -2113,7 +1981,6 @@ JS;
             return 1;
         }
     }
-    ///<summary></summary>
     /**
     * Setdefaultpage ajx.
     */
@@ -2123,8 +1990,6 @@ JS;
             igk_ajx_toast(__("default controller changed"), "igk-success");
         }
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
     * Sets Selected Controller.
     * @param mixed $value
@@ -2136,8 +2001,6 @@ JS;
             $this->onSelectedControllerChanged();
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrltab" default="null"></param>
     /**
     * auto generate doc.
     * @param null|mixed $ctrltab
@@ -2155,10 +2018,6 @@ JS;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="list"></param>
-    ///<param name="content"></param>
     /**
     * Tab view page.
     * @param mixed $n
@@ -2179,7 +2038,6 @@ JS;
             $i++;
         }
     }
-    ///<summary></summary>
     /**
     * Unreg view frame.
     */
@@ -2192,7 +2050,6 @@ JS;
             igk_frame_close($frame_name);
         }
     }
-    ///<summary></summary>
     /**
     * Updates article.
     */
@@ -2238,7 +2095,6 @@ JS;
         igk_ajx_toast(__("msg.articleupdated"));
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * Updates articlewtiny.
     */
@@ -2260,8 +2116,6 @@ JS;
             igk_notifyctrl()->addError(__("e.filenotsaved", basename($f)));
         }
     }
-    ///<summary></summary>
-    ///<param name="oldcontent" default="null"></param>
     /**
     * Updates ctrl.
     * @param null|mixed $oldcontent
@@ -2281,7 +2135,6 @@ JS;
             igk_exit();
         }
     }
-    ///<summary></summary>
     /**
     * View.
     * @return BaseController
@@ -2314,7 +2167,6 @@ JS;
         }
         return $this;
     }
-    ///<summary></summary>
     /**
     * View frame complete.
     */

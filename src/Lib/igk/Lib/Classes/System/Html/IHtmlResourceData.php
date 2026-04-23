@@ -7,6 +7,7 @@
 // + | 
 // + |
 namespace IGK\System\Html;
+
 /**
  * protocol to handle resource string data
  * @package 

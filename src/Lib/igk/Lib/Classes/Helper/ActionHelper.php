@@ -5,8 +5,6 @@
 // @desc: 
 // @file: ActionHelper.php
 // @author: C.A.D. BONDJE DOUE
-// date: 2022-10-02
-// description: contains function that IGKActionBase can use
 namespace IGK\Helper;
 use DateInterval;
 use Exception;
@@ -29,6 +27,7 @@ use IGKValidator;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
+
 /**
  * action helper
  * @package IGK\Helper
@@ -128,7 +127,6 @@ abstract class ActionHelper
             $interval =  new DateInterval('P3D');
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
             $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT); 
-            // if ( $d < $m){
             if ($r = \IGK\Models\Users::update(
                 ["clStatus" => 1],
                 ['clGuid' => $row->regLinkUserGuid]
@@ -154,7 +152,6 @@ abstract class ActionHelper
     public static function UnregisterUser($ctrl, $token)
     {
     }
-    //do nothing
     /**
      * used to pass empty anonymous
      * @return callable 
@@ -162,7 +159,6 @@ abstract class ActionHelper
     public static function Nothing(): callable
     {
         return function () {
-            // nothing call back method
         };
     }
     /**
@@ -290,7 +286,6 @@ abstract class ActionHelper
             return false;
         }
         if ($v_reg_info){
-            // register to cronjob dispatcher
             return true;
         }
         $mail = new Mail();
@@ -464,7 +459,6 @@ abstract class ActionHelper
     public static function IsExpectedAction(BaseController $baseController, string $action_name, string $resolved_class): bool
     {
         if (self::$ResolvedClass && ($resolved_class == self::$ResolvedClass->class)) {
-            //match resolved class.
             return true;
         }
         if ($g = self::ExpectedAction($baseController, $action_name)) {
@@ -507,9 +501,7 @@ abstract class ActionHelper
         if ($v_requestData = ($options? igk_getv($options, 'requestData') : null)){
             $old_data = Request::getInstance()->setJsonData(json_encode($v_requestData));
         }
-        // check for source user
         $controller->checkUser(false);
-        // traitement before passing args to handlers
         $handlerArgs = $params;
         $_t = null;
         $_index = 'index';
@@ -519,7 +511,6 @@ abstract class ActionHelper
             if ($view == IGK_DEFAULT) {
                 array_pop($_t);
             }
-            // if default view passing 
             while (count($_t) > 1) {
                 $np = array_pop($_t);
                 if (
@@ -531,9 +522,7 @@ abstract class ActionHelper
                 }
             }
         }
-        // igk_dev_wln_e(__FILE__.":".__LINE__,  $params, $handlerArgs, $_index);
         if (count($handlerArgs) == 0) {
-            // no parameter pass to index method of the action handler
             if ($is_expected) {
                 $handlerArgs = [$_index];
             } else {
@@ -546,7 +535,6 @@ abstract class ActionHelper
                             if (count($_t)==1){
                                 $n = $_t[0];
                                 if (self::_CheckMethodExistsWithVerb($handler_class_name, $n, strtolower($verb)))
-                                // if (method_exists($handler_class_name, $n))
                                     {
                                     $_index = array_shift($_t);
                                 }

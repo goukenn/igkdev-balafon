@@ -4,6 +4,7 @@
 // @date: 20250712 12:52:06
 namespace IGK\System\Text;
 use IGK\System\Console\Logger;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text
@@ -30,13 +31,11 @@ class RegexFormatMatcherUtility{
             if ($v_size<0){
                 igk_die("invalid chain detection");
             }
-            $before = substr($Tss, $k, $v_size);// - $offset) - $k);
-            //format previous data
+            $before = substr($Tss, $k, $v_size);
             $tr = explode("\n", $before);
             if (count($tr) > 1) {
                 $before = RegexFormatStringBuilder::ClueDef($before, $v_d); 
             }
-            // $r .= $before . $ss;
             igk_is_debug() &&  Logger::danger("before:[" . $before."]");
             $v_fsb->append($before);
             $v_fsb->lineFeed = $v_fsb->lineFeed || igk_str_endwith($before, "\n");

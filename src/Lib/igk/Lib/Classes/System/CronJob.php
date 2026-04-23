@@ -14,6 +14,7 @@ use IGK\System\Cron\CronScriptHandler;
 use IGK\System\Process\CronJobProcess;
 use IGKEvents;
 use Throwable;
+
 /**
  * 
  * @package IGK\System
@@ -75,7 +76,6 @@ class CronJob
                         list($cl, $fc) = igk_extract(explode('@', $scr, 2), '0|1');
                         if (class_exists($cl) && method_exists($cl, $fc)) {
                             $arg = $d = json_decode($row->options ?? '[]', true) ?? [];
-                            //$start = $start[0] + ($start[1] /1000);
                             unset($d['(@error)']);
                             if (isset($d['@params'])) {
                                 $arg = $d['@params'];

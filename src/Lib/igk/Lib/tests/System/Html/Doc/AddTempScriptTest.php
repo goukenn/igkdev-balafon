@@ -3,7 +3,6 @@
 // @file: AddTempScriptTest.php
 // @date: 20241017 16:24:28
 namespace IGK\Tests\System\Html\Doc;
-
 use IGK\Helper\IO;
 use IGK\Tests\BaseTestCase;
 use IGKHtmlDoc;
@@ -14,21 +13,17 @@ use IGKHtmlDoc;
 * @author C.A.D. BONDJE DOUE
 */
 class AddTempScriptTest extends BaseTestCase{
-
     /**
     * Tests htmldoc addtemps script.
     */
     public function test_htmldoc_addtemps_script(){
         $doc = IGKHtmlDoc::CreateDocument(-1);
-        // $p = null; 
         $file = IO::CreateTempFile(IO::CreateTempDir('uri-test'), '.js'); 
         $cn = $doc->addTempScript($file."?p=new_app");
         $n = $cn->render(); 
-        // $abs_path = IO::IsAbsolutePath($file);
         $this->assertEquals(
             '<script language="javascript" src="./?p=new_app" type="text/javascript"></script>', 
             $n);
-    
         unlink($file);
     }
 }

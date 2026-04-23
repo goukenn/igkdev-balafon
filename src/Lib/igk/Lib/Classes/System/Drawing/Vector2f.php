@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
 use IGKObject;
+
 /**
 * Vector2f.
 * @package IGK\System\Drawing

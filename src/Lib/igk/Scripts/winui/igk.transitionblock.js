@@ -30,8 +30,6 @@ function animateHandle(q){
 		}
 	});
 };
-
- 
 igk.winui.initClassControl("igk-transitionblock", function(){
 	if (this.getisVisible()){
 		this.addClass("animate");
@@ -39,6 +37,4 @@ igk.winui.initClassControl("igk-transitionblock", function(){
 		new animateHandle(this);
 	} 
 }); 
-
 })();
-

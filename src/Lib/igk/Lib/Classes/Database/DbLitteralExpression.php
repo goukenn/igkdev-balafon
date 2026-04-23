@@ -3,6 +3,7 @@
 // @file: DbLitteralExpression.php
 // @date: 20230116 14:19:52
 namespace IGK\Database;
+
 /**
 * auto generate doc.
 * @package IGK\Database

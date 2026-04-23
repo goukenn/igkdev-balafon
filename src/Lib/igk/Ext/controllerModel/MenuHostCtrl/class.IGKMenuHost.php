@@ -3,10 +3,6 @@
 // @filename: class.IGKMenuHost.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-//controller code class declaration
-//file is a part of the controller tab list
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
@@ -15,13 +11,11 @@ use IGK\Controllers\ExtraControllerProperty;
 */
 abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
-
     /**
     * Returns Additional Config Info.
     */
@@ -29,7 +23,6 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return array("clAllowMenuNavigation"=>new ExtraControllerProperty("bool", true));
 	}
-
     /**
     * Sets Additional Config Info.
     * @param mixed & $tab
@@ -38,9 +31,6 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		$tab["clAllowMenuNavigation"] = igk_getr("clAllowMenuNavigation");
 	}
- 
-	//@@@ parent view control
-
     /**
     * View.
     * @return BaseController
@@ -71,6 +61,4 @@ EOF;
 		}
 		return $this;
 	}
-
-
 } 

@@ -3,7 +3,6 @@
 // @file: HtmlRenderingLoopTest.php
 // @date: 20230307 21:09:52
 namespace IGK\Tests;
-
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -11,7 +10,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests
 */
 class HtmlRenderingLoopTest extends BaseTestCase{
-
     /**
     * Tests htmlrender activate.
     */
@@ -25,13 +23,11 @@ class HtmlRenderingLoopTest extends BaseTestCase{
         ]);
         $d = igk_create_node('p');
         $d->load($src); 
-
         $this->assertEquals(
             '<p><Column clAutoIncrement="true" clIsPrimary="true" clIsUnique="true"></Column></p>',
             $d->render()
         );
     }
-
     /**
     * Tests loop on range.
     */
@@ -45,7 +41,6 @@ class HtmlRenderingLoopTest extends BaseTestCase{
             $n->render(),
             "loop on range failed");
     }
-
     /**
     * Tests loop on assoc array.
     */

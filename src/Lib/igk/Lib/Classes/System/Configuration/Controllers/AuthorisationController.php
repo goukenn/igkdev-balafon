@@ -21,6 +21,7 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKSysUtil;
 use function igk_resources_gets as __;
+
 /**
 * Authorisation controller.
 * @package IGK\System\Configuration\Controllers
@@ -86,7 +87,6 @@ class AuthorisationController extends ConfigControllerBase{
     */
     private function _auth_options($frm){
         $frm->span()->ajxa($this->getUri("auth_add_authorisation_ajx"))->Content = igk_svg_use("add");
-        // IGKHtmlUtils::AddImgLnk($frm->addspan(), igk_js_post_frame($this->getUri("auth_add_authorisation_ajx")), "add_16x16");
     }
     /**
     * Represent _isAuth function
@@ -100,25 +100,6 @@ class AuthorisationController extends ConfigControllerBase{
         }
         return false;
     }
-    // public static function ModelViewLimit($target, $model, callable $callback, $conditions=null, $options=null, $key = "page") {
-    //     $options = $options ?? [];
-    //     $c = $model::count($conditions, $options);
-    //     $limit = null;
-    //     if ($c>0){
-    //         $blimit = igk_getv($options, "Limit", PageLayout::ItemLimits());
-    //         if ($c < $blimit){
-    //             $pan = new Pagination();
-    //             $options["Limit"] = $pan->getLimit();
-    //         }
-    //         if ($r= $model::select_all($conditions, $options)){
-    //             foreach($r as $v){
-    //                 $callback($target, $v);
-    //             }
-    //         }
-    //     }
-    //     return $limit;
-    // }
-    ///<summary>Represente auth function</summary>
     /**
     * Represent auth function
     */
@@ -256,7 +237,6 @@ class AuthorisationController extends ConfigControllerBase{
             igk_ajx_toast($t);
         }else{
         }
-        //igk_navto($this->getUri('showConfig').'#'.__FUNCTION__);
     }
     /**
     * Represent auth_delete_authorisation_ajx function
@@ -325,7 +305,6 @@ class AuthorisationController extends ConfigControllerBase{
                     $tr=$table->addTr();
                     $tr->addTd()->addInput("clGroups[]", "checkbox", $v->clId)->setAttribute("checked", isset($groupindex[$v->clId]));
                     $tr->addTd()->Content=$v->clName;
-                    // IGKHtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($this->getUri("auth_remove_group_ajx&clId=".$id."&clGroupId=".$v->clId)), "drop_16x16");
                     $tr->td()->ajxa($this->getUri("auth_remove_group_ajx&clId=".$id."&clGroupId=".$v->clId))->Content = igk_svg_use("drop"); 
                 }
             }
@@ -378,8 +357,7 @@ class AuthorisationController extends ConfigControllerBase{
         $li=$ul->addLi();
         $li->addLabel()->Content=R::ngets("lb.users");
         $select=$li->addSelect("clUser");
-       //  Users::select_fetch();
-        $r= Users::select_all(); // igk_db_table_select_where(IGK_TB_USERS, null, $this);
+        $r= Users::select_all(); 
         $cg = Authorizations::select_all(['!clController'=>null], ['Distinct'=>true, 'OrderBy'=>[
             'clController'
         ],  'Columns'=>[
@@ -400,10 +378,9 @@ class AuthorisationController extends ConfigControllerBase{
         }
         $ul->fields([
             'clAuth'=>[],
-            // 'clController'=>[],
             'clController'=>['type'=>'select', 'data'=>$data]
         ]); 
-        $frm->actionbar(FormHelper::submit()); // null, __("Check authorisation")));
+        $frm->actionbar(FormHelper::submit()); 
         return $d;
     }
     /**
@@ -461,12 +438,10 @@ class AuthorisationController extends ConfigControllerBase{
             $g->user = Users::select_row(["@@clLogin"=>$g->user]);
             $r = false;
             if ($ctrl && ($ctrl = SysUtils::GetControllerByName($ctrl, false))){
-                // igk_wln_e("try , ", $g, $ctrl);
                 $r = Authorization::BindUserToGroup($ctrl, $g->user, $g->group);
                 echo '->attached';
             }
             igk_notifyctrl(__METHOD__)->msg('register to group ');
-            // igk_wln($n->renderAJX());
             igk_wln_e("finish");
             igk_navto($buri."/".__FUNCTION__);
         }
@@ -489,7 +464,6 @@ class AuthorisationController extends ConfigControllerBase{
                 'type'=>'select',
                 'attribs'=>[
                     'data-uri'=>$g_group_uri,
-                    // 'onchange'=>"ns_igk.ajx.post('".$g_group_uri."?v='+this.value, true, '#group')"
                 ],
                 'attribs'=>['id'=>"owner"],
                 'data'=>$g ? FormUtils::SelectData($g->to_array(), 'clController', 'clController') : []

@@ -3,7 +3,6 @@
 // @file: CssScssToPhpMethodHandler.php
 // @date: 20230125 18:08:59
 namespace IGK\Tests\Css;
-
 use IGK\Tests\BaseTestCase;
 use IGKException;
 
@@ -12,7 +11,6 @@ use IGKException;
 * @package IGK\Tests\Css
 */
 class CssScssToPhpMethodHandler extends BaseTestCase{
-
     /**
      * expression list
      * @var ?array<string> expression

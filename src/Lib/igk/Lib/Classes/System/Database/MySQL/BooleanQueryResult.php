@@ -6,6 +6,7 @@
 namespace IGK\System\Database\MySQL;
 use IGK\System\Database\IDbResultType;
 use IGKObject;
+
 /**
  * is boolean result type 
  * @package IGK\System\Database\MySQL

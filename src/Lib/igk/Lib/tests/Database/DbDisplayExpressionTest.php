@@ -3,7 +3,6 @@
 // @file: DbDisplayExpressionTest.php
 // @date: 20240921 09:33:01
 namespace IGK\Tests\Database;
-
 use IGK\Database\DbDisplayExpression;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class DbDisplayExpressionTest extends BaseTestCase{
-
     /**
     * Tests dbmodel displayvalue.
     */

@@ -3,9 +3,7 @@
 // @filename: testTemplateRendering.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests\Rendereging;
-
 use IGK\System\Html\HtmlReader;
 use IGK\Tests\BaseTestCase;
 
@@ -25,10 +23,8 @@ class testTemplateRendering extends BaseTestCase{
     info
 </div>
 MSG_EOF;
-
 $g = HtmlReader::Load($src);
 echo $g->render();
-
         $this->expectOutputString("<div>ddd</div>");
     }
 }

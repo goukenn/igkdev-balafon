@@ -3,6 +3,7 @@
 // @file: VCardEncodingBinaryData.php
 // @date: 20250503 12:27:03
 namespace IGK\System\IO\VCF;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\VCF

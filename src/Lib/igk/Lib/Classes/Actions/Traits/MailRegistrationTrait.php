@@ -3,6 +3,7 @@
 // @file: MailRegistrationTrait.php
 // @date: 20221115 21:52:14
 namespace IGK\Actions\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits

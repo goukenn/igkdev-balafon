@@ -10,6 +10,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTypeBase;
 use IGK\Helper\IO;
+
 /**
 * Igkcontroller type manager.
 */

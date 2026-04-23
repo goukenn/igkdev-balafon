@@ -5,6 +5,7 @@
 // @desc:
 namespace IGK\System\Traits;
 use Closure;
+
 /**
 * Trait providing create callable functionality.
 * @package IGK\System\Traits

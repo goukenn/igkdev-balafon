@@ -3,9 +3,7 @@
 // @filename: TestController.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests\Controllers;
-
 use IGK\Controllers\BaseController;
 
 /**
@@ -13,7 +11,6 @@ use IGK\Controllers\BaseController;
 * @package IGK\Tests\Controllers
 */
 class TestController extends BaseController{
-
     /**
     * auto generate doc.
     * @return string
@@ -21,7 +18,6 @@ class TestController extends BaseController{
     private function _getTestDeclaredDir(){
         return $this->getEnvParam("DeclaredDir");
     }
-
     /**
     * auto generate doc.
     * @return string
@@ -29,14 +25,12 @@ class TestController extends BaseController{
     public function getDeclaredDir():string{
         return $this->_getTestDeclaredDir();
     }
-
     /**
     * Returns Declared File Name.
     */
     public function getDeclaredFileName(){
         return $this->_getTestDeclaredDir()."/TestController.php"; 
     }
-
     /**
     * Returns Basic Uri Pattern.
     */

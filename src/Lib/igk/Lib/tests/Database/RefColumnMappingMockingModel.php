@@ -3,25 +3,20 @@
 // @file: RefColumnMappingMockingModel.php
 // @date: 20260226 19:25:32
 namespace IGK\Tests\Database;
-
 use IGK\Database\DbColumnInfo; 
 use IGK\Models\ModelBase;
- 
-
 
 /**
 * Ref column mapping mocking model.
 * @package IGK\Tests\Database
 */
 class RefColumnMappingMockingModel extends ModelBase{
-
     /**
     * Returns Data Table Definition.
     */
     public function getDataTableDefinition(){
         return [];
     }
-
     /**
     * Get table column info.
     * @return ?array
@@ -33,7 +28,6 @@ class RefColumnMappingMockingModel extends ModelBase{
             'test'=>new DbColumnInfo(['clName'=>'test', 'clType'=>'varchar(30)']),
         ];
     }
-
     /**
     * Returns Table.
     */

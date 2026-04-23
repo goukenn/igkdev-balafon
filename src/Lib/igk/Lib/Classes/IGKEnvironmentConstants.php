@@ -3,12 +3,12 @@
 // @filename: IGKEnvironmentConstants.php
 // @date: 20220803 13:48:54
 // @desc: 
+
 /**
  * represent environment constants
  * @package 
  */
 abstract class IGKEnvironmentConstants{
-     // | define environment reserver key constant
     /**
     * Constant: init app.
     * @var mixed
@@ -19,7 +19,6 @@ abstract class IGKEnvironmentConstants{
     * @var mixed
     */
     const DEBUG = 'DEBUG';
-     // KEY to environement css utils args
     /**
     * Constant: css util args.
     * @var mixed
@@ -75,12 +74,12 @@ abstract class IGKEnvironmentConstants{
     * Constant: not visible ctrl.
     * @var mixed
     */
-    const NOT_VISIBLE_CTRL = self::CURRENT_CTRL+10; // "sys://ctrl/notvisible";
+    const NOT_VISIBLE_CTRL = self::CURRENT_CTRL+10; 
     /**
     * Constant: article chain context.
     * @var mixed
     */
-    const ARTICLE_CHAIN_CONTEXT = self::CURRENT_CTRL+11;// "sys://article_chain";
+    const ARTICLE_CHAIN_CONTEXT = self::CURRENT_CTRL+11;
     /**
     * Constant: modules.
     * @var mixed
@@ -94,7 +93,7 @@ abstract class IGKEnvironmentConstants{
      /**
       * auto load classes
       */
-     const AUTO_LOAD_CLASS = self::CURRENT_CTRL+12; // "auto_load_class";
+     const AUTO_LOAD_CLASS = self::CURRENT_CTRL+12; 
     /**
     * Constant: view file caches.
     * @var mixed
@@ -104,8 +103,7 @@ abstract class IGKEnvironmentConstants{
     * Constant: ignore js dir.
     * @var mixed
     */
-    const IGNORE_JS_DIR = self::CURRENT_CTRL+13; // "sys://lib/ignorejsdir";
-     // store component initiators environment - for speed up node creation
+    const IGNORE_JS_DIR = self::CURRENT_CTRL+13; 
     /**
     * Constant: component initiators.
     * @var mixed
@@ -116,7 +114,6 @@ abstract class IGKEnvironmentConstants{
     * @var mixed
     */
     const CURRENT_USER= self::CURRENT_CTRL+30;
-     // environment list
     /**
     * Constant: dev env.
     * @var mixed

@@ -9,6 +9,7 @@ use IGK\Controllers\BaseController;
 use IGKEvents;
 use IGKException;
 use stdClass;
+
 /**
  * 
  * @package IGK\Helpers
@@ -50,7 +51,6 @@ class ApplicationModuleHelper
     public static function ImportRequiredModule(array $required_conf, BaseController $ctrl)
     {
         // + | load build requirement
-        // array_map(function ($n) use ($ctrl, $required_conf) {
         foreach($required_conf as $k=>$n){
             if (!is_numeric($k)){
                 $n = $k;
@@ -67,7 +67,6 @@ class ApplicationModuleHelper
                 }
             }
         }
-        // , array_keys($required_conf));
     }
     /**
      * get module required info
@@ -77,7 +76,7 @@ class ApplicationModuleHelper
     {
         $g = igk_environment()->get(self::SYS_ENV_KEY);
         $v_cif = igk_getv($g, get_class($ctrl));
-        $v_n = self::GetConfigKey($module); // str_replace('.', '/', ltrim($module->getName(), '.'));
+        $v_n = self::GetConfigKey($module); 
         if ($info = igk_getv($v_cif, $v_n)) {
             return self::CreateApplicationModuleConfigurationInfo($info);
         }

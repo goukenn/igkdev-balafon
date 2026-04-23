@@ -3,6 +3,7 @@
 // @file: RefDataArgs.php
 // @date: 20251023 23:30:42
 namespace IGK\System;
+
 /**
 * auto generate doc.
 * @package IGK\System

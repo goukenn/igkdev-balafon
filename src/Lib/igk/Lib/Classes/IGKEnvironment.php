@@ -16,6 +16,7 @@ use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 use Spatie\PhpUnitWatcher\Screens\Phpunit;
 use function igk_getv as getv;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
 /**
  * use to manage Server Environment configuration poperties
@@ -138,7 +139,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * @var array
      */
     private $m_envs;
-    // | default FOUR ENVIRONMENT TYPE
     /**
     * Property: env keys.
     * @var mixed
@@ -242,9 +242,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     */
     public function getEnvironmentPath()
     {
-        // 
-        // resolv path to system location 
-        // 
         $app_dir = igk_io_applicationdir();
         $mod_dir = igk_get_module_dir();
         $packagedir = igk_io_packagesdir();
@@ -604,7 +601,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         return $this->m_envs;
     }
-    ///<remark>default environment mode is *development</summary>
     /**
      * check wether environment is on environment mode
      */
@@ -833,10 +829,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
             $o = array_pop($c);
             $this->set($key, $c);
         }
-        // if (\IGK\System\Html\HtmlLoadingContext::class == $key){
-        //     $ref_count = count($c);
-        //     igk_wln(__FILE__.":".__LINE__ , "Key : ".$key . " ::POP:: count " .$ref_count); 
-        // }
         return $o;
     }
     /**
@@ -1001,12 +993,9 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     */
     public function getDebugger()
     {
-        // 
         // + | Debugger
         //
         return igk_get_class_instance(Debugger::class, function () {
-            // igk_trace();
-            // igk_wln_e("file ", $f);
             return new Debugger;
         });
     }

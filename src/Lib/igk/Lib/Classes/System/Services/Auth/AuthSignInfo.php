@@ -4,6 +4,7 @@
 // @date: 20220607 16:11:33
 // @desc: auth provided
 namespace IGK\System\Services\Auth;
+
 /**
  * auth information
  * @package IGK\System\Services\Auth

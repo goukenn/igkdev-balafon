@@ -1,11 +1,9 @@
 igk.system.createNS("igk.winui.utils",
 {
 fixfit:function(node, parent, properties){
-
 		var t =$igk(node);
 		var l =$igk(parent);
 		if(t){
-			
 			if (properties == null)
 			{			
 				t.setCss({"right": (l.fn.hasVScrollBar()? l.fn.vscrollWidth()+"px" : "0px")});
@@ -18,6 +16,4 @@ fixfit:function(node, parent, properties){
 			}
 		}
 		}
-		
-		
 });

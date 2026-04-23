@@ -5,6 +5,7 @@
 namespace IGK\System\Security\Web;
 use IGKValidator;
 use function igk_resources_gets as __;
+
 /**
  * Password Content validator 
  * @package IGK\System\Security\Web

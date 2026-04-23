@@ -6,13 +6,11 @@
 if (!version_compare(PHP_VERSION, "7.3", ">=")) {
     die("mandory version required. 7.3<=");
 }
-
 require_once(__DIR__ . "/igk_framework.php");
 require_once(IGK_LIB_CLASSES_DIR . "/interfaces.php");
 require_once(IGK_LIB_CLASSES_DIR . "/IGKObject.php");
 require_once(IGK_LIB_CLASSES_DIR . "/IGKApplicationBase.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Resources/R.php");
-
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/App.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/BalafonApplication.php");
@@ -23,7 +21,6 @@ require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php");
 require_once(IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Server.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/AppConfigs.php");
-// loader
 require_once(IGK_LIB_CLASSES_DIR . "/ApplicationLoader.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/conf.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/environment.php");

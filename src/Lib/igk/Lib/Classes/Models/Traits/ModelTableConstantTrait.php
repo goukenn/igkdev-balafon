@@ -5,21 +5,12 @@
 namespace IGK\Models\Traits;
 use IGK\Helper\Database;
 use ReflectionClass;
+
 /**
 * class must provide a static $model and static $field_name
 * @package IGK\Models\Traits
 */
 trait ModelTableConstantTrait{
-    // /**
-    //  * model class to use
-    //  * @var mixed
-    //  */
-    // protected static $model;
-    // /**
-    //  * field name to use
-    //  * @var mixed
-    //  */
-    //  protected static $field_name;
     /**
     * auto generate doc.
     * @param mixed $value
@@ -48,8 +39,8 @@ trait ModelTableConstantTrait{
         $cl = static::class;
         $tmodel = igk_getv($cl_vars = get_class_vars($cl), 'model') ?? igk_die(sprintf('missing required model.[%s]', static::class));
         $tfn = igk_getv($cl_vars, 'field_name');
-        $model = $tmodel;// cl::$model;
-        $fn = $tfn; // cl::$field_name;
+        $model = $tmodel;
+        $fn = $tfn; 
         $init_fields = method_exists(static::class, $fc);
         $v_constants = $cl::GetConstants();
         foreach($v_constants as $ut){

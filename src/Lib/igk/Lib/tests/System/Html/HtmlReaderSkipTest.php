@@ -3,9 +3,7 @@
  // @filename: HtmlReaderSkipTest.php
  // @date: 20221129 11:04:13
  // @desc: skip test  
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlReaderSkipTest.php
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlReaderSkipTest extends BaseTestCase{
-
     /**
     * Tests skip script.
     */
@@ -26,15 +23,12 @@ HTML);
         $this->assertEquals(<<<'HTML'
 <div><script>if (i<data){console.log('info');}</script></div>
 HTML,   $n->render());
-
     }
-
     /**
     * Tests skip code.
     */
     function test_skip_code(){
         $n = igk_create_node("div"); 
-        // code must be wheel writed 
         $n->load(<<<'HTML'
 <code>if (i< data){console.log('info');}</code>
 HTML);
@@ -43,21 +37,17 @@ HTML);
 HTML,   $n->render(),
 "<code> must be well write tin order do get data propert data "
         );
-
     }
-
     /**
     * Tests skip area code.
     */
     function test_skip_area_code(){
         $n = igk_create_node("div");
-       
         $n->load(<<<'HTML'
 <textarea>if <div>Information du jour </div></textarea>
 HTML);
         $this->assertEquals(<<<'HTML'
 <div><textarea>if <div>Information du jour </div></textarea></div>
 HTML,   $n->render());
-
     }
 }

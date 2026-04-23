@@ -5,6 +5,7 @@
 namespace IGK\System\Security\Web;
 use IGK\System\Html\Forms\Validations\PasswordValidator;
 use function igk_resources_gets as __;
+
 /**
  * Password Content validator 
  * @package IGK\System\Security\Web
@@ -19,7 +20,6 @@ class PasswordContentValidator extends MapContentValidatorBase
     */
     protected function validate(&$value, $key): bool
     {
-        // system password rules
         // + | PasswordRules  
         $terror = false;
         $error = [];
@@ -36,18 +36,6 @@ class PasswordContentValidator extends MapContentValidatorBase
                 $error[$key] = __('missing requirement');
                 $terror = true;
             }
-            // if (strlen($value) < 8) {
-            //     $error[$key] = __('password length empty');
-            //     $terror = true;
-            // }
-            // if (!preg_match('/[^a-z0-9\s]/i', $value) && !preg_match('/[#@+_~\*\-]/i', $value)) {
-            //     $error[$key] = __('special char missing');
-            //     $terror = true;
-            // }
-            // if (!preg_match('/[0-9]/i', $value)) {
-            //     $error[$key] = __('missing number');
-            //     $terror = true;
-            // }
         }
         if ($error) {
             $this->notvalid_msg = $error;

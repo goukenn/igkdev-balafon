@@ -1,8 +1,7 @@
 <?php
+
 //
 // @author: C.A.D. BONDJE DOUE
-// licence: IGKDEV - Balafon @ 2019
-// desc: mysql data adapter
 // @file: igk_mysql_db.php
 use IGK\Database\DbQueryDriver;
 use IGK\Constants;
@@ -22,7 +21,6 @@ require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
 $file = (igk_sys_reflect_class(\IGK\System\Database\MySQL\DataAdapterBase::class))->getFileName();
 require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
-// igk_wln_e("the file ", get_included_files() , $file, IGK_MYSQL_DIR . "/DataAdapterBase.php");
 require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
 /**
@@ -70,13 +68,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                 $extra = " server:" . $srv->server . " user:" . $srv->user;
             }
             $msg = "DB Error : " . $ex->getMessage() . $extra;
-            // igk_ilog($msg);
-            // if (igk_environment()->isDev()){
-            //     igk_ilog("danger: ".$msg);
-            //     \IGK\System\Console\Logger::danger("danger : ".$msg);
-            //     igk_trace();
-            //     igk_exit();
-            // }
             throw new \IGKException($msg, 500, $ex);
         }
         return null;
@@ -103,7 +94,6 @@ function igk_db_escape_string($v, $r = null)
             }
             return $g($b, $v);
         }
-        // no driver to espace string default function
         return is_null($v) ? $v : addslashes($v);
     }
     if (!empty($g))
@@ -424,5 +414,4 @@ DbQueryDriver::Init(function (&$conf) {
     $t["connect_error"] = "mysqli_connect_error";
     $conf[$n]["func"] = $t;
 });
-// require_once __DIR__ . "/Controllers/DbConfigController.php";
 ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands\Navigation;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\FileHandler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Navigation

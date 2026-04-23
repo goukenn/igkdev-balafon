@@ -3,6 +3,7 @@
 // @file: ScopedNodeTrait.php
 // @date: 20241016 13:35:45
 namespace IGK\System\Html\Rendering\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Rendering\Trait

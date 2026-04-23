@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: db.php
 // @date: 20230202 17:23:52
 // @desc: db function helper
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbConstants;
@@ -14,7 +12,6 @@ use IGK\System\Console\Commands\Database\DbSchemaUtility;
 use IGK\System\Console\Logger as Logger;
 
 if (!function_exists('igk_db_table_info')) {
-
     /**
      * operate on table information with a callback 
      * @param BaseController $ctrl 
@@ -51,8 +48,6 @@ if (!function_exists('igk_db_table_info')) {
         }
     }
 }
-
-
 /**
  * helper: reload with index .
  * @param mixed $controllerOrAdapterName 
@@ -79,7 +74,6 @@ function igk_db_reload_index($controllerOrAdapterName, $table, $dbname = null, $
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @deprecated use direct IGK\Helper\AutorizationHelper
@@ -131,11 +125,9 @@ function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable 
         if ($ctrl) {
             $ctrl->model()->insert($authTable, $p);
         }
-        // igk_db_insert($ctrl, $authTable, $p);
     }
     return $v_r;
 }
-
 /**
  * insert in table if data not exists
  * @deprecated use direct model access
@@ -170,7 +162,7 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
                 $e = igk_db_data_is_present($adapt, $table, $condition, $tabinfo);
             }
             if (!$e) {
-                $r = $adapt->insert($table, $entry, false); // , $tabinfo);
+                $r = $adapt->insert($table, $entry, false); 
             }
             $adapt->close($leaveOpen);
         } else {
@@ -182,7 +174,6 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
     }
     return null;
 }
-
 /**
  * utility global function 
  * @param BaseController $ctrl 
@@ -194,9 +185,7 @@ function igk_db_insertc(BaseController $ctrl, $entries)
     $tb = $ctrl->getDataTableName();
     $ad = $ctrl->getDataAdapter();
     return $tb && $ad && $ad->insert($tb, $entries);
-    // return igk_db_insert($ctrl, $ctrl->getDataTableName(), $entries, null);
 }
-
 /**
  *  shortcut to add multiple entries on the table
  * @param mixed $strict  add stop if error dected
@@ -212,7 +201,6 @@ function igk_db_inserts($ad, $table, $entries, $strict = 1)
     }
     return !$error;
 }
-
 /**
 * auto generate doc.
 * @deprecated use model entry class
@@ -234,7 +222,6 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $leaveopen
@@ -254,7 +241,6 @@ function igk_db_last_id($ctrl, $leaveopen = false)
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $groups
@@ -265,10 +251,6 @@ function igk_db_init_groups($groups)
         igk_db_register_group($v);
     }
 }
-
-
-///invoke to init system auto
-
 /**
 * auto generate doc.
 */
@@ -279,8 +261,6 @@ function igk_db_init_auths($auths)
         igk_db_register_auth($v, $c);
     }
 }
-
-
 /**
  * grant system authorisation
  */
@@ -298,14 +278,8 @@ function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
             )
         );
     }
-    // return igk_db_insert_if_not_exists($ctrl, igk_db_get_table_name(IGK_TB_GROUPAUTHS), array(
-    //     IGK_FD_AUTH_ID => $auth->clId,
-    //     IGK_FD_GROUP_ID => $group->clId,
-    //     "clGrant" => $access
-    // ));
     return 0;
 }
-
 /**
 * auto generate doc.
 * @param mixed $dataobj
@@ -326,7 +300,6 @@ function igk_db_create_obj_from_infokey($tb, $dataobj = null)
     }
     return null;
 }
-
 /**
  * return column info association keys
  * @deprecated
@@ -343,7 +316,6 @@ function igk_db_column_info($db, $tablename, &$autoinc = null)
     }
     return $tt;
 }
-
 /**
 * auto generate doc.
 * @param mixed $ctrlorName
@@ -364,16 +336,12 @@ function igk_db_close_adapter($ctrlOrAdapterName)
         $ad->close();
     }
 }
-
-
-// --run db-management.php table 
 if (!function_exists('igk_db_command_table')) {
     /**
      * create table command 
      */
     function igk_db_command_table(BaseController $controller, string $list)
     {
-
         $updated = false;
         $c = explode(',', $list);
         $definition = $controller->loadDataFromSchemas();
@@ -389,7 +357,6 @@ if (!function_exists('igk_db_command_table')) {
             $cf = DbConstants::PREFIX_KEY . $q;
             $tb = IGKSysUtil::DBGetTableName($cf, $controller);
             if (!isset($tables[$tb])) {
-
                 $table = $schema->add(DbSchemas::DATA_DEFINITION);
                 $table['TableName'] = $cf;
                 $table['Description'] = "";
@@ -406,14 +373,12 @@ if (!function_exists('igk_db_command_table')) {
                 Logger::warn('already defined -> ' . $tb);
             }
         }
-
         if ($updated) {
             $utils->store($cb);
             Logger::success('updated -> ' . $utils->file);
         }
     }
 }
-
 // + | --------------------------------------------------------------------
 // + | db add column to table
 // + |
@@ -435,7 +400,6 @@ if (!function_exists('igk_db_command_column')) {
         $tv = array_values($tables);
         while (count($tv) > 0) {
             $tt = array_shift($tv);
-
             foreach ($search as $n) {
                 if (($n == $tt->defTableName) || ($n == $tt->tableName)) {
                     $tv = [];
@@ -448,7 +412,6 @@ if (!function_exists('igk_db_command_column')) {
             return false;
         }
         $v_inf = igk_db_parse_column_def_arg($columndef);
-
         $utils = new DbSchemaUtility($controller);
         $cb = $utils->load();
         $defs = $cb->getElementsByTagName(DbSchemas::DATA_DEFINITION);
@@ -473,7 +436,6 @@ if (!function_exists('igk_db_command_column')) {
         return $store;
     }
 }
-
 if (!function_exists('igk_db_parse_column_def_arg')) {
     /**
      * parse column definition command argument
@@ -490,14 +452,12 @@ if (!function_exists('igk_db_parse_column_def_arg')) {
             $string_data["$".$ln] = addslashes(igk_str_remove_quote($m[0]));
             return "$".$ln;
         }, stripslashes($column_definition));
-
         $cmd = array_map(function ($i) use ($string_data) {
             $tb = explode(',', $i);
             $column = array_shift($tb);
             $c = new DbColumnInfo;
             $c->clName = $column;
             if (count($tb) > 0) {
-                // load definition 
                 while (count($tb) > 0) {
                     $q = array_shift($tb);
                     switch ($q) {
@@ -530,20 +490,17 @@ if (!function_exists('igk_db_parse_column_def_arg')) {
                                     case 'description':
                                         $c->clDescription = $v;
                                         break;
-                                    
                                     default:
                                         # code...
                                         break;
                                 }
                             }  
-
                             break;
                     }
                 }
             }
             return [$column => $c];
         }, explode(';', $column_definition));
-
         $cmd = array_merge(...$cmd);
         return $cmd;
     }

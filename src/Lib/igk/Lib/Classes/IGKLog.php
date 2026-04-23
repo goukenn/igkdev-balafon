@@ -11,6 +11,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
+
 /**
  * Represent IGKLog class
  */
@@ -53,9 +54,6 @@ final class IGKLog extends IGKObject
     */
     public static function getInstance()
     {
-        // if (!isset($_SESSION)) {
-        //     igk_die("/|\ must start session");
-        // }
         if (self::$sm_instance == null) {
             self::$sm_instance = igk_get_class_instance(__CLASS__, function () {
                 return new IGKLog();
@@ -121,7 +119,6 @@ final class IGKLog extends IGKObject
         try{
             self::WriteDbLog($msg, $tag, $dblog);
         } catch(Exception $ex){
-            // possibility of missing db log 
         }
         igk_hook(IGKEvents::HOOK_LOG_APPEND, func_get_args());
         self::$sm_loggin = false;

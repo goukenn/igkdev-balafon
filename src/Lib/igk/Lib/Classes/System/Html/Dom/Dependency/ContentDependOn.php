@@ -4,6 +4,7 @@
 // @date: 20220828 23:38:29
 // @desc: dependency for compiler
 namespace IGK\System\Html\Dom\Dependency;
+
 /**
  * content depency
  * @package IGK\System\Html\Dom

@@ -4,6 +4,7 @@
 // @date: 20250627 06:20:07
 namespace IGK\Css\Analyzer;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * auto generate doc.
 * @package IGK\Css\Analyzer
@@ -99,7 +100,6 @@ class CssAnalyzer
         $regex = $this->m_regex;
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
-               // Logger::info($e->tokenID);
                 if ($e->tokenID == 'selector') {
                     if (!empty($v = trim($e->value))) {
                         $tv = $this->m_splitListener ? $this->m_splitListener->split($v) : [$v];
@@ -127,7 +127,6 @@ class CssAnalyzer
                 }
             }
         }
-        // 
         ksort($this->medias);
         ksort($this->classes);
         ksort($this->identifiers);

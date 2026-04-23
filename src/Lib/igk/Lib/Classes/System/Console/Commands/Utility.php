@@ -5,9 +5,9 @@
 // @desc: 
 // @author : C.A.D. BONDJE DOUE
 // @desc: command utility
-// 
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\Helper\ConsoleUtility;
+
 /**
  * command console utility Helper function 
  * @package igk\System\Console\Commands

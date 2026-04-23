@@ -3,6 +3,7 @@
 // @file: IFormValidationInfo.php
 // @date: 20231228 22:09:58
 namespace IGK\System\Html\Forms\Validations;
+
 /**
 * validation field properties
 * @package IGK\System\Html\Forms\Validations

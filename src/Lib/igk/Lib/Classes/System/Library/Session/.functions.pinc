@@ -3,7 +3,6 @@
 // @filename: .functions.pinc
 // @date: 20220803 13:51:47
 // @desc: 
-
 use IGK\Helper\IO;
 
 /**
@@ -13,7 +12,6 @@ use IGK\Helper\IO;
 function igk_cookies(){
     return \IGK\System\Http\CookieManager::getInstance();
 }
-
 ///<summary></summary>
 /**
  * destroy session
@@ -24,7 +22,6 @@ function igk_session_destroy()
         igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); @session_destroy();
     } 
 }
-
 if (!function_exists('igk_session_count')){
     /**
      * count number of opened session
@@ -80,7 +77,6 @@ function igk_start_session($reset = 0)
     //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
     //+ check if the session is passed prio to cookie value.
     //+ 2020 Edge and chrome on Mac no need for session_id https://www.php.net/manual/en/function.session-id.php
-
     $idstorage = trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? false : trim(igk_getr($cookieName, igk_getv($_SERVER, $cookieName))));
     if ($idstorage) {
         igk_bind_session_id($idstorage);

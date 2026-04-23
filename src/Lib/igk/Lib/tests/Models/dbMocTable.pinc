@@ -3,10 +3,7 @@
 // @filename: dbMocTable.pinc
 // @date: 20220803 13:51:47
 // @desc: 
-
-
 namespace IGK\Tests\Models;
-
 use IGK\Database\DbColumnInfo;
 use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Activator; 
@@ -19,15 +16,12 @@ abstract class  dbMocModelBase extends ModelBase implements IOneTableDataBaseDef
         return $this->getModelDefinition(); 
     }
 }
-
 /** @package  
  * @method static \IGK\Models\DbModelDefinitionInfo getModelDefinition()
  */
 class Table1Test extends dbMocModelBase implements IOneTableDataBaseDefinition
 {
     protected $table = "dummy_table1";
-    
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         $clinfo = [
@@ -44,12 +38,9 @@ class Table1Test extends dbMocModelBase implements IOneTableDataBaseDefinition
         );
     }
 }
-
-
 class Table2Test extends dbMocModelBase
 {
     protected $table = "dummy_table2";
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -63,7 +54,6 @@ class Table2Test extends dbMocModelBase
         );
     }
 }
-
 /**
  * 
  * @package IGK\Tests\Models
@@ -72,9 +62,6 @@ class Table2Test extends dbMocModelBase
 class Table3Test extends dbMocModelBase
 {
     protected $table = "dummy_table3";
-
-   
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -97,7 +84,6 @@ class Table3Test extends dbMocModelBase
 class Table4Test extends dbMocModelBase
 {
     protected $table = "dummy_table4";
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -114,7 +100,6 @@ class Table4Test extends dbMocModelBase
 class Table5Test extends dbMocModelBase
 {
     protected $table = "dummy_table5";
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -131,7 +116,6 @@ class Table5Test extends dbMocModelBase
 class Table6Test extends dbMocModelBase
 {
     protected $table = "dummy_table6";
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -146,11 +130,9 @@ class Table6Test extends dbMocModelBase
         );
     }
 }
-
 class Table7Test extends dbMocModelBase
 {
     protected $table = "dummy_table7";
-
     public function getModelDefinition():IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(
@@ -164,15 +146,12 @@ class Table7Test extends dbMocModelBase
         );
     }
 }
-
 /** @package  */
 class table_enum extends dbMocModelBase
 {
     protected $table = "dummy_table1";
-
     public function getModelDefinition(): IModelDefinitionInfo
     {
-
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
             [

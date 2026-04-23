@@ -13,6 +13,7 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use ModelBase;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Scaffold
@@ -67,13 +68,11 @@ class AuthScaffold extends ScaffoldBase
         $model = igk_getv($command->options, "--model");
         $is_force = property_exists($command->options, "--force");
         $action_name = igk_getv($command->options, "--action");
-        //as class = 
         $controller = igk_str_ns($controller); 
         if (!($ctrl = igk_getctrl($controller, false))) {
             Logger::danger(sprintf("controller %s not found", $controller));
             return false;
         }
-        // $ctrl::register_autoload();
         $viewdir = $ctrl->getViewDir(); 
         $bind[$viewdir . "/ServiceLogin.phtml"] = function ($file) use ($model) {
             $sb = new StringBuilder;
@@ -100,7 +99,6 @@ class AuthScaffold extends ScaffoldBase
         };
         Utility::MakeBindFiles($command, $bind, $is_force);
         if ($model) {
-            // $action->exec($command, get_class($ctrl), $name);
         }
         else if ($action_name){
             Logger::info("generate action");

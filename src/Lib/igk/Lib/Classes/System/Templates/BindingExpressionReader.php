@@ -9,6 +9,7 @@ use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Html\HtmlBindingRawTransform;
 use IGK\System\Html\Templates\BindingContextInfo;
+
 /**
  * treat binding content
  * @package IGK\System\Templates
@@ -121,26 +122,6 @@ class BindingExpressionReader
                 $tv .= $ch;
                 $offset++;
             }
-            // $epos = strpos($this->text, $this->endMarker, $this->offset);
-            // $npos = strpos($this->text, $this->startMarker, $this->offset);
-            // $depth = 0;
-            // while(($epos !== false) && ($npos !==false) ){           
-            //     if ($npos < $epos) {
-            //         // detect next 
-            //         $poff = $npos + strlen($this->startMarker);   
-            //         $npos = strpos($this->text, $this->startMarker, $poff);
-            //         $depth++;                 
-            //         continue;
-            //     } else {
-            //         while ($depth>0) {
-            //             $epos = strpos($this->text, $this->endMarker, $epos+ strlen($this->endMarker));
-            //             $depth--;
-            //         }
-            //         if ($epos<$npos){
-            //             break;
-            //         }
-            //     }
-            // }
             if ($epos !== false) {
                 $n = substr($this->text, $this->offset, $epos - $this->offset);
                 $this->offset = $epos +  strlen($this->endMarker);
@@ -180,7 +161,6 @@ class BindingExpressionReader
             }
             $listener = function () {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? [$v_rk  => new DataArgs([])]));
-                // $__c = $ctrl; 
                 $_v_r =  @eval('return ' . func_get_arg(0) . ';');
                 if (($_v_r instanceof DataArgs) && ($c = $_v_r->getData()) && ($c instanceof Closure)) {
                     $_r = $c($raw, $ctrl);
@@ -207,14 +187,10 @@ class BindingExpressionReader
             } else {
                 if ($loffset > 0) {
                     $m = substr($reader->text, $loffset, $reader->mark[1] - $loffset);
-                    // if ($this->stopOnTag && $m && preg_match("/<[^>]+>/", $m)){
-                    //         break;                                                    
-                    // }
                     $v .= $m;
                 }
             }
             // + for piped value
-            // igk_dev_wln(__FILE__ . ":" . __LINE__, "BEXP: " . $reader->value);
             $c = 0;
             if ($this->skipMode) {
                 $this->expressionArgs[$this->expressionValueName] = str_replace(
@@ -225,7 +201,6 @@ class BindingExpressionReader
                 $dv = \igk_html_wtag($this->expressionTagName, "", $this->expressionArgs, 1);
             } else {
                 if ($this->transformToEval) {
-                    // transform express ion to eval list 
                     $dv = $this->tranformExpressionToEval($reader->value);
                 } else {
                     list($dv, $pipe) = igk_str_pipe_args($reader->value, $c);
@@ -238,10 +213,8 @@ class BindingExpressionReader
                             ], ($data ? ['raw' => $data['raw']] : null) ?? []));
                         }
                     } catch (\Exception $ex) {
-                        // failed to evaluate binding expression                         
                     }
                     catch(\Throwable $ex){
-                        // 
                         echo "litteral ";
                     }
                 }
@@ -277,7 +250,7 @@ class BindingExpressionReader
     private function _getBindingRawData($data)
     {
         if ($data instanceof BindingContextInfo) {
-            $data = $data->to_array(); // ["raw" => $data->to_array()];
+            $data = $data->to_array(); 
         } else {
             if (is_object($data) && property_exists($data, 'raw')) {
                 $data = $data;

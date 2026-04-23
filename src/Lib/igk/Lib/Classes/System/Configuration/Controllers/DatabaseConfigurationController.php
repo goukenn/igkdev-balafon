@@ -12,6 +12,7 @@ use IGK\System\Html\HtmlNodeBuilder;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * manage database actions 
  * @package IGK\System\Configuration\Controllers
@@ -60,8 +61,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
                 'h2'=>'Database options'
             ],
             "panelbox.content > row"=>[
-                // 'div'=>'presentation....'.igk_env_count(__METHOD__),
-                // 'div.trace'=>igk_ob_get_func('igk_trace',1)
                 'form.config'=>[
                     '_'=>['action'=>$this->getUri('update')],
                     'actionbar'=>[

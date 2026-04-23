@@ -3,10 +3,7 @@
 // @filename: ValidationTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Tests\System\Html\Forms;
-
 use IGK\Helper\Activator;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
@@ -23,7 +20,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncode;
 */
 class ValidationTest extends BaseTestCase
 {
-
     /**
     * Tests validation class exist.
     */
@@ -32,7 +28,6 @@ class ValidationTest extends BaseTestCase
         $this->assertTrue(class_exists(FormValidation::class));
         $validation = new FormValidation();
     }
-
     /**
     * Tests empty validation.
     */
@@ -40,7 +35,6 @@ class ValidationTest extends BaseTestCase
     {
         $this->assertFalse((new FormValidation())->validate([]));
     }
-
     /**
     * Tests validation request with html content.
     */
@@ -54,95 +48,74 @@ class ValidationTest extends BaseTestCase
                 "firstname" => ["type" => "text",  "error" => "missing firstname"],
                 "lastname" => ["type" => "text", "error" => "missing lastname"],
             ]);
-
         $request = [
             "filanme" => "/sample<script>alert</script>"
         ];
         $tab = $validation->validate($request);
         $error = $validation->getErrors();
         $this->assertEquals($tab, false, implode($validation->getErrors()));
-
         $request = [
             "filename" => "/sample<script>alert</script>",
         ];
-        // by default skip null value
         $this->assertEquals([
             "filename" => "/sample&lt;script&gt;alert&lt;/script&gt;",
-            // "firstname" => null,
-            // "lastname" => null
         ], $validation->validate($request), "html entities stransform");
-
 /*
         $this->assertEquals($validation->fields([
             "x" => ["type" => "int", "default" => 0]
         ])->validate(["x" => "8985bondj"]), [
             "x" => 0,
         ], "html entities stransform");/*
-
         $this->assertEquals($validation->fields([
             "x" => ["type" => "pattern", "pattern" => "/a[0-9]+/i", "default" => 0]
         ])->validate(["x" => "z8985"]), [
             "x" => 0,
         ], "pattern validation failed");
-
-
         $this->assertEquals($validation->fields([
             "x" => ["type" => "pattern", "pattern" => "/a[0-9]+/i", "default" => 0]
         ])->validate(["x" => "a8985"]), [
             "x" => "a8985",
         ], "pattern validation failed");
-
         $this->assertEquals($validation->fields([
             "x" => ["type" => "array", "default" => []]
         ])->validate(["x" => "a8985"]), [
             "x" => ["a8985"],
         ], "array validation failed");
-
-
         // return false default value
         $this->assertEquals($validation->fields([
             "x" => ["type" => "bool", "default" => false]
         ])->validate(["x" => "", "default" => true]), [
             "x" => false,
         ], "bool validation failed");
-
         // converto bool value if default is null
         $this->assertEquals($validation->fields([
             "x" => ["type" => "bool", "default" => null]
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => true,
         ], "bool validation failed");
-
         */
     }
-
     /**
     * Tests custom validator.
     */
     public function test_custom_validator()
     {
-        //custom type validate
         $validation = new FormValidation();
         $validation->storage = false;
-
-        // using custom validation registration 
         $validation->registerValidator("custom", function ($value, $default = null) {
             return "handle-custom:" . $value;
         });
-
         $this->assertEquals($validation->fields([
             "x" => ["type" => "custom", "default" => null]
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => "handle-custom:basic",
         ], "bool validation failed");
     }
-
     /**
     * Tests pattern validator.
     */
     public function test_pattern_validator()
     {
-        //custom type validate
         $validation = new FormValidation();
         $validation->storage = false;
         $this->assertEquals(
@@ -152,8 +125,6 @@ class ValidationTest extends BaseTestCase
             ])->validate(["x" => "basics", "default" => true]),
             "pattern validation "
         );
-
-
         $this->assertEquals(
             ["x" => "basi"],
             $validation->fields([
@@ -162,13 +133,11 @@ class ValidationTest extends BaseTestCase
             "pattern validation "
         );
     }
-
     /**
     * Tests url validator.
     */
     public function test_url_validator()
     {
-        //custom type validate
         $validation = new FormValidation();
         $validation->storage = false;
         $b = $validation->fields([
@@ -179,8 +148,6 @@ class ValidationTest extends BaseTestCase
             $b,
             "url validation: must return false"
         );
-
-
         $b = $validation->fields([
             "x" => ["type" => "url", "default" => null, "error" => "x not defined"]
         ])->validate(["x" => "basics", "default" => true]);
@@ -189,21 +156,13 @@ class ValidationTest extends BaseTestCase
             $b,
             "url validation: must return an empty not required"
         );
-
-
-        // $q = parse_url("https://igkdev.com?f=sample ok");
-
-
-
         $g = $validation->fields([
             "x" => ["type" => "url",  "default" => "https://data.com", "error" => "x not defined"]
         ])->validate(["x" => "https://igkdev.com"]);
-
         $this->assertEquals(
             ["x" => "https://igkdev.com"],$g,
             "url validation failed"
         );
-
         $this->assertEquals(
             ["x" => "https://igkdev.com?version=1.0"],
             $validation->fields([
@@ -211,8 +170,6 @@ class ValidationTest extends BaseTestCase
             ])->validate(["x" => "https://igkdev.com?version=1.0"]),
             "url validation failed"
         );
-
-        // server pass a query to script and receive a dump data
         $this->assertEquals(            
             ["x" => "https://igkdev.com?version=1.0&data=%3Cscript%3Ealert%28%27ok%27%29%3C%2Fscript%3E"],
             $validation->fields([
@@ -222,13 +179,11 @@ class ValidationTest extends BaseTestCase
             "url validation failed"
         );
     }
-
     /**
     * Tests json validator.
     */
     public function test_json_validator()
     {
-        //custom type validate
         $validation = new FormValidation();
         $validation->storage = false;
         $this->assertEquals(
@@ -238,7 +193,6 @@ class ValidationTest extends BaseTestCase
             ])->validate(["x" => "{basics:'45'}", "default" => true]),
             "json validation: must return false"
         ); 
-
         $this->assertEquals(
             ["x" => "{\"basics\":\"45\"}"],
             $validation->fields([
@@ -247,7 +201,6 @@ class ValidationTest extends BaseTestCase
             "json validation: test 1"
         );
     }
-
     /**
     * Tests file validation.
     */
@@ -258,14 +211,12 @@ class ValidationTest extends BaseTestCase
             "x" => ["type" => "file", "required" => 1, "default" => null, "error" => "x not defined"]
         ])->files(["x" => ["type"=>"text/octet-stream", "name"=>"myfile", "size"=>0, "default" => true]]);
        $r = JSon::Encode($r, JSonEncodeOption::IgnoreEmpty());
-
         $this->assertEquals(
 '{"x":{"name":"myfile","type":"text/octet-stream","size":0}}',
             $r,
             "test file validation "
         );  
     }
-
     /**
     * Tests validation convert to type.
     */
@@ -290,7 +241,6 @@ class ValidationTest extends BaseTestCase
             $g
         );
     }
-
     /**
     * Tests validation convert with validator.
     */
@@ -316,37 +266,31 @@ class ValidationTest extends BaseTestCase
         );
     }
 }
-
 /**
 * Validation convert.
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationConvert{
-
     /**
     * Property: x.
     * @var mixed
     */
     var $x;
-
     /**
     * Property: y.
     * @var mixed
     */
     var $y;
 }
-
 /**
 * Validation convert validator.
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationConvertValidator extends ConvertTypeValidatorBase{
-
     /**
     * Returns Fields.
     * @return array
     */
-
     public function getFields():array{
         return [
             'x'=>['type'=>'int', 'required'=>1],

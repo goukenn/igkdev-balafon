@@ -6,6 +6,7 @@ namespace IGK\System\Html\Converters;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
+
 /**
  * tool to convert object to html presentation 
  * @package IGK\System\Html\Converters
@@ -45,7 +46,6 @@ class Converter
             $q = array_pop($tab);
             $t = $q["n"];
             $s = $q["o"];
-            //igk_wln("the s ", $s);
             foreach ($s as $k => $v) {
                 if ($ignoreEmpty && empty($v)) {
                     continue;

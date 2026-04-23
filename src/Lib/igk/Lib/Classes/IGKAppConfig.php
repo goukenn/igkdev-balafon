@@ -6,6 +6,7 @@
 use IGK\System\Configuration\ConfigData;
 use IGK\System\IO\FileSystem;
 use function igk_resources_gets as __; 
+
 /**
 * Represent IGKAppConfig class
 * @property \IGK\System\Configuration\ConfigData $Data get property data

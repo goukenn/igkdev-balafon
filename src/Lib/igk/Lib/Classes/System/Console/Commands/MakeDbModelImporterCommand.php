@@ -9,6 +9,7 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

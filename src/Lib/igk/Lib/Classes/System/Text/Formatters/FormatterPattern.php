@@ -4,6 +4,7 @@
 // @date: 20250803 02:49:09
 namespace IGK\System\Text\Formatters;
 use IGK\System\Text\RegexMatcherPattern;
+
 /**
  * pattern extension for formatting text code 
  * @package IGK\System\Text\Formatters

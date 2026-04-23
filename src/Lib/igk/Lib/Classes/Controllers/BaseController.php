@@ -46,6 +46,7 @@ use IGKException;
 use ReflectionException;
 use ReflectionFunction;
 use function igk_resources_gets as __;
+
 require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
 /**
  * @package IGK\Controllers
@@ -261,10 +262,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return (object)$t;
     }
-    // protected function _resolview($f, ?array $params = [])
-    // {
-    //     return false;       
-    // }
     /**
      * call handle view file - action 
      */
@@ -312,7 +309,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 $meth = IGK_DEFAULT;
             }
         }
-        //igk_wln_e($v);
         $meth_exits = method_exists($this, $meth);
         $v_second_meth = false;
         if (($meth_exits && $this->IsFuncUriAvailable($meth)) || ($v_second_meth = (isset($params) && method_exists($this, $meth = IGK_DEFAULT_VIEW)))) {
@@ -349,7 +345,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 if ($cc == IGK_DEFAULT_VIEW) {
                     array_shift($params);
                 } else {
-                    // $ffname = array_shift($params);
                 }
             }
             $this->setEnvParam(self::VIEW_ARGS, $params);
@@ -379,8 +374,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 $f = $find;
             }
         }
-        // array_unshift($params, 'assets');
-        // igk_wln_e(__FILE__.":".__LINE__ , 'the file ..... ', $f, $params);
         if ($allowed_view && igk_io_file_exists($f, true)) {
             try {
                 // + | -------------------------------------------             
@@ -424,7 +417,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $ctrl = ViewHelper::CurrentCtrl();
         if ($ctrl === $this) {
             $n = $fname ?? ViewHelper::GetViewArgs("fname");
-            //by default create a layout per view 
             if ($n) {
                 $n = ViewHelper::TreatViewNameForClassDefinition($n);
                 $p = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n));
@@ -463,20 +455,14 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      */
     protected function handleAction(string $fname, array $params, &$handler = null, $is_ajx = null, $is_view = null)
     {
-        // igk_trace();
-        // igk_wln_e(__FILE__.":".__LINE__ , "try action handler....", $fname, igk_view_args('query_options'));
-        // igk_dev_wln_e(__FILE__.":".__LINE__ , "handling, ", $fname, $params, "action flag:", $this->getEnvParam(self::NO_ACTION_FLAG));
-        //+ | -----------------------------------------------------------------------------
-        //+ | handle action: insert here a middleware to auto handle the view before include 
-        //+ |   
         $srv = igk_server();
         $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
-        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView(); // getQueryInfo();
+        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView(); 
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))
         ) {
-            $params = $rep->params ?? $params; // 
+            $params = $rep->params ?? $params; 
             $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep, [
                 'method' => $srv->REQUEST_METHOD,
                 'is_ajx' => $is_ajx, //
@@ -527,7 +513,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         include_once(IGK_LIB_DIR . "/Lib/functions-helpers/view.php");
     }
-    ///<summary>copy this fonction to allow file inclusion on the current context controller</summayr>
     /**
      * copy this fonction to allow file inclusion on the current context controller
      */
@@ -564,7 +549,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                             throw new \IGKException('not allowed', 500);
                         }
                     }
-                    //$r = $middle
                 }
                 $handle_response = $this->handleAction($fname, $params, $action_handler);
                 $i = igk_environment()->action_handler_instance;
@@ -639,7 +623,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                     $t->replace_uri($g);
                 }
             }
-            // disable parameter view response
             if (!$this->getEnvParam(ControllerEnvParams::NoDoViewResponse) &&  $response && (is_object($response) || is_array($response))) {
                 // + | Bind response               
                 \IGK\System\Http\Response::HandleResponse($response);
@@ -722,7 +705,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         return $this->getM_();
     }
-    ///override this method to show the controller view.
     /**
      * auto generate doc.
      */
@@ -733,7 +715,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         if ($c = igk_getv($tab, $cl)) {
             return $c->filename;
         }
-        // * init local path
         $h = igk_sys_reflect_class($cl);
         $c = (object)[
             "filename" => Path::LocalPath($h->getFileName())
@@ -852,9 +833,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             igk_wln_e("configuration file is empty ", $cf, $this);
         }
         $c = new ControllerConfigurationData($this);
-        //if (igk_io_file_exists($cf)) {
         $c->initConfigSetting($this->_loadCtrlConfig());
-        //}
         $tab[$cf] = $c;
         igk_environment()->set($key,  $tab);
         return $c;
@@ -901,7 +880,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         if ($args === null) {
             $this->setEnvParam(self::VIEW_ARGS, null);
-            // clean system vars
             igk_set_env(igk_ctrl_env_view_arg_key($this), null);
         } else {
             $g = $this->getEnvParam(self::VIEW_ARGS);
@@ -984,7 +962,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                     break;
                 }
             }
-            //+ | from directory handle ViewContext by extension 
             if ($cf = FileHandler::ResolveFile($f, 'default', FileHandler::FILE_CONTEXT_VIEW)) {
                 return $cf;
             }
@@ -998,7 +975,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                     return $tf;
                 }
                 if ($v_path_resolv) {
-                    //     array_unshift($param, ...$v_path_resolv);
                     $view .= '/' . implode('/', $v_path_resolv);
                 }
             }
@@ -1096,7 +1072,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      */
     protected function initTargetNode(): ?HtmlNode
     {
-        // igk_debug_wln_e(__FILE__.":".__LINE__,  "init target node .....");
         $tagName = igk_sys_getconfig("app_default_controller_tag_name", "div");
         $div = new HtmlCtrlNode($this, $tagName);
         $div["id"] = igk_css_str2class_name(strtolower($this->getName()));
@@ -1287,7 +1262,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         $this->setParam(self::CURRENT_VIEW, $view);
     }
-    ///<param name="mixed">object|class name of a controller</summary>
     /**
      * check if this controller class is a system controller
      * @param object|string $className of a controller
@@ -1426,7 +1400,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      */
     public function getDataTableName(): ?string
     {
-        // override this to handle management of a spécific table 
         return null;
     }
     /**

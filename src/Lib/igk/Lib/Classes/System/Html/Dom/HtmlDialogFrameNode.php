@@ -10,6 +10,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Resources\R;
 use IGKEvents;
+
 /**
 * Html dialog frame node.
 * @package IGK\System\Html\Dom

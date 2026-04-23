@@ -15,6 +15,7 @@ use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
+
 /**
 * Igkuser info.
 */
@@ -39,7 +40,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * @var mixed
     */
     var $clGuid;
-    // var $clPwd;
     /**
     * Property: csrf.
     * @var mixed
@@ -95,7 +95,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return $s;
     }
-    ///get all available authorisation for this user
     /**
     * Returns Auths.
     */

@@ -12,6 +12,7 @@ use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
+
 /**
 * Rectanglef.
 * @package IGK\System\Drawing

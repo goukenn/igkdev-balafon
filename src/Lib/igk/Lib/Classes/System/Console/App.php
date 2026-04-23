@@ -17,6 +17,7 @@ use IGKException;
 use ReflectionException;
 use stdClass;
 use Throwable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console
@@ -243,7 +244,6 @@ class App implements ICLICommandApp
         $tab = $args;
         $args =[];
         $show_help = true;
-        // create command object
         $command = ConsoleUtility::TreatCommandArgs($app, $tab, $args, $handle);
         try {
             $action = $command->exec;  

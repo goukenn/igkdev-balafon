@@ -4,10 +4,7 @@
 // @filename: cron-tab.php
 // @date: 20260222 16:10:14
 // @desc: cront application 
-
-
 namespace IGK\System\Console\Application;
-
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 use IGK\Models\Crons;
@@ -19,32 +16,26 @@ use IGK\System\Cron\CronScriptHandler;
 use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path; 
-
 define('IGK_CRON_START_DIR', __DIR__);
 define('IGK_APP_CRON', 1);
 error_reporting(-1);
 ini_set('display_errors', 1);
 require_once __DIR__ . "/../igk.environment.loading.php";
-
 require_once IGK_LIB_CLASSES_DIR.'/System/Cron/CronScriptHandler.php';
-
 /**
 * auto generate doc.
 */
 class cronApp extends IGKApplicationBase implements IConsoleLogger
 {
-
     /**
     * Property: configs.
     * @var mixed
     */
     private $m_configs;
-
     /**
      * disable cron configuration 
      */
     const CNF_NO_CRON_LOGGER = 'cron.no-logger';
-
     /**
     * Prints.
     */
@@ -53,7 +44,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
         print_r(...func_get_args());
         echo PHP_EOL;
     }
-
     /**
     * Offscreen.
     */
@@ -61,7 +51,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         return $this;
     }
-
     /**
     * Returns Configs.
     */
@@ -69,13 +58,11 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         return $this->m_configs;
     }
-
     /**
     * Logs.
     * @param mixed $msg
     */
     public function log($msg) {}
-
     /**
     * Info.
     * @param mixed $msg
@@ -84,7 +71,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         $this->print(App::Gets(App::YELLOW, $msg));
     }
-
     /**
     * Warn.
     * @param mixed $msg
@@ -93,7 +79,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         $this->print(App::Gets(App::BLUE, $msg));
     }
-
     /**
     * Success.
     * @param mixed $msg
@@ -102,7 +87,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         $this->print(App::Gets(App::GREEN, $msg));
     }
-
     /**
     * Danger.
     * @param mixed $msg
@@ -111,7 +95,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     {
         echo App::Gets(App::RED, $msg);
     }
-
     /**
     * Bootstrap.
     */
@@ -134,7 +117,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-
     public function run(string $entryfile, $render = 0)
     {
         IGKApp::StartEngine($this);
@@ -157,8 +139,6 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
         }
     }
 }
-
-
 /**
  * handle cron script
  * @return void 
@@ -168,34 +148,22 @@ function igk_handle_cron_script()
     $s = new CronScriptHandler;
     return call_user_func_array([$s, 'handle'], func_get_args());
 }
- 
-
 unset($_SERVER['PWD']);
 ignore_user_abort(false);
 $_SERVER["HTTP_USER_AGENT"] = "balafon - cron";
 $_SERVER["SERVER_NAME"] = "balafon cron-server";
-// $_SERVER['ENVIRONMENT'] = 'production';
-
 ApplicationFactory::Register("crontab", cronApp::class);
-
 \IGK\System\Console\BalafonApplication::InitAndTreatArgument($argv);
-
 $app = ApplicationLoader::Boot("crontab");
 $status = $app->run(__FILE__, false);
-
 $projects = igk_sys_get_projects_controllers();
-
-// run_run cron setting
 igk_hook(IGKEvents::HOOK_CRUNJOB, ['app' => $app, 'time' => time()]);
 if (in_array('--querydebug', $argv))
     igk_environment()->querydebug = 1;
 if (in_array('--debug', $argv))
     igk_debug(true);
-
 if (!class_exists('CommandHelper', false))
     class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
- 
-// get cron job request 
 $crons = Crons::select_all();
 CronJob::ExecuteCronList($crons, 'igk_handle_cron_script', __FILE__); 
 igk_wln_e("cronjob complete : " . date('Y-m-d H:i:s'));

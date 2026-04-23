@@ -12,6 +12,7 @@ use IGK\System\Helper;
 use IGK\XML\XSDValidator;
 use IGKEvents;
 use IGKNonVisibleControllerBase;
+
 /**
  * initialize data schema
  * @package IGK\System\Console\Commands

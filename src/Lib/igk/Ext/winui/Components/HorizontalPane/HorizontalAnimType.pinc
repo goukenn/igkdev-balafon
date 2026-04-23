@@ -1,8 +1,7 @@
 <?php
-
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
-
 ///<summary>define enumeraion</summary>
+
 final class HorizontalAnimType
 {
 	const none = "none";

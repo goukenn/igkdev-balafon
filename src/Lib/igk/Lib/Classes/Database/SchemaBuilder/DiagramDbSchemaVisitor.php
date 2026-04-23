@@ -6,6 +6,7 @@
 namespace IGK\Database\SchemaBuilder;
 use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
+
 /**
  * diagram schema visitor
  * @package igk\db\schemaBuilder

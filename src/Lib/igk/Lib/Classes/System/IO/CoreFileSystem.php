@@ -4,8 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\IO;
-// igk_trace();
-// igk_wln_e("basic");
+
 /**
  * core file
  * @package IGK\System\IO
@@ -118,19 +117,4 @@ abstract class CoreFileSystem{
         }
         return true;
     }
-//       /**
-//      * check that file expiere from cache storage
-//      * @param string $realpath_to_check 
-//      * @param string $caching_name 
-//      * @param string $ext 
-//      * @return bool 
-//      */
-//     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
-//         $p = filemtime($realpath_to_check);  
-//         $vn = $this->getCacheFilePath($caching_name, $ext);
-//         if (igk_io_file_exists($vn)){
-//             return filemtime($vn) < $p;
-//         }
-//         return false;
-//     }
 }

@@ -7,6 +7,7 @@ namespace IGK\System\Html\Dom;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlUtils;
 use IGK\ValueListener;
+
 /**
 * Represent HtmlSearchNode class
 */

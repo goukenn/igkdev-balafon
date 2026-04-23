@@ -6,6 +6,7 @@ namespace IGK\System\Html\Forms\Validations;
 use IGKExceptioın;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
 /**
 * validate html an return only text value
 * @package IGK\System\Html\Forms
@@ -97,7 +98,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
                     $content.= igk_str_read_brank($ch,$pos, $ch, $ch);
                     break;                        
                 case '>':
-                    // end reading tag
                     $pos++;
                     return $content;                     
                     $ch="";

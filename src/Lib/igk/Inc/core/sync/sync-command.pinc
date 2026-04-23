@@ -3,17 +3,15 @@
 // @filename: sync-command.pinc
 // @date: 20250612 15:37:17
 // @desc: 
- ini_set('display_error',1);
+
+ini_set('display_error',1);
  error_reporting(-1);
- 
 $home = isset($_REQUEST['home_dir']) ? $_REQUEST['home_dir'] : '/';
 $corelib = isset($_REQUEST['corelib']) ? $_REQUEST['corelib'] : '/core/Lib/igk';
 $app_dir = isset($_REQUEST['app_dir']) ? $_REQUEST['app_dir'] : '../application';
 $v_chome = rtrim($home, '/');
 $corelib_dir = str_replace('//', '/',  rtrim(implode('/', array_filter([$v_chome ,  trim($app_dir ,'/'), 'Lib/igk'])), '/'));
-
 $cmd_arg = (isset($_REQUEST['cmd_arg']) ? $_REQUEST['cmd_arg'] : null) ?? [];
- 
 if (!file_exists($corelib_dir)){
     $g = str_repeat('../', count(explode('/',$corelib_dir))-(count(explode('/', $home))+1));
     // echo 'create links ==> '.$g.ltrim($corelib, '/') . ' -> '. $corelib_dir;
@@ -26,11 +24,8 @@ if (!file_exists($corelib_dir)){
         exit(-1);
     }
 }
-
 print_r('init command '.json_encode($cmd_arg));
 echo PHP_EOL;
-
-
 $balafon =  $corelib_dir . "/bin/balafon";
 $argv = array_merge([$balafon], $cmd_arg);
 $argc = count($argv); 
@@ -43,5 +38,4 @@ $balafon && (function($balafon, $argv, $argc){
     ob_start();
     $t = include($balafon);  
     return $t=0;
-
 })($balafon, $argv, $argc);  

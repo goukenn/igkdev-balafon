@@ -3,6 +3,7 @@
 // @file: ConfigurationWorkbenchInfo.php
 // @date: 20240816 08:12:34
 namespace IGK\System;
+
 /**
  * the workbench information
  * @package IGK\System

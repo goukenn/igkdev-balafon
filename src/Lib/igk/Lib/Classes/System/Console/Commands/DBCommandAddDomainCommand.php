@@ -10,6 +10,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Models\Domains;
+
 /**
 * Dbcommand add domain command.
 * @package IGK\System\Console\Commands

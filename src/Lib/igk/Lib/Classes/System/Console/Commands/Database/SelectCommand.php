@@ -19,6 +19,7 @@ use IGK\System\Database\Mapping\MappedData;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\IToJSon;
 use IGK\System\Mapping\Helper\ArrayMapHelper;
+
 /**
  * 
  * @package IGK\System\Console\Commands\Database
@@ -159,7 +160,6 @@ class SelectCommand extends AppExecCommand
 		};
 		$g = $m->select_all($v_cond, $options);
 		if ($map) {
-			// mapping
 			$v_conf = new ConfigurationReader;
 			$map = $v_conf->read($map);
 			$g = DefaultMap::MapModelData($map, $g);
@@ -197,12 +197,6 @@ class SelectCommand extends AppExecCommand
 		}
 		if (is_array($g)) {
 			echo JSon::Encode($g, JSonEncodeOption::IgnoreEmpty(), $flag);
-			// if (igk_array_is_assoc($g)) {
-			// 	array_map(function ($v, $k) {
-			// 		print_r(sprintf("%s\r\t\t\t=\r\t\t\t\t%s\n", $k, str_pad($v, 20, " ", STR_PAD_LEFT)));
-			// 	}, $g, array_keys($g));
-			// 	return;
-			// }
 			return;
 		}
 		if (is_string($g)) {
@@ -217,7 +211,6 @@ class SelectCommand extends AppExecCommand
 					$g = $g->to_array();
 				}
 				foreach ($g as $row) {
-					// $f = 1;
 					if (is_object($row) && method_exists($row, "to_json")) {
 						$r[] = $row->to_json($flag);
 					} else {

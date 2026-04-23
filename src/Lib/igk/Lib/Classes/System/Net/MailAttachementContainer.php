@@ -10,6 +10,7 @@
 namespace IGK\System\Net;
 use IGKObject;
 use IGK\IMailAttachmentContainer;
+
 /**
 * Mail attachement container.
 * @package IGK\System\Net

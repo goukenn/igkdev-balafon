@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Controllers;
 use IGK\IController;
+
 /**
 * Interface for register on init controller.
 * @package IGK\Controllers

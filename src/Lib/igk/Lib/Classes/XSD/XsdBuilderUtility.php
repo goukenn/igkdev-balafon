@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\XSD;
 use IGK\System\Html\Dom\HtmlItemBase;
+
 /**
 * Xsd builder utility.
 * @package IGK\XSD
@@ -79,28 +80,6 @@ abstract class XsdBuilderUtility
             if ($tattributes)
                 $s->setAttributes($tattributes);
             self::BuildDef($s, $defs);
-            // foreach ($defs as $k => $v) {
-            //     if ($v === -1) {
-            //         $s->add("xs:any")->setAttribute("minOccurs", "0")
-            //             ->setAttribute("maxOccurs", "unbounded")
-            //             ->setAttribute("processContents", "strict");
-            //         continue;
-            //     }
-            //     if ($v === -2) {
-            //         $s->add("xs:any")->setAttribute("minOccurs", "0")
-            //             ->setAttribute("maxOccurs", "unbounded")
-            //             ->setAttribute("processContents", "skip");
-            //         continue;
-            //     }
-            //     if (is_object($v) && $v instanceof IXsdReference) {
-            //         $m = $s->add($v->getRefType())->setAttribute("ref", $v->getRef());
-            //         if (isset($v->attributes)) {
-            //             $m->setAttributes($v->attributes);
-            //         }
-            //         continue;
-            //     }
-            //     XsdBuilderUtility::AddSequenceElement($s, $k, $v);
-            // }
         }
         return $b;
     }

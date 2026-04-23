@@ -4,6 +4,7 @@
 // @date: 20220622 20:47:02
 // @desc: 
 namespace IGK\System\Console\Scaffold;
+
 /**
  * scaffold command
  * @package IGK\System\Console\Scaffold

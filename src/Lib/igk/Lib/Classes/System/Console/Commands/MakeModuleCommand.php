@@ -19,6 +19,7 @@ use IGK\Tests\BaseTestCase;
 use IGK\Constants;
 use IGKEvents;
 use function igk_resources_gets as __;
+
 /**
 * Make module command.
 * @package IGK\System\Console\Commands
@@ -169,7 +170,6 @@ class MakeModuleCommand extends AppCommand{
             // + |
             $bind[$dir."/phpunit.xml.dist"] = function($file)use($name){
                 $c_app =  igk_io_expand_path("%lib%");
-                // igk_wln_e(__FILE__.":".__LINE__, $c_app,igk_io_collapse_path($file), igk_io_expand_path(igk_io_collapse_path($file)));
                 $n = igk_create_xmlnode("phpunit");
                 $n["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"; 
                 $n["xsi:noNamespaceSchemaLocation"]=igk_io_expand_path("%packages%")."/vendor/phpunit/phpunit/phpunit.xsd";

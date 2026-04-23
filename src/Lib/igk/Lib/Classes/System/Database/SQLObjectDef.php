@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
+
 /**
  * job is to cache definition to send to database 
  * @package IGK\System\Database

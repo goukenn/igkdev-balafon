@@ -3,6 +3,7 @@
 // @file: RegexMatcherCapture.php
 // @date: 20241031 12:04:46
 namespace IGK\System\Text;
+
 /**
 * 
 * @package IGK\System\Text
@@ -136,7 +137,6 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
         $this->parentInfo->value .= " ---- ";
         throw new \Exception('not implement');
     }
-
     /**
      * retrieve match patterns 
      * @return null|array 

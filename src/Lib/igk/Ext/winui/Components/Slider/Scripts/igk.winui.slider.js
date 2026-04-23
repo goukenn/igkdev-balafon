@@ -1,6 +1,5 @@
 "use strict";
 (function(){
-
 function _sliderObj(q, p){
 	var btnl = igk.createNode("div").addClass("igk-btn-slider igk-pull-left");
 	var btnr = igk.createNode("div").addClass("igk-btn-slider igk-pull-right");
@@ -11,20 +10,17 @@ function _sliderObj(q, p){
 	var m_vpage = 0;
 	var self = this;
 	var property = {orientation:'horizontal', filter: _filter};
-	
 	if (p.orientation && (p.orientation == 'vertical'))
 	{
 		q.addClass("vertical");
 		property.orientation = "vertical";
 	}
-	
 	function _update(){
 		if (m_vpage>0){
 			btnl.addClass("igk-active");
 		}
 		else 
 			btnl.rmClass("igk-active");
-			
 		if ((m_vpage>=0) &&  (m_vpage < (pages.length-1))){
 			btnr.addClass("igk-active");
 		}
@@ -34,7 +30,6 @@ function _sliderObj(q, p){
 	function _filter(i){
 		if ( (i.o.tagName.toLowerCase() == 'script') || (i.o == btnl.o) || (i.o==btnr.o))
 			return true;
-		
 		return false;
 	}
 	function _init(){
@@ -67,25 +62,19 @@ function _sliderObj(q, p){
 		}
 		_update();
 	};
-	
 	btnl.reg_event("click", _moveleft);
 	btnr.reg_event("click", _moveright);
-	
 	q.add(sliderz);
 	q.add(btnl);
 	q.add(btnr);	
 	//q.add(info);	
-	
 	igk.appendProperties(this, {
 		getVisiblePageIndex: function(){return m_vpage; },
 		getCount:function(){return pages.length; },
 		init:_init
 	});
-	
 	_init();
 }
-
-
 igk.system.createNS("igk.winui.slider", {
 	init: function(p){
 		var q = $igk(igk.getParentScript());		

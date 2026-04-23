@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Ext\Controllers\Google;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
@@ -17,7 +15,6 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKGoogleMapCtrl class
 */
 abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
-
     /**
     * auto generate doc.
     */    public static function GetAdditionalConfigInfo(){
@@ -26,13 +23,11 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
             igk_create_additional_config_info(array("clRequire"=>1))
         );
     }
-
     /**
     * auto generate doc.
     */    public function getcanAddChild(){
         return false;
     }
-
     /**
     * auto generate doc.
     * @param * $t
@@ -40,7 +35,6 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     public static function SetAdditionalConfigInfo(& $t){
         $t["clGoogleMapUrl"]=igk_getr("clGoogleMapUrl");
     }
-
     /**
     * auto generate doc.
     */    public function View():BaseController{

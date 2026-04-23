@@ -11,6 +11,7 @@ use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGKException;
+
 /**
  * update migrations
  * @package IGK\System\Database
@@ -88,7 +89,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             if ($cl->clIsIndex){
                 $ctrl->db_add_index($tb, $cl->clName);
             } 
-            if ($after){ // continue after
+            if ($after){ 
                 $after = $cl->clName;
             }
             $changed = $changed || $cl->clIsUniqueColumnMember;

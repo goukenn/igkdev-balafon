@@ -4,6 +4,7 @@
 // @date: 20220531 16:28:07
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
+
 /**
 * auto generate doc.
 * @package igk\db\schemaBuilder

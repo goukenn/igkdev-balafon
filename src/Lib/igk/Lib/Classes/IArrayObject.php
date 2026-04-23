@@ -7,6 +7,7 @@ namespace IGK;
 use ArrayAccess;
 use Countable;
 use IGK\System\IToArray;
+
 /**
 * Interface for array object.
 * @package IGK

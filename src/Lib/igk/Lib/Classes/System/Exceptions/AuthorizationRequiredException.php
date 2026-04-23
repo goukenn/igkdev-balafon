@@ -6,6 +6,7 @@
 namespace IGK\Exceptions;
 use IGKException;
 use Throwable;
+
 /**
 * Authorization required exception.
 * @package IGK\Exceptions

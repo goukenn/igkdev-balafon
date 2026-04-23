@@ -7,6 +7,7 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
+
 /**
  * 
  * @package IGK\Database\Helper
@@ -45,15 +46,6 @@ class DbInitManagement
         $fd_name = IGK_FD_NAME;
         $keyname = $controller ? igk_uri(get_class($controller)) : null;
         if ($reset){
-            // try to drop all 
-            // $c = Authorizations::delete($cond = [
-            //     Authorizations::FD_CL_CONTROLLER=>$keyname
-            // ]);
-            // if (!$c){
-            //     foreach(Authorizations::select_all($cond) as $row){
-            //         $row->delete();
-            //     }
-            // }
         }
         $tpro = null;
         $pro = $controller->configFile('profiles');
@@ -62,21 +54,19 @@ class DbInitManagement
         }
         if (!is_array($tpro))
             return;
-        $roles = []; // mean groups
-        $auths = []; // mean auths
+        $roles = []; 
+        $auths = []; 
         $v_auths = [];
         if ($keyname) {
             $v_auths['clController'] = $keyname;
         }
         foreach ($tpro as $k => $c) {
-            // init groups
             if (!isset($roles[$k])) {
                 $roles[$k] = self::RegisterGroupAndAuth($k, $controller);
             }
             if (is_string($c)) {
                 igk_wln_e("not ok: " . $pro);
             }
-            // init auth 
             foreach ($c as $m) {
                 if (!isset($auths[$m])) {
                     if ($auth = igk_getv($roles, $m)) {

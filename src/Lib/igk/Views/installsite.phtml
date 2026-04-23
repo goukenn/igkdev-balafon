@@ -7,10 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Installers\InstallerUtils;
-
 use function igk_resources_gets as __;
+
 if(isset($source_args)){
     extract($source_args);
 }
@@ -34,7 +33,6 @@ igk_view_handle_actions($fname, ["install"=>function(){
                 if($module){
                     $module_path=igk_uri(igk_get_module_dir());
                 }
-             
                 $source = InstallerUtils::GetEntryPointSource([
                     "app_dir"=>$install."/application",
                     "project_dir"=>$install."/application/Projects",

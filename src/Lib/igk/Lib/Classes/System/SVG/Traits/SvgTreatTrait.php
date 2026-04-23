@@ -8,6 +8,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Html\XML\XmlNodeLoader;
 use IGK\System\Regex\Replacement;
+
 /**
 * auto generate doc.
 * @package IGK\System\SVG\Traits
@@ -25,8 +26,6 @@ trait SvgTreatTrait{
                     $start = $tab[0][0][1];
                     $endoffset = strlen($tab[0][0][0]) + $start;
                     igk_str_read_brank($svg, $endoffset, '"', '"');
-                    // 
-                    // remove only the file attribute
                     // + | ------------------------------------------------------------------
                     // + | monochrone
                     $svg = StringUtility::RmSubString($svg,  $start, $endoffset+1-$start);
@@ -58,8 +57,6 @@ trait SvgTreatTrait{
                     $start = $tab[0][0][1];
                     $endoffset = strlen($tab[0][0][0]) + $start;
                     igk_str_read_brank($svg, $endoffset, '"', '"');
-                    // 
-                    // remove only the file attribute
                     // + | ------------------------------------------------------------------
                     // + | monochrone
                     $svg = StringUtility::RmSubString($svg,  $start, $endoffset+1-$start);
@@ -86,7 +83,6 @@ trait SvgTreatTrait{
             } 
         }
         $m = preg_match('/stroke:\s*[^;\"]+(;)?/', $svg);
-        //remove style store properties on all element
         $rp = new Replacement;
         $rp->add('/stroke:\s*[^;\"]+(;)?/', '');
         $svg = $rp->replace($svg);

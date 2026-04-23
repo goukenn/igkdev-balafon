@@ -10,6 +10,7 @@ use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
 /**
 * Binding pipe expression info.
 * @package IGK\System\Html\Templates
@@ -112,7 +113,6 @@ class BindingPipeExpressionInfo{
         $ln = strlen($tv);
         $pos = 0;
             if (is_string($tv) && !empty($tv) && !is_numeric($tv)){
-            // detect php expression
             while($pos < $ln){
                 $ch = $tv[$pos];
                 switch($ch){

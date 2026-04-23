@@ -6,6 +6,7 @@
 namespace IGK\System\Console\Commands\Sync;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Logger;
+
 /**
  * clear cache in ftp sync server */
 class SyncUnlockSiteCommand extends SyncAppExecCommandBase

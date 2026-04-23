@@ -17,6 +17,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * initialize balafon cli command cache 
  * @package IGK\System\Console\Commands
@@ -61,7 +62,6 @@ class InitCommand extends AppExecCommand
                 if (!strstr(realpath($c->getDeclaredDir()), realpath($dir))){
                     continue;
                 }
-                //if (strstr($c->getDeclaredDir(), $dir)) {
                     $cldir = $c::classdir();
                     if (!isset($commands[$cldir])) {
                         $classname = get_class($c);
@@ -73,7 +73,6 @@ class InitCommand extends AppExecCommand
                         $ln = strlen($cl_dir);
                         foreach ($tab as $file) {
                             $mt = substr($file, $ln);
-                            // remove extension 
                             $mt = ltrim(igk_io_remove_ext($mt), '/');
                             if ($clpath = $c->resolveClass($entry_cl."/" . $mt)) {
                                 if ((igk_sys_reflect_class($clpath))->isAbstract() || !is_subclass_of($clpath, AppCommand::class)) {
@@ -88,7 +87,6 @@ class InitCommand extends AppExecCommand
                         }
                         $commands[$cldir] = 1;
                     }
-                //}
             }
         }
         $mod = igk_get_modules();
@@ -107,15 +105,9 @@ class InitCommand extends AppExecCommand
                     }
                 } else {
                     if (($f = $cmod->getClassesDir()) && is_dir($f)) {
-                        // get all php file that match the patter 
-                        // $tns = [];
-                        // if (!empty($ns)) {
-                        //     $tns = [$ns];
-                        // }
                         $lc_dir = $f . '/'.$system_cl_command;
                         $files = igk_io_getfiles($lc_dir, "/Command\.php$/");
                         if (!$files) {
-                            // Logger::info("command not found : ".$f);
                             continue;
                         } 
                         $len = strlen($lc_dir);

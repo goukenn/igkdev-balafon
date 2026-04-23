@@ -19,6 +19,7 @@ use ReflectionException;
 // + | value delimiter ':' 
 // + | field delimiter ';'
 // + |
+
 /**
  * parse css litteral to object definition 
  * @package IGK\System\Html\Css
@@ -111,14 +112,14 @@ class CssParser implements ArrayAccess
         $pos = 0;
         $selector = '';
         $name = '';
-        $mode = 0; // 0 = global, 1: child selecte 
+        $mode = 0; 
         $value = '';
         $rv = "";
-        $media = null; // store media definition 
+        $media = null; 
         $media_start = 0;
         $errors = [];
         $tdef = [];
-        $v_depth = 0; // to skip line comment detection 
+        $v_depth = 0; 
         while ($pos < $len) {
             $ch = $content[$pos];
             switch ($ch) {
@@ -141,7 +142,7 @@ class CssParser implements ArrayAccess
                             $def[] = $media;
                             array_push($tdef, $def);
                             $def = &$media->def;
-                            $mode = 0; // start reading child definition 
+                            $mode = 0; 
                             break;
                         case 'keyframes':
                             $cdef = self::_ReadKeyFrames($content, $pos, $len, $media, $errors);
@@ -156,19 +157,14 @@ class CssParser implements ArrayAccess
                             array_push($tdef, $def);
                             $def = &$media->def;
                             break;
-                        // case 'charset': // options\
-                        // break;
                         case 'media':
-                            // read @media definition 
                             $s = $pos;
                             $pos = strpos($content, '{', $pos);
                             if ($pos === false) {
                                 $errors[] = 'media definition not correct';
                                 return false;
                             }
-                            // read condition in break
                             $g = trim(substr($content, $s, $pos - $s));
-                            // reduce ( condition block )
                             $g = StringUtility::ReduceConditionBlock($g);
                             $pos--;
                             $media = new CssMedia($g);
@@ -214,7 +210,6 @@ class CssParser implements ArrayAccess
                             if ((($v_tpos === false) &&  ($v_npos !== false)) ||
                                 (($v_npos !== false) && ($v_tpos !== false) && ($v_npos < $v_tpos))
                             ) {
-                                // read options
                                 $roptions = false;
                             }
                             if ($roptions) {
@@ -228,7 +223,6 @@ class CssParser implements ArrayAccess
                                     $def[] = new CssOptions($g . "." . $gv);
                                 }
                             } else {
-                                //+ skip reading until branked end.
                                 $g = igk_str_read_brank($content, $v_npos, "}", "{");
                                 $pos = $v_npos;
                                 $mode = 0;
@@ -259,15 +253,13 @@ class CssParser implements ArrayAccess
                                 return false;
                             }
                             $g = substr($content, $s, $pos - $s);
-                            if ($mode == 0) { // global comment
+                            if ($mode == 0) { 
                                 $def[] = new CssComment($g);
                             } else {
                                 $rv .= $g;
                             }
-                            //+ | fix comment reading.
                             $pos--;
                         } else if (($v_depth == 0) && ($content[$lpos] == '/')) {
-                            // skip single line comment
                             $ef = strpos($content, "\n", $pos);
                             if ($ef === false) {
                                 $pos = $len;
@@ -285,7 +277,6 @@ class CssParser implements ArrayAccess
                         if ($media_start == 0) {
                             $media_start++;
                             // + | start reading definition
-                            // $mode = 0;
                             break;
                         }
                         $media_start++;
@@ -353,7 +344,6 @@ class CssParser implements ArrayAccess
                     break;
                 case '}':
                     if (!empty($rv = trim($rv))) {
-                        // finish selector 
                         if ($mode == 1) {
                             $def[$selector][$name] = $rv;
                             $mode = 0;
@@ -371,14 +361,12 @@ class CssParser implements ArrayAccess
                         if ($media_start == 0) {
                             $mp = array_pop($tdef);
                             $media = null;
-                            // change reference
                             $def = &$mp;
                         }
                     }
                     break;
                 case "\n":
                 case "\r":
-                    // 'ignore line break
                     if ($mode != 0) {
                         $rv .= $ch;
                     }
@@ -391,10 +379,9 @@ class CssParser implements ArrayAccess
         }
         if (!empty($rv = trim($rv))) {
             if (empty($name)) {
-                // extract definition list 
                 $converter = new CssStringConverter;
                 $converter->NonMarkedStringPropertiesListener = function ($n) {
-                    return true; // in_array($n, explode('|', 'content'));
+                    return true; 
                 };
                 $def += (array)$converter->read($rv);
             } else {
@@ -602,8 +589,6 @@ class CssParser implements ArrayAccess
     public function border()
     {
         $res = [];
-        // if ($all = $this["border"]) {
-        // }
         if ($all = $this["border-color"]) {
             $res["left"]["color"] =
                 $res["right"]["color"] =
@@ -625,9 +610,6 @@ class CssParser implements ArrayAccess
             if ($c = $this["border-" . $k . "-color"]) {
                 $res[$k]['color'] = $c;
             }
-            // if ($gp) {
-            //     $res[$k] = (object)$gp;
-            // }
         }
         unset($k, $gp);
         return (object) $res;
@@ -655,12 +637,9 @@ class CssParser implements ArrayAccess
             if (!($n instanceof ICssDefinition)) {
                 continue;
             }
-            // if (is_string($n)) {
             igk_wln("data : ", $n);
-            // }
             foreach ($n as $k => $v) {
                 if (preg_match($regx, $k)) {
-                    // check if support root syntaxe 
                     if ($root &&  preg_match($match_var, $v, $match)) {
                         $cl = self::_ResolvColor($match['name'], $root, $n);
                         $tp = [
@@ -672,9 +651,6 @@ class CssParser implements ArrayAccess
                         } else {
                             $v = $match['name'];
                         }
-                        // else {
-                        //     $tp = igk_getv($colors, $v);
-                        // }
                     } else {
                         $tp = igk_getv($colors, $v);
                     }
@@ -704,7 +680,6 @@ class CssParser implements ArrayAccess
         $v = igk_getv($section, $name);
         if ($v) {
             if (preg_match(self::MATCH_VAR, $v, $tab)) {
-                // 
                 $name = $tab['name'];
             } else {
                 return $v;
@@ -757,7 +732,6 @@ class CssParser implements ArrayAccess
         $rdef = $this->m_definition;
         $lf = $this->lineFeed;
         if ($rdef) {
-            // treat defintion list 
             $this->treatExtratProperty($rdef);
             ksort($rdef);
             foreach ($rdef as $k => $v) {

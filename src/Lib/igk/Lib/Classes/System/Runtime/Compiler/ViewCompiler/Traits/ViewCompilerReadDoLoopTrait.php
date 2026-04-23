@@ -9,6 +9,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock\DoWhileBlock;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -31,14 +32,13 @@ trait ViewCompilerReadDoLoopTrait
     */
     protected function _readDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
-        $this->flagHandler = null; // [$this, '_readHandleDoWhileBlock'];
+        $this->flagHandler = null; 
         if ($id == T_DO) {
             $this->_pushFlag($options);
             $block = new DoWhileBlock();
             $this->_attacheBlock($block, $options, $id, $value, '_readHandleDoWhileBlock');
             $options->flag = '_readHandleDoWhileBlock';
             $options->waitFor = "";
-            // $block->blocks[] = "echo 'demos';";
             return;
         }
         if ($id == T_WHILE) {
@@ -58,14 +58,13 @@ trait ViewCompilerReadDoLoopTrait
         if ($fop->depth == $options->depth) {
             switch ($id) {
                 case T_WHILE:
-                    // start block again
                     $fop->condition = true;
-                    $fop->buffer = ""; // clean condition buffer
+                    $fop->buffer = ""; 
                     $this->_readCondition($options, $id, $value);
                     return true;
             }
         }
-        if (($value == '{') && !$fop->multicode) { // multicode detection start
+        if (($value == '{') && !$fop->multicode) { 
             $fop->multicode = true;
             return true;
         }
@@ -84,7 +83,6 @@ trait ViewCompilerReadDoLoopTrait
         if ($fop->multicode || (!$fop->condition && !$fop->condition_read)) {
             switch ($value) {
                 case ';':
-                    // append instruction to block
                     if (!empty($v_buffer)) {
                         $v_block->blocks[] = trim($v_buffer, ViewCompilerConstants::BLOCK_TRIM_CHAR) . $value;
                     }
@@ -95,12 +93,7 @@ trait ViewCompilerReadDoLoopTrait
                     }
                     break;
                 default:
-                    // if (($fop->multicode) || (!$fop->multicode && (count($v_block->blocks) < 1))) {
                     return false;
-                    // }
-                    // $fixing multicode instruction by passing to buffer
-                    // $v_block->buffer .= $value;
-                    // $v_buffer .= $value;
                     break;
             }
         }

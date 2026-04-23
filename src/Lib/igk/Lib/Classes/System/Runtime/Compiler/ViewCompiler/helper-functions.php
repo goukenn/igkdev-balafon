@@ -6,6 +6,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressArg;
 use IGK\System\ViewVarExpression;
 use IGK\System\ViewEnvironmentArgs; 
 use IGK\System\ViewExtractArgHelper;
+
 if (!function_exists('igk_express_var')){
 /**
 * Igk express var.
@@ -27,7 +28,7 @@ function igk_express_var($name){
                 return $var[$name];
             }
         }
-        return "undefined";// '<?= $'.$name.' ? >';
+        return "undefined";
     }
 }
 if (!function_exists('igk_php_expression')){
@@ -99,6 +100,6 @@ if (!function_exists('igk_eval_expression')){
      */
     function igk_eval_expression(string $name){  
         igk_wln( __FILE__.":".__LINE__, "express", $name);
-        return 180; ///'<?= $'.$name.' /* eval expression */ ? >';
+        return 180; 
     }
 }

@@ -3,8 +3,6 @@
 // @filename: class.igkformcontrol.selectgender.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use function igk_resources_gets as __;
 use IGK\System\Html\Dom\HtmlNode;
 

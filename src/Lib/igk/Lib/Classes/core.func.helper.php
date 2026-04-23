@@ -7,6 +7,7 @@
 // + | 
 // + |
 namespace IGK;
+
 if (!function_exists('typeof')){
     /**
      * type of definition 

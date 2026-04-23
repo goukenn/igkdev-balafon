@@ -12,6 +12,7 @@ use IGK\System\Text\RegexMatcherUtility;
 use Illuminate\Validation\Rules\In;
 use ReflectionClass;
 use ReflectionMethod;
+
 /**
  * Phpscript builder utility.
  * @package IGK\System\IO\File
@@ -51,11 +52,6 @@ abstract class PHPScriptBuilderUtility
                 }
                 if ($skip_first) {
                     $v_tcount++;
-                    // if ($e[0] == 389){ //
-                    //     $n = token_name($e[0]);
-                    //     $skip_first = 0;
-                    //     continue;
-                    // } 
                     if ($e[0] == T_OPEN_TAG) {
                         $skip_first = 0;
                         continue;
@@ -110,7 +106,6 @@ abstract class PHPScriptBuilderUtility
      */
     public static function RemoveComment(string $source)
     {
-        // phpinfo(); 
         $comments = \token_get_all($source);
         $src = implode("", array_map(function ($m) {
             if (is_array($m)) {
@@ -177,7 +172,6 @@ abstract class PHPScriptBuilderUtility
         RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);
         $string = $regex->appendStringDetection('string',true);
         $regex->autoStore = true;
-        // define        
         $comments[] = $regex->appendMultilineComment()->last();
         $comments[] = $regex->appendSingleLineComment()->last();
         $regex->match("\\$(?<n>[a-zA-Z_][a-zA-Z_0-9]*)", 'varName');

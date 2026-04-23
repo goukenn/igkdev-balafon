@@ -5,11 +5,11 @@
 // @desc: base model utility class declaration 
 use IGK\IDbUtility;
 use function igk_resources_gets as __;
+
 /**
 * class used to manage database for a controller
 */
 class IGKDbModelUtility extends IGKObject implements IDbUtility {
-    ///note : it used clId as id by default if you don't want to used clId by default for row identification
     /**
     * Property: ctrl.
     * @var mixed
@@ -94,9 +94,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function select_row($table, $conditions, $options=null){
         return $this->selectSingleRow($table, $conditions, $options);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="arguments"></param>
     /**
     * auto generate doc.
     * @param mixed $arguments
@@ -116,10 +113,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
         $this->close(); 
         $msg="/!\\ DBUtility[".get_class($this)."] Action {$name} not implements";
         throw new \IGK\System\Exceptions\NotImplementException($msg);
-        // igk_ilog($msg, __CLASS__);
-        // igk_notifyctrl()->addError($msg);
-        // igk_assert_die(igk_server_is_local(), $msg);
-        // return null;
     }
     /**
     * Selectdb.
@@ -130,8 +123,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
             return $this->m_ad->selectdb($dbname);
         return false;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * auto generate doc.
     * @param mixed $ctrl
@@ -147,7 +138,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
             });
         }      
     }
-    ///<summary>get table prefix</summary>
     /**
     * get table prefix
     */
@@ -161,9 +151,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function getTableName($table){
 		return igk_db_get_table_name($table);
 	}
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="value"></param>
     /**
     * auto generate doc.
     * @param mixed $value
@@ -214,9 +201,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function close(bool $leaveopen=true){
         if($this->m_ad){
             $this->m_ad->close($leaveopen);
-            // if($this->m_ad->OpenCount()<=0){
             $this->m_ad=null;
-            //}
         }
     }
     /**
@@ -295,7 +280,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function getCtrl(){
         return $this->m_Ctrl;
     }
-    ///END sync functions
     /**
     * auto generate doc.
     */
@@ -340,7 +324,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function getRowById($table, $id){
         return $this->select($table, array(IGK_FD_ID=>$id))->getRowAtIndex(0);
     }
-    ///get default condition id
     /**
     * return a sync data id
     */
@@ -387,8 +370,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
         }
         return "@:/".$this->getSyncIdentificationId($table, $row);
     }
-    ///SYNC functions
-    ///override
     /**
     * auto generate doc.
     */
@@ -615,7 +596,6 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
         }
         return null;
     }
-    ///send query string
     /**
     * auto generate doc.
     */    public final

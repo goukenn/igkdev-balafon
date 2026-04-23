@@ -3,6 +3,7 @@
 // @file: ClassAttributeArrayValueEncoder.php
 // @date: 20230316 11:14:17
 namespace IGK\System\Html\Encoding;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Encoding
@@ -41,7 +42,7 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
         $start = 0;
         $lpos = 0;
         $express_start = 0;
-        $litteral_start = &$this->m_litteral_start; // use to dected expression ....
+        $litteral_start = &$this->m_litteral_start; 
         $litteral_start = 0;
         $func_callback = function ($value) {
             return parent::decode($value);

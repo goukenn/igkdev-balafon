@@ -3,6 +3,7 @@
 // @file: EvalBinding.php
 // @date: 20251229 13:49:11
 namespace IGK\Core;
+
 /**
 * 
 * @package IGK\Core

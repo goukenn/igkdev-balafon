@@ -5,6 +5,7 @@
 namespace IGK\System\Modules;
 use IGK\System\Polyfill\JsonSerializableTrait; 
 use JsonSerializable;
+
 /**
 * auto generate doc.
 * @package IGK

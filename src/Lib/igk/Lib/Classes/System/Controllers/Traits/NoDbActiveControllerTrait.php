@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Controllers\Traits;
 use IGK\System\Models\IModelDefinitionInfo;
+
 /**
 * Trait providing no db active controller functionality.
 * @package IGK\System\Controllers\Traits

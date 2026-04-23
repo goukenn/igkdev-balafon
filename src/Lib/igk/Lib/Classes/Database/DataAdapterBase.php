@@ -12,6 +12,7 @@ use IGKException;
 use IGKObject;
 use function igk_ilog as _log;
 use function igk_getv as getv;
+
 /**
  * Represent IGKDataAdapter class
  */
@@ -267,7 +268,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             }
         }
         if ($this->m_relations->entries) {
-            //sort links data - by requiring links
             uksort($this->m_relations->entries, function ($a, $b) use ($links) {
                 if ($a == $b) {
                     return 0;
@@ -284,7 +284,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             });
             foreach ($this->m_relations->entries as $tbname => $r) {
                 $info = getv($this->m_relations->info, $tbname);
-                //init entries
                 Logger::info('init entries : ' . $tbname);
                 foreach ($r as $b) {
                     foreach ($b as $row) {
@@ -297,7 +296,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                 }
             }
         }
-        // unset($this->m_relations);
         $this->m_relations = null;
     }
     /**
@@ -432,12 +430,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
-    * @param mixed $list
+    * @param array $list key=>adapter object 
     * @return void
     */
     public static function Register($list)
     {
-        $adapts = &igk_environment()->createArray("db_adapters");
+        $adapts = & igk_environment()->createArray("db_adapters");
         foreach ($list as $k => $v) {
             if (class_exists($v)) {
                 $adapts[$k] = $v;
@@ -651,7 +649,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                     }
                 }
             }
-            if ($b) { // resolv key name
+            if ($b) { 
                 $t = [];
                 foreach ($b as $k => $v) {
                     $v_u = strtoupper($v);
@@ -669,7 +667,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             foreach (get_declared_classes() as $k => $v) {
                 $cl = basename(igk_uri($v));
                 if (preg_match($n, $cl)) {
-                    // igk_wln(__FILE__.":".__LINE__, $v);
                     $t = array();
                     preg_match_all($n, $cl, $t);
                     $s = $t["name"][0];

@@ -3,9 +3,6 @@
 // @filename: igk.template_host.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-
-
 use IGK\Controllers\DefaultPageController;
 use IGK\IUriActionRegistrableController;
 
@@ -15,7 +12,6 @@ use IGK\IUriActionRegistrableController;
  */
 abstract class IGKTemplateHostCtrl extends DefaultPageController implements IUriActionRegistrableController
 {
-
     /**
     * Loads Template.
     */

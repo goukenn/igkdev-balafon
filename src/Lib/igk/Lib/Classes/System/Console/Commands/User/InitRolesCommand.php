@@ -7,6 +7,7 @@ use IGK\Database\Helper\DbInitManagement;
 use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGKEvents;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\User

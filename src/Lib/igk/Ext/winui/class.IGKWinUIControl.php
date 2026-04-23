@@ -3,13 +3,6 @@
 // @filename: class.IGKWinUIControl.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-//UTILITY FUNCTION
-
-//----------------------------------------------------------------
-//represent a base winui control
-//----------------------------------------------------------------
-
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
@@ -17,13 +10,11 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 abstract class IGKWinUIControl extends HtmlNode
 {
-
     /**
     * Identifier: id.
     * @var mixed
     */
     private $m_id;
-
     /**
     * .ctr
     * @param mixed $tagname

@@ -9,6 +9,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGKValidator;
+
 /**
  * help build litteral by entry in css file
  * @package IGK\System\Html\Css\Builder
@@ -76,7 +77,6 @@ class ControllerLitteralBuilder
                             $fc = igk_str_rm_start($target, $this->outputDir);
                             $css = str_replace($k->uri, "url({$fc})", $css);
                         } else {
-                            // not a picture : depend on extension 
                             $ext = igk_io_path_ext($s);
                             $fc = "_store_" . $ext;
                             $this->$fc($s);

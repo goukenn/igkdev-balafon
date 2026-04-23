@@ -12,6 +12,7 @@ use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Library
@@ -39,7 +40,6 @@ class session extends \IGKLibraryBase
         if (php_sapi_name()=='cli'){
             return false;
         }
-        // initialize function
         require_once IGK_LIB_CLASSES_DIR . "/IGKSessionFileSaveHandler.php";
         require_once __DIR__ . "/Session/.functions.pinc";
         require_once IGK_LIB_CLASSES_DIR . "/Controllers/SessionController.php";
@@ -68,7 +68,6 @@ class session extends \IGKLibraryBase
         if (in_array(strtoupper(igk_server()->REQUEST_METHOD ?? ''), ['', 'OPTIONS', 'HEADER'])) {
             return false;
         }
-        // check for cookie definitions
         if (isset($_COOKIE[$v_cookie_name])) {
             $old_id = $_COOKIE[$v_cookie_name];
             $r = self::SessionPath($old_id);
@@ -149,18 +148,10 @@ class session extends \IGKLibraryBase
             IGKSessionFileSaveHandler::Init();
         }
         ini_set("session.cookie_same", "Strict");
-        //+ | security fix
         ini_set("session.cookie_secure", igk_sys_srv_is_secure());
         ini_set("session.cookie_httponly", 1);
-        // ini_set("session.cookie_samesite", "strict"); // 'None'|'Lax'|'Strict'
-        ini_set("session.cookie_samesite", "None"); // 'None'|'Lax'|'Strict'
-        // init cookie path 
-        // ini_set('session.cookie_path', '/');  
+        ini_set("session.cookie_samesite", "None"); 
         // + |  
-        // ini_set('session.cookie_lifetime', 4600);
-        //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
-        //+ check if the session is passed prio to cookie value.
-        //+ 2020 Edge and chrome on Mac no need for session_id https://www.php.net/manual/en/function.session-id.php
         $idstorage = $this->m_new_session_id ??  trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? false : trim(igk_getr($cookieName, igk_getv($_SERVER, $cookieName, '') ?? '')));
         if ($idstorage) {
             igk_bind_session_id($idstorage);

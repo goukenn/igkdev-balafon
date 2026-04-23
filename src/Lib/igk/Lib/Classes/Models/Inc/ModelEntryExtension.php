@@ -47,7 +47,7 @@ use function igk_get_robjs as get_robjs;
 use function igk_count as fcount;
 use function igk_environment as environment;
 use function igk_form_input_type as form_input_type;
-// require_once IGK_LIB_CLASSES_DIR .
+
 /**
 * Model entry extension.
 * @package IGK\Models
@@ -131,7 +131,6 @@ abstract class ModelEntryExtension
     public static function create(ModelBase $model, $raw = null, bool $update = true, bool $throwException = true)
     {
         $raw && (!is_array($raw) && !is_object($raw)) && igk_die('raw not a valid data');
-        //+ | fix db create result 
         $cl = get_class($model);
         $c = new $cl($raw);
         if ($craw = $c->to_array()) {
@@ -213,11 +212,9 @@ abstract class ModelEntryExtension
     public static function createIfNotExists(ModelBase $model, $condition, $extra = null, &$new = false)
     {
         $new = false;
-        //create condition query 
         $info = $model->getTableColumnInfo();
         if (is_null($info)) {
             Logger::warn('missage table info');
-            // return null;
         }
         $tconditions = $info ? DbQuerySelectColumnBuilder::Build($info, $condition, true) : $condition;
         if (empty($tconditions) || !($row = $model->select_row($tconditions, null, false, false))) {
@@ -279,7 +276,6 @@ abstract class ModelEntryExtension
         $columns = $model->getTableColumnInfo();
         $prefix = $def->prefix;
         $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $prefix);
-        // | - PEREPARE CONDITION TO AVOID DUPLICATE
         $t_select = DbUtility::PreparateConditionsListToAvoidDuplicate($columns, $conditions);
         $row = null;
         $count = $model->select_count($t_select);
@@ -543,10 +539,9 @@ abstract class ModelEntryExtension
         }
         $ad = $model->getDataAdapter();
         if ($ad === null) {
-            return null; //igk_wln_e("missing",  $model, $model->getController(), $model->getController()->getDataAdapter());
+            return null; 
         }
         $r = $ad->select($model->getTable(), $conditions, $options, $autoclose);
-        // $r = $model->select_all($conditions, $options, $autoclose);
         if ($r && (($count = $r->getRowCount()) == 1) || (!$strict && ($count > 1))) {
             $g = $r->getRowAtIndex(0);
             $g->{"sys:table"} = $model->getTable();
@@ -754,8 +749,6 @@ abstract class ModelEntryExtension
                 $model_class = get_class($model);
                 $model = $model->is_mock() ?
                     new $model_class() : $model;
-                // self::_updateRerenceModel()
-                // $v_row = $model->is_mock() ? 
                 $ref_id = $model->getRefId();
                 if (($id = $ad->last_id()) && ($id !== -1)) {
                     $model->$ref_id = $id;
@@ -866,7 +859,6 @@ abstract class ModelEntryExtension
      */
     public static function factory(ModelBase $model, int $count,  ?string $class_name = null)
     {
-        // create a factory object         
         $cl = $class_name ?? $model->getFactory();
         if (class_exists($cl)) {
             $arg = array_slice(func_get_args(), 3);
@@ -881,7 +873,6 @@ abstract class ModelEntryExtension
     */
     public static function viewFilter(ModelBase $model)
     {
-        // create a factory object         
         $cl = $model->getViewFilter();
         if (class_exists($cl)) {
             $arg = func_get_args();
@@ -983,7 +974,7 @@ abstract class ModelEntryExtension
         $t = [];
         $inf =  $model->getTableColumnInfo();
         $ctrl = $model->getController();
-        $prefix = $model->getTableInfo()->prefix; // getPrefix();
+        $prefix = $model->getTableInfo()->prefix; 
         $binfo = [];
         $v_tabinfo = null;
         $v_ofd = [];
@@ -991,8 +982,6 @@ abstract class ModelEntryExtension
             $unsetKeys = [$model->getPrimaryKey()];
         }
         $b = (igk_count($cl) > 0) ? $cl : array_keys($model->to_array());
-        // igk_wln_e($model->to_json());
-        //use only data for field
         foreach ($b as $v) {
             if (!isset($inf[$v]))
                 continue;
@@ -1027,7 +1016,6 @@ abstract class ModelEntryExtension
                 }
                 $r["type"] = "select";
                 if (!($binf = getv($binfo, $link))) {
-                    // $binf = igk_db_get_table_info($link);
                     $binf = DbSchemas::GetTableColumnInfo($link);
                     $binfo[$link] = $binf;
                 }
@@ -1039,7 +1027,6 @@ abstract class ModelEntryExtension
                     igk_die('link:not found');
                 }
                 if ($v_cl) {
-                    // class defined :
                     $stb = [];
                     $m = $v_cl::model();
                     $_primary_key = $m->getPrimaryKey();
@@ -1163,7 +1150,6 @@ abstract class ModelEntryExtension
             $t = array_diff_key($t, array_flip($unsetKeys));
         }
         if ($prefix && $v_ofd) {
-            // because need to order the key list
             $t = self::UpdateFieldAssociationPrefixKey($t, $v_ofd);
         }
         return $t;
@@ -1632,7 +1618,6 @@ abstract class ModelEntryExtension
                 }
             }
             if ($check) {
-                // check that entries for unique column 
                 $tb_uniques = self::GetUniqueRowFields($info, $row);
                 foreach ($tb_uniques as $uniques) {
                     if ($r = $model::select_row($uniques, ["Limit" => 1])) {
@@ -1788,7 +1773,6 @@ abstract class ModelEntryExtension
                 if (is_string($v)) {
                     if (preg_match("/<(.)+>/i", $v)) {
                         $v = preg_replace("/\\s+/", " ", $v);
-                        // contains html tag - if not allowed skip - tag
                         $v = preg_replace("/<([^>])+>/i", "", $v);
                     }
                     $model->$k = $v;

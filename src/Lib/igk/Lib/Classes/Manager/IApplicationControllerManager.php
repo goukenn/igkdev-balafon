@@ -6,6 +6,7 @@
 namespace IGK\Manager;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\IControllerManagerObject;
+
 /**
  * represent application manager interface
  * @package IGK\Manager

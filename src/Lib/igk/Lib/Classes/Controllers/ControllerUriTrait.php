@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
+
 /**
 * Trait providing controller uri functionality.
 * @package IGK\Controllers
@@ -20,7 +21,7 @@ trait ControllerUriTrait {
         if($function){
             $t=explode("&", $function);
             $f = str_replace('_', '-', $t[0]);
-            $out["f"] = $f; //implode('&', $t);
+            $out["f"] = $f; 
             if (!empty($g = trim(implode('&', array_slice($t,1))))){
                 $g = "&".$g;
             }

@@ -9,6 +9,7 @@
 namespace IGK\System\Diagnostics;
 use IGKException;
 use stdClass;
+
 /**
  * represent balafon benchmark
  * @package IGK\System\Diagnostics

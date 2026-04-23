@@ -3,6 +3,7 @@
 // @file: IGKHtmlDocFlagOption.php
 // @date: 20250316 18:26:53
 namespace IGK;
+
 /**
 * auto generate doc.
 * @package IGK

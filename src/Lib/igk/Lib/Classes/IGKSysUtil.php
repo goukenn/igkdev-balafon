@@ -18,6 +18,7 @@ use IGK\System\Database\DbUtils;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Test\IGKValueEntryCallbackTest;
+
 /**
 * auto generate doc.
 */
@@ -159,7 +160,6 @@ abstract class IGKSysUtil
         $v = $controller;
         if ($v->getDataAdapterName() == $dataadapter) {
             $b = BaseController::Invoke($v, "getUseDataSchema");
-            // 
             if (!$b) {
                 $tname = $v->getDataTableName();
                 $tinfo = $v->getDataTableInfo();
@@ -190,7 +190,6 @@ abstract class IGKSysUtil
             $tentries = [];
             $grammar = $controller->getDataAdapter()->getGrammar();
             foreach ($tables as $table => $info) {
-                //     Utils::GenerateAndWriteMigration($table, $info, $out) || die("failed to write ".$table);
                 $s .=  $grammar->CreateTableQuery($table, $info->info, $info->desc) . PHP_EOL;
                 $refered = 0;
                 $refered_counter = 0;
@@ -237,7 +236,6 @@ abstract class IGKSysUtil
                 foreach ($relations as $v) {
                     $s .= trim($v) . PHP_EOL;
                 }
-                //$s .= implode(PHP_EOL, $relations); 
             }
             if ($tentries) {
                 krsort($tentries);
@@ -381,7 +379,6 @@ abstract class IGKSysUtil
             }
             $t .= $g[$type]->model;
         } else {
-            // retrieve model 
             $list = [];
             if ($ctrl){
                 $list[] = $ctrl;
@@ -391,13 +388,11 @@ abstract class IGKSysUtil
                 $list[] = SysDbController::ctrl();
             }
             while ($q = array_shift($list)) {
-                // if ($gu = SysDbControllerManager::GetDataTableDefinitionFormController($q, $type)) {
                 if ($gu = DBCaches::GetTableInfo($type, $q)) {
                     break;
                 }
             }
             if (is_null($gu)) {
-                // $gm = Database::GetInfo($type);
                 $g = DBCaches::GetColumnInfo($type); 
                 if (is_null($g)){
                     igk_die(sprintf("dadata base do not retrieve [%s] data table info.", $type));

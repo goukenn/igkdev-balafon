@@ -10,35 +10,29 @@ create: 13-07-14
 author: cad BONDJE DOUE
 license : licence.txt
 */
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\Resources\R;
-
 /**
 * Igktwitter follow us button ctrl.
 */
 abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Property: script.
     * @var mixed
     */
     private $m_script;
-
     /**
     * Constant: sn.
     * @var mixed
     */
-    const sn = "twitter://followbutton";//script name
-
+    const sn = "twitter://followbutton";
 	/**
 	 * Returns additional configuration properties for the follow button.
 	 *
 	 * @return array
 	 */
-
     public static function GetAdditionalConfigInfo()
 	{
 	 return array(
@@ -50,14 +44,12 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 		array("medium"=>"medium", "large"=>"large"),
 		"medium"),
 		);
-		//return array("clShowDataCount");
 	}
 	/**
 	 * Initializes and returns the target HTML node.
 	 *
 	 * @return \IGK\System\Html\Dom\HtmlNode|null
 	 */
-
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		return parent::initTargetNode();
 	}
@@ -67,28 +59,21 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	 * @param mixed $context
 	 * @return void
 	 */
-
     protected function initComplete($context=null){
 		parent::initComplete();
-
 		$s = $this->App->Doc->getScriptManager()->getScript(self::sn);
 		if ($s==null){
 		$this->m_script = $this->App->Doc->getScriptManager()->addScript(self::sn);
-
-		$this->m_script->setContent(
-<<<EOF
+		$this->m_script->setContent(<<<EOF
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-EOF
-		);
+EOF		);
 		}
-
 	}
 	/**
 	 * Renders the Twitter follow button into the target node.
 	 *
 	 * @return BaseController
 	 */
-
     public function View():BaseController{
 		$t = $this->getTargetNode();
 		if ($this->getIsVisible())
@@ -112,7 +97,6 @@ EOF
 	 *
 	 * @return string|null
 	 */
-
     public function getlang()
 	{
 		$l = R::GetCurrentLang();

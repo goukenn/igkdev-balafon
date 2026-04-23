@@ -7,6 +7,7 @@ namespace IGK\System\Configuration;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKObject;
+
 /**
 * auto generate doc.
 */

@@ -7,6 +7,7 @@ use Exception;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -53,7 +54,6 @@ class CssThemeValueDetector{
     */
     private static function _TreatPropertyExpression(string $value){
         $v = preg_replace("/\s+/", "", $value);
-        // $v = preg_replace("/\s*:\s*/", ":", $v); 
         return $v;
     }
     /**
@@ -74,15 +74,15 @@ class CssThemeValueDetector{
         // + | 
         // + |
         $container = new RegexMatcherContainer;
-        $container->begin('\{', '\}(\\s*;\\s*)?', 'litteral'); // - remove
-        $container->begin("(\"|')", "\\1", 'string');        // - leave
-        $container->begin("\\(", "\\)", 'parenthese');       // - leave
+        $container->begin('\{', '\}(\\s*;\\s*)?', 'litteral'); 
+        $container->begin("(\"|')", "\\1", 'string');        
+        $container->begin("\\(", "\\)", 'parenthese');       
         $container->match("\\s+",'white-space');
         $remove_global &&
         $container->begin('\\[','\\](\\s*;\\s*)?', 'global');
         if ($remove_static_property)
         {
-            $container->begin("\[","\](\\s*;\\s*)", 'bracket'); // skip bracket 
+            $container->begin("\[","\](\\s*;\\s*)", 'bracket'); 
             $container->match("(-+)?[\w\-]+\\s*:\\s*", 'property');
         }
         $lpos = 0;
@@ -113,7 +113,6 @@ class CssThemeValueDetector{
                     break;
                 case 'property':
                     // + | remove properties. 
-                    // detect end of property value definition  
                     $bvalue = substr($v, $pos);
                     $container = new RegexMatcherContainer;
                     $container->match(';','end');
@@ -132,18 +131,14 @@ class CssThemeValueDetector{
                     });
                     if (is_int($cpos)){
                         if ($cpos==-1){
-                            // read to end 
                             $cpos = $pos + strlen($bvalue)+1;
                         }else{
                             $cpos += $pos;
                         } 
                     } else if ($cpos === false) {
-                        // - + 
-                        // detect brank on definition 
                         $ln = $container->getLastPosition();
                         $s = self::_TreatPropertyExpression($g->value).substr($bvalue, 0, $ln);
                         $s = self::_TreatExpression($s);
-                        // treat s 
                         $n .= substr($v, $lpos, $g->from-$lpos).$s; 
                         $pos+=$ln;
                         $lpos = $pos;

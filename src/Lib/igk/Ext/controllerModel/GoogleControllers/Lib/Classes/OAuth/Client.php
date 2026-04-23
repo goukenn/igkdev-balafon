@@ -3,52 +3,43 @@
 // @filename: Client.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-
 namespace IGK\Core\Ext\Google\OAuth;
 
 /**
 * auto generate doc.
 */
 class Client{
-
     /**
     * Constant: wellknow config.
     * @var mixed
     */
     const WELLKNOW_CONFIG = "https://accounts.google.com/.well-known/openid-configuration";
-
     /**
     * Property: api key.
     * @var mixed
     */
     var $api_key;
-
     /**
     * Identifier: client id.
     * @var mixed
     */
     var $client_id;
-
     /**
     * Property: client secret.
     * @var mixed
     */
     var $client_secret;
-
     /**
     * Property: scope.
     * @var mixed
     */
     var $scope;
-
     /**
     * .ctr
     */
     public function __construct()
     {
     }
-
     /**
     * Authinfo.
     */
@@ -59,7 +50,6 @@ class Client{
         }
         return $_auth;
     }
-
     /**
     * Returns Token Info.
     * @param mixed $code
@@ -81,7 +71,6 @@ class Client{
         }
         return json_decode($s);
     }
-
     /**
     * Returns User Info.
     * @param mixed $tokeninfo
@@ -97,7 +86,6 @@ class Client{
         }
         return json_decode($s);
     }
-
     /**
     * auto generate doc.
     * @return

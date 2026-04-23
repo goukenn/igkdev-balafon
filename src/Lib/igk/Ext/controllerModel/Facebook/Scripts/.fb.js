@@ -3,7 +3,6 @@
 (function(locale) {
     console.error("present");
     return;
-
     var _lib = igk.system.createNS("igk.lib");
     if (typeof(FB) != 'undefined') {
         // console.debug("already " + FB);
@@ -24,7 +23,6 @@
     var js = document.createElement("script");
     // js.src= l || 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.11';	
     js.src = l || 'https://connect.facebook.net/' + locale + '/sdk.js#xfbml=1&version=v2.11';
-
     // wait on loading to append data
     igk.ready(function() {
         if (!$igk(".fb-root").first()) {

@@ -14,6 +14,7 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKModuleListMigration;
+
 !defined('IGK_CONSOLE_HTRAIT') &&  define('IGK_CONSOLE_HTRAIT', str_repeat('-', 60));
 /**
 * Db migrate command.
@@ -98,7 +99,6 @@ class DbMigrateCommand extends AppExecCommand
             $cl = get_class($t);
             Logger::info("Migrate ... " . $cl);
             if ($t->getCanInitDb()) {
-                // call core migration - update  
                 if ($t::migrate(true)) {
                     Logger::success("Migrate: " . $cl);
                     if (!($t instanceof IGKModuleListMigration)){

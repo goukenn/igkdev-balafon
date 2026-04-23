@@ -4,6 +4,7 @@
 // @date: 20251113 09:06:46
 namespace IGK\System\Database;
 use IGK\Database\DbFieldOperator;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

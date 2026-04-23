@@ -14,6 +14,7 @@ use IGK\System\Console\Logger;
 use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
+
 /**
 * 
 * @package IGK\System\Console\Commands\Database
@@ -40,7 +41,6 @@ class InitDbCommand extends AppExecCommand{
     var $options=[
 		'--clean'=>'flag: enable drop database if exists',
 		'--force'=>'flag: force file creation',
-		// '--downgrade'=>'flag: downgrade',
 	];
     /**
     * Property: category.
@@ -61,7 +61,6 @@ class InitDbCommand extends AppExecCommand{
 		$c = null;
 		DbCommandHelper::Init($command);
 		$clean = false;
-		// $v_downgrade = property_exists($command->options, '--downgrade');
 		if (empty($ctrl)){
 			$ctrl = igk_getv($command->options,"--controller");
 		}
@@ -72,12 +71,7 @@ class InitDbCommand extends AppExecCommand{
 			}
 			$c = [$c];
 		} else {		
-			// $ad = Users::model()->getDataAdapter();	
-			// $ad->sendQuery('drop database `igkdev.ops2`;');
-			// $ad->sendQuery('create database `igkdev.ops2`;');
-			// $ad->selectdb('igkdev.ops2');
 			$c = igk_sys_getall_ctrl();   
-			// $c = [ L81Controller::ctrl()];           
 			if ($b = IGKModuleListMigration::CreateModulesMigration()) {
 				$c = array_merge($c, [$b]);
 			}
@@ -89,7 +83,6 @@ class InitDbCommand extends AppExecCommand{
 			$db_name = igk_configs()->db_name;
 			Logger::info('dbname :'. $db_name);
 			if ($clean){
-				// igk_db_environment()->no_db_select = true;
 				igk_set_env("sys://Db/NODBSELECT", true );
 				if ($ad = SysDbController::getDataAdapter()){
 					$ad->setNoSelectDbErrorAutoClose(true);

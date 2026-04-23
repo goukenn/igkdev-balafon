@@ -34,6 +34,7 @@ use IGKHtmlDoc;
 use IGKMedia;
 use IGKOb;
 use ReflectionException;
+
 require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
 /**
  * utility function 
@@ -293,7 +294,6 @@ abstract class CssUtils
         $opt->rootListener = new CssRootPropertyStorageListener;
         $theme = new HtmlDocTheme(null, "temp", "temporary");
         $systheme = igk_app()->getDoc()->getSysTheme();
-        // set options before bind style
         $theme->setRenderOptions($opt);
         $theme->prefix = $prefix;
         ob_start();
@@ -364,10 +364,6 @@ abstract class CssUtils
         );
         $r = ob_get_contents();
         ob_clean();
-        // testing color color scheme .
-        // $r .="background-color:var(--igk-bg-color);"; 
-        // $r .= "html[data-theme='dark'] body.igk-body{--igk-bg-color: red;}";
-        // $r .= "html[data-theme='light'] body.igk-body{--igk-bg-color: indigo;}";
         return $r;
     }
     /**
@@ -376,8 +372,6 @@ abstract class CssUtils
     private static function ObHeader()
     {
         echo sprintf("/* @description: %s */\n", self::CSS_DESC_TITLE);
-        // echo sprintf("/* @name: %s */\n", self::CSS_DESC_TITLE);
-        // echo sprintf("/* @controller: %s */\n", self::CSS_DESC_TITLE);
         echo sprintf("/* @date: %s */\n", date('Ymd H:i:s'));
     }
     /**
@@ -468,7 +462,6 @@ abstract class CssUtils
                 } 
             }
             else {
-                // $v_theme = $a_theme;
                 $v_copy = $v_copy ?? $a_theme->to_array();
                 $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
                 $v_theme->load_data($v_copy);
@@ -477,12 +470,8 @@ abstract class CssUtils
                 $v_theme->setRenderOptions($opt); 
                  // + | load bind style with theme 
                  $controller->bindCssStyle($v_theme, true);
-           //  $ctab = array_merge($v_theme->getDef()->getAttributes() ?? [], $tab);
             if ($v_first) {
-                // define global definition 
                 $core = $a_theme->get_css_def(true, true);
-                // $s = self::RenderPrimaryTheme($a_theme, $colors, true, $theme_export);
-                // bind primary color   
                 array_unshift($def, implode("\n", [
                     "/* begin: core-theme: */",
                     $core,
@@ -552,7 +541,6 @@ abstract class CssUtils
         $colors = [];
         $props = [];
         foreach ($tdef as $theme_name) {
-            // $inc_files = $v_theme ? $v_theme->getIncludedFiles(): null; 
             $v_theme = new HtmlDocTheme(null, "temp", "temporary");
             // + | load bind style with theme 
             $controller->bindCssStyle($v_theme, true);
@@ -569,7 +557,6 @@ abstract class CssUtils
     public static function MapThemeDefinition(string $lk, array $tab, &$g, &$source_defs = null)
     {
         array_map(function ($v, $k) use (&$g, $lk, &$source_defs) {
-            //remove brank definitions  
             $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v) : $v;
             if (empty($v)) {
                 // + | --------------------------------------------------------------------
@@ -605,9 +592,7 @@ abstract class CssUtils
         if ($medias)
         {
             self::MapTheme($medias, $is_primary_theme, $lk, true);
-            // update media list 
             if ($theme_medias !== $medias){
-                // store media list 
                 foreach($medias as $k=>$v){
                     if ($v instanceof IGKMedia){
                         $m = $v->getDef() ?? [];
@@ -657,7 +642,7 @@ abstract class CssUtils
                 }
                 $ns = HtmlDocTheme::GetMediaName($k);
                 if (igk_str_startwith($ns, '@')) {
-                    $out .= $ns; //'@media'.
+                    $out .= $ns; 
                 } else
                     $out .= "@media " . $ns;
                 $out .= "{" . $el;
@@ -730,9 +715,9 @@ abstract class CssUtils
         // + | 
         // + |
         $container = new RegexMatcherContainer;
-        $container->begin('{', '}(\\s*;\\s*)?', 'litteral'); // - remove
-        $container->begin("(\"|')", "\\1", 'string');        // - leave
-        $container->begin("\\(", "\\)", 'parenthese');       // - leave
+        $container->begin('{', '}(\\s*;\\s*)?', 'litteral'); 
+        $container->begin("(\"|')", "\\1", 'string');        
+        $container->begin("\\(", "\\)", 'parenthese');       
         $container->match("\\s*(;|:)\\s*", 'operator');
         $container->match("\\s+", 'white-space');
         $lpos = 0;
@@ -746,7 +731,6 @@ abstract class CssUtils
                     break;
                 case 'litteral':
                 case 'white-space':
-                    // skip litteral - white space 
                     $n = trim($n . substr($v, $lpos, $g->from - $lpos));
                     if ($g->tokenID == 'white-space') {
                         $n .= ' ';
@@ -759,49 +743,6 @@ abstract class CssUtils
         });
         $n .= substr($v, $lpos);
         return trim($n);
-        // $nv = '';
-        // $min = false;
-        // $offset = 0;
-        // while ($min === false) {
-        //     foreach (["'", '"', '{'] as $c) {
-        //         if (false !== ($c = strpos($v, $c, $offset))) {
-        //             $min = ($min === false) ? $c : min($min, $c);
-        //         }
-        //     }
-        //     if ($min !== false) {
-        //         $nv = substr($v, 0, $min);
-        //         $ch = $v[$min];
-        //         $pos = $min;
-        //         switch ($ch) {
-        //             case '{':
-        //                 while ($min > 0) {
-        //                     if ($nv[$min - 1] == ' ') {
-        //                         $min--;
-        //                         continue;
-        //                     }
-        //                     break;
-        //                 }
-        //                 $nv = rtrim($nv);
-        //                 igk_str_read_brank($v, $pos, '}', '{');
-        //                 $pos++;
-        //                 $nv .= ltrim(substr($v, $pos));
-        //                 $offset = $min;
-        //                 break;
-        //             case '\'':
-        //             case '"':
-        //                 # code...
-        //                 $nv .= igk_str_read_brank($v, $pos, $ch, $ch) .
-        //                     ltrim(substr($v, $pos + 1));
-        //                 $offset = $pos + 1;
-        //                 break;
-        //         }
-        //         $v = $nv;
-        //         $min = false;
-        //     } else {
-        //         break;
-        //     }
-        // }
-        // return trim($v);
     }
     /**
      * remove properties that not need transform for value  
@@ -855,8 +796,7 @@ abstract class CssUtils
         $v_ev = false;
         // + | ignore case 
         // + | value is empty or k alreay content lk theme or prefix value contain [litteral] to evaluate
-        // DECTECT ONLY STYLE WITH that have request transform  
-        $is_empty = empty($v); //IsGlobalExpression
+        $is_empty = empty($v); 
         $theme_def = strpos($k, CssConstants::THEME_SELECTOR_PREFIX) !== false;
         $need_eval = !$is_empty && preg_match(IGK_CSS_TREAT_REGEX, $v);
         if ($theme_def) {
@@ -876,7 +816,7 @@ abstract class CssUtils
             return null;
         }
         $key = self::_prependThemePreKeyToCssSelector($k, $lk);
-        $g[$key] = null; //$v;//"background-color:red";//null;
+        $g[$key] = null; 
         if (!$is_primaryTheme) {
             $g[$k] = null;
         }
@@ -892,7 +832,6 @@ abstract class CssUtils
         $lk = explode(',', $tab);
         $lk = implode(",", array_map(function ($a) use ($keys) {
             $a = ltrim($a);
-            // for :root trim space
             if (strlen($a) > 0 && ($a[0] == ':')) {
                 $keys = trim($keys);
             }
@@ -911,7 +850,6 @@ abstract class CssUtils
             $sys->initGlobalDefinition();
             $clear = 1;
             if (!defined("IGK_FORCSS")) {
-                //register_shutdown_function(
                   igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
                     function () use ($sys) {
                     $sys->resetSysGlobal();
@@ -927,7 +865,6 @@ abstract class CssUtils
     */
     public static function InitBindingCssFile(
         BaseController $ctrl,
-        //  \IGKHtmlDoc $document,  
         HtmlDocTheme $theme,
         string $file,
         bool $cssRendering,
@@ -958,8 +895,6 @@ abstract class CssUtils
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
         $out = "";
         $g = $doc->getTheme()->getInlineStyle(true);
-        // igk_wln_e("inline style renderegin ??? ", $doc->getParam('change'), $g);
-        // igk_wln("inline rendering", $g);
         // + | reset parameter        
         $sys = $doc->getSysTheme();
         $clear = 0;
@@ -1056,7 +991,6 @@ abstract class CssUtils
             } else
                 $n = $ctrl;
             $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
-            // in case need to  register component auto load component
             if (!($ctrl instanceof ApplicationModuleController)) {
                 $ctrl::register_autoload();
             }
@@ -1095,7 +1029,6 @@ abstract class CssUtils
         $src = ob_get_contents();
         ob_end_clean();
         if ($src) {
-            //+ | inject css style - no render -              
             if ($bcss_handler = FileHandler::GetFileHandlerFromExtension( Constants::BCSS_EXTENSION )){
                 $src = $bcss_handler->transform($src);
             }            
@@ -1181,7 +1114,6 @@ abstract class CssUtils
     */
     public static function GetRootPropsArray(array $list)
     {
-        // only detected properties must be update as root definition 
         $mk = [];
         foreach (array_keys($list) as $k) {
             if (preg_match('/^--/', $k)) {

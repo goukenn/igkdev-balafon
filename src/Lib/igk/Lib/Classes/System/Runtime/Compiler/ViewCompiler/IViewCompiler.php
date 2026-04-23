@@ -4,6 +4,7 @@
 // @date: 20221027 13:50:39
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\Runtime\Compiler\ICompiler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler

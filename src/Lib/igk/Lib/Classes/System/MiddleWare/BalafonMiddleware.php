@@ -8,6 +8,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Middlewares;
 use ReflectionClass;
+
 /**
 * Represent IGKBalafonMiddleware class
 */
@@ -82,7 +83,6 @@ abstract class BalafonMiddleware{
     public function getService(){
         return self::GetManager();
     }
-    ///<param name="service">IBalafonApplicationMiddlewareService instance</summary>
     /**
     * initialize the middleware
     * @param mixed $serviceIBalafonApplicationMiddlewareService instance

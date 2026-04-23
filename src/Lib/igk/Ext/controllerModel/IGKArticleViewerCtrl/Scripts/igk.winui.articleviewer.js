@@ -16,14 +16,10 @@
         initViewBox: function(target, classname, updatesize, withanimation) {
             if ((!target) || (!classname))
                 return;
-
             var p = target;
             var m_sel = $igk(p).select("." + classname);
-
             if (m_sel.getCount() <= 0)
                 return;
-
-
             var m_width = 0; //primary width : owner width
             var m_height = 0;
             var d = null;
@@ -38,16 +34,12 @@
             //dummy.parentNode = p;
             //p.appendChild(dummy);
             //igk.show_prop(dummy);
-
             var j = 0;
             var m_blocks = new Array();
-
-
             $igk(p).setCss({
                 overflow: "hidden",
                 width: "100%"
             });
-
             function updateSize(autoAnimate) { //update the size
                 var columns = []; // column setting
                 function getColumnInfo(index) {
@@ -59,7 +51,6 @@
                     columns.push(c);
                     return c;
                 };
-
                 function getMaxHeight() {
                     var h = 0;
                     for (var i = 0; i < columns.length; i++) {
@@ -69,7 +60,6 @@
                 };
                 if ((p.clientWidth != m_width) && (m_blocks.length > 0)) { //moving if changed
                     //client width changed...
-
                     var c = m_blocks[0];
                     var w = $igk(dummy).getPixel("width", c);
                     var h = $igk(dummy).getPixel("height", c);
@@ -81,19 +71,15 @@
                     var offsety = mTop;
                     m_width = p.clientWidth;
                     var v_W = m_width - (mLeft + mRight); //large width		
-
                     var xs = Math.max(1, Math.floor(v_W / (w + mRight + mLeft)));
-
                     var column = xs;
                     var offsetx = 0;
                     if (column > 1)
                         offsetx = mLeft + (m_width / 2) - (((w + mRight + mLeft) * column) / 2);
                     else {
-
                         offsetx = (m_width / 2) - (((w - (mRight + mLeft)) * column) / 2);
                         w -= (mLeft + mRight);
                     }
-
                     var j = 0;
                     var x = offsetx;
                     var y = mTop;
@@ -121,7 +107,6 @@
                             $igk(item).setCss({ left: x + "px", top: y + "px" });
                         }
                         x += w + mRight + mLeft;
-
                         cinfo.bottom = y + h;
                     }
                     //update height position
@@ -136,18 +121,14 @@
                     });
                 }
             };
-
             m_sel.each(function() {
-
                 var d = this.owner;
-
                 m_blocks[j] = d;
                 $igk(d).setCss({
                     position: "absolute", //make asboslute 					
                     verticalAlign: "top"
                 });
                 j++;
-
                 return true; //allow to continues
             });
             var m_eventContext = igk.window.RegEventContext(p, $igk(p));

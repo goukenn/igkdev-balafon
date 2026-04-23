@@ -2,16 +2,13 @@
 // file: ctrl.js
 // @date: 20230102 14:16:01
 // @desc: 
-
 'use strict';
-
 (function () {
     const createNS = igk.system.createNS;
     const is_string = igk.is_string;
     // ---------------------------------------------------------
     // script controller entity
     // ---------------------------------------------------------
-
     var m_controllers = []; // list of controller
     var m_initialize = false; // initialized or noted
     // attributes data
@@ -47,11 +44,9 @@
     var m_h_ctrl = {}; // hosted controller functions
     var m_readylist = null;
     var m_callflag = 0;
-
     function __attribToString() {
         return "igk.ctrl.attribManagerInfo";
     };
-
     function __registerAttribManager(key, callback) {
         if (callback && key) {
             var e = null;
@@ -65,7 +60,6 @@
             e.s.push(callback);
         }
     };
-
     /**
      * bind ready component attribute on node 
      * @param {*} n node
@@ -86,9 +80,7 @@
         m_callflag = 0;
         if (i != j)
             console.debug("after call to ready list " + m_readylist.getCount());
- 
     }
-
     function __readyFuncEventArgs() {
         var m_preventContinue = false;
         igk.appendProperties(this, {
@@ -101,7 +93,6 @@
         });
     };
     var m_attribCtrl = [];
-
     function __loadAttribCtrl(n, k) {
         // >node 
         // >key
@@ -110,7 +101,6 @@
         }
         m_attribCtrl[k].push(n);
     }
-
     function __callBindAttribData(node) {
         var q = $igk(node);
         var cnf = q.getConfig("igk:callAttribBindingData");
@@ -128,7 +118,6 @@
         var e = null;
         if (typeof (s) == igk.constants.undef)
             return;
-
         function __invoke(key, tab, node) {
             var e = null;
             var n = $igk(node);
@@ -164,11 +153,9 @@
         // mark it as binding data
         q.setConfig("igk:callAttribBindingData", 1);
     }
-
     function __clearBindAttribData() {
         m_attribManager = [];
     }
-
     function __ctrl_utility_functions(n) { // controler utility function access with "igk/nodeobj".fc
         var m_o = n;
         igk.defineProperty(this, "o", {
@@ -417,7 +404,6 @@
             if (!q || !to) {
                 return;
             }
-
             function __changez(evt) {
                 var v = q.o.value;
                 var i = q.o.selectedIndex;
@@ -469,10 +455,8 @@
     igk.winui.events.raise(e, 'igk_controller_ready', igk.ctrl, null);
     igk.winui.events.clean(e, 'igk_controller_ready');
     igk.winui.events.raise(e, 'igk_controller_ready', igk.ctrl, null);
-
     // + | --------------------------------------------------------------
     // + | bypass setattribute to get and replace attribute set behaviour
-
     let global = {};    
     global.setAttribute = Element.prototype.setAttribute;
     Element.prototype.setAttribute = function (n, v) {
@@ -493,14 +477,9 @@
         }
         global.setAttribute.apply(this, [n, v]);
     };
-
-
 })();
-
-
 (function () {
     const createNS = igk.system.createNS;
-
     function __append_frametobody(responseText) {
         var q = document.createElement("div");
         q.innerHTML = responseText;

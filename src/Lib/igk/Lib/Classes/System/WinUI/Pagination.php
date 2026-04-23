@@ -8,6 +8,7 @@ use Exception;
 use IGK\Helper\UriHelper; 
 use IGKException;
 use function igk_resources_gets as __;
+
 /**
 * Pagination.
 * @package IGK\System\WinUI
@@ -81,7 +82,6 @@ class Pagination{
         $n["class"] = $this->className;
         $min = max($this->page - $this->shift, 1);
         $max = min($this->page + $this->shift + 1, $total);
-       // igk_wln_e(compact( "max", "min"));
         $l = ($this->shift * 2) - ($max - $min);
         if ($l>0){
             $max = min($max+$l,  $total);

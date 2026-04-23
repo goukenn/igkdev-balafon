@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Css;
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * 
 * @package IGK\System\Html\Css
@@ -55,11 +56,6 @@ abstract class CssClassNameDetectorUtils{
                     $expression[] = $v;
                     $flag_defclass = false;
                     break;
-                // case 262:
-                //     if (preg_match("/(setClass)/i", $v)){
-                //         $flag_defclass = true;
-                //     }
-                //     break;
                 case 267:
                     self::DetectFromHtmlSource($detector, $v, $references);
                     break;
@@ -68,7 +64,6 @@ abstract class CssClassNameDetectorUtils{
                 case T_STRING:
                     if (preg_match("/".$klist."/i", $v)){
                         $expression[] = 'igk-'.$v;
-                        //$flag_defclass = true;
                     }else if (preg_match("/(setClass)/i", $v)){
                         $flag_defclass = true;
                     }

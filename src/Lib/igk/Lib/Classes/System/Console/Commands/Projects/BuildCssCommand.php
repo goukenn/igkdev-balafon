@@ -9,6 +9,7 @@ use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\IO\Path;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Projects
@@ -62,7 +63,6 @@ class BuildCssCommand extends AppExecCommand{
 		if (!is_file($r)){
 			igk_die('missing file');
 		}
-		// library to include :
 		 $g = file_get_contents($r); 
 		 $source = CssParser::Parse($g);		
 		 $detector->map($source->to_array());

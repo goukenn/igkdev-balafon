@@ -26,6 +26,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException; 
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
@@ -99,11 +100,6 @@ trait RegisterUserActionTrait
         $ctrl = $this->getController();
         $domain = $this->getController()->getConfig('domain');
         $this->redirect = base64_decode(igk_getr("referer") ?? '');
-        // if (igk_environment()->isDev()){
-        //     $_REQUEST['login'] = 'dta8'.date('YmdHis');
-        //     $_REQUEST['password'] = 'dta';
-        //     $_REQUEST['repassword'] = 'dta';
-        // }
         $p = igk_get_robj("login|password|repassword");
         extract((array)$p);
         if ($p->password != $p->repassword) {
@@ -126,9 +122,7 @@ trait RegisterUserActionTrait
             }
             $p->login .= '@' . $domain;
         }
-        // registerOptions
         $cl = $this->registerController;
-        // TASK : REMOVE by pass for testing
         $passby = igk_environment()->isDev() && Users::Get('clLogin', $p->login);
         if ($passby || ($cl && $cl::Register(
             $this->getController(),
@@ -285,10 +279,8 @@ trait RegisterUserActionTrait
             $form->div()->h1()->Content = __("Registration success");
             return;
         }
-        /// igk_notifyctrl($this->registerServiceNotifyName)->info("Basic")->setAutohide(false);
         $form->div()->h1()->Content = __("Subscribe");
         $form->notifyHost($this->registerServiceNotifyName, false);
-        // $form->div()->setClass('igk-panel igk-success')->Content = 'data check';
         $form->cref();
         $form->confirm();
         $referer = $options ? igk_getv($options, 'referer') : null;
@@ -438,7 +430,6 @@ trait RegisterUserActionTrait
     protected function forgotPassword_post(?string $account=null){
         $account = $account ?? igk_getr('account'); 
         if (empty($account) && !IGKValidator::IsValidPwd($account)){
-            // $this->danger(__('not a valid mail'));
             return [
                 "error"=>"not a valid mail 2 ",
                 "status"=>401
@@ -518,7 +509,7 @@ trait RegisterUserActionTrait
     protected function form_forgot_password($a, $options=null){
         $a['action'] = $this->getController()::uri('forgotPassword');
         $a->h2()->Content = __('Reset password');
-        $a->notifyhost($this->notifyActionName, true);//->setAutohide(true);
+        $a->notifyhost($this->notifyActionName, true);
         $a->div()->Content  = __("your user account's verified email address and we will send you a password reset link.");
         $a->fields([
             "account"=>['type'=>'email','required'=>1, 'placeholder'=>__('email account')]

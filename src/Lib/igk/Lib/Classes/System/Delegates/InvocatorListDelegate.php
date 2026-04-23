@@ -3,6 +3,7 @@
 // @file: InvocatorListDelegate.php
 // @date: 20221117 11:41:35
 namespace IGK\System\Delegates;
+
 /**
 * auto generate doc.
 * @package IGK\System\Delegates

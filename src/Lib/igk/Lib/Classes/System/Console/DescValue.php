@@ -4,6 +4,7 @@
 // @date: 20221230 11:01:13
 // @desc: 
 namespace IGK\System\Console;
+
 /**
 * Desc value.
 * @package IGK\System\Console

@@ -3,6 +3,7 @@
 // @file: SystemStateFlagTrait.php
 // @date: 20250801 04:10:37
 namespace IGK\System\Core\Traits;
+
 /**
  * 
  * @package IGK\System\Core\Traits

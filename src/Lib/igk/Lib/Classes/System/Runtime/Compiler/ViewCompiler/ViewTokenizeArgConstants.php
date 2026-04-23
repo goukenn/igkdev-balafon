@@ -4,6 +4,7 @@
 // @date: 20221021 09:36:15
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\Runtime\Compiler\CompilerConstants;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -23,7 +24,7 @@ abstract class ViewTokenizeArgConstants extends CompilerConstants{
     * Constant: expression.
     * @var mixed
     */
-    const EXPRESSION = '$___IGK_PHP_EXPRESSION___'; // when depend on variables
+    const EXPRESSION = '$___IGK_PHP_EXPRESSION___'; 
     /**
     * Express eval getter.
     * @param string $v

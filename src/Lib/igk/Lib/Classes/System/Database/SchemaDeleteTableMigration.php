@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
+
 /**
 * Schema delete table migration.
 * @package IGK\System\Database
@@ -15,7 +16,6 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     * @var mixed
     */
     protected $fill_properties = ["table"]; 
-    // source column to restore
     /**
      * list of table to drop
      * @var array
@@ -34,7 +34,6 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     */
     public function down()
     {  
-        //restore current table definition
         igk_die("c'ant restore");
     }
     /**

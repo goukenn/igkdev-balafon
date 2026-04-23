@@ -8,6 +8,7 @@ use IGK\Helper\Activator;
 use IGK\Helper\Trait\ActivatorPrivateInitProperty;
 use IGKException;
 use IGKObject;
+
 /**
  * 
  * @package IGK\System\Text

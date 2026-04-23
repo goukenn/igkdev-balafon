@@ -1,11 +1,9 @@
 "use strict";
-
 (function () {
     // | author: C.A.D. BONDJE DOUE
     // | date: 2021/05/14
     // | control: igk-winui-selecttag
     // | version: 1.0
-
     function GItemClass(id, text, value) {
         var _tag = igk.createNode("div");
         _tag.addClass("glass-btn dispib cursor-pointer")
@@ -15,7 +13,6 @@
                 "borderRadius": "4px",
                 "marginRight": "4px"
             });
-
         _tag.setHtml(text);
         _tag.add("input")
             .setAttribute("name", id + "[]")
@@ -23,7 +20,6 @@
             .setAttribute("value", value);
         igk.defineProperty(this, "tag", { get: function () { return _tag; } });
     }
-
     function __initSelecTag() {
         var q = this;
         var data = JSON.parse(q.getAttribute("igk:data"));
@@ -38,7 +34,6 @@
         if (!Array.isArray(options.selected)){
             options.selected = [options.selected+""];
         } 
-
         var id = q.getAttribute("id");
         if (!id) {
             q.remove();
@@ -115,7 +110,6 @@
                 $igk(document).unreg_event("keyup", _handleTab);
                 return;
             } 
-
         };
         $igk(document).reg_event("keyup", _handleTab);
         function _haveProperty(n){
@@ -124,7 +118,6 @@
             }
             return false;
         };
-
         function _initData(init){
             if (_init_){
                 return;
@@ -162,18 +155,13 @@
             }
             _init_ = !1;
         };
-
         function select_all(){
             data.forEach(function(i){
                 var k = i.t.toLowerCase();
                 _update(k);
             });
         };
-     
-
-  
         _datalist.o.id = _listkey;
-         
         // | init input
         _input.addClass("igk-control cltext glass-text");
         _input.setAttribute("list", _listkey);
@@ -219,14 +207,12 @@
         q.insertAfter(_select_allbtn.o);
         q.insertAfter(_input.o);
         q.insertAfter(_datalist.o);
-
         _select_allbtn.addClass("glass-select-all cursor-pointer").setHtml( options.select_all_text );
         _select_allbtn.on("click", function(e){
             e.preventDefault();
             e.stopPropagation();
             select_all();
         });
-
         _initData(true);
     };
     igk.winui.initClassControl("igk-winui-selecttag", __initSelecTag);

@@ -3,6 +3,7 @@
 // @file: CssClassNameDetector.php
 // @date: 20240913 09:08:04
 namespace IGK\System\Html\Css;
+
 /**
  * 
  * @package IGK\System\Html\Css
@@ -117,7 +118,6 @@ class CssClassNameDetector
             }
         }, $resolv_definition, array_keys($resolv_definition)));
         if ($option->frames) {
-            //$_tout[] = "/* frames */";
             foreach ($option->frames as $i) {
                 $_tout[] = $i->getDefinition($option);
             }
@@ -190,7 +190,7 @@ class CssClassNameDetector
     {
         $v_c_mkey = self::MEDIA_KEY;
         if ($dc = $this->getMatchRegex()) { 
-            $v_dc = sprintf('/(?<!-)%s(?!-)/', $dc); // str_replace("\\[",'[', substr($dc,8127, 45)));
+            $v_dc = sprintf('/(?<!-)%s(?!-)/', $dc); 
             $c = preg_match_all($v_dc, $src, $tab); 
             if ($c) {
                 $merge_medias = null;
@@ -260,7 +260,6 @@ class CssClassNameDetector
                     $scr = json_decode($g['defs']);
                     if ($r->isReferenceMedia($k)) {
                         $media_key = key($r->mediaReferences[$k]);
-                        //replace with definition 
                         $media[$media_key][$v] = $scr;
                     } else {
                         $t[$v] = $scr;
@@ -279,12 +278,9 @@ class CssClassNameDetector
     {
         if ($r = array_keys($this->list)) {
             sort($r);
-            //$r = [".info[data245]"];
             return str_replace("\\[",'[', sprintf('\b(?:%s)\b', addslashes(implode('|', array_map(function ($a) {
                 $m = substr($a, 1);
-               // $m = 'accordeon[sample]';
                 $m = preg_replace("/(\[|\])/", "\\\\$1", $m);
-                // $m = str_replace("[", "\[", $m);
                 return $m;
             }, $r)))));
         }
@@ -324,7 +320,6 @@ class CssClassNameDetector
     private static function _MapArray(array $a, CssClassNameDetector $detector, string $key)
     {
         if ($c = preg_match_all(self::CL_REGEX, $key, $tab)) {
-            // class only refrence detections
             $v_code_key = json_encode($a);
             $v_id_key = -1;
             if (!isset($detector->m_references[$v_code_key])) {

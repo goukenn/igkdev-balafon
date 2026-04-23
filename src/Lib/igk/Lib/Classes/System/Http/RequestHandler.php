@@ -17,6 +17,7 @@ use IGKApplication;
 use IGKEvents;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * base request handle
  * @package IGK\System\Http
@@ -117,13 +118,8 @@ class RequestHandler
                     throw new IGKException("Route access not allowed");
                 }
                 $v->setUser($user);
-                // $v->setRoutingInfo((object)[
-                //     "ruri" => $path,
-                //     "args"=>[]
-                // ]);
                 $arguments = array_filter(explode("/", $path));
                 $api = IGKApplication::Boot('api');
-                // start engine require for 
                 IGKApp::StartEngine($api, false);
                 return RouteHandler::Handle($v, $arguments); 
             }
@@ -137,7 +133,6 @@ class RequestHandler
      */
     public function handle_uri($u = null)
     {
-        // igk_trace(); 
         if (igk_environment()->get("sys://notsystemurihandle")) {
             return;
         }
@@ -268,7 +263,6 @@ class RequestHandler
      */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
-        // igk_environment()->write_debug("Redirect start : ".igk_sys_request_time()); 
         if (defined('IGK_REDIRECTION')) {
             die("already call redirection");
         }
@@ -296,8 +290,6 @@ class RequestHandler
         igk_sys_handle_res($query);
         switch ($code) {
             case 901:
-                // default redirect request handle
-                // binding site pam 
                 if ($redirect == "/sitemap.xml") {
                     igk_bind_sitemap(["ctrl" => $defctrl, "c" => "sitemap"]);
                     igk_exit();
@@ -327,7 +319,6 @@ class RequestHandler
         $args = igk_getquery_args($server_info->{'REDIRECT_QUERY_STRING'});
         $_REQUEST = array_merge($_REQUEST, $args);
         if (($r == "POST") && ($code < 900)) {
-            //DEBUG: Posted data are lost
             igk_is_debug() && igk_wln_e($_POST);
         } 
         $v_ruri = igk_io_base_request_uri(); 
@@ -371,7 +362,6 @@ class RequestHandler
                 igk_exit();
             }
         }
-        ///TASK: HANDLE RESOURCES
         $suri = $server_info->{'REQUEST_URI'};
         if (preg_match("/\.(jpeg|jpg|bmp|png|gkds)$/i", $suri)) {
             header("Status: 301");
@@ -462,9 +452,6 @@ class RequestHandler
                 igk_set_header(500);
                 igk_wln_e(__("failed to handle module action"));
             }
-            // if ($ctrl=igk_getctrl(IGK_CONF_CTRL, false)){
-            //     $ctrl::register_autoload();
-            // }
             if (!class_exists($class)) {
                 igk_set_header(500, "temp class not found");
                 igk_wln_e("RequestHandler::Class not exists {$class} ", 
@@ -478,10 +465,6 @@ class RequestHandler
                 R::RegLangCtrl($ctrl);
             } else {
                 $tclass = null;
-                // if ($class == ApplicationModuleController::class){
-                //     igk_dev_wln("data --- monsieur --- ", $obj);
-                // }
-                // igk_dev_wln_e(__FILE__.":".__LINE__, $class);
                 $ctrl = new $class();
             }
             $method = "index";
@@ -491,7 +474,7 @@ class RequestHandler
             ) {
                 $cl = new $tclass($ctrl);
             } else {
-                $cl = $ctrl; //new $class();
+                $cl = $ctrl; 
             }
             if (count($args) > 0) {
                 if (method_exists($cl, $args[0])) {

@@ -3,9 +3,6 @@
 // @author: C.A.D. BONDJE DOUE
 // @desc: 
 
-
-
-
 /**
  * @var BaseController $controller
 */
@@ -18,7 +15,6 @@ use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\EntryClassResolution;
-
 if (!function_exists('igk_db_ctrl_initdata')) {
     function igk_db_ctrl_initdata($controller)
     {
@@ -48,27 +44,20 @@ if (!$db->getIsConnect()) {
         return false;
     }
 }
-
 $fcname = "initDb";
 igk_set_env("sys://db/constraint_key", $controller->getInitDbConstraintKey());
 // Logger::print("init db: ".get_class($controller));
-
-
-
 if (!$controller->getUseDataSchema()) {
     Logger::info("- init from db function ...");
     $controller::initDbFromFunctions();
     igk_db_ctrl_initdata($controller);
     $response = true;
 } else {
-
     Logger::info("- init from db schemas ...");
     $bck = igk_get_env(IGK_ENV_DB_INIT_CTRL);
     igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);
-
     // $info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($controller->getDataAdapterName(), 'tbllv_stock_products');
     // DbSchemaDefinitions::UnregisterCache($controller);
-
     if ($tables = $controller->initDbFromSchemas($force)) {
         // + | OK for database initialization 
         $controller->initDbConstantFiles();
@@ -83,22 +72,13 @@ if (!$controller->getUseDataSchema()) {
         Logger::warn('- no tables found in schemas definition');
     }
 }
-
-
 $db->flushForInitDb();
 igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($controller));
 igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller" => $controller]);
-
-
-
-
 // DbSchemaDefinitions::Reload($controller);
 function_exists('opcache_reset') && !ini_get('restrict_api') && @opcache_reset();
-
 igk_set_env(get_class($controller) . "::initdb", 1);
-
 if (igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))) {
-
     igk_is_debug() && igk_ilog("notify message :  IGK_HOOK_DB_CHANGED");
     igk_hook(IGK_HOOK_DB_CHANGED, $controller, null);
     igk_navto($controller->getAppUri());
@@ -106,5 +86,4 @@ if (igk_uri_is_match(igk_io_currentUri(), $controller->getAppUri($fcname))) {
 if ($mustclose) {
     $db->close();
 }
-
 return $response;

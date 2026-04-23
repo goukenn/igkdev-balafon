@@ -19,10 +19,7 @@ function igk_html_json($n){
         $m=& $g["s"];
         $r=$q->getTagName();
         $view=array();
-		//igk_wln("tag : ", $r , get_class($q));
-
 		if ( get_class($q) != IGKHtmlTextNode::class){
-
 			if($ctrib=$q->getAttributes()){
 				$attribs=array();
 				foreach($ctrib->to_array() as $k=>$attrv){
@@ -48,7 +45,6 @@ function igk_html_json($n){
     }
     return json_encode($d);
 }
-
 /**
 * auto generate doc.
 * @param string $n string to decode

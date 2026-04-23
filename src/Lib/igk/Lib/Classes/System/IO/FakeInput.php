@@ -3,6 +3,7 @@
 // @file: FakeInput.php
 // @date: 20230107 13:26:11
 namespace IGK\System\IO;
+
 /**
 * use to fake php://input reading
 * @package IGK\System\IO

@@ -19,6 +19,7 @@ use IGK\System\Html\ViewRef;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -394,16 +395,6 @@ class HtmlNode extends HtmlItemBase
         $this["style"] = new HtmlCssValueAttribute($value);
         return $this;
     } 
-    // public function __call($n, $arguments)
-    // {
-    //     if (in_array(strtolower($n), ["address"])) {
-    //         if ($this->getCanAddChilds()) {
-    //             $tab = array(strtolower($n), null, $arguments);
-    //             return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
-    //         }
-    //     }
-    //     return parent::__call($n, $arguments);
-    // }
     /*
     address have a special meaning
     public function address(){
@@ -491,9 +482,6 @@ class HtmlNode extends HtmlItemBase
                     $this[$key] = $value;             
                     return $this;
                 }
-                // igk_wln_e("set ".$key, $value);
-                // $cond = igk_server_is_local() && (($context !== null) && ($context !== 'Load'));               
-                // igk_assert_die($cond, "/!\\ Method not define [". $key. "] :::".$value. " :::".get_class($this). "::::Context[".$context."]");
                 return false;
             }
         }
@@ -540,7 +528,6 @@ class HtmlNode extends HtmlItemBase
     {
         return isset($this->m_attributes[$n]);
     }
-    ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
     /**
     * auto generate doc.
     * @param mixed $value
@@ -587,7 +574,6 @@ class HtmlNode extends HtmlItemBase
     */
     public function activate($n, $activate_condition=null)
     {
-        // igk_wln_e("activate....", $activate_condition);
         if (is_null($activate_condition) || $activate_condition){
             $this->m_attributes->activate($n);
         }

@@ -1,7 +1,5 @@
 "uses strict";
-
 (function(){
-
 	function __create(){		
 		var d = igk.createNode("div");
 		d.addClass("igk-line-waiter");
@@ -16,7 +14,6 @@
 	igk.system.createNS("igk.winui.lineWaiter",{
 	init: function(q){		
 		q = q || $igk(igk.getParentScript());				
-		
 		//item for js
 		if (q.control && (q.control.type =='linewaiter'))
 		{
@@ -24,8 +21,6 @@
 				return;
 			q.control.initialize = true;
 		}	
-		
-		
 		igk.ready(function(){						
 			var s = q.select(".igk-line-waiter-cur");			
 			if (s.getCount()>0)
@@ -37,7 +32,6 @@
 						var g = $igk(igk.winui.eventTarget(evt));				
 						//choose the last modified property	
 						if ((self.o == g.o) && 	(evt.propertyName == "right")){	
-							
 							if (igk.system.regex.item_match_class("igk-animate", g.o)){	
 								g.rmClass("igk-animate");
 							}
@@ -72,9 +66,7 @@
 	}
 	}
 	);
-	
 })();
-
 // igk.readyGlobal(function(){
 	// var d = $igk(document.body).prepend("div");
 	// var waiter = igk.winui.lineWaiter.addTo(d);		

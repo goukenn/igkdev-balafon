@@ -3,6 +3,7 @@
 // @file: IRegexMatcherDetectInfo.php
 // @date: 20241103 11:35:17
 namespace IGK\System\Text;
+
 /**
 * detect marcher regex information 
 * @package IGK\System\Text

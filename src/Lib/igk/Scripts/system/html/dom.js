@@ -34,7 +34,6 @@
                 'match': "\\\\."
             }
         ];
-
         let src = tagExpression;
         let pos = 0;
         let g = null;
@@ -43,7 +42,6 @@
         const createE = namespace ? (v) => {
             return document.createElementNS(namespace, v);
         } : (v) => { return document.createElement(v); };
-
         const _listener = (function () {
             let _node = null;
             let g = {
@@ -97,10 +95,8 @@
                     for(let i in attrib){
                         _node.setAttribute(i, attrib[i]);
                     }
-                    
                 },
                 funcs(v) {
-
                 },
                 activateAttrib(v) {
                     $igk(_node).o.setAttribute(v.substring(1), '');
@@ -160,7 +156,6 @@
         const { root, lastNode } = _listener;
         return { root, lastNode };
     };
-
     const _JS = igk.system.createNS('igk.system.html.dom', {
         /**
          * create and expression 
@@ -183,5 +178,4 @@
             return s;
         }
     });
-
 })();

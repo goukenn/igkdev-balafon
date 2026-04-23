@@ -6,18 +6,11 @@
 
 /*datatable controller
 */
-
 /**
 * Igkmy sql data table ctrl.
 */
 abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	// public static function GetAdditionalConfigInfo()
-	// {
-		// return array(
-			// "clDataTableName"
-		// );
-	// }
 	/**
 	 * Returns the list of configuration keys that cannot be edited by the user.
 	 *
@@ -40,7 +33,6 @@ abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getIsVisible():bool {
 		return false;
 	}
-
 	/**
 	 * Returns the data adapter name used by this controller.
 	 *

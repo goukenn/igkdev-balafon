@@ -3,6 +3,7 @@
 // @file: TextBracket.php
 // @date: 20221023 10:16:14
 namespace IGK\System\Text;
+
 /**
 * reduce data
 * @package IGK\System\Text
@@ -41,16 +42,8 @@ class TextBracket{
             $q = array_shift($tab);
             if (is_string($q)){
                 echo "write : ".$q. "\n";
-                // $sb .= sprintf("%s %s %s", 
-                //     str_repeat($this->bracketStart, $c),
-                //     $q,
-                //     str_repeat($this->bracketEnd, $c)
-                //  );
                 if ($depth_e){
-                    // $bf = $sb;
                     $c = $depth_s - $depth_e;
-                    // $bf = str_repeat($this->bracketStart, $c).$bf;
-                    // $bf.= str_repeat($this->bracketEnd, $c);
                     $depth_s = $c;
                     $depth_e = 0;
                     $g = $blocks[count( $blocks) - 1];
@@ -58,8 +51,6 @@ class TextBracket{
                     $g.= str_repeat($this->bracketEnd, $c);
                     $blocks[count( $blocks) - 1] = $g;
                 }
-                // $bf .=" ".$q." ";
-                // $sb = $bf;
                 $blocks[] = " ".$q." ";
                 continue;
             } 

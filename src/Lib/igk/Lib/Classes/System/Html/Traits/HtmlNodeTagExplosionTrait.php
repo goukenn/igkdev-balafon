@@ -3,6 +3,7 @@
 // @file: HtmlNodeTagExplosionTrait.php
 // @date: 20240119 11:47:11
 namespace IGK\System\Html\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Traits
@@ -22,7 +23,6 @@ trait HtmlNodeTagExplosionTrait{
     protected function explodeTagDefinition(string $tagname , array & $defs){
         $v = '';
         if (preg_match('/[\(\[\{\>]/', $tagname)) {
-            //+| contains special symbol on tag name
             $ln = strlen($tagname);
             $pos = 0; 
             while ($pos < $ln) {

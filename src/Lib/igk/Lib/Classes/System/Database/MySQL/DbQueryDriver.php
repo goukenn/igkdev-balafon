@@ -10,6 +10,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Constants;
 use IGKException;
 use ReflectionException;
+
 /**
  * mysql query driver 
  */
@@ -55,7 +56,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $resource);
         if($t && (igk_db_num_rows($t) == 1)){
             if (!empty($time_zone)){
-                // can throw exception if not allowed to set time zone - 
                 igk_db_query("SET time_zone='".$time_zone."';", $resource);
             }
             return true;
@@ -87,8 +87,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
                     // + | duplicate entry error Code 
                 case 1146: 
                         // + | table not found
-                        // make compatible with mysql 8.to raise error
-                        // throw new IGKException("custom table not found: ".$m);
                     break;
             }       
             igk_push_env("sys://adapter/sqlerror", $m);

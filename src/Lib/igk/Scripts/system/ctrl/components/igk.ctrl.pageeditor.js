@@ -1,11 +1,7 @@
 /*
-
 page editor tool .
-
 */
-
 "use strict";
-
 (function() {
     var m_initialize = false;
     var m_cibling = null;
@@ -24,17 +20,14 @@ page editor tool .
             if (p == null) {
                 //get the form
                 p = igk.getParentScript();
-
             }
             var pctrl = $igk(igk.ctrl.isregCtrl(p) || $igk(p).getParentCtrl());
             if (m_cibling == p) {
                 // console.debug("already registered "+p);
                 return;
             }
-
             var m_target = $igk(pctrl);
             m_cibling = p;
-
             m_target.setCss({
                 boxShadow: "0px 0px 4px #4E4E4E",
                 padding: "4px",
@@ -43,15 +36,11 @@ page editor tool .
             });
             // var w = m_target.o.clientWidth;//get the real width
             // alert(w);
-
             $igk(m_target).setOpacity(0.0);
             //append custom properties or function
-
             igk.ready(function() {
-
                 var pp = {
                     hide: function() {
-
                         pctrl.setCss({ display: 'none' });
                     },
                     show: function() {
@@ -60,11 +49,8 @@ page editor tool .
                 };
                 if (pctrl.fc) {
                     igk.appendProperties(pctrl.fc, pp);
-
                 } else
                     pctrl.fc = pp;
-
-
                 var w = m_target.o.clientWidth; //get the real width
                 // alert(w);
                 $igk(m_target).animate({

@@ -13,6 +13,7 @@ use IGK\System\Html\Forms\Validations\IFormValidator;
 use IGK\System\Html\Forms\Validations\PasswordValidator;
 use IGK\System\Html\IFormFields;
 use function igk_resources_gets as __;
+
 /**
  * Represent IGKValidator class
  */
@@ -238,12 +239,10 @@ final class IGKValidator extends IGKObject
             return false;
         $r = preg_match('/^(((http(s){0,1}):)?\/\/([\w\.0-9]+)|(\?))/i', $v);
         // +-------------------------------------------
-        // detect core matching - component tempory uri 
         // +-------------------------------------------
         if (!$r && preg_match("#^/(index\.php/)?\{[^\}]+\}#i", $v)) {
             return true;
         }
-        // $r = !$r || preg_match( "#^/(index\.php/)?\{[^\}]+]\}#i", $v);
         return $r;
     }
     /**
@@ -268,7 +267,7 @@ final class IGKValidator extends IGKObject
         $g = self::getInstance()->sm_enode;
         $g->clearChilds();
         $e = false;
-        $ro = (object)[]; // real output object
+        $ro = (object)[]; 
         if (empty($o)) {
             return false;
         }
@@ -293,16 +292,14 @@ final class IGKValidator extends IGKObject
                 } else if (((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))) {
                     list($validator, $error)  = igk_extract($v, 'f|e');
                     $v_field_info = $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
-                    // create a FormFieldValidationInfo                     
                     $tv = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);
                     // + | validate with field 
                     $v = $tv;
                     $v->validator = $validator;
                 }
                 if ($v instanceof FormFieldValidationInfo) {
-                    $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for [%s]'), $k)); // sprintf(__()))
+                    $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for [%s]'), $k)); 
                     if (is_string($v_validator)) {
-                        //+ create a validator from class name
                         $v_validator = FormFieldValidatorBase::Factory($v_validator);
                     }
                     if (!($v_validator instanceof IFormValidator)) {
@@ -313,8 +310,6 @@ final class IGKValidator extends IGKObject
                         ));
                     }
                     if ($v->required && (!isset($o->$k) || empty($o->$k))) {
-                        // required a value
-                        // igk_wln_e(__FILE__.":".__LINE__ , !isset($o->$k),  $o->$k); 
                         $m = sprintf(__('property %s is required'), $k);
                         $error[$k][] = $m;
                         self::Assert(false, $e, $g, $m);
@@ -322,7 +317,6 @@ final class IGKValidator extends IGKObject
                     }
                     $v_v = igk_getv($o, $k);
                     if (!$validate) {
-                        //+ | just check value but not transfrom
                         if (!$v_validator->assertValidate($v_v)) {
                             $error[$k] = sprintf(__('%s is not a valid data'), $k);
                         } else {
@@ -350,7 +344,6 @@ final class IGKValidator extends IGKObject
             }
         }
         if ($error && count($error)) {
-            // $g->div()->text('some data');
             if ($g->childCount()>0){
                 $error[] = $g->render();
             }

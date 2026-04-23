@@ -4,6 +4,7 @@
 // @date: 20251231 18:28:03
 namespace IGK\System\Core\Security\Annotations;
 use IGK\System\AnnotationBase;
+
 /**
 * annotation used to bind security to call method request 
 * @package IGK\System\Core\Security\Annotations

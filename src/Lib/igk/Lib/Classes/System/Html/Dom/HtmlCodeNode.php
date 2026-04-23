@@ -5,6 +5,7 @@
 // @desc: code node
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
+
 /**
 * Html code node.
 * @package IGK\System\Html\Dom
@@ -30,7 +31,6 @@ class HtmlCodeNode extends HtmlNode{
      * treat inner content presentation
      */
     static function TreatContent(string $content){
-        // transform outisze string litterl 
         $sb = $content;
         $sb = preg_replace('/&/', '&amp;', $sb);
         $sb = preg_replace('/>/', '&gt;', $sb);

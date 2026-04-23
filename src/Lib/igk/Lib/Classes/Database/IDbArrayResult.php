@@ -5,6 +5,7 @@
 // @desc: db array result
 namespace IGK\Database;
 use IGK\System\IToArrayResolver;
+
 /**
 * Interface for db array result.
 * @package IGK\Database

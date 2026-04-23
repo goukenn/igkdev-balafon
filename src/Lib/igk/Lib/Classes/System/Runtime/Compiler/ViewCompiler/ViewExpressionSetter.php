@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
+
 /**
 * var to handle expression var expression setter
 * @package IGK\System\Runtime\Compiler
@@ -111,7 +112,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         }
         $m = ViewTokenizeArgConstants::SETTER_VAR.'[\''.$n."'] = ";
         $source = ltrim(str_replace($m, "", $source));
-        // remove expression 
         return $source;
     }
 }

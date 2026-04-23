@@ -2,7 +2,6 @@
 // file: winui.js
 // @date: 20230102 14:44:55
 // @desc: 
-
 'use strict';
 (function() {
     var RZ_TIMEOUT = 200;
@@ -233,7 +232,6 @@
         unreg_window_event: function(method, func) {
             return igk.winui.unreg_system_event(window, method, func);
         },
-
         reg_event: function(item, method, func, useCapture) { // global	
             var g = method.split(' ');
             var s = 0;
@@ -295,7 +293,6 @@
             if ((properties == null) || (eventContextOwner == null) || (regEventContextByOwner(eventContextOwner) != null)) {
                 return null;
             }
-
             function __eventContextObject(eventContextOwner, properties) {
                 var q = this;
                 var m_eventContextOwner = eventContextOwner;
@@ -337,7 +334,6 @@
                     }
                 };
                 __regEventContextFunction();
-
                 function chainUnreg(o, properties) {
                     this.o = o;
                     this.properties = properties;
@@ -345,7 +341,6 @@
                     this.unregEventContext = function() { this.properties.unregEventContext(); };
                     this.toString = function() { return "chainUnreg[" + o + ":" + this.chain + "]"; };
                 };
-
                 function eventCibling(target, name, func) {
                     this.name = name;
                     this.target = target;
@@ -353,7 +348,6 @@
                     this.func = function() { func.apply(q.target, arguments); };
                     this.toString = function() { return "eventcibling:" + name; };
                 };
-
                 function __unregister(s) {
                     if (igk_is_array(s)) {
                         for (var i = 0; i < s.length; i++) {
@@ -368,23 +362,19 @@
                 var m_resizefuncs = [];
                 var m_resizetimeout = 0;
                 var m_resizeevent = false;
-
                 function __is_resized_event() {
                     return m_resizeevent;
                 };
-
                 function __resizing_push(func) {
                     if (func) {
                         m_resizefuncs.push(func);
                     }
                 };
-
                 function __resize_call_invoke(evt) {
                     for (var i = 0; i < m_resizefuncs.length; i++) {
                         m_resizefuncs[i].apply(window, arguments);
                     }
                 }
-
                 function __resize_call(evt) {
                     if (m_resizetimeout) {
                         igk.clearTimeout(m_resizetimeout);
@@ -508,7 +498,6 @@
             init: function(target, box) {
                 if (target == null)
                     return null;
-
                 function __construct(target, box) {
                     var self = this;
                     var m_c = 0;
@@ -631,5 +620,4 @@
             }
         });
     })();
-
 })();

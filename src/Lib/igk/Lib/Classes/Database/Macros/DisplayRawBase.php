@@ -3,6 +3,7 @@
 // @file: DisplayRawBase.php
 // @date: 20230117 11:00:56
 namespace IGK\Database\Macros;
+
 /**
 * auto generate doc.
 * @package IGK\Database\Macros

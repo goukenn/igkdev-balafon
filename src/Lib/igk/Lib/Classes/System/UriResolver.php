@@ -5,6 +5,7 @@
 namespace IGK\System;
 use IGK\Helper\ViewHelper;
 use IGK\System\IO\Path;
+
 /**
 * auto generate doc.
 * @package IGK\System
@@ -23,7 +24,7 @@ class UriResolver
         if (igk_str_startwith($src, '@/') && ($ctrl = $ctrl ?? ViewHelper::CurrentCtrl())) {
             $u = substr($src, 2);
             if (file_exists($f = Path::Combine($ctrl->getDataDir(), $u))) {
-                $src = $f; // $ctrl::asset($f);
+                $src = $f; 
             } else {
                 $src = $ctrl::uri($src);
             }

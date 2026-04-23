@@ -18,6 +18,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGK\System\Http\Cookies;
 use IGKEvents;
+
 /**
 * Session controller.
 * @package IGK\Controllers
@@ -88,10 +89,6 @@ final class SessionController extends BaseController{
         }
         igk_navto_referer();
     }
-    // protected function IsFunctionExposed($funcname){     
-    //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
-    //     return $g;
-    // }
     /**
     * Clears S.
     * @param mixed $navigate
@@ -178,8 +175,6 @@ final class SessionController extends BaseController{
                 $uid = igk_getv(explode(':', $rs), 0);
                 $v = igk_user_info(IGK_UINFO_TOKENID, $uid);
                 $d = substr($rs, strlen($uid) + 1);
-                /// TODO : TOKEN USER - RESOLUTION
-                // igk_wln_e(__FILE__.":".__LINE__, "the token:", $v, $d);
                 if($v && ($v->clValue == $d)){
                     $r=igk_get_user($uid);
                     if($r){
@@ -201,7 +196,6 @@ final class SessionController extends BaseController{
         igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){            
             $options = igk_getv($e->args, "options");
             echo $this->getTargetNode()->render($options); 
-            // igk_wln_e("init session controller --- ");
         });
     }
     /**

@@ -19,6 +19,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKValidator;
 use ReflectionException;
+
 /**
  * used for macros injection 
  * @package IGK\Database\Macros
@@ -65,7 +66,6 @@ abstract class UsersMacros
         ->columns([
             Authorizations::column("clName")=>"name",
             Authorizations::column("clController")=>"controller",
-            //Authorizations::column("*"),
         ])
         ->orderBy(["name"])
         ->execute();

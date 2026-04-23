@@ -2,10 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: GuidTest.php
 // @date: 20221206 11:03:13
-
-// phpunit -c phpunit.xml.dist ./src/Lib/igk/Lib/Tests/GuidTest.php
 namespace IGK\Tests;
-
 use IGK\System\Regex\RegexConstant;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests
 */
 class GuidTest extends BaseTestCase{
-
     /**
     * Tests guid.
     */

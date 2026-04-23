@@ -1,24 +1,11 @@
 <?php
-
 // @file:igk_config.php
-// description: Represent configuration and constants settings
 // @author: C.A.D. BONDJE DOUE
-// create: 01/01/2013
-// license: view license.txt
-// copyright: igkdev @ 2019
-
 use IGK\Controllers\DefaultPageController;
 use IGK\Controllers\NonAtomicTypeBase;
 
 if (defined('IGK_SYS_CONFIG_FILE'))
     return;
-
-
-
-
-//+ |----------------------------------------------------------- 
-//+ | Configuration data
-//+ |-----------------------------------------------------------
 define('IGK_ENV_DB_INIT_CTRL', 'sys://env/init_ctrl'); 
 define('IGK_LOCAL_DEBUGGING', 1);
 define('IGK_NODESTROY_ON_FATAL', 1);
@@ -33,27 +20,17 @@ define('IGK_PRE_PUBLISH_FILENAME','[pre-publish]');
 // + | --------------------------------------------------------------------
 // + | NO SUDMAIN SUPPORT
 // + |
-// define('IGK_NO_SUBDOMAIN' , 1);
 // + | --------------------------------------------------------------------
 // + | NO WEBCONFIG SUPPORT
 // + |
-// define('IGK_NO_WEBCONFIG' , 1);
-
-// used to check network domain
 defined('IGK_CHECK_NETWORK_DOMAIN') || define('IGK_CHECK_NETWORK_DOMAIN', 'igkdev.com');
-
 // + define('IGK_NO_SESSION', 1); 
-// define('IGK_TRACE', 1); 
 // + | global disable view cache
 // + define('IGK_NO_VIEW_CACHE', 1);
 // + | custom define default project namespace 
 // + define('IGK_PROJECT_DEFAULT_NS', \com\igkdev\projects::class);
-
 // + | global disable handle page cache
 // + defined'IGK_NO_PAGE_CACHE') || define('IGK_NO_PAGE_CACHE', 1);
-//+ |----------------------------------------------------------- 
-//+ | ENVIRONMENT SETTING KEYS - DO NOT REPLACE THAT VALUES
-//+ |----------------------------------------------------------- 
 define('IGK_AJX_BINDSTYLES', 1);
 define('IGK_ATTACHCHILD_FLAG', 2);
 define('IGK_ATTACHDISPOSE_FLAG', 3);
@@ -110,7 +87,6 @@ define('IGK_ENV_URI_PATTERN_KEY', 53);
 define('IGK_ENV_WIDGETS_KEY', 54);
 define('IGK_FIRSTUSE_FLAG', 55);
 define('IGK_HOOK_DB_CHANGED', 56);
-// define('IGK_HOOK_DB_TABLECREATED', 57);
 define('IGK_INVOKE_URI_CTRL', 58);
 define('IGK_ISDISPOSING_FLAG', 59);
 define('IGK_ISINIT_FLAG', 60);
@@ -168,7 +144,6 @@ define('IGK_STYLE_FLAG', 112);
 define('IGK_SUBDOMAIN_CTRL', 113);
 define('IGK_SUBDOMAIN_CTRL_INFO', 114);
 define('IGK_SVG_REGNODE_KEY', 115);
-
 define('IGK_VERSION_ID', 117);
 define('IGK_VIEW_ARGS', 118);
 define('IGK_VIEW_MODE_FLAG', 119);
@@ -192,154 +167,30 @@ define('IGK_XML_CREATOR_NODE_RESULT', 194);
 define('IGK_LAST_EVAL_LINE', 195);
 define('IGK_XML_CREATOR_SKIP_ADD', 196);
 define('IGK_ENV_CONFIG_ENTRIES', 197);
-// application info : request uri
 define('IGK_APP_REQUEST_URI', 198);
 define('IGK_VIEW_EXTRA_ARGS', 199);
 define('IGK_APP_INFO_TYPE', 200);
-
 // + | --------------------------------------------------------------------
 // + | curl info 
 // + |
 define('IGK_ENV_CURL_RESPONSE_INFO', "curl://info");
 define('IGK_ENV_CURL_RESPONSE_GET_INFO', "curl://getinfo");
 define('IGK_ENV_CURL_RESPONSE_GET_INFO_SETTING', "curl://getinfo/setting");
-
 define('IGK_ENV_SESS_DOM_LIST', 0x201);
 define('IGK_CUSTOM_CTRL_PARAM', 0x400);
-//-------------------------------------------------------
-// | start environment constant key
 define('IGK_ENV_KEY', 0xE0);
-
-
 define('IGK_ENV_REQUIREMENT_KEY', 200);
 define('IGK_DOCUMENT_CLASS', 201);
 define('IGK_ENV_TRACE_LEVEL', 202);
 define('IGK_ENV_QUERY_LIST', 203);
-
 define('IGK_HTML_NOTAG_ELEMENT', 'NoTagNode');
-
 /**
  * basic user setting.
  */
 define('IGK_USER_SETTING', 0xE00);
-//+ -----------------------------------------------------------------------
-//+ flags value
-//+ -----------------------------------------------------------------------
-
-//+ define('IGK_APP', '1');
-//+ define('IGK_APP_PLUGIN', '1');
-//+ define('IGK_BASE_DIR', '1');
-//+ define('IGK_CACHE_REQUIRE', '1');
-//+ define('IGK_CACHE_URI', '1');
-//+ define('IGK_COMPONENT_CTRL_FLAG', '1');
-//+ define('IGK_CONFIG_PAGE', '1');
-//+ define('IGK_CONF_CONNECT', '1'); 
-//+ define('IGK_CREF', '1');
-//+ define('IGK_CURRENT_PAGEFOLDER', '1');
-//+ define('IGK_DB_GRANT_CAN_INIT', '1');
-//+ define('IGK_DESIGN_MAINPAGE', '1');
-//+ define('IGK_DOCUMENT_ROOT', '1');
-//+ define('IGK_DOC_FAVICON_FLAG', '1');
-//+ define('IGK_DOC_LINKMANAGER_FLAG', '1');
-//+ define('IGK_DOC_LOADED_SCRIPT_FLAG', '1');
-//+ define('IGK_DOC_METAMANAGER_FLAG', '1');
-//+ define('IGK_DOC_SCRIPTMANAGER_FLAG', '1');
-//+ define('IGK_DOC_TITLE_FLAG', '1');
-//+ define('IGK_DOC_TYPE_FLAG', '1');
-//+ define('IGK_DOMAINBASEDIR_SESS_PARAM', '1');
-//+ define('IGK_ENV', '1'); 
-//+ define('IGK_ERROR_OP_NOT_ALLOWED', '1');
-//+ define('IGK_ERROR_REQUEST_NOT_FROM_BALAFON_SERVER', '1');
-//+ define('IGK_ERR_FILE_NOT_SUPPORTED', '1');
-//+ define('IGK_ERR_FUNCNOTAVAILABLE', '1');
-//+ define('IGK_FILE_NAME', '1');
-//+ define('IGK_FORCSS', '1');
-//+ define('IGK_FRAMEWORK_ATOMIC', '1');
-//+ define('IGK_IE11_ENGINE', '1');
-//+ define('IGK_INIT', '1');
-//+ define('IGK_INSTANCES_SESS_PARAM', '1');
-//+ define('IGK_JS_TRIMSCRIPTS', '1');
-//+ define('IGK_KEY_DOCUMENTS', '1');
-//+ define('IGK_KEY_LAST_RENDERED_DOC', '1');
-//+ define('IGK_LOG_ERROR_FILE', '1');
-//+ define('IGK_LOG_FILE', '1');
-//+ define('IGK_MAIN_FILE', '1');
-
-//+ define('IGK_MSQL', '1');
-//+ define('IGK_MSQL_DB_A', '1');
-//+ define('IGK_MYSQL_DATETIME_FORMAT', '1');
-//+ define('IGK_NOCURRENTPAGE', '1');
-//+ define('IGK_HOOK_DB_CHANGED', '1');
-//+ define('IGK_NO_BASEURL', '1');
-//+ define('IGK_NO_CACHE_LIB', '1');
-//+ define('IGK_NO_LIB_EXTENSION', '1');
-//+ define('IGK_NO_REST_ACTION', '1');
-//+ define('IGK_NO_SESSION', '1');
-//+ define('IGK_NO_SESSION_BUTTON', '1');
-//+ define('IGK_NO_WEB', '1');
-//+ define('IGK_NO_WEB_REDIRECT', '1');
-//+ define('IGK_PADDING_HEADER', '1');
-//+ define('IGK_PHAR_CONTEXT', '1');
-//+ define('IGK_PROJECT_DIR', '1');
-//+ define('IGK_REDIRECTION', '1');
-//+ define('IGK_REDIRECTION_SESS_PARAM', '1');
-//+ define('IGK_REDIRECT_ACCCESS', '1');
-//+ define('IGK_REWRITE_MOD', '1');
-//+ define('IGK_SERVER', '1');
-//+ define('IGK_SESS_DIR', '1');
-//+ define('IGK_SINGLE_CONTROLLER_APP', '1');
-//+ define('IGK_TESTING', '1');
-//+ define('IGK_TRACE_CLEAN', '1');
-//+ define('IGK_UPLOADFILE', '1');
-//+ define('IGK_UP_FILE_SIZE', '1');
-//+ define('IGK_UP_FILE_TYPE', '1');
-//+ define('IGK_VERBOSE', '1');
-//+ define('IGK_WRITE_LOG', '1');
-//+ define('IGK_X_REQUESTED_WITH', '1'); 
-// define('IGK_AJX_BINDSTYLES', 0x001C);
-// define('IGK_COMPONENT_ID_KEY', 0x001D);
-// define('IGK_COMPONENT_REG_FUNC_KEY', 0x0023);
-// define('IGK_COMP_NOT_FOUND_EVENT', 0x0027); 
 define('IGK_DEFAULT_TIMEZONE', 'Europe/Brussels');
 define('IGK_CSS_DEFAULT_STYLE_FUNC_KEY', 'sys://css/function/defaultStyle');
-// define('IGK_CTRL_TABLE_INFO_KEY', 0x001A); 
-// define('IGK_DOC_CONF_ID', 0x0037);
-// define('IGK_DOC_ERROR_ID', 0x0036); 
-// define('IGK_ENV_CALLBACK_KEYS', 0x0016);
-// define('IGK_ENV_COMPONENT_DISPLAY_NAMES_KEY', 0x0014);
-// define('IGK_ENV_COMPONENT_REFDIRS_KEY', 0x0015);
-// define('IGK_ENV_CTRL_VIEW', 0x0012);
-// define('IGK_ENV_CURRENT_RENDERING_DOC', 0x0038); 
-// define('IGK_ENV_HTML_COMPONENTS', 0x000B);
-// define('IGK_ENV_HTML_NS_PREFIX', 0x000C);
-// define('IGK_ENV_INVOKE_ARGS', 0x0013);
-// define('IGK_ENV_NO_AJX_TEST', 0x000A); 
-// define('IGK_ENV_NO_TRACE_KEY', 0x0010);
-// define('IGK_ENV_PAGEFOLDER_CHANGED_KEY', 0x001F);
-// define('IGK_ENV_PARAM_KEY', 0x001E);
-// define('IGK_ENV_URI_PATTERN_KEY', 0x0021);
-// define('IGK_ENV_WIDGETS_KEY', 0x0018);
-// define('IGK_DROP_CTRL_EVENT', 0x0026);
-// define('IGK_KEY_CSS_NOCLEAR', 0x0008);
-// define('IGK_KEY_DOC_NO_STORE_RENDERING', 0x0009);
-// define('IGK_KEY_FORCEVIEW', 0x0004);
-// define('IGK_KEY_TOOLS', 0x0006);
-// define('IGK_KEY_VIEW_FORCED', 0x0005);
-// define('IGK_LAST_EVAL_KEY', 0x0017); 
-// define('IGK_NAMED_ID_PARAM', 0x002C);
-// define('IGK_NAMED_NODE_PARAM', 0x002B);
-// define('IGK_NODE_DISPOSED_EVENT', 0x0029);
-
-// define('IGK_NOTIFICATION_DB_TABLEDROPPED', 0x0032);
-// define('IGK_NOTIFICATION_INITTABLE', 0x0035);
-// define('IGK_NOTIFICATION_USER_CHANGED', 0x0034);
-// define('IGK_NS_PARAM_KEY', 0x0022);
-// define('IGK_SESS_UNKCOLOR_KEY', 0x002D);
-// define('IGK_SVG_REGNODE_KEY', 0x000E); 
-// define('IGK_ENV_DB_INIT_CTRL', "sys://db_init_table/ctrl");
-// define('IGK_TODAY', date("Y-m-d"));
 define('IGK_DEFAULT_LANG_FOLDER', IGK_LIB_DIR . "/Default/Lang/");
-
 defined('IGK_SESSION_FILE_PREFIX') || define('IGK_SESSION_FILE_PREFIX', 'blf_sess_');
 defined('IGK_APP_SESSION_KEY') || define('IGK_APP_SESSION_KEY', 'igk');
 defined('IGK_DEFAULT_APP_COOKIE_NAME') || define('IGK_DEFAULT_APP_COOKIE_NAME', 'blf-c');
@@ -347,110 +198,28 @@ define('IGK_LOG_SYS', 'BLF');
 define('IGK_COMPONENT_NAMESFILE', IGK_LIB_DIR . "/Data/References/Components/Inc/names.pinc");
 define('IGK_DEFAULT_THEME_ID', "theme://document");
 define('IGK_DIE_DEFAULT_MSG', "die call");
-// define('IGK_LOG_VERBOSITY_NONE', 0);
-// define('IGK_LOG_VERBOSITY_SOURCE_FILE', 1);
-// define('IGK_LOG_VERBOSITY_SOURCE_LOCATION', 2);
-// define('IGK_LOG_VERBOSITY', 3);
 define('IGK_DB', 'Db');
 define('IGK_INIT_COMPLETE_METHOD', 'initComplete');
 define('IGK_PROTECT_ACCESS', "defined('IGK_FRAMEWORK') || die('direct access not allowed');\n");
 define('IGK_KEY_APP', 'igk');
-//    define('IGK_KEY_GLOBALVARS', "sys://igk/globalvars");
-//    define('IGK_KEY_FORCEVIEW', "sys://igk/forceview");
-//    define('IGK_KEY_VIEW_FORCED', "sys://igk/viewforced");
-//    define('IGK_KEY_TOOLS', "sys://igk/tools");
-//    define('IGK_KEY_CSS_NOCLEAR', "sys://css/noclear");
 define('IGK_KEY_APP_SELECTED_USER_PROFILE', "app://selectedUserProfile");
-//    define('IGK_KEY_DOC_NO_STORE_RENDERING', "sys://document/NOSTORERENDERING");
 define('IGK_ROOT_SERVER', "http://www.igkdev.com");
-//    define('IGK_ENV_NO_AJX_TEST', "sys://env/no_ajx_test");
-//    define('IGK_ENV_HTML_COMPONENTS', "sys://env/html/components");
-//    define('IGK_ENV_HTML_NS_PREFIX', "sys://env/html/prefix");
-// define('IGK_BASE_EVENT', 0xe00);
-// define('IGK_ENV_SETTING_CHANGED', IGK_BASE_EVENT + 1);
-// define('IGK_ENV_APP_INIT', IGK_BASE_EVENT + 2);
-// define('IGK_ENV_NEW_DOC_CREATED', IGK_BASE_EVENT + 3);
-// define('IGK_ENV_LANG_CHANGED', IGK_BASE_EVENT + 4);
-// define('IGK_ENV_THEME_CHANGED', IGK_BASE_EVENT + 5);
-//    define('IGK_SVG_REGNODE_KEY', "sys://node/svg_register"); 
-//    define('IGK_ENV_NO_TRACE_KEY', "sys://no_trace"); 
-//    define('IGK_ENV_CTRL_VIEW', "sys://igk_ctrl_view/mode");
-//    define('IGK_ENV_INVOKE_ARGS', "sys://igk/invokeuri/args");
-//    define('IGK_ENV_COMPONENT_DISPLAY_NAMES_KEY', "sys://components/displaynames");
-//    define('IGK_ENV_COMPONENT_REFDIRS_KEY', "sys://components/refdirs");
-//    define('IGK_ENV_CALLBACK_KEYS', "sys://env/callbacks");
-//    define('IGK_LAST_EVAL_KEY', "sys://lasteval");
-//    define('IGK_ENV_WIDGETS_KEY', "sys://widgets");
 define('IGK_CACHE_HTML', ".enable-html");
 define('IGK_CT_PLAIN_TEXT', "text/plain");
 define('IGK_SQL_DEFAULT_DATE_TIME', "0001-01-01 00:00:00");
 define('IGK_SQL_DEFAULT_TIME', "00:00:00");
 define('IGK_CSS_VAR_COLOR_PREFIX', "--igk-cl-");
 define('IGK_CSS_VAR_PROPERTY_PREFIX', "--igk-prop-");
-//    define('IGK_CSS_DEFAULT_STYLE_FUNC_KEY', "sys://css/function/defaultStyle");
 define('IGK_CSS_MEDIA_TYPE_CLASS', ".igk-media-type:before");
 define('IGK_FC_GETVALUE', 'getValue');
 define('IGK_GLOBAL_EVENT', "@global");
 define('IGK_FUNC_KEY', 'func');
 define('IGK_LANG_FILE_EXTENSION', ".presx");
-
-//+ flags
-// define('IGK_VIEW_MODE_FLAG', 0x01);
-// define('IGK_FIRSTUSE_FLAG', IGK_VIEW_MODE_FLAG + 2);
-// define('IGK_ISINIT_FLAG', IGK_VIEW_MODE_FLAG +3 );
-// define('IGK_AUTH_FLAG', IGK_VIEW_MODE_FLAG +4); 
-// define('IGK_SESSION_ID', IGK_VIEW_MODE_FLAG + 7); 
-// define('IGK_KEY_DOCUMENTS', dechex(IGK_VIEW_MODE_FLAG + 10)); //+ store document index
-//+ config flags
-// define('IGK_CONFIG_FLAG', 0xA0);
-// define('IGK_SUBDOMAIN_CTRL', IGK_CONFIG_FLAG + 3);
-// define('IGK_SUBDOMAIN_CTRL_INFO', IGK_CONFIG_FLAG + 4);
-// define('IGK_INVOKE_URI_CTRL', IGK_CONFIG_FLAG + 5);
-// define('IGK_SERVER_INFO', IGK_CONFIG_FLAG + 6);
-// define('IGK_TOOLS_CTRL', IGK_CONFIG_FLAG + 7);
-
-//+node flag
-// define('IGK_NODE_FLAG', 0x10);
-// define('IGK_ISVISIBLE_FLAG', IGK_NODE_FLAG + 1);
-// define('IGK_AUTODINDEX_FLAG', IGK_NODE_FLAG + 2);
-// define('IGK_ZINDEX_FLAG', IGK_NODE_FLAG + 3);
-// define('IGK_ISLOADING_FLAG', IGK_NODE_FLAG + 4);
-// define('IGK_NODETYPENAME_FLAG', IGK_NODE_FLAG + 7);
-// define('IGK_NODETAG_FLAG', IGK_NODE_FLAG + 8);
-// define('IGK_NODECONTENT_FLAG', IGK_NODE_FLAG + 9);
-// define('IGK_SORTREQUIRED_FLAG', IGK_NODE_FLAG + 10); 
-// define('IGK_PREVIOUS_CIBLING_FLAG', IGK_NODE_FLAG + 12);
-// define('IGK_DESC_FLAG', IGK_NODE_FLAG + 13);
-// define('IGK_STYLE_FLAG', IGK_NODE_FLAG + 14);
-// define('IGK_ISDISPOSING_FLAG', IGK_NODE_FLAG + 15);
-// define('IGK_ATTACHDISPOSE_FLAG', IGK_NODE_FLAG + 16);
-// define('IGK_ATTACHCHILD_FLAG', IGK_NODE_FLAG + 17);
-// define('IGK_NSFC_FLAG', IGK_NODE_FLAG + 18);
-// define('IGK_PARAMS_FLAG', IGK_NODE_FLAG + 20);
-// define('IGK_PARENT_FLAG', IGK_NODE_FLAG + 21);
-// define('IGK_CHILDS_FLAG', IGK_NODE_FLAG + 22);
-// define('IGK_ATTRS_FLAG', IGK_NODE_FLAG + 23);
-// define('IGK_DEFINEDNS_FLAG', IGK_NODE_FLAG + 24);
-// define('IGK_NODE_CREATE_ARGS_FLAG', IGK_NODE_FLAG + 25);
-// define('IGK_DOC_ID_PARAM', IGK_NODE_FLAG + 26);
-// define('IGK_COMPONENT_ID_PARAM', IGK_NODE_FLAG + 27);
-// define('IGK_KEY_LASTDOC', IGK_NODE_FLAG + 41);
-// define('IGK_KEY_SYSDB_CTRL', IGK_NODE_FLAG + 42);
 define('IGK_OBJ_TYPE_FD', 'T');
-// define('IGK_OBJ_TYPE_CLASS', 1);
-// define('IGK_OBJ_TYPE_CALLBACK', 2);
-// define('IGK_OBJ_TYPE_FUNC', 4);
-// define('IGK_OBJ_TYPE_EXPRESSION', 3);
-// define('IGK_OBJ_TYPE_NODE', 6);
-// define('IGK_OBJ_TYPE_FILE', 7);
 define('IGK_LANG_FILE_PREFIX', "lang."); 
-//+ controller environment parameter
-// define('IGK_CTRL_LANG', 3);
-// define('IGK_CTRL_TG_NODE', 240);
 define('IGK_COMPONENT_TYPE_FUNCTION', 'f');
 define('IGK_COMPONENT_TYPE_CLASS', 'c');
 define('IGK_GET_VALUE_METHOD', 'getValue');
-//    define('IGK_CTRL_TABLE_INFO_KEY', "sys://ctrl/tabinfokey");
 define('IGK_CSS_XSM_SCREEN', 320);
 define('IGK_CSS_SM_SCREEN', 710);
 define('IGK_CSS_LG_SCREEN', 1024);
@@ -461,8 +230,6 @@ define('IGK_CSS_CTN_XLG_SIZE', 1280);
 define('IGK_CSS_CTN_XXLG_SIZE', 1580);
 defined('IGK_PWD_LENGTH') || define('IGK_PWD_LENGTH', 8);
 defined('IGK_PWD_MAX_LENGTH') || define('IGK_PWD_MAX_LENGTH', 30);
-//    define('IGK_AJX_BINDSTYLES', "sys://css/ajx/temp/files");
-//    define('IGK_COMPONENT_ID_KEY', "sys://component/id");
 define('IGK_ENCODINGTYPE', "text/html; charset=utf-8");
 define('IGK_SERVERNAME', 'IGKDEV');
 define('IGK_STR_EMPTY', "");
@@ -509,15 +276,9 @@ define('IGK_DOMAIN_REGEX', "/^((http(s)?:\/\/)|(\.))?(?P<domain>([^ \/]+)\.([^\.
 define('IGK_TEMPLATE_EXPRESSION_REGEX', '/((?P<scope>@*)(?P<escape>[' . IGK_EXPRESSION_ESCAPE_MARKER . '])?' . IGK_EXPRESSION_START_MARKER . '(?P<expression>.+)' . IGK_EXPRESSION_END_MARKER . ')/');
 define('IGK_TEMPLATE_GLOBAL_EXPRESSION_REGEX', '/(\[{0,1})(?P<exp>\[\s*(?P<name>\w+)\s*:(?P<value>([^\]])+)\])(\]{0,1})/i');
 define('IGK_HOME', 'home');
-//    define('IGK_ENV_PARAM_KEY', "sys://EnvParam");
-//    define('IGK_ENV_PAGEFOLDER_CHANGED_KEY', "sys://current_page_folder_changed");
-//    define('IGK_ENV_NO_COOKIE_KEY', "sys://no_cookie");
-//    define('IGK_ENV_URI_PATTERN_KEY', "sys://env/systemuri/patterninfo");
-//    define('IGK_NS_PARAM_KEY', "sys://html/namespace");
 define('IGK_DEFAULT_ARTICLE', 'default');
 define('IGK_DEFAULT_LANG', 'fr');
 define('IGK_HTML_CONTENT_TYPE', "Content-Type: text/html; charset=utf-8");
-
 // + | --------------------------------------------------------------------
 // + | Schema definition constants
 // + | 
@@ -527,7 +288,6 @@ define('IGK_ENTRIES_TAGNAME', 'Entries');
 define('IGK_RELATIONS_TAGNAME', 'Relations'); 
 define('IGK_GEN_COLUMS', 'GenColumn'); 
 define('IGK_FOREIGN_CONSTRAINT', 'ForeignConstraint'); 
-
 define('IGK_ROW_TAGNAME', 'Row');
 define('IGK_ROWS_TAGNAME', 'Rows');
 define('IGK_CNF_TAG', 'config');
@@ -535,9 +295,7 @@ define('IGK_SCHEMA_FILENAME', 'data.schema.xml');
 define('IGK_SITEMAP_FUNC', 'sitemap');
 define('IGK_EVALUATE_URI_FUNC', 'evaluateUri');
 define('IGK_INITENV_FUNC', 'InitEnvironment');
-// define('IGK_DATETIME_FORMAT', "Y-d-m_H:i:s");
 define('IGK_DATETIME_FORMAT', "Y-m-d_H:i:s");
-//    define('IGK_COMPONENT_REG_FUNC_KEY', "sys://components/functions"); 
 define('IGK_COLUMN_TAGNAME', 'Column');
 define('IGK_HTML_ITEMBASE_CLASS', \IGK\System\Html\Dom\HtmlItemBase::class);
 define('IGK_CONFIG_MODE', 'Configs');
@@ -558,39 +316,27 @@ define('IGK_HOME_PAGE', 'home');
 define('IGK_FIELD_PREFIX', 'cl');
 define('IGK_TABLE_PREFIX', 'tb');
 define('IGK_BALAFON_CONFIG', 'balafon.config.xml');
-
 define('IGK_MODELS_CLASS', 'Models');
 define('IGK_DATABASE_CLASS', 'Database');
 define('IGK_ENTRY_CORE_NS', 'IGK');
-
-//+ engine
-define('IGK_ENGINE_EXPRESSION_NODE', "igk:expression-node"); // used internally to replace data with expression node
+define('IGK_ENGINE_EXPRESSION_NODE', "igk:expression-node"); 
 define('IGK_ENGINE_ATTR_EXPRESSION_NODE', "igk:attr-expression");
 define('IGK_ENGINE_ATTR_TEMPLATE_CONTENT', "igk:template-content");
 define('IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR', "igk:template-attr");
-
 define('IGK_APP_FORM_CONTENT', "Application/x-www-form-urlencoded");
 define('IGK_JS_VOID', "javascript:void();");
-//+ !defined('IGK_DOC_TYPE') && define('IGK_DOC_TYPE', "html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"");
 !defined('IGK_DOC_TYPE') && define('IGK_DOC_TYPE', 'html');
 define('IGK_EVENT_DOC_BEFORE_RENDER', "sys://document/beforerender");
 define('IGK_EVENT_DROP_CTRL', "sys://event/dropctrl");
-//    define('IGK_DROP_CTRL_EVENT', "sys://ctrl/ondrop");
 define('IGK_FORCEVIEW_EVENT', "sys://notify/forceview");
-//    define('IGK_COMP_NOT_FOUND_EVENT', "sys://component/notfound");
-//    define('IGK_NODE_DISPOSED_EVENT', "sys://node/disposed"); 
-//    define('IGK_NAMED_NODE_PARAM', "sys://node/namedchilds");
-//    define('IGK_NAMED_ID_PARAM', "sys://node/namedchilds/id");
 define('IGK_CTRL_CNF_TITLE', 'clTitle');
 define('IGK_CTRL_CNF_APPNAME', 'clAppName');
 define('IGK_CTRL_CNF_BASEURIPATTERN', 'clBasicUriPattern');
 define('IGK_CTRL_CNF_TABLEPREFIX', 'clDataTablePrefix');
 define('IGK_CTRL_CNF_APPNOTACTIVE', 'clAppNotActive');
 define('IGK_CTRL_CNF_USE_DATASCHEMA', 'clDataSchema');
-//    define('IGK_SESS_UNKCOLOR_KEY', "sys://session/theme/UnknownColor");
 define('IGK_HTML_EMAIL_PATTERN', "[0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*@(.)+\.([a-zA-Z]{2,})");
 define('IGK_HTML_PHONE_PATTERN', "[0-9]{6,14}");
-
 define('IGK_FD_ID', IGK_FIELD_PREFIX . 'Id');
 define('IGK_FD_NAME', IGK_FIELD_PREFIX . 'Name');
 define('IGK_FD_DESC', IGK_FIELD_PREFIX . 'Description');
@@ -620,14 +366,10 @@ define('IGK_CTRL_CONF_FILE', "config.xml");
 define('IGK_CTRL_DBCONF_FILE', "data.xml");
 define('IGK_CTRL_BASE', IGK\Controllers\BaseController::class);
 define('IGK_HTML_BINDING_EVAL_CONTEXT', "igk:evaluation_context");
-
- 
 define('IGK_STYLE_FOLDER', 'Styles');
 define('IGK_ARTICLES_FOLDER', 'Articles');
-// phtml files for view 
 define('IGK_VIEW_FOLDER', 'Views');
 define('IGK_CGI_BIN_FOLDER', "cgi-bin");
-// script need to be execute one 
 define('IGK_CONTENT_FOLDER', 'Contents');
 define('IGK_PAGE_FOLDER', 'Pages');
 define('IGK_MODS_FOLDER', 'Mods');
@@ -674,9 +416,7 @@ define('IGK_INC_VIEWS_FUNC', IGK_LIB_DIR . "/Inc/igk_views_func.pinc");
 define('IGK_HTML_CLASS_NODE_FORMAT', "IGKHtml{0}Item");
 define('IGK_HTML_NODE_REGEX', "/^IGKHtml(?<name>(.)+)Item$/i");
 define('IGK_INIT_DB_METHOD', 'initDb');
-
 defined('IGK_PROJECT_CTRL_SUFFIX') || define('IGK_PROJECT_CTRL_SUFFIX', 'Controller');
-
 /**
  * configuration controller identification - to initialize
  */
@@ -686,7 +426,6 @@ define('IGK_SYS_CTRL_BASE', 0x0F);
 define('IGK_SYS_API_CTRL', 'c_api');
 define('IGK_INFOS_CTRL', 'c_info');
 define('IGK_CHANGE_MAN_CTRL', 'c_chm');
-
 define('IGK_ERROR_CTRL', 'c_er');
 define('IGK_THEME_CTRL', 'c_th');
 define('IGK_FILE_MAN_CTRL', 'c_fm');
@@ -735,11 +474,6 @@ define('IGK_COMPOSER_CTRL', "{f50822d4-a0db-4bea-0a09-c254bfe4aedf}");
 define('IGK_USERGROUP_CTRL', "{f73dbe59-2357-de3c-b19f-a2cdefbb194d}");
 define('IGK_USER_AND_GROUP_CTRL', "{ab6f9000-610f-3695-b431-9eb85149d777}");
 define('IGK_DB_CONF_CTRL', "{CCC0CB51-991F-DB97-303C-F29D0C784CE8}");
-
-// defi'e''IGK_OTHER_MENU_CTRL', IGK_SYS_CTRL_BASE + 1);
-// defi'e''IGK_MSBOX_CTRL', IGK_SYS_CTRL_BASE + 2);
-// defi'e''IGK_DATA_ADAPTER_CTRL', IGK_SYS_CTRL_BASE + 3);
-// defi'e''IGK_CTRL_IDENTIFIER', 0xB1);
 define('IGK_AJX_METHOD_SUFFIX', '_ajx');
 define('IGK_CONFIRM_TITLE', "title.confirm");
 define('IGK_PAGE_TITLE', "title.default.webpage");
@@ -784,7 +518,6 @@ define('IGK_END_COMMENT', "*/");
 define('IGK_IPV4_REGEX', "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]+)?$/i");
 define('IGK_CSS_TREAT_REGEX', '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0-9_,\/\\\.\- \(\)%:\#\!]+|[^\]]+))\s*\](?P<stop>(\s*(,|;)))?/i');
 define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
-//add ; on selection 
 define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([^\)]+))\)\s*;?/i");
 define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
 define('IGK_ALL_REGEX', "/(.)*/i");
@@ -793,43 +526,14 @@ define('IGK_VIEW_FILE_EXT', '.phtml');
 define('IGK_VIEW_FILE_EXT_REGEX', "phtml|bvhtml");
 define('IGK_VIEW_FILE_END_REGEX', "/(.)+(\.(" . IGK_VIEW_FILE_EXT_REGEX . "))?$/i");
 define('IGK_APP_LOGO', "/" . IGK_RES_FOLDER . "/Img/app_logo.png");
-
-// define('IGK_PAGE_CONF_CTRL', 10);
-
-// if(!function_exists('igk_define_error')){
-// function igk_define_error($msg, $code, $msg_key=null){
-// igk_error_def_error($msg, $code, $msg_key);
-// }
-// }
-// igk_define_error('IGK_ERR_USERERROR', 10400);
-// igk_define_error('IGK_ERR_NOUSERFOUND', igk_geterror_code(IGK_ERR_USERERROR) + 1, "ERR.NoUserFOUND");
-// igk_define_error('IGK_ERR_PAGENULLOREMPTY', igk_geterror_code(IGK_ERR_USERERROR) + 0x0002, "ERR.PAGENULLOREMPTY");
-// igk_define_error('IGK_ERR_LOGORPWDNOTVALID', igk_geterror_code(IGK_ERR_USERERROR) + 0x0003, "ERR.LoginOrPWDNotValid");
-// igk_define_error('IGK_ERR_NOT_FROM_LOCAL', igk_geterror_code(IGK_ERR_USERERROR) + 0x0100, "ERR.REQUESTFROMNONLOCAL");
-// igk_define_error('IGK_ERR_REQUEST_NOT_FROM_BALAFON_SERVER', igk_geterror_code(IGK_ERR_USERERROR) + 0x0101, "ERR.REQUESTFROMABALAFONSERVER");
-// igk_define_error('IGK_ERR_PERMISSION', 2100, "e.youdonthavecorrectperm");
-// igk_define_error('IGK_ERR_FUNCNOTAVAILABLE', igk_geterror_code(IGK_ERR_PERMISSION) + 1, "e.funcnotavailable");
-// igk_define_error('IGK_ERR_FILE_NOT_SUPPORTED', 10080);
-// igk_define_error('IGK_ERR_SCRIPT_ERROR', 110100);
 define('IGK_ERR_CTRL_', 65536);
 define('IGK_ERR_NO_PAGEVIEW', 65546);
 define('IGK_ERR_FUNCNOTAVAILABLE', 65547);
-
-// igk_set_error_msg(array('en'=>array(IGK_ERR_CTRL_=>"Controller error")));
-// igk_set_error_msg(array('en'=>array(IGK_ERR_NO_PAGEVIEW=>"No pageview defined for {0}. your class probably doesn't call the base construct")));
-
-
-//    define('IGK_DOC_ERROR_ID', "sys://document/ids/error");
-//    define('IGK_DOC_CONF_ID', "sys://document/ids/config");
-
-
 // + | system user login
 !defined('IGK_SYS_USER_LOGIN') &&  define('IGK_SYS_USER_LOGIN', "igk.system@igkdev.com");
 //
 defined('IGK_PWD_PREFIX') || define('IGK_PWD_PREFIX', "(!)8Zmb90-&");
 defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");
 defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);
-
-
 define('IGK_ENV_GLOBAL_SCRIPT_KEY', "sys://globalscript");
 define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);

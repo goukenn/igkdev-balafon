@@ -2,7 +2,6 @@
 // file: math.js
 // @date: 20230102 14:12:32
 // @desc: 
-
 'use strict';
 (function() {
     const createNS = igk.system.createNS;
@@ -40,7 +39,6 @@
         matrix3x3: function() {
             var m_element = [];
             var MATRIX_LENGTH = 9;
-
             function mult_matrix(tb1, tb2) {
                 var rtb = new Array(MATRIX_LENGTH);
                 var k = 0;
@@ -104,7 +102,6 @@
             };
         }
     });
-
     createNS("igk.math.vector2d", {
         empty: function() {
             return new igk.math.vector2d(0, 0);

@@ -11,6 +11,7 @@ use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
  * represent a schema builder class
  * @package IGK\System\Database

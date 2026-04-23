@@ -3,6 +3,7 @@
 // @file: TextBrackerBlockInfo.php
 // @date: 20221023 10:15:46
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

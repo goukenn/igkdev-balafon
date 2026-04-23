@@ -18,6 +18,7 @@ use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use IGKSysUtil;
+
 /**
  * database helper utility class 
  * @package IGK\System\Database\Helper
@@ -116,8 +117,6 @@ abstract class DbUtility
                 }
                 $rep->add(DbSchemas::COLUMN_TAG)->setAttributes(array_filter($tab));
             }
-            // if ($defentries)
-            //     $appc->datadb("get_table_definition", $rep, $v, $apt, null, $entries);
         }
         return $xml;
     }
@@ -178,14 +177,12 @@ abstract class DbUtility
      */
     public static function GetLinkColumn($columnInfo, $column, ?string $prefix = null)
     {
-        // 
         $g = [$column];
         if ($prefix) {
             $np = self::TreatColumnName($column, $prefix);
             if ($np != $column)
                 array_unshift($g, $np);
         }
-        // get column table info
         while (count($g) > 0) {
             $q = array_shift($g);
             if (isset($columnInfo[$q])) {
@@ -253,7 +250,6 @@ abstract class DbUtility
      */
     public static function GetReversalMappingLink(ModelBase $model)
     {
-        // load link definition if mandatory
         $r = null;
         $columns = $model->getTableColumnInfo();
         foreach ($columns as $k => $v) {
@@ -347,16 +343,6 @@ abstract class DbUtility
         string $link_column,
         array $conditions)
     {
-        // $driver = $model->getDataAdapter();
-        // $query = igk_str_format(
-        //     'DELETE FROM `{0}` WHERE {2} IN (SELECT `{3}` FROM `{1}`{4});',
-        //     $model->table(),
-        //     $link->table(),
-        //     $model_column,
-        //     $link_column,
-        //     (($l = SQLGrammar::GetCondString($driver, $conditions)) ? ' WHERE ' . $l : '')
-        // ); 
-        // Logger::info(implode("\n", ['the query '.$query]));
         $rd = $link->get_query($conditions, ['Columns'=>[$link_column]]); 
         return $model->delete([
             SQLQueryFieldPrefixOperators::IN($model_column)=>$rd

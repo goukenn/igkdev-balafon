@@ -5,6 +5,7 @@
 namespace IGK\System\IO\JSon;
 use IGK\Helper\Activator;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\JSon

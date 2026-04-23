@@ -6,6 +6,7 @@
 namespace IGK;
 use IGK\System\EntryClassResolution;
 use IGKEnvironment;
+
 /**
  * Represent Balafon's global constants
  */
@@ -131,7 +132,6 @@ final class Constants
      * @var mixed
      */
     const MODULE_CONF_FILE = 'balafon.module.json';
-    //+ | for project entry namespace definition
     /**
      * Constant: ns action entry.
      * @var mixed
@@ -184,7 +184,6 @@ final class Constants
      * @var mixed
      */
     const DEFAUTL_PAGE_CONTROLLER_CLASS = 'IGKDefaultPageController';
-    // environment
     /**
      * Constant: component package key.
      * @var mixed
@@ -240,7 +239,7 @@ final class Constants
     public static function EnvironmentConstants(): array
     {
         return [
-            'IGK_ENV_NO_AUTOCACHEVIEW' // to disable global constant key 
+            'IGK_ENV_NO_AUTOCACHEVIEW' 
         ];
     }
 }

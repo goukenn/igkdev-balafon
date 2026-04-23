@@ -9,6 +9,7 @@ use IGK\Helper\ActionHelper;
 use IGK\Models\Users;
 use IGK\System\Html\Forms\FormHelper;
 use IGKValidator;
+
 /**
 * Trait providing sys user password management action functionality.
 * @package IGK\Actions\Traits
@@ -36,7 +37,6 @@ trait SysUserPasswordManagementActionTrait
             return $current_user;
         } 
         if ($token) {
-            // activate first
             $linkLoken = ActionHelper::GetAliveToken($token);
             if ($linkLoken) {
                 $rui = ActionHelper::ActivateUser($ctrl, $token, $linkLoken);
@@ -85,7 +85,7 @@ trait SysUserPasswordManagementActionTrait
     protected function form_reset_password($a)
     {   
         $a->h2()->Content = __("Reset password"); 
-        $a->notifyhost($this->notifyActionName, true); //->setAutohide(true);
+        $a->notifyhost($this->notifyActionName, true); 
         $a->div()->Content  = ""; 
         $a->fields([
             "password" => ['type' => 'password', 'required' => 1, 'placeholder' => __('password')],

@@ -78,11 +78,11 @@ use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use ReflectionMethod;
 use Throwable;
+
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
-// require_once __DIR__ . '/Traits/AuthorizationHelpers.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Controllers/Traits/AuthorizationHelpers.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Controllers/Traits/ControllerRequestExtensionTrait.php';
 /**
@@ -96,7 +96,6 @@ abstract class ControllerExtension
     use ControllerRequestExtensionTrait;
     use AuthorizationHelpers;
     use \IGK\System\Controllers\Traits\ControllerRequestExtensionTrait;
-    // use ControllerViewLayoutExtensionTrait;
     /**
     * Property: instances inclass.
     * @var mixed
@@ -270,11 +269,6 @@ abstract class ControllerExtension
     public static function resolveAssets(BaseController $ctrl, array $assets)
     {
         $dir = $ctrl->getAssetsDir();
-        // $bpath = igk_io_collapse_path($dir);
-        // if (igk_str_startWith($bpath, '%project%')){
-        //     self::resolveAssetUri($ctrl);
-        //     return;
-        // }
         $i = IGKResourceUriResolver::getInstance();
         foreach ($assets as $a) {
             if (igk_io_cache_file_exists($g = Path::Combine($dir, $a))) {
@@ -316,13 +310,11 @@ abstract class ControllerExtension
     {
         return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, ltrim($path ?? '', '/')]));
     }
-    // exposed asset by default 
     /**
      * expose assets 
      */
     public static function exposeAssets(BaseController $ctrl,  $dirs = null)
     {
-        //expose asset folder and script
         $resolver = IGKResourceUriResolver::getInstance();
         if (!$dirs && is_file($file = ($dec = $ctrl->getDeclaredDir()) . "/" . Constants::PROJECT_CONF_FILE)) {
             if ($g = json_decode(file_get_contents($file))) {
@@ -338,7 +330,6 @@ abstract class ControllerExtension
                 }
             }
         }
-        // default exposed assets
         $dirs = $dirs ?? [
             $ctrl->getScriptsDir(),
             $ctrl->getAssetsDir()
@@ -373,9 +364,9 @@ abstract class ControllerExtension
                 continue;
             }
             if (!$withHidden) {
-                if ($tn[0] == '.') // hidden view
+                if ($tn[0] == '.') 
                     continue;
-                if (($p != ".") &&  ($p[0] == ".")) // hidden folder 
+                if (($p != ".") &&  ($p[0] == ".")) 
                     continue;
             }
             if ($p == ".")
@@ -705,11 +696,9 @@ abstract class ControllerExtension
         if (!$driver->canProcess(__FUNCTION__)) {
             throw new IGKException("driver can't process seeding");
         }
-        //get all seed class and run theme        
         if (igk_is_null_or_empty($classname)) {
             $classname = EntryClassResolution::DbSeederClass;
         } else {
-            //try to resolv class 
             if (igk_io_cache_file_exists($ctrl->classdir() . "/Database/Seeds/" . $classname . ".php")) {
                 $classname = "/Database/Seeds/" . $classname;
             } else {
@@ -797,7 +786,6 @@ abstract class ControllerExtension
         // + | Load migration files
         // + |
         $rgx = "/^[0-9]{8}_[0-9]{4}_(?P<name>(" . IGK_IDENTIFIER_PATTERN . "))/i";
-        //get all seed class and run theme
         $dir = $ctrl->getClassesDir() . "/Database/Migrations";
         $runbatch = 1;
         if (!$tab = igk_io_getfiles($dir, "/\.php/")) {
@@ -919,7 +907,6 @@ abstract class ControllerExtension
         }
         $factory = [];
         if ($tb) {
-            // update controllers list - 
             $model_init =
                 !($ctrl instanceof SysDbController) ?
                 DBCachesModelInitializer::InitMigration($tb) :
@@ -1005,7 +992,6 @@ abstract class ControllerExtension
     */
     public static function InitDataInitialization(BaseController $ctrl, $force = false)
     {
-        //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/InitData.php";
         if (!igk_io_cache_file_exists($c)) {
@@ -1035,8 +1021,6 @@ abstract class ControllerExtension
     */
     public static function InitDataSeeder(BaseController $ctrl)
     {
-        //init database models
-        // $force = 1;
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Seeds/DataBaseSeeder.php";
         if (!igk_io_cache_file_exists($c)) {
@@ -1071,14 +1055,13 @@ abstract class ControllerExtension
         }
         $appuri = $ctrl->getAppUri($fname);
         $query = null;
-        // $ruri = igk_io_baseuri() . igk_getv(explode('?', igk_io_base_request_uri()), 0);
         if (!empty($q = $_GET)) {
             unset($q['rwc']);
             if (!empty($q)) {
                 $query = '?' . http_build_query($q);
             }
         }
-        $ruri = igk_io_baseuri() . igk_io_request_uri_path(); // igk_getv(explode('?', igk_io_base_request_uri()), 0);
+        $ruri = igk_io_baseuri() . igk_io_request_uri_path(); 
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
@@ -1097,8 +1080,6 @@ abstract class ControllerExtension
             // + | --------------------------------------------------------
             // + | Sanitize request uri
             // + | 
-            // igk_trace();
-            // igk_wln_e("try redirect on to:", $entry_is_dir, $appuri . "/".$query);
             $ctrl->setParam("redirect_request", [ViewHelper::REDIRECT_PARAM_NAME => $_REQUEST]);
             igk_navto($appuri . "/" . $query);
         } else {
@@ -1118,7 +1099,6 @@ abstract class ControllerExtension
      */
     public static function InitDataFactory(BaseController $ctrl, bool $force = false, ?array $factories = null)
     {
-        //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Factories/FactoryBase.php";
         if (!igk_io_cache_file_exists($c)) {
@@ -1158,7 +1138,6 @@ abstract class ControllerExtension
         $ns = $ctrl->getEntryNameSpace();
         $cldir = $ctrl->getClassesDir();
         $loader =  ApplicationLoader::getInstance();
-        // igk_wln("udpate ....  ", $ctrl->getName() . "check ".igk_environment()->NO_PROJECT_AUTOLOAD) ;
         if ($loader->registerLoading($ns, $cldir)) {
             if (igk_environment()->isTesting()) {
                 $cldir = $ctrl->getTestClassesDir();
@@ -1206,7 +1185,6 @@ abstract class ControllerExtension
         $cl = ltrim($path, "/");
         if ($ns = $ctrl->getEntryNamespace()) {
             if (strpos($cl, $ns) !== 0) {
-                //start with entry namespace
                 $cl = implode("/", array_filter([$ns, $cl]));
             }
         }
@@ -1411,7 +1389,7 @@ abstract class ControllerExtension
         }
         $v_uctrl = igk_getctrl(IGK_USER_CTRL);
         $sysuser = $v_uctrl->getUser();
-        $f = 0; // update last connection   
+        $f = 0; 
         $check = false;
         if ($ctrl->User === null) {
             if (is_object($u)) {
@@ -1501,16 +1479,6 @@ abstract class ControllerExtension
     /**
      * check user auth demand level
      */
-    // public static function IsUserAllowedTo(BaseController $controller, $authDemand = null)
-    // {
-    //     $user = $controller->getUser();
-    //     if ($user === null) {
-    //         return false;
-    //     }
-    //     if ($user->clLevel == -1)
-    //         return true;
-    //     return $user->auth($authDemand);
-    // }
     /**
     * auto generate doc.
     * @param mixed $code
@@ -1599,7 +1567,6 @@ abstract class ControllerExtension
         }
         if ($ku == null) {
             if ($u != null) {
-                // check existance of the user
                 if (!is_null($u_model::GetCache($fd_guid, $u->clGuid))) {
                     if (method_exists($controller,  EntryClassResolution::CTRL_METHOD_INIT_USER_FROM_SYSUSER)) {
                         $pu = $controller->initUserFromSysUser($u);
@@ -1725,7 +1692,7 @@ abstract class ControllerExtension
     public static function getInitDbConstraintKey(BaseController $controller)
     {
         $cl = str_replace("_", "",  str_replace("\\", "_", get_class($controller)));
-        return $cl . "_ck_"; // constraint key
+        return $cl . "_ck_"; 
     }
     /**
     * Returns Components Dir.
@@ -1876,10 +1843,8 @@ abstract class ControllerExtension
      */
     public static function initDbFromSchemas(BaseController $controller)
     {
-        // clear system schema 
         DBCaches::ClearControllerCache($controller);
         $db = self::getDataAdapter($controller);
-        // init load a schema
         $r = $controller->loadDataAndNewEntriesFromSchemas();
         if (!$r) {
             return false;
@@ -1928,9 +1893,8 @@ abstract class ControllerExtension
         $f = $controller->getDbConstantFile();
         $tb = self::getDbDefinitionTables($controller);
         $s = "<?php" . IGK_LF;
-        $s .= "// Balafon : generated db constants file" . IGK_LF;
-        $s .= "// date: " . date(Constants::MYSQL_DATETIME_FORMAT) . IGK_LF;
-        // generate class constants definition
+        $s .= "// @description: generated db constants file" . IGK_LF;
+        $s .= "// @date: " . date(Constants::MYSQL_DATETIME_FORMAT) . IGK_LF;
         $cl = igk_uri(get_class($controller));
         $ns = dirname($cl);
         if (!empty($ns) && ($ns != ".")) {
@@ -2021,9 +1985,6 @@ abstract class ControllerExtension
             $info = null;
             if (DBCaches::IsInitializing())
                 return;
-            // if (is_null($tablename)) {
-            // || !($info = \IGK\Database\DbSchemaDefinitions::GetDataTableDefinition($ctrl->getDataAdapterName(), $tablename))) {
-            // load the actual state of the dataschema - everything up 
             if ($schema = self::loadDataFromSchemas($ctrl, true, DbSchemasConstants::Migrate)) {
                 if (is_null($tablename)) {
                     return $schema;
@@ -2076,7 +2037,6 @@ abstract class ControllerExtension
         $obj = new DbSchemaLoadEntriesFromSchemaInfo;
         if ($data = self::loadDataFromSchemas($controller)) {
             if (count((array)$data) > 0) {
-                // copy information 
                 $obj->Data = [];
                 $obj->Relations = $data->tbrelations;
                 $obj->RelationsDef = $data->relations;
@@ -2084,13 +2044,11 @@ abstract class ControllerExtension
                 $obj->Version = $data->version;
                 foreach ($data->tables as $n => $t) {
                     $c = null;
-                    // Passing entries to return object
                     if (isset($t->entries)) {
                         if ($c = $t->entries) {
                             $obj->Entries[$n] =  $c;
                         }
                     }
-                    //+ | merging entries data 
                     if (isset($data->entries[$n]) && ($c != $data->entries[$n])) {
                         $obj->Entries[$n] = array_merge(igk_getv($obj->Entries, $n, []), $data->entries[$n]);
                     }
@@ -2127,7 +2085,7 @@ abstract class ControllerExtension
      */
     public static function getCurrentDoc(BaseController $controller)
     {
-        return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc(); //  $controller->getAppDocument();
+        return $controller->getEnvParam(IGK_CURRENT_DOC_PARAM_KEY) ?? igk_app()->getDoc(); 
     }
     /**
      * bind controller style to document
@@ -2314,7 +2272,6 @@ abstract class ControllerExtension
         igk_server()->METHOD  = $method;
         igk_server()->REQUEST_QUERY  = $query = igk_getv($tab, "query");
         $response = null;
-        //save state
         $state = [$_GET, $_POST, $_REQUEST];
         if ($query) {
             $tquery = [];
@@ -2332,7 +2289,6 @@ abstract class ControllerExtension
             $response->code = 500;
             $response->message = $ex->getMessage();
         } finally {
-            // restore
             $_GET = $state[0];
             $_POST = $state[1];
             $_REQUEST = $state[2];
@@ -2491,10 +2447,8 @@ abstract class ControllerExtension
         $sep = "";
         $fallback = false;
         $fc_prepend = function (&$tab, $name, $level, $params) {
-            // $tab = [$name => [$level, $params]] + $tab;
             $tab = array_merge([$name => [$level, $params]] , $tab);
         };
-        // $TLevel = $params ? count($params) : 0;
         $entry_default = ($name == IGK_DEFAULT_VIEW);
         if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
             $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
@@ -2512,11 +2466,10 @@ abstract class ControllerExtension
         }
         $search_name = $name;
         if ($params) {
-            // $search_name = $name . "/" . implode("/", $params);
             $search_name .= "/" . implode("/", $params);
         }
-        $p = null; //  "previous callback failed";
-        $level = 1;  // level for arguments detection
+        $p = null; 
+        $level = 1;  
         $postfix = EntryClassResolution::ActionClassSuffix;
         $targs = explode("/", ltrim($search_name, '/'));
         $margs = array_slice($targs, 1);
@@ -2563,8 +2516,6 @@ abstract class ControllerExtension
         }
         // + | append last
         if ($p) {
-            // $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix])));
-            // $fc_prepend($t, $l, $level - 1, $margs);
             if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
                 $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
                 $fc_prepend($t, $l, $level - 2, $margs);
@@ -2572,7 +2523,6 @@ abstract class ControllerExtension
             array_shift($margs);
         }
         if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
-            // top last level 
             $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = [-1, null];
         }
         ActionHelper::$ResolvedClass = null;
@@ -2594,95 +2544,6 @@ abstract class ControllerExtension
         // + |
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
-        // $c = [];
-        // $t = [];
-        // $m = "";
-        // $sep = "";
-        // $fallback = false;
-        // $fc_prepend = function (&$tab, $name, $level, $params) {
-        //     $tab = [$name => [$level, $params]] + $tab;
-        // };
-        // // $TLevel = $params ? count($params) : 0;
-        // $entry_default = ($name == IGK_DEFAULT_VIEW);
-        // if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
-        //     $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
-        // } else {
-        //     if ($params) {
-        //         // + | update must combine with current name 
-        //         $name = ltrim(Path::Combine($entry_default ? "/" : $name, implode("/", $params)), '/');
-        //     }
-        //     // + | empty parameter list
-        //     $params = [];
-        // }
-        // $ns = $controller->getEntryNameSpace();
-        // if (!empty($ns)) {
-        //     $c[] = $ns;
-        // }
-        // $search_name = $name;
-        // if ($params) {
-        //     // $search_name = $name . "/" . implode("/", $params);
-        //     $search_name .= "/" . implode("/", $params);
-        // }
-        // $p = null; //  "previous callback failed";
-        // $level = 1;  // level for arguments detection
-        // $postfix = EntryClassResolution::ActionClassSuffix;
-        // $targs = explode("/", ltrim($search_name, '/'));
-        // $margs = array_slice($targs, 1);
-        // $_it = 0;
-        // while (($tc = count($targs)) > 0) {
-        //     $r = array_shift($targs);
-        //     $v_last = (($tc - 1) == 0) && $is_ajx;
-        //     $g = StringUtility::CamelClassName(ucfirst($r));
-        //     $_it++;
-        //     if (is_numeric($g)) {
-        //         if ($fallback) {
-        //             break;
-        //         }
-        //         $fallback = true;
-        //         continue;
-        //     }
-        //     if ($p) {
-        //         // + | set folder entry point 
-        //         // + | - action_dir/actionAction
-        //         // + | - action_dir/DeffaultAction 
-        //         $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . basename(igk_dir($p)) . $postfix])));
-        //         $fc_prepend($t, $l, $level - 1, $margs);
-        //         if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
-        //             $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
-        //             $fc_prepend($t, $l, $level - 2, $margs);
-        //         }
-        //         array_shift($margs);
-        //     }
-        //     $v_ajx_suffix = ($tc == 1) && preg_match("/\.ajx$/i", $r);
-        //     if ($v_last || $v_ajx_suffix) {
-        //         $rg = StringUtility::CamelClassName(ucfirst(igk_str_rm_last($r, '.ajx')));
-        //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $sep . $rg . $postfix]))), $level, $margs);
-        //     }
-        //     if (!$v_ajx_suffix) {
-        //         $m .= $sep . $g;
-        //         $m = ltrim($m, '\\');
-        //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
-        //         $g = $m;
-        //     }
-        //     $sep = "\\";
-        //     $p = $g;
-        //     $fallback = true;
-        //     $level++;
-        // }
-        // // + | append last
-        // if ($p) {
-        //     // $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix])));
-        //     // $fc_prepend($t, $l, $level - 1, $margs);
-        //     if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
-        //         $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
-        //         $fc_prepend($t, $l, $level - 2, $margs);
-        //     }
-        //     array_shift($margs);
-        // }
-        // if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
-        //     $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
-        // }        
-        // ActionHelper::$ResolvedClass = null;
         $t = self::DetectControllerClassDefinitionActionHandlerList($controller, $name, $params, $is_ajx);
         $ns = $controller->getEntryNameSpace();
         $classdir = $controller->getClassesDir();
@@ -2707,7 +2568,7 @@ abstract class ControllerExtension
                     $responseData->level = $level;
                     $responseData->class = $cl;
                     $responseData->params = $params;
-                    ActionHelper::$ResolvedClass = $responseData; // Activator::CreateNewInstance(ActionResolutionInfo::class , ['class'=>$cl, 'level'=>$level]);                     
+                    ActionHelper::$ResolvedClass = $responseData; 
                 }
                 return $cl;
             }

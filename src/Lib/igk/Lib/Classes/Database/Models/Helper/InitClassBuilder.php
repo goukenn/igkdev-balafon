@@ -14,6 +14,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
 use IGKException;
+
 /**
  * intialize core class 
  * @package IGK\Database\Models\Helper
@@ -95,9 +96,6 @@ class InitClassBuilder
             $v_const_name = StringUtility::GetConstantName($v_nn);
             if (DbUtils::IsJoinTableLinkCandidate($cinfo)) {
                 $rc = JoinTableOp::class . '::EQUAL';
-                //if (!in_array(JoinTableOp::class, $uses)){
-                //$uses[] = JoinTableOp::class;
-                //}
                 $v_js = StringUtility::ConstantToCamelCaseClassName($cinfo->clName);
                 $v_joinMeth[] = sprintf("?array joinOn%s(\$call=null, ?string \$type=null, string \$op=\\" . $rc . ") - macros function ", $v_js);
                 $v_joinMeth[] = sprintf("?string targetOn%s() - macros function", $v_js);
@@ -105,16 +103,7 @@ class InitClassBuilder
                     "/** join on expression */\npublic function joinOn%s(\$call=null, ?string \$type=null, string \$op=JoinTableOp::EQUAL):array {\n\t%s\n}",
                     $v_js,
                     implode("\n\t", [
-                        // '$cl = static::class;',
                         sprintf('return self::joinTableColumnOn(self::FD_%s, $call, $type, $op);', $v_const_name),
-                        //'$c = [];',
-                        // 'if ($call){',
-                        // '    // align condition ',
-                        // '    $c[] = $rt."=".$call;',
-                        // '    if ($type) $c["type"] = $type;',
-                        // '    return [$cl::table()=>$c];',
-                        // '}',
-                        // 'return [$cl::table()]; '
                     ]),
                 ) . "\n";
                 $v_meth_link_canditate .=
@@ -170,7 +159,7 @@ class InitClassBuilder
                 $desc = ' ' . $desc;
             }
             $php_doc .= sprintf("@property " . $pr_type . "%s\n", $desc);
-            $c_p = $v_const_name; //StringUtility::GetConstantName($cinfo->clName);
+            $c_p = $v_const_name; 
             if (!isset($const_props[$c_p])) {
                 $const_data .=  "const " .Constants::DB_MODEL_FIELD_PREFIX . $c_p . '="' . $cinfo->clName . '";' . "\n";
                 $helper_constant_call .= sprintf("@method static string " . Constants::DB_MODEL_FULLNAME_FIELD_PREFIX . $c_p . "() - `" .

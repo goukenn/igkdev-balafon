@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 
 $end_point = GoogleAPIEndPoints::CssEndPoint;

@@ -30,6 +30,7 @@ use IGKOb;
 use IGKObjectGetProperties;
 use IGKHtmlDoc;
 use IGKException;
+
 /**
  * represent a document themes
  * @method ?array getTempFile() get tempory loading files
@@ -196,7 +197,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $content = file_get_contents($filename);
         $def = $this;
         if ($handler = FileHandler::GetFileHandlerFromExtension(sprintf('.%s', $ext))) {
-            // handler must support context style views
             $r = $handler->transform($content);
             $def[] = $r;
         } else {
@@ -574,7 +574,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->m_def->load_data($data);
         if ($medias = igk_getv($data, self::MEDIA_KEY)) {
-            //$this->m_medias = $medias;
             foreach ($medias as $id => $m) {
                 $v_m = igk_getv($this->m_medias, $id);
                 if ($v_m) {
@@ -641,7 +640,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $tb = array();
             foreach ($s as $k => $v) {
                 if (igk_io_file_exists($k)) {
-                    // $rk = igk_realpath($k);
                     if ($v_cacherequire) {
                         $tb[] = "./" . igk_uri(igk_io_basepath($k));
                     } else
@@ -819,7 +817,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         if ($this->m_medias) {
             foreach ($this->m_medias as $k => $v) {
-                // map keys
                 $m = $v->def;
                 if (empty($m)) continue;
                 $pm = [];
@@ -844,7 +841,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         /**
          * @var IGKAppInfoStorage $app_info
          */
-        // (($cl = get_class($this->m_document)) != IGKHtmlDoc::class)  && igk_die("class [" . $cl . "] not allowed\n ");
         $tab = null;
         $id = $this->m_document->getId();
         $app_info = igk_app()->settings->appInfo;
@@ -852,9 +848,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $themes = null;
         if (!$this->m_istemp && $app_info) {
             $docs = &$app_info->documents[$id];
-            //$docs = igk_getv($app_info->documents, $id);
             if ($docs === null) {
-                // attach array to document id 
                 $docs = [];
                 $app_info->getData()->documents[$id] = &$docs;
             }
@@ -882,12 +876,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->Append = $this->add("AppendCss");
         $this->_initMedia($this->m_id);
     }
-    // private $_root_def;
-    // public function check(){
-    //     $r = $this->def === $this->_root_def;
-    //     igk_wln("checking ..... ? ", $this->m_id, $r, $this->def, $this->_root_def);
-    //     return $r;
-    // }
     /**
     * Used by var_dump() to customize debug output.
     * @return
@@ -1083,7 +1071,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $v_opts = $this->m_options;
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
-        // $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
         $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $v_parent : $systheme);
         \IGK\System\Diagnostics\Benchmark::mark($bmark = "theme-export-def");
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
@@ -1104,9 +1091,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 $out .= sprintf(':root{%s}', igk_css_array_key_map_implode($rtdef_root));
             }
         }
-        ///  TODO : theming definitions .
         if ($this->m_bindThemeColor && $this->m_themingResolv) {
-            // resolv class 
             $out .= PHP_EOL . $this->_getThemingDefinition($systheme, $minfile, $el, $is_root);
             $this->m_themingResolv = false;
         }
@@ -1428,9 +1413,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     */
     protected function _access_offsetSet($key, $value)
     {
-        // if ($key == "file") {
-        //     igk_die(__METHOD__ . " offset is file");
-        // }
         $def = &$this->getDef();
         if (is_array($value) && !is_null($key)) {
             $value = CssUtils::GlueArrayDefinition($value);
@@ -1479,8 +1461,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $def->addRule("@-webkit-keyframes " . $name, $expression);
         $def->addRule("@-moz-keyframes " . $name, $expression);
-        // $def->addRule("@-ms-keyframes " . $name, $expression);
-        // $def->addRule("@-o-keyframes " . $name, $expression);
         $def->addRule("@keyframes " . $name, $expression);
     }
     /**
@@ -1525,7 +1505,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $this->save();
         }
     }
-    ///remove a specific font
     /**
     * auto generate doc.
     */
@@ -1557,7 +1536,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     public function reset($save = false)
     {
         $this->def->Clear();
-        $cl = &$this->getCl(); //->Clear();
+        $cl = &$this->getCl(); 
         array_slice($cl, count($cl));
         if ($res = $this->res) {
             array_splice($res, 0, count($res));
@@ -1612,7 +1591,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $result = igk_io_save_file_as_utf8($f, $out, true);
         return $result;
     }
-    ///protected the access to allow parent or child call via calluser func
     /**
     * auto generate doc.
     */
@@ -1623,7 +1601,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         $this->m_def = $v;
     }
-    ///set properties
     /**
      * store document tempory property 
      */

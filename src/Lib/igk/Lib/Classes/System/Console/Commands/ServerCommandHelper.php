@@ -3,8 +3,6 @@
 // @filename: DbCommandHelper.php
 // @date: 20220803 13:48:57
 // @desc: 
-// usage command exemple : 
-// --user:4 -db_server:0.0.0.0 --querydebug --debug --controller:TonerAfrikaController -srv_request_uri://localhost:7300 -srv_host:'presentation' -srv_name:'jum' -srv_root:src/public -srv_https:1
 namespace IGK\System\Console\Commands;
 use Exception;
 use Error;
@@ -15,13 +13,13 @@ use IGK\System\IO\Path;
 use IGK\System\Uri;
 use IGKException;
 use IGKValidator;
+
 /**
  * server command helper
  * @package IGK\System\Console\Commands
  */
 abstract class ServerCommandHelper
 {
-    //load command serve command
     /**
     * Returns Db Commands Properties.
     */
@@ -31,7 +29,7 @@ abstract class ServerCommandHelper
             '-srv_host' => "host",
             '-srv_name' => "server_name",
             '-srv_root' => "server_root",
-            '-srv_https' => "https", // <- enable https
+            '-srv_https' => "https", 
             '-srv_geox' => "geox", 
             '-srv_geoy' => "geoy",
             '-srv_city' => "city",
@@ -42,7 +40,7 @@ abstract class ServerCommandHelper
             '-srv_request_uri' => "request-uri",
             '-srv_baseuri' => "base_uri", // + | <- set command environment base uri
             '-srv_referer'=>"referer",
-            '-srv_ajx'=>'ajx' // set command to ajx request 
+            '-srv_ajx'=>'ajx' 
         ];
     }
     /**
@@ -89,7 +87,6 @@ abstract class ServerCommandHelper
                     }
                 }
             }
-            //$root = IGK_BASE_DIR; //$command->app->getConfigs()->env;
         }
         $_SERVER['REQUEST_URI'] = $cnf->{'request-uri'} ?? igk_getv($_SERVER, 'REQUEST_URI');
         $_SERVER['HTTP_HOST'] = $cnf->{'host'} ?? igk_getv($_SERVER, 'HTTP_HOST');

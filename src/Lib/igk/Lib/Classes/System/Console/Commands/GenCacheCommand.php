@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
+
 /**
 * Gen cache command.
 * @package IGK\System\Console\Commands
@@ -48,9 +49,6 @@ class GenCacheCommand extends AppExecCommand{
         if (igk_io_path_ext($path)!=".php"){
             $path.=".php";
         }
-        // igk_register_page_cache($uri, $path);       
-        // $ctrl = igk_get_defaultwebpagectrl();
-        // igk_wln("default : ".$ctrl->getName());
         $data = igk_curl_post_uri("http://localhost/".$uri,["igk_cache"=>1],null,[
         ]);
         igk_io_w2file( $file = igk_dir(implode(DIRECTORY_SEPARATOR, [igk_io_cachedir()."/pages", $path])), $data);

@@ -4,6 +4,7 @@
 // @date: 20230303 21:32:35
 namespace IGK\System\Security\Web;
 use IGK\System\Html\HtmlRenderer;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
@@ -33,7 +34,6 @@ class HtmlContentValidator extends MapContentValidatorBase{
             $options->skipTags = $this->skipTag;
             return $dv->render($options); 
         };  
-        // remove script tag
         if (is_string($value)){
             $value =  $skip_data($value); 
             return true;

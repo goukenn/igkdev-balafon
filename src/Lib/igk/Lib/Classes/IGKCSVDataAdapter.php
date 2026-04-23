@@ -9,6 +9,7 @@ use IGK\Helper\IO;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\IO\CSV\Helper\CSVHelper;
+
 /**
 * Represent IGKCSVDataAdapter class
 */
@@ -280,10 +281,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         if (preg_match("#[0-9]{2}/[0-9]{2}/[0-9]{4}#", $value)){
             $_format = "d/m/Y";
         }
-        // Logger::print("Format : ". 
-        // if(!($mktime = strtotime($value))){       
         if ($g = date_parse_from_format($_format, $value)){
-           // igk_wln_e($g);
            if ($g["error_count"]==0){
             $mktime = mktime($g["hour"], $g["minute"], $g["second"], $g["month"], 
             $g["day"], $g["year"]);
@@ -298,7 +296,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      * @return string 
      */
     public function escape_string(?string $v = null):string{
-        // same as XMLDataAdapter 
         $v = stripslashes($v);
         return addslashes($v); 
 	}
@@ -349,7 +346,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
                 $v = igk_str_remove_quote(trim(igk_str_read_brank($l, $pos, $ch,$ch,null,true)));
                 $v = igk_str_transform_linefeed($v); 
                 if ($v=='{'){
-                    // possible json data
                     $rpos = $pos-1;
                     $json = igk_str_read_brank($l, $rpos, '}','{',null,true);
                     $json = stripslashes($json);
@@ -358,8 +354,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
                         $v = $json;
                     }
                 } else if ($v_is_read_serialize && preg_match("/^[^:]+:[^:]+:\{/", $v, $b)){
-                    // possible serialized data
-                    // a:3:{i:1;a:1:{s:5:"title"}}}
                     $v_s = $b[0];
                     $v_ln = strlen($v_s);
                     $rpd = substr($l, $mpos+$v_ln);   
@@ -495,18 +489,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             return true;
         }, $flags);
         return $entries;
-        // $lines=explode(IGK_LF, $txt);
-        // $entries=array();
-        // foreach($lines as $l){
-        //     if(empty($l)){
-        //         continue;
-        //     }
-        //     if (!$filter($tab=self::_CSVReadLine($l, $sep))){
-        //         break;
-        //     }
-        //     $entries[]=$tab;
-        // }
-        // return $entries;
     }
     /**
     * auto generate doc.
@@ -553,7 +535,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         igk_io_save_file_as_utf8($filename, $out, true);
     }
-    ///convert tab to line entry
     /**
     * auto generate doc.
     */

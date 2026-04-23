@@ -8,6 +8,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\Css
@@ -246,7 +247,6 @@ class CssConverter{
                         }
                         $ch = '';
                         $offset--;
-                        //igk_die('not implement property : '.$n);
                     }
                     break;
                 case '{':
@@ -312,7 +312,7 @@ class CssConverter{
                             $attrib_name = '';
                             $offset--;
                         } else {
-                            $mode = self::MODE_VALUE;// posible value - but can be a selector: 
+                            $mode = self::MODE_VALUE;
                         }
                         $ch = '';
                     } else if ($mode != self::MODE_ROOT){
@@ -343,12 +343,10 @@ class CssConverter{
                     break;
                 case '/':
                     if (strpos($src, '/', $offset + 1) === ($offset + 1)) {
-                        // skipt comment 
                         $l = strpos($src, "\n", $offset + 1);
                         $offset = $l === false ? $this->length : $l;
                         $ch = '';
                     } else if (strpos($src, '*', $offset + 1) === ($offset + 1)) {
-                        // skipt comment 
                         $l = strpos($src, "*/", $offset + 1);
                         $offset = $l === false ? $this->length : $l + 2;
                         $ch = '';
@@ -444,7 +442,6 @@ class CssConverter{
     private static function _ReadName($src, &$offset, $length)
     {
         $n = '';
-        // add - allowed for css token identifier
         $token = StringUtility::IDENTIFIER_TOKEN.'-';
         while ($offset < $length) {
             $ch = $src[$offset];
@@ -530,7 +527,6 @@ class CssConverter{
     */
     protected function _visit_media($options)
     {
-        // Logger::log("visit media");
         $src = $this->src;
         $offset = & $options->offset; 
         $selector = $options->selector;
@@ -544,7 +540,6 @@ class CssConverter{
                 $this->medias[$condition], $data
             );
         } 
-        // igk_wln_e("condition ", $condition); 
     }
     /**
      * read char

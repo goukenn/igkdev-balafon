@@ -9,6 +9,7 @@ use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGK\System\WinUI\Forms\RequestValidatorBase;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\Actions
@@ -53,7 +54,6 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
             $error = $r['__validatation_error__'];
             return false;
         }
-        // update action request data 
         $requestData = new DataArgs($r);
         return true;
     }

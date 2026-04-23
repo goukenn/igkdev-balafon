@@ -3,10 +3,6 @@
 // @filename: class.DragDropCtrl.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-//controller code class declaration
-//file is a part of the controller tab list
-
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
@@ -14,14 +10,12 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Returns Can Add Child.
     */
     public function getCanAddChild(){
 		return false;
 	}
-
     /**
     * Initializes Target Node.
     * @return ?HtmlNode
@@ -33,19 +27,16 @@ abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		return $t;
 	}
 }
-
 /**
 * Drag drop zone item.
 */
 class DragDropZoneItem extends HtmlNode
 {
-
     /**
     * Property: script node.
     * @var mixed
     */
     private $m_scriptNode;
-
     /**
     * .ctr
     */

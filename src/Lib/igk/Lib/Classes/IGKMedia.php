@@ -13,6 +13,7 @@ use IGK\Css\ICssStyleContainer;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\StringBuilder;
+
 /**
  * media management 
  * @package 
@@ -90,7 +91,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     public static function Clone(IGKMedia $media)
     {
         $c = new static('', '');
-        $c->_ = array_combine(array_keys($media->_), array_values($media->_)); //merge($media->_);
+        $c->_ = array_combine(array_keys($media->_), array_values($media->_)); 
         return $c;
     }
     /**
@@ -205,7 +206,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     */
     public function __set($n, $v)
     {
-        // do nothing
     }
     /**
     * Called before serialize() — defines which properties to serialize.
@@ -240,18 +240,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
             foreach ($def as $k => $v) {
                 if (is_null($v) || empty($v))
                     continue;
-                // if (is_array($v)){
-                //     // + | store array definition
-                //     $sb = new \IGK\System\IO\StringBuilder; // StringBuilder;
-                //     $sb->append($k.'{');
-                //     foreach($v as $ss=>$ks){
-                //         $kv=trim(igk_css_treat($ks, $themeexport, $theme, $systheme));
-                //         $sb->append($ss.':'.$kv.';');
-                //     }
-                //     $sb->append('}');
-                //     $o.= $sb;
-                //     continue;
-                // }
                 if (is_string($v)) {
                     $kv = trim(igk_css_treat($v, $themeexport, $theme, $systheme));
                     if (!empty($kv)) {
@@ -269,7 +257,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
             }
         } 
         if ($anims = igk_getv($this->_, self::ANIMATIONS)){
-            // igk_wln_e(__FILE__.":".__LINE__ , "load aminations.....");
             ksort($anims);
             $o.= implode('', $anims);
         }

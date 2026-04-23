@@ -1,13 +1,10 @@
 'use strict';
-
 (function(){ 
-
     // console.log('1 - log regex matcher pattern');
     /**
      * base Regex Matcher Pattern 
      */
     class RegexMatcherPattern{
-         
         type;
         container;
         /**

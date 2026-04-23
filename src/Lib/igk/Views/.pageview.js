@@ -15,7 +15,6 @@ function updateSetting(index){
 		btn_next.addClass("dispn");
 	} 
 };
-
 igk.ready(function(){
 	$igk("#pageview").each_all(function(){
 		var i = 0;
@@ -42,7 +41,5 @@ igk.ready(function(){
 		});
 		updateSetting(i);
 	});
-
-	
 });
 })();

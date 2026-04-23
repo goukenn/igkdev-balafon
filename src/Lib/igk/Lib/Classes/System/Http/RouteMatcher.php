@@ -6,6 +6,7 @@
 namespace IGK\System\Http;
 use IGK\Models\Users;
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 * @package App\Actions\Dashboard
@@ -115,11 +116,9 @@ class RouteMatcher extends RouteHandler{
     */
     public function check(?string $verb=null){
         $verb = $verb ?? igk_server()->REQUEST_METHOD;
-        // check verb
         if (!in_array($verb, $this->verbs)) {
             return false;
         }  
-        // check auth requirement
         $auth = $this->auth;
         if (is_bool($auth)){
             return $auth;

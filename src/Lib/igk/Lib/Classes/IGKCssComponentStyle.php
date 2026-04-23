@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\CallableConstants;
+
 /**
 * Igkcss component style.
 */
@@ -17,7 +18,6 @@ final class IGKCssComponentStyle extends IGKObject{
     * @var mixed
     */
     private $m_loadedStyles;
-    ///.ctr
     /**
     * .ctr
     * @return

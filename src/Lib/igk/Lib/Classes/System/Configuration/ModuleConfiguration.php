@@ -3,6 +3,7 @@
 // @file: ModuleConfiguration.php
 // @date: 20251118 12:56:59
 namespace IGK\System\Configuration;
+
 /**
 * auto generate doc.
 * @package IGK\System\Configuration

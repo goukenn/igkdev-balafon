@@ -19,6 +19,7 @@ use IGKException;
 use IGKNonVisibleControllerBase;
 use IGKSysUtil;
 use ReflectionException;
+
 /**
  * initialize data schema
  * @package IGK\System\Console\Commands
@@ -100,9 +101,6 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
                 $n->renderXML();
                 break;
         } 
-        // igk_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array($ctrl));
-        // igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, ["controller"=>$ctrl]);
-        // Logger::success("Schema complete");
         return 0;
     }
     /**

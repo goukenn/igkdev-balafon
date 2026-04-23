@@ -4,6 +4,7 @@ namespace IGK\System\Http;
 // @filename: StatusCode.php
 // @date: 20220311 08:32:47
 // @desc: store status code definitions 
+
 require_once __DIR__.'/RequestResponseCode.php';
 /**
 * auto generate doc.

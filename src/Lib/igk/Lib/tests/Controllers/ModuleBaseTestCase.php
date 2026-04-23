@@ -3,9 +3,7 @@
 // @filename: ModuleBaseTestCase.php
 // @date: 20220803 13:48:54
 // @desc: 
- 
 namespace IGK\Tests\Controllers;
-
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Helper\ApplicationModuleHelper;
 use IGK\Tests\BaseTestCase;
@@ -15,21 +13,17 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Tests\Controllers
  */
 abstract class ModuleBaseTestCase extends BaseTestCase{
-
     /**
     * Property: controller.
     * @var mixed
     */
     protected $controller;
-
     /**
     * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void{
-        // gk_require_module(__NAMESPACE__); 
     }
-
     /**
     * Sets up the test environment before each test.
     * @return void
@@ -40,15 +34,12 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
             $this->controller = igk_getctrl($c);
         }else{
             $this->controller = $this->getModule() ?? igk_die("module not found ".static::class);
-            // $this->controller->auto_load_register();
-            // $this->controller->register_autoload();
         }
     }
     /**
      * get module 
      * @return mixed 
      */
-
     protected function getModule(): ?ApplicationModuleController{
         if ($dir = ApplicationModuleHelper::GetModuleNameFromTestClass(static::class)){        
             return  igk_require_module($dir);
@@ -56,4 +47,3 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
         return null;
     }
 }
- 

@@ -3,7 +3,6 @@
 // @file: ThemeRenderingTest.php
 // @date: 20240215 04:54:53
 namespace IGK\Tests\System\Html\Css;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -23,13 +22,11 @@ use PHPUnit\Framework\ExpectationFailedException;
 * @author C.A.D. BONDJE DOUE
 */
 class ThemeRenderingTest extends BaseTestCase{
-
     /**
     * Property: root.
     * @var mixed
     */
     private $m_root;
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -38,13 +35,11 @@ class ThemeRenderingTest extends BaseTestCase{
     private static function _CreateTheme($id){
         return new HtmlDocTheme( null, $id , false);
     }
-
     /**
     * Sets up the test environment before each test.
     * @return void
     */
     public function setUp():void{ 
-    
     }
     /**
      * test creation 
@@ -57,13 +52,11 @@ class ThemeRenderingTest extends BaseTestCase{
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-
     public function test_empty_render(){
         $theme = self::_CreateTheme('test');
         $s = $theme->get_css_def();
         $this->assertEquals('', $s);
     }
-
     /**
     * Tests empty render no semicolumn.
     */
@@ -72,11 +65,9 @@ class ThemeRenderingTest extends BaseTestCase{
         $def = $theme->getDef();
         $def[".igk-fsl-4"] = "font-size:2.8em";
         $def[".igk-fsl-5"] = "font-size:4.8em";
-     
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-fsl-4{font-size:2.8em;}.igk-fsl-5{font-size:4.8em;}', $s);
     }
-
     /**
     * Tests empty render replace.
     */
@@ -85,11 +76,9 @@ class ThemeRenderingTest extends BaseTestCase{
         $def = $theme->getDef();
         $def[".igk-fsl-4"] = "font-size:2.8em";
         $def[".igk-fsl-4"] = "font-size:4.8em";
-     
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-fsl-4{font-size:4.8em;}', $s);
     }
-
     /**
     * Tests cssrendering treatbranket.
     */
@@ -99,7 +88,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-progressbar{background-color:progressBarBackgroundColor;height:16px;}', $s);
     }
-
     /**
     * Tests cssrendering maptheme.
     */
@@ -112,13 +100,11 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('html[data-theme=\'dark\'] .igk-progressbar{background-color:progressBarBackgroundColor;}', $s);
     }
-
     /**
     * Tests cssrendering maptheme include.
     */
     public function test_cssrendering_maptheme_include(){
         $theme = self::_CreateTheme('test');
-        
         $theme['.igk-progressbar'] = '(sys:.igk-def-c); overflow:hidden;';
         $medias = null;
         $tab = $theme->getdef()->getAttributes() ?? [];
@@ -128,7 +114,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('', $s);
     }
-
     /**
     * Tests cssrendering maptheme bar.
     */
@@ -146,7 +131,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $this->_out_theme($theme); 
         $this->assertEquals('html[data-theme=\'dark\'] .basic{color:igk-required-mark-fcl;}', $s);
     }
-
     /**
     * Tests cssrendering maptheme 3.
     */
@@ -159,7 +143,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $this->_out_theme($theme); 
         $this->assertEquals('html[data-theme=\'dark\'] .igk-progressbar{background-color:progressBarBackgroundColor;color:red;}', $s);
     }
-
     /**
     * auto generate doc.
     * @param mixed $theme
@@ -172,26 +155,21 @@ class ThemeRenderingTest extends BaseTestCase{
     /**
      * test rendering body 
      */
-
     public function test_theme_render_body(){
         // + | --------------------------------------------------------------------
         // + | theme createion
         // + |
-        
         $theme = self::_CreateTheme('test');
         $theme['body'] = 'background-color:red;';
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('body{background-color:red;}', $s);
-
         // + | --------------------------------------------------------------------
         // + | append extra property - order property and merge
         // + |
-        
         $theme['body:after'] = 'content:\'after\';background-color:red;'; 
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('body{background-color:red;}body:after{background-color:red;content:\'after\';}', 
         $s, 'missing ordered property');
-
         // + | --------------------------------------------------------------------
         // + | check replacement append style property - treat on render 
         // + |
@@ -200,7 +178,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('body{background-color:red;}body:after{background-color:red;content:\'rp\';display:block;}', 
         $s, 'missing replace and append style property property');
     }
-
     /**
     * Tests theme render.
     */
@@ -215,7 +192,6 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('body{background-color:#cf3232;}:root{--igk-red:#cf3232}', $s);
     }
-
     /**
     * Tests controller theme render.
     */
@@ -228,7 +204,7 @@ class ThemeRenderingTest extends BaseTestCase{
                 ]
             );
         $theme['body'] = 'background-color:[cl:--igk-red];';
-        $theme['body:after'] = 'content:\'content\'; display:block';//background-color:[cl:--igk-red];';
+        $theme['body:after'] = 'content:\'content\'; display:block';
         $support = $theme->supports('backdrop-filter: blur(2px)');
         $support['backgrop-filter'] = 'blur(4px)';
         $theme->setThemeColors([
@@ -249,7 +225,6 @@ class ThemeRenderingTest extends BaseTestCase{
             false !== strpos($s, "html[data-theme='dark']")
         );
     }
-
     /**
     * Tests csstreatment treatglobal theme.
     */
@@ -258,20 +233,14 @@ class ThemeRenderingTest extends BaseTestCase{
         $sth = new HtmlDocTheme(null);
         $sth['.dispib'] = 'display:inline-block;';
         $sth['.no-float'] = 'clear:both;';
-
         $r = igk_css_treat_bracket('{sys:dispib,no-float}', $th, $sth);
         $this->assertEquals('display:inline-block;clear:both;', $r);
-
-
         $r = igk_css_treat_bracket('{sys:dispib no-float}', $th, $sth);
         $this->assertEquals('display:inline-block;clear:both;', $r);
-
         $r = igk_css_treat_bracket('{sys:dispib; no-float}', $th, $sth);
         $this->assertEquals('display:inline-block;clear:both;', $r);
-
     }
 }
-
 /**
 * Mock theme renderer.
 * @package IGK\Tests\System\Html\Css

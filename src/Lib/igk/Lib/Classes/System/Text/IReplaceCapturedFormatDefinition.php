@@ -3,6 +3,7 @@
 // @file: IReplaceCapturedFormatDefinition.php
 // @date: 20250730 19:31:44
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

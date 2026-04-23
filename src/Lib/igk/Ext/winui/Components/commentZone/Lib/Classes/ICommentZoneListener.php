@@ -1,5 +1,4 @@
 <?php
-
 namespace IGK\Ext\WinUI\Components\CommentZone;
 
 /**
@@ -7,7 +6,6 @@ namespace IGK\Ext\WinUI\Components\CommentZone;
 * @package IGK\Ext\WinUI\Components\CommentZone
 */
 interface ICommentZoneListener {
-
     /**
     * Comment add ajx.
     * @param mixed $i

@@ -1,7 +1,6 @@
 /*
 controller options manager
 */
-
 (function(){
 	igk.system.createNS("igk.ctrl.optionsmanager", 
 		{
@@ -13,7 +12,6 @@ controller options manager
 					s.each(function(){
 						if (this.getAttribute("igk-type") == "ctrl-options")
 						{//init controller options on node
-						
 							this.setCss({
 								fontSize:"1em",
 								width: "100px",
@@ -26,7 +24,6 @@ controller options manager
 							}).reg_event("click", function(evt){
 								//show option on right click
 								//igk.show_prop(evt);
-								
 							});
 						}
 						return true;//to continue iterating
@@ -38,9 +35,6 @@ controller options manager
 	igk.ready(igk.ctrl.optionsmanager.init);
 }
 )();
-
-
-
 (function(){
 	igk.system.createNS("igk.ctrl.page_zone", 
 		{
@@ -62,7 +56,6 @@ controller options manager
 								minWidth:"auto"
 							});
 							this.animate({width:(size.x - 200)}, {duration:200});
-						
 						return true;//to continue iterating
 					});
 				}

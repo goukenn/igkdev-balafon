@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
+
 /**
  * Document core style manager
  * @package IGK\System\Html\Dom

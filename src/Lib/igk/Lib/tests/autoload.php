@@ -5,6 +5,7 @@
 // @desc: 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
+
 if (!version_compare(implode('.',array_slice(explode('.',PHP_VERSION), 0,2)),
 "7.2",
 ">")){
@@ -53,7 +54,6 @@ defined("IGK_PROJECT_DIR") || define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects")
 require_once(__DIR__."/PhpUnitApplication.php");
 require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
 require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
-// load configuration file for unit testing
 igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 // + | ---------------------------------------------------------------------------------------------------
 // + | register phpunit application

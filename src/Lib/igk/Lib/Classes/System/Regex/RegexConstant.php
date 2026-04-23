@@ -4,6 +4,7 @@
 // @date: 20220322 15:34:54
 // @desc: 
 namespace IGK\System\Regex;
+
 /**
  * regex constants
  * @package IGK\System\Regex

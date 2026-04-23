@@ -7,6 +7,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompiler;
 use IGKCaches;
 use IGKException;
+
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -111,7 +112,6 @@ class ViewCompileProcessCommandHandler{
             $dir = $this->compiler->options->layout->viewDir;
             if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 $ext = ".cphtml";
-                // check for cached compiled view if not to compilation
                 $cache_file = IGKCaches::view()->getCacheFilePath($v_cfile, $ext);
                 $expired =  IGKCaches::view()->cacheExpired($v_cfile, $ext);
                 $src = "";
@@ -119,7 +119,6 @@ class ViewCompileProcessCommandHandler{
                     $c = ltrim(file_get_contents($v_cfile));
                     if (!empty($c)){
                         if (strpos($c, "<?php") === 0){
-                            // 
                             $src = $this->compiler->compileSource($c);
                             igk_io_w2file($cache_file, $src);
                         }

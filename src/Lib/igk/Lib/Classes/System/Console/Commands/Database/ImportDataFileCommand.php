@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbImportFile;
+
 /**
 * auto generate doc.
 * @package IGK\\System\Console\Commands\Database
@@ -30,7 +31,6 @@ class ImportDataFileCommand extends AppExecCommand{
 		"-f:file"=>"file to import",
 		"--entry:"=>"set entry definition",
 		"--autoregister"=>"flag: autore register unknow entries"
-		// "-t:type"=>"force file as type json|csv"
 	];
     /**
     * Property: category.

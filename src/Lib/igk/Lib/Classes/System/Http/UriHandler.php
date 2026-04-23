@@ -21,6 +21,7 @@ use IGKException;
 use IGKSubDomainManager;
 use IGKValidator;
 use ReflectionException;
+
 require_once __DIR__ . "/BaseUriHandler.php";
 require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
 /**
@@ -103,7 +104,6 @@ class UriHandler extends BaseUriHandler
     */
     public function _sitemap()
     {
-        // if not loader boot application then get controller list  
         IGKSubDomainManager::Init();
         $_is_sub = IGKSubDomainManager::IsSubDomain();
         if (!$_is_sub) {
@@ -245,7 +245,6 @@ class UriHandler extends BaseUriHandler
                 $location = $rp;
             }
             if (!class_exists($classname, false)) {
-                // load controller from environment  
                 $location && igk_loadlib($location);
                 $tab = EnvControllerCacheList::GetControllersClasses();
                 if (in_array($l, $tab)) {
@@ -285,17 +284,7 @@ class UriHandler extends BaseUriHandler
             igk_environment()->NoLoadAction = true;
             $uri = $l;
         } else {
-            // : check handle subdomain or handle 
-            // : CONCEPT - load direct controller as validator  
             $v_subdomain = $subdomain ?? self::_CheckSubDomain($l);
-            // if (!$v_subdomain || !is_object($v_subdomain)) {
-            //     $v_host = self::RetrieveServerHost(); 
-            //     if (IGKValidator::IsIpAddress($v_host)) {
-            //             $v_domains = include(IGKSubDomainManager::GetConfigFile());
-            //             $v_subdomain = self::GetDomainManagerEntry($v_domains, $v_host);
-            //     }
-            //     igk_wln_e(__FILE__ . ":" . __LINE__, $v_tab, $v_subdomain);
-            // }
             if (($v_subdomain) && is_object($v_subdomain)) {
                 if ($bootload) {
                     $bootload();
@@ -339,8 +328,6 @@ class UriHandler extends BaseUriHandler
             }
         }
         if ($f) {
-            // passing to data 
-            // $_SERVER['REQUEST_URI'] = "";  
             $target = '';
             $f = false;
             foreach (['index.php', 'index.phtml', 'main.php', 'main.phtml'] as $k) {

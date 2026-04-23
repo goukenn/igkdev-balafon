@@ -1,39 +1,30 @@
 //
 "uses strict";
-
 (function(){
-
 function __cssbuilder(s, t){
 	var m_styles = {};
 	var q = $igk(t);
 	var m_reloading=false;
-	
 function reloadStyle(m_styles){
 	if (m_reloading)
 		return;
 	m_reloading = true;
-	
 	for(var i in m_styles)
 	{
 		var v  = s.o.style[i]+'';
 		if (v == "undefined"){
-		
 			v = null;
 		}
 		m_styles[i].o.value =  v;
-		
 	}
 	m_reloading = false;
 }
 function __click_func(evt){
 	evt.preventDefault();
 	var s = this.innerHTML;		
-	
 	if (igk.system.string.endWith(s.toLowerCase(), 'color'))
 	{
-
 	}
-	
 };
 function __valkey(evt){
 	if (evt.keyCode ==13)
@@ -47,7 +38,6 @@ function __valkey(evt){
 	}
 }
 function __loadProp(s, pattern, m_styles){
-
 	q.select('*').each(function(){
 		this.unregister();
 		return true;
@@ -72,15 +62,11 @@ function __loadProp(s, pattern, m_styles){
 		.setAttribute("href", "#")
 		.reg_event("click", __click_func)
 		.setHtml(""+k);
-		
 		var v  = s.o.style[k];
 		if (v == "undefined")
 			v = null;
 		var input = m.add("input");
-		
-		
 		m_styles[k] = input;
-		
 		input.addClass("igk-form-control dispb")
 		.setAttribute("type", "text")
 		.setAttribute("value", v)
@@ -104,7 +90,6 @@ function __loadProp(s, pattern, m_styles){
 		q.appendChild(m);
 	}
 }
-	
 	igk.appendProperties(this,{
 		getCssList:function(){
 			var t = "";
@@ -127,8 +112,6 @@ function __loadProp(s, pattern, m_styles){
 		}
 	});
 }
-
-
 var m_tbuilder;
 igk.system.createNS("igk.cssbuilder",{
 	init: function(){
@@ -157,7 +140,6 @@ igk.system.createNS("igk.cssbuilder",{
 	initmediaview: function(t){
 		var d = $igk(igk.getParentScript());
 		if (!d)return;
-		
 		pwnd = window['igk-parentWindow']  || window.opener;
 		var frm = d.getParentForm();
 		//window.parent;
@@ -172,9 +154,7 @@ igk.system.createNS("igk.cssbuilder",{
 			var k =hwnd.igk.css.getMediaType();
 			d.setHtml("Media:"+k);
 			frm.clMediaType.value = k;
-			
 		}
-		
 		if (pwnd){
 			__initInfo(pwnd);
 			pwnd.unload = function(){
@@ -192,20 +172,13 @@ igk.system.createNS("igk.cssbuilder",{
 		}
 	}
 });
-
-
 })();
-
-
 (function(){
 var frm  = null;  
 var wnd  = null;
 var item = null;
 var m_sl = null;
-
-
 function __init(){
-
 frm = $igk(igk.getParentScript()).getParentForm();  
 wnd = window['igk-parentWindow'] || window.opener;
 if (wnd==null)
@@ -220,14 +193,11 @@ item = igk.createNode('dummy');
 	})
 	.reg_event("keyup", function(evt){ __checkvalue(); });
 }
-
 function __checkvalue(){
-	
 	var t=frm.clSelector.value;
 	m_sl=$igk(wnd.document).select(t); 
 	$igk(frm).select('.cls-v').getItemAt(0).setHtml("Items: "+m_sl.getCount());
 }
-	
 function _resetStyle(){
 	var t = frm.clSelector.value;
 	if (t){
@@ -251,7 +221,6 @@ function _resetStyle(){
 	setProperties:function(p){		
 		item.setCss(p);
 		frm.clValue.value = item.o.style.cssText;
-		
 		var s = $igk(wnd.document).select(frm.clSelector.value); 
 		if (s) { 
 		s.each(function(){ 
@@ -283,5 +252,4 @@ function _resetStyle(){
 		igk.winui.style_editor.setProperties(p);
 	}
 });
-
 })();

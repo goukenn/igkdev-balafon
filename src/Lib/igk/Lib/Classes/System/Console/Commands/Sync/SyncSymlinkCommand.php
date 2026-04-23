@@ -14,6 +14,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
+
 /**
  * sync ftp project
  * @package IGK\System\Console\Commands
@@ -78,7 +79,6 @@ class SyncSymlinkCommand extends SyncAppExecCommandBase
         $install = $pdir."/_symlink.php";
         igk_io_w2file($file, $content);
         ftp_put($h, $install, $file);
-        // $dir = igk_io_expand_path($dir);
         $rp = new Replacement;
         $rp->add("/%module%/", $setting["application_dir"]."/Packages/Modules");
         $rp->add("/%lib%/", $setting["lib_dir"]);

@@ -6,13 +6,15 @@
 namespace IGK\System\Exceptions;
 use IGKException;
 use function igk_resources_gets as __; 
+
 /**
-* represent a igk not implement exception
+* Not implement exception
+* @package {IGK\System\Exceptions}
 */
 class NotImplementException extends IGKException{
     /**
-    * auto generate doc.
-    * @param mixed $func
+    * .ctr
+    * @param ?string $func
     */
     public function __construct($func){
         parent::__construct(__("Not implement [{0}]", $func));

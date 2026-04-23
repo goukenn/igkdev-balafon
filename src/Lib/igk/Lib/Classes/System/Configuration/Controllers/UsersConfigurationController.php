@@ -28,6 +28,7 @@ use IGKSysUtil;
 use IGKValidator;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * class used to register global user in system
  */
@@ -45,9 +46,7 @@ class UsersConfigurationController extends ConfigControllerBase
     const NOTIFY_KEY = 'sys://uc/auf';
     /**
     * auto generate doc.
-    */    // public function __user_info(){
-    //     igk_init_user_info();
-    // }
+    */    
     public static function ViewAction($a)
     {
         $ctrl = self::ctrl();
@@ -114,7 +113,6 @@ class UsersConfigurationController extends ConfigControllerBase
         if ($r = Users::select_row($condition)){
             if ($r->clStatus == 1) {
                 igk_app()->session->lastLogin = $r->clLastLogin;
-                //+ | update the last login 
                 Users::update(
                     ["clLastLogin" =>
                     QueryBuilder::Expression("CURRENT_TIMESTAMP")],
@@ -140,7 +138,6 @@ class UsersConfigurationController extends ConfigControllerBase
                 $log = $log . "@" . igk_configs()->website_domain;
             }
             $tab = self::GetCheckCondition($log, $pwd); 
-            // $tab = ["clLogin" => $log, "clPwd" => $crypt_pwd];
             $t = $e->searchEqual($tab);
             if ($t && is_object($t)) {
                 if ($t->clStatus == 1) {
@@ -318,7 +315,6 @@ class UsersConfigurationController extends ConfigControllerBase
             return;
             igk_reg_hook(IGKEvents::HOOK_DB_TABLECREATED, function ($e) {
                 if (($e->args["1"] == Users::table())) {
-                    // TODO : wait for init complete to init data
                     $this->setEnvParam('table_created_callback', $fc =  function(){
                         $this->initDataEntry();
                         $fc = $this->getEnvParam('table_created_callback');
@@ -332,7 +328,6 @@ class UsersConfigurationController extends ConfigControllerBase
             });
         }
     }
-    ///insert data base
     /**
      * Initialize default users
      */
@@ -487,7 +482,6 @@ class UsersConfigurationController extends ConfigControllerBase
             $user->clDisplay = igk_getv($_edata, "name");
             $user->clLocale = igk_getv($_edata, "locale");
             $user->clPicture = igk_getv($_edata, "picture");
-            // $user->update();
             if (($ad = igk_get_data_adapter($this->getDataAdapterName())) && $ad->connect()) {
                 $ad->update($this->getDataTableName(), $user);
                 $ad->close();
@@ -521,7 +515,6 @@ class UsersConfigurationController extends ConfigControllerBase
     public function setUser($u)
     { 
         if (is_object($u)){ 
-            //+ check that the current user exists
             $tu = ["clId" => $u->clId, "clLogin" => $u->clLogin];
             $k = Users::select_row($tu);
             if ($k) {
@@ -562,7 +555,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         $u = $this->getUser(igk_getr("id"));
         if ($u) {
-            // too
             if ($u->clStatus == 1) {
                 $u->clStatus = 2;
             } else
@@ -614,8 +606,6 @@ class UsersConfigurationController extends ConfigControllerBase
             $o->clLogin = strtolower($o->clLogin);
             unset($o->clRePwd);
             unset($o->clAcceptCondition);
-            // if($o->clPwd)
-            //     $o->clPwd= IGKSysUtil::Encrypt($o->clPwd);
             $i = 0;
             if (Users::Get('clLogin', $o->clLogin)) {
                 $not->danger(__('user already register'));
@@ -829,26 +819,8 @@ class UsersConfigurationController extends ConfigControllerBase
             HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), 
                 $v->clStatus == 2 ? 'active_16x16': "drop_16x16" );
         }, $condition, null);
-        // if (igk_environment()->isDev()){
-        //     $frm->ajxa($this->getUri('update_ajx'))->Content = 'update_ajx';       
-        // }
         return $this;
     }
-    // public function update_ajx(){
-    //     Users::delete(['clLogin'=>'dummy@igkdev.com']);
-    //     $_REQUEST = [
-    //         'clLogin'=>'dummy@igkdev.com',
-    //         'clFirstName'=>'first',
-    //         'clLastName'=>'first - last',
-    //         'clPwd'=>'dummy123',
-    //         'clRePwd'=>'dummy123',
-    //         'confirm'=>1
-    //     ];
-    //     $this->uc_auf();
-    //     $not = igk_notifyctrl(self::NOTIFY_KEY);
-    //     $not->addSuccess('udpate_ajx');
-    //     igk_navto($this->getUri('showConfig'));
-    // }
     /**
     * Change user password.
     * @param mixed $userid

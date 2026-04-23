@@ -5,6 +5,7 @@
 namespace IGK\System\Regex;
 use Closure;
 use IGK\Core\Traits\NoDynamicPropertyTrait;
+
 /**
 * 
 * @package IGK\System\Regex
@@ -49,7 +50,6 @@ class Replacement{
                 $source = preg_replace($v->pattern, $v->replace, $source);
             }
         }
-        // $error = preg_last_error();
         return $source;
     }
     /**

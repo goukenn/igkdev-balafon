@@ -5,6 +5,7 @@
 // @desc: object config
 namespace IGK\System\IO\Configuration;
 use JsonSerializable;
+
 /**
  * configuration object
  * @package IGK\System\IO\Configuration

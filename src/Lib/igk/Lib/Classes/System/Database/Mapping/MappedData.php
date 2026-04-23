@@ -10,6 +10,7 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database\Mapping
@@ -55,7 +56,6 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     * @param mixed $v
     */
     public function __set($n, $v){
-        // $this->$n = $v;
         $this->m_data[$n] = $v;
     }
     /**

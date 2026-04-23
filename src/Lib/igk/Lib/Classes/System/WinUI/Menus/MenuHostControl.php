@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\WinUI\Menus;
 use IGKObject;
+
 /**
 * Menu host control.
 * @package IGK\System\WinUI\Menus

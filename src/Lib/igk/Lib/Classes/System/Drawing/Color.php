@@ -10,6 +10,7 @@
 namespace IGK\System\Drawing;
 use IGK\System\Number;
 use IGKObject;
+
 /**
 * Color.
 * @package IGK\System\Drawing

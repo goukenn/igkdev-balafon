@@ -9,6 +9,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGKException;
 use function igk_resources_gets as __;
+
 /**
 * Db drop command.
 * @package IGK\System\Console\Commands

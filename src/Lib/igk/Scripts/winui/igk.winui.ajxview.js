@@ -7,8 +7,6 @@ igk.system.createNS("igk.winui.ajxview",
 		(function(q){$ns_igk.ready(function(){$ns_igk.ajx.apost(uri, null, function(xhr){ if (this.isReady()){
 				var s = igk.createNode("dummy");
 				var t = igk.utils.getBodyContent(xhr.responseText);
-				
-				
 				if (func) 
 					func.apply(this, [{response: s}]); 
 				else  {
@@ -18,9 +16,7 @@ igk.system.createNS("igk.winui.ajxview",
 				}
 				} 
 			}) 
-		
 		} );})($ns_igk.getParentScript());
 	}
 });
-
 })();

@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
@@ -16,7 +15,6 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKAppleIconCtrl class
 */
 abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
-
     /**
     * auto generate doc.
     */    public static function GetAdditionalConfigInfo(){
@@ -29,27 +27,22 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             ))
         );
     }
-
     /**
     * auto generate doc.
     */    public function getAppleIcon(){
         $tb=explode(',', $this->Configs->clAppleIconUri);
         return $tb;
     }
-
     /**
     * auto generate doc.
     */    public function getCanAddChild(){
-    
         return false;
     }
-
     /**
     * auto generate doc.
     */    public function getIsVisisble():bool{
         return true;
     }
-
     /**
     * auto generate doc.
     */    protected function initComplete($context=null){
@@ -81,13 +74,11 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             }
         }
     }
-
     /**
     * auto generate doc.
     */    protected function initTargetNode(): ?HtmlNode{
         return null;
     }
-
     /**
     * auto generate doc.
     * @param * $t
@@ -96,13 +87,11 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
         $t["clAppleIconUri"]=igk_getr("clAppleIconUri");
         $t["clAppleTouchIconType"]=igk_getr("clAppleTouchIconType");
     }
-
     /**
     * View.
     * @return BaseController
     */
     public function View():BaseController{
-        // DO NOTHING
         return $this;
     }
 }

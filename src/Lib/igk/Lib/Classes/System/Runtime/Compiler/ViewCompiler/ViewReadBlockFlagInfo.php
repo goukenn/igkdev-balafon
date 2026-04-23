@@ -3,6 +3,7 @@
 // @file: ViewReadConditionFlagInfo.php
 // @date: 20221027 08:04:10
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler

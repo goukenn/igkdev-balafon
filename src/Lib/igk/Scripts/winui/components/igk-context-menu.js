@@ -2,19 +2,16 @@
 (function () {
     // controller setting up
     var m_contextMenu;
-
     function __ctr() {
         var m_target = igk.createNode("ul");
         m_target.addClass("igk-context-menu");
         var q = this;
         m_target.addClass("posfix");
-
         function __click(evt) {
             q.close();
             // evt.stopPropagation();
             // evt.preventDefault();
         }
-
         function __scroll(evt) {
             var b = $igk(q.contextCibling).getScreenLocation();
             var p = q.ciblingpos;
@@ -22,14 +19,12 @@
                 q.close();
             }
         }
-
         function __loadItemTo(n, t) {
             t = $igk(t);
             for (var i = 0; i < t.getChildCount(); i++) {
                 __loadItem(n.add("li"), t.o.childNodes[i]);
             }
         };
-
         function __loadItem(n, t) {
             if (!t.tagName)
                 return;
@@ -137,11 +132,9 @@
             );
             v = 0;
         };
-
         function __q_click(evt) {
             q.close();
         };
-
         function __q_scroll(evt) {
             q.close();
         };

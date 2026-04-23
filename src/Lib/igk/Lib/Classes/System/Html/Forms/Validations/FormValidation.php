@@ -9,6 +9,7 @@ use IGK\Helper\StringUtility;
 use IGKException;
 use IGKObjStorage;
 use function igk_resources_gets  as __;
+
 require_once __DIR__ . "/IFormValidator.php";
 require_once __DIR__ . "/IFormPatternValidator.php";
 /**
@@ -94,10 +95,8 @@ class FormValidation
         $result = false;
         $out_data = [];
         foreach ($this->_fields as $k => $data) {
-            if (igk_getv($data, "type") == "file") { // filter files
+            if (igk_getv($data, "type") == "file") { 
                 $validator = new FileValidator();
-                // $validator->fieldInfo = $data;
-                // $validator->name = $k;
                 $storage = new IGKObjStorage($data);
                 $storage->name = $k;
                 $v = igk_getv($filedata, $k);
@@ -155,7 +154,7 @@ class FormValidation
                     $storage = new FormFieldObjStorage($data);
                     $storage->name = $k;
                     if ($storage->required && ($v === null)) {                        
-                        if (!key_exists($k, $request)){ //  && !isset($request[$k])) {
+                        if (!key_exists($k, $request)){ 
                             $this->m_errors[$k] = "missing value.";
                             continue;
                         }
@@ -163,8 +162,6 @@ class FormValidation
                     if(is_null($v) && $this->skipNullValue){
                         continue;
                     }
-                    //+ object field validation 
-                    //+ in order to disable recursion just use props data while
                     if (is_object($v) || is_array($v)) {
                         $validator = igk_getv($data,'validator');
                         $default = igk_getv($data,'default');
@@ -184,11 +181,6 @@ class FormValidation
                         }
                         continue;
                     } 
-                    // if ((empty($v) || (strlen($v) == 0)) && $storage->required) {
-                    //     $this->m_errors[] = __("form validation {0} is required", $k);
-                    //     continue;
-                    // }
-                    // validate field 
                     $_v = $this->getValidator($storage->type);
                     if ($_v instanceof IFormPatternValidator) {
                         $_v->setPattern($storage->pattern);
@@ -199,13 +191,11 @@ class FormValidation
                         'default' => $storage->default,
                         'required' => $storage->required,
                         'allowNull' => $storage->allowNull,
-                        //'error'=>& $v_e,
                         'name' => $k,
                         'fieldInfo' => $storage
                     ]);
                     $v_value->error = &$v_e;
-                    // $v = $_v->validate($v, $storage->default, $v_e, $storage->isRequired, $storage->allowNull);                    
-                    $v = $_v->validate($v_value); // , $storage->default, $v_e, $storage->isRequired, $storage->allowNull);                    
+                    $v = $_v->validate($v_value); 
                     if (empty($v_e)) {
                         $out_data[$k] = $v;
                     } else {

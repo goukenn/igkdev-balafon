@@ -3,7 +3,6 @@
 // @file: FlattenPathTest.php
 // @date: 20230118 21:03:32
 namespace IGK\Tests\System\IO\Path;
-
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
@@ -12,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\IO\Path
 */
 class FlattenPathTest extends BaseTestCase{
-
     /**
     * Tests resolv.
     */
@@ -22,7 +20,6 @@ class FlattenPathTest extends BaseTestCase{
             Path::FlattenPath('../assets/_prj_/CarRental/Data/../assets/css/animate.min.css')
         ); 
     }
-
     /**
     * Tests resolv combine.
     */
@@ -32,7 +29,6 @@ class FlattenPathTest extends BaseTestCase{
             Path::FlattenPath(Path::Combine('../assets/_prj_/CarRental/Data', '../assets/css/animate.min.css'))
         ); 
     }
-
     /**
     * Tests resolv combine 1.
     */

@@ -3,11 +3,7 @@
 // @filename: StringUtilityTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/Helper/StringUtilityTest.php
-
-
 namespace IGK\Tests\Helper;
-
 use IGK\Constants;
 use IGK\Helper\MenuUtils;
 use IGK\Helper\StringUtility;
@@ -21,7 +17,6 @@ use IGK\Tests\BaseTestCase;
 */
 class StringUtilityTest extends BaseTestCase
 {
-
     /**
     * Tests stringutility uri start.
     */
@@ -40,7 +35,6 @@ class StringUtilityTest extends BaseTestCase
             StringUtility::UriStart( "$buri",  "{$buri}/"),
             "not matching equal"
         );
-
         $this->assertTrue(
             StringUtility::UriStart( "{$buri}/Sample/DAta",  "$buri"),
             "not matching equal"
@@ -52,25 +46,21 @@ class StringUtilityTest extends BaseTestCase
             )
         );
     }
-
     /**
     * Tests identifier.
     */
     public function test_identifier()
     {
-
         $this->assertEquals(
             null,
             StringUtility::Identifier("45698"),
             "identifier must return null value"
         );
-
         $this->assertEquals(
             '__45698',
             StringUtility::Identifier("__45698"),
             "identifier must return null value"
         );
-
         $this->assertEquals(
             '__4569_m8',
             StringUtility::Identifier("__4569_m8"),
@@ -82,7 +72,6 @@ class StringUtilityTest extends BaseTestCase
             "identifier : test 4"
         );
     }
-
     /**
     * Tests get uri value.
     */
@@ -102,7 +91,6 @@ class StringUtilityTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests get constant name.
     */
@@ -134,34 +122,27 @@ class StringUtilityTest extends BaseTestCase
              $prefix  . StringUtility::GetConstantName('__UserId'),
             "CASE 5 failed"
         );
-        // test with space content
         $this->assertEquals(
             $prefix. "USER_ID",
              $prefix  . StringUtility::GetConstantName('__User Id'),
             "CASE 6 failed"
         );
-        // test with all __
         $this->assertEquals(
             $prefix. "USER_ID",
              $prefix  . StringUtility::GetConstantName('__User Id__'),
             "CASE 6 failed"
         );
     }
-
     /**
     * Tests read array expression.
     */
     public function test_read_array_expression()
     {
         $src = "security=\"sample\", action=[\"one\", \"info\"]";
-
         $g = StringUtility::ReadArgs($src);
-
         $s = ["security" => "sample", "action" => ["one", "info"]];
-
         $this->assertTrue($g == $s);
     }
-
     /**
     * Tests stringutility read arg array.
     */
@@ -171,7 +152,6 @@ class StringUtilityTest extends BaseTestCase
         $s = [['BearerAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-
     /**
     * Tests stringutility read arg array 2.
     */
@@ -181,7 +161,6 @@ class StringUtilityTest extends BaseTestCase
         $s = [['BearerAuth', 'basic\'sample']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-
     /**
     * Tests stringutility read arg constant.
     */
@@ -191,7 +170,6 @@ class StringUtilityTest extends BaseTestCase
         $s = [['BearerAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-
     /**
     * Tests stringutility read arg constant multiple.
     */
@@ -201,7 +179,6 @@ class StringUtilityTest extends BaseTestCase
         $s = [['BearerAuth', 'BasicAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-
     /**
     * Tests stringutility read arg constant multiple 3.
     */

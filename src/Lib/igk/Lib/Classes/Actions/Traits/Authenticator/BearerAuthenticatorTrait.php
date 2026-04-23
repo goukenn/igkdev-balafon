@@ -14,6 +14,7 @@ use IGK\System\Core\Security\AuthenticationInfo;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits\Authenticator
@@ -34,7 +35,7 @@ trait BearerAuthenticatorTrait
     * Property: bearer authenticator cookie life constants.
     * @var mixed
     */
-    protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    // 60 days
+    protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    
     /**
      * retrieve user from server token service - connection must be store in action's controller table
      * @param bool $update 
@@ -106,7 +107,6 @@ trait BearerAuthenticatorTrait
                     'rememberme' => $rememberme
                 ]
             );
-            // connexion token - 
             $v_con::create([
                 $v_con::FD_CL_USER_GUID => $user->clGuid,
                 $v_con::FD_CL_TOKEN => $token,

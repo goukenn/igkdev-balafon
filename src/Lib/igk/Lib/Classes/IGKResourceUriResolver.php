@@ -13,6 +13,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 */
@@ -113,7 +114,6 @@ class IGKResourceUriResolver
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
         $public_asset = Path::getInstance()->getPublicAssetDir();
-        // possibility that file are symlink 
         if (($c = $app_dir."/Lib/igk") != IGK_LIB_DIR){        
             $this->environment[$c] = ResIdentifierConstants::LIBRARY;
         }
@@ -139,7 +139,6 @@ class IGKResourceUriResolver
             if (strpos($chain, $this->m_hashPath) === 0) {
                 $dir = substr($chain, strlen($this->m_hashPath)+1);
                 $v_path = substr($chain, strlen(IGK_RES_FOLDER . "/" . $j ), strlen($this->m_hashPath) - strlen(IGK_RES_FOLDER . "/" . $j ));
-                // hash no 
                 $chain = implode("/", array_filter([IGK_RES_FOLDER , $j , sha1($v_path), $dir]));
             }
         }
@@ -182,7 +181,6 @@ class IGKResourceUriResolver
         if (empty($path))
             return null;
         $fulluri = $this->fulluri || igk_is_ajx_demand();        
-        // $initHash = igk_getv($options, "initHash");
         $this->m_options = $options;        
         $buri = explode("?", $path);
         $path = $buri[0];
@@ -237,7 +235,6 @@ class IGKResourceUriResolver
         $v_cpath = igk_io_collapse_path($rp);
         $v_res_path = $this->_getResPath($v_cpath);
         $v_bdir = igk_io_basedir();
-        // create a symlink or 
         if (!igk_io_file_exists($fc = Path::Combine($v_bdir, $v_res_path), true)){
             // + | missing - create a link to 
             if (!igk_io_symlink($rp, $fc)) {
@@ -281,7 +278,6 @@ class IGKResourceUriResolver
         $uri = "";
         if (!igk_io_is_subdir($bdir, $rp)) {
             $tab = $this->environment;
-            // $v_brpath = igk_io_baserelativepath($rp);
             foreach ($tab as $i => $j) {
                 if (igk_io_is_subdir($i, $rp)) {
                     $s = $j;
@@ -291,7 +287,6 @@ class IGKResourceUriResolver
                         $chain = $b($n, $rp);
                     } else {
                         $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
-                       //$o = igk_io_basedir($chain);
                     }
                     if ($fulluri)
                         return igk_io_baseuri($chain);
@@ -302,7 +297,6 @@ class IGKResourceUriResolver
             if ($gs_uri) {
                 $gs_uri = preg_replace("#(\.\./)+#", "_oth_/", $gs_uri);
                 $chain = igk_uri(IGK_RES_FOLDER . "/" . $gs_uri);
-                // $o = igk_io_basedir($chain);
                 $outlink = null;
                 if ($fulluri) {
                     $outlink = igk_io_baseuri($chain);

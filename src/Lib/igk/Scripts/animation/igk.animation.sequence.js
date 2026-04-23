@@ -2,18 +2,15 @@
 "use strict";
 (function() {
     //order is important
-
     igk.system.createNS("igk.animation", {
         sequence: function() {
             //
             //sequence objet
             //
-
             var m_sq = new igk.system.collections.list();
             var m_a = false;
             var m_i = 0;
             var self = this;
-
             function __sequencetrans(evt) {
                 if (m_a) {
                     // console.debug("end ... "+m_i);
@@ -21,7 +18,6 @@
                         m_i = -1;
                         // console.debug("reset loop");
                     }
-
                     if (m_i < (m_sq.getCount() - 1)) {
                         m_i++;
                         var s = m_sq.getItemAt(m_i);
@@ -31,10 +27,8 @@
                         //teminate
                         m_a = false;
                     }
-
                 }
             };
-
             function __loadv(q) {
                 var s = m_sq.getItemAt(m_i);
                 var n = s.properties[0];
@@ -52,7 +46,6 @@
                     this.target.unreg_event('transitionend', __sequencetrans);
                     var m = s.properties[0] + ' ' + s.duration + ' ' + (s.effect || 'ease-in-out');
                     this.target.setCss({ transition: m });
-
                     var q = this;
                     setTimeout(function() {
                         m_a = true;
@@ -61,10 +54,8 @@
                         q.target.o.style[n] = s.value;
                         q.target.reg_event('transitionend', __sequencetrans);
                     }, q.timeout);
-
                 },
                 stop: function() {
-
                 },
                 pause: function() {},
                 add: function(s) {
@@ -83,20 +74,13 @@
     igk.system.createNS("igk.animation.sequence", {
         //sequence namespace
         init: function() {
-
         }
     });
-
-
-
     //alert(igk.animation.sequence.init);
     //demonstration of sequence builder
     // igk.ready(function(){
-
     // $igk(document.body).setHtml("");
     // var d = igk.createNode('div');
-
-
     // d.setHtml("info").setCss({
     // border: '1px solid black',
     // width: '200px',
@@ -105,8 +89,6 @@
     // top:'0px',
     // transition: 'all 1.2s'
     // });//.addClass('igk-trans-all');
-
-
     // var s = new igk.animation.sequence();
     // s.target = d;
     // s.add({properties:['background-color'], value:"black", duration:'0.8s'});
@@ -120,14 +102,10 @@
     // s.start();
     // });
 })();
-
-
 // (function(){
 // igk.system.createNS("igkdev://",{
 // info:function(){
 // }
 // });
-
-
 // alert(window["igkdev://"]);
 // })();

@@ -3,12 +3,10 @@
 // @filename: igk_constants.php
 // @date: 20220803 13:34:31
 // @desc: core constant definition  
-//----------------------------------------------------------------------------------------
 // + | -- define core constants 
-//----------------------------------------------------------------------------------------
+
 define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");
-// manually set display version 
 !defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", '2026.0'); 
 !defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.0421");
 define("IGK_CORE_VERSION", "22.0");
@@ -37,11 +35,8 @@ define("IGK_GIT_URL", "https://github.com/goukenn/igkdev-balafon");
 define("IGK_GIT_DRSSTUDIO_URL", "https://github.com/goukenn/DrSStudio.git");
 define('IGK_PHP_MIN_VERSION', "7.3.0");
 define('IGK_FORM_FIELD_BLOCK_TAG_NAME','div');
- 
 define('IGK_SERVICE_PREFIX_PATH', 'sys://services/');
-
 define('IGK_DB_SCHEMA', 'https://igkdev.com/schemas/balafon.db.schemas.xsd');
-
 define('IGK_AUTHOR_COMMUNITY_INFO',[
     "mail" => "mailto:" . IGK_AUTHOR_CONTACT,
     "linkedin" => "https://www.linkedin.com/in/igkdevbondjedoue/",

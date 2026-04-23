@@ -3,6 +3,7 @@
 // @file: FormFieldValidationInfoTrait.php
 // @date: 20240910 10:23:19
 namespace IGK\System\Html\Forms\Validations\Traits;
+
 /**
 * 
 * @package IGK\System\Html\Forms\Validations\Traits

@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Controllers\ComponentManagerController;
 use IGK\IHtmlComponent;
+
 /**
 * represent the base component node item
 */

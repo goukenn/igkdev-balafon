@@ -5,6 +5,7 @@
 // @desc: represent xmld node base
 namespace IGK\System\Html\XML;
 use IGK\System\Html\Dom\HtmlItemBase; 
+
 /**
  * represent xml node base
  * @package IGK\System\Html\XML

@@ -11,6 +11,7 @@ use IGK\System\Services\SignProvider;
 use IGKException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use function igk_resources_gets as __ ;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Actions\Traits
@@ -53,7 +54,6 @@ trait FormLoginActionTrait{
         $loginSetting = null;
         if ($data = $options ? igk_getv($options, 'data') : null){
             $loginSetting = igk_getv($data, __FUNCTION__);
-            // convert to login form setting action.
         }
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();

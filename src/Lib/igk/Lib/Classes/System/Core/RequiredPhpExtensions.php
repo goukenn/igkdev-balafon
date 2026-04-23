@@ -3,6 +3,7 @@
 // @file: RequiredPhpExtensions.php
 // @date: 20260323 21:50:50
 namespace IGK\System\Core;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core

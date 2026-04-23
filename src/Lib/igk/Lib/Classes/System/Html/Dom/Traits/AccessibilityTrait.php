@@ -3,6 +3,7 @@
 // @file: AccessibilityTrait.php
 // @date: 20230315 09:24:56
 namespace IGK\System\Html\Dom\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom\Trait

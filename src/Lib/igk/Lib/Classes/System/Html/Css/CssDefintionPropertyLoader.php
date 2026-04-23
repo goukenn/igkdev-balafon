@@ -3,6 +3,7 @@
 // @file: CssDefintionPropertyLoader.php
 // @date: 20240212 09:53:43
 namespace IGK\System\Html\Css;
+
 /**
 * Use to load property data
 * @package IGK\System\Html\Css

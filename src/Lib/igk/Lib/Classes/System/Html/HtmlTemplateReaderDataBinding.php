@@ -10,6 +10,7 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\Templates\BindingConstants;
 use IGKException;
+
 /**
  * represent loop data binding
  */
@@ -67,9 +68,7 @@ class HtmlTemplateReaderDataBinding
         $ctrl = $this->ctrl;
         $cnode = $this->node;
         $engine = "";
-        // backup attribute
         $bck_attribs = $cnode->getAttributes()->to_array();
-        //$script_obj = igk_html_databinding_getobjforscripting($ctrl);
         $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;        
         $transformToEval = ($ctx = $this->context)? $ctx->transformToEval : false;
         // + | --------------------------------------------------------------------
@@ -99,9 +98,6 @@ class HtmlTemplateReaderDataBinding
                 ]);
                 if ($c) {
                     $attribs = $cnode->getAttributes()->to_array();
-                    // if ($raw instanceof HtmlBindingRawTransform){
-                    //     $raw->key = $key;
-                    // }
                     $engine .= trim(igk_html_wtag(
                         $v_gtag,
                         $c->render(),
@@ -111,7 +107,6 @@ class HtmlTemplateReaderDataBinding
                 }
             }
         }
-        // restore attribute 
         $cnode->clearAttributes();
         $cnode->setAttributes($bck_attribs);
         return $engine;

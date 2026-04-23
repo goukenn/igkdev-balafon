@@ -7,6 +7,7 @@ namespace IGK\System\Traits;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
 /**
  * enumerate constant values 
  */

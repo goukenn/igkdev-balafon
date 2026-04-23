@@ -12,6 +12,7 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
+
 /**
 * readonly data argument
 * @package IGK\System

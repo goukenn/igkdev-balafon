@@ -3,55 +3,45 @@
 // @filename: IGKGkdsFile.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\System\Drawing\Colorf;
 use IGK\System\Drawing\Vector2f;
 use IGK\System\Html\HtmlReader;
 
 define("IGK_GKDS_LAYERDOCUMENT", "LayerDocument");
-
 /**
 * auto generate doc.
 */
 final class IGKGkdsFile extends IGKObject
 {
-
     /**
     * Property: source.
     * @var mixed
     */
     private $m_source;
-
     /**
     * Property: gd.
     * @var mixed
     */
     private $m_gd;
-
     /**
     * Property: document.
     * @var mixed
     */
     private $m_document;
-
     /**
     * Returns GD.
     */
     public function getGD(){return $this->m_gd; }
-
     /**
     * Returns Document.
     */
     public function getDocument(){return $this->m_document; }
-
     /**
     * .ctr
     * @return
     */
     private function __construct(){
 	}
-
     /**
     * Parses To GD.
     * @param mixed $filename
@@ -60,7 +50,6 @@ final class IGKGkdsFile extends IGKObject
     public static function ParseToGD($filename, $index=0){
 		if (!defined("IGK_GD_SUPPORT") || !igk_io_file_exists($filename))
 			return null;
-
 		$doc = HtmlReader::LoadFile($filename);
 		if ($doc == null)
 			return null;
@@ -72,24 +61,20 @@ final class IGKGkdsFile extends IGKObject
 		$f->m_gd = IGKGD::Create($t["Width"], $t["Height"]);
 		$f->m_gd->clearf("white");
 		$f->_visit();
-
 		return $f;
 	}
-
     /**
     * auto generate doc.
     * @return
     */
     private function _restore(){
 	}
-
     /**
     * auto generate doc.
     * @return
     */
     private function _save(){
 	}
-
     /**
     * auto generate doc.
     * @return
@@ -101,7 +86,6 @@ final class IGKGkdsFile extends IGKObject
 				$this->$m($v);
 		}
 	}
-
     /**
     * Visit layer.
     * @param mixed $layer
@@ -113,7 +97,6 @@ final class IGKGkdsFile extends IGKObject
 				$this->$m($v);
 		}
 	}
-
     /**
     * Visit circle.
     * @param mixed $i
@@ -122,7 +105,6 @@ final class IGKGkdsFile extends IGKObject
 		$c = Vector2f::FromString($i["Center"]);
 		$t = explode(" ", $i["Radius"]);
 		$r = 0;
-
 		if (count($t) == 1)
 		{
 			$r = Vector2f::FromString($i["Radius"]);
@@ -133,7 +115,6 @@ final class IGKGkdsFile extends IGKObject
 		$this->GD->FillEllipse(Colorf::FromString("red")->toByte(),  $c, $r);
 		$this->GD->DrawEllipse(Colorf::FromString("black"),  $c, $r);
 	}
-
     /**
     * Renders Picture.
     */
@@ -141,7 +122,6 @@ final class IGKGkdsFile extends IGKObject
 		header("Content-Type: image/png");
 		$this->GD->render();
 	}
-
     /**
     * Dispose.
     */

@@ -13,6 +13,7 @@ use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
 use IGKEvents;
+
 /**
 * 
 * @package IGK\Controllers\Traits
@@ -46,7 +47,7 @@ trait ControllerDbExtensionTrait{
                 ) {
                     $table = igk_db_get_table_name($table, $ctrl);
                     $func();
-                    $db->dropTable($table); // ctrl->getDataTableName());
+                    $db->dropTable($table); 
                     $db->close();
                 }
             } else {
@@ -101,7 +102,6 @@ trait ControllerDbExtensionTrait{
                 (($is_obj && $info->clLinkType) || is_string($info)) &&
                 ($query = $ad->grammar->remove_foreign($table, $name))
             ) {
-                // remove foreign queries
                 $ad->sendMultiQuery($query);
             }
             $query = $ad->grammar->rm_column($table, $name);
@@ -121,7 +121,6 @@ trait ControllerDbExtensionTrait{
     {
         $ad = self::getDataAdapter($ctrl);
         ColumnMigrationInjector::Inject($ad, $table, [new ColumnMigrationInjector($info), "add"]);
-        //$r = array_values(DbSchemas::$sm_schemas);
         if (!$ad->exist_column($table, $info->clName)) {
             if ($query = $ad->grammar->add_column($table, $info, $after)) {
                 if ($ad->sendQuery($query)) {
@@ -164,7 +163,6 @@ trait ControllerDbExtensionTrait{
                 }
             } else {
                 if(strtolower($column) == strtolower($new_column_name)){
-                    // new column resolving. changing with case sensitivity
                      $query = $ad->grammar->rename_column($table, $column, $new_column_name);
                     if ($query){
                        return $ad->sendQuery($query);  
@@ -172,13 +170,6 @@ trait ControllerDbExtensionTrait{
                 }
                 Logger::warn(sprintf('target column already exists : %s.%s ',$table, $new_column_name ));
                 return false;
-                //remove last column - add new column with n_info- because au case sensivity
-                //$query = $ad->grammar->rename_column($table, $column, $new_column_name);
-                //if ($query){
-                //    return $ad->sendQuery($query);             
-                //} else {
-                    // server do not support rename of column.
-                //}
             }
         }
         return false;
@@ -266,7 +257,6 @@ trait ControllerDbExtensionTrait{
     {
         $ad = self::getDataAdapter($ctrl); 
         if ($ad->exist_column($table, $info->clName)) {
-            // drop foreign key if column 
             $ad->drop_foreign_key($table, $info);
             if ($query = $ad->grammar->change_column($table, $info)) {
                 if ($r = $ad->sendQuery($query)) {

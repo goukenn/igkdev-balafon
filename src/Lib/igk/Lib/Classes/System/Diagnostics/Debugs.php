@@ -3,6 +3,7 @@
 // @file: Debugs.php
 // @date: 20260228 20:57:47
 namespace IGK\System\Diagnostics;
+
 /**
 * contains debug constant
 * @package IGK\System\Diagnostics

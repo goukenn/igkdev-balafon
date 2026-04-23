@@ -1,5 +1,4 @@
 <?php
-
 // installer.helper.pinc
 // use IGK\Traits\BacktickHelperCommandTrait;
 
@@ -10,7 +9,6 @@
 class InstallerHelper
 {
     use BacktickHelperCommandTrait;
-
     /**
      * 
      * @param string $bdir 
@@ -38,14 +36,12 @@ class InstallerHelper
         }
         return $bdir;
     }
-   
     /**
      * retrieve php binary location 
      * @return string 
      */
     public static function GetPhpBinary(){
         // depending of provider 
-
         if (empty(PHP_BINARY)){
             $php_ini = php_ini_loaded_file();
             list($v,$m) = array_slice(explode('.', PHP_VERSION), 0, 2);
@@ -54,11 +50,9 @@ class InstallerHelper
             if (file_exists($f)){
                 return $f;
             }
-
             $tab = [
                 '8.2'=>'/usr/local/php8.2/bin/php'
             ];
-
             if (isset($tab[$core])){
                 $f = $tab[$core];
                 if (file_exists($f))
@@ -70,7 +64,6 @@ class InstallerHelper
         }
         return PHP_BINARY;
     } 
-
     /**
      * remove all files - recursivily 
      * @param string $dir 
@@ -81,7 +74,6 @@ class InstallerHelper
         if (!is_dir($dir)){
             return false;
         }
-        
         $tf = [$dir];
         $rmdir = [];
         while(count($tf)>0){
@@ -150,7 +142,6 @@ class InstallerHelper
             while (count($thdir) > 0) {
                 $q = array_shift($thdir);
                 if ($hdir = opendir($q)) {
-    
                     $path = substr($q, $ln);
                     while ($m = readdir($hdir)) {
                         if (($m == ".") || ($m == "..")) {

@@ -3,7 +3,6 @@
 // @file: LoopHostTest.php
 // @date: 20240123 10:31:32
 namespace IGK\Tests\System\Html\Dom;
-
 use IGK\Controllers\SysDbController;
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Html\IHtmlNodeEvaluableExpression;
@@ -18,13 +17,11 @@ use IGK\System\Html\Templates\Engine\Traits\ExpressionEvalEngineTrait;
 class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
 {
     use ExpressionEvalEngineTrait;
-
     /**
     * Property: value.
     * @var mixed
     */
     private $m_value;
-
     /**
     * .ctr
     * @param string $content
@@ -33,26 +30,22 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     {
         $this->m_value = $content;
     }
-
     /**
     * Returns Value.
     * @return ?string
     */
-
     public function getValue(): ?string
     {
         return $this->m_value;
     }
-
     /**
     * Evaluate.
     * @param mixed $context
     * @return mixed
     */
-
     public function evaluate($context): mixed
     {
-        return self::EvalBindingExpression($this->m_value, (array)$context); // "data";
+        return self::EvalBindingExpression($this->m_value, (array)$context); 
     }
 }
 /**
@@ -60,14 +53,12 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
  * @package IGK\Tests\System\Html\Dom
  * @author C.A.D. BONDJE DOUE
  */
-
 /**
 * auto generate doc.
 * @package IGK\Tests\System\Html\Dom
 */
 class LoopHostTest extends BaseTestCase
 {
-
     /**
     * auto generate doc.
     * @param string $content
@@ -77,7 +68,6 @@ class LoopHostTest extends BaseTestCase
     {
         return new HtmlEvalExpression($content);
     }
-
     /**
     * auto generate doc.
     * @return mixed
@@ -95,7 +85,6 @@ class LoopHostTest extends BaseTestCase
         ]);
         return $node->render();
     }
-
     /**
     * auto generate doc.
     * @return
@@ -112,7 +101,6 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
-
     /**
     * Tests loop with sub range.
     */
@@ -128,7 +116,6 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
-
     /**
     * Tests loop complex.
     */
@@ -148,7 +135,6 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
-
     /**
     * Tests loop second complex loop.
     */
@@ -164,14 +150,11 @@ class LoopHostTest extends BaseTestCase
                             'loop($raw) > span' => ' child .... {{ $raw }}'
                         ],
                     ],
-                    // ['li'=>$this->evalExpression('select : {{ $raw }}')],
-                    // 'loop([[:@raw["count"]]])' => 'item {{ $raw }}'
                 ],
                 'p' => $this->evalExpression('after {{ $raw->x | json }}')
             ])
         );
     }
-
     /**
     * Tests loop html rendering.
     */

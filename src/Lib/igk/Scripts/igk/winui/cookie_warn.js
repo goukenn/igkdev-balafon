@@ -15,18 +15,14 @@
                 igk.web.setcookies(q.getAttribute("igk-domain-ewarn"), 1);
             });
         }
-
         q.reg_event("transitionend", function(e) {
             // console.debug("transition end");
             // console.debug("height "+q.getComputedStyle("height"));
-
             if ((e.target == q.o) && (e.propertyName == 'height')) {
                 if (q.getcomputedStyle("height") == "0px") {
-
                     q.remove();
                 }
             }
         });
-
     });
 })();

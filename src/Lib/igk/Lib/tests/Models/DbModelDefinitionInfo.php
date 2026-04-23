@@ -3,7 +3,6 @@
 // @file: DbModelDefinitionInfo.php
 // @date: 20230307 15:36:03
 namespace IGK\Tests\Models;
-
 use IGK\System\Database\SchemaMigrationInfo;
 use IGK\Tests\BaseTestCase;
 
@@ -12,5 +11,4 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\Models
 */
 class DbModelDefinitionInfo extends SchemaMigrationInfo{
-
 }

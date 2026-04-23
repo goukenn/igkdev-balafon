@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
+
 /**
 * Trait providing config array access functionality.
 * @package IGK\System\Configuration

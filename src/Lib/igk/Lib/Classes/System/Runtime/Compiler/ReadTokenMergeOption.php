@@ -3,6 +3,7 @@
 // @file: ReadTokenMergeOption.php
 // @date: 20221024 10:31:39
 namespace IGK\System\Runtime\Compiler;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler

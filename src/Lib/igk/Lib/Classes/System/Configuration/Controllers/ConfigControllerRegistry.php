@@ -12,6 +12,7 @@ use IGK\System\Diagnostics\Benchmark;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
 /**
  * config controller registry
  * @package IGK\System\Configuration\Controllers
@@ -36,7 +37,7 @@ class ConfigControllerRegistry
     {
         if (self::$sm_regComplete === null)
             self::$sm_regComplete = array();
-        $register = $ctrl && ($ctrl instanceof IRegisterOnInitController); // in_array(IRegisterOnInitController::class,  class_implements($ctrl, false));
+        $register = $ctrl && ($ctrl instanceof IRegisterOnInitController); 
         if (($ctrl !== null) && (!$register || $ctrl->getCanRegisterOnInit())) {
             self::$sm_regComplete[] = $ctrl;
         }
@@ -96,10 +97,9 @@ class ConfigControllerRegistry
      */
     public static function GetResolvController():array
     {
-        // merge controller view configuration controllers. 
         $resolv_ctrl = ApplicationControllerManager::GetResolvController();
         if ($jump = igk_environment()->get(self::LOADED_CONFIG_CTRL)) {
-            $resolv_ctrl = array_merge($resolv_ctrl, $jump); // array_combine(array_keys($jump), array_values($jump)));
+            $resolv_ctrl = array_merge($resolv_ctrl, $jump); 
         }
         return $resolv_ctrl;
     }
@@ -113,15 +113,10 @@ class ConfigControllerRegistry
     public static function ResolvAndInitControllers()
     {
         //
-        // load configuration controller 
-        // init all because must be required
-        // 
         if ($d = igk_environment()->get($key = "init_resolv_ctrls")){
             return $d;
         }
-       //  igk_die(__METHOD__.":: Not implement get configuration controller - Basics");
         $v_load_controller = igk_app()->getControllerManager()->getControllerRef();
-        // igk_wln_e($v_load_controller, __FILE__.":".__LINE__, );
         $resolv_ctrl = self::GetResolvController();
         foreach ($resolv_ctrl as $k => $v) {
             if (!isset($v_load_controller[$v])) {

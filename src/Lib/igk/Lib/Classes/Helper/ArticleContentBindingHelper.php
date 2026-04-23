@@ -7,6 +7,7 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
+
 /**
 * Article content binding helper.
 * @package IGK\Helper

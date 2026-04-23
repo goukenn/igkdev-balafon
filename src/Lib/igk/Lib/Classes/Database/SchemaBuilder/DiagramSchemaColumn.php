@@ -4,6 +4,7 @@
 // @date: 20231222 14:36:31
 namespace IGK\Database\SchemaBuilder;
 use IGK\Database\DbColumnInfo;
+
 /**
 * diagram schema column
 * @package IGK\Database\SchemaBuilder

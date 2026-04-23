@@ -49,6 +49,7 @@ use mysqli;
 use ReflectionException;
 use TypeError;
 use function igk_resources_gets as __;
+
 /**
  *  USE TO CONFIGURE MYSQL DATABASE ACCESS
  */
@@ -153,7 +154,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_exit();
         }
         if (preg_match("/^SELECT /i", $q)) {
-            // counting  
             $g = $mysql->sendQuery("SELECT COUNT(*) as count FROM (" . $mysql->escape_string($q) . ") as dummy");
             if ($g) {
                 if ($g instanceof BooleanQueryResult) {
@@ -192,7 +192,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     array_push($headers, ' ');
                     array_push($headers, ' ');
                     array_push($headers, ' ');
-                    // $dv->obdata($headers);
                     $dv->div()->tablehost()->setClass("fitw overflow-x-a")
                         ->dbTableView($data->getRows(), $headers, null);
                 }
@@ -212,7 +211,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     public function page($view = 0)
     {
-        // igk_ajx_replace_uri("#!/page/".$view);
         $q = $this->getParam("query");
         if ($q && ($mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true)) && $mysql->connect()) {
             $g = $mysql->sendQuery($q);
@@ -238,7 +236,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $desc = $e[1];
         $this->_regTableDefinition($o, $tbname, $desc);
     }
-    ///backup mysql database
     /**
      * restore data base table from definition
      */
@@ -246,7 +243,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         throw new \IGKException("method not implement : " . __METHOD__);
     }
-    ///get data from schemas
     /**
     * auto generate doc.
     */
@@ -305,20 +301,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                                 $tr->addTd()->addInput("tname[]", "checkbox", $s);
                                 $tr->addTd()->li()->addA(igk_js_post_frame($this->getUri("db_viewtableentries_ajx&n=" . $s . "&from=" . igk_configs()->db_name)))->Content = $s;
                                 $this->__addEditTable($tr, $s, igk_configs()->db_name);
-                                // $tr->td()->li()->addA(igk_js_post_frame($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_configs()->db_name)))->add("img", array(
-                                //     "width" => "16px",
-                                //     "height" => "16px",
-                                //     "src" => R::GetImgUri("drop_16x16"),
-                                //     "alt" => __("info.droptable")
-                                // ));
                                 $tr->td()->li()->ajxa($this->getUri("db_droptable_ajx&n=" . $s . "&from=" . igk_configs()->db_name))
                                     ->Content = igk_svg_use("drop");
-                                // ->add("img", array(
-                                //     "width" => "16px",
-                                //     "height" => "16px",
-                                //     "src" => R::GetImgUri("drop_16x16"),
-                                //     "alt" => __("info.droptable")
-                                // ));
                             }
                         }
                     }
@@ -427,17 +411,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $li->td()->add("a", array("href" => $this->getUri("downloadbackupfile&file=" . $f)))->Content = $f;
                 $li->td()->ajxa($this->getUri("db_dbRestore&file=" . $f))
                     ->Content = igk_svg_use("reload");
-                // ->addImg()->setAttributes(array(
-                //     "width" => 16,
-                //     "height" => 16,
-                //     "src" => R::GetImgUri(trim("db_restore_16x16")),
-                //     "alt" => __("restore")
-                // ));
                 $li->td()->ajxa(
                     $this->getUri("dropBackup&file=" . $f)
                 )
                     ->content = igk_svg_use("drop");
-                // HtmlUtils::AddImgLnk($li->add("td", array("class" => "igk-table-img-action_16x16")), $this->getUri("dropBackup&file=" . $f), "drop_16x16", "16px", "16px", "lb.dropbackup");
                 $v_hasfile = true;
             }
         }
@@ -489,7 +466,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     if (strtolower($v) == $this->SelectedDb) {
                         $tr["class"] = "+igk-selectdb-row";
                     }
-                    $tr->addTd()->space(); // addInput(IGK_STR_EMPTY, "checkbox");
+                    $tr->addTd()->space(); 
                     $li = $tr->addTd()->li();
                     if ($this->__canEditDb($v)) {
                         $li->add("a", array("href" => $this->getUri("selectdb&n=" . $v)))
@@ -497,7 +474,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     } else {
                         $li->Content = $v;
                     }
-                    $tr->addTd()->space(); // addLi()->add("a", array("href"=>$this->getUri("editdb&n=".$v)))->add("img", array(
+                    $tr->addTd()->space(); 
                     $tr->addTd()->space();
                 }
             }
@@ -518,7 +495,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         return !in_array($db, ["mysql", DataAdapter::DB_INFORMATION_SCHEMA, "performance_schema", 'sys']);
     }
-    ///$c target node
     /**
     * auto generate doc.
     */
@@ -540,7 +516,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
             return;
         }
-        // igk_wln_e(__LINE__ . " selected table name");
         $db = "";
         $v_search = $this->getParam('db:searchtable');
         $this->setParam($k, null);
@@ -703,7 +678,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     private function _view_conf_query($zdiv)
     {
-        // $zdiv = $zidv ?? igk_create_node('div');
         /// TODO: query selector tool 
         $pan = $zdiv->addPanelBox();
         $pan->h2()->Content =  __("MySQL Query Tool");
@@ -800,7 +774,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $a['class'] = 'dispflex flex-row flex-justify-e';
             $dv = $a->div();
             $dv->submit('btn.init', __('Init'))->setClass("igk-btn igk-primary posr");
-            //$dv->spinner()->content = igk_svg_use('drop');
             $a->div()->button('btn.cancel')->setValue(__('cancel'))
                 ->setClass("igk-btn igk-form-control")
                 ->on('click', 'igk.winui.controls.panelDialog.close()');
@@ -841,12 +814,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         $ad = $this->getDataAdapter();
         $q = igk_configs()->get("db_prefix", "tbigk_") . "%";
-        // $q = "%\\\\_%";
         if (!$ad->connect()) {
             return null;
         }
         $dbname = igk_configs()->db_name;
-        $op = "NOT"; //igk_getr("not") ? "NOT" :  "";
+        $op = "NOT"; 
         $q = $ad->escape_string($q);
         $field = "tables_in_{$dbname}";
         $rg = $ad->sendQuery("SHOW TABLES WHERE `$field` {$op} LIKE '$q'");
@@ -855,7 +827,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $ad->stopRelationChecking();
             $ad->beginTransaction();
             foreach ($rg->getRows() as $r) {
-                // igk_dev_wln($r->$field);
                 $ad->sendQuery("DROP TABLE `" . $ad->escape_string($r->$field) . "`");
             }
             $ad->commit();
@@ -952,7 +923,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                         if (in_array($v_tbname, $skip_array)) {
                             continue;
                         }
-                        ///TODO: SELECT
                         $query = $mysql->getGrammar()->createSelectQuery($v_tbname, null);
                         $r = $mysql->sendQuery($query);
                         if ($r) {
@@ -1244,9 +1214,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
             $this->View();
         } else {
-            // $frame=igk_frame_add_confirm($this, "confirm_restoration", $this->getUri("db_dbRestore"));
-            // $frame->Form->Div->Content=__(IGK_MSG_RESTOREBACKUPFILE_QUESTION, $v_f);
-            // $frame->Form->addInput("file", "hidden", $v_f);
             $form = igk_create_node("form");
             $form["action"] = $this->getUri("db_dbRestore");
             $form->div()->setStyle("max-width: 200px")->Content = __(IGK_MSG_RESTOREBACKUPFILE_QUESTION, $v_f);
@@ -1477,7 +1444,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                         }
                     }
                     $iparam->setParam("update:cllist", array($v => $tcllist));
-                    // $iparam->setParam("update:cllist", []);
                     return 1;
                 case "clParent_Id":
                     return 1;
@@ -1593,7 +1559,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     public function db_reload_sys_tables_ajx()
     {
-        // form request
         if (RequestHandler::IsHandling($this->getUri(__FUNCTION__)) && !igk_is_conf_connected()) {
             throw new NotAllowedRequestException();
         }
@@ -1656,11 +1621,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         } else {
             $ctrl = igk_getctrl(igk_getr("ctrl"));
             if ($ctrl != null) {
-                // $ctrl->View();
                 igk_navto($ctrl->getUri('showConfig'));
             }
         }
-        // igk_navto($this->getUri('showConfig'));
     }
     /**
     * auto generate doc.
@@ -1934,7 +1897,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     public function getTablesFor($ctrl, $include_dependency = false)
     {
-        // igk_trace();
         die("deprecated " . __METHOD__);
         return null;
         if (is_string($ctrl)) {
@@ -1980,7 +1942,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     public function gotophpmyadmin()
     {
-        // if($this->getViewMyAdmin()){
         if (igk_server_is_local() && $h = igk_configs()->phpmyadmin_uri) {
             igk_navto($h);
             igk_exit();
@@ -2032,13 +1993,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_set_timeout(0);
             $ad->beginTransaction();
             // + | init db environment
-            // $init_env=function(){
             igk_set_env("sys://Db/NODBSELECT", null);
             igk_set_env("sys://db_init", 1);
             igk_set_env("sys://db_init/error", 0);
             igk_set_env(IGK_ENV_DB_INIT_CTRL, null);
-            // };
-            // $init_env();
             $callable = array($this, "init_table");
             $db_name = igk_configs()->db_name;
             igk_reg_hook(IGK_NOTIFICATION_INITTABLE, $callable);
@@ -2052,7 +2010,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             } else {
                 $ad_n = $this->getDataAdapterName();
                 $v_cctab = ConfigControllerRegistry::ResolvAndInitControllers();
-                // usort($v_cctab, DbUtils::OrderController); 
                 if (($index = array_search($this, $v_cctab)) > 0) {
                     unset($v_cctab[$index]);
                 };
@@ -2182,7 +2139,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $this->dbChanged($e);
         });
         igk_reg_hook(IGK_NOTIFICATION_INITTABLE, function ($e) {
-            // igk_trace(); 
             $this->_addTable($e->args[1], $e->args[0]);
         });
     }
@@ -2205,13 +2161,6 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         /**
          * @var array $tab
          */
-        // self::$sm_tabinfo=null;
-        // $tab= & $this->getLoadTables();
-        // $tab = []; 
-        // $f=$this->getCacheFile();
-        // if(igk_io_file_exists($f))
-        //     @unlink($f);
-        // igk_env_count(__FUNCTION__);
     }
     /**
     * auto generate doc.
@@ -2287,10 +2236,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $f = "_view_conf_{$p}";
                 if (method_exists($this, $f)) {
                     $this->setParam("tabview", $p);
-                    // $this->setFlag("tabview", $p);
                     call_user_func_array(array($this, $f), array($t));
                     $t->obdata(function () use ($p) {
-                        // replece uri 
                         igk_ajx_replace_uri(igk_io_baseuri() . igk_io_request_uri_path() . "?p=" . $p);
                     });
                     igk_do_response($t);
@@ -2344,10 +2291,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     protected function initComplete($context = null)
     {
         parent::initComplete($context);
-        // system used download application
         igk_reg_hook(IGK_NOTIFICATION_APP_DOWNLOADED, function ($e) {
             $appName = $e->args["name"];
-            // manual store db log
             IGKLog::WriteDbLog(
                 "download app - " . $appName,
                 "APP_DOWNLOAD",

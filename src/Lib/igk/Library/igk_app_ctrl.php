@@ -7,14 +7,11 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com 
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\ApplicationController;
 use IGK\Resources\R;
 
 define("IGK_INC_APP_INITDB", IGK_LIB_DIR."/".IGK_INC_FOLDER."/igk_initapp_db.pinc");
-
 use function igk_resources_gets as __;
-
 /**
 * auto generate doc.
 * @param mixed $n
@@ -23,7 +20,6 @@ function igk_app_ctrl_dropped_callback($ctrl, $n){
     $c= & ApplicationController::GetApps();
     $c=array();
 }
-
 /**
 * auto generate doc.
 * @param mixed $goodUri the default value is null
@@ -39,7 +35,6 @@ function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
     }
     $node->appLoginForm($app, $app->getAppUri($fname), $u);
 }
-
 /**
 * auto generate doc.
 * @param mixed $goodUri the default value is null
@@ -62,8 +57,7 @@ function igk_app_login_form($app, $div, $badUri=null, $goodUri=null){
 <input type="checkbox" name="remember_me" id="remember_me" value="1" checked="1" /><span>{1}</span>
 <span class="separator" >&middot;</span>
 <a href="#" >{0}</a>
-EOF
-    , R::ngets("lb.q.forgotpwd"), R::ngets("lb.remember_me"));
+EOF    , R::ngets("lb.q.forgotpwd"), R::ngets("lb.remember_me"));
     $t=array();
     $t["badUri"]=array("type"=>"hidden", "attribs"=>array("value"=>$badUri));
     if($goodUri){
@@ -71,14 +65,12 @@ EOF
     }
     igk_html_build_form($frm, $t);
 }
-///<summary>get application authorization key</summary>
 /**
 * get application authorization key
 */
 function igk_get_app_auth($app, $name){
     return $app->Name.":/".$name;
 }
-///<summary>get all application controller</summary>
 /**
 * get all application controller
 */
@@ -99,4 +91,3 @@ function igk_get_app_ctrl(){
     }
     return null;
 }
-

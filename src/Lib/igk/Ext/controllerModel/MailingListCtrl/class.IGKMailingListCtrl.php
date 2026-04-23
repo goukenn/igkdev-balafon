@@ -9,7 +9,6 @@
 */
 abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
@@ -17,9 +16,7 @@ abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
     protected function initComplete($context=null){
 		parent::initComplete();
 		igk_getctrl("IGKMailCtrl")->addMailSendEvent($this, "mailinglist_send_mail");
-
 	}
-
     /**
     * Mailinglist send mail.
     * @param mixed $sender
@@ -32,14 +29,12 @@ abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 			$this->insert((array)$s);
 		}
 	}
-
     /**
     * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
-
     /**
     * Getis visible.
     * @return bool

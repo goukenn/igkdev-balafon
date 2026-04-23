@@ -9,6 +9,7 @@ use IGKCaches;
 use IGKEvents;
 use IGKHtmlDoc;
 use IHeaderResponse;
+
 /**
  * represent a web rendering result
  * @package IGK\System\Http
@@ -60,7 +61,6 @@ class WebResponse extends RequestResponse
                 $options->Cache = $this->cache;
                 $options->AJX = igk_is_ajx_demand();
                 $this->node->renderAJX($options);
-                // raise ajx end reponse in order to add extra data to svg list 
                 if ($options->AJX) {
                     igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, [$this]);
                 }
@@ -81,12 +81,10 @@ class WebResponse extends RequestResponse
             $no_iframe = $doc->noIFrame;
             if ($no_iframe) {
                 $this->headers[] = "Content-Security-Policy: frame-src 'none'";
-                // deny viewing in other in frame policy 
                 $this->headers[] = "X-Frame-Options: DENY";
             } else {
                 $this->headers[] = "X-Frame-Options: SAMEORIGIN";
             }
-            //igk_wln_e(__FILE__ . ":" . __LINE__, $this->headers);
         }
         $this->_setHeader();
         ob_start();

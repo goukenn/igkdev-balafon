@@ -12,6 +12,7 @@ use IGK\Models\ModelBase;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
+
 /**
  * schema migration info
  * @package IGK\System\Database
@@ -75,7 +76,6 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @param mixed $n 
      * @return ?bool
      */
-    // var $constant;
     /**
     * auto generate doc.
     * @var ?array<SchemaForeignConstraintInfo>

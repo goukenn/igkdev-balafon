@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Models\Caches;
 use IGK\Models\ModelBase;
+
 /**
  * chache model result
  * @package IGK\Models\Caches

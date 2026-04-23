@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
 /**
  * dom factory to handle custom node method extension
  * @package 
@@ -77,7 +78,7 @@ class Factory{
         if ($callback = $this->m_actions[$name][$funcName]){
             return call_user_func_array($callback, $arguments);
         }
-        return null; // $callback(...$arguments); // call_user_func_array()
+        return null; 
     }
     /**
     * Invoke on.

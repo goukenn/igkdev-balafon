@@ -3,6 +3,7 @@
 // @file: GetPropertyCallbackTrait.php
 // @date: 20250129 17:58:00
 namespace IGK\Traits;
+
 /**
 * 
 * @package IGK\Traits

@@ -10,6 +10,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression;
 use IGK\System\ViewExtractArgHelper;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
@@ -53,7 +54,7 @@ class ViewExpressionGetter extends ViewExpressionBase{
         }else if ($name instanceof ViewExpressionEval){
             $name->listener = $this->listener;
             $args = [];
-            $p = null;// $this->eval($name->source, $args);
+            $p = null;
             if($name->dependOn){
                 foreach($name->dependOn as $k) {
                     $args[$k] = new ViewExpressionDependency(
@@ -61,7 +62,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
                         $k
                     );
                 };
-                // check inf eval return block value
                 try{
                     $p = $this->eval($name->source, $args);
                 }catch (\Error $ex){
@@ -71,11 +71,7 @@ class ViewExpressionGetter extends ViewExpressionBase{
             $name->value = $p;
             return $name; 
         }
-        // igk_debug_wln(__FILE__.":".__LINE__,  "bind getter ..... $name ", $p);
-        return null; // $p;
-        // for concating
-        // $args = new ViewExtractArgHelper($name, $p);
-        // return $args;
+        return null; 
     }
     /**
     * Access offset set.
@@ -90,7 +86,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
     * @param mixed $name
     */
     public function __get($name){
-        // for real value
         return $this->getValue($name);
     }
     /**
@@ -100,7 +95,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
      * @throws IGKException 
      */
     public function getValue($name){
-        // for real value
         $p = ViewExpressionArgHelper::GetVar($name);
         return $p;
     }

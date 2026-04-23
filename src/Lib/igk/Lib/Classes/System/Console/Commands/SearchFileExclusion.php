@@ -3,6 +3,7 @@
 // @file: SearchFileExclusion.php
 // @date: 20260307 12:47:59
 namespace IGK\System\Console\Commands;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

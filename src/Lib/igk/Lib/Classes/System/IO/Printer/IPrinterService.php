@@ -4,6 +4,7 @@
 // @date: 20220701 19:15:24
 namespace IGK\System\IO\Printer;
 use IGK\System\IInjectable;
+
 /**
 * use to print pdf with an library
 * @package IGK\System\IO\Print
@@ -25,7 +26,6 @@ interface IPrinterService extends IInjectable{
     function setOptions(object $options);
     function getOptions();
     function resetDevice();
-    //draw string
     /**
      * draw text( )
      * @param mixed $text 

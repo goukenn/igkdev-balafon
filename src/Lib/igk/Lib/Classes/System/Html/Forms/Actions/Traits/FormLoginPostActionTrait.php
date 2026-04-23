@@ -12,6 +12,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\Request;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * form login action trait - manage user login and logout 
  */
@@ -65,7 +66,6 @@ trait FormLoginPostActionTrait
      */
     public function login_post(Request $request)
     {
-        // igk_ilog('login_post : call ');   
         $this->notifyActionName = 'form_login';
         $ctrl = $this->getController();
         $redirect = $ctrl::uri($this->serviceLoginSigninView);

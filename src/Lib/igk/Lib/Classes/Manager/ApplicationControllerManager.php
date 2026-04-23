@@ -21,6 +21,7 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
  * manage controller between session
  * @package 
@@ -121,10 +122,8 @@ class ApplicationControllerManager implements IApplicationControllerManager
             return $ctrl;
         }
         $resolv_controler = &self::GetResolvController();
-        // igk_wln_e(__FILE__.":".__LINE__,  "the [{$n}]", $resolv_controler);
         if ($env_controller = igk_environment()->get(ConfigControllerRegistry::LOADED_CONFIG_CTRL)) {
-            // merge with config controller
-            $resolv_controler = array_merge($resolv_controler, $env_controller); // array_combine(array_keys($jump), array_values($jump)));
+            $resolv_controler = array_merge($resolv_controler, $env_controller); 
         }
         $cl = igk_getv($resolv_controler, $n);
         $is_s = is_string($n) ;
@@ -132,7 +131,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
             $ctrl = new $cl();
         } else if ($is_s && class_exists($n) && is_subclass_of($n, BaseController::class)) {
             if (($n == ApplicationModuleController::class) || is_subclass_of($n, ApplicationModuleController::class)) {
-                // secial case - require to retrieve module
                 throw new \IGKException('module controller can\'t be instancied');
             }
             $ctrl = new $n();
@@ -224,7 +222,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
      */
     public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
-        // igk_sys_handle_uri($uri);
         $c = null;
         $f = null;
         $args = null;
@@ -246,7 +243,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
             $f = igk_getru("f", "invokeUri");
         } else {
             $args = igk_getquery_args($uri);
-            // controller can be guid so contain - 
             $c = igk_getv($args, "c");
             $f = str_replace("-", "_", igk_getv($args, "f", ""));
             $p = igk_getv($args, "p");
@@ -280,14 +276,11 @@ class ApplicationControllerManager implements IApplicationControllerManager
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 igk_app()->session->URI_AJX_CONTEXT = igk_is_ajx_demand() || str::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd = null;
-                // if(($fd=$ctrl->getConstantFile()) && igk_io_file_exists($fd))
-                //     include_once($fd);
                 if (($fd = $ctrl->getDbConstantFile()) && igk_io_file_exists($fd, true))
                     include_once($fd);
                 unset($fd);
                 igk_set_env(IGK_ENV_REQUEST_METHOD, strtolower(get_class($ctrl) . "::" . $f));
                 igk_set_env(IGK_ENV_INVOKE_ARGS, $args);
-                // igk_wln(__FILE__.":".__LINE__, "invoke : ".$f);
                 if (is_array($arg))
                     call_user_func_array(array($ctrl, $f), $arg);
                 else {

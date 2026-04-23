@@ -17,6 +17,7 @@ use IGK\System\SystemUserProfile;
 use IGKSession;
 use IGK\IUriActionRegistrableController;
 use ReflectionClass;
+
 /**
  * 
  * @package IGK\Controllers
@@ -167,18 +168,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
-    // public final function updateDb(){
-    //     $s=igk_is_conf_connected() || igk_user()->auth($this->Name.":".__FUNCTION__);
-    //     if(!$s){
-    //         igk_ilog("// not authorize to updateDb of " + $this->getName());
-    //         igk_navto($this->getAppUri());
-    //     }
-    //     igk_db_update_ctrl_db($this);
-    //     $uri=$this->getAppUri();
-    //     igk_navto($uri);
-    //     igk_exit();
-    // }
-    ///<summary> get a application document. getDoc return the global document </summary>
     /**
     *  get a application document. getDoc return the global document
     */

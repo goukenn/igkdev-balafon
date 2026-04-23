@@ -12,6 +12,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
+
 /**
  * for rendering inline-css tempory file
  * @package IGK\System\Html\Dom

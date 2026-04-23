@@ -16,6 +16,7 @@ use IGK\System\Database\IDbMigrationMethods;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+
 /**
  * single use class pattern 
  * @package 
@@ -333,7 +334,6 @@ final class IGKModuleListMigration extends BaseController implements
                 Logger::info(" module db .... [ " . $method . ' ] > ' . $n);
                 self::$sm_instance->m_host = $l;
                 $fc(self::$sm_instance, $navigate, $force);
-                // ControllerExtension::migrate($l);
                 self::$sm_instance->m_host = $l;
                 Logger::info('call migrate');
                 ControllerExtension::migrate(self::$sm_instance);

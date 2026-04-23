@@ -28,7 +28,6 @@ igk.system.createNS('igk.highlightjs', {
                 regex.match('@\\w+\\b', null, 'directive');
                 regex.begin('("|\')', "\\1", 'string');
                 block.tokenID = 'curl-block';
-
                 block.beginCaptures = {
                     '0': {
                         'name': 'curl-brank start'
@@ -84,7 +83,6 @@ igk.system.createNS('igk.highlightjs', {
             return n.o.outerHTML;
         }
         const regex = new igk.system.text.RegexContainer;
-
         regex.captureListener = (m, { capture, e, source }) => {
             const { name } = capture;
             if (name) {
@@ -92,7 +90,6 @@ igk.system.createNS('igk.highlightjs', {
             }
             return m;
         };
-
         const replacements = {};
         this.initRegex(regex); 
         function _handle(e) {
@@ -100,7 +97,6 @@ igk.system.createNS('igk.highlightjs', {
             const rp = replacements[e.from];
             const { detectResult, endMatch } = e;
             const { match } = detectResult;
-
             let ls = detectResult.src.substr(e.from, e.to - e.from);
             let nv = '';
             // + | offset if according to value
@@ -110,7 +106,6 @@ igk.system.createNS('igk.highlightjs', {
                 bv = ls;
             }
             // console.log('_handle: '+tid, e, `[${ls}]`);
-
             if (!e.isMatch && match && (match.length > 0)) {
                 nv += e.begin;
                 toffset = match[0].length;
@@ -178,7 +173,6 @@ igk.system.createNS('igk.highlightjs', {
                         replacements[_offset][e.from] = { value: bp, from: e.from, to: e.to };
                         // } else{
                         //     // begin/end | while/end
-
                         if (!e.missingEnd && ((e.isEOS) || (e.to == s.length))) {
                             //v_last = e;
                         }
@@ -190,7 +184,6 @@ igk.system.createNS('igk.highlightjs', {
                         }
                     }
                 }
-
             }
             if (e && !e.isMatch && e.missingEnd) {
                 let ns = s.substr(e.from);

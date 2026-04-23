@@ -3,7 +3,6 @@
 // @file: InitClassBuilderTest.php
 // @date: 20240921 08:32:19
 namespace IGK\Tests\Database\Models\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbDisplayExpression;
@@ -18,13 +17,11 @@ use TBN\Tests\DummyCtrl;
 * @package IGK\Tests\Database\Models\Helper
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\Tests\Database\Models\Helper
 */
 class InitClassBuilderTest extends BaseTestCase{
-
     /**
     * auto generate doc.
     * @return IDbMigrationInfo
@@ -37,7 +34,6 @@ class InitClassBuilderTest extends BaseTestCase{
         ];
         return $o;
     }
-
     /**
     * Tests dbmodel initclass builder.
     */
@@ -46,14 +42,10 @@ class InitClassBuilderTest extends BaseTestCase{
         $g = InitClassBuilder::BuildInitialModelClass("Dummy", "Dummy", $migrationInfo, DummyClassBuildController::ctrl());
         $this->assertTrue(!empty($g));
     }
-
-   
 }
-
 /**
 * Dummy class build controller.
 * @package IGK\Tests\Database\Models\Helper
 */
 class DummyClassBuildController extends BaseController{
-
 }

@@ -9,6 +9,7 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKException;
 use ReflectionException;
+
 /**
 * help as entry point to live with other framework
 * @package IGK\Framework
@@ -20,7 +21,6 @@ class Application extends IGKApplicationBase{
     * @param mixed $render
     */
     public function run(string $entryfile, $render = 1) { 
-        // do nothing - to integrate with other framework
     }    
     /**
      * bootstrap application 

@@ -3,7 +3,6 @@
 // @file: StringDisplayTest.php
 // @date: 20251226 13:47:33
 namespace IGK\Tests\Helper;
-
 use IGK\Helper\StringDisplay;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class StringDisplayTest extends BaseTestCase{
-
     /**
     * Tests stringdisplay litteral.
     */

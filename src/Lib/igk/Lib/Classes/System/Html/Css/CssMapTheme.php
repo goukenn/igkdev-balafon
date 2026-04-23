@@ -4,6 +4,7 @@
 // @date: 20221230 19:31:10
 namespace IGK\System\Html\Css;
 use IGKMedia;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -46,7 +47,7 @@ class CssMapTheme{
      * @return void 
      */
     public function map(){
-        $g = & $this->media->getDef(); // ->getAttributes();
+        $g = & $this->media->getDef(); 
         if (!$g)return;
         $tab = $g;
         $is_primaryTheme = $this->is_primaryTheme;

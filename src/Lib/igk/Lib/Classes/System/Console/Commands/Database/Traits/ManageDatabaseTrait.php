@@ -4,6 +4,7 @@
 // @date: 20250829 15:51:06
 namespace IGK\System\Console\Commands\Database\Traits;
 use IGK\System\Console\Logger;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database\Traits

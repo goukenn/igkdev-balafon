@@ -3,6 +3,7 @@
 // @file: MacrosServices.php
 // @date: 20230106 00:56:46
 namespace IGK\System\Actions\Services;
+
 /**
 * auto generate doc.
 * @package IGK\System\Actions\Services

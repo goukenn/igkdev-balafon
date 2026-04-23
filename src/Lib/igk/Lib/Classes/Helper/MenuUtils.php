@@ -11,6 +11,7 @@ namespace IGK\Helper;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
 use function igk_resources_gets as __;
+
 /**
 * Menu utils.
 * @package IGK\Helper

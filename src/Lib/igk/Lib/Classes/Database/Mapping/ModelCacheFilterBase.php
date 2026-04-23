@@ -3,6 +3,7 @@
 // @file: ModelCacheFilterBase.php
 // @date: 20230120 19:29:25
 namespace IGK\Database\Mapping;
+
 /**
 * model cache filter, used to validate and filter recieved data 
 * @package IGK\Database\Mapping

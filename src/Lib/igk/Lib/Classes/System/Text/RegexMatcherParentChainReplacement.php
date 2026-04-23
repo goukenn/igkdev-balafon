@@ -3,6 +3,7 @@
 // @file: RegexMatcherParentChainReplacement.php
 // @date: 20250617 12:49:56
 namespace IGK\System\Text;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text

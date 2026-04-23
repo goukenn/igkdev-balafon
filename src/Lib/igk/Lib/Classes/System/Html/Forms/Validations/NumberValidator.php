@@ -3,6 +3,7 @@
 // @file: NumberValidator.php
 // @date: 20240910 09:51:04
 namespace IGK\System\Html\Forms\Validations;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations

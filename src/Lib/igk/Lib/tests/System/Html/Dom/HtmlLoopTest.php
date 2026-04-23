@@ -1,12 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: HtmlLoopTest.php
 // @date: 20221109 11:10:47
 // @desc: 
 // @phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/Dom/HtmlLoopTest.php
 namespace IGK\Tests\System\Html\Dom;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
@@ -16,7 +14,6 @@ use IGK\Tests\BaseTestCase;
 */
 class HtmlLoopTest extends BaseTestCase
 {
-
     /**
     * Tests loop class attribute.
     */
@@ -26,18 +23,15 @@ class HtmlLoopTest extends BaseTestCase
         $t->div()->loop(3)->div()->host(function ($a) {
             $a["*class"] = [
                 "presentation" => true,
-                //     "info" => false
             ];
             $a->Content = " welcome {{ \$raw }} ";
         });
         $b = $t->render();
-
         $this->assertEquals(
             '<div><div><div class="presentation"> welcome 0 </div></div><div><div class="presentation"> welcome 1 </div></div><div><div class="presentation"> welcome 2 </div></div></div>',
             $b,
         );
     }
-
     /**
     * Tests loop class1.
     */
@@ -45,13 +39,11 @@ class HtmlLoopTest extends BaseTestCase
     {
         $t = new HtmlNode("div");
         $t['*class'] = ['$raw==1 ?"item-2":null'];
-
         $this->assertEquals(
             '<div *class="[&quot;$raw==1 ?&quot;item-2&quot;:null&quot;]"></div>',
             $t->render()
         );
     }
-
     /**
     * Tests loop class expression.
     */
@@ -68,7 +60,6 @@ class HtmlLoopTest extends BaseTestCase
             $s,
         );
     }
-
     /**
     * Tests loop class href.
     */
@@ -83,13 +74,11 @@ class HtmlLoopTest extends BaseTestCase
         });
         $options = ["PreserveAttribOrder" => false];
         $s = $t->render($options);
-
         $this->assertEquals(
             '<p><div><div class=""> welcome 0 <a href="0">data</a></div></div><div><div class="item-2"> welcome 1 <a href="1">data</a></div></div><div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></p>',
             $s
         );
     }
-
     /**
     * Tests loop class key.
     */
@@ -106,7 +95,6 @@ class HtmlLoopTest extends BaseTestCase
             $s
         );
     }
-
     /**
     * Tests loop with class array off expression 1.
     */
@@ -118,14 +106,11 @@ class HtmlLoopTest extends BaseTestCase
             $a->Content = "welcome";
         });
         $s = $t->render();
-
-        /// TODO : remove empty attribute after load 
         $this->assertEquals(
             '<div><div><div class="">welcome</div></div></div>',
             $s,
         );
     }
-
     /**
      * writing with loop and host method 
      * @return void 
@@ -133,11 +118,9 @@ class HtmlLoopTest extends BaseTestCase
     public function test_coredom_loop()
     {
         $n = igk_create_notagnode();
-        // loop interre node 
         $n->div()->loop([1, 2, 3])->li()->Content = 'hello world';
         $this->assertEquals('<div><li>hello world</li></div><div><li>hello world</li></div><div><li>hello world</li></div>', $n->render(), 
         'Looping entirely node failed');
-
         $n = igk_create_notagnode();
         $n->div()->loop([1, 2, 3])->host(function ($n, $i) {
             $n->li()->Content = sprintf('hello world %s', $i);
@@ -145,20 +128,4 @@ class HtmlLoopTest extends BaseTestCase
         $this->assertEquals('<div><li>hello world 1</li><li>hello world 2</li><li>hello world 3</li></div>', $n->render(),
         'Loop host failed');
     }
-
-
-    // public function test_loop_with_class_array_off_expression()
-    // {
-    //     $t = new HtmlNode("div");
-    //     $t->div()->loop(3)->div()->host(function ($a) {
-    //         $a["*class"] = ['$raw==1 ?"item-2":null', '$raw==2 ?"item-3": null'];
-    //         $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
-    //         $a->Content = " welcome {{ \$raw }} - {{ \$index }}";
-    //     }); 
-    //     $s = $t->render();  
-    //     $this->assertEquals(
-    //         '<div><div><div> welcome 0 - 0<a href="0">data</a></div><div> welcome 1 - 1<a href="1">data</a></div><div> welcome 2 - 2<a href="2">data</a></div></div></div>',
-    //         $s,
-    //     );
-    // }
 }

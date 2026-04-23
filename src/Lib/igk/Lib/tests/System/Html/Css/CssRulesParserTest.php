@@ -3,7 +3,6 @@
 // @file: CssRulesParserTest.php
 // @date: 20250628 22:16:02
 namespace IGK\Tests\System\Html\Css;
-
 use IGK\System\Html\Css\CssRulesParser;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +13,6 @@ use IGK\Tests\BaseTestCase;
 */
 class CssRulesParserTest extends BaseTestCase
 {
-
     /**
     * Tests cssruleparser test.
     */
@@ -23,7 +21,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("background-color:red;");
         $this->assertEquals([], $tab);
     }
-
     /**
     * Tests cssruleparser body.
     */
@@ -32,7 +29,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("body{background-color:red;}");
         $this->assertEquals(['body{background-color:red;}'], $tab);
     }
-
     /**
     * Tests cssruleparser body line.
     */
@@ -41,7 +37,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("body{   \n   background-color:red; \n  }");
         $this->assertEquals(['body{background-color:red;}'], $tab);
     }
-
     /**
     * Tests cssruleparser selector.
     */
@@ -50,7 +45,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("div.span +      .card:hover{background-color:red;}");
         $this->assertEquals(['div.span+.card:hover{background-color:red;}'], $tab);
     }
-
     /**
     * Tests cssruleparser media.
     */
@@ -59,7 +53,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("@media(max-width:77) {.card{color:   red; border-color: indianred;}}");
         $this->assertEquals(['@media(max-width:77){.card{color:red;border-color:indianred;}}'], $tab);
     }
-
     /**
     * Tests cssruleparser multi media.
     */
@@ -68,7 +61,6 @@ class CssRulesParserTest extends BaseTestCase
         $tab = CssRulesParser::Parse("@media(max-width:77px) {.card{color:   red; second{border-color:      indianred;} }}");
         $this->assertEquals(['@media(max-width:77px){.card{color:red;second{border-color:indianred;}}}'], $tab);
     }
-
     /**
     * Tests cssruleparser multi selector.
     */

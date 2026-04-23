@@ -15,6 +15,7 @@ use IGKEnvironment;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 require_once IGK_LIB_CLASSES_DIR . '/System/Traits/ClassFileVersionLoaderTrait.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/EntryClassResolution.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
@@ -114,7 +115,6 @@ class ApplicationLoader
             if (ob_get_level() > 0) {
                 ob_flush();
             }
-            //igk_hook(IGKEvents::HOOK_TERMINATE, [$this]);
             igk_hook(IGKEvents::HOOK_APP_SHUTDOWN, [$this]);
         });
     }
@@ -244,7 +244,6 @@ class ApplicationLoader
         $resolv_class_versions =  [$major . "." . $minor, $major, ""];
         $cdir = null;
         $is_core  = $v_coreload || (IGK_LIB_CLASSES_DIR == $path);
-        // $v_coreload && igk_wln("is core : ", $is_core, $path);
         $result = true;
         if ($entryNS) {
             if (is_string($entryNS))
@@ -263,17 +262,13 @@ class ApplicationLoader
                 continue;
             }
             while ($result &&  ($classname = array_shift($classnames)) !== null) {
-                //if (! $v_coreload ){
                 if ($tpath = self::$sm_instance->getRegisterClass($classname)) {
                     $found = true;
                     require_once($tpath);
                     $result = $result && $found;
                     break;
                 }
-                //} 
-                // load class method
                 if ($force_load || (!class_exists($classname, false) && !trait_exists($classname, false) && !interface_exists($classname, false))) {
-                    // igk_ilog("tryload:".$classname);
                     $n = $classname;
                     $f = StringUtility::Uri($n);
                     if ($is_core && (strpos($f, $core_ns) === 0)) {
@@ -309,7 +304,6 @@ class ApplicationLoader
                                 $result = false;
                             }
                             if ($auto_register) {
-                                // first version file founded
                                 $included[$cf] = $cf;
                                 if ($v_coreload) {
                                     self::$sm_instance->_changed = true;
@@ -353,7 +347,7 @@ class ApplicationLoader
             self::$sm_instance =  new self($type);
             self::$sm_instance->_coreload  = false;
             $init_info = [
-                "spl_auto_loader" => self::$sm_instance->_createAutoLoadClosure(), //::  [self::$sm_instance, '_auto_load']
+                "spl_auto_loader" => self::$sm_instance->_createAutoLoadClosure(), 
             ];
             spl_autoload_register($init_info["spl_auto_loader"], true, true);
             $initialize = $init_info;
@@ -388,7 +382,6 @@ class ApplicationLoader
             }
             self::$sm_instance->_coreload = true;
         }
-        //return null;
         ($app = ApplicationFactory::Create($type)) || igk_die(sprintf("failed to create application: 
         `%s`", $type));
         if ($boot) {
@@ -447,10 +440,6 @@ class ApplicationLoader
         // + | 
         if (is_file($package_dir . "/composer.json") && is_file($package_dir . "/vendor/autoload.php")) {
             igk_environment()->getComposerLoader()->register($package_dir . "/vendor/autoload.php");
-            // preload spl loading class
-            // spl_autoload_unregister($initialize["spl_auto_loader"]);
-            // require_once($package_dir . "/vendor/autoload.php");
-            // spl_autoload_register($initialize["spl_auto_loader"], true, true);
         }
         return true;
     }

@@ -4,6 +4,7 @@
 // @date: 20250124 15:23:18
 namespace IGK\System\Database;
 use IGK\Helper\Database;
+
 /**
  * 
  * @package IGK\System\Database
@@ -85,7 +86,6 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
                             $list[$id][$u->clName] = 1;
                         }
                     }
-                    // 
                     $ctrl->db_drop_uniques($tb);
                     foreach ($list as $t=>$v) {
                         $id = Database::AutoPrefixColumn('UC_unique_'.$t.'_index', $tabinfo->prefix);

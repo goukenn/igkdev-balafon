@@ -6,6 +6,7 @@
 use IGK\IParamHostService;
 use IGK\Resources\R;
 use function igk_resources_gets as __;
+
 /**
 * represent handle session service
 * @property $services stored services
@@ -195,12 +196,10 @@ final class IGKSession extends IGKObject implements IParamHostService {
             }
         }
     }
-    ///igk_wln("set : ".count($this->m_sessionParams), $key);
     /**
     * auto generate doc.
     */
     public function __toString(){
-        //+ ASS: Appliation session storage
         return get_class($this)."[::ASS]";
     }
     /**
@@ -565,7 +564,6 @@ final class IGKSession extends IGKObject implements IParamHostService {
             igk_die("Operation not  allowed ".__FUNCTION__);
         }
     }
-    ///
     /**
     * raise the session UpdateEVent
     */

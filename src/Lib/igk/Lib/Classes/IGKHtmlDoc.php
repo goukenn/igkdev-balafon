@@ -23,6 +23,7 @@ use IGK\System\Html\IHtmlDocumentHost;
 use IGK\System\Html\Metadatas\Traits\HtmlDocMetadataTrait;
 use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
+
 /**
  * create core document
  * @package IGK
@@ -574,10 +575,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             // + | to avoid flickering FOCUS direct css access required
             // + | 
             // + | 
-            // $this->m_head->add('link')->setAttributes([
-            //     "rel"=>"stylesheet", 
-            //     "href"=>"/assets/demo.css"
-            // ]);
             $t->cache = 0;
             $g[$s] = $t;
             $n->setParam($key, $g);
@@ -710,11 +707,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     protected function registerHook()
     {
-        // $v_cevent = array($this, 'setup_document');
         $v_func = function () {
             $this->setup_document();
         };
-        // igk_hook(IGK_CONF_USER_CHANGE_EVENT, $v_cevent);
         igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, $v_func, 0);
     }
     /**
@@ -746,7 +741,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             $query_args = array_merge($out, $query_args ?? []);
         }
         if ($query_args) {
-            // $file .= '?' . http_build_query($query_args);
             $file = $kfile . '?' . http_build_query($query_args);
         }
         $sc = $this->m_head->addScript($file);
@@ -986,7 +980,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $attr = "";
         $theme_name = $this->m_page_theme ??
             CssSession::getInstance()->theme_name ??
-            CookieManager::getInstance()->get(CssSession::APP_THEME_NAME) // came for browser             
+            CookieManager::getInstance()->get(CssSession::APP_THEME_NAME) 
             ?? CssThemeOptions::DEFAULT_THEME_NAME;
         if ($theme_name)
             $attr .= "data-theme=\"" . $theme_name . "\" ";

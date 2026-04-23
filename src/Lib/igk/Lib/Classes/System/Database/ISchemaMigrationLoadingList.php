@@ -3,6 +3,7 @@
 // @file: ISchemaMigrationLoadingList.php
 // @date: 20250124 15:26:02
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

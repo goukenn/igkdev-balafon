@@ -1,6 +1,5 @@
 // @ts-nocheck
 // @file: web-authentication.js
-
 'use strict';
 (function () {
     const primaryFetchConfig = {
@@ -159,8 +158,6 @@
             return null;
         }
     });
-
-
     (async function () {
         /**
          * @var mixed igk

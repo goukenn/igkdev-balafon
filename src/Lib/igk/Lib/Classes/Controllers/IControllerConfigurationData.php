@@ -6,6 +6,7 @@
 namespace IGK\Controllers;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
+
 /**
  * basic controller configuration data
  * @package IGK\Controllers

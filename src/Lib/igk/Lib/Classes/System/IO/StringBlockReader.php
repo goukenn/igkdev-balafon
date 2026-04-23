@@ -3,6 +3,7 @@
 // @file: StringBlockReader.php
 // @date: 20230105 06:43:43
 namespace IGK\System\IO;
+
 /**
 * read block expression 
 * @package IGK\System\IO

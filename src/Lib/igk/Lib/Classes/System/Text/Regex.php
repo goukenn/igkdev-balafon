@@ -3,6 +3,7 @@
 // @file: Regex.php
 // @date: 20260204 09:30:05
 namespace IGK\System\Text;
+
 /**
 * 
 * @package IGK\System\Text

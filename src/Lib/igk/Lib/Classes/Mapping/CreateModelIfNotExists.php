@@ -3,6 +3,7 @@
 // @file: CreateModelIfNotExists.php
 // @date: 20230123 13:16:26
 namespace IGK\Mapping;
+
 /**
 * auto generate doc.
 * @package IGK\Mapping

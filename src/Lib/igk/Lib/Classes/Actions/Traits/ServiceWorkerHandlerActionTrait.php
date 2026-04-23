@@ -3,6 +3,7 @@
 // @file: ServiceWorkerHandlerActionTrait.php
 // @date: 20221115 08:49:06
 namespace IGK\Actions\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits
@@ -12,6 +13,5 @@ trait ServiceWorkerHandlerActionTrait{
     * Sw worker js.
     */
     public function sw_worker_js(){
-        // not handle - response a script file
     }
 }

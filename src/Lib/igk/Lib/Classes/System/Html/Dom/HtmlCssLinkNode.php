@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
 /**
 * Html css link node.
 * @package IGK\System\Html\Dom
@@ -22,7 +23,7 @@ class HtmlCssLinkNode extends HtmlNode{
         if($this->system && $options && ($options->Context == "mail")){
             return false;
         }
-        $uri= null;//igk_html_get_system_uri($this->link, $options);
+        $uri= null;
         $tr= $uri ? $uri: $this->link;
         $this->ln["href"]= $tr;
         return $tr && $this->IsVisible;

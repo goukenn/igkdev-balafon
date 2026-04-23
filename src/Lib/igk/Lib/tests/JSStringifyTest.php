@@ -3,7 +3,6 @@
 // @filename: JSStringifyTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use igk\js\common\JSExpression;
 use IGK\Tests\BaseTestCase;
 
@@ -41,7 +40,6 @@ class JSStringifyTest extends BaseTestCase{
     public function test_method_declaration_expression(){
         $data = [
             "template"=>"the template",
-            // component GUARD
             "beforeRouteEnter(to, from, next){ /*meth one*/}",              
             "beforeRouteLeave(to, from){ /*meth two*/}"  
         ];
@@ -53,7 +51,6 @@ class JSStringifyTest extends BaseTestCase{
         "rule: method definition as key => method_expression"
         );
     }
-
     /**
     * Tests template no escapse.
     */
@@ -68,12 +65,10 @@ class JSStringifyTest extends BaseTestCase{
         "rule: use expression"
         );
     }
-
     /**
     * Tests expression use.
     */
     public function test_expression_use(){
-        /// unique name definie the proprieries
         $data = [
              JSExpression::Property("data", [
                 "post"=>null,
@@ -86,26 +81,4 @@ class JSStringifyTest extends BaseTestCase{
         "rule: method definition as key => method_expression"
         );
     }
-
-    // public function test_express_route(){
-    //     $route = new Route(["path"=>'/home', 
-    //             "name"=>"home", 
-    //             "beforeEnter"=>"console.debug('enter');",  
-    //             "component"=>[
-    //             "template"=>"<div> The home page</div>"
-    //         ]]);
-
-    //         $this->assertEquals('{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}', 
-    //             $route->stringify(),
-    //         "Epress route data ");
-
-    //     $g = JSExpression::Stringify([
-    //         "route"=>$route
-    //     ], (object)[
-    //         "objectNotation"=>1
-    //     ]);
-    //     $this->assertEquals('{"route":{"name":"home", "path":"/home", "component":{"template":"<div> The home page</div>"}, "beforeEnter":"console.debug(\'enter\');"}}', 
-    //         $g,
-    //     "by function ");            
-    // }
 }

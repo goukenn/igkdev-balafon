@@ -3,10 +3,7 @@
 // @filename: ThemeBuilderTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Tests;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDoc;
@@ -19,7 +16,6 @@ use IGKHtmlDoc;
 */
 class ThemeBuilderTest extends BaseTestCase
 {
-
     /**
     * auto generate doc.
     * @param mixed $id
@@ -28,7 +24,6 @@ class ThemeBuilderTest extends BaseTestCase
     private static function _CreateTheme($id){
         return new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), $id, false);
     }
-
     /**
     * auto generate doc.
     * @return
@@ -38,15 +33,12 @@ class ThemeBuilderTest extends BaseTestCase
         $theme[".info"] = "background-color:red;";
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
-
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
         $xsm_screen[".info"] = "background-color: indigo;";
-
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         $xsm_screen[".info"] = "background-color: red;";
         return $theme;
     }
-
     /**
     * Tests theme to array.
     */
@@ -56,22 +48,13 @@ class ThemeBuilderTest extends BaseTestCase
         $theme[".info"] = "background-color:green;";
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
-
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
         $xsm_screen[".info"] = "background-color: red;";
-
         $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
-        // igk_wln_e("media lllll - ", $sm_screen);
         $sm_screen[".info"] = "background-color: yellow;";
-
-        // igk_wln($xsm_screen);  
         $tab = $theme->to_array();       
-        
         $this->assertTrue($tab !== null);
- 
-        // igk_wln_e($tab, "definition : ". $theme->get_css_def());
-        $this->assertEquals(
-            <<<EOF
+        $this->assertEquals(<<<EOF
 /* <!-- Attributes --> */
 .info{background-color:green;}
 /* <!-- end:Attributes --> */
@@ -86,26 +69,15 @@ EOF,
             "style definition not matching"
         );
     }
-
     /**
     * Tests serialize unserialize theme.
     */
     public function test_serialize_unserialize_theme(){
-
         $theme = $this->_get_primary_theme();
         $src = $theme->to_array();
         $g = serialize($src);
-
-        //igk_wln($g);
-
         $theme->load_data(unserialize($g));
         $new = $theme->to_array();
-        // var_dump($src);
-        // echo "new \n";
-        // var_dump($new);
-        // igk_wln($src, $new);
-
         $this->assertEquals($src, $new, "Serialize/Unserialize theme failed");
-
     }
 }

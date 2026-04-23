@@ -4,6 +4,7 @@
 // @date: 20221123 22:35:39
 namespace IGK\System\Traits;
 use IGK\Helper\Activator;
+
 /**
 * use new intance 
 * @package IGK\System\Traits

@@ -1,39 +1,26 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: install.script.pinc
 // @date: 20220716 09:22:34
 // @desc: corelib installer script 
 // @param: $corelib 
-
-
-
-
-
-
 //#{{@Inc(installer-helper.pinc)}}
 //#{{@Inc(class.InstallerResponse.pinc)}}
 
-
-
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
 defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
-
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
 $corelib =  isset($corelib) ? $corelib : ($glib = igk_getr("corelib") ? implode("/", [$home, trim($glib, "/")]) :  __DIR__ . "/corelib.zip");
-
 $response = new InstallerResponse();
 $install_dir = "";
 $app_dir = null;
 $steps = [];
-
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
 if (!($tk = igk_getr("token")) || ($token != $tk)) {
     $response->die("missing token", 500);
 }
-
 if (!class_exists(ZipArchive::class)) {
     $response->die("zip archive not present", 500);
 }
@@ -43,15 +30,11 @@ if (!class_exists(SimpleXMLElement::class)) {
 if (!file_exists($corelib)) {
     $response->die("missing archive", 500);
 }
-
 $install_dir = igk_getr("install_dir");
-
-
 if ($install_dir)
     $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
 else
     $install_dir = __DIR__ . "/../application/Lib/igk";
-
 if (is_link($install_dir)) {
     $response->die("directory link to ", 503);
 }
@@ -69,7 +52,6 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
         while (count($thdir) > 0) {
             $q = array_shift($thdir);
             if ($hdir = opendir($q)) {
-
                 $path = substr($q, $ln);
                 while ($m = readdir($hdir)) {
                     if (($m == ".") || ($m == "..")) {
@@ -89,7 +71,6 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
     }
     $archive->close();
     $cid = 'bck.' . date("Ymd");
-
     if ($t_pdir = InstallerHelper::GetFiles(dirname($tmp_name), "/^" . $cid . "/")) {
         rsort($t_pdir);
         $g = substr($t_pdir[0], strlen($cid) + 1);
@@ -105,15 +86,9 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
         $response->die("failed created dir: " . $install_dir, 500);
     }
 }
-
 if (!($install_dir = realpath($install_dir))) {
     $response->die("install_dir missing", 500);
 }
-
-
-
-
-
 $app_dir = igk_getr("app_dir");
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
@@ -127,7 +102,6 @@ $archive = new \ZipArchive();
 if ($archive->open($corelib)) {
     $error = false;
     if (!$error && (false !== ($g = $archive->getStream("manifest.xml")))) {
-
         $data = "";
         while (!feof($g)) {
             $data .= fread($g, 4096);
@@ -173,9 +147,6 @@ if ($archive->open($corelib)) {
 } else {
     $response->die("can't open archive", 501);
 }
-
-
-
 $_vart = compact("error", "install_dir", "count_file", "author", "version", "appName", "steps");
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;

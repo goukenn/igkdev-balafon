@@ -5,6 +5,7 @@
 namespace IGK\System\IO;
 use AIOWPS\Firewall\File_Prefix_Trait;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
  * use to load and 
  * @package IGK\System\IO
@@ -61,7 +62,6 @@ class DotEnvConfiguration
                         self::LoadConfiguration($config, $content);
                     }
                 }
-                // igk_debug(false);
                 self::$sm_dotEnv[$k] = $config;
             }
             $refkey = $k;
@@ -156,7 +156,6 @@ class DotEnvConfiguration
         $regex->match('(?<==).+$', 'value');
         $regex->match('(?i)[a-z_][a-z0-9_]*', 'litteral');
         $pos = 0;
-        // define
         $src = $content;
         $key = null;
         $v = null;
@@ -179,7 +178,6 @@ class DotEnvConfiguration
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 if ($fc = igk_getv($fcs, $e->tokenID)) {
-                    // igk_debug_wln('tokenID:' . $e->tokenID . ' value:' . $e->value);
                     $fc($e, $config);
                 }
             }

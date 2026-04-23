@@ -8,6 +8,7 @@ use Exception;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Text\IReplaceCapturedFormatDefinition;
 use IGK\System\Text\RegexMatcherCapture;
+
 /**
  * splitter formatter definition 
  * @package IGK\System\Text\Formatters\Traits
@@ -91,11 +92,9 @@ trait FormatterSplitterTrait
         $n = '';
         $dt = [];
         $skipline = false;
-        // UPDATE: skip next line before join the content flag
         $v_skipNextSplitLine = false;
         while (count($chains)) {
             $r = array_shift($chains);
-            //$v_skipNextSplitLine = $this->getFlag('line-flag');
             if ($chainCallback) {
                 $chainCallback($r);
             }
@@ -103,21 +102,14 @@ trait FormatterSplitterTrait
                 $n .= $before;
             }
             if (isset($v_marked[$r->from])) {
-                // append to buffer node 
                 $n .= $r->value;
                 $skipline = false;
             } else {
                 $sp = $r->match->splitLine;
                 if ($sp) {
-                    // if ($v_skipNextSplitLine) {
-                    //     $this->unsetFlag('line-flag'); 
-                    // }
-                    //if (!empty($n)){
                     $dt[] = !empty($n) ? $n : '';
                     $skipline = true;
-                    //}
                     if (isset($r->match->useReplaceData)) {
-                        // split line an replace with
                         $n = $r->value;
                         $skipline = false;
                     } else
@@ -145,7 +137,6 @@ trait FormatterSplitterTrait
                 }
             }
             $this->formatSplittedList($e, $dt);
-            // marked splitter content 
             return $dt;
         }
         if ($cp && ($cp != $n)) {
@@ -161,7 +152,6 @@ trait FormatterSplitterTrait
     protected function formatSplittedList(RegexMatcherCapture $e, array &$list)
     {
         $dt = &$list;
-        // auto format block definition
         if ($e->match->isBlock) {
             if ($scap = $e->beginCaptures[0][0]) {
                 $start = $dt[0];
@@ -221,7 +211,6 @@ trait FormatterSplitterTrait
         $jbloc = $e->closeBlock;
         $cn = null;
         $_will_prefix = false;
-        // save state 
         $_bflag = $this->getFlag('no-tab');
         $this->_treatFlags($e);
         while (($tc = count($tv)) > 0) {

@@ -4,6 +4,7 @@
 // @date: 20231017 08:56:03
 namespace IGK\System\Reflection\Helper;
 use ReflectionProperty;
+
 /**
  * 
  * @package IGK\System\Reflection\Helper
@@ -53,7 +54,6 @@ class ReflectionHelper
             $p['is_promoted'] = $v_is_v8 ? $info->isPromoted() : false;
             $p['allow_null'] = $info->allowsNull();
             $v_params[$n] = (object)array_merge(['type' => $t], $p);
-            // if callable - map data
             if ($callable) {
                 $callable($n, $v_params[$n]);
             };

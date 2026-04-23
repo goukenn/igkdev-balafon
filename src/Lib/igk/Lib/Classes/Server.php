@@ -9,6 +9,7 @@ use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Http\AcceptMimeTypes;
 use IGK\System\IToArray; 
 use IGK\System\Security\Web\HeaderAccessObject; 
+
 /**
 * represent server management
 * @property string $root_dir system root directory
@@ -69,7 +70,6 @@ final class Server implements IToArray{
         }
         return false;
     }
-    ///get if this server runing on the loal server
     /**
     * Returns true if Local.
     */
@@ -243,7 +243,6 @@ final class Server implements IToArray{
             $this->REQUEST_METHOD = 'GET';
         }
         $headers = igk_get_allheaders();
-        // init authozation
         if ($headers  && 
                 $this->_checkAccessHeader($headers))                
         {
@@ -251,7 +250,6 @@ final class Server implements IToArray{
             $v_access_object =  [
                 'method'=>igk_getv($headers, 'ACCESS_CONTROL_REQUEST_METHOD', '*'),
                 'headers'=>igk_getv($headers,'ACCESS_CONTROL_REQUEST_HEADERS', '*'),
-                // PREFIX WIDTH - X_ for ovh server
                 'authorization'=>igk_getvfirst_found($headers, ['AUTHORIZATION', 'X_AUTHORIZATION']),
                 'origin' => igk_getv($headers, 'ORIGIN'),
             ];
@@ -282,7 +280,7 @@ final class Server implements IToArray{
         $this->LF=$t_ ? "\n": "<br />";
         // + | environment setting mo
         $v_envkey = 'IGK_ENVIRONMENT';
-        if(empty($this->ENVIRONMENT) || defined($v_envkey)){ // force defined environment
+        if(empty($this->ENVIRONMENT) || defined($v_envkey)){ 
             $this->ENVIRONMENT= defined($v_envkey) ? constant($v_envkey) : "development";
         }
         if(!isset($this->WINDIR)){
@@ -333,7 +331,6 @@ final class Server implements IToArray{
     * @return
     */
     public function GetRootUri($secured=false){
-        // return "";
         if(!$secured && $this->is_secure())
             $secured=true;
         if($secured){

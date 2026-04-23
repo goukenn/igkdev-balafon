@@ -4,6 +4,7 @@
 // @date: 20251219 16:15:47
 namespace IGK\System\Database;
 use IGK\System\IInjectable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

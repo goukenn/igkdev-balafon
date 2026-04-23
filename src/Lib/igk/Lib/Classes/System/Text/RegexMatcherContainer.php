@@ -3,7 +3,6 @@
 // @file: RegexMatcherContainer.php
 // @date: 20240913 10:19:11
 namespace IGK\System\Text;
-
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -32,7 +31,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     const REGEX_OPTION = '/^\(\?\b(?P<add>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b(:\b(?P<remove>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b)?\)/';
-    // shared loading formatters
     /**
      * Property: loading formatters.
      * @var mixed
@@ -71,7 +69,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     const INCLUDE = 'include';
-
     /**
      * enable mark end of source
      * @var ?bool
@@ -102,7 +99,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     var $refTables;
-    // var $type;
     /**
      * auto store created pattern
      * @var bool
@@ -173,7 +169,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed 
      */
     private $m_last_detect_info;
-    // private $m_startflag;
     /**
      * store prepared parent info 
      * @var mixed
@@ -199,7 +194,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     private $m_options;
-
     /**
      * line detection 
      * @var mixed
@@ -215,7 +209,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     protected $m_lineMarkSingleEndOffset;
-
     /**
      * 
      * @var mixed
@@ -235,7 +228,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         return $this->m_engine_treatment_info;
     }
-
     /**
      * 
      * @return mixed 
@@ -244,7 +236,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         return $this->m_last_detect_info;
     }
-
     protected function autoSkipDefinition($detect,  &$offset, $parent = null)
     {
         $s = &$this->m_skippedList;
@@ -271,7 +262,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if (($idx = array_search($match, $this->m_skippedList)) !== false) {
             unset($this->m_skippedListInfo[$idx]);
             unset($this->m_skippedList[$idx]);
-
             $this->m_skippedListInfo = array_values($this->m_skippedListInfo);
             $this->m_skippedList = array_map(function ($a) {
                 return $a->match;
@@ -480,7 +470,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if ($this->_skipLineBufferEnd($source, $offset)){
             return null;
         }
-        // $boffset = $offset; // <- backup offset 
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
             $this->_updateSkipEndCaptureMode($e, $offset);
@@ -582,16 +571,13 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     protected function _treatEnd($info, string $source, int &$offset)
     {
         $tabinfo = [$info];
-        // skip offset update 
         $skip = $this->m_parent === $info;
         $v_size = strlen($info->value);
         $v_nextline_offset = strpos($source, "\n", $offset);
         $v_sln = strlen($source);
         $v_end_of_source = $offset >= $v_sln;
-        // if ($v_size == 0) {
         if (($v_size == 0) && (!$info->start)) {
             /// TODO: TREAT matching 
-            // detect last end pattern 
             if ($info->match === $this->m_last_match) {
                 if ($this->m_parent == null) {
                     $i = $v_nextline_offset;
@@ -599,8 +585,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $offset = strlen($source) + 1;
                     } else
                         $offset++;
-                    // return null;
-                    // return $this->_endinfo($info, $source, $offset, []); // $this->m_last_match;
                 }
                 if (!$info->match->patterns)
                     throw new IGKException('--end found: skip: infinite loop---');
@@ -623,7 +607,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // + | --------------------------------------------------------------------
                     // + | add skip end element detected using internal skip definition 
                     // + |
-                    // <- skip to end of line
                     ($this->autoSkipEndCapture) && self::_SkipToEndOfLine($offset, $v_sln, $v_nextline_offset);
                     return $e;
             }
@@ -638,8 +621,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         while (count($tabinfo) > 0) {
             $info = array_shift($tabinfo);
             $k = $info->match;
-            // $v_size = strlen($info->value);
-            // $v_size = $v_boffset==$info->pos ? strlen($info->value) : 0;
             if ($v_continueRead) { // + | fix update offset movement
                 if ($v_boffset == $offset) {
                     $offset += 1;
@@ -649,7 +630,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $v_size = 0;
             } else {
                 $v_size = !$info->start && $offset == $info->pos ? strlen($info->value) : 0;
-                //$info->start = true;
             }
             // + | update parent info - 
             $this->_setParent($info->parent);
@@ -690,7 +670,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $b = $info->endTreat;
                     $v_skipped =  $skip;
                     if (!$skip)
-                        $offset += $v_size; // update offset to check end 
+                        $offset += $v_size; 
                     else
                         $skip = false;
                     $cpos = $offset;
@@ -706,14 +686,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $n = $v_current_offset + $v_ms;
                         // + | if empty and offset not change then update to next 
                         if (empty($tab[0][0]) && !$v_skipped && ($v_current_offset == $offset)) {
-                            // $offset++; // + | move forward to detect the real next end that match condition
                             array_unshift($tabinfo, $info);
                             $skip = true;
                             continue 2;
                         }
-                        // check of compared_end first match 
-                        // $tln = $info->pos + strlen($info->value); 
-                        // if ($compared_end && ($compared_end->pos < $n)) {
                         if ($compared_end && ($compared_end->pos < $v_current_offset)) {
                             // + | handle compared match item 
                             $v_continue = false;
@@ -723,19 +699,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                                 $r->value = $r->sourceValue = substr($source, $r->from, $r->to - $r->from);
                                 return $r;
                             }
-                            // | ---- 
                             if ($v_continue /*&& ($v_size==0)*/ && empty($compared_end->value)) {
-                                $v_continueRead = // true;
+                                $v_continueRead = 
                                     $compared_end->pos != $offset;
                                 array_unshift($tabinfo, $compared_end);
                                 continue 2;
                             }
-                            // go back to current pos then check end 
                             $offset = $compared_end->pos;
                             array_unshift($tabinfo, $compared_end);
                             continue 2;
                         }
-                        // update next offset 
                         $offset = $n;
                         $v_tvalue = substr($source, $info->pos, $n - $info->pos);
                         $v_tcaptures = $this->_treatEndCaptures($info, $v_tvalue, $tab);
@@ -780,7 +753,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             $info->value = $nv;
                             $skip = true;
                             continue 2;
-                        } // - read to end 
+                        } 
                         $offset = $tln;
                         $v_srcv = substr($source, $info->pos);
                         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
@@ -821,7 +794,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                                 $g = new static;
                                 $g->m_matcher = $k->patterns;
                                 $g->setParentInfo(null);
-                                // pass listener 
                                 $g->matchPatternStateListener = $this->matchPatternStateListener;
                                 $g->ouputTreatmentListener = $this->ouputTreatmentListener ?? Activator::CreateNewInstance(RegexMatcherOutputListener::class, [
                                     'output' => ''
@@ -842,17 +814,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     if (($offset == 0) && $v_size == 0) {
                         // + | update to next offset 
                         self::_SkipToEndOfLine($offset, $v_sln, $v_nextline_offset);
-                        // $offset =  1;
                     }
-                    // - for match result
                     return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                         'tag' => '2',
                         'tokenID' => $k['tokenID'],
                         'match' => $info->match,
                         'from' => $info->pos,
                         'to' => $n,
-                        'value' => $treated, // real value 
-                        'sourceValue' => $bsrc, //  $treated, // source value 
+                        'value' => $treated, 
+                        'sourceValue' => $bsrc, 
                         'option' => $option,
                         // + | passing info
                         'parentInfo' => $info->parent,
@@ -956,7 +926,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 break;
         }
         if ($v_t) {
-            // update value
             if (key_exists('treated', $v_t)) {
                 $c = $v_t['treated'];
                 return $c;
@@ -993,17 +962,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         list($v_id, $v_type) = igk_extract($k, 'tokenID|type');
         $v_continue = false;
         if ($v_type != RegexMatcherPattern::MATCH_TYPE) {
-            // continue until detected the end of this block
             $v_continue = true;
             return;
         }
         $this->_setParent($info);
         $_size = strlen($compared_end->value);
         if (!$compared_end->emptyLine && ($_size == 0)) {
-            // return the base definition 
             $info->endType = 'end';
             $offset = $l->pos;
-            // <- skip to end position 
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
                 'tag' => '3',
@@ -1018,7 +984,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'match' => $k
             ]);
         } else {
-            // capture continue capture to childs 
             $n = $l->pos + $_size;
             $offset = $n;
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
@@ -1065,7 +1030,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             'beginCaptures' => $info->captures,
             'endCaptures' => $endcapture,
             'parentInfo' => $info->parent,
-            'info' => $info // to close element 
+            'info' => $info 
         ]);
     }
     /**
@@ -1092,14 +1057,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         $j = null;
         $start_line = preg_match(self::REGEX_START_LINE, $regex) > 0;
-
         $end_line = preg_match(self::REGEX_END_LINE, $regex) > 0;
         $result = [];
         $tab = [];
-
         $error = preg_last_error_msg();
         if ($offset <= strlen($source)) {
-            // at the start of the string 
             if (false !== (preg_match($regex, $source, $tab, PREG_OFFSET_CAPTURE, $offset))) {
                 if (!empty($tab)) {
                     $result[] = $tab;
@@ -1117,15 +1079,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             if ($offset == 0) {
                 $sline = substr($source, 0, $next_line);
                 if (preg_match($regex, $sline, $tab, PREG_OFFSET_CAPTURE, 0)) {
-                    // update offset
                     self::_UpdateTabOffset($tab, $offset);
                     $result[] = $tab;
                 }
             }
         }
-        // if ($start_line && (($next_line == false) || ($next_line==$offset))) {
-        //     //skip end of line  
-        // } else {
         if ($start_line && ($offset > 0) && ($offset < $TLen)) {
             // + | cut next offset             
             $fsource = [];
@@ -1138,33 +1096,19 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             while (count($fsource) > 0) {
                 $coffset = array_shift($fsource);
                 if (($coffset > 0) && /* ($next_line!=$offset) */ preg_match($regex, substr($source, $coffset), $tab, PREG_OFFSET_CAPTURE, 0)) {
-                    // update offset 
                     self::_UpdateTabOffset($tab, $coffset);
                     $result[] = $tab;
                 }
             }
-            // if (false !== $next_line) {
-            //     $coffset = $next_line == $offset ? $offset + 1 : $next_line + 1;
-            // }
-            // if (preg_match($regex, substr($source, $coffset), $tab, PREG_OFFSET_CAPTURE, 0)) {
-            //     // update offset
-            //     self::_UpdateTabOffset($tab, $coffset);
-            //     $result[] = $tab;
-            // }
         }
-        // }
         if ($end_line && ($offset < $TLen)) {
             $bnext_line = false;
-            // $coffset = $offset > 0 ? ($next_line === false ? $TLen: $next_line) : 1;
-            // if (igk_environment()->feature_regex_next_line_behaviour){
             $coffset = ($next_line === false) ? $TLen : $next_line;
             if ($next_line !== false) {
                 $bnext_line = true;
             }
-            //}
             $v_size = abs($coffset - $offset);
             $j = substr($source, $offset, $v_size);
-            // check if continue line match - for empty line 
             $lc = false;
             if (!trim($j) && ($regex == self::REGEX_CONTINUES_EMPTY_LINE)) {
                 $ln = $coffset;
@@ -1175,17 +1119,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $lc = true;
             }
             if ((!$lc || strlen($j)) && preg_match($regex, $j, $tab, PREG_OFFSET_CAPTURE, 0)) {
-                // update offset
                 self::_UpdateTabOffset($tab, $offset);
                 $result[] = $tab;
                 $move_to_next_line =  $bnext_line;
             } else if ($result && ($v_size == 0) && ($offset < $result[0][0][1])) {
-                // empty result
                 $result = [];
                 $move_to_next_line = true;
             }
         }
-        // compare result
         if ($result) {
             usort($result, function ($a, $b) {
                 if (!key_exists(0, $a)) {
@@ -1277,7 +1218,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     private function _startMatch(?RegexDetectInfo $info, &$result, $b, $source, &$offset, $k, &$next_line)
     {
-        // $o = '';
         $is_empty_line = $b == RegexMatcherUtility::REGEX_EMPTY_LINE;
         if ($b) {
             $b = RegexMatcherUtility::ConverToRegex($b);
@@ -1293,7 +1233,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     'match' => $k,
                     'captures' => $tab,
                     'parent' => $info,
-                    'moveToNextLine' => $v_move_to_next_line, // igk_environment()->feature_regex_next_line_behaviour ? $v_move_to_next_line : false, 
+                    'moveToNextLine' => $v_move_to_next_line, 
                     'emptyLine' => $is_empty_line
                 ]);
             }
@@ -1315,7 +1255,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $v_type;
     }
-
     /**
      * check for multi - line buffering detection  
      * @param string $src 
@@ -1333,7 +1272,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             } 
             return true;  
         }
-
         if (!is_null($this->m_lineMarkSingleEndOffset)) {
             $offset = $this->m_lineMarkSingleEndOffset;
             $this->m_lineMarkSingleEndOffset = $this->m_lineLastDetectionInfo = null;
@@ -1397,13 +1335,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $v_flag_current = true;
                 }
             }
-            // detect that 
             if ($error)
                 throw new Exception("[BLF] - offset not update " . $offset);
         }
         $this->m_last_offset = $offset;
         $this->m_last_detect_info = null;
-        // $v_end_line_detect_offset = null;
         $result = [];
         $next_line = false;
         $info = $this->m_parentInfo;
@@ -1413,11 +1349,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_detect = null;
         while ($detect) {
             $detect = false;
-            $tm = $match_patterns; // restart matching detection
+            $tm = $match_patterns; 
             while (count($tm) > 0) {
                 $v_ck = key($tm);
                 $k = array_shift($tm);
-                //  
                 if (is_array($k)) {
                     // + |  create an pattern object
                     $v_ctab = igk_array_is_assoc_only($k) ? $k : ['patterns' => $k];
@@ -1441,7 +1376,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         }
                         break;
                     case self::INCLUDE:
-                        // regex match container 
                         if ($k instanceof IRegexMatcherPatternContainer) {
                             $tinfo = null;
                             $k->startMatch($info, $tinfo, $source, $offset);
@@ -1461,14 +1395,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         } else {
                             if ($patterns = igk_getv($k, 'patterns')) {
                                 // + | for pattern only 
-                                // $tc = array_reverse($patterns);
                                 array_unshift($tm, ...$patterns);
                             }
                         }
                         break;
                 }
             }
-            // next line 
             $toffset = $offset < $ln ? strpos($source, "\n",  $offset) : false;
             if (($toffset !== false) && ($offset == $toffset)) {
                 $toffset++;
@@ -1477,7 +1409,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $bp = $result;
                 $r = self::_ReduceResult($bp);
                 // + | because of detect offset must be set de $r->pos in end.
-                // move cursor to current position
                 $offset = $r->pos;
                 if ($v_flag_current && $next_line) {
                     if ((false !== $toffset) && (($r->pos - 1) > $toffset)) {
@@ -1490,7 +1421,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 } else {
                     if ($next_line && ($toffset !== false) && ($toffset != $offset)) {
                         if ($r->pos > $toffset) {
-                            // probably require to check start line and compare
                             $detect = true;
                             $offset = $toffset;
                             $next_line = false;
@@ -1510,11 +1440,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $offset = strlen($source);
             $next_line = false;
         }
-
         $v_detect && $this->autoSkipDefinition($v_detect, $offset);
         return $v_detect;
     }
-
     /**
      * 
      * @return null|RegexDetectInfo 
@@ -1684,7 +1612,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $this->m_last_offset = null;
             }
         } 
-
         if (!$detect) {
             if ($v_ref)
                 $pos = $ln;
@@ -1881,9 +1808,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             if (!$c) continue;
             $offset = $c[1] - $boffset;
             $ln = strlen($c[0]);
-            // remove 
-            // treat 
-            // ------------
             $option = $option ?? igk_createobj();
             $ch = $mark($c[0], $sourceValue, $k, $option);
             $rv = substr($rv, 0, $lpos) . substr($v, $spos, $offset - $spos) . $ch . substr($v, $offset + $ln);
@@ -1974,7 +1898,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return object[] 
      */
     public static function CreateChainList($cap)
-    {    /// TODO Fix name with chain list in capture regex do same ref 3 time 
+    {    
         $root = (object)[];
         $root->childs = [];
         $root->value = $cap[0][0];
@@ -1996,7 +1920,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $child->parent = null;
             $child->value = $v[0];
             $child->indice = $v[1];
-            // get child parent
             $ki = $k - 1;
             $vparent = null;
             $clen = $child->indice + strlen($child->value);
@@ -2004,7 +1927,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $preview = $li[$ki--];
                 $plen = $preview->indice + strlen($preview->value);
                 if (($child->indice >= $preview->indice) && ($plen >= $clen)) {
-                    // is child of 
                     $vparent = $preview;
                 }
             }
@@ -2061,14 +1983,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $cmark = igk_getv($captures, $tq);
                     if ($tc = igk_getv($cap, $tq)) {
                         $sch = $handle_mark_capture($tq, $cmark, $tc, false);
-                        // just update the parent fields
                         $sb = $tc[1] - $boffset;
                         $prefix = substr($src, $toffset, $sb - $toffset) . $sch;
                         $nsb = $prefix . substr($src, $tc[1] + strlen($tc[0]));
                         $toffset = strlen($prefix);
                     }
                 }
-                // $ch = $nsb;
                 $ch = $mark($nsb, $sourceValue, $k, $option);
             } else {
                 $ch = $mark($src, $sourceValue, $k, $option);
@@ -2083,7 +2003,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $cap_treat_mark[$k] = [$ch, $offset];
             return $ch;
         };
-        // treat capture accept closure or definition handle
         foreach ($captures as $k => $mark) {
             if (!is_numeric($k) || key_exists($k, $cap_treat_mark)) {
                 continue;
@@ -2099,7 +2018,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $tv = '';
             while (count($marks) > 0) {
                 $q = array_shift($marks);
-                // replace with marked value 
                 $prefix = substr($v, $spos, $q->indice - $spos) . $q->treatValue;
                 $tv = substr($tv, 0, $lpos) . $prefix . substr($v, $q->indice + strlen($q->value));
                 $spos = $q->indice + strlen($q->value);
@@ -2116,7 +2034,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public function createPattern(array $args): RegexMatcherPattern
     {
-        // running state or resolving pattern
         if (isset($args[$i = 'include'])) {
             if ($inc = igk_getv($args, $i)) {
                 if ($inc[0] == '#') {
@@ -2125,7 +2042,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         return $l;
                     }
                 } else {
-                    // 
                     if (!($l = igk_getv(self::$sm_LoadingFormatters, $inc))) {
                         $app = igk_app();
                         $regex_f = null;
@@ -2164,7 +2080,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $o .= substr($src, $toffset);
         return $o;
     }
-
     /**
      * updateline buffer definition 
      * @param string $line 
@@ -2178,7 +2093,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $line = $buff . $line;
         return $line;
     }
-
     protected function getBuffer($clear = false)
     {
         $sb = $this->m_lineBuffer;
@@ -2187,7 +2101,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $sb;
     }
-
     protected function _skipLineBufferEnd(string $source, $offset)
     {
         $v_backupOffset = $offset;

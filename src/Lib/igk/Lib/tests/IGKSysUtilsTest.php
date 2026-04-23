@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: IGKSysUtilsTest.php
 // @date: 20220804 06:28:22
 // @desc: testing sys util function 
-
 namespace IGK\Tests;
-
 use IGK\Controllers\BaseController;
 use IGKSysUtil;
 
@@ -15,7 +12,6 @@ use IGKSysUtil;
 * @package IGK\Tests
 */
 class IGKSysUtilsTest extends BaseTestCase  {
-
     /**
     * Tests resolv type name.
     */
@@ -26,11 +22,9 @@ class IGKSysUtilsTest extends BaseTestCase  {
             \IGK\Tests\Models\Dummy::class,
             "resolving type failed"
        );
-       //testing sys prefix and return the name 
        $bck = igk_configs()->db_prefix;
        igk_configs()->db_prefix = "tbigk_test_";
        $t= IGKSysUtil::GetModelTypeName( "%sysprefix%_dummy_%year%", DummySysUtilController::ctrl());
-      
        $this->assertEquals(
             $t,
             \IGK\Tests\Models\Dummy::class,
@@ -38,7 +32,6 @@ class IGKSysUtilsTest extends BaseTestCase  {
        );
        igk_configs()->db_prefix = $bck;
    }
-
     /**
     * Tests resolve Table Name.
     */
@@ -52,20 +45,17 @@ class IGKSysUtilsTest extends BaseTestCase  {
     );
    }
 }
-
 /**
 * Dummy sys util controller.
 * @package IGK\Tests
 */
 class DummySysUtilController extends BaseController{
-
     /**
     * Returns Entry Name Space.
     */
     protected function getEntryNameSpace(){
         return __NAMESPACE__;
     }
-
     /**
     * .ctr
     */

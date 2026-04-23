@@ -3,9 +3,7 @@
 // @filename: DbExpressionTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests\Models;
- 
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
 use IGK\Models\Users;
@@ -19,7 +17,6 @@ use PHPUnit\Framework\ExpectationFailedException;
 * @package IGK\Tests\Models
 */
 class DbExpressionTest extends BaseTestCase{
-
     /**
     * Sets up the test environment before each test.
     * @return void
@@ -27,14 +24,12 @@ class DbExpressionTest extends BaseTestCase{
     public function setUp(): void {
         require_once dirname(__FILE__)."/dbMocTable.pinc";
     }
-
     /**
     * Returns Controller Class.
     */
     protected function getControllerClass() {
         return DbTestController::class;
      }
-
     /**
     * Tests create user.
     */
@@ -42,17 +37,12 @@ class DbExpressionTest extends BaseTestCase{
         $g = new \IGK\Models\Users();
         $this->assertIsArray($g->to_array(), "user not an array"); 
     }
-
     /**
     * Tests query expression.
     */
     public function test_query_expression(){
         $query = "";
-
-        // $c = new Table1Test();
-        // igk_wln_e($c->to_array());
         $ad = igk_configs()->get("default_dataadapter");
-
         if ($ad != IGK_MYSQL_DATAADAPTER){
             $this->markTestSkipped();
             return;
@@ -69,7 +59,6 @@ class DbExpressionTest extends BaseTestCase{
         $this->assertEquals("SELECT DISTINCT * FROM `dummy_table1` LEFT JOIN dummy_table2 on (dummy_table1.clName=dummy_table2.clName) WHERE `clId`='1';", 
         $query); 
     }
-
     /**
     * Tests update query.
     */
@@ -83,7 +72,6 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
     * Tests update query 2.
     */
@@ -120,13 +108,11 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
     * Tests json empty json query.
     */
     public function test_json_empty_json_query(){
         $gram = Table1Test::driver()->getGrammar(); 
-        
         $this->assertEquals(
             "INSERT INTO `dummy_table3`(`clId`,`clName`,`clData`) VALUES (NULL,'testing','{}');",
             $gram->createInsertQuery(
@@ -136,7 +122,6 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
     * Tests date query.
     */
@@ -151,44 +136,35 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
     * Tests create table query.
     */
     public function test_create_table_query(){
- 
         $ad = Table1Test::model()->getDataAdapter();
         $version = $ad->getVersion();
         $query = version_compare($version, "8.0",  ">=") ?
         "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;":
         "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;"
          ;
-
         $gram = $ad->getGrammar(); 
         $tableinfo = igk_getv(Table1Test::model()->getModelDefinition(), "tableRowReference"); 
         $q = $gram->createTableQuery(Table1Test::table(), $tableinfo);      
         $this->assertEquals($query,
            $q);
     }
-
     /**
     * Tests query fetch prepare.
     */
     public function test_query_fetch_prepare(){
-       
         Table1Test::createTable();
         Table2Test::createTable();
         $g = Table1Test::prepare()->join([]
-            // [Table2Test::table()=>[
-            //     Table1Test::column("clId")." = ".Table2Test::column("clId")
-            // ]]
         )->conditions([Table1Test::column("clName")=>"testing"])
         ->query_fetch();
         $this->assertIsObject($g);  
         Table1Test::drop();
         Table2Test::drop();
     }
-
     /**
     * Tests column definition.
     */
@@ -211,7 +187,6 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
      * testing json query
      * @return void 
@@ -221,7 +196,6 @@ class DbExpressionTest extends BaseTestCase{
     public function test_json_query(){
         $gram = Table5Test::driver()->getGrammar();  
         $data = json_encode((object)["one"=>"1", "to"=>"2"]);
-        
         $this->assertEquals(
             'INSERT INTO `dummy_table5`(`clId`,`clOptions`) VALUES (NULL,\'{\"one\":\"1\",\"to\":\"2\",\"info\":\"<a href=\\\\\"/data\\\\\">present</a>\"}\');',
             $gram->createInsertQuery(
@@ -232,12 +206,10 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
-
     /**
     * Tests with query.
     */
     public function test_with_query(){
-        // $gram = Table6Test::driver()->getGrammar();  
         $s = Table6Test::with(Table7Test::table())
             ->get_query();
         $this->assertEquals(
@@ -247,11 +219,9 @@ class DbExpressionTest extends BaseTestCase{
         );
     }
 }
-
 /**
 * Db test controller.
 * @package IGK\Tests\Models
 */
 class DbTestController extends BaseController{
-
 }

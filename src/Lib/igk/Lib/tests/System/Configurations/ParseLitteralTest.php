@@ -3,7 +3,6 @@
 // @file: ParseLitteralTest.php
 // @date: 20231224 15:51:04
 namespace IGK\Tests\System\Configurations;
-
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\Tests\BaseTestCase;
 
@@ -12,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Configurations
 */
 class ParseLitteralTest extends BaseTestCase{
-
     /**
     * Tests parse configuration.
     */

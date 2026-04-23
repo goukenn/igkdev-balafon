@@ -40,6 +40,7 @@ use function igk_resources_gets as __;
 // + | global options
 // + |  --set-env: set environment definition
 // + |  --set-server: set server Global value
+
 require_once IGK_LIB_CLASSES_DIR . "/Helper/Traits/IOPathCheckerTrait.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php";
 /** @package  */
@@ -118,7 +119,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         $v_env = igk_environment();
         if (strpos($a, "--wdir:") === 0) {
             $g = explode(":", $a, 2);
-            // igk_io_create_dir not available
             if (is_dir($g[1]) || @mkdir($g[1],0777, true))
                 chdir($g[1]);
             return null;
@@ -134,8 +134,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                 $_SERVER[$v_envkey] = $g;
                 igk_server()->prepareServerInfo();
                 igk_server()->ENVIRONMENT = $g;
-                // $nev = igk_server()->ENVIRONMENT;
-                // $ops = igk_environment()->isOPS();
             }
             return null;
         }
@@ -179,7 +177,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      */
     private static function GetTopLevelConfigFile(string $bdir)
     {
-        /// TASK : GET TOP LEVEL CONFIG FILE
         while (!empty($bdir)) {
             if (igk_io_file_exists($configFile = $bdir . "/" . AppConfigs::ConfigurationFileName)) {
                 return $configFile;
@@ -224,7 +221,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                 $wd = igk_environment()->get("workingDir", getcwd());
                 register_shutdown_function(function () use ($wd) {
                     if (strstr($wd, sys_get_temp_dir())) {
-                        // in system temp directory 
                         error_log("remove working directory from ." . $wd);
                         IO::RmDir($wd);
                     }
@@ -236,7 +232,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         }
         defined('IGK_APP_DIR') || define("IGK_APP_DIR", igk_getv($_SERVER, 'IGK_APP_DIR', $wd));
         defined('IGK_BASE_DIR') || define('IGK_BASE_DIR', $wd);
-        // setup the log folder
         if (!defined('IGK_LOG_FILE') && ($logFolder = $this->configs->logFolder)) {
             if (is_dir($logFolder)) {
                 $logFolder = realpath($logFolder);
@@ -248,10 +243,8 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         // + | load balafon commands ... 
         igk_loadlib(dirname(__FILE__) . "/Commands");
         date_default_timezone_set(Constants::DEFAULT_TIME_ZONE);
-        // IGKApp::InitSingle(); 
         if (defined('IGK_DOCUMENT_ROOT'))
             igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT'));
-        // default library 
         $this->library("zip");
         $this->library("mysql");
         $this->library("curl");
@@ -259,7 +252,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             $this->library("gd");
         }
         $this->InitCoreSystemComponent();
-        // init sys components -  
         igk_hook("console::app_cli_bootstrap", $this);
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
@@ -282,7 +274,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         igk_configs()->no_db_route = 1;
         igk_register_service('balafon', 'cli', new BalafonCLIService);
         $argv = &$_SERVER['argv'];
-        // preprocess command line arguments 
         $hook_options = [];
         if ($e = igk_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, ['argv' => &$argv, 'app' => $this], $hook_options)) {
             return 0;
@@ -417,7 +408,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                     Logger::info("maintenance site " . $dir);
                     if (igk_io_file_exists($file = $dir . "/" . \IGK\Helper\MaintenanceHelper::lockFile)) {
                         Logger::info("unlock site ...");
-                        // in maintenace mode
                         \IGK\Helper\MaintenanceHelper::UnlockSite($dir);
                         // @unlink($dir."/.htaccess");
                         // @unlink($dir."/index.php");
@@ -425,7 +415,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                         // @rename($dir."/.lock.htaccess", $dir."/.htaccess");
                         igk_io_file_exists($file) && @unlink($file);
                     } else {
-                        // put in maintence mode
                         Logger::info("lock site ...");
                         \IGK\Helper\MaintenanceHelper::LockSite($dir);
                     }
@@ -500,7 +489,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                         }
                         $user = null;
                         $ctrl = $ctrl ?? SysDbController::ctrl();
-                        // - bind controller 
                         self::BindCommandController($ctrl);
                         self::BindCommandUser($command, $ctrl, $user);
                         $args = ViewEnvironmentArgs::CreateContextViewArgument($ctrl, __FILE__, 'balafon');
@@ -553,12 +541,9 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                     "desc" => __("run script by loading"),
                     "help" => function ($command, ?string $filename = null) {
                         if ($filename && ($file = Path::ResolvePath($filename))) {
-                            // initialize command 
                             $fc = $command->app->commands['--run'][0];
                             $targs = func_get_args();
-                            // $margs = array_merge([null], func_get_args());
                             call_user_func_array($fc, array_merge([null], func_get_args()));
-                            // invoke the running
                             return call_user_func_array($command->exec, $targs);
                         }
                         $sp = "\r\n\t\t\t\t";
@@ -669,7 +654,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             }
         }
         if (in_array('--report-error', $argv)) {
-            // activate error reporting
             ini_set('display_errors', 1);
             error_reporting(-1);
         }
@@ -722,7 +706,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     {
         (function (&$argv) {
             require_once IGK_LIB_DIR . '/Lib/' . IGK_CLASSES_FOLDER . '/Constants.php';
-            // start by filtering
             if (!isset($_SERVER['PWD'])) {
                 $cwd = getcwd();
                 $rf = igk_getv($_SERVER, 'SCRIPT_FILENAME');
@@ -733,7 +716,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                 while (!$fc_local && $rf) {
                     $tf = $rf;
                     if ($tf == ($rf = dirname($rf))) {
-                        // for both UNIX and WINDOW
                         break;
                     }
                     $v_conf = $rf . DIRECTORY_SEPARATOR . AppConfigs::ConfigurationFileName;
@@ -743,7 +725,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                         break;
                     }
                 }
-                // resolv util sites found . 
                 $_SERVER['PWD'] = $cwd;
                 chdir($cwd);
             }
@@ -787,7 +768,6 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             if (Constants::INIT_COMMAND != igk_getv($argv, 1)){ 
                 if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])) {
                     if (is_dir($wdir)) {
-                        //  + | add include path to path separator
                         set_include_path(get_include_path() . PATH_SEPARATOR . $cwd);
                         $_SERVER['PWD'] = $wdir;
                         chdir($wdir);

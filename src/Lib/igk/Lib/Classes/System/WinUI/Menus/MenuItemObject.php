@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\WinUI\Menus;
 use IGKObject;
+
 /**
 * Menu item object.
 * @package IGK\System\WinUI\Menus

@@ -10,6 +10,7 @@ use IGK\System\Middlewares\BalafonMiddleware;
 use IGK\System\Middlewares\RunCallbackMiddleware;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Services\IBalafonApplicationMiddlewareService;
+
 /**
 * Represent IGKBalafonApplicationMiddlewareManager class
 */

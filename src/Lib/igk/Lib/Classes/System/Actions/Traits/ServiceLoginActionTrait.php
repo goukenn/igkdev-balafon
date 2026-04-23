@@ -5,6 +5,7 @@
 namespace IGK\System\Actions\Traits;
 use IGK\System\Html\Forms\Actions\Traits\FormLoginActionTrait;
 use IGK\System\Services\SignProvider;
+
 /**
 * trait to declared service login with social provider connection
 * @package IGK\System\Actions\Traits

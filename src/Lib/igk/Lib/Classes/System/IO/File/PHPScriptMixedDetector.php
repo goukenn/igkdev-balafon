@@ -6,6 +6,7 @@ namespace IGK\System\IO\File;
 use Error;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
  * 
  * @package IGK\System\IO\File
@@ -43,8 +44,6 @@ class PHPScriptMixedDetector
         $comments[] = $regex->appendMultilineComment()->last();
         RegexMatcherUtility::AppendPhpHereDoc($regex, $here_doc);
         $regex->autoStore = true;
-        // detect until last <?php
-        // $regex->match('((?<=\\? >))?[\\s\\S]+(?=<\\?)', 'mixed');
         $l = $regex->begin('(?=<\\?(=|php\\b))', '(?<=\\?>)', 'php-block')->last();
         $l->patterns = [
             ['match' => '<\\?(=|php\\b)', 'tokenID' => 'block-start'],

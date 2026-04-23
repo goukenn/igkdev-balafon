@@ -19,6 +19,7 @@ use IGK\IDbManager;
 use mysqli;
 use ReflectionException;
 use Throwable;
+
 /**
  * Represent DbQueryDriver class
  */
@@ -49,12 +50,11 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     * @var mixed
     */
     private $m_charset;
-    // private $m_dbselect;
     /**
     * Property: dbport.
     * @var mixed
     */
-    private $m_dbport; // store the port
+    private $m_dbport; 
     /**
     * Property: dbserver.
     * @var mixed
@@ -120,7 +120,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     * @var mixed
     */
     private static $__store;
-    // private static $sm_resid;
     /**
     * Property: config.
     * @var mixed
@@ -211,7 +210,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             igk_reg_hook(IGKEvents::HOOK_DB_INIT_ENTRIES, array(new DbEntryToLoad($this, $tablename, $entries), "loadEntries"));
             return;
         }
-        // igk_db_load_entries($this, $tablename, $entries);
     }
     /**
     * auto generate doc.
@@ -259,7 +257,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
                     igk_mysql_db_close($this->m_resource);
                 $this->m_isconnect = false;
                 $this->m_resource = null;
-                // self::SetResId(null, __FUNCTION__);
                 $this->m_openCount = 0;
             }
         }
@@ -302,10 +299,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         if ($this->m_isconnect && $this->m_resource) {
             if (@$this->m_resource->ping()) {
                 $this->m_openCount++;
-                // if ($this->m_openCount > 2){
-                //     igk_trace();
-                //     igk_wln_e("open count : ".$this->m_openCount);
-                // }
                 igk_set_env("lastCounter", igk_ob_get_func('igk_trace'));
                 return true;
             }
@@ -323,7 +316,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
                 $this->m_resource = $r;
                 $this->m_openCount = 1;
                 if ($this->m_adapter){
-                   // $this->setAdapter()
                    if (($this->m_adapter instanceof IDataDriverCharsetSupport) && $this->m_charset){
                         $this->m_adapter->set_charset($this->m_charset);
                     }
@@ -403,11 +395,9 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $port = (key_exists("port", $options) ?  $options["port"] : func_get_arg(3) ) ?? '';
         $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  $app_cnf->db_name;
         $dbcharset = (key_exists("dbcharset", $options) ? $options["charset"] : igk_getv(func_get_args(), 5)) ??  $app_cnf->db_charset;
-        // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
         $cl = static::class;
         $out = new $cl($name);
         if (is_object($dbserver)) {
-            //principal info 
             $out->m_dbserver = trim($dbserver->server);
             $out->m_dbuser = trim($dbserver->user);
             $out->m_dbpwd = trim($dbserver->pwd);
@@ -425,7 +415,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         } catch (\Exception $_) {
             $out->m_isconnect = false;
             $error = $_->getMessage();
-            // remove last error in case last error - 
             if (igk_is_cmd() && error_get_last()) {
                 error_clear_last();
             }
@@ -438,7 +427,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             $driver_storage[$name] = $out;
         } else {
             $out = null;
-            $driver_storage[$name] = null; //  new NoDbConnection();
+            $driver_storage[$name] = null; 
             $driver_storage[$name] = new NoDbConnection();
         }
         return $out;
@@ -491,7 +480,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return null;
     }
-    ///delete item in tables
     /**
     * auto generate doc.
     */
@@ -687,12 +675,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         return $this->m_resource;
     }
-    // // /**
-    // * 
-    // */
-    // public static function GetResId(){
-    //     return self::$sm_resid;
-    // }
     /**
     * auto generate doc.
     */
@@ -790,7 +772,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $s = self::$Config["db"];
         return ($s == strtolower($driverName));
     }
-    ///get the last inserted id
     /**
      * get driver last id
      */
@@ -836,9 +817,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     {
         $this->dieNotConnect();
         return $this->m_adapter->select($table, $cond, $options);
-        // $query=IGKSQLQueryUtils::GetSelectQuery($this, $table, $cond, $options);
-        // $s=$this->_sendQuery($query, $options);
-        // return $s;
     }
     /**
     * auto generate doc.
@@ -910,7 +888,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
             $error = "";
             $code = 0;
             if (!$t && !$nolog) {
-                // $l = mysqli_error($this->m_resource);            
                 $error = $this->getDriverError($this->m_resource);
                 $code = $this->getDriverErrorCode();
                 $this->m_error = $error;
@@ -1015,7 +992,6 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         }
         return false;
     }
-    ///update data table
     /**
     * auto generate doc.
     */

@@ -17,6 +17,7 @@ use IGKEvents;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
+
 /**
 * auto generate doc.
 * @package IGK\Controllers\Traits
@@ -62,7 +63,6 @@ trait ControllerRequestExtensionTrait
     public static function request(BaseController $ctrl, string $path, $options = null)
     { 
         $v_backup = self::_BackupServerInfo();
-        // configure server - 
         igk_server()->prepareServerInfo();
         $gp = $ctrl->setCurrentView($path);
         $ac_response = $ctrl->{ControllerEnvParams::ActionViewResponse};
@@ -116,7 +116,7 @@ trait ControllerRequestExtensionTrait
             }
         }
         if ($action = $controller->getActionHandler($path, $rep, null)) { 
-            $params = $rep->params; // 
+            $params = $rep->params; 
             igk_hook(IGKEvents::HOOK_ACTION_WILL_DO_ACTION, compact('action', 'params', 'controller'));
             $result = ActionHelper::DoHandle($controller, $action, $fname, $params, $rep, $options);            
         } else {

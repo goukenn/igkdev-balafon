@@ -18,6 +18,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\Installers\LaravelMixInstaller;
 use IGKCaches;
 use IGKEvents;
+
 /**
 * Install site command.
 * @package IGK\System\Console\Commands
@@ -154,7 +155,6 @@ class InstallSiteCommand extends AppExecCommand
             Logger::warn("Please if you target apache web server please restart it.");
             Logger::warn("Navigate to : http://localhost" . ($listen ? ":" . $listen : ""));
             if (!$is_primary){
-                //remove cachee directory for host
                 IO::RmDir($cache_dir);
             }
         } else {

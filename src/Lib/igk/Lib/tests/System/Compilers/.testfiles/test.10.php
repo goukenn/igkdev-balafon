@@ -1,13 +1,12 @@
 <?php
-$x = 999; 
 
+$x = 999; 
 if ($x > 1000){
    $n = igk_create_node("div");
    $n->Content = "greather";
 }  
 if ($n)
 $t->add($n);
-
 igk_do_response($t);
 /* 
 <?php

@@ -3,16 +3,7 @@
 // @filename: .global.facebook.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-
 use IGK\Resources\R;
-
-// igk_set_env("sys://facebook/settings", array(
-// "lib"=>"https://connect.facebook.net",
-// "lang"=>"en_GB",
-// "version"=>"v2.11",
-// "appId"=>null
-// ));
 
 /**
  * Initializes Facebook settings from the given configuration object.
@@ -61,8 +52,6 @@ igk_doc_add_tempscript(\$doc, '{$fb_js}',1, array('data-lib'=>'{$lib}', 'data-lo
 return 1;
 EOF;
 }
-///theme : light or dark
-///layout: standard|button_count|box_count
 /**
  * Creates an HTML iframe node for a Facebook Follow Us button.
  *
@@ -89,18 +78,13 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 	$b = igk_html_node_onrendercallback(igk_create_expression_callback(igk_fb_LibExpression(),array("n"=>$n)));
 	$n->add($b);
 	return $n;
-
 }
-
 /**
 * Igk html node face book time line.
 * @param mixed $id
 */
 function igk_html_node_faceBookTimeLine($id){
-
-
 	$n = igk_create_node("div");
-
 	$n["class"]="fb-like";
 	$n["data-href"] = "https://www.facebook.com/".$id;
 	$n["data-layout"] = "light";
@@ -110,56 +94,33 @@ function igk_html_node_faceBookTimeLine($id){
 	$n->add($b);
 	return $n;
 }
-
 /**
 * Igk html node face book like button.
 * @param mixed $showface
 */
 function igk_html_node_faceBookLikeButton($showface=false){
 	$n = igk_create_node("div");
-// <div
-// class="fb-like"
-// data-share="false"
-// data-width="450"
-// data-show-faces="true">dddd
-// </div>
 	$n["class"]="fb-like";
-	// $n["class"]="fb-share-button";
 	$n["data-share"] = "false";//
 	$n["data-width"] = "150";
 	$n["data-show-faces"]=igk_parsebool($showface);
-
-	//$n->Content = "Facebook - The like button";
 	$b = igk_html_node_onrendercallback(igk_create_expression_callback(igk_fb_LibExpression(),array("n"=>$n)));
 	$n->add($b);
 	return $n;
 }
-
 /**
 * Igk html node face book share button.
 */
 function igk_html_node_faceBookShareButton(){
 		$n = igk_create_node("div");
-// <div
-// class="fb-like"
-// data-share="false"
-// data-width="450"
-// data-show-faces="true">dddd
-// </div>
-	//$n["class"]="fb-like";
 	$n["class"]="fb-share-button";
 	$n["data-share"] = "false";//
 	$n["data-width"] = "150";
 	$n["data-show-faces"]="false";
-
-
-
-	//$n->Content = "Facebook - The like button";
 	$b = igk_html_node_onrendercallback(igk_create_expression_callback(igk_fb_LibExpression(),array("n"=>$n)));
 	$n->add($b);
 	return $n;
 }
-
 /**
 * Igk html node face book comments.
 * @param mixed $uri
@@ -173,27 +134,3 @@ function igk_html_node_faceBookComments($uri){
 	$n->add($b);
 	return $n;
 }
-
-
-
-// igk_community_register_followus_service("facebook", function($cmd,$t,$v=null){
-// 	switch($cmd){
-// 		case "edit":
-// 			$name = igk_getv(func_get_args(),3);
-// 			$ul = $t->add("ul");
-// 			igk_html_build_form($ul,array(
-// 			IGK_FIELD_PREFIX.$name."Id"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookId'))),
-// 			IGK_FIELD_PREFIX.$name."AppID"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookAppID'))),
-// 			IGK_FIELD_PREFIX.$name."Version"=>array("attribs"=>array("value"=>igk_conf_get($v,'facebookVersion')))
-// 			));
-// 		break;
-// 		case "getlink":
-// 		if (isset($v->facebookId))
-// 			return "https://facebook.com/".$v->facebookId;
-// 			break;
-// 		case "view":
-// 		default:
-// 		break;
-// 	}
-// 	return null;
-// });

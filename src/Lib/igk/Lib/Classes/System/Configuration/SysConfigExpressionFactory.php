@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Configuration;
 use IGK\System\Html\XML\XmlConfigurationNode;
+
 /**
  * configuration expression class factory
  * @package IGK\System\Configuration

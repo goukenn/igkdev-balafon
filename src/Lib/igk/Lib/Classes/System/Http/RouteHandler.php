@@ -8,6 +8,7 @@ use IGK\Actions\Dispatcher;
 use IGK\System\Regex\MatchPattern;
 use IGKException;
 use ReflectionMethod;
+
 /**
  * represent a route handler object
  * @package 
@@ -254,10 +255,6 @@ class RouteHandler
      * @return bool 
      */
     public function isAccessible(string $path, string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD):bool{
-        // if (!$this->m_expressions){
-        //     return false;
-        // }
-        // each expression must be optional 
         $regex = static::GetRouteRegex($this->path, null,true, $defaultEntryMethod);
         return preg_match($regex, $path);
     }
@@ -332,7 +329,6 @@ class RouteHandler
                                 $rp .="?";
                             }
                     }                  
-                   // $croute = str_replace($s, $rp, $croute);
                 }
                 if (($count==0) && ($roffset==0)){
                     $cout .= '/'.$defaultEntryMethod;
@@ -502,12 +498,9 @@ class RouteHandler
         $method = igk_server()->REQUEST_METHOD;
         $extens = ["_".$method, ""]; 
         while($func = array_shift($args)){
-            // get public function 
             foreach($extens as $f){
                 if (in_array($func.$f, $functions) && $ctrl->IsFunctionExposed($func.$f)){
-                    // dispath to method 
                     $func.=$f;
-                    // Dispatch to methods
                     $ref = new ReflectionMethod($ctrl, $func);
                     Dispatcher::ResolvDispatchMethod($ref, $args); 
                     return \IGK\System\Http\Response::HandleResponse($ctrl->$func(...$args));

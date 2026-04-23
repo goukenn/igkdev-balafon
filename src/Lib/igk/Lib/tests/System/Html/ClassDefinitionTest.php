@@ -3,7 +3,6 @@
 // @file: ClassDefinitionTest.php
 // @date: 20240117 09:06:38
 namespace IGK\Tests\System\Html;
-
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -12,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class ClassDefinitionTest extends BaseTestCase{
-
     /**
     * Tests html set class array.
     */
@@ -22,7 +20,6 @@ class ClassDefinitionTest extends BaseTestCase{
         $n->Content = 'Hello';
         $this->assertEquals('<div class="underline">Hello</div>', $n->render(), 'cannot load array class');
     }
-
     /**
     * Tests html set class object.
     */

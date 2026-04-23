@@ -9,6 +9,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Forms\Helper\FormFieldHelper;
 use IGKException;
 use ReflectionException;
+
 /**
 * use to build random field validation
 * @package IGK\System\Html\Forms\Validations
@@ -24,10 +25,6 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      * @throws Exception 
      * @throws IGKException 
      */
-    // public final function randFields($context=null){
-    //     $field = $this->getFields($context);
-    //     return FormFieldHelper::FormRandFieldName($field);
-    // }
     /** inject the random fields */
     public function getFields($context=null): array{
         $v_fields = parent::getFields($context);
@@ -66,7 +63,6 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      */
     public function validate($data, ?array &$error = [])
     {
-        // merge data with session argument then validate
         $obj = FormFieldHelper::HandleSessionRequestArgs($data); 
         return  ($obj && parent::validate($obj, $error));
     }

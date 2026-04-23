@@ -3,6 +3,7 @@
 // @file: DbDataTypes.php
 // @date: 20240920 16:33:14
 namespace IGK\Database;
+
 /**
 * auto generate doc.
 * @package IGK\Database

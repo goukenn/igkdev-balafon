@@ -3,6 +3,7 @@
 // @file: CompilerTokenEntryTrait.php
 // @date: 20221021 08:50:18
 namespace IGK\System\Runtime\Compiler\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits

@@ -6,6 +6,7 @@
 namespace IGK\System\Http;
 use Exception;
 use IGK\Helper\Utility;
+
 /**
  * represent request response
  * @package IGK\System\Http
@@ -43,7 +44,6 @@ class JsonResponse extends RequestResponse{
         $this->data = $data;
         $this->code = $code;
         if (!is_null($headers)){
-            // filter passing content types
             $headers = array_filter($headers, function($f){
                 return !igk_str_startwith($f,'Content-Type');
             });

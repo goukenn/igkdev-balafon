@@ -6,6 +6,7 @@ namespace IGK\System\TamTam\Plugins;
 use IGK\Controllers\BaseController;
 use IGK\System\Console\BalafonCLIService;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\TamTam\Plugins
@@ -30,6 +31,5 @@ abstract class ProjectBuilderPluginBase{
     * @param BaseController $baseController
     */
     protected function genAction(BaseController $baseController){
-        // generate action command
     }
 }

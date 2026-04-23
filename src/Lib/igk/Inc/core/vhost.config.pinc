@@ -7,13 +7,11 @@ SetEnv ENVIRONMENT development
 ErrorLog <?= $logAccess ?>
 CustomLog <?= $customMLog ?> common
 DocumentRoot <?= $documentRoot ?>
-
 <Directory <?= $documentRoot ?>>
 Options -Indexes -Includes +FollowSymLinks -MulmtiViews
 Order deny,allow
 Allow from allow
 Require all granted
-
 <IfModule rewrite_module>
 RewriteEngine on
 RewriteCond "%{REQUEST_FILENAME}" !-d

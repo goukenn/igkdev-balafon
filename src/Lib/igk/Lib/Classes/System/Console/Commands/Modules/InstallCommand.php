@@ -12,6 +12,7 @@ use IGK\System\Installers\ModuleInstaller;
 use IGK\System\IO\Path;
 use IGK\System\Modules\ModuleManager;
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Modules

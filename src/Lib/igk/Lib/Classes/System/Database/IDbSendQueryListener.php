@@ -3,6 +3,7 @@
 // @file: IDbSendQueryListener.php
 // @date: 20231220 11:53:29
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

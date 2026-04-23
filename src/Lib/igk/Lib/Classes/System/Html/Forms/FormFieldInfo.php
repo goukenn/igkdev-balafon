@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Forms;
 use IGK\System\Html\Forms\Validations\IFormValidationInfo;
 use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
+
 /**
 * 
 * @package IGK\System\Html\Forms
@@ -20,21 +21,11 @@ class FormFieldInfo extends FieldInfo implements IFormValidationInfo{
     * @var ?string
     */
     var $id;
-    // /**
-    //  * 
-    //  * @var ?string
-    //  */
-    // var $type;
     /**
      * field form validator
      * @var ?FormFieldValidatorBase
      */
     var $validator;
-    // /**
-    //  * get or set if the field is required
-    //  * @var ?bool
-    //  */
-    // var $required;
     /**
     * auto generate doc.
     * @var ?string $error confiured message in case of error

@@ -1,5 +1,4 @@
 <?php
-
 // @file: AttributeTemplateTest.php
 // @author: C.A.D. BONDJE DOUE
 // @description: Html attribute template register
@@ -8,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-// cmd : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Configurations/ContextValueTest.php
 namespace IGK\Tests\System\Html;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\SysAppConfigExpression;
 use IGK\System\Html\HtmlContext;
@@ -23,7 +20,6 @@ use IGK\Tests\BaseTestCase;
 */
 class ContextValueTest extends BaseTestCase
 {
-
     /**
     * Tests loading configuration.
     */
@@ -32,12 +28,10 @@ class ContextValueTest extends BaseTestCase
         $g = igk_conf_load_content(<<<MSG_EOF
 <balafon><div>sample</div></balafon>
 MSG_EOF, "balafon");
-
         $this->assertTrue($g == (object)[
             "div" => "sample"
         ], "failed to load configuration");
     }
-
     /**
     * Tests get custom expression.
     */
@@ -45,33 +39,27 @@ MSG_EOF, "balafon");
     {
         $s = "";
         \IGK\System\Configuration\SysConfigExpressionFactory::Register("baba", DummyExpression::class);
-
         $c = \IGK\System\Configuration\SysConfigExpressionFactory::Create("baba", "baba.operator");
-        // igk_wln_e($c);
         $this->assertEquals(
             "operator:1",
             "" . $c
         );
     }
 }
-
 /**
 * Dummy expression.
 * @package IGK\Tests\System\Html
 */
 class DummyExpression extends SysAppConfigExpression
 {
-
     /**
     * Property: tag.
     * @var mixed
     */
     protected $tag = "baba";
-
     /**
     * Returns Operator.
     */
-
     public function getOperator()
     {
         return "operator:1";

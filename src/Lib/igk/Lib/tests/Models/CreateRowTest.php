@@ -3,9 +3,7 @@
 // @filename: CreateRowTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests\Models;
-
 use IGK\Controllers\SysDbControllerManager;
 use IGK\Database\DbSchemas;
 use IGK\Models\Subdomains;
@@ -21,7 +19,6 @@ use PHPUnit\Framework\ExpectationFailedException;
 * @package IGK\Tests\Models
 */
 class CreateRowTest extends BaseTestCase{
-
     /**
     * Sets up the test environment before each test.
     * @return void
@@ -29,7 +26,6 @@ class CreateRowTest extends BaseTestCase{
     function setUp():void {
         require_once(dirname(__FILE__)."/dbMocTable.pinc");
     }
-
     /**
     * Tests create usergroup row.
     */
@@ -49,23 +45,6 @@ class CreateRowTest extends BaseTestCase{
            "column definition mismatch" 
         ); 
     }
-
-    // function test_create_if_not_exists(){
-    //     Subdomains::initDb();
-    //     $obj = new Subdomains();
-    //     $obj->clName = "test";
-    //     $g = Subdomains::createIfNotExists($obj->to_array());
-
-    //     igk_wln_e($g);
-    //     $this->assertIsObject($g);
-    // }
-
-    // function test_gram_column_info(){
-    //     $gram = (new SupportNothingDataAdapter(null))->getGrammar();
-    //     $d = $gram->get_column_info(Users::table(), "igkdev");
-    //     igk_wln_e(var_dump($d));
-    // }
-
     /**
      * test create query 
      * @return void 
@@ -73,14 +52,9 @@ class CreateRowTest extends BaseTestCase{
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-
     public function test_user_query_create_query(){
-        //$gram = Users::driver()->getGrammar();  
         $gram = (new SupportNothingDataAdapter(null))->getGrammar();
- 
-        $defs = SysDbControllerManager::GetDataTableDefinitionFormController(null , Users::table()); // getDataTableDefinition(); 
-
-       
+        $defs = SysDbControllerManager::GetDataTableDefinitionFormController(null , Users::table()); 
         $e = new table_enum;
         $defs = $e->getDataTableDefinition()->tableRowReference; 
         $query = 
@@ -91,13 +65,11 @@ class CreateRowTest extends BaseTestCase{
         ); 
     }
 }
-
 /**
 * auto generate doc.
 * @package IGK\Tests\Models
 */
 class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
-
     /**
     * Returns true if Type Supported.
     * @param mixed $type
@@ -106,7 +78,6 @@ class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
     public function isTypeSupported($type):bool{ 
         return false;
     }
-
     /**
     * Allows Type Length.
     * @param string $type

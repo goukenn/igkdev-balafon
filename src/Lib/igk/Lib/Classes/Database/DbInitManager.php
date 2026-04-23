@@ -11,6 +11,7 @@ use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGKException;
+
 /**
 * 
 * @package IGK\Database
@@ -36,7 +37,6 @@ class DbInitManager{
     * @return void
     */
     protected function initProfile(BaseController $controller){
-        // igk_debug_wln('init controller profiles ... ');
         DbInitManagement::InitControllerProfile($controller);
     }
     /**

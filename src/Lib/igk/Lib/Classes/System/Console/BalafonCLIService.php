@@ -8,6 +8,7 @@ use IGK\System\Console\Commands\BalafonCLICommand;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console
@@ -20,8 +21,6 @@ class BalafonCLIService{
     */
     public function __call($name, $arguments)
     {
-        // $command = AppCommand::Create('');
-        // (new BalafonCLICommand())->exec($command,  $name, ...$arguments);
         // + | get balafon command to call 
         throw new IGKException(sprintf('cli %s command not found', $name));
     }
@@ -40,7 +39,7 @@ class BalafonCLIService{
         $implements = [];
         $uses = [];
         if ($options){
-            extract((array)igk_get_robj('type|extends|implements|defs|uses', 1, $options));//, 0, );
+            extract((array)igk_get_robj('type|extends|implements|defs|uses', 1, $options));
         }
         $pns =  igk_dirname(igk_uri($class_name)); 
         $type = 'class';

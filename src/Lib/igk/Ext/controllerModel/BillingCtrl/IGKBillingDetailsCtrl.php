@@ -3,8 +3,6 @@
 // @filename: IGKBillingDetailsCtrl.php
 // @date: 20220803 13:48:59
 // @desc:
-
-
 use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
@@ -12,14 +10,12 @@ use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Models\IModelDefinitionInfo;
 
 include_once __DIR__."/IGKBillingConstants.php";
-
 /**
 * Igkbilling details ctrl.
 */
-final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic data
+final class IGKBillingDetailsCtrl extends NonAtomicTypeBase 
 {
 	use NoDbActiveControllerTrait;
-
 	/**
 	 * Retrieve the parent billing controller instance.
 	 *
@@ -28,7 +24,6 @@ final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic d
 	private function getBilling(){
 		return igk_getctrl(IGKBillingConstants::BILL_CTRL, false);
 	}
-
 	/**
 	 * Return the data table name derived from the parent billing controller.
 	 *
@@ -41,7 +36,6 @@ final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic d
 		}
 		return igk_getv($m, "DataTableName", "%prefix%_billing")."_details";
 	}
-
 	/**
 	 * Return the schema migration info describing the billing details table structure.
 	 *
@@ -58,5 +52,4 @@ final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic d
 		new DbColumnInfo(array(IGK_FD_NAME=>"clAmount", IGK_FD_TYPE=>"Float", IGK_FD_TYPELEN=>10)),
 	));
 	}
-
 }

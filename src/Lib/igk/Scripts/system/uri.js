@@ -1,6 +1,4 @@
 'use strict';
-
-
 (function() {
     igk.system.createNS("igk.uri", {
         getQueryArg: function(q) { // retrieve query argument from the query uri q

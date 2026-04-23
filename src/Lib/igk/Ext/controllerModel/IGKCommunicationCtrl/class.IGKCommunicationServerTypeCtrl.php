@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\ApplicationController;
 use IGK\System\Http\AcceptMimeTypes;
 
@@ -15,13 +14,11 @@ use IGK\System\Http\AcceptMimeTypes;
 * represent a communication controller base
 */
 abstract class IGKCommunicationServerCtrl extends ApplicationController{
-
     /**
     * Constant: http accept.
     * @var mixed
     */
     const HTTP_ACCEPT= AcceptMimeTypes::EventStream;
-
     /**
     * auto generate doc.
     */    private function getSocketFile(){
@@ -30,7 +27,6 @@ abstract class IGKCommunicationServerCtrl extends ApplicationController{
     /**
     * override this to handle server
     */
-
     abstract public function handle();
     /**
     * 

@@ -3,6 +3,7 @@
 // @file: ReplacementObject.php
 // @date: 20221206 07:34:12
 namespace IGK\System\Regex;
+
 /**
 * auto generate doc.
 * @package IGK\System\Regex

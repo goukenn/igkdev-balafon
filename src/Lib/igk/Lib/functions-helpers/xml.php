@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: xml.php
 // @date: 20220831 14:18:33
@@ -20,8 +19,6 @@ function igk_create_xml_cdata()
 {
     return new \IGK\System\Html\XML\XmlCDATA();
 }
-
-
 /**
  * create xlst node
  */

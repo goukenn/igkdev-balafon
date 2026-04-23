@@ -1,9 +1,6 @@
 "use strict";
-
 (function() {
-
     function __calcobj(q, i) {
-
         var self = this;
         var s = q.select("span").getItemAt(0);
         var defv = i.getAttribute("default-v") || i.o.value;
@@ -17,30 +14,23 @@
             s.rmClass("igk-success");
             if (t > 0) {
                 s.addClass("igk-success");
-
             } else {
                 s.addClass("igk-danger");
-
             }
             s.setHtml(t);
         });
-
         igk.appendProperties(this, {
-
             toString: function() { return "igk:[#calc]" }
         });
     }
-
     igk.system.createNS("igk.calc", {
         init: function(q) {
             if (!q) return;
             var i = q.select("#clValue").getItemAt(0);
             if (!i) return;
-
             return new __calcobj(q, i);
         }
     });
-
     igk.ready(function() {
         var e = $igk(".igk-calc").each(function() {
             igk.calc.init(this);
@@ -52,7 +42,5 @@
                 // console.debug("regis "+this);
             }
         });
-
     });
-
 })();

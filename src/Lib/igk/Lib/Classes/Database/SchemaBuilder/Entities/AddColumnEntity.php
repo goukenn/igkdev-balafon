@@ -6,6 +6,7 @@ namespace IGK\Database\SchemaBuilder\Entities;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\Database\SchemaBuilder\Entities
@@ -19,7 +20,6 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
     */
     public function updateSchema($schemaInfo, $operation = 'up')
     {
-        // add manually update 
         $schema = $schemaInfo;
         $v_info = $this->_props['property']->getColumnInfo();
         $v_rtable = igk_db_get_table_name($this->_table, $this->_controller);

@@ -3,12 +3,11 @@
 // @filename: .controller.pinc
 // @date: 20220803 13:51:47
 // @desc: register controller in use with the linked name
-
 // ---------------------
 // controller name cache
 // order have importance
 // --------------------- 
- 
+
 return [
     IGK_SYSDB_CTRL => \IGK\Controllers\SysDbController::class,
     IGK_SYSACTION_CTRL=>\IGK\System\Configuration\Controllers\SystemUriActionController::class,
@@ -31,7 +30,6 @@ return [
     // IGK_MYSQL_DB_CTRL=>\IGK\System\Database\MySQL\Controllers\DbConfigController::class,
     IGK_COMPOSER_CTRL=>\IGK\System\Configuration\Controllers\ComposerController::class,
     IGK_USER_AND_GROUP_CTRL=>\IGK\System\Configuration\Controllers\UserAndGroupController::class,
-
     // "igk5Cconfiguration5Cauthorisationcontroller"=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
     IGK_AUTH_CTRL=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
     // IGK_AUTH_CTRL=>\IGK\System\Configuration\Controllers\AuthorisationController::class,
@@ -43,9 +41,6 @@ return [
     IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
     IGK_TOOLS_CTRL=>\IGK\System\Configuration\Controllers\ToolConfigController::class,
     IGK_MODULE_CNF_CTRL=>\igk\Ext\Controllers\ModuleConfigurationController::class,
-
     // "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
-
-
     IGK_DB_CONF_CTRL=>\IGK\System\Configuration\Controllers\DatabaseConfigurationController::class
 ];

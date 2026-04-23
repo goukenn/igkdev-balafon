@@ -1,11 +1,8 @@
 <?php
-
 // file: installer-core-function.pinc 
+
 error_reporting(-1);
 ini_set('display_errors', 1);
-
-
-
 if (!function_exists('igk_io_flatpath')) {
     function igk_io_flatpath(string $path)
     {
@@ -30,7 +27,6 @@ if (!function_exists('igk_io_flatpath')) {
         return $path .implode(DIRECTORY_SEPARATOR, $rpath);
     }
 }
-
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {
@@ -40,16 +36,12 @@ if (!function_exists("igk_getr")) {
         return $default;
     }
 }
- 
-
-
 if (!in_array('igk_count', $exclude_cores ?? [])  && !function_exists("igk_count")) {
     function igk_count($n)
     {
         return count($n);
     }
 }
-
 if (!in_array('igk_dir', $exclude_cores ?? []) &&  !function_exists("igk_dir")) {
     function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
@@ -85,7 +77,6 @@ if (!in_array('igk_io_rmdir', $exclude_cores ?? []) && !function_exists("igk_io_
                 if (($f == ".") || ($f == ".."))
                     continue;
                 $v = igk_dir($dir . "/" . $f);
-
                 if ($callback && !$callback($v)) {
                     continue;
                 }

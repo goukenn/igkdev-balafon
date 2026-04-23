@@ -17,12 +17,12 @@ use IGKEvents;
 use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IGK\IUriActionListener;
+
 /**
 * System uri action controller.
 * @package IGK\System\Configuration\Controllers
 */
 final class SystemUriActionController extends ConfigControllerBase implements IUriActionListener{
-    //+ action routes
     /**
     * Constant: routes.
     * @var mixed
@@ -286,11 +286,9 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         }
         // + | handle /configs
         $conf_path = self::GetConfigurationPath();
-        // $actions["^{$conf_path}(\.php)?$"]=$ctrl->getUri("gotoconfig");
         $conf_ctrl=igk_getconfigwebpagectrl();
         if($conf_ctrl){
             $actions["^{$conf_path}!Settings$"]=$conf_ctrl->getUri("configure_settings");
-            // igk_wln_e(__FILE__.":".__LINE__, "init action ... ");
             $t=igk_get_env("sys://configs/options");
             if($t){
                 foreach($t as $k=>$v){
@@ -335,7 +333,6 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
                 }
             }
             } catch(Exception $ex){
-                // no uri loader
             }
         }
         return $actions;
@@ -458,9 +455,6 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         $app=igk_app();
         $app->Session->PageFolder=IGK_HOME_PAGEFOLDER;
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, $pattern);
-        // $v_uri = './?c=%7Ba4918130-ce95-8e6b-c4a0-7b906dcf8c51%7D&f=configure-settings';
-        // igk_trace();
-        // igk_wln_e($v_uri, $pattern->action, $r);
         $app->getControllerManager()->InvokeUri($v_uri);
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, null);
         if($render){
@@ -501,10 +495,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
             return null;
         }
         $v_routes = $this->_refRoutes();  
-        // igk_wl_pre($v_routes);
-        // igk_wln_e(__FILE__.":".__LINE__);
         if($v_routes){
-            //  krsort($v_routes);
             foreach($v_routes as $k=>$v){
                 $pattern=igk_pattern_matcher_get_pattern($k); 
                 if(preg_match_all($pattern, $uri)){
@@ -588,7 +579,6 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         $tab=& $this->_refRoutes();
         if(isset($tab[$uripattern])){
             unset($tab[$uripattern]);
-            // $this->setRoutes($tab);
         }
     }
     /**
@@ -604,10 +594,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         $this->ConfigNode->add($c);
         $c=$c->clearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
-        //$c->addHSep();
         $c->notagnode()->article($this, "systemuri", []);
-        //igk_html_article($this, "systemuri", $c->div());
-        //$c->addHSep();
         $div=$c->div();
         $ul=$div->add("ul");
         $v_routes=$this->_refRoutes();

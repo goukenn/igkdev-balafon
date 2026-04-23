@@ -12,18 +12,15 @@
 * Represent IGKPageZoneCtrl class
 */
 abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
-
     /**
     * Property: view zone.
     * @var mixed
     */
     private $m_viewZone;
-
     /**
     * auto generate doc.
     * @param mixed $targetnode the default value is null
     */
-
     protected function _showChild($targetnode=null){
         $t=$targetnode ? $targetnode: $this->TargetNode;
         $t->add($this->m_viewZone);
@@ -39,50 +36,42 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
             }
         }
     }
-
     /**
     * auto generate doc.
     */
     protected function _showViewFile(){
         parent::_showViewFile();
     }
-
     /**
     * auto generate doc.
     */
     public static function GetAdditionalConfigInfo(){
         return null;
     }
-
     /**
     * auto generate doc.
     */
     public function getCanAddChild(){
         return true;
     }
-
     /**
     * auto generate doc.
     */
     public function getName(): string{
         return get_class($this);
     }
-
     /**
     * auto generate doc.
     */
     public function getViewZone(){
         return $this->m_viewZone;
     }
-
     /**
     * auto generate doc.
     */
     protected function initComplete($context=null){
         parent::initComplete();
     }
-    //@@@ init target node
-
     /**
     * auto generate doc.
     */
@@ -93,5 +82,4 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
         $this->m_viewZone["class"]="page_zone";
         return $node;
     }
-    
 } 

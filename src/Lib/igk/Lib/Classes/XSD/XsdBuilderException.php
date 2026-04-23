@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\XSD;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\XSD

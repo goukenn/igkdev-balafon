@@ -7,6 +7,7 @@ namespace IGK\Services;
 // + | sevice is a one time class instance only initialize when required
 // + | add parametered with /services.php configuration 
 // + |
+
 /**
 * balafon service that can be registered
 * @package IGK\Services
@@ -16,7 +17,7 @@ interface IAppService{
      * retrieve configuration properties.
      * @return null|IGK\Services\IAppServiceProperty 
      */
-    function getConfigurableProperties(): array; // :?IAppServiceProperty[];
+    function getConfigurableProperties(): array; 
     /**
      * initialize the service - with configuration 
      * @param mixed $configs 

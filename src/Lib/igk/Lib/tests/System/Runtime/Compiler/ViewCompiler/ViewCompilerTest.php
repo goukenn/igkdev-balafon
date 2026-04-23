@@ -4,7 +4,6 @@
 // @date: 20221025 11:26:36
 // @cmd: phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/tests/System/Runtime/Compiler/ViewCompiler/ViewCompilerTest.php
 namespace IGK\Tests\System\Runtime\Compiler\ViewCompiler;
-
 use IGK\Controllers\SysDbController;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompiler;
 use IGK\Tests\BaseTestCase;
@@ -14,7 +13,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompilerTest extends BaseTestCase{
-
     /**
     * auto generate doc.
     * @param mixed ...$args
@@ -24,28 +22,23 @@ class ViewCompilerTest extends BaseTestCase{
         $t = array_merge(["<?php"],  $args);
         return implode("\n", $t);
     }
-
     /**
     * Tests expression 1.
     */
     public function test_expression_1(){
-
         $compiler = new ViewCompiler;
         $compiler->variables = [];
         $src = $compiler->compileSource($this->_source('$a->div()->Content = "OK";'));
-      
         $this->assertEquals(
             $this->_source("\$___IGK_PHP_SETTER_VAR___['a']->div()->Content = \"OK\";"),
             $src,
             "failed to get data"
         );
     }
-
     /**
     * Tests expression 2.
     */
     public function test_expression_2(){
-
         $compiler = new ViewCompiler;
         $compiler->variables = [];
         $src = $compiler->compileSource($this->_source('$a->div()->Content = "OK".$x;'));
@@ -55,12 +48,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data"
         );
     }
-
     /**
     * Tests expression 3.
     */
     public function test_expression_3(){
-
         $compiler = new ViewCompiler;
         $compiler->variables = [];
         $src = $compiler->compileSource($this->_source('$a->div()->Content = ["one", $y];'));
@@ -70,7 +61,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data"
         );
     }
-
     /**
     * Tests expression 4.
     */
@@ -84,7 +74,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests expression 5.
     */
@@ -98,7 +87,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests expression 6.
     */
@@ -112,7 +100,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block expression 1.
     */
@@ -126,7 +113,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block expression do.
     */
@@ -140,7 +126,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block expression if litteral.
     */
@@ -154,7 +139,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache litteral.
     */
@@ -173,7 +157,6 @@ class ViewCompilerTest extends BaseTestCase{
             '$a->ul()->li()->Content = "Present";',
             '$t->div()->add($a);'
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source( 
                 '?><div%__igk_attribute__%><?php',
@@ -184,7 +167,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache condition.
     */
@@ -203,7 +185,6 @@ class ViewCompilerTest extends BaseTestCase{
             '    $t->add("item-".$y)->Content = "Sample".$y;',
             '}'
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source( 
                 '?><div%__igk_attribute__%><?php',
@@ -217,7 +198,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache condition 2.
     */
@@ -230,14 +210,12 @@ class ViewCompilerTest extends BaseTestCase{
             "ctrl"=>SysDbController::ctrl()
         ];
         $compiler->forCache = true;
-
         $src = $compiler->compileSource($this->_source(
             'if (false){',
             '    $y = (object)["name"=>"condition-2"];',
             '    $t->add("item-".$y->name)->Content = "Sample".$y->name;',
             '}'
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source( 
                 '?><div%__igk_attribute__%><?php',
@@ -251,7 +229,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * St block loop template.
     */
@@ -269,7 +246,6 @@ class ViewCompilerTest extends BaseTestCase{
             '    $t->div()->loop(3)->div()->Content = " welcome {{ \$raw }} ";',
             '}'
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source( 
                 '?><div%__igk_attribute__%><?php',
@@ -282,7 +258,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache condition 3.
     */
@@ -301,7 +276,6 @@ class ViewCompilerTest extends BaseTestCase{
             '    igk_google_addfont($doc, "Anton");' ,
             '}'
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source(                  
                 'if (function_exists("igk_google_addfont")):',
@@ -313,7 +287,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache condition 4.
     */
@@ -329,7 +302,6 @@ class ViewCompilerTest extends BaseTestCase{
         $src = $compiler->compileSource($this->_source(
             '($cl = igk_create_node("div")) && $cl->clear();', 
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source(                  
                 '($___IGK_PHP_SETTER_VAR___[\'cl\'] = $cl = igk_create_node("div")) && $___IGK_PHP_SETTER_VAR___[\'cl\']->clear();',                
@@ -338,7 +310,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests block build cache condition 5.
     */
@@ -354,7 +325,6 @@ class ViewCompilerTest extends BaseTestCase{
         $src = $compiler->compileSource($this->_source(
             '($cl);', 
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source(                  
                 '($___IGK_PHP_SETTER_VAR___[\'cl\']);',                
@@ -363,7 +333,6 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
-
     /**
     * Tests comment specifics.
     */
@@ -382,7 +351,6 @@ class ViewCompilerTest extends BaseTestCase{
             '// + | ',            
             'echo "Hello";',      
         ));
-        //igk_wln_e("the source ", $src);
         $this->assertEquals(
             $this->_source(                  
                 '// + | ----',                

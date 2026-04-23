@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: php.php
 // @date: 20230129 09:46:57
@@ -16,4 +15,3 @@ function igk_php_is_module_enabled(string $mod_name){
     } 
     return false;
 }
-

@@ -1,5 +1,4 @@
 <?php
-
 use IGK\Controllers\ApplicationController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
@@ -11,20 +10,17 @@ use IGK\System\Html\HtmlRenderer;
 * Represent IGKApiFunctionCtrl class
 */
 final class ApiFunctionController extends ApplicationController {
-
     /**
     * Constant: libname.
     * @var mixed
     */
     const LIBNAME=IGK_API_MYSQLPINC;
-
     /**
     * auto generate doc.
     */
     public function about(){
         igk_wln_e(__FILE__.":".__LINE__, "About");
     }
-
     /**
     * auto generate doc.
     */
@@ -49,12 +45,10 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $cmd the default value is null
     */
-
     public function ctrl($cmd=null){
         $args=array_slice(func_get_args(), 1);
         $_api=$this;
@@ -84,12 +78,10 @@ final class ApiFunctionController extends ApplicationController {
                 unlink($ftempdir);
                 igk_exit();
             }
-
                 $n->Content="not created";
 				return false;
         };
         $_data["initDb"]=function($ctrl) use ($n, $_api){
-           
             $ctrl=igk_getctrl($ctrl);
             if($ctrl && igk_is_conf_connected()){
                 $ctrl->initDb();
@@ -126,19 +118,16 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * represent a function database function list
     */
-
     public function datadb($cmd=null){       
         /**
          * @var ?array $_data 
          * @var ?array $_data 
          */
-
         $file = self::LIBNAME;
         if(igk_io_file_exists($file)){
             include_once($file);
         }
         $args=array_slice(func_get_args(), 1);
-        
         $_api=$this;
         $_data=array(
             "gentoken"=>function($cmd, $args) use ($_api){
@@ -291,7 +280,7 @@ final class ApiFunctionController extends ApplicationController {
                         igk_wln("/!\\ Operation not allowed");
                         igk_exit();
                     }
-                    $n= implode("\\", $args);//igk_getv($args, 0);
+                    $n= implode("\\", $args);
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
                         $schema=igk_db_backup_ctrl($ctrl, 1);                        
@@ -406,7 +395,6 @@ final class ApiFunctionController extends ApplicationController {
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
                         $schema=igk_db_backup_ctrl($ctrl);
-                       // igk_getv($ctrl->loadDataFromSchemas(),"tables"); 
                         $ctrl::initDb(false);
                         igk_db_restore_backup_data($ctrl, $schema);
                     }
@@ -417,13 +405,11 @@ final class ApiFunctionController extends ApplicationController {
                     }
                 },
             "help"=>function() use ( & $_data, $_api){
-              
                     $doc=igk_get_document($_api);
                     $doc->Title="Api - MYSQL ";
                     igk_google_addfont($doc, "Roboto");
                     $bbox=$doc->body->addBodyBox()->clearChilds();
                     $bbox["class"]="google-Roboto";
-                    
                     $b=$bbox->div();
                     $b->container()->addSingleRowCol()->addSectionTitle(4)->Content=__("API DataDB Command list");
                     $b=$bbox->div()->container()->addRow();
@@ -463,9 +449,7 @@ final class ApiFunctionController extends ApplicationController {
             }
             else{
                 $f="igk_api_mysql_".str_replace("-", "_", $cmd);
-          
                 if(!function_exists($f)){
-                    // igk_ilog(__FUNCTION__."::", "function {$f} not exists");
                     igk_wln_e("function [$f] not exists in ".$file);
                 }
                 else{
@@ -483,7 +467,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
-
     /**
     * auto generate doc.
     */
@@ -496,14 +479,12 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */
     public function getBasicUriPattern(){
         return IGK_API_URI;
     }
-
     /**
     * Returns Entry Name Space.
     */
@@ -513,51 +494,43 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
-
     /**
     * auto generate doc.
     */
     public function getIsVisible():bool{
         return false;
     }
-
     /**
     * auto generate doc.
     */
     public function getName():string{
         return IGK_API_CTRL;
     }
-
     /**
     * Returns App Name.
     */
     public function getAppName(){
         return IGK_API_CTRL;
     }
-
     /**
     * auto generate doc.
     */
     public function getRegUriAction(){
         return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
-
     /**
     * auto generate doc.
     */
     public function getVersion(){
         return IGK_API_VERSION;
     }
-
     /**
     * auto generate doc.
     * @param mixed $function
     */
-
     public function IsFunctionExposed($function){
         return true;
     }
-
     /**
     * auto generate doc.
     */
@@ -577,10 +550,8 @@ final class ApiFunctionController extends ApplicationController {
             $node->add("ExecutionResponse")->Content=$this->App->ControllerManager->InvokeFunctionUri($q);
             $this->ConfigCtrl->logout(false, true);
         }
-
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */
@@ -597,17 +568,14 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-
     /**
     * auto generate doc.
     * @param mixed $cmd the default value is null
     */
-
     public function setup($cmd=null){
         igk_wln(__FUNCTION__." command");
         igk_exit();
     }
-
     /**
     * auto generate doc.
     */

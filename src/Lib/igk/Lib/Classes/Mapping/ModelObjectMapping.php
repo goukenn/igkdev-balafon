@@ -5,6 +5,7 @@
 // @desc: object used for mapping data
 namespace IGK\Mapping;
 use IGK\Helper\StringUtility;
+
 /**
  * used to map data to model
  * @package com\igkdev\app\llvGStock\Actions

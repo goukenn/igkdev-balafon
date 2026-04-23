@@ -37,6 +37,7 @@ use IGK\System\IInjectable;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+
 require_once IGK_LIB_CLASSES_DIR . '/Models/Inc/ModelEntryExtension.php';
 /**
  * root model base 
@@ -152,10 +153,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             $list = array();
         }
         $inf = $this->getTableColumnInfo() ?? [];
-        // if (is_null($inf)){
-        //     igk_wln_e("error: ",$this->getTableInfo()->tableName );
-        //     igk_die("table info required.".static::class);
-        // }
         if (isset($inf[$name])) {
             return $name;
         }
@@ -421,7 +418,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             self::$mock_instance = [];
         }
         if (!($m = igk_getv(self::$mock_instance, $classname))) {
-            //DBCaches::IsInitializing() ?? igk_die('caching initializing. cant not register a mocking instance');
             $m = new $classname(null, 1);
             self::$mock_instance[$classname] = $m;
         }
@@ -490,7 +486,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $v_inf = DBCaches::GetColumnInfo($t, $ctrl, $tableReference);
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
-            // $r =  DBCaches::GetCacheData();
             if (igk_environment()->isDev()) {
                 igk_wln([
                     "access" => __FILE__ . ":" . __LINE__,
@@ -755,7 +750,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     */
     private static function &_InitDbMacros()
     {
-        // ---------------------------------------------------------------------------
         // + initialize macro definition
         //
         $macros = [
@@ -860,16 +854,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if (!$failed) {
             return $result;
         }
-        // if ($tfc = igk_getv(self::$macros, static::class . self::ClosureSeperator . $name)) {
-        //     // + | ----------------------------------------
-        //     // + | bind to instance or call it as extension             
-        //     if ($fc = @$tfc->bindTo($_instance_class)){
-        //         return $fc(...$arguments);
-        //     }else {
-        //         array_unshift($arguments, $_instance_class);
-        //         return $tfc(...$arguments);
-        //     }
-        // }
         if (static::class === __CLASS__) {
             return;
         }
@@ -909,8 +893,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $R_macros =  & self::$sm_macros;
         $key = static::class . self::StaticSeparator . $name;
         if ($fc = igk_getv($macros, $key)) {
-            // static closure
-            // if ($arguments) {
                 // + | try to inject argument
                 $tc = $fc;
                 if (is_array($tc)) {
@@ -919,13 +901,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 $parameters = (new ReflectionFunction($tc))->getParameters();
                 array_shift($parameters);
                 $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $arguments);
-            // }
             array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }
         $key = static::class . self::ClosureSeperator . $name;
         if ($fc = igk_getv($macros, $key)) {
-            // instance closure          
             if (is_callable($fc)) {
                 $fc = Closure::fromCallable($fc);
             }
@@ -943,7 +923,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
         $key = igk_uri('@auto_register/' . get_class($instance));
         if (!isset($R_macros[$key])) {
-            // auto register load - macros class 
             if ($cl = Database::GetMacroClass($instance)) {
                 $R_macros[MacrosConstant::REF_MACROS] = get_class($instance);
                 $reg_ext_fc = igk_getv($R_macros, MacrosConstant::RegisterExtensionMethod);
@@ -1093,7 +1072,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     public static function GetModels(BaseController $controller)
     {
-        $dir = $controller->getClassesDir() . "/Models"; //  dirname(__FILE__);
+        $dir = $controller->getClassesDir() . "/Models"; 
         $hdir = opendir($dir);
         $tab = [];
         $main_cl = ModelBase::class;
@@ -1130,8 +1109,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     public function __invoke(...$arguments)
     {
-        // igk_wln_e("loading", $arguments);
-        return static::__callStatic("select_query_rows", $arguments); // ("select_all", $arguments);
+        return static::__callStatic("select_query_rows", $arguments); 
     }
     /**
     * unset innacessible property

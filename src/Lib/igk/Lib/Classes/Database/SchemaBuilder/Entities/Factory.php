@@ -4,6 +4,7 @@
 // @date: 20231224 14:26:48
 namespace IGK\Database\SchemaBuilder\Entities;
 use IGK\Resources\R;
+
 /**
 * Entity factory helper 
 * @package IGK\Database\SchemaBuilder\Entities

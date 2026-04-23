@@ -5,6 +5,7 @@
 // @desc: maintenance helper
 namespace IGK\Helper;
 use IGK\System\Installers\InstallerUtils;
+
 /**
  * 
  */
@@ -67,7 +68,6 @@ EOF        );
         }
         $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
         if (!igk_io_file_exists($index = $bdir . "/index.php")){
-            // install index file ...
             igk_io_w2file(
                 $index,
                 InstallerUtils::GetEntryPointSource([
@@ -78,7 +78,6 @@ EOF        );
             );
         }
         if (!igk_io_file_exists($h = $bdir . "/.htaccess")){
-            // install index file ...
             igk_io_w2file(
                 $h,
                 igk_getbase_access(igk_io_basedir())

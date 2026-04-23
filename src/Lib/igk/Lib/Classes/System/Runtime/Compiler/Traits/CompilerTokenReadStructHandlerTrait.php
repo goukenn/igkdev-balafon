@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
@@ -52,7 +53,6 @@ trait CompilerTokenReadStructHandlerTrait
                 switch ($value) {
                     case '{':
                         $struct->readCode = true;
-                        // start reading code 
                         $options->flagOption = null;
                         $flag = null;
                         $this->pushBuffer($options, $struct->buffer, 'class');
@@ -100,7 +100,6 @@ trait CompilerTokenReadStructHandlerTrait
                 $v_name = $options->flagOptions["name"];
                 unset($uses[$v_name]);
                 $options->flagOptions["name"] .= $value;
-                // igk_wln(__FILE__ . ":" . __LINE__, $options->flagOptions, $uses);
                 break;
             case T_STRING:
                 if ($flag == CompilerFlagState::READ_CLASS_USE) {
@@ -158,7 +157,6 @@ trait CompilerTokenReadStructHandlerTrait
             default:
                 switch ($value) {
                     case ';':
-                        // igk_wln_e("done ", $uses);
                         $this->_popFlag($options);
                         break;
                 }

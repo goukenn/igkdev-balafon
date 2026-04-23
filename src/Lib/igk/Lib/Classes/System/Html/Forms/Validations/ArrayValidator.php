@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
+
 /**
  * use to validate an array field
  * @package IGK\System\Html\Forms\Validations

@@ -7,6 +7,7 @@ namespace IGK\System\Html\XML;
 use IGK\System\Configuration\SysAppConfigExpression;
 use IGK\System\Configuration\SysConfigExpression;
 use IGK\System\Html\HtmlUtils;
+
 /**
  * configuration node
  * @package IGK\System\Html\XML
@@ -52,7 +53,6 @@ class XmlConfigurationNode extends XmlNode{
                     $g->setAttributes($n->getAttributes()->to_array());
                     $childs = $n->childs->to_array();
                     parent::add($g);
-                    // copy children
                     HtmlUtils::CopyNode($g, $childs, function($n){
                         return new self($n);
                     });                  
@@ -88,8 +88,6 @@ class XmlConfigurationNode extends XmlNode{
     {
         $s = trim(parent::getInnerHtml());     
         $gps = \IGK\System\Configuration\SysConfigExpressionFactory::GetRegisterRegex();
-        //  
-        // if (!empty($s) && preg_match("/\{\{(?P<exp>.+)\}\}/i", $s, $tab)){
         if (!empty($s) && preg_match("/\{\{(?P<exp>\s*((?P<name>$gps)\.)?.+)\}\}/i", $s, $tab)){
             $m = trim($tab["exp"]);
             $n = igk_getv($tab, 'name');

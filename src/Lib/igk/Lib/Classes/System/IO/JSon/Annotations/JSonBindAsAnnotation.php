@@ -11,6 +11,7 @@ use IGK\System\IO\JSon\JSonBindToConverterBase;
 use IGK\System\IO\JSon\JSonObjClassConverter;
 use IGKException;
 use stdClass;
+
 /**
  * 
  * represent how to bind property when using JSon::Bind
@@ -68,6 +69,15 @@ class JSonBindAsAnnotation extends AnnotationBase
             'number' => function ($c) {
                 return is_numeric($c) ? floatval($c) : 0.0;
             },
+            'int'=>function($c){
+                return is_numeric($c) ? intval($c) : 0.0;
+            },
+            'float'=> function($c){
+                return is_numeric($c) ? floatval($c) : 0.0;
+            },
+            'bool'=>function($c){
+                return boolval($c);
+            },
             'version' => function ($c) {
                 $tb = explode(".", $c);
                 list($major, $minor, $patch, $subversion) = igk_array_pad($tb, 4, 0);
@@ -108,9 +118,10 @@ class JSonBindAsAnnotation extends AnnotationBase
         foreach ($reflect->getProperties() as $k) {
             $comment = $k->getDocComment();
             $p = $reader->readDoc($comment, $uses);
-            $bindAnnotation = igk_getv(array_filter($p->getAnnotations(), function ($a) {
+            $annotations = $p->getAnnotations();
+            $bindAnnotation = igk_getv(array_values(array_filter($annotations, function ($a) {
                 return $a instanceof JSonBindAsAnnotation;
-            }), 0);
+            })), 0);
             if ($bindAnnotation) {
                 $cp[$k->getName()] = $bindAnnotation;
             } else {
@@ -150,7 +161,6 @@ class JSonBindAsAnnotation extends AnnotationBase
                 }
                 return null;
             }
-            // convert to array of 
             if (!is_array($value)) {
                 $t = null;
                 if ($value instanceof stdClass){

@@ -5,6 +5,7 @@
 namespace IGK\System\Http;
 use Exception;
 use IGKException;
+
 /**
 * shared reponse utility functions
 * @package IGK\System\Http

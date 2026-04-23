@@ -3,10 +3,6 @@
 // @filename: class.ContactZoneCtrl.php
 // @date: 20220803 13:48:59
 // @desc: 
-
-//controller code class declaration
-//file is a part of the controller tab list
-
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
@@ -17,76 +13,57 @@ use IGK\System\Html\Dom\HtmlNotificationItemNode;
 */
 abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * Property: view zone.
     * @var mixed
     */
     private $m_viewZone;
-
     /**
     * Property: error.
     * @var mixed
     */
     private $m_error;
-
     /**
     * Returns Error.
     */
-
     public function getError(){return $this->m_error; }
-
     /**
     * Returns Name.
     * @return string
     */
-
     public function getName(): string{return get_class($this);}
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
     */
-
     protected function initComplete($context=null){
 		parent::initComplete();
-		//please enter your controller declaration complete here
-
 	}
-
     /**
     * Returns Additional Config Info.
     */
-
     public static function GetAdditionalConfigInfo()
 	{
 		return null;
 	}
-	//@@@ init target node
-
     /**
     * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
-
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
 		return $node;
 	}
-
     /**
     * Returns Can Add Child.
     */
-
     public function getCanAddChild(){
 		return false;
 	}
-
     /**
     * Validates form.
     */
-
     protected function validate_form()
 	{
 		$obj = igk_get_robj();
@@ -95,25 +72,20 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		IGKValidator::Assert(empty($obj->clLastName), $error, $enode, R::ngets("ERR.Mail.NoLastName"));
 		IGKValidator::Assert(empty($obj->clMessage), $error, $enode, R::ngets("ERR.Mail.NoMessage"));
 		IGKValidator::Assert(empty($obj->clMessage) || !IGKValidator::IsEmail($obj->clYourmail),  $error, $enode, R::ngets("ERR.Mail.MailNotValid"));
-
 		return $enode;
 	}
-
     /**
     * Sends mail.
     */
-
     public function send_mail()
 	{
 		$obj = igk_get_robj();
 		$enode = $this->validate_form();
 		$t = new HtmlNotificationItemNode($this->TargetNode, "send mail");
 		if ($enode->ChildCount == 0)
-		{//no error found
-
+		{
 			$e = igk_getctrl("igkmailctrl")->send_contactmail( $obj->clFirstName. "  ".strtoupper($obj->clLastName), "" );
 			$e[1]["igk-control-type"] = "notifyctrl";
-
 			if ($e[0] == false)
 			{
 				$t["class"] = "igk_notify_error";
@@ -126,7 +98,6 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 				$t->add($e[1]);
 				$this->m_error = $t;
 			}
-
 		}
 		else{
 			$t["class"] = "igk_notify_error";
@@ -136,18 +107,13 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->View();
 		$this->m_error = null;
 		$this->m_response = null;
-		//igk_navtocurrent("./#".strtolower($this->Name));
-
 	}
-
     /**
     * Builds Contact Form.
     * @param mixed $target
     */
-
     protected function buildContactForm ($target)
 	{
-
 		$ul  = $target->add("ul");
 		 igk_html_build_form($ul,
 		array(
@@ -156,20 +122,14 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 			array("clYourmail", "text", true,"yourmail"),
 			array("clSubject", "text", true,"sujet")
 		 ));
-
 		 $li = $ul->add("li");
 		 $li->addLabel("lb.clMessage" , "clMessage");
 		 $li->addTextArea("clMessage", "", array("defaulttext"=>R::ngets("tooltip.pleaseenteryourmessage")));
-
-			//array("clMessage", "textarea", true, "message")
-
 	}
-
     /**
     * View.
     * @return BaseController
     */
-
     public function View(): BaseController{		
 		$t = $this->getTargetNode();
 		$t->clearChilds();

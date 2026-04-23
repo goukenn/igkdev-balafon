@@ -6,6 +6,7 @@
 namespace IGK\Database\Macros;
 use IGK\Models\Connections;
 use IGK\Models\Users;
+
 /**
 * 
 * @package IGK\Database\Macros

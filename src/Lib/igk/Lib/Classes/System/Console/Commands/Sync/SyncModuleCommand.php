@@ -14,6 +14,7 @@ use IGK\System\Controllers\ApplicationModules;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Shell\OsShell;
+
 /**
  * sync ftp project
  * @package IGK\System\Console\Commands
@@ -100,7 +101,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         }
         Logger::info("Sync all modules");        
         if ($cache_file = ApplicationModules::GetCacheFile()){
-        // remove json modules cache file files
             @unlink($cache_file);
         }
         $tab = igk_get_modules();
@@ -109,10 +109,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             foreach ($tab as $mod) {
                 if ($module = igk_get_module($mod->name)){
                     Logger::info("sync : ". $i . " / ".$count);
-                    // Logger::info("name: ".$mod->name);
                     $this->sync_module($module, $setting);
-                    // wait for 2 seconds because of init 
-                   // sleep(1);
                 }
                 $i++;
             }
@@ -130,7 +127,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
             return -2;
         }
         Logger::info("Sync module : " . $module->getName());
-        $install_dir = $setting["module_dir"]; //igk_io_collapse_path($module->getDeclaredDir());
+        $install_dir = $setting["module_dir"]; 
         if (empty($install_dir)){
             $dir = $setting["application_dir"] ?? igk_die("no application directory");
             $install_dir .= $dir."/Packages/Modules";
@@ -151,7 +148,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         igk_io_w2file($script_install, $sb);
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
-        //upload zip and install it 
         ftp_put($h, $lib =  $pdir . "/" . $name, $file, FTP_BINARY);
         // + | sleep 
         sleep(2);

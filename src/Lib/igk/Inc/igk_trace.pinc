@@ -7,10 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 // return;
-
 // if((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_get_env(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)){
     // $lv=igk_get_env('TRACE_LEVEL', igk_get_env(IGK_ENV_TRACE_LEVEL, 2));
     // $c=IGKException::GetCallingFunction($lv);
@@ -18,13 +15,11 @@
     //     $cp = (object)[];
     //     foreach($c as $k=>$v){
     //         $cp->$k = $v;
-
     //         if ($k=="function"){
     //             echo implode(":", (array)$cp).PHP_EOL;
     //         } 
     //     }
     // }else {
-
     //     $dn=igk_create_node("div");
     //     $n=$dn->add("table")->setClass("igk-table-hover igk-table-striped");
     //     $r1=$n->addTr();
@@ -36,3 +31,4 @@
     //     echo $dn->render();
     // }
 // }
+

@@ -4,6 +4,7 @@
 // @date: 20230107 13:32:22
 namespace IGK\System\Console;
 use IGK\System\IO\FakeInput;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console

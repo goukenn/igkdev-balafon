@@ -3,10 +3,7 @@
 // @filename: CssBuilderTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Tests;
- 
 use IGK\System\Html\Dom\HtmlDocTheme; 
 use IGKHtmlDoc;
 
@@ -16,20 +13,17 @@ use IGKHtmlDoc;
 */
 class CssBuilderTest extends BaseTestCase
 {
-
     /**
     * Create theme.
     */
     protected static function _CreateTheme(){
         return new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test", false);
     }
-
     /**
     * Tests render transform.
     */
     function test_render_transform(){
         $theme = self::_CreateTheme();
-
         $cv =  "[transform: scale(1.0)]";    
         $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
@@ -37,7 +31,6 @@ class CssBuilderTest extends BaseTestCase
             $r, 
             "render transform not resolved"
         );
-
         $cv =  "[transform: rotate(90)]";    
         $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
@@ -46,25 +39,20 @@ class CssBuilderTest extends BaseTestCase
             "render rotate not resolved"
         );
         $cv =  "[transform: scale(1.5), rotate(90deg)]";    
- 
         $r = igk_css_treat($cv, false, $theme, $theme);
-     
         $this->assertEquals(
             "-webkit-transform: scale(1.5), rotate(90deg);-ms-transform:scale(1.5), rotate(90deg); -moz-transform:scale(1.5), rotate(90deg); -o-transform: scale(1.5), rotate(90deg); transform: scale(1.5), rotate(90deg);",
             $r, 
             "render rotate not resolved"
         );
     }
-
     /**
     * Tests rendergin.
     */
     function test_rendergin()
     { 
         $theme = self::_CreateTheme();
-
         $cv =  "[bgcl: actionBarButtonHoverBackgroundColor, #333] color:yellow; box-shadow: 0px 2px 6px [cl:ationBarButtonShadowColor, #111]; [transform:scale(1.1)]";
-    
         $r = igk_css_treat($cv, false, $theme, $theme);
         $this->assertEquals(
             "background-color: actionBarButtonHoverBackgroundColor; color:yellow; box-shadow: 0px 2px 6px ationBarButtonShadowColor; -webkit-transform: scale(1.1);-ms-transform:scale(1.1); -moz-transform:scale(1.1); -o-transform: scale(1.1); transform: scale(1.1);",
@@ -73,75 +61,56 @@ class CssBuilderTest extends BaseTestCase
         );
         $this->assertTrue(true);
     }
-
     /**
     * Tests css theme definition.
     */
     function test_css_theme_definition(){
-
         $theme = self::_CreateTheme();
-
         $systheme = igk_app()->getDoc()->getSysTheme();
         $systheme[".igk-fs-n"] = "background-color:red;";
         $theme[".igk-def-c"] = "{(sys:.igk-fs-n); line-height:1.25;}";
-        // $theme[".igk-def-c"] = "(sys:.igk-fs-n); line-height:1.25;";
- 
         $this->assertEquals(
             "{background-color:red; line-height:1.25;}",
             igk_css_treat($theme[".igk-def-c"], false, $theme, $systheme),
             "styling not valid"
         );
     }
-
     /**
     * Tests css sysfcolor.
     */
     function test_css_sysfcolor(){
         $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
-
-
         $v =" [sysfcl:tableHead]";
         $cl = & $systheme->getCl();
         $cl["tableHead"] = "blue";
-        // no sys color provided
         $this->assertEquals(
             "color: blue;",
             igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: defined not valid"
         );
-
-
         $v =" [sysfcl:tableHeadKKK, #222] ";
-        // no sys color provided
         $this->assertEquals(
             "color: #222;",
             igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: defined not valid"
         );
-
-
         $v =" [sysfcl:tableHeadKKK] ";
-        // no sys color provided
         $this->assertEquals(
             "",
             igk_css_treat($v, false, $theme, $systheme),
             "sysfcl: no default color provided must be empty removed"
         );
     }
-
     /**
     * Tests css syscl.
     */
     function test_css_syscl(){
         $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
-
-
         $v ="border-left: 4px solid [syscl:pickfileBorder];";
         $cl = & $systheme->def->getCl();
         $cl["tableHead"] = "orange";
-        // no color provided
         $this->assertEquals(
             "border-left: 4px solid var(--pickfileBorder);",
             igk_css_treat($v, false, $theme, $systheme),
@@ -156,7 +125,6 @@ class CssBuilderTest extends BaseTestCase
             "syscl: color define but not resolved not valid"
         ); 
     }
-
     /**
     * Tests joining.
     */
@@ -170,6 +138,4 @@ class CssBuilderTest extends BaseTestCase
             "syscl: color define but not resolved not valid"
         );
     }
-
-    
 }

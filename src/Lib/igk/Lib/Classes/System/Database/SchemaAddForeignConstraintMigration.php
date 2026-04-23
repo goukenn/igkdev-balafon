@@ -6,6 +6,7 @@
 namespace IGK\System\Database;
 use IGK\Helper\Activator;
 use IGK\System\Database\SchemaMigrationItemBase;
+
 /**
  * add foreign constraint 
  * @package IGK\System\Database

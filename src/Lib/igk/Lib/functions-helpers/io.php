@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: io.php
 // @date: 20220831 14:15:59
 // @desc: io function helpers
-
 use IGK\Helper\IO;
 use IGK\System\IO\Cache\FS;
 
@@ -42,7 +40,6 @@ function igk_io_mimetype($ext, $default)
     }
     return $default;
 }
-
 /**
 * auto generate doc.
 * @param string $path
@@ -64,8 +61,6 @@ function igk_io_flatten(string $path)
     $path = str_replace('./', '', $path);
     return $path;
 }
-
-
 /**
  * read all file's content
  * @param mixed $f 
@@ -76,8 +71,6 @@ function igk_io_read_allfile($f): ?string
         return IO::ReadAllText($f);
     return null;
 }
-
-
 /**
  * get folder where to cache some file
  */
@@ -85,8 +78,6 @@ function igk_io_cachedir()
 {
     return \IGK\System\IO\Path::getInstance()->getCacheDir();
 }
-
-
 /**
  * target, cibling 
  * @param mixed $target target of the link
@@ -103,11 +94,7 @@ function igk_io_symlink($target, $link)
                 $target = $home . substr($cp, strlen($cpath));
             }
         }
-
-        // get relative link to target from link
         $relative_target = IO::GetRelativePath($link, $target) ?? $target;
-
-        // check that the directory exists to taget file 
         if (igk_is_debug() || igk_environment()->isDev()) {
             $bck = getcwd();
             chdir(dirname($link));
@@ -118,7 +105,6 @@ function igk_io_symlink($target, $link)
                 igk_dev_wln_e(__FILE__ . ":" . __LINE__, " target not valid : create a symlink ", $link, $target, $relative_target,  "?", $g);
             }
         }
-
         if (!($r = IO::SymLink($relative_target, $link))) {
             igk_ilog("unix symlink failed: source: " . $target . " cibling: " . $link);
             if (igk_environment()->isDev()) {
@@ -129,8 +115,6 @@ function igk_io_symlink($target, $link)
     }
     return $r;
 }
-
-
 /**
  * return where global project are stored
  */
@@ -146,7 +130,6 @@ function igk_io_projectdir()
     $pdir || die("project dir not setup properly");
     return igk_uri($pdir);
 }
-
 if (!function_exists('igk_io_file_exists')) {
     /**
      * check for file cache existance
@@ -174,7 +157,6 @@ if (!function_exists('igk_io_file_exists')) {
         return file_exists($file);
     }
 }
-
 /**
 * Igk io cache file exists.
 * @param string $file

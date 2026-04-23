@@ -3,11 +3,7 @@
 // @filename: ControllerTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 namespace IGK\Test\Lib\Classes\System\Html;
- 
 use IGK\Controllers\RootControllerBase;
 use IGK\Tests\Controllers\TestApplicationController;
 use PHPUnit\Framework\TestCase;
@@ -17,18 +13,15 @@ use PHPUnit\Framework\TestCase;
 * @package IGK\Test\Lib\Classes\System\Html
 */
 class ControllerTest extends TestCase{
-
     /**
     * Tests css sys.
     */
     public function test_css_sys(){
-
         $p = TestApplicationController::ctrl()->getPrimaryCssFile();
         $this->assertEquals( $p ,
         ".__/Styles/default.pcss", 
         "test file not found");        
     }
-
     /**
     * Tests is include controller.
     */
@@ -43,6 +36,5 @@ class ControllerTest extends TestCase{
         else {
             $this->fail("no default controller");
         }
-
     }
 }

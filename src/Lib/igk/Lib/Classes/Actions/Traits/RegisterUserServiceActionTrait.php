@@ -12,6 +12,7 @@ use IGK\System\ServiceNameConstants;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 /**
 * use to handle user registration with mail only to application 
 * @package IGK\Actions\Traits
@@ -27,7 +28,6 @@ trait RegisterUserServiceActionTrait{
     protected function _init_trait_RegisterUserServiceActionTrait(){
         igk_reg_hook(IGKEvents::HOOK_USER_ADDED, function($e){
             $user = $e->args["user"];
-            // $lived_token = '';
             $lived_token = ActionHelper::GenerateUserRegistrationLinkToken($user);   
             $this->_createUserApp($user);
             igk_is_debug() && Logger::info('send email registration...');

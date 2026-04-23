@@ -3,10 +3,7 @@
 // @filename: BaseTestCase.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Tests;
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,8 +11,6 @@ use PHPUnit\Framework\TestCase;
 * @package IGK\Tests
 */
 abstract class BaseTestCase extends TestCase{
-    // call before all launching test - and output is consider in return of the output string test.
-
     /**
     * Sets up the test environment before each test.
     * @return void
@@ -23,7 +18,6 @@ abstract class BaseTestCase extends TestCase{
     protected function setUp():void{ 
         igk_server()->prepareServerInfo();
     }
-
     /**
     * auto generate doc.
     * @param mixed $classname

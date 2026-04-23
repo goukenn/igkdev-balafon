@@ -6,6 +6,7 @@
 namespace IGK\XSD;
 use ArrayAccess;
 use IGKXmlNode;
+
 /**
 * Xsd element builder.
 * @package IGK\XSD
@@ -94,7 +95,6 @@ class XsdElementBuilder extends XsdElement
         $this->_defining = true;
         $b = XsdBuilderUtility::BuildComplexType($this->m_node, $defs, "xs:".$type, $tattributes);
         if ($attributes && count($attributes)){
-            // $seq = $e->add("xs:sequence");
             foreach($attributes as $k=>$c){
                 XsdBuilderUtility::AddSequenceElement($b, $k, $c, "xs:attribute");                
             }

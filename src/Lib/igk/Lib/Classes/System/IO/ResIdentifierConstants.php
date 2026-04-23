@@ -3,6 +3,7 @@
 // @file: ResIdentifierConstants.php
 // @date: 20230125 14:09:16
 namespace IGK\System\IO;
+
 /**
 * resource identifier constants
 * @package IGK\System\IO

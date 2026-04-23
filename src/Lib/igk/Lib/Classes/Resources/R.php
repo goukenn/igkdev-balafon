@@ -18,6 +18,7 @@ use IGKEvents;
 use IGKException; 
 use IGKUserAgent;
 use function igk_resources_gets as __;
+
 /**
 * IGKResource Class. represent resource / lang / resource management
 */
@@ -122,7 +123,6 @@ final class R extends IGKObject {
     public static function GetLocale(){
         $n = self::GetCurrentLang();
         $c = $n;
-        // igk_wln_e("locale : ", php-intl \Locale::getDisplayRegion("-be", "en"));
         if (strpos($n, "_")!==false){
             return $n;
         }
@@ -389,9 +389,6 @@ igk.file.getcontents(dir, function(data){
 }
 EOF;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="files" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $files the default value is null
@@ -446,7 +443,6 @@ EOF;
         self::getInstance()->m_langloaded = false;
         self::LoadLang();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -474,8 +470,6 @@ EOF;
         }
         $v->m_langloaded=true;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     /**
     * auto generate doc.
     * @param mixed $file
@@ -488,9 +482,6 @@ EOF;
             $v->langRes=$l;
         }
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="override" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $override the default value is true
@@ -512,7 +503,6 @@ EOF;
             }
         }
     }
-    ///<summary>get new key string value from controller</summary>
     /**
     * get new key string value from controller
     */
@@ -521,7 +511,6 @@ EOF;
             return null;
         return self::ngets(strtolower($ctrl->getName().".".$key));
     }
-    ///<summary>get new language expression</summary>
     /**
     * get new language expression
     */
@@ -557,8 +546,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * auto generate doc.
     * @param mixed $key
@@ -566,8 +553,6 @@ EOF;
     protected function OnKeyAdded($key){
         igk_hook("LangKeyAdded", func_get_args());
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * auto generate doc.
     * @param mixed $key
@@ -575,7 +560,6 @@ EOF;
     protected function OnLangChangedEvent($key){        
         igk_hook(IGKEvents::HOOK_LANG_CHANGED, []);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -584,7 +568,6 @@ EOF;
             $this->PageLangChangedEvent->Call($this, null);
         }
     }
-    ///<summary>register a language controller</summary>
     /**
     * register a language controller
     */
@@ -601,8 +584,6 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * auto generate doc.
     * @param mixed $name
@@ -616,7 +597,6 @@ EOF;
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -624,7 +604,6 @@ EOF;
         $v=self::getInstance();
         $v->langRes=array();
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -661,8 +640,6 @@ EOF;
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="filename" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $filename the default value is null
@@ -700,8 +677,6 @@ EOF;
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * auto generate doc.
     * @param mixed $ctrl

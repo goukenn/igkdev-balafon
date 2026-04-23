@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace  IGK\System\Configuration\Controllers;
+
 /**
 * Represent IGKToolHost class
 */
@@ -30,6 +31,6 @@ class ToolHost{
     * @param  $ctrl
     */
     public function register($ctrl){
-        $this->_tools->setFlag($ctrl->getName(), 1);//$ctrl;
+        $this->_tools->setFlag($ctrl->getName(), 1);
     }
 }

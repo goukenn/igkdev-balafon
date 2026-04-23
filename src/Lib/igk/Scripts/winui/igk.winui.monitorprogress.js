@@ -1,6 +1,5 @@
 "use strict";
 (function(){
-
     var monitor = 0;
     igk.winui.initClassControl("igk-winui-monitor-progress", 
     function(){
@@ -24,7 +23,6 @@
                 t =  e.evt.loaded / e.evt.total;  
                 q.setCss({"width": (t * 100) +"%"});
             }else {
-                
             }
         });
         q.setCss({"display":"none"});

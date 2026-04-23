@@ -3,7 +3,6 @@
 // @file: CsvFileTest.php
 // @date: 20230120 09:22:05
 namespace IGK\Tests\System\IO\File;
-
 use IGK\System\IO\File\CsvFile;
 use IGK\Tests\BaseTestCase;
 
@@ -13,86 +12,68 @@ use IGK\Tests\BaseTestCase;
 */
 class CsvFileTest extends BaseTestCase
 {
-
     /**
     * Test parse data.
     */
     public function _testParseData()
     {
         $file = new CsvFile;
-        $data = $file->parseData(
-            <<<EOF
-EOF
-        );
+        $data = $file->parseData(<<<EOF
+EOF        );
         $this->assertEmpty($data);
     }
-
     /**
     * Tests Parse Data2.
     */
     public function testParseData2()
     {
         $file = new CsvFile;
-        $data = $file->parseData(
-            <<<EOF
+        $data = $file->parseData(<<<EOF
 One, Two, Tree
-EOF
-        );
-
+EOF        );
         $this->assertEquals(
             json_encode([['One', 'Two', 'Tree']]),
             json_encode($data)
         );
     }
-
     /**
     * Tests Parse Data3.
     */
     public function testParseData3()
     {
         $file = new CsvFile;
-        $data = $file->parseData(
-            <<<EOF
+        $data = $file->parseData(<<<EOF
 One, 'Two presentation, du jour', Tree
-EOF
-        );
-
+EOF        );
         $this->assertEquals(
             [['One', 'Two presentation, du jour', 'Tree']],
             $data
         );
     }
-
     /**
     * Tests Parse Data4.
     */
     public function testParseData4()
     {
         $file = new CsvFile;
-        $data = $file->parseData(
-            <<<EOF
+        $data = $file->parseData(<<<EOF
 One, 'Two'; Tree
-EOF
-        );
-
+EOF        );
         $this->assertEquals(
             [['One', "'Two'; Tree"]],
             $data
         );
     }
-
     /**
     * Tests Parse Data multiline.
     */
     public function testParseData_multiline()
     {
         $file = new CsvFile;
-        $data = $file->parseData(
-            <<<EOF
+        $data = $file->parseData(<<<EOF
 Line 1 , One, 'Two'; Tree
 Info 1 , Parse
-EOF
-        ); 
+EOF        ); 
         $this->assertEquals(
             [
                 ['Line 1', 'One', "'Two'; Tree"],
@@ -101,7 +82,6 @@ EOF
             $data
         );
     }
-
     /**
     * Tests Parse Data implodeline.
     */
@@ -109,13 +89,11 @@ EOF
     {
         $file = new CsvFile;
         $file->separator = ',';
-  
         $this->assertEquals(
             "One, 'Two'",
             $file->exportLine(['One', "'Two'"])
         );
     }
-
     /**
     * Tests mapping data.
     */
@@ -138,7 +116,6 @@ EOF
             $file->map($data[0], $mapper)
         );
     }
-
     /**
     * Tests mapping data with callable.
     */

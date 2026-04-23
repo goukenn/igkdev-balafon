@@ -1,31 +1,25 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ArticleNoTagNodeTest.php
 // @date: 20220824 18:23:46
 // @desc: 
-
 namespace IGK\Tests;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use PHPUnit\Framework\TestCase;
 
 require_once(__DIR__.'/bak.pinc');
-
 /**
 * Article no tag node test.
 * @package IGK\Tests
 */
 class ArticleNoTagNodeTest extends BaseTestCase
 {
-
     /**
     * Tests loop in template file.
     */
     public function test_loop_in_template_file()
     {
-       
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
         $s = "";
         $template = <<<'HTML'
@@ -33,21 +27,19 @@ class ArticleNoTagNodeTest extends BaseTestCase
     {{ $raw }}
 </li>
 HTML;
-        $g = tempnam(sys_get_temp_dir(), "text-"); // tmpfile();
+        $g = tempnam(sys_get_temp_dir(), "text-"); 
         igk_io_w2file($g, $template);
         $n = igk_create_node("notagnode");
         $data = [1, 2, 'test_loop_in_template_file'];
         $n->article($ctrl, $g, $data);
         @unlink($g);
         $s = $n->render();
-
         $this->assertEquals(
             "<li> 1 </li><li> 2 </li><li> test_loop_in_template_file </li>",
             $s,
             "Base"
         );
     }
-
     /**
     * Tests loop in content.
     */
@@ -58,23 +50,20 @@ HTML;
         $template = <<<'HTML'
 <igk:notagnode *for="$raw"><li> {{ $raw }} </li></igk:notagnode>
 HTML;
-        $g = tempnam(sys_get_temp_dir(), "text-"); // tmpfile();
+        $g = tempnam(sys_get_temp_dir(), "text-"); 
         igk_io_w2file($g, $template);
         $n = igk_create_node("notagnode");
         $data = [1, 2];
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
         unlink($g);
-
         $s = $n->render();
-
         $this->assertEquals(
             "<li> 1 </li><li> 2 </li>",
             $s,
             "Base"
         );
     }
-
     /**
     * Tests script template.
     */
@@ -93,18 +82,15 @@ HTML;
             "class" => "ft-l-*",
             "description" => <<<'HTML'
 <div>presentation \' et information et de jour ' </div>
-HTML
-        ]];
+HTML        ]];
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
-
         $s = $n->render();
         $this->assertEquals(
             '<dt><script>{{ $raw->name }}</script> em </dt>',
             $s
         );
     }
-
     /**
     * Tests script template 2.
     */
@@ -158,7 +144,6 @@ HTML
     <dt><code> {{ $raw->name }} </code> {{ $raw->type }} </dt>
 </igk:notagnode>
 HTML;
-
         $n = igk_create_node("notagnode");
         $data = [(object)[
             "name" => "font-level",
@@ -166,11 +151,9 @@ HTML;
             "class" => "ft-l-*",
             "description" => <<<'HTML'
 <div>presentation \' et information et de jour ' </div>
-HTML
-        ]];
+HTML        ]];
         $ldcontext = igk_init_binding_context($n, $ctrl, $data);
         igk_html_bind_article_content($n, $template, $data, $ctrl, "test:d", true, $ldcontext);
-
         $s = $n->render();
         $this->assertEquals(
             '<dt><code> font-level </code> em </dt>',
@@ -178,25 +161,11 @@ HTML
             sprintf("test %s failed", __FUNCTION__)
         );
     }
-
-
-    //     public function test_render_indent(){
-    //         $n = igk_create_node("sample");
-    //         $n->notagnode()->div()->Content = "Hello";
-    //         $this->assertEquals(<<<HTML
-    // <sample>
-    // \t<div>Hello</div>
-    // </sample>
-    // HTML,
-    //  $n->render((object)["Indent"=>true]));
-    //     }
-
     /**
     * Tests loop with object expression.
     */
     public function test_loop_with_object_expression()
     {
-
         $template = <<<'HTML'
 <ul><li *for="$raw['y']">item: {{$raw}}</li></ul>
 HTML;
@@ -207,7 +176,6 @@ HTML;
         $s = $this->_bind_article($template, $data);
         $this->assertEquals('<ul><li>item: 11</li><li>item: 12</li><li>item: 14</li></ul>', $s);
     }
-
     /**
     * auto generate doc.
     * @param mixed $template

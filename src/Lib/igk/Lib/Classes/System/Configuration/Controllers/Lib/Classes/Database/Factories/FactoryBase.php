@@ -5,6 +5,7 @@
 namespace IGK\Database\Factories;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Database\Factories\FactoryBase as Factory;
+
 /**
 * Factory base
 * @package IGK\Database\Factories

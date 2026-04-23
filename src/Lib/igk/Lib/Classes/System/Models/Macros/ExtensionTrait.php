@@ -4,6 +4,7 @@
 // @date: 20230131 10:17:57
 namespace IGK\System\Models\Macros;
 use IGK\Models\ModelBase;
+
 /**
 * define abstract that need to be implement 
 * @package IGK\System\Models\Macros

@@ -3,7 +3,6 @@
 // @file: RegexMatcherContainerTreatment.php
 // @date: 20260409 08:41:24
 namespace IGK\System\Text;
-
 use IGK\System\Console\Logger;
 
 /**
@@ -17,7 +16,6 @@ class RegexMatcherContainerTreatment{
      * @var {handle:array,filter:?null,postfilter:?null}
      */
     var $listener;
-
     public function treat(string $src,  RegexMatcherContainer $regex){
         $listener = $this->listener;
         if (!$listener){

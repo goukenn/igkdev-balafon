@@ -12,6 +12,7 @@ use IGK\Helper\UriHelper;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
@@ -111,10 +112,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
             $uri->setValue($bck);
             return $uri->getValue($option);
         } 
-        // else {
-        //     if (!IGKValidator::IsUri($bck) || preg_match("#\.\/#", $bck)) {
-        //     }
-        // }
         return $bck;
     }
     /**

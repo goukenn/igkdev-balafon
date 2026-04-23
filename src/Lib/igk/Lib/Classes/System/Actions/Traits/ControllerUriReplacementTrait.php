@@ -3,6 +3,7 @@
 // @file: ControllerUriReplacementTrait.php
 // @date: 20230124 03:15:10
 namespace IGK\System\Actions\Traits;
+
 /**
 * use to replace uri in normal context 
 * @package IGK\System\Actions\Traits

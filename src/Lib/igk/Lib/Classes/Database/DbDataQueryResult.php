@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 use IGKQueryResult;
+
 /**
 * Db data query result.
 * @package IGK\Database

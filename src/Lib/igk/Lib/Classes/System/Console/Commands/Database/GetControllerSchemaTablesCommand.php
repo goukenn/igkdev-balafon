@@ -7,6 +7,7 @@ use IGK\Helper\JSon;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database

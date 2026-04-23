@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System;
+
 /**
 * auto generate doc.
 * @package IGK\System

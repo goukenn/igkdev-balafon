@@ -23,6 +23,7 @@ use IGK\System\IToArray;
 use Symfony\Component\HttpClient\Chunk\InformationalChunk;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
 use function igk_resources_gets as __;
+
 require_once IGK_LIB_DIR . "/api/.mysql.pinc";
 /**
  * MySQL db management command
@@ -77,7 +78,6 @@ class MySQLCommand extends AppExecCommand
             Logger::print($query);
         }
         if (preg_match("/^SELECT Count\(\*\) /i", $query)) {
-            // force table creation query igk_wln($query);
             return null;
         }
         return true;
@@ -176,7 +176,7 @@ class MySQLCommand extends AppExecCommand
                     $type = $db::GetSupportedType();
                     igk_wln_e($type);
                     break;
-                case "connect": // check connection 
+                case "connect": 
                     $db->resetDbManager();
                     if ($db->connect()) {
                         Logger::success("connexion success");
@@ -196,7 +196,6 @@ class MySQLCommand extends AppExecCommand
                     igk_exit();
                     break;
                 case "export_schema":
-                    // export global schema
                      $ref = [];
                     if ($v_filter){
                         $ref['filter'] = $v_filter;
@@ -244,7 +243,6 @@ class MySQLCommand extends AppExecCommand
                     array_unshift($c, SysDbController::ctrl());
                     foreach ($c as $m) {
                         if ($m->getCanInitDb() && ($m->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
-                            // igk_wln('migrate : migrate: ' . get_class($m));
                             Logger::info("migrate: " . get_class($m));
                             $m::register_autoload();
                             if ($m::migrate(false, true)) {
@@ -284,9 +282,7 @@ class MySQLCommand extends AppExecCommand
                         ob_start();
                         foreach ($c as $m) {
                             if ($m->getCanInitDb() && ($m->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
-                                // Logger::print("build : " . get_class($m));
                                 $m::resetDb(false, true);
-                                //Logger::success("complete: ".get_class($m));
                             }
                         }
                         Logger::print("");
@@ -315,7 +311,6 @@ class MySQLCommand extends AppExecCommand
     * @return
     */
     public function action_drop_foreign_key($command, string $tablename , string $key_name){
-        // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
         $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
         if ($db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)){
             if ($db->connect()){
@@ -340,7 +335,6 @@ class MySQLCommand extends AppExecCommand
     */
     public function action_query($command, string $query){
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
-        // $g = SysDbController::ctrl(true);\
         $r = $db->sendQuery($query);
         if (!is_bool($r)){
             if ($r instanceof IToArray)
@@ -399,7 +393,6 @@ class MySQLCommand extends AppExecCommand
             Logger::danger(__("%s not a supported dump type"));
             return -1;
         }
-        //private function all in lowercase and snake_case 
         $dump = '';
         if (!$ad->connect()) {
             Logger::danger("can't connect to database");
@@ -523,21 +516,19 @@ class MySQLCommand extends AppExecCommand
                     $tline = array_fill_keys($g, null);
                     $mode = 2;
                 } else {
-                    // readlin
                     Logger::info("read: load entry" . $table);
                     $entries = IGKCSVDataAdapter::LoadString($line)[0];
                     $tcount = count($tline);
                     while(count($entries)<count($tline)){
                         $entries[] = null;
                     }
-                    // validate numeric data
                     $entries = array_map(function($c){ 
                         if (is_numeric($c)){
                             return floatval($c);
                         }
                         return $c;
                     }, array_slice($entries, 0, $tcount));
-                    $entry = array_combine(array_keys($tline), $entries); //array_slice($entries, 0, $tcount));
+                    $entry = array_combine(array_keys($tline), $entries); 
                     try{
                         $this->update_data($ad, $table, $entry, 1 );
                         Logger::success('update: '.$table);

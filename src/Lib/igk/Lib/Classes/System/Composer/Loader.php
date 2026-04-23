@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Composer;
 use IGK\System\Console\Logger; 
+
 /**
  * composer autoloader helper
  * @package IGK\System\Composer
@@ -63,9 +64,7 @@ class Loader
         $this->init = ["class" => $f, "at" => igk_sys_request_time()];
         \spl_autoload_unregister([$this, __FUNCTION__]);
         $bck = spl_autoload_functions();
-        // clean all 
         array_map(self::spl_autoload_unregister, $bck);
-        // $gfc = spl_autoload_functions();
         require_once($this->package_file);
         $nfc = spl_autoload_functions();
         $found = 0;
@@ -87,7 +86,6 @@ class Loader
     */
     public function _final($f)
     {
-        // missing in core definitions - possibility to be handle by compooser package
         if (!isset($this->registerMissings[$f])) {
             $this->registerMissings[$f] = $f;
             if (igk_environment()->isDev()) {

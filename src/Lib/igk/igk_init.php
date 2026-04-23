@@ -4,9 +4,7 @@
 // @filename: igk_init.php   
 // @desc: init application core system  
 // @license : see licence.txt attached to the library
-
 use IGK\Helper\StringUtility;
-
 require __DIR__ . "/igk_framework.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";
 $b = StringUtility::Dir(__DIR__ . "/bin/balafon");
@@ -28,7 +26,6 @@ if (!igk_is_function_disable("shell_exec")) {
         exec($b . " --install-site --wdir:'" . $install_dir . "' --force &2> /dev/null > /dev/null", $output, $code);
         error_log("install site done ", $code);
     }
-
     if (!igk_is_cmd()) {
         if (is_dir($install_dir . $conf_path)) {
             if ($is_cgi) {

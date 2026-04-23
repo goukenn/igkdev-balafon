@@ -6,6 +6,7 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+
 require_once IGK_LIB_DIR."/api/.mysql.pinc";
 /**
  * export mysql db to balafon db schema 

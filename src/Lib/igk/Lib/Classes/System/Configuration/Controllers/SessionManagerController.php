@@ -6,6 +6,7 @@
 namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController; 
 use function igk_resources_gets as __;
+
 /**
 * configuration manage session
 */
@@ -92,36 +93,7 @@ final class SessionManagerController extends ConfigControllerBase{
             $table["class"]="session-list";
             igk_html_db_build_table_header($table->add("tr"), ["", "Name", "Size", "Time"]);
             //
-            // TODO : get session list ajx
             //
-            // $table->addAJXUriLoader($this->getAppUri('session_list'));
-            // $maxItem=10;
-            // $c=0;
-            // $paginate=count($b) > $maxItem;
-            // $sess_id = session_id();
-            // foreach($b as $k=>$o){
-			// 	$f = $o->file;
-            //     $tr=$table->tr();
-            //     if($k  == $sess_id){
-            //         $tr["class"]="igk-active";
-            //     }
-            //     $tr->td()->addCheckbox("f", $k);               
-            //     $tr->td()->Content=$k; 
-            //     $size=filesize($f);
-            //     $tr->td()->Content= $o->size; 
-            //     $tr->td()->Content= $o->createtime; 
-            //     $tr->td()->host(function($a, $k, $cond){
-            //         if ($cond){
-            //             $a->nbsp();
-            //         }else {
-            //             $a->ajxabutton($this->getUri("drop&i=".$k))->Content=igk_svg_use("drop");
-            //         }
-            //     }, $k, $k==$sess_id);
-            //     $c++;
-            //     if($c>=$maxItem){
-            //         break;
-            //     }
-            // }
             $bar=$dv->addActionBar();
             $bar->a_post($this->getUri("clearall_ajx"))
             ->setClass("igk-btn")

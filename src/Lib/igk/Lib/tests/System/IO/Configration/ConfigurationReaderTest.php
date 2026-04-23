@@ -1,13 +1,9 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigurationReaderTest.php
 // @date: 20220830 09:50:18
 // @desc: 
-
 namespace IGK\Test\System\IO\Configuration;
-
 use IGK\System\IO\Configuration\ConfigurationEncoder;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\Tests\BaseTestCase;
@@ -17,7 +13,6 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Test\System\IO\Configuration 8
  */
 class ConfigurationReaderTest extends BaseTestCase {
-
     /**
     * Tests read connexion string.
     */
@@ -37,7 +32,6 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read connexion string"
         );
     }
-
     /**
     * Tests read connexion string with litteral.
     */
@@ -57,7 +51,6 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read connexion string"
         );
     }
-
     /**
     * Tests read css style.
     */
@@ -77,7 +70,6 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
-
     /**
     * Tests read environment value.
     */
@@ -98,12 +90,10 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
-
     /**
     * Tests read environment value 2.
     */
     public function test_read_environment_value_2(){
-        //add empty space so value ca be empty 
         $connexion = "BASE_URL=https://localhost.com\nPRESENTATION= \nINFO=BALAFON";
         $obj = (object)[
             "BASE_URL"=>"https://localhost.com",
@@ -120,7 +110,6 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
-
     /**
     * Tests remove str mark.
     */

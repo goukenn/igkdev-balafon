@@ -6,6 +6,7 @@ namespace IGK\System\Text;
 use Closure;
 use IGKException;
 use Exception;
+
 /**
  * regex utility method
  * @package IGK\System\Text
@@ -56,8 +57,7 @@ abstract class RegexMatcherUtility
                     $source = strtr($source, $replacement);
                 } else {
                     if ($replaceCapturedDataCallback){
-                        // return $replaceCapturedDataCallback($s, $e, $rp); // update e with g
-                        return $replaceCapturedDataCallback($source, $pattern, $replacement); // update e with g
+                        return $replaceCapturedDataCallback($source, $pattern, $replacement); 
                     }
                 }
             }
@@ -102,7 +102,6 @@ abstract class RegexMatcherUtility
             $cbranck,
         ];
         $pos = 0;
-        // define
         $sb = '';
         $toffset = 0;
         while ($g = $regex->detect($src, $pos)) {
@@ -116,11 +115,6 @@ abstract class RegexMatcherUtility
         $sb .= substr($src, $toffset);
         $sb = RegexMatcherUtility::RemoveEmptyGroup($sb);
         return $sb;
-        // while (false !== ($i = strpos($regex, '(?'))) {
-        //     $f = igk_str_read_brank($regex, $i, ')', '(', null, 1);
-        //     $regex = rtrim(substr($regex, 0, $i - strlen($f) + 1), '|') . ltrim(substr($regex, $i + 1), '|');
-        // }
-        // return $regex;
     }
     /**
      * retrieve capture to treat
@@ -171,7 +165,6 @@ abstract class RegexMatcherUtility
                     $x = false;
                 }
             }
-            // TODO : handle extra data
             $b = substr($b, strlen($tab[0]));
             if ($x) {
                 $b = RegexMatcherUtility::TreatExtended($b);
@@ -293,7 +286,7 @@ abstract class RegexMatcherUtility
         $startLength = $startLength ?? strlen($source);
         $offset = 0;
         $n = '';
-        $n = $begin . substr($source, $startLength); // because of offset 
+        $n = $begin . substr($source, $startLength); 
         $offset = $startLength - strlen($begin);
         $n = substr($n, 0, abs($endPos - $offset)) . $end;
         return $n;
@@ -311,12 +304,11 @@ abstract class RegexMatcherUtility
             $l
         ];
         $tr = igk_getv(RegexMatcherUtility::TreatByRemoveRootScopePattern($ctn, $c), 0);
-        // remove white space 
         $tr = str_replace(" ", '', $tr);
         $l = explode("\n", $tr);
         $tload = [];
         array_map(function ($i) use (&$tload) {
-            if (preg_match("/^#/", $i)) return; // skip comment
+            if (preg_match("/^#/", $i)) return; 
             $i = preg_replace("/^\s+\|\s+/", "|", $i);
             $tload[] = $i;
         }, $l);

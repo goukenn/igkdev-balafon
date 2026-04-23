@@ -2,6 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: factory-helper.funcs.php 
 // @desc: helper dom factory helper initiator
+
 /**
  * factory helpe
  */
@@ -85,7 +86,6 @@ Factory::table("row", function (array $item) {
 });
 Factory::form("cref", function () {
 	if ($f = igk_html_parent_node()) {
-		// igk_wln_e("adding cref", $f);
 		$f->addObData("igk_html_form_cref", null);
 	}
 	return $f;
@@ -106,7 +106,7 @@ Factory::form("fields", function ($fields, $datasource_or_callback = null, ?obje
  */
 Factory::form("file", function (string $name, ?string $id=null, ?string $class = null) {
 	if ($f = igk_html_parent_node()) {
-		$input = $f->addInput(); // Fields(...func_get_args());
+		$input = $f->addInput(); 
 		$f['enctype'] = IGK_HTML_ENCTYPE;
 		$input['type'] = 'file';
 		$input['name'] = $name;
@@ -127,8 +127,7 @@ Factory::table('build', function ($data, $headers = null, $captions = null) {
 	if (is_null($headers)) {
 		$headers = [];
 		$rf = array_reverse($data);
-		$g = array_pop($rf); // array_reverse($data));
-		// $g = array_first_value($data);
+		$g = array_pop($rf); 
 		foreach (array_keys((array)$g) as $a) {
 			$inf = new \IGK\System\Html\Dom\HtmlTableHeaderInfo;
 			$inf->key = $a;
@@ -160,7 +159,6 @@ Factory::table('build', function ($data, $headers = null, $captions = null) {
 				$inf->title = $l;
 				$inf->key = $l;
 			}
-			// destroy keys because in foreach
 			$headers[$k] = $inf;
 		}
 	}

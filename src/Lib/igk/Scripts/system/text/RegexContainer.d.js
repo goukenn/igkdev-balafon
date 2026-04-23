@@ -1,7 +1,6 @@
 'use strict';
 // common js for regex definition 
 (function () {
-
     // console.log('2 - load container');
     const BEGIN_END = 'begin/end';
     const BEGIN_WHILE = 'begin/while';
@@ -191,7 +190,6 @@
             const { igk } = globalThis;
             return igk || {}
         })();
-
         // console.log('initize ', { RegexMatcherPattern } );
         /**
           * @typedef IRegexDetectInfo
@@ -1012,7 +1010,6 @@
                     src: null,
                     missingEnd: undefined,
                     isContinue: undefined
-
                 };
                 Object.defineProperty(q, 'tokenID', { value: pattern.tokenID, writable: false, configurable: false });
                 Object.defineProperty(q, 'parent', { value: parent, writable: false, configurable: false });
@@ -1139,7 +1136,6 @@
                                     e.endMatch = im;
                                     m = im;
                                 });
-                               
                                 let matchs = [];
                                 // let v_matchPatterns = patterns?.length > 0 ? _handlePatterns(patterns, {
                                 //     src: g.src,
@@ -1177,7 +1173,6 @@
                                     offset = e.to;
                                     //}
                                 } else {
-                                
                                     // console.log('missing', {src, line, offset});                               
                                     // + | missing end
                                     e.missingEnd = true;

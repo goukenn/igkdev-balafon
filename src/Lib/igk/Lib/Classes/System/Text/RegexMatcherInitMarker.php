@@ -3,6 +3,7 @@
 // @file: RegexMatcherInitMarker.php
 // @date: 20250706 08:03:36
 namespace IGK\System\Text;
+
 /**
  * 
  * @package IGK\System\Text
@@ -98,7 +99,6 @@ class RegexMatcherInitMarker
                 $p = $p->parent;
             }
         }
-          // load chain
         while (count($chain) > 0) {
             $q = array_shift($chain);
             $v_te = (object)[

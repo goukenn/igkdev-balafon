@@ -12,6 +12,7 @@ use IGK\System\Regex\Replacement;
 use ReflectionException;
 use IGKException;
 use ReflectionFunction;
+
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -85,7 +86,6 @@ class ListComponentCommand extends AppExecCommand
 				if ($_info){
 					$params = $ref->getParameters();
 					$s = $params? PhpHelper::GetParamerterDescription($params) : '';
-					// get p
 					$info[] = "(".$s.")";
 					$info[] = implode("\n", array_map('trim', explode("\n", $ref->getDocComment())));
 				}
@@ -99,7 +99,6 @@ class ListComponentCommand extends AppExecCommand
 				return $s.implode("\n", $a) . PHP_EOL;
 			};
 		}
-		//sort($g);
 		echo implode("\n", array_map($map, $g, array_keys($g)));		
 		echo PHP_EOL;
 		if (property_exists($command->options , '--count')){

@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\IO\StringBuilder;
+
 /**
 * render php compiled condition node
 * @package IGK\System\Runtime\Compiler\Html
@@ -89,7 +90,6 @@ class ConditionBlockNode extends HtmlNode{
             if ($last === (strlen($_out)-5)){
                 $sb->append($endtag.' ?>');
             }else{
-                // is in php block
                 $sb->append($endtag.' ');
             } 
         } else {

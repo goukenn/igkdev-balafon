@@ -2,10 +2,7 @@
 // file: notifydialog.js
 // @date: 20230102 14:20:32
 // @desc:  notification dialog
-
 'use strict';
-
-
 (function() {
     const createNS = igk.system.createNS;
     const is_string = igk.is_string;
@@ -123,11 +120,9 @@
             div.qselect("input[type='button'][data-type='cancel']").each_all(function() {
                 this.on("click", _g_close_notify);
             });
-
             function _g_close_notify() {
                 _close_notify(null);
             };
-
             function _setupview() {
                 if (!div.parentNode){
                     return;
@@ -174,7 +169,6 @@
                     });
                 }
             };
-
             function _setupview_callback() {
                 _setupview();
                 igk.winui.unreg_event(window, "load", _setupview_callback);
@@ -184,7 +178,6 @@
             _sm.UpdateView = _setupview;
             _sm.settings = settings;
             var __closing = false;
-
             function _close_notify(callback) {
                 if (__closing)
                     return;
@@ -229,7 +222,6 @@
             notify_frames.push({
                 close: _g_close_notify
             });
-
             function __show() {
                 // because of the ready call you must call only when showMsg
                 if (m_hide)
@@ -337,7 +329,6 @@
             }
             defStyle = defStyle || "";
             type = type || "";
-
             let q = igk.createNode("div")
                 .addClass("igk-notify " + defStyle)
                 .setHtml(m.o.outerHTML);

@@ -6,6 +6,7 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
 * Update lib core command.
 * @package IGK\System\Console\Commands
@@ -47,10 +48,8 @@ class UpdateLibCoreCommand extends AppExecCommand{
                 Logger::info("ignore: ".$f);
                 continue;
             }
-            // Logger::print("copy : ".$p);
             igk_io_w2file($path."/igk/".$p, file_get_contents($f));
         }
         Logger::success("done");
-        //igk_wln_e($lib_dir);
     }
 }

@@ -16,6 +16,7 @@ use IGK\System\Helper;
 use IGKEvents;
 use IGKNonVisibleControllerBase;
 use function \igk_api_mysql_check_data_structure;
+
 require_once IGK_LIB_DIR . "/api/igk_api.php";
 /**
  * initialize data schema

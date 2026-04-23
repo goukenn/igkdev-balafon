@@ -13,6 +13,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\HookHandler; 
 use IGK\System\IO\Path;
 use function igk_resources_gets as __; 
+
 require_once IGK_LIB_CLASSES_DIR.'/IGKEvents.php';
 require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
 /**
@@ -108,7 +109,6 @@ class IGKApp extends IGKObject
      * @return IApplicationControllerManager
      */
     protected function createControllerManager(): IApplicationControllerManager{
-        //:: return IGKControllerManagerObject::getInstance();
         return new ApplicationControllerManager($this, $this->m_appInfo);
     }
     /**
@@ -155,7 +155,6 @@ class IGKApp extends IGKObject
         $app_key = IGK_APP_SESSION_KEY;
         $use_session = $app->lib('session');
         $v_bstart = null;        
-        //$reset = 0;
         if ($this->m_settings && $use_session && isset($_SESSION) && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){
             $v_bstart = $this->m_settings;
             $this->m_settings = null; 
@@ -334,11 +333,7 @@ class IGKApp extends IGKObject
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
     {      
         $_env = igk_environment();        
-        // | --------------------------------------------------------------
-        // | init environment
-        // |
         if ( self::$sm_instance !=null){
-            // igk_trace();
             igk_die("[App] already started...");
         }
         $_env->write_debug("StartEngine: ". igk_sys_request_time());
@@ -361,14 +356,11 @@ class IGKApp extends IGKObject
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
         // + | 
-        // \IGK\System\Diagnostics\Benchmark::Activate(true, ["dieOnError"=>true]);
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
-        // TODO : REMOVE HOOK_INIT_APP COAST        
         IGKEvents::hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);  
         \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
-        // register system hooks
         include IGK_LIB_DIR.'/Inc/igk_hooks.pinc'; 
     }
     /**
@@ -425,8 +417,6 @@ class IGKApp extends IGKObject
     public function getService(string $serviceName){
         return IGKServices::Get($serviceName);
     }
-    //-------------------------------------------------------------------------------------
-    // |+ self hosted application context
     /**
     * Property: context.
     * @var mixed
@@ -479,9 +469,7 @@ class IGKApp extends IGKObject
         igk_unreg_hook(IGKEvents::HOOK_APP_BOOT, $_callback);
         self::$sm_instance->m_application = $app;
         self::$sm_instance->m_initialized = __METHOD__;
-        // boot environment - environment can handle request logic 
         IGKAppSystem::LoadEnvironment(self::$sm_instance); 
-        // init hook logics
         self::_InitHookLogic($_hookArgs);        
     }
 }

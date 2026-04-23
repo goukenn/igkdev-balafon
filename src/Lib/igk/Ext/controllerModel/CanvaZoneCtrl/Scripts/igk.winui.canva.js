@@ -4,7 +4,6 @@
 igk.system.createNS("igk.winui.canva",{
 	initctrl : function(uri){
 		var p = igk.getParentScript();
-		
 		if (!p || (p.tagName.toLowerCase() != 'canvas'))
 			return;
 		/**
@@ -31,8 +30,6 @@ igk.system.createNS("igk.winui.canva",{
 				evalScript.apply(p, new Array(xhr.responseText));
 			}
 		});
-		
 	}
-
 });
 })();

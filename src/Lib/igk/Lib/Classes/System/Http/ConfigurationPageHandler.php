@@ -10,6 +10,7 @@ use IGK\Server;
 use IGK\System\IO\Path;
 use IGKException; 
 use ReflectionException;
+
 /**
 * Configuration page handler.
 * @package IGK\System\Http
@@ -79,7 +80,7 @@ class ConfigurationPageHandler
             if (empty($dir) && $v_path) {
                 $dir .= $script;
             }
-            $g = explode("/", $g); //substr($g, strlen($this->route));
+            $g = explode("/", $g); 
             $level = count($g) - 1;
             igk_io_set_dir_level($level);
             if (!empty($query = igk_server()->QUERY_STRING)) {
@@ -87,11 +88,9 @@ class ConfigurationPageHandler
             }
             $rq_path = implode("/", array_slice($g, 1));
             if (!empty($rq_path)) {
-                $rq_path = "/" . $rq_path; // .$query;
+                $rq_path = "/" . $rq_path; 
             }
-            // igk_wln_e("query : ", $query,   $_SERVER["REQUEST_URI"]);
-            // $_SERVER["REQUEST_URI"]=$dir."/".IGK_CONFIG_PAGEFOLDER."{$rq_path}";
-            unset($_SERVER["PHP_SELF"]); //=$dir."/".IGK_CONFIG_PAGEFOLDER."/DTA";
+            unset($_SERVER["PHP_SELF"]); 
             Server::getInstance()->prepareServerInfo();
             require_once IGK_LIB_DIR. '/igk_html_utils.php';             
             // + | priority to handling controller request             

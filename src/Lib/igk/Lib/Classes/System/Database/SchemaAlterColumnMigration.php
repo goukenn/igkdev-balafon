@@ -4,6 +4,7 @@
 // @date: 20220605 03:46:22
 // @desc: alert table migration
 namespace IGK\System\Database;
+
 /**
  * alter table column
  * @package IGK\System\Database

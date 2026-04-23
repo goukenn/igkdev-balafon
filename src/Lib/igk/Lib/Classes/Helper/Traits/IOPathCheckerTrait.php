@@ -1,5 +1,6 @@
 <?php
 namespace IGK\Helper\Traits;
+
 /**
 * Trait providing iopath checker functionality.
 * @package IGK\Helper\Traits

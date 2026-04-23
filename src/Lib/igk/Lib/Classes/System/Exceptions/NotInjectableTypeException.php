@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
+
 /**
 * Not injectable type exception.
 * @package IGK\System\Exceptions

@@ -3,8 +3,6 @@
 // @filename: class.winui.framebox.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
@@ -12,25 +10,21 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 class IGKWinUI_framebox extends HtmlNode
 {
-
     /**
     * Property: script.
     * @var mixed
     */
     private $m_script;
-
     /**
     * Property: nodes.
     * @var mixed
     */
     private $m_nodes;
-
     /**
     * Property: close uri.
     * @var mixed
     */
     var $closeUri;
-
     /**
     * .ctr
     */
@@ -38,14 +32,11 @@ class IGKWinUI_framebox extends HtmlNode
 	{
 		parent::__construct("div");
 		$this["class"] = "posab fitw fith loc_t loc_l overflow_none ztop";
-
 	}
-
     /**
     * Renders.
     * @param null|mixed $options
     */
-
     public function render($options =null)
 	{
 		$out ="";

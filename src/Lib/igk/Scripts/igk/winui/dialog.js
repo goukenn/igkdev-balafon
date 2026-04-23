@@ -11,7 +11,6 @@ function init_dialog(){
         var q = this;
         var next = q.o.nextCibling;
         var parent = q.o.parentNode;
-
         igk.winui.notify.showMsBox({
             title:q.getAttribute("igk:title") || "Dialog",
             type: q.getAttribute("igk:dialogtype") || "default",
@@ -34,5 +33,4 @@ function init_dialog(){
 };
 //on ready 
 igk.winui.initClassControl("igk-dialog", init_dialog);
-
 })();

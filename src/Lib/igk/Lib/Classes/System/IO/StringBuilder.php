@@ -5,6 +5,7 @@
 // @date: 20210723 13:22:40
 namespace IGK\System\IO;
 use igk;
+
 /**
  * string builder helper
  * @package IGK\System\IO
@@ -72,7 +73,6 @@ class StringBuilder{
      * @return void 
      */
     public function appendLine($text=""){
-        //+ | BUG FIX infine loop
         $is_array = is_array($text);
         $tab = (is_string($text) || !is_array($text) ? [$text] : $text) ?? igk_die("not valid argument");
         if (count($tab)){

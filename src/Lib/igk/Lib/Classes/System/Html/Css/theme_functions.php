@@ -4,6 +4,7 @@
 // @date: 20220805 17:02:34
 // @desc: 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+
 /**
 * auto generate doc.
 * @param string $prefix prefix of class to prepend

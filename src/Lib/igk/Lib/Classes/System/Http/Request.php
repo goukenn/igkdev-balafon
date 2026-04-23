@@ -12,6 +12,7 @@ use IGK\System\Html\WebHearderConstants;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Http
@@ -95,9 +96,9 @@ class Request implements IInjectable, IContentSecurityProvider
     /**
     * Used by var_dump() to customize debug output.
     */
-    public function __debugInfo()
+    public function __debugInfo(): array
     {
-        return null;
+        return [];
     }
     /**
      * store json data 
@@ -143,7 +144,6 @@ class Request implements IInjectable, IContentSecurityProvider
     public function getJsonData(){
         $this->getUploadedData();
         if ($this->js_data !== null){
-            //try to convert json data => data;
             return json_decode($this->js_data);
         } 
         return $this->js_data;
@@ -243,8 +243,6 @@ class Request implements IInjectable, IContentSecurityProvider
         } 
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
         if (!$dfile || !igk_io_file_exists($dfile,true)){
-            // // igk_ilog("entry request file is missing.");
-            // igk_trace(); 
             igk_die("Misconfiguration: Entry request is missing [". $dfile ."] - RequestURI : {$b} " .'\n');
         }
         $t = IGKString::Uri(dirname($file));

@@ -10,6 +10,7 @@
 namespace IGK\System;
 use Exception;
 use function igk_resources_gets as __;
+
 /**
  * use to manager number 
  * @package IGK\System
@@ -34,7 +35,6 @@ final class Number
      */
     static function IsRomanNumeral($string): bool
     {
-        // Pattern pour les chiffres romains valides
         $pattern = '/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/'; 
         return preg_match($pattern, $string) === 1;
     }

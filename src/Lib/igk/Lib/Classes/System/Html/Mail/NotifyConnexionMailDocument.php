@@ -7,6 +7,7 @@ namespace IGK\System\Html\Mail;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Net\MailDocument;
+
 /**
 * Notify connexion mail document.
 * @package IGK\System\Html\Mail

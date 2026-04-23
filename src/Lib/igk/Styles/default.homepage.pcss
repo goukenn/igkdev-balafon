@@ -4,36 +4,28 @@
 // @desc: 
 
 $colors = ['#040816', '#1B4332', '#FFA06B' , '#1C1C1C' ];
-
 $pstart =".igk-project-start";  
 $def[$pstart.' p.igk-danger'] = 'border-radius:4px; background-color: inherit;'; 
-
 $def[$pstart] =  "{sys:fith} padding:2em 0px; [fcl:projectStartColor] background-color:".$colors[rand(0, count($colors)-1)].";";
 $def[$pstart. " .fm-title:hover"] =  "[fcl:projectStartTitleHightLightColor]";
 $def[$pstart." .com-host"] = "";
 $def[$pstart." ul.igk-com-links"] =  "{sys:alignr, dispflex}";
-
 $def[$pstart." > div"] =  "padding:10px";
 $def[$pstart." > div > .igk-row"] =  "padding:0px 10px; margin-left:-20px; margin-right:-20px";
 $def[$pstart." .fm-title"] =  "font-size:1.4em;";
 $def[$pstart." ul.igk-com-links li"] =  "{sys:dispib}";
-$def[$pstart." ul.igk-com-links li > a"] =  "{sys:dispb} height:32px; width:32px;"; //because of safari width must be set.
+$def[$pstart." ul.igk-com-links li > a"] =  "{sys:dispb} height:32px; width:32px;"; 
 $def[$pstart." ul.igk-com-links li svg"] =  "{sys:fit} padding: 4px; fill:[cl:projectStartColor]; [trans:all 0.2s ease-in-out]";
 $def[$pstart." ul.igk-com-links li a.google svg:hover"] =  "fill:#f48";
 $def[$pstart." ul.igk-com-links li a.facebook svg:hover"] =  "fill:#4478C7";
 $def[$pstart." ul.igk-com-links li a.twitter svg:hover"] =  "fill:#1dcaff";
 $def[$pstart." ul.igk-com-links li a.linkedin svg:hover"] =  "fill:#0E76A8";
 $def[$pstart." a"] = "{sys:no-decoration}";
-
 $def["body .mfo a"] =  "[trans: 0.2s all ease-out][fcl:textColor] color: inherit; padding: 8px; border:none; border-radius: 4px;";
 $def["body .mfo a:hover"] = "background-color: #142537ff; color: #eee; text-decoration:none;";
-
 $def[$pstart." .igk-copyright"] = "{sys:loc_b}";
-// style color
 $cl["projectStartBackground"] = "#222";
 $cl["projectStartColor"] = "#888";
 $cl["projectStartTitleHightLightColor"] = "#eee";
-
-
 $xsm_screen[".igk-body .igk-powered"]
 = "{sys:dispn}";

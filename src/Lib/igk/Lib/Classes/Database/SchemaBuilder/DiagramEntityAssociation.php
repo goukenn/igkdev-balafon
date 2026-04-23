@@ -11,6 +11,7 @@ use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
+
 /**
  * entity association diagram builder. on render it will render a md file by default
  */
@@ -124,7 +125,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $k = __FUNCTION__;
         $mig = new DiagramMigration;
         $mig->type = $k;
-        $mig->properties = ['table'=>$tablename, 'property'=>$columnName]; //compact('tablename', 'columnName');
+        $mig->properties = ['table'=>$tablename, 'property'=>$columnName]; 
         $g = igk_getv($this->m_migrations, $k) ?? [];
         $g[json_encode($mig->properties)] = $mig;
         $this->m_migrations[$k] = $g;
@@ -184,7 +185,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $visiting = false;
         $o .= $visitor->start();
         $prefix = $this->table_prefix ?? "";
-        $v_tab_key = $this->db_name ? "## " : "# "; // md table key depend if db 
+        $v_tab_key = $this->db_name ? "## " : "# "; 
         if ($this->db_name && ($visitor instanceof DiagramVisitor)) {
             $o .= "# " . $this->db_name . "\n";
         }
@@ -221,7 +222,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
             $o .= "\n---- \n";
             $o .= "---- \n\n";
             foreach ($this->m_relations as $r) {
-                // igk_wln_e($r);
                 $o .= "# [" . $r->name . "]\n";
                 $o .= "-- (" . $r->getDefinition() . ")\n";
                 if ($p = $r->getProperties()) {
@@ -335,7 +335,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $o->table_prefix = DbConstants::PREFIX_KEY;
         $v_resolv_kinks = [];
         if ($loadSchemaObject->tables) {
-            // load entities
             foreach ($loadSchemaObject->tables as $k => $v) {
                 $e = $o->entity($v->defTableName);
                 $e->addProperties($v->columnInfo);
@@ -346,7 +345,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         }
         $o->m_migrations = $loadSchemaObject->migrations;
         if (count($v_resolv_kinks)){
-            // treat resolution : 
             DiagramHelper::ResolveLinks($loadSchemaObject, $v_resolv_kinks);
         }
         return $o;

@@ -20,6 +20,7 @@ use IGK\System\IToArray;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\Html
@@ -224,7 +225,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $tnode = $node;
         $first = false;
         if (is_string($node)) {
-            // $node = igk_create_node($node);
             $notag = igk_create_notagnode();
             $tnode = $this([$node => []], $notag);
             $node = $notag;
@@ -379,7 +379,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             if (isset($ktab[$s])) {
                 $ktab[] = [self::KEY_CUSTOM_TARGET_PREFIX . $s => &$lt];
                 $s =  array_key_last($ktab);
-                // $ctab =(object)['tab'=> & $ktab, 'parent'=>$ctab, 'key'=>$s];
                 $ktab = &$lt;
                 $s = null;
             } else {
@@ -391,7 +390,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     $ktab[$s] = &$lt;
                 }
             }
-            // $sb->appendLine($s);
             $ctab = (object)['tab' => &$ktab, 'parent' => $ctab, 'key' => $s];
             return true;
         };
@@ -428,19 +426,17 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $v_root = $n;
         $_last = $n;
         $_is_php8 = version_compare(PHP_VERSION, "8.0", ">=");
-        $context_container = [];  //current context container
+        $context_container = [];  
         $tcounter = 0;
         $_fallbackTagName = ($visitor instanceof static ? $visitor->fallbackTagName : null) ?? 'div';
         $b_counter = HtmlLoadingContext::CountCountext();
         while (count($list) > 0) {
-            // $v_inner = HtmlLoadingContext::CountCountext(); // to remove 
             extract(array_shift($list), EXTR_OVERWRITE);
             // + | when start $keys is null. empty for reach to end section end
             $keys = is_null($keys) ? self::_GetKeys($q) : $keys;
             $next = false;
             if ($keys) {
                 // +  enqueue builder parent 
-                // igk_html_push_node_parent($n);  
                 if ($n instanceof IHtmlContextContainer) {
                     if (!$context_container || ($context_container[0] !== $n)) {
                         array_unshift($context_container, $n);
@@ -449,15 +445,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 self::_Loop($visitor, $n, $q, $keys, $next, $list, $v_chain_info, $_last, $_is_php8, $context_container, $_fallbackTagName);
             }
             $tcounter++;
-            // $v_inner = HtmlLoadingContext::CountCountext(); // to remove 
             if ($next) {
-                //+ | move to next list item to stop 
                 continue;
             }
             // + | dequeue builder parent 
-            // if (get_class($n) == VueComponent::class){
-            //     Logger::warn("before view : ".$v_inner);
-            // }
             self::_RemoveNode($n, $context_container);
             $visitor->onClose($n);
         }
@@ -472,7 +463,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 igk_dev_wln_e("context_container not empty ... not allowed ... fix that", count($context_container));
             }
         }
-        //clean chain info
         while ($v_chain_info && ($_p = $v_chain_info->parent)) {
             $_p->next->parent = null;
             $_p->next = null;
@@ -488,10 +478,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     */
     private static function _RemoveNode($n, &$context_container)
     {
-        // igk_html_pop_node_parent();
         if ($context_container && ($n instanceof IHtmlContextContainer)) {
             if ($context_container[0] === $n) {
-                // HtmlLoadingContext::PopContext();
                 array_shift($context_container);
             }
         }
@@ -518,7 +506,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         &$activate,
         &$fn_c
     ) {
-        // $v_keys = array_keys($v);
         if (key_exists(self::KEY_ATTRIBS, $v)) {
             $attribs = $v[self::KEY_ATTRIBS];
             unset($v[self::KEY_ATTRIBS]);
@@ -534,7 +521,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
             unset($v['@']);
         }
-        if (key_exists($v_ck = self::KEY_CONDITION, $v)) { // must bind condition
+        if (key_exists($v_ck = self::KEY_CONDITION, $v)) { 
             $conds = $v[$v_ck];
             if (!is_array($args)) {
                 $conds = [$args];
@@ -563,9 +550,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $tag = null;
         self::_DetectDefinition($n, $v, $tag, $attribs, $args, $conds, $activate, $fn_c);
         if ($tag) {
-            // create a new tag definition
             $n = call_user_func_array([$n, $tag], $args ?? []) ?? igk_die(sprintf('failed to create a tag node [%s]', $tag));
-            // $k = $tag;
         }
         if ($attribs) {
             if (is_callable($attribs)) {
@@ -591,7 +576,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $v[] = [self::TAG_KEY => $s];
             }
             $v_pg = new static($n);
-            //+| passing context to the new created item 
             $v_pg->m_context = $visitor->getContext();
             $v_pg($v);
         }
@@ -607,15 +591,11 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $tpnode = null;/* will store top node */
         $v_new_chain_info = null;
         $glue = '';
-        // $v_chain_info = null;
         while (!$next && (count($keys) > 0)) {
             $k = array_shift($keys);
             $v = $q[$k];
             $v_from_key = !is_numeric($k);
             $v_invoke_func  = false;
-            // if ($v instanceof IHtmlNodeEvaluableExpression){
-            //     $v = $v->evaluate((array)$visitor->getContext());
-            // }
             // + | array list item detection - append to current node 
             if (!$v_from_key && is_array($v) && $n) {
                 self::_BindArray($visitor, $n, $v);
@@ -629,7 +609,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $v = "";
             }
             if ($v instanceof IHtmlResourceData) {
-                // igk_wln_e("handle");
                 $v = '' . $v;
             }
             if ($v instanceof HtmlItemBase) {
@@ -645,7 +624,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         $k = trim(substr($v, 4));
                         $v = null;
                     } else {
-                        // condiser as a content litteral for the last inserted item 
                         if ($_last && $v_chain_info) {
                             $cn = $v_chain_info->n;
                             if ($cn) {
@@ -658,7 +636,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         continue;
                     }
                 } else {
-                    $k  = $fallbackTagName; //  $this->fallbackTagName; // falback node 
+                    $k  = $fallbackTagName; 
                 }
             } else {
                 if ((strpos($k, self::KEY_CUSTOM_TARGET_PREFIX) === 0)) {
@@ -672,7 +650,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         }
                     }
                 } else if (strpos($k, self::KEY_INVOKE_ON_LAST) === 0) {
-                    // :: invoke the function on the last create item. 
                     if ($k == self::KEY_INVOKE_FUNC) {
                         $v_invoke_func = true;
                     } else {
@@ -686,11 +663,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                                 $_last = $n;
                             }
                         }
-                        // invoke function methods in last inserted item
                         if ($target_fc) {
                             call_user_func_array([$target_fc, $k], is_array($v) ? $v : [$v]);
-                            //$target_fc->setIsVisible(false);
-                            //igk_wln_e("call....".$k, $v, $target_fc->getIsVisible());
                             continue;
                         }
                     }
@@ -698,8 +672,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     $tag = substr($k, strlen(self::KEY_NODE_PROPERTY_PREFIX));
                     if ($v_tn = $n->$tag) {
                         if ($v_tn instanceof HtmlItemBase) {
-                            //create a new chain
-                            //before passing get retrieve "_" to update attributes
                             if ($attribs = igk_getv($v, self::KEY_ATTRIBS)) {
                                 $v_tn->setAttributes($attribs);
                                 unset($v[self::KEY_ATTRIBS]);
@@ -735,26 +707,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     unset($v[$v_key]);
                     if ($_last) {
                         self::_InvokeInLast($_last, $fn_call_intarget, $list, $v_chain_info, $next);
-                        // $v_fc_call = null;
-                        // $args = null;
-                        // if ($fn_call_intarget instanceof Closure) {
-                        //     $v_fc_call = $fn_call_intarget;
-                        //     $args = [$v_chain_info->n];
-                        // } else {
-                        //     if (is_string($fn_call_intarget))
-                        //         $fn_call_intarget = [$fn_call_intarget];
-                        //     $method = $args = null;
-                        //     $method = igk_getv($fn_call_intarget, 0) ?? igk_die('missing method name');
-                        //     !is_string($method) && igk_die('method key provided not valid');
-                        //     $args = igk_getv($fn_call_intarget, 1, []);
-                        //     $v_fc_call = [$_last, $method];
-                        // }
-                        // call_user_func_array($v_fc_call, $args);
-                        // if (!empty($v)) {
-                        //     // passing the rest to object 
-                        //     array_unshift($list, ['q' => $v, 'keys' => null, 'n' => $_last]);
-                        //     $next = true;
-                        // }
                         continue;
                     }
                 }
@@ -781,9 +733,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             list($tagname, $id, $class, $iargs, $v_name, $iattr) = $visitor->explodeTag($k, $n);
             if ($tpnode === $n) {
                 $tpnode = null;
-                // move to visited parent
                 if ($v_new_chain_info) {
-                    // $n = $n->getParentNode() ?? $n;                
                     $n = $v_new_chain_info->parent->n ?? $n;
                 }
             }
@@ -833,13 +783,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             } else {
                 // + | same as childs 
                 if (!$v) {
-                    // continue list to childs list... parent...
                     continue;
                 }
             }
-            //add($k, $attribs, $args);
             if (!is_null($conds)) {
-                //+ | evaluate in global context
                 if ($conds instanceof IHtmlNodeConditionEvaluableAttribute) {
                     $conds = $conds->evaluate($visitor->getContext());
                 }
@@ -876,7 +823,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $_c->host($v);
             } else if ($v && (is_array($v) || is_object($v))) {
                 if (is_object($v)) {
-                    // get array
                     if ($v instanceof IToArray) {
                         $v = $v->to_array();
                     } else {
@@ -886,7 +832,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 if ($tpnode) {
                     $n = $tpnode;
                 }
-                // walk thru 
                 array_unshift($list, ['q' => $q, 'keys' => $keys, 'n' => $n, 'v_chain_info' => $v_chain_info]);
                 array_unshift($list, ['q' => $v, 'keys' => null, 'n' => $c,  'v_chain_info' => $v_new_chain_info]);
                 $next = true;
@@ -895,7 +840,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $c->Content = $v;
             }
             if ($tpnode) {
-                $visitor->onClose($c); //popTemplateContext($c);
+                $visitor->onClose($c); 
                 $n = $tpnode;
             }
         }
@@ -958,7 +903,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         call_user_func_array($v_fc_call, $args);
         if (!empty($v)) {
-            // passing the rest to object 
             array_unshift($list, ['q' => $v, 'keys' => null, 'n' => $_last]);
             $next = true;
         }

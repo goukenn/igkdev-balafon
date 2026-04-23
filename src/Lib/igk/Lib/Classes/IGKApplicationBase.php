@@ -8,6 +8,7 @@ use IGK\System\IO\DotEnvConfiguration;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Markdown\MarkdownFileHandler;
 use IGK\System\IO\TextFileHandler;
+
 /**
  * 
  * @package 
@@ -82,7 +83,7 @@ abstract class IGKApplicationBase{
     {
         if ($this->m_library == null){
             $tab = [];
-            $this->m_library = new IGKObjStorage($tab);// new stdClass();
+            $this->m_library = new IGKObjStorage($tab);
         }
         if (!$this->lib($libname)){
             $cl = 'IGK\\System\\Library\\' . $libname;

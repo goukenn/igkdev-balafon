@@ -16,6 +16,7 @@ use IGK\System\IO\Path;
 use IGKCaches;
 use IGKException;
 use ReflectionException;
+
 /**
 * represent internal core loader
 */
@@ -75,7 +76,6 @@ class Loader implements IResponse {
     public function getBuffer(): ?string{
         return $this->m_output;
     }
-    //+ store callback to call protected function info provide by the controller
     /**
     * dispatch call to controller
     * @return mixed|void
@@ -241,7 +241,6 @@ class Loader implements IResponse {
              return $this; 
         $this->loader_load_files[$file] = $file;
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
-        //+ unset the file to load        
         unset($data["file"]);
         $data=array_merge($this->m_controller->getSystemVars(), array(
             "context"=>"loader_view",

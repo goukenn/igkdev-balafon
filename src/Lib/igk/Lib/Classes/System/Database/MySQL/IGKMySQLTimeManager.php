@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database\MySQL;
 use \IGKObject;
+
 /**
 * Represent IGKMySQLTimeManager class
 */

@@ -10,6 +10,7 @@ use IGK\System\IO\FileWriter;
 use IGKCSVDataAdapter;
 use IGKException;
 use function igk_resources_gets as __;
+
 /**
  * represent system config data - \
  *   this can have extra proprerties depend on environment 'extra_config' list. \
@@ -44,10 +45,6 @@ class ConfigData
      * @var array
      */
     private $m_extra;
-    ///full path to
-    ///conffile : configuration file
-    ///configctrl : hosted controller
-    ///entries: default entry
     /**
     * auto generate doc.
     */    public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
@@ -74,10 +71,6 @@ class ConfigData
      * 
      * @param mixed $key
      */
-    // public function __isset($key)
-    // {
-    //     return isset($this->m_configEntries[$key]);
-    // }
     /**
     * auto generate doc.
     * @param mixed $n
@@ -98,7 +91,6 @@ class ConfigData
     public function __set($key, $value)
     {
         if ($this->m_extra &&  key_exists($key, $this->m_extra)) {
-            // here remove key 
             unset($this->m_extra[$key]);
         }
         if (isset($this->m_configEntries[$key])) {

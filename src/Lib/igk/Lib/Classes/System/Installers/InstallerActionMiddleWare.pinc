@@ -8,18 +8,15 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Installers;
-
 use ClearCacheCommand;
 use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\MaintenanceHelper;
 use IGK\System\Html\HtmlReader;
-
 use SuccessMiddleWare as GlobalSuccessMiddleWare;
-
 use function igk_resources_gets as __;
-
 ///<summary>Represente class: BalaffonInstallerMiddelWare</summary>
+
 /**
  * Represent BalaffonInstallerMiddelWare class
  */
@@ -60,7 +57,6 @@ class BalafonInstallerMiddelWare extends InstallerActionMiddleWare
  */
 class ClearCacheMiddleWare extends InstallerActionMiddleWare
 {
-
     ///<summary></summary>
     /**
      * 
@@ -153,7 +149,6 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
             $service->Listener->write("no appName or missing " . IGK_PLATEFORM_NAME);
             return;
         }
-
         $version = igk_conf_get($manifest, "version");
         if (!$version) {
             $service->Listener->write("missing version in manifest");
@@ -166,7 +161,6 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
         $service->Listener->write("temp:" . $_ind);
         @unlink($_ind);
         IO::CreateDir($_ind . "/Lib/igk");
-
         $service->Listener->write(__("extracting..."));
         $is_dev = igk_environment()->isDev();
         if (!igk_zip_unzip(igk_uri($zip), $_ind, function ($e) use ($service, $is_dev) {
@@ -300,7 +294,6 @@ class MaintenaceLibMiddleWare extends InstallerActionMiddleWare
             $this->__unlock();
         }
     }
-    
 }
 ///<summary>Represente class: RenameLibaryMiddleWare</summary>
 /**

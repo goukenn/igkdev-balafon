@@ -4,6 +4,7 @@
 // @date: 20220524 08:24:45
 // @desc: ajx component options trait 
 namespace IGK\System\WinUI\Components;
+
 /**
 * Trait providing ajx component options functionality.
 * @package IGK\System\WinUI\Components

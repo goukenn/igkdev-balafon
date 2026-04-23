@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
 use IGK\Constants;
+
 /**
 * Diagram constants.
 * @package IGK\Database\SchemaBuilder

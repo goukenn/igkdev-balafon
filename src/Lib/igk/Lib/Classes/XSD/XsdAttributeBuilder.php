@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\XSD;
 use IGKXmlNode;
+
 /**
 * Xsd attribute builder.
 * @package IGK\XSD

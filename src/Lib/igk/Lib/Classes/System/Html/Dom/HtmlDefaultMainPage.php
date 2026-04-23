@@ -12,6 +12,7 @@ use IGK\Resources\R;
 use IGKEvents;
 use IGKException;
 use function igk_html_host  as _h; 
+
 /**
  * defaut home page
  * @package IGK\System\Html\Dom
@@ -55,7 +56,6 @@ final class HtmlDefaultMainPage extends HtmlNode
             },
             null
         );
-        // attach author community - node 
         $g = igk_create_notagnode();
         $g->author_community(); 
         if ($doc) {
@@ -64,8 +64,6 @@ final class HtmlDefaultMainPage extends HtmlNode
             }
             $doc->title = igk_sys_getconfig("website_title");
             $doc->Theme->addTempFile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/default.homepage.pcss");
-            // $doc->body["class"] = "+google-Roboto";
-            // $t = $doc->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
             $this->container()->row()->col('fitw')->add(
                 igk_html_host(
                     'div.dispflex.flex-row.flex-justify-sb',

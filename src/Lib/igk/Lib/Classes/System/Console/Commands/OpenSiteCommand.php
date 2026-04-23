@@ -4,6 +4,7 @@
 // @date: 20251027 13:58:43
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

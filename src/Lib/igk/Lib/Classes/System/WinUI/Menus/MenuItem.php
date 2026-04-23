@@ -10,6 +10,7 @@
 namespace IGK\System\WinUI\Menus;
 use IGKException;
 use function igk_resources_gets as __;
+
 /**
  * contextual menu item
  * @package IGK\System\WinUI\Menus
@@ -119,9 +120,6 @@ class MenuItem{
     public function __toString(){
         return __CLASS__."[".$this->getName()."]";
     }
-    // // public function add(){
-    //     igk_die(__METHOD__."");
-    // }
     /**
     * Returns Current Page.
     */

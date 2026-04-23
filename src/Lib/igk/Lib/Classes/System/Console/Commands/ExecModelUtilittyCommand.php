@@ -8,6 +8,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use ReflectionMethod;
+
 /**
 * execute command db utility to handle action base on modelUtility 
 * @package IGK\System\Console\Commands
@@ -52,8 +53,6 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 		$ctrl = self::ResolveController($command);
 		$args = array_slice(func_get_args(), 2);
 		$names = explode('.', $utility_name_call, 2);
-		// igk_wln_e("names", $names);
-		// 
 		if ($utility = $ctrl->modelUtility($names[0])){
 			if (count($names)==1){
 				if (property_exists($command->options, '--list')){

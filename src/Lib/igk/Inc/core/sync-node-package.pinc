@@ -6,7 +6,6 @@
 
 ini_set('display_errors',1);
 error_reporting(-1); 
-
 if (!class_exists('Logger')){
     /**
      * define global sync Logger - to die with response
@@ -28,14 +27,10 @@ if (basename(__FILE__)!='sync-npm-package.php'){
 }
 $command = (object)['options'=>[]];
 $args = igk_getr('args');
-
-
- 
 if (!$args){
     Logger::danger("missing args::::");
     $response->die('missing args.');
 }
- 
 $search = 'which';
 if (PHP_OS != 'Linux'){
     $search = 'where';

@@ -13,6 +13,7 @@ use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use Illuminate\Support\Facades\Log;
+
 /**
 * Out side links command.
 * @package IGK\System\Console\Commands

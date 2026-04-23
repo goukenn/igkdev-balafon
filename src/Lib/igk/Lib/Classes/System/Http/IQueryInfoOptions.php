@@ -3,6 +3,7 @@
 // @file: IQueryInfoOptions.php
 // @date: 20250608 17:38:09
 namespace IGK\System\Http;
+
 /**
 * represent a query option information 
 * @package IGK\System\Http

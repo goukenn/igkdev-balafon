@@ -3,6 +3,7 @@
 // @file: LinePrefixMapper.php
 // @date: 20221021 21:15:05
 namespace IGK\System\Text;
+
 /**
 * 
 * @package IGK\System\Text

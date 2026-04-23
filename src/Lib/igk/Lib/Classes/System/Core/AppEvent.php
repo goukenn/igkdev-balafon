@@ -4,6 +4,7 @@
 // @date: 20260206 13:08:29
 namespace IGK\System\Core;
 use IGKEvents;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core

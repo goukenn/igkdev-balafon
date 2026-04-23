@@ -9,30 +9,25 @@
  * @package 
  */
 class PhpUnitApplication extends IGKApplicationBase{
-
     /**
     * Bootstrap.
     */
     public function bootstrap() { 
         $this->library("mysql");
         $this->library("zip");
-        
         igk_environment()->app_type = 'phpunit';
-        // init server definition
         igk_server()->REQUEST_URI = "/";
     }
-
     /**
     * Runs.
     * @param string $entryfile
     * @param mixed $render
     */
     public function run(string $entryfile, $render = 1) { 
-        // treat argv before start value 
         $options = (object)[];
         $argv = igk_getv($_SERVER, 'argv');
         $n = $q = '';
-        array_shift($argv); // skip the first command line args 
+        array_shift($argv); 
         while(count($argv)>0){
             $q = array_shift($argv);
             if (in_array($q, ['-c','--testsuite','--filter']) || preg_match("/^-+/", $q)){
@@ -46,7 +41,6 @@ class PhpUnitApplication extends IGKApplicationBase{
                     }
                     $options->{$n}[] = $q;
                 } else {
-
                     $options->{$n} = $q;
                 }
             }
@@ -55,11 +49,8 @@ class PhpUnitApplication extends IGKApplicationBase{
         if (is_string($v_testsuite)){
             $v_testsuite = [$v_testsuite];
         }
-
         $v_test_all_project = in_array('projects', $v_testsuite); 
         $v_test_all_module = in_array('modules', $v_testsuite); 
-
-
         IGKApp::StartEngine($this);
         $p = igk_sys_project_controllers();        
         if ($p){
@@ -78,5 +69,4 @@ class PhpUnitApplication extends IGKApplicationBase{
             $m::register_autoload();
         } 
     }
-
 }

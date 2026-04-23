@@ -3,6 +3,7 @@
 // @file: IHtmlServerComponent.php
 // @date: 20250926 16:32:25
 namespace IGK\System\Html\Dom;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom

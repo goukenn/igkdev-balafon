@@ -4,6 +4,7 @@
 // @date: 20230509 08:40:53
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -49,7 +50,6 @@ class DbSeedCommand extends AppExecCommand{
 				}
 			}
 		}
-		// Transform to namespace class
 		DbCommandHelper::Seed($ctrl, $class); 
 		return 0; 
 	}

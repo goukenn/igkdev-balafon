@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGKException;
+
 /**
  * update schema migrations
  * @package IGK\System\Database
@@ -57,7 +58,6 @@ class SchemaBuilderMigration{
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){
-            // passing migration info listener 
             $c->up();
         }
         if ($this->listener){

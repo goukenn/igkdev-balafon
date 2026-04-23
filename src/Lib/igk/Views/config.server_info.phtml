@@ -4,12 +4,9 @@
 // @date: 20220803 13:51:47
 // @desc: 
 
-// config server info
 $ctrl->setSelectedConfigCtrl(null);
 $box = igk_html_ctrl_view_config($ctrl, $cnf_n, "title.frameworkInfo", null);
-
 $cnf=$ctrl->getConfigNode()->clearChilds();
-
 // +| VIEW SERVER Information
 $dv=$cnf->div()->addPanelBox();
 $dv->addSectionTitle()->Content="\$_SERVER";

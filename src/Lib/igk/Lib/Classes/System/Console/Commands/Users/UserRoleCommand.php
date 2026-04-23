@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands\Users;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
@@ -34,7 +35,6 @@ class UserRoleCommand extends AppExecCommand{
     public function exec($command, ?string $user=null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		$auths = $user->auths();
-		//$roles = $user::role();
 		$data = [
 			'member_of'=> array_map(ModelHelper::MapToArray(),  $user->groups()), 
 			'authorizations'=> array_map(ModelHelper::MapToArray(), $auths)

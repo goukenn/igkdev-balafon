@@ -6,6 +6,7 @@
 namespace IGK\Database;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
+
 /**
  * db query result
  * @package IGK\Database

@@ -1,14 +1,10 @@
 <?php
-
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 
 ini_set('display_errors', 1);
 error_reporting(-1);
-
-
-
 if (!function_exists("igk_install_site")) {
     function igk_install_site($corelib, $entryfile, $args, $exit = true, $production = true)
     {
@@ -18,12 +14,10 @@ if (!function_exists("igk_install_site")) {
         $_SERVER["argv"] = $argv;
         $_SERVER["argc"] = $argc;
         unset($_SERVER["REQUEST_URI"]);
-
         if (!file_exists($corelib)){
             error_log('missing core file', $corelib);
             return false;
         }
-
         require_once($corelib);
         require_once(IGK_LIB_CLASSES_DIR . "/interfaces.php");
         require_once(IGK_LIB_CLASSES_DIR . "/IGKObject.php");
@@ -48,7 +42,6 @@ if (!function_exists("igk_install_site")) {
         require_once(IGK_LIB_DIR . "/Lib/functions-helpers/io.php");
         require_once(IGK_LIB_DIR . "/Lib/functions-helpers/php.php");
         require_once(IGK_LIB_DIR . "/igk_functions.php");
-
         ignore_user_abort(false);
         $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
         $_SERVER["REMOTE_ADDR"] = "0.0.0.0";
@@ -56,14 +49,11 @@ if (!function_exists("igk_install_site")) {
         // + | register application type
         // + |
         ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
-
         /**
          * @var \IGK\System\Console\BalafonApplication $app 
          */
         $app = ApplicationLoader::Boot("balafon");
-
         $command = $app->getPrimaryCommand($argv);
-
         //-----------------------------------------------------------------------------
         // + | handle default
         // + |
@@ -104,19 +94,14 @@ if (!function_exists("igk_install_site")) {
             exit($status);
     }
 }
-
 //#{{@Inc(class.InstallerResponse.pinc)}}
-
-
 $response = new InstallerResponse();
-
 if (!version_compare(PHP_VERSION, "7.3", ">=")) {
     $response->die("mandory version required. 7.3<=" . PHP_VERSION);
 }
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
-
 $production = isset($_SERVER["ENVIRONMENT"]) ? $_SERVER["ENVIRONMENT"] == 'production' : false;
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
 $corelib = igk_getr('corelib'); // library relative to home 
@@ -133,22 +118,16 @@ $app_dir = implode("/", [$v_rhome, $o_app_dir = ltrim($app_dir, '/')]);
 $root_dir = implode("/", [$v_rhome, ltrim($root_dir, '/')]);
 $site_dir = implode("/", [$v_rhome, ltrim($site_dir, '/')]);
 $cmd = $result = null;
-
 // print_r(compact('corelib', 'app_dir', 'root_dir', 'o_app_dir'));
 // exit;
-
 $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
 // + | make symbolic link
 if (!is_link($link = $app_dir . "/Lib/igk")) {
     @symlink($install_dir, $link);
 }
 $v_blf_cmd = "{$install_dir}/bin/balafon";
-
-
-
 if (file_exists($v_blf_cmd)) {
     @chmod($v_blf_cmd, 0775);
-
     // + | install with balafon command
     $bck = getcwd();
     if (is_dir($site_dir))
@@ -157,19 +136,13 @@ if (file_exists($v_blf_cmd)) {
         $no_subdomain ? "--no-subdomain" : null,
         $no_webconfig ? "--no-webconfig" : null,
     ]));
-
     $dv = null; //$_ISUNIX ? " > /dev/null" : "";
     $cmd = "{$v_blf_cmd} --install-site --root-dir:{$root_dir} --application:{$app_dir} {$v_args}{$dv}";
-
     $result = `$cmd`;
-    
     if (is_null($result) || strstr($result, 'Status: 500 Internal Server Error')) {
-        
-     
         ob_start();
         $root_dir = substr($root_dir, strlen($site_dir) + 1);
         // $app_dir = substr($app_dir, strlen($site_dir)+1);
-
         $g = igk_install_site(
             $app_dir . "/Lib/igk/igk_framework.php",
             __FILE__,
@@ -205,13 +178,10 @@ if ($admin_login = igk_getr("admin_login")) {
         }
     }
 }
-
 // + | unlink script 
 @unlink(__FILE__);
-
 function_exists('opcache_reset') && @opcache_reset();
 error_clear_last();
-
 $response->response(json_encode((object)[
     "message" => "finish",
     "app_dir" => $app_dir,

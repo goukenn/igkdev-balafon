@@ -7,6 +7,7 @@ use IGK\System\Database\ICustomUserProfile;
 use IGK\System\Database\IUserProfile;
 use IGK\Models\ModelBase as coreModelBase;
 use IGK\System\EntryClassResolution;
+
 /**
 * 
 * @package IGK\Controllers\Traits
@@ -40,7 +41,6 @@ trait ApplicationUserProfileTrait{
         if (!$u || !$u->clGuid) {
             return null;
         }  
-        // $this::register_autoload();
         $model = $this->getApplicationUserModel();       
         if (!$model){
             return $u;
@@ -81,7 +81,6 @@ trait ApplicationUserProfileTrait{
         $coreuser = $userInfo->model();
         $c = new $profileClassName($coreuser);
         $roles = $this->resolveClass(EntryClassResolution::Roles); 
-        // check that the user exists
         $row = $customModel::select_row($condition);
         $m = null;
         if ($row){
@@ -90,7 +89,6 @@ trait ApplicationUserProfileTrait{
             } 
             $m = $c->bindInfo($userInfo, $row); 
         } else {
-            // register user to member list; 
             if (is_callable($newDefinition)){
                 $newDefinition = $newDefinition();
             } 

@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: assets.php
 // @date: 20230119 08:33:17
 // @desc: store assets helper utility
-
 use IGK\System\IO\Path;
 
 if (!function_exists('igk_get_asset_uri')){
@@ -26,14 +24,12 @@ if (!function_exists('igk_get_asset_uri')){
     }
 }
 if (!function_exists('igk_load_temp_style_asset')){
-
     /**
     * auto generate doc.
     * @param mixed $assets
     * @return void
     */
     function igk_load_temp_style_asset($doc, $ctrl, $assets){
-         
         $ctrl::resolveAssets(["/"]);        
         $dir = $ctrl->getAssetsDir();
         foreach($assets as $f){
@@ -44,7 +40,6 @@ if (!function_exists('igk_load_temp_style_asset')){
     }
 }
 if (!function_exists('igk_load_temp_script_asset')){
-
 /**
 * Loads temp script asset.
 * @param mixed $doc

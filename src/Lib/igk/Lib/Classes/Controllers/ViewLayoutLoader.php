@@ -16,6 +16,7 @@ use IGK\System\WinUI\IViewLayoutLoader;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * view layout loader
  * @package IGK\Controllers
@@ -147,14 +148,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $v_header = $this->_resolveContextFile($this->header, $v_dir);
             $v_footer = $this->_resolveContextFile($this->footer, $v_dir);
         } else {
-            // update target node to match ajx requirement 
             $t = $ctrl->getTargetNode();
             $t['id'] = null;
-            // $tcl = igk_css_str2class_name($ctrl->getName());
-            // igk_wln_e(__FILE__.":".__LINE__ , $tcl);
-            // // if($t['class']){  
-            // //     $t['class'] = ' basic -'.$tcl;                      
-            // // }
             $t['igk-type'] = 'ajx-view'; 
         } 
         if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
@@ -200,7 +195,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     protected function afterInc()
     {
-        // to some thing after inclusion
     }
     /**
      * check if the view is a main layout 

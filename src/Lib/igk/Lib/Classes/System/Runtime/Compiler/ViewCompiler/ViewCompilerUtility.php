@@ -14,6 +14,7 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerOptions;
 use IGK\System\Runtime\Compiler\ViewCompilerBockInfo;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
+
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -56,9 +57,6 @@ abstract class ViewCompilerUtility
                     }
                     array_pop($n);
                     $p = igk_array_peek_last($n);
-                    // if ($p = array_pop($n)){
-                    //     $n[] = $p;
-                    // }
                     continue;
                 }
                 if ($q->blocks) {
@@ -113,7 +111,7 @@ abstract class ViewCompilerUtility
         $blockCompiler->header = $header;
         $tagname = null;
         if ($options->t) {
-            $attr = HtmlRenderer::GetAttributeArray($options->t, null); // $options->t->getAttributes()->to_array();
+            $attr = HtmlRenderer::GetAttributeArray($options->t, null); 
             if ($options->t->getCanRenderTag()) {
                 $tagname = $options->t->getTagName();
                 $sb->appendLine('?><' . $tagname . '%__igk_attribute__%><?php');
@@ -142,7 +140,6 @@ abstract class ViewCompilerUtility
                     if (!$sb->isEmpty()) {
                         $sb->tabstop = str_repeat("   ", $depth - 1);
                         $sb->prependLine($p->startBlock());
-                        // $sb->tabstop = str_repeat("    ", $depth);
                         if (!$p->isInnerBlock()) { 
                             $depth--;
                             $sb->tabstop = str_repeat("   ", $depth);

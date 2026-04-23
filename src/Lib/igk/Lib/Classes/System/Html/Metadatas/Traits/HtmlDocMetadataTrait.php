@@ -4,6 +4,7 @@
 // @date: 20231221 14:20:45
 namespace IGK\System\Html\Metadatas\Traits;
 use IGK\System\Html\Metadatas\MetaDataHost;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas\Traits

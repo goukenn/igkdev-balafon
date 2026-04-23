@@ -1,6 +1,7 @@
 <?php
 namespace IGK\System\Html\Metadatas;
-  /**
+
+/**
      * The Facebook AppLinks metadata for the document.
      * @example
      * ```tsx

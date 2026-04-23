@@ -5,6 +5,7 @@
 namespace IGK\System\Text;
 use Exception;
 use IGK\Helper\Activator;
+
 /**
 * 
 * @package IGK\System\Text
@@ -109,7 +110,6 @@ class RegexDetectHandler{
                 $callable($e, $g, $src, $pos);
             }
         }
-        // restore engine
         $regex->setEngineInfo($v_bckr);
     }
 }

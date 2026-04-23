@@ -8,6 +8,7 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
+
 /**
 * 
 * @package IGK\System\Http\Mail
@@ -49,7 +50,6 @@ class MailPreviewNode extends HtmlNode
     */
     public function getRenderedChilds($options = null)
     {
-        // convert rendering to view 
         $child = parent::getRenderedChilds($options);
         if (count($child)) {
             $mail = igk_create_node('div');

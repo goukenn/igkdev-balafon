@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use ZipArchive;
+
 /**
 * Zip wp plugin command.
 * @package IGK\System\Console\Commands
@@ -44,9 +45,7 @@ class ZipWpPluginCommand extends AppExecCommand{
                 $ts = [$ts];
             $ts = array_filter($ts);
             $idx = str_replace("/", "\\/", "(".implode("|", $ts).")|");
-            // igk_wln_e($command->options->{"--ignore"}, $ts, $idx);
         }
-        // return;
         $prjname = basename($sourcepath);
         $fname = "/wp_plugin_.".$prjname.".".date("Ymd").".zip";
         if ($path == null){
@@ -55,13 +54,10 @@ class ZipWpPluginCommand extends AppExecCommand{
             $path = rtrim($path, "/").$fname;
         }
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
-       // igk_sys_zip_project($ctrl, $path, $author);
-        // $g = $ctrl->getDeclaredDir();
         if (igk_io_file_exists($path)){
             @unlink($path);
         }
         $rgx = "/".$idx."(\/(temp|application))|\.(vscode|git(ignore)?|gkds|DS_Store)$/";
-      //  igk_wln_e($rgx);
         $zip = new ZipArchive();
         if ($zip->open($path, ZIPARCHIVE::CREATE))
         { 

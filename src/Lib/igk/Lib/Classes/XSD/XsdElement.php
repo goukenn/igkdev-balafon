@@ -6,6 +6,7 @@
 namespace IGK\XSD;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * Xsd element.
 * @package IGK\XSD

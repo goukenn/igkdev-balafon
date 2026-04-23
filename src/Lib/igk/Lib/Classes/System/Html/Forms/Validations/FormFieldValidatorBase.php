@@ -6,6 +6,7 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Validations
@@ -38,9 +39,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
         $v_output = null;
         $v_field = null;
         $options = null;
-        //+|filter option object        
         if ($value instanceof FormValidationParam){
-            // ignore the reset of the param
             $error = & $value->error;
             $v_output = & $value->output;    
             $options = Activator::CreateNewInstance(FormValidationParamOptions::class , $value);

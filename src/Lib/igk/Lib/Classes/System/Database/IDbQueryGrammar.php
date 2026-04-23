@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\IGrammar;
+
 /**
  * represent a query gramar interface creator 
  * @package IGK\System\Database

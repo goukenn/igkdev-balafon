@@ -1,5 +1,6 @@
 <?php
 namespace IGK\System\Console;
+
 /**
  * protocol used to inject a logger
  * @package IConsoleLogger

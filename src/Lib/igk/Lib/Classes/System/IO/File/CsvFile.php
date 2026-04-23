@@ -5,6 +5,7 @@
 namespace IGK\System\IO\File;
 use IGK\Helper\MapHelper;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO\File
@@ -60,7 +61,6 @@ class CsvFile
         $sb = '';
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
-                // $tid = $e->tokenID; 
                 if ($e->tokenID == 'end') {
                     if ($before = substr($src, $poffset, $e->from - $poffset)) {
                         $sb .= rtrim($before);

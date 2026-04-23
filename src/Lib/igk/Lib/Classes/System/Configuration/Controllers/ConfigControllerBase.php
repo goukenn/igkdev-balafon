@@ -14,6 +14,7 @@ use IGKEvents;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigController.php";
 /**
  * Represent ConfigControllerBase class
@@ -135,8 +136,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         $app = igk_app();
         $cnf = $this->ConfigCtrl;
-        // ($app->CurrentPageFolder == IGK_CONFIG_MODE) && 
-        // $v=($cnf && ($cnf->getSelectedConfigCtrl() === $this) && 
         $v = $cnf->getIsConnected();
         return $v;
     }
@@ -200,14 +199,13 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         if (!igk_is_conf_connected() || igk_configs()->get("no_web_configuration")) {
             return false;
         }
-        return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);
+        return true; 
     }
     /**
      * base show Configuration of the controller
      */
     public function showConfig()
     {
-        // show config must be call one per configuration setting
         $_t = $this->getTargetNode();
         $_handled = $this->getEnvParam('handled');
         if (!$_handled) {

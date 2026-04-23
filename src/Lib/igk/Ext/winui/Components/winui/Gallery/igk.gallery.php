@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
 /**
  * Creates and returns a WinUI gallery HTML node.
  *
@@ -16,7 +15,6 @@ $n["class"]="igk-winui-gallery";
 $n->setCallback("addPicture", "igk_gallery_add");
 return $n;
 }
-
 /**
  * Adds a picture item with an image to the given gallery node.
  *

@@ -22,6 +22,7 @@ use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
+
 /**
 * Make db macros command.
 * @package IGK\System\Console\Commands
@@ -47,7 +48,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
     * @var mixed
     */
     var $options = [ 
-        // 
         "--clearcache"=>"clear cache",
         "--force"=>"destroy existing macros if exists",
     ];
@@ -60,7 +60,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     * auto generate doc.
     * @var callable
     */
-    var $definition; // definition callback
+    var $definition; 
     /**
      * array of uses
      * @var ?array|?string
@@ -84,13 +84,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         Logger::info("make macros ...".$controller);
         $author = $this->getAuthor($command);
-        // $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
-        // $type = igk_getv([
-        //     "project"=>ProjectDefaultAction::class,
-        //     "def"=>ActionBase::class,
-        //     "middlewire"=>MiddlewireActionBase::class,
-        //     'api'=>ApiActionBase::class,
-        // ], strtolower($type), $type);
         $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");

@@ -3,6 +3,7 @@
 // @file: TextContentValidator.php
 // @date: 20230303 21:32:26
 namespace IGK\System\Security\Web;
+
 /**
 * 
 * @package IGK\System\Security\Web

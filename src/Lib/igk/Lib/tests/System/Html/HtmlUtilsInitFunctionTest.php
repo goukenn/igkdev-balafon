@@ -3,7 +3,6 @@
 // @file: HtmlUtilsInitFunctionTest.php
 // @date: 20230311 07:15:03
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 */
 class HtmlUtilsInitFunctionTest extends BaseTestCase
 {
-
     /**
     * Tests render.
     */
@@ -24,13 +22,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             HtmlUtils::Init(igk_create_node('div'), 'hello!!!')
         );
     }
-
     /**
     * Tests render with array.
     */
     public function test_render_with_array()
     {
-
         HtmlUtils::Init($n = igk_create_node('div'), [
             "h1" => "presentation"
         ]);
@@ -39,13 +35,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render with array last.
     */
     public function test_render_with_array_last()
     {
-        // last item 
         $this->assertEquals(
             "<h1>presentation</h1>",
             HtmlUtils::Init(igk_create_node('div'), [
@@ -53,64 +47,53 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ])->render()
         );
     }
-
     /**
     * Tests render with array multi.
     */
     public function test_render_with_array_multi()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             ["@_t:h1" => "presentation1"],
             ["@_t:h1" => "presentation2"],
-
         ]);
         $this->assertEquals(
             "<div><h1>presentation1</h1><h1>presentation2</h1></div>",
             $n->render()
         );
     }
-
     /**
     * Tests render class.
     */
     public function test_render_class()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             ["@_t:h1" => ['_' => ['class' => 'basic'], "presentation1"]],
             ["@_t:h1" => "presentation2"],
-
         ]);
         $this->assertEquals(
             "<div><h1 class=\"basic\">presentation1</h1><h1>presentation2</h1></div>",
             $n->render()
         );
     }
-
     /**
     * Tests render class pseudo.
     */
     public function test_render_class_pseudo()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             ["@_t:h1" => ['_' => ['class' => ['basic' => true, 'litteral' => false]], "presentation1"]],
             ["@_t:h1" => "presentation2"],
-
         ]);
         $this->assertEquals(
             "<div><h1 class=\"basic\">presentation1</h1><h1>presentation2</h1></div>",
             $n->render()
         );
     }
-
     /**
     * Tests render after node.
     */
     public function test_render_after_node()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             "span" => "after",
             ["@_t:h1" => "presentation1"],
@@ -121,13 +104,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render form.
     */
     public function test_render_form()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             "form" => [],
         ]);
@@ -136,13 +117,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render form ajx.
     */
     public function test_render_form_ajx()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             "form" => [
                 "::ajx" => ""
@@ -153,13 +132,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render form ajx call twice.
     */
     public function test_render_form_ajx_call_twice()
     {
-        // last item 
         HtmlUtils::Init($n = igk_create_node('div'), [
             "form" => [
                 ["::ajx" => ""],
@@ -171,14 +148,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render form ajx call twice 2.
     */
     public function test_render_form_ajx_call_twice_2()
     {
-        // last item 
-
         HtmlUtils::Init($n = igk_create_node('div'), [
             "form" => [
                 ["::fn()" => "ajx"],
@@ -190,13 +164,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render form ajx call twice 3.
     */
     public function test_render_form_ajx_call_twice_3()
     {
-        // last item  
         HtmlUtils::Init($n = igk_create_node('div'), [
             "form" => [
                 ["::fn()" => "ajx", "span" => "hello"],
@@ -208,13 +180,11 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
-
     /**
     * Tests render loop.
     */
     public function test_render_loop()
     {
-        // last item  
         HtmlUtils::Init(
             $n = igk_create_node('div'),
             [

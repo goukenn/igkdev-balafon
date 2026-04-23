@@ -1,5 +1,4 @@
 "uses strict";
-
 igk.system.createNS("igk.winui.paneview",  {
 loadfromUri : function(target, uri){
 	(new function (target,uri){
@@ -21,10 +20,8 @@ init:function(parent)
 var p = parent? parent: igk.getParentScript();
 var s = $igk(p).select(".pane-view-groupitem");
 var prop  = { interval: 20 , duration: 200, speed : 1,orientation:"vertical"};
-
 function __viewType(evt, index)
 {
-	
 	var t = this.getAttribute("pane-view-type");
 	var tab = this.getElementsByTagName("div");
 	switch(t)
@@ -52,9 +49,7 @@ function __viewType(evt, index)
 	}
 	evt.stopPropagation();
 }
-
 s.each(function(){
-		
 	var t = this.getAttribute("pane-view-type");
 	switch(t)
 	{
@@ -70,7 +65,6 @@ s.each(function(){
 		break;
 		case "scrollh":			
 			this.addClass("nowrap");
-			
 			var s = $igk(this).select(".pane-view-block");
 			s.each(function(){ 		
 				$igk(this).addClass("dispib");
@@ -78,17 +72,14 @@ s.each(function(){
 			});
 		break;
 	}
-	
 	this.reg_event("mouseover", function(evt){  __viewType.call(this, evt, 1);});
 	this.reg_event("mouseout" , function(evt){ 
 		var e = evt.toElement || evt.relatedTarget;		
         if ( (e) && ( (e.parentNode == this) || (e == this))) {
-			
            return;
         }		
 		__viewType.call(this, evt, 0);});
 	return true;
 });
-
 }
 });

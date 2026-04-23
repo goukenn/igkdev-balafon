@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BalafonCacheViewCompilerTest.php
 // @date: 20220513 13:01:40
 // @desc: 
 namespace IGK\Tests\System\Compilers;
-
 use IGK\Controllers\ApplicationController;
 use IGK\System\Compilers\BalafonCacheViewCompiler;
 use IGK\Tests\BaseTestCase;
@@ -16,7 +14,6 @@ use IGK\Tests\Controllers\TestController;
 * @package IGK\Tests\System\Compilers
 */
 class BalafonCacheViewCompilerTest extends BaseTestCase{
-
     /**
     * Tests compile empty string.
     */
@@ -37,14 +34,11 @@ EOF;
         $this->assertEquals($g_src, $s,  "failed .... ".$temp);
         error_clear_last();
     }
-
     /**
     * Tests compile with litteral quote.
     */
     public function test_compile_with_litteral_quote(){
         $temp = @tempnam( "tutest","test");
-        // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
-        //     "description"=>
         $g_src = <<<'PHP'
 <?php
 $x = <<<HTML
@@ -53,10 +47,8 @@ HTML;
 PHP;
 error_clear_last();
         igk_io_w2file($temp, $g_src);
- 
         $out = BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp, null, true);
         unlink($temp);
- 
         $this->assertEquals(<<<EDF
 <?php
 \$x = <<<HTML
@@ -64,15 +56,12 @@ error_clear_last();
 HTML;
 EDF, rtrim($out), "failed");
     }
-
     /**
     * Tests compile with litteral nowdoc.
     */
     public function test_compile_with_litteral_nowdoc(){
         $temp = @tempnam( "tutest","test");
         error_clear_last();
-        // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
-        //     "description"=>
         $g_src = <<<'PHP'
 <?php
 $x = <<<'HTML'
@@ -80,10 +69,8 @@ $x = <<<'HTML'
 HTML;
 PHP;
         igk_io_w2file($temp, $g_src);
- 
         $out = BalafonCacheViewCompiler::Compile(Dummy::ctrl(), $temp, null, true);
         unlink($temp);
- 
         $this->assertEquals(<<<EDF
 <?php
 \$x = <<<'HTML'
@@ -91,13 +78,10 @@ PHP;
 HTML;
 EDF, rtrim($out), "failed");
     }
-
 }
-
 /**
 * Dummy.
 * @package IGK\Tests\System\Compilers
 */
 class Dummy extends TestController{
-
 }

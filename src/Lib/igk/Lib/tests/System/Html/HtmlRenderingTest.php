@@ -2,9 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: HtmlRenderingTest.php
 // @date: 20221114 12:33:49
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlRenderingTest.php 
 namespace IGK\Tests\System\Html;
-
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlRenderingTest extends BaseTestCase{
-
     /**
     * Tests copy node.
     */
@@ -23,14 +20,11 @@ class HtmlRenderingTest extends BaseTestCase{
         $parent->li()->Content = '1';
         $parent->li()->Content = '2'; 
         $c = HtmlUtils::CopyNode($g, $parent->getChilds()->to_array());
-
         $this->assertEquals(
             '<div><li>1</li><li>2</li></div>',
             $g->render()
         );
-
     }
-
     /**
     * Tests copy node 2.
     */
@@ -45,7 +39,6 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         ); 
     }
-
     /**
     * Tests copy config.
     */
@@ -60,7 +53,6 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         ); 
     }
-
     /**
     * Tests render litteral.
     */
@@ -72,14 +64,12 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         );
     }
-
     /**
     * Tests load text area.
     */
     public function test_load_text_area(){
         $g = igk_create_node("div");
         $g->Content = "<div><textarea>if (i<data){console.log('info');}</textarea></div>";
- 
         $this->assertEquals(
             "<div><div><textarea>if (i<data){console.log('info');}</textarea></div></div>",
             $g->render()

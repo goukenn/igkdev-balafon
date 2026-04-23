@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookEntyDetails.php

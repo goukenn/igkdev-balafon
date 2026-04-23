@@ -12,6 +12,7 @@ use IGKException;
 use IGKObject;
 use IGKSysUtil;
 use ReflectionException;
+
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
 /**
  * Represent DbColumnInfo class
@@ -53,9 +54,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         // + | -------------------------------------------------
         // + | fix resolved data 
         // + | 
-        // if ($this->clTypeLength instanceof DbDolumnDefaultLength){
-        //     $this->clTypeLength = intval($this->clTypeLength );
-        // }
         if (is_null($this->clTypeLength)) {
             $this->clTypeLength = 11;
         }
@@ -106,7 +104,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             // + | --------------------------------------------------------------------
             // + | if already setup auto - make int data to be not null
             // + |   
-            // number must not allow null values
             if (is_null($this->clNotNull)) {
                 $this->clNotNull = false;
             }
@@ -248,7 +245,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             $ln = 0;
             $notnull = true;
             if (!empty($cm)) {
-                // = (_(auto|index|primary))*
                 if (preg_match(
                     "/@var\s+(\?)?(?P<name>(int|string|varchar|text|datetime|float|integer|json|blob)((_(auto|index|primary|unique))*)?)(\(\s*(?P<length>[0-9]+)\s*\))?/i",
                     $cm,
@@ -365,7 +361,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         return "DbColumnInfo[#" . $this->clName . "]";
     }
-    ///get association info array
     /**
     * auto generate doc.
     */

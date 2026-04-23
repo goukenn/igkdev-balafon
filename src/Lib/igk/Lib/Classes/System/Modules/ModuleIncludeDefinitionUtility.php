@@ -8,6 +8,7 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use function igk_resource_gets_map;
+
 /**
  * auto generate doc.
  * @package IGK
@@ -126,7 +127,7 @@ class ModuleIncludeDefinitionUtility
      */
     public static function BindSourceFile(string $source, string $file, ?array &$reference, ?array $fc_handle = [], ?string $refkey = self::SELF_REFERENCE)
     {
-        $func_list = [];    // <- store global function list 
+        $func_list = [];    
         $src = $source;
         $regex = self::InitRegexContainer();
         $caches = [];
@@ -194,7 +195,6 @@ class ModuleIncludeDefinitionUtility
             },
             'function' => function ($e) use ($fc_info, &$reference, &$caches, &$func_list) {
                 if ($fc_info->name && $fc_info->code) {
-                    // TODO : URGENT - Move To END.
                     $func_list[] =
                         igk_extract_obj($fc_info, 'name|file|line|params|code|conditions');
                 }
@@ -213,28 +213,6 @@ class ModuleIncludeDefinitionUtility
                 }
             }
         }
-        // $hfile = fopen($file, 'r') ?? igk_die('can open a file');
-        // $y = 0;
-        // $regex->splittingDefinition = true;
-        // while (!feof($hfile)) {
-        //     $line = fgets($hfile);
-        //     $y++;
-        //     $pos = 0;
-        //     $src = $line;
-        //     // define
-        //     while ($g = $regex->detect($src, $pos)) {
-        //         if ($e = $regex->end($g, $src, $pos)) {
-        //             $id = $e->tokenID;
-        //             Logger::info('token:->' . $id . ' ' . $pos . ' ' . $e->value);
-        //         }
-        //     }
-        // }
-        // fclose($hfile);
-        // foreach($caches as $r){
-        //     if ($fc_info->namespace){
-        //         $r->setNamespace($fc_info->namespace);
-        //     }           
-        // }
         foreach ($func_list as $c) {
             $g = self::CreateMethodHandle(
                 $c->params ?? '',
@@ -276,7 +254,6 @@ class ModuleIncludeDefinitionUtility
         $heredoc = [];
         RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);
         $root_condition = $regex->begin('\\b(?P<type>if|else|elseif)\\b', '(?<=,|\})', 'root-condition')->last();
-        //$regex->begin('\\buse\\b', '(?<=;)', 'function-skip');
         $ns_def = $regex->begin('\\bnamespace\\b\\s*(?P<n>[a-zA-Z][a-zA-Z0-9_]*(\\\\[a-zA-Z][a-zA-Z0-9_]*)*)', '(?<=;|\})', 'namespace')->last();
         $ns_block =  $regex->createPattern([
             'begin' => '\{',

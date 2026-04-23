@@ -9,6 +9,7 @@ use IGK\Database\DbConstants;
 use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
 use IGK\Resources\R;
 use IGKException;
+
 /**
  * schema table builder
  * @package IGK\System\Database
@@ -54,7 +55,6 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
         $this->column($name, 'Int', $length);
         return $this;
     }
-    // public function int(string $name): IDiagramSchemaEntity { return $this; }
     /**
     * Column.
     * @param string $id

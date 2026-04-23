@@ -16,6 +16,7 @@ use IGK\System\IO\Path;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * IO utility helper
  * @package IGK\Helper
@@ -395,7 +396,6 @@ class IO
      */
     public static function CreateDir(string $dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
     {
-        // \IGK\System\Console\Logger::debug('create dir : '.$dirname);
         return FileWriter::CreateDir($dirname, $mode);
     }
     /**
@@ -485,7 +485,6 @@ class IO
     {
         return getcwd();
     }
-    ///@dir: absolute path or basedir relative path
     /**
      * get relative path according to IGK_APP_DIR base dir
      */
@@ -538,17 +537,13 @@ class IO
         }
         if (!empty($dir)) {
             if (strpos($dir, $bdir) === 0) {
-                //sub path or relative dir            
                 if (realpath($dir)) {
-                    // path exists
-                    // -----------
                     die("not emplement");
                 }
             }
         }
         $bdir = implode("/", array_filter([$bdir, ltrim($path, "/")]));
         if (strpos($bdir, $rootdir) === 0) {
-            //path is subdir
             if ($rootdir == $bdir) {
                 if (empty($dir)) {
                     $r = "./";
@@ -557,7 +552,6 @@ class IO
                 }
                 return $r;
             }
-            // get 
             $p = "";
             $cbdir = $bdir;
             while ($cbdir != $rootdir) {
@@ -781,8 +775,7 @@ class IO
             if (isset($excludedir[$q]) || ($is_excludir_array && (\in_array($q, $excludedir) || \in_array(basename($q), $excludedir)))) {
                 continue;
             }
-            // use scan dir to order
-            $files = @scandir($q); //, 2);
+            $files = @scandir($q); 
             if ($files === false) {
                 continue;
             }
@@ -802,7 +795,6 @@ class IO
                             }
                             $v_out[] = $f;
                         } else {
-                            // 
                             if (isset($excludedir[$q])) {
                                 break;
                             }
@@ -814,7 +806,6 @@ class IO
                             continue;
                         }
                     }
-                    // for dir
                     if ($is_excludir_array && (key_exists($f, $excludedir) ||   key_exists($r, $excludedir))) {
                         continue;
                     }
@@ -910,46 +901,6 @@ class IO
     public static function GetRelativePath($sourcepath, $targetdir, $separator = DIRECTORY_SEPARATOR)
     {
         return Path::GetRelativePath($sourcepath, $targetdir, $separator);
-        // $i = IGKString::IndexOf($targetdir, $sourcepath);
-        // if ($i != -1) {
-        //     $s = self::__fixpath(substr($targetdir, strlen($sourcepath)));
-        //     while (!empty($s) && IGKString::StartWith($s, DIRECTORY_SEPARATOR)) {
-        //         $s = substr($s, 1);
-        //     }
-        //     return $s;
-        // }
-        // $cdir = igk_uri($sourcepath);
-        // $bdir = igk_uri($targetdir);
-        // $sep = '/';
-        // $i = -1;
-        // $c = 0;
-        // $tsdir = explode($sep, $cdir);
-        // $tbdir = explode($sep, $bdir);
-        // $rstep = false;
-        // while (($c < count($tbdir)) && ($c < count($tsdir))) {
-        //     if ($tbdir[$c] != $tsdir[$c]) {
-        //         $rstep = true; 
-        //         break;
-        //     }
-        //     $c++;
-        // }
-        // // igk_debug_wln("the c : ", $c);
-        // $s = IGK_STR_EMPTY;
-        // if ($rstep) {
-        //     $v_goback = count($tbdir) - ($c + 1);
-        //     if ($v_goback){
-        //         $s .= str_repeat(".." . $sep, $v_goback); 
-        //     } else {
-        //         $s .= '.'.$sep; 
-        //     }
-        // } else {
-        //     $s .= '.'.$sep; 
-        // } 
-        // $s .= implode($sep, array_slice($tsdir, $c)); 
-        // if ($sep != $separator){
-        //     $s = str_replace($sep, $separator, $s);
-        // }
-        // return $s;
     }
     /**
      * auto generate doc.
@@ -980,8 +931,6 @@ class IO
     {
         return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));
     }
-    ///end relative
-    ///@get the root dir according to document root. uses for css script file
     /**
      * Get the Root directory according to DocumentRoot apache configuration
      * @param mixed $dir relative dirctory that will be append to result
@@ -1113,10 +1062,8 @@ class IO
     public static function IsDetectedAbsolutePath(string $path): bool
     {
         if (PHP_OS_FAMILY === 'Windows') {
-            // Windows: starts with C:\ or \\server\share
             return preg_match('#^[a-zA-Z]:\\\\|^\\\\\\\\#', $path) === 1;
         } else {
-            // Unix: starts with /
             return str_starts_with($path, '/');
         }
     }

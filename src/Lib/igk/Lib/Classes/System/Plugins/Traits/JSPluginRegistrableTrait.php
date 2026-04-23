@@ -3,6 +3,7 @@
 // @file: JSPluginRegistrableTrait.php
 // @date: 20230316 21:22:01
 namespace IGK\System\Plugins\Traits;
+
 /**
 * auto generate doc.
 * @package IGK\System\Plugins\Traits

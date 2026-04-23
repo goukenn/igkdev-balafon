@@ -6,6 +6,7 @@
 namespace IGK\System\Polyfill;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
+
 /**
 * Trait providing cssdefault array access functionality.
 * @package IGK\System\Polyfill
@@ -30,7 +31,7 @@ trait CSSDefaultArrayAccess{
         if(!isset($tab)){
             return null;
         }
-        if (is_int($key) && $key === 0){ // auto added key is empty value
+        if (is_int($key) && $key === 0){ 
             if (key_exists('', $tab)){
                 return $tab[''];
             } 

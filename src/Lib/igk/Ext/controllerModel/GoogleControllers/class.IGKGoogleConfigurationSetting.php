@@ -3,14 +3,11 @@
 // @filename: class.IGKGoogleConfigurationSetting.php
 // @date: 20220803 13:48:59
 // @desc: 
-
 namespace IGK\Ext\Controllers\Google;
-
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Controllers\Traits\ControllerLocationTrait;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use function igk_resources_gets as __;
 
 /**
@@ -20,34 +17,28 @@ use function igk_resources_gets as __;
 final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use NoDbActiveControllerTrait;
 	use ControllerLocationTrait;
-
     /**
     * Constant: api key.
     * @var mixed
     */
     const API_KEY = "google.ApiKey";
-
 	/**
 	 * Returns the configuration page identifier for Google settings.
 	 *
 	 * @return string
 	 */
-
     public function getConfigPage(){return "google.sdk";}
 	/**
 	 * Returns the configuration group name for Google settings.
 	 *
 	 * @return string
 	 */
-
     public function getConfigGroup(){return "google";}
-	 
 	/**
 	 * Initializes and returns the configuration menu items for Google settings.
 	 *
 	 * @return array
 	 */
-
     public function initConfigMenu(){
 		return array(
 			(new MenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
@@ -58,7 +49,6 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return string
 	 */
-
     protected function getConfigFile()
 	{
 		return igk_dir(IGK_DATA_FOLDER."/google.".IGK_CTRL_CONF_FILE);
@@ -68,13 +58,11 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return void
 	 */
-
     public function showConfig(){
 		parent::showConfig();
 		$cnf = $this->ConfigNode;
 		$box = $cnf->addPanelBox();
 		$box->div()->setClass("igk-title-4")->setStyle("line-height:1; margin-bottom:1em")->Content = __("Google Settings");
-
 		$frm = $box->div()->addForm();
 		$frm["action"] = $this->getUri("storeApiKey");
 		$frm->add("label")->Content = __("API KEY");
@@ -89,7 +77,6 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return void
 	 */
-
     public function storeApiKey(){
 		if (!igk_is_conf_connected()){
 			return;

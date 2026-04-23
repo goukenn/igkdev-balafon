@@ -8,6 +8,7 @@ use IGK\System\EntryClassResolution;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IInjectable;
 use IGKException;
+
 /**
 * Response.
 * @package IGK\System\Http

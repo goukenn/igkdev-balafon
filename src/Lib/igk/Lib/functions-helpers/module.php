@@ -1,12 +1,10 @@
 <?php
-
 use IGK\Controllers\BaseController;
 
 /**
  * controller define in a module
  */
 function igk_sys_is_module_controller(BaseController $ctrl):bool{
-
     $dir = $ctrl->getDeclaredDir(); 
     if (get_class($ctrl)=='igk\\pay\\paypal\\paypalpaymentCtrl'){
         igk_dev_wln_e(__FILE__.':'.__LINE__,  "try add .....");

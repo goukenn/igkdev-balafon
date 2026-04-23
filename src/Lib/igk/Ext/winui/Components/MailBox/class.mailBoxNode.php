@@ -3,45 +3,35 @@
 // @filename: class.mailBoxNode.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
-//adding function
-
 use IGK\System\Html\Dom\HtmlComponentNode;
 
 /**
 * Igkhtml mailbox node item.
 */
 class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
-
     /**
     * Property: users.
     * @var mixed
     */
-    private $m_users; //list of user attached to this mail box
-
+    private $m_users; 
     /**
     * Property: cuser.
     * @var mixed
     */
-    private $m_cuser; //current user;
-
+    private $m_cuser; 
     /**
     * Map of imap.
     * @var mixed
     */
     private $m_imap;
-
     /**
     * Property: error.
     * @var mixed
     */
-    private $m_error; //rerror node;
-
+    private $m_error; 
 	/**
 	 * Constructor.
 	 */
-
     public function __construct(){
 		parent::__construct("div");
 		$this->m_users = array();
@@ -56,9 +46,7 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 * @param string $pwd     The account password.
 	 * @return void
 	 */
-
     public function addUser($server, $port, $options,  $login, $pwd){
-
 		$d = new StdClass();
 		$d->clPort = $port;
 		$d->clLogin = $login;
@@ -67,31 +55,24 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$d->clOptions = $options;
 		$this->m_users[$login] = $d;
 	}
-
 	/**
 	 * Initialise and build the mailbox view layout.
 	 *
 	 * @return void
 	 */
-
     public function initView(){
 		$this->clearChilds();
-
 		$r = $this->addRow();
 		$dv = $r->addCol()->div();
 	    $dv->addTitleLevel(4)->Content = "Mailbox";
-
 		$r = $this->addRow();
 		$r->addMenuBar();
-
 		$r = $this->addRow();
 		$dv  = $r->addCol()->setClass("igk-col msg-bc posab")->setStyle("width: 300px;")->div()->setClass("msgb-b");
-
 		$rd = $dv->div()->addAccordeon();
 		foreach($this->m_users as $k=>$v){
 			$ul = igk_create_node("ul");
 			$rd->addPanel($k, $ul, true);
-
 			$d = $this->getFolders($v);
 			$ul->add("li")->Content = "Count: <span class=\"badge\">".igk_count($d)."</span>";
 			foreach($d as $m=>$n){
@@ -101,10 +82,8 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$dv = $r->addCol()->setClass("igk-col msg-zc")->setStyle("margin-left: 300px")->div();
 		$dv->setClass("msg-z");
 		$dv->div()->Content = "Well done your mail box is correctly configured";
-
 		$dv = $r->addCol()->div();
 	}
-
 	/**
 	 * Open an IMAP connection for the given user account.
 	 *
@@ -157,13 +136,9 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 			$imap = $this->connect($u);
 			if ($imap){
 			$f = imap_listmailbox($imap, "{".$u->clServer.":".$u->clPort."}", "*");
-			// $MC = imap_check($imap);
-			// $result = imap_fetch_overview($imap,"1:{$MC->Nmsgs}",0);
-
 			foreach($f as  $v){
 				$o[] = (object)array("clDisplay"=>preg_replace("/\{(.)+\}/i", "", $v), "clLink"=>$v);
 			}
-
 			$this->close($imap);
 			}
 		return $o;
@@ -179,12 +154,10 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$o = array();
 		$imap = $this->connect($u, $link);
 		if ($imap){
-			//$f = imap_listmailbox($imap, "{".$u->clServer.":".$u->clPort."}", "*");
 			$MC = imap_check($imap);
 			if ($MC->Nmsgs>0)
 			{
 				$f = imap_fetch_overview($imap,"1:{$MC->Nmsgs}",0);
-
 				foreach($f as $v){
 					$o[] = (object)array("clMessage"=>$v);
 				}
@@ -193,17 +166,11 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		}
 		return $o;
 	}
-
-	///------------------------------------------------------
-	///mail function
-	///------------------------------------------------------
-
 	/**
 	 * Remove a mailbox message (stub).
 	 *
 	 * @return void
 	 */
-
     public function mbx_rm(){
 	}
 	/**
@@ -213,25 +180,17 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 * @param string|null $q The base64-encoded folder path; read from request if null.
 	 * @return void
 	 */
-
     public function mbx_vmsg($u=null,$q=null){
-
 		if ($u==null){
 		$tab = igk_getquery_args(base64_decode(igk_getr("q")));
-
 		$q = base64_decode(igk_getv($tab, "q"));
 		$u = igk_getv($this->m_users, igk_getv($tab, "u"));
 		}
-
 		if (!$q || !$u)
 		{
 			igk_die("attribute not defined");
 		}
-
-		//igk_wln($u);
 		$msg = $this->getMessage($u, $q);
-		//igk_wln("done ");
-		
 		$d = igk_create_node("div");
 		$d->setClass("msg-z");
 		if (igk_count($msg)==0)
@@ -242,28 +201,22 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 			$p = igk_create_node("div");
 			$p->setClass("msg");
 			$row = $p->addRow();
-			//$p->loadExpression("[func:igk_wln_ob_get(\$row)]<div>{\$row->clSubject}</div>");
 			$row->loadExpression("<div class=\"igk-col igk-col-5-1\">{\$row->clSubject}</div>");
 			$row->addCol()->setClass("igk-col-5-1")->Content = "{\$row->clFrom->clEmail}";
 			$row->addCol()->setClass("igk-col-5-1")->Content = "t";
 			$row->addCol()->setClass("igk-col-5-1")->Content = "t";
 			$row->addCol()->setClass("igk-col-5-1")->Content = "{\$row->clUDate}";
-
 			foreach($msg as  $v){
-
-				//igk_log_write_i("date", igk_wln_ob_get($v->clMessage));
 				$v = $v->clMessage;
 				$m = new StdClass();
 				$m->clId = igk_getv($v, "msgno", 0);
 				$m->clSubject = igk_getv($v, "subject", R::gets("NotDefine"));
 				$m->clFrom = igk_mail_get_mailinfo( igk_getv($v, "from", R::gets("NotDefine")));
 				$m->clDate = igk_getv($v, "date", R::gets("NotDefine"));
-
 				$m->clUDate = date("Y-d-m_h:i:s", igk_getv($v, "udate", 0));
 				$m->clIsSeen = igk_getv($v, "seen", 0);
 				$m->clIsDraft = igk_getv($v, "draft", 0);
 				$m->clIsReply = igk_getv($v, "answered", 0);
-
 				$dv = $d->div();
 				igk_html_bind_node($this->Ctrl,
 				$p,

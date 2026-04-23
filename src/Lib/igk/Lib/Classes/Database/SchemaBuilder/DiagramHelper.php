@@ -7,6 +7,7 @@ namespace IGK\Database\SchemaBuilder;
 use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
+
 /**
 * Diagram helper.
 * @package IGK\Database\SchemaBuilder
@@ -27,9 +28,7 @@ abstract class DiagramHelper{
                 $v_n = $column->clLinkColumn; 
                 $cinfo = igk_getv($loadSchemaObject->tables, $v_rtable);
                 if ($cinfo){
-                    // table present in loading definition object 
                     if (!isset($cinfo->columnInfo[$v_n])){
-                        // try to resolve 
                         $n = null;
                         $n = Database::AutoPrefixColumn($v_n, $cinfo->prefix);
                         if (!$n || !isset($cinfo->columnInfo[$n])){

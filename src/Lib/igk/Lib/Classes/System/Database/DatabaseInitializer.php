@@ -21,6 +21,7 @@ use IGKEvents;
 use IGKException;
 use IGKModuleListMigration; 
 use ReflectionException; 
+
 require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
 /**
  * 
@@ -129,7 +130,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     {
         $ad_name = $ctrl->getDataAdapterName();
         $definition = null;
-        // load system schema definition
         if ($ctrl->getCanInitDb()) {
             $file = $ctrl->getDataSchemaFile();
             if ($definition = DbSchemas::LoadSchema($file, $ctrl, true, $op)) {
@@ -205,7 +205,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             array_map(function ($a) {
                 //
                 $ctrl = $a[0];
-                // $ctrl->register_autoload(); 
                 $ad = $ctrl->getDataAdapter();
                 if ($ad && isset($a[1])) {
                     $info = (object)$a[1];
@@ -255,11 +254,8 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         if (isset($this->m_resolvedLinks->resolved[$linkTable])){
             return true;
         }
-        // resolve 
-        // $dependency = [];
         $ad = $this->m_resolvedLinks->adapter;
         if (isset($this->m_resolvedLinks->tables[$linkTable])){
-           // first load resolved links tab  
            $g = $this->m_resolvedLinks->tables[$linkTable];
            if ($g->entries){
                 $this->_load_entries($ad, $linkTable, $g->entries, $g->columnInfo);
@@ -301,8 +297,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         Database::CreateTableBase($ctrl, $tables, null);
         Logger::info('migrate ...');
         SchemaBuilderHelper::Migrate($tables);
-        //-
-        // init require model logic
         Database::InitDbCoreLogic($ctrl, $tables, true);
     }
     /**
@@ -322,7 +316,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         $operation = DbSchemasConstants::Migrate,
         ?DatabaseInitializer $initializer = null
     ) {
-        //$this->m_definition = $definition;
         $restore = false;
         Logger::info('init schema definition load - ' . $tableReferenceResolver);
         if ($tableReferenceResolver instanceof IGKModuleListMigration){
@@ -333,7 +326,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         if ($restore){
             $tableReferenceResolver->reset();
         }
-        // update reference 
         if ($def) {
             $empty = true;
             foreach ($def as $k => $v) {
@@ -351,13 +343,12 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
                 }
             }
             $empty = true;
-            if ($initializer) { //  && !$empty) {
+            if ($initializer) { 
                 $c = $initializer->m_hostController;
                 if ($c) {
                     $initializer
                         ->m_defs[$c->getName() . '/load-schema']
                         = [$c, (object)(array)$def];
-                    //$def->controller = $c;
                 }
             }
         }

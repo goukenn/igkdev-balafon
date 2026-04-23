@@ -3,6 +3,7 @@
 // @file: IDbColumnInfo.php
 // @date: 20221104 14:44:30
 namespace IGK\Database;
+
 /**
 * db column info
 * @package IGK\Database

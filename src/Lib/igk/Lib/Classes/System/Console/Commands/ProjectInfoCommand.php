@@ -15,6 +15,7 @@ use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Npm\JsonPackage; 
+
 /**
  * project configuration information 
  * @package IGK\System\Console\Commands
@@ -122,7 +123,6 @@ class ProjectInfoCommand extends AppExecCommand
 		}
 		$sb = json_encode($inf, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		echo  str_replace('"<< secret >>"', App::Gets(App::GRAY, '"<< secret >>"'), $sb);
-		// Logger::danger('data: ');
 		echo PHP_EOL;
 	}
 }

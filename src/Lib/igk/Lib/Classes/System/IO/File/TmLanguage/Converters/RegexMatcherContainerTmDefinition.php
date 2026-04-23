@@ -5,6 +5,7 @@
 namespace IGK\System\IO\File\TmLanguage\Converters;
 use Exception;
 use JsonSerializable;
+
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Converters
@@ -70,7 +71,6 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         $ref = (array)$this;
-        // remove private members
         foreach (array_keys($ref) as $k) {
             if ($k[0] === "\0") {
                 unset($ref[$k]);

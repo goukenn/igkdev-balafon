@@ -1,6 +1,5 @@
 "use strict";
 (function() {
-
     function get_auto_height(q) {
         var o = q.getComputedStyle('height');
         q.setCss({ height: "auto" });
@@ -8,7 +7,6 @@
         q.setCss({ height: o });
         return r;
     }
-
     function __init_content() {
         //var cl = this.clone();
         //var b = this.getComputedStyle("height");	
@@ -18,7 +16,6 @@
                 //innerHtml: cl.getHtml()
         };
         var q = this;
-
         if (!q.open) {
             q.open = function() {
                 var bck = q.getComputedStyle('transition');
@@ -37,14 +34,11 @@
                 q.setCss({ height: "0px" });
             };
         }
-
         // console.debug(this.trans);
         //reset
         this.setCss({ height: null });
     }
-
     function __click_h(evt) {
-
         var q = this;
         var d = "igk-collapse";
         var t = "igk-toggle";
@@ -58,7 +52,6 @@
         }
         evt.stopPropagation();
     }
-
     function is_scrolling(q) {
         var g = q.fn["sys://winui/accordeon"];
         // console.debug(g);
@@ -71,7 +64,6 @@
         }
         return 0;
     };
-
     function __click(q) {
         return function(evt) {
             if (is_scrolling(q)) {
@@ -89,11 +81,9 @@
             __click_h.apply(q, [evt]);
         }
     }
-
     igk.system.createNS("igk.winui.accordeon", {
         init: function() {
             //	alert("init accordeon "+igk.getParentScript());
-
             var q = $igk(igk.getParentScript());
             igk.ready(function() {
                 q.select(".igk-c").each(function() {
@@ -111,16 +101,11 @@
                     // }
                     // else 
                     // this.reg_event("click", __click(self));
-
                     igk.ctrl.selectionmanagement.disable_selection(this.o);
-
                     return true;
                 });
-
             });
-
             var starttouch = 0;
-
             function __binds() {
                 if (!q.fn["sys://scrolling"] && starttouch) {
                     q.fn["sys://scrolling"] = 1;
@@ -139,7 +124,6 @@
             $igk(".igk-parentscroll").reg_event("scroll", function(evt) {
                 __binds();
             }, true);
-
             q.reg_event("igkTouchStart igkTouchMove", function(evt) {
                 if (evt.type == "touchstart")
                     starttouch = 0;

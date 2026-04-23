@@ -3,6 +3,7 @@
 // @file: JoinTableOp.php
 // @date: 20240908 10:28:56
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

@@ -3,9 +3,7 @@
 // @filename: PHPScriptBuilderTest.php
 // @date: 20220624 08:58:33
 // @desc: 
-
 namespace IGK\Tests\System\IO\File;
-
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Tests\BaseTestCase;
 
@@ -15,7 +13,6 @@ use IGK\Tests\BaseTestCase;
  */
 class PHPScriptBuilderTest extends BaseTestCase
 {
-
     /**
     * Tests builder gen.
     */
@@ -38,8 +35,6 @@ abstract class FactoryBase extends Factory implements ArrayAccess{
 
 }
 PHP;
-
-
         $builder = new PHPScriptBuilder();
         $builder->no_header_comment = true;
         $builder->type("class")
@@ -53,17 +48,14 @@ PHP;
             ->desc("factory base")
             ->doc("Factory base")
             ->class_modifier("abstract")
-            // ->extends('Factory')
             ->extends(\IGK\System\Database\Factories\FactoryBase::class)
             ->implements(\ArrayAccess::class)
             ->defs(implode(
                 "\n",
                 []
             ));
-
         $this->assertEquals($src, $builder->render(), "-- ! --");
     }
-
     /**
     * Tests gen factory.
     */

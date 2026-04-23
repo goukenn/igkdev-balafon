@@ -6,6 +6,7 @@
 namespace  IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController;
 use function igk_resources_gets as __;
+
 /**
 * class used to register global user in system
 */
@@ -71,7 +72,6 @@ class ComposerController extends ConfigControllerBase {
             $_id = "resutlnode";
             $n->panelbox()->div()->Content = __("Version : {0}", $ctrl->getComposerVersion());
             $n->actionbar(function($a)use($ctrl, $_id){
-                // $a->ajxa($ctrl->getUri("init"), "#".$_id)->setClass("igk-btn")->Content = "init";
             });
             $n->div()->setAttribute("id", $_id);
         }
@@ -80,11 +80,6 @@ class ComposerController extends ConfigControllerBase {
      * initialize composer
      * @return void 
      */
-    // public function init(){        
-    //     if ($c = $this->_exec_command("init")){
-    //         igk_text("return - \n", $c);
-    //     }
-    // }
     private function getComposerVersion(){
         return $this->_exec_command("--version");
     }

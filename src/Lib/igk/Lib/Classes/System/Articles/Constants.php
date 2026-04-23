@@ -3,6 +3,7 @@
 // @file: Constants.php
 // @date: 20230403 21:04:16
 namespace IGK\System\Articles;
+
 /**
 * auto generate doc.
 * @package IGK\System\Articles

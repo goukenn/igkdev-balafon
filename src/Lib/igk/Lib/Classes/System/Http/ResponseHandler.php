@@ -8,6 +8,7 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\JsonResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\StringBuilder;
+
 /**
  * response handler
  * @package IGK\System\Http\ReponseHandler
@@ -85,7 +86,6 @@ class ResponseHandler
             }
             $e = 1;
         }
-        // stop : on exit
         if ($e)
             igk_exit();
         return $r;

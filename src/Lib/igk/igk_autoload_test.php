@@ -3,7 +3,7 @@
 // @filename: igk_autoload_test.php
 // @date: 20251119 09:23:17
 // @desc: 
-// init environment   
+
 $_key_app_dir = $name;
 foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
     if (defined($m))
@@ -27,7 +27,6 @@ if (!defined($_key_app_dir)) {
         }
         return $p;
     };
-    // loading environment
     $bdir = isset($_SERVER["PWD"]) ? $_SERVER["PWD"] : getcwd();
     if (function_exists('simplexml_load_file')) {
         $tconfigFile = null;

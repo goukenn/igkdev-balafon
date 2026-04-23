@@ -3,7 +3,6 @@
 // @file: RegexMatcherUtilityTest.php
 // @date: 20241107 11:38:21
 namespace IGK\Tests\System\Text;
-
 use IGK\System\Text\RegexMatcherUtility;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class RegexMatcherUtilityTest extends BaseTestCase{
-
     /**
     * Tests regexmatcher utility begin end.
     */
@@ -22,7 +20,6 @@ class RegexMatcherUtilityTest extends BaseTestCase{
             RegexMatcherUtility::TreatBeginEndCapture('bonjour', '', 'to',0,5)
         );
     }
-
     /**
     * Tests regexmatcher utility begin hello.
     */

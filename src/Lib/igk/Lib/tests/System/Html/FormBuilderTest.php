@@ -3,7 +3,6 @@
 // @file: FormBuilderTest.php
 // @date: 20260209 15:45:17
 namespace IGK\Tests\System\Html;
-
 use IGK\Tests\BaseTestCase;
 
 /**
@@ -12,7 +11,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class FormBuilderTest extends BaseTestCase{
-
     /**
     * Tests formfieldmethod build form.
     */
@@ -24,7 +22,6 @@ class FormBuilderTest extends BaseTestCase{
             $n->getBodyContent()->render()
         );
     }
-
     /**
     * Tests formfieldmethod build multi field.
     */
@@ -36,7 +33,6 @@ class FormBuilderTest extends BaseTestCase{
             $n->getBodyContent()->render()
         );
     }
-
     /**
     * Tests formfieldmethod build multi field def.
     */

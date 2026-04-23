@@ -1,6 +1,5 @@
 // @ts-nocheck
 "use strict";
-
 // @ts-ignore
 igk.ready(function () { 
     $igk('form').each_all(function () {
@@ -15,7 +14,6 @@ igk.ready(function () {
             if (MAX_UPLOAD_FILE > 0) {
                 // activate the file upload detected 
                 if (max_size) {
-                    
                     files.each_all(function () {
                         let i = this;
                         i.reg_event('change', function (e) {
@@ -31,7 +29,6 @@ igk.ready(function () {
                         });
                     });
                 }
-
                 f.reg_event('submit', function (e) {
                     MAX_UPLOAD_FILE = parseInt(q.o.value);
                     // console.log("on submit prevent max size"); 
@@ -47,7 +44,5 @@ igk.ready(function () {
                 });
             }
         };
-
-
     });
 });

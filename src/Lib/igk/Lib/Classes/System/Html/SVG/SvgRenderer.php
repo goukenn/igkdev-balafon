@@ -13,6 +13,7 @@ use IGK\System\Html\Dom\SvgListNode;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
+
 /**
  * document page svg list renderer
  */
@@ -47,7 +48,7 @@ class SvgRenderer
         if (!empty($name)) {
             $f = self::GetSvgFolder();
             while ($q = array_shift($f)) {
-                $d = $q[0]; // directory    
+                $d = $q[0]; 
                 if (igk_io_cache_file_exists($file = $d . "/" . $name . ".svg", true)) {
                     $class = $q[1];
                     return IO::GetDir($file);
@@ -132,7 +133,6 @@ class SvgRenderer
         $options = igk_getv($e->args, "options");
         $is_dev = igk_environment()->isDev();
         echo self::RenderSVGList($options, $is_dev);
-        // clear the registrated path
         self::$RegisterPath = [];
     }
     /**

@@ -4,6 +4,7 @@
 // @date: 20240805 21:18:31
 namespace IGK\Database;
 use IGK\Database\Traits\DbDataDefinitionTrait;
+
 /**
 * auto generate doc.
 * @package IGK\Database

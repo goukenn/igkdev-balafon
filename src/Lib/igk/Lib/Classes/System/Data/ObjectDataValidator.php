@@ -7,6 +7,7 @@ use IGK\System\Data\IDataValidator;
 use IGK\System\DataArgs;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGKException;
+
 /**
 * default object validator
 * @package IGK\System\Data
@@ -35,7 +36,6 @@ class ObjectDataValidator implements IDataValidator{
             $error = $r['__validatation_error__'];
             return false;
         }
-        // update action request data 
         $requestData = new DataArgs($r);
         return true;
     }

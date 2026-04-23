@@ -13,6 +13,7 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use SQLQueryUtils;
+
 /**
  * auth command helper
  * @package IGK\System\Console\Commands
@@ -94,7 +95,7 @@ class AuthCommand extends AppExecCommand
             return -1;
         }
         switch ($action) {
-            case "groups": // view groups
+            case "groups": 
                 Logger::info("member of : ");
                 array_map(function ($a) {
                     Logger::print(":> " . App::Gets(App::AQUA, $a->clName));
@@ -105,7 +106,6 @@ class AuthCommand extends AppExecCommand
                 array_map(function ($a) {
                     Logger::print(":>" .  App::Gets(App::AQUA, $a->name));
                 }, (!$g ?null: $g->auths()) ?? []);
-                // igk_wln_e($g->getRows());
                 break;
                 break;
             case "grant":
@@ -116,26 +116,11 @@ class AuthCommand extends AppExecCommand
                 } else {
                     Logger::danger("error");
                 }
-                // Logger::print("Grant : ".$auth ." to ". $group);
-                // $g = Groups::select_row(["clName"=>$group]);
-                // $auths = Authorizations::select_row(["clName"=>$auth]);
-                // Logger::print($g->to_json());
-                // if (!$g && ! ($g = Groups::insertIfNotExists(["clName"=>$group]))){
-                //     igk_die("failed to add group");
-                // }
-                // if (!$auths && !($auths = Authorizations::insertIfNotExists(["clName"=>$auth]))){
-                //     igk_die("failed to add auth");
-                // }
-                // $id = Groupauthorizations::insertIfNotExists(
-                //     ["clGroup_Id"=>$g->clId, "clAuth_Id"=>$auths->clId],
-                //     ["extra"=>["clGrant"=>1]]);
-                // igk_wln_e("the id :::: ", $id);
                 break;
             case "help":
             default:
                 break;
         }
-        // igk_wln_e("loging : ", $g, $g->groups());//, $g::getMacroKeys());
         Logger::print("auth - done");
     }
 }

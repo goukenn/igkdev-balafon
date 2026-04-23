@@ -4,6 +4,7 @@
 // @date: 20260102 08:25:55
 namespace IGK\System\Core\Security\Annotations;
 use IGK\System\AnnotationBase;
+
 /**
 * auto generate doc.
 * @package IGK\System\Core\Security\Annotations

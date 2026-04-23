@@ -1,13 +1,9 @@
 "use strict";
-
 (function() {
-
-
     var _dialog = [];
     var _init = 0;
     var _NS = "igk.winui.controls";
     var _FC = 0;
-
     function _trans_end(p) {
         return function() {
             if (!p.no_auto_remove) {
@@ -20,7 +16,6 @@
             _FC = 0;
         };
     };
-
     function _closeDialog(b) {
         var p = b || _dialog.pop();
         if (p) {
@@ -29,17 +24,12 @@
         }
     };
     var no_close = !1;
-
     function _showDialog(){
         _dialog.push(this);
     };
-    
-
     function _panDialogInit() {
-     
         if (!_init) {
             igk.winui.events.regKeyPress(function(e) {
-
                 if (e.keyCode == igk.winui.inputKeys.Escape) {
                     if (no_close) {
                         no_close = !1;
@@ -80,7 +70,6 @@
                 delete(_dialog[_idx]);
             });
         };
-
         function _update_size() {
             q.rmClass("inner");
             // console.debug("size changed ");
@@ -88,8 +77,6 @@
             f.setCss({
                 "height": "auto"
             });
-
-
             var H = q.o.scrollHeight;
             var h = window.innerHeight;
             var box = q.select("> .box").first();
@@ -107,11 +94,9 @@
                 q.rmClass("inner inner-h");
             }
         };
-
         function _updating() {
             if (tm_out)
                 clearTimeout(tm_out);
-
             // console.debug("update size");
             tm_out = setTimeout(_update_size, 500);
         };
@@ -133,7 +118,6 @@
             q.showDialog();
         }
     };
-
     var _LNS = igk.system.createNS(_NS, {
         panelDialog: function() {},
         /**
@@ -148,14 +132,12 @@
             }
             defStyle = defStyle || "";
             type = type || "";
-
             let q = igk.createNode("div")
                 .addClass("igk-winui-panel-dialog " + defStyle);
             let box = q.add('div').addClass('box');
             let title = box.add('div').addClass("igk-title");
             let content = box.add('div').addClass("igk-content");
             content.setHtml(m.o.outerHTML);
-
             let item = $igk(content.o.firstChild);
             let it = item.qselect('div.title').first();
             if (it) {
@@ -173,8 +155,6 @@
             igk.ajx.fn.initnode(q.o);
         }
     });
-
-
     igk.appendProperties(_LNS.panelDialog, {
         close: _closeDialog
     });
@@ -194,7 +174,6 @@
         //		var btn = igk.createNode("div").addClass("igk-svg-lst-i").setAttribute("igk:svg-name", "drop");
         //		console.debug(btn);
         //	}
-
         var g = igk.winui.createSVGLi("drop");
         if (g) {
             tl.add("a").addClass("igk-btn close igk-svg-host").setAttribute("href", "#").add(g); //etHtml("close");
@@ -202,7 +181,6 @@
         _panDialogInit.apply(dd);
         return dd;
     };
-
     igk.winui.initClassControl("igk-winui-panel-dialog", _panDialogInit);
     igk.winui.closePanelDialog = _closeDialog;
 })();

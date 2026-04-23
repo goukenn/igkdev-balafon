@@ -6,6 +6,7 @@ namespace IGK\System\IO\File;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGKException;
+
 /**
 * extends to handle custom property 
 * @package IGK\System\IO\File
@@ -220,7 +221,6 @@ class PHPDocCommentParser extends PhpDocBlockBase{
                     }else {
                         $s .="\n* )\n";
                     }
-                    // $s .= "*)\n";
                 }else{
                     $s.= ")\n";
                 }

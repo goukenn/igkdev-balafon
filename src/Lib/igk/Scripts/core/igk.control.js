@@ -5,13 +5,10 @@
 // ----------------------------------------------------------------------------------------------------------
 // -----------------------------------EXTENSION--------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------
-
 /**
  * @var mixed $igk
  * @var object igk
  */
-
-
 (function () {
     const BEFORESUBMIT_EVENT = 'igkFormBeforeSubmit';
     const _eval = function (src, apply, args) {
@@ -36,14 +33,12 @@
             });
         }
     })(); 
-
     // 
     // controller utility presentation igk-new-lang-key
     // 
     (function () {
         var context_options = {};
         var m_items = {};
-
         function __reg_key(n, t) {
             if (m_items[n]) {
                 var b = m_items[n];
@@ -60,7 +55,6 @@
                 m_items[n] = t;
             }
         }
-
         function __add_prop() {
             var q = this;
             var k = this.getHtml();
@@ -92,7 +86,6 @@
                 }
             });
         }
-
         function __register_lang_key(s) {
             if (s == null)
                 return;
@@ -130,7 +123,6 @@
                 __add_prop.apply(s);
             }
         }
-
         function __initglobalkey() {
             var s = igk.qselect(".igk-new-lang-key").each_all(function () {
                 console.debug("register lang key");
@@ -209,7 +201,6 @@
         var link = null;
         igk.winui.navlink.init(this, m);
     });
-
     function animationProperty(q, s) {
         // q:target
         // s:source
@@ -423,13 +414,11 @@
             c = c || $igk(document);
             c.reg_event("scroll", __autofix_check_scroll(this, c, o));
         });
-
         function __autofix_check_scroll(q, p, o) {
             var man = new _autofix_manager();
             man.q = q;
             man.p = p;
             man.o = o;
-
             function _hostbind(e) {
                 man.check(e);
             };
@@ -543,7 +532,6 @@
         var m_s_btn = [];
         var ct_sliderbtn = "winui/sliderbutton";
         var m_datas = {};
-
         function _slide_to() {
             var p = igk.JSON.parse($igk(this).getAttribute("igk-slider-data"));
             if (p) {
@@ -554,19 +542,16 @@
                 igk.web.storage.set("igk/slider", p.scrollparent.getCssSelector());
             }
         }
-
         function _slider_click(evt) {
             evt.preventDefault();
             _slide_to.apply(this);
         }
-
         function _view_size() {
             for (var i in m_datas) {
                 var p = m_datas[i];
                 ns_igk.winui.fn.navigateTo(p.target, p.property).apply(p.cibling, null);
             }
         }
-
         function _init_slider_button(q) {
             if (q.data.contains(ct_sliderbtn))
                 return;
@@ -618,7 +603,6 @@
                 return;
             }
             var q = this;
-
             this.reg_event("submit", function (evt) {
                 if ((typeof (q.o.checkValidity) != igk.constants.undef) && !q.o.checkValidity()) {
                     console.debug("data not valid");
@@ -643,7 +627,6 @@
     (function () {
         // init android Namespace
         igk.system.createNS("igk.android", {});
-
         function __initAndroid() {
             if (!igk.navigator.isAndroid() && !igk.dom.body().supportClass("igk-android"))
                 return;
@@ -672,7 +655,6 @@
             });
             return m_actx;
         }
-
         function __setup_screen() {
             if (typeof (window.onorientationchange) == "undefined") {
                 // 
@@ -703,7 +685,6 @@
             }
             return new RegExp('((?<type>' + r + ')code)|(code-(?<type>'+r+'))', 'i');
         })(m_types);
-
         const treatHtmlSource = {
             /**
              * treat inline regex container
@@ -755,7 +736,6 @@
                 return o;
             }
         };
-
         /**
          * 
          * @returns 
@@ -799,7 +779,6 @@
             if (copyable) {
                 let block = q.add("div");
                 let minHeight = igk.getNumber(q.getComputedStyle("height"));
-
                 block.addClass("igk-copyable posab igk-svg-host svg-fill")
                     .setCss({
                         zIndex: 100,
@@ -840,13 +819,11 @@
                 return;
             }
             var l = "";
-
             for (var i = 0; i < t.length; i++) {
                 l = t[i];
                 var d = q.add("div");
                 d.setHtml(m.evals(l));
             }
-
             var o = q.add('span').addClass("dispib").setHtml('_');
             var w = igk.getNumber(o.getComputedStyle('width'));
             o.remove();
@@ -854,7 +831,6 @@
             w = (((m.getLines() + '').length * w) + 10) & 0xFFFA;
             igk.css.appendRule(q.getCssSelector() + " > div > span.ln {text-align:right; width:" + w + "px;}");
         };
-
         function igk_e() { // evaluator - script definition
             var l = 0;
             igk.appendProperties(this, {
@@ -870,7 +846,6 @@
             mode: 0,
             pos: 0
         };
-
         /**
          * read litteral string 
          * @returns 
@@ -919,7 +894,6 @@
             }
             return w + p;
         };
-
         function _readPhpOperator(ch) {
             const op = ["||", "|", "&&", "&", ".", "->", "=>", "==", "===", "-", "/", "+", "*", "^", "~", "%", "()", "[]", "(", ")", "[", "]", "{", "}"];
             let c = ch;
@@ -958,7 +932,6 @@
                 // read line
                 if (s.indexOf('<!--?php') == 0)
                     s = s.trim().replace('<!--?php', '<span class="proc">&lt;?php</span>').replace('?-->', '<span class="proc">?&gt;</span>');
-
                 var o = '';
                 var m = 0;
                 var tr = ''; // tempory read		
@@ -973,7 +946,6 @@
                         inf.pos = 0;
                         inf.read = 1;
                         inf.s = s;
-
                         var sp = igk.createNode("span");
                         var ch = "";
                         while (inf.read && (inf.ln > inf.pos)) {

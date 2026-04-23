@@ -14,6 +14,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\Console\Scaffold
@@ -68,18 +69,14 @@ class ActionScaffold extends ScaffoldBase
             Logger::danger("controller not provided");
             return false;
         }
-        //as class = 
         $controller = igk_str_ns($controller);
-        // igk_wln_e($controller, class_exists($controller));
         if (!($ctrl = igk_getctrl($controller, false))) {
             Logger::danger(sprintf("controller %s not found", $controller));
             return false;
         }
-        // $ctrl::register_autoload();
         $viewdir = $ctrl->getViewDir() . "/$name";
         $bind = [];
         if ($model) {
-            // 
             $model = $ctrl::model($model);
         }
         $bind[$viewdir . "/default.phtml"] = function ($file) use ($model) {

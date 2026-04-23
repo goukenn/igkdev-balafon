@@ -5,6 +5,7 @@
 namespace IGK\System\Services\Traits;
 use IGK\Services\IAppService;
 use IGKServices;
+
 /**
  * 
  * @package IGK\System\Services\Trait

@@ -6,11 +6,9 @@
 */
 igk.system.createNS("igk.winui.navigationbar", {
     fitfix: function(node, parent) {
-
         var t = $igk(node);
         var l = $igk(parent);
         if (t) {
-
             t.setCss({
                 "position": "fixed",
                 "right": (l.fn.hasVScrollBar() ? l.fn.vscrollWidth() + 1 : 0) + "px",
@@ -22,10 +20,8 @@ igk.system.createNS("igk.winui.navigationbar", {
     //node: node where to start
     //parent: node that match controller reference
     init: function(node, parent, properties) {
-
         if ((node == null) || (parent == null))
             return;
-
         var m_node = node;
         var m_parent = parent;
         var m_properties = igk.utils.getv(properties, "properties", { duration: 1000, interval: 20, "orientation": "vertical" });
@@ -35,7 +31,6 @@ igk.system.createNS("igk.winui.navigationbar", {
         var m_manual_scroll = true; // for user to scroll manually
         var m_scrollTimeout = null;
         var m_currentpage = null;
-
         function __initLink(info) {
             igk.appendProperties(this, info);
             var self = this;
@@ -50,12 +45,10 @@ igk.system.createNS("igk.winui.navigationbar", {
                         self.selected = false;
                         if (this.bgview)
                             igk.animation.fadeout(this.bgview.o, 20, 500, 1.0, function() { self.selected = false; });
-
                     }
                 } else {
                     if ((vH >= 0) && (vH < m)) {
                         self.selected = true;
-
                         //change hash
                         var s = ("" + self.a.href).split('#')[1];
                         m_currentpage = s.split('/')[1];
@@ -69,7 +62,6 @@ igk.system.createNS("igk.winui.navigationbar", {
                         }
                     }
                 }
-
             };
             if (this.options) {
                 if (this.options.scroll) {
@@ -84,7 +76,6 @@ igk.system.createNS("igk.winui.navigationbar", {
                     "class": "posab fitw fith loc_l loc_t zback navigationbg"
                 });
                 this.bgview.setOpacity(0.0);
-
             }
             this.a.onfocus = function() { this.blur(); return false; };
             this.a.onclick = function() {
@@ -100,19 +91,14 @@ igk.system.createNS("igk.winui.navigationbar", {
                 return false;
             }
         };
-
         function __gettarget(n) {
             if (m_dictionary[n])
                 return m_dictionary[n].target;
             return null;
         };
-
         function __navigateTo() {
-
             var l = ("" + document.location);
-
             if (/#\//.exec(l)) {
-
                 var n = l.split('#/')[1];
                 if (m_currentpage != n) {
                     m_currentpage = n;
@@ -135,9 +121,7 @@ igk.system.createNS("igk.winui.navigationbar", {
                     }
                 }
             }
-
         };
-
         function __detectnode() {
             if (!m_autodetect)
                 return;
@@ -154,24 +138,18 @@ igk.system.createNS("igk.winui.navigationbar", {
             var v_taget = null;
             var v_ainfo = null;
             var p = m_node;
-
             for (var i = 0; i < v_nodes.length; i++) {
                 //replace name with navigation name
                 v_a = v_nodes[i];
-
                 if (/#/.exec(v_a.href)) {
-
                     n = v_a.href.split('#')[1];
                     // console.debug("navigation key "+n);
                     v_key = ((v_key = v_a.getAttribute("igk-navigation-key")) == null) ? n : v_key;
                     v_target = v_a.getAttribute("igk-navigation-target");
-
-
                     if (m_parent.id == v_target) {
                         hp = $igk(m_parent);
                     } else
                         hp = $igk(m_parent).getChildById(v_target);
-
                     if (hp == null) {
                         continue;
                     }
@@ -189,16 +167,13 @@ igk.system.createNS("igk.winui.navigationbar", {
                     if (!v_ainfo.options || !v_ainfo.options.nomenu) {
                         v_ainfo.allownavigation = false;
                     }
-
                     v_a.href = "#/" + v_key;
                     m_dictionary[v_key] = new __initLink(v_ainfo);
                     m_dictionary.push(m_dictionary[v_key]);
                 }
-
             }
             //register event
             if (p) {
-
                 var m_eventContext = igk.winui.RegEventContext(p);
                 if (m_eventContext) {
                     m_eventContext.reg_window("hashchange", function() { __navigateTo(); });
@@ -207,7 +182,6 @@ igk.system.createNS("igk.winui.navigationbar", {
                     m_eventContext.reg_event(m_parent, "scroll", function() {
                         if (m_manual_scroll) {
                             //wait for detecting node. after scroll end
-
                             if (m_scrollTimeout)
                                 clearTimeout(m_scrollTimeout);
                             m_scrollTimeout = setTimeout(
@@ -221,13 +195,10 @@ igk.system.createNS("igk.winui.navigationbar", {
                 }
                 //igk.ready( 
                 // function(){ __detectnode(); });
-
                 // }
                 // else{
                 // alert("igk.winui.navigationbar. can't initiate navigationbar");
                 // }
-
-
                 // })(m_node);
             }
         })(m_node);

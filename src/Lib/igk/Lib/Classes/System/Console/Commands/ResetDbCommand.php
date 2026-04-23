@@ -13,6 +13,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Delegates\InvocatorListDelegate;
 use IGKModuleListMigration;
 use Illuminate\Database\Console\Seeds\SeedCommand;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -83,7 +84,6 @@ class ResetDbCommand extends AppExecCommand
         if (!$c)
          return -1;
         $this->controllerResetDatabase($c, $force, $seed, $clean);
-        // init modules controller 
         Logger::print("-");        
         if ($seed){  
             $ad = SysDbController::ctrl()->getDataAdapter();
@@ -150,17 +150,12 @@ class ResetDbCommand extends AppExecCommand
         // + | at init migrations of modules can be empty start migration 
         $migrations && $migrations::downgrade();
         $projects::dropDb(false, true);
-        // system database will drop everything
         $sysdb::dropDb(false, true, $clean);
         // + | --------------------------------------------------------------------
         // + | 2. upgrade
         // + |
-        // DbSchemaDefinitions::ResetCache();   
         DBCaches::Clear();
         Database::InitSystemDb();
-        // $sysdb::resetDb(false, true);
-        // $projects::resetDb(false, $force);   
-        // $migrations::migrate(); 
         // + | --------------------------------------------------------------------
         // + | JUST STORE CACHE
         // + |

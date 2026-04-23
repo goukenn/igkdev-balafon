@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Forms\Validations;
 use IGK\Helper\Activator;
 use function igk_resources_gets as __;
+
 /**
  * 
  * @package IGK\System\Html\Forms\Validations
@@ -97,7 +98,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
             if ($v_is_index) {
                 if (!$this->getSupportArray()){
                     $error = __(Errors::GetErrors(Errors::DISABLE_ARRAY));
-                     //"converter disable array";
                     return false;
                 }
                 $q = $value;
@@ -119,14 +119,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
                 if (($g===false) && ($e)){
                     $error = $e; 
                 }
-                // $g = $v_fv->fields($v_fields)->validate((array)$value);
-                // if ($g === false) {
-                //     $error = $v_fv->getErrors();
-                // } else {
-                //     if ($this->m_type) {
-                //         $g = Activator::CreateNewInstance($this->m_type, $g);
-                //     }
-                // }
                 return $g;
             }
         }

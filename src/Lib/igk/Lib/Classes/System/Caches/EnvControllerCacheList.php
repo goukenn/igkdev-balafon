@@ -10,12 +10,12 @@ use ReflectionClass;
 // + | ENV : Controller Cache list : so we can easely retrieve detected 
 // + | loaded controller 
 // + |
+
 /**
 * auto generate doc.
 * @package IGK\System\Caches
 */
 class EnvControllerCacheList{
-   //  use CachableDataTrait;
     /**
     * Constant: file.
     * @var mixed
@@ -48,7 +48,6 @@ class EnvControllerCacheList{
                 $tab = unserialize(file_get_contents($file));
             }
             if ($tab === false){
-                // load declared class that is a base controller and not module 
                 $tab = array_values(array_filter(get_declared_classes(), function($a){
                     if (is_subclass_of($a, \IGK\Controllers\BaseController::class)){
                         $refClass = new ReflectionClass($a);
@@ -58,9 +57,6 @@ class EnvControllerCacheList{
                         return $a;
                     }
                 })); 
-                // $cl = 'igk\pay\paypal\Component\paypalpaymentCtrl';
-                // $c = new ReflectionClass($cl);
-                // igk_wln_e(__FILE__.":".__LINE__ , $tab, realpath(igk_get_module_dir()), $c->getFileName());
                 self::$sm_changed = true;           
             }
             igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, function(){

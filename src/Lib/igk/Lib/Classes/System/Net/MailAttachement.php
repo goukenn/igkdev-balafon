@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Net;
 use IGKObject;
+
 /**
 * Mail attachement.
 * @package IGK\System\Net
@@ -39,7 +40,6 @@ class MailAttachement extends IGKObject{
     public function getContent(){
         return $this->m_content;
     }
-    ///get data used
     /**
      * Gets the base64-encoded data for the attachment.
      *

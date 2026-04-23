@@ -3,7 +3,6 @@
 // @file: EngineReadArgsTest.php
 // @date: 20251022 09:32:15
 namespace IGK\Tests\System\Core;
-
 use IGK\System\Core\EngineReadArgs;
 use IGK\Tests\BaseTestCase;
 
@@ -13,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class EngineReadArgsTest extends BaseTestCase{
-
     /**
     * Tests engine read arg read global arg.
     */

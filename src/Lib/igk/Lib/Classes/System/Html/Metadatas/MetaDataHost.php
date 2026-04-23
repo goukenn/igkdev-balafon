@@ -6,6 +6,7 @@ namespace IGK\System\Html\Metadatas;
 use IGKEvents;
 use IGKException;
 use IGKHtmlDoc;
+
 /**
  * 
  * @package IGK\System\Html\Metadatas
@@ -59,7 +60,6 @@ class MetaDataHost
         if (is_null($register)) {
             $register = static::InitCoreMetaDataDefinition();
         }
-        // core fields 
         $m = $this->m_host->getMetas();
         $fields = [
             'title' => function ($v) use ($m) {
@@ -95,7 +95,6 @@ class MetaDataHost
                 }
             }
         });
-        // binding meta field register 
         foreach ($settings as $k => $v) {
             $fc = igk_getv($fields, $k);
             if ($fc) {

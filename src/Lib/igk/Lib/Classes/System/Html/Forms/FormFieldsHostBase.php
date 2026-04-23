@@ -10,6 +10,7 @@ use IGK\System\Html\Forms\Validations\InspectorFormFieldValidationBase;
 use IGK\System\Reflection\Helper\ReflectionHelper;
 use IGKType;
 use ReflectionProperty;
+
 /**
  * use to initialize form's field
  * @package IGK\System\Html\Forms
@@ -23,7 +24,6 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
     */
     public function getFields($context=null): array
     {
-        //++ auto fields validation loading ... 
         $reflect = igk_sys_reflect_class(static::class);
         $v_uses = AnnotationHelper::GetUses(static::class);
         $reader = new PhpDocBlocReader;
@@ -73,7 +73,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
                     if ($v_p && $v_p->var) {
                         $v_ct = $v_p->var;
                         if (strpos($v_ct, '?') !== 0) {
-                            $r = 1; // required
+                            $r = 1; 
                         } else {
                             $v_ct = igk_str_rm_start($v_ct, '?');
                         }
@@ -81,7 +81,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
                             $n = self::GetFieldTypeFromPrimitive(strtolower($v_ct));
                         }
                     } else {
-                        $r = 1; // required
+                        $r = 1; 
                     }
                 }
                 $v_val->type = $n ?? 'text';

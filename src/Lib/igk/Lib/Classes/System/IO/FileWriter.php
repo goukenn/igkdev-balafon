@@ -8,6 +8,7 @@ use IGK\Helper\IO;
 use IGKApp;
 use IGKAppContext;
 use IGKException;
+
 /**
  * file writer helper. to store file
  * @package IGK\System\IO
@@ -26,30 +27,19 @@ class FileWriter
         if (empty($filename)) {
             igk_die(__FUNCTION__ . " Filename is empty or null");
         }
-        // if (strstr($filename, '.Caches/storage/js') && preg_match('/\.php$/', $filename)) {
-        //     igk_trace();
-        //     igk_wln_e(__FILE__ . ":" . __LINE__, $filename);
-        // }
         $filename = igk_dir($filename);
         if (!is_dir($dir = dirname($filename))) {
-            //+ | auto create directory that will handle masking for user
             if (!IO::CreateDir($dir, $chmod > 500 ? $chmod : IGK_DEFAULT_FOLDER_MASK))
                 return false;
         }
         if (!$overwrite && is_file($filename)) {
             return false;
         }
-        // if ($filename === "/var/www/html/sites/HomeNotify/src/application/Caches/.controller.cache"){
-        //     igk_ilog("file: ".$filename);
-        //     igk_trace();
-        //     igk_exit();
-        // }
         $hf = @fopen($filename, $type);
         if (!$hf) {
             igk_ilog("Failed to write " . $filename, __FUNCTION__);
             return false;
         }
-        // $v_iempty=empty($content);
         fwrite($hf, $content ?? '');
         fflush($hf);
         fclose($hf);
@@ -88,19 +78,15 @@ class FileWriter
         $pdir = array($dirname);
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
-        // igk_debug_wln("createdir: ".$dirname."\n");
         while ($dirname = array_pop($pdir)) {
             if (is_dir($dirname))
                 continue;
-            // igk_debug_wln("create : ".$dirname."\n");          
             $p = dirname($dirname);
             if (empty($p))
                 continue;
             if (is_dir($p) && $dirname && !is_file($dirname) && !is_dir($dirname)) {
                 if (is_link($dirname)) {
-                    // possibility of link that target a location not accessible
                     unlink($dirname);
-                    // continue;
                 }
                 if (@mkdir($dirname)) {
                     if ($is_unix) {
@@ -145,7 +131,6 @@ class FileWriter
     {
         if (function_exists('opcache_get_status')) {
             $restrict = ini_get('restrict_api');
-            // check for restrict_api
             if (!$restrict && @opcache_get_status()) {
                 return opcache_invalidate($file, $force);
             }

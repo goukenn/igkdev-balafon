@@ -4,6 +4,7 @@
 // @date: 20250408 15:50:23
 namespace IGK\System\Html;
 use Exception;
+
 /**
 * definition to render on component visibility
 * @package IGK\System\Html
@@ -55,7 +56,6 @@ class AcceptRenderingComponent{
     public function __invoke($n, $options){
         if (!$n->acceptRender($options))
             return false;
-        // accepter render 
         if ($doc = igk_getv($options, 'Document')){
             $l = $doc->getDocumentInjector();
             $l->register($this->guid, function(){

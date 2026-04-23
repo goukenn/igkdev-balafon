@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK;
+
 /**
  * application factory to create and register application base
  * @package IGK

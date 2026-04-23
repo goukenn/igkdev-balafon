@@ -4,6 +4,7 @@
 // @date: 20231221 15:12:51
 namespace IGK\System\Html\Metadatas;
 use IGK\System\IO\StringBuilder;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Metadatas
@@ -40,7 +41,7 @@ abstract class MetadataGroupEntryBase{
         $key = igk_getv($this->map(), $n);
         $m = igk_create_node('meta');
         $m['property']= $key;
-        $m['content'] = $v; //$this->{$k};
+        $m['content'] = $v; 
         $this->{$n} = $v;
         $this->m_def[$n] = $m;
     }

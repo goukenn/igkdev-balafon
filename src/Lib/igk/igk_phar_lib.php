@@ -1,16 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: igk_phar_lib.php
 // @date: 20220803 13:34:58
 // @desc: for phar file
 
-// __dir__
-
 $web = "/index.php";
-
-//present cache out lib
-
 /**
 * Igkphar.
 */
@@ -28,10 +22,6 @@ final class IGKPhar
 		header("Pragma: cache");
 		header("Cache-Control: max-age={$second}, public");
 	}
-
-	//----------------------------------------------------------------------------
-	//export setting
-	//----------------------------------------------------------------------------
 	/**
 	 * Check whether a file exists.
 	 *
@@ -50,20 +40,12 @@ final class IGKPhar
 		return dirname(Phar::running());
 	}
 }
-
-
-//handle index request
-
 define("IGK_PHAR_CONTEXT",1);
 define("IGK_INDEX_FILE", __FILE__);
 define('IGK_APP_DIR', $dir);
 define('IGK_NO_TRACELOG',1);
 include_once('Lib/igk/igk_framework.php');
 define("IGK_MAIN_FILE", igk_uri(PHar::running(false)));
-
-
- 
-// handle key
 $key = 'phar://handlerequest';
 $uri = igk_io_request_uri();
 if (!empty($uri) && ($uri!= $web) && ($uri !='/') && !igk_get_env($key)){
@@ -71,5 +53,4 @@ if (!empty($uri) && ($uri!= $web) && ($uri !='/') && !igk_get_env($key)){
     igk_sys_handle_request($uri);
     igk_set_env($key, null);
 }
-// igk_sys_render_index(__FILE__);
 IGKApplication::Boot("phar")->run(__FILE__);

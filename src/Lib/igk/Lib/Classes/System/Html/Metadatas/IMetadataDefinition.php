@@ -3,6 +3,7 @@
 // @file: IMetadataDefinition.php
 // @date: 20231222 09:57:33
 namespace IGK\System\Html\Metadatas;
+
 /**
 * IMetadata definition
 * @property string $charset 'UTF-8'

@@ -5,6 +5,7 @@
 namespace IGK\System\Text;
 use Exception;
 use IGK\System\Console\Logger;
+
 /**
  * 
  * @package IGK\System\Text

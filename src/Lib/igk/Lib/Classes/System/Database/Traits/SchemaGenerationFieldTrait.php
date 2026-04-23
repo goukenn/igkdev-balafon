@@ -4,6 +4,7 @@
 // @date: 20230202 13:53:03
 namespace IGK\System\Database\Traits;
 use IGK\Database\DbColumnInfo;
+
 /**
 * Column field generator
 * @package IGK\System\Database

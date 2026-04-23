@@ -3,7 +3,6 @@
 // @file: InspectorFormFieldTest.php
 // @date: 20240923 10:15:28
 namespace IGK\Tests\System\Html\Forms\Validations;
-
 use IGK\System\Html\Forms\Validations\InspectorFormFieldValidationBase;
 use IGK\Tests\BaseTestCase;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
@@ -14,7 +13,6 @@ use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormFie
 * @author C.A.D. BONDJE DOUE
 */
 class InspectorFormFieldTest extends BaseTestCase{
-
     /**
     * Tests inspectorformfield test list.
     */
@@ -23,80 +21,63 @@ class InspectorFormFieldTest extends BaseTestCase{
         $this->assertTrue(1== $r->validate(["x"=>45, "y"=>88, "z"=>0])); 
         $this->assertTrue($r->x == 45); 
     }
-
     /**
     * Tests inspectorformfield number.
     */
     public function test_inspectorformfield_number(){
         $r = new DummyNumberValidator; 
         $g = $r->getFields();
-
         $this->assertTrue(1== $r->validate(["x"=>"45.0", 'y'=>'info'])); 
         $this->assertFalse($r->x === "45"); 
         $this->assertTrue($r->x === 45); 
     }
-
     /**
     * Tests inspectorformfield required.
     */
     public function test_inspectorformfield_required(){
         $r = new DummyRequiredValidator; 
-        // $gt = $r->getFields();
         $g = $r->validate(["y"=>"45.0"]);
-
         $this->assertTrue(false === $g, 'required field not check.');  
     }
 }
-
 /**
 * Dummy validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyValidator extends InspectorFormFieldValidationBase{
-
     /**
     * Property: x.
     * @var mixed
     */
     var $x;
-
     /**
     * Property: y.
     * @var mixed
     */
     var $y;
 }
-
 /**
 * Dummy number validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyNumberValidator extends InspectorFormFieldValidationBase{
-
     /**
     * auto generate doc.
     * @var int
     */
     var $x;
-
     /**
     * auto generate doc.
     * @var string
     */
     var $y;
 }
-
 /**
 * Dummy required validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyRequiredValidator extends InspectorFormFieldValidationBase{
-
     /**
     * auto generate doc.
     */    var $x;
 }
-
-
-
-//use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;

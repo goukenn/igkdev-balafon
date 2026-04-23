@@ -3,8 +3,6 @@
 // @filename: IGKIncludeForVSTool.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\Controllers\ToolControllerBase;
 
 /**
@@ -12,7 +10,6 @@ use IGK\Controllers\ToolControllerBase;
 */
 class IGKIncludeForVSTool extends ToolControllerBase
 {
-
 	/**
 	 * Return the URI of the tool image icon.
 	 *
@@ -33,7 +30,6 @@ class IGKIncludeForVSTool extends ToolControllerBase
 	private function LoadFile($node , $pattern,  $dir)
 	{
 		$hdir = opendir($dir);
-
 		if (is_resource($hdir))
 		{
 			while($s = readdir($hdir))
@@ -63,10 +59,8 @@ class IGKIncludeForVSTool extends ToolControllerBase
 		$out = "";
 		$dir = igk_io_currentRelativePath("Lib");
 		$f =  HtmlNode::CreateWebNode("ItemGroup");
-		//get all files
 		$this->LoadFile($f, "Lib", $dir);
 		$out = $f->render();
 		igk_download_content("includeforvs.xml", strlen($out) , $out);
-
 	}
 } 

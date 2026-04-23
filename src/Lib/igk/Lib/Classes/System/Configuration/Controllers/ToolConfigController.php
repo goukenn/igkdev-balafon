@@ -9,6 +9,7 @@ use IGK\Resources\R;
 use IGKFv;
 use \IGK\System\Configuration\Controllers\ToolHost;
 use function igk_resources_gets as __; 
+
 /**
 * Represent IGKToolsCtrl class
 */

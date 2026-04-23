@@ -6,6 +6,7 @@
 namespace IGK\System\Html;
 use IGK\Helper\StringUtility;
 use IGKException;
+
 /**
 * Html node filter base.
 * @package IGK\System\Html

@@ -32,7 +32,6 @@
                 }
                 q.setHtml(target.o.outerHTML).init();                
             })(_opts);
-
             if (tg_id) {
                 var g = igk.winui.GetScreenPosition(tg_id.o);
                 _opts.offset = g.y + tg_id.o.scrollHeight;
@@ -63,7 +62,6 @@
                     p = parentOffset(target.o); 
                 if (p) {
                     ns_igk.winui.reg_event(p, "scroll", function(evt) {                        
-
                         __bind(p);
                     });
                     __bind(p);
@@ -73,8 +71,6 @@
             });
         }
     });
-
-
     if (!igk.ctrl.isAttribManagerRegistrated(cibling)){
         igk.ctrl.registerAttribManager(cibling, { n: "js", desc: "register top nav bar" }); 
     } 

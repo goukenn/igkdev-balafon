@@ -4,6 +4,7 @@
 // @date: 20230517 10:46:38
 namespace IGK\System\Culture;
 use IGK\Resources\R;
+
 /**
 * auto generate doc.
 * @package IGK\System\Culture

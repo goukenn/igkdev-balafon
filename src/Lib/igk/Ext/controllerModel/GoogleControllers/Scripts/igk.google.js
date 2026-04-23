@@ -1,8 +1,6 @@
 "use strict";
-
 (function() {
     igk.system.createNS("igk.google", {});
-
     igk.system.createNS("igk.google.controls", {
         addCircleWaiter: function(b) {
             var n = igk.createNode("div");
@@ -17,18 +15,14 @@
             igk.ajx.fn.initnode(n.o);
         }
     });
-
     function __circle_waiter_init(s) {
-
         //igk-anim-time-board defintion
         //width: rotation of the circle
-
         // console.debug("init circle waiter");
         var q = this;
         igk.appendProperties(q, {
             start: function() {
                 if (_running) return;
-
                 _do_anim();
                 _running = 1;
                 // console.debug("start");
@@ -38,7 +32,6 @@
                 // console.debug("stop");
             }
         });
-
         //test line waiter
         // q.reg_event("click", function(){
         // //testing add cirle waiter
@@ -72,7 +65,6 @@
                 var s = q.data.storyboard_1;
                 if (q.data.catchm) {
                     q.data.catchm = 0;
-
                     s.setCss({ width: "100px" });
                     q.data.T2 += _3PI2;
                 } else {
@@ -92,17 +84,13 @@
                 var penw = this.penWidth || 4;
                 var R = Math.min(w / 2, h / 2) - (penw / 2);
                 var r = Math.min(w / 2, h / 2) - (penw / 2) - 10;
-
                 //update the size
                 this.canva.setAttribute("width", w);
                 this.canva.setAttribute("height", h);
-
                 var ctx = this.canva.o.getContext('2d');
-
                 ctx.clearRect(0, 0, w, h);
                 //background
                 ctx.strokeStyle = '' + cl;
-
                 if (bg) {
                     ctx.beginPath();
                     ctx.fillStyle = "#ddd";
@@ -110,7 +98,6 @@
                     ctx.closePath();
                     ctx.fill();
                 }
-
                 ctx.lineWidth = penw;
                 ctx.beginPath();
                 var offset = -(Math.PI / 2) + (v * _2PI);
@@ -123,7 +110,6 @@
                         // _ta = (_3PI2 - _10Deg);
                     } else {
                         ctx.arc(cx, cy, r, offset + this.T1, offset + this.T2 + (_3PI2 * (1 - of_set)), false);
-
                     }
                 }
                 //	console.debug(cl);
@@ -134,9 +120,7 @@
                 // delete a.ctx;
                 // console.debug(ctx);
             }
-
         });
-
         function _getData() {
             if (_dat == null) {
                 var _s = q.data.storyboard.getComputedStyle('content', ':before');
@@ -144,13 +128,11 @@
                 _dat = igk.JSON.init_data({ stop: 'width', mode: 1 }, (_t ? _t[1].replace(/\\\"/g, "\"") : null), function(s) {
                     s.stop = (_t ? _t[1] : null) || 'width';
                 });
-
                 q.data.penWidth = q.data.storyboard.getComputedStyle('border-size', ':before');
             }
             return _dat;
         }
         this.data.canva = this.add("canvas").addClass("igk-canva-bg");
-
         this.data.storyboard = this.add("div").addClass("igk-anim-time-board i-1")
             .reg_event("transitionend", function(evt) {
                 var _m = _getData();
@@ -171,11 +153,9 @@
                     q.data.oldClass = _nc;
                 }
                 // q.data.storyboard.remove();
-
             })
             .reg_event("transitionstart", function(evt) {
                 // console.debug('transition start');
-
             })
             .setCss({
                 "width": "0px",
@@ -191,9 +171,6 @@
                 q.data.update();
             }
         });
-
-
-
         //for animation
         function _do_anim() { 
             if (!q.o.parentNode || !q.isOnDocument()) {
@@ -204,13 +181,10 @@
             q.data.storyboard
                 .setCss({ width: '100px', height: '100px' })
                 .rpClass("igk-cl-2", "igk-cl-1");
-
             q.data.storyboard_1
                 .setCss({ width: '100px' });
             // console.debug("do anim");
-
             q.data.render(0, 'transparent', 0);
-
             igk.html.canva.animate(function(e) {
                 if (!q.o.parentNode) {
                     console.error("not animable no parent. stop animate canvas");
@@ -220,7 +194,6 @@
                     // console.debug("not animable not visible ---1"+_running);
                     return _running;
                 }
-
                 if (!q.data.end) {
                     var n = q.data.storyboard;
                     var n1 = q.data.storyboard_1;
@@ -247,8 +220,6 @@
         //continue init
         return true;
     };
-
-
     function __line_waiter_init(s) {
         var q = this;
         var _ctx = null;
@@ -278,7 +249,6 @@
             },
             render: function() {}
         });
-
         function _init_cur() {
             //bck transition
             var _trans = _data.cur.getComputedStyle("transition");
@@ -294,7 +264,6 @@
             _data.cur.setCss({ transition: _trans, right: '0px' });
             // },300);
         };
-
         function _do_anim() {
             if (!q.o.parentNode)
                 return false;
@@ -302,12 +271,9 @@
             //bck transition			
             //init
             _data.cur.setCss({ right: "0px" });
-
-
             _anim_id = igk.html.canva.animate(function(e) {
                 if (!q.o.parentNode)
                     return false;
-
                 var _X = q.getWidth();
                 var _x = igk.getNumber(_data.cur.getComputedStyle("right"));
                 var _y = igk.getNumber(_data.cur.getComputedStyle("left"));
@@ -327,11 +293,9 @@
         };
         //wait for half before start
         setTimeout(_do_anim, 200);
-
         var _resizing = 0;
         igk.winui.reg_event(window, 'resize', function() {
             // stop previous animation
-
             if (_resizing)
                 return;
             _resizing = 1;
@@ -346,28 +310,21 @@
     igk.winui.initClassControl("igk-google-line-waiter", __line_waiter_init, {
         desc: "google line waiter"
     });
-
 })();
-
-
 (function() {
     igk.system.createNS("igk.drawing.effect", {
         stackBlur: function(ctx, x, y, w, h, radius, iterations) {
             boxBlurCanvasObjRGB(ctx, x, y, w, h, radius || 2, iterations || 2);
         }
     });
-
 })();
-
 //---------------------------------------------------------------------------
 // google button
 //---------------------------------------------------------------------------
-
 (function() {
     function __init_google_button() {
         var q = this;
         this.reg_event("click", function(e) {
-
             q.setAttribute("curx", '10px');
             q.setAttribute("cury", '10px');
             q.addClass("igk-show-cur");
@@ -376,7 +333,6 @@
             var loc = igk.winui.GetChildMouseLocation(q, e);
             var x = loc.x + "px";
             var y = loc.y + "px";
-
             $igk(cur).setCss({
                 left: x,
                 top: y,

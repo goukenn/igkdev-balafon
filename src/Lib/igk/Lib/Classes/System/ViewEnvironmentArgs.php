@@ -15,6 +15,7 @@ use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Http\Request;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException; 
+
 /**
  * represent view environment args - shared  accross views definition
  * @package 
@@ -223,8 +224,6 @@ class ViewEnvironmentArgs implements ArrayAccess{
         if ($t){
             $controller->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));
         }
-        // $doc->body["class"] = "-custom-thumbnail";
-        // $doc->title = igk_configs()->website_title();
         $ob_level = ob_get_level();
         $controller->_get_extra_args($file);
         $session = igk_app()->getSession(); 

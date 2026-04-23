@@ -15,6 +15,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGKOb;
 use ReflectionException;
+
 /**
 * 
 * @package IGK\System\Html\Css
@@ -188,7 +189,6 @@ class CssControllerStyleRenderer{
         }
         $referer = null;
         igk_header_no_cache();
-        // $c.="\n /* check why color */
         $response = new \IGK\Css\CssCoreResponse($c);
         $response->cache = false;
         $response->file = $referer;

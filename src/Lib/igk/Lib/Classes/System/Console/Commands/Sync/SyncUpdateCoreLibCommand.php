@@ -12,6 +12,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Shell\OsShell;
+
 /**
  * clear cache in ftp sync server */
 class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
@@ -74,11 +75,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $uri = $setting["site_uri"];
         $install_dir = $setting["lib_dir"] ?? "../application/Lib/igk";
         Logger::info(sprintf("update core lib to [ %s ]", $setting["server"]));
-        // copy libzip to public folder 
-        // copy exec script to public folder
-        // execute the install libscript
-        // delete install libscript
-        // delete zipfile 
         $temp_file = igk_io_sys_tempnam("blfcore");
         $script_install = igk_io_sys_tempnam("blfcore");
         unlink($temp_file);
@@ -113,7 +109,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ftp_put($h, $install = $pdir . "/install.php", $script_install, FTP_BINARY);
         unlink($temp_file);
         unlink($script_install);
-        // igk_exit();
         $response = null;
         $response = igk_curl_post_uri(
             $uri . "/install.php",
@@ -153,8 +148,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                     $new_command = self::CreateOptionsCommandFrom($command,[ 
                         "--no-subdomain"=>igk_getv($command->options, "--no-subdomain"),
                         "--no-webconfig"=>igk_getv($command->options, "--no-webconfig") 
-                        // "--admin-login" =>"set configuration login",
-                        // "--admin-pwd"   =>"set configuration login",
                     ]); 
                     return $exec_command->exec($new_command);  
                 }

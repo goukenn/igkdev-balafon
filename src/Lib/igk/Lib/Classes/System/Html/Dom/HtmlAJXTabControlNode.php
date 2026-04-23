@@ -5,6 +5,7 @@ use IGKEvents;
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
+
 /**
 * represent a tab control node where tab contains came from ajx query
 */
@@ -136,10 +137,6 @@ EOF;
         // + register component
         igk_reg_component(__METHOD__, $this);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="uri"></param>
-    ///<param name="method" default="'GET'"></param>
     /**
     * auto generate doc.
     * @param GET
@@ -149,8 +146,6 @@ EOF;
 (function(q){ igk.winui.controls.tabcontrol.init('$uri', q);})(igk.getParentScript());
 EOF;
     }
-    ///<summary>force select tag</summary>
-    ///<param name="i">identified the selected tab</param>
     /**
     * force select tag
     * @param string|int $i identified the selected tab
@@ -180,18 +175,12 @@ EOF;
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="listener"></param>
-    ///<param name="param" default="null"></param>
     /**
     * auto generate doc.
     * @param mixed $param the default value is null
     */
     public function setComponentListener($listener, $param=null){
-        // mark component to listen for parameter
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
     /**
     * auto generate doc.
     * @param mixed $o
@@ -199,7 +188,6 @@ EOF;
     public function setTabViewListener($o){
         $this->m_tabViewListener=$o;
     }
-    ///<summary> , "for demonstration"</summary>
     /**
     *  , "for demonstration"
     */

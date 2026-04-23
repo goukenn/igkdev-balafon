@@ -3,9 +3,7 @@
 // @filename: TemplateLoadingTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\Tests;
-
 use IGK\System\Html\HtmlContext;
 use IGK\Tests\BaseTestCase;
 
@@ -14,12 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests
 */
 class TemplateLoadingTest extends BaseTestCase{
-
     /**
     * Tests loading data.
     */
     public function test_loading_data(){
-  
         $s = <<<EOF
 <div *visible="false" id="test">
     <a class="igk-ajx-pickfile" igk:data="{'accept':'image/*,.jpg,.jpeg,.png'}">
@@ -39,9 +35,7 @@ $n->load($s, (object)[
 ]); 
 $m = $n->render((object)["Indent"=>false]);
 $this->assertEquals("<div></div>", $m, "loading failed");
-
     }
-
     /**
     * Tests load pipe with no data.
     */
@@ -55,7 +49,6 @@ $this->assertEquals("<div></div>", $m, "loading failed");
             "load do not escape inner context failed"
         );
     }
-
     /**
     * Tests load pipe with data.
     */
@@ -71,13 +64,11 @@ $this->assertEquals("<div></div>", $m, "loading failed");
         ]);
         $s = $n->render();
         $this->assertEquals(
-            // '<div><a>{"raw":{"data":"ok"},"ctrl":{}}</a></div>',
             '<div><a>{"data":"ok"}</a></div>',
             $n->render(),
             "load inner raw load"
         ); 
     }
-
     /**
     * Tests visibile attribute.
     */
@@ -90,7 +81,6 @@ $this->assertEquals("<div></div>", $m, "loading failed");
             $n->render(),
             "not visible not handle"
         );
-
         //
         $src = '<a *visible="true">item ok</a>';
         $n = igk_create_node("div");
@@ -100,46 +90,7 @@ $this->assertEquals("<div></div>", $m, "loading failed");
             $n->render(),
             "visible not handle"
         ); 
-        // $src = '<a>{{ $raw | json }}</a>';
-
-        // // Load in xml context must render inner as is
-        // $n = igk_create_node("div");
-        // $n->load($src,(object)[
-        //     "Context"=>HtmlContext::XML,
-        //     "raw"=>[
-        //         "data"=>"ok", 
-        //     ],
-        //     "ctrl"=>\IGK\Tests\Controllers\TestController::ctrl()
-        // ]);
-        
-        // $this->assertEquals(
-        //     "<div><a>{{ \$raw | json }}</a></div>",
-        //     $n->render(),
-        //     "load do not escape inner context failed"
-        // );
-
-
         $n->clearChilds();
-
-        // only controller and raw data are allowed to pass to html template exposition 
-        // 
-        // $n->load($src,(object)[
-        //     "Context"=>HtmlContext::Html,
-        //     "raw"=>[
-        //         "data"=>"ok", 
-        //     ],
-        //     "ctrl"=>\IGK\Tests\Controllers\TestController::ctrl()
-        // ]);
-        
-        // $this->assertEquals(
-        //     '<div><a>{"raw":{"data":"ok"},"ctrl":{}}</a></div>',
-        //     // '<div><a>{"data":"ok"}</a></div>',
-        //     $n->render(),
-        //     "load inner raw load"
-        // );
-
-        // igk_wln(__FILE__.":".__LINE__,  "bindig properties");
-        // $src = '{{ $raw }} <a *visible="$raw->visible">raw ok = {{ $raw }}</a>';
         $src = '<a *visible="$raw->visible">raw ok</a>';
         $n = igk_create_node("div");
         $n->load($src,(object)[
@@ -150,14 +101,12 @@ $this->assertEquals("<div></div>", $m, "loading failed");
             ],
             "ctrl"=>\IGK\Tests\Controllers\TestController::ctrl()
         ]);
-        
         $this->assertEquals(
             "<div><a>raw ok</a></div>",
             $n->render(),
             "last properties"
         );
     }
-
     /**
     * Tests title properties.
     */

@@ -12,6 +12,7 @@ use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use IGKDbModelUtility;
+
 /**
 * Make factory command.
 * @package IGK\System\Console\Commands
@@ -87,7 +88,7 @@ class MakeFactoryCommand extends AppExecCommand
         } else {
             Logger::warn(sprintf('missing model [%s]', $modelname));  
         }
-        $fields = igk_map_array_to_str($fields);// var_export($fields, true);   
+        $fields = igk_map_array_to_str($fields);
         $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);

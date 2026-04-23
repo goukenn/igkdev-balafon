@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
 /**
 * Html options.
 * @package IGK\System\Html\Dom
@@ -68,13 +69,7 @@ abstract class HtmlOptions{
      * @return bool True if the attribute is allowed, false otherwise.
      */
     public static function IsAllowedAttribute(string $name){
-        // ---------------------------------------------------------------------------------
-        // ignore igk:param cause have a special meaning for loading template - it will call setParam methoe- will pass data
-        // use igk:data to pass data to js 
-        // use igk:args to pass data to opener
-        // ---------------------------------------------------------------------------------
         if (in_array($name, ["param"])){
-            // use set param insteed
             return false;
         }
         return true;

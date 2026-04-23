@@ -4,6 +4,7 @@
 // @date: 20231219 22:34:30
 namespace IGK\System\IO;
 use IGK\System\IO\Configuration\ConfigurationReader;
+
 /** 
  * use delimiter to split value   
 * @package IGK\System\IO

@@ -6,6 +6,7 @@ namespace IGK\System\Database;
 use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database
@@ -69,7 +70,6 @@ class SchemaMigrationHookHandler{
     * @return void
     */
     protected function onColumnRenamed($table, $column, $name){
-        // Logger::print('column rename : '.$column , $name); 
         /**
          * load links 
          */
@@ -91,9 +91,7 @@ class SchemaMigrationHookHandler{
         }
         $n_sk = sprintf('%s.%s', $table, $name);
         if ($cl = igk_getv($this->m_Links, $n_sk)){
-            // update column fields
             foreach($cl as $r){
-                // update column fields
                 $info = $this->tables[$r->table];
                 $inf = igk_getv($info->columnInfo, $r->column);
                 if (!$inf){
@@ -104,9 +102,7 @@ class SchemaMigrationHookHandler{
         }
         $sk = sprintf('%s.%s', $table, $column);
         if ($cl = igk_getv($this->m_Links, $sk)){
-            // update column fields
             foreach($cl as $r){
-                // update column fields
                 $tb = $this->tables[$r->table]->columnInfo;
                 $tb[$r->column]->clLinkColumn = $name;
             }

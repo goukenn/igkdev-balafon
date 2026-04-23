@@ -1,7 +1,6 @@
 /*
 * igk.winui.controls
 */
-
 "uses strict";
 (function(){
 	igk.system.createNS("igk.winui.controls",
@@ -40,17 +39,14 @@
 					q.text = this.value;
 					//igk.show_prop(q.item); 
 					update();
-					
 				};		
 				function keypress(evt){
 					//to cancel
 					evt.preventDefault();
 					evt.stopPropagation();
 					igk.show_prop(evt); 
-					
 					q.text = this.value;
 					console.debug(q.text);
-					
 				};						
 				function updatedown(evt)
 				{
@@ -62,7 +58,6 @@
 							q.item.value = q.text;
 							q.item.selectionStart = 1;
 							q.item.selectionEnd = 1;
-							
 						}
 						evt.preventDefault();
 					}

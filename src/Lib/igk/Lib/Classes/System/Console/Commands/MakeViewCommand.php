@@ -12,6 +12,7 @@ use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
+
 /**
 * Make view command.
 * @package IGK\System\Console\Commands
@@ -116,7 +117,6 @@ class MakeViewCommand extends AppExecCommand
             };
         }
         $bind[$dir . "/{$viewname}"] = function ($file) use ($viewname, $author, $scaffold) {
-            // TODO : FROM Scaffold generate the base document 
             $src = $this->getInitViewContent($viewname, $scaffold);
             $builder = new PHPScriptBuilder();
             $ext = igk_io_path_ext($viewname);
@@ -173,7 +173,6 @@ class MakeViewCommand extends AppExecCommand
             if ($type == 'builder') {
                 return "\$builder([\"View : $viewname\"]);";
             } else {
-                // 
                 if ($builder = ViewHelper::GetViewScaffold($type)) {
                     return $builder->initView($viewname);
                 }

@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\IO\StringBuilder;
 use IGKObject;
+
 /**
 * html5 document helper
 * @package IGK\System\Html\Dom

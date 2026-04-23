@@ -1,14 +1,11 @@
 <?php
+
 $response = new InstallerResponse(); 
- 
 $corelib = igk_getr('corelib'); // library relative to home 
 $app_dir = igk_getr('app_dir'); // application dir relative to %home
 $root_dir = igk_getr('root_dir'); // public dir relative to %home
 $site_dir = igk_getr('site_dir');
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
-
-
-
 $app_dir."/Lib/igk/igk_framework.php";
 $target = $home."/".ltrim(igk_getr("target") ?? "", "/");
 $dir = $home."/".ltrim(igk_getr("dir") ?? "", "/");
@@ -33,4 +30,3 @@ $response->response(json_encode(
         "target"=>$target
     ]
 , JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), "application/json");
-

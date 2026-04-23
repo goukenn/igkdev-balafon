@@ -3,6 +3,7 @@
 // @file: ControllerParams.php
 // @date: 20230520 20:08:50
 namespace IGK\Controllers;
+
 /**
 * auto generate doc.
 * @package IGK\Controllers

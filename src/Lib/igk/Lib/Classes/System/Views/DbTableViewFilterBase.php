@@ -4,6 +4,7 @@
 // @date: 20220704 11:25:47
 // @desc: 
 namespace IGK\System\Views;
+
 /**
 * Db table view filter base.
 * @package IGK\System\Views

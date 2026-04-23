@@ -13,6 +13,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArrayResolver;
 use IGKSorter;
 use IGK\IQueryResult;
+
 /**
  * Represent MySQL Query result wrapper
  */
@@ -129,7 +130,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $this->m_result = 0;
         $this->m_multitable = false;
     }
-    ///retult of the query  uses for boolean data
     /**
     * auto generate doc.
     */
@@ -137,9 +137,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return "IGKMySQLQueryResult [RowCount: " . $this->RowCount . "]";
     }
-    ///be aware: don't make call to !== it make bit exhausted
-    ///<summary>add a row to query result</summary>
-    ///<remark>if build in query result . that will be a copy of the rows</remark>
     /**
      * add a row to query result
      */
@@ -162,7 +159,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
             igk_wln_e("row not added " . $this->m_fieldcount . " isarray?" . is_array($row) . " || iscount? :: " . count($row) . " == " . $this->m_fieldcount);
         }
     }
-    ///<summary>create a empty result from result type</summary>
     /**
      * create a empty result from result type
      */
@@ -176,8 +172,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $out->m_query = 'Empty';
         return $out;
     }
-    ///<summary>create a result data</summary>
-    ///<param name="options">callback or igk_db_create_opt_obj()</param>
     /**
      * 
      * @param mixed options callback or igk_db_create_opt_obj()
@@ -260,7 +254,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $v_primkeyindex = count($prim_key) == 1 ? $prim_key[0]->index : null;
         $callback = is_callable($options) ? $options : igk_getv($options, self::CALLBACK_OPTS);
         $_nn = (igk_count($out->m_tables) > 1);
-        // igk_debug_wln_e("getin ...", $query, $callback);
         $c = 0;
         while ($d = igk_db_fetch_row($dbresult)) {
             $t = array();
@@ -279,7 +272,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
             if ($callback) {
                 if (!($v_rp = $callback($obj, $v_primkey, $v_index, $out->m_rows))) {
                     if (is_null($v_rp)) {
-                        // stop fetching
                         break;
                     }
                     continue;
@@ -304,7 +296,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $out->m_multitable = $_nn;
         return $out;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -312,8 +303,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return igk_count($this->m_columns);
     }
-    ///<summary></summary>
-    ///<param name="columnname"></param>
     /**
     * auto generate doc.
     * @param mixed $columnname
@@ -325,7 +314,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
         return -1;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -333,7 +321,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_columns;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -341,7 +328,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return ($this->getRowCount() > 0);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -349,7 +335,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_query;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -360,7 +345,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
         return false;
     }
-    ///<summary>get the type of result. boolean|numeric|db_result</summary>
     /**
      * get the type of result. boolean|numeric|db_result
      */
@@ -368,8 +352,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_type;
     }
-    ///<summary></summary>
-    ///<param name="index"></param>
     /**
     * auto generate doc.
     * @param mixed $index
@@ -390,8 +372,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
             $f["info"]["sourcetable"] = $this->m_columns[0]->table;
         return $f;
     }
-    ///<summary></summary>
-    ///<param name="index"></param>
     /**
     * auto generate doc.
     * @param mixed $index
@@ -403,7 +383,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
         return null;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -411,7 +390,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return igk_count($this->m_rows);
     }
-    ///<summary></summary>
     /**
      * retrieve loaded rows
      */
@@ -419,7 +397,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_rows;
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -427,7 +404,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
     }
-    ///<summary></summary>
     /**
     * auto generate doc.
     */
@@ -435,7 +411,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_tables;
     }
-    ///<summary>get the request value</summary>
     /**
      * get the request value
      */
@@ -443,7 +418,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->m_value;
     }
-    ///<param name="equalsTab">array for searching </param>
     /**
     * auto generate doc.
     * @param mixed $equalsTab array for searching
@@ -470,8 +444,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
             return null;
         return $t;
     }
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * auto generate doc.
     * @param mixed $callback
@@ -489,10 +461,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
         return $result;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="asc" default="true"></param>
-    ///<param name="preserveid" default="true"></param>
     /**
     * auto generate doc.
     * @param mixed $preserveid the default value is true
@@ -501,8 +469,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     {
         return $this->SortValueBy($key, $asc, null, $preserveid);
     }
-    ///<summary>sort result </summary>
-    ///<param name="key">mixed. callback | key to sor </param>
     /**
      * sort result
      */

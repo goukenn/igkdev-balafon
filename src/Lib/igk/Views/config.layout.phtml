@@ -7,14 +7,11 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Configuration\Controllers\ConfigureLayout;
-
 use function igk_resources_gets as __;
 
 igk_require_module('igk\\Google', null, 0, 0); 
 igk_require_module('igk\\bootstrap', null,0, 0);
-
 if (function_exists('igk_google_addfont')){
     igk_google_addfont($doc, "Roboto"); 
     igk_google_addfont($doc, "Material+Icons", "400"); 
@@ -28,37 +25,27 @@ __("Your BALAFON web App - admin dashboard"),
 if (igk_environment()->isDev() && (igk_env_count(__FILE__)>1)){
     igk_dev_wln_e("config layout call twice");
 }
-
 /**
  * @var object $t target node
  */
-
-
 $layout = new ConfigureLayout($ctrl);
 $confframe=$ctrl->getConfigFrame(); 
 ($cl=$t["class"]) && $cl->clear();
 $t["class"]="igk-cnf-page"; 
 $t->div()
 ->setClass("conf-header-bar")->host([$layout, "configBar"]);
-
-// CNF header 
 $h = $t->div()->setClass("igk-cnf-header header");
 $navbtn=$h->addToggleButton();
 $navbtn->Target="#mob-menu";
 $navbtn->setClass("igk-xsm-sm-only floatr");
 $navbtn->ClassProperty="posab igk-col-sm-3-2";
 $navbtn->usesvg("menu")->bar(3);
-
 $android_menu=$h->div();
 $android_menu->setId("mob-menu");
 $android_menu["class"]="igk-mob-opts igk-xsm-sm-only";
 $android_menu["igk-data-menu"]=1;
 $android_menu["igk-data-menu-binding"]="#igk-cnf-menu";
-// $h->addClearBoth();
-
 $c = $t->section()->setClass("igk-cnf-section section"); 
 $c->add($confframe);
-// $t->addClearBoth();
-
 $t->div()->setClass("igk-cnf-footer")
 ->container()->addRow()->addCol("igk-col-3-3")->div()->setClass('copyright')->Content=IGK_COPYRIGHT;

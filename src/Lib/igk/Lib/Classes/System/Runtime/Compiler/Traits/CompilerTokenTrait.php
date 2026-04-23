@@ -4,6 +4,7 @@
 // @date: 20221019 16:13:42
 namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Traits
@@ -70,7 +71,6 @@ trait CompilerTokenTrait{
         $g = new ReadTokenOptions;    
         $g->mergeVariable = $this->mergeVariable;
         $g->noComment  = $this->noComment;
-        // igk_debug_wln_e("no comment", $this->noComment);
         return $g;
     }
     /**
@@ -78,9 +78,7 @@ trait CompilerTokenTrait{
     * @param mixed $options
     */
     protected function endHandleToken($options){
-        // check that buffer is empty
         if (count($options->buffers)!=0){         
-           // igk_dev_wln_e("compilation failed: ", __FILE__.":".__LINE__, "buffers is not empty");
         }
     }
 }

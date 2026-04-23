@@ -10,6 +10,7 @@ use IGK\System\Database\SchemaBuilderHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
+
 require_once IGK_LIB_CLASSES_DIR . '/System/Database/SchemaBuilderHelper.php';
 /**
  * schema migration builder
@@ -108,7 +109,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         $g = $this->m_table->add(IGK_GEN_COLUMS);
         $g['name'] = __FUNCTION__;
-        $g['prefix'] = $this->getPrefixTable('');//$this->getPrefix();
+        $g['prefix'] = $this->getPrefixTable('');
         return $this; 
     }
     /**

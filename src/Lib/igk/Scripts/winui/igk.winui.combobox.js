@@ -1,6 +1,4 @@
 "use strict";
-
-
 (function(){
 	function combobox(q){
 		var _sindex = -1;		
@@ -21,7 +19,6 @@
 				_strict = _options.strict || !0;
 				_search_on = _options.search_on || _search_on;
 			}
-			
 			function _showOption(ul){
 				ul.setCss({
 					display: ''});
@@ -55,7 +52,6 @@
 					rg.lastIndex = 0; 
 				}
 			}
-			
 			if (this.o.tagName.toLowerCase() == 'select'){
 				var d = igk.createNode("div"); 
 				i = d.add("input");
@@ -69,7 +65,6 @@
 					width: '100%',
 					overflowX:'hidden',
 					position:'absolute'});
-					
 				igk.dom.copyAttributes(this.o, i.o); 
 				i.setAttribute("autocomplete", "off");
 				// init input 
@@ -77,8 +72,6 @@
 					_showOption(ul);
 					_slitems.length = 0;
 					_FillOption(i, items);				
-					
-					
 				}).on("change", function(e){
 					if (_cancelchange)
 						return; 
@@ -114,7 +107,6 @@
 								_select(_slitems[_slindex]);
 							}
 							p=1;
-							
 						} else if (code == igk.winui.inputKeys.Up){
 							_slindex = Math.max(_slindex-1, 0);
 							if (_slindex>=0){
@@ -134,7 +126,6 @@
 					if (_slitems.length > 0){
 						list = _slitems;
 					}
-					
 					var rg = new RegExp(i.o.value, "ig");
 					for(var ii = 0; ii< list.length; ii++){
 						if (rg.test( igk.toStr(list[ii].getAttribute(_search_on)))){
@@ -168,8 +159,6 @@
 						_select(c.o); 
 					}
 				}
-				
-				
 				ul.select(">li").on("click", function(e){ 
 					_hideOption(ul);
 					var li = e.target;
@@ -183,13 +172,10 @@
 				}).on("mouseup", function(e){
 					_cancelchange = !1;
 				});
-				
 				this.o.parentNode.replaceChild(d.o, this.o);
 				this.setCss({display:'none'});
-				
 				ul.setCss({display: 'none', 
 				position:'absolute'}); 
 			}
-			
 		}, {}); 
 })();

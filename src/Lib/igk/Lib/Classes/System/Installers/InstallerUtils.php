@@ -1,9 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// desc: installer utility class helper
 namespace IGK\System\Installers;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+
 /**
 * Installer utils.
 * @package IGK\System\Installers

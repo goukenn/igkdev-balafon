@@ -20,6 +20,7 @@ use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 use IGK\System\Number;
 use IGKEnvironmentConstants;
 use function igk_resources_gets as __;
+
 /**
  * default form builder
  * @package IGK\System\Html
@@ -89,7 +90,6 @@ class FormBuilder
                 if (!$clean)
                     break;
             } else {
-                // clean
                 if ($clean) {
                     unset($attr[$m]);
                 }
@@ -196,9 +196,6 @@ class FormBuilder
             if ($_class_name = igk_getv($v, 'class_name')) {
                 unset($v['class_name']);
             }
-            // if ($_attribs = igk_getv($v, 'attribs')) {
-            //     unset($v['attribs']);
-            // }
             // + | --------------------------------------------------------------------
             // + | handle special type 
             // + |
@@ -240,7 +237,7 @@ class FormBuilder
             }
             $_name = "";
             if (isset($v["name"])) {
-                $_name = " name=\"" . $v["name"] . "\""; // name=\"{$k}\" ";
+                $_name = " name=\"" . $v["name"] . "\""; 
             } else {
                 $_name = " name=\"{$k}\"";
             }
@@ -268,7 +265,6 @@ class FormBuilder
             if ($bind_class_name) {
                 $class_style .= ' ' . $bind_class_name;
             } else {
-                // class name 
                 $class_style .= ' ' . igk_css_str2class_name(strtolower($k));
             }
             if ($_is_div) {
@@ -292,8 +288,6 @@ class FormBuilder
             }
             // + | component 
             if ($component = igk_getv($v, 'component')) {
-                // inject component
-                // priority 
                 if (!is_array($component)) {
                     $component = [$component];
                 }
@@ -353,9 +347,6 @@ class FormBuilder
                             $k_data = "data=\"" . $m_data . "\" ";
                         }
                         $_id = ' id="' . $t_id . '"';
-                        // if ($bas){
-                        //     $k_data.= "selected=\"{$bas}\" ";
-                        // }
                         $o .= "<select" . $_name . $_id . $k_data . " ";
                         $load_attr($v, $o);
                         $o .= ">";
@@ -392,11 +383,9 @@ class FormBuilder
                     case formTypes::File:
                     default:
                         $_activate = [];
-                        // $_vt = "";
                         if (!empty($_value) || ($_value == "0")) {
                             $v['value'] = $_value;
                         }
-                        // $_vt = "value=\"{$_value}\"";
                         $_otype = igk_getv($ResolvType, $_type, "text");
                         $def_type = igk_getv($ResolvClass, $_type, $_type);
                         if ($v_error) {
@@ -490,7 +479,6 @@ class FormBuilder
         foreach ($formFields as $k => $v) {
             if (is_integer($k)) {
                 if ($v == "-") {
-                    // add separator
                     $o .= "<div class=\"igk-separator\"></div>";
                     continue;
                 }
@@ -509,7 +497,6 @@ class FormBuilder
                         $o .= $v->render();
                         continue;
                     }
-                    // igk_wln($k, $v);
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
                 }
             } else if (is_string($v)) {
@@ -529,7 +516,6 @@ class FormBuilder
                         for ($i = 0; $i < $ct; $i++) {
                             $b = igk_getv($v, $i);
                             if (!$b || ($b instanceof FormFieldAttribute)) {
-                                //$b->attribs;
                                 continue;
                             }
                             $b['id'] = $name . str_pad($jc . '', 2, STR_PAD_LEFT, '0');
@@ -646,7 +632,7 @@ class FormBuilder
         $k = ['t', 'label'];
         $a1 = $getv($a, $k);
         $b1 = $getv($b, $k);
-        return strcmp($a1, $b1); // igk_getv($a, 't'), igk_getv($b, 't'));
+        return strcmp($a1, $b1); 
     }
     /**
      * get retrieve value data
@@ -716,11 +702,7 @@ class FormBuilder
             self::_LoadClassDefinition($tm, $arg);
         }
         self::_LoadAttributes($o, $tm);
-        // if ($_closed) {
-        //     $o .= "</button>";
-        // } else {
         $o .= '/>';
-        // }
     }
     /**
      * load class definition 
@@ -740,7 +722,6 @@ class FormBuilder
                 unset($arg[$ck]);
             }
         }
-        // update merged attribes
         $tm = array_merge($tm, $arg);
     }
     /**
@@ -758,11 +739,7 @@ class FormBuilder
             self::_LoadClassDefinition($tm, $arg);
         }
         self::_LoadAttributes($o, $tm);
-        // if ($_closed) {
-        //     $o .= "</button>";
-        // } else {
         $o .= '/>';
-        // }
     }
     /**
      * load html definition attributes

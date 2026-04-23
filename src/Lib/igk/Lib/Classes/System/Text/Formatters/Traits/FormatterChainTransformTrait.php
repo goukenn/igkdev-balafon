@@ -4,6 +4,7 @@
 // @date: 20250807 11:27:07
 namespace IGK\System\Text\Formatters\Traits;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text\Formatters\Traits
@@ -58,12 +59,10 @@ trait FormatterChainTransformTrait{
      * @return mixed 
      */
     public function chainTransfrom(RegexMatcherContainer $regex, array $patterns, string $v) {  
-      //  return $v; 
         $state = $this->saveState($regex);         
         $this->clearFlags(); 
         $this->m_chain_logic = [];
         $this->bind = [];
-        // $this->m_depth = 0;
         $this->m_sub  = [];
         $this->m_sb->clear();
         $this->m_split_node = null;

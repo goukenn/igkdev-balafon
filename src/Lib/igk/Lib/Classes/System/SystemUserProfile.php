@@ -8,6 +8,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
+
 /**
  * represent user profile
  * @package IGK\System
@@ -90,7 +91,6 @@ abstract class SystemUserProfile implements IUserProfile
             igk_die('not allowed to create user profile');
         $c = Activator::CreateNewInstance(function () use ($userInfo, $controller) {
             return static::_CreateClassInstance($userInfo->model(), $controller);
-            //return new static;
         }, $userInfo->to_array());
         $c->m_profile = $userInfo;
         $c->m_model = $userInfo->model();

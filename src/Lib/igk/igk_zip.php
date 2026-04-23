@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
@@ -15,7 +14,6 @@ use IGK\System\IO\Path;
 if (!in_array("zip", get_loaded_extensions(false))){
     return;
 }  
-
 /**
  * zip content
  * @param string $temp_file 
@@ -37,7 +35,6 @@ function igk_zip_content(string $temp_file, string $name, string $content, $clos
     }
     return $zip;
 }
-
 /**
 * Igk zip create dir.
 * @param mixed $outdir
@@ -56,7 +53,6 @@ function igk_zip_create_dir($outdir, $name){
         }
     }
 }
-
 /**
 * Igk zip create file.
 * @param mixed $file
@@ -74,7 +70,6 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     }
     return true;
 }
-
 /**
 * Igk zip delete.
 * @param mixed $file
@@ -86,7 +81,6 @@ function igk_zip_delete($file, $entry, $close=1){
         return 0;
     $zip=new ZipArchive();
     if($zip->open($file, ZIPARCHIVE::CREATE)!==true){
-        // $zip->close();
         return 0;
     }
     $r=$zip->deleteName($entry);
@@ -109,7 +103,6 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
     $q=0;
     $tab=is_array($dir) ? $dir: array($dir);
     $files = [];
-    
     while(count($tab)>0){
         $q=array_pop($tab);
         if (!$q){
@@ -125,7 +118,6 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
                 if( (($v_isfolder = ($d == ".") || ($d == ".."))) || ($v_is_dir = (($d[0]=='.') && is_dir($f)) ) || is_link($f)){
                     // + ingore dir start start with '.'
                     if ($v_isfolder || !($v_is_dir && $allow_hidden_dir)){
-                        
                         continue;
                     } 
                 }
@@ -183,7 +175,6 @@ function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
     }
     return array("count"=>$count, "files"=>$files);
 }
-
 /**
 * Igk zip folder.
 * @param mixed $outfile
@@ -217,7 +208,6 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     }
     return false;
 }
-
 /**
 * Igk zip module.
 * @param mixed $outf
@@ -225,7 +215,6 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
 function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
 }
-
 /**
 * auto generate doc.
 * @param string|callable|mixed $entry
@@ -244,7 +233,6 @@ function igk_zip_unzip($file, $outdir, $entry=null){
                 continue;
             }
             if (substr($n, -1) == '/'){
-                // directory 
                 if (!isset($dirs[$n])){
                     $dirs[$n] = 1;
                     IO::CreateDir(Path::Combine($outdir, $n));
@@ -263,7 +251,6 @@ function igk_zip_unzip($file, $outdir, $entry=null){
     }
     return false; 
 }
-
 /**
 * Igk zip unzip callback.
 * @param mixed $zipfile
@@ -272,7 +259,6 @@ function igk_zip_unzip($file, $outdir, $entry=null){
 function igk_zip_unzip_callback($zipfile, $callback){
     igk_die('not implement');
 }
-
 /**
 * Igk zip unzip entry.
 * @param mixed $f
@@ -327,5 +313,4 @@ function igk_zip_unzip_filecontent(string $zipfile, string $name){
  */
 function igk_zip_unzip_to(string $file, string $outdir){
     return igk_zip_unzip($file, $outdir);
-  
 }

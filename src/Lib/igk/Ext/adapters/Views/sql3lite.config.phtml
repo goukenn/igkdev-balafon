@@ -7,12 +7,11 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use function igk_resources_gets as __;
+
 $t->clearChilds();
 $box = $t->addPanelBox();
 $box->addH1()->Content=__("SQL3Lite Management");
-
 $frm= $box->div()->addForm();
 $frm->addNotifyHost();
 igk_html_form_initfield($frm);

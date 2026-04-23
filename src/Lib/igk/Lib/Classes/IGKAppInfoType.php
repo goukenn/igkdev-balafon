@@ -3,6 +3,7 @@
 // @filename: IGKAppInfoType.php
 // @date: 20220901 07:07:24
 // @desc:
+
 /**
 * Igkapp info type.
 */

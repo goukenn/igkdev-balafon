@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ClassVersionLoaderTraitTest.php
 // @date: 20220909 09:38:33
 // @desc: 
 namespace IGK\Test;
-
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Test
 */
 class ClassVersionLoaderTraitTest extends BaseTestCase{
-
     /**
     * Tests load diff version.
     */
@@ -23,7 +20,6 @@ class ClassVersionLoaderTraitTest extends BaseTestCase{
         $loader->registerClass("/temp/dummy.7.3.php", "dummy", "7");
         $loader->registerClass("/temp/dummy.7.4.php", "dummy", "7.4");
         $loader->registerClass("/temp/dummy.php", "dummy", "");
-      
         $this->assertEquals(
             "/temp/dummy.7.3.php",
             $loader->getRegisterClass("dummy", "7.3-malachi"),
@@ -41,7 +37,6 @@ class ClassVersionLoaderTraitTest extends BaseTestCase{
         );
     }
 }
-
 /**
 * Dummy class version loader.
 * @package IGK\Test

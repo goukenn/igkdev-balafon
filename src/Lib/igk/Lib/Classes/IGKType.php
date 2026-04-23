@@ -6,6 +6,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGK\System\IInjectable;
+
 /**
  * manage type helper 
  * @package 
@@ -57,7 +58,6 @@ class IGKType{
     * @return mixed
     */
     public static function GetName(ReflectionType $t){
-        //+ work arround to avoid getName not implement in php 7.+ 8.0
         if (method_exists($t, $fc = "getName")){
             return $t->$fc();
         }                

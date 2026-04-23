@@ -3,7 +3,6 @@
 // @filename: class.IGKProductViewCtrl.php
 // @date: 20220803 13:48:58
 // @desc:
-
 use IGK\Controllers\BaseController;
 
 /**
@@ -17,7 +16,6 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	 * @return string
 	 */
 	public function getName(): string{return get_class($this);}
-
 	/**
 	 * Return additional configuration info (none for this controller).
 	 *
@@ -27,7 +25,6 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return null;
 	}
-
 	/**
 	 * Return whether this controller can accept child controllers.
 	 *
@@ -36,7 +33,6 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getCanAddChild(){
 		return false;
 	}
-
 	/**
 	 * Render the default product view form into the target node.
 	 *
@@ -53,16 +49,9 @@ abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		$lb->Content = "";
 		$sl = $frm->add("select");
 		$sl->option()->Content = "No product types loaded - override the view to get product list ";
-		// $tb =  $igkproducttype->getDbEntries();
-		// if ($tb)
-		// foreach($tb->Rows as  $v)
-		// {
-		// 	$sl->add("options")->Content = $v->clName;
-		// }
 		$t->div();
 		return $this;
 	}
-
 	/**
 	 * Return additional product information (to be overridden by subclasses).
 	 *

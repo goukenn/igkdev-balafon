@@ -7,6 +7,7 @@ namespace IGK;
 use IGK\Database\IDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
 use IGK\System\Html\Dom\HtmlNode;
+
 /**
 * auto generate doc.
 * @package 1
@@ -158,7 +159,6 @@ interface IDbModel{
     */
     function getTable();
 }
-///<note>all id are mixed of string or array properties</summary>
 /**
 * engine form builder interface
 */

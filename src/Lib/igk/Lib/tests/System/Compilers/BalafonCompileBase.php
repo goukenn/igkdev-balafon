@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BalafonCompileTest.php
 // @date: 20220830 17:44:36
 // @desc: 
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/tests/System/Compilers/BalafonCompileTest.php
 namespace IGK\Tests\System\Compilers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
@@ -29,20 +26,17 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 use IGKException;
 
-
 /**
  * test compiler ... 
  * @package IGK\Tests\System\Compilers
  */
 abstract class BalafonCompileBase extends BaseTestCase
 {
-
     /**
     * Path to tempdir.
     * @var mixed
     */
     protected static $sm_tempdir;
-
     /**
     * Tears down shared resources after all tests.
     * @return void
@@ -51,7 +45,6 @@ abstract class BalafonCompileBase extends BaseTestCase
     {
         IO::RmDir(self::$sm_tempdir);
     }
-
     /**
     * Sets up shared resources before all tests.
     * @return void

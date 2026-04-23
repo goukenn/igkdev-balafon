@@ -7,6 +7,7 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlUtils;
 use IGK\ValueListener;
 use IGKViewMode;
+
 /**
 * Represent IGKHtmlArticleConfigNode class
 */

@@ -8,6 +8,7 @@ use IGK\Models\PhoneBookTypes;
 use IGK\System\Constants\PhonebookTypeNames; 
 use IGK\System\Database\InitBase;
 use IGK\System\WinUI\LayoutRules;
+
 /**
 * Init data.
 * @package IGK\Database
@@ -25,7 +26,6 @@ class InitData extends InitBase{
 				PhoneBookTypes::FD_CARDINALITY=>0
 			]);
 		}
-		// init layout rules 
 		foreach(
 			igk_get_class_constants(LayoutRules::class) 
 		as $k=>$v){

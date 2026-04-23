@@ -11,6 +11,7 @@ use IGK\Services\IAppServiceContainer;
 use IGK\System\Core\ListOfCoreServices;
 use IGK\System\DependencyInjection\LifeTime;
 use function igk_resources_gets as __;
+
 require_once __DIR__ . "/IService.php";
 /**
 * Igkservices.
@@ -78,10 +79,6 @@ class IGKServices extends ListOfCoreServices
     {
         return igk_configs()->get('service_configuration_file') ?? igk_io_sys_datadir() . '/services.php';
     }
-    // private $changed;
-    // public static function FileCache(){
-    //     return igk_io_cachedir()."/.services.cache";
-    // }
     /**
     * Magic getter for dynamic properties.
     * @param mixed $name
@@ -132,7 +129,6 @@ class IGKServices extends ListOfCoreServices
         $v_transient = false;
         if ($l){
             if (!($v_isn = igk_getv($i->m_transients, $serviceName))){
-                // just return a sigleton value
                 return $l;
             }
             $v_transient = true;
@@ -273,9 +269,6 @@ class IGKServices extends ListOfCoreServices
         }
         $v_refcl = igk_sys_reflect_class($className);        
         $cl = self::CreateServiceNewInstance($v_refcl, $args);       
-        // $parameters = $v_refcl->getConstructor()->getParameters();        
-        // $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $args ?? []);        
-        // $cl = $v_refcl->newInstanceArgs($arguments);
         $initializing[$className] = $cl;
         $cnf = self::_GetFallingConfiguration($configuration, $gkey);
         if ($cl->init($cnf)){

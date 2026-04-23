@@ -3,6 +3,7 @@
 // @file: ControllerSysKeyConstants.php
 // @date: 20260117 14:20:52
 namespace IGK\System\Controllers;
+
 /**
 * auto generate doc.
 * @package IGK\System\Controllers

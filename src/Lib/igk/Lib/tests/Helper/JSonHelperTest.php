@@ -2,9 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: JSonHelperTest.php
 // @date: 20230209 09:16:58
-// phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/Helper/JSonHelperTest.php
 namespace IGK\Tests\Helper;
-
 use IGK\Helper\JSon;
 use IGK\Tests\BaseTestCase;
 
@@ -14,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 */
 class JSonHelperTest extends BaseTestCase
 {
-
     /**
     * Tests render.
     */
@@ -27,7 +24,6 @@ class JSonHelperTest extends BaseTestCase
             JSon::Encode($m, (object)["ignore_empty" => true])
         );
     }
-
     /**
     * Tests encoding with null.
     */
@@ -43,13 +39,11 @@ class JSonHelperTest extends BaseTestCase
                 't' => 7
             ]
         ]; 
-    
         $this->assertEquals(
             '{"0":{"x":10},"plan":{"t":7}}', 
             JSon::Encode($d, (object)["ignore_empty" => true])
         ); 
     }
-
     /**
     * Tests encoding with db cache.
     */
@@ -57,7 +51,6 @@ class JSonHelperTest extends BaseTestCase
     {
         $d = [
             ["MYSQL"=>[
-
                 (object)["clName" => "clId",
                 "clAutoIncrement" => null
                 ]

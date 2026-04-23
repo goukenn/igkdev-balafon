@@ -6,6 +6,7 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\LinePrefixMapper;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
@@ -72,7 +73,6 @@ class ReadTokenUtility
                 }
                 $src = '';
                 $src .= sprintf("%s", implode(" ", [
-                    // implode(" ", $k->modifiers),
                     $prefix . $name
                 ]));
                 if (!empty($d) || is_numeric($d)) {
@@ -122,7 +122,6 @@ class ReadTokenUtility
                     $sb->appendLine(sprintf("%s", $src));
                     continue;
                 }
-                // because class can't be decalared for multiple evaluation need to protect
                 switch ($tm->type) {
                     case "class":
                         $sb->appendLine(sprintf("if (!class_exists(%s::class)){\n%s\n}", $tm->name, $src) . "\n");

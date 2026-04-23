@@ -8,13 +8,11 @@
 * Igkbilling constants.
 */
 abstract class IGKBillingConstants {
-
     /**
     * Constant: bill ctrl.
     * @var mixed
     */
     const BILL_CTRL = '{7e25de54-698b-cdbb-d8cb-979acda1e3fb}';
-
     /**
     * Constant: bill detail ctrl.
     * @var mixed

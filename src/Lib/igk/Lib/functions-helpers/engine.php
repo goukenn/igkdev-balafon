@@ -1,6 +1,4 @@
 <?php
-
-
 use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\Core\EngineReadArgs;
@@ -22,15 +20,11 @@ function igk_engine_get_attr_arg(string $s, $context = null)
         $__g_context['context'] = $context;
     }
     $c = new EngineReadArgs($__g_context);
-    $tb = igk_engine_read_args($s, $c); // $__g_context);
+    $tb = igk_engine_read_args($s, $c); 
     if ((count($tb) == 0) || !is_object($context)) {
         return $tb;
     }
     $m = null;
-    // if ($context && (is_object($context) || is_array($context))) {
-    //     $__g_context = (array)$context;
-        // extract($__g_context);
-        // unset($__g_context);
         $cs = array_keys((array)$context);
         $m = igk_str_join_tab(array_values($cs), '|', false);
         // + | detect param context entry exprexssion - expression 
@@ -46,12 +40,11 @@ function igk_engine_get_attr_arg(string $s, $context = null)
             extract(func_get_arg(1) ?? []);
             return @eval (func_get_arg(0));
         };
-        // for ($k = 0; $k < igk_count($tb); $k++) {
         foreach ($tb as $k => $v) {
             if (is_null($v) || is_object($v)) {
                 continue;
             }
-            $mk = trim($v); //$tb[$k]);
+            $mk = trim($v); 
             if (preg_match_all($rgx, $mk, $stt)) {
                 $n = $stt['name'][0];
                 $d = $stt['data'][0];
@@ -73,7 +66,6 @@ function igk_engine_get_attr_arg(string $s, $context = null)
                     $tb[$k] = $v_fc_eval($v_src, $__g_context);  
                 }
                 else if (preg_match('/^(\[|array\s*\()/i', $mk)) {
-                    // array detection mark 
                     if ($gc = $v_fc_eval("return " . $mk . ";", $__g_context)) {
                         $tb[$k] = $gc;
                     } else {
@@ -83,10 +75,8 @@ function igk_engine_get_attr_arg(string $s, $context = null)
                 }
             }
         }
-    //}
     return $tb;
 }
-
 /**
  * retrieve argument splitting
  */
@@ -134,7 +124,6 @@ function igk_engine_read_args($s, $engineReader=null)
                 break;
             case "[":
                 $v_bind_arg(igk_str_read_brank($s, $c, "]", "["));
-
                 break;
             case ",":
                 if (strlen($v = trim($v))) {
@@ -146,7 +135,6 @@ function igk_engine_read_args($s, $engineReader=null)
             case '=':
                 $v = trim($v);
                 if (strlen($v) > 0) {
-                    // affectation to key name 
                     $v_key = $v;
                 }
                 $v = '';
@@ -163,7 +151,6 @@ function igk_engine_read_args($s, $engineReader=null)
     }
     return $args;
 }
-
 /**
  * transform treat args
  */
@@ -174,8 +161,6 @@ function igk_engine_treat_arg($v)
     }
     return $v;
 }
-
-
 /**
  * get tempory binding attributes
  * @param mixed $reader 
@@ -186,11 +171,9 @@ function igk_engine_treat_arg($v)
  */
 function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null, $storecallback = null)
 {
-
     if ($context == null) {
         $context = $reader->context;
     }
-    //+ copy root content if exists
     $context = igk_get_attrib_raw_context($context);
     if ($context === null) {
         $context = "[context]::" . __FUNCTION__;
@@ -198,7 +181,6 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     $g = igk_get_template_bindingattributes();
     if (isset($g[$attr])) {
         $inf = $g[$attr];
-        // decode with entity - maybe expression
         $value = html_entity_decode($value);
         list($k, $v) = $inf($reader, $attr, $value, $context, $storecallback);
         if ($k && $v && $storecallback) {
@@ -208,7 +190,6 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     }
     return false;
 }
-
 /**
  * retrieve binding attribute info
  * @param mixed $context 
@@ -218,7 +199,6 @@ function igk_get_attrib_raw_context($context)
     // + | init root context if exists 
     $o = igk_get_article_root_context();
     if ($o == null) {
-        // no root context found - create a binding root info
         if ($context && !($context instanceof \IGK\System\Html\Templates\BindingContextInfo)) {
             return \IGK\Helper\Activator::CreateNewInstance(\IGK\System\Html\Templates\BindingContextInfo::class, $context);
         }
@@ -231,10 +211,9 @@ function igk_get_attrib_raw_context($context)
         if (is_array($context)) {
             $raw = igk_getv($context, "raw");
         }
-        // esle passing root context
     }
     if (is_array($o)) {
-        return ['raw' => $o]; //IGKRawDataBinding::Create($o);
+        return ['raw' => $o]; 
     }
     return [
         "raw" => $raw,
@@ -243,13 +222,11 @@ function igk_get_attrib_raw_context($context)
             "raw" => IGKRawDataBinding::Create($o->raw)
         ],
         "ctrl" => igk_getv($context, 'ctrl'),
-        "transformToEval" => igk_getv($context, 'transformToEval'), // $o->transformToEval,
+        "transformToEval" => igk_getv($context, 'transformToEval'), 
         "key" => igk_getv($context, 'key'),
         "type" => igk_getv($context, 'type'),
     ];
 }
-
-
 /**
  * get root data stored to article chain
  * @return ?object|array|mixed root context
@@ -274,7 +251,6 @@ function igk_get_article_chain()
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $f
@@ -307,10 +283,9 @@ function igk_push_article_chain(string $f, $context = null)
                 }
             }
         } else {
-            // TODO : fix logic
         }
     }
-    igk_set_env_array($key, new \IGK\System\Articles\ChainInfo($f, $ctx)); //  ["n" => $f, "data" => $ctx]);
+    igk_set_env_array($key, new \IGK\System\Articles\ChainInfo($f, $ctx)); 
 }
 /**
  * get template binding attribute
@@ -327,8 +302,6 @@ function igk_get_template_bindingattributes()
     }
     return $o;
 }
-
-///<param name="$callback">the callback</summary>
 /**
  * register template binding attributes
  * @param mixed $$name comma separated string of identifier for binding attribute
@@ -345,8 +318,6 @@ function igk_reg_template_bindingattributes($name, $callback)
     }
     igk_set_env($key, $g);
 }
-
-
 if (!function_exists('igk_engine_html_load_content')) {
     /**
      * helper: article bind content
@@ -361,7 +332,6 @@ if (!function_exists('igk_engine_html_load_content')) {
         HtmlEngineHelper::BindContent($node, $content, $args, $ctrl);
     }
 }
-
 if (!function_exists('igk_engine_eval')) {
     /**
      * helper: evaluate pipe expression in context defition 

@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Models\Macros;
 use IGK\System\Number;
+
 /**
 * Reference models macros.
 * @package IGK\Models\Macros

@@ -4,6 +4,7 @@
 // @date: 20220531 16:25:33
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
+
 /**
  * relation type
  * @package igk\db\schemaBuilder

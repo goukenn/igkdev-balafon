@@ -3,6 +3,7 @@
 // @file: PropertyMapper.php
 // @date: 20230120 22:09:22
 namespace IGK\Mapping;
+
 /**
 * auto generate doc.
 * @package IGK\Mapping

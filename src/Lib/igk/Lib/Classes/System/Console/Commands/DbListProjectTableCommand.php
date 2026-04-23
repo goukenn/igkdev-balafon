@@ -8,6 +8,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
+
 /**
 * Db list project table command.
 * @package IGK\System\Console\Commands
@@ -44,7 +45,6 @@ class DbListProjectTableCommand extends AppExecCommand{
     {
         if (is_null($controller)){
             $controller = '%sys%';
-            // igk_die("require project");
         }
         DbCommandHelper::Init($command);
         if (!($c = SysUtils::GetControllerByName($controller))) {

@@ -7,6 +7,7 @@
 // @package : IGK
 // @author : C.A.D. BONDJE DOUE
 namespace IGK\System\Configuration\Controllers;
+
 /**
 * a controller for configuration
 */

@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Core\EvalBinding;
 use IGK\System\DataArgs;
 use IGK\System\Dom\TemplateAttributeToEvalExpression;
@@ -17,23 +16,17 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\Templates\BindingPipeExpressionInfo;
 use PhpMyAdmin\Template;
-
 // +| definition of extra template depend on eval function 
-
 
 if (in_array('eval', explode(',', ini_get('disable_functions')))) {
     return;
 }
-
 if (!function_exists('igk_template_if_attrib_expression')) {
-
-
     /**
      * bind if attribute on loading
      */
     function igk_template_if_attrib_expression($readerInfo, $attr, $v, $context, $setattrib)
     {
-
         $g = (function () use ($readerInfo, $context, $setattrib, $attr) {
             if ((func_num_args() != 1) ||  !is_string(func_get_arg(0))) {
                 igk_die("argument script not valid");
@@ -46,18 +39,15 @@ if (!function_exists('igk_template_if_attrib_expression')) {
             if (isset($ctrl)) {
                 extract(igk_extract_context($ctrl));
             }
-
             $s = "return " . func_get_arg(0) . ";";
             $_v = (bool)eval($s);
             $readerInfo->skipcontent = !$_v;
             $readerInfo->operation = BindingConstants::OP_CONDITION;
-            // $setattrib("igk:isvisible", $_v);
             return null;
         })(HtmlUtils::GetAttributeValue($v, $context, true));
         return null;
     }
 }
-
 /**
 * Igk template update attrib expression.
 * @param mixed $n
@@ -80,7 +70,6 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $setattrib
@@ -98,7 +87,6 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $context
@@ -113,11 +101,9 @@ function igk_template_get_piped_value($rv, $context)
     $tv = trim($v);
     $info = BindingPipeExpressionInfo::ReadInfo($tv);
     if ($info["type"] == "litteral") {
-        // literal expression will be evaluate a lite
         $v = sprintf('"%s"', addslashes(igk_resources_gets($tv)));
     }
     try {
-
         list($transformToEval) = igk_extract($context, 'transformToEval');
         if ($transformToEval) {
             if ($pipe) {
@@ -126,7 +112,6 @@ function igk_template_get_piped_value($rv, $context)
                 $v = '<?= ' . $v . ' ?>';
             return $v;
         } else {
-
             if ($raw instanceof DataArgs) {
                 $tcontext = array_merge($raw->getData(), igk_to_array($context));
             }
@@ -140,11 +125,9 @@ function igk_template_get_piped_value($rv, $context)
         }
         throw $ex;
     }
-    // igk_debug_wln_e("pipe....");
     $v = igk_str_pipe_value($v, $pipe);
     return $v;
 }
-
 /**
 * auto generate doc.
 * @param mixed $setattrib
@@ -175,13 +158,10 @@ function igk_template_bind_eval_transform($rv, $attrname, $setattrib)
  */
 function igk_template_update_class_piped_expression($n, $attr, $v, $context, $setattrib)
 {
-
     $attrname = $attr;
     while ((strlen($attrname) > 0) && ($attrname[0] == "*"))
         $attrname = substr($attrname, 1);
-
     (function ($rv) use ($n, $context, $setattrib, $attrname) {
-
         if ($attrname == 'class') {
             if (ClassAttributeArrayValueEncoder::DetectArrayList($rv)) {
                 $b = new ClassAttributeArrayValueEncoder;
@@ -191,7 +171,6 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
                 }
             }
         }
-
         if (!is_string($context) && igk_getv($context, 'transformToEval')) {
             if ($rv) {
                 igk_template_bind_eval_transform($rv, $attrname, $setattrib);
@@ -215,10 +194,6 @@ function igk_template_update_class_piped_expression($n, $attr, $v, $context, $se
         return null;
     })(HtmlUtils::GetAttributeValue($v, $context, true));
 }
-
-// * --------------------------------------------------------------------------------------
-// for loop : *for
-// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*for", function ($reader, $attr, $v, $context, $setattrib) {
     $g = (function ($script) use ($context) {
         if (!is_string($context) && igk_getv($context, 'transformToEval')) {
@@ -244,10 +219,6 @@ igk_reg_template_bindingattributes("*for", function ($reader, $attr, $v, $contex
     ]);
     return null;
 });
-
-// * --------------------------------------------------------------------------------------
-// for define : *class
-// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*classes", function ($n, $attr, $v, $context, $setattrib) {
     $g = (function ($rv) use ($n, $context, $setattrib) {
         extract(igk_to_array($context));
@@ -284,15 +255,8 @@ igk_reg_template_bindingattributes("*href", function ($n, $attrname, $v, $contex
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 });
-// * --------------------------------------------------------------------------------------
-// for define : *visible
-// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*visible", 'igk_template_if_attrib_expression');
-// * --------------------------------------------------------------------------------------
-// for define : *if
-// * --------------------------------------------------------------------------------------
 igk_reg_template_bindingattributes("*if", 'igk_template_if_attrib_expression');
-
 igk_reg_template_bindingattributes("**", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*value", 'igk_template_update_attrib_piped_expression');
 igk_reg_template_bindingattributes("*title", 'igk_template_update_attrib_piped_expression');
@@ -301,7 +265,6 @@ igk_reg_template_bindingattributes("*action", 'igk_template_update_attrib_piped_
 igk_reg_template_bindingattributes("*class", 'igk_template_update_class_piped_expression');
 igk_reg_template_bindingattributes("*style", 'igk_template_update_style_piped_expression');
 igk_reg_template_bindingattributes("*placeholder", 'igk_template_update_attrib_piped_expression');
-
 // + | template-attr
 igk_reg_template_bindingattributes(IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR, function ($n, $attrname, $v, $context, $setattrib, $m = null) {
     $setattrib($attrname, null);
@@ -316,7 +279,6 @@ igk_reg_template_bindingattributes(IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR, function (
     $key = igk_getv($context, 'key');
     $raw = igk_getv($root_context->raw, $key ?? 0);
     $ctrl = $root_context->ctrl;
-
     $b = (function () {
         extract(igk_to_array(func_get_arg(1)));
         return @eval("return " . func_get_arg(0) . ";");
@@ -324,7 +286,6 @@ igk_reg_template_bindingattributes(IGK_ENGINE_ATTR_TEMPLATE_REF_ATTR, function (
     $setattrib($v_tnode, $b);
     return $v;
 });
-
 igk_reg_template_bindingattributes("*template-attr", function () {
     throw new \Exception("template-attr not implement");
 });

@@ -3,7 +3,6 @@
 // @filename: .InitDataSchemaController.pinc
 // @date: 20220803 13:51:47
 // @desc: 
-
 namespace IGK\System\Console\Commands;
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Configuration\Controllers\ConfigureController;
@@ -13,7 +12,6 @@ use IGK\System\Configuration\Controllers\ConfigureController;
  * @package IGK\System\Console\Commands
  */
 class InitDataSchemaController extends NonVisibleControllerBase{
- 
     protected function getDataSchemaFile(){
         return ConfigureController::ctrl()->getDataSchemaFile();
     }

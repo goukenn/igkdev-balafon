@@ -7,6 +7,7 @@ use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGK\Constants;
 use IGKException;
+
 /**
 * balafon's base project configuration 
 * @package IGK\System\Console

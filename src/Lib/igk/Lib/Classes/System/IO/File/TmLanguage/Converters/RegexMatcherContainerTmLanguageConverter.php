@@ -14,6 +14,7 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Converters
@@ -82,7 +83,6 @@ class RegexMatcherContainerTmLanguageConverter
         ]);
         $this->m_references = [];
         if ($d = $ctn->getMatcher()) {
-            // normalize 
             $refdata = [];
             $datas = [];
             $logic = [];
@@ -90,7 +90,6 @@ class RegexMatcherContainerTmLanguageConverter
             while (count($d) > 0) {
                 $q = array_shift($d);
                 if (is_array($q)){
-                    // igk_wln_e(__FILE__.":".__LINE__ , 'the array');
                     continue;
                 }
                 $id = spl_object_id($q);
@@ -122,14 +121,12 @@ class RegexMatcherContainerTmLanguageConverter
                 $patterns[] = ['include'=>'#'.$refdata[$id]->id];
             }          
         }
-        // fix 
         foreach($refdata as $tp){
             if (!isset($repository[$tp->id])){
                 $o = $this->_unsetPrivateMembers((array)$tp->data);
                 if ($dc = igk_getv($o, 'patterns')){
                     $np = $this->_getIncludeData($refdata, $dc);
                     $o['patterns'] = $np;
-                   // igk_wln_e(__FILE__.":".__LINE__ , $o);
                 }
                 $repository[$tp->id] = $o;
             }
@@ -183,7 +180,6 @@ class RegexMatcherContainerTmLanguageConverter
         if (empty($patterns)) {
             return;
         }
-        //unset private members
         $tc = [];
         $ref_include = 0;
         while (count($patterns) > 0) {
@@ -200,12 +196,10 @@ class RegexMatcherContainerTmLanguageConverter
                 unset($n['patterns']);
                 $trp = (array)$n;
                 if (false !== ($l = array_search($v_cp, $this->m_data->patterns, true))) {
-                    // replace patterns with repository access@
                     $this->m_data->patterns[$l] = [
                         'include' => '#' . $idx
                     ];
                 }
-                //$trp['patterns'] = & $tc;
                 $repository[$idx] = $trp;
                 $tc[] = [
                     'include' => '#' . $idx

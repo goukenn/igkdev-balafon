@@ -12,6 +12,7 @@ use IGKEnvironment;
 use IGKException;
 use IGKObject;
 use function igk_resources_gets as __;
+
 require_once IGK_LIB_CLASSES_DIR. "/System/Html/XML/XmlConfigurationNode.php";
 require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php";
 /**
@@ -139,7 +140,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
             $v_env->loading_context =  HtmlContext::XML;
             $v_env->controller_config_loading = $this->ctrl;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
-            $confNode = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");             
+            $confNode = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); 
             $confNode->loadFile($f, HtmlContext::XML, null);           
             $d=igk_getv($confNode->getElementsByTagName("config"), 0);
             if($d){
@@ -163,9 +164,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                 }
             } 
             unset($v_env->controller_config_loading);
-            // | ----------------------------------------------------------
-            // | UPDATE the configuration file to match allowed environment
-            // | ---------------------------------------------------------- 
             if ($m = igk_getv($t, "env.".$def)){  
                 foreach($m as $c=>$p){
                     if (strpos($c, "env.")===0){
@@ -199,18 +197,12 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     * 
     * @param mixed $n
     */
-    // #[\ReturnTypeWillChange()]
-    // public function offsetUnset($n){
-    //     unset($this->m_configs->$n);
-    // }
-    ///<summary>reload configuration setting</summary>
     /**
     * reload configuration setting
     */
     public function reloadConfiguration(){
         igk_die(__METHOD__." Not implement");
     }
-    ///<summary> setup
     /**
     *  setup
     */
@@ -228,7 +220,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                 "Context"=>"XML",
                 "Indent"=>true
             ]);
-            // igk_wln_e(__FILE__.":".__LINE__, $data, $this->getConfigFile());        
             return igk_io_w2file($this->getConfigFile(), $data, true);
         }
     }

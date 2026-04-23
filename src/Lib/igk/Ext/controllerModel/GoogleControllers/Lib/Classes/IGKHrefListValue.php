@@ -12,18 +12,15 @@
 * Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
-
 /**
 * represent list get value storage
 */
 final class IGKHrefListValue{
-
     /**
     * Property: values.
     * @var mixed
     */
     var $values;
-
     /**
     * auto generate doc.
     */
@@ -33,16 +30,13 @@ final class IGKHrefListValue{
     /**
     * display value
     */
-
     public function __toString(){
         return $this->getValue();
     }
-
     /**
     * auto generate doc.
     * @param mixed $options the default value is null
     */
-
     public function getValue($options=null){
         $o=0;
         if(isset($options->Document)){

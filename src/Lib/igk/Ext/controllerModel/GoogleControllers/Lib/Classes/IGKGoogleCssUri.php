@@ -12,44 +12,34 @@
 * Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
-// DIRECT RENDERINGuse IGKHtmlRelativeUriValueAttribute as IGKHtmlRelativeUriValueAttribute;
-
 use IGK\Helper\IO;
 use IGKIO ;
 use \IGKHtmlRelativeUriValueAttribute;
- 
-///parse uri to local
 /**
 */
-
 /**
 * auto generate doc.
 * @package IGK\Core\Ext\Google
 */
 class IGKGoogleCssUri{
-
     /**
     * Property: file.
     * @var mixed
     */
     private $m_file;
-
     /**
     * Property: uri.
     * @var mixed
     */
     private $m_uri;
-
     /**
     * auto generate doc.
     * @param mixed $uri
     */
-
     public function __construct($f, $uri){
         $this->m_file=$f;
         $this->m_uri=$uri;
     }
-
     /**
     * auto generate doc.
     */

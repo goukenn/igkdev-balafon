@@ -5,6 +5,7 @@
 namespace IGK\System\IO;
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\IO
@@ -41,7 +42,6 @@ class InlineScriptLoader implements IHtmlGetValue{
             return file_get_contents($this->file);
         }
         $d = igk_js_minify(file_get_contents($this->file));
-        // TODO : caching file result 
         $v_hashkey = hash('crc32b', $this->file);
         return $d;
     }

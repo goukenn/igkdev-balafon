@@ -7,6 +7,7 @@ use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGKCSVDataAdapter;
 use IGKException;
+
 /**
 * 
 * @package IGK\System\Database\Import
@@ -38,7 +39,6 @@ class DbImportFile{
             $ext = $type;
         }
         $ext = igk_io_path_ext($file);
-        // json 
         if (method_exists(static::class, $fc = self::HandleMethodPrefix.ucfirst(strtolower($ext)))){
             return call_user_func_array([static::class, $fc], [$model, $file, $autoregister, $entry]);
         }

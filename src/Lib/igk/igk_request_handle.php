@@ -3,12 +3,9 @@
 // @filename: igk_request_handle.php
 // @date: 20220803 13:29:41
 // @desc: handle query request
-
-
 // + | ----------------------------------------------------------------------------
 // + | default uri handler
 // + | ----------------------------------------------------------------------------
-
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Server;
@@ -25,12 +22,7 @@ IGKRoutes::Register("^/favicon.ico[%q%]", function(){
     igk_exit();
 }
 , 1); 
-//+ | -----------------------------------------------------------------------------------
-//+ | asset balafon preloader
-//+ | uri: /assets/Scripts/balafon.js
-//+ | ----------------------------------------------------------------------------------- 
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]", function(){ 
- 
     $_igk = igk_app();
     $doc = $_igk->Doc;
     if(!$doc){
@@ -49,7 +41,6 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
         echo $src;
         igk_exit();
     } 
-
     $sf=igk_core_dist_jscache();
     $resolver=IGKResourceUriResolver::getInstance(); 
     if(0 && igk_io_file_exists($sf)){
@@ -60,16 +51,13 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
         echo file_get_contents($sf); 
         igk_exit();
     }
-   
     $src = $generate_source(SysDbController::ctrl(), igk_getr('d'));
-     
     if ($_igk->Configs->core_no_zipjs){
         header("Content-Type: application/javascript; charset= UTF-8");
         header("Content-Encoding:deflate");  
         igk_wl($src);
         igk_exit();    
     }
- 
     ob_start();
     $src = $src;
     igk_zip_output($src, 0, 0);
@@ -84,9 +72,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
     igk_exit();
 }
 , 1);
-
 IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($fc, $arg){
-    // igk_wln_e("handle ... ".igk_io_request_uri(). " - ".igk_env_count(__FUNCTION__));
     $doc = igk_get_last_rendered_document();
     if(!$doc){
         igk_wln_e("last rendered document is null");
@@ -155,7 +141,6 @@ IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($
     igk_exit();
 }
 , 1);
- 
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH."[%q%]", function($fc, $arg){
     switch($fc){
         case "Lang":
@@ -181,16 +166,9 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
     }
     igk_exit();
 }); 
-
-//+ | --------------------------------------------------------------------------------------
-//+ | register balafon.css uri handle
-//+ |
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
-    
      if(defined("IGK_FORCSS"))
         return; 
-
-
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1); 
     try{        
@@ -204,14 +182,12 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
     }
     igk_exit();
 }
-, 1); // change here 0 to 1.
+, 1); 
 IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     if(is_array($path))
     $path=IGK_LIB_DIR."/".implode("/", $path);
     else
     $path=IGK_LIB_DIR."/".$path;
-    /// TASK : Allowed file extension from lib directory
-    
     $allowed=preg_match("/\.(js|css|xml|txt|bmp|png|svg|jpeg|jpg|xsl|pdf|md)$/", $path);
     if(igk_io_file_exists($path) && $allowed){
         igk_header_content_file($path);
@@ -230,27 +206,14 @@ IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     igk_exit();
 }
 , 1);
-
-//+ | --------------------------------------------------------------------------------------
-//+ | register robots handle
-//+ |
 IGKRoutes::Register("^/robots.txt$", function(){
-    
     $headers = [];
     $a = Server::getInstance()->HTTP_USER_AGENT;    
-    
-    //if (preg_match("/Chrome-Lighthouse/", $a)){      
-        //}
-        // if (!preg_match("/".implode("|",
-        // ["HTTPie",
-        // "Googlebot"])."/", $a))
-        //     return 0;
         $f = implode(DIRECTORY_SEPARATOR,  [igk_io_sys_datadir(), "robots.txt"]);
         if (igk_io_file_exists($f)){
             include($f);
             igk_exit();
         } 
-        // disallow all
         igk_set_header(200, "Content-Type:text/plain; charset=UTF8", $headers); 
         igk_text(implode("\n",[
             "user-agent: *",
@@ -258,10 +221,8 @@ IGKRoutes::Register("^/robots.txt$", function(){
         ]));
         igk_exit();
     }, 1);
-    
 IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
     $sessid = session_id(); 
- 
     if (!defined("IGK_INIT") && empty($sessid)) {
         $app = IGKApplication::Boot('web'); 
         IGKApp::StartEngine($app);
@@ -275,6 +236,3 @@ IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($gu
     RequestHandler::getInstance()->handle_guid_action($guid, $query, $version);
 }
 , 1);
-
-// $redirect = igk_server()->REQUEST_URI;
-// igk_io_handle_system_command($redirect); 

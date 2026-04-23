@@ -6,6 +6,7 @@ namespace IGK\System\Console\Commands\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPatternContainer;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
@@ -59,10 +60,6 @@ class InsertCommmandCommand extends AppExecCommand{
 		while($args){
 			$q = array_shift($args);
 			$p = self::Format($q);
-			// $r = array_map('trim', explode(';', $q)); 
-			// if ($g = $m::Add(...$r)){
-			// 	igk_wln_e('data: ', $g);
-			// }
 		}
 		igk_wln_e($args);
 	}
@@ -78,7 +75,6 @@ class InsertCommmandCommand extends AppExecCommand{
 		$pos=0;
 		$voffset = 0;
 		$v = '';
-		// define
 		while($g = $regex->detect($src, $pos)){
 			if ($e = $regex->end($g, $src, $pos)){
 				$sp = substr($src, $voffset, $e->from - $voffset);
@@ -88,7 +84,6 @@ class InsertCommmandCommand extends AppExecCommand{
 					case 'separator':
 						break;
 				}
-				//$e->sp
 				igk_wln('basic '. $sp);
 			}
 		}

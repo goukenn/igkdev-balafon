@@ -3,7 +3,6 @@
 // @filename: class.IGKUserManagerController.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 use IGK\Database\DbColumnInfo;
 use IGK\Models\Users;
 use IGK\Resources\R;
@@ -16,22 +15,19 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  */
 abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * auto generate doc.
     * @var StdClass $m_user
     */
 	private $m_user;
-
     /**
     * Returns User.
     */
     public function getUser(){return $this->m_user; }
-
     /**
     * Returns Default Data Table Info.
     */
-    protected function getDefaultDataTableInfo(){//get default data tbale infor
+    protected function getDefaultDataTableInfo(){
 		return array(
 		new DbColumnInfo(array(IGK_FD_NAME=>"clId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>11, "clIsUnique"=>true, "clIsPrimary"=>true, "clAutoIncrement"=>true)),
 		new DbColumnInfo(array(IGK_FD_NAME=>"clLogin", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clIsUnique"=>true,"clDescription"=>"email for login")),
@@ -42,7 +38,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		new DbColumnInfo(array(IGK_FD_NAME=>"clDescription", IGK_FD_TYPE=>"Text", "clDescription"=>"description that mark is user"))
 		);
 	}
-
     /**
     * Initializes Data Entry.
     * @param mixed $dbman
@@ -72,21 +67,18 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$obj->clAvailable = 0;
 		$dbman->Insert($tb, (array)$obj);
 	}
-
     /**
     * Returns Is User Connected.
     */
     public function getIsUserConnected(){
 		return ($this->m_user != null);
 	}
-
     /**
     * auto generate doc.
     * @param mixed $pwd
     * @deprecated 1
     * @return bool
     */
-
     public function connect($login=null, $pwd=null){
 		$login = ($login==null)?igk_getp("clLogin", $login):$login;
 		$pwd = ($pwd==null)?igk_getp("clPwd", $pwd):$pwd;
@@ -94,9 +86,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$obj->clLogin = $login;
 		$obj->clPwd = $pwd;
 		igk_dev_wln_e(__FILE__.":".__LINE__,  'the store pwd: ', $pwd);
-
 		$s = Users::select_row(array("clLogin"=>$login, "clPwd"=>$pwd));
-
 		if (($s) && ($s->getRowCount() == 1))
 		{
 			$obj = $s->getRowAtIndex(0);
@@ -110,7 +100,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		}
 		return false;
 	}
-
     /**
     * Logout.
     */
@@ -121,7 +110,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 			$this->App->Session->User = null;
 		}
 	}
-
     /**
     * Resets Pwd.
     */
@@ -132,7 +120,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 			Users::update(["clPwd"=>$this->m_user->clPwd ], array("clId"=>$this->m_user->clId) );
 		}
 	}
-
     /**
     * Updates User Info.
     */
@@ -153,7 +140,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		igk_notifyctrl()->addMsgr("msg.userinfo.updated");
 		return true;
 	}
-
     /**
     * Connects frame.
     */
@@ -163,7 +149,6 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$frame->Title = R::ngets("title.connexion");
 		$frame->render();
 	}
-
     /**
     * Registers frame.
     */

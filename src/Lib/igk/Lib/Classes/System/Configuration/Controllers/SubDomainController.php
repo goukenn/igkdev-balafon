@@ -15,6 +15,7 @@ use IGK\Models\Subdomains;
 use IGKException;
 use IGKSubDomainManager;
 use function igk_resources_gets as __;
+
 /**
 * auto generate doc.
 * @package IGK\System\Configuration\Controllers
@@ -77,11 +78,8 @@ final class SubDomainController extends ConfigControllerBase
                 $info["type"] = "igk-danger";
                 $info["msg"] = __("failed to add subdomain");
             }
-            // Subdomains::delete();
-            // igk_wln_e("file", $r);
             if (igk_is_ajx_demand())
                 igk_ajx_toast($info["msg"], $info["type"]);
-            // replace
             $s = $this->getConfigNode();
             $this->View();
             $s->add($this->getTargetNode());
@@ -110,7 +108,6 @@ final class SubDomainController extends ConfigControllerBase
             if (!empty($obj->clName) && igk_is_domain_name($obj->clName)) {
                 $app->Configs->website_domain = $obj->clName;
                 $app->Session->Domain = $obj->clName;
-                //IGKSubDomainManager::StoreBaseDomain($this, $obj->clName);
             }
             $this->View();
             igk_ajx_replace_ctrl_view($this);
@@ -199,10 +196,6 @@ final class SubDomainController extends ConfigControllerBase
         });
         $form->input("i", "hidden", $id);
         igk_ajx_panel_dialog(__("Confirm dialog"), $form);
-        // $frame=igk_frame_add_confirm($this, __FUNCTION__, $this->getUri(__FUNCTION__));
-        // $frame->Form->Div->Content=__("confirm.delete");
-        // $frame->Form->addHidden("i", igk_getr("i"));
-        // $frame->renderAJX();
     }
     /**
     * Dom drop domaintable.
@@ -274,7 +267,6 @@ final class SubDomainController extends ConfigControllerBase
     {
         return "domain";
     }   
-    ///get the controller that contain domain from setting. for the first usage
     /**
     * Returns Domain Ctrl.
     * @param mixed $n
@@ -327,10 +319,7 @@ final class SubDomainController extends ConfigControllerBase
         $n->div()->h2()->Content = __("Subdomain list");
         $tdv = $n->div();
         $tdv["class"] = "c-z igk-write";
-        // $tdv->div()->addTitleLevel(5)->Content = R::ngets("title.DatbaseRegisteredDomain");
         $tdv->notifyhost("domain/dbz");
-        // \opcache_reset(); 
-        //igk_notifyctrl()->setNotifyHost($tdv->div(), "domain/dbz");
         $db = Subdomains::select_all();
         $c = 0;
         if (!$db) {
@@ -365,7 +354,6 @@ final class SubDomainController extends ConfigControllerBase
                 $tdv->div()->addText($c);
             }
         }
-       // $n->ajxa($this->getUri("update-view-list_ajx"))->Content = "Updatelist:";
     }
     /**
     * auto generate doc.

@@ -3,6 +3,7 @@
 // @filename: IGKObject.php
 // @date: 20220803 13:48:54
 // @desc: 
+
 /**
 * Represent the base IGK object class
 */
@@ -30,7 +31,6 @@ class IGKObject {
     public function __toString(){
         return get_class($this);
     }
-    ///get object osed to compare
     /**
     * auto generate doc.
     */    public function __wakeup(){

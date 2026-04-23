@@ -6,6 +6,7 @@
 namespace IGK\System\Applications; 
 use IGKApp;
 use IGKApplicationBase;
+
 /**
  * represent api application entry - 
  * @package 
@@ -30,14 +31,9 @@ class ApiApplication extends IGKApplicationBase
     */
     public function run(string $file, $render=1){   
         $app = IGKApp::RunApiEngine($this, 0);
-        // DataAdapter::Register([
-        //     "MYSQL"=>\IGK\System\Database\MySQL\DataAdapter::class
-        // ]);
-        // $this->controller->index();
         $c = igk_do_response($this->controller->index());
         igk_wl($c);
         ob_flush();
         igk_exit();
-        // $app = IGKApp::getInstance();
     }
 }

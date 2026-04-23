@@ -8,6 +8,7 @@ use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
 use IGKException;
+
 /**
 * Os window command.
 * @package IGK\System\Installers
@@ -50,7 +51,6 @@ $out .= <<<EOF
 mix.js('{$lib}/*', 'dist')
     .setOutputPath('{$output}');
 EOF;
-        // JSON PACKAGE
         $file = igk_glue("/", $installdir, "package.json");
         if (!igk_io_file_exists($file)){
             $js_data = (object)[
@@ -66,7 +66,6 @@ EOF;
             igk_io_w2file($file, json_encode($js_data, JSON_PRETTY_PRINT));
         } 
         $file = igk_glue("/", $installdir, "webpack.mix.js");
-        // igk_io_w2file($file, $out);
         list($npm, $npx) = [OsShell::Where("npm"),
         OsShell::Where("npx")];
         if ($npx){

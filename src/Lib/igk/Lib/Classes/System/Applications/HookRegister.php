@@ -6,6 +6,7 @@ namespace IGK\System\Applications;
 use IGK\System\Core\CookieManager;
 use IGKEvents;
 use IGKServices;
+
 /**
 * auto generate doc.
 * @package IGK\System\Applications
@@ -58,7 +59,6 @@ class HookRegister
             igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () {
                 $v_k = 'session-flag';
                 $flag = igk_environment()->{$v_k};
-                // passeing to application 
                 igk_app()->session->{$v_k} = $flag;
                 igk_environment()->set($v_k, null);
             });

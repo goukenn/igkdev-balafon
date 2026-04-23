@@ -6,6 +6,7 @@
 namespace IGK\Css;
 use IGKException;
 use IGKResourceUriResolver;
+
 /**
  * context to initialize
  */

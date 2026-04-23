@@ -3,6 +3,7 @@
 // @file: IDbWhereQueryCondition.php
 // @date: 20241013 15:04:39
 namespace IGK\System\Database;
+
 /**
 * auto generate doc.
 * @package IGK\System\Database

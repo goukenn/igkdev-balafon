@@ -1,7 +1,6 @@
 "use strict";
 (function(){
 	var djx = 0;
-
 igk.system.createNS("igk.ctrl",{
 		ca_update: function(xhr, target){ 		
 		if (this.isReady())
@@ -59,8 +58,6 @@ igk.system.createNS("igk.ctrl",{
 				this.setResponseTo(s); 
 			}
 			});
-		
 		}
-		
 });
 })();

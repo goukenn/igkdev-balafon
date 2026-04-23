@@ -73,8 +73,6 @@ Name:balafon.js
     var _context_; /* context mode : global_ready, xhr */
     __lang[0xEA001] = "failed to transform xml with xsl . {0}";
     var __global = null;
-
-
     function __init_console() {
         __debug_z = $igk("#debug-z").first();
         if (__debug_z) {
@@ -145,7 +143,6 @@ Name:balafon.js
             __platform.osAgent = navigator.userAgent;
         }
     })();
-
     function __dom_innerHTML(i) {
         if ("innerHTML" in i)
             return i.innerHTML;
@@ -167,16 +164,13 @@ Name:balafon.js
     function igk_object() {
         // define an igk balafonjs object
     };
-
     function igk_class() {
         // define an class type
     };
     igk_class.prototype = new igk_object();
-
     function igk_namespace() {
         // define a namespace object
     };
-
     function igk_winui_reg_event(item, method, func, useCapture) { // global	
         var g = method.split(' ');
         var s = 0;
@@ -188,18 +182,13 @@ Name:balafon.js
             } else o = o && igk_winui_reg_system_event(item, s, func, useCapture);
         }
     };
-
-
     igk_namespace.prototype = new igk_object();
-
     function igk_is_string(t) {
         return typeof (t) == 'string';
     };
-
     function igk_is_notdef(t) {
         return typeof (t) == IGK_UNDEF;
     };
-
     function igk_is_object(t) {
         return typeof (t) == 'object';
     };
@@ -212,7 +201,6 @@ Name:balafon.js
             m_tag_obj.push({ n: n, data: p });
         }
     };
-
     function igk_stop_event(ev) {
         ev.preventDefault();
         ev.stopPropagation();
@@ -235,13 +223,11 @@ Name:balafon.js
         }
         return m;
     };
-
     function igk_url(u) {
         return new (function () {
             this.uri = u;
         })();
     };
-
     /**
      * 
      * @param {string} uri uri to check
@@ -312,7 +298,6 @@ Name:balafon.js
             // 			}
             // 		}
             // 	} catch(e){
-
             // 	}
             // }, 1);
             return;
@@ -418,7 +403,6 @@ Name:balafon.js
     // return a selection expreession object
     function igk_select_exp(p) {
         var m_items = [];
-
         function loader(t) {
             m_items.push(t);
         }
@@ -496,7 +480,6 @@ Name:balafon.js
                             continue;
                         case ' ': // select 
                             while ((pk = pk.substring(1)) && (pk[0] == ' ')) {
-
                             }
                             if (pk) {
                                 depth = !0;
@@ -531,11 +514,9 @@ Name:balafon.js
             return null;
         return q;
     }
-
     function igk_getScriptLocation() {
         var idx = 0;
         var e = 0;
-
         function _readUri(h, starti) {
             var tg = h.substring(starti).split(':');
             var uri = '';
@@ -545,7 +526,6 @@ Name:balafon.js
             idx = starti + uri.length;
             return uri;
         };
-
         function _readChromeUri(h) {
             var idx = h.indexOf('(');
             var ch = 0;
@@ -703,7 +683,6 @@ Name:balafon.js
         }
         return !1;
     };
-
     function igk_item_inherit_class(p, n) {
         var q = n;
         while (q) {
@@ -714,7 +693,6 @@ Name:balafon.js
         }
         return !1;
     };
-
     function igk_freeEventContext() {
         igk_unreadyAll();
         if (sm_regEventContext.length > 0) {
@@ -724,15 +702,12 @@ Name:balafon.js
             }
         }
     }
-
     function igk_show_notify_error(t, m) {
         igk.winui.notify.showErrorInfo(t, m);
     };
-
     function igk_show_notify_msg(t, m, c) {
         igk.winui.notify.showMsBox(t, m, c);
     };
-
     function igk_get_script_src() {
         if (typeof (script_src_lnk) != IGK_UNDEF) {
             return script_src_lnk;
@@ -743,7 +718,6 @@ Name:balafon.js
         }
         return null;
     }
-
     function igk_unRegEventContext(chain) {
         var r = sm_regEventContext.length;
         var s = [];
@@ -756,7 +730,6 @@ Name:balafon.js
         sm_regEventContext.pop(chain);
         return (r > sm_regEventContext.length);
     }
-
     function igk_get_html_item_definition_value(item) {
         if (item == null)
             return "<div class=\"igk-notify igk-notify-danger\">item is null</div>";
@@ -788,7 +761,6 @@ Name:balafon.js
         e.setHtml(msg + func);
         return e.o.outerHTML;
     }
-
     function igk_get_html_item_definition(item) {
         if (item == null)
             return "<div class=\"igk-notify igk-notify-danger\">item is null</div>";
@@ -819,7 +791,6 @@ Name:balafon.js
         e.setHtml(msg + func);
         return e.o.outerHTML;
     }
-
     function igk_getRegEventContextByOwner(o) {
         if (o == null)
             return null;
@@ -830,7 +801,6 @@ Name:balafon.js
         }
         return null;
     }
-
     function igk_getRegEventContext(prop, reg, callback) { // igk-properties,reg,callback
         var k = sm_regEventContext;
         for (var i = 0; i < k.length; i++) {
@@ -844,7 +814,6 @@ Name:balafon.js
         }
         return null;
     }
-
     function igk_clearEventContent(context) {
         var ctab = new Array();
         var k = context;
@@ -862,7 +831,6 @@ Name:balafon.js
             }
         }
     }
-
     function igk_unreadyAll() {
         var tab = readyFunc;
         for (var i = 0; i < tab.length; i++) {
@@ -876,12 +844,10 @@ Name:balafon.js
     function a(a) {
         return IGK_UNDEF === typeof a;
     }
-
     function b(b) { // check if b exist
         // return (s in b) && (a(b[s]) ||(null===b[s]));
         return a(b) || (null === b);
     }
-
     function igkJSError(msg) {
         console.debug("igkJSError: " + typeof (this));
         this.name = "igkerror";
@@ -889,13 +855,11 @@ Name:balafon.js
         this.level = 1;
         this.toString = function () { return this.message; };
     }
-
     function __igksetAttribute(ns, n, v) {
         var d = ns.__igk__.attr; // __ATTRIBS__;
         if (d)
             d[n] = v;
     };
-
     function igk_getCurrentScript() {
         if (m_scriptNode)
             return m_scriptNode;
@@ -905,11 +869,9 @@ Name:balafon.js
         var s = document.scripts;
         return s.length > 0 ? s[s.length - 1] : null;
     }
-
     function igk_getAjxInitiator() {
         return __ajxInitiator;
     }
-
     function igk_namespaceBuilder(t, a, c, d, callback) {
         var h = 0;
         var i = "";
@@ -1021,7 +983,6 @@ Name:balafon.js
         }
         return null;
     }
-
     function igk_console_debug(msg) {
         if (igk.DEBUG && console && console.debug) {
             console.debug(msg);
@@ -1047,7 +1008,6 @@ Name:balafon.js
         createNS("window", {
             getComputedStyle: function (item, selector) {
                 if (!item) return null;
-
                 function __getstylev(i, p) {
                     if (i.style) {
                         var h = i.style[p];
@@ -1061,7 +1021,6 @@ Name:balafon.js
                     }
                     return '';
                 };
-
                 function __initStyle(item) {
                     var d = igk.createNode('div');
                     var m = {};
@@ -1112,7 +1071,6 @@ Name:balafon.js
             console.debug("function " + name + " doen't exists");
         }
     }
-
     function igk_getEmValue(q, property) {
         if (!q)
             return 1.0;
@@ -1177,7 +1135,6 @@ Name:balafon.js
         }
         return 0;
     }
-
     function igk_getUnit(value) {
         var t = /([0-9]+(\.[0-9]+){0,1})(px|em|pt|cm|mm|rem|%|ch|vh|vw)*$/.exec(value);
         if (t) {
@@ -1188,7 +1145,6 @@ Name:balafon.js
         }
         return "";
     }
-
     /**
      * retrieve pixel unit value
      * @param {*} value 
@@ -1239,7 +1195,6 @@ Name:balafon.js
         }
         return 0;
     }
-
     function igk_getv(obj, keys, defaultvalue) {
         if (obj) {
             if (obj[keys])
@@ -1247,7 +1202,6 @@ Name:balafon.js
         }
         return defaultvalue;
     }
-
     function igk_newGUID() {
         var result = '';
         var hexcodes = "0123456789abcdef".split("");
@@ -1499,7 +1453,6 @@ Name:balafon.js
             igk.winui.notify.showError(msg);
         }
     }
-
     function igk_show_prop_keys(i, element) {
         var msg = "";
         var space = "\n";
@@ -1523,7 +1476,6 @@ Name:balafon.js
             igk.show_notify_error("Exception", "can't evaluate object");
         }
     }
-
     function igk_show_event(i, element) {
         var msg = "";
         var space = "\n";
@@ -1644,7 +1596,6 @@ Name:balafon.js
         }
         __preload();
     }
-
     /**
      * 
      */
@@ -1725,7 +1676,6 @@ Name:balafon.js
             t[0].parentNode.removeChild(t[0]);
         }
     }
-
     function igk_array_copy(tab) {
         var c = tab.length;
         var btab = new Array();
@@ -1734,7 +1684,6 @@ Name:balafon.js
         }
         return btab;
     }
-
     function igk_is_array(tab) {
         return tab instanceof Array;
     }
@@ -1775,7 +1724,6 @@ Name:balafon.js
             );
         }
     }
-
     function igk_isdefine(i, d) { // use with declared properties. if try to check that a variable is define use typeof(var) instead
         if (typeof (i) == IGK_UNDEF) {
             if (typeof (d) == IGK_UNDEF) {
@@ -1785,7 +1733,6 @@ Name:balafon.js
         }
         return i;
     }
-
     function igk_eval(s, sn, n) {
         // s:source code	
         // sn: script node the source script tag
@@ -1821,7 +1768,6 @@ Name:balafon.js
             head.appendChild(scriptTag);
         }
     }
-
     function igk_confirm_lnk(lnk) {
         var frm = igk_getParentByTagName(lnk, 'form');
         if (frm) {
@@ -1930,7 +1876,6 @@ Name:balafon.js
         }
         return ret;
     }
-
     function igk_checkOnePropertyExists(item, proplist) {
         if (item == null) return !1;
         var t = proplist.split(' ');
@@ -1940,7 +1885,6 @@ Name:balafon.js
         }
         return !1;
     }
-
     function igk_checkAllPropertyExists(item, proplist) {
         if (item == null) return !1;
         var t = proplist.split(' ');
@@ -1979,11 +1923,9 @@ Name:balafon.js
         }
         return 0;
     }
-
     function is_observe() {
         return typeof (window.ResizeObserver) != 'undefined';
     };
-
     /**
      * initialize powered message view 
      * @param {initialize}
@@ -1996,11 +1938,8 @@ Name:balafon.js
         let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() ||
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
-
         Object.defineProperty(ln, 'parentScroll', { get() { return t; } });
-
         if (t) {
-
             async function _updateBottomSize(offw) {
                 let bottom = t.getComputedStyle('padding-bottom');
                 let height = ln.getComputedStyle('height');
@@ -2009,11 +1948,9 @@ Name:balafon.js
                 }
             };
             function _resizeInvoke() {
-
                 let alignl = ln.supportClass('alignl');
                 let offw = Math.round(t.width() - t.o.clientWidth);
                 let def = null;
-
                 if ((offw == 0) && scrolling) {
                     offw = 11; // macos - width size view that autoshow/hidde
                 }
@@ -2067,7 +2004,6 @@ Name:balafon.js
      */
     function igk_powered_manager(node, ciblingnode) {
         if (!node) return;
-
         function init(node, poweredhost) {
             var node = node;
             var s = poweredhost;
@@ -2079,7 +2015,6 @@ Name:balafon.js
                 effect: "circ",
                 effectmode: "easeinout"
             };
-
             function update_size() {
                 var animprop = {
                     right: "0px",
@@ -2107,7 +2042,6 @@ Name:balafon.js
                 m_eventContext.reg_window("resize", function () { update_size(); });
             };
             update_size();
-
             function __doc_changed() {
                 update_size();
             };
@@ -2120,7 +2054,6 @@ Name:balafon.js
             console.debug("/!\\ parent cibling not found");
         }
     };
-
     function igk_getdir(uri) {
         if (uri == null)
             return null;
@@ -2197,7 +2130,6 @@ Name:balafon.js
                 source = null;
                 return q;
             },
-
             /**
              * convert json object to string
              * @param {*} jsonobj 
@@ -2455,7 +2387,6 @@ Name:balafon.js
             var _lang = lang || (_chtml ? _chtml.getAttribute("lang") : null) || igk.navigator.getLang();
             var _loc = igk.system.io.getdir(uri);
             var _uri = igk.resources.getLangLocation(_loc, _lang);
-
             // console.debug("loadLangRes"); 
             // error.apply(this);
             // return null;
@@ -2565,13 +2496,11 @@ Name:balafon.js
             return window.indexDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
         }
     });
-
     igk_defineProperty(_ENVIRONMENT, "DEV", {
         get: function () {
             return DEBUG;
         }
     });
-
     (function () {
         igk.system.Promise = function () {
             var _t = [];
@@ -2688,7 +2617,6 @@ Name:balafon.js
             return !1;
         }
     }, { desc: "global igk.object base class namespace" });
-
     igk_defineProperty(_NS, 'context', {
         get() {
             return _context_;
@@ -2696,7 +2624,6 @@ Name:balafon.js
             _context_ = v;
         }
     });
-
     // define global namespace variable
     _NS = createNS("igk.namespaces", {
         xhtml: "http://www.w3.org/1999/xhtml",
@@ -2751,7 +2678,6 @@ Name:balafon.js
             // @async: synchronize call :  true|false default is false. 
             var syncdata = 0;
             host = host || document.head;
-
             function __loadscript(i) {
                 // syncdata
                 if ((i < 0) || (i >= scs.length)) {
@@ -2798,7 +2724,6 @@ Name:balafon.js
             var def = { c: 0, e: {} };
             var u = 0;
             sync = sync || 0;
-
             function _fail(message) {
                 if (prop.failed)
                     prop.failed.apply(o, [message]);
@@ -2826,7 +2751,6 @@ Name:balafon.js
                     return this;
                 }
             };
-
             function _loadinScript(u, type, index) {
                 return function (xhr) {
                     if (this.isReady()) {
@@ -2850,7 +2774,6 @@ Name:balafon.js
                     }
                 };
             };
-
             function __invoke() {
                 for (var g = 0; g < _scripts.length; g++) {
                     host.appendChild(_scripts[g]);
@@ -2862,7 +2785,6 @@ Name:balafon.js
                 if (prop.callback)
                     prop.callback.apply(o, [m, syncdata]);
             };
-
             function _loadFormalScript(u, i) {
                 var sc = document.createElement("script");
                 sc.src = u;
@@ -3068,7 +2990,6 @@ Name:balafon.js
             return 0;
         };
     }
-
     // loader 
     igk_appendProp(igk.object.prototype, {
         toString: function () {
@@ -3078,7 +2999,6 @@ Name:balafon.js
             return igk.object;
         }
     });
-
     function igk_regex_constant() {
         return {
             tagName: /^[\w_]+[\w0-9_\-]*$/,
@@ -3086,7 +3006,6 @@ Name:balafon.js
             idSearch: /^#[\w\-_]+(\[[\w\-_]*\])?$/
         }
     }
-
     function isUndef(d) {
         return (d == "unknown") || (d == IGK_UNDEF) || (typeof (d) == IGK_UNDEF);
     }
@@ -3094,7 +3013,6 @@ Name:balafon.js
         return !isUndef(d) && typeof (d) == 'number';
     }
     const _FM_ = "BalafonJS";
-
     function __igk_nodeProperty(element) {
         var m_o = element;
         var m_self = this;
@@ -3213,7 +3131,6 @@ Name:balafon.js
             }
         }
     };
-
     function __extensionPrototype(tag) {
         this.ctag = tag;
         igk_defineProperty(this, "tagName", { get: function () { return this.ctag } });
@@ -3221,7 +3138,6 @@ Name:balafon.js
         this.__proto__ = __igk_nodeProperty.prototype;
     };
     var __prop = __igk_nodeProperty.prototype;
-
     function _get_computeded_number(n, p) {
         var h = n.getComputedStyle(p);
         return igk.getNumber(h, n.o, p);
@@ -3932,7 +3848,6 @@ Name:balafon.js
                 }
                 return ch;
             };
-
             function __rmClass(t, tab) {
                 var g = t.o.className.split(' ');
                 var ch = 0;
@@ -4141,7 +4056,6 @@ Name:balafon.js
             // wait on the function
             // if (return 1: finish ) if return 0: continue to wait
             var q = this;
-
             function _wait_callback() {
                 if (!func.apply(q)) {
                     setTimeout(_wait_callback, t);
@@ -4319,7 +4233,6 @@ Name:balafon.js
                     });
                 })();
             };
-
             function __clearTransition() {
                 self.select('>>').each_all(function () {
                     if (!this.o.nodeType || (this.o.nodeType != 1) || (this.o.tagName.toLowerCase() == 'script'))
@@ -4341,7 +4254,6 @@ Name:balafon.js
                     callback({ "type": "transition", target: t, x: pp.X(), y: pp.Y() });
                 }
             }
-
             function __transition_end(evt) {
                 var g = $igk(igk.winui.eventTarget(evt));
                 m_il.remove(g);
@@ -4509,7 +4421,6 @@ Name:balafon.js
         },
         transEnd: function (n, t) {
             var q = this;
-
             function __function_end(evt) {
                 if (evt.target == q.o) {
                     if (typeof (n) == "function")
@@ -4849,7 +4760,6 @@ Name:balafon.js
          * @returns 
          */
         appendNChild: function (tagname) {
-
             const e = igk.system.getNS('igk.system.html.dom.createElement');
             let item = null;
             if (e && e.support) {
@@ -4902,7 +4812,6 @@ Name:balafon.js
             else { this.o.appendChild(node); }
         },
         reg_event: function (method, func, opts) {
-
             if (this.o.each) {
                 this.o.each(this.reg_event, arguments);
             } else {
@@ -5112,7 +5021,6 @@ Name:balafon.js
         anim1.start();
         return !0;
     };
-
     // -------------- HELPER 
     /**
      * use svg library 
@@ -5125,10 +5033,8 @@ Name:balafon.js
         this.add(g);
         return this;
     };
-
     function __igk_event(q, p, n) {
         var self = this;
-
         function __ecall(evt) {
             if (evt.propertyName == n) {
                 igk.winui.getEventObjectManager && igk.winui.getEventObjectManager().raise(self.target.o, n);

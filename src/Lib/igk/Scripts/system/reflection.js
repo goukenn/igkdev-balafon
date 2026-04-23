@@ -1,6 +1,5 @@
 // @ts-nocheck
 'use strict';
-
 (function () {
     /**
      * list only balafon namespace object 
@@ -27,7 +26,6 @@
                     continue;
                 }
                 let c = n[i];
-
                 if (c && (typeof (c) == 'object'))
                     g.push(c);
                 //tab.push(fn+'.'+i);

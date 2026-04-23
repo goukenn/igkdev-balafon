@@ -1,10 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: installer-helper.pinc
 // @date: 20221207 19:26:53
 // @desc: installer helper
- 
 
 if (!function_exists("igk_io_getfiles")) {
     function igk_io_getfiles($dir, $pattern=null, $recursive=false){
@@ -13,7 +11,6 @@ if (!function_exists("igk_io_getfiles")) {
         $files = [];
         while(count($dirs)>0){
             $dir = array_shift($dirs);
-
             if (!($hdir = opendir($dir))){
                 continue;
             }
@@ -22,7 +19,6 @@ if (!function_exists("igk_io_getfiles")) {
                     continue;
                 }
                 $f = $dir."/".$m;
-
                 if ($pattern){
                     $s = substr($f, strlen($root));                    
                     if (is_string($pattern) && !preg_match($pattern, $s)){
@@ -92,7 +88,6 @@ if (!function_exists("igk_io_rmdir")) {
                 if (($f == ".") || ($f == ".."))
                     continue;
                 $v = igk_io_dir($dir . "/" . $f);
-
                 if ($callback && !$callback($v)) {
                     continue;
                 }
@@ -130,17 +125,12 @@ if (!function_exists("igk_io_rmdir")) {
     }
 }
 //#{{@Inc(class.InstallerResponse.pinc)}} 
-
-
 $response = new InstallerResponse;
-
 if (!version_compare(PHP_VERSION, "7.3", ">=")){
     $response->die("mandory version required. 7.3<=".PHP_VERSION);
 }
 if (!isset($_SERVER["REQUEST_METHOD"]) || ($_SERVER["REQUEST_METHOD"] != "POST")) {
     $response->die("request method not match", 500);
 }
-
 // %token%
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
- 

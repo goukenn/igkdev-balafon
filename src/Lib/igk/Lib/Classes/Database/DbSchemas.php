@@ -23,6 +23,7 @@ use LlvGStockController;
 use ReflectionException;
 use stdClass;
 use function igk_resources_gets as __;
+
 /**
  * 
  *  schema constant
@@ -223,7 +224,6 @@ abstract class DbSchemas
                     } else {
                         $b->upgrade($tr);
                     }
-                    // change the data definition - after Operation. 
                     $tr->render(new SchemaDiagramVisitor($ctrl, $data, $operation));
                 }
                 self::$sm_schemas[$file] = ["controller" => $ctrl, "definition" => $data];
@@ -419,7 +419,6 @@ abstract class DbSchemas
         if ($tb) {
             \IGK\Helper\Database::CreateTableBase($ctrl, $tb, $etb, $adapter);
         }
-        // UPDATE REQUIRED MIGRATION
         try {
             igk_hook(IGKEvents::HOOK_DB_MIGRATE, ['ctrl' => $ctrl, 'type' => 'init', 'data' => $r]);
         } catch (\Exception $ex) {

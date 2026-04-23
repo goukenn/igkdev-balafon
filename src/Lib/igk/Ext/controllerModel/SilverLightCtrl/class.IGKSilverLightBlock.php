@@ -3,7 +3,6 @@
 // @filename: class.IGKSilverLightBlock.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\HtmlReader;
@@ -42,12 +41,10 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
 	 */
 	public function View():BaseController
 	{
-
 		$s = igk_uri(igk_io_baseuri() . "/" . $this->Configs->clXabUri);
 		$w  = $this->Configs->clPrimaryWidth;
 		$h  = $this->Configs->clPrimaryHeight;
-		$t  = HtmlReader::Load(
-			<<<OEF
+		$t  = HtmlReader::Load(<<<OEF
 <object id="SilverlightPlugin1" width="{$w}" height="{$h}"
     data="data:application/x-silverlight-2,"
     type="application/x-silverlight-2" >
@@ -61,8 +58,7 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
             style="border-style: none"/>
     </a>
 </object>
-OEF
-		);
+OEF		);
 		$this->TargetNode->clearChilds();
 		$this->TargetNode->Add($t);
 		if (!$this->IsVisible) {
@@ -70,7 +66,6 @@ OEF
 		}
 		return $this;
 	}
-
 	/**
 	 * Suppresses child rendering; no target node is used.
 	 *
@@ -79,6 +74,5 @@ OEF
 	 */
 	protected  function _showChild($targetnode = null)
 	{
-		//no target
 	}
 }

@@ -3,15 +3,12 @@
 // @date: 20230102 14:29:06
 // @desc: extends string extentions 
 'use strict';
-
 (function () {
     // php function helper
-
     String.prototype.ucfirst = function () {
         const m = this;
         return m.length>0?m[0].toUpperCase() + m.slice(1):m;
     };
-
     /**
  * remove brank expression . 
  * @param {string} src 
@@ -49,8 +46,6 @@
         }
         return src;
     };
-
-
     // igk.system.string for string utility used fonction
     igk.system.createNS("igk.system.string", {
         removeBrank,
@@ -100,5 +95,4 @@
             return s;
         }
     });
-
 })();

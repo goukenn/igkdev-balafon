@@ -9,6 +9,7 @@ use IGK\System\IO\Path;
 use IGKAppSystem;
 use IGKEvents;
 use stdClass;
+
 /**
  * init environment balafon environment configuration
  * @package IGK\System\Console
@@ -75,7 +76,7 @@ class BalafonInitEnvironment
             $install_dir = '.';
         } else {
             $g = Path::ToLocalPath($install_dir, $cwd);
-            $install_dir = \IGK\System\IO\Path::GetRelativePath($cwd, $g); // Path::ToLocalPath($install_dir, $cwd), $cwd);
+            $install_dir = \IGK\System\IO\Path::GetRelativePath($cwd, $g); 
         }
         $v_reset = property_exists($options, '--reset');
         $v_no_config = property_exists($options, "--no-config");
@@ -143,7 +144,6 @@ class BalafonInitEnvironment
                 $v_link = null;
                 $v_lk = $lib;
                 if ($core_lib == IGK_LIB_DIR) {
-                    // not a sub folder 
                     $v_lk = Path::Combine(realpath($dir), basename($lib));
                 }
                 $v_link = \IGK\System\IO\Path::GetRelativePath($v_lk, $core_lib);
@@ -177,7 +177,6 @@ class BalafonInitEnvironment
         igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset' => $v_reset]);
         if ($v_reset) {
             IGKEvents::ClearHooks();
-            // - reset environment  
             $argv = igk_getv($_SERVER, 'argv');
             $argv[0] = Path::Combine($cwd ,'/balafon');
             register_shutdown_function(function () use ($argv, $app_dir, $command, $public_dir, $cwd) {

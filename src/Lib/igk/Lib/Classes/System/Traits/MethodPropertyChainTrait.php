@@ -4,6 +4,7 @@
 // @date: 20220803 13:50:44
 // @desc: 
 namespace IGK\System\Traits;
+
 /**
 * auto generate doc.
 */
@@ -24,7 +25,6 @@ trait MethodPropertyChainTrait{
         }
         return $this;
     }
-    // use of this trait require a isAllowed method in order to work properly
     /**
     * .destructor
     * @param mixed $n

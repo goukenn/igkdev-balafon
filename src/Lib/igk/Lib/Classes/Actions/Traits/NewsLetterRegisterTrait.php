@@ -20,6 +20,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
+
 /**
 * auto generate doc.
 * @package IGK\Actions\Traits

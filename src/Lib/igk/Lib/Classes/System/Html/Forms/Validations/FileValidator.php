@@ -9,6 +9,7 @@ use IGK\System\Html\Forms\RequestFormFileData;
 use IGK\System\Number;
 use IGK\System\Text\RegexMatcherContainer;
 use function igk_resources_gets as __;
+
 /**
  * file fields validator
  * @package IGK\System\Html\Forms
@@ -61,7 +62,6 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
                 foreach(['name','tmp_name','error','size', 'type'] as $k){
                     $def[$k] = $value[$k][$i];
                 }
-                // validate
                 $v_error = $def['error'];
                 $v_size = $def['size'];
                 $v_type = $def['type']; 

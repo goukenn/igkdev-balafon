@@ -5,8 +5,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGKObject; 
 use ReflectionMethod;
 // @author: C.A.D. BONDJE DOUE
-// licence: IGKDEV - Balafon @ 2019
-// desc: wsdl utility class
+
 /**
 * used to generate file
 */
@@ -68,7 +67,6 @@ class WsdlFile extends IGKObject {
     public function __construct($name, $uri, $attributes=null){
         $this->m_uri=$uri;
         $this->m_attributes=$attributes;
-        // $this->m_def=new XmlNode("definitions");
         $this->m_def=new HtmlNode("definitions");
         $this->m_def["name"]=$name;
         $this->m_def["targetNamespace"]=$this->TargetNS;
@@ -155,66 +153,42 @@ class WsdlFile extends IGKObject {
             "namespace"=>"urn:{$urn}",
             "use"=>"{$type}"
         ]);
-//         Content=<<<EOF
-//             <soap:body
-//                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-//                namespace="urn:{$urn}"
-//                use="{$type}"/>
-// EOF;
         $output->addXmlNode("soap:body")->setAttributes([
             "encodingStyle"=>"http://schemas.xmlsoap.org/soap/encoding/", 
             "namespace"=>"urn:{$urn}",
             "use"=>"{$type}"
         ]);
-//         ->Content=<<<EOF
-//             <soap:body
-//                encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-//                namespace="urn:{$urn}"
-//                use="{$type}"/>
-// EOF;
         return $op;
     }
-    ///<summary></summary>
-
     /**
     * auto generate doc.
     */
     public function getDocumentation(){
         return igk_getv($this->m_attributes, "doc", "service documentation");
     }
-    ///<summary></summary>
-
     /**
     * auto generate doc.
     */
     public function getNSPrefix(){
         return igk_getv($this->m_attributes, "nsprefix", "igkns");
     }
-    ///<summary></summary>
-
     /**
     * auto generate doc.
     */
     public function getNSUri(){
         return igk_getv($this->m_attributes, "nsuri", "http://www.igkdev.com");
     }
-    ///<summary></summary>
-
     /**
     * auto generate doc.
     */
     public function getTargetNS(){
         return igk_getv($this->m_attributes, "targetns", "http://www.igkdev.com");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-
     /**
     * auto generate doc.
     * @param mixed $t
     */
     protected final
-
     function getXSDType($t){
         $v_rt="xsd:string";
         $args=array(
@@ -232,29 +206,18 @@ class WsdlFile extends IGKObject {
             $v_rt=$args[$t];
         return $v_rt;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="attrs" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $attrs the default value is null
     */
-
     public function initService($n, $attrs=null){
         $this->m_srv=$this->addBindingService($n."_bindingService");
         $this->addService($n, igk_getv($attrs, "doc"), $this->m_srv, $this->m_uri);
     }
-    ///<summary></summary>
-    ///<param name="className"></param>
-    ///<param name="srvName"></param>
-    ///<param name="attrs" default="null"></param>
-
     /**
     * auto generate doc.
     * @param mixed $attrs the default value is null
     */
-
     public function registerClass($className, $srvName, $attrs=null){
         $cl=is_object($className) ? get_class($className): (class_exists($className) ? $className: null);
         if($cl == null)
@@ -274,7 +237,6 @@ class WsdlFile extends IGKObject {
             if($m->isPublic() && !$m->isStatic() && !$m->isConstructor()){
                 $i=array();
                 foreach($m->getParameters() as $p){
-                  
                     $i[$p->name]="xsd:string";
                 }
                 $o=array();
@@ -284,17 +246,12 @@ class WsdlFile extends IGKObject {
             }
         }
     }
-    ///<summary>register methods </summary>
-    ///<param name="classname" >class name</param>
-    ///<param name="srvName" >service name </param>
-    ///<param name="funclist" >array list of available functions</param>
     /**
     * register methods
     * @param mixed $classname class name
     * @param mixed $srvName service name
     * @param mixed $funclist array list of available functions
     */
-
     public function registerMethod($className, $srvName, $funclist){
         $_subtolocal = [
             "float"=>"f4",
@@ -327,7 +284,6 @@ class WsdlFile extends IGKObject {
                     if(preg_match_all($v_match, $p->name, $tab)){
                         $v_rt=$this->getXSDType($tab["type"][0]);
                     } else if ($_ctype = $p->getType()){
-                        
                         $v_rt  = $this->getXSDType(igk_getv($_subtolocal, $_ctype->getName()), $v_rt);
                     } 
                     $i[$p->name]=$v_rt;
@@ -340,14 +296,10 @@ class WsdlFile extends IGKObject {
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="f"></param>
-
     /**
     * auto generate doc.
     * @param mixed $f
     */
-
     public function Save($f){
         $options = (object)["Indent"=>true];
         $s = $this->m_def->render($options);  

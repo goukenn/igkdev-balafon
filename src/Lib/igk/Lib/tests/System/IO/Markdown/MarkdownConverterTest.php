@@ -3,7 +3,6 @@
 // @file: MardownConverterTest.php
 // @date: 20241105 09:16:09
 namespace IGK\Tests\System\IO\Markdown;
-
 use Exception;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -19,17 +18,12 @@ use ReflectionException;
 * @package IGK\Tests\System\IO\Markdown
 * @author C.A.D. BONDJE DOUE
 */
-
 /**
 * auto generate doc.
 * @package IGK\Tests\System\IO\Markdown
 */
 class MarkdownConverterTest extends BaseTestCase
 {
-    // public static function suite(){
-    //     return new TestSuite(static::class);//  'markdown';
-    // }
-
     /**
     * auto generate doc.
     * @param string $src
@@ -43,7 +37,6 @@ class MarkdownConverterTest extends BaseTestCase
         $l = $converter->transformToHtml($src);
         return $l;
     }
-
     /**
     * Tests mdconverter string.
     */
@@ -60,7 +53,6 @@ class MarkdownConverterTest extends BaseTestCase
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
-
     public function test_mdconverter_two_tables()
     {
         $src = implode("\n", [
@@ -80,7 +72,6 @@ class MarkdownConverterTest extends BaseTestCase
             $d
         );
     }
-
     /**
     * Tests mdconverter emoji.
     */
@@ -92,7 +83,6 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('emoji ☕️ data', $d);
     }
-
     /**
     * Tests mdconverter headers.
     */
@@ -106,11 +96,9 @@ class MarkdownConverterTest extends BaseTestCase
             "##### h5",
             "###### h6"
         ]);
-
         $d = $this->_transform($src);
         $this->assertEquals('<h1>Title</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4><h5>h5</h5><h6>h6</h6>', $d);
     }
-
     /**
     * Tests mdconverter image.
     */
@@ -122,7 +110,6 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<img alt="favicon igkdev.com" src="https://igkdev.com/favicon.ico"/>', $d);
     }
-
     /**
     * Tests mdconverter at import.
     */
@@ -132,7 +119,6 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a> is the best', $d);
     }
-
     /**
     * Tests mdconverter order.
     */
@@ -155,13 +141,11 @@ class MarkdownConverterTest extends BaseTestCase
             'missing order definition'
         );
     }
-
     /**
     * Tests mdconverter escaped.
     */
     public function test_mdconverter_escaped()
     {
-        // escaped
         $src = implode("\n", [
             '1. Info \`data\`',
             '2. : 🎂',
@@ -170,26 +154,21 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<ol><li class="i">Info `data`</li><li class="i">: 🎂</li><li class="i">: 🥤</li></ol>', $d);
     }
-
     /**
     * Tests mdconverter ordered.
     */
     public function test_mdconverter_ordered()
     {
-        // ordered
         $src = implode("\n", [
             '1. a',
             '1. b',
-            // '',
             '',
             '1. Orange',
             '2. ```Mangoes```'
         ]);
-
         $d = $this->_transform($src);
         $this->assertEquals('<ol><li class="i">a</li><li class="i">b</li></ol><ol><li class="i">Orange</li><li class="i"><code>Mangoes</code></li></ol>', $d);
     }
-
     /**
     * Tests mdconverter task.
     */
@@ -203,7 +182,6 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<ul class="igk-task-list"><li class="type-start">sample task</li><li class="type-complete">sample complete task</li><li class="type-progress">sample in progress complete task</li></ul>', $d);
     }
-
     /**
     * Tests mdconverter code.
     */
@@ -222,7 +200,6 @@ class MarkdownConverterTest extends BaseTestCase
             '     info: "sample"}</code><h1>end code</h1>'
         ]), $d);
     }
-
     /**
     * Tests mdconverter multi expression code.
     */
@@ -245,7 +222,6 @@ class MarkdownConverterTest extends BaseTestCase
             '<h4>Views options</h4><p>passing parameters to layout</p><code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
         ]), $d);
     }
-
     /**
     * Tests mdconverter leave md.
     */
@@ -254,7 +230,6 @@ class MarkdownConverterTest extends BaseTestCase
         // + | --------------------------------------------------------------------
         // + | remove empty line and remove non used data
         // + |
-
         $src = implode("\n", [
             '',
             '',
@@ -265,14 +240,12 @@ class MarkdownConverterTest extends BaseTestCase
             '```',
             'docker compose down',
             '```',
-
         ]);
         $d = $this->_transform($src);
         $this->assertEquals(implode("\n", [
             '<h2>Docker - </h2><code class="igk-code">docker compose down</code>'
         ]), $d, 'ignore starting empty line ');
     }
-
     /**
     * Tests mdconverter document link.
     */
@@ -289,7 +262,6 @@ class MarkdownConverterTest extends BaseTestCase
             '<h1 id="document">document</h1><ul class="list"><li class="i"><a href="#sample">link</a></li></ul><h2 id="sample">sample</h2><p>writing sample</p>'
         ]), $d);
     }
-
     /**
     * Tests mdconverter hr.
     */
@@ -305,39 +277,30 @@ class MarkdownConverterTest extends BaseTestCase
             '<h1 id="document">document</h1><hr class="hrule"/><p>writing sample</p>',
         ]), $d);
     }
-
     /**
     * Tests mdconverter litteral.
     */
     public function test_mdconverter_litteral()
     {
         $d = $this->_transform('info < et >', false);
-
         $this->assertEquals('info &lt; et &gt;', $d);
     }
-
     /**
     * auto generate doc.
     * @return void
     */
-
     public function test_mdconverter_lines()
     {
         $d = $this->_transform(implode("\n", [
             "`sample` : line1  ",
-            "line2 ",
-            <<<EOF
+            "line2 ",<<<EOF
 ## the-code
 data la sample 
-EOF
-        ]), false);
-
+EOF        ]), false);
         $this->assertEquals(
-        // "<p><code>sample</code> : line1 <br/>line2 </p><h2>the-code</h2><p>data la sample </p>", 
         '<p><code>sample</code> : line1 <br/>line2 </p><h2>the-code</h2><p>data la sample </p>',
         $d);
     }
-
     /**
     * Tests mdconverter load def resource.
     */
@@ -347,10 +310,8 @@ EOF
             "[click](#click-me)  ",
             "# intro {#click-me} ",
         ]), true);
-
         $this->assertEquals('<p><a href="#click-me">click</a> </p><h1 id="click-me">intro </h1>', $d);
     }
-
     /**
     * Tests mdconverter chain state.
     */
@@ -364,10 +325,8 @@ EOF
             "**Cas d'usage :**",
             "martyr"
         ]), true);
-
         $this->assertEquals("<code class=\"igk-code code-php\">\$x = 4;</code><p><b>Cas d'usage :</b><br/>martyr</p>", $d);
     }
-
     /**
     * Tests mdconverter load array.
     */
@@ -381,7 +340,6 @@ EOF
         $d = $this->_transform($src, true);
         $this->assertEquals('<table class="igk-table"><tr><th>a</th><th>b</th></tr><tr><td><code>.xsm</code></td><td>Écran &lt; 576px</td></tr></table>', $d);
     }
-
     /**
     * Tests mdconverter inline code with html entities.
     */

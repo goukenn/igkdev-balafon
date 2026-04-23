@@ -7,40 +7,34 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Ext\Controllers\Google;
-
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Controllers\Traits\ControllerLocationTrait;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use function igk_resources_gets as __;
+
 /**
 * represent google's font configuration layer
 */
 final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     use ControllerLocationTrait;
-
     /**
     * auto generate doc.
     */    protected function getConfigFile(){
         return igk_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
     }
-
     /**
     * auto generate doc.
     */    public function getConfigGroup(){
         return "google";
     }
-
     /**
     * auto generate doc.
     */    public function getConfigPage(){
         return "google.fonts";
     }
-
     /**
     * auto generate doc.
     */
@@ -50,13 +44,11 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         $t=(array)($fonts);
         return array_keys($t);
     }
-
     /**
     * auto generate doc.
     */    public function getName(): string{
         return __CLASS__; 
     }
-
     /**
     * auto generate doc.
     */    public function initConfigMenu(){
@@ -66,17 +58,14 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
             $this->getUri("showConfig")))->setGroup($this->ConfigGroup)
         );
     }
-
     /**
     * auto generate doc.
     */    public function install(){
         igk_sess_write_close();
         extract(igk_getrs("family", "size"));
 		$k = 0;
-
 		if(!empty($family))
         $k = igk_google_installfont($family, $size);
-
 		if (igk_is_ajx_demand()){
 			if ($k)
 				igk_ajx_toast(__("font installed"), "success");
@@ -88,7 +77,6 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         igk_ajx_redirect();
         igk_navto_referer();
     }
-
     /**
     * auto generate doc.
     */    public function showConfig(){
@@ -101,13 +89,10 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         $lang["fr"]['moreinfo']="pour plus d'information visité le site <a href='https://fonts.google.com/' title='google font'>https://fonts.google.com/</a>";
         $lang["en"]["code"]="use <code class=\"dispib\"> igk_google_addfont(\$doc, \$name)</code> to add google's inline font";
         $lang["en"]['moreinfo']="For more information please visit <a href='https://fonts.google.com/' title='google font'>https://fonts.google.com/</a>";
-
         $lkey = R::GetCurrentLang();
         if (!in_array($lkey, array_keys($lang))){
             $lkey = igk_configs()->get('default_lang', 'en');
         }
-
-        // $this->_selectConfigView($this);
         $t = $this->getTargetNode();
         $box = $this->getConfigNode()->panelbox();
         $box->add($t);
@@ -117,11 +102,8 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         igk_css_reg_global_tempfile(dirname(__FILE__)."/Styles/google.font.css");
         if ($ftlist = $this->getfontlist()){
             $t->div()->setClass('googel-install-ft')->article($this, $this->getDeclaredDir()."/Articles/fontsettings.template", ['fontlist'=>$ftlist]);
-            // $t->div()->Content = $this->getDeclaredDir("fontsettings.template");
-
         }
     }
-
     /**
     * Resave.
     */

@@ -1,12 +1,8 @@
 "uses strict";
-
-
 (function() {
-
     igk.winui.initClassControl("igk-cm-btn", function() {
         //comment button
         this.addClass("igk-btn igk-btn-default");
-
         var s = this.getAttribute("href");
         var opt = igk.JSON.parse(this.getAttribute("options"));
         var show = 0;
@@ -39,13 +35,11 @@
                     i = p.add("textarea");
                     i.o["id"] = "clComment";
                     i.addClass("cltextarea");
-
                 }
                 q.select("^div").first().add(p.o);
             }
         });
     });
-
     function __init_i() {
         var p = this;
         var opt = igk.JSON.parse(p.getAttribute("igk:data"));
@@ -93,9 +87,7 @@
                     sh = 0;
                 }
             });
-
         });
-
         this.qselect(".i .cm-btn.drop").each_all(function() {
             this.reg_event("click", function() {
                 igk.ajx.get('comment_drop_ajx/' + opt.id, null, function() {
@@ -105,10 +97,7 @@
                 });
             });
         });
-
     };
-
-
     igk.winui.initClassControl("igk-comment-z", function() {
         this.qselect('.i').each_all(__init_i);
         // //cm-btn.more
@@ -117,7 +106,6 @@
         // var p = this.select("^.i").first();
         // var a = this.select("^.a").first().o.parentNode;
         // if (!p)return;
-
         // var opt = igk.JSON.parse(p.getAttribute("igk:data"));
         // var q = this;
         // var sh =0;
@@ -162,9 +150,6 @@
         // sh = 0;
         // }
         // });
-
         // });
-
-
     });
 })();

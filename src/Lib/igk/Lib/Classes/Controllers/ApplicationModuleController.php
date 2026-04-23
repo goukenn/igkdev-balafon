@@ -19,6 +19,7 @@ use IGK\System\IO\Path;
 use IGK\System\Modules\Traits\ModuleIncludeDefinitionInvokeTrait; 
 use Throwable;
 use TypeError;
+
 /**
 * represent application module class
 * @method function initDoc($doc, ...$args) initialize document
@@ -68,17 +69,17 @@ final class ApplicationModuleController extends BaseController{
     * Property: src.
     * @var mixed
     */
-    private $m_src;             // source code
+    private $m_src;             
     /**
     * Property: initializer.
     * @var mixed
     */
-    private $m_initializer;     // used to extend module class properties
+    private $m_initializer;     
     /**
     * Property: configs.
     * @var mixed
     */
-    private $m_configs;         // configuration
+    private $m_configs;         
     /**
     * Property: boot.
     * @var mixed
@@ -160,7 +161,6 @@ final class ApplicationModuleController extends BaseController{
             } 
             igk_push_env(__CLASS__."/callee", $n);
             $o = $this->invokeInclusion($name, $args);
-            // $o=call_user_func_array($fc, $args);
             $dc=igk_pop_env(__CLASS__."/callee");
             return $o;
         } 
@@ -270,11 +270,7 @@ final class ApplicationModuleController extends BaseController{
             $libdir=$classLib;  
             $fc = function($n)use($entry_ns, $libdir){ 
                 $fc = "";
-                //  if ($n ==\igk\js\Vue3\Components\VueApplicationNode::class){
-                //   igk_wln_e("try load ".$n . " ".$this->getName(), $entry_ns, $dir = $this->getDeclaredDir());
-                //  }
                 if (!empty($entry_ns) && (strpos( strtolower($n), strtolower($entry_ns.'\\'))===0)){
-                    // and matching start of the entry namespace
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
                     if (igk_io_file_exists($fc = igk_dir($libdir."/".$cl.".php"), true)){                         
                         include($fc);                        
@@ -365,7 +361,6 @@ final class ApplicationModuleController extends BaseController{
         }
         catch(\Error $ex){
             igk_dev_wln_e('error ', $ex->getMessage(), $ex->getLine(), $__cache['code']);
-            // catch fatal - error
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         catch(\Throwable $ex){

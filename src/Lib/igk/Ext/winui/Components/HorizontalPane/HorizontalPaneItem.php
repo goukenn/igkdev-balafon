@@ -4,7 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
-
 use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
@@ -27,177 +26,143 @@ require_once __DIR__. "/HorizontalAnimType.pinc";
 require_once __DIR__. "/JSHorizontalPane.pinc"; 
 require_once __DIR__. "/HorizontalPage.pinc"; 
 require_once __DIR__. "/IHorizontalPaneListener.php";
-
 /**
 * Horizontal pane item.
 * @package IGK\Ext\WinUI\Components\HorizontalPane
 */
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
-
     /**
     * Property: pane.
     * @var mixed
     */
     private $m_pane;
-
     /**
     * Listener: pagelistener.
     * @var mixed
     */
     private $m_pagelistener;
-
     /**
     * Property: manager.
     * @var mixed
     */
     private $m_manager;
-
     /**
     * Property: infobox.
     * @var mixed
     */
     private $m_infobox;
-
     /**
     * Property: infobox script.
     * @var mixed
     */
     private $m_infoboxScript;
-
     /**
     * Property: pattern.
     * @var mixed
     */
     private $m_pattern;
-
     /**
     * Path to folder.
     * @var mixed
     */
     private $m_folder;
-
     /**
     * Name of config file name.
     * @var mixed
     */
     private $m_ConfigFileName;
-
     /**
     * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl; 
-
 	/**
 	 * get binded controller
 	 * @return mixed 
 	 */
-
     public function getCtrl(){
 		return $this->m_ctrl;
 	}
-
     /**
     * Returns Folder.
     */
-
     public function getFolder()
 	{
 		return $this->m_folder;
 	}
-
     /**
     * Sets Folder.
     * @param mixed $v
     */
-
     public function setFolder($v)
 	{
 		$this->m_folder = IO::GetDir($v);
 	}
-
     /**
     * Returns Config File Name.
     */
-
     public function getConfigFileName()
 	{
 		return $this->m_ConfigFileName;
 	}
-
     /**
     * Sets Config File Name.
     * @param mixed $v
     */
-
     public function setConfigFileName($v)
 	{
 		$this->m_ConfigFileName = $v;
 	}
-
     /**
     * Returns Pattern.
     */
-
     public function getPattern()
 	{
 		return $this->m_pattern;
 	}
-
     /**
     * Sets Pattern.
     * @param mixed $v
     */
-
     public function setPattern($v)
 	{
 		$this->m_pattern = $v;
 	}
-
     /**
     * Returns Pane.
     */
-
     public function getPane()
 	{
 		return $this->m_pane;
 	}
-
     /**
     * Returns string representation.
     */
-
     public function __toString()
 	{
 		return __CLASS__;
 	}
-
     /**
     * Returns Has Page.
     */
-
     public function getHasPage()
 	{
 		return $this->m_pane->pageNode->HasChilds;
 	}
-
     /**
     * Loading complete.
     */
-
     public function loadingComplete()
 	{
 		$this->configure();
 		$this->flush();
 	}
-
     /**
     * Sets Ctrl.
     * @param mixed $ctrl
     * @param null|mixed $folder
     */
-
     public function setCtrl($ctrl, $folder = null)
 	{
 		$this->clearPages();
@@ -207,7 +172,6 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		$this->m_ctrl = $ctrl;
 		return $this;
 	}
-
     /**
     * auto generate doc.
     * @return
@@ -215,14 +179,12 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     private function loadConfigSetting()
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
-
 		if (!igk_io_file_exists($f))
 			return;
 		$div =  HtmlReader::LoadFile($f);
 		$d = igk_getv($div->getElementsByTagName("config"), 0);
 		if ($d) {
 			foreach ($d->Childs as $k) {
-
 				if ($k->getType() == HtmlNodeType::Text)
 					continue;
 				$r = $k->TagName;
@@ -230,29 +192,23 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 			}
 		}
 	}
-
     /**
     * Store dbconfigs setting.
     */
-
     public function storeDBConfigsSetting()
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
 		$d = HtmlNode::CreateWebNode("config");
-		//store
-
 		$d->add("AnimType")->Content = $this->m_pane->AnimType;
 		$d->add("AnimInterval")->Content = $this->m_pane->AnimInterval;
 		$d->add("AnimPeriod")->Content = $this->m_pane->AnimPeriod;
 		$d->add("AnimDuration")->Content = $this->m_pane->AnimDuration;
 		$d->SaveToFile($f);
 	}
-
     /**
     * Returns Options XML.
     * @param mixed $uri
     */
-
     public function getOptionsXML($uri)
 	{
 		$d = HtmlNode::CreateWebNode("div");
@@ -265,18 +221,15 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		}
 		return $d->getinnerHTML();
 	}
-
     /**
     * Edit pane options.
     * @param mixed $target
     */
-
     public function EditPaneOptions($target)
 	{
 		if ($target == null)
 			return;
 		$pane = $this->m_pane;
-
 		$s = <<<EOF
 <igk:labelInput igk:id='AnimDuration' igk:value='{$pane->AnimDuration}' />
 <igk:labelInput igk:id='AnimInterval' igk:value='{$pane->AnimInterval}'/>
@@ -286,7 +239,6 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 EOF;
 		$target->Load(igk_html_databinding_treatresponse($s, null, null, null));
 	}
-
     /**
     * .ctr
     */
@@ -294,18 +246,16 @@ EOF;
 	{
 		parent::__construct("div");		
 	}
-
     /**
     * Initializes.
     */
-
     protected function initialize()
 	{
 		$this["class"] = "igk-hpane-container";
 		$this->m_pane = new JSHorizontalPane($this);
 		$this->m_pattern = "/\.phtml$/i";
 		$this->m_manager = new HorizontalPaneManager($this);
-		$this->m_infobox = new HorizontalPaneInfoBox(); //$this->div()->setClass("igk-pane-infobox");
+		$this->m_infobox = new HorizontalPaneInfoBox(); 
 		$this->m_pane->pageNode["igk-component-id"] = $this->m_manager["igk-component-id"];
 		$this->add($this->m_manager);
 		$this->m_infobox->setCallback("getIsVisible", igk_create_node_callback(array($this, "getIsVisible"), array('infobox')));
@@ -315,45 +265,33 @@ EOF;
 		$this->m_infoboxScript = $this->m_infobox->addScript();
 		$this->m_ConfigFileName = "config.xml";
 	}
-	///mage all visibility
-
     /**
     * Returns true if Visible.
     * @param mixed $n
     * @param mixed $t
     */
-
     public function isVisible($n, $t)
 	{
-
 		$u = igk_app()->session->User;
 		switch ($t) {
 			case "infobox":
 				return !$this->HasPage && (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage")));
-
 			case "option":
 				return (IGKViewMode::IsSupportVIewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth('sys://designpage'))) && ($this->Folder != null);
 		}
 		return false;
 	}
-
     /**
     * Loads Data.
     * @param mixed $data
     */
-
     public function loadData($data)
 	{
-		// igk_ilog("load data");
-		// $data->renderAJX();
-		// igk_wln($data->getElementsByTagName("page"));
-
 		foreach ($data->getElementsByTagName("page") as $e) {
 			$file = $e["file"];
 			$p = $this->addPage();
 			igk_html_bind_target(null, $p, $e->getInnerHtml()(), (object)array("file" => $file));
 			$p->setFile($file);
-
 			if (IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER)) {
 				$c = igk_html_article_options(null, $p, $file);
 				if ($c) {
@@ -364,23 +302,18 @@ EOF;
 			}
 		}
 	}
-
     /**
     * Accept render.
     * @param null|mixed $options
     * @return bool
     */
-
     protected function _acceptRender($options = null):bool
 	{
 		if (!$this->IsVisible)
 			return false;
-
 		$p = $this->getPageViewListener();
 		$uri = null;
-		//$u = igk_app()->session->User;
 		$u = igk_app()->session->User;
-
 		$v = IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER) || ($u && $u->auth("sys://designpage"));
 		if ($v) {
 			if ($p) {
@@ -396,55 +329,44 @@ EOF;
 		}
 		return true;
 	}
-
     /**
     * Sets Page View Listener.
     * @param mixed $listener
     */
-
     public function setPageViewListener($listener)
 	{
 		if (($listener == null) || !igk_reflection_class_implement($listener, IHorizontalPaneListener::class))
 			igk_die("listener is not a valid value ");
 		$this->m_pagelistener = $listener;
 	}
-
     /**
     * Returns Page View Listener.
     */
-
     public function getPageViewListener()
 	{
 		return $this->m_pagelistener;
 	}
-
     /**
     * Flush.
     */
-
     public function flush(){
 		$this->m_pane->flush(); 
 	}
-
     /**
     * Adds Page.
     * @param null|mixed $attributes
     */
-
     public function addPage($attributes = null)
 	{
 		return $this->m_pane->addPage($attributes);
 	}
-
     /**
     * Clears Pages.
     */
-
     public function clearPages()
 	{
 		$this->m_pane->Clear();
 	}
-
     /**
     * Configures.
     * @param mixed $AnimDuration
@@ -453,32 +375,26 @@ EOF;
     * @param mixed $IsAutoAnimate
     * @param mixed $AnimType
     */
-
     public function configure(
 		$AnimDuration = 500,
 		$AnimInterval = 20,
 		$AnimPeriod = 25000,
 		$IsAutoAnimate = true,
-		$AnimType = JSHorizontalPane::DEFAULTANIMTYPE // "rotation" //"translation"/// fade, rotation
+		$AnimType = JSHorizontalPane::DEFAULTANIMTYPE 
 	) {
-		// igk_ilog("configure page ");
 		$this->m_pane->AnimDuration = $AnimDuration;
 		$this->m_pane->AnimInterval = $AnimInterval;
 		$this->m_pane->AnimPeriod = $AnimPeriod;
 		$this->m_pane->IsAutoAnimate = $IsAutoAnimate;
 		$this->m_pane->AnimType = $AnimType;
-
 		if ($this->m_pagelistener != null) {
 			$this->m_pagelistener->buildPages($this);
 		} else {
-
-			$data = igk_create_xmlnode("horizontal-pane-data"); // HtmlNode::CreateWebNode("horizontal-pane-data");
+			$data = igk_create_xmlnode("horizontal-pane-data"); 
 			$dir = $this->Folder;
 			$p = $this->Pattern;
 			if ($dir && IO::CreateDir($dir)) {
-
 				IO::WriteToFileAsUtf8WBOM($dir . "/.htaccess", "allow from all", false);
-
 				foreach (igk_io_getfiles($dir, $p, false) as  $v) {
 					$v_p = $data->add("page");
 					$v_p["file"] = $v;
@@ -489,13 +405,11 @@ EOF;
 			}
 		}
 	}
-
     /**
     * auto generate doc.
     * @param BaseController|null $ctrl
     * @return void
     */
-
     public static function InitComponent($doc, ?BaseController $ctrl=null){
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
 		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 

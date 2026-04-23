@@ -3,6 +3,7 @@
 // @file: IntegerContentValidator.php
 // @date: 20230303 20:55:22
 namespace IGK\System\Security\Web;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web

@@ -16,7 +16,6 @@
                 },
                 param: data   
             });
-
         }else {
             this.o.submit();
         }

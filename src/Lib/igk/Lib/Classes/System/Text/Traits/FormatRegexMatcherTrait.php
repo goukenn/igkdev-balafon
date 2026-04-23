@@ -7,6 +7,7 @@ use Closure;
 use Exception;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
 * auto generate doc.
 * @package IGK\System\Text\Traits

@@ -4,6 +4,7 @@
 // @date: 20220819 15:33:38
 // @desc: 
 namespace IGK\System\Html\Templates;
+
 /**
  * use to bind template expression
  * @package IGK\System\Html\Templates

@@ -4,6 +4,7 @@
 // @date: 20221203 17:31:11
 // @desc: type constants
 namespace IGK\System\Database\MySQL;
+
 /**
  * mysql suppport data type - 
  * @package 

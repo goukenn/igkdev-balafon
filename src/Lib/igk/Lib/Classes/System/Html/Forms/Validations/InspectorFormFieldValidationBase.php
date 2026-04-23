@@ -19,6 +19,7 @@ use ReflectionProperty;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
 use IGK\System\Html\IFormFieldOptions;
 use IGK\System\Html\Validations\IFormFieldValidationStoreError;
+
 /**
 * represent class that will define property required to inspect form field request
 * @package IGK\System\Html\Forms\Validations
@@ -79,13 +80,11 @@ abstract class InspectorFormFieldValidationBase implements
             }
             if ($s instanceof FormFieldInfo) {
                 if ($s->validator) {
-                    // convert to formFieldValidationInfo
                     $validations[$k] = Activator::CreateNewInstance(FormFieldValidationInfo::class, $s);
                 } else {
                     if ($s->type == 'file'){
                         $v_fileRequest[$k] = 1;
                     }
-                    // create a validation depending on type
                     $v_validator = FormFieldValidatorBase::Factory($s->type) ;                  
                     $v_v = new FormFieldValidationInfo;
                     $v_v->validator = $v_validator? $v_validator:  new DefaultValidator;                
@@ -100,7 +99,6 @@ abstract class InspectorFormFieldValidationBase implements
             }
         } 
         if ($v_fileRequest && Request::IsSupportFileRequest($data)){
-            // support files
             $data = new FormRequestWithFileValidationData($data);
         }
         $v_props_d = igk_reflection_get_class_properties(static::class);  
@@ -119,7 +117,6 @@ abstract class InspectorFormFieldValidationBase implements
      * @return void 
      */
     protected function onValidationComplete($data, $validations){
-        // override to validate 
     }
     /**
     * auto generate doc.

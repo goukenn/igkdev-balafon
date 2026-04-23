@@ -5,6 +5,7 @@
 namespace IGK\Database\Seeds;
 use IGK\Controllers\SysDbController;
 use IGK\System\Database\Seeds\SeederBase;
+
 /**
 * auto generate doc.
 * @package IGK\Database\Seeds

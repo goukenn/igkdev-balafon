@@ -7,6 +7,7 @@ use IGKException;
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
+
 /**
 * Html head node.
 * @package IGK\System\Html\Dom
@@ -84,7 +85,6 @@ class HtmlHeadNode extends HtmlNode{
        // + |
        $t = [];
        $v=parent::_getRenderingChildren($options);
-       // igk_wln_e("do", $v);
         $is_document = isset($options->Document);
         // + 1. meta first
         if($is_document){
@@ -106,7 +106,6 @@ class HtmlHeadNode extends HtmlNode{
         }
         if(is_array($v))
             $t=array_merge($t, $v);        
-        // to load extra item on 
         $t[] =new HtmlHookNode(IGKEvents::HOOK_HTML_HEAD, "head");
         return $t;
     }

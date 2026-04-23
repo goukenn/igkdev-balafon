@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\IO\File;
+
 /**
  * represent ini file
  * @package 
@@ -70,8 +71,6 @@ class IniFile{
         array_map(
             function($d)use(& $conf){
                 $d = trim($d);
-                // if (strpos($d, "#")===0)
-                //     return null;
                 if (strpos($d, "=") === false)
                     return null;
                 $key = substr($d,0, $ln = strpos($d, "="));
@@ -85,7 +84,6 @@ class IniFile{
         $c->m_configs = $conf;
         return $c;
     }
-    //store to file
     /**
     * Store.
     * @param string $file

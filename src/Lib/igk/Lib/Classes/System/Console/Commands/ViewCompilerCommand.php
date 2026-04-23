@@ -19,6 +19,7 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
 use Traversable;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -87,14 +88,9 @@ class ViewCompilerCommand extends AppExecCommand
             fwrite(STDERR, "Compilation result : \n");
             echo $src . "\n";
         }
-        // if ($cache) {
             // + | --------------------------------------------------------------------
             // + | EVALUATE WITH DUMMY DATA
             // + |
-        //     echo "------------------------------------\n";
-        //     $fc = self::CreateEvalCode($compiler->options->ctrl);
-        //     echo "finish:".$fc($compiler, $src);
-        // }
     }
     /**
     * Creates Eval Code.

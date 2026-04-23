@@ -15,6 +15,7 @@ use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
 use ReflectionException;
+
 /**
  * use to build query
  * @package IGK\System\Database
@@ -414,7 +415,6 @@ class QueryBuilder
         if ($options){
             if ($limit = igk_getv($options, 'Limit')){
                 $this->limit($limit);
-                // is_array($options) ? \unset($options['Limit']): \unset($options->Limit);
             }
         }
         if (!empty($query = $this->get_query()) && $driver->connect()) { 
@@ -520,16 +520,12 @@ class QueryBuilder
             }
             $w_table = null;
             $columns_keys = [];
-            // $ref_column = null;
             foreach ($links as $cl => $info) {
                 list($table, $clname) = $info;
-                // $ctable = igk_getv($info, 2);
-                // $property = igk_getv($info, 3);
-                if (key_exists($table, $linktab)) { //  == $w_table) {
+                if (key_exists($table, $linktab)) { 
                     $w_mod = $tab[$table]->model::model();
                     if ($dd = $v->$cl) {
                         if (igk_getv($linktab, $table) === 1) {
-                            // resolved in value . ignore root value
                             continue;
                         } else {
                             $clname = $clname ?? $w_mod->getPrimaryKey();
@@ -541,7 +537,6 @@ class QueryBuilder
                                 if (!isset($columns_keys[$key])) {
                                     $columns_keys[$key] = (array)$tk;
                                 }
-                                // $columns_keys[$key] = (array)$tk;
                                 if (isset($columns_keys[$key][$cl])) {
                                     if (!is_array($columns_keys[$key][$cl])) {
                                         $c_cl = $columns_keys[$key][$cl];
@@ -603,7 +598,6 @@ class QueryBuilder
     {
         return $this->m_model;
     }
-    // 
     /**
      * execute and get array
      * @return mixed 
@@ -612,7 +606,7 @@ class QueryBuilder
     public function get()
     {
         if ($tab = $this->execute()) {
-            return  $tab->getRows(); //->to_array();
+            return  $tab->getRows(); 
         }
     }
     /**

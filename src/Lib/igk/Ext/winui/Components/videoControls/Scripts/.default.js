@@ -6,16 +6,12 @@ var _ui = igk.winui;
 var m_vidModels = [];
 var BTN_FS = 2; //full screen
 var BTN_FS_M = 5; //full screen mode
-
-
 function videoModel(controls, vid){
 	var reg={fs:0, useFilter:0};
 	var sfilter= "";
-	
 	function hideCur(){
 		vid.o.style.cursor ='none';
 	};
-	
 	//exposed properties
 	igk.appendProperties(this, {
 		pause:function(){vid.o.pause();},
@@ -83,7 +79,6 @@ function videoModel(controls, vid){
 	});
 	this.fn = {};//utility
 	var self =this;
-
 	vid.reg_event("timeupdate", function(){	
 		var p = vid.o.currentTime;
 		var s = self.fn["timee"];	
@@ -93,7 +88,6 @@ function videoModel(controls, vid){
 		s = self.fn["timel"];
 		if (s && d)
 			s.setHtml("-"+_textt(d-p));
-		
 		s = self.fn["timeprogress"];
 		if(s && d)
 			self.updateProgress(p / d);		
@@ -120,26 +114,19 @@ function _textts(t){
 	var s = ((t % 60)+"").padStart(2,"0");
 	return m+":"+s;//d.getTotalMinutes(); 
 }
-
 function _init_progress(p, h, vid){
 	var m_i = p.add("input");
 	var m_c = p.add("div").addClass("bl");//main line
 	var m_b = p.add("div").addClass("bf");//buffer
 	var m_f = p.add("div").addClass("cur");
 	var c = {handle:0, touch:0};
-	
 	h.fn["timeprogress"]=1;
 	var buffers = [];
 	function _update_buffer(){
 		var _s=0, _e=0, _i;
-		
-		
 		if (typeof(vid.o.buffered) =="undefined"){
 			return;
 		}
-		
-		
-
 		for(var i = 0; i < vid.o.buffered.length; i++){
 			_s = Math.ceil((vid.o.buffered.start(0) / vid.o.duration) * 10000)/100;
 			_e = Math.ceil((vid.o.buffered.end(0) / vid.o.duration) * 10000)/100;
@@ -156,12 +143,9 @@ function _init_progress(p, h, vid){
 			});
 		}
 		//"+vid.o.buffered.length +" >>> Form "+vid.o.buffered.start(0) + " to "+vid.o.buffered.end(0));
-		
 	}
 	_update_buffer();
-	
 	vid.reg_event("timeupdate", _update_buffer);
-	
 	function _update(x){
 		if (!vid.o.duration)
 			return;
@@ -180,9 +164,7 @@ function _init_progress(p, h, vid){
 		c.handle=0;
 		c.touch=0;
 	};
-	
 	if (p.istouchable()){
-		
 	}
 	else{
 		p.reg_event("mouseup mousedown mousemove", function(evt){
@@ -211,7 +193,6 @@ function _init_progress(p, h, vid){
 			}
 		});
 	}
-	
 	igk.appendProperties(h,{
 		setTrackValue : function(b){
 			m_i.o.value = v;
@@ -220,11 +201,7 @@ function _init_progress(p, h, vid){
 			m_c.setCss({"width":((x * 10000)/100.0)+"%"});		
 		}
 	});
-	
-	
-		
 }
-
 function __init(){ //init video controls according to model some function exists.
 var vid = $igk(this.o.parentNode).select("video").first();
 if (!vid)return;
@@ -241,20 +218,10 @@ if ( !(vid.o instanceof HTMLVideoElement) || igk.isUndef(vid.o.play)){
 	// .setAttribute("controls", true);
 	// // return;
 // // }
-
-
-
 //safari
-
 vid.o.removeAttribute("controls");
-
-
-
 var btns = ["&#xf002;",'&#xf003;', "&#xf004;", "&#xf005;", "&#xf006;", "&#xf007", "&#xf008"];
 var btnMUTE = 6;
-
-
-
 this.setHtml("");//clear the content of this controls
 function __init_play(n){
 	var o = n.add("div").setHtml(btns[0]);
@@ -265,8 +232,6 @@ function __init_play(n){
 		o.setHtml(btns[0]);
 	});
 }
-
-
 // console.debug("init video control");
 var h = new videoModel(this, vid);
 m_vidModels.push(h);
@@ -288,14 +253,11 @@ if (d){
 			case "play":
 			h.fn[n] = span.addClass("btn-c btn-"+n)			
 			.reg_event("click",function(e){
-			
 				e.preventDefault();
 				e.stopPropagation();
 				h.play();
 			});
 			__init_play(h.fn[n], vid);
-			
-
 			break;
 			case "capture":
 			h.fn[n] = span.addClass("btn-c btn-"+n).reg_event("click",function(){
@@ -312,7 +274,6 @@ if (d){
 				h.fn['vol'].setHtml(n);
 				igk.stop_event(e);
 			}).reg_event("mousemove", function(){
-				
 			}).add('div').setHtml(btns[3]);
 			break;
 			case "timee":
@@ -333,13 +294,11 @@ if (d){
 			h.fn[n] = span.addClass("btn-c btn-"+n).reg_event("click",function(){
 				$igk(document.body).toggleClass('fs-m');
 			}).add('div').setHtml(btns[BTN_FS_M]);
-			
 			break;
 			case "fullscreen":
 			h.fn[n] = span.addClass("btn-c btn-"+n).reg_event("click",function(){
 				h.fullScreen();
 			}).add('div').setHtml(btns[BTN_FS]);
-			
 			//bind full screen change for firefox
 			$igk(document).reg_event("fullscreenchange", function(){
 				var s = $igk(document).isFullScreen;
@@ -351,7 +310,6 @@ if (d){
 			break;
 		}
 		// p = h.fn[n];
-	
 		// if (p){
 			// // if (n!='trackpos')
 			// // W+= span.getBoundingClientRect().width;//.o.offsetWidth;// p.getBoxWidth();//32+8;
@@ -362,23 +320,16 @@ if (d){
 			// // console.debug(igk.getPixel(p.getComputedStyle("margin-right")));
 		// }
 	}
-	
 	// p = h.fn["trackpos"];
 	// if (p){
 		// // var x = (1- ((W)/ this.getWidth())) * 100.0;
 		// // console.debug(x);
 		// // p.setCss({width: x+"%"});
 	// }
-
-	
 	//init setting
 	h.setPlaybackRate(d.playbackRate || 1.0);
-	
 }
-
 };
-
-
 igk.system.createNS("igk.videos.players", {
 	getItem:function(i){
 		if ((i>=0)&&(i<m_vidModels.length))
@@ -386,7 +337,5 @@ igk.system.createNS("igk.videos.players", {
 		return null;
 	}
 });
-
 igk.winui.initClassControl("igk-video-controls", __init);
-
 })();

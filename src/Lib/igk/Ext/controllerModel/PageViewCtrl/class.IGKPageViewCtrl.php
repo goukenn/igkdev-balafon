@@ -3,7 +3,6 @@
 // @filename: class.IGKPageViewCtrl.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 use IGK\Controllers\BaseController;
 
 /**
@@ -11,34 +10,27 @@ use IGK\Controllers\BaseController;
 */
 abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-
     /**
     * auto generate doc.
     * @var HtmlNode$m_viewZone
     */
 	private $m_viewZone;
-
     /**
     * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
-
     /**
     * Returns View Zone.
     */
     public function getViewZone(){return $this->m_viewZone;}
-
     /**
     * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
 		parent::initComplete();
-		//please enter your controller declaration complete here
-
 	}
-
     /**
     * Returns Additional Config Info.
     */
@@ -46,8 +38,6 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	{
 		return null;
 	}
-	//@@@ init target node
-
     /**
     * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
@@ -59,14 +49,12 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->m_viewZone["class"]="pageview";
 		return $node;
 	}
-
     /**
     * Returns Can Add Child.
     */
     public function getCanAddChild(){
 		return true;
 	}
-
     /**
     * View.
     * @return BaseController
@@ -80,12 +68,9 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 			 if ($t !== null)
 			 {
 			 $this->setTargetNode($t);
-
 			 $t->clearChilds();
-			//view article
-			//---------------------------------
 			$this->_showViewFile();
-			$this->setTargetNode($n); //restore
+			$this->setTargetNode($n); 
 			$this->_showChild();
 			}
 		}
@@ -94,17 +79,14 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		return $this;
 	}
-
     /**
     * Show child.
     * @param null|mixed $targetnode
     */
     protected function _showChild($targetnode=null)
 	{
-		//maintain the view
 		$t = $targetnode? $targetnode: $this->TargetNode;
 		$t->add($this->m_viewZone);
-
 		if ($this->hasChild)
 		{
 			foreach($this->getChilds() as  $v)

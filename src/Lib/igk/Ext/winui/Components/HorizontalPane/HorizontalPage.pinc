@@ -1,14 +1,11 @@
 <?php
-
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
-
 use IGK\System\Html\Dom\HtmlNode;
 
 final class HorizontalPage extends HtmlNode
 {
 	private $m_options;
 	private $m_file; //sorce file
-
 	public function __construct()
 	{
 		parent::__construct("div");

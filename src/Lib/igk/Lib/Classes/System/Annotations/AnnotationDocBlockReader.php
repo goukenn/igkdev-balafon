@@ -10,6 +10,7 @@ use IGK\System\IAnnotation;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGK\Constants;
+
 /**
  * auto generate doc.
  * @package IGK\System\Annotations
@@ -321,7 +322,6 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
             $cl = $name;
         }
         if ($cl) {
-            //read args 
             $tcontent = self::_TreatArgs($arguments[0]);
             if (($cl = self::GetExistingClass($cl)) && (!$filter || in_array($cl, $filter))) {
                 if (method_exists($cl, $fc = self::BEFORE_CREATE_INSTANCE_METHOD)) {

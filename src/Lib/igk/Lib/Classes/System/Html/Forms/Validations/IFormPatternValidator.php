@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc:
 namespace IGK\System\Html\Forms\Validations;
+
 /**
 * Interface for form pattern validator.
 * @package IGK\System\Html\Forms\Validations

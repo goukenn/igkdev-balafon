@@ -4,6 +4,7 @@
 // @date: 20260102 09:35:11
 namespace IGK\Models;
 use IGK\Models\ModelBase;
+
 /**
 * Phone book's type
 * @package IGK\Models

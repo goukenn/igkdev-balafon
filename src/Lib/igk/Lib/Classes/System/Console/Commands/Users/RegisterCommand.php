@@ -8,6 +8,7 @@ use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Users
@@ -49,7 +50,6 @@ class RegisterCommand extends AppExecCommand{
     */
     public function exec($command, ?string $login = null , ?string $firtname=null, ?string $lastname=null) { 
 		!$login && igk_die('login is an empty string');
-		// $ctrl = self::ResolveController($command);
 		$activate = property_exists($command->options, '--activate');
 		$r = false;
 		try{

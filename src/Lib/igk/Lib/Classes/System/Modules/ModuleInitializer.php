@@ -8,6 +8,7 @@ use IGK\System\Php\Helper\PhpRemoveGlobaFunc;
 use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
+
 /**
  * initializer modules
  * @package IGK\System\Modules
@@ -63,10 +64,9 @@ class ModuleInitializer
      */
     public static function Init($module, $file, &$reference)
     {
-        //$hashfile = 'modules/'.hash_file('sha256', $file);
         $hashfile = 'modules/' . hash_file('crc32b', $file) . '.json';
         $v_syscache = igk_cache();
-        $no_cache = 0;//  ($module->getName() == '.igk.redis');
+        $no_cache = 0;
         if (!$no_cache && $v_syscache->file_exists($hashfile)) {
             $data = $v_syscache->get($hashfile);
             $r = json_decode($data, true);
@@ -99,9 +99,6 @@ class ModuleInitializer
         self::_LoadCode($src, $code, $return);
         if (is_string($code))
             $code = PhpScriptUtility::RemoveGlobalFunc($code, ['removeEmptyLine'=>true]);
-        // if ($no_cache){
-        //     igk_wln_e("from aching....", $code);
-        // }
         $_ret = compact('return', 'code', 'cache');
         $v_syscache->store($hashfile, json_encode($_ret));
         return $_ret;
@@ -115,7 +112,6 @@ class ModuleInitializer
      */
     private static function _LoadCode(string $src, &$code, &$return)
     {
-        // split file code 
         $regex = new RegexMatcherContainer;
         $innerdef[] = $regex->appendMultilineComment()->last();
         $innerdef[] = $regex->appendSingleLineComment()->last();
@@ -165,7 +161,6 @@ class ModuleInitializer
             'func_name' => null,
             'anonymous' => null,
         ];
-        // define
         $fc_handle = [
             'module-return' => function ($e) use ($v_defobject) {
                 $v_defobject->return  = $e->value;
@@ -183,7 +178,6 @@ class ModuleInitializer
             },
             'module-function' => function ($e) use ($v_defobject) {
                 if ($v_defobject->func_name) {
-                    //skip 
                     $v_defobject->replaces[] = (object)['from' => $e->from, 'to' => $e->to, 's' => ''];
                 }
                 $v_defobject->func_name = null;
@@ -193,7 +187,6 @@ class ModuleInitializer
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 $id = $e->tokenID;
-                //igk_wln("tokenid : ".$id);
                 if ($fc = igk_getv($fc_handle, $id)) {
                     $fc($e, $pos, $src);
                 }

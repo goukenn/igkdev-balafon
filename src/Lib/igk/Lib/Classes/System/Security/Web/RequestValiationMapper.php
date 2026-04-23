@@ -5,6 +5,7 @@
 namespace IGK\System\Security\Web;
 use IGK\Helper\MapHelper;
 use IGK\System\Data\ObjectValidationMapper;
+
 /**
 * auto generate doc.
 * @package IGK\System\Security\Web
@@ -32,13 +33,6 @@ class RequestValiationMapper extends ObjectValidationMapper
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new HtmlContentValidator;
     }
-    // public function __construct($map, ?array $defaultValues=null , ?array $not_required=null, ?array $resolv_keys=null)
-    // {
-    //     $this->mapper = $map;
-    //     $this->m_defaultValues = $defaultValues;
-    //     $this->m_not_required = $not_required;
-    //     $this->m_resolvKeys = $resolv_keys;
-    // }
     /**
     * Validates.
     * @param mixed $data
@@ -51,7 +45,7 @@ class RequestValiationMapper extends ObjectValidationMapper
         $v_mapper  = $this->mapper;
         $rf = &$this->_resolv_data;
         $keys = array_keys($v_mapper);
-        $values = $data; // array_values($data);
+        $values = $data; 
         $defaultMapper = $this->getDefaultContentValidator(); 
         $v_not_require = null;
         $g = $this->m_not_required;

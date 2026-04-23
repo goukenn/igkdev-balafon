@@ -5,6 +5,7 @@
 namespace IGK\System\Text\Formatters\Traits;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\IReplaceCapturedFormatDefinition;
+
 /**
  * 
  * @package IGK\System\Text\Formatters\Traits
@@ -37,15 +38,10 @@ trait FormatterTreatChainLogicTrait
         $closing = $curr_info && ($last && ($curr_info === $last));
         if (($p = $curr_info) ||  ($closing && ($p = $curr_info)) || (($p = $q->parentInfo) && ((!$chains_logic) || ($e->info !== $chains_logic[0])))
         ) {
-            // detecting information 
-            // $same_pos = false;
             $v_detected = [];
-            // $v_init_chain = count($chains_logic) == 0;
             while ($p) {
                 if (($tc = count($chains_logic)) > 0) {
                     if (($p === $chains_logic[$tc - 1]) || ($same_pos = ($chains_logic[$tc - 1]->pos == $p->pos))) {
-                        //same chain
-                        // igk_is_debug() && Logger::warn('same position : '.$same_pos);
                         break;
                     }
                 }
@@ -78,10 +74,7 @@ trait FormatterTreatChainLogicTrait
         $engine = $this;
         $p = $e->info;
         if ($p) {
-            // $tid = $e->match->tokenID;
-            // while (count($chains_logic) > 0) {
             if ($p === igk_last($chains_logic)) {
-                //same chain
                 $m = $p->match;
                 $cid = igk_extract_first(igk_getv($m->endCaptures, 0), 'name|tokenID') ?? $m->tokenID;
                 if ($m->isBlock) {
@@ -94,7 +87,6 @@ trait FormatterTreatChainLogicTrait
                 }
                 array_pop($chains_logic);
             }
-            // close parent position step 
         }
     }
 }

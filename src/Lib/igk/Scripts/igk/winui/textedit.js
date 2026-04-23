@@ -1,8 +1,6 @@
 "uses strict;";
-
 (function(){
 	var m_ei;
-	
 	igk.system.createNS("igk.winui", {//init text object class
 		textEdit:function(t,o){
 			var q = $igk(t);
@@ -40,9 +38,7 @@
 									igk.ajx.fn.replace_or_append_to_body.apply(this, [xhr]);
 								}
 							});
-							
 						break;
-						
 					}
 				});				
 				q.o.parentNode.replaceChild(g.o, q.o);
@@ -53,23 +49,19 @@
 				e.stopPropagation();
 				_edit();
 			});
-		
 			this.edit=_edit;
 		}
 	});
-	
 	igk.system.createNS("igk.winui.textEdit", {
 		//extend global class properties
 		getCurrent:function(){return m_ei;}
 	});
-	
 	function __itextEdit(){
 		var q = this;
 		var o = igk.initObj(igk.JSON.parse(q.getAttribute("igk:data")), {
 			'id':''
 		});
 		var ce = new igk.winui.textEdit(q, o);
-		
 	};	
 	igk.winui.initClassControl("igk-textedit", __itextEdit);
 })();

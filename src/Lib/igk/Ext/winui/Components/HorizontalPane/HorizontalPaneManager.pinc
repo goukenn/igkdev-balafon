@@ -3,10 +3,8 @@
 // @filename: HorizontalPaneManager.pinc
 // @date: 20230117 22:15:36
 // @desc: 
-
 //private component
 namespace IGK\Ext\WinUI\Components\HorizontalPane;
-
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlComponentNode;
 use IGK\System\Html\Dom\HtmlNode;
@@ -18,7 +16,6 @@ final class HorizontalPaneManager extends HtmlComponentNode
 	private $m_paneAdd; //pane add btn info
 	private $m_paneClear; //pane clear btn btn info
 	private $m_paneOptions; //pane options btn info
-
 	public function dropFile()
 	{	//delete all files
 		$q = base64_decode(igk_getr('q'));
@@ -26,12 +23,9 @@ final class HorizontalPaneManager extends HtmlComponentNode
 		$tab = array();
 		parse_str($q, $tab);
 		$_REQUEST = $tab;
-
 		$f = base64_decode(igk_getr("n"));
-
 		if (igk_io_file_exists($f)) {
 			$dirname = dirname($f);
-
 			//remove all file that match the pattern
 			$l = igk_io_basenamewithoutext($f);
 			$s = IO::GetFiles($dirname, "#(" . $l . ")#", false);
@@ -62,24 +56,19 @@ final class HorizontalPaneManager extends HtmlComponentNode
 		$this->setClass("igk-pane-manager"); //->setStyle("border:1px solid black;");
 		$this->m_owner = $owner;
 		$this->m_paneAdd = $this->addHPaneOption("add");
-
 		$f = igk_create_node_callback(array($this->m_owner, "isVisible"), array('option')); 
 		$this->m_paneAdd->item->setCallback("getIsVisible", $f); 
-
 		$this->m_paneClear = $this->addHPaneOption("clearall");
 		// $this->m_paneClear->item->setStyle("[res:del_32x32]; cursor: pointer;");
 		$this->m_paneClear->item->setCallback("getIsVisible", $f);
-
 		$this->m_paneOptions = $this->addHPaneOption("options");
 		// $this->m_paneOptions->item->setStyle("[res:option_32x32]; cursor: pointer;");
-
 		$this->div()->setClass("igk-cleartab")->Content = " ";
 		$this->setCallback("getIsVisible", $f);
 	}
 	public function getPaneOptions(){
 		return $this->m_paneOptions;
 	}
-
 	private function _view_pane()
 	{
 		$pane = $this->m_owner;
@@ -97,8 +86,6 @@ final class HorizontalPaneManager extends HtmlComponentNode
 			$pane->renderAJX();
 			igk_exit();
 		}
-
-
 		if (igk_getv($tab, "IGK_UPLOADFILE", false) == false) {
 			$s = HtmlNode::CreateWebNode("script");
 			$s->Content = <<<EOF
@@ -112,7 +99,6 @@ EOF;
 		$fname = igk_getv($tab, "IGK_FILE_NAME", "file.data");
 		$bfname = igk_io_basenamewithoutext($fname);
 		$dir = $pane->Folder;
-
 		switch (strtolower($type)) {
 			case "image/jpeg":
 			case "image/jpg":
@@ -124,7 +110,6 @@ EOF;
 				$div["class"] = "fitw fith";
 				$img =  $div->addXmlNode("igk:img"); 
 				$cfname = addslashes(basename($s));
-
 				$img["src"] = "[func:igk_hpane_get_dir_uri(\$row->file).'/{$cfname}']";
 				//igk_html_inlinedata($type, igk_io_read_allfile($s));//"data:{$type}, base64, ".base64_encode($s);// "[func:igk_hpane_geturi(\$row->file).'/{$cfname}']";
 				$img->setClass("igk-pane-img");
@@ -147,7 +132,6 @@ EOF;
 		}
 		igk_exit();
 	}
-
 	public function update_nav_options()
 	{
 		$pane = $this->m_owner;
@@ -189,7 +173,6 @@ EOF;
 				$def = true;
 				break;
 		}
-
 		//store config
 		//------------
 		if ($def) {
@@ -199,10 +182,8 @@ EOF;
 		}
 		igk_exit();
 	}
-
 	public function clearUri()
 	{
-
 		$pane = $this->m_owner;
 		$dir = $pane->Folder;
 		if (!is_dir($dir)) {
@@ -241,13 +222,11 @@ EOF;
 	 */
 	protected function _acceptRender($options = null):bool
 	{
-
 		if (!$this->IsVisible)
 			return false;
 		$this->setClass("-empty");
 		if (!$this->m_owner->getHasPage())
 			$this->setClass("+empty");
-
 		return true;
 	}
 }

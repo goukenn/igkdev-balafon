@@ -7,6 +7,7 @@ namespace IGK\Css;
 use ArrayAccess;
 use Exception;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * Css color def.
 * @package IGK\Css

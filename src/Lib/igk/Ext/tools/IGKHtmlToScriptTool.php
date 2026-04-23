@@ -3,8 +3,6 @@
 // @filename: IGKHtmlToScriptTool.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 use IGK\Controllers\ToolControllerBase;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
@@ -45,7 +43,6 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		$c = igk_getr("clHtmlCode");
 		$dv =  HtmlNode::CreateWebNode("div");
 		$dv->Load($c);
-
 		$out ="<?php\n";
 		$out .= self::ConvertToScript($dv);
 		$out .="?>";
@@ -84,7 +81,6 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		return  "\$d->Content = \"".trim(HtmlUtils::GetValue($k->Content))."\";\n";
 				}
 			return null;
-
 	}
 	/**
 	 * Recursively convert child nodes to PHP script statements.
@@ -101,7 +97,6 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 			{
 				foreach($v_child as $k)
 				{
-
 					switch($k->NodeType)
 					{
 						case XMLNodeType::TEXT:
@@ -117,13 +112,8 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 						else{
 							$out .= "\$d =  HtmlNode::CreateWebNode(\"".$k->TagName."\");\n";
 						}
-						// if ($k->Content)
-						// {
-							// $out .= "\$d->Content = ".HtmlUtils::GetAttributeValue($k->Content).";\n";
-						// }
 						break;
 					}
-					//render attributes
 					$t = $k->Attributes;
 					if ($t)
 					{
@@ -144,7 +134,6 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 			}
 			return $out;
 	}
-
 	/**
 	 * Convert an HTML node tree to a PHP script string.
 	 *
@@ -161,14 +150,10 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		}
 		else
 		{
-
 		if (($dv !== null) && is_object($dv))
 		{
-			//detect if has child property
-
 			if ($dv->NodeType == XMLNodeType::TEXT)
 			{
-				//$out .= self::GetTextContent($dv);
 			}
 			else
 			{
@@ -178,7 +163,6 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		else{
 			igk_wln("dv = ".$dv);
 		}
-
 		}
 		return $out;
 	}
@@ -190,12 +174,9 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 	public function doAction()
 	{
 		$frame = igk_html_frame($this, "tool.htmltoscript");
-
-		//$frame = igk_add_new_frame($ctrl, $id, $closeuri, $target);
 		$frame->Title = R::ngets("title.frameConvertHTMLToScript");
 		$d = $frame->getBoxContent();
 		$d->clearChilds();
-
 		$frame->Form = $d->addForm();
 		$frame->Form["action"] = $this->getUri("convert");
 		$frame->Form->Div = $frame->Form->div();
@@ -203,6 +184,5 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		$frame->Form->Div->addInput("confirm", "hidden",1);
 		$frame->Form->addHSep();
 		$frame->Form->addInput("btn.submit", "submit", R::ngets("btn.convert"));
-
 	}
 } 

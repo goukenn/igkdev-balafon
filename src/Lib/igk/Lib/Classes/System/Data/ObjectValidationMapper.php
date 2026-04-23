@@ -6,6 +6,7 @@ namespace IGK\System\Data;
 use IGK\Helper\MapHelper;
 use IGK\System\Security\Web\MapContentValidatorBase;
 use IGK\System\Security\Web\ObjectContentValidator;
+
 /**
 * 
 * @package IGK\System\Data
@@ -95,7 +96,7 @@ class ObjectValidationMapper{
         $v_mapper  = $this->mapper;
         $rf = &$this->_resolv_data;
         $keys = array_keys($v_mapper);
-        $values = $data; // array_values($data);
+        $values = $data; 
         $defaultMapper = $this->getDefaultContentValidator(); 
         $v_notquire = null;
         $g = $this->m_not_required;

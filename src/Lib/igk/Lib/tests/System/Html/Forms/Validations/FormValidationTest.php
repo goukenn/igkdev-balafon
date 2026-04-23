@@ -4,7 +4,6 @@
 // @date: 20231229 08:48:28
 // @test: phpunit -c phpunit.xml.dist ./src/application/Lib/igk/Lib/Tests/System/Html/Forms/Validations/FormValidationTest.php
 namespace IGK\Tests\System\Html\Forms\Validations;
-
 use IGK\System\Html\Forms\Validations\AssocArrayValidator;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorContainerBase;
@@ -19,14 +18,11 @@ use Symfony\Component\Form\Extension\Validator\Constraints\FormValidator;
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class FormValidationTest extends BaseTestCase{
-
     /**
     * Tests form validation.
     */
     public function test_form_validation(){
         $d = ['name'=>'Hello'];
-
-        
         $fvalidator = new FormValidation;
         $fvalidator->storage = false;
         $data = (object)[
@@ -45,21 +41,16 @@ class FormValidationTest extends BaseTestCase{
         )->validate(
             (array)$data
         );
-
-
         $this->assertEquals(            
             (object)$data,
             (object)$g
         );
     }
-
     /**
     * Tests form complex validation.
     */
     public function test_form_complex_validation(){
         $d = ['name'=>'Hello'];
-
-        
         $fvalidator = new FormValidation;
         $fvalidator->storage = false;
         $data = (object)[
@@ -87,21 +78,17 @@ class FormValidationTest extends BaseTestCase{
         ])->validate(
             (array)$data
         );
-
-
         $this->assertEquals(            
             (object)$data,
             (object)$g
         );
     }
 }
-
 /**
 * Balafon object validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class BalafonObjectValidator extends FormFieldValidatorContainerBase{
-
     /**
     * Validate.
     * @param mixed $data
@@ -110,12 +97,10 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
     * @param null|object $options
     */
     protected function _validate($data, $default=null, array &$error=[], ?object $options = null) { 
-        // parent::_validate()
         if ($this->assertValidate($data)){
             return $data;
         }
     }
-
     /**
     * Asserts Validate.
     * @param mixed $value
@@ -124,14 +109,11 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
     public function assertValidate($value): bool { 
         $inspector = new ObjectInspector;
         $inspector->source = BalafonScriptDefinitionForm::class;
-
         if ($r = $inspector->validate($value, $error)){
-
             return true;
         }
         return false;
     }
-
     /**
     * Returns Fields.
     * @return array
@@ -141,25 +123,21 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
         return $r->getFields();
     }
 }
-
 /**
 * Balafon script definition form.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
-
     /**
     * Property: version.
     * @var mixed
     */
     var $version;
-
     /**
     * Name of name.
     * @var mixed
     */
     var $name;
-
     /**
     * Returns Fields.
     * @param null|mixed $context
@@ -173,19 +151,16 @@ class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
         ];
     }
 }
-
 /**
 * Object inspector.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class ObjectInspector{
-
     /**
     * Property: source.
     * @var mixed
     */
     var $source;
-
     /**
     * Validates.
     * @param mixed $data

@@ -17,6 +17,7 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
+
 /**
  * script loader 
  * @package IGK\System\Html\Dom
@@ -80,10 +81,6 @@ class HtmlScriptLoader
         $references = [];
         if ($options && $firstEval)
             $options->jsOpsFirstEval = false;
-        // 
-        // default library directory             
-        // append script to ignore
-        //       
         $d = rtrim(explode("?", $uri)[0], "/");
         $rq = null;
         $resolverfc = null;
@@ -110,12 +107,10 @@ class HtmlScriptLoader
                         $jsdata = json_decode(file_get_contents($lib));
                         if ($jsdata) {
                             list($required, $ignore) = igk_extract($jsdata, 'required|ignore');
-                            // file need to bee loaded before requirement 
                             $sep = DIRECTORY_SEPARATOR;
                             if ($required)
                                 foreach ($required as $k => $v) {
                                     $_o = [];
-                                    //file to load before 
                                     foreach ($v as $tf) {
                                         $_o[] = Path::CombineAndFlattenPath($check_dir, $tf);
                                     }
@@ -142,13 +137,11 @@ class HtmlScriptLoader
                 while (count($loading) > 0) {
                     $f = array_shift($loading);
                     if (isset($v_loaded[$f])) {
-                        // igk_ilog(__FILE__.":".__LINE__ . " : already loaded : ".$f);
                         continue;
                     }
                     $ext = Path::GetExtension($f);
                     $u = $resolver->resolve($f);
                     if ($inf->ignore && (array_search($f, $inf->ignore) !== false)) {
-                        // resolve be not load at start 
                         continue;
                     }
                     switch (($ext)) {
@@ -156,7 +149,7 @@ class HtmlScriptLoader
                             $u .= "?v=" . IGK_VERSION;
                             $s .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
                             $is_core = (($tag == "igk") && (basename($f) == "igk.js"));
-                            $defer = $defer || !$is_core; // (($tag=="igk" ) && (basename($f) != "igk.js"));
+                            $defer = $defer || !$is_core; 
                             if ($defer) {
                                 $s .= " defer";
                             }
@@ -185,7 +178,6 @@ class HtmlScriptLoader
                         $s .= $ts;
                         break;
                     default:
-                        //resolv to asset folder
                         $assets[] = $f;
                         break;
                 }
@@ -215,13 +207,11 @@ class HtmlScriptLoader
                 $dirs[] = $dir . "/system/ctrl/ctrl.js";
                 $exclude_dir += array_fill_keys($dirs, 1);
                 IO::GetFiles($dir, self::GetLoadingAssetRegex(), true, $exclude_dir, $resolverfc);
-                // store references 
                 if ($references) { 
                     $sb = new StringBuilder;
                     $t = 'const a = __module_refs;';
                     $id = 0;
                     foreach (array_keys($references) as $k) {
-                        // do not end with single comment line break definition 
                         $t .= sprintf('a[' . $id . ']= %s;', self::ImportContentAsModule(file_get_contents($k)));
                         $id++;
                     }

@@ -3,7 +3,6 @@
 // @filename: conf.php
 // @date: 20220831 14:14:06
 // @desc: configuration function helpers
-
 use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\IO\Path;
@@ -11,7 +10,6 @@ use IGK\XML\XMLNodeType;
 
 require_once __DIR__ . '/io.php';
 require_once __DIR__ . '/xml.php';
-
 /**
  * used to load configuration file.
  * @param mixed $file xml file to load
@@ -24,7 +22,6 @@ function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
     $o = igk_conf_load_content($s, $tag);
     return $o;
 }
-
 /**
 * auto generate doc.
 * @param mixed $deftext
@@ -50,7 +47,6 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
                 $o = null;
                 if ($k->getChildCount() <= 0) {
                     $sk = $k->getInnerHtml();
-
                     if ($k->getHasAttributes()) {
                         $o = igk_createobj();
                         igk_conf_load($o, $k);
@@ -84,7 +80,6 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
     }
     return null;
 }
-
 /**
 * auto generate doc.
 * @param mixed $d
@@ -97,8 +92,6 @@ function igk_conf_load_attribs(&$t, $d)
         }
     }
 }
-
-
 /**
  * used to load configuration settings
  * @param mixed $obj output object
@@ -158,7 +151,6 @@ function igk_conf_load($obj, $n, ?callable $attr_filter = null)
                 }
             }
         } else if (!$sv){
-            // setting value 
             if (is_object($q->t)){
                 unset($q->t);
                 if (($n = basename($q->path)) != '/'){

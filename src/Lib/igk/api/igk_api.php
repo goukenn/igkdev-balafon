@@ -7,18 +7,14 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
-
 use function igk_resources_gets as __;
+
 define("IGK_API_CTRL", "API");
 define("IGK_API_VERSION", "2.1.1.0921");
 define("IGK_API_URI", "^/api/v2");
 define("IGK_API_LIB", dirname(__FILE__));
 define("IGK_API_MYSQLPINC", realpath(IGK_API_LIB."/.mysql.pinc"));
 require_once(IGK_API_LIB."/.igk.api.func.pinc");
-// require_once(IGK_LIB_CLASSES_DIR."/ApplicationController.php");
-
 /**
 * auto generate doc.
 */
@@ -30,7 +26,6 @@ function igk_api_free_session(){
         }
     }
 }
-
 /**
  *  evaluate entries
  */
@@ -84,5 +79,3 @@ function igk_api_sync_def_evaluate_entries($entries, $table_n, $mysql, $db, $tab
         }
     }
 }
-
-

@@ -6,6 +6,7 @@ namespace IGK\System\Http\Traits;
 use IGK\System\Http\WebResponse;
 use IGKException;
 use IGK\System\Http\Helper\Response as http;
+
 /**
 * auto generate doc.
 * @package IGK\System\Http\Traits

@@ -12,6 +12,7 @@ use IGK\System\Console\Logger;
 use PhpParser\Node\Expr\Instanceof_;
 use ReflectionFunction;
 use ReflectionMethod;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database

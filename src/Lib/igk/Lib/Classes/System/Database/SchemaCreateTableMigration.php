@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
+
 /**
 * Schema create table migration.
 * @package IGK\System\Database
@@ -15,7 +16,6 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
     * @var mixed
     */
     protected $fill_properties = ["table", "description" ];
-    // source column to restore
     /**
     * Property: columns.
     * @var mixed
@@ -66,7 +66,6 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
             $m = strtolower($tagname);
             if (strtolower($tagname) == 'column'){
                 $cl = DbColumnInfo::CreateWithRelation(igk_to_array($c->Attributes), $tb, $ctrl, $tbrelation);           
-                // update data table info
                 empty($cl->clName) && igk_die('failed for missing clName in database schema');
                 $this->columns[$cl->clName]=$cl; 
             }

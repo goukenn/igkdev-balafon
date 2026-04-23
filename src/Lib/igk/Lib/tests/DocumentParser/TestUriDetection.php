@@ -2,9 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: TestUriDetection.php
 // @date: 20221206 12:28:15
-// run: phpunit -c phpunit.xml.dist /Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Lib/Tests/DocumentParser/TestUriDetection.php
 namespace IGK\Tests\DocumentParser;
-
 use igk\devtools\DocumentParser\UriDetector; 
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
@@ -14,7 +12,6 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\DocumentParser
 */
 class TestUriDetection extends BaseTestCase{
-
     /**
     * Sets up shared resources before all tests.
     * @return void
@@ -23,7 +20,6 @@ class TestUriDetection extends BaseTestCase{
     {
         igk_require_module('igk\devtools');
     }
-
     /**
     * Tests ignore inline data.
     */
@@ -33,7 +29,6 @@ class TestUriDetection extends BaseTestCase{
         $uris = $v_detector->cssUrl($data);        
         $this->assertTrue(is_null($uris), "match uris not ok");
     }
-
     /**
     * Tests detect.
     */
@@ -42,12 +37,10 @@ class TestUriDetection extends BaseTestCase{
         $data = "background-image: url(data:/presentation.com);";
         $uris = $v_detector->cssUrl($data);        
         $this->assertTrue(is_null($uris), "match uris not ok");
-
         $data = "background-image: url(data://presentation.com);";
         $uris = $v_detector->cssUrl($data);        
         $this->assertTrue(!is_null($uris), "match ok");
     }
-
     /**
     * Tests detect css cloud.
     */
@@ -59,10 +52,7 @@ class TestUriDetection extends BaseTestCase{
             '../webfonts/fa-brands-400.eot',
             $uris[0]->path
             , "match uris not ok");
-
- 
     }
-
     /**
     * Tests detect css svg data.
     */
@@ -71,14 +61,9 @@ class TestUriDetection extends BaseTestCase{
         $data = <<<EOF
 background-image : url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none"%3E%3Ccircle cx="10.5" cy="10.5" r="10.5" fill="%23fff"/%3E%3Cpath fill="%23008A21" fill-rule="evenodd" d="M2.1667 10.5003c0-4.6 3.7333-8.3333 8.3333-8.3333s8.3334 3.7333 8.3334 8.3333S15.1 18.8337 10.5 18.8337s-8.3333-3.7334-8.3333-8.3334zm2.5 0l4.1666 4.1667 7.5001-7.5-1.175-1.1833-6.325 6.325-2.9917-2.9834-1.175 1.175z" clip-rule="evenodd"/%3E%3Cmask id="a" width="17" height="17" x="2" y="2" maskUnits="userSpaceOnUse"%3E%3Cpath fill="%23fff" fill-rule="evenodd" d="M2.1667 10.5003c0-4.6 3.7333-8.3333 8.3333-8.3333s8.3334 3.7333 8.3334 8.3333S15.1 18.8337 10.5 18.8337s-8.3333-3.7334-8.3333-8.3334zm2.5 0l4.1666 4.1667 7.5001-7.5-1.175-1.1833-6.325 6.325-2.9917-2.9834-1.175 1.175z" clip-rule="evenodd"/%3E%3C/mask%3E%3Cg mask="url(%23a)"%3E%3Cpath fill="%23008A21" d="M.5.5h20v20H.5z"/%3E%3C/g%3E%3C/svg%3E');
 EOF;
-    
         $uris = $v_detector->cssUrl($data);   
         $this->assertNull($uris, "svg response data is not null");
-
- 
-
     }
-
     /**
     * Tests detect css full uri data.
     */
@@ -92,13 +77,11 @@ $uris = $v_detector->cssUrl($data);
         $this->assertEquals(
             'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.svg',
             $path, "path flatten"); 
-
         $rp = $uris[0]->getFlattenReplacement();
         $this->assertEquals(
             'url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.svg#fontawesome)',
             $rp, "after missting flatten"); 
     }
-
     /**
     * Tests next css.
     */
@@ -110,11 +93,9 @@ $uris = $v_detector->cssUrl($data);
  }
 .ccueil_bg__EHV6a{background-image:url(/_next/static/media/bg.890002d8.jpg);}
 CSS;
-
         $uris = $v_detector->cssUrl($data);   
         $this->assertFalse(is_null($uris), "must detect uris");
     }
-
     /**
     * Tests uri on css.
     */
@@ -132,14 +113,8 @@ CSS;
 }
 
 CSS;
-
-
 $v_detector = new UriDetector;
-
 $uris = $v_detector->cssUrl($src);
-
 $this->assertEquals(5, count($uris));
-
-
     }
 }

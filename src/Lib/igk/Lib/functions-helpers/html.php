@@ -1,12 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: html.php
 // @date: 20220831 14:41:26
 // @desc: html helper
-
-
-
 use IGK\System\Html\Dom\HtmlOptions;
 
 /**

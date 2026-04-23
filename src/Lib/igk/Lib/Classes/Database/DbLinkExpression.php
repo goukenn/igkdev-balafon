@@ -6,6 +6,7 @@
 namespace IGK\Database;
 use IGKException;
 use Exception;
+
 /**
 * Db link expression.
 * @package IGK\Database
@@ -51,7 +52,6 @@ class DbLinkExpression extends DbExpression{
     * @return null|string|void
     */
     public function getValue($grammarOptions=null){
-        //link value 
         if ($grammarOptions==null){
             if (igk_environment()->isDev()){
                 igk_trace();

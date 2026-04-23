@@ -11,6 +11,7 @@ namespace IGK\System\Html;
 use IGKEvents;
 use IGKException;
 use IGKObject;
+
 /**
  * manage document meta
  * @package IGK\System\Html
@@ -145,10 +146,6 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"Keywords",
             self::ATTR_CONTENT=>$cnf->meta_keywords
         );
-        // $this->m_metas[self::META_CONTENT_TYPE]=array(
-        //     "http-equiv"=>"Content-Type",
-        //     self::ATTR_CONTENT=>$cnf->meta_enctype
-        // );
         $this->m_metas[self::META_GENERATOR]=array(
             "name"=>"generator",
             self::ATTR_CONTENT=>igk_app_version()
@@ -159,10 +156,6 @@ final class HtmlMetaManager extends IGKObject{
         );
         // + | last-updated page 
         /// TODO: last-updated checked
-        // $this->m_metas[self::META_LASTUPDATE]=array(
-        //     "name"=>"last-updated",
-        //     self::ATTR_CONTENT=> null
-        // );
     }
     /**
      * register meta definition base 
@@ -239,11 +232,6 @@ final class HtmlMetaManager extends IGKObject{
     * @param null|mixed $options
     */
     public function render($options=null){
-        // $handle=0;
-        // $s=igk_ob_get_func(function() use (& $handle){        });
-        // if($handle){
-        //     return $s;
-        // }
         $LF="";
         $o="";
         $DEPTH = "";
@@ -272,7 +260,7 @@ final class HtmlMetaManager extends IGKObject{
         $o .= igk_ob_get_func(function($options){
             igk_hook(IGKEvents::HOOK_HTML_META, [$options, $this]);
         },[$options] );
-        return $o;// .$s;
+        return $o;
     }
     /**
     * auto generate doc.

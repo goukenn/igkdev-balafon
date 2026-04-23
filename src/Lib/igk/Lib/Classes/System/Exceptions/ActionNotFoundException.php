@@ -7,6 +7,7 @@ namespace IGK\System\Exceptions;
 use IGKException;
 use Throwable;
 use function igk_resources_gets as __;
+
 /**
  * action not found exception 
  * @package IGK\System\Exceptions
@@ -28,7 +29,6 @@ class ActionNotFoundException extends IGKException{
     */
     public function headers(){
         return [
-            // "WWW-Authenticate: Basic realm=".escapeshellarg($this->getMessage())
         ];
     }
 }

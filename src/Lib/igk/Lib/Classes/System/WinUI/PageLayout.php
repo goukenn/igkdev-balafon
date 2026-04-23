@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\WinUI;
 use IGK\System\Configuration\ConfigData;
+
 /**
  * represent a page default layout
  * @package IGK\System\WinUI

@@ -18,8 +18,6 @@ if (!function_exists('igk_css_get_class')){
         return trim(implode(' ', $m)); 
     }    
 }
-
-
 if (!function_exists('igk_css_litteral')){
     /**
      * filter array condition 
@@ -49,7 +47,6 @@ function igk_css_treat_value(string $v, \IGK\Css\ICssStyleContainer $theme, ?\IG
     }     
     return $v;
 }
-
 /**
 * Igk css minify.
 * @param string $source
@@ -61,17 +58,14 @@ function igk_css_minify(string $source){
     $end = false;
     $ch = '';
     $skip = 0;
-    
     while(!$end && ($offset<$ln)){
         $lchar = $ch;
         $ch = $source[$offset];
         switch($ch){
             case '/':
-                //detect mutiline comment
                 break;
             case '*':
                 if ($lchar == '/'){
-                    // multiline comment detected 
                     if (($pos = strpos($source, "*/", $offset)) !== false){
                         $lv = substr($source, $offset, $pos - $offset + 2);
                         $offset = $pos + 2;
@@ -100,7 +94,6 @@ function igk_css_minify(string $source){
             case "\r":
             case "\n":
                 if (!$skip){
-                    // $o.= ' ';
                     $skip = 1;
                 }
                 $ch = '';
@@ -111,7 +104,6 @@ function igk_css_minify(string $source){
             $skip = 0;
         }
     }
-
     return $o;
 }
 /**
@@ -122,7 +114,6 @@ function igk_css_minify(string $source){
 function igk_css_rm_comment(string $src){
     $ln = strlen($src);
     $offset = 0;
-    // remove css comment
     while(($pos = strpos($src, "/*", $offset))!== false){
         if ( ($end = strpos($src, "*/", $pos))===false){
             $src = substr($src, $pos);
@@ -133,9 +124,7 @@ function igk_css_rm_comment(string $src){
     }
     return $src;
 }
-
 if (!function_exists('igk_css_array_key_map_implode')){
-
 /**
 * Igk css array key map implode.
 * @param mixed $value

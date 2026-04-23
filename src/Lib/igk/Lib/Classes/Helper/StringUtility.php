@@ -12,6 +12,7 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\Helper
@@ -123,7 +124,7 @@ abstract class StringUtility
     {
         $g = $condition;
         $v_regex = "/[\(\)\s]/";
-        $g = preg_replace("/\s+/", " ", $g); // reduce white space
+        $g = preg_replace("/\s+/", " ", $g); 
         while (strpos($g, '(') === 0) {
             $cpos = 0;
             $tg = trim(igk_str_rm_last(
@@ -295,7 +296,6 @@ abstract class StringUtility
     public static function Slugify(string $text): string
     {
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
         $text = self::RemoveAccents($text);
         $text = preg_replace('~[^-\w]+~', '', $text);
         $text = trim($text, '-');
@@ -397,7 +397,6 @@ abstract class StringUtility
         if ($out === null) {
             $out = igk_configs()->get("date_display_format", "M d, Y");
         }
-        //return igk_format_date($date, "Y-m-d", igk_configs()->get("date_display_format", "Y-m-d"));
         return igk_format_date($date, $in, $out);
     }
     /**
@@ -441,11 +440,8 @@ abstract class StringUtility
             return $n;
         }
         // + | replace all non valid symbol to _
-        //$_under = strlen($n) - strlen(ltrim($n, '_'));
         $n = preg_replace("#[^0-9a-z]#i", "_", $n);
         $n = ucwords(ucfirst($n), "_");
-        // $n = str_repeat("_", $_under).$n;
-        // igk_wln("test : ".$n. " :: ");
         if (!preg_match($rx, $n))
             return null;
         return $n;
@@ -505,7 +501,6 @@ abstract class StringUtility
      */
     public static function EndWith($chaine, $pattern)
     {
-        // $chaine = trim($chaine);
         $c = strlen($chaine);
         $p = strlen($pattern);
         $i = strripos($chaine, $pattern);
@@ -536,7 +531,6 @@ abstract class StringUtility
         }
         return $s;
     }
-    //@chaine : string where to operate
     /**
      * auto generate doc.
      * @param mixed $offset the default value is 0
@@ -579,7 +573,6 @@ abstract class StringUtility
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
-    //@personal sub
     /**
      * auto generate doc.
      * @param mixed $length the default value is null
@@ -686,7 +679,6 @@ abstract class StringUtility
                     $v = '';
                     break;
                 default:
-                    // if support json string
                     if ($ch == "{") {
                         $b = igk_str_read_brank($data, $pos, '}', $ch);
                         if ($tab = json_decode($b)) {
@@ -704,7 +696,6 @@ abstract class StringUtility
                     if ($ch == "[") {
                         // + support read array 
                         $b = igk_str_read_brank($data, $pos, ']', $ch);
-                        // convert array to expression 
                         if ($tab = json_decode($b)) {
                             if (!empty($k)) {
                                 $args[$k] = $tab;
@@ -714,7 +705,6 @@ abstract class StringUtility
                             $k = $v = '';
                         } else {
                             $error = json_last_error_msg();
-                            // read array of constant to handle doc comment
                             $l = self::ReadArrayConstants($b);
                             $c = empty($k) ?
                                 [$l] : [$k => $l];
@@ -870,7 +860,6 @@ abstract class StringUtility
         }
         if ($country) {
             $sb->appendLine(__('country.' . $country));
-            // $sb->appendLine(\IGK\Models\Countries::GetCache('clISO', $country));
         }
         return $sb . "";
     }

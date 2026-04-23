@@ -6,12 +6,10 @@
 
 /*
 file: class.IGKNavigationMenuBar
-
 */
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * Igknavigation menu bar ctrl.
 */
@@ -38,7 +36,6 @@ abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeB
 			$ul =$t->add("ul");
 			$v_dummy =  HtmlNode::CreateWebNode("dummy");
 			$v_output = igk_html_article($this, "default", $v_dummy);
-
 			foreach($v_dummy->getElementsByTagName("a") as  $v)
 			{
 				$ul->add("li")->add($v);

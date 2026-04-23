@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\Helper\ViewHelper;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

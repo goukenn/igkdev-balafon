@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGKEvents;
+
 /**
 * Html debugger view node.
 * @package IGK\System\Html\Dom

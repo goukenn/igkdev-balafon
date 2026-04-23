@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Helper\ViewHelper;
 use IGK\System\IO\StringBuilder;
+
 /**
  * item to auto add controller script node
  * @package IGK\System\Html\Dom

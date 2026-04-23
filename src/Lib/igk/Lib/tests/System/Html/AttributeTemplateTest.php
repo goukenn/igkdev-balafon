@@ -1,5 +1,4 @@
 <?php
-
 // @file: AttributeTemplateTest.php
 // @author: C.A.D. BONDJE DOUE
 // @description: Html attribute template register
@@ -9,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Tests\System\Html;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\System\Html\HtmlContext;
@@ -21,35 +19,28 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class AttributeTemplateTest extends BaseTestCase{
-
     /**
     * Tests html utils get value1.
     */
     public function test_html_utils_get_value1(){
-        
-        
         $this->assertEquals(
             "'welcome'",
             HtmlUtils::GetAttributeValue("'welcome'", null, true)
         );
     }
-
     /**
     * Tests pipe expression.
     */
     public function test_pipe_expression(){
-      
         $s = '<a *title="\'data\'">value</a>';
         $n = igk_create_notagnode();
         $n->load($s);
-
         $this->assertEquals(
             "<a title=\"data\">value</a>",
             $n->render(),
             "pipe expression not bind properly"
         );
     }
-
     /**
     * Tests simple loop.
     */
@@ -62,7 +53,6 @@ class AttributeTemplateTest extends BaseTestCase{
             "attribute bind"
         );
     }
-
     /**
     * Tests simple loop with attribute.
     */
@@ -79,7 +69,6 @@ class AttributeTemplateTest extends BaseTestCase{
             "attribute bind"
         );
     }
-
     /**
     * Tests binding attribute expression in loop.
     */
@@ -91,24 +80,16 @@ class AttributeTemplateTest extends BaseTestCase{
             "raw"=>range(1,2),
             "ctrl"=>DummyController::ctrl() 
         ]);
-
         $this->assertEquals(
             "<a title=\"data\">data : 1 - ::test-dummy </a><a title=\"data\">data : 2 - ::test-dummy </a>",
             $n->render(),
             "attribute bind"
         );
     }
-
     /**
     * Tests binding attribute expression.
     */
     public function test_binding_attribute_expression(){
-        // passing custom controller 
-        // $s = '<a *title="\'data\'"><igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';
-        // passing in loop context 
-        // $s = '<a *title="\'data\'" *for="$raw"><igk:attr-expression *igk:uri="$ctrl->getName()" /></a>';
-
-        // not passing in loop check 
         $s = '<a *title="\'data\'" >value<igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';
         $n = igk_create_notagnode();
         $n->load($s, (object)[
@@ -119,23 +100,17 @@ class AttributeTemplateTest extends BaseTestCase{
             "ctrl"=>DummyController::ctrl() 
         ]);
         $ts = $n->render();
-       
         $this->assertEquals(
             "<a igk:uri=\"test://dashboard/edit_picture.form/-1\" title=\"data\">value</a>",
             $ts,
             "attribute controller not binding",
         );
     }
-
-
 }
-
-
 /**
  * dummy controller 
  */
 class DummyController extends NotRegistrableControllerBase{
-
     /**
     * Returns Name.
     * @return string
@@ -143,7 +118,6 @@ class DummyController extends NotRegistrableControllerBase{
     public function getName(): string{
         return "::test-dummy";
     }
-
     /**
     * Returns App Uri.
     * @param null|string $s

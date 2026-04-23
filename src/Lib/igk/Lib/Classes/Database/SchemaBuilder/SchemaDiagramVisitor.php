@@ -17,6 +17,7 @@ use IGK\System\Database\SchemaMigrationInfo;
 use IGKEvents;
 use IGKSysUtil;
 use Logger;
+
 /**
  * visit diagrams
  * @package IGK\Database\SchemaBuilder
@@ -112,8 +113,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
             if ($p = Factory::Create($migration->type)) { 
                 $mig = $p->setup($this->m_controller, $this->m_data, $props);
                 $this->m_entityHandler[] = $p;
-                //update schema
-                //$p->updateSchema($this->m_data);
             } else { 
                 switch ($migration->type) {
                     case 'dropEntity':
@@ -156,7 +155,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
     {
         if ($this->m_migrations) {
             $this->callback = function ($e) {
-                // update database with migration - setting 
                 $ctrl = $e->args['ctrl'];
                 $type = $e->args['type']; 
                 $r = DbSchemasConstants::Downgrade;
@@ -169,7 +167,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
                                 $mig->upgrade();
                             }
                         } catch (Exception $ex) {
-                            //continu migration list 
                             ConsoleLogger::warn('some error:' . $ex->getMessage());
                         }
                     }

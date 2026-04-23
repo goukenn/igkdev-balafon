@@ -3,6 +3,7 @@
 // @file: WebFileContentResponse.php
 // @date: 20250125 09:09:56
 namespace IGK\System\Http;
+
 /**
 * auto generate doc.
 * @package IGK\System\Http

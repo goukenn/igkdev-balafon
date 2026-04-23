@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Dom
@@ -87,7 +88,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     function __construct(){
         parent::__construct();
         $this["class"] = "igk-mbody-script";
-        // avoid defering on script
         $this->activate('defer');
     }
     /**
@@ -108,8 +108,6 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     */
     protected function _acceptRender($options = null): bool
     {      
-        // $r = count($this->m_scripts)>0;
-        // igk_wln_e(__FILE__.":".__LINE__ , 'main script ', $r);  
         return true; 
     }
 }

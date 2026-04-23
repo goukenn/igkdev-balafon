@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+
 /**
 * Clear cache command.
 * @package IGK\System\Console\Commands
@@ -32,7 +33,6 @@ class ClearCacheCommand extends AppExecCommand{
      */
     public function exec($command)
     { 
-        //defined("NO")
         Logger::print("Cache directory : ".igk_io_cachedir());  
         \IGK\Helper\SysUtils::ClearCache();
         $fc = get_included_files();

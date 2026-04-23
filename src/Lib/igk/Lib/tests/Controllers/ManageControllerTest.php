@@ -3,10 +3,7 @@
 // @filename: ManageControllerTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\Test\Controller;
-
 use IGK\Tests\BaseTestCase;
 use IGK\IUriActionRegistrableController;
 
@@ -15,17 +12,13 @@ use IGK\IUriActionRegistrableController;
 * @package IGK\Test\Controller
 */
 class ManageControllerTest extends BaseTestCase{
-
     /**
     * Tests manage subdomain.
     */
     function test_manage_subdomain(){
-        
         $data = igk_app()->getControllerManager()->getUserControllers(function ($v) {
             return $v instanceof IUriActionRegistrableController;
             });
         $this->assertTrue(is_array($data));
-
     }
 }
-

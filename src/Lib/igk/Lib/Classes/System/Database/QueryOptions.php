@@ -4,6 +4,7 @@
 // @date: 20220803 00:35:51
 // @desc: define callback property option
 namespace IGK\System\Database;
+
 /**
  * query options
  * @package 

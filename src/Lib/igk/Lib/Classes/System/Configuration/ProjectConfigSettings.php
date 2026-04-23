@@ -5,6 +5,7 @@
 // @desc: sys configuration settings
 namespace IGK\System\Configuration;
 use IGK\System\Configuration\Controllers\ConfigurationOptions;
+
 /**
  * general configuration setting. need to be activate from configs data expression
  * @package 

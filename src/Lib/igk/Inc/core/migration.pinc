@@ -1,6 +1,7 @@
 /**
 * update database 
 */
+
 public function up(SchemaMigrationBuilder $builder){
     // $builder->addColumn(...)
 }

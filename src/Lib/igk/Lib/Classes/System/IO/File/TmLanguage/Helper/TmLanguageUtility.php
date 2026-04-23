@@ -11,6 +11,7 @@ use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Helper
@@ -38,7 +39,6 @@ abstract class TmLanguageUtility
                 $pattern = ($_s ? igk_getv($_s, 0) : null) ?? igk_die('missing pattern');
                 $container->append($pattern);
             } else {
-                // load definition to container 
                 $_last = self::LoadDefinition($container, $v, $listener);
             }
         }
@@ -73,7 +73,6 @@ abstract class TmLanguageUtility
         igk_reg_hook('tm:language_loading_complete', function ($e) use ($targ, $listener, $v) {
             list($v_container, $v_repos) = igk_extract($e->args, 'container|repos');
             extract($targ);
-            // load pattern 
             if ($patterns) {
                 TmLanguageUtility::LoadPatterns($patterns, $_last, $v_repos, $listener);
             }

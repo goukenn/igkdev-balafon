@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Dom\Traits;
 use IGK\System\Html\Dom\Factory;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
 /**
 * 
 * @package IGK\System\Html\Dom\Traits
@@ -92,10 +93,6 @@ trait HtmlNodeContainerTrait{
     function _access_offsetExists( $n):bool{
         return $this->host->_access_offsetExists($n); 
     }
-    // - + drop fix router context prefer update _add method 
-    // public function __call($n, $arg){
-    //     return $this->host->__call($n, $arg);
-    // }
     /**
     * Triggered when calling an inaccessible or undefined method on an object.
     * @param mixed $n

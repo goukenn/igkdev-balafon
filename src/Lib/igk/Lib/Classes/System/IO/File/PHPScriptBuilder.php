@@ -8,6 +8,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\IO\Path;
 use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
+
 /**
  * php script builder
  * @package IGK\System\IO\File
@@ -38,7 +39,6 @@ class PHPScriptBuilder
     */
     var $author;
     use StoredPropertiesTrait;
-
     /**
      * get fulle namespace 
      * @param string $type 
@@ -174,9 +174,6 @@ class PHPScriptBuilder
         $defs = "";
         if ($e = $this->defs) {
             $defs .= StringUtility::IndentContent($e) . "\n";
-            // implode("\n", array_map(function ($s) {
-            //     return "\t" . $s;
-            // }, explode("\n", $e))) . "\n";
         }
         switch ($this->type) {
             case "function":
@@ -187,24 +184,13 @@ class PHPScriptBuilder
             case "trait":
             case 'enum':
                 if ($d = $this->doc) {
-                    // documents
-                    // $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
                     $o .= $_setPhDoc($d, $ns, $v_author);
                 } else {
-                    // $o .= "///<summary></summary>\n";
                     $o .= $_setPhDoc("", $ns, $v_author);
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";
                 }
-                // $_uses = [];
-                // if ($e = $this->use){
-                //     if (!is_array($e)){
-                //         $e = [$e];
-                //     }                   
-                //     $e = array_unique($e);
-                //     array_map($this->_getHeaderMap($h, $_uses), $e);
-                // }
                 if ('enum' == $this->type) {
                     $o .= $this->type . " " . $this->name;
                 } else {
@@ -213,7 +199,6 @@ class PHPScriptBuilder
                         $cu = igk_uri($e);
                         if (!empty($ns) || (count(explode("/", $cu)) > 1)) {
                             if (!isset($_uses[$e])) {
-                                // $h .= "use " . $e . ";\n";
                                 $_uses[$e] = $e;
                             }
                         }
@@ -250,7 +235,6 @@ class PHPScriptBuilder
                 break;
         }
         if ($_uses) {
-            // ksort($_uses);
             $t_uses = [];
             $v_uses = array_map(function ($n, $k) use (&$t_uses) {
                 $cl = $n;
@@ -308,7 +292,6 @@ class PHPScriptBuilder
                 $e = $key;
             }
             if (!in_array($e, $_uses)) {
-                // $h .= "use " . $e . $ms.";\n";
                 $_uses[] = $e;
                 if (!empty($as)) {
                     $_uses[$e] = $as;

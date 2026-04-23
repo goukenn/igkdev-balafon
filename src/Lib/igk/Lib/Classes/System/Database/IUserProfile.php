@@ -7,6 +7,7 @@ namespace IGK\System\Database;
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
+
 /**
  * represent user's application profile 
  * @package 

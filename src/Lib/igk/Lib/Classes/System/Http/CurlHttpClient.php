@@ -6,6 +6,7 @@ namespace IGK\System\Http;
 use IGK\System\IO\Path;
 use IGKException;
 use IGKValidator;
+
 /**
 * represent a core curl http client
 * @package IGK\System\Http
@@ -110,7 +111,6 @@ class CurlHttpClient implements IHttpClient{
         $v_is_uri = IGKValidator::IsUri($url);
         if ($this->controller){
             if (!$v_is_uri){
-                // get inline resource
                 $path = explode('?', Path::Combine(igk_io_basedir(), $url))[0];
                 if (igk_io_file_exists($f = $path)){
                     $response = file_get_contents($f);
@@ -122,11 +122,6 @@ class CurlHttpClient implements IHttpClient{
                     ];
                     return $response;
                 }
-                // $view = $this->controller->getViewFile($url);
-                // try handle request - 
-                // $this->controller->setCurrentView($url);
-                // $doc = $this->controller->getDoc();
-                // return $doc->render();
             }
         }
         if (!$v_is_uri && $this->base){
@@ -192,7 +187,6 @@ class CurlHttpClient implements IHttpClient{
         }
         if ($this->session){
             $f = $this->m_session_file = $this->m_session_file ??  igk_io_tempfile('sess_');
-            // $options[CURLOPT_COOKIESESSION] = true; 
             $options[CURLOPT_COOKIEJAR] = 
             $options[CURLOPT_COOKIEFILE] = $f;
             $options['session_id'] = $this->m_session_id;

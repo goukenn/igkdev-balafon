@@ -13,6 +13,7 @@ use IGK\System\Http\AcceptMimeTypes;
 use IGK\IActionResult;
 use Throwable;
 use function igk_resources_gets as __;
+
 require_once(IGK_LIB_CLASSES_DIR . "/Helper/Activator.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Templates/BindingContextInfo.php");
 require_once IGK_LIB_CLASSES_DIR . "/HookOptions.php";
@@ -136,7 +137,6 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
                 }
             }
         }
-        // igk_ilog("installer init install");
         $this->init_installer($service);
         $r = false;
         try {            

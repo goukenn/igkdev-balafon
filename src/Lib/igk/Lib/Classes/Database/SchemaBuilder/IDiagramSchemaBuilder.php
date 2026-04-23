@@ -4,6 +4,7 @@
 // @date: 20221104 11:36:13
 namespace IGK\Database\SchemaBuilder;
 use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
+
 /**
 * Schema builder blueprint
 * @package IGK\Database\SchemaBuilder

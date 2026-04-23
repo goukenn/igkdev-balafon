@@ -12,6 +12,7 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands\Database
@@ -103,7 +104,6 @@ class BackupTablesCommand extends AppExecCommand
 				}
 			}
 			if ($restore_mode){
-				// restore foreign key check
 				$ad->setForeignKeyCheck(1);
 			}
 		}

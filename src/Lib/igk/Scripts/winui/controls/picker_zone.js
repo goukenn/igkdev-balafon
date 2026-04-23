@@ -1,11 +1,9 @@
 "use strict";
-
 (function(){
     //----------------------------------------------------------
     // | class control: igk-picker-zone
     // | require attribute : igk:picker-zone-data
     //----------------------------------------------------------
-
     function PickerZoneClass(n){
         var data = JSON.parse(n.getAttribute("igk:picker-zone-data")) || {};
         var t_uri = data && data.uri ?  data.uri : "/";
@@ -23,7 +21,6 @@
             enter: function(e){
                 // console.debug("ennnnnn");
             }
-
         });
         // console.debug(data);
         n.on("click", function(){
@@ -31,13 +28,9 @@
                 "accept": data.accept
             });
         }).on("drop", function(){
-
         });
     };
-
-
     igk.winui.initClassControl("igk-picker-zone", function(){
         new PickerZoneClass(this);
     });
-
 })();

@@ -1,12 +1,10 @@
 // @ts-nocheck
 'use strict';
-
 (function() {
     var i = document.scripts[document.scripts.length - 2];
     if (typeof(i.text) == "undefined") {
         return;
     }
-
     function loadXml(s) {
         var r = null;
         if ("DOMParser" in window) {

@@ -7,6 +7,7 @@ namespace IGK\System\Http;
 use IGK\Helper\JSon as HelperJSon;
 use IGK\System\Html\Dom\HtmlDocTheme; 
 use function igk_resources_gets as __;
+
 /**
 * Error request response.
 * @package IGK\System\Http
@@ -63,7 +64,7 @@ class ErrorRequestResponse extends RequestResponse{
             case "json":        
             if (igk_server()->accept($this->type)){
                 \igk_header_set_contenttype($this->type);
-                return HelperJSon::Encode($obj, (object)['ignore_empty'=>1, 'ignore_null'=>1]); //  json_encode($obj);
+                return HelperJSon::Encode($obj, (object)['ignore_empty'=>1, 'ignore_null'=>1]); 
             }
             break;
             default:

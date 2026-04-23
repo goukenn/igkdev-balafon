@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Database;
+
 /**
 * Db column data type.
 * @package IGK\Database

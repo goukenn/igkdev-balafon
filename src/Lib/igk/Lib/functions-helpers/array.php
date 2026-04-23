@@ -1,15 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: array.php
 // @date: 20230119 08:32:49
 // @desc: store array her utility 
-
 use IGK\System\Regex\Replacement;
 
-
 if (!function_exists("igk_array_find_first")) {
-
 /**
 * Igk array find first.
 * @param array $tab
@@ -57,7 +53,6 @@ if (!function_exists('igk_array_pad')) {
         return $array;
     }
 }
-
 if (!function_exists("igk_array_copy")) {
     /**
      * copy array
@@ -135,7 +130,6 @@ if (!function_exists("igk_array_extract")) {
     }
 }
 if (!function_exists("igk_array_fill")) {
-
     /**
     * auto generate doc.
     * @param mixed $default
@@ -212,7 +206,6 @@ if (!function_exists("igk_array_is_indexed")) {
         return array_values($arr) === $arr;
     }
 }
-
 if (!function_exists("igk_array_is_assoc_only")) {
     /**
      * get if an array is indexed
@@ -384,8 +377,6 @@ if (!function_exists("igk_array_replace_key")) {
         $tab = $vtabcl;
     }
 }
-
-
 if (!function_exists("igk_array_replace_key_array")) {
     /**
      * replace arrauy association 
@@ -411,8 +402,6 @@ if (!function_exists("igk_array_replace_key_array")) {
         return $rt;
     }
 }
-
-
 if (!function_exists("igk_array_set")) {
     /**
      * append array keys
@@ -432,7 +421,6 @@ if (!function_exists("igk_array_set")) {
     }
 }
 if (!function_exists("igk_array_sort_bykey")) {
-
     /**
     * auto generate doc.
     * @param mixed $key
@@ -461,7 +449,6 @@ if (!function_exists("igk_array_sortbykey")) {
     }
 }
 if (!function_exists("igk_array_sortkey")) {
-
     /**
     * auto generate doc.
     * @param mixed $tab
@@ -550,7 +537,6 @@ if (!function_exists("igk_array_tokeys")) {
     }
 }
 if (!function_exists("igk_array_value_exist")) {
-
     /**
     * auto generate doc.
     * @param mixed $obj
@@ -567,7 +553,6 @@ if (!function_exists("igk_array_value_exist")) {
         return false;
     }
 }
-
 if (!function_exists("igk_array_peek_last")) {
     /**
      * load array
@@ -659,7 +644,6 @@ if (!function_exists("igk_array_key_map_implode")) {
     }
 }
 if (!function_exists("igk_array_unique_string")) {
-
 /**
 * Igk array unique string.
 * @param mixed $sep
@@ -674,11 +658,7 @@ function igk_array_unique_string($sep, $source, $add)
         )));
     }
 }
-
-
 if (!function_exists('igk_array_dump_short')) {
-
-
     /**
      * dump short 
      * @param mixed $obj 
@@ -717,7 +697,6 @@ if (!function_exists('igk_array_dump_short')) {
                         }
                         continue;
                     }
-
                     $s .= $ch;
                     if (is_string($t))
                         $s .= igk_str_surround($rp->replace($t)) . "=>";
@@ -754,10 +733,7 @@ if (!function_exists('igk_array_dump_short')) {
         return $s;
     }
 }
-
-
 if (!function_exists('igk_array_order_by')) {
-
     /**
     * auto generate doc.
     * @param mixed &$array
@@ -773,7 +749,6 @@ if (!function_exists('igk_array_order_by')) {
         return $array;
     }
 }
-
 if (!function_exists('igk_array_merge_assoc')) {
     /**
      * merge array by preserving last key association 
@@ -791,4 +766,4 @@ if (!function_exists('igk_array_merge_assoc')) {
         }
         return $r;
     }
-}
+} 

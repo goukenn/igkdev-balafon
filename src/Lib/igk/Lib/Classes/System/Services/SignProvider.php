@@ -10,6 +10,7 @@ use IGKEvents;
 use IGKException;
 use IGKObjStorage;
 use Illuminate\Contracts\Container\BindingResolutionException;
+
 /**
  * sign provider helper with oauth
  */

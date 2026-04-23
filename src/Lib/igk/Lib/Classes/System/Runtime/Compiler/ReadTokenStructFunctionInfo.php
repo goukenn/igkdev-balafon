@@ -5,6 +5,7 @@
 namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler
@@ -68,13 +69,10 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
         $this->buffer = "";
         $is_ano = $this->getIsAnonymous();
         $sb = new StringBuilder($this->buffer);
-        // $depth = str_repeat("\t", $this->depth);
         $merge = $options ? $options->mergeVariable : 0;
         $noComment = $options && $options->noComment; 
-        // $sb->tabstop = $depth;
         if (!$is_ano && !$noComment) {
-            $comment = $this->comment ;// ?? "///<summary></summary>";
-            // auto generate
+            $comment = $this->comment ;
             if (is_null($this->phpDoc)) {
                 $this->phpDoc = $this->generatePhpDoc($options);
             }
@@ -114,7 +112,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
             }
             if (!empty($buff = trim($v_buffer)))
                 $sb->appendLine($buff); 
-            // generate
             $sb->append("}");
         }
         $this->m_output = $sb . '';

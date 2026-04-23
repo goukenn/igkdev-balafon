@@ -3,6 +3,7 @@
 // @filename: PhoneBooksMacros.php
 // @date: 20251219 08:07:38
 // @desc: macros function 
+
 declare(strict_types=1);
 namespace IGK\Database\Macros;
 use IGK\Database\DbQueryCondition;
@@ -175,8 +176,6 @@ class PhoneBooksMacros
                 $v = $visitor->visit($n, $v, igk_getv($inf, $n), $type->Cardinality);
             } else {
                 if (isset($inf->{$n})) {
-                    // check for cardinality 
-                    // Logger::info('cardinality ...');
                     $g = $inf->{$n};
                     if (!is_array($g)) {
                         $g = [$g];

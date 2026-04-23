@@ -3,6 +3,7 @@
 // @file: ModelHelper.php
 // @date: 20230704 14:35:57
 namespace IGK\Helper;
+
 /**
 * auto generate doc.
 * @package IGK\Helper

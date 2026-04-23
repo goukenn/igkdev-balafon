@@ -10,6 +10,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlUtils;
 use function igk_resources_gets as __;
+
 /**
 * Html anode.
 * @package IGK\System\Html\Dom
@@ -37,7 +38,7 @@ class HtmlANode extends HtmlNode
         if (!$this->getIsVisible())
             return false;
         if ($this["onclick"] == null) {
-            $bck = $this["href"];//->getUri();
+            $bck = $this["href"];
             $kr = (is_string($bck) ? $bck : HtmlUtils::GetValue($bck, $option)) ?? '';
             if (strpos(trim($kr), "javascript") === 0) {
                 $this["onclick"] = $kr . " return false;";
@@ -50,9 +51,6 @@ class HtmlANode extends HtmlNode
                     $s = ":object";
                 } 
                 $_ass =  sprintf(__("link to %s"), $s);
-                // !$this["alt"] && ($this["alt"] = $_ass);
-                // !$this["name"] && ($this["name"] = $_ass);
-                // important title for accessibility 
                 !$this["title"] && ($this["title"] = $_ass);
             }
         }

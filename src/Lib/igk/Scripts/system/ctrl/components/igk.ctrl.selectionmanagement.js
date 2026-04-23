@@ -6,8 +6,6 @@ project : IGKWEB Plateform (BALAFON)
 represent selection utility
 */
 (function(){
-
-
 igk.ctrl.bindPreloadDocument("igk-reset-body-management", function(){
 	igk.ready(function(){
 	igk.dom.body().select(".igk-reset-body").each(function(){
@@ -48,12 +46,10 @@ igk.ctrl.bindPreloadDocument("igk-reset-body-management", function(){
 		this.addClass(cl);
 		return true;
 	});
-
 	});
 });
 igk.ctrl.bindAttribManager("igk-js-bodyheight", function(){
 	var source = this.getAttribute("igk-js-bodyheight");
-	
 	if (source){
 		var q = this;
 		this.setCss({"minHeight":document.body.clientHeight+"px"});
@@ -65,10 +61,8 @@ igk.ctrl.bindAttribManager("igk-js-bodyheight", function(){
 });
 if (igk.ctrl.selectionmanagement)
 igk.ctrl.bindAttribManager("igk-js-anim-over",  igk.ctrl.selectionmanagement.initnode);
-
 var m_article = new Array();
 var m_ctrl = new Array();
-
 var m_viewctrl = false;
 if (igk.web.getcookies("igk-sao")==1)
 	m_viewarticle = true;
@@ -76,7 +70,6 @@ if (igk.web.getcookies("igk-sco")==1)
 {
 	m_viewctrl = true;
 }
-
 //manage controller options
 igk.ctrl.bindAttribManager("igk-ctrl-options",function(){	
 		var q = this;
@@ -96,8 +89,4 @@ igk.ctrl.bindAttribManager("igk-ctrl-options",function(){
 		}
 		m_ctrl.push(q);
 });
-
-
-
-
 })();	

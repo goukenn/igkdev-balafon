@@ -9,6 +9,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlCDATA;
 use IGK\XML\XMLNodeType;
+
 /**
 * Represent IGKHtmlXmlViewerItem class
 */
@@ -81,9 +82,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
 <demo attr_1="attrib_definition" >The viewer<i >sample</i></demo>
 EOF        , HtmlContext::XML);
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
-    ///<param name="context" default="XML"></param>
     /**
     * auto generate doc.
     * @param mixed $context the default value is XML
@@ -101,10 +99,6 @@ EOF        , HtmlContext::XML);
         }
         $this["igk:loaded"]=1;
     }
-    ///<summary></summary>
-    ///<param name="r"></param>
-    ///<param name="target"></param>
-    ///<param name="depth"></param>
     /**
     * auto generate doc.
     * @param mixed $depth the default value is 0

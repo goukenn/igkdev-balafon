@@ -18,6 +18,7 @@ use IGK\System\Text\Traits\ReplaceUtilityTrait;
 use IGKException;
 use IGKObject;
 use ReflectionException;
+
 /**
  * formatter 
  * @package IGK\System\Text\Formatters
@@ -57,7 +58,6 @@ abstract class FormatterBase extends IGKObject
     * @var mixed
     */
     protected $m_sb;
-    // protected $m_marked;
     /**
     * Property: depth.
     * @var mixed
@@ -408,7 +408,6 @@ abstract class FormatterBase extends IGKObject
                 $q = array_shift($sub);
                 array_unshift($chains, $q);
             }
-            // append transform to chain
         }
         $ce = $this->getTransformObj($e);
         $ce->chains = $chains;
@@ -435,9 +434,9 @@ abstract class FormatterBase extends IGKObject
         if ($e->parentInfo) {
             array_unshift($sub, $e);
         } else {
-            $prev = $this->getFlag('prev'); // previous chain block 
-            $skipped = $this->getFlag('skipped'); // skipped 
-            $line_flag = $this->getFlag('line-flag'); // skipped 
+            $prev = $this->getFlag('prev'); 
+            $skipped = $this->getFlag('skipped'); 
+            $line_flag = $this->getFlag('line-flag'); 
             if ($source) {
                 $before = substr($source, $offset, $e->from - $offset);
                 if (strlen($before) > 0) {

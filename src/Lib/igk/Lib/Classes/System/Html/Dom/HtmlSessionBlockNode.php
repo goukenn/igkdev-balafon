@@ -14,6 +14,7 @@ use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKViewMode;
 use function igk_resources_gets as __;
+
 /**
 * Html session block node.
 * @package IGK\System\Html\Dom
@@ -109,7 +110,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             if ($_id = session_id()){
                 $ul->li()->Content="SessionID : ". $_id;
             }
-            // $ul->li()->Content=new IGKSessionIdValue();
             $bootstrap=igk_sys_getconfig("BootStrap.Enabled");
             $tab=igk_sys_debug_components();
             if($tab){
@@ -199,7 +199,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
      */
     protected function _getRenderingChildren($options = null)
     {
-        // $v = parent::_getRenderingChildren();
         $n = new HtmlNode("div");
         $n['class'] = 'igk-sys-session-block-node no-print';
         $this->__buildview($n);
