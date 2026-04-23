@@ -6,7 +6,7 @@
 // @desc: helper view description files
 // @author: C.A.D. BONDJE DOUE
 
-//
+
 namespace IGK\Helper;
 use Closure;
 use Exception;

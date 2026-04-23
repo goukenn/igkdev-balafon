@@ -269,7 +269,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     $options->flagOptions->buffer = $value . (($id == T_ECHO) ? " " : "");
                     $options->flagOptions->rtrim = true;
                     return true;
-                case T_RETURN;
+                case T_RETURN:
                     if (!$this->m_block) {
                         $options->exit_detecteds["return"] = 1;
                         $this->_readExpression($options, ":return");

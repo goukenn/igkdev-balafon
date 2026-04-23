@@ -41,7 +41,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
 		$file = $file == null? base64_decode(igk_getr("file")): $file;
 		if (igk_io_file_exists($file))
 		{
-			//
+			
 			$str = IO::ReadAllText($file);
 			$out = preg_replace("/^\s*\/\/\/@@@(?P<value>(.)+)$/i", '///<summary>${1}</summary>', $str);
 			igk_io_save_file_as_utf8(dirname(__FILE__)."/out.php_t", $out, true);

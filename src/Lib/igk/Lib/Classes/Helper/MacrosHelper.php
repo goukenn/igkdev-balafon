@@ -4,10 +4,10 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-//
+
 // @file: MacrosHelper.php
 // @author: C.A.D. BONDJE DOUE
-//
+
 namespace IGK\Helper;
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;

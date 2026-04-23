@@ -751,7 +751,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     private static function &_InitDbMacros()
     {
         // + initialize macro definition
-        //
+        
         $macros = [
             MacrosConstant::RegisterMacroMethod => function (string $name, callable $callback) use (&$macros) {
                 if (is_callable($callback)) {

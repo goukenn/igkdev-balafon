@@ -101,7 +101,7 @@ function igk_html_node_faceBookTimeLine($id){
 function igk_html_node_faceBookLikeButton($showface=false){
 	$n = igk_create_node("div");
 	$n["class"]="fb-like";
-	$n["data-share"] = "false";//
+	$n["data-share"] = "false";
 	$n["data-width"] = "150";
 	$n["data-show-faces"]=igk_parsebool($showface);
 	$b = igk_html_node_onrendercallback(igk_create_expression_callback(igk_fb_LibExpression(),array("n"=>$n)));
@@ -114,7 +114,7 @@ function igk_html_node_faceBookLikeButton($showface=false){
 function igk_html_node_faceBookShareButton(){
 		$n = igk_create_node("div");
 	$n["class"]="fb-share-button";
-	$n["data-share"] = "false";//
+	$n["data-share"] = "false";
 	$n["data-width"] = "150";
 	$n["data-show-faces"]="false";
 	$b = igk_html_node_onrendercallback(igk_create_expression_callback(igk_fb_LibExpression(),array("n"=>$n)));

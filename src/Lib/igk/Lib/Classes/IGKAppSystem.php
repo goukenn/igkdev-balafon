@@ -214,7 +214,7 @@ class IGKAppSystem
         IO::CreateDir($app_dir . "/cgi-bin");
         igk_io_save_file_as_utf8($app_dir . "/cgi-bin/.htaccess", "deny from all");
         igk_io_save_file_as_utf8($app_dir . "/cgi-bin/cronjob.php", igk_get_defaultcron_data(), false);
-        //
+        
         self::_LoadEnvFiles();
         igk_io_save_file_as_utf8($confFILE, date('Y-m-d h:i:s'), false);
         igk_io_save_file_as_utf8($data_dir . "/domain.conf", igk_getv($options, "domain_name"), true);

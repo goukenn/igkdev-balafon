@@ -290,7 +290,7 @@ abstract class UsersMacros
         ];
         return $data;
     }
-    //
+    
     /**
     * Clean and drop.
     * @param Users $model

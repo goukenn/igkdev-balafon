@@ -82,7 +82,7 @@ class SchemaBuilder implements ArrayAccess{
         $this->_output->add($n);
         return $n;
     }
-    //
+    
     /**
     * Access offset set.
     * @param mixed $n
@@ -91,7 +91,7 @@ class SchemaBuilder implements ArrayAccess{
     protected function _access_OffsetSet($n,$v){
         $this->_output[$n] = $v;
     }
-    //
+    
     /**
     * Access offset get.
     * @param mixed $n
@@ -99,7 +99,7 @@ class SchemaBuilder implements ArrayAccess{
     protected function _access_OffsetGet($n){
         return $this->_output[$n];
     }
-    //
+    
     /**
     * Access offset exists.
     * @param mixed $n
@@ -108,7 +108,7 @@ class SchemaBuilder implements ArrayAccess{
     protected function _access_offsetExists($n,$v){
         return isset($this->_output[$n]);
     }
-    //
+    
     /**
     * Access offset unset.
     * @param mixed $n

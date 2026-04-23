@@ -456,9 +456,9 @@ class DBCaches
             return $requests_def;
         }
         if (empty($ref_def->tableRowReference)) {
-            //
+            
             // + | update data with table's row model reference info
-            //
+            
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
         }
         if (empty($ref_def->modelClass) && $ref_def->controller){

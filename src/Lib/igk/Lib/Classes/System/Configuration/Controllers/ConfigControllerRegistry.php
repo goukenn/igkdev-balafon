@@ -112,7 +112,7 @@ class ConfigControllerRegistry
      */
     public static function ResolvAndInitControllers()
     {
-        //
+        
         if ($d = igk_environment()->get($key = "init_resolv_ctrls")){
             return $d;
         }

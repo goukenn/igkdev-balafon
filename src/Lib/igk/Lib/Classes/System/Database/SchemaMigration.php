@@ -118,7 +118,7 @@ class SchemaMigration
             $n = array_shift($qtb);
             if (!$n) continue;
             if ($v_roots && ($v_roots[0] === $n)) {
-                //
+                
                 array_pop($v_roots);
             } else {
                 if ($requires = $n->getElementsByTagName(DbSchemas::RT_REQUIRESCHEMA_TAG)) {

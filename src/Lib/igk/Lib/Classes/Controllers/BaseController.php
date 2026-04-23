@@ -465,7 +465,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $params = $rep->params ?? $params; 
             $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep, [
                 'method' => $srv->REQUEST_METHOD,
-                'is_ajx' => $is_ajx, //
+                'is_ajx' => $is_ajx, 
                 'is_view' => $is_view
             ]);
             return $r;

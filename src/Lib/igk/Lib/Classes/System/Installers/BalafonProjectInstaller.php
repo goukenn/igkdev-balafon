@@ -125,7 +125,7 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         $project_name  = $this->getServiceInfo()->Listener->project_name;
         $dir  = $this->getServiceInfo()->Listener->intall_dir;
         $core_zip = $this->getServiceInfo()->Listener->CoreZip;
-        //
+        
         if (empty($core_zip)){
             return;
         }

@@ -257,8 +257,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             $mail->setHtmlMsg('Notification Mail');
             $mail->sendMail();
         }
-    }
-    private funct
+    } 
     private function _can_send_notification_mail($conf):bool{
         return $conf->informAccessConnection && !empty($conf->website_adminmail);
     }

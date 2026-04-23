@@ -994,7 +994,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     public function getDebugger()
     {
         // + | Debugger
-        //
+        
         return igk_get_class_instance(Debugger::class, function () {
             return new Debugger;
         });

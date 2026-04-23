@@ -92,8 +92,8 @@ final class SessionManagerController extends ConfigControllerBase{
             $table=$frm->addDiv()->setClass("igk-table-host overflow-x-a")->add("table");
             $table["class"]="session-list";
             igk_html_db_build_table_header($table->add("tr"), ["", "Name", "Size", "Time"]);
-            //
-            //
+            
+            
             $bar=$dv->addActionBar();
             $bar->a_post($this->getUri("clearall_ajx"))
             ->setClass("igk-btn")

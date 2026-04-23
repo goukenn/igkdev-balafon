@@ -1,6 +1,6 @@
 <?php
 
-//
+
 // @file: ModuleList2Command.php
 // @author: C.A.D. BONDJE DOUE
 // @desc: list installed module 

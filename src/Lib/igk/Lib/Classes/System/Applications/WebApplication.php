@@ -71,7 +71,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     public function bootstrap($bootoptions = null, ?callable $loader = null)
     {
         if (!igk_environment()->isDev()) {
-            //
+            
             header_remove(null);
         }
         // + | --------------------------------------------------------------------

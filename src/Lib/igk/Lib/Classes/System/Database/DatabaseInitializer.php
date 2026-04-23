@@ -203,7 +203,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         Logger::info('post install migration ... --- ');
         if ($caches) {
             array_map(function ($a) {
-                //
+                
                 $ctrl = $a[0];
                 $ad = $ctrl->getDataAdapter();
                 if ($ad && isset($a[1])) {

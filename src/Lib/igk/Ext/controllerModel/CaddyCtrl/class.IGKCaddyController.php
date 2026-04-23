@@ -26,12 +26,12 @@ final class IGKCaddyInfo
     * Identifier: cl cadd id.
     * @var mixed
     */
-    var $clCaddId; //
+    var $clCaddId; 
     /**
     * Identifier: cl uid.
     * @var mixed
     */
-    var $clUId; //
+    var $clUId; 
     /**
     * Property: cl title.
     * @var mixed

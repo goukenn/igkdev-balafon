@@ -23,7 +23,12 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
      */
     var $strip_expression = false;
     private $m_litteral_start;
-    public static function DetectArrayList(string $value)
+    /**
+     * Detect Array list litteral 
+     * @param string $value 
+     * @return bool 
+     */
+    public static function DetectArrayList(string $value): bool
     {
         return $value && preg_match("/^\[[^\]]+\]$/", trim($value));
     }
@@ -63,7 +68,7 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
                     $start = 0;
                     $lpos = 0;
                     break;
-                case ',';
+                case ',':
                     $this->_appendOutput($func_callback, $out, $v, $lpos, false, $this->strip_expression, $express_start);
                     $v = "";
                     $start = 0;
@@ -95,7 +100,7 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
                                 break;
                             // + | litteral symbole 
                             case '&gt;':
-                            case '&lt';
+                            case '&lt':
                                 $v.= html_entity_decode($n);
                                 $ch = "";
                                 break;

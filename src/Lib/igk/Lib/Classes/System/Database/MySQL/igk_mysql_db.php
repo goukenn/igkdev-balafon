@@ -1,6 +1,6 @@
 <?php
 
-//
+
 // @author: C.A.D. BONDJE DOUE
 // @file: igk_mysql_db.php
 use IGK\Database\DbQueryDriver;

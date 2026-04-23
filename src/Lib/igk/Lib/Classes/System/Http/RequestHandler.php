@@ -104,7 +104,7 @@ class RequestHandler
             $routes = new RouteCollection();
             // + | --------------------------------------------
             // + | include route files and build route mecanism
-            //
+            
             include($route_file);
             $routes = Route::GetRoutes();
         } 

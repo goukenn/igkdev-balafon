@@ -717,6 +717,6 @@ class Path
     */
     public static function SubLocalPath(string $path, string $cwd): ?string{
      $g = self::ToLocalPath($path, $cwd);
-return \IGK\System\IO\Path::GetRelativePath($cwd, $g); //
+return \IGK\System\IO\Path::GetRelativePath($cwd, $g); 
 }
 }

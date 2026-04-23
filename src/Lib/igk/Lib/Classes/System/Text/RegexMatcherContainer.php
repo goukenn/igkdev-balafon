@@ -1691,7 +1691,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public function appendSingleLineComment($mark = '\/\/', $tokenID = 'single-comment'): RegexMatcherContainer
     {
-        $this->match($mark . ".+", $tokenID);
+        $this->match($mark . "(.+)?", $tokenID);
         return $this;
     }
     /**

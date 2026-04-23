@@ -42,7 +42,7 @@ trait SysUserPasswordManagementActionTrait
                 $rui = ActionHelper::ActivateUser($ctrl, $token, $linkLoken);
                 $user = Users::Get('clGuid', $linkLoken->regLinkUserGuid);
                 if ($rui) {
-                    //
+                    
                     igk_ilog('user get activated');
                     return [
                         'message' => 'new account',

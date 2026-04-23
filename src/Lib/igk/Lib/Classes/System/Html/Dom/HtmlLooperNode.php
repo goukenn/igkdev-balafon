@@ -81,7 +81,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
      * param to pass 
      * @var mixed
      */
-    private $params; //
+    private $params; 
     /**
     * Property: controller.
     * @var mixed
