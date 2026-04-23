@@ -129,8 +129,7 @@ class ListProjectRemovedCommand extends AppExecCommand
 				}
 			}
 			$g = $ctrl;
-			if ($g) {
-				/// TODO: Project Installer
+			if ($g) { 
 				$g->initDb(true);
 				$install = new MigrationHandler($g);
 				$install->migrate('up');

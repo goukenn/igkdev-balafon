@@ -23,6 +23,7 @@ use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\InlineScriptLoader;
 use IGK\System\IO\Path;
+use IGK\System\Net\Mail;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGKAppConfig;
@@ -246,10 +247,20 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         $ctrl = $this;
         $app = igk_app();
-        if ($app->getConfigs()->informAccessConnection) {
-            $to = $app->getConfigs()->website_adminmail;
-            /// TODO: SEND MAIL CONFIG NOTIFICATION 
+        $conf = $app->getConfigs();
+        if ($this->_can_send_notification_mail($conf)) {
+            $to = $conf->website_adminmail; 
+            $mail = new Mail;
+            $ctrl->view('mail.notification');
+            $mail->addTo($to);
+            $mail->setTitle('Notificaiton Mail');
+            $mail->setHtmlMsg('Notification Mail');
+            $mail->sendMail();
         }
+    }
+    private funct
+    private function _can_send_notification_mail($conf):bool{
+        return $conf->informAccessConnection && !empty($conf->website_adminmail);
     }
     /**
     * auto generate doc.

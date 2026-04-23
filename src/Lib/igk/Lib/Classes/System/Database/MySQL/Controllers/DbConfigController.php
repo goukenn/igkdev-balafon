@@ -677,8 +677,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     * @param mixed $zdiv
     */
     private function _view_conf_query($zdiv)
-    {
-        /// TODO: query selector tool 
+    { 
         $pan = $zdiv->addPanelBox();
         $pan->h2()->Content =  __("MySQL Query Tool");
         $h = $pan->div()->addRow();

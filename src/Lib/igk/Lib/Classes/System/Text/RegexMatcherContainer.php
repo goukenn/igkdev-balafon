@@ -576,8 +576,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_nextline_offset = strpos($source, "\n", $offset);
         $v_sln = strlen($source);
         $v_end_of_source = $offset >= $v_sln;
-        if (($v_size == 0) && (!$info->start)) {
-            /// TODO: TREAT matching 
+        if (($v_size == 0) && (!$info->start)) { 
             if ($info->match === $this->m_last_match) {
                 if ($this->m_parent == null) {
                     $i = $v_nextline_offset;

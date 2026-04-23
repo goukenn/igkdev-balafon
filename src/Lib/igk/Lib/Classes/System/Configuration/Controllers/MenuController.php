@@ -301,8 +301,7 @@ final class MenuController extends ConfigControllerBase
         $ctab = array();
         $v_ctab = array();
         $v_CPages = array();
-        $v_confctrl = igk_getconfigwebpagectrl();
-        /// TASK: INIT Configuration Controllers
+        $v_confctrl = igk_getconfigwebpagectrl(); 
         $v_load_controller = ConfigControllerRegistry::ResolvAndInitControllers();
         $ctab = $v_confctrl->initConfigMenu();
         foreach ($v_load_controller as $v) {

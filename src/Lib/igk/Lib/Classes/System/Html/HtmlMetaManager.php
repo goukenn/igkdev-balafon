@@ -129,7 +129,6 @@ final class HtmlMetaManager extends IGKObject{
     * @return
     */
     private function _initMetas(){
-        $pmetas=null;
         $cnf=igk_app()->configs;
         $this->m_metas=array();
         $this->m_metas[self::META_CHARSET]= ["charset"=>"utf-8"];
@@ -153,9 +152,7 @@ final class HtmlMetaManager extends IGKObject{
         $this->m_metas[self::META_VIEWPORT]=array(
             "name"=>"viewport",
             self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
-        );
-        // + | last-updated page 
-        /// TODO: last-updated checked
+        ); 
     }
     /**
      * register meta definition base 

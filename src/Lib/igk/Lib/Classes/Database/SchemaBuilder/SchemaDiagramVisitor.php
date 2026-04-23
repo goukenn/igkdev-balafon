@@ -99,7 +99,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
      */
     public function visitDiagramMigration(DiagramMigration $migration)
     {
-        /// TODO: add visit diagram migration 
         $mig = null;
         $r = &$this->m_data;
         $props = $migration->properties;

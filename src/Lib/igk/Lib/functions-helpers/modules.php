@@ -154,8 +154,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
                 },
                 true,
                 $excludedir
-            );
-            /// TODO: Remove Cache setting
+            ); 
         }
     } else {
         $f = igk_io_getfiles(

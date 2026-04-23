@@ -1039,8 +1039,7 @@ function igk_cmp_version($v1, $v2)
         }
     }
     return strcmp($v1, $v2);
-}
-/// TASK: FOLLOW US MUST BE REMOVED
+} 
 /**
 * auto generate doc.
 */

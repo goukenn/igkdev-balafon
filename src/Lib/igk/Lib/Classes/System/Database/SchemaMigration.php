@@ -184,9 +184,7 @@ class SchemaMigration
                         }
                         $links[$lnk][$tb][] = $cl->clName;
                     }
-                }
-                // + | load generate columns
-                /// TODO: GEN COLUM for migration
+                } 
                 $passing = null;
                 $v_info = (object)[
                     "table" => $tb,

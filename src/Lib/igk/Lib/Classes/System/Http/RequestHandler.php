@@ -293,8 +293,7 @@ class RequestHandler
                 if ($redirect == "/sitemap.xml") {
                     igk_bind_sitemap(["ctrl" => $defctrl, "c" => "sitemap"]);
                     igk_exit();
-                }
-                /// TASK: handle query option on system command
+                } 
                 if ($this->handle_cmd_action($redirect)) {
                     igk_exit();
                 } 

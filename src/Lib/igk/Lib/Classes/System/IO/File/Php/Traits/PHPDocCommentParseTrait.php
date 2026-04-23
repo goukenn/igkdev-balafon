@@ -46,8 +46,7 @@ trait PHPDocCommentParseTrait
         $g = new self;
         $g->setPropertyFilterListener($filterCallback);
         $g->setPropertyHandlerListener($handlerCallback);
-        $g->summary = '';
-        /// TODO: Remove filter property 
+        $g->summary = ''; 
         $summary = false;
         $content = "";
         $name = "";

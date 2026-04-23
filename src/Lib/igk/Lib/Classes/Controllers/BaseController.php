@@ -593,8 +593,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             igk_environment()->viewfile = 1;
             igk_set_env('igk_view_handle_actions', null);
             $response = $this->getViewLoader()->include($file, $viewargs);
-            $g = igk_get_env('igk_view_handle_actions');
-            /// TODO: HANDLE default error              
+            $g = igk_get_env('igk_view_handle_actions'); 
             if (($tg = igk_view_handle_missing_params()) && ($params = igk_getv($tg, 'params'))) {
                 $this::viewError($tg['code'], igk_getv($tg, 'params'));
             }

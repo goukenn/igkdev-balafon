@@ -22,9 +22,8 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
     * @return bool
     */
     public function assertValidate($value): bool
-    {
-        /// TODO: Expect file validation data 
-        return false;
+    { 
+        return file_exists($value);
     }
     /**
     * Validate.
