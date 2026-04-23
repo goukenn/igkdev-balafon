@@ -6,7 +6,8 @@
 // @desc: cron scripts 
 use IGK\System\Cron\CronExecutionStatus;
 use IGK\System\Net\Mail;
- $options = (object)[
+
+$options = (object)[
   'email'=>$to
 ];
 $cnf = igk_configs();

@@ -1992,9 +1992,7 @@ abstract class ControllerExtension
                 if (isset($schema->tables[$tablename])) {
                     $info = &$schema->tables[$tablename];
                     if (!isset($info->tableRowReference)) {
-                        
                         // + | update data with table's row model reference info
-                        
                         $info->tableRowReference = igk_array_object_refkey($info->columnInfo, IGK_FD_NAME);
                     }
                 }

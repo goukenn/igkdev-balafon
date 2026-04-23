@@ -3,10 +3,9 @@
 // @filename: wizeinstall.phtml
 // @date: 20220803 13:51:47
 // @desc: 
-
-
 use IGK\Resources\R;
 use function igk_resources_gets as __;
+
 if (!function_exists('igk_use_symbols')){
     /**
      * 
@@ -134,7 +133,6 @@ $cr->div()->fields(array(
     "cladminPassword" => array("type" => "password"),
     "cladminrePassword" => array("type" => "password")
 ));
-
 $d = $hpage->div()->setId("mysqldbsetting");
 $g = $d->div();
 $gr = $g->addRow();

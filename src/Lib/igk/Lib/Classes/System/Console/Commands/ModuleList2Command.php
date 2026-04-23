@@ -1,12 +1,11 @@
 <?php
-
-
 // @file: ModuleList2Command.php
 // @author: C.A.D. BONDJE DOUE
 // @desc: list installed module 
 namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands

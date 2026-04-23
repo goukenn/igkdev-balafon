@@ -16,6 +16,7 @@ use IGK\System\Cron\CronScriptHandler;
 use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path; 
+
 define('IGK_CRON_START_DIR', __DIR__);
 define('IGK_APP_CRON', 1);
 error_reporting(-1);

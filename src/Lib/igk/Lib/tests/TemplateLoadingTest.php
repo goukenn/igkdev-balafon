@@ -81,7 +81,6 @@ $this->assertEquals("<div></div>", $m, "loading failed");
             $n->render(),
             "not visible not handle"
         );
-        
         $src = '<a *visible="true">item ok</a>';
         $n = igk_create_node("div");
         $n->load($src);

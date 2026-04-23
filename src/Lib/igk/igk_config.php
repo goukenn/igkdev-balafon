@@ -531,7 +531,6 @@ define('IGK_ERR_NO_PAGEVIEW', 65546);
 define('IGK_ERR_FUNCNOTAVAILABLE', 65547);
 // + | system user login
 !defined('IGK_SYS_USER_LOGIN') &&  define('IGK_SYS_USER_LOGIN', "igk.system@igkdev.com");
-
 defined('IGK_PWD_PREFIX') || define('IGK_PWD_PREFIX', "(!)8Zmb90-&");
 defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");
 defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);

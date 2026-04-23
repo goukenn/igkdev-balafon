@@ -5,8 +5,6 @@
 // @file: View.php
 // @desc: helper view description files
 // @author: C.A.D. BONDJE DOUE
-
-
 namespace IGK\Helper;
 use Closure;
 use Exception;
@@ -32,6 +30,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 /**
  * view context helper class 
  * @package

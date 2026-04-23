@@ -5,6 +5,7 @@
 // @desc: init application core system  
 // @license : see licence.txt attached to the library
 use IGK\Helper\StringUtility;
+
 require __DIR__ . "/igk_framework.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";
 $b = StringUtility::Dir(__DIR__ . "/bin/balafon");

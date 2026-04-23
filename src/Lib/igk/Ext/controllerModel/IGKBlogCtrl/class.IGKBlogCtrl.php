@@ -17,7 +17,6 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     public function __construct(){
 		parent::__construct();
 	}
-	
     /**
     * Returns Data Table Info.
     * @return ?IModelDefinitionInfo

@@ -113,7 +113,6 @@ final class IGKModuleListMigration extends BaseController implements
                 $data = igk_db_load_data_schemas($file, $this, true, DbSchemasConstants::Migrate);
                 if ($mig = igk_getv($data, 'migrations')) {
                     foreach ($mig as $m) {
-                        
                         $ctrl = $m->controller;
                         $m->controller = $this;
                         $m->upgrade();

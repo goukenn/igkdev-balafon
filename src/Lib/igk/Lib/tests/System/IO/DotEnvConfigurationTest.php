@@ -16,7 +16,6 @@ class DotEnvConfigurationTest extends BaseTestCase{
     * Tests dotenv loading ignore comment config.
     */
     public function test_dotenv_loading_ignore_comment_config(){
-        
         $src = implode("\n", [
             '# primary comment'
         ]);

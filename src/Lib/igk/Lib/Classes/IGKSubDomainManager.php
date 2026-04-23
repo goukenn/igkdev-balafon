@@ -342,7 +342,6 @@ final class IGKSubDomainManager extends IGKObject{
             return $s;
         }
         $domain = explode(":", $domain)[0];
-        
         if (($pos =  strrpos($domain, $bdom))!==false){
             $s = rtrim(substr($domain,0, $pos ), ".");
             return $s;

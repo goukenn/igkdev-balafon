@@ -62,7 +62,6 @@ class FormHelper{
     * @return Closure
     */
     public static function  _InitOption($options){
-        
         return function ($d)use($options){
             $k_data = "";
             $bas = isset($options["selected"]) ? $options["selected"] : null;

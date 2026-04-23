@@ -134,7 +134,6 @@ trait ControllerDbExtensionTrait{
                             $info->clLinkColumn = $bck;
                         }
                     }
-                    
                     return true;
                 }
             }

@@ -1,12 +1,11 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @file: igk_mysql_db.php
 use IGK\Database\DbQueryDriver;
 use IGK\Constants;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Console\Logger;
+
 if (!extension_loaded("mysql") && (!extension_loaded("mysqli"))) {
     error_log("[BLF] - no extension mysql or mysqli installed. class will not be installed in that case." . extension_loaded("mysqli"));
     return;
