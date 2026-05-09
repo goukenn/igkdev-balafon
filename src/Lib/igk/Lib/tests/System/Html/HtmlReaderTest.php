@@ -3,19 +3,14 @@
 // @filename: HtmlReaderTest.php
 // @date: 20220803 13:48:54
 // @desc: 
-// @cmd : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlReaderTest.php
+// @command : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Html/HtmlReaderTest.php
 namespace IGK\Tests\System\Html;
 use Exception;
-use IGK\Controllers\SysDbController;
-use IGK\Helper\Activator;
-use IGK\System\Exceptions\CssParserException;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\Controllers\SysDbController; 
 use IGK\Tests\BaseTestCase;
 use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
-use PHPUnit\Framework\ExpectationFailedException;
-use ReflectionException;
-
+use PHPUnit\Framework\ExpectationFailedException; 
 /**
 * Html reader test.
 * @package IGK\Tests\System\Html
@@ -78,7 +73,6 @@ HTML);
     */
     function test_read_php_processor()
     {
-        // + | T  
         $n = igk_create_notagnode();
         $n->load("<?php\n echo 'bonjour';");
         $this->assertEquals(
@@ -92,7 +86,6 @@ HTML);
     */
     function test_read_php_processor_with_comment()
     {
-        // + | T  
         $n = igk_create_notagnode();
         $src = "<?php\necho 'bonjour';\n//\"\n\necho 'sample';";
         $n->load($src);

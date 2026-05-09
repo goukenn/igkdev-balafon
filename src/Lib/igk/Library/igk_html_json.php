@@ -7,8 +7,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\HtmlUtils;
+use IGK\System\Html\Dom\HtmlTextNode;
 /**
 * json html node
+* @param mixed $n
 */
 function igk_html_json($n){
     $d=array();
@@ -19,7 +22,7 @@ function igk_html_json($n){
         $m=& $g["s"];
         $r=$q->getTagName();
         $view=array();
-		if ( get_class($q) != IGKHtmlTextNode::class){
+		if ( get_class($q) != HtmlTextNode::class){
 			if($ctrib=$q->getAttributes()){
 				$attribs=array();
 				foreach($ctrib->to_array() as $k=>$attrv){

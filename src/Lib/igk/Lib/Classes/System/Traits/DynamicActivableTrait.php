@@ -4,8 +4,10 @@
 // @date: 20250208 16:15:34
 namespace IGK\System\Traits;
 use Exception;
+use IGK\Helper\ActivatorReference;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
+use IGK\System\DynamicActivableReference;
 use IGKException;
 
 /**
@@ -18,6 +20,7 @@ use IGKException;
 * @package IGK\System\Traits
 */
 trait DynamicActivableTrait{
+    private $m_reflist;
     /**
     * Property: data.
     * @var mixed
@@ -27,7 +30,16 @@ trait DynamicActivableTrait{
     * To array.
     * @return ?array
     */
-    public function to_array(): ?array {return $this->data; }
+    public function to_array(): ?array {
+        if ($this->m_reflist && count($this->m_reflist)>0){
+            $db = $this->data;
+            foreach(array_keys($this->m_reflist) as $k ){
+                $db[$k] = & $this->data[$k];
+            }
+            return $db;
+        }
+        return $this->data; 
+    }
     /**
     * .destructor
     * @param mixed $n
@@ -38,7 +50,22 @@ trait DynamicActivableTrait{
     * @param mixed $n
     * @param mixed $v
     */
-    public function __set($n, $v){ return $this->data[$n] = $v; } 
+    public function __set($n, $v){ 
+        $reflist = false;
+        if ($v instanceof DynamicActivableReference){
+            $this->data[$n]  = & $v->getReference();
+            $reflist = true;
+        } else 
+            $this->data[$n] = $v;
+        $this->_update_ref_list($n, $this->m_reflist, $reflist);
+    } 
+    private function _update_ref_list(string $n, & $reflist, bool $is_reference){
+        if ($is_reference){
+            $reflist[$n] = 1;
+        }else{
+            unset($reflist[$n]);
+        }
+    }   
     /**
      * to implement serialisation
      * @return mixed 
@@ -57,7 +84,7 @@ trait DynamicActivableTrait{
     * check if isset innaccessible property
     * @param mixed $n
     */
-    public function __isset($n){        
+    public function __isset($n): bool{        
         return isset($this->data[$n]);
     }
 }

@@ -71,79 +71,73 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $licence;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $copyright;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $example;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $filesource;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $final;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     var $global;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $ignore;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $internal;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $license;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $link;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $property_read;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $property_write;
     /**
     * auto generate doc.
     * @var mixed
-    * @return
+
     */
     var $see;
     /**
@@ -163,20 +157,17 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     var $todo;
     /**
     * auto generate doc.
-    * @var mixed
-    * @return
+    * @var mixed 
     */
     var $uses;
     /**
     * auto generate doc.
-    * @var mixed
-    * @return
+    * @var mixed 
     */
     var $used_by;
     /**
     * auto generate doc.
-    * @var mixed
-    * @return
+    * @var mixed 
     */
     var $version;
     /**
@@ -257,8 +248,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     }
     /**
      * auto generate doc.
-     * @param mixed $args
-     * @return
+     * @param mixed $args 
      */
     private static function _TreatArgs($args)
     {
@@ -348,6 +338,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     * @return
     */
     protected function setPropertyHandlerListener($callback){
+        
     }
     /**
     * auto generate doc.

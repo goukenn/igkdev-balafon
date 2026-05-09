@@ -405,6 +405,16 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const P_SESSION_PRIORITY = 100;
+
+    /**
+     * cpanel hooks base
+     */
+    const CPANEL_HOOKS = 'sys://cpanel';
+
+    /**
+     * 
+     */
+    const FILTER_PRE_CPANEL_BEFORE_RENDER = self::CPANEL_HOOKS.'/filter/BEFORE_RENDER_DOC';
     /**
     * Creates Hook Options.
     * @return IHookOptions

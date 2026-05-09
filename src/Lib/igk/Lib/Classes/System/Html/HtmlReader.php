@@ -863,7 +863,7 @@ final class HtmlReader extends IGKObject
         return $cnode;
     }
     /**
-    * auto generate doc.
+    * manual attribute reading 
     * @param mixed $callback
     * @return bool
     */
@@ -873,7 +873,7 @@ final class HtmlReader extends IGKObject
         $v_n = "";
         $v_v = "";
         $end = false;
-        $protag = 0;   // + : 0=attribute,
+        $protag = 0;    
         $pro_expr = "";
         $expr_attrib = false;
         $reader->m_selfClose = false; 
@@ -987,8 +987,7 @@ final class HtmlReader extends IGKObject
                         $v_v = "";
                     }
                     break;
-                case ">":
-                    // + | attempt to close tag 
+                case ">": 
                     $end = true;
                     $v = substr($v, 0, -1);
                     if (substr($v, -1) == "/") {
@@ -1011,17 +1010,15 @@ final class HtmlReader extends IGKObject
                 default:
                     if ($mode == 0) {
                         if (is_numeric($v_ch) || !empty(trim($v_ch))) {
-                            $v_n .= $v_ch; // + | red name 
+                            $v_n .= $v_ch;
                         } else {
-                            if (!empty($v_n)) { // + | resolve attribute or activable attribute 
-                                // + | skip empty char 
+                            if (!empty($v_n)) { 
                                 while (($reader->m_offset < $reader->m_length) &&
                                     !trim($v_ch = $reader->m_text[$reader->m_offset])
                                 ) {
                                     $reader->m_offset++;
                                 }
-                                if ($v_ch != '=') {
-                                    // + | store active attribute 
+                                if ($v_ch != '=') { 
                                     $fc_store_active($attribs, $v_n, $callback);
                                     $v_n = '';
                                 }
@@ -1069,7 +1066,7 @@ final class HtmlReader extends IGKObject
         $pnode = null;
         $v_tags = array();
         self::_PushContext(($reader->m_context != null) ? $reader->m_context : self::READ_XML);
-        // + | 
+
         $_shift_setting = function ($n, $cnode, &$v_tags, &$krsv) {
             if (igk_count($v_tags) <= 0)
                 return;
@@ -1112,8 +1109,7 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case XMLNodeType::INNER_TEXT:
-                    if (!$cnode) {
-                        header("Content-Type: text/plain");
+                    if (!$cnode) {      
                         igk_die("can't set inner text on non detected node :\n " .
                             "offset: " . $reader->m_offset . "\n\n" .
                             substr(
@@ -1127,6 +1123,8 @@ final class HtmlReader extends IGKObject
                     }
                     $reader->NodeType = XMLNodeType::ENDELEMENT;
                     $cnode = $cnode->getParentNode();
+                    // + | fix bug move to parent list
+                    array_shift($v_tags);
                     break;
                 case XMLNodeType::COMMENT:
                     $v_v = $reader->getValue();

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Helper;
+
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
@@ -124,7 +125,7 @@ abstract class StringUtility
     {
         $g = $condition;
         $v_regex = "/[\(\)\s]/";
-        $g = preg_replace("/\s+/", " ", $g); 
+        $g = preg_replace("/\s+/", " ", $g);
         while (strpos($g, '(') === 0) {
             $cpos = 0;
             $tg = trim(igk_str_rm_last(
@@ -955,11 +956,11 @@ abstract class StringUtility
         return $tab;
     }
     /**
-    * auto generate doc.
-    * @param string $haystack
-    * @param array $range
-    * @return string[]|array<int, string>
-    */
+     * auto generate doc.
+     * @param string $haystack
+     * @param array $range
+     * @return string[]|array<int, string>
+     */
     public static function SplitLitteral(string $haystack, array $range)
     {
         $v_offset = 0;
@@ -985,9 +986,9 @@ abstract class StringUtility
         return array_filter($v_t);
     }
     /**
-    * auto generate doc.
-    * @return string[]
-    */
+     * auto generate doc.
+     * @return string[]
+     */
     public static function SplitRange($haystack, array $range, bool $infinite = true): array
     {
         $r = [];
@@ -1009,5 +1010,22 @@ abstract class StringUtility
             $r[] = $haystack;
         }
         return $r;
+    }
+    /**
+     * 
+     * @param string $p 
+     * @param int $spaceLineDepth 
+     * @return int 
+     */
+    public static function GetTabStopDepth(string $p, $spaceLineDepth = 4): int
+    {
+        $ln = strlen($p);
+        if ($p == "\t") {
+            return $ln;
+        }
+        if (($spaceLineDepth > 0) && (($ln % $spaceLineDepth) == 0)) {
+            $ln = $ln / $spaceLineDepth;
+        }
+        return intval($ln);
     }
 }

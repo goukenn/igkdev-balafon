@@ -16,7 +16,7 @@ interface IMarkdownElementListener
     * @return string
     */
     function didStateChanged();
-    function didHandleOutput(& $isSingleDefinition, & $output);
+    function didHandleOutput(bool & $isSingleDefinition, bool & $output);
     function title(string $text, int $level, ?string $slug = null): string;
     /**
     * Par.

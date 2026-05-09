@@ -29,7 +29,7 @@ function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
 function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
 {
     $div = igk_create_xmlnode("dummy");
-    $div->Load($s);
+    $div->load($s);
     $h = ($div->getElementsByTagName($tag));
     $d = igk_getv($h, 0);
     if ($d) {

@@ -36,7 +36,7 @@ class PhpRemoveGlobaFunc
         $v_rp_block = $p->begin('\\{', '\\}', 'rp-block')->last();
         $comment = [];
         $comment[] = $p->appendMultilineComment()->last();
-        $comment[] = $p->appendSingleLineComment()->last();
+        $comment[] = $p->appendSingleLineComment(PhpScriptUtility::SINGLE_LINE_MARK)->last();
         $heredoc = [];
         $string = $p->appendStringDetection('string', true)->last();
         RegexMatcherUtility::AppendPhpHereDoc($p, $heredoc);

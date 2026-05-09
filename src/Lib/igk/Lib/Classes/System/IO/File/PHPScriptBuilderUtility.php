@@ -7,6 +7,7 @@
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
 use IGK\System\IO\StringBuilder;
+use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use Illuminate\Validation\Rules\In;
@@ -173,7 +174,7 @@ abstract class PHPScriptBuilderUtility
         $string = $regex->appendStringDetection('string',true);
         $regex->autoStore = true;
         $comments[] = $regex->appendMultilineComment()->last();
-        $comments[] = $regex->appendSingleLineComment()->last();
+        $comments[] = $regex->appendSingleLineComment(PhpScriptUtility::SINGLE_LINE_MARK)->last(); 
         $regex->match("\\$(?<n>[a-zA-Z_][a-zA-Z_0-9]*)", 'varName');
         $regex->match(",", 'punctuation');
         $_def = $regex->begin("=", '(?=,)', 'const')->last();

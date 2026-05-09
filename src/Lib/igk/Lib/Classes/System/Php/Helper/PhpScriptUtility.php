@@ -16,6 +16,7 @@ use IGK\Helper\Activator;
  */
 abstract class PhpScriptUtility
 {
+    const SINGLE_LINE_MARK="(\/\/|#)";
     /**
      * skip shebang definition 
      * @param string $source 

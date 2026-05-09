@@ -4,18 +4,16 @@
 // @date: 20250704 13:57:49
 namespace IGK\System\IO\File;
 use Error;
+use IGK\System\Console\Logger;
+use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
 /**
- * 
+ * Mixed script detector 
  * @package IGK\System\IO\File
  * @author C.A.D. BONDJE DOUE
- */
-/**
-* auto generate doc.
-* @package IGK\System\IO\File
-*/
+ */ 
 class PHPScriptMixedDetector
 {
     /**
@@ -40,7 +38,7 @@ class PHPScriptMixedDetector
         $string = $regex->appendStringDetection()->last();
         $here_doc = [];
         $comments = [];
-        $comments[] = $regex->appendSingleLineComment()->last();
+        $comments[] = $regex->appendSingleLineComment(PhpScriptUtility::SINGLE_LINE_MARK)->last();
         $comments[] = $regex->appendMultilineComment()->last();
         RegexMatcherUtility::AppendPhpHereDoc($regex, $here_doc);
         $regex->autoStore = true;

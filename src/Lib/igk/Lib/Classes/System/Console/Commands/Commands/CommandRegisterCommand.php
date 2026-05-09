@@ -31,7 +31,8 @@ class CommandRegisterCommand extends AppExecCommand
     * @var mixed
     */
     var $options = [
-		'--location' =>'flag: show default location'
+		'--location' => 'flag: show default location',
+        '--no-color' => 'flag: print without color',
 	];
     /**
     * Property: category.
@@ -50,6 +51,8 @@ class CommandRegisterCommand extends AppExecCommand
     public function exec($command)
 	{
 		$def = EnvironmentCommandScripts::GetCacheDefinition();
+        $no_color = property_exists($command->options, '--no-color');
+
 		if (property_exists($command->options, '--location')){
 			Logger::print(__('commands locations'));
 			Logger::info(json_encode(['commandLocation'=>EnvironmentCommandScripts::DefaultCommandLocation()],
@@ -58,10 +61,13 @@ class CommandRegisterCommand extends AppExecCommand
 			Logger::print('');
 		}
 		Logger::print(__('list registered commands'));
+        $fc = [Logger::class, $no_color ?'print':'info'];
 		foreach ($def as $k => $v) {
-			$dt = [App::Gets(App::GREEN, $k)];
+            $s = sprintf('%-20s', $k);
+            $dt = $no_color ? [$s] : [App::Gets(App::GREEN, $s )];
 			$dt[] = $v->desc;
-			Logger::info(implode("\r\t\t\t", $dt));
+            $s = implode("", $dt); 
+                $fc($s);
 		}
 		return -1;
 	}

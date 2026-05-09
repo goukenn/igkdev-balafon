@@ -19,7 +19,7 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Returns Name.
     */
-    public function getName()
+    public function getName(): string
     {
         return IGK_CTRL_SESSION_MANAGER;
     }

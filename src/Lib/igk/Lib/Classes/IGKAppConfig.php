@@ -62,7 +62,7 @@ use function igk_resources_gets as __;
 * @property bool $mail_useauth
 * @property bool $mail_user
 * @property bool $max_script_execution_time
-* @property bool $menuHostCtl
+* @property bool $menu_host_ctrl
 * @property bool $menu_defaultPage
 * @property bool $meta_copyright
 * @property bool $meta_description

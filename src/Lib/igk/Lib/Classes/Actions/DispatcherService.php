@@ -136,6 +136,7 @@ abstract class DispatcherService
      */
     public static function SetupServiceInstance($p, $m)
     {
+        $m = $m ?? [];
         $fc_bindprop = function ($p, $m) {
             foreach ($m as $key => $value) {
                 if (method_exists($p, $fc = 'set' . ucfirst($key))) {

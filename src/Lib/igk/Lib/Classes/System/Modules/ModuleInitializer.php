@@ -114,7 +114,7 @@ class ModuleInitializer
     {
         $regex = new RegexMatcherContainer;
         $innerdef[] = $regex->appendMultilineComment()->last();
-        $innerdef[] = $regex->appendSingleLineComment()->last();
+        $innerdef[] = $regex->appendSingleLineComment(PhpScriptUtility::SINGLE_LINE_MARK)->last();
         $regex->autoStore = false;
         $innerdef[] = $regex->appendStringDetection('string', true)->last();
         RegexMatcherUtility::AppendPhpHereDoc($regex, $innerdef);

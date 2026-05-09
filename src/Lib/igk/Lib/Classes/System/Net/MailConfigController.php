@@ -34,8 +34,9 @@ class MailConfigController extends ConfigControllerBase
     }
     /**
     * Returns Name.
+    * @return string
     */
-    public function getName()
+    public function getName(): string
     {
         return IGK_MAIL_CTRL;
     }

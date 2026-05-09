@@ -918,10 +918,9 @@
             return s.replaceAll('&', '&amp;').replaceAll('>', '&gt;').replaceAll('<', '&lt;');
         };
         /**
-         * evaluate code 
+         * php code highlight
          */
         function igk_php_eval() { 
-            // php evaluation code
             igk_e.apply(this); 
             var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
             var w = 0;
@@ -929,7 +928,6 @@
             var mode = 0;
             var level = 0;
             this.evals = function (s) {
-                // read line
                 if (s.indexOf('<!--?php') == 0)
                     s = s.trim().replace('<!--?php', '<span class="proc">&lt;?php</span>').replace('?-->', '<span class="proc">?&gt;</span>');
                 var o = '';
@@ -977,13 +975,13 @@
                                     }
                                     break;
                                 case "`":
-                                    inf.mode = 1; // string
+                                    inf.mode = 1; 
                                     inf.pos++;
                                     w = _readStringLitteral(ch);
                                     inf.mode = 0;
                                     sp.add('span').addClass("litteral").setHtml(w);
                                     break;
-                                case '/': // for comment
+                                case '/': 
                                     if ((inf.pos + 1 < inf.ln) && (inf.s[inf.pos + 1] == "/")) {
                                         sp.add("span").addClass("cm").setHtml(
                                             present(ch + inf.s.substr(inf.pos + 1))
@@ -1000,12 +998,11 @@
                                         inf.mode = 0;
                                     } else {
                                         inf.pos++;
-                                        // const p = inf.s[inf.pos++];
-                                        w = _readWord();//(p);
+                                        w = _readWord();
                                         sp.add("span").addClass("s-mark").setHtml("@" + w);
                                     }
                                     break;
-                                case '$': // read var
+                                case '$': 
                                     inf.pos++;
                                     w = _readWord();
                                     if (w.length > 0) {

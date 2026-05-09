@@ -7,6 +7,7 @@ namespace IGK\Helper;
 use Exception;
 use IGK\Actions\IActionRequestValidator;
 use IGK\System\Console\Logger;
+use IGK\System\DynamicActivableReference;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
@@ -85,6 +86,7 @@ class Activator
     }
     /**
     * auto generate doc.
+    * @param string $interface
     * @param mixed $resolver
     * @return object
     */
@@ -98,7 +100,7 @@ class Activator
             ["match" => "\b\w+(\s*\|\s*\w+)*\b", "tokenID" => "type"],
         ];
         $container->begin('@property\\b', '$', 'prop-detect', null, $patterns);
-        $resolver = $resolver ?? function ($type) {
+        $resolver = $resolver ?? function (string $type) {
             switch (strtolower($type)) {
                 case 'int':
                     return 0;
@@ -128,7 +130,7 @@ class Activator
                             break;
                         default:
                             if (!is_null($name)){
-                                $properties[substr($name, 1)] = $resolver($type);
+                                $properties[substr($name, 1)] = $resolver($type ?? 'mixed');
                             }
                             $name = $type = null;
                             break;
@@ -281,6 +283,10 @@ class Activator
                         $g->$fc($v);
                         continue;
                     }
+                    $is_reference = $v instanceof ActivatorReference;
+                    if( $is_reference ){
+                        $v = DynamicActivableReference::Create($v->getReference());
+                    }
                     if (!$v_interface){
                         $v_p = new ReflectionProperty($g, $k);
                         if ($check_version && $c_8_1) {
@@ -290,6 +296,9 @@ class Activator
                         }
                     }
                     $g->{$k} = $v;
+                    if ($is_reference){
+                        unset($v);
+                    }
                 }
             }
         }

@@ -305,8 +305,8 @@ final class SessionController extends BaseController{
                 curl_setopt($r, CURLOPT_SSL_VERIFYHOST, false);
                 curl_setopt($r, CURLOPT_USERAGENT, $server);
                 curl_setopt($r, CURLOPT_COOKIE, $strCookie);
-                $data=curl_exec($r);
-                curl_close($r);
+                curl_exec($r);
+                igk_curl_close($r);
             }
         }
         $d=IGKOb::Content();

@@ -5,6 +5,7 @@
 namespace IGK\System\Modules;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
+use IGK\System\Php\Helper\PhpScriptUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use function igk_resource_gets_map;
@@ -23,13 +24,11 @@ class ModuleIncludeDefinitionUtility
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     const DEBUG_KEY = 'debug-module-include-utility';
     /**
     * auto generate doc.
     * @var mixed
-    * @return
     */
     const SELF_REFERENCE = '_this';
     /**
@@ -37,7 +36,6 @@ class ModuleIncludeDefinitionUtility
      * @param mixed $params
      * @param mixed $args
      * @param null|mixed $src_obj
-     * @return
      */
     public static function Treat($params, $args, $src_obj = null)
     {
@@ -55,11 +53,19 @@ class ModuleIncludeDefinitionUtility
         return $t;
     }
     /**
+     * 
+     * @param mixed $tab 
+     * @return mixed 
+     */
+    private static function & GetVar($tab){
+        return $tab;
+    }
+    /**
      * auto generate doc.
      * @param string $param
      * @param mixed $code
      * @param string $selfKey
-     * @return
+     * @return mixed
      */
     public static function CreateMethodHandle(
         string $param,
@@ -82,7 +88,7 @@ class ModuleIncludeDefinitionUtility
                 $param,
                 $code,
                 'invoke' => function () {
-                    extract(func_get_arg(0));
+                    extract(self::GetVar(func_get_arg(0)));
                     try {
                         return @eval(func_get_arg(1));
                     } catch (\Error $ex) {
@@ -243,13 +249,13 @@ class ModuleIncludeDefinitionUtility
     }
     /**
      * auto generate doc.
-     * @return
+     * @return mixed
      */
     public static function InitRegexContainer()
     {
         $regex = new RegexMatcherContainer;
         $string = $regex->appendStringDetection('string', true)->last();
-        $comments[] = $regex->appendSingleLineComment()->last();
+        $comments[] = $regex->appendSingleLineComment(PhpScriptUtility::SINGLE_LINE_MARK)->last();
         $comments[] = $regex->appendMultilineComment()->last();
         $heredoc = [];
         RegexMatcherUtility::AppendPhpHereDoc($regex, $heredoc);

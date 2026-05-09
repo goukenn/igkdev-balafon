@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System\Applications;
+
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
@@ -117,7 +118,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
         }
-         igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
+        igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
             $fdir = igk_io_cacheddist_jsdir();
             $dir = igk_getv($e->args, 'dir');
             $access = $fdir . "/.htaccess";
@@ -157,7 +158,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             if ($c = $options->controller) {
                 $this->setDefaultController($c);
             }
-        }  
+        }
     }
     /**
      * shortcut to set system default controller
@@ -230,10 +231,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             // + | configuration handle
             // + |
             if (!igk_environment()->no_web_configuration()) {
-                (new  ConfigurationPageHandler(function (bool $display) {
-                }, $file))->handle_route($path_info, function () use ($requestHandler, $path_info, $_redirectArgs) {
-                    $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
-                });
+                $this->handleConfigurationPageRoute($file, $requestHandler, $path_info, $_redirectArgs);
             }
             if (!defined("IGK_REDIRECT_ACCCESS") && in_array($path_info, $access_file)) {
                 if (igk_io_file_exists($cfile = igk_uri(dirname(dirname(IGK_LIB_DIR)) . $path_info))) {
@@ -248,6 +246,23 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             igk_exit();
         }
         RequestHandler::getInstance()->handle_ctrl_request_uri();
+    }
+    /**
+     * 
+     * @param mixed $requestHandler 
+     * @param string $path_info 
+     * @param null|array $_redirectArgs 
+     * @return void 
+     */
+    public function handleConfigurationPageRoute(string $file, $requestHandler, string $path_info, ?array $_redirectArgs = null, $display_callback=null)
+    {
+     
+
+        $display_callback = $display_callback ?? function (bool $display) {};
+        (new  ConfigurationPageHandler($display_callback, $file))->handle_route($path_info, function () use ($requestHandler, $path_info, $_redirectArgs) {
+ 
+            $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
+        });
     }
     /**
      * redirect path uri

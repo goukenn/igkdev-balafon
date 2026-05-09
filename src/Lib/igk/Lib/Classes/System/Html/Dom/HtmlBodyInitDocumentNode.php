@@ -27,7 +27,9 @@ class HtmlBodyInitDocumentNode extends HtmlNode{
         if (!$options){
             return null;
         }
-        if (!$options->Document->noCoreScript)
-        return  "if(window.ns_igk)ns_igk.init_document();";
+        $doc = $options->Document;
+
+        if ($doc && !$doc->noCoreScript)
+            return  "if(window.ns_igk)ns_igk.init_document();";
     }
 }

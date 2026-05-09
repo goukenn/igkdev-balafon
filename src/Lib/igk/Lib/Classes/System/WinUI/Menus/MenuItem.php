@@ -146,9 +146,9 @@ class MenuItem{
     }
     /**
     * Returns Name.
-    * @return mixed
+    * @return string
     */
-    public function getName(): mixed{
+    public function getName(): string{
         return igk_getv($this->_, self::NAME);
     }
     /**

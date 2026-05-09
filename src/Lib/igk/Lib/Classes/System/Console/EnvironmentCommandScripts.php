@@ -131,7 +131,7 @@ class EnvironmentCommandScripts
         $src = file_get_contents($file);
         $regex = new RegexMatcherContainer;
         $regex->match("^<\?php", 'start-proc');
-        $regex->begin("\/\/\\s+(?:@([a-zA-Z][a-zA-Z0-9-]*))\\s*:\\s*", '$', 'start-command-block');
+        $regex->begin("\/\/\\s+(?:@([a-zA-Z][a-zA-Z0-9-]*))\\s*:[^\\n\\S]*", '$', 'start-command-block');
         $regex->match("[^\\s]", 'stop-header');
         $pos = 0;
         $info = igk_createobj();

@@ -7,6 +7,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\System\Html\ProjectHtmlField as IGKProtectHtmlField;
+
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 /**
 * protect request information
@@ -26,10 +28,10 @@ function igk_protect_request(& $tab){
 }
 /**
 * represent igk_treat_source function
-* @param mixed: (string|arrayof(string)) source string to treat
-* @param mixed closure callback callback to call when done
-* @param mixed tab tab information for algorightm
-* @param mixed options options for treatment
+* @param string|array<string> $source string to treat
+* @param ?closure $callback callback to call when done
+* @param mixed $tab tab information for algorightm
+* @param mixed $options options for treatment
 */
 function igk_treat_source($source, $callback, $tab=null, & $options=null){
     if(is_string($source)){
@@ -164,144 +166,4 @@ function igk_treat_source_expression($options){
     }
     return $out;
 }
-/**
-* Represent IGKProtectHtmlField class
-*/
-class IGKProtectHtmlField{
-    /**
-    * Property: engines.
-    * @var mixed
-    */
-    private $engines;
-    /**
-    * Property: options.
-    * @var mixed
-    */
-    private $options;
-    /**
-    * auto generate doc.
-    */
-    public function __construct(){
-        $this->_initOptions();
-        $this->engines=array();
-        $this->_initengines();
-    }
-    /**
-    * auto generate doc.
-    * @param mixed $v
-    */
-    private function __output($v){
-        return $v;
-    }
-    /**
-    * auto generate doc.
-    */
-    private function _initengines(){
-        $tab=& $this->engines;
-        array_unshift($tab, (object)array(
-            "name"=>"uncollapsestring",
-            "mode"=>'*',
-            "pattern"=>"/(\"|')/i",
-            "callback"=>function(& $t, $start, & $offset, $m){
-                    $lis=$start;
-                    $ch=$t[$start];
-                    $s="";
-                    $multilinestart=($ch == "'");
-                    $ln=& $m->options->lineNumber;
-                    $tln=$m->options->totalLines;
-                    $before=substr($t, 0, $start);
-                    $x=substr($t, $start + 1);
-                    $start=0;
-                    $escaped=0;
-                    while((($pos=strpos($x, $ch, $start)) === false) && ($ln < $tln) || ($escaped=(($pos > 0) && $x[$pos-1] == '\\'))){
-                        if($escaped){
-                            if($pos > 1){
-                                if($x[$pos-2] == "\\"){
-                                    break;
-                                }
-                            }
-                            $start=$pos + 1;
-                            $escaped=0;
-                            continue;
-                        }
-                        $s .= substr($x, $start).$m->options->LF;
-                        $x=$m->options->source[$ln];
-                        $ln++;
-                        $start=0;
-                        $escaped=0;
-                    }
-                    if($pos !== false){
-                        $t=substr($x, $pos + 1);
-                        $offset=0;
-                        $s .= substr($x, 0, $pos);
-                        $s=$before.$ch.$s.$ch;
-                        $offset=strlen($s);
-                        $t=$s.$t;
-                    }
-                    else{ 
-                        $offset = strlen($t);
-                        return $t;
-                    }
-                    return $t;
-                }
-        ));
-        array_unshift($tab, (object)array(
-            "name"=>"scriptTagRemove",
-            "mode"=>"*",
-            "pattern"=>"/\<(\/)?(script|embed|audio|object|style|img|frame|iframe|link)/i",
-            "callback"=>function(& $t, $start, & $offset, $m){
-                    $r=substr($t, 0, $start);
-                    if(!empty($r)){
-                        igk_treat_append($m->options, $r, 0);
-                    }
-                    $t=substr($t, $start + strlen($m->data[0][0]));
-                    $offset=0;
-                    $m->options->mode=1;
-                    return $t;
-                }
-        ));
-        array_unshift($tab, (object)array(
-            "name"=>"scriptTagRemove",
-            "mode"=>1,
-            "pattern"=>"/\>/i",
-            "callback"=>function(& $t, $start, & $offset, $m){
-                    $r=substr($t, 0, $start);
-                    $t=substr($t, $start + strlen($m->data[0][0]));
-                    $offset=0;
-                    $m->options->mode=0;
-                    return $t;
-                }
-        ));
-    }
-    /**
-    * auto generate doc.
-    */
-    private function _initOptions(){
-        $this->options=(object)array(
-            "out"=>"",
-            "lineNumber"=>0,
-            "IgnoreEmptyLine"=>0,
-            "output"=>"",
-            "data"=>"",
-            "mode"=>0,
-            "offset"=>0,
-            "endMarkerFlag"=>0,
-            "DataLFFlag"=>0,
-            "toread"=>null,
-            "DataLF"=>"\n"
-        );
-    }
-    /**
-    * auto generate doc.
-    * @param mixed $v
-    */
-    public function protect($v){
-        $this->_initOptions();
-        $options=& $this->options;
-        $v=igk_treat_source($v, function(){
-            return call_user_func_array(array($this, '__output'), func_get_args());
-        }
-        , $this->engines, $options);
-        return $v;
-    }
-}
+ 

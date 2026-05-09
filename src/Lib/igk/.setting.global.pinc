@@ -47,7 +47,7 @@ return [
     'mail_port' => "25",
     'mail_server' => "relay.skynet.be",
     'mail_portal' => "https://mail.ovh.net/roundcube?_user=",
-    'menuHostCtl' => "",
+    'menu_host_ctrl' => "",
     'globaltheme' => "default",
     'menu_defaultPage' => "default",
     'meta_copyright' => "igkdev@igkdev.com",

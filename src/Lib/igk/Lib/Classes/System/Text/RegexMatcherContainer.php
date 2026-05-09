@@ -1536,7 +1536,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $this;
     }
     /**
-     * auto generate doc.
+     * get referenceOnlyBlock
      * @param mixed $tab
      * @return RegexMatcherPattern
      */

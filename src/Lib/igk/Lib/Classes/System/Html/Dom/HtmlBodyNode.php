@@ -106,9 +106,11 @@ class HtmlBodyNode extends HtmlNode{
             $c[] = $this->m_bodybox;
         }        
         $c = array_merge($c,  parent::_getRenderingChildren($options));
-        $tr = $doc->getDefaultMainPage(); 
-        if ($tr->getIsVisible()){
-            $c[] = $tr;
+        if ($doc){
+            $tr = $doc->getDefaultMainPage(); 
+            if ($tr->getIsVisible()){
+                $c[] = $tr;
+            }
         }
         $c[] = $this->m_bodyMainScript;   
         $c[] = $this->getAppendContent(); 

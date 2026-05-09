@@ -3,7 +3,10 @@
 // @file: MarkdownConverter.php
 // @date: 20241105 09:15:11
 namespace IGK\System\IO\Markdown;
+
 use Exception;
+use IGK\Helper\Activator;
+use IGK\Helper\ActivatorReference;
 use IGK\Helper\StringUtility;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
@@ -11,6 +14,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\IO\Markdown\IMarkdownPrepareTextBeforeAppendToBuffer;
 use IGK\System\IO\Path;
 use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGK\System\Text\IRegexMatchPatternStateListener;
@@ -46,6 +50,21 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @var mixed
      */
     const BR = "<br/>";
+
+    const WILL_END_STATE_PREFIX_METHOD = '_will_end_state_';
+
+    const END_STATE_PREFIX_METHOD = '_end_state_';
+
+    const SUBQUOTE = 'subquote';
+
+    const SUBLIST = 'sublist';
+
+    /**
+     * private list on counter 
+     * @var mixed
+     */
+    private $m_counter;
+
     /**
      * Listener: set output treatment listener.
      * @var mixed
@@ -53,7 +72,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private $m_setOutputTreatmentListener;
     /**
      * auto generate doc.
-     * @param mixed $listener
+     * @param ?IMarkdownConverterListener $listener
      * @return void
      */
     public function setOutputTreatmentListener($listener)
@@ -143,10 +162,16 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     private $m_lpos;
     /**
-     * auto generate doc.
+     * the markdown outpu.
      * @var ?string
      */
     private $m_output;
+
+    /**
+     * state manager
+     * @var MarkdownConverterStates
+     */
+    private $m_states;
     /**
      * ul/ol root node
      * @var ?HtmlNode
@@ -182,6 +207,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @var ?bool
      */
     private $m_sub;
+
+    /**
+     * support counter 
+     * @var ?bool
+     */
+    public $supportCounter;
     /**
      * content of the buffer 
      * @var string
@@ -258,8 +289,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_classStyles = [];
         $this->m_stores = [];
         $this->m_buffer = '';
+        $this->m_states = new MarkdownConverterStates;
         $this->allowBreakLine = true;
         $this->formatCodeBlock = false;
+        $this->supportCounter = false;
     }
     /**
      * retrieve current output
@@ -277,8 +310,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $this->m_stores[] = [
             'pos' => $this->m_lpos,
-            'output' => $this->m_output, 
-            'buffer' => $this->m_buffer, 
+            'output' => $this->m_output,
+            'buffer' => $this->m_buffer,
             'lf' => $this->m_lf,
             'is_single_definition' => $this->m_is_single_definition,
             'render_state' => [
@@ -295,7 +328,6 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_output = '';
         $this->m_buffer = '';
         $this->m_lpos = 0;
-        $this->m_state = null;
         $this->m_node = null;
         $this->m_table = null;
         $this->m_table_col = null;
@@ -304,6 +336,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_li_depth = null;
         $this->m_is_single_definition = true;
         $this->m_lf = false;
+        $this->_resetState();
     }
     /**
      * auto generate doc.
@@ -338,7 +371,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     }
     /**
      * setclass style 
-     * @param 'ol'|'list'|'quote'|'bold'|'italic'|'table'|'ordered-list' $style 
+     * @param string|'ol'|'list'|'li'|'sublist'|'quote'|'bold'|'italic'|'table'|'ordered-list' $style 
      * @param mixed $def 
      * @return void 
      */
@@ -383,8 +416,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         // + | 
         // + |
         $quote = $m->match("^> (.+)?", "text-quote")->last();
+        $subquote = $m->match("^((?:\t| {4})+)> (.+)?", "text-sub-quote")->last();
+        $sublist = $m->match("^((?:\t| {4})+)- (.+)?", "text-sub-list")->last();
+        $split_line = $m->match('(?!<\\\\)\\\\\\\\n', "text-split-line")->last();
+
         $v_tag_defition = $m->match('(<|>|≤)', 'tag-definition')->last();
-        $m->match('^(\|| *)?(?:-+(?: )*\|){1,}(?:(?: )*-+( )*)?(?=\\n)?', 'table-segment');
+        $m->match('^(\|| *)?(?:-+(?: )*\|){1,}(?:(?: )*-+( )*)?(?=\\n)?', 'table-segment')->last();
         $table_entry = $m->match('^(?:.*(?<!\\\)\|)+.*(?=\\n)?', 'table-entry')->last();
         $table_entry->description = 'only match table entry that pipe is not escaped';
         $header = $m->match('^#{1,6}(?: (?P<title>.+))?', "text-header")->last();
@@ -408,13 +445,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $task_list_item = $m->match("^- \[(?P<type> |x|-)\]\s+(?P<value>.+)(?=\\n)?", "task-list-item")->last();
         $list_item = $m->match("^- .+", "list-item")->last();
         $hr_item = $m->match("^---.*$", "hr")->last();
-        $v_word = $m->createPattern(['match' => "[\\w_\\$][a-zA-Z0-9_\\-\\$]*", "tokenID" => "word"]); 
+        $v_word = $m->createPattern(['match' => "[\\w_\\$][a-zA-Z0-9_\\-\\$]*", "tokenID" => "word"]);
         $emphasis = $m->begin("(\\*|_)", "\\1", "text-italic")->last();
         $empty_block = $m->appendEmptyLineDetection('empty-line')->last();
         $m->match('\\n', 'line-feed')->last();
         $emoji_block = $m->match(":(\+\d|\b\w+\b):", "emoji")->last();
         $code_block = $m->begin('`', '`', 'code-block')->last();
         $table_entry->patterns =  [
+            $split_line,
             $litteral_string,
             $code_block,
             $bold,
@@ -422,8 +460,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $emoji_block,
             $mention_string,
             $m->createPattern([
-                'tokenID'=>'skip-escaped-litteral',
-                'match'=>"\\\\\|",
+                'tokenID' => 'skip-escaped-litteral',
+                'match' => "\\\\\|",
             ]),
             $escaped_string,
             $fence_code,
@@ -455,10 +493,13 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $v_tag_defition
         ];
         $list_item->patterns =
-            $task_list_item->patterns =
-            $sub_list_item->patterns =
-            $ordered_list_item->patterns =
-            $sub_ordered_list_item->patterns = [
+        $sublist->patterns = 
+        $task_list_item->patterns =
+        $sub_list_item->patterns =
+        $ordered_list_item->patterns =
+        $subquote->patterns = 
+        $sub_ordered_list_item->patterns = [
+                $split_line,
                 $escaped_string,
                 $v_word,
                 $bold,
@@ -468,8 +509,9 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $litteral_string,
                 $escaped_string,
                 $uri_block,
-                $image_block
+                $image_block,
             ];
+       
         $bold->patterns = [
             $emphasis,
             $code_block,
@@ -573,6 +615,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_container->ouputTreatmentListener = $this;
         return $this->_treat_data($markdown);
     }
+    protected function _resetState(){
+        
+        $this->m_state = null;
+    }
     /**
      * Treat data.
      * @param mixed $markdown
@@ -603,6 +649,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                  */
                 $g = $this;
                 $output = $g->postTreatOutput($output);
+                return $output;
             })->bindTo($l);
         }
         if ($this->m_state) {
@@ -610,8 +657,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $this->_appendToOutput($gs[0]);
                 $gs = [];
             }
-            $this->_appendToOutput($this->endStateState());
-            $this->m_state = null;
+            $this->_appendToOutput($this->endState());
+            $this->_resetState();
         }
         if (($str = substr($markdown, $this->m_lpos)) || $gs) {
             if ($fc_handle_single && !empty($str)) {
@@ -620,19 +667,21 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             if ($gs)
                 $gs[0] .=  $str;
             else
-                $gs[0] = $str;
+                $gs[0] = $str ?? '';
             $str = $gs[0];
             $this->_rTrimOutput($this->m_output);
             $fc_handle_single && $fc_handle_single($this->m_output);
-            if (!$this->getIsSingleDefinition()) {
+            if (!$this->getIsSingleDefinition() && $str) {
                 $str = $this->default($str);
             }
+            if ($str)
             $this->_appendToOutput($str);
         }
+        $_o = $this->m_output ?? '';
         if ($fc_posttreat_output) {
-            $fc_posttreat_output($this->m_output);
+            $_o = $fc_posttreat_output($_o) ?? '';
         }
-        return ltrim($this->m_output);
+        return ltrim($_o);
     }
     /**
      * auto generate doc.
@@ -736,8 +785,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $this->m_useTag = $this->m_useTag || !in_array($tid, ['emoji']);
                 // + | mark mode 
                 $this->m_markmode = null;
-                $s = $this->_treat_callback($fc, $g, true, $is_sub); 
-                $v_item_type = $this->m_markmode ?? $this->_getMarkMode($tid);
+                list ($s, $v_item_type) = $this->_invokeTreatmentAndMarkMode($tid, $fc, $g, true, $is_sub);
+                
                 $v_close_buffer = !$is_sub && ($v_item_type != self::MARK_ITEM_INLINE);
                 $u_state = true;
                 if ($this->m_ltrim && !$not_empty) {
@@ -753,7 +802,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                         $this->_appendToOutput($v_buffer);
                         $v_buffer = '';
                     }
-                    $this->_appendToOutput($this->endStateState());
+                    $this->_appendToOutput($this->endState());
                 }
                 // + | prepend to buffer line 
                 if (!empty($tc)) {
@@ -762,18 +811,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                     $this->_appendToBuffer($tc);
                 }
                 if ($v_close_buffer) {
-                    $tc = !empty(trim($v_buffer)) ? $this->default($v_buffer) : '';
-                    $this->_clearBuffer();
-                    $this->m_lf = false;
-                    $this->_appendToOutput($tc . $s);
-                    $this->setIsSingleDefinition(false);
+                    $this->_closeBuffer($s); 
                 } else {
                     if ($is_sub) {
                         $this->_appendToOutput($tc . $s);
                     } else {
                         if ($v_is_linefeed) {
                             $this->_lineFeedToBuffer();
-                            $this->m_lf = true; 
+                            $this->m_lf = true;
                         } else {
                             if ($s) {
                                 if (empty($v_buffer) && ($v_item_type == self::MARK_ITEM_BLOCK)) {
@@ -793,20 +838,38 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         } else {
             if ($fc && method_exists($this, $fc)) {
                 $v_debug && Logger::info('[mdc] tokenID: ' . $g->tokenID . sprintf(": value : [%s]", $g->value));
-                $s = $this->_treat_callback($fc, $g, false, $is_sub); 
-                if (!empty($s)) { 
-                    $rs = substr($data, 0, $g->from) . $s ;
-                    $data = $rs.substr($data, $g->to);
+                $s = $this->_treat_callback($fc, $g, false, $is_sub);
+                if (!empty($s)) {
+                    $rs = substr($data, 0, $g->from) . $s;
+                    $data = $rs . substr($data, $g->to);
                     $next_pos = $g->from + strlen($s);
                 }
             }
         }
     }
     /**
+     * close current buffer 
+     * @return void 
+     */
+    protected function _closeBuffer(?string $s){
+        $v_buffer = $this->m_buffer;
+        $tc = !empty(trim($v_buffer)) ? $this->default($v_buffer) : '';
+        $this->_clearBuffer();
+        $this->m_lf = false;
+        $this->_appendToOutput($tc . $s);
+        $this->setIsSingleDefinition(false);
+    }
+    protected function _invokeTreatmentAndMarkMode($tid, $fc, $g, $isRoot , $is_sub){
+        $s = $this->_treat_callback($fc, $g, $isRoot, $is_sub);
+        $v_item_type = $this->m_markmode ?? $this->_getMarkMode($tid);
+        return [$s, $v_item_type];
+    }
+    /**
      * just append but skip 
      * @return void 
      */
-    protected function _treat_skip_escaped_litteral(){  
+    protected function _treat_skip_escaped_litteral()
+    {
         return "\\|";
     }
     /**
@@ -815,7 +878,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     protected function _prepareTextBeforeAppendToBuffer($tc)
     {
-        if ($l = $this->m_setOutputTreatmentListener) {
+        if ($l = $this->m_setOutputTreatmentListener){
             $tc = $l->prepareTextBeforeAppendToBuffer($tc);
         }
         return $tc;
@@ -928,6 +991,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     protected function _getMarkMode(string $tid)
     {
+        if (!is_null($this->m_markmode)){
+            $m = $this->m_markmode;
+            $this->m_markmode = null;
+            return $m;
+        }
         if (in_array($tid, explode('|', 'text-header|text-quote|fence-code|table-entry|hr|list-item'))) {
             return self::MARK_ITEM_BLOCK;
         }
@@ -1009,6 +1077,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $attr && $n->setAttributes($attr);
     }
     /**
+     * 
+     */
+    public function getStyleAttributes(string $name){
+        return igk_getv($this->m_classStyles, $name);
+    }
+    /**
      * Treat italic.
      * @param mixed $v
      */
@@ -1064,8 +1138,9 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $tab = array_map('trim', $tab);
         $sb = '';
         if ($this->m_state && ($this->m_state != 'table')) {
-            $sb .= $this->endStateState();
+            $sb .= $this->endState();
         }
+        $no_header = false === $this->m_haveHeader;
         if (is_null($this->m_table)) {
             $s  = igk_getv($this->m_classStyles, 'tables');
             $this->m_haveHeader = false;
@@ -1073,10 +1148,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $this->m_table->setAttributes($s);
             $this->m_table_col = count($tab);
         }
-        while (count($tab) < $this->m_table_col ) {
+        while (count($tab) < $this->m_table_col) {
             $tab[] = '';
         }
         $this->m_rows = $tab;
+        if ($no_header)
+            $this->m_haveHeader = true;
         if ($this->m_haveHeader) {
             HtmlUtils::BindRow($this->m_table, $this->m_rows, false);
             $this->m_rows = null;
@@ -1093,11 +1170,13 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @param mixed $v
      */
     public function _treat_table_segment($v)
-    {
+    {   
         if ($this->m_table &&  $this->m_rows && !$this->m_haveHeader) {
             HtmlUtils::BindRow($this->m_table, $this->m_rows, true);
             $this->m_haveHeader = true;
             $this->m_rows = null;
+        } else {
+            $this->m_haveHeader = false;
         }
     }
     /**
@@ -1106,7 +1185,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     public function _treat_empty_line(): string
     {
-        return (($this->m_state) ? $this->endStateState() : null) ?? '';
+        return (($this->m_state) ? $this->endState() : null) ?? '';
     }
     /**
      * auto generate doc.
@@ -1125,7 +1204,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * end state
      * @return string 
      */
-    protected function endStateState(): string
+    protected function endState(): string
     {
         $this->checkOutputDefinition();
         $sb = '';
@@ -1139,13 +1218,21 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             case 'task-list':
             case 'list':
             case 'olist':
-            case 'sublist':
+            // case 'sublist':
+                if ( is_null($this->m_ul) ){
+                    igk_wln_e($this->m_node, $this->m_state);
+                    igk_die('list not defined ', $this->m_node);
+                }
                 $sb =  $this->m_ul->render();
                 break;
             case 'quote':
             default:
+                if (!$this->m_node && method_exists($this, $fc = self::END_STATE_PREFIX_METHOD . $this->m_state)) {
+                    $this->m_node = call_user_func_array([$this, $fc], []);
+                }
                 if ($this->m_node) {
                     $sb = $this->m_node->render();
+                    $this->m_node = null;
                 }
                 break;
         }
@@ -1153,10 +1240,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_table = null;
         $this->m_rows = null;
         $this->m_haveHeader = null;
-        $this->m_state = null;
+        $this->_resetState();
         $this->m_ul = null;
         $this->m_li_item = null;
         $this->m_li_depth = null;
+        $this->m_subquote = null; 
         return $sb;
     }
     /**
@@ -1164,20 +1252,40 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @param string $v
      * @return void
      */
-    protected function _treat_list_item(string $v)
+    protected function _treat_list_item(string $v, $e)
     {
         $sb = '';
         $v = ltrim($v, '- ');
-        if ($this->m_state && ($this->m_state != 'list')) {
-            $sb .= $this->endStateState();
-        }
+        $sb = $this->_handleEndState('list');
+
+
         $this->m_state = 'list';
         if (is_null($this->m_ul)) {
-            $attr = igk_getv($this->m_classStyles, 'list');
             $this->m_ul = igk_create_node('ul')->setClass('list');
-            $attr && $this->m_ul->setAttributes($attr);
+            $this->_bindNodeAttributes($this->m_ul, 'list');
         }
-        $this->m_ul->li()->setClass('i')->text($v);
+        $li = $this->m_ul->li();
+        $this->_bindNodeAttributes($li, 'li');
+        $li->text($v);
+        $this->m_li_item = $li;
+    }
+    /**
+     * will end state 
+     * @param string $targetState 
+     * @return string 
+     */
+    protected function _handleEndState(string $targetState): string
+    {
+        $sb = '';
+        if ($this->m_state && ($this->m_state != $targetState)) {
+            if (method_exists($this, $fc = self::WILL_END_STATE_PREFIX_METHOD . $this->m_state)) {
+                if (call_user_func_array([$this, $fc], [$targetState])) {
+                    return $sb;
+                }
+            }
+            $sb .= $this->endState();
+        }
+        return $sb;
     }
     /**
      * Treat order list item.
@@ -1188,16 +1296,16 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $sb = '';
         $v = ltrim(preg_replace("/^\\d+. /", "", $v), ' ');
         if ($this->m_state && ($this->m_state != 'olist')) {
-            $sb .= $this->endStateState();
+            $sb .= $this->endState();
         }
         $this->m_state = 'olist';
         if (is_null($this->m_ul)) {
             $tag = 'ol';
-            $attr = igk_getv($this->m_classStyles, $tag);
             $this->m_ul = igk_create_node($tag);
-            $attr && $this->m_ul->setAttributes($attr);
+            $this->_bindNodeAttributes($this->m_ul, $tag);
         }
-        $this->m_li_item = $this->m_ul->li()->setClass('i');
+        $this->m_li_item = $this->m_ul->li();
+        $this->_bindNodeAttributes($this->m_li_item, 'li');
         $this->m_li_item->text($v);
         return $sb;
     }
@@ -1252,7 +1360,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $this->m_li_item = static::_ChainSubList($this->m_ul, $depth);
         } else {
             if ($this->m_state && ($this->m_state != 'sublist')) {
-                $sb .= $this->endStateState();
+                $sb .= $this->endState();
             }
             if (is_null($this->m_ul)) {
                 $this->m_ul = igk_create_node('ul');
@@ -1299,7 +1407,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $this->m_li_item = static::_ChainSubList($this->m_li_item->add($tag), $depth - 1, $tag);
         } else {
             if ($this->m_state && ($this->m_state != 'sublist')) {
-                $sb .= $this->endStateState();
+                $sb .= $this->endState();
             }
             if (is_null($this->m_ul)) {
                 $this->m_ul = igk_create_node($tag);
@@ -1355,7 +1463,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private function _closeState()
     {
         if ($this->m_state) {
-            $this->m_output .= $this->endStateState();
+            $this->m_output .= $this->endState();
         }
     }
     /**
@@ -1484,7 +1592,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $this->m_node->bind(igk_create_node('br') ?? ' ', igk_html_node_text($v));
             } else {
                 if ($n) {
-                    $sb = $this->endStateState();
+                    $sb = $this->endState();
                 }
                 $tag = 'blockquote';
                 $attr = igk_getv($this->m_classStyles, $tag);
@@ -1630,7 +1738,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $type = igk_getv(['-' => 'progress', 'x' => 'complete', ' ' => 'start'], $type);
         $sb = '';
         if ($this->m_state && $this->m_state != 'task-list') {
-            $sb = $this->endStateState();
+            $sb = $this->endState();
         }
         $this->m_state = 'task-list';
         if (is_null($this->m_ul)) {
@@ -1713,4 +1821,213 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_ref_id = $v;
         return '';
     }
+
+    /**
+     * split line to br 
+     * @param string $v 
+     * @param mixed $e 
+     * @return string 
+     */
+    protected function _treat_text_split_line(string $v, $e): string
+    {
+        return igk_create_node('br')->render();
+    }
+
+    private $m_subquote;
+
+    protected function _continue_update_subquote(): bool
+    {
+        return $this->m_state == self::SUBQUOTE;
+    }
+    protected function _treat_text_sub_quote(string $v, $e): ?string
+    {
+        $key_state = self::SUBQUOTE;
+        $v_parent = null;
+        $v_tdepth = self::GetTabStopDepth($e->beginCaptures[1][0]) - 1;
+        $l = $e->beginCaptures[2][0];
+
+        if ($this->_canCreateSubQuote($key_state, $v_tdepth)) {
+            $v_parent = $this->_subquote_parent();
+            if (is_null($v_parent)) {
+                $this->_handleEndState($key_state);
+            }
+            $n = igk_create_node('blockquote');
+            $n['class'] = 'subquote-' . $v_tdepth;
+            $this->_bindNodeAttributes($n, 'subquote');
+            $this->m_subquote = (object)[
+                'node' => $n,
+                'depth' => $v_tdepth,
+                'parent' => $v_parent,
+                'parent_state' => $this->m_state,
+                'subquote_parent' => $this->m_subquote
+            ];
+            if (is_null($v_parent)) {
+                // $v_parent = $n;
+                $this->_setCurrentNode($n);
+            } else {
+                $v_parent->add($n);
+            }
+        } else {
+            if (false == $this->_moveToQuoteDepth($this->m_subquote, $v_tdepth)) {
+
+                $this->m_subquote->node->br();
+            }
+        }
+        $this->m_subquote->node->text($l);
+        $this->m_state = $key_state;
+        $this->m_markmode = self::MARK_ITEM_BLOCK;
+        return null;
+    }
+    /**
+     * 
+     * @param mixed $subquote_info 
+     * @param int $depth 
+     * @return false 
+     */
+    private function _moveToQuoteDepth($subquote_info, int $depth)
+    {
+        $q = $subquote_info;
+        $move = false;
+        while ($q && ($q->depth > $depth)) {
+            $q = $subquote_info->subquote_parent;
+            $move = true;
+        }
+        if ($move) {
+            $this->m_subquote = $q;
+        }
+        return $move;
+    }
+    /**
+     * set current node to render 
+     * @param mixed $n 
+     * @return void 
+     */
+    private function _setCurrentNode($n)
+    {
+        $this->m_node = $n;
+    }
+    private function _canCreateSubQuote(string $key_state, int $depth): bool
+    {
+        return ($this->m_subquote && ($this->m_subquote->depth < $depth)) ||
+            ($this->m_state != $key_state);
+    }
+    /**
+     * get tabstop depth
+     * @param string $p 
+     * @param int $spaceLineDepth 
+     * @return int 
+     */
+    public static function GetTabStopDepth(string $p, $spaceLineDepth = 4): int
+    {
+        return StringUtility::GetTabStopDepth($p, $spaceLineDepth); 
+    }
+    protected function _subquote_parent()
+    {
+        if ($this->m_state == 'list') {
+            return $this->m_li_item;
+        }
+        if ($this->m_subquote) {
+            return $this->m_subquote->node;
+        }
+    }
+    /**
+     * treat end subquote 
+     * @param string $targetState 
+     * @return bool 
+     */
+    protected function _will_end_state_subquote(string $targetState): bool
+    {
+        if ($this->m_subquote->parent_state == $targetState) {
+            $this->m_subquote = null;
+            return true;
+        }
+        return false;
+    }
+    protected function _end_state_subquote(): ?HtmlNode
+    {
+        if ($q = $this->m_ul) {
+            return $q;
+        }
+        $n = $this->m_subquote;
+        while ($n) {
+            $q = $n->parent;
+            $n = $n->subquote_parent;
+        }
+        return $q;
+    }
+
+    protected function _treat_text_sub_list(string $value, $e)
+    {
+
+        if (!empty($this->m_buffer)){
+            $sb = $this->endState();
+            $this->_closeBuffer($sb);
+        }
+
+        $text_offset=2;
+        $value =substr(ltrim($value), $text_offset);
+        $v_tdepth = self::GetTabStopDepth($e->beginCaptures[1][0]) - 1;
+        $v_info = Activator::CreateNewInstance(
+            IMarkdownSubListTreatmentInfo::class,
+            [
+                'type' => self::SUBLIST,
+                'value' => $value,  
+                'match' => $e,
+                'depth' => $v_tdepth,
+                'canCreateSubContainerListener' => function (string $key_state, int $depth) {
+                    return $this->_canCreateSubQuote($key_state, $depth);
+                },
+                'handleNullParentListener' => function (string $state) {
+                    return $this->_handleEndState($state);
+                },
+                'moveToQuoteDepthListener'=> function($subquote, int $depth):bool{
+                    return $this->_moveToQuoteDepth($subquote, $depth);
+                },
+                'subcontainer' => ActivatorReference::Create($this->m_subquote),
+                'currentNode' => ActivatorReference::Create($this->m_node),
+                'state' => ActivatorReference::Create($this->m_state),
+                'parent' => $this->_subquote_parent(),
+            ]
+        );
+
+        $this->m_states->treatSubDefinition($this, $v_info);
+        if ($v_info->canCreateSubContainer){
+            $this->_bindNodeAttributes($this->m_subquote->node, $v_info->type);
+        }
+        $this->m_markmode = self::MARK_ITEM_BLOCK;
+        return null;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    protected function _continue_update_sublist(): bool{
+        return $this->m_state == self::SUBLIST;
+    }
+    /**
+     * 
+     * @return bool
+     */
+    protected function _will_end_state_sublist(): bool{
+        if ($this->m_subquote){
+            $state = $this->m_subquote->parent_state;
+            $this->m_state = $state;
+            $this->m_subquote = $this->m_subquote->subquote_parent;
+            return true;
+        }
+        return false;
+    }
+    /**
+     * counting items
+     * @param string $id 
+     * @return mixed 
+     */
+    public function getCounter(string $id){
+        if (isset($this->m_counter[$id])){
+            $this->m_counter[$id] = 0;
+        }
+        return $this->m_counter[$id]++;
+
+    }
+   
 }

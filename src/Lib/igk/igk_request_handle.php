@@ -211,6 +211,7 @@ IGKRoutes::Register("^/robots.txt$", function(){
     $a = Server::getInstance()->HTTP_USER_AGENT;    
         $f = implode(DIRECTORY_SEPARATOR,  [igk_io_sys_datadir(), "robots.txt"]);
         if (igk_io_file_exists($f)){
+            header("Content-Type:text/plain; charset=UTF8");       
             include($f);
             igk_exit();
         } 

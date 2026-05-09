@@ -5540,6 +5540,19 @@ if (!function_exists('igk_html_node_markdown')) {
 		return $n;
 	}
 }
+
+if (!function_exists('igk_html_node_markdown_file')){
+	/**
+	 * create a markdown node from file
+	 */
+	function igk_html_node_markdown_file(string $file, $options=null){
+		$src = file_get_contents($file);
+		return igk_html_node_markdown($src, $options);
+	}
+}
+
+
+
 if (!function_exists('igk_html_node_x_template')) {
 	/**
 	 * Igk html node x template.
