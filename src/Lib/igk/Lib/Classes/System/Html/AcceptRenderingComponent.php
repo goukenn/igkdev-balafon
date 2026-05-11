@@ -50,6 +50,7 @@ class AcceptRenderingComponent{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $options
     * @return false|void
     */

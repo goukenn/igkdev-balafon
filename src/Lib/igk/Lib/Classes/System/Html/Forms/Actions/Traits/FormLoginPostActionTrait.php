@@ -57,13 +57,14 @@ trait FormLoginPostActionTrait
         return null;
     }
     /**
-     * post login to application
-     * @return void 
-     * @throws CrefNotValidException 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * post login to application
+    * @param Request $request
+    * @throws CrefNotValidException
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     public function login_post(Request $request)
     {
         $this->notifyActionName = 'form_login';

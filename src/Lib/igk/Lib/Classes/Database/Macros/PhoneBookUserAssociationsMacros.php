@@ -32,9 +32,10 @@ class PhoneBookUserAssociationsMacros{
         );
     }
     /**
-     * macros to get phone entries details
-     * @return void 
-     */
+    * macros to get phone entries details
+    * @param PhoneBookUserAssociations $entry
+    * @return void
+    */
     public static function getEntries(PhoneBookUserAssociations $entry){
         return self::GetPhoneBookDetailsFromUserGuid($entry->usrphb_UserGuid);
     }    

@@ -9,9 +9,8 @@ use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\DynamicActivableReference;
 use IGKException;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Traits
 * @author C.A.D. BONDJE DOUE
 */
@@ -58,7 +57,14 @@ trait DynamicActivableTrait{
         } else 
             $this->data[$n] = $v;
         $this->_update_ref_list($n, $this->m_reflist, $reflist);
-    } 
+    }
+    /**
+    * auto generate doc.
+    * @param string $n
+    * @param mixed & $reflist
+    * @param bool $is_reference
+    * @return void
+    */
     private function _update_ref_list(string $n, & $reflist, bool $is_reference){
         if ($is_reference){
             $reflist[$n] = 1;
@@ -75,6 +81,8 @@ trait DynamicActivableTrait{
     }
     /**
     * auto generate doc.
+    * @param mixed $option
+    * @param int $flag
     * @return string|false
     */
     public function to_json($option = NULL, int $flag = 0){

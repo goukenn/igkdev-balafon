@@ -46,8 +46,12 @@ if (!function_exists('igk_current_module')) {
     }
 }
 /**
- * include module helper
- */
+* include module helper
+* @param mixed $modulename
+* @param ?callable $init
+* @param mixed $loadall
+* @return mixed
+*/
 function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 {
     return igk_require_module($modulename, $init, $loadall, 0);
@@ -237,7 +241,9 @@ function igk_module_inject_all()
 }
 /**
 * auto generate doc.
+* @param mixed $mod
 * @param null|string $name
+* @param ?BaseController $controller
 * @return void
 */
 function igk_bind_module($mod, ?string $name = null, ?BaseController $controller = null)
@@ -252,6 +258,8 @@ function igk_bind_module($mod, ?string $name = null, ?BaseController $controller
 }
 /**
 * auto generate doc.
+* @param string $path
+* @param ?callable $init
 * @param bool $initialize
 * @return mixed
 */
@@ -288,6 +296,7 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
 * Igk module init doc.
 * @param ApplicationModuleController $module
 * @param mixed $doc
+* @return mixed
 */
 function igk_module_init_doc(ApplicationModuleController $module, $doc)
 {

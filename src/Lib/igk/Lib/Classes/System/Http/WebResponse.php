@@ -35,6 +35,8 @@ class WebResponse extends RequestResponse
     ];
     /**
     * auto generate doc.
+    * @param mixed $node_or_message
+    * @param int $code
     * @param mixed $header
     * @return void
     */

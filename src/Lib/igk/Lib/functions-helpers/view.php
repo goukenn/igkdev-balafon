@@ -8,36 +8,38 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 
 if (!function_exists('igk_article')) {
-/**
-* Igk article.
-* @param string $file
-* @param null|mixed $params
-*/
+    /**
+    * Igk article.
+    * @param string $file
+    * @param null|mixed $params
+    * @return mixed
+    */
 function igk_article(string $file, $params = null)
    {
       return ViewHelper::Article($file, $params);
    }
 }
 if (!function_exists('igk_asset')) {
-/**
-* Igk asset.
-* @param string $file
-*/
+    /**
+    * Igk asset.
+    * @param string $file
+    * @return mixed
+    */
 function igk_asset(string $file)
    {
       return ViewHelper::CurrentCtrl()->asset($file);
    }
 }
 if (!function_exists('__')) {
-   /**
+    /**
     * shortcut to core translation . igk_resource_gets
-    * @param string $msg 
-    * @param mixed $default 
-    * @param mixed $params 
-    * @return mixed 
-    * @throws IGKException 
-    * @throws ArgumentTypeNotValidException 
-    * @throws ReflectionException 
+    * @param string $msg
+    * @param mixed $default
+    * @param mixed ...$params
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return mixed
     */
    function __(string $msg, $default = null, ...$params)
    {

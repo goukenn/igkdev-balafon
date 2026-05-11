@@ -20,6 +20,7 @@ class BalafonFrameworkManager{
     var $handleAllAction;
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $args
     */
     public function __call($name, $args){

@@ -244,6 +244,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
     * create action instance on controller
+    * @param mixed $ctrl
     * @param mixed|null $context
     * @return static
     */
@@ -279,16 +280,16 @@ abstract class IGKActionBase implements IActionProcessor
         return $c->$name(...$arguments);
     }
     /**
-     * parameter mixing handle fonction
-     * @param mixed|BaseController|string $fname 
-     * @param mixed $args 
-     * @param int $exit 
-     * @param int $flag 
-     * @return mixed 
-     * @throws Exception 
-     * - override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0,$verb='GET')
-     * - override 2 :  ($fname, $args,  $exit=1, $flag=0, $verb='GET')
-     */
+    * parameter mixing handle fonction
+    * @param mixed|BaseController|string $fname
+    * @param mixed $args
+    * @param int $exit
+    * @param int $flag
+    * @param mixed $verb
+    * @param mixed $user
+    * @throws Exception- override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0,$verb='GET')- override 2 :  ($fname, $args,  $exit=1, $flag=0, $verb='GET')
+    * @return mixed
+    */
     protected function Handle($fname, $args, $exit = 1, $flag = 0, $verb='GET', $user=null)
     {
         $ctrl = null;
@@ -335,8 +336,8 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
     * Checks Method Exists.
-    * @param string $method name 
-    * @param ?string $topVerb
+    * @param string $m
+    * @param string $method name
     * @return bool
     */
     protected function checkMethodExists(string $m, ?string $topVerb=null){
@@ -446,6 +447,10 @@ abstract class IGKActionBase implements IActionProcessor
     protected function currentUser(){
         return $this->getController()->getUser();
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function currentUserProfile(){
         return $this->getController()->getUserProfile();
     }
@@ -462,6 +467,10 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
     * auto generate doc.
+    * @param mixed $viewname
+    * @param mixed $arrayList
+    * @param mixed $params
+    * @param mixed $exit
     * @param int $flag extra flag
     * @return mixed
     */
@@ -633,6 +642,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
     /**
     * auto generate doc.
+    * @param mixed $code
     * @param mixed ...$params
     * @return mixed|void
     */
@@ -645,10 +655,11 @@ abstract class IGKActionBase implements IActionProcessor
         igk_dev_wln_e(__FILE__ . ":" . __LINE__,  "No handle error: ", compact("code", "f", "params"));
     }
     /**
-     * get notify controller list 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get notify controller list
+    * @param ?string $notifykey
+    * @throws IGKException
+    * @return mixed
+    */
     protected function get_notify(?string $notifykey = null)
     {
         $notkey = $notifykey ?? $this->getController()->notifyKey($this->notify_name);

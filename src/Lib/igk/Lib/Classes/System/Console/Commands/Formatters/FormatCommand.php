@@ -10,9 +10,8 @@ use IGK\System\Console\Logger;
 use IGK\System\Text\Formatters\FormatterServiceContainer;
 use IGKServices;
 use PHPFormatter;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Formatters
 * @author C.A.D. BONDJE DOUE
 */

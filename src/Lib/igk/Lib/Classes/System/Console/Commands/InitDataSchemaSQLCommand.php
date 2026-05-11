@@ -56,6 +56,8 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     var $usage = '[controller] [file] [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $ctrl
     * @param mixed $file
     * @return int
     */

@@ -72,8 +72,10 @@ class CoreUpdateLibCommand extends AppExecCommand{
         }
     }
     /**
-     * check core library
-     */
+    * check core library
+    * @param string $file
+    * @param mixed & $errors
+    */
     static function CheckZipFile(string $file, & $errors = null) :bool{
         $s = igk_zip_unzip_filecontent($file, "manifest.xml");
         if (empty($s)) {

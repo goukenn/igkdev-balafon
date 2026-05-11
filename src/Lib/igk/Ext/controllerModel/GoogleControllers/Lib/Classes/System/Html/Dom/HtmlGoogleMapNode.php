@@ -39,6 +39,7 @@ final class HtmlGoogleMapNode extends HtmlNode{
     }
     /**
     * auto generate doc.
+    * @param ?string $key
     */
     public function __construct(?string $key=null){
         parent::__construct("div");

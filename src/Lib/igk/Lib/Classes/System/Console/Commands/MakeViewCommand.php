@@ -53,9 +53,11 @@ class MakeViewCommand extends AppExecCommand
     */
     var $usage = "controller viewname | viewname [options]";
     /**
-     * exec command. 
-     * controller viewname
-     */
+    * exec command.controller viewname
+    * @param mixed $command
+    * @param mixed $controller
+    * @param mixed $viewname
+    */
     public function exec($command, $controller = null, $viewname = "")
     {
         $gctrl = igk_getv($command->options, "--controller");

@@ -34,6 +34,7 @@ trait ConfigArrayAccessTrait {
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function offsetSet($n, $v):void{

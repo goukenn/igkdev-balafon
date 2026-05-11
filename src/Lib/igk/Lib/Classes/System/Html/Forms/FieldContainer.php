@@ -28,10 +28,11 @@ class FieldContainer implements IFormFieldContainer{
         $this->m_fields = [];
     }
     /**
-     * merge current fields
-     * @param array $fields 
-     * @return $this 
-     */
+    * merge current fields
+    * @param array $fields
+    * @param ?string $fieldset_name
+    * @return $this
+    */
     public function mergeField(array $fields, ?string $fieldset_name=null){
         if (!is_null($fieldset_name)){
             array_unshift($fields, ["type"=>"fieldset", "legend"=>$fieldset_name]);

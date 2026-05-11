@@ -20,7 +20,7 @@ final class IGKCssComponentStyle extends IGKObject{
     private $m_loadedStyles;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
         $this->m_loadedStyles=array();

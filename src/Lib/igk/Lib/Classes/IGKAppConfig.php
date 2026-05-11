@@ -187,6 +187,7 @@ final class IGKAppConfig extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $arg
     */
     public function addConfigSavedEvent($obj, $arg){
@@ -237,14 +238,16 @@ final class IGKAppConfig extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $arg
     */
     public function removeConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
     /**
-    * save configuration 
-    * @return bool save config result 
+    * save configuration
+    * @param mixed $force
+    * @return bool save config result
     */
     public function saveConfig($force=false){
         if($this->m_datas == null)

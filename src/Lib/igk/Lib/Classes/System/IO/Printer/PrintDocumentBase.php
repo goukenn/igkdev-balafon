@@ -31,9 +31,10 @@ abstract class PrintDocumentBase{
         $this->printer->resetDevice();
     }
     /**
-     * override this method to generate printing documnet
-     * @return void 
-     */
+    * override this method to generate printing documnet
+    * @param IPrinterService $printer
+    * @return void
+    */
     protected abstract function generateDocument(IPrinterService $printer);
     /**
     * Header.

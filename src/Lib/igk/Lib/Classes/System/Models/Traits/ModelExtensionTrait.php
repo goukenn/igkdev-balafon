@@ -11,8 +11,10 @@ namespace IGK\System\Models\Traits;
 trait ModelExtensionTrait
 {
     /**
-     * extension methods 
-     */
+    * extension methods
+    * @param \IGK\Models\ModelBase $model
+    * @param mixed $params
+    */
     public abstract static function Add(\IGK\Models\ModelBase $model, $params);
     /**
      * extension methods 
@@ -31,8 +33,11 @@ trait ModelExtensionTrait
      */
     public abstract static function GetCache(\IGK\Models\ModelBase $model, ?string $column, $value=null, ?bool $autoinsert = null): ?object;
     /**
-     * extension methods 
-     */
+    * extension methods
+    * @param \IGK\Models\ModelBase $model
+    * @param bool $check
+    * @param mixed $params
+    */
     public abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
     /**
      * extension methods 
@@ -271,8 +276,11 @@ trait ModelExtensionTrait
      */
     public abstract static function tableExists(\IGK\Models\ModelBase $model): bool;
     /**
-     * extension methods 
-     */
+    * extension methods
+    * @param \IGK\Models\ModelBase $model
+    * @param mixed $value
+    * @param mixed $conditions
+    */
     public abstract static function update(\IGK\Models\ModelBase $model, $value = null, $conditions = null);
     /**
      * extension methods 

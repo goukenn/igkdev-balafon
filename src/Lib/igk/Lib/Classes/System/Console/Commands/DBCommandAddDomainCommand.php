@@ -44,8 +44,11 @@ class DBCommandAddDomainCommand extends AppExecCommand
         Logger::print(sprintf( "%s domain_name controller [options]", $this->command));
     }
     /**
-     * exec the command
-     */
+    * exec the command
+    * @param mixed $command
+    * @param ?string $domainname
+    * @param mixed $controller
+    */
     public function exec($command, ?string $domainname = null, $controller = null)
     {
         if (is_null($domainname)) {

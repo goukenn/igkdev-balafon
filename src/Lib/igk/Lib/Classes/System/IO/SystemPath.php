@@ -33,7 +33,7 @@ class SystemPath{
     var $query;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }

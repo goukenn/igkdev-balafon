@@ -51,9 +51,10 @@ final class ApiFunctionController extends ApplicationController
         igk_exit();
     }
     /**
-     * argument
-     * @param mixed $cmd the default value is null
-     */
+    * argument
+    * @param mixed $cmd the default value is null
+    * @param mixed ...$args
+    */
     public function datadb($cmd = null, ...$args)
     {
         $args = array_slice(func_get_args(), 1);

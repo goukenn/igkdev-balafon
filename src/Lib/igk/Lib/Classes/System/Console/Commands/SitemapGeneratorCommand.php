@@ -75,14 +75,14 @@ class SitemapGeneratorCommand extends AppExecCommand{
         return $indexes;
     }
     /**
-     * generate sitemap index 
-     * @param array $views 
-     * @param string $baseuri 
-     * @param array|null $error 
-     * @return int|string 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * generate sitemap index
+    * @param array $views
+    * @param string $baseuri
+    * @param ?array & $error
+    * @throws Exception
+    * @throws IGKException
+    * @return int|string
+    */
     public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
@@ -118,6 +118,8 @@ class SitemapGeneratorCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
+    * @param array $indexes
+    * @param string $baseuri
     * @param array|null &$error
     * @return int|null|string
     */

@@ -51,7 +51,7 @@ class IGKResourceUriResolver
     var $fulluri;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -59,8 +59,9 @@ class IGKResourceUriResolver
         $this->prepareEnvironment();
     }
     /**
-     * mark path that need to be hashed before resolution
-     */
+    * mark path that need to be hashed before resolution
+    * @param ?string $path
+    */
     public function hashPath(?string $path = null)
     {
         $this->m_hashPath = $path ? $this->resolve($path, ["initHash" => 1]) : null;
@@ -131,7 +132,7 @@ class IGKResourceUriResolver
     * @param mixed $j
     * @param mixed $n
     * @param mixed $options
-    * @return
+    * @return mixed
     */
     private function __hashResPath($j, $n, $options){
         $chain = igk_uri(IGK_RES_FOLDER . "/" . $j . "/" . $n);
@@ -145,8 +146,9 @@ class IGKResourceUriResolver
         return $chain;
     }
     /**
-     * get resource base path
-     */
+    * get resource base path
+    * @param mixed $path
+    */
     private function _getResPath($path):?string{
         if ($g = preg_match($rgx = Constants::PATH_VAR_DETECT_MODEL_REGEX, $path, $tab)){
             $s = preg_replace($rgx, '', $path);

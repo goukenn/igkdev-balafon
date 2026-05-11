@@ -54,7 +54,11 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
     }
     /**
     * auto generate doc.
+    * @param mixed $h
+    * @param string $pdir
     * @param mixed $uri  uri access
+    * @param mixed $no_subdomain
+    * @param mixed $no_webconfig
     * @return void
     */
     public static function InstallFolder($h, string $pdir, string $uri, $no_subdomain=false, $no_webconfig = false){

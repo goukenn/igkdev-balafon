@@ -59,9 +59,12 @@ class ModuleInitializer
         return "sys://modules/" . strtolower(str_replace("/", ".", igk_uri($path)));
     }
     /**
-     * auto generate doc.
-     * @return void
-     */
+    * auto generate doc.
+    * @param mixed $module
+    * @param mixed $file
+    * @param mixed & $reference
+    * @return void
+    */
     public static function Init($module, $file, &$reference)
     {
         $hashfile = 'modules/' . hash_file('crc32b', $file) . '.json';
@@ -104,12 +107,12 @@ class ModuleInitializer
         return $_ret;
     }
     /**
-     * auto generate doc.
-     * @param string $src
-     * @param mixed & $code
-     * @param mixed & $return
-     * @return
-     */
+    * auto generate doc.
+    * @param string $src
+    * @param mixed & $code
+    * @param mixed & $return
+    * @return mixed
+    */
     private static function _LoadCode(string $src, &$code, &$return)
     {
         $regex = new RegexMatcherContainer;

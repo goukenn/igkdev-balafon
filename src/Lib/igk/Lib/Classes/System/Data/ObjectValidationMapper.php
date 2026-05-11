@@ -156,10 +156,11 @@ class ObjectValidationMapper{
         $this->validating = 0;
         return $this;
     }
-     /**
-     * get map
-     * @return mixed 
-     */
+    /**
+    * get map
+    * @param mixed $outMap
+    * @return mixed
+    */
     public function map($outMap = null)
     {
         if ($this->isValidate()) {

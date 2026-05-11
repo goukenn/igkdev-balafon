@@ -23,15 +23,18 @@ use IGKException;
 class InitClassBuilder
 {
     /**
-     * build model class 
-     * @param string $name
-     * @param string $table
-     * @param mixed|IDbMigrationInfo $migrationInfo
-     * @param BaseController $ctrl
-     * @param ?string $comment
-     * @param ?string $prefix column prefix of each column
-     * @return string 
-     */
+    * build model class
+    * @param string $name
+    * @param string $table
+    * @param mixed|IDbMigrationInfo $migrationInfo
+    * @param BaseController $ctrl
+    * @param ?string $comment
+    * @param ?string $prefix column prefix of each column
+    * @param ?string $display_expression
+    * @param ?callable $property_call_info
+    * @param ?callable $arg_call_info
+    * @return string
+    */
     public static function BuildInitialModelClass(string $name, string $table, $migrationInfo, BaseController $ctrl, 
         ?string $comment = null, ?string $prefix = null, ?string $display_expression =null,
         ?callable $property_call_info=null,

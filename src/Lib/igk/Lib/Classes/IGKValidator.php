@@ -71,6 +71,9 @@ final class IGKValidator extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param bool $condition
+    * @param bool & $error
+    * @param mixed $node
     * @param mixed $errormsg the default value is IGK_STR_EMPTY
     */
     public static function Assert(bool $condition, bool &$error, $node = null, $errormsg = IGK_STR_EMPTY)
@@ -183,8 +186,10 @@ final class IGKValidator extends IGKObject
         return !is_null($v) && (strlen($v) == Constants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
     }
     /**
-     * check password validity confirmation
-     */
+    * check password validity confirmation
+    * @param mixed $pwd
+    * @param mixed $rpwd
+    */
     public static function ValidatePassword($pwd, $rpwd): bool
     {
         if ($pwd && ($pwd == $rpwd)) {
@@ -220,8 +225,11 @@ final class IGKValidator extends IGKObject
         return is_string($v);
     }
     /**
-     * check is null or empty.
-     */
+    * check is null or empty.
+    * @param mixed $v
+    * @param mixed $cibling
+    * @param mixed $msg
+    */
     public static function IsStringNullOrEmpty($v, $cibling = null, $msg = "error...")
     {
         $v = (($v == null) || (is_string($v) && (strlen($v) == 0)));
@@ -231,8 +239,9 @@ final class IGKValidator extends IGKObject
         return $v;
     }
     /**
-     * check if full uri
-     */
+    * check if full uri
+    * @param mixed $v
+    */
     public static function IsUri($v)
     {
         if (empty($v))
@@ -259,7 +268,10 @@ final class IGKValidator extends IGKObject
     }
     /**
     * auto generate doc.
-    * @param mixed * $error
+    * @param mixed $o
+    * @param mixed $fields
+    * @param mixed & $error
+    * @param bool $validate
     * @return bool|object
     */
     public static function Validate($o, $fields, &$error, bool $validate = true)

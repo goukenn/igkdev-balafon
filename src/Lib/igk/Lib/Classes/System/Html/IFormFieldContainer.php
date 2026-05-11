@@ -10,9 +10,10 @@ namespace IGK\System\Html;
 * @author C.A.D. BONDJE DOUE
 */
 interface IFormFieldContainer{
-     /**
-     * retrieve form fields data
-     * @return array array of form fields data definition
-     */
+    /**
+    * retrieve form fields data
+    * @param mixed $context
+    * @return array array of form fields data definition
+    */
     function getFields($context=null): array;
 }

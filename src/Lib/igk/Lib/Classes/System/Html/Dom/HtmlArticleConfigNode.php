@@ -39,6 +39,9 @@ final class HtmlArticleConfigNode extends HtmlNode{
     private $m_target;
     /**
     * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $target
+    * @param mixed $filename
     * @param mixed $forceview the default value is 0
     */
     public function __construct($ctrl=null, $target=null, $filename=null, $forceview=0){

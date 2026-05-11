@@ -33,10 +33,9 @@ abstract class BalafonMiddleware{
     */
     protected function __construct(){}
     /**
-    *  attach the middleware
-    * @param mixed $middlethe middleware to attach
-    * @param mixed $serviceapplication service to initialize
-    * @param mixed $wherelist list that store the all middleware for chain list
+    * attach the middleware
+    * @param mixed $middle
+    * @param mixed $service
     */
     public static function Attach($middle, $service){
         if($c=$service->GetLastMiddleware()){
@@ -47,6 +46,8 @@ abstract class BalafonMiddleware{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
+    * @param mixed $args
     * @param mixed $service
     */
     public static function CreateMiddleware($name, $args=null, $service=null){
@@ -85,7 +86,7 @@ abstract class BalafonMiddleware{
     }
     /**
     * initialize the middleware
-    * @param mixed $serviceIBalafonApplicationMiddlewareService instance
+    * @param mixed $service
     */
     protected function initialize($service){}
     /**
@@ -104,6 +105,7 @@ abstract class BalafonMiddleware{
     }
     /**
     * auto generate doc.
+    * @param mixed $service
     * @param mixed $wherelist
     */
     public static function Process($service, $wherelist){

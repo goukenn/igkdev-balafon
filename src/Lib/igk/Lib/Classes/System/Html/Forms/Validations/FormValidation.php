@@ -84,8 +84,9 @@ class FormValidation
         }
     }
     /**
-     * used to validate files
-     */
+    * used to validate files
+    * @param ?array $filedata
+    */
     public function files(?array $filedata = null)
     {
         if ($filedata === null) {

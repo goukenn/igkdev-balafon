@@ -25,6 +25,7 @@ class HtmlDocumentBodyContentInjector{
     }
     /**
     * auto generate doc.
+    * @param string $id
     * @param mixed $callback
     * @return void
     */

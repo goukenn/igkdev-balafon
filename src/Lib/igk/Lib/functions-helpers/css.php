@@ -31,8 +31,13 @@ if (!function_exists('igk_css_litteral')){
     }    
 }
 /**
- * helper: used to treat style value . {sys: ...data}
- */
+* helper: used to treat style value . {sys: ...data}
+* @param string $v
+* @param \IGK\Css\ICssStyleContainer $theme
+* @param ?\IGK\Css\ICssStyleContainer $systheme
+* @param mixed $themeexport
+* @return mixed
+*/
 function igk_css_treat_value(string $v, \IGK\Css\ICssStyleContainer $theme, ?\IGK\Css\ICssStyleContainer  $systheme = null, $themeexport = 1)
 {
     $reg = IGK_CSS_TREAT_REGEX;
@@ -50,6 +55,7 @@ function igk_css_treat_value(string $v, \IGK\Css\ICssStyleContainer $theme, ?\IG
 /**
 * Igk css minify.
 * @param string $source
+* @return mixed
 */
 function igk_css_minify(string $source){
     $o = "";
@@ -125,10 +131,11 @@ function igk_css_rm_comment(string $src){
     return $src;
 }
 if (!function_exists('igk_css_array_key_map_implode')){
-/**
-* Igk css array key map implode.
-* @param mixed $value
-*/
+    /**
+    * Igk css array key map implode.
+    * @param mixed $value
+    * @return mixed
+    */
 function igk_css_array_key_map_implode($value){
         return igk_array_key_map_implode(
             $value,

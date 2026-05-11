@@ -45,7 +45,7 @@ class DbUtils
     }
     /**
     * auto generate doc.
-    * @param mixed $value
+    * @param IDbColumnInfo $column_info
     * @return bool
     */
     public static function GetIsDumpField(IDbColumnInfo $column_info):bool{
@@ -85,6 +85,7 @@ class DbUtils
     }
     /**
     * auto generate doc.
+    * @param mixed $a
     * @param mixed $b
     * @return int
     */
@@ -105,6 +106,7 @@ class DbUtils
     }
     /**
     * auto generate doc.
+    * @param string $table
     * @param BaseController $controller
     * @return string
     */
@@ -172,13 +174,13 @@ class DbUtils
         return sprintf("/\b(?!%s)\b[\w][\w\d_]*\b/i", $column);
     }
     /**
-     * get columns columns
-     * @param ModelBase $model 
-     * @param mixed ...$columns_list 
-     * @return array 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * get columns columns
+    * @param ModelBase $model
+    * @param mixed ...$columns_list
+    * @throws Exception
+    * @throws IGKException
+    * @return array
+    */
     public static function ModelColumns(ModelBase $model, ...$columns_list){
         $tm = $columns_list;
         $tp = [];

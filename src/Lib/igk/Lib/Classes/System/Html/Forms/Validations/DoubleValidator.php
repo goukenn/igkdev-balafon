@@ -19,13 +19,13 @@ class DoubleValidator extends FormFieldValidatorBase implements IFormValidator{
         return is_numeric($value)
 ;    }
     /**
-     * Validate and return a double value from the input.
-     * @param mixed $value The value to validate.
-     * @param mixed $default The default value if validation fails.
-     * @param array $error Reference to an array collecting errors.
-     * @param mixed $object Optional context object.
-     * @return float
-     */
+    * Validate and return a double value from the input.
+    * @param mixed $value The value to validate.
+    * @param mixed $default The default value if validation fails.
+    * @param mixed & $error
+    * @param array $error Reference to an array collecting errors.
+    * @return float
+    */
     protected function _validate($value, $default=null, & $error=[], $object=null){
         if (is_numeric($value)){
             return doubleval($value);

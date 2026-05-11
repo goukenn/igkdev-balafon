@@ -88,10 +88,12 @@ class TextBracket{
         return $sb;
     }
     /**
-     * parse string to text bracket block
-     * @param string $source 
-     * @return ?TextBracket 
-     */
+    * parse string to text bracket block
+    * @param string $source
+    * @param mixed $start
+    * @param mixed $end
+    * @return ?TextBracket
+    */
     public static function Parse(string $source, $start=null, $end=null){
         $g = new static;
         if ($start && $end){
@@ -108,7 +110,7 @@ class TextBracket{
     * auto generate doc.
     * @param mixed $def
     * @param string $source
-    * @return
+    * @return mixed
     */
     private static function _Load($def, string $source){
         $ln = strlen($source);

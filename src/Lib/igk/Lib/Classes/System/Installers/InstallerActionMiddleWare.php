@@ -62,6 +62,8 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     }
     /**
     * auto generate doc.
+    * @param mixed $list
+    * @param mixed $index
     * @param mixed $service the default value is null
     */
     public static function Run($list, $index, ?InstallerMiddleWareActions $service){

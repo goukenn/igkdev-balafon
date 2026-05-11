@@ -36,11 +36,12 @@ abstract class HttpUtility{
         return igk_getv(self::EXT_MIME_TYPES, $ext, $default);
     }
     /**
-     * get extension from mime type
-     * @param string $mimetype 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get extension from mime type
+    * @param string $mimetype
+    * @param mixed $default
+    * @throws IGKException
+    * @return mixed
+    */
     public static function GetExtensionFromContentType(string $mimetype, $default='html'){
         $mime_list = igk_environment()->mimetypes ?? [];
         return igk_getv(array_merge([

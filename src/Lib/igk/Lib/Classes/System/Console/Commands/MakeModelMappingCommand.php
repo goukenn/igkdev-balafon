@@ -41,9 +41,12 @@ class MakeModelMappingCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = 'model controller [options]';
-	/**
-	 * location of sample . 
-	 */
+    /**
+    * location of sample .
+    * @param mixed $command
+    * @param mixed $model_name
+    * @param mixed $controller
+    */
     public function exec($command, $model_name =null, $controller=null) {
 		$ctrl = self::ResolveController($command, $controller);
 		$model = $ctrl->model($model_name);

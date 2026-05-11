@@ -6,12 +6,11 @@ namespace IGK\Database;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use Iterator;
-
 /**
- * 
- * @package IGK\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Database
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\Database

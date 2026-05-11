@@ -24,6 +24,7 @@ abstract class ApplicationFactory{
     ];
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $class
     * @return void
     */

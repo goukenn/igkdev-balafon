@@ -20,10 +20,11 @@ trait RedirectHelperActionTrait{
     */
     protected $redirectCoder;
     /**
-     * set the redirect 
-     * @param string $path 
-     * @return void 
-     */
+    * set the redirect
+    * @param string $path
+    * @param ?int $code
+    * @return void
+    */
     protected function redirectTo(?string $path=null, ?int $code = 301){
         $this->redirect = $this->getController()->uri($path);
         $this->redirectCode = $code; 

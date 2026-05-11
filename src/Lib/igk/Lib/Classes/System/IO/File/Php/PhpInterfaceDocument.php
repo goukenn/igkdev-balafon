@@ -43,7 +43,7 @@ class PhpInterfaceDocument{
     private $m_listener;
     /**
     * auto generate doc.
-    * @param ?callable|IInvokeAction #phpDocListener
+    * @param mixed $phpDocListener
     * @return void
     */
     public function __construct($phpDocListener)
@@ -67,7 +67,7 @@ class PhpInterfaceDocument{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getPhpDoc(){
         if ($this->m_listener){

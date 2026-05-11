@@ -26,6 +26,8 @@ if (!function_exists('igk_get_asset_uri')){
 if (!function_exists('igk_load_temp_style_asset')){
     /**
     * auto generate doc.
+    * @param mixed $doc
+    * @param mixed $ctrl
     * @param mixed $assets
     * @return void
     */
@@ -40,12 +42,13 @@ if (!function_exists('igk_load_temp_style_asset')){
     }
 }
 if (!function_exists('igk_load_temp_script_asset')){
-/**
-* Loads temp script asset.
-* @param mixed $doc
-* @param mixed $ctrl
-* @param mixed $assets
-*/
+    /**
+    * Loads temp script asset.
+    * @param mixed $doc
+    * @param mixed $ctrl
+    * @param mixed $assets
+    * @return mixed
+    */
 function igk_load_temp_script_asset($doc, $ctrl, $assets){
         $ctrl::resolveAssets(["/"]);
         $dir = $ctrl->getAssetsDir();

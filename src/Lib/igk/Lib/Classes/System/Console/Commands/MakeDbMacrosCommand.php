@@ -68,6 +68,9 @@ class MakeDbMacrosCommand extends AppExecCommand{
     var $uses;
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
+    * @param mixed $action_name
     * @var string $actionName the action to create
     */
     public function exec($command, $controller="", $action_name=""){
@@ -139,7 +142,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getContent(){
         if ($def = $this->definition){
@@ -149,7 +152,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getUses(){
         if ($uses = $this->uses){

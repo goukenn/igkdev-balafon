@@ -11,10 +11,10 @@ use IGK\Database\DbModuleReferenceTable;
 */
 trait DbCreateTableReferenceTrait{
     /**
-     * get or change a reference table reference 
-     * @param mixed $tables 
-     * @return void 
-     */
+    * get or change a reference table reference
+    * @param mixed & $tables
+    * @return void
+    */
     public function getDataTablesReference(& $tables){
         $ctab = & $tables;       
         unset($tables);

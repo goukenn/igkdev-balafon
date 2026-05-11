@@ -28,6 +28,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     private $_whereList;
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $args
     */
     public function __call($n, $args){
@@ -78,6 +79,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     }
     /**
     * auto generate doc.
+    * @param mixed $i
     * @param mixed $v
     */
     protected function _access_offsetSet($i, $v){
@@ -101,7 +103,7 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     }
     /**
     * auto generate doc.
-    * @param mixed $closurecallback
+    * @param mixed $callback
     */
     public function Run($callback){
         BalafonMiddleware::Attach(new RunCallbackMiddleware($callback), $this);

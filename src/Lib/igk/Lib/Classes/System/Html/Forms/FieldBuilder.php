@@ -46,7 +46,7 @@ class FieldBuilder implements IteratorAggregate
     * auto generate doc.
     * @param string $key
     * @param null|array $attribs
-    * @return
+    * @return mixed
     */
     private function _add(string $key, ?array $attribs)
     {
@@ -283,9 +283,9 @@ class FieldBuilder implements IteratorAggregate
         return $this;
     }
     /**
-     * html items actions bars
-     * @param array|callable of fields action bar
-     */
+    * html items actions bars
+    * @param mixed $fields
+    */
     public function actionbar($fields)
     {
         $action = igk_html_node_actionbar($fields);

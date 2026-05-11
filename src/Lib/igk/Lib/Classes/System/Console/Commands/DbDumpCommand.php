@@ -173,7 +173,7 @@ class DbDumpCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function help(){
         parent::help();

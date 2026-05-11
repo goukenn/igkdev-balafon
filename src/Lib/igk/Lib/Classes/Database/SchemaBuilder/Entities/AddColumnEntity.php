@@ -32,12 +32,13 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
         }
     }
     /**
-     * create a migration builder 
-     * @param BaseController $controller 
-     * @param mixed $props 
-     * @return SchemaBuilderMigration 
-     * @throws IGKException 
-     */
+    * create a migration builder
+    * @param BaseController $controller
+    * @param mixed $schema
+    * @param mixed $props
+    * @throws IGKException
+    * @return SchemaBuilderMigration
+    */
     public function setup(BaseController $controller, $schema, $props): SchemaBuilderMigration
     {
         $this->_controller = $controller;

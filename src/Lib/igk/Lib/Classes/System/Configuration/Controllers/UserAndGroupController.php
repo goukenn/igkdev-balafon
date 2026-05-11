@@ -149,14 +149,16 @@ class UserAndGroupController extends ConfigControllerBase{
         $s = Usergroups::select_all($b); 
         return $s;
     }
-     /**
+    /**
     * return an array of authorisation that this user support
+    * @param mixed $u
     */
     public function getUserAuths($u){
         igk_die( __METHOD__." not implement");
     }
     /**
     * return an array of groups that this user is member of
+    * @param mixed $u
     */
     public function getUserGroups($u){
         $ad=igk_get_data_adapter($this);
@@ -198,7 +200,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function getAddGroupFields(){
         $fields = [

@@ -26,7 +26,12 @@ use IGKEvents;
 */
 class RunHookCommand extends AppExecCommand
 {
-	var $command = '--run:hook';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command = '--run:hook';
     /**
     * auto generate doc.
     * @var mixed
@@ -53,7 +58,7 @@ class RunHookCommand extends AppExecCommand
     * auto generate doc.
     * @param mixed $command
     * @param null|string $hookName
-    * @return
+    * @return mixed
     */
     public function exec($command, ?string $hookName = null)
 	{
@@ -80,7 +85,7 @@ class RunHookCommand extends AppExecCommand
     * @param mixed $hookName
     * @param array & $arguments
     * @param array $args
-    * @return
+    * @return mixed
     */
     public function buildArgument($ctrl, $hookName, array &$arguments, array $args)
 	{
@@ -106,7 +111,7 @@ class RunHookCommand extends AppExecCommand
     * auto generate doc.
     * @param BaseController $ctrl
     * @param string $hookName
-    * @return
+    * @return mixed
     */
     public static function GetControllerCommandClassInfo(BaseController $ctrl, string $hookName)
 	{
@@ -124,7 +129,7 @@ class RunHookCommand extends AppExecCommand
     * auto generate doc.
     * @param string $hookName
     * @param BaseController $ctrl
-    * @return
+    * @return mixed
     */
     public function showHookNameInfo(string $hookName, BaseController $ctrl)
 	{

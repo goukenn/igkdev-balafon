@@ -92,18 +92,19 @@ use IGK\System\IO\File\IniFile;
 use IGK\System\IO\FileHandler;
 use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
+
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_agent_androidversion()
 {
     return IGKUserAgent::GetAndroidVersion();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_agent_ieversion()
 {
     if (igk_agent_isie()) {
@@ -126,25 +127,25 @@ function igk_agent_ieversion()
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_agent_isandroid()
 {
     return IGKUserAgent::IsAndroid();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_agent_isie()
 {
     return IGKUserAgent::IsIE();
 }
 /**
-* close a visible notify dialog
-* @return mixed
-*/
+ * close a visible notify dialog
+ * @return mixed
+ */
 function igk_ajx_close_dialog()
 {
     $s = igk_create_node("BalafonJS");
@@ -152,19 +153,19 @@ function igk_ajx_close_dialog()
     $s->renderAJX();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_ajx_exit()
 {
     if (igk_is_ajx_demand())
         igk_exit();
 }
 /**
-* auto generate doc.
-* @param mixed $script
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $script
+ * @return mixed
+ */
 function igk_ajx_include_script($script)
 {
     if (igk_is_ajx_demand()) {
@@ -174,10 +175,10 @@ function igk_ajx_include_script($script)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $lnk
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $lnk
+ * @return mixed
+ */
 function igk_ajx_link($lnk)
 {
     if (igk_is_ajx_demand() || igk_is_webapp()) {
@@ -189,9 +190,9 @@ function igk_ajx_link($lnk)
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_ajx_notify_close_dialog()
 {
     $n = igk_create_node();
@@ -201,13 +202,13 @@ EOF;
     $n->renderAJX();
 }
 /**
-* shortcut to notify dialog
-* @param mixed $title
-* @param mixed $content
-* @param mixed $type
-* @param mixed $render
-* @return mixed
-*/
+ * shortcut to notify dialog
+ * @param mixed $title
+ * @param mixed $content
+ * @param mixed $type
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_ajx_notify_dialog($title, $content, $type = "default", $render = true)
 {
     $notbox = new HtmlNotifyDialogBoxItem();
@@ -219,13 +220,13 @@ function igk_ajx_notify_dialog($title, $content, $type = "default", $render = tr
     return $notbox;
 }
 /**
-* auto generate doc.
-* @param mixed $title
-* @param mixed $uri
-* @param mixed $callbacks
-* @param mixed $method
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $title
+ * @param mixed $uri
+ * @param mixed $callbacks
+ * @param mixed $method
+ * @return mixed
+ */
 function igk_ajx_notify_dialog_callback($title, $uri, $callbacks, $method = "POST")
 {
     if (igk_qr_confirm()) {
@@ -245,14 +246,14 @@ function igk_ajx_notify_dialog_callback($title, $uri, $callbacks, $method = "POS
     igk_exit();
 }
 /**
-* create inline panel dialog for ajx context
-* @param string $title
-* @param mixed $content data will be show
-* @param mixed $closeBtn  mixed(string|array)
-* @param mixed $callback
-* @param mixed $render
-* @return mixed
-*/
+ * create inline panel dialog for ajx context
+ * @param string $title
+ * @param mixed $content data will be show
+ * @param mixed $closeBtn  mixed(string|array)
+ * @param mixed $callback
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_ajx_panel_dialog(string $title, $content, $closeBtn = 'drop', $callback = null, $render = true)
 {
     $dv = igk_create_node('div');
@@ -270,9 +271,9 @@ function igk_ajx_panel_dialog(string $title, $content, $closeBtn = 'drop', $call
     return $dv;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_ajx_panel_dialog_close()
 {
     $n = igk_create_node("BalafonJS");
@@ -281,13 +282,13 @@ function igk_ajx_panel_dialog_close()
     $n->renderAJX();
 }
 /**
-* return a panel dialog result
-* @param mixed $title
-* @param mixed $d
-* @param mixed $closeBtn
-* @param ?callable $callback
-* @return mixed
-*/
+ * return a panel dialog result
+ * @param mixed $title
+ * @param mixed $d
+ * @param mixed $closeBtn
+ * @param ?callable $callback
+ * @return mixed
+ */
 function igk_ajx_panel_dialog_result($title, $d, $closeBtn = 'drop',  ?callable $callback = null)
 {
     ob_start();
@@ -295,10 +296,10 @@ function igk_ajx_panel_dialog_result($title, $d, $closeBtn = 'drop',  ?callable 
     return new IGK\System\Http\WebResponse(ob_get_clean());
 }
 /**
-* redirect to uri in ajx context
-* @param mixed $uri
-* @return mixed
-*/
+ * redirect to uri in ajx context
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_ajx_redirect($uri = null)
 {
     if (igk_is_ajx_demand()) {
@@ -307,12 +308,12 @@ function igk_ajx_redirect($uri = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @param mixed $tagname
-* @param mixed $type
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @param mixed $tagname
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_ajx_render_response($tab, $tagname = "response", $type = IGK_CT_PLAIN_TEXT)
 {
     $r = igk_create_node($tagname);
@@ -327,11 +328,11 @@ function igk_ajx_render_response($tab, $tagname = "response", $type = IGK_CT_PLA
     $r->renderAJX();
 }
 /**
-* Replace controller view
-* @param mixed $ctrl  controller to use in replacement strategie.
-* @param mixed $view  demand to call the current view.
-* @return mixed
-*/
+ * Replace controller view
+ * @param mixed $ctrl  controller to use in replacement strategie.
+ * @param mixed $view  demand to call the current view.
+ * @return mixed
+ */
 function igk_ajx_replace_ctrl_view($ctrl, $view = 1)
 {
     if (!$ctrl)
@@ -345,13 +346,13 @@ function igk_ajx_replace_ctrl_view($ctrl, $view = 1)
     $ctrl->regSystemVars(null);
 }
 /**
-* render a replacement node
-* @param mixed $n node to replace in ajx context
-* @param mixed $target id to target
-* @param mixed $hash hash to pass to ajx context
-* @param mixed $render
-* @return mixed
-*/
+ * render a replacement node
+ * @param mixed $n node to replace in ajx context
+ * @param mixed $target id to target
+ * @param mixed $hash hash to pass to ajx context
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_ajx_replace_node($n, $target = null, $hash = null, $render = true)
 {
     $c = new HtmlAJXReplacementNode();
@@ -371,10 +372,10 @@ function igk_ajx_replace_node($n, $target = null, $hash = null, $render = true)
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_ajx_replace_uri($uri)
 {
     require_once IGK_LIB_DIR . "/igk_html_func_items.php";
@@ -383,12 +384,12 @@ function igk_ajx_replace_uri($uri)
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $classtype
-* @param mixed $noclose
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $classtype
+ * @param mixed $noclose
+ * @return mixed
+ */
 function igk_ajx_toast($msg, $classtype = null, $noclose = 0)
 {
     $ajx = igk_create_node("toast");
@@ -401,12 +402,12 @@ function igk_ajx_toast($msg, $classtype = null, $noclose = 0)
     $ajx->renderAJX();
 }
 /**
-* Represent igk_ajx_update function
-* @param mixed $uri
-* @param mixed $target
-* @param mixed $type
-* @return mixed
-*/
+ * Represent igk_ajx_update function
+ * @param mixed $uri
+ * @param mixed $target
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_ajx_update($uri, $target = 'body', $type = 'get')
 {
     if ($type != 'get') {
@@ -420,10 +421,10 @@ function igk_ajx_update($uri, $target = 'body', $type = 'get')
     igk_create_node("script")->setAttribute("autoremove", "true")->setContent("ns_igk.ajx.{$type}('$uri', null, {$target});")->renderAJX();
 }
 /**
-* show an alert to document information
-* @param mixed $msg
-* @return mixed
-*/
+ * show an alert to document information
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_alert($msg)
 {
     $frame = igk_html_frame(igk_getctrl(IGK_FRAME_CTRL), "alert_frame");
@@ -433,10 +434,10 @@ function igk_alert($msg)
     $frm->div()->Content = $msg;
 }
 /**
-* auto generate doc.
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_android_onrenderdoc($args)
 {
     $doc = $args->args[0];
@@ -474,10 +475,10 @@ function igk_android_onrenderdoc($args)
     }
 }
 /**
-* replace string to utf8
-* @param mixed $text
-* @return mixed
-*/
+ * replace string to utf8
+ * @param mixed $text
+ * @return mixed
+ */
 function igk_ansi2utf8($text)
 {
     $text = str_replace("¡", "\xc2\xa1", $text);
@@ -575,10 +576,10 @@ function igk_ansi2utf8($text)
     return $text;
 }
 /**
-* check if apache module is present
-* @param mixed $n
-* @return mixed
-*/
+ * check if apache module is present
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_apache_module($n)
 {
     if (function_exists("apache_get_modules")) {
@@ -592,46 +593,46 @@ function igk_apache_module($n)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_app_destroy()
 {
     return IGKApp::Destroy();
 }
 /**
-* get app environment key
-* @param mixed $app
-* @param mixed $key
-* @return mixed
-*/
+ * get app environment key
+ * @param mixed $app
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_app_env_key($app, $key)
 {
     return "app://" . $app->Name . "/" . $key;
 }
 /**
-* store system session key
-* @param mixed $app object setting
-* @return mixed
-*/
+ * store system session key
+ * @param mixed $app object setting
+ * @return mixed
+ */
 function igk_app_store_in_session($app)
 {
     $_SESSION[IGK_APP_SESSION_KEY] = $app;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_app_version()
 {
     return IGK_PLATEFORM_NAME . " " . IGK_VERSION;
 }
 /**
-* assert condition
-* @param bool $cond
-* @param string $msg
-* @return mixed
-*/
+ * assert condition
+ * @param bool $cond
+ * @param string $msg
+ * @return mixed
+ */
 function igk_assert_die(bool $cond, $msg)
 {
     if ($cond) {
@@ -639,20 +640,20 @@ function igk_assert_die(bool $cond, $msg)
     }
 }
 /**
-* Represent igk_assoc_keys function
-* @param mixed $n
-* @return mixed
-*/
+ * Represent igk_assoc_keys function
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_assoc_keys($n)
 {
     return json_encode(array_keys((array)$n));
 }
 /**
-* return the base uri name of a file
-* @param mixed $f
-* @param mixed $basedir
-* @return mixed
-*/
+ * return the base uri name of a file
+ * @param mixed $f
+ * @param mixed $basedir
+ * @return mixed
+ */
 function igk_base_uri_name($f, $basedir = null)
 {
     $s = $basedir ?? igk_io_basedir();
@@ -665,14 +666,14 @@ function igk_base_uri_name($f, $basedir = null)
     return $k;
 }
 /**
-* used to bind attribuyte to type
-* @param mixed $type
-* @param mixed $name
-* @param mixed $attribute
-* @param mixed $allowmultiple
-* @param mixed $inherits
-* @return mixed
-*/
+ * used to bind attribuyte to type
+ * @param mixed $type
+ * @param mixed $name
+ * @param mixed $attribute
+ * @param mixed $allowmultiple
+ * @param mixed $inherits
+ * @return mixed
+ */
 function igk_bind_attribute($type, $name, $attribute, $allowmultiple = true, $inherits = false)
 {
     switch ($type) {
@@ -684,22 +685,22 @@ function igk_bind_attribute($type, $name, $attribute, $allowmultiple = true, $in
     }
 }
 /**
-* shortcut to CssUtils::GetInlineStyleRendering
-* @param mixed $doc
-* @return mixed
-*/
+ * shortcut to CssUtils::GetInlineStyleRendering
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_bind_host_css_style($doc)
 {
     return CssUtils::GetInlineStyleRendering($doc, false);
 }
 /**
-* style function to bind file
-* @param string $file
-* @param ICssResourceResolver $doc
-* @param mixed $host
-* @param bool $themeexport
-* @return mixed
-*/
+ * style function to bind file
+ * @param string $file
+ * @param ICssResourceResolver $doc
+ * @param mixed $host
+ * @param bool $themeexport
+ * @return mixed
+ */
 function igk_bind_host_css_style_file(string $file, ICssResourceResolver $doc, $host, bool $themeexport)
 {
     $bvtheme = new HtmlDocTheme($doc->Parent, 'temp://files', false);
@@ -720,18 +721,18 @@ function igk_bind_host_css_style_file(string $file, ICssResourceResolver $doc, $
     return $o;
 }
 /**
-* Represent igk_bind_session_id function
-* @param mixed $id
-* @return mixed
-*/
+ * Represent igk_bind_session_id function
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_bind_session_id($id)
 {
     return @session_id($id);
 }
 /**
-* Represent igk_bind_sitemap function
-* @return mixed
-*/
+ * Represent igk_bind_sitemap function
+ * @return mixed
+ */
 function igk_bind_sitemap()
 {
     extract(igk_extract_ref(func_get_arg(0)));
@@ -758,10 +759,10 @@ function igk_bind_sitemap()
     }
 }
 /**
-* Represent igk_ca_edit_article function
-* @param mixed $file
-* @return mixed
-*/
+ * Represent igk_ca_edit_article function
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_ca_edit_article($file)
 {
     $ctrl = igk_getctrl(IGK_CA_CTRL);
@@ -781,20 +782,20 @@ function igk_cache()
     return IGKCaches::getInstance();
 }
 /**
-* Represent igk_cache_array_content function
-* @param string $m
-* @param mixed $fc
-* @return mixed
-*/
+ * Represent igk_cache_array_content function
+ * @param string $m
+ * @param mixed $fc
+ * @return mixed
+ */
 function igk_cache_array_content(string $m, $fc = null)
 {
     return \IGK\System\IO\File\PHPScriptBuilderUtility::GetArrayReturn($m, $fc);
 }
 /**
-* helper: check for cache expire
-* @param mixed $o time {date:string, duration:int} 
-* @return mixed
-*/
+ * helper: check for cache expire
+ * @param mixed $o time {date:string, duration:int} 
+ * @return mixed
+ */
 function igk_cache_expired($o)
 {
     $n = igk_date_now();
@@ -804,13 +805,13 @@ function igk_cache_expired($o)
     return $b > $o->duration;
 }
 /**
-* generate cache from folder
-* @param string $sourcedir
-* @param string $cachedir
-* @param mixed $mergescript
-* @param mixed $resregex
-* @return mixed
-*/
+ * generate cache from folder
+ * @param string $sourcedir
+ * @param string $cachedir
+ * @param mixed $mergescript
+ * @param mixed $resregex
+ * @return mixed
+ */
 function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript = null, $resregex = "/\.(js(on)?)$/")
 {
     $ln = strlen($sourcedir) + 1;
@@ -873,20 +874,20 @@ function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript =
     }
 }
 /**
-* Represent igk_cache_get_ctrl_info function
-* @param mixed $className
-* @param BaseController $ctrl
-* @return mixed
-*/
+ * Represent igk_cache_get_ctrl_info function
+ * @param mixed $className
+ * @param BaseController $ctrl
+ * @return mixed
+ */
 function igk_cache_get_ctrl_info($className, BaseController $ctrl)
 {
     return implode("|", [$className, $ctrl->getConfigs()->clRegisterName, $ctrl->getName()]);
 }
 /**
-* core cache handle base on request uri
-* @param ?string $uri
-* @return mixed
-*/
+ * core cache handle base on request uri
+ * @param ?string $uri
+ * @return mixed
+ */
 function igk_cache_handle($uri = null)
 {
     if ($uri == null)
@@ -900,12 +901,12 @@ function igk_cache_handle($uri = null)
     }
 }
 /**
-* Represent igk_cache_js_callback function
-* @param mixed $file
-* @param mixed $cfile
-* @param mixed $mergescallback
-* @return mixed
-*/
+ * Represent igk_cache_js_callback function
+ * @param mixed $file
+ * @param mixed $cfile
+ * @param mixed $mergescallback
+ * @return mixed
+ */
 function igk_cache_js_callback($file, $cfile, $mergescallback)
 {
     $ext = igk_io_path_ext(basename($file));
@@ -936,10 +937,10 @@ function igk_call_env_closure($n, ...$args)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $callable
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callable
+ * @return mixed
+ */
 function igk_callable_id($callable)
 {
     if (is_string($callable) && is_callable($callable))
@@ -955,11 +956,11 @@ function igk_callable_id($callable)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $parentName
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $parentName
+ * @return mixed
+ */
 function igk_can_set_ctrlparent($ctrl, $parentName)
 {
     $p = igk_getctrl($parentName, false);
@@ -971,27 +972,27 @@ function igk_can_set_ctrlparent($ctrl, $parentName)
     return true;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_cancel_last_ref_number()
 {
     $ct = igk_getctrl(IGK_UCB_REF_CTRL);
     $ct->cancel_last_ref_number();
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_check_ie_version($v = 11)
 {
     return igk_agent_isie() ? (explode("/", igk_agent_ieversion())[0] <= $v) : 0;
 }
 /**
-* Represent igk_clean_globals function
-* @return mixed
-*/
+ * Represent igk_clean_globals function
+ * @return mixed
+ */
 function igk_clean_globals()
 {
     $g = array_diff(array_keys($GLOBALS), explode("|", "_GET|_POST|_COOKIE|_FILES|_SERVER|_REQUEST|GLOBALS|_SESSION"));
@@ -1000,17 +1001,17 @@ function igk_clean_globals()
     }
 }
 /**
-* short cut to clear cache
-* @return mixed
-*/
+ * short cut to clear cache
+ * @return mixed
+ */
 function igk_clear_cache()
 {
     \IGK\Helper\SysUtils::ClearCache();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_clear_config_session()
 {
     $ctrl = igk_getconfigwebpagectrl();
@@ -1023,10 +1024,10 @@ function igk_clear_config_session()
     igk_getctrl(IGK_SESSION_CTRL)->ClearS(false);
 }
 /**
-* clear cookie
-* @param string $name cookie's name
-* @return mixed
-*/
+ * clear cookie
+ * @param string $name cookie's name
+ * @return mixed
+ */
 function igk_clear_cookie($name)
 {
     $m = igk_get_cookie_name(igk_sys_domain_name() . "/" . $name);
@@ -1036,10 +1037,10 @@ function igk_clear_cookie($name)
         unset($_COOKIE[$m]);
 }
 /**
-* clear header list
-* @param mixed $ignorelist
-* @return mixed
-*/
+ * clear header list
+ * @param mixed $ignorelist
+ * @return mixed
+ */
 function igk_clear_header_list($ignorelist = null)
 {
     $ignorelist = $ignorelist ?? igk_get_env("sys://headers/ignorelist");
@@ -1052,9 +1053,9 @@ function igk_clear_header_list($ignorelist = null)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_clearall_cookie()
 {
     $tab = $_COOKIE;
@@ -1064,9 +1065,9 @@ function igk_clearall_cookie()
     }
 }
 /**
-* close the current session id
-* @return mixed
-*/
+ * close the current session id
+ * @return mixed
+ */
 function igk_close_session()
 {
     if ($sess = igk_app()->getApplication()->getLibrary()->session) {
@@ -1074,11 +1075,11 @@ function igk_close_session()
     }
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @param mixed $c
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @param mixed $c
+ * @return mixed
+ */
 function igk_cmp_array_value($v, $c)
 {
     if (is_array($v) && is_array($c)) {
@@ -1096,11 +1097,11 @@ function igk_cmp_array_value($v, $c)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $o
-* @param mixed $i
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $o
+ * @param mixed $i
+ * @return mixed
+ */
 function igk_cmp_refobj($o, $i)
 {
     if (($o == null) && ($i == null))
@@ -1114,11 +1115,11 @@ function igk_cmp_refobj($o, $i)
     return $r;
 }
 /**
-* compare two version
-* @param mixed $v1
-* @param mixed $v2
-* @return mixed
-*/
+ * compare two version
+ * @param mixed $v1
+ * @param mixed $v2
+ * @return mixed
+ */
 function igk_cmp_version($v1, $v2)
 {
     while (($tb1 = explode(".", trim($v1))) && count($tb1) < 4) {
@@ -1143,36 +1144,36 @@ function igk_cmp_version($v1, $v2)
     return strcmp($v1, $v2);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_community_get_followus_service()
 {
     return igk_get_env(Path::Combine(IGK_SERVICE_PREFIX_PATH, "/community/followus"));
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_community_register_followus_service($name, $callback)
 {
     return igk_register_service('community/followus', $name, $callback);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_conf_canconfigure()
 {
     return igk_getctrl(IGK_CONF_CTRL)->getCanConfigure();
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_conf_get_expression($s)
 {
     $tab = array();
@@ -1217,12 +1218,12 @@ function igk_conf_get_expression($s)
     return (object)$tab;
 }
 /**
-* get if configuration match the request
-* @param mixed $t
-* @param mixed $n
-* @param mixed $op
-* @return mixed
-*/
+ * get if configuration match the request
+ * @param mixed $t
+ * @param mixed $n
+ * @param mixed $op
+ * @return mixed
+ */
 function igk_conf_match($t, $n, $op)
 {
     if (isset($t->$n)) {
@@ -1240,12 +1241,12 @@ function igk_conf_match($t, $n, $op)
     return 0;
 }
 /**
-* set object at igkXpath selection model
-* @param mixed & $obj
-* @param mixed $data
-* @param mixed $path
-* @return mixed
-*/
+ * set object at igkXpath selection model
+ * @param mixed & $obj
+ * @param mixed $data
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_conf_set(&$obj, $data, $path)
 {
     $c = explode("/", $path);
@@ -1262,12 +1263,12 @@ function igk_conf_set(&$obj, $data, $path)
     }
 }
 /**
-* store config value to node
-* @param mixed $d
-* @param mixed $k
-* @param mixed $v node where to add object
-* @return mixed
-*/
+ * store config value to node
+ * @param mixed $d
+ * @param mixed $k
+ * @param mixed $v node where to add object
+ * @return mixed
+ */
 function igk_conf_store_value($d, $k, $v)
 {
     $bindv = function ($c, $v) {
@@ -1322,28 +1323,39 @@ function igk_conf_store_value($d, $k, $v)
                 $bindv($c, $v);
             }
         } else if (is_array($v)) {
-            $name = $k;
-            foreach ($v as $k => $v) {
-                $n = $d->add($name);
-                $bindv($n, $v);
-            }
+            igk_conf_bind($bindv, $v, $k, $d);
         }
     }
 }
 /**
-* unset all object found in igkXpath selection model
-* @param mixed & $obj
-* @param mixed $path
-* @return mixed
+* auto generate doc.
+* @param Closure $bindv
+* @param array $tab
+* @param mixed $name
+* @param mixed $node
+* @return void
 */
+function igk_conf_bind(closure $bindv, array $tab, string $name, $node)
+{
+    foreach ($tab as $v) {
+        $n = $node->add($name);
+        $bindv($n, $v);
+    }
+}
+/**
+ * unset all object found in igkXpath selection model
+ * @param mixed & $obj
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_conf_unset(&$obj, $path)
 {
     throw new IGKException("Not Implement " . __FUNCTION__);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_config_php_index_content()
 {
     $index_file = "index.php";
@@ -1373,28 +1385,28 @@ ETF;
     return $v;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_core_dist_jscache()
 {
     return igk_io_cacheddist_jsdir() . "/core/balafon.js";
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_create_action_reponse()
 {
     return igk_createobj(array("msg" => "Success", "type" => "igk-default"));
 }
 /**
-* crate a adapter from class name
-* @param mixed $n
-* @param mixed $ctrl
-* @param mixed $params
-* @return mixed
-*/
+ * crate a adapter from class name
+ * @param mixed $n
+ * @param mixed $ctrl
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_create_adapter_from_classname($n, $ctrl = null, $params = null)
 {
     $out = new $n(!is_string($ctrl) ? $ctrl : null);
@@ -1408,11 +1420,11 @@ function igk_create_adapter_from_classname($n, $ctrl = null, $params = null)
     return $out;
 }
 /**
-* create an attribute to render value by calling callback
-* @param mixed $n  name or array callback
-* @param mixed $attrs
-* @return mixed
-*/
+ * create an attribute to render value by calling callback
+ * @param mixed $n  name or array callback
+ * @param mixed $attrs
+ * @return mixed
+ */
 function igk_create_attr_callback($n, $attrs)
 {
     $s = null;
@@ -1427,11 +1439,11 @@ function igk_create_attr_callback($n, $attrs)
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_create_component_callback($classname, $callback)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
@@ -1443,9 +1455,9 @@ function igk_create_component_callback($classname, $callback)
     return $t[$classname];
 }
 /**
-* get single cref id for app
-* @return mixed
-*/
+ * get single cref id for app
+ * @return mixed
+ */
 function igk_create_cref()
 {
     static $cref;
@@ -1455,10 +1467,10 @@ function igk_create_cref()
     return $cref;
 }
 /**
-* create a dynamic object with the array data
-* @param mixed $data
-* @return mixed
-*/
+ * create a dynamic object with the array data
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_create_dynamic($data)
 {
     $m = new IGKDynamicObject();
@@ -1466,11 +1478,11 @@ function igk_create_dynamic($data)
     return $m;
 }
 /**
-* used to create a evaluable expression callback
-* @param mixed $exp
-* @param mixed $param
-* @return mixed
-*/
+ * used to create a evaluable expression callback
+ * @param mixed $exp
+ * @param mixed $param
+ * @return mixed
+ */
 function igk_create_expression_callback($exp, $param = null)
 {
     return (object)array(
@@ -1481,13 +1493,13 @@ function igk_create_expression_callback($exp, $param = null)
     );
 }
 /**
-* create a file callback object
-* @param mixed $ctrl
-* @param mixed $file
-* @param mixed $func
-* @param mixed $param
-* @return mixed
-*/
+ * create a file callback object
+ * @param mixed $ctrl
+ * @param mixed $file
+ * @param mixed $func
+ * @param mixed $param
+ * @return mixed
+ */
 function igk_create_file_callback($ctrl, $file, $func = null, $param = null)
 {
     return (object)array(
@@ -1500,11 +1512,11 @@ function igk_create_file_callback($ctrl, $file, $func = null, $param = null)
     );
 }
 /**
-* used to create a filtered object
-* @param mixed $n
-* @param mixed $initarray
-* @return mixed
-*/
+ * used to create a filtered object
+ * @param mixed $n
+ * @param mixed $initarray
+ * @return mixed
+ */
 function igk_create_filterobject($n, $initarray)
 {
     if (!isset($n) || ($n == null))
@@ -1521,11 +1533,11 @@ function igk_create_filterobject($n, $initarray)
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $func
-* @param mixed $param
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $func
+ * @param mixed $param
+ * @return mixed
+ */
 function igk_create_func_callback($func, $param = null)
 {
     return (object)array(
@@ -1536,9 +1548,9 @@ function igk_create_func_callback($func, $param = null)
     );
 }
 /**
-* create guid value {xxxx-xxxx-}
-* @return mixed
-*/
+ * create guid value {xxxx-xxxx-}
+ * @return mixed
+ */
 function igk_create_guid()
 {
     if (function_exists("com_create_guid")) {
@@ -1551,33 +1563,33 @@ function igk_create_guid()
     return $uuid;
 }
 /**
-* get guid value and remove the {...}
-* @return mixed
-*/
+ * get guid value and remove the {...}
+ * @return mixed
+ */
 function igk_create_guid_value()
 {
     $g = igk_create_guid();
     return substr($g, 1, -1);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $args
-* @param mixed $initcallback
-* @param mixed $class
-* @param mixed $context
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $args
+ * @param mixed $initcallback
+ * @param mixed $class
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_create_html_component($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
 {
     return HtmlUtils::CreateHtmlComponent($name, $args, $initcallback, $class);
 }
 /**
-* auto generate doc.
-* @param mixed $fcname
-* @param mixed $node
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $fcname
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_create_invoke_callback($fcname, $node)
 {
     $t = array("fc" => $fcname, "n" => $node);
@@ -1586,10 +1598,10 @@ function igk_create_invoke_callback($fcname, $node)
     return igk_create_expression_callback("return \$invokeParam(\$obj,\$fc,null,1);", $t);
 }
 /**
-* auto generate doc.
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_create_module($path)
 {
     $v_k = "sys://require_mods";
@@ -1606,11 +1618,11 @@ function igk_create_module($path)
     return 1;
 }
 /**
-* auto generate doc.
-* @param mixed $callable
-* @param mixed $params
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callable
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_create_node_callback($callable, $params = null)
 {
     return (object)array(
@@ -1621,11 +1633,11 @@ function igk_create_node_callback($callable, $params = null)
     );
 }
 /**
-* create a session instance object
-* @param mixed $n identifier of the object
-* @param mixed $callback mixed callable|classname callback object
-* @return mixed
-*/
+ * create a session instance object
+ * @param mixed $n identifier of the object
+ * @param mixed $callback mixed callable|classname callback object
+ * @return mixed
+ */
 function igk_create_session_instance($n, $callback)
 {
     $create_instance = function ($callback) {
@@ -1646,9 +1658,9 @@ function igk_create_session_instance($n, $callback)
     return $o;
 }
 /**
-* Represent igk_create_view_builder_option function
-* @return mixed
-*/
+ * Represent igk_create_view_builder_option function
+ * @return mixed
+ */
 function igk_create_view_builder_option()
 {
     return (object)["PHP.SkipComment" => true];
@@ -1667,12 +1679,12 @@ function igk_create_additional_config_info($tab): \IGK\System\Project\Configurat
     return $o;
 }
 /**
-* helper: create an article node
-* @param mixed $ctrl
-* @param mixed $article
-* @param mixed $raw
-* @return mixed
-*/
+ * helper: create an article node
+ * @param mixed $ctrl
+ * @param mixed $article
+ * @param mixed $raw
+ * @return mixed
+ */
 function igk_create_articlenode($ctrl, $article, $raw)
 {
     $n = igk_create_node("div");
@@ -1680,12 +1692,12 @@ function igk_create_articlenode($ctrl, $article, $raw)
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $attributes
-* @param mixed $index
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $attributes
+ * @param mixed $index
+ * @return mixed
+ */
 function igk_createforminput($name, $attributes = null, $index = null)
 {
     $d = igk_create_node();
@@ -1696,11 +1708,11 @@ function igk_createforminput($name, $attributes = null, $index = null)
     return $d;
 }
 /**
-* create loading article context
-* @param mixed $ctrl
-* @param ?array $raw
-* @return \IGK\System\Html\HtmlLoadingContextOptions
-*/
+ * create loading article context
+ * @param mixed $ctrl
+ * @param ?array $raw
+ * @return \IGK\System\Html\HtmlLoadingContextOptions
+ */
 function igk_createloading_context($ctrl, ?array $raw = null): HtmlLoadingContextOptions
 {
     $t = new \IGK\System\Html\HtmlLoadingContextOptions;
@@ -1710,12 +1722,12 @@ function igk_createloading_context($ctrl, ?array $raw = null): HtmlLoadingContex
     return $t;
 }
 /**
-* shorcut to create a balafon web node. helper
-* @param mixed $tagname
-* @param array $attributes associative array of attribute
-* @param array $index_or_args index of arguments
-* @return \IGK\System\Html\Dom\HtmlItemBase web node
-*/
+ * shorcut to create a balafon web node. helper
+ * @param mixed $tagname
+ * @param array $attributes associative array of attribute
+ * @param array $index_or_args index of arguments
+ * @return \IGK\System\Html\Dom\HtmlItemBase web node
+ */
 function igk_create_node($tagname = "div", $attributes = null, $index_or_args = null)
 {
     return HtmlNode::CreateWebNode($tagname, $attributes, $index_or_args);
@@ -1752,10 +1764,10 @@ function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_create_node_with_package($args = null)
 {
     $package = igk_get_current_package();
@@ -1777,19 +1789,19 @@ function igk_create_node_with_package($args = null)
     return null;
 }
 /**
-* Represent igk_create_notagnode function
-* @return mixed
-*/
+ * Represent igk_create_notagnode function
+ * @return mixed
+ */
 function igk_create_notagnode()
 {
     return new \IGK\System\Html\Dom\HtmlNoTagNode();
 }
 /**
-* create an object by keys
-* @param mixed $keys
-* @param mixed $default
-* @return mixed
-*/
+ * create an object by keys
+ * @param mixed $keys
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_createobj_array($keys, $default = null)
 {
     $o = igk_createobj();
@@ -1799,11 +1811,11 @@ function igk_createobj_array($keys, $default = null)
     return $o;
 }
 /**
-* create filtered object
-* @param mixed $src source data
-* @param string|array $filter filtered data
-* @return mixed
-*/
+ * create filtered object
+ * @param mixed $src source data
+ * @param string|array $filter filtered data
+ * @return mixed
+ */
 function igk_createobj_filter($src, $filter)
 {
     $o = igk_createobj();
@@ -1834,13 +1846,13 @@ function igk_createobjstorage($tab = null)
     return new \IGKObjStorage($tab);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $options
-* @param mixed $selected
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $options
+ * @param mixed $selected
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_createselectinput($name, $options, $selected = null, $callback = null)
 {
     $d = igk_create_node();
@@ -1861,20 +1873,20 @@ function igk_createselectinput($name, $options, $selected = null, $callback = nu
     return $d;
 }
 /**
-* auto generate doc.
-* @param mixed $txt the default value is null
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $txt the default value is null
+ * @return mixed
+ */
 function igk_createtextnode($txt = null)
 {
     $n = new HtmlTextNode($txt);
     return $n;
 }
 /**
-* store config data
-* @param mixed $data
-* @return mixed
-*/
+ * store config data
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_createxml_config_data($data)
 {
     $d = igk_create_xmlnode("config");
@@ -1884,24 +1896,24 @@ function igk_createxml_config_data($data)
     return $d;
 }
 /**
-* Represent igk_createxml_document function
-* @param 77  $tagName
-* @param 77  $docType the default value is null
-* @return mixed
-*/
+ * Represent igk_createxml_document function
+ * @param 77  $tagName
+ * @param 77  $docType the default value is null
+ * @return mixed
+ */
 function igk_createxml_document($tagName, $docType = null)
 {
     $c = new \IGK\System\Html\XML\XmlDocument($tagName, $docType);
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $name
-* @param mixed $file
-* @param mixed $format
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $name
+ * @param mixed $file
+ * @param mixed $format
+ * @return mixed
+ */
 function igk_css_add_tempfont($doc, $name, $file, $format = "TrueType")
 {
     $f = $doc->Theme;
@@ -1918,10 +1930,10 @@ function igk_css_add_tempfont($doc, $name, $file, $format = "TrueType")
     $r->Fonts[$file] = (object)array("File" => $file, "format" => $format);
 }
 /**
-* bind .pcss file for ajx content
-* @param mixed $f
-* @return mixed
-*/
+ * bind .pcss file for ajx content
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_css_ajx_bind_file($f)
 {
     $b = igk_get_env(IGK_AJX_BINDSTYLES, function () {
@@ -1940,11 +1952,11 @@ function igk_css_ajx_bind_file($f)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_css_append($name, $value)
 {
     $igk = igk_app();
@@ -1953,11 +1965,11 @@ function igk_css_append($name, $value)
     $igk->getDoc()->Theme->Append[$name] = $value;
 }
 /**
-* get request uri controller
-* @param ?string $ref
-* @param ?string $uri
-* @return mixed
-*/
+ * get request uri controller
+ * @param ?string $ref
+ * @param ?string $uri
+ * @return mixed
+ */
 function igk_css_request_ctrl(?string $ref = null, ?string $uri = null): ?BaseController
 {
     $c = igk_sys_get_projects_controllers();
@@ -1976,10 +1988,10 @@ function igk_css_request_ctrl(?string $ref = null, ?string $uri = null): ?BaseCo
     return $ctrl;
 }
 /**
-* render css text
-* @param mixed $text
-* @return mixed
-*/
+ * render css text
+ * @param mixed $text
+ * @return mixed
+ */
 function igk_css($text)
 {
     header("Content-Type: text/css");
@@ -1987,12 +1999,12 @@ function igk_css($text)
     igk_exit();
 }
 /**
-* auto generate doc.
-* @param mixed $dir base directory
-* @param mixed $debug
-* @param ?bool $minfile
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir base directory
+ * @param mixed $debug
+ * @param ?bool $minfile
+ * @return mixed
+ */
 function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null)
 {
     // + |
@@ -2127,21 +2139,21 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     igk_do_response($m);
 }
 /**
-* auto generate doc.
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_css_bind_color_request($callback)
 {
     igk_set_env("sys://css/bind_colorrequest", $callback);
 }
 /**
-* bind css file
-* @param HtmlDocTheme $theme for binding
-* @param BaseController $ctrl the global controller used to bind the css theme file
-* @param ?string $file
-* @return mixed
-*/
+ * bind css file
+ * @param HtmlDocTheme $theme for binding
+ * @param BaseController $ctrl the global controller used to bind the css theme file
+ * @param ?string $file
+ * @return mixed
+ */
 function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, ?string $file = null)
 {
     $autoload = false;
@@ -2197,11 +2209,11 @@ function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, ?string $
     $layout && $layout->styleLoaded($f);
 }
 /**
-* helper: bind system global files
-* @param mixed $theme
-* @param mixed $bindfile
-* @return mixed
-*/
+ * helper: bind system global files
+ * @param mixed $theme
+ * @param mixed $bindfile
+ * @return mixed
+ */
 function igk_css_bind_sys_global_files($theme = null, $bindfile = 1)
 {
     $doc = igk_app()->getDoc();
@@ -2218,12 +2230,12 @@ function igk_css_bind_sys_global_files($theme = null, $bindfile = 1)
     }
 }
 /**
-* bind single line struct
-* @param IGKHtmlDoc $doc
-* @param mixed $th
-* @param mixed $files
-* @return mixed
-*/
+ * bind single line struct
+ * @param IGKHtmlDoc $doc
+ * @param mixed $th
+ * @param mixed $files
+ * @return mixed
+ */
 function igk_css_bind_theme_file(IGKHtmlDoc $doc, $th, $files)
 {
     $f = igk_io_expand_path($files);
@@ -2242,14 +2254,14 @@ function igk_css_bind_theme_file(IGKHtmlDoc $doc, $th, $files)
     }
 }
 /**
-* bind file from theme
-* @param HtmlDocTheme $theme
-* @param ?string $files
-* @example `default.pcss[|ctrl];main.pcss`
-* @var HtmlDocTheme $them
-* @var ?string $files ; separated theme files
-* @return mixed
-*/
+ * bind file from theme
+ * @param HtmlDocTheme $theme
+ * @param ?string $files
+ * @example `default.pcss[|ctrl];main.pcss`
+ * @var HtmlDocTheme $them
+ * @var ?string $files ; separated theme files
+ * @return mixed
+ */
 function igk_css_bind_theme_files(HtmlDocTheme $theme, ?string $files = null)
 {
     $files = $files ?? $theme->getDef()->getFiles() ?? "";
@@ -2269,12 +2281,12 @@ function igk_css_bind_theme_files(HtmlDocTheme $theme, ?string $files = null)
     }
 }
 /**
-* bind extra style to document
-* @param mixed $document
-* @param mixed $ctrl
-* @param mixed $type
-* @return mixed
-*/
+ * bind extra style to document
+ * @param mixed $document
+ * @param mixed $ctrl
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_css_bind_wuistyle($document, $ctrl, $type)
 {
     $f = igk_realpath($ctrl->getStylesDir() . '/' . $type . '.' . IGK_DEFAULT_STYLE_EXT);
@@ -2284,11 +2296,11 @@ function igk_css_bind_wuistyle($document, $ctrl, $type)
     return 1;
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_css_bind_wuistyle_file($doc, $f)
 {
     if (igk_is_ajx_demand()) {
@@ -2301,10 +2313,10 @@ function igk_css_bind_wuistyle_file($doc, $f)
     return 1;
 }
 /**
-* eval class state and return the affected value
-* @param mixed $properties
-* @return mixed
-*/
+ * eval class state and return the affected value
+ * @param mixed $properties
+ * @return mixed
+ */
 function igk_css_class_state($properties)
 {
     $o = "";
@@ -2321,12 +2333,12 @@ function igk_css_class_state($properties)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $value
-* @param mixed $gcl
-* @param mixed $v_designmode
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $value
+ * @param mixed $gcl
+ * @param mixed $v_designmode
+ * @return mixed
+ */
 function igk_css_design_color_value($value, $gcl, $v_designmode)
 {
     if ($v_designmode) {
@@ -2336,20 +2348,20 @@ function igk_css_design_color_value($value, $gcl, $v_designmode)
     return $b;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_design_mode()
 {
     return igk_app()->session->CssDesignMode ?? false;
 }
 /**
-* auto generate doc.
-* @param mixed $value
-* @param mixed $properties
-* @param mixed $v_designmode
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $value
+ * @param mixed $properties
+ * @param mixed $v_designmode
+ * @return mixed
+ */
 function igk_css_design_property_value($value, $properties, $v_designmode)
 {
     if ($v_designmode) {
@@ -2405,21 +2417,21 @@ function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_css_get_cl($key)
 {
     $theme = igk_app()->getDoc()->SysTheme;
     return igk_getv($theme->cl, $key);
 }
 /**
-* auto generate doc.
-* @param mixed $clname
-* @param mixed $defaultvalue
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $clname
+ * @param mixed $defaultvalue
+ * @return mixed
+ */
 function igk_css_get_color($clname, $defaultvalue = null)
 {
     $t = igk_css_get_color_value($clname);
@@ -2428,11 +2440,11 @@ function igk_css_get_color($clname, $defaultvalue = null)
     return $defaultvalue;
 }
 /**
-* auto generate doc.
-* @param mixed $clname
-* @param mixed & $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $clname
+ * @param mixed & $tab
+ * @return mixed
+ */
 function igk_css_get_color_value($clname, &$tab = null)
 {
     $colors = &$tab;
@@ -2448,12 +2460,12 @@ function igk_css_get_color_value($clname, &$tab = null)
     return igk_css_treatcolor($colors, $clname);
 }
 /**
-* get css document style definition
-* @param mixed $doc
-* @param mixed $minfile
-* @param mixed $themeexport
-* @return mixed
-*/
+ * get css document style definition
+ * @param mixed $doc
+ * @param mixed $minfile
+ * @param mixed $themeexport
+ * @return mixed
+ */
 function igk_css_get_doc_style_def($doc, $minfile, $themeexport)
 {
     $o = IGK_STR_EMPTY;
@@ -2473,12 +2485,12 @@ function igk_css_get_doc_style_def($doc, $minfile, $themeexport)
     return $o;
 }
 /**
-* get font definition utility
-* @param string $name
-* @param mixed $definition
-* @param mixed $lineseparator
-* @return ?string
-*/
+ * get font definition utility
+ * @param string $name
+ * @param mixed $definition
+ * @param mixed $lineseparator
+ * @return ?string
+ */
 function igk_css_get_fontdef($name, $definition, $lineseparator = IGK_STR_EMPTY)
 {
     $out = IGK_STR_EMPTY;
@@ -2533,17 +2545,17 @@ function igk_css_get_fontdef($name, $definition, $lineseparator = IGK_STR_EMPTY)
     return $out;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_get_from()
 {
     return igk_get_env("sys://css/from");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_get_map_selector()
 {
     $selector = array();
@@ -2574,32 +2586,32 @@ function igk_css_get_map_selector()
     return $selector;
 }
 /**
-* auto generate doc.
-* @param mixed $propname
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $propname
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_css_get_resolv_style($propname, $value)
 {
     return "-webkit-{$propname}: {$value};-ms-{$propname}:{$value}; -moz-{$propname}:{$value}; -o-{$propname}: {$value}; {$propname}: {$value};";
 }
 /**
-* auto generate doc.
-* @param mixed $propnameValue
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $propnameValue
+ * @return mixed
+ */
 function igk_css_get_resolv_stylei($propnameValue)
 {
     $propnameValue = igk_str_rm_last(trim($propnameValue), ";");
     return "-webkit-{$propnameValue}; -ms-{$propnameValue}; -moz-{$propnameValue}; -o-{$propnameValue}; {$propnameValue};";
 }
 /**
-* get style for glack
-* @param string $classname
-* @param mixed $theme
-* @param mixed $systheme
-* @return mixed
-*/
+ * get style for glack
+ * @param string $classname
+ * @param mixed $theme
+ * @param mixed $systheme
+ * @return mixed
+ */
 function igk_css_get_style(string $classname, $theme = null, $systheme = null)
 {
     $igk = igk_app();
@@ -2624,7 +2636,7 @@ function igk_css_get_style(string $classname, $theme = null, $systheme = null)
 * get css style from map
 * @param mixed $node
 * @param mixed & $options
-* @param mixed $options
+* @param mixed $style
 * @return mixed
 */
 function igk_css_get_style_from_map($node, &$options = null, $style = null)
@@ -2662,10 +2674,10 @@ function igk_css_get_style_from_map($node, &$options = null, $style = null)
     return null;
 }
 /**
-* shortcut to get system media
-* @param mixed $id
-* @return mixed
-*/
+ * shortcut to get system media
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_css_get_sys_media($id)
 {
     $igk = igk_app();
@@ -2674,10 +2686,10 @@ function igk_css_get_sys_media($id)
     return $igk->getDoc()->SysTheme->getMedia($id);
 }
 /**
-* auto generate doc.
-* @param mixed $theme
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $theme
+ * @return mixed
+ */
 function igk_css_get_theme_files($theme)
 {
     $lfile = explode(";", igk_io_expand_path($theme->def->getFiles()));
@@ -2693,13 +2705,13 @@ function igk_css_get_theme_files($theme)
     return $t;
 }
 /**
-* get base style definition
-* @param IGKHtmlDoc $doc
-* @param bool $no_systheme
-* @param bool $minfile
-* @param bool $themeexport
-* @return mixed
-*/
+ * get base style definition
+ * @param IGKHtmlDoc $doc
+ * @param bool $no_systheme
+ * @param bool $minfile
+ * @param bool $themeexport
+ * @return mixed
+ */
 function igk_css_get_basedef(IGKHtmlDoc $doc, bool $no_systheme = false, bool $minfile = false, bool $themeexport = false)
 {
     ob_clean();
@@ -2730,10 +2742,10 @@ function igk_css_get_basedef(IGKHtmlDoc $doc, bool $no_systheme = false, bool $m
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_css_get_bg_size($v)
 {
     $o = IGK_STR_EMPTY;
@@ -2744,13 +2756,13 @@ function igk_css_get_bg_size($v)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @param bool $themexport
-* @param mixed $theme
-* @param mixed $systheme
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @param bool $themexport
+ * @param mixed $theme
+ * @param mixed $systheme
+ * @return mixed
+ */
 function igk_css_get_bgcl($v, bool $themexport, $theme, $systheme = null)
 {
     if (empty($v))
@@ -2761,10 +2773,10 @@ function igk_css_get_bgcl($v, bool $themexport, $theme, $systheme = null)
     return "background-color: " . $v . ";";
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_css_get_bordercl($v)
 {
     if (empty($v))
@@ -2772,9 +2784,9 @@ function igk_css_get_bordercl($v)
     return "border-color: " . $v . ";";
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_get_default_style()
 {
     $v = <<<ETF
@@ -2783,12 +2795,12 @@ ETF;
     return $v;
 }
 /**
-* get fore color
-* @param mixed $v
-* @param mixed $theme
-* @param mixed $systheme
-* @return mixed
-*/
+ * get fore color
+ * @param mixed $v
+ * @param mixed $theme
+ * @param mixed $systheme
+ * @return mixed
+ */
 function igk_css_get_fcl(string $v, $theme, $systheme)
 {
     $h = igk_css_treat($v, false, $theme, $systheme);
@@ -2799,10 +2811,10 @@ function igk_css_get_fcl(string $v, $theme, $systheme)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_css_get_font($v)
 {
     if (empty($v))
@@ -2810,18 +2822,18 @@ function igk_css_get_font($v)
     return "font-family: \"" . $v . "\";";
 }
 /**
-* get document theme media
-* @param mixed $id
-* @return mixed
-*/
+ * get document theme media
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_css_get_media($id)
 {
     return igk_app()->getDoc()->getTheme()->getMedia($id);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_header_comment()
 {
     $const = "constant";
@@ -2833,38 +2845,38 @@ EOF;
     return $o;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_ie11()
 {
     return defined("IGK_IE11_ENGINE") || igk_check_ie_version();
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed & $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed & $tab
+ * @return mixed
+ */
 function igk_css_include_cache($file, &$tab)
 {
     include($file);
 }
 /**
-* init css style
-* @param mixed $doc
-* @return mixed
-*/
+ * init css style
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_css_init_doc($doc)
 {
     $doc->Theme->resetAll();
 }
 /**
-* init style definition on document theme
-* @param mixed $doc
-* @param mixed $theme
-* @return mixed
-*/
+ * init style definition on document theme
+ * @param mixed $doc
+ * @param mixed $theme
+ * @return mixed
+ */
 function igk_css_init_style_def_workflow($doc, $theme = null)
 {
     $theme = $theme ?? $doc->getTheme();
@@ -2881,10 +2893,10 @@ function igk_css_init_style_def_workflow($doc, $theme = null)
     return array("name" => $v_name, "theme" => $theme);
 }
 /**
-* auto generate doc.
-* @param mixed $r
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $r
+ * @return mixed
+ */
 function igk_css_invoke_color_request($r)
 {
     $callback = igk_get_env("sys://css/bind_colorrequest");
@@ -2894,11 +2906,11 @@ function igk_css_invoke_color_request($r)
     return null;
 }
 /**
-* check if is known color
-* @param mixed $cl
-* @param mixed $theme
-* @return mixed
-*/
+ * check if is known color
+ * @param mixed $cl
+ * @param mixed $theme
+ * @return mixed
+ */
 function igk_css_is_webknowncolor($cl, $theme = null)
 {
     if ($cl && preg_match("/#([0-9a-f]{3}|[0-9a-f]{6})$/i", $cl)) {
@@ -2915,11 +2927,11 @@ function igk_css_is_webknowncolor($cl, $theme = null)
     return 0;
 }
 /**
-* log global theme definition used to bind a theme files to a theme
-* @param mixed $th
-* @param ?string $gt
-* @return mixed
-*/
+ * log global theme definition used to bind a theme files to a theme
+ * @param mixed $th
+ * @param ?string $gt
+ * @return mixed
+ */
 function igk_css_load_theme($th = null, ?string $gt = null)
 {
     $gt = $gt ?? igk_web_get_config("globaltheme", 'default');
@@ -2942,11 +2954,11 @@ function igk_css_load_theme($th = null, ?string $gt = null)
     igk_include_file($f, $t);
 }
 /**
-* bind css inline file
-* @param mixed $f full path to pcss file
-* @param mixed & $from
-* @return mixed
-*/
+ * bind css inline file
+ * @param mixed $f full path to pcss file
+ * @param mixed & $from
+ * @return mixed
+ */
 function igk_css_ob_get_tempfile($f, &$from = null)
 {
     $doc = igk_app()->getDoc();
@@ -2969,13 +2981,13 @@ function igk_css_ob_get_tempfile($f, &$from = null)
     return $out;
 }
 /**
-* register font package
-* @param mixed $fontname the css name font-family
-* @param mixed $file basedir font path to existing font
-* @param mixed $document the document that will bound the font. null if used global document
-* @param mixed $format default format . TrueType
-* @return mixed
-*/
+ * register font package
+ * @param mixed $fontname the css name font-family
+ * @param mixed $file basedir font path to existing font
+ * @param mixed $document the document that will bound the font. null if used global document
+ * @param mixed $format default format . TrueType
+ * @return mixed
+ */
 function igk_css_reg_font_package($fontname, $file, $document = null, $format = "TrueType")
 {
     if (empty($file)) {
@@ -2998,6 +3010,7 @@ function igk_css_reg_font_package($fontname, $file, $document = null, $format = 
 * @param string $fname file to register
 * @param IGK\Css\ICssStyleContainer $theme the theme
 * @param ?IGK\Controllers\BaseController $ctrl
+* @param mixed $temp
 * @throws Exception real file require
 * @return mixed
 */
@@ -3045,12 +3058,12 @@ function igk_css_reg_global_style_file(
     }
 }
 /**
-* shortcut: register global theme file
-* @param string $fname file to bind
-* @param mixed $theme host
-* @param mixed $ctrl controller to use
-* @return mixed
-*/
+ * shortcut: register global theme file
+ * @param string $fname file to bind
+ * @param mixed $theme host
+ * @param mixed $ctrl controller to use
+ * @return mixed
+ */
 function igk_css_reg_global_tempfile(
     $fname,
     ?\IGK\Css\ICssStyleContainer $theme = null,
@@ -3059,13 +3072,13 @@ function igk_css_reg_global_tempfile(
     return igk_css_reg_global_style_file($fname, $theme, $ctrl, 1);
 }
 /**
-* auto generate doc.
-* @param mixed $th
-* @param mixed $classname
-* @param mixed $defaultvalue
-* @param mixed $override
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $th
+ * @param mixed $classname
+ * @param mixed $defaultvalue
+ * @param mixed $override
+ * @return mixed
+ */
 function igk_css_reg_mediaclass($th, $classname, $defaultvalue, $override = true)
 {
     $igk = igk_app();
@@ -3083,10 +3096,10 @@ function igk_css_reg_mediaclass($th, $classname, $defaultvalue, $override = true
     }
 }
 /**
-* auto generate doc.
-* @param mixed $theme
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $theme
+ * @return mixed
+ */
 function igk_css_reg_reset($theme = null)
 {
     $igk = igk_app();
@@ -3097,10 +3110,10 @@ function igk_css_reg_reset($theme = null)
     }
 }
 /**
-* register svgs symbols file package
-* @param mixed $file
-* @return mixed
-*/
+ * register svgs symbols file package
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_css_reg_svg_symbol_files($file)
 {
     if (!igk_io_file_exists($file))
@@ -3108,12 +3121,12 @@ function igk_css_reg_svg_symbol_files($file)
     igk_app()->getDoc()->getSysTheme()->def->regSymbol($file);
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @param mixed $defaultvalue
-* @param mixed $override
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @param mixed $defaultvalue
+ * @param mixed $override
+ * @return mixed
+ */
 function igk_css_regclass($classname, $defaultvalue, $override = true)
 {
     $igk = igk_app();
@@ -3122,16 +3135,16 @@ function igk_css_regclass($classname, $defaultvalue, $override = true)
     igk_css_reg_mediaclass($igk->getDoc()->Theme, $classname, $defaultvalue, $override);
 }
 /**
-* helper: register color to current theme
-* @param mixed $clname
-* @param mixed $value
-* @param mixed $global
-* @param mixed $override
-* @var string $clname color name
-* @var string $value color value
-* @var int $global define global
-* @return mixed
-*/
+ * helper: register color to current theme
+ * @param mixed $clname
+ * @param mixed $value
+ * @param mixed $global
+ * @param mixed $override
+ * @var string $clname color name
+ * @var string $value color value
+ * @var int $global define global
+ * @return mixed
+ */
 function igk_css_regcolor($clname, $value, $global = 0, $override = true)
 {
     $igk = igk_app();
@@ -3155,30 +3168,30 @@ function igk_css_regcolor($clname, $value, $global = 0, $override = true)
     }
 }
 /**
-* register global font to current document
-* @param IGKHtmlDoc $doc
-* @param string $name registred name
-* @param string $path local path
-* @return mixed
-*/
+ * register global font to current document
+ * @param IGKHtmlDoc $doc
+ * @param string $name registred name
+ * @param string $path local path
+ * @return mixed
+ */
 function igk_css_regfont(IGKHtmlDoc $doc, string $name, string $path)
 {
     $doc->Theme->addFont($name, $path);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_css_regglobalfont($doc)
 {
     igk_css_regfont($doc, "global", igk_io_basepath(IGK_LIB_DIR . "/Default/" . IGK_RES_FOLDER . "/Fonts/global.ttf"));
 }
 /**
-* used to register a media query to the default document
-* @param mixed $mediaExpression
-* @return mixed
-*/
+ * used to register a media query to the default document
+ * @param mixed $mediaExpression
+ * @return mixed
+ */
 function igk_css_regmedia($mediaExpression)
 {
     $igk = igk_app();
@@ -3187,20 +3200,20 @@ function igk_css_regmedia($mediaExpression)
     return $igk->getDoc()->Theme->reg_media($mediaExpression);
 }
 /**
-* auto generate doc.
-* @param mixed $picname
-* @param mixed $link
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $picname
+ * @param mixed $link
+ * @return mixed
+ */
 function igk_css_regpic($picname, $link)
 {
     igk_getctrl(IGK_PIC_RES_CTRL)->regPicture($picname, $link);
 }
 /**
-* Igk css get core comment.
-* @param null|mixed $id
-* @return mixed
-*/
+ * Igk css get core comment.
+ * @param null|mixed $id
+ * @return mixed
+ */
 function igk_css_get_core_comment($id = null)
 {
     $o = "/*\r\nBalafon.css Dynamic css-defition \r" . IGK_LF;
@@ -3212,12 +3225,12 @@ function igk_css_get_core_comment($id = null)
     return $o;
 }
 /**
-* auto generate doc.
-* @param IGKHtmlDoc $doc
-* @param bool $no_systheme
-* @param mixed $debug
-* @return mixed
-*/
+ * auto generate doc.
+ * @param IGKHtmlDoc $doc
+ * @param bool $no_systheme
+ * @param mixed $debug
+ * @return mixed
+ */
 function igk_css_render_balafon_style(IGKHtmlDoc $doc, bool $no_systheme = false, $debug = false)
 {
     ob_start();
@@ -3251,11 +3264,11 @@ function igk_css_render_balafon_style(IGKHtmlDoc $doc, bool $no_systheme = false
     igk_wl($o);
 }
 /**
-* helper: render default style
-* @param mixed $tab array of theme file
-* @param mixed $doc document to render
-* @return mixed
-*/
+ * helper: render default style
+ * @param mixed $tab array of theme file
+ * @param mixed $doc document to render
+ * @return mixed
+ */
 function igk_css_render_style($tab, $doc = null)
 {
     if (defined("IGK_FORCSS"))
@@ -3276,11 +3289,11 @@ function igk_css_render_style($tab, $doc = null)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_css_sdk_style_def($ctrl = null, $callback = null)
 {
     $doc = igk_get_document("zip_icore");
@@ -3293,19 +3306,19 @@ function igk_css_sdk_style_def($ctrl = null, $callback = null)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_css_set_from($n)
 {
     igk_set_env("sys://css/from", $n);
 }
 /**
-* store no color def
-* @param mixed $f
-* @return mixed
-*/
+ * store no color def
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_css_store_no_colordef($f)
 {
     $tab = igk_get_env("sys://not_get_colors");
@@ -3320,10 +3333,10 @@ function igk_css_store_no_colordef($f)
     }
 }
 /**
-* convert string to igk css class name
-* @param mixed $s
-* @return mixed
-*/
+ * convert string to igk css class name
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_css_str2class_name($s)
 {
     $s = preg_replace_callback(
@@ -3338,13 +3351,13 @@ function igk_css_str2class_name($s)
     return $s;
 }
 /**
-* treat a css theme. evaluate the expression
-* @param string $value
-* @param bool $themeexport
-* @param \IGK\Css\ICssStyleContainer $theme current theme
-* @param ?\IGK\Css\ICssStyleContainer $systheme current theme
-* @return mixed
-*/
+ * treat a css theme. evaluate the expression
+ * @param string $value
+ * @param bool $themeexport
+ * @param \IGK\Css\ICssStyleContainer $theme current theme
+ * @param ?\IGK\Css\ICssStyleContainer $systheme current theme
+ * @return mixed
+ */
 function igk_css_treat(
     string $value,
     bool $themeexport,
@@ -3357,14 +3370,14 @@ function igk_css_treat(
     return $builder->treat($value, $themeexport);
 }
 /**
-* treat style properties with sys
-* @param mixed $v
-* @param mixed $theme
-* @param mixed $systheme
-* @param mixed $gtheme
-* @param mixed $doc
-* @return mixed
-*/
+ * treat style properties with sys
+ * @param mixed $v
+ * @param mixed $theme
+ * @param mixed $systheme
+ * @param mixed $gtheme
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $doc = null)
 {
     $doc = $doc ?? igk_app()->getDoc();
@@ -3384,8 +3397,10 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                 igk_die("looping resolution : " . $v_m . " for [" . $src . "]");
                 return $v;
             }
-            for ($i = 0; $i < $c; $i++) {
-                $v_m = $match[0][$i];
+            //igk_wln_e(__FILE__.":".__LINE__ , 'subtreat bracked');
+
+            // for ($i = 0; $i < $c; $i++) {
+                // $v_m = $match[0][$i];
                 $v_n = trim($match["name"][$i]);
                 if (isset($theme[$v_n])) {
                     $v = str_replace($v_m, igk_css_treat($theme, $theme[$v_n], $systheme), $v);
@@ -3420,33 +3435,33 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                         $v = str_replace($v_m, $rv, $v);
                     }
                 }
-            }
+            // }
         }
     }
     igk_set_env("sys://css/syschain", $syschain);
     return $v;
 }
 /**
-* auto generate doc.
-* @param mixed & $v
-* @param \IGK\Css\ICssStyleContainer $theme
-* @param mixed $type
-* @param mixed $value
-* @param \IGK\Css\ICssStyleContainer $systheme
-* @param mixed $a
-* @param mixed $stop
-* @param mixed $themeexport
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed & $v
+ * @param \IGK\Css\ICssStyleContainer $theme
+ * @param mixed $type
+ * @param mixed $value
+ * @param \IGK\Css\ICssStyleContainer $systheme
+ * @param mixed $a
+ * @param mixed $stop
+ * @param mixed $themeexport
+ * @return mixed
+ */
 function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $value, \IGK\Css\ICssStyleContainer $systheme, $a = "", $stop = "", $themeexport = 0)
 {
     igk_die("not allowed. " . __FUNCTION__ . ". please use CssThemeResolver");
 }
 /**
-* Igk css get treat colors.
-* @param null|array $defColor
-* @return mixed
-*/
+ * Igk css get treat colors.
+ * @param null|array $defColor
+ * @return mixed
+ */
 function &igk_css_get_treat_colors(?array $defColor = null)
 {
     static $gcolor;
@@ -3462,6 +3477,7 @@ function &igk_css_get_treat_colors(?array $defColor = null)
 * treatt color
 * @param mixed & $colors
 * @param mixed $value
+* @param mixed $defined
 * @return mixed
 */
 function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
@@ -3501,10 +3517,8 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
         } else {
             if (($c = preg_match_all($reg2, $q, $match))) {
                 for ($i = 0; $i < $c; $i++) {
-                    for ($i = 0; $i < $c; $i++) {
-                        $v_n = trim($match["name"][$i]);
-                        $q = $v_n;
-                    }
+                    $v_n = trim($match["name"][$i]);
+                    $q = $v_n;
                 }
             } else {
                 if ($is_color_chain && ($chain_index < count($rcolors))) {
@@ -3525,19 +3539,19 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
     return $q;
 }
 /**
-* auto generate doc.
-* @param mixed $b
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $b
+ * @return mixed
+ */
 function igk_css_type($b)
 {
     $tab = ["igk-default", "igk-success", "igk-warning", "igk-info", "igk-danger"];
     return igk_getv($tab, $b, "igk-default");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_type_styles()
 {
     return array(
@@ -3551,10 +3565,10 @@ function igk_css_type_styles()
     );
 }
 /**
-* unregister font package
-* @param mixed $fontname
-* @return mixed
-*/
+ * unregister font package
+ * @param mixed $fontname
+ * @return mixed
+ */
 function igk_css_unreg_font_package($fontname)
 {
     $igk = igk_app();
@@ -3570,9 +3584,9 @@ function igk_css_unreg_font_package($fontname)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_css_var_support()
 {
     require_once IGK_LIB_CLASSES_DIR . "/IGKUserAgent.php";
@@ -3584,10 +3598,10 @@ function igk_css_var_support()
     return !(!IGKUserAgent::IsMod() && (igk_css_ie11()));
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_csv_get_value_array($tab)
 {
     $o = "";
@@ -3607,8 +3621,8 @@ if (!function_exists('igk_csv_readline')) {
     * @param string $src source to treat
     * @param string $delimiter string delimiter
     * @param mixed & $last_segment
+    * @param ?callable $callback
     * @param mixed $last_segment will contain last invalid segment
-    * @param ?int $flags
     * @return array
     */
     function igk_csv_readline(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
@@ -3617,27 +3631,27 @@ if (!function_exists('igk_csv_readline')) {
     }
 }
 /**
-* return a csv entry for a value data
-* @param mixed $v
-* @return mixed
-*/
+ * return a csv entry for a value data
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_csv_getvalue($v)
 {
     return IGKCSVDataAdapter::GetValue($v);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_csv_sep()
 {
     return igk_configs()->get("csv_separator", ",");
 }
 /**
-* get is default controller
-* @param BaseController $ctrl
-* @return mixed
-*/
+ * get is default controller
+ * @param BaseController $ctrl
+ * @return mixed
+ */
 function igk_ctrl_is_default_controller(BaseController $ctrl): bool
 {
     $s = igk_configs()->default_controller;
@@ -3645,11 +3659,11 @@ function igk_ctrl_is_default_controller(BaseController $ctrl): bool
     return $s && $m && strtolower($s) == strtolower($m);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_ctrl_auth_key($ctrl, $k = null)
 {
     $s = "sys://auth/" . $ctrl->AppName;
@@ -3658,35 +3672,35 @@ function igk_ctrl_auth_key($ctrl, $k = null)
     return strtolower($s);
 }
 /**
-* helper: bind controller's class name to a node
-* @param BaseController $ctrl a controller
-* @param \IGK\System\Html\Dom\HtmlNode $n target node
-* @param ?string $classdef extra class
-* @return mixed
-*/
+ * helper: bind controller's class name to a node
+ * @param BaseController $ctrl a controller
+ * @param \IGK\System\Html\Dom\HtmlNode $n target node
+ * @param ?string $classdef extra class
+ * @return mixed
+ */
 function igk_ctrl_bind_css(BaseController $ctrl, $n, ?string $classdef = null)
 {
     $n["class"] = igk_css_str2class_name(strtolower($ctrl->getName())) . ($classdef != null ? " " . $classdef : null);
 }
 /**
-* helper: used to bind controller css file
-* @param mixed $ctrl controller that will be used to bind extra css setting
-* @param \IGK\System\Html\Dom\HtmlDocTheme $theme document used
-* @param string $file pcss file toInitBindingCssFileull then the primarayCssFile of the controller is used
-* @param bool $cssRendering mode for direct rendering
-* @param bool $temp temp
-* @return mixed
-*/
+ * helper: used to bind controller css file
+ * @param mixed $ctrl controller that will be used to bind extra css setting
+ * @param \IGK\System\Html\Dom\HtmlDocTheme $theme document used
+ * @param string $file pcss file toInitBindingCssFileull then the primarayCssFile of the controller is used
+ * @param bool $cssRendering mode for direct rendering
+ * @param bool $temp temp
+ * @return mixed
+ */
 function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, \IGK\System\Html\Dom\HtmlDocTheme $theme, string $file, bool $cssRendering, $temp = 0)
 {
     return \IGK\System\Html\Css\CssUtils::InitBindingCssFile($ctrl, $theme, $file, $cssRendering, $temp);
 }
 /**
-* controller request to change the lang
-* @param BaseController $ctrl
-* @param mixed $p
-* @return mixed
-*/
+ * controller request to change the lang
+ * @param BaseController $ctrl
+ * @param mixed $p
+ * @return mixed
+ */
 function igk_ctrl_change_lang(BaseController $ctrl, $p)
 {
     $lang = igk_getv($p, 'lang');
@@ -3719,45 +3733,45 @@ function igk_ctrl_change_lang(BaseController $ctrl, $p)
     unset($lang);
 }
 /**
-* get view args current document
-* @return mixed
-*/
+ * get view args current document
+ * @return mixed
+ */
 function igk_ctrl_current_doc()
 {
     return igk_getv(igk_get_view_args(), "doc");
 }
 /**
-* return the current acting view controller
-* @return mixed
-*/
+ * return the current acting view controller
+ * @return mixed
+ */
 function igk_ctrl_current_view_ctrl()
 {
     return igk_get_env(IGKEnvironment::CURRENT_CTRL);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_ctrl_env_param_key($ctrl)
 {
     return "sys://ctrl/" . sha1(get_class($ctrl));
 }
 /**
-* shortcut to get environment view args
-* @param mixed $ctrl
-* @return mixed
-*/
+ * shortcut to get environment view args
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_ctrl_env_view_arg_key(\IGK\Controllers\BaseController $ctrl)
 {
     return $ctrl::getEnvKey("view/args");
 }
 /**
-* auto generate doc.
-* @param mixed $ctrn
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrn
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_ctrl_get_app_uri($ctrn, $path = null)
 {
     $c = igk_getctrl($ctrn, false);
@@ -3767,22 +3781,22 @@ function igk_ctrl_get_app_uri($ctrn, $path = null)
     return null;
 }
 /**
-* return a controller direct command
-* @param mixed $ctrl controller identifier
-* @param mixed $u function request
-* @param mixed $type system type
-* @param mixed $port port request
-* @return mixed
-*/
+ * return a controller direct command
+ * @param mixed $ctrl controller identifier
+ * @param mixed $u function request
+ * @param mixed $type system type
+ * @param mixed $port port request
+ * @return mixed
+ */
 function igk_ctrl_get_cmd_uri(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null)
 {
     return \IGK\Helper\UriHelper::GetCmdAction($ctrl, $u, $type, $port);
 }
 /**
-* get controller info
-* @param mixed $name
-* @return mixed
-*/
+ * get controller info
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_ctrl_get_ctrl_info($name)
 {
     $m = IGKControllerTypeManager::GetControllerTypes();
@@ -3795,25 +3809,25 @@ function igk_ctrl_get_ctrl_info($name)
     return null;
 }
 /**
-* get configuration setting
-* @param mixed $ctrl
-* @param mixed $n
-* @return mixed
-*/
+ * get configuration setting
+ * @param mixed $ctrl
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_ctrl_get_setting($ctrl, $n)
 {
     return igk_getv($ctrl->Configs, $n);
 }
 /**
-* include controller view as content. the view to include is the first item of the params table
-* @param mixed $ctrl
-* @param mixed $file first file of the param
-* @param mixed $t
-* @param mixed $params
-* @param mixed $source
-* @param mixed $dir
-* @return mixed
-*/
+ * include controller view as content. the view to include is the first item of the params table
+ * @param mixed $ctrl
+ * @param mixed $file first file of the param
+ * @param mixed $t
+ * @param mixed $params
+ * @param mixed $source
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_ctrl_include_content($ctrl, $file, $t, $params, $source = null, $dir = null)
 {
     $c = igk_getv($params, 0);
@@ -3830,15 +3844,15 @@ function igk_ctrl_include_content($ctrl, $file, $t, $params, $source = null, $di
     }
 }
 /**
-* include controller view
-* @param mixed $ctrl
-* @param mixed $source
-* @param mixed $t
-* @param mixed $file
-* @param mixed $args
-* @param mixed $fname
-* @return mixed
-*/
+ * include controller view
+ * @param mixed $ctrl
+ * @param mixed $source
+ * @param mixed $t
+ * @param mixed $file
+ * @param mixed $args
+ * @param mixed $fname
+ * @return mixed
+ */
 function igk_ctrl_include_view_file($ctrl, $source, $t, $file, $args = null, $fname = null)
 {
     $fc = function ($ctrl, $source, $t, $file, $params = null, $fname = null) {
@@ -3855,12 +3869,12 @@ function igk_ctrl_include_view_file($ctrl, $source, $t, $file, $args = null, $fn
     $of($ctrl, $source, $t, $file, $args, $fname);
 }
 /**
-* init controller node css class
-* @param mixed $ctrl
-* @param mixed $node
-* @param mixed $classdef
-* @return mixed
-*/
+ * init controller node css class
+ * @param mixed $ctrl
+ * @param mixed $node
+ * @param mixed $classdef
+ * @return mixed
+ */
 function igk_ctrl_init_css($ctrl, $node, $classdef = null)
 {
     if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
@@ -3872,19 +3886,19 @@ function igk_ctrl_init_css($ctrl, $node, $classdef = null)
     igk_ctrl_bind_css($ctrl, $node, $classdef);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_ctrl_is_current_subdomain($ctrl)
 {
     return igk_sys_is_subdomain() && get_class(igk_app()->SubDomainCtrl) === get_class($ctrl);
 }
 /**
-* CHECK if the name is a reserved name
-* @param mixed $name
-* @return mixed
-*/
+ * CHECK if the name is a reserved name
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_ctrl_is_reservedname($name)
 {
     if (preg_match(IGK_PHP_RESERVEDNAME_REGEX, trim($name)))
@@ -3892,12 +3906,12 @@ function igk_ctrl_is_reservedname($name)
     return false;
 }
 /**
-* utility load contoller menu stored from database
-* @param mixed $ctrl
-* @param mixed $menutable
-* @param mixed $callback the callback to call for head menu
-* @return mixed
-*/
+ * utility load contoller menu stored from database
+ * @param mixed $ctrl
+ * @param mixed $menutable
+ * @param mixed $callback the callback to call for head menu
+ * @return mixed
+ */
 function igk_ctrl_loadmenu($ctrl, $menutable, $callback)
 {
     $t = igk_db_table_select_where($menutable, null, $ctrl, false, array("Sort" => "Asc", "SortColumn" => "clIndex"));
@@ -3906,32 +3920,32 @@ function igk_ctrl_loadmenu($ctrl, $menutable, $callback)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_ctrl_notify_key($ctrl)
 {
     return "sys://notify/" . $ctrl->getName();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $u
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_ctrl_private_folder($ctrl, $u)
 {
     return $ctrl->getDataDir() . "/" . IGK_RES_FOLDER . "/.private/" . $u->clLogin;
 }
 /**
-* render controller document
-* @param mixed $ctrl the controller
-* @param mixed $view the requested view file
-* @param mixed $param
-* @param mixed $exit
-* @return mixed
-*/
+ * render controller document
+ * @param mixed $ctrl the controller
+ * @param mixed $view the requested view file
+ * @param mixed $param
+ * @param mixed $exit
+ * @return mixed
+ */
 function igk_ctrl_render_doc($ctrl, $view, $param = null, $exit = 1)
 {
     $f = $ctrl->getViewFile($view);
@@ -3943,11 +3957,11 @@ function igk_ctrl_render_doc($ctrl, $view, $param = null, $exit = 1)
     }
 }
 /**
-* used to reset parameters
-* @param mixed $ctrl
-* @param mixed $rg regular expression to match pattern
-* @return mixed
-*/
+ * used to reset parameters
+ * @param mixed $ctrl
+ * @param mixed $rg regular expression to match pattern
+ * @return mixed
+ */
 function igk_ctrl_reset_params($ctrl, $rg = "/(.)+/i")
 {
     $keys = $ctrl->getParamKeys();
@@ -3958,14 +3972,14 @@ function igk_ctrl_reset_params($ctrl, $rg = "/(.)+/i")
     }
 }
 /**
-* view the current controllerr and render it to cibling targetnode
-* @param mixed $ctrl
-* @param mixed $targetnode
-* @param mixed $requestedview
-* @param mixed $params
-* @param mixed $viewmode
-* @return mixed
-*/
+ * view the current controllerr and render it to cibling targetnode
+ * @param mixed $ctrl
+ * @param mixed $targetnode
+ * @param mixed $requestedview
+ * @param mixed $params
+ * @param mixed $viewmode
+ * @return mixed
+ */
 function igk_ctrl_view($ctrl, $targetnode, $requestedview = IGK_DEFAULT_VIEW, $params = null, $viewmode = 1)
 {
     if ($ctrl == null)
@@ -3986,12 +4000,12 @@ function igk_ctrl_view($ctrl, $targetnode, $requestedview = IGK_DEFAULT_VIEW, $p
     $ctrl->setCurrentView($bck, false);
 }
 /**
-* used to load view automacally view for controller according to pattern
-* @param mixed $ctrl controller
-* @param mixed $t target node
-* @param mixed $pattern pattern prefix filename
-* @return mixed
-*/
+ * used to load view automacally view for controller according to pattern
+ * @param mixed $ctrl controller
+ * @param mixed $t target node
+ * @param mixed $pattern pattern prefix filename
+ * @return mixed
+ */
 function igk_ctrl_view_load_pattern($ctrl, $t, $pattern = "main_")
 {
     $tab = igk_io_getfiles(
@@ -4007,10 +4021,10 @@ function igk_ctrl_view_load_pattern($ctrl, $t, $pattern = "main_")
     }
 }
 /**
-* call View function of this controller. if this controller is not a child or call the parent view
-* @param mixed $ctrl
-* @return mixed
-*/
+ * call View function of this controller. if this controller is not a child or call the parent view
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_ctrl_viewparent($ctrl)
 {
     if ($ctrl->Configs->clParentCtrl && ($p = igk_getctrl($ctrl->Configs->clParentCtrl))) {
@@ -4022,19 +4036,19 @@ function igk_ctrl_viewparent($ctrl)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $filepath
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $filepath
+ * @return mixed
+ */
 function igk_ctrl_zone($filepath)
 {
     return igk_getv(igk_get_env("sys://ctrl/zone/files"), $filepath);
 }
 /**
-* auto generate doc.
-* @param mixed $filepath
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $filepath
+ * @return mixed
+ */
 function igk_ctrl_zone_init($filepath)
 {
     if (!igk_io_file_exists($filepath, true))
@@ -4050,10 +4064,10 @@ function igk_ctrl_zone_init($filepath)
     return $b[$filepath];
 }
 /**
-* auto generate doc.
-* @param mixed $amout
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $amout
+ * @return mixed
+ */
 function igk_currency_getamount($amout)
 {
     $c = $amout . IGK_STR_EMPTY;
@@ -4062,10 +4076,10 @@ function igk_currency_getamount($amout)
     return $amout;
 }
 /**
-* add cron controller
-* @param mixed $ctrl
-* @return mixed
-*/
+ * add cron controller
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_data_addcron($ctrl)
 {
     $n = "";
@@ -4084,29 +4098,29 @@ function igk_data_addcron($ctrl)
     igk_io_save_file_as_utf8_wbom($f, json_encode($t), true);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_data_get_cron_file()
 {
     return igk_io_basedir() . "/" . IGK_DATA_FOLDER . "/.crons.json";
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_datatypes_getinfo($n)
 {
     $c = igk_getctrl(IGK_DATA_TYPE_CTRL);
     return $c->getInfo($n);
 }
 /**
-* compare 2 date string. format: YYYYMMDD
-* @param mixed $date1
-* @param mixed $date2
-* @return mixed
-*/
+ * compare 2 date string. format: YYYYMMDD
+ * @param mixed $date1
+ * @param mixed $date2
+ * @return mixed
+ */
 function igk_date_compare($date1, $date2)
 {
     try {
@@ -4123,12 +4137,12 @@ function igk_date_compare($date1, $date2)
     }
 }
 /**
-* return the higher date according to format
-* @param mixed $date1
-* @param mixed $date2
-* @param mixed $v_format
-* @return mixed
-*/
+ * return the higher date according to format
+ * @param mixed $date1
+ * @param mixed $date2
+ * @param mixed $v_format
+ * @return mixed
+ */
 function igk_date_last_date($date1, $date2, $v_format = "Y-m-d")
 {
     $s1 = igk_time_span($v_format, $date1);
@@ -4136,10 +4150,10 @@ function igk_date_last_date($date1, $date2, $v_format = "Y-m-d")
     return $s1 <= $s2 ? $date2 : $date1;
 }
 /**
-* auto generate doc.
-* @param mixed $format
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $format
+ * @return mixed
+ */
 function igk_date_now($format = null)
 {
     if ($format)
@@ -4147,31 +4161,31 @@ function igk_date_now($format = null)
     return date(IGK_DATETIME_FORMAT);
 }
 /**
-* return display date format
-* @param mixed $date
-* @param mixed $format
-* @return mixed
-*/
+ * return display date format
+ * @param mixed $date
+ * @param mixed $format
+ * @return mixed
+ */
 function igk_date_display_date($date, $format = null)
 {
     $format = $format ?? igk_configs()->date_format ?? 'Y/m/d';
     return date_format(date_create($date), $format);
 }
 /**
-* helper:: backup controller data as xml object
-* @param mixed $ctrl
-* @param mixed $defentries
-* @return node
-*/
+ * helper:: backup controller data as xml object
+ * @param mixed $ctrl
+ * @param mixed $defentries
+ * @return mixed
+ */
 function igk_db_backup_ctrl($ctrl, $defentries = 1)
 {
     return \IGK\System\Database\Helper\DbUtility::BackupDataSchema($ctrl, $defentries);
 }
 /**
-* auto generate doc.
-* @param mixed $text
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $text
+ * @return mixed
+ */
 function igk_db_clean_text($text)
 {
     igk_load_library("treat");
@@ -4180,12 +4194,12 @@ function igk_db_clean_text($text)
     return $c[0];
 }
 /**
-* auto generate doc.
-* @param mixed $ctrlOrAdapterName
-* @param mixed $table
-* @param mixed $dbname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrlOrAdapterName
+ * @param mixed $table
+ * @param mixed $dbname
+ * @return mixed
+ */
 function igk_db_clear_table($ctrlOrAdapterName, $table, $dbname = null)
 {
     $adapt = igk_get_data_adapter($ctrlOrAdapterName, false);
@@ -4198,24 +4212,24 @@ function igk_db_clear_table($ctrlOrAdapterName, $table, $dbname = null)
     return null;
 }
 /**
-* close db and die with a message
-* @param mixed $db
-* @param mixed $msg
-* @return mixed
-*/
+ * close db and die with a message
+ * @param mixed $db
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_db_close_die($db, $msg)
 {
     $db->close();
     igk_die($msg);
 }
 /**
-* compare time
-* @param mixed $type
-* @param mixed $format
-* @param mixed $oldd
-* @param mixed $newd
-* @return mixed
-*/
+ * compare time
+ * @param mixed $type
+ * @param mixed $format
+ * @param mixed $oldd
+ * @param mixed $newd
+ * @return mixed
+ */
 function igk_db_cmp_time($type, $format, $oldd, $newd)
 {
     $o = igk_time_span($format, $oldd);
@@ -4226,12 +4240,12 @@ function igk_db_cmp_time($type, $format, $oldd, $newd)
     return 0;
 }
 /**
-* Copy filter dataobj value value only. Erase the src data attributes if key not found in data object
-* @param mixed & $src
-* @param mixed $dataobj
-* @param mixed $erase
-* @return mixed
-*/
+ * Copy filter dataobj value value only. Erase the src data attributes if key not found in data object
+ * @param mixed & $src
+ * @param mixed $dataobj
+ * @param mixed $erase
+ * @return mixed
+ */
 function igk_db_copy_row(&$src, $dataobj, $erase = 1)
 {
     foreach ($src as $k => $v) {
@@ -4244,12 +4258,12 @@ function igk_db_copy_row(&$src, $dataobj, $erase = 1)
     }
 }
 /**
-* Represent igk_db_count_rows function
-* @param mixed $table
-* @param mixed $conditions
-* @param mixed $adapter
-* @return mixed
-*/
+ * Represent igk_db_count_rows function
+ * @param mixed $table
+ * @param mixed $conditions
+ * @param mixed $adapter
+ * @return mixed
+ */
 function igk_db_count_rows($table, $conditions = null, $adapter = IGK_MYSQL_DATAADAPTER)
 {
     if ($ad = igk_get_data_adapter($adapter)) {
@@ -4261,11 +4275,11 @@ function igk_db_count_rows($table, $conditions = null, $adapter = IGK_MYSQL_DATA
     return null;
 }
 /**
-* utility function. used to create object from data. the filter exclude data
-* @param mixed $obj
-* @param mixed $filter
-* @return mixed
-*/
+ * utility function. used to create object from data. the filter exclude data
+ * @param mixed $obj
+ * @param mixed $filter
+ * @return mixed
+ */
 function igk_db_create_data($obj, $filter)
 {
     $c = new StdClass();
@@ -4280,14 +4294,14 @@ function igk_db_create_data($obj, $filter)
     return $c;
 }
 /**
-* utility function. create data by filtering with table info
-* @param mixed $adapter
-* @param string $tablename
-* @param mixed $obj
-* @param mixed $tabinfo
-* @deprecated
-* @return mixed
-*/
+ * utility function. create data by filtering with table info
+ * @param mixed $adapter
+ * @param string $tablename
+ * @param mixed $obj
+ * @param mixed $tabinfo
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_create_datafrominfo($adapter, string $tablename, $obj, $tabinfo)
 {
     $c = null;
@@ -4315,35 +4329,35 @@ function igk_db_create_datafrominfo($adapter, string $tablename, $obj, $tabinfo)
     return $c;
 }
 /**
-* create an empty result
-* @param mixed $ctrl
-* @param mixed $result
-* @return mixed
-*/
-function igk_db_create_emptyresult($ctrl, $result = false)
+ * create an empty result
+ * @param mixed $ctrl
+ * @return mixed
+ * @deprecated
+ */
+function igk_db_create_emptyresult($ctrl)
 {
     $g = igk_get_data_adapter($ctrl);
-    $s = $g ? $g->createEmptyResult($result) : null;
+    $s = $g ? $g->createEmptyResult() : null;
     return $s;
 }
 /**
-* create a db expression that will be evaluated
-* @param mixed $value
-* @return mixed
-*/
+ * create a db expression that will be evaluated
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_db_create_expression($value)
 {
     return new DbExpression($value);
 }
 /**
-* create a db reference number
-* @param string $key key to use
-* @param ?\IGK\Models\Users $user to use
-* @param int $base encoding counter base
-* @param int $length expected number
-* @param ?string $format
-* @return mixed
-*/
+ * create a db reference number
+ * @param string $key key to use
+ * @param ?\IGK\Models\Users $user to use
+ * @param int $base encoding counter base
+ * @param int $length expected number
+ * @param ?string $format
+ * @return mixed
+ */
 function igk_db_create_identifier(string $key, $user = null, $base = 36, $length = 3, ?string $format = null): string
 {
     $u = $user ?? igk_app()->session->User;
@@ -4359,9 +4373,9 @@ function igk_db_create_identifier(string $key, $user = null, $base = 36, $length
     return $bill_ref;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_db_create_opt_obj()
 {
     $obj = igk_createobj();
@@ -4373,47 +4387,47 @@ function igk_db_create_opt_obj()
     return $obj;
 }
 /**
-* auto generate doc.
-* @param BaseController $ctrl
-* @param mixed $model
-* @param mixed $base
-* @param mixed $length
-* @return mixed
-*/
+ * auto generate doc.
+ * @param BaseController $ctrl
+ * @param mixed $model
+ * @param mixed $base
+ * @param mixed $length
+ * @return mixed
+ */
 function igk_db_create_ref(BaseController $ctrl, $model = null, $base = 36, $length = 4)
 {
     return ReferenceModels::model()->get_ref($ctrl, $model, $base, $length);
 }
 /**
-* create and empty row from global system datatable name
-* @param mixed $tablename registrated global sql data table
-* @param mixed $dataobj object that will fill the value
-* @param mixed $schema
-* @deprecated
-* @return mixed
-*/
+ * create and empty row from global system datatable name
+ * @param mixed $tablename registrated global sql data table
+ * @param mixed $dataobj object that will fill the value
+ * @param mixed $schema
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_create_row($tablename, $dataobj = null, $schema = null)
 {
     return DbSchemas::CreateRow($tablename, null, $dataobj);
 }
 /**
-* create and empty row from ctrl data table datatable na.me
-* @param mixed $tablename
-* @param mixed $ctrl
-* @param mixed $dataobj
-* @return mixed
-*/
+ * create and empty row from ctrl data table datatable na.me
+ * @param mixed $tablename
+ * @param mixed $ctrl
+ * @param mixed $dataobj
+ * @return mixed
+ */
 function igk_db_create_row_obj($tablename, $ctrl, $dataobj = null)
 {
     $tb = igk_db_ctrl_datatable_info_key($ctrl, $tablename);
     return igk_db_create_obj_from_infokey($tb, $dataobj);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $table
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $table
+ * @return mixed
+ */
 function igk_db_ctrl_datatable_info_key($ctrl, $table)
 {
     $tc = $ctrl->getEnvParam(IGK_CTRL_TABLE_INFO_KEY, array());
@@ -4445,9 +4459,9 @@ function igk_db_ctrl_datatable_info_key($ctrl, $table)
     }
 }
 /**
-* Represent igk_db_current_data_adapter function
-* @return mixed
-*/
+ * Represent igk_db_current_data_adapter function
+ * @return mixed
+ */
 function igk_db_current_data_adapter()
 {
     if ($d = igk_db_current_data_driver()) {
@@ -4457,23 +4471,23 @@ function igk_db_current_data_adapter()
     return null;
 }
 /**
-* Represent igk_db_current_data_driver function
-* @return mixed
-*/
+ * Represent igk_db_current_data_driver function
+ * @return mixed
+ */
 function igk_db_current_data_driver()
 {
     return igk_getv(DbQueryDriver::$Config, "db");
 }
 /**
-* auto generate doc.
-* @param mixed $adapter
-* @param mixed $table
-* @param mixed $entry
-* @param mixed $tabinfo
-* @param mixed & $present
-* @param mixed & $ptype
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $adapter
+ * @param mixed $table
+ * @param mixed $entry
+ * @param mixed $tabinfo
+ * @param mixed & $present
+ * @param mixed & $ptype
+ * @return mixed
+ */
 function igk_db_data_is_present($adapter, $table, $entry, $tabinfo = null, &$present = null, &$ptype = null)
 {
     if ($tabinfo == null) {
@@ -4541,21 +4555,21 @@ function igk_db_data_is_present($adapter, $table, $entry, $tabinfo = null, &$pre
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $controllerOrAdpaterName
-* @param mixed $table
-* @param mixed $where
-* @param mixed $dbname
-* @param mixed $leaveOpen
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $table
+ * @param mixed $where
+ * @param mixed $dbname
+ * @param mixed $leaveOpen
+ * @return mixed
+ */
 function igk_db_delete($controllerOrAdpaterName, $table, $where = null, $dbname = null, $leaveOpen = false)
 {
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
     if ($adapt) {
         $adapt->connect($dbname);
         $r = $adapt->delete($table, $where);
-        $adapt->close($leaveOpen);
+        igk_db_close_ad($adapt, $leaveOpen);
         return $r;
     } else {
         igk_wln("adapt is null");
@@ -4563,10 +4577,10 @@ function igk_db_delete($controllerOrAdpaterName, $table, $where = null, $dbname 
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $r
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $r
+ * @return mixed
+ */
 function igk_db_delete_cookie($r)
 {
     $table = igk_db_get_table_name(IGK_TB_COOKIESTORE);
@@ -4574,23 +4588,23 @@ function igk_db_delete_cookie($r)
     return igk_db_delete($ctrl, $table, is_object($r) ? $r->clId : $r);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $where
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $where
+ * @return mixed
+ */
 function igk_db_deletec($ctrl, $where)
 {
     return igk_db_delete($ctrl, $ctrl->getDataTableName(), $where, null);
 }
 /**
-* drop application table from system config
-* @param mixed $ctrl
-* @param mixed $tb
-* @param mixed $fc
-* @deprecated use [ControllerClasss::dropDb] macros
-* @return mixed
-*/
+ * drop application table from system config
+ * @param mixed $ctrl
+ * @param mixed $tb
+ * @param mixed $fc
+ * @deprecated use [ControllerClasss::dropDb] macros
+ * @return mixed
+ */
 function igk_db_drop_ctrl_db($ctrl, $tb = null, $fc = null)
 {
     $s = igk_is_conf_connected() || igk_user()->auth($ctrl->getName() . ":" . $fc);
@@ -4629,36 +4643,36 @@ function igk_db_drop_ctrl_db($ctrl, $tb = null, $fc = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_db_drop_identifier($key)
 {
     $ct = igk_getctrl(IGK_UCB_REF_CTRL);
     $ct->delete_key($key);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrlorName
-* @param mixed $table
-* @param mixed $leaveOpen
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrlorName
+ * @param mixed $table
+ * @param mixed $leaveOpen
+ * @return mixed
+ */
 function igk_db_drop_table($ctrlorName, $table, $leaveOpen = false)
 {
     $apt = igk_get_data_adapter($ctrlorName);
     if ($apt) {
         $apt->connect();
         $apt->dropTable($table);
-        $apt->close($leaveOpen);
+        igk_db_close_ad($apt, $leaveOpen);
     }
 }
 /**
-* used to dump query result
-* @param mixed $result
-* @return mixed
-*/
+ * used to dump query result
+ * @param mixed $result
+ * @return mixed
+ */
 function igk_db_dump_result($result)
 {
     $r = igk_create_node();
@@ -4682,20 +4696,20 @@ function igk_db_dump_result($result)
     $r->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $message
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $message
+ * @return mixed
+ */
 function igk_db_error($message)
 {
     igk_app()->session->setParam("db_error_msg", $message);
 }
 /**
-* create a field objet
-* @param mixed $n
-* @param mixed $op
-* @return mixed
-*/
+ * create a field objet
+ * @param mixed $n
+ * @param mixed $op
+ * @return mixed
+ */
 function igk_db_field($n, $op = '=')
 {
     $o = (object)array(
@@ -4710,11 +4724,11 @@ function igk_db_field($n, $op = '=')
     return $o;
 }
 /**
-* create and filter an object data table to insert in form
-* @param mixed $tablanename
-* @param mixed $callbackfilter
-* @return mixed
-*/
+ * create and filter an object data table to insert in form
+ * @param mixed $tablanename
+ * @param mixed $callbackfilter
+ * @return mixed
+ */
 function igk_db_form_data($tablanename, $callbackfilter = null)
 {
     $fi = $callbackfilter !== null;
@@ -4729,67 +4743,67 @@ function igk_db_form_data($tablanename, $callbackfilter = null)
     return $t;
 }
 /**
-* get gloval config properties
-* @param mixed $n
-* @param mixed $default
-* @param mixed $comment
-* @param mixed $init
-* @return mixed
-*/
+ * get gloval config properties
+ * @param mixed $n
+ * @param mixed $default
+ * @param mixed $comment
+ * @param mixed $init
+ * @return mixed
+ */
 function igk_db_get_config($n, $default = null, $comment = null, $init = 0)
 {
     return igk_getctrl(IGK_BDCONFIGS_CTRL)->getConfigv($n, $default, $comment, $init);
 }
 /**
-* register configuration properties
-* @param mixed $ctrl
-* @param mixed $n
-* @param mixed $default
-* @return mixed
-*/
+ * register configuration properties
+ * @param mixed $ctrl
+ * @param mixed $n
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_db_get_configp($ctrl, $n, $default = null)
 {
     return igk_db_get_config(strtolower($ctrl->getName()) . "://" . $n, $default);
 }
 /**
-* get registered user configuration
-* @param mixed $ctrl
-* @param mixed $u
-* @param mixed $n
-* @param mixed $default
-* @param mixed $comment
-* @param mixed $init
-* @return mixed
-*/
+ * get registered user configuration
+ * @param mixed $ctrl
+ * @param mixed $u
+ * @param mixed $n
+ * @param mixed $default
+ * @param mixed $comment
+ * @param mixed $init
+ * @return mixed
+ */
 function igk_db_get_configup($ctrl, $u, $n, $default = null, $comment = null, $init = 0)
 {
     return igk_db_get_config(strtolower($ctrl->getName()) . "://" . $u->clLogin . "/" . $n, $default, $comment, $init);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_get_ctrl_tables($ctrl)
 {
     return igk_getctrl(IGK_MYSQL_DB_CTRL, true)->getTablesFor($ctrl);
 }
 /**
-* auto generate doc.
-* @param mixed $tablename
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tablename
+ * @return mixed
+ */
 function igk_db_get_datatableowner($tablename)
 {
     return igk_getctrl(IGK_MYSQL_DB_CTRL, true)->getDataTableCtrl($tablename);
 }
 /**
-* auto generate doc.
-* @param mixed $controllerOrAdpaterName
-* @param mixed $table
-* @param mixed $dbname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $table
+ * @param mixed $dbname
+ * @return mixed
+ */
 function igk_db_get_entries($controllerOrAdpaterName, $table, $dbname = null)
 {
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
@@ -4802,19 +4816,19 @@ function igk_db_get_entries($controllerOrAdpaterName, $table, $dbname = null)
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_db_get_error()
 {
     return igk_app()->session->getParam("db_error_msg");
 }
 /**
-* Represent igk_db_get_model_class_name function
-* @param mixed $name
-* @param mixed $ctrl
-* @return mixed
-*/
+ * Represent igk_db_get_model_class_name function
+ * @param mixed $name
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_get_model_class_name($name, $ctrl = null)
 {
     $b = $ctrl ? $ctrl : igk_getctrl(IGK_MYSQL_DB_CTRL)->getDataTableCtrl($name);
@@ -4840,23 +4854,23 @@ function igk_db_get_model_class_name($name, $ctrl = null)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_get_schema_filename($ctrl)
 {
     return \IGK\Controllers\ControllerExtension::getDataSchemaFile($ctrl);
 }
 /**
-* auto generate doc.
-* @param mixed $ad
-* @param mixed $table
-* @param mixed $tabinfo
-* @param mixed $row
-* @param mixed & $syncRefTable
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ad
+ * @param mixed $table
+ * @param mixed $tabinfo
+ * @param mixed $row
+ * @param mixed & $syncRefTable
+ * @return mixed
+ */
 function igk_db_get_sync_row_data($ad, $table, $tabinfo, $row, &$syncRefTable)
 {
     $obj = igk_db_create_row($table);
@@ -4886,10 +4900,10 @@ function igk_db_get_sync_row_data($ad, $table, $tabinfo, $row, &$syncRefTable)
     return $obj;
 }
 /**
-* return the declared table definition structure
-* @param mixed $adaptername
-* @return mixed
-*/
+ * return the declared table definition structure
+ * @param mixed $adaptername
+ * @return mixed
+ */
 function igk_db_get_table_def($adaptername = IGK_MYSQL_DATAADAPTER)
 {
     $v_dictionary = array();
@@ -4930,31 +4944,31 @@ function igk_db_get_table_def($adaptername = IGK_MYSQL_DATAADAPTER)
     return $v_dictionary;
 }
 /**
-* get table defition of a mysql db definition
-* @param mixed $table
-* @return mixed
-*/
+ * get table defition of a mysql db definition
+ * @param mixed $table
+ * @return mixed
+ */
 function igk_db_get_table_info($table)
 {
     $tab = igk_getctrl(IGK_MYSQL_DB_CTRL)->getDataTableDefinition($table);
     return $tab;
 }
 /**
-* shortcut: resolv table name
-* @param mixed $name
-* @param ?BaseController $ctrl
-* @return null|string resolved table name
-*/
+ * shortcut: resolv table name
+ * @param mixed $name
+ * @param ?BaseController $ctrl
+ * @return null|string resolved table name
+ */
 function igk_db_get_table_name(?string $name, ?BaseController $ctrl = null)
 {
     return \IGKSysUtil::DBGetTableName($name, $ctrl);
 }
 /**
-* get table that contains specified column
-* @param mixed $columnName
-* @param mixed $adaptername
-* @return mixed
-*/
+ * get table that contains specified column
+ * @param mixed $columnName
+ * @param mixed $adaptername
+ * @return mixed
+ */
 function igk_db_get_table_with_column($columnName, $adaptername = IGK_MYSQL_DATAADAPTER)
 {
     $dic = igk_db_get_table_def($adaptername);
@@ -4972,11 +4986,11 @@ function igk_db_get_table_with_column($columnName, $adaptername = IGK_MYSQL_DATA
     return $tab;
 }
 /**
-* get the definition key in this table
-* @param string $tablename
-* @deprecated use DbSchemas::GetTableColumnInfo($table)
-* @return mixed
-*/
+ * get the definition key in this table
+ * @param string $tablename
+ * @deprecated use DbSchemas::GetTableColumnInfo($table)
+ * @return mixed
+ */
 function igk_db_getdatatableinfokey(string $tablename)
 {
     if (!is_string($tablename)) {
@@ -4988,10 +5002,10 @@ function igk_db_getdatatableinfokey(string $tablename)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_db_getdefaultv($v)
 {
     if ($v->clNotNull) {
@@ -5009,12 +5023,12 @@ function igk_db_getdefaultv($v)
     return $v->clDefault;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrlorName
-* @param mixed $table
-* @param mixed $condition
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrlorName
+ * @param mixed $table
+ * @param mixed $condition
+ * @return mixed
+ */
 function igk_db_getid($ctrlorName, $table, $condition)
 {
     $r = igk_db_table_select_where($table, $condition, $ctrlorName);
@@ -5024,10 +5038,10 @@ function igk_db_getid($ctrlorName, $table, $condition)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_db_getobj($tab)
 {
     $t = array();
@@ -5037,10 +5051,10 @@ function igk_db_getobj($tab)
     return (object)$t;
 }
 /**
-* return an array of table column used to synchronise data
-* @param mixed $tablename
-* @return mixed
-*/
+ * return an array of table column used to synchronise data
+ * @param mixed $tablename
+ * @return mixed
+ */
 function igk_db_getsync_key($tablename)
 {
     $tab = igk_getctrl(IGK_MYSQL_DB_CTRL)->getDataTableDefinition($tablename);
@@ -5083,11 +5097,11 @@ function igk_db_getsync_key($tablename)
     return null;
 }
 /**
-* convert array to ossociation key value array
-* @param mixed $tb
-* @param mixed $key  mixed . string|callable to get the identifier
-* @return mixed
-*/
+ * convert array to ossociation key value array
+ * @param mixed $tb
+ * @param mixed $key  mixed . string|callable to get the identifier
+ * @return mixed
+ */
 function igk_db_identifier_array($tb, $key)
 {
     $tab = array();
@@ -5107,26 +5121,28 @@ function igk_db_identifier_array($tb, $key)
     return $tab;
 }
 /**
-* helper: init data schema
-* @param mixed $ctrl controller
-* @param mixed $dataschema datachema definition
-* @param mixed $adapter
-* @return mixed
-*/
+ * helper: init data schema
+ * @param mixed $ctrl controller
+ * @param mixed $dataschema datachema definition
+ * @param mixed $adapter
+ * @return mixed
+ */
 function igk_db_init_dataschema($ctrl, $dataschema, $adapter)
 {
     return DbSchemas::InitData($ctrl, $dataschema, $adapter);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $schema
-* @param mixed $entries
-*/
-/**
  * auto generate doc.
- * @param mixed $file
+ * @param mixed $ctrl
+ * @param mixed $schema
+ * @param mixed $entries
  */
+/**
+* auto generate doc.
+* @param mixed $file
+* @param mixed $ctrl
+* @return mixed
+*/
 function igk_db_load_data_and_entries_schemas($file, $ctrl = null)
 {
     if (igk_io_file_exists($file)) {
@@ -5136,11 +5152,11 @@ function igk_db_load_data_and_entries_schemas($file, $ctrl = null)
     return null;
 }
 /**
-* load data schema from loaded node
-* @param mixed $d
-* @param mixed $ctrl
-* @return mixed
-*/
+ * load data schema from loaded node
+ * @param mixed $d
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_load_data_and_entries_schemas_node($d, $ctrl = null)
 {
     if ($d === null) {
@@ -5173,11 +5189,11 @@ function igk_db_load_data_and_entries_schemas_node($d, $ctrl = null)
     return null;
 }
 /**
-* get default entries from data schema
-* @param mixed $file
-* @param mixed $ctrl
-* @return mixed
-*/
+ * get default entries from data schema
+ * @param mixed $file
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_load_data_entries_schemas($file, $ctrl)
 {
     $tab = array();
@@ -5192,50 +5208,50 @@ function igk_db_load_data_entries_schemas($file, $ctrl)
     return $tab;
 }
 /**
-* load data schema in array
-* @param mixed $n
-* @param mixed & $tables
-* @param mixed & $tbrelations
-* @param mixed & $migrations
-* @param mixed $ctrl
-* @param mixed $resolvname
-* @param mixed $reload
-* @return mixed
-*/
+ * load data schema in array
+ * @param mixed $n
+ * @param mixed & $tables
+ * @param mixed & $tbrelations
+ * @param mixed & $migrations
+ * @param mixed $ctrl
+ * @param mixed $resolvname
+ * @param mixed $reload
+ * @return mixed
+ */
 function igk_db_load_data_schema_array($n, &$tables, &$tbrelations = null, &$migrations = null, $ctrl = null, $resolvname = true, $reload = false)
 {
     return DbSchemas::LoadSchemaArray(...func_get_args());
 }
 /**
-* load data from schema files
-* @param mixed $file
-* @param mixed $ctrl
-* @param mixed $resolvname
-* @param mixed $operation
-* @return mixed
-*/
+ * load data from schema files
+ * @param mixed $file
+ * @param mixed $ctrl
+ * @param mixed $resolvname
+ * @param mixed $operation
+ * @return mixed
+ */
 function igk_db_load_data_schemas($file, $ctrl = null, $resolvname = true, $operation = \IGK\Database\DbSchemasConstants::Migrate)
 {
     return DbSchemas::LoadSchema($file, $ctrl, $resolvname, $operation);
 }
 /**
-* Represent igk_db_load_data_schemas_node function
-* @param mixed $d
-* @param mixed $ctrl
-* @param mixed $resolvname
-* @return mixed
-*/
+ * Represent igk_db_load_data_schemas_node function
+ * @param mixed $d
+ * @param mixed $ctrl
+ * @param mixed $resolvname
+ * @return mixed
+ */
 function igk_db_load_data_schemas_node($d, $ctrl = null, $resolvname = true)
 {
     return DbSchemas::GetDefinition($d, $ctrl, $resolvname);
 }
 /**
-* load db controller entries
-* @param BaseController $ctrl controller
-* @param string $tablename tablename
-* @param array $entries entry to add
-* @return mixed
-*/
+ * load db controller entries
+ * @param BaseController $ctrl controller
+ * @param string $tablename tablename
+ * @param array $entries entry to add
+ * @return mixed
+ */
 function igk_db_load_entries(BaseController $ctrl, string $tablename, $entries)
 {
     $v_r = igk_db_create_row($tablename);
@@ -5272,12 +5288,12 @@ function igk_db_load_entries(BaseController $ctrl, string $tablename, $entries)
     return true;
 }
 /**
-* load entry data
-* @param mixed $n
-* @param mixed & $tab
-* @param mixed $ctrl
-* @return mixed
-*/
+ * load entry data
+ * @param mixed $n
+ * @param mixed & $tab
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_load_entries_array($n, &$tab, $ctrl)
 {
     $child = $n->Childs;
@@ -5302,11 +5318,11 @@ function igk_db_load_entries_array($n, &$tab, $ctrl)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $src
-* @param mixed & $dest
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $src
+ * @param mixed & $dest
+ * @return mixed
+ */
 function igk_db_load_row($src, &$dest)
 {
     $t = (array)$src;
@@ -5316,11 +5332,11 @@ function igk_db_load_row($src, &$dest)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $result
-* @param mixed $p
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $result
+ * @param mixed $p
+ * @return mixed
+ */
 function igk_db_load_to_node($result, $p)
 {
     if ($result && $result->RowCount > 0) {
@@ -5330,19 +5346,19 @@ function igk_db_load_to_node($result, $p)
     }
 }
 /**
-* represent id-name
-* @param mixed $r
-* @return mixed
-*/
+ * represent id-name
+ * @param mixed $r
+ * @return mixed
+ */
 function igk_db_name_id($r)
 {
     return array("text" => __($r->clName), "value" => $r->clId);
 }
 /**
-* get or set the exception
-* @param mixed $d
-* @return mixed
-*/
+ * get or set the exception
+ * @param mixed $d
+ * @return mixed
+ */
 function igk_db_no_exception($d = null)
 {
     $k = "db://no_exception";
@@ -5352,11 +5368,11 @@ function igk_db_no_exception($d = null)
     return $d;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_db_objentries($ctrl, $tab)
 {
     $ttab = $ctrl->getDataTableInfo();
@@ -5370,11 +5386,11 @@ function igk_db_objentries($ctrl, $tab)
     return $v_otab;
 }
 /**
-* used to prefilter unique element entry for selection
-* @param mixed $entry
-* @param mixed $tabinfo
-* @return mixed
-*/
+ * used to prefilter unique element entry for selection
+ * @param mixed $entry
+ * @param mixed $tabinfo
+ * @return mixed
+ */
 function igk_db_prefilter_for_select($entry, $tabinfo)
 {
     if ($entry == null)
@@ -5407,10 +5423,10 @@ function igk_db_prefilter_for_select($entry, $tabinfo)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $h
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $h
+ * @return mixed
+ */
 function igk_db_ref_keyinfo($h)
 {
     $c = igk_getv($h, 'ColumnInfo');
@@ -5419,20 +5435,20 @@ function igk_db_ref_keyinfo($h)
     return $h;
 }
 /**
-* call update of the reference obj
-* @param mixed & $ref
-* @return mixed
-*/
+ * call update of the reference obj
+ * @param mixed & $ref
+ * @return mixed
+ */
 function igk_db_ref_update(&$ref)
 {
     return igk_obj_call($ref, "update");
 }
 /**
-* register a global system controller
-* @param mixed $n name for global controller
-* @param mixed $ctrlobj controller or objet for that purpose
-* @return mixed
-*/
+ * register a global system controller
+ * @param mixed $n name for global controller
+ * @param mixed $ctrlobj controller or objet for that purpose
+ * @return mixed
+ */
 function igk_db_reg_sys_ctrl($n, $ctrlobj)
 {
     $t = igk_app()->session->getParam(IGKSession::SYSDB_CTRL);
@@ -5442,11 +5458,11 @@ function igk_db_reg_sys_ctrl($n, $ctrlobj)
     igk_app()->session->setParam(IGKSession::SYSDB_CTRL, $t);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $cgctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $cgctrl
+ * @return mixed
+ */
 function igk_db_register_auth($name, $cgctrl = null)
 {
     $table = igk_db_get_table_name(IGK_TB_AUTHORISATIONS);
@@ -5455,10 +5471,10 @@ function igk_db_register_auth($name, $cgctrl = null)
         igk_db_insert_if_not_exists($cgctrl, $table, array(IGK_FD_NAME => $name));
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_db_register_group($name)
 {
     $table = igk_db_get_table_name(IGK_TB_GROUPS);
@@ -5467,11 +5483,11 @@ function igk_db_register_group($name)
         igk_db_insert_if_not_exists($cgctrl, $table, array(IGK_FD_NAME => $name));
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @param mixed $app
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @param mixed $app
+ * @return mixed
+ */
 function igk_db_resolv_app_uri($u, $app)
 {
     if (preg_match("/^app:/i", $u)) {
@@ -5482,13 +5498,13 @@ function igk_db_resolv_app_uri($u, $app)
     return $app->getAppUri($u);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $schema
-* @param mixed & $error
-* @param mixed $ad
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $schema
+ * @param mixed & $error
+ * @param mixed $ad
+ * @return mixed
+ */
 function igk_db_restore_backup_data($ctrl, $schema, &$error = null, $ad = null)
 {
     if (is_string($schema)) {
@@ -5520,13 +5536,13 @@ function igk_db_restore_backup_data($ctrl, $schema, &$error = null, $ad = null)
     return $schema;
 }
 /**
-* restore backup data from schema
-* @param mixed $adapter the adapter to use
-* @param mixed $schema mixed : schema to use. if string load xml, or xml schema load object
-* @param mixed & $error
-* @deprecated
-* @return mixed
-*/
+ * restore backup data from schema
+ * @param mixed $adapter the adapter to use
+ * @param mixed $schema mixed : schema to use. if string load xml, or xml schema load object
+ * @param mixed & $error
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_restore_backup_data_adapter($adapter, $schema, &$error)
 {
     if (is_string($schema)) {
@@ -5571,18 +5587,18 @@ function igk_db_restore_backup_data_adapter($adapter, $schema, &$error)
  * @param mixed $conditions 
  */
 /**
- * 
- * @param mixed $ctrl 
- * @param mixed $tablename 
- */
-/**
 * auto generate doc.
-* @param mixed $controllerOrAdpaterName
-* @param mixed $query
-* @param mixed $dbname
-* @param mixed $leaveOpen
-* @deprecated
+* @param mixed $ctrl
+* @param mixed $tablename
 */
+/**
+ * auto generate doc.
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $query
+ * @param mixed $dbname
+ * @param mixed $leaveOpen
+ * @deprecated
+ */
 function igk_db_send_query($controllerOrAdpaterName, $query, $dbname = null, $leaveOpen = false)
 {
     $r = null;
@@ -5598,31 +5614,31 @@ function igk_db_send_query($controllerOrAdpaterName, $query, $dbname = null, $le
                 }
             }
         }
-        $adapt->close($leaveOpen);
+        igk_db_close_ad($adapt, $leaveOpen);
         return $r;
     }
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $u
-* @param mixed $n
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $u
+ * @param mixed $n
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_db_set_configup($ctrl, $u, $n, $value)
 {
     $key = strtolower($ctrl->getName()) . "://" . $u->clLogin . "/" . $n;
     return igk_getctrl(IGK_BDCONFIGS_CTRL)->setConfigv($key, $value);
 }
 /**
-* auto generate doc.
-* @param mixed $identifier
-* @param mixed $name
-* @param mixed $date
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $identifier
+ * @param mixed $name
+ * @param mixed $date
+ * @return mixed
+ */
 function igk_db_store_cookie($identifier, $name, $date = null)
 {
     $identifier || igk_die("store cookie identifier is null. Not Allowed");
@@ -5635,22 +5651,22 @@ function igk_db_store_cookie($identifier, $name, $date = null)
     ));
 }
 /**
-* evaluate expression according to row
-* @param mixed $row
-* @param mixed $expression
-* @return mixed
-*/
+ * evaluate expression according to row
+ * @param mixed $row
+ * @param mixed $expression
+ * @return mixed
+ */
 function igk_db_sync_key_eval($row, $expression)
 {
     return eval("return \"{$expression}\";");
 }
 /**
-* auto generate doc.
-* @param mixed & $km
-* @param mixed & $m
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed & $km
+ * @param mixed & $m
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_db_sync_push_data(&$km, &$m, $k)
 {
     if (!isset($km[$k])) {
@@ -5659,12 +5675,12 @@ function igk_db_sync_push_data(&$km, &$m, $k)
     }
 }
 /**
-* synchronise data of this controller to dataadapter
-* @param mixed $ctrl
-* @param mixed $adapter
-* @param mixed $callinit
-* @return mixed
-*/
+ * synchronise data of this controller to dataadapter
+ * @param mixed $ctrl
+ * @param mixed $adapter
+ * @param mixed $callinit
+ * @return mixed
+ */
 function igk_db_sync_todb($ctrl, $adapter = null, $callinit = null)
 {
     $ad = $adapter != null ? igk_get_data_adapter($adapter) : igk_get_data_adapter($ctrl);
@@ -5691,10 +5707,10 @@ function igk_db_sync_todb($ctrl, $adapter = null, $callinit = null)
     return true;
 }
 /**
-* get installed system controller
-* @param mixed $n name for global controller
-* @return mixed
-*/
+ * get installed system controller
+ * @param mixed $n name for global controller
+ * @return mixed
+ */
 function igk_db_sys_ctrl($n)
 {
     $t = igk_app()->session->getParam(IGKSession::SYSDB_CTRL);
@@ -5704,13 +5720,13 @@ function igk_db_sys_ctrl($n)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $table
-* @param mixed $andcondition
-* @param mixed $adapter
-* @param mixed $leaveOpen
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $table
+ * @param mixed $andcondition
+ * @param mixed $adapter
+ * @param mixed $leaveOpen
+ * @return mixed
+ */
 function igk_db_table_count_where($table, $andcondition = null, $adapter = IGK_MYSQL_DATAADAPTER, $leaveOpen = false)
 {
     $db = igk_get_data_adapter($adapter);
@@ -5729,22 +5745,22 @@ function igk_db_table_count_where($table, $andcondition = null, $adapter = IGK_M
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_db_table_exists($ctrl)
 {
     $v = igk_db_table_count_where(igk_db_get_table_name($ctrl->getDataTableName(), $ctrl), null, $ctrl);
     return $v;
 }
 /**
-* filter object to fit table definition data
-* @param mixed $table
-* @param mixed $obj
-* @deprecated
-* @return mixed
-*/
+ * filter object to fit table definition data
+ * @param mixed $table
+ * @param mixed $obj
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_table_filter_data($table, $obj)
 {
     $tobj = igk_db_create_row($table);
@@ -5758,13 +5774,13 @@ function igk_db_table_filter_data($table, $obj)
     return $tobj;
 }
 /**
-* select single row
-* @param mixed $table
-* @param mixed $id
-* @param mixed $controllerOrAdapterName
-* @param mixed $leaveopen
-* @return mixed
-*/
+ * select single row
+ * @param mixed $table
+ * @param mixed $id
+ * @param mixed $controllerOrAdapterName
+ * @param mixed $leaveopen
+ * @return mixed
+ */
 function igk_db_table_select_row($table, $id, $controllerOrAdapterName = IGK_MYSQL_DATAADAPTER, $leaveopen = false)
 {
     $k = null;
@@ -5780,14 +5796,14 @@ function igk_db_table_select_row($table, $id, $controllerOrAdapterName = IGK_MYS
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $table
-* @param mixed $andcondition
-* @param mixed $adapter
-* @param mixed $leaveOpen
-* @param mixed $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $table
+ * @param mixed $andcondition
+ * @param mixed $adapter
+ * @param mixed $leaveOpen
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_db_table_select_where($table, $andcondition = null, $adapter = IGK_MYSQL_DATAADAPTER, $leaveOpen = false, $options = null)
 {
     $db = igk_get_data_adapter($adapter);
@@ -5816,15 +5832,16 @@ function igk_db_table_select_where($table, $andcondition = null, $adapter = IGK_
  * @param bool $leaveOpen 
  * @return void 
  */
-function igk_db_close_ad($ad, $leaveOpen=false){
+function igk_db_close_ad($ad, $leaveOpen = false)
+{
     !$leaveOpen && $ad->close();
 }
 /**
-* auto generate doc.
-* @param mixed $tablename
-* @param mixed $where
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tablename
+ * @param mixed $where
+ * @return mixed
+ */
 function igk_db_table_xmlview_response($tablename, $where = null)
 {
     $tb = igk_create_node("DataTable");
@@ -5836,10 +5853,10 @@ function igk_db_table_xmlview_response($tablename, $where = null)
     return $e->render(null);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_db_unreg_sys_ctrl($n)
 {
     $t = igk_app()->session->getParam(IGKSession::SYSDB_CTRL);
@@ -5849,36 +5866,36 @@ function igk_db_unreg_sys_ctrl($n)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $controllerOrAdpaterName
-* @param mixed $table
-* @param mixed $entry
-* @param mixed $where
-* @param mixed $dbname
-* @param mixed $leaveOpen
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $table
+ * @param mixed $entry
+ * @param mixed $where
+ * @param mixed $dbname
+ * @param mixed $leaveOpen
+ * @return mixed
+ */
 function igk_db_update($controllerOrAdpaterName, $table, $entry, $where = null, $dbname = null, $leaveOpen = false)
 {
-    $adapt = igk_get_data_adapter($controllerOrAdpaterName, false, $leaveOpen);
+    $adapt = igk_get_data_adapter($controllerOrAdpaterName);
     if ($adapt) {
         $adapt->connect($dbname);
         $r = $adapt->update($table, $entry, $where == null ? array(IGK_FD_ID => $entry->clId) : $where);
         if (!$r && igk_environment()->isDebug()) {
             igk_log_write_i("udpate error", igk_debuggerview()->getMessage());
         }
-        $adapt->close($leaveOpen);
+        igk_db_close_ad($adapt, $leaveOpen);
         return $r;
     }
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $identifier
-* @param mixed $name
-* @param mixed $date
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $identifier
+ * @param mixed $name
+ * @param mixed $date
+ * @return mixed
+ */
 function igk_db_update_cookie($identifier, $name, $date = null)
 {
     $table = igk_db_get_table_name(IGK_TB_COOKIESTORE);
@@ -5890,10 +5907,10 @@ function igk_db_update_cookie($identifier, $name, $date = null)
     ));
 }
 /**
-* get system user groups
-* @param mixed $u mixed id or user object
-* @return mixed
-*/
+ * get system user groups
+ * @param mixed $u mixed id or user object
+ * @return mixed
+ */
 function igk_db_user_groups($u)
 {
     $id = $u;
@@ -5923,12 +5940,12 @@ function igk_db_user_groups($u)
     return $o->getRows();
 }
 /**
-* Represent igk_db_util_init_row_script function
-* @param mixed $table
-* @param mixed $name
-* @deprecated
-* @return mixed
-*/
+ * Represent igk_db_util_init_row_script function
+ * @param mixed $table
+ * @param mixed $name
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_util_init_row_script($table, $name = "c")
 {
     $c = igk_db_create_row($table);
@@ -5942,14 +5959,14 @@ function igk_db_util_init_row_script($table, $name = "c")
     igk_text($s);
 }
 /**
-* Represent igk_db_view_result_node function
-* @param mixed $result
-* @param mixed $uri
-* @param mixed $selected
-* @param mixed $max
-* @param mixed $target
-* @return mixed
-*/
+ * Represent igk_db_view_result_node function
+ * @param mixed $result
+ * @param mixed $uri
+ * @param mixed $selected
+ * @param mixed $max
+ * @param mixed $target
+ * @return mixed
+ */
 function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = null)
 {
     if (!$result || !igk_reflection_class_implement($result, 'IQueryResult')) {
@@ -5997,10 +6014,10 @@ function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = 
     return $n;
 }
 /**
-* helper: enable application environment debugging
-* @param ?bool $debug enable
-* @return mixed
-*/
+ * helper: enable application environment debugging
+ * @param ?bool $debug enable
+ * @return mixed
+ */
 function igk_debug(?bool $debug = null)
 {
     igk_environment()->set(IGKEnvironment::DEBUG, $debug);
@@ -6017,10 +6034,10 @@ function igk_debug_sprintf(...$arg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_die($msg)
 {
     if (igk_is_debug()) {
@@ -6028,21 +6045,24 @@ function igk_debug_die($msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_flush_data($msg = "")
 {
     if (igk_environment()->isDebug()) {
-        igk_flush_data($msg);
+        if (!empty($msg)) {
+            igk_flush_write($msg);
+        }
+        igk_flush_data();
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_or_local_die($msg)
 {
     if (igk_is_debug() || igk_server_is_local()) {
@@ -6050,10 +6070,10 @@ function igk_debug_or_local_die($msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_show($msg)
 {
     if (!IGKApp::IsInit())
@@ -6091,18 +6111,18 @@ function igk_debug_show($msg)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_debug_show_dump_info()
 {
     igk_show_prev($_REQUEST);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_wl($msg)
 {
     if (igk_environment()->isDebug()) {
@@ -6110,10 +6130,10 @@ function igk_debug_wl($msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_wln($msg)
 {
     if (igk_environment()->isDebug()) {
@@ -6121,12 +6141,12 @@ function igk_debug_wln($msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $condition
-* @param mixed $tag
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $condition
+ * @param mixed $tag
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_wln_a_i($condition, $tag, $msg)
 {
     if ($condition) {
@@ -6134,9 +6154,9 @@ function igk_debug_wln_a_i($condition, $tag, $msg)
     }
 }
 /**
-* Represent igk_debug_wln_e function
-* @return mixed
-*/
+ * Represent igk_debug_wln_e function
+ * @return mixed
+ */
 function igk_debug_wln_e()
 {
     if (igk_is_debug()) {
@@ -6145,20 +6165,20 @@ function igk_debug_wln_e()
     }
 }
 /**
-* auto generate doc.
-* @param string $tag
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $tag
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_debug_wln_i(string $tag, string $msg)
 {
     igk_debug_wln("[$tag] - $msg");
 }
 /**
-* auto generate doc.
-* @param mixed $die
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $die
+ * @return mixed
+ */
 function igk_debuggerview($die = true)
 {
     if (IGKApp::IsInit() && ($ctrl = igk_getctrl(IGK_DEBUG_CTRL))) {
@@ -6167,10 +6187,10 @@ function igk_debuggerview($die = true)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_delete_module($path)
 {
     $dir = igk_get_module_dir() . "/{$path}";
@@ -6182,11 +6202,11 @@ function igk_delete_module($path)
     return $r;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed & $closures
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed & $closures
+ * @return mixed
+ */
 function igk_detect_closure($obj, &$closures)
 {
     $tq = array(array("v" => $obj, "path" => "."));
@@ -6281,50 +6301,50 @@ function igk_detect_closure($obj, &$closures)
     return $found;
 }
 /**
-* die by setting code values
-* @param mixed $c
-* @return mixed
-*/
+ * die by setting code values
+ * @param mixed $c
+ * @return mixed
+ */
 function igk_die_e($c)
 {
     $e = igk_getv(igk_get_env("sys://errors"), $c, $c);
     igk_die($e);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_die_format($msg)
 {
     return "<div>message : <i>" . $msg . "</i></div>";
 }
 /**
-* Represent igk_die_m function
-* @param mixed $m
-* @return mixed
-*/
+ * Represent igk_die_m function
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_die_m($m)
 {
     igk_die_notimplement($m);
 }
 /**
-* Represent igk_die_notimplement function
-* @param mixed $methodName
-* @return mixed
-*/
+ * Represent igk_die_notimplement function
+ * @param mixed $methodName
+ * @return mixed
+ */
 function igk_die_notimplement($methodName)
 {
     igk_die(__("{0} Not implement", $methodName));
 }
 /**
-* auto generate doc.
-* @param mixed $callable
-* @param mixed $obj
-* @param mixed $method
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callable
+ * @param mixed $obj
+ * @param mixed $method
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_dispatch_call($callable, $obj, $method, $args = array())
 {
     if (method_exists($obj, $method)) {
@@ -6332,12 +6352,12 @@ function igk_dispatch_call($callable, $obj, $method, $args = array())
     }
 }
 /**
-* dispatch message to a specific controller
-* @param mixed $source
-* @param mixed $c
-* @param mixed $params
-* @return mixed
-*/
+ * dispatch message to a specific controller
+ * @param mixed $source
+ * @param mixed $c
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_dispatch_message($source, $c, $params)
 {
     $bck = array("sess_id" => session_id(), "sess" => $_SESSION);
@@ -6360,11 +6380,11 @@ function igk_dispatch_message($source, $c, $params)
     }
 }
 /**
-* call this func to render a display object. other way for toString class method
-* @param mixed $obj
-* @param mixed $keyTab
-* @return mixed
-*/
+ * call this func to render a display object. other way for toString class method
+ * @param mixed $obj
+ * @param mixed $keyTab
+ * @return mixed
+ */
 function igk_display($obj, $keyTab = null)
 {
     if ($keyTab) {
@@ -6383,11 +6403,11 @@ function igk_display($obj, $keyTab = null)
         return $obj->clId;
 }
 /**
-* enable display error
-* @param mixed $a
-* @var bool $a display
-* @return mixed
-*/
+ * enable display error
+ * @param mixed $a
+ * @var bool $a display
+ * @return mixed
+ */
 function igk_display_error($a)
 {
     if ($a) {
@@ -6412,20 +6432,20 @@ function igk_display_error($a)
     }
 }
 /**
-* helper: handler response
-* @param mixed|array|object $r response to handle
-* @return mixed
-*/
+ * helper: handler response
+ * @param mixed|array|object $r response to handle
+ * @return mixed
+ */
 function igk_do_response($r)
 {
     \IGK\System\Http\Response::HandleResponse($r);
     return $r;
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_doc_add_ie_meta_compatibility($doc)
 {
     $meta = igk_create_node("meta");
@@ -6434,13 +6454,13 @@ function igk_doc_add_ie_meta_compatibility($doc)
     $doc->Metas->addMeta("X-UA-Compatible-Edge", $meta);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $script
-* @param mixed $tag
-* @param mixed $global
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $script
+ * @param mixed $tag
+ * @param mixed $global
+ * @return mixed
+ */
 function igk_doc_add_lib_script($doc, $script, $tag, $global = true)
 {
     if (igk_io_file_exists($script))
@@ -6448,13 +6468,13 @@ function igk_doc_add_lib_script($doc, $script, $tag, $global = true)
     return null;
 }
 /**
-* use this to add tempory script to document
-* @param mixed $doc
-* @param mixed $script
-* @param mixed $onlyonce
-* @param mixed $attr
-* @return mixed
-*/
+ * use this to add tempory script to document
+ * @param mixed $doc
+ * @param mixed $script
+ * @param mixed $onlyonce
+ * @param mixed $attr
+ * @return mixed
+ */
 function igk_doc_add_tempscript($doc, $script, $onlyonce = 1, $attr = null)
 {
     if (igk_is_ajx_demand()) {
@@ -6485,10 +6505,10 @@ function igk_doc_add_tempscript($doc, $script, $onlyonce = 1, $attr = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_doc_enable_mobile_app($doc)
 {
     $meta = igk_create_node("meta");
@@ -6497,22 +6517,22 @@ function igk_doc_enable_mobile_app($doc)
     $doc->Metas->addMeta("mobile-web-app-capable", $meta);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_doc_is_global($doc)
 {
     return igk_app()->getDoc() === $doc;
 }
 /**
-* load temporary script to tempScriptListener
-* @param IGKHtmlDoc $doc  the document where to load
-* @param null|string|array $folder  string|array the folder of target scripts
-* @param mixed $tag
-* @param mixed $strict
-* @return mixed
-*/
+ * load temporary script to tempScriptListener
+ * @param IGKHtmlDoc $doc  the document where to load
+ * @param null|string|array $folder  string|array the folder of target scripts
+ * @param mixed $tag
+ * @param mixed $strict
+ * @return mixed
+ */
 function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
 {
     $options = "";
@@ -6572,22 +6592,22 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
     return $c;
 }
 /**
-* set the favicon to this document
-* @param mixed $doc IGKHtmlDocument
-* @param mixed $f relative or fullpath to the favicon file
-* @return mixed
-*/
+ * set the favicon to this document
+ * @param mixed $doc IGKHtmlDocument
+ * @param mixed $f relative or fullpath to the favicon file
+ * @return mixed
+ */
 function igk_doc_set_favicon($doc, $f)
 {
     $doc->setFavicon($f);
 }
 /**
-* shortcut : set meta do document
-* @param mixed $doc
-* @param mixed $name
-* @param mixed $content
-* @return mixed
-*/
+ * shortcut : set meta do document
+ * @param mixed $doc
+ * @param mixed $name
+ * @param mixed $content
+ * @return mixed
+ */
 function igk_doc_set_meta($doc, $name, $content)
 {
     $sm = $doc->Metas;
@@ -6604,15 +6624,15 @@ function igk_doc_set_meta($doc, $name, $content)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $size
-* @param mixed $content
-* @param mixed $mimeType
-* @param mixed $encoding
-* @param mixed $exit
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $size
+ * @param mixed $content
+ * @param mixed $mimeType
+ * @param mixed $encoding
+ * @param mixed $exit
+ * @return mixed
+ */
 function igk_download_content($name, $size, $content, $mimeType = null, $encoding = "binary", $exit = true)
 {
     if ($mimeType) {
@@ -6633,14 +6653,14 @@ function igk_download_content($name, $size, $content, $mimeType = null, $encodin
         igk_exit();
 }
 /**
-* ask to download file
-* @param string $name
-* @param string $filename
-* @param ?string $mimeType
-* @param ?string $encoding
-* @param int $exit
-* @return mixed
-*/
+ * ask to download file
+ * @param string $name
+ * @param string $filename
+ * @param ?string $mimeType
+ * @param ?string $encoding
+ * @param int $exit
+ * @return mixed
+ */
 function igk_download_file(string $name, string $filename, $mimeType = null, $encoding = "binary", $exit = 1)
 {
     if (file_exists($filename)) {
@@ -6651,10 +6671,10 @@ function igk_download_file(string $name, string $filename, $mimeType = null, $en
     }
 }
 /**
-* dump value
-* @param mixed $v
-* @return mixed
-*/
+ * dump value
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_dump($v)
 {
     $callers = debug_backtrace();
@@ -6707,10 +6727,10 @@ function igk_dump($v)
     return $d->render();
 }
 /**
-* dump array
-* @param mixed $tab
-* @return mixed
-*/
+ * dump array
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_html_dump_array($tab)
 {
     $n = igk_create_node('div');
@@ -6723,11 +6743,11 @@ function igk_html_dump_array($tab)
     $n->renderAJX();
 }
 /**
-* write error log
-* @param mixed $msg
-* @param mixed $tag
-* @return mixed
-*/
+ * write error log
+ * @param mixed $msg
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_elog($msg, $tag = null)
 {
     $f = "";
@@ -6736,10 +6756,10 @@ function igk_elog($msg, $tag = null)
     igk_log($msg, $f, $tag);
 }
 /**
-* auto generate doc.
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_env_count($k)
 {
     $sk = 'sys://counter/' . $k;
@@ -6748,38 +6768,38 @@ function igk_env_count($k)
     return $c;
 }
 /**
-* get the current value of the counter
-* @param mixed $k
-* @return mixed
-*/
+ * get the current value of the counter
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_env_count_get($k)
 {
     $sk = 'sys://counter/' . $k;
     return igk_get_env($sk, null);
 }
 /**
-* auto generate doc.
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_env_count_reset($k)
 {
     $sk = 'sys://counter/' . $k;
     igk_set_env($sk, null);
 }
 /**
-* Represent igk_env_file function
-* @param mixed $file
-* @return mixed
-*/
+ * Represent igk_env_file function
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_env_file($file)
 {
     return igk_environment()->get_file($file);
 }
 /**
-* for chain ajx mecanism ask for target node replacement
-* @return mixed
-*/
+ * for chain ajx mecanism ask for target node replacement
+ * @return mixed
+ */
 function igk_env_get_replace_view()
 {
     $g = igk_get_env("sys://nodes/replaceview");
@@ -6789,10 +6809,10 @@ function igk_env_get_replace_view()
     return $g;
 }
 /**
-* for chain ajx mecanism set target node replacement
-* @param mixed $target
-* @return mixed
-*/
+ * for chain ajx mecanism set target node replacement
+ * @param mixed $target
+ * @return mixed
+ */
 function igk_env_set_replace_view($target)
 {
     igk_set_env("sys://nodes/replaceview", $target);
@@ -6807,12 +6827,12 @@ function igk_error($code)
     return igk_getv(igk_get_env("sys://error_codes"), $code);
 }
 /**
-* function igk_error_def_error
-* @param mixed $msg
-* @param mixed $code
-* @param mixed $msg_key
-* @return mixed
-*/
+ * function igk_error_def_error
+ * @param mixed $msg
+ * @param mixed $code
+ * @param mixed $msg_key
+ * @return mixed
+ */
 function igk_error_def_error($msg, $code, $msg_key)
 {
     $igk_error_codes = igk_get_env("sys://error_codes", function () {
@@ -6831,10 +6851,10 @@ function igk_error_def_error($msg, $code, $msg_key)
     igk_set_env("sys://error_codes", $igk_error_codes);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_error_page404($msg)
 {
     $file = IGK_LIB_DIR . "/Views/error/404.phtml";
@@ -6860,12 +6880,12 @@ function igk_error_page404($msg)
     }
 }
 /**
-* igk eval source script
-* @param mixed $src source to evaluate
-* @param mixed $ctrl controller to pass to source
-* @param mixed $raw data to pass
-* @return mixed
-*/
+ * igk eval source script
+ * @param mixed $src source to evaluate
+ * @param mixed $ctrl controller to pass to source
+ * @param mixed $raw data to pass
+ * @return mixed
+ */
 function igk_eval_in_context($src, $ctrl, $raw)
 {
     if ($ctrl) {
@@ -6894,20 +6914,20 @@ function igk_eval_in_context($src, $ctrl, $raw)
     return $__result;
 }
 /**
-* set last eval keys
-* @param mixed $c
-* @return mixed
-*/
+ * set last eval keys
+ * @param mixed $c
+ * @return mixed
+ */
 function igk_eval_last_script($c)
 {
     igk_set_env("sys://eval/lastscript", $c);
 }
 /**
-* evaluation script in context
-* @param mixed $context
-* @param mixed $script
-* @return mixed
-*/
+ * evaluation script in context
+ * @param mixed $context
+ * @param mixed $script
+ * @return mixed
+ */
 function igk_eval_script_in_context($context, $script)
 {
     if ($context)
@@ -6929,10 +6949,10 @@ EOF;
     return null;
 }
 /**
-* write a message in a stderror
-* @param mixed $msg
-* @return mixed
-*/
+ * write a message in a stderror
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_ewln($msg)
 {
     if (defined("STDERR")) {
@@ -6947,24 +6967,24 @@ function igk_ewln($msg)
     }
 }
 /**
-* calculate execution time
-* @param mixed $name
-* @param mixed $time
-* @return mixed
-*/
+ * calculate execution time
+ * @param mixed $name
+ * @param mixed $time
+ * @return mixed
+ */
 function igk_execute_time($name = null, $time = null)
 {
     $t = igk_get_env('sys://env/starttime' . ($name ? "/{$name}" : ""), 0);
     return (float)($time ?? microtime(true)) - (float)$t;
 }
 /**
-* extract variables list from object
-* @param null|object|array $obj
-* @param mixed|string $list - mixed keys : string[] | [key=>default_value] | pipe delimiter list
-* @param mixed $defaults
-* @throws Exception
-* @return array
-*/
+ * extract variables list from object
+ * @param null|object|array $obj
+ * @param mixed|string $list - mixed keys : string[] | [key=>default_value] | pipe delimiter list
+ * @param mixed $defaults
+ * @throws Exception
+ * @return array
+ */
 function igk_extract($obj, $list, $defaults = null)
 {
     if (is_null($obj)) {
@@ -6987,11 +7007,11 @@ function igk_extract($obj, $list, $defaults = null)
 }
 if (!function_exists('igk_extract_first')) {
     /**
-    * retrieve first entrie on list provider pipe delimiter list
-    * @param mixed $obj
-    * @param string $list pipe delimiter list
-    * @return mixed
-    */
+     * retrieve first entrie on list provider pipe delimiter list
+     * @param mixed $obj
+     * @param string $list pipe delimiter list
+     * @return mixed
+     */
     function igk_extract_first($obj, string $list)
     {
         if (!$obj) return null;
@@ -7006,11 +7026,11 @@ if (!function_exists('igk_extract_first')) {
 }
 if (!function_exists('igk_extract_first_not_null')) {
     /**
-    * retrieve first entrie on list provider pipe delimiter list
-    * @param mixed $obj
-    * @param string $list pipe delimiter list
-    * @return mixed
-    */
+     * retrieve first entrie on list provider pipe delimiter list
+     * @param mixed $obj
+     * @param string $list pipe delimiter list
+     * @return mixed
+     */
     function igk_extract_first_not_null($obj, string $list)
     {
         if (!$obj) return null;
@@ -7093,11 +7113,11 @@ function &igk_get_refvalue($obj, $k)
 
 if (!function_exists('igk_extract_obj')) {
     /**
-    * helper : extract an convert to std classobject
-    * @param mixed $obj
-    * @param mixed $list
-    * @return mixed
-    */
+     * helper : extract an convert to std classobject
+     * @param mixed $obj
+     * @param mixed $list
+     * @return mixed
+     */
     function igk_extract_obj($obj, $list)
     {
         $r = igk_extract($obj, $list);
@@ -7112,26 +7132,27 @@ if (!function_exists('igk_extract_obj')) {
 }
 if (!function_exists('igk_extract_var')) {
     /**
-    * extract var
-    * @param mixed $data
-    * @param mixed $list
-    * @var mixed $data object to extract
-    * @var string|string[] $list list of variable to extract
-    * @return array assoc array of variable
-    */
+     * extract var
+     * @param mixed $data
+     * @param mixed $list
+     * @var mixed $data object to extract
+     * @var string|string[] $list list of variable to extract
+     * @return array assoc array of variable
+     */
     function igk_extract_var($data, $list)
     {
-        return (function () {
+        igk_wln_e(__FILE__ . ":" . __LINE__, 'extract');
+        return call_user_func_array([function () {
             extract(igk_extract_ref((array)igk_extract_obj(func_get_arg(0), func_get_arg(1))));
             return get_defined_vars();
-        })($data, $list);
+        }], [$data, $list]);
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function &igk_extract_context($ctrl)
 {
     $script_obj = igk_html_databinding_getobjforscripting($ctrl);
@@ -7142,12 +7163,12 @@ function &igk_extract_context($ctrl)
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $dirorfile
-* @param mixed $mode
-* @param mixed $recursif
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dirorfile
+ * @param mixed $mode
+ * @param mixed $recursif
+ * @return mixed
+ */
 function igk_file_chmod($dirorfile, $mode, $recursif = false)
 {
     $out = true;
@@ -7172,11 +7193,11 @@ function igk_file_chmod($dirorfile, $mode, $recursif = false)
     return $out;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $parentFile
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $parentFile
+ * @return mixed
+ */
 function igk_file_isdirectchildof($file, $parentFile)
 {
     $tab = get_included_files();
@@ -7194,10 +7215,10 @@ function igk_file_isdirectchildof($file, $parentFile)
     return 0;
 }
 /**
-* check if a file is included
-* @param mixed $file
-* @return mixed
-*/
+ * check if a file is included
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_file_isnotincluded($file)
 {
     $tab = get_included_files();
@@ -7209,9 +7230,9 @@ function igk_file_isnotincluded($file)
     return ($index >= 0) && ($index < count($tab)) && $tab[$index] == $file;
 }
 /**
-* helper: flush data.
-* @return mixed
-*/
+ * helper: flush data.
+ * @return mixed
+ */
 function igk_flush_data()
 {
     $l = ob_get_level();
@@ -7221,9 +7242,9 @@ function igk_flush_data()
     flush();
 }
 /**
-* begin flushing data
-* @return mixed
-*/
+ * begin flushing data
+ * @return mixed
+ */
 function igk_flush_start()
 {
     while (ob_get_level()) {
@@ -7232,11 +7253,11 @@ function igk_flush_start()
     ob_start();
 }
 /**
-* write data
-* @param mixed $data
-* @param mixed $eventtype
-* @return mixed
-*/
+ * write data
+ * @param mixed $data
+ * @param mixed $eventtype
+ * @return mixed
+ */
 function igk_flush_write($data, $eventtype = null)
 {
     if ($eventtype) {
@@ -7245,21 +7266,21 @@ function igk_flush_write($data, $eventtype = null)
     igk_wl("data: " . $data . "\n\n");
 }
 /**
-* utility that combine flush_write and flush_data
-* @param mixed $data
-* @return mixed
-*/
+ * utility that combine flush_write and flush_data
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_flush_write_data($data)
 {
     igk_flush_write($data);
     igk_flush_data();
 }
 /**
-* utility to do foreach on table or object with a callback
-* @param mixed $i
-* @param mixed $callback
-* @return mixed
-*/
+ * utility to do foreach on table or object with a callback
+ * @param mixed $i
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_foreach($i, $callback)
 {
     if (!$i) {
@@ -7274,37 +7295,37 @@ function igk_foreach($i, $callback)
     return null;
 }
 /**
-* Represent igk_form_input_type function
-* @param mixed $type
-* @return mixed
-*/
+ * Represent igk_form_input_type function
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_form_input_type($type)
 {
     return HtmlUtils::GetInputType($type);
 }
 /**
-* convert format data
-* @param mixed $v value to convert
-* @param mixed $in value format
-* @param mixed $out output format
-* @return mixed
-*/
+ * convert format data
+ * @param mixed $v value to convert
+ * @param mixed $in value format
+ * @param mixed $out output format
+ * @return mixed
+ */
 function igk_format_date($v, $in, $out)
 {
     $span = igk_time_span($in, $v);
     return date($out, $span);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $uri
-* @param mixed $closeuri
-* @param mixed $title
-* @param mixed $target
-* @param mixed $buttonmodel
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $uri
+ * @param mixed $closeuri
+ * @param mixed $title
+ * @param mixed $target
+ * @param mixed $buttonmodel
+ * @return mixed
+ */
 function igk_frame_add_confirm($ctrl, $id, $uri = null, $closeuri = ".", $title = null, $target = null, $buttonmodel = 0)
 {
     $_id = base64_encode($id);
@@ -7343,12 +7364,12 @@ function igk_frame_add_confirm($ctrl, $id, $uri = null, $closeuri = ".", $title 
     return $frame;
 }
 /**
-* auto generate doc.
-* @param mixed $target
-* @param mixed $buttonmodel
-* @param mixed $canceluri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $target
+ * @param mixed $buttonmodel
+ * @param mixed $canceluri
+ * @return mixed
+ */
 function igk_frame_bind_action($target, $buttonmodel = 0, $canceluri = "")
 {
     $igk = igk_app();
@@ -7365,20 +7386,20 @@ function igk_frame_bind_action($target, $buttonmodel = 0, $canceluri = "")
     }
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $navigate
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $navigate
+ * @return mixed
+ */
 function igk_frame_close($name, $navigate = null)
 {
     return igk_getctrl(IGK_FRAME_CTRL)->closeFrame($name, $navigate);
 }
 /**
-* auto generate doc.
-* @param mixed $frame
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $frame
+ * @return mixed
+ */
 function igk_frame_close_frame_callback($frame)
 {
     $p = null;
@@ -7390,16 +7411,16 @@ function igk_frame_close_frame_callback($frame)
     return $p;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $title
-* @param mixed $closeuri
-* @param mixed $target
-* @param mixed $reloadcallback
-* @param mixed $buttonmodel
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $title
+ * @param mixed $closeuri
+ * @param mixed $target
+ * @param mixed $reloadcallback
+ * @param mixed $buttonmodel
+ * @return mixed
+ */
 function igk_frame_confirm($ctrl, $id, $title = null, $closeuri = ".", $target = null, $reloadcallback = null, $buttonmodel = 0)
 {
     $frame = igk_getctrl(IGK_FRAME_CTRL)->createFrame($id, $ctrl, $closeuri, $reloadcallback);
@@ -7435,32 +7456,32 @@ function igk_frame_confirm($ctrl, $id, $title = null, $closeuri = ".", $target =
     return $frame;
 }
 /**
-* auto generate doc.
-* @param mixed $frame
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $frame
+ * @return mixed
+ */
 function igk_frame_is_available($frame)
 {
     return igk_getctrl(IGK_FRAME_CTRL)->IsFrameAvailable($frame);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_frame_js_postform_ref($ctrl)
 {
     return "javascript: return (function(q,s){ igk.winui.frameBox.postForm(q.form, q.form.action, s); return false;})(this, '" . $ctrl->TargetNode["id"] . "');";
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $closeuri
-* @param mixed $target
-* @param mixed $reloadcallback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $closeuri
+ * @param mixed $target
+ * @param mixed $reloadcallback
+ * @return mixed
+ */
 function igk_frame_new($ctrl, $id, $closeuri = ".", $target = null, $reloadcallback = null)
 {
     $frm = igk_getctrl(IGK_FRAME_CTRL)->createFrame($id, $ctrl, $closeuri, $reloadcallback);
@@ -7471,10 +7492,10 @@ function igk_frame_new($ctrl, $id, $closeuri = ".", $target = null, $reloadcallb
     return $frm;
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_free_component($classname)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
@@ -7484,10 +7505,10 @@ function igk_free_component($classname)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_free_document($k)
 {
     $v = igk_app()->session->getParam(IGK_KEY_DOCUMENTS);
@@ -7504,20 +7525,20 @@ function igk_free_document($k)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_get_action_uri($name, $args)
 {
     return igk_io_baseuri() . "/@!actions/{$name}/" . $args;
 }
 /**
-* auto generate doc.
-* @param mixed $ad
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ad
+ * @return mixed
+ */
 function igk_get_adapter_name($ad)
 {
     if (!is_object($ad))
@@ -7529,9 +7550,9 @@ function igk_get_adapter_name($ad)
     return null;
 }
 /**
-* Retrieve all default page controller
-* @return mixed
-*/
+ * Retrieve all default page controller
+ * @return mixed
+ */
 function igk_get_all_default_pagectrl()
 {
     $igk = igk_app();
@@ -7548,10 +7569,10 @@ function igk_get_all_default_pagectrl()
     return $t;
 }
 /**
-* Represent igk_get_all_session_file_infos function
-* @param mixed $max
-* @return mixed
-*/
+ * Represent igk_get_all_session_file_infos function
+ * @param mixed $max
+ * @return mixed
+ */
 function igk_get_all_session_file_infos($max = null)
 {
     $d = ini_get("session.save_path");
@@ -7575,9 +7596,9 @@ function igk_get_all_session_file_infos($max = null)
     return $sess;
 }
 /**
-* Represent igk_get_all_session_files function
-* @return mixed
-*/
+ * Represent igk_get_all_session_files function
+ * @return mixed
+ */
 function igk_get_all_session_files()
 {
     $d = ini_get("session.save_path");
@@ -7594,9 +7615,9 @@ function igk_get_all_session_files()
     return $sess;
 }
 /**
-* retrieve an array of session info
-* @return mixed
-*/
+ * retrieve an array of session info
+ * @return mixed
+ */
 function igk_get_all_sessions()
 {
     $d = ini_get("session.save_path");
@@ -7659,30 +7680,30 @@ function igk_get_all_uri_page_ctrl()
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @param mixed $currency
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @param mixed $currency
+ * @return mixed
+ */
 function igk_get_amount($v = 0, $currency = 'EUR')
 {
     return __("lb.amount_2", $v, igk_get_currency_symbol($currency));
 }
 /**
-* shortcut : get conntroller's article
-* @param mixed $ctrl
-* @param mixed $name
-* @return mixed
-*/
+ * shortcut : get conntroller's article
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_article($ctrl, $name)
 {
     return $ctrl->getArticle($name);
 }
 /**
-* auto generate doc.
-* @param mixed $lang
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $lang
+ * @return mixed
+ */
 function igk_get_article_ext($lang = null)
 {
     if ($lang) {
@@ -7691,9 +7712,9 @@ function igk_get_article_ext($lang = null)
     return strtolower("." . R::GetCurrentLang() . "." . IGK_DEFAULT_VIEW_EXT);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_basestyle()
 {
     $bf = IGKCaches::ResolvPath(__FILE__);
@@ -7715,12 +7736,12 @@ EOF;
     return $v;
 }
 /**
-* get a builder engine
-* @param mixed $name
-* @param mixed $frm
-* @param mixed $selected
-* @return mixed
-*/
+ * get a builder engine
+ * @param mixed $name
+ * @param mixed $frm
+ * @param mixed $selected
+ * @return mixed
+ */
 function igk_get_builder_engine($name, $frm, $selected = 0)
 {
     $tab = igk_get_env("sys://form/builderengines");
@@ -7740,11 +7761,11 @@ function igk_get_builder_engine($name, $frm, $selected = 0)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $def
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $def
+ * @return mixed
+ */
 function igk_get_cached($n, $def = null)
 {
     $igk = igk_app();
@@ -7758,19 +7779,19 @@ function igk_get_cached($n, $def = null)
     return $def;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_cached_manifest()
 {
     header("Content-Type: text/cache-manifest");
     igk_wl(igk_get_manifest_content());
 }
 /**
-* utility function get call_user_func_array argument
-* @param mixed $t
-* @return mixed
-*/
+ * utility function get call_user_func_array argument
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_get_call_args($t)
 {
     if (!is_array($t))
@@ -7778,39 +7799,39 @@ function igk_get_call_args($t)
     return $t;
 }
 /**
-* return class namespace
-* @param string $class
-* @return string namespace or empty class
-*/
+ * return class namespace
+ * @param string $class
+ * @return string namespace or empty class
+ */
 function igk_get_class_namespace(string $class)
 {
     return str_replace("/", "\\", dirname(IGK\Helper\StringUtility::Dir($class)));
 }
 /**
-* return constants within the class
-* @param mixed $classname
-* @return mixed
-*/
+ * return constants within the class
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_get_class_constants($classname)
 {
     $r = igk_sys_reflect_class($classname);
     return $r->getConstants();
 }
 /**
-* return class instance for atomic design pattern. store it in session
-* @param mixed $classname
-* @param mixed $callback
-* @return mixed
-*/
+ * return class instance for atomic design pattern. store it in session
+ * @param mixed $classname
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_get_class_instance($classname, $callback)
 {
     return igk_environment()->createClassInstance($classname, $callback);
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_get_class_location($classname = null)
 {
     $c = igk_get_reg_class_file($classname);
@@ -7822,11 +7843,11 @@ function igk_get_class_location($classname = null)
     return (object)array("file" => $c->getFileName(), "line" => $c->getStartLine());
 }
 /**
-* auto generate doc.
-* @param mixed $ob
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ob
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_class_method_location($ob, $name)
 {
     $cl = get_class($ob);
@@ -7836,30 +7857,30 @@ function igk_get_class_method_location($ob, $name)
     return (object)array("file" => $c->getFileName(), "line" => $c->getStartLine());
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_cmd_command($name)
 {
     $t = igk_get_env("sys://cmd/commands");
     return ($t && $name) ? igk_getv($t, $name) : null;
 }
 /**
-* auto generate doc.
-* @param mixed $id
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_get_component($id)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL);
     return $ctrl->getParam("sys://globalcomponent/{$id}");
 }
 /**
-* get component by id
-* @param mixed $id
-* @return mixed
-*/
+ * get component by id
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_get_component_by_id($id)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
@@ -7869,10 +7890,10 @@ function igk_get_component_by_id($id)
     return null;
 }
 /**
-* register and get the component id
-* @param mixed $n
-* @return mixed
-*/
+ * register and get the component id
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_component_id($n)
 {
     $id = $n->getParam(IGK_COMPONENT_ID_KEY)->getValue();
@@ -7888,50 +7909,50 @@ function igk_get_component_id($n)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $cmpname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $cmpname
+ * @return mixed
+ */
 function igk_get_component_info($cmpname)
 {
     return igk_get_env(IGK_ENV_HTML_COMPONENTS);
 }
 /**
-* register a node as a component uri
-* @param mixed $node the item that will host function callback
-* @param mixed $func the fonction name registrated to a node
-* @return mixed
-*/
+ * register a node as a component uri
+ * @param mixed $node the item that will host function callback
+ * @param mixed $func the fonction name registrated to a node
+ * @return mixed
+ */
 function igk_get_component_uri($node, $func)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
     $u = null;
     if ($ctrl->Exists($node)) {
-        $u = $ctrl->getUri($func, $node);
+        $u = $ctrl->getUri($func);
     } else {
         if ($ctrl->Register($node, false)) {
             $node->setParam(IGK_COMPONENT_ID_KEY, new HtmlComponentIdValue($node));
-            $u = $ctrl->getUri($func, $node);
+            $u = $ctrl->getUri($func);
         }
     }
     return $u;
 }
 /**
-* Represent igk_get_component_uri_key function
-* @param mixed $guid
-* @return mixed
-*/
+ * Represent igk_get_component_uri_key function
+ * @param mixed $guid
+ * @return mixed
+ */
 function igk_get_component_uri_key($guid)
 {
     $s = !igk_io_basedir_is_root() ? "index.php/" : "";
     return igk_io_query_info()->root_uri . $s . "{" . $guid . "}";
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_get_config_action($name, $callback)
 {
     $t = igk_get_env("sys://configs/options", array());
@@ -7939,30 +7960,30 @@ function igk_get_config_action($name, $callback)
     igk_get_env("sys://configs/options", array());
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_configs_menu_settings()
 {
     return igk_get_env("sys://configs/menu");
 }
 /**
-* get controller view content
-* @param mixed $ctrl
-* @param mixed $type
-* @param mixed $params
-* @return mixed
-*/
+ * get controller view content
+ * @param mixed $ctrl
+ * @param mixed $type
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_get_contents($ctrl, $type, $params = null)
 {
     return $ctrl->viewContent($type, $params);
 }
 /**
-* Represent igk_get_context_args function
-* @param mixed $arg
-* @param mixed $reset
-* @return mixed
-*/
+ * Represent igk_get_context_args function
+ * @param mixed $arg
+ * @param mixed $reset
+ * @return mixed
+ */
 function igk_get_context_args($arg = null, $reset = 0)
 {
     if (!($r = igk_get_env($k = "context/args"))) {
@@ -7982,10 +8003,10 @@ function igk_get_context_args($arg = null, $reset = 0)
     return $r;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_cookie($n)
 {
     $n = igk_get_cookie_name(igk_sys_domain_name() . "/" . $n);
@@ -8035,40 +8056,40 @@ function igk_clear_real_cookie(string $cookie_name, $path = '/', $domain = null)
     setcookie($cookie_name, '', time() - (10 * 3600), $path, $domain);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_cookie_name($n)
 {
     return str_replace('.', '_', $n);
 }
 /**
-* auto generate doc.
-* @param mixed $b
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $b
+ * @return mixed
+ */
 function igk_get_cookie_path($b = null)
 {
     return $b ? "/" . $b : "/";
 }
 /**
-* get controller parameter shorcut
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $reset
-* @return mixed
-*/
+ * get controller parameter shorcut
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $reset
+ * @return mixed
+ */
 function igk_get_cp($ctrl, $name, $reset = 1)
 {
     ($n = $ctrl->getParam($name)) && $reset && $ctrl->setParam($name, null);
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $curr
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $curr
+ * @return mixed
+ */
 function igk_get_currency_symbol($curr = 'EUR')
 {
     $t = array("EUR" => "€", "USD" => "$");
@@ -8083,11 +8104,11 @@ function igk_get_current_base_ctrl()
     return \IGK\Helper\SysUtils::CurrentBaseController();
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @param mixed $secured
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @param mixed $secured
+ * @return mixed
+ */
 function igk_get_current_base_uri($dir = null, $secured = false)
 {
     $igk = igk_app();
@@ -8100,9 +8121,9 @@ function igk_get_current_base_uri($dir = null, $secured = false)
     return $out;
 }
 /**
-* retrieve current pagage
-* @return mixed
-*/
+ * retrieve current pagage
+ * @return mixed
+ */
 function igk_get_current_package()
 {
     $key = Constants::COMPONENT_PACKAGE_KEY;
@@ -8112,9 +8133,9 @@ function igk_get_current_package()
     return null;
 }
 /**
-* get the current page controller.
-* @return mixed
-*/
+ * get the current page controller.
+ * @return mixed
+ */
 function igk_get_currentpagectrl()
 {
     $igk = igk_app();
@@ -8130,36 +8151,36 @@ function igk_get_currentpagectrl()
     return null;
 }
 /**
-* get adapter system data adapter
-* @param mixed $controllerOrAdpaterName
-* @param mixed $throwException
-* @return ?\IGK\Database\DataAdapterBase
-*/
+ * get adapter system data adapter
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $throwException
+ * @return ?\IGK\Database\DataAdapterBase
+ */
 function igk_get_data_adapter($controllerOrAdpaterName, $throwException = false)
 {
     return \IGK\Database\DataAdapterBase::GetAdapter($controllerOrAdpaterName, $throwException);
 }
 /**
-* Return the core default style file
-* @return mixed
-*/
+ * Return the core default style file
+ * @return mixed
+ */
 function igk_get_default_style()
 {
     return igk_io_read_allfile(Path::Combine(IGK_LIB_DIR, "/Default/" . IGK_STYLE_FOLDER, Constants::DEFAULT_THEME_STYLE));
 }
 /**
-* get default view content
-* @param mixed $ctrl
-* @return mixed
-*/
+ * get default view content
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_get_default_view_content($ctrl)
 {
     return "<?php \n";
 }
 /**
-* get default configuration data
-* @return mixed
-*/
+ * get default configuration data
+ * @return mixed
+ */
 function igk_get_defaultconfigdata()
 {
     $servername = igk_getv($_SERVER, "SERVER_NAME", "igkdev.com");
@@ -8204,10 +8225,10 @@ function igk_get_defaultconfigdata()
     return igk_cache_array_content(igk_map_array_to_str($data));
 }
 /**
-* Returns defaultcron data.
-* @param mixed $file
-* @return mixed
-*/
+ * Returns defaultcron data.
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_get_defaultcron_data($file = "cronjob.php")
 {
     $bal = IGK_APP_DIR . "/Lib/igk/bin/balafon";
@@ -8223,9 +8244,9 @@ function igk_get_defaultcron_data($file = "cronjob.php")
     return $o;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_defaultview_content()
 {
     $date = date("Y/m/d - H:i:s");
@@ -8244,12 +8265,12 @@ function igk_get_defaultview_content()
 EOF;
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @param mixed & $s
-* @param mixed $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @param mixed & $s
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_get_defined_ns($node, &$s, $options)
 {
     $attr = $node->getAttributes();
@@ -8269,13 +8290,13 @@ function igk_get_defined_ns($node, &$s, $options)
     }
 }
 /**
-* get the document
-* @param string $key key to register document
-* @param mixed $clear
-* @param mixed $init
-* @param ?callable $init_settings
-* @return ?IGKHtmlDoc
-*/
+ * get the document
+ * @param string $key key to register document
+ * @param mixed $clear
+ * @param mixed $init
+ * @param ?callable $init_settings
+ * @return ?IGKHtmlDoc
+ */
 function igk_get_document(string $key, $clear = false, $init = false, ?callable $init_settings = null)
 {
     /**
@@ -8333,18 +8354,18 @@ function igk_get_document(string $key, $clear = false, $init = false, ?callable 
     return $doc;
 }
 /**
-* return the sub created documents attached to system
-* @return mixed
-*/
+ * return the sub created documents attached to system
+ * @return mixed
+ */
 function igk_get_documents()
 {
     return igk_app()->session->getParam(IGK_KEY_DOCUMENTS);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_domain($n)
 {
     if (preg_match_all(IGK_DOMAIN_REGEX, $n, $v)) {
@@ -8353,10 +8374,10 @@ function igk_get_domain($n)
     return IGK_STR_EMPTY;
 }
 /**
-* extract root domain from uri
-* @param string $n
-* @return mixed
-*/
+ * extract root domain from uri
+ * @param string $n
+ * @return mixed
+ */
 function igk_get_domain_name(string $n): ?string
 {
     $q = parse_url($n);
@@ -8374,10 +8395,10 @@ function igk_get_domain_name(string $n): ?string
     return null;
 }
 /**
-* get all environment variable that match the pattern
-* @param mixed $match
-* @return mixed
-*/
+ * get all environment variable that match the pattern
+ * @param mixed $match
+ * @return mixed
+ */
 function igk_get_env_all($match)
 {
     $tab = igk_environment()->getEnvironments();
@@ -8390,20 +8411,20 @@ function igk_get_env_all($match)
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_get_env_init($key, $callback)
 {
     return igk_environment()->init($key, $callback);
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_get_env_lib_loaded($v = null)
 {
     $k = "sys://libloaded";
@@ -8411,10 +8432,10 @@ function igk_get_env_lib_loaded($v = null)
     return igk_get_env($k, 0);
 }
 /**
-* retrieve environment variable as object
-* @param mixed $ns
-* @return mixed
-*/
+ * retrieve environment variable as object
+ * @param mixed $ns
+ * @return mixed
+ */
 function igk_get_env_obj($ns)
 {
     $c = igk_get_env_all($ns);
@@ -8455,18 +8476,18 @@ function igk_get_env_obj($ns)
     return (object)$t;
 }
 /**
-* get all global environments table
-* @return mixed
-*/
+ * get all global environments table
+ * @return mixed
+ */
 function igk_get_envs()
 {
     return igk_environment()->getEnvironments();
 }
 /**
-* return all error
-* @param mixed $tag
-* @return mixed
-*/
+ * return all error
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_get_error($tag = null)
 {
     $tab = igk_get_env("sys://igk_set_error");
@@ -8483,38 +8504,38 @@ function igk_get_error($tag = null)
     return $tab;
 }
 /**
-* parse error key
-* @param mixed $code
-* @return mixed
-*/
+ * parse error key
+ * @param mixed $code
+ * @return mixed
+ */
 function igk_get_error_key($code)
 {
     return igk_error($code)["Msg"];
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_eval_global_script_actions()
 {
     return igk_get_env("sys://article/eval_script_global", []);
 }
 /**
-* get event keys
-* @param mixed $ctrl
-* @param mixed $name
-* @return mixed
-*/
+ * get event keys
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_event_key($ctrl, $name)
 {
     return strtolower("sys://" . $ctrl->getName() . "/event/" . $name);
 }
 /**
-* get exception from eval inclusion
-* @param mixed $Ex
-* @param mixed $traces
-* @return mixed
-*/
+ * get exception from eval inclusion
+ * @param mixed $Ex
+ * @param mixed $traces
+ * @return mixed
+ */
 function igk_get_exception_eval($Ex, $traces = null)
 {
     $content = "";
@@ -8539,10 +8560,10 @@ function igk_get_exception_eval($Ex, $traces = null)
     return $content;
 }
 /**
-* auto generate doc.
-* @param mixed $id
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_get_form_args($id = null)
 {
     $tab = igk_get_env("sys://form_args");
@@ -8553,9 +8574,9 @@ function igk_get_form_args($id = null)
     return null;
 }
 /**
-* get system register form builder engines
-* @return mixed
-*/
+ * get system register form builder engines
+ * @return mixed
+ */
 function igk_get_form_builder_engines()
 {
     $tab = igk_get_env("sys://form/builderengines");
@@ -8564,27 +8585,27 @@ function igk_get_form_builder_engines()
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_frame($name)
 {
     return igk_getctrl(IGK_FRAME_CTRL)->getFrame($name);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_frame_ext()
 {
     return strtolower(".frame.phtml");
 }
 /**
-* return function location
-* @param mixed $func
-* @return mixed
-*/
+ * return function location
+ * @param mixed $func
+ * @return mixed
+ */
 function igk_get_func_location($func)
 {
     if (function_exists($func)) {
@@ -8597,28 +8618,28 @@ function igk_get_func_location($func)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $func
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $func
+ * @return mixed
+ */
 function igk_get_func_location_str($func)
 {
     return ($g = igk_get_func_location($func)) ? $g->file : null;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $default
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_get_global_cookie($n, $default = 0)
 {
     return igk_getv($_COOKIE, $default);
 }
 /**
-* get plateform header info
-* @return mixed
-*/
+ * get plateform header info
+ * @return mixed
+ */
 function igk_get_header_obj()
 {
     $obj = igk_createobj();
@@ -8632,12 +8653,12 @@ function igk_get_header_obj()
     return $obj;
 }
 /**
-* used to created a hosted component
-* @param mixed $host
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * used to created a hosted component
+ * @param mixed $host
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_get_host_component($host, $name, $callback)
 {
     $t = $host->getParam(IGK_NAMED_NODE_PARAM);
@@ -8648,11 +8669,11 @@ function igk_get_host_component($host, $name, $callback)
     return $n;
 }
 /**
-* get package name component
-* @param mixed $name name of registrated package. name can be null or empty to list all components
-* @param mixed $sortbykey
-* @return mixed
-*/
+ * get package name component
+ * @param mixed $name name of registrated package. name can be null or empty to list all components
+ * @param mixed $sortbykey
+ * @return mixed
+ */
 function igk_get_html_components($name, $sortbykey = 0)
 {
     $t = array();
@@ -8674,20 +8695,20 @@ function igk_get_html_components($name, $sortbykey = 0)
     return $t;
 }
 /**
-* convert string to identifier
-* @param mixed $n
-* @return mixed
-*/
+ * convert string to identifier
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_identifier($n)
 {
     return preg_replace("/([^0-9a-z])/i", "_", $n);
 }
 /**
-* auto generate doc.
-* @param mixed $options
-* @param mixed $src
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $options
+ * @param mixed $src
+ * @return mixed
+ */
 function igk_get_image_uri($options, $src)
 {
     $lnk = $src;
@@ -8748,21 +8769,21 @@ function igk_get_image_uri($options, $src)
     return $s;
 }
 /**
-* get index file basename
-* @param mixed $dir
-* @param mixed $default
-* @return mixed
-*/
+ * get index file basename
+ * @param mixed $dir
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_get_index($dir, $default = 'index.php')
 {
     $dab = igk_io_getfiles($dir, "/\index\.(php|phtml|html|htm)$/", false);
     return basename(igk_getv($dab, 0, $default));
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_get_instance_key($classname)
 {
     $r = igk_get_env(strtolower(trim("sys://instance/key/" . $classname)));
@@ -8770,21 +8791,21 @@ function igk_get_instance_key($classname)
     return $g;
 }
 /**
-* get last rendered document
-* @return mixed
-*/
+ * get last rendered document
+ * @return mixed
+ */
 function igk_get_last_rendered_document()
 {
     return IGKHtmlDoc::LastRenderedDocument();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $callback
-* @param mixed $duration
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $callback
+ * @param mixed $duration
+ * @return mixed
+ */
 function igk_get_live_data($ctrl, $name, $callback = null, $duration = 10)
 {
     $t = $ctrl->getParam("sys://liveddata", array());
@@ -8807,11 +8828,11 @@ function igk_get_live_data($ctrl, $name, $callback = null, $duration = 10)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $fi
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $fi
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_get_local_file($fi, $ctrl = null)
 {
     $s = igk_dir($fi);
@@ -8819,9 +8840,9 @@ function igk_get_local_file($fi, $ctrl = null)
     return $s;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_manifest_content()
 {
     $info = "igkapp_manifest";
@@ -8831,27 +8852,27 @@ CACHE MANIFEST
 EOF;
 }
 /**
-* auto generate doc.
-* @param mixed $id  path to module
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $id  path to module
+ * @return mixed
+ */
 function igk_get_module($id)
 {
     return igk_init_module($id, null, false);
 }
 /**
-* helper: get module directory
-* @return mixed
-*/
+ * helper: get module directory
+ * @return mixed
+ */
 function igk_get_module_dir()
 {
     return Path::getInstance()->getModuleDir();
 }
 /**
-* retrieve module name by real module directory
-* @param string $dir
-* @return mixed
-*/
+ * retrieve module name by real module directory
+ * @param string $dir
+ * @return mixed
+ */
 function igk_get_module_name(string $dir)
 {
     $moddir = realpath(igk_get_module_dir());
@@ -8862,19 +8883,19 @@ function igk_get_module_name(string $dir)
     return null;
 }
 /**
-* shortcut: retrieve the active installed module
-* @return mixed
-*/
+ * shortcut: retrieve the active installed module
+ * @return mixed
+ */
 function igk_get_modules()
 {
     return \IGK\System\Modules\ModuleManager::GetInstalledModules();
 }
 /**
-* create a new data adapter from existing
-* @param mixed $controllerOrAdpaterName
-* @param mixed $throwException
-* @return mixed
-*/
+ * create a new data adapter from existing
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $throwException
+ * @return mixed
+ */
 function igk_get_new_data_adapter($controllerOrAdpaterName, $throwException = false)
 {
     $ad = igk_get_data_adapter($controllerOrAdpaterName, false);
@@ -8886,20 +8907,20 @@ function igk_get_new_data_adapter($controllerOrAdpaterName, $throwException = fa
     return null;
 }
 /**
-* get new relative html relative uri value
-* @param mixed $value
-* @return mixed
-*/
+ * get new relative html relative uri value
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_get_nhru($value)
 {
     return new IGKHtmlRelativeUriValueAttribute($value);
 }
 /**
-* auto generate doc.
-* @param mixed $attr
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $attr
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_get_node_attr_value($attr, $value)
 {
     if ($value == null)
@@ -8913,11 +8934,11 @@ function igk_get_node_attr_value($attr, $value)
     return HtmlRenderer::GetStringAttribute($value, null);
 }
 /**
-* used to retrieve node expression. inverse selection
-* @param mixed $node
-* @param mixed $dp
-* @return mixed
-*/
+ * used to retrieve node expression. inverse selection
+ * @param mixed $node
+ * @param mixed $dp
+ * @return mixed
+ */
 function igk_get_node_expression($node, $dp = 0)
 {
     $d = get_class($node);
@@ -8963,18 +8984,18 @@ function igk_get_node_expression($node, $dp = 0)
     return $o;
 }
 /**
-* shortcut to igk_reg_ns
-* @return mixed
-*/
+ * shortcut to igk_reg_ns
+ * @return mixed
+ */
 function igk_get_ns()
 {
     return igk_reg_ns();
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_ns_func($name)
 {
     $ns = __NAMESPACE__;
@@ -8995,10 +9016,10 @@ function igk_get_packages_dir()
         return igk_dir(IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER);
 }
 /**
-* auto generate doc.
-* @param mixed $palname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $palname
+ * @return mixed
+ */
 function igk_get_palette($palname = "default")
 {
     $cp = igk_getctrl(IGK_PALETTE_CTRL, false);
@@ -9009,19 +9030,19 @@ function igk_get_palette($palname = "default")
     return igk_getv($cp->Palettes, $p, null);
 }
 /**
-* auto generate doc.
-* @param mixed $ext
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ext
+ * @return mixed
+ */
 function igk_get_path_exec($ext)
 {
     $t = igk_get_env("sys://env//path_exec");
     return igk_getv($t, $ext);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_platform_header_array()
 {
     return array(
@@ -9032,10 +9053,10 @@ function igk_get_platform_header_array()
     );
 }
 /**
-* get query option array from string
-* @param string $query_options
-* @return array
-*/
+ * get query option array from string
+ * @param string $query_options
+ * @return array
+ */
 function igk_get_query_options(string $query_options): array
 {
     $data = array();
@@ -9052,20 +9073,20 @@ function igk_get_query_options(string $query_options): array
     return $data;
 }
 /**
-* auto generate doc.
-* @param mixed $className
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $className
+ * @return mixed
+ */
 function igk_get_reg_class_file($className)
 {
     return igk_get_reg_file("sys://reflection/class", $className);
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_reg_file($key, $name)
 {
     $tkey = "sys://functable";
@@ -9077,19 +9098,19 @@ function igk_get_reg_file($key, $name)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $functionname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $functionname
+ * @return mixed
+ */
 function igk_get_reg_func_file($functionname)
 {
     return igk_get_reg_file("sys://reflection/funcs", $functionname);
 }
 /**
-* register global system controller
-* @param string $name
-* @return ?BaseController controller
-*/
+ * register global system controller
+ * @param string $name
+ * @return ?BaseController controller
+ */
 function igk_get_regctrl(string $name)
 {
     if (!IGKApp::IsInit()) {
@@ -9098,20 +9119,20 @@ function igk_get_regctrl(string $name)
     return igk_app()->getControllerManager()->getRegistratedNamedController($name);
 }
 /**
-* get rendering node
-* @return mixed
-*/
+ * get rendering node
+ * @return mixed
+ */
 function igk_get_rendering_node()
 {
     return igk_get_env("sys://igk_html_rendered_node/node");
 }
 /**
-* retreive requested object as object
-* @param ?closure|string|null $callbackfilter callable that will filter the request available key
-* @param bool $replace in case on callable filter use replacement
-* @param mixed $request
-* @return mixed
-*/
+ * retreive requested object as object
+ * @param ?closure|string|null $callbackfilter callable that will filter the request available key
+ * @param bool $replace in case on callable filter use replacement
+ * @param mixed $request
+ * @return mixed
+ */
 function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
 {
     $t = array();
@@ -9164,37 +9185,37 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
     return (object)$t;
 }
 /**
-* Represent igk_get_robjs function
-* @param mixed $list
-* @param mixed $replace
-* @param mixed $request
-* @return mixed
-*/
+ * Represent igk_get_robjs function
+ * @param mixed $list
+ * @param mixed $replace
+ * @param mixed $request
+ * @return mixed
+ */
 function igk_get_robjs($list, $replace = 0, $request = null)
 {
     return igk_get_robj(is_string($list) ? explode("|", $list) : $list, $replace, $request);
 }
 /**
-* get run script
-* @return mixed
-*/
+ * get run script
+ * @return mixed
+ */
 function igk_get_run_script_path()
 {
     return igk_configs()->get("php_run_script");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_selected_builder_engine()
 {
     return igk_get_env("sys://form/selectedbuilderengine");
 }
 /**
-* return the map selection fo the node
-* @param mixed $node
-* @return mixed
-*/
+ * return the map selection fo the node
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_get_selector_map($node)
 {
     $o = array();
@@ -9248,21 +9269,21 @@ function igk_get_selector_map($node)
     return $o;
 }
 /**
-* get registrated service by name
-* @param string $service_type service root type name
-* @return mixed
-*/
+ * get registrated service by name
+ * @param string $service_type service root type name
+ * @return mixed
+ */
 function igk_get_services(string $service_type)
 {
     $k = Path::Combine(IGK_SERVICE_PREFIX_PATH, $service_type);
     return igk_get_env($k);
 }
 /**
-* retrieve the registrate service
-* @param string $service_type
-* @param string $name
-* @return mixed
-*/
+ * retrieve the registrate service
+ * @param string $service_type
+ * @param string $name
+ * @return mixed
+ */
 function igk_get_service(string $service_type, string $name)
 {
     $g = igk_get_services($service_type);
@@ -9272,19 +9293,19 @@ function igk_get_service(string $service_type, string $name)
     return null;
 }
 /**
-* shortcut to get session param value
-* @param mixed $name
-* @return mixed
-*/
+ * shortcut to get session param value
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_get_session($name)
 {
     return igk_app()->session->$name;
 }
 /**
-* get session event by name
-* @param mixed $name the key of the name session to get
-* @return mixed
-*/
+ * get session event by name
+ * @param mixed $name the key of the name session to get
+ * @return mixed
+ */
 function igk_get_session_event($name)
 {
     $ctx = igk_current_context();
@@ -9301,9 +9322,9 @@ function igk_get_session_event($name)
     }
 }
 /**
-* get controller session event handler
-* @return mixed
-*/
+ * get controller session event handler
+ * @return mixed
+ */
 function igk_get_session_event_handler()
 {
     $evtlist_controller = igk_get_env("sys://event/ctrl/handler");
@@ -9321,9 +9342,9 @@ function igk_get_session_event_handler()
     return $evtlist_controller;
 }
 /**
-* Represent igk_get_session_prefix function
-* @return mixed
-*/
+ * Represent igk_get_session_prefix function
+ * @return mixed
+ */
 function igk_get_session_prefix()
 {
     $prefix = "sess_";
@@ -9332,11 +9353,11 @@ function igk_get_session_prefix()
     return $prefix;
 }
 /**
-* convert value to presentation
-* @param mixed $v
-* @param mixed $round
-* @return mixed
-*/
+ * convert value to presentation
+ * @param mixed $v
+ * @param mixed $round
+ * @return mixed
+ */
 function igk_get_sizev($v, $round = 4)
 {
     $sm_sizeFormat = array(
@@ -9356,18 +9377,18 @@ function igk_get_sizev($v, $round = 4)
     return "0 byte";
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_stack_depth()
 {
     return igk_count(debug_backtrace()) - 1;
 }
 /**
-* create a formatted string data object by retreive the {index} with args
-* @param mixed $str
-* @return mixed
-*/
+ * create a formatted string data object by retreive the {index} with args
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_get_string_format($str)
 {
     $n = null;
@@ -9379,27 +9400,27 @@ function igk_get_string_format($str)
     return call_user_func_array($n, $tab);
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $property
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $property
+ * @return mixed
+ */
 function igk_get_string_propvalue($obj, $property)
 {
     return IGK\System\Html\HtmlFormatGetValueString::Create($obj, $property);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_system_user()
 {
     return igk_get_user_bylogin(IGK_SYS_USER_LOGIN) ?? igk_die("no system user found");
 }
 /**
-* get system default user by login
-* @return mixed
-*/
+ * get system default user by login
+ * @return mixed
+ */
 function igk_sys_default_user()
 {
     $login = igk_configs()->default_user;
@@ -9408,11 +9429,11 @@ function igk_sys_default_user()
     }
 }
 /**
-* used to get traceable array
-* @param mixed $Ex
-* @param mixed $level
-* @return mixed
-*/
+ * used to get traceable array
+ * @param mixed $Ex
+ * @param mixed $level
+ * @return mixed
+ */
 function igk_get_trace_array($Ex, $level = 0)
 {
     $t = array();
@@ -9428,10 +9449,10 @@ function igk_get_trace_array($Ex, $level = 0)
     return $t;
 }
 /**
-* get the type of the var
-* @param mixed $n
-* @return mixed
-*/
+ * get the type of the var
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_get_type($n)
 {
     if (is_string($n))
@@ -9446,11 +9467,11 @@ function igk_get_type($n)
     return "Unknow";
 }
 /**
-* auto generate doc.
-* @param mixed $uid
-* @param ?array $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uid
+ * @param ?array $options
+ * @return mixed
+ */
 function igk_get_user($uid, ?array $options = null)
 {
     return IGK\Models\Users::select_row($uid, $options);
@@ -9465,13 +9486,13 @@ function igk_get_user_bylogin(string $login)
     return \IGK\Models\Users::GetUserByLogin($login);
 }
 /**
-* auto generate doc.
-* @param string $name
-* @param mixed $default
-* @param mixed $reg
-* @param mixed $comment
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $name
+ * @param mixed $default
+ * @param mixed $reg
+ * @param mixed $comment
+ * @return mixed
+ */
 function igk_get_uvar(string $name, $default = null, $reg = false, $comment = null)
 {
     if (empty($name))
@@ -9489,11 +9510,11 @@ function igk_get_uvar(string $name, $default = null, $reg = false, $comment = nu
     return $default;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_get_value($obj, $path)
 {
     $c = explode("/", $path);
@@ -9515,38 +9536,38 @@ function igk_get_value($obj, $path)
     return $obj;
 }
 /**
-* helper get view arg
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $default
-* @return mixed
-*/
+ * helper get view arg
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_get_view_arg($ctrl, $name, $default = null)
 {
     $vars = $ctrl->getSystemVars();
     return igk_getv($vars, $name, $default);
 }
 /**
-* get current view args
-* @return mixed
-*/
+ * get current view args
+ * @return mixed
+ */
 function igk_get_view_args()
 {
     return \IGK\Helper\ViewHelper::GetViewArgs();
 }
 /**
-* Represent igk_get_viewfile function
-* @return mixed
-*/
+ * Represent igk_get_viewfile function
+ * @return mixed
+ */
 function igk_get_viewfile()
 {
     return \IGK\Helper\ViewHelper::File();
 }
 /**
-* convert to view param
-* @param mixed $param param to convert
-* @return mixed
-*/
+ * convert to view param
+ * @param mixed $param param to convert
+ * @return mixed
+ */
 function igk_get_viewparam($param)
 {
     if (is_string($param)) {
@@ -9555,9 +9576,9 @@ function igk_get_viewparam($param)
     return $param;
 }
 /**
-* get web page content utility
-* @return mixed
-*/
+ * get web page content utility
+ * @return mixed
+ */
 function igk_get_webpagecontent()
 {
     if (igk_app()->CurrentPageFolder == IGK_CONFIG_PAGEFOLDER) {
@@ -9573,21 +9594,21 @@ function igk_get_webpagecontent()
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_get_widgets()
 {
     return igk_get_env(IGK_ENV_WIDGETS_KEY);
 }
 /**
-* generate base access
-* @param string $root_dir
-* @param mixed $config
-* @param mixed $domain
-* @param mixed $servername
-* @return mixed
-*/
+ * generate base access
+ * @param string $root_dir
+ * @param mixed $config
+ * @param mixed $domain
+ * @param mixed $servername
+ * @return mixed
+ */
 function igk_getbase_access(
     string $root_dir,
     $config = IGK_CONFIG_PAGEFOLDER,
@@ -9606,10 +9627,10 @@ function igk_getbase_access(
     return $out;
 }
 /**
-* return the base index.php content
-* @param string $libfile
-* @return string
-*/
+ * return the base index.php content
+ * @param string $libfile
+ * @return string
+ */
 function igk_getbaseindex_src(string $libfile): string
 {
     $v_fc_resolv_dir = function (string $libfile, string $target) {
@@ -9696,10 +9717,10 @@ function igk_getbaseindex_src(string $libfile): string
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_getbool($v)
 {
     if (is_bool($v))
@@ -9717,9 +9738,9 @@ function igk_getbool($v)
     return false;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_getconfig_access()
 {
     $root_dir = igk_uri(igk_io_rootbasedir());
@@ -9745,19 +9766,19 @@ EIO;
     return $out;
 }
 /**
-* get the configuration web page controller.
-* @return mixed
-*/
+ * get the configuration web page controller.
+ * @return mixed
+ */
 function igk_getconfigwebpagectrl()
 {
     $igk = igk_app();
     return igk_getctrl(IGK_CONF_CTRL);
 }
 /**
-* auto generate doc.
-* @param mixed $className
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $className
+ * @return mixed
+ */
 function igk_getctrl_from_classname($className)
 {
     if (!IGKApp::IsInit()) {
@@ -9769,20 +9790,20 @@ function igk_getctrl_from_classname($className)
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_getctrls()
 {
     return igk_app()->getControllerManager()->getControllers();
 }
 /**
-* get conditional value. is condition return $value or null
-* @param mixed $condition
-* @param mixed $value
-* @param mixed $default
-* @return mixed
-*/
+ * get conditional value. is condition return $value or null
+ * @param mixed $condition
+ * @param mixed $value
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_getcv($condition, $value, $default = null)
 {
     if ($condition)
@@ -9790,11 +9811,11 @@ function igk_getcv($condition, $value, $default = null)
     return $default;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @param mixed $default
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_getdv($v, $default = null)
 {
     if (isset($v))
@@ -9802,20 +9823,20 @@ function igk_getdv($v, $default = null)
     return $default;
 }
 /**
-* function igk_geterror_code
-* @param mixed $code
-* @return mixed
-*/
+ * function igk_geterror_code
+ * @param mixed $code
+ * @return mixed
+ */
 function igk_geterror_code($code)
 {
     return igk_error($code)["Code"];
 }
 /**
-* get the value between value and default. if $value is empty or null default. default can be a callable expression
-* @param mixed $value
-* @param mixed $default
-* @return mixed
-*/
+ * get the value between value and default. if $value is empty or null default. default can be a callable expression
+ * @param mixed $value
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_getev($value, $default)
 {
     if (($value == null) || empty($value)) {
@@ -9826,10 +9847,10 @@ function igk_getev($value, $default)
     return $value;
 }
 /**
-* get uploaded file info
-* @param mixed $file
-* @return mixed
-*/
+ * get uploaded file info
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_getf($file)
 {
     if ($c = igk_getv($_FILES, $file)) {
@@ -9852,20 +9873,20 @@ function igk_getf($file)
     return null;
 }
 /**
-* get font name
-* @param mixed $f
-* @return mixed
-*/
+ * get font name
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_getfn($f)
 {
     return str_replace(" ", "-", $f);
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $prop
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $prop
+ * @return mixed
+ */
 function igk_getprop($obj, $prop)
 {
     if ($obj == null)
@@ -9890,11 +9911,11 @@ function igk_getquery_args(?string $uri = null)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @param mixed $inTab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @param mixed $inTab
+ * @return mixed
+ */
 function igk_getr_k($tab, $inTab = null)
 {
     $o = array();
@@ -9905,11 +9926,11 @@ function igk_getr_k($tab, $inTab = null)
     return (object)$o;
 }
 /**
-* auto generate doc.
-* @param mixed $values
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $values
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_getr_kv($values, $tab = null)
 {
     if ($tab == null)
@@ -9921,11 +9942,11 @@ function igk_getr_kv($values, $tab = null)
     return $o;
 }
 /**
-* Represent igk_getre function
-* @param mixed $n
-* @param mixed $default
-* @return mixed
-*/
+ * Represent igk_getre function
+ * @param mixed $n
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_getre($n, $default = null)
 {
     if (empty($b = igk_getr($n))) {
@@ -9934,9 +9955,9 @@ function igk_getre($n, $default = null)
     return $b;
 }
 /**
-* get filtered request values
-* @return mixed
-*/
+ * get filtered request values
+ * @return mixed
+ */
 function igk_getrs()
 {
     $m = null;
@@ -9958,19 +9979,19 @@ function igk_getrs()
     return $_REQUEST;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_getserverinfo()
 {
     return array();
 }
 /**
-* get the setted-value
-* @param mixed $value
-* @param mixed $default
-* @return mixed
-*/
+ * get the setted-value
+ * @param mixed $value
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_getsv($value, $default = null)
 {
     if (isset($value)) {
@@ -9979,22 +10000,22 @@ function igk_getsv($value, $default = null)
     return $default;
 }
 /**
-* auto generate doc.
-* @param mixed $d
-* @param mixed $n
-* @param mixed $def default value in case path not match
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $d
+ * @param mixed $n
+ * @param mixed $def default value in case path not match
+ * @return mixed
+ */
 function igk_gettsv($d, $n, $def = null)
 {
     return igk_conf_get($d, $n, $def);
 }
 /**
-* Represent igk_getv_fallback function
-* @param mixed $item
-* @param mixed $keys
-* @return mixed
-*/
+ * Represent igk_getv_fallback function
+ * @param mixed $item
+ * @param mixed $keys
+ * @return mixed
+ */
 function igk_getv_fallback($item, $keys)
 {
     if (is_string($keys)) {
@@ -10008,20 +10029,20 @@ function igk_getv_fallback($item, $keys)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_globalvars($n)
 {
     $s = igk_app()->session->getParam(IGKSession::GLOBALVARS);
     return igk_getv($s, $n);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_globalvars_isset($n)
 {
     $s = igk_app()->session->getParam(IGKSession::GLOBALVARS);
@@ -10042,9 +10063,9 @@ function igk_glue(string $glue, ...$params)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_handle_cmd_line()
 {
     $tab = array_slice(igk_getv($_SERVER, "argv"), 1);
@@ -10056,9 +10077,9 @@ function igk_handle_cmd_line()
     return false;
 }
 /**
-* handle component uri
-* @return mixed
-*/
+ * handle component uri
+ * @return mixed
+ */
 function igk_handle_component_uri()
 {
     $uri = trim(igk_getv(explode('?', igk_io_request_uri()), 1));
@@ -10089,29 +10110,29 @@ function igk_handle_component_uri()
     return false;
 }
 /**
-* used to handle a view command with function list
-* @param mixed $params
-* @param mixed $fclist
-* @return mixed
-*/
+ * used to handle a view command with function list
+ * @param mixed $params
+ * @param mixed $fclist
+ * @return mixed
+ */
 function igk_handle_view_cmd($params, $fclist)
 {
     include(IGK_LIB_DIR . "/Inc/igk_fc_call.pinc");
     return $fc_result;
 }
 /**
-* set content type from file
-* @param mixed $file
-* @return mixed
-*/
+ * set content type from file
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_header_content_file($file)
 {
     igk_header_set_contenttype(strtolower(igk_io_path_ext($file)));
 }
 /**
-* return mime type
-* @return mixed
-*/
+ * return mime type
+ * @return mixed
+ */
 function igk_header_mime()
 {
     $is_chrome = IGKUserAgent::IsChrome();
@@ -10142,9 +10163,9 @@ function igk_header_mime()
     return $mime;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_header_no_cache()
 {
     if (headers_sent()) {
@@ -10161,11 +10182,11 @@ function igk_header_no_cache()
     header("Vary: *");
 }
 /**
-* auto generate doc.
-* @param mixed $type
-* @param mixed $charset
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $type
+ * @param mixed $charset
+ * @return mixed
+ */
 function igk_header_set_contenttype($type, $charset = "charset=utf-8")
 {
     // + !-) headers_sent
@@ -10177,10 +10198,10 @@ function igk_header_set_contenttype($type, $charset = "charset=utf-8")
     header("Content-Type: " . $data);
 }
 /**
-* convert header string to associative array
-* @param mixed $s
-* @return mixed
-*/
+ * convert header string to associative array
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_header_str2array($s)
 {
     $tab = array();
@@ -10203,12 +10224,12 @@ function igk_header_str2array($s)
     return $ot;
 }
 /**
-* auto generate doc.
-* @param mixed $target
-* @param mixed $hrefuri
-* @param mixed $clickuri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $target
+ * @param mixed $hrefuri
+ * @param mixed $clickuri
+ * @return mixed
+ */
 function igk_html_a_link($target, $hrefuri, $clickuri = null)
 {
     $a = $target->add("a");
@@ -10220,23 +10241,23 @@ function igk_html_a_link($target, $hrefuri, $clickuri = null)
     return $a;
 }
 /**
-* auto generate doc.
-* @param mixed $item
-* @param mixed $target
-* @param mixed $index
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $item
+ * @param mixed $target
+ * @param mixed $index
+ * @return mixed
+ */
 function igk_html_add($item, $target, $index = null)
 {
     return $item->add($target, null, $index);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $file
-* @param mixed $temp
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $file
+ * @param mixed $temp
+ * @return mixed
+ */
 function igk_html_add_balafonjsscriptfile($doc, $file, $temp = 0)
 {
     $g = $doc->getParam("sys://igk/tempbalafonjs", array());
@@ -10264,21 +10285,21 @@ function igk_html_add_balafonjsscriptfile($doc, $file, $temp = 0)
     $doc->setParam("sys://igk/tempbalafonjs", $g);
 }
 /**
-* utility add confirm input
-* @param mixed $frm
-* @return mixed
-*/
+ * utility add confirm input
+ * @param mixed $frm
+ * @return mixed
+ */
 function igk_html_add_confirm($frm)
 {
     $frm->addInput("confirm", "hidden", 1);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $file
-* @param mixed $temp
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $file
+ * @param mixed $temp
+ * @return mixed
+ */
 function igk_html_add_doc_script($doc, $file, $temp = 0)
 {
     $g = $doc->getParam("sys://igk/tempbalafonjs", array());
@@ -10306,10 +10327,10 @@ function igk_html_add_doc_script($doc, $file, $temp = 0)
     $doc->setParam("sys://igk/tempbalafonjs", $g);
 }
 /**
-* html utility . get attributes string presentation
-* @param mixed $tab
-* @return mixed
-*/
+ * html utility . get attributes string presentation
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_html_array_attrs($tab)
 {
     $s = "";
@@ -10322,17 +10343,17 @@ function igk_html_array_attrs($tab)
     return $s;
 }
 /**
-* auto generate doc.
-* @param BaseController $ctrl
-* @param mixed $name
-* @param mixed $target
-* @param mixed $data
-* @param mixed $tagname
-* @param mixed $forcecreation
-* @param mixed $evalExpression
-* @param mixed $articleoptions
-* @return mixed
-*/
+ * auto generate doc.
+ * @param BaseController $ctrl
+ * @param mixed $name
+ * @param mixed $target
+ * @param mixed $data
+ * @param mixed $tagname
+ * @param mixed $forcecreation
+ * @param mixed $evalExpression
+ * @param mixed $articleoptions
+ * @return mixed
+ */
 function igk_html_article_bck(BaseController $ctrl, $name, $target, $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
 {
     $f = $name;
@@ -10378,17 +10399,17 @@ function igk_html_article_bck(BaseController $ctrl, $name, $target, $data = null
     return $n;
 }
 /**
-* load article
-* @param BaseController $ctrl
-* @param mixed $name
-* @param mixed $target
-* @param ?array $data
-* @param mixed $tagname
-* @param mixed $forcecreation
-* @param mixed $evalExpression
-* @param mixed $articleoptions
-* @return mixed
-*/
+ * load article
+ * @param BaseController $ctrl
+ * @param mixed $name
+ * @param mixed $target
+ * @param ?array $data
+ * @param mixed $tagname
+ * @param mixed $forcecreation
+ * @param mixed $evalExpression
+ * @param mixed $articleoptions
+ * @return mixed
+ */
 function igk_html_article(BaseController $ctrl, $name, $target, ?array $data = null, $tagname = null, $forcecreation = true, $evalExpression = true, $articleoptions = true)
 {
     $f = $name;
@@ -10447,17 +10468,17 @@ function igk_html_article(BaseController $ctrl, $name, $target, ?array $data = n
     return $n;
 }
 /**
-* bind article content
-* @param HtmlNode $n
-* @param string $content
-* @param bool $evalExpression
-* @param ?HtmlLoadingContextOptions $ldcontext
-* @param string $f
-* @param BaseController $ctrl
-* @param mixed $data
-* @param mixed $articleoptions
-* @return mixed
-*/
+ * bind article content
+ * @param HtmlNode $n
+ * @param string $content
+ * @param bool $evalExpression
+ * @param ?HtmlLoadingContextOptions $ldcontext
+ * @param string $f
+ * @param BaseController $ctrl
+ * @param mixed $data
+ * @param mixed $articleoptions
+ * @return mixed
+ */
 function igk_html_article_bind_content(
     HtmlNode $n,
     string $content,
@@ -10490,13 +10511,13 @@ function igk_html_article_bind_content(
     }
 }
 /**
-* init node binding context
-* @param HtmlItemBase $n
-* @param BaseController $ctrl
-* @param ?array $raw
-* @var mixed
-* @return mixed
-*/
+ * init node binding context
+ * @param HtmlItemBase $n
+ * @param BaseController $ctrl
+ * @param ?array $raw
+ * @var mixed
+ * @return mixed
+ */
 function igk_init_binding_context(HtmlItemBase $n, BaseController $ctrl, ?array $raw)
 {
     $ldcontext = igk_createloading_context($ctrl, $raw);
@@ -10507,16 +10528,16 @@ function igk_init_binding_context(HtmlItemBase $n, BaseController $ctrl, ?array 
     return $ldcontext;
 }
 /**
-* Igk html bind article content.
-* @param HtmlNode $n
-* @param string $content
-* @param mixed $data
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $evalExpression
-* @param null|mixed $ldcontext
-* @return mixed
-*/
+ * Igk html bind article content.
+ * @param HtmlNode $n
+ * @param string $content
+ * @param mixed $data
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $evalExpression
+ * @param null|mixed $ldcontext
+ * @return mixed
+ */
 function igk_html_bind_article_content(HtmlNode $n, string $content, $data, $ctrl, $id, $evalExpression = true, $ldcontext = null)
 {
     if ($evalExpression) {
@@ -10528,13 +10549,13 @@ function igk_html_bind_article_content(HtmlNode $n, string $content, $data, $ctr
     igk_html_treatinput($n);
 }
 /**
-* add articles options
-* @param mixed $ctrl
-* @param mixed $node
-* @param mixed $filename
-* @param mixed $force
-* @return mixed
-*/
+ * add articles options
+ * @param mixed $ctrl
+ * @param mixed $node
+ * @param mixed $filename
+ * @param mixed $force
+ * @return mixed
+ */
 function igk_html_article_options($ctrl, $node, $filename, $force = 0)
 {
     $app = igk_app();
@@ -10546,21 +10567,21 @@ function igk_html_article_options($ctrl, $node, $filename, $force = 0)
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_html_beginbinding($value)
 {
     igk_die("obselete :" . __FUNCTION__);
 }
 /**
-* bind content
-* @param mixed $ctrl source controller.can be null
-* @param mixed $content the content to evaluate
-* @param mixed $raw row data to pass
-* @return mixed
-*/
+ * bind content
+ * @param mixed $ctrl source controller.can be null
+ * @param mixed $content the content to evaluate
+ * @param mixed $raw row data to pass
+ * @return mixed
+ */
 function igk_html_bind_content($ctrl, $content, $raw = null)
 {
     $t = igk_create_node("div");
@@ -10568,15 +10589,15 @@ function igk_html_bind_content($ctrl, $content, $raw = null)
     return $t->getInnerHtml();
 }
 /**
-* bind node to data model
-* @param mixed $ctrl the controller
-* @param mixed $model the node model to bind
-* @param mixed $targetnode cibing node
-* @param mixed $entries
-* @param mixed $rendertarget
-* @param mixed & $bindchild
-* @return mixed
-*/
+ * bind node to data model
+ * @param mixed $ctrl the controller
+ * @param mixed $model the node model to bind
+ * @param mixed $targetnode cibing node
+ * @param mixed $entries
+ * @param mixed $rendertarget
+ * @param mixed & $bindchild
+ * @return mixed
+ */
 function igk_html_bind_node($ctrl, $model, $targetnode, $entries = null, $rendertarget = true, &$bindchild = false)
 {
     $o = array();
@@ -10646,13 +10667,13 @@ function igk_html_bind_node($ctrl, $model, $targetnode, $entries = null, $render
     return IGK_STR_EMPTY;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $targetnode
-* @param mixed $textcontent
-* @param mixed $entries
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $targetnode
+ * @param mixed $textcontent
+ * @param mixed $entries
+ * @return mixed
+ */
 function igk_html_bind_target($ctrl, $targetnode, $textcontent, $entries = null)
 {
     $d = igk_create_node("div");
@@ -10660,16 +10681,16 @@ function igk_html_bind_target($ctrl, $targetnode, $textcontent, $entries = null)
     return igk_html_bind_node($ctrl, $d, $targetnode, $entries);
 }
 /**
-* html bind data to target node
-* @param mixed $ctrl the controller
-* @param mixed $targetnode cibling node
-* @param mixed $templateArticleName template or article for bindding
-* @param mixed $entries data entries
-* @param mixed $rendertarget render target node
-* @param mixed $createIfNoExists create template view if not exists
-* @param mixed $showAdminOption attach administration options
-* @return mixed
-*/
+ * html bind data to target node
+ * @param mixed $ctrl the controller
+ * @param mixed $targetnode cibling node
+ * @param mixed $templateArticleName template or article for bindding
+ * @param mixed $entries data entries
+ * @param mixed $rendertarget render target node
+ * @param mixed $createIfNoExists create template view if not exists
+ * @param mixed $showAdminOption attach administration options
+ * @return mixed
+ */
 function igk_html_binddata($ctrl, $targetnode, $templateArticleName, $entries = null, $rendertarget = true, $createIfNoExists = true, $showAdminOption = 1)
 {
     $d = igk_create_node("div");
@@ -10689,14 +10710,14 @@ function igk_html_binddata($ctrl, $targetnode, $templateArticleName, $entries = 
     return $n;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $entries
-* @param mixed $tabinfo
-* @param mixed & $o
-* @param mixed & $c
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $entries
+ * @param mixed $tabinfo
+ * @param mixed & $o
+ * @param mixed & $c
+ * @return mixed
+ */
 function igk_html_bindentry($ctrl, $entries, $tabinfo, &$o, &$c)
 {
     $r = igk_getv($entries, "Rows");
@@ -10718,10 +10739,10 @@ function igk_html_bindentry($ctrl, $entries, $tabinfo, &$o, &$c)
     $c->clearChilds();
 }
 /**
-* return array of data binding node info
-* @param mixed $node
-* @return mixed
-*/
+ * return array of data binding node info
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_bindinginfo($node)
 {
     $tab = igk_html_getallchilds($node);
@@ -10793,13 +10814,13 @@ function igk_html_bindinginfo($node)
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $tabinfo
-* @param mixed $row
-* @param mixed $keys
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $tabinfo
+ * @param mixed $row
+ * @param mixed $keys
+ * @return mixed
+ */
 function igk_html_bindsetup($ctrl, $tabinfo, $row, $keys = 0)
 {
     foreach ($tabinfo as $info) {
@@ -10808,13 +10829,13 @@ function igk_html_bindsetup($ctrl, $tabinfo, $row, $keys = 0)
     }
 }
 /**
-* utility used to build a form
-* @param mixed $ul
-* @param mixed $param
-* @param mixed $targettagname
-* @deprecated use IGK\System\Html\FormBuilder instead
-* @return mixed
-*/
+ * utility used to build a form
+ * @param mixed $ul
+ * @param mixed $param
+ * @param mixed $targettagname
+ * @deprecated use IGK\System\Html\FormBuilder instead
+ * @return mixed
+ */
 function igk_html_build_form_array($ul, $param, $targettagname = "li")
 {
     foreach ($param as $k) {
@@ -10859,10 +10880,10 @@ function igk_html_build_form_array($ul, $param, $targettagname = "li")
     }
 }
 /**
-* auto generate doc.
-* @param mixed $queryresult
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $queryresult
+ * @return mixed
+ */
 function igk_html_build_query_result_table($queryresult)
 {
     $table = igk_create_node("table");
@@ -10871,12 +10892,12 @@ function igk_html_build_query_result_table($queryresult)
     return $table;
 }
 /**
-* build select options with array
-* @param mixed $sl
-* @param mixed $data
-* @param mixed $selected
-* @return mixed
-*/
+ * build select options with array
+ * @param mixed $sl
+ * @param mixed $data
+ * @param mixed $selected
+ * @return mixed
+ */
 function igk_html_build_select_array($sl, $data, $selected = null)
 {
     foreach ($data as $k => $v) {
@@ -10888,25 +10909,25 @@ function igk_html_build_select_array($sl, $data, $selected = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $target
-* @param mixed $name
-* @param mixed $option
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $target
+ * @param mixed $name
+ * @param mixed $option
+ * @return mixed
+ */
 function igk_html_build_select_model($ctrl, $target, $name, $option)
 {
     igk_html_binddata($ctrl, $target, $name, $option);
 }
 /**
-* build select options
-* @param mixed $target select node
-* @param mixed $tab
-* @param mixed $selectattributes
-* @param mixed $selectedvalue
-* @return mixed
-*/
+ * build select options
+ * @param mixed $target select node
+ * @param mixed $tab
+ * @param mixed $selectattributes
+ * @param mixed $selectedvalue
+ * @return mixed
+ */
 function igk_html_build_select_option($target, $tab, $selectattributes = null, $selectedvalue = null)
 {
     $a = $selectattributes;
@@ -10946,12 +10967,12 @@ function igk_html_build_select_option($target, $tab, $selectattributes = null, $
     }
 }
 /**
-* utility render mixed value data
-* @param mixed $mix
-* @param mixed $target
-* @param mixed $item
-* @return mixed
-*/
+ * utility render mixed value data
+ * @param mixed $mix
+ * @param mixed $target
+ * @param mixed $item
+ * @return mixed
+ */
 function igk_html_buildview($mix, $target = "div", $item = "li")
 {
     $t = igk_create_node($target);
@@ -10969,18 +10990,18 @@ function igk_html_buildview($mix, $target = "div", $item = "li")
     return $t;
 }
 /**
-* is webmaster callback
-* @return mixed
-*/
+ * is webmaster callback
+ * @return mixed
+ */
 function igk_html_callback_is_webmaster()
 {
     return IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER);
 }
 /**
-* auto generate doc.
-* @param mixed $a
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $a
+ * @return mixed
+ */
 function igk_html_callback_production_minifycontent($a)
 {
     $s = $a->Content;
@@ -10995,10 +11016,10 @@ function igk_html_callback_production_minifycontent($a)
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_html_clearbindinfo($ctrl)
 {
     $key = IGK_DATABINDING_RESPONSE_NAME;
@@ -11009,23 +11030,23 @@ function igk_html_clearbindinfo($ctrl)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_clonenode($node)
 {
     $g = HtmlReader::Load($node->render());
     return $g ? igk_getv($g->Childs, 0) : null;
 }
 /**
-* utility function to create tab selection
-* @param mixed $tag
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $table
-* @return mixed
-*/
+ * utility function to create tab selection
+ * @param mixed $tag
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $table
+ * @return mixed
+ */
 function igk_html_create_db_tab_select($tag, $ctrl, $id, $table)
 {
     $sl = igk_create_node($tag);
@@ -11034,11 +11055,11 @@ function igk_html_create_db_tab_select($tag, $ctrl, $id, $table)
     return $sl;
 }
 /**
-* utility function. create html menu node
-* @param mixed $name
-* @param mixed $uri
-* @return mixed
-*/
+ * utility function. create html menu node
+ * @param mixed $name
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_html_createmenu($name, $uri)
 {
     return (object)array(
@@ -11048,23 +11069,23 @@ function igk_html_createmenu($name, $uri)
     );
 }
 /**
-* used to create submenu item
-* @param mixed $uri
-* @param mixed $submenu
-* @return mixed
-*/
+ * used to create submenu item
+ * @param mixed $uri
+ * @param mixed $submenu
+ * @return mixed
+ */
 function igk_html_createmenui($uri, $submenu)
 {
     return new MenuItemObject($uri, $submenu);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $target
-* @param mixed $titlekey
-* @param mixed $descfile
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $target
+ * @param mixed $titlekey
+ * @param mixed $descfile
+ * @return mixed
+ */
 function igk_html_ctrl_view_config($ctrl, $target, $titlekey, $descfile = null)
 {
     $box = $target->addPanelBox();
@@ -11075,10 +11096,10 @@ function igk_html_ctrl_view_config($ctrl, $target, $titlekey, $descfile = null)
     return $box;
 }
 /**
-* get registrated for object's scripting
-* @param mixed $ctrl
-* @return mixed
-*/
+ * get registrated for object's scripting
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function &igk_html_databinding_getobjforscripting($ctrl)
 {
     $name = IGK_DATABINDING_RESPONSE_NAME;
@@ -11095,13 +11116,13 @@ function &igk_html_databinding_getobjforscripting($ctrl)
     return $obj;
 }
 /**
-* auto generate doc.
-* @param mixed & $obj
-* @param mixed $value
-* @param mixed $ctrl
-* @param mixed $row
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed & $obj
+ * @param mixed $value
+ * @param mixed $ctrl
+ * @param mixed $row
+ * @return mixed
+ */
 function igk_html_databinding_read_obj_litteral(&$obj, $value, $ctrl, $row)
 {
     $pos = 0;
@@ -11197,6 +11218,7 @@ function igk_html_databinding_read_obj_litteral(&$obj, $value, $ctrl, $row)
 * @param mixed $rep response
 * @param mixed $ctrl controller
 * @param mixed $raw
+* @param mixed $ctx
 * @param mixed $a
 * @param bool $transformEval
 * @return mixed
@@ -11303,11 +11325,11 @@ function igk_html_databinding_treatresponse($rep, $ctrl, $raw, $ctx = null, $a =
     return $v;
 }
 /**
-* auto generate doc.
-* @param mixed $table
-* @param mixed $queryresult
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $table
+ * @param mixed $queryresult
+ * @return mixed
+ */
 function igk_html_db_build_table($table, $queryresult)
 {
     $r = $queryresult;
@@ -11333,27 +11355,27 @@ function igk_html_db_build_table($table, $queryresult)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $m
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_html_debug_m($m)
 {
     return "<div style=\"background-color:#B92900; color:FFC193;\">{$m}</div>";
 }
 /**
-* auto generate doc.
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_html_endbinding($value)
 {
     igk_die("deprecated :" . __FUNCTION__);
 }
 /**
-* Represent igk_html_engine_parent_node function
-* @return mixed
-*/
+ * Represent igk_html_engine_parent_node function
+ * @return mixed
+ */
 function igk_html_engine_parent_node()
 {
     $p = igk_get_env(IGK_XML_HTML_TEMPLATE_PARENT_KEY);
@@ -11363,31 +11385,31 @@ function igk_html_engine_parent_node()
     return null;
 }
 /**
-* Represent igk_html_engine_parent_pop_node function
-* @return mixed
-*/
+ * Represent igk_html_engine_parent_pop_node function
+ * @return mixed
+ */
 function igk_html_engine_parent_pop_node()
 {
     return igk_pop_env(IGK_XML_HTML_TEMPLATE_PARENT_KEY);
 }
 /**
-* Represent igk_html_engine_parent_push_node function
-* @param mixed $n
-* @return mixed
-*/
+ * Represent igk_html_engine_parent_push_node function
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_html_engine_parent_push_node($n)
 {
     igk_push_env(IGK_XML_HTML_TEMPLATE_PARENT_KEY, $n);
 }
 /**
-* Represent igk_html_escape_tag function
-* @param mixed $s
-* @param mixed $offset
-* @param mixed $strict
-* @param mixed $entityflag
-* @param mixed $encoding
-* @return mixed
-*/
+ * Represent igk_html_escape_tag function
+ * @param mixed $s
+ * @param mixed $offset
+ * @param mixed $strict
+ * @param mixed $entityflag
+ * @param mixed $encoding
+ * @return mixed
+ */
 function igk_html_escape_tag($s, $offset = 0, $strict = 1, $entityflag = ENT_NOQUOTES, $encoding = "UTF-8")
 {
     $ln = strlen($s);
@@ -11422,12 +11444,12 @@ function igk_html_escape_tag($s, $offset = 0, $strict = 1, $entityflag = ENT_NOQ
     return $o;
 }
 /**
-* evaluate article content
-* @param mixed $content content to evaluate
-* @param mixed $params parameter to bind
-* @param mixed $evalExpression
-* @return mixed
-*/
+ * evaluate article content
+ * @param mixed $content content to evaluate
+ * @param mixed $params parameter to bind
+ * @param mixed $evalExpression
+ * @return mixed
+ */
 function igk_html_eval_article($content, $params = null, $evalExpression = false)
 {
     igk_push_article_chain(__FUNCTION__, $params);
@@ -11442,13 +11464,13 @@ function igk_html_eval_article($content, $params = null, $evalExpression = false
     return $src;
 }
 /**
-* evaluate global script
-* @param mixed $src
-* @param mixed $ctrl
-* @param mixed $raw
-* @param mixed $context
-* @return mixed
-*/
+ * evaluate global script
+ * @param mixed $src
+ * @param mixed $ctrl
+ * @param mixed $raw
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_html_eval_global_script($src, $ctrl, $raw, $context = null)
 {
     $match = [];
@@ -11545,24 +11567,24 @@ function igk_html_eval_global_script($src, $ctrl, $raw, $context = null)
     return $v;
 }
 /**
-* used to evaluate expression script
-* @param mixed $src
-* @param mixed $ctrl
-* @param mixed $raw
-* @param mixed $context
-* @return mixed
-*/
+ * used to evaluate expression script
+ * @param mixed $src
+ * @param mixed $ctrl
+ * @param mixed $raw
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_html_eval_script($src, $ctrl, $raw, $context = null)
 {
     error_log(__FUNCTION__ . " is obselete will be remove on next version . please use ");
     igk_die("obselete " . __FUNCTION__);
 }
 /**
-* auto generate doc.
-* @param mixed $script
-* @param mixed $context
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $script
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_html_eval_value_in_context($script, $context)
 {
     $__g_context = (array)$context;
@@ -11591,30 +11613,30 @@ EOF);
     return $d;
 }
 /**
-* auto generate doc.
-* @param mixed $token
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $token
+ * @return mixed
+ */
 function igk_html_form_is_valid_token($token)
 {
     return igk_html_form_tokenid() == $token;
 }
 /**
-* cref doken id
-* @return mixed
-*/
+ * cref doken id
+ * @return mixed
+ */
 function igk_html_form_tokenid()
 {
     $cref = igk_app()->session->getCRef();
     return md5($cref);
 }
 /**
-* validate form's object field
-* @param mixed $o
-* @param mixed $settings
-* @param mixed & $errors
-* @return mixed
-*/
+ * validate form's object field
+ * @param mixed $o
+ * @param mixed $settings
+ * @param mixed & $errors
+ * @return mixed
+ */
 function igk_html_form_validate($o, $settings, &$errors)
 {
     $r = true;
@@ -11638,14 +11660,14 @@ function igk_html_form_validate($o, $settings, &$errors)
     return $r;
 }
 /**
-* craete a balafon uri frame
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $closeuri
-* @param mixed $target
-* @param mixed $reloadcallback
-* @return mixed
-*/
+ * craete a balafon uri frame
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $closeuri
+ * @param mixed $target
+ * @param mixed $reloadcallback
+ * @return mixed
+ */
 function igk_html_frame($ctrl, $name, $closeuri = null, $target = null, $reloadcallback = null)
 {
     $frame = igk_getctrl(IGK_FRAME_CTRL)->createFrame($name, $ctrl, $closeuri, $reloadcallback);
@@ -11658,15 +11680,15 @@ function igk_html_frame($ctrl, $name, $closeuri = null, $target = null, $reloadc
     return $frame;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $title
-* @param mixed $uri
-* @param mixed & $form
-* @param mixed $closed
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $title
+ * @param mixed $uri
+ * @param mixed & $form
+ * @param mixed $closed
+ * @return mixed
+ */
 function igk_html_frame_ex($ctrl, $id, $title, $uri, &$form, $closed = false)
 {
     $frame = igk_html_frame($ctrl, $id);
@@ -11682,11 +11704,11 @@ function igk_html_frame_ex($ctrl, $id, $title, $uri, &$form, $closed = false)
     return $frame;
 }
 /**
-* convert string litteral to string html text presentation
-* @param mixed $str
-* @param mixed $block
-* @return mixed
-*/
+ * convert string litteral to string html text presentation
+ * @param mixed $str
+ * @param mixed $block
+ * @return mixed
+ */
 function igk_html_from_string($str, $block = "p")
 {
     $tstr = explode(IGK_LF, $str);
@@ -11701,27 +11723,27 @@ function igk_html_from_string($str, $block = "p")
     return $t->render();
 }
 /**
-* used to get the component demo keys
-* @return mixed
-*/
+ * used to get the component demo keys
+ * @return mixed
+ */
 function igk_html_get_component_demo()
 {
     return igk_get_env("sys://html/components/demos");
 }
 /**
-* shortcut list igk_html_reg_compoent_package
-* @return mixed
-*/
+ * shortcut list igk_html_reg_compoent_package
+ * @return mixed
+ */
 function igk_html_get_component_packages()
 {
     return igk_html_reg_component_package();
 }
 /**
-* auto generate doc.
-* @param mixed $src
-* @param mixed & $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $src
+ * @param mixed & $options
+ * @return mixed
+ */
 function igk_html_get_depth_indent($src, &$options = null)
 {
     if (($options == null) || (isset($options->Indent) && (!$options->Indent)))
@@ -11736,10 +11758,10 @@ function igk_html_get_depth_indent($src, &$options = null)
     return $s;
 }
 /**
-* Represent igk_html_get_document_class function
-* @param mixed $doc
-* @return mixed
-*/
+ * Represent igk_html_get_document_class function
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_html_get_document_class($doc)
 {
     $cl = $doc->getTempFlag(IGK_DOCUMENT_CLASS);
@@ -11749,11 +11771,11 @@ function igk_html_get_document_class($doc)
     return "igk-web-page";
 }
 /**
-* auto generate doc.
-* @param mixed $expression
-* @param mixed & $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $expression
+ * @param mixed & $tab
+ * @return mixed
+ */
 function igk_html_get_expression($expression, &$tab)
 {
     $ln = strlen($expression);
@@ -11790,21 +11812,21 @@ function igk_html_get_expression($expression, &$tab)
     $tab["pipe"] = $pipe;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_html_get_func_param($name)
 {
     return igk_getv(igk_app()->session->getParam("system://igk_html_func_param"), $name);
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @param mixed $type
-* @param mixed $depth
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @param mixed $type
+ * @param mixed $depth
+ * @return mixed
+ */
 function igk_html_get_heararchi($node, $type = "text", $depth = 0)
 {
     $o = "";
@@ -11827,12 +11849,12 @@ function igk_html_get_heararchi($node, $type = "text", $depth = 0)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @param mixed $type
-* @param mixed $depth
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @param mixed $type
+ * @param mixed $depth
+ * @return mixed
+ */
 function igk_html_get_inner_heararchi($node, $type = "text", $depth = 0)
 {
     $o = "";
@@ -11844,12 +11866,12 @@ function igk_html_get_inner_heararchi($node, $type = "text", $depth = 0)
     return $o;
 }
 /**
-* get system uri for link
-* @param mixed $link
-* @param mixed $option
-* @param mixed $webapp
-* @return mixed
-*/
+ * get system uri for link
+ * @param mixed $link
+ * @param mixed $option
+ * @param mixed $webapp
+ * @return mixed
+ */
 function igk_html_get_system_uri($link, $option = null, $webapp = null)
 {
     $webapp = $webapp ?? igk_is_webapp();
@@ -11910,20 +11932,20 @@ function igk_html_get_system_uri($link, $option = null, $webapp = null)
     return $src;
 }
 /**
-* summary get context controller title
-* @param mixed $ctrl
-* @param mixed $def
-* @return mixed
-*/
+ * summary get context controller title
+ * @param mixed $ctrl
+ * @param mixed $def
+ * @return mixed
+ */
 function igk_html_get_title($ctrl, $def = null)
 {
     return igk_getv($ctrl->Configs, 'clTitle', igk_sys_getconfig("website_title"));
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_getallchilds($node)
 {
     $tab = array();
@@ -11938,13 +11960,13 @@ function igk_html_getallchilds($node)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $level
-* @param mixed $mode
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $level
+ * @param mixed $mode
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_html_hearachi($n, $level = -1, $mode = "t", $callback = null)
 {
     $q = array((object)array("node" => $n, "level" => 0));
@@ -11967,10 +11989,10 @@ function igk_html_hearachi($n, $level = -1, $mode = "t", $callback = null)
     return $so;
 }
 /**
-* auto generate doc.
-* @param mixed $option
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $option
+ * @return mixed
+ */
 function igk_html_indent_line($option = null)
 {
     if (($option == null) || (!isset($option->Indent) || (!$option->Indent)))
@@ -11978,10 +12000,10 @@ function igk_html_indent_line($option = null)
     return IGK_LF;
 }
 /**
-* get real index of node in parent
-* @param mixed $node
-* @return mixed
-*/
+ * get real index of node in parent
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_index_of($node)
 {
     $p = $node->getParentNode();
@@ -11996,32 +12018,32 @@ function igk_html_index_of($node)
     return $i;
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_html_init_node_page($t)
 {
     $t->setClass("fit igk-parentscroll igk-powered-viewer overflow-y-a");
     igk_wln_e(__FILE__ . ":" . __LINE__, "init node");
 }
 /**
-* auto generate doc.
-* @param mixed $text
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $text
+ * @return mixed
+ */
 function igk_html_initbindexpression($text)
 {
     $text = preg_replace("/<!--\\s*(.)+\\s*-->/i", "", $text);
     return $text;
 }
 /**
-* used to initalize a form with data object
-* @param mixed $form
-* @param mixed $obj
-* @param mixed $formtab
-* @return mixed
-*/
+ * used to initalize a form with data object
+ * @param mixed $form
+ * @param mixed $obj
+ * @param mixed $formtab
+ * @return mixed
+ */
 function igk_html_initform($form, $obj, $formtab)
 {
     $s = array();
@@ -12048,43 +12070,43 @@ function igk_html_initform($form, $obj, $formtab)
     }
 }
 /**
-* shortcut to init menu
-* @param mixed $name
-* @param mixed $ctrl
-* @param mixed $target
-* @param mixed $tab
-* @param mixed $tag
-* @param mixed $selected
-* @return mixed
-*/
+ * shortcut to init menu
+ * @param mixed $name
+ * @param mixed $ctrl
+ * @param mixed $target
+ * @param mixed $tab
+ * @param mixed $tag
+ * @param mixed $selected
+ * @return mixed
+ */
 function igk_html_initmenu($name, $ctrl, $target, $tab, $tag = "li", $selected = null)
 {
     igk_getctrl(IGK_MENU_CTRL)->initCustomMenu($name, $ctrl, $target, $tab, $tag, $selected);
 }
 /**
-* auto generate doc.
-* @param string $type
-* @param string $content content
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $type
+ * @param string $content content
+ * @return mixed
+ */
 function igk_html_inlinedata(string $type, string $content)
 {
     return 'data:' . $type . ";base64," . base64_encode($content);
 }
 /**
-* check if sytem request a full uri
-* @param mixed $options
-* @return mixed
-*/
+ * check if sytem request a full uri
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_html_is_fullurirequest($options = null)
 {
     return igk_is_ajx_demand() || preg_match("#^\/!@#i", igk_io_request_uri()) || ($options && (igk_xml_is_mailoptions($options) || $options->StandAlone));
 }
 /**
-* check if this node is in ns
-* @param mixed $n
-* @return mixed
-*/
+ * check if this node is in ns
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_html_is_ns_child($n)
 {
     $q = $n;
@@ -12101,19 +12123,19 @@ function igk_html_is_ns_child($n)
     return true;
 }
 /**
-* get if this is a valid tag name
-* @param mixed $v
-* @return mixed
-*/
+ * get if this is a valid tag name
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_html_is_tagname($v)
 {
     return preg_match("/^" . IGK_TAGNAME_CHAR_REGEX . "+$/i", $v);
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_html_loading_frame($t)
 {
     $uri = R::GetImgUri("waitcursor");
@@ -12121,37 +12143,37 @@ function igk_html_loading_frame($t)
         $t->div()->setAttributes(array("class" => "dispib"))->addBalafonJS()->Content = "igk.media.webplayer.init(this.parentNode,'{$uri}');";
 }
 /**
-* auto generate doc.
-* @param mixed $tagname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tagname
+ * @return mixed
+ */
 function igk_html_mustclosetag($tagname)
 {
     return !igk_html_emptytag($tagname);
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @param mixed $attributes
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @param mixed $attributes
+ * @return mixed
+ */
 function igk_html_new($node, $attributes = null)
 {
     return igk_create_node($node, $attributes);
 }
 /**
-* create new node
-* @param mixed $tag
-* @return mixed
-*/
+ * create new node
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_html_newnode($tag)
 {
     return new HtmlNode($tag);
 }
 /**
-* get the base of the creation node
-* @return mixed
-*/
+ * get the base of the creation node
+ * @return mixed
+ */
 function igk_html_parent_node()
 {
     $p = igk_get_env(IGK_XML_CREATOR_PARENT_KEY);
@@ -12161,28 +12183,28 @@ function igk_html_parent_node()
     return null;
 }
 /**
-* skip creation adding
-* @param mixed $value
-* @return mixed
-*/
+ * skip creation adding
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_html_skip_add($value = 1)
 {
     HtmlUtils::SkipAdd($value);
 }
 /**
-* Igk html is skipped.
-* @param mixed $autoreset
-* @return mixed
-*/
+ * Igk html is skipped.
+ * @param mixed $autoreset
+ * @return mixed
+ */
 function igk_html_is_skipped($autoreset = true)
 {
     return HtmlUtils::IsSkipped($autoreset);
 }
 /**
-* Represent igk_html_parent_result function
-* @param mixed $r
-* @return mixed
-*/
+ * Represent igk_html_parent_result function
+ * @param mixed $r
+ * @return mixed
+ */
 function igk_html_parent_result($r)
 {
     if (($r == null) || ($r instanceof HtmlItemBase)) {
@@ -12190,14 +12212,14 @@ function igk_html_parent_result($r)
     }
 }
 /**
-* php eval data binding
-* @param mixed $obj  object that will contains data calculated in script. in args. (note : obj, ctrl , row, expression, trimExpression, and script are reserved )
-* @param mixed $ctrl
-* @param mixed $raw
-* @param mixed $expression
-* @param int $a
-* @return mixed
-*/
+ * php eval data binding
+ * @param mixed $obj  object that will contains data calculated in script. in args. (note : obj, ctrl , row, expression, trimExpression, and script are reserved )
+ * @param mixed $ctrl
+ * @param mixed $raw
+ * @param mixed $expression
+ * @param int $a
+ * @return mixed
+ */
 function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
 {
     if (!is_string($expression)) {
@@ -12254,11 +12276,11 @@ function igk_html_php_eval($obj, $ctrl, $raw, $expression, $a = 0)
     return $m;
 }
 /**
-* localize une expression
-* @param mixed $expression
-* @param mixed $tab
-* @return mixed
-*/
+ * localize une expression
+ * @param mixed $expression
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_html_php_evallocalized_expression($expression, $tab = null)
 {
     if ($tab == null) {
@@ -12295,20 +12317,20 @@ function igk_html_php_evallocalized_expression($expression, $tab = null)
     return $v;
 }
 /**
-* eval expression in context
-* @param mixed $exp
-* @return mixed evaluation result
-*/
+ * eval expression in context
+ * @param mixed $exp
+ * @return mixed evaluation result
+ */
 function igk_php_eval_in_context($exp)
 {
     extract(igk_extract_ref(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0, []))));
     return @eval('return ' . $exp . ';');
 }
 /**
-* Extracts data.
-* @param mixed $tab
-* @return mixed
-*/
+ * Extracts data.
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_extract_data($tab)
 {
     if (is_array($tab)) {
@@ -12320,9 +12342,9 @@ function igk_extract_data($tab)
     return (array)$tab;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_html_pop_node_parent()
 {
     $n = igk_environment()->pop(IGK_XML_CREATOR_PARENT_KEY);
@@ -12334,10 +12356,10 @@ function igk_html_pop_node_parent()
     return $n;
 }
 /**
-* used to pop the target node data
-* @param mixed & $t
-* @return mixed
-*/
+ * used to pop the target node data
+ * @param mixed & $t
+ * @return mixed
+ */
 function igk_html_popt(&$t)
 {
     $s = igk_pop_env("sys://push/targetnode");
@@ -12345,10 +12367,10 @@ function igk_html_popt(&$t)
         $t = $s;
 }
 /**
-* store the creator node parent
-* @param HtmlItemBase $n
-* @return mixed
-*/
+ * store the creator node parent
+ * @param HtmlItemBase $n
+ * @return mixed
+ */
 function igk_html_push_node_parent(HtmlItemBase $n)
 {
     $v_key = IGK_XML_CREATOR_PARENT_KEY;
@@ -12365,20 +12387,20 @@ function igk_html_push_node_parent(HtmlItemBase $n)
     }
 }
 /**
-* push targetnode. in inclusion scenario required
-* @param mixed & $t
-* @return mixed
-*/
+ * push targetnode. in inclusion scenario required
+ * @param mixed & $t
+ * @return mixed
+ */
 function igk_html_pusht(&$t)
 {
     igk_push_env("sys://push/targetnode", $t);
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_html_query_parse($s)
 {
     $ln = strlen($s);
@@ -12404,29 +12426,29 @@ function igk_html_query_parse($s)
     return $o;
 }
 /**
-* used to register a component demonstration
-* @param mixed $ns the full namespace to component
-* @param mixed $callback the callback that will be called by system to initialize a demonstration view
-* @return mixed
-*/
+ * used to register a component demonstration
+ * @param mixed $ns the full namespace to component
+ * @param mixed $callback the callback that will be called by system to initialize a demonstration view
+ * @return mixed
+ */
 function igk_html_reg_component_demo($ns, $callback)
 {
     igk_set_env_keys("sys://html/components/demos", $ns, $callback);
 }
 /**
-* Represent igk_html_reg_component_package function
-* @param mixed $component
-* @return mixed
-*/
+ * Represent igk_html_reg_component_package function
+ * @param mixed $component
+ * @return mixed
+ */
 function igk_html_reg_component_package($component = null)
 {
     throw new \IGKException('not implement');
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_html_render_all($n)
 {
     $t = null;
@@ -12434,33 +12456,33 @@ function igk_html_render_all($n)
     return igk_html_render_node($n, $s, $t, false, 0);
 }
 /**
-* Represent igk_html_render_append_item function
-* @param mixed $option
-* @param mixed $node
-* @return mixed
-*/
+ * Represent igk_html_render_append_item function
+ * @param mixed $option
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_render_append_item($option, $node)
 {
     HtmlRenderer::AppendOptionNode($option, $node);
 }
 /**
-* render node in chain hierachie
-* @param mixed $n
-* @param mixed & $options
-* @param mixed $tab
-* @param mixed $textonly
-* @param mixed $chain
-* @return mixed
-*/
+ * render node in chain hierachie
+ * @param mixed $n
+ * @param mixed & $options
+ * @param mixed $tab
+ * @param mixed $textonly
+ * @param mixed $chain
+ * @return mixed
+ */
 function igk_html_render_node($n, &$options, $tab = null, $textonly = false, $chain = 1)
 {
     return HtmlRenderer::Render($n, $options);
 }
 /**
-* render text node
-* @param mixed $n
-* @return mixed
-*/
+ * render text node
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_html_render_text_node($n)
 {
     $options = HtmlRenderer::CreateRenderOptions();
@@ -12468,10 +12490,10 @@ function igk_html_render_text_node($n)
     return igk_html_render_node($n, $options);
 }
 /**
-* auto generate doc.
-* @param mixed $item
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $item
+ * @return mixed
+ */
 function igk_html_render_xml($item)
 {
     if (!$item)
@@ -12485,18 +12507,18 @@ function igk_html_render_xml($item)
     return $s;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_html_reset_func_param()
 {
     igk_app()->session->setParam("system://igk_html_func_param", null);
 }
 /**
-* auto generate doc.
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_html_resolv_img_uri($path)
 {
     $f = igk_io_currentrelativepath($path);
@@ -12513,20 +12535,20 @@ function igk_html_resolv_img_uri($path)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $item
-* @param mixed $dispose
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $item
+ * @param mixed $dispose
+ * @return mixed
+ */
 function igk_html_rm($item, $dispose = false)
 {
     return $item->remove();
 }
 /**
-* remove base uri
-* @param mixed $v
-* @return mixed
-*/
+ * remove base uri
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_html_rm_base_uri($v)
 {
     $s = igk_io_baseuri();
@@ -12537,11 +12559,11 @@ function igk_html_rm_base_uri($v)
     return $v;
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_html_save_doc_formail($doc, $file)
 {
     $opt = HtmlRenderer::CreateRenderOptions();
@@ -12550,11 +12572,11 @@ function igk_html_save_doc_formail($doc, $file)
     igk_io_save_file_as_utf8_wbom($file, $maildoc->render($opt), true);
 }
 /**
-* used to select in node expression
-* @param mixed $node
-* @param mixed $expression
-* @return mixed
-*/
+ * used to select in node expression
+ * @param mixed $node
+ * @param mixed $expression
+ * @return mixed
+ */
 function igk_html_select($node, $expression)
 {
     $r = array();
@@ -12580,11 +12602,11 @@ function igk_html_select($node, $expression)
     return $r;
 }
 /**
-* Represent igk_html_set_document_class function
-* @param mixed $doc
-* @param mixed $classname
-* @return mixed
-*/
+ * Represent igk_html_set_document_class function
+ * @param mixed $doc
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_html_set_document_class($doc, $classname)
 {
     $cl = $doc->getTempFlag(IGK_DOCUMENT_CLASS);
@@ -12595,11 +12617,11 @@ function igk_html_set_document_class($doc, $classname)
     $cl->add($classname);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_html_set_func_param($name, $v)
 {
     $tab = igk_app()->session->getParam("system://igk_html_func_param");
@@ -12609,11 +12631,11 @@ function igk_html_set_func_param($name, $v)
     igk_getv(igk_app()->session->setParam("system://igk_html_func_param"), $tab);
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_html_store_doc_form_mailtransport($doc, $file)
 {
     $opt = HtmlRenderer::CreateRenderOptions();
@@ -12638,26 +12660,26 @@ function igk_html_strip_comment(string $c)
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $target
-* @param mixed $childtag
-* @param mixed $startindex
-* @param mixed $class1
-* @param mixed $class2
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $target
+ * @param mixed $childtag
+ * @param mixed $startindex
+ * @param mixed $class1
+ * @param mixed $class2
+ * @return mixed
+ */
 function igk_html_toggle_class($target, $childtag = "tr", $startindex = 1, $class1 = "table_darkrow", $class2 = "table_lightrow")
 {
     HtmlUtils::ToggleTableClassColor($target, $childtag, $startindex, $class1, $class2);
 }
 /**
-* treat html content. Evaluate expression within
-* @param string $content  string to evaluate
-* @param ?BaseController $ctrl  the controller that request . it can be null
-* @param mixed $raw  string or context array definition
-* @param HtmlItemBase|null $target  node for requesting . it can be null
-* @return mixed
-*/
+ * treat html content. Evaluate expression within
+ * @param string $content  string to evaluate
+ * @param ?BaseController $ctrl  the controller that request . it can be null
+ * @param mixed $raw  string or context array definition
+ * @param HtmlItemBase|null $target  node for requesting . it can be null
+ * @return mixed
+ */
 function igk_html_treat_content($content, $ctrl, $raw, $target = null)
 {
     if (empty($content))
@@ -12671,13 +12693,13 @@ function igk_html_treat_content($content, $ctrl, $raw, $target = null)
     return $target;
 }
 /**
-* auto generate doc.
-* @param mixed $info
-* @param mixed $row
-* @param mixed $ctrl
-* @param mixed $artcontext
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $info
+ * @param mixed $row
+ * @param mixed $ctrl
+ * @param mixed $artcontext
+ * @return mixed
+ */
 function igk_html_treatbinding($info, $row, $ctrl = null, $artcontext = null)
 {
     if ($info->visiblerow <= 0) {
@@ -12796,6 +12818,7 @@ function igk_html_treatbinding($info, $row, $ctrl = null, $artcontext = null)
 * @param mixed $value expression to evaluate
 * @param mixed $raw current cibling row
 * @param mixed $ctrl controller
+* @param mixed $ctx
 * @return mixed
 */
 function igk_html_treatbinding_evaldata($value, $raw, $ctrl = null, $ctx = null)
@@ -12805,10 +12828,10 @@ function igk_html_treatbinding_evaldata($value, $raw, $ctrl = null, $ctx = null)
     return $value;
 }
 /**
-* auto generate doc.
-* @param mixed $node
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_treatinput($node)
 {
     if ($node == null)
@@ -12823,10 +12846,10 @@ function igk_html_treatinput($node)
     }
 }
 /**
-* call this to unregister a callback node
-* @param mixed $sender
-* @return mixed
-*/
+ * call this to unregister a callback node
+ * @param mixed $sender
+ * @return mixed
+ */
 function igk_html_unreg_callback_node($sender)
 {
     $p = $sender->getParentNode();
@@ -12840,10 +12863,10 @@ function igk_html_unreg_callback_node($sender)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $out
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $out
+ * @return mixed
+ */
 function igk_html_unscape($out)
 {
     $reg = "/(?P<name>([\\][\"\'\\\\]))/i";
@@ -12864,10 +12887,10 @@ function igk_html_unscape($out)
     return $out;
 }
 /**
-* unset template default attribute properties
-* @param mixed $node
-* @return mixed
-*/
+ * unset template default attribute properties
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_html_unset_template_properties($node)
 {
     $node["igk-data-binding"] = null;
@@ -12884,10 +12907,10 @@ function igk_html_unset_template_properties($node)
     }
 }
 /**
-* use preset
-* @param mixed $p
-* @return mixed
-*/
+ * use preset
+ * @param mixed $p
+ * @return mixed
+ */
 function igk_html_use($p)
 {
     static $presets;
@@ -12902,11 +12925,11 @@ function igk_html_use($p)
     return igk_getv($presets, $p, "preset view : " . $p);
 }
 /**
-* render on node type shortcut function
-* @param mixed $nodeType
-* @param mixed $content
-* @return mixed
-*/
+ * render on node type shortcut function
+ * @param mixed $nodeType
+ * @param mixed $content
+ * @return mixed
+ */
 function igk_html_view($nodeType, $content)
 {
     $n = igk_create_node($nodeType);
@@ -12914,11 +12937,11 @@ function igk_html_view($nodeType, $content)
     $n->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_html_wln_log($key, $msg)
 {
     $s = igk_wln_ob_get($msg);
@@ -12929,12 +12952,12 @@ function igk_html_wln_log($key, $msg)
     $d->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $cond
-* @param mixed $msg
-* @param mixed $tag
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $cond
+ * @param mixed $msg
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_ilog_assert($cond, $msg, $tag = null)
 {
     if ($cond) {
@@ -12942,56 +12965,56 @@ function igk_ilog_assert($cond, $msg, $tag = null)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_ilog_clear()
 {
     $logfile = igk_ilog_file();
     igk_io_w2file($logfile, "", true);
 }
 /**
-* shortcut utilisty to dump variable: to log
-* @param mixed $o
-* @return mixed
-*/
+ * shortcut utilisty to dump variable: to log
+ * @param mixed $o
+ * @return mixed
+ */
 function igk_ilog_dump($o)
 {
     igk_ilog(igk_ob_get_func("var_dump", $o));
 }
 /**
-* helper: get Ilog file
-* @return mixed
-*/
+ * helper: get Ilog file
+ * @return mixed
+ */
 function igk_ilog_file(): string
 {
     return \IGKLog::GetSystemLogFile();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_ilog_get_trace()
 {
     return igk_get_env("sys://ilog/trace");
 }
 /**
-* auto generate doc.
-* @param mixed $trace
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $trace
+ * @return mixed
+ */
 function igk_ilog_trace($trace = null)
 {
     igk_set_env("sys://ilog/trace", $trace);
 }
 /**
-* auto generate doc.
-* @param mixed $glue
-* @param mixed $tab
-* @param mixed $callback
-* @param mixed $ignore
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $glue
+ * @param mixed $tab
+ * @param mixed $callback
+ * @param mixed $ignore
+ * @return mixed
+ */
 function igk_implode($glue, $tab, $callback, $ignore = 1)
 {
     $o = "";
@@ -13008,13 +13031,13 @@ function igk_implode($glue, $tab, $callback, $ignore = 1)
     return $o;
 }
 /**
-* add article and treat image source as link
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $target
-* @param mixed $tagname
-* @return mixed
-*/
+ * add article and treat image source as link
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $target
+ * @param mixed $tagname
+ * @return mixed
+ */
 function igk_in_article($ctrl, $name, $target, $tagname = null)
 {
     if ($target == null)
@@ -13041,12 +13064,12 @@ function igk_in_article($ctrl, $name, $target, $tagname = null)
     return null;
 }
 /**
-* include file: with params
-* @param mixed $file full path
-* @param mixed $params
-* @param mixed $target
-* @return mixed
-*/
+ * include file: with params
+ * @param mixed $file full path
+ * @param mixed $params
+ * @param mixed $target
+ * @return mixed
+ */
 function igk_include($file, $params = null, $target = null)
 {
     $__tfile = $file;
@@ -13077,11 +13100,11 @@ function igk_include($file, $params = null, $target = null)
     }
 }
 /**
-* include file
-* @param string $file file to include
-* @param mixed $args
-* @return mixed
-*/
+ * include file
+ * @param string $file file to include
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_include_file(string $file, $args = null)
 {
     if ($args) {
@@ -13093,9 +13116,9 @@ function igk_include_file(string $file, $args = null)
     include($file);
 }
 /**
-* include if exists helpers
-* @return mixed
-*/
+ * include if exists helpers
+ * @return mixed
+ */
 function igk_include_if_exists()
 {
     if (!igk_io_file_exists(func_get_arg(0), true))
@@ -13105,23 +13128,23 @@ function igk_include_if_exists()
     return include(func_get_arg(0));
 }
 /**
-* include on global context
-* @param mixed $f file to include
-* @param mixed $g global argument
-* @return mixed
-*/
+ * include on global context
+ * @param mixed $f file to include
+ * @param mixed $g global argument
+ * @return mixed
+ */
 function igk_include_on_global($f, $g = null)
 {
     extract($GLOBALS);
     include($f);
 }
 /**
-* include script in plugin lib
-* @param mixed $file mixed file or array
-* @param mixed $extra preload script content
-* @param mixed $namespace namespace to define
-* @return mixed
-*/
+ * include script in plugin lib
+ * @param mixed $file mixed file or array
+ * @param mixed $extra preload script content
+ * @param mixed $namespace namespace to define
+ * @return mixed
+ */
 function igk_include_script($file, $namespace = null, $extra = null)
 {
     if (is_string($file) && !igk_io_file_exists($file))
@@ -13147,10 +13170,10 @@ function igk_include_script($file, $namespace = null, $extra = null)
     return $to;
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_include_set_view($f)
 {
     $t = igk_get_env(IGKEnvironment::VIEW_INC_VIEW);
@@ -13161,10 +13184,10 @@ function igk_include_set_view($f)
     igk_set_env(IGKEnvironment::VIEW_INC_VIEW, $t);
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_include_unset_view($f)
 {
     $t = igk_get_env(IGKEnvironment::VIEW_INC_VIEW);
@@ -13172,22 +13195,22 @@ function igk_include_unset_view($f)
     igk_set_env(IGKEnvironment::VIEW_INC_VIEW, $t);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_include_utils()
 {
     include_once(IGK_LIB_DIR . "/Inc/igk_utils.func.pinc");
 }
 /**
-* include view
-* @param mixed $ctrl the controller that will be used
-* @param mixed $target target node that will recieve the content of the view
-* @param string $file file path or relative name to view file
-* @param mixed $create create file if not exists. default is false
-* @param mixed $args array data to pass to view file
-* @return mixed
-*/
+ * include view
+ * @param mixed $ctrl the controller that will be used
+ * @param mixed $target target node that will recieve the content of the view
+ * @param string $file file path or relative name to view file
+ * @param mixed $create create file if not exists. default is false
+ * @param mixed $args array data to pass to view file
+ * @return mixed
+ */
 function igk_include_view($ctrl, $target, string $file, $args = null, $create = false)
 {
     if ($f = igk_io_file_exists($file) ? $file : $ctrl->getViewFile($file)) {
@@ -13208,12 +13231,12 @@ function igk_include_view($ctrl, $target, string $file, $args = null, $create = 
     }
 }
 /**
-* Represent igk_include_view_file function
-* @param BaseController $ctrl
-* @param string $file
-* @param mixed $no_cache
-* @return mixed
-*/
+ * Represent igk_include_view_file function
+ * @param BaseController $ctrl
+ * @param string $file
+ * @param mixed $no_cache
+ * @return mixed
+ */
 function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = false)
 {
     $ext = igk_io_path_ext($file);
@@ -13301,10 +13324,10 @@ function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = f
     return $response;
 }
 /**
-* auto generate doc.
-* @param mixed $dirname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dirname
+ * @return mixed
+ */
 function igk_init_access($dirname = null)
 {
     $v_access = "";
@@ -13316,20 +13339,20 @@ function igk_init_access($dirname = null)
     ), true);
 }
 /**
-* Represent igk_init_context_array_diff function
-* @param mixed $args
-* @return mixed
-*/
+ * Represent igk_init_context_array_diff function
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_init_context_array_diff($args)
 {
     igk_set_env("context/args", $args);
 }
 /**
-* init controller with a source creation listener
-* @param IControllerInitListener $listener
-* @var IControllerInitListener $listener
-* @return mixed
-*/
+ * init controller with a source creation listener
+ * @param IControllerInitListener $listener
+ * @var IControllerInitListener $listener
+ * @return mixed
+ */
 function igk_init_controller(IControllerInitListener $listener)
 {
     $grantaccess = "allow from all";
@@ -13353,17 +13376,17 @@ function igk_init_controller(IControllerInitListener $listener)
     $listener->addSource(IGK_STYLE_FOLDER . "/" . Constants::DEFAULT_THEME_STYLE, igk_get_default_style(), false);
 }
 /**
-* init html basic method
-* @return mixed
-*/
+ * init html basic method
+ * @return mixed
+ */
 function igk_init_html_basic_method()
 {
     die(__FUNCTION__);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_init_include()
 {
     $functions = get_defined_functions()["user"];
@@ -13375,36 +13398,36 @@ function igk_init_include()
     return $t;
 }
 /**
-* init user global info setting
-* @return mixed
-*/
+ * init user global info setting
+ * @return mixed
+ */
 function igk_init_user_info()
 {
     igk_user_set_info("TOKENID", "", "(.)+", 1, 1);
 }
 /**
-* helper: init environment
-* @param mixed $dirname application directory
-* @param IGKApp $app application instance
-* @return mixed
-*/
+ * helper: init environment
+ * @param mixed $dirname application directory
+ * @param IGKApp $app application instance
+ * @return mixed
+ */
 function igk_initenv(string $dirname, IGKApp $app)
 {
     return IGKAppSystem::InitEnv($dirname, $app);
 }
 /**
-* auto generate doc.
-* @param mixed $zipfile
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $zipfile
+ * @return mixed
+ */
 function igk_install_module($zipfile)
 {
     throw new \IGK\System\Exceptions\NotImplementException(__FUNCTION__);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_internal_reslinkaccess()
 {
     if (!igk_get_env($key = "sys://res/linkaccess")) {
@@ -13422,10 +13445,10 @@ function igk_internal_reslinkaccess()
     }
 }
 /**
-* utility invalidate opcache
-* @param mixed $f
-* @return mixed
-*/
+ * utility invalidate opcache
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_invalidate_opcache($f)
 {
     if (function_exists("opcache_invalidate")) {
@@ -13433,12 +13456,12 @@ function igk_invalidate_opcache($f)
     }
 }
 /**
-* invoke a callback object
-* @param mixed $bind object that will be the host
-* @param object $obj object to bind
-* @param mixed $extra extra information
-* @return mixed
-*/
+ * invoke a callback object
+ * @param mixed $bind object that will be the host
+ * @param object $obj object to bind
+ * @param mixed $extra extra information
+ * @return mixed
+ */
 function igk_invoke_callback_obj($bind, $obj, $extra = null)
 {
     if (is_callable($obj)) {
@@ -13506,9 +13529,9 @@ function igk_invoke_callback_obj($bind, $obj, $extra = null)
     return false;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_invoke_export_callback()
 {
     $func = igk_get_env("sys://export_callback");
@@ -13517,11 +13540,11 @@ function igk_invoke_export_callback()
     }
 }
 /**
-* invoke a function in the session id context
-* @param mixed $sid
-* @param mixed $callback
-* @return mixed
-*/
+ * invoke a function in the session id context
+ * @param mixed $sid
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_invoke_in_session($sid, $callback)
 {
     $app = igk_app();
@@ -13532,13 +13555,13 @@ function igk_invoke_in_session($sid, $callback)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $n
-* @param mixed $k
-* @param mixed $offset
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $n
+ * @param mixed $k
+ * @param mixed $offset
+ * @return mixed
+ */
 function igk_invoke_param($obj, $n, $k, $offset = 1)
 {
     if (igk_is_callable($n)) {
@@ -13547,12 +13570,12 @@ function igk_invoke_param($obj, $n, $k, $offset = 1)
     return call_user_func_array(array($n, $k), array_slice($obj->clParam, $offset));
 }
 /**
-* invoke pipe expression
-* @param string $name name of the pipe arg
-* @param mixed $value
-* @param mixed $options
-* @return mixed
-*/
+ * invoke pipe expression
+ * @param string $name name of the pipe arg
+ * @param mixed $value
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_invoke_pipe(string $name, $value, $options = null)
 {
     $loc_t = igk_reg_pipe(null);
@@ -13573,11 +13596,11 @@ function igk_invoke_pipe(string $name, $value, $options = null)
     return $v;
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_invoke_script($f, $args = null)
 {
     $f = igk_dir($f);
@@ -13591,41 +13614,41 @@ function igk_invoke_script($f, $args = null)
     return -1;
 }
 /**
-* Represent igk_invoke_session_event function
-* @return mixed
-*/
+ * Represent igk_invoke_session_event function
+ * @return mixed
+ */
 function igk_invoke_session_event() {}
 /**
-* from wordpress template edition
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * from wordpress template edition
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_invoke_widget_zone($name, $args = null) {}
 /**
-* append to file
-* @param mixed $file
-* @param mixed $content
-* @param mixed $overwrite
-* @return mixed
-*/
+ * append to file
+ * @param mixed $file
+ * @param mixed $content
+ * @param mixed $overwrite
+ * @return mixed
+ */
 function igk_io_a2file($file, $content, $overwrite = true)
 {
     return igk_io_save_file_as_utf8_wbom($file, $content, $overwrite, IGK_DEFAULT_FILE_MASK, "a+");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_access()
 {
     return igk_get_env("sys://currenturiaccess", igk_io_baseuri());
 }
 /**
-* resolv style access path
-* @param mixed $path
-* @return mixed
-*/
+ * resolv style access path
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_io_access_path($path)
 {
     if (igk_io_file_exists($path, true)) {
@@ -13634,11 +13657,11 @@ function igk_io_access_path($path)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $data
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_io_append_to_file($file, $data)
 {
     $r = @fopen($file, igk_io_file_exists($file) ? "a+" : "w+");
@@ -13650,44 +13673,44 @@ function igk_io_append_to_file($file, $data)
     }
 }
 /**
-* return application data folder
-* @return mixed
-*/
+ * return application data folder
+ * @return mixed
+ */
 function igk_io_applicationdatadir()
 {
     return igk_io_applicationdir() . DIRECTORY_SEPARATOR . IGK_DATA_FOLDER;
 }
 /**
-* get path from assets
-* @param mixed $path
-* @return mixed
-*/
+ * get path from assets
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_io_asset($path)
 {
     return implode("/", ["", IGK_RES_FOLDER, ltrim($path, "/")]);
 }
 /**
-* parse base request uri info
-* @return mixed
-*/
+ * parse base request uri info
+ * @return mixed
+ */
 function igk_io_base_request_uri_info()
 {
     $t = parse_url(igk_io_base_request_uri());
     return $t;
 }
 /**
-* get global base dir:
-* @param mixed $dir
-* @return mixed
-*/
+ * get global base dir:
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_basedatadir($dir = null)
 {
     return igk_dir(igk_io_basedir() . "/" . IGK_DATA_FOLDER . $dir);
 }
 /**
-* get if the base directory is equal to server document root
-* @return mixed
-*/
+ * get if the base directory is equal to server document root
+ * @return mixed
+ */
 function igk_io_basedir_is_root()
 {
     $doc_root = igk_io_rootdir();
@@ -13695,10 +13718,10 @@ function igk_io_basedir_is_root()
     return $doc_root == $base_dir;
 }
 /**
-* get full current domain uri
-* @param mixed $secured
-* @return mixed
-*/
+ * get full current domain uri
+ * @param mixed $secured
+ * @return mixed
+ */
 function igk_io_basedomainuri($secured = null)
 {
     $app = igk_app();
@@ -13711,12 +13734,12 @@ function igk_io_basedomainuri($secured = null)
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @param mixed $basedir
-* @param mixed $separator
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @param mixed $basedir
+ * @param mixed $separator
+ * @return mixed
+ */
 function igk_io_baserelativepath($dir, $basedir = null, $separator = DIRECTORY_SEPARATOR)
 {
     if (empty($dir)) {
@@ -13727,20 +13750,20 @@ function igk_io_baserelativepath($dir, $basedir = null, $separator = DIRECTORY_S
     return igk_io_relativepath($dir, $bdir);
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_baserelativeuri($dir)
 {
     return igk_uri(igk_io_baserelativepath($dir));
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @param mixed $secured
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @param mixed $secured
+ * @return mixed
+ */
 function igk_io_baseuri_i($dir, $secured = null)
 {
     if (empty($dir))
@@ -13748,17 +13771,17 @@ function igk_io_baseuri_i($dir, $secured = null)
     return igk_io_baseuri($dir, $secured);
 }
 /**
-* return cached distribution script
-* @return mixed
-*/
+ * return cached distribution script
+ * @return mixed
+ */
 function igk_io_cacheddist_jsdir()
 {
     return igk_io_cacheinfo()->js;
 }
 /**
-* return shared cache info
-* @return mixed
-*/
+ * return shared cache info
+ * @return mixed
+ */
 function igk_io_cacheinfo()
 {
     static $cache = null;
@@ -13775,11 +13798,11 @@ function igk_io_cacheinfo()
     return $cache;
 }
 /**
-* used to check if uri is directory. used internally
-* @param mixed $uri
-* @param mixed $failedcallback
-* @return mixed
-*/
+ * used to check if uri is directory. used internally
+ * @param mixed $uri
+ * @param mixed $failedcallback
+ * @return mixed
+ */
 function igk_io_check_request_file($uri, $failedcallback = null)
 {
     $c = ltrim($uri, '/');
@@ -13796,20 +13819,20 @@ function igk_io_check_request_file($uri, $failedcallback = null)
     }
 }
 /**
-* helper: collapse system path
-* @param string $str
-* @return mixed
-*/
+ * helper: collapse system path
+ * @param string $str
+ * @return mixed
+ */
 function igk_io_collapse_path(string $str)
 {
     return IO::CollapsePath($str);
 }
 /**
-* transform collapse path to constant
-* @param string $str
-* @param array $keys
-* @return mixed
-*/
+ * transform collapse path to constant
+ * @param string $str
+ * @param array $keys
+ * @return mixed
+ */
 function igk_io_collapse_const_path(string $str, array $keys = ["%app%" => "IGK_APP_DIR"])
 {
     if ($path = igk_io_collapse_path($str)) {
@@ -13828,9 +13851,9 @@ function igk_io_collapse_const_path(string $str, array $keys = ["%app%" => "IGK_
     }
 }
 /**
-* combine path
-* @return mixed
-*/
+ * combine path
+ * @return mixed
+ */
 function igk_io_combine()
 {
     $dir = igk_dir(implode(DIRECTORY_SEPARATOR, func_get_args()));
@@ -13839,31 +13862,31 @@ function igk_io_combine()
     return $dir;
 }
 /**
-* return a controller working classes path
-* @param mixed $ctrl
-* @return mixed
-*/
+ * return a controller working classes path
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_io_controller_classes_lib_dir($ctrl)
 {
     return igk_io_combine($ctrl->getDeclaredDir(), implode("/", [IGK_LIB_FOLDER, IGK_CLASSES_FOLDER]));
 }
 /**
-* return a controller working tests classes path
-* @param mixed $ctrl
-* @return mixed
-*/
+ * return a controller working tests classes path
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_io_controller_tests_lib_dir($ctrl)
 {
     return igk_io_combine($ctrl->getDeclaredDir(), implode("/", [IGK_LIB_FOLDER, IGK_TESTS_FOLDER]));
 }
 /**
-* copy stream function
-* @param mixed $in
-* @param mixed $out
-* @param mixed $buffer
-* @param mixed $close
-* @return mixed
-*/
+ * copy stream function
+ * @param mixed $in
+ * @param mixed $out
+ * @param mixed $buffer
+ * @param mixed $close
+ * @return mixed
+ */
 function igk_io_copy_stream($in, $out, $buffer = 4096, $close = 0)
 {
     $size = 0;
@@ -13877,26 +13900,26 @@ function igk_io_copy_stream($in, $out, $buffer = 4096, $close = 0)
     return $size;
 }
 /**
-* get corejs entry uri
-* @return mixed
-*/
+ * get corejs entry uri
+ * @return mixed
+ */
 function igk_io_corejs_uri(): string
 {
     return igk_io_baseuri(IGK_RES_FOLDER . "/" . IGK_SCRIPT_FOLDER . "/balafon.js?v=" . IGK_BALAFON_JS_VERSION);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_corestyle_uri(): ?string
 {
     return Path::getInstance()->getStyleUri();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_io_ctrl_db_dir($ctrl)
 {
     $dir = $ctrl->getDataDir() . "/Database";
@@ -13906,12 +13929,12 @@ function igk_io_ctrl_db_dir($ctrl)
     return $dir;
 }
 /**
-* utility to handle controller app uri
-* @param mixed $ctrl the controller
-* @param mixed $u mixed . uri:string or SysParamInfo
-* @param mixed $fc callback to call with request of func and parameters
-* @return mixed
-*/
+ * utility to handle controller app uri
+ * @param mixed $ctrl the controller
+ * @param mixed $u mixed . uri:string or SysParamInfo
+ * @param mixed $fc callback to call with request of func and parameters
+ * @return mixed
+ */
 function igk_io_ctrl_handle_uri($ctrl, $u, $fc)
 {
     if (igk_app()->getControllerManager()->InvokeUri()) {
@@ -13928,9 +13951,9 @@ function igk_io_ctrl_handle_uri($ctrl, $u, $fc)
     return $fc(igk_getv($p, 0), array_slice($p, 1));
 }
 /**
-* return the current request uri according to IGK_APP_DIR
-* @return mixed
-*/
+ * return the current request uri according to IGK_APP_DIR
+ * @return mixed
+ */
 function igk_io_current_request_uri()
 {
     $rq = igk_io_request_uri();
@@ -13959,47 +13982,47 @@ function igk_io_current_request_uri()
     return substr($doc_request, strlen($bdir));
 }
 /**
-* get base current domain uri
-* @return mixed
-*/
+ * get base current domain uri
+ * @return mixed
+ */
 function igk_io_currentbasedomainuri()
 {
     $n = igk_sys_srv_uri_scheme() . "://" . IGKSubDomainManager::GetBaseDomain();
     return $n;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_currentdomainuri()
 {
     $n = igk_sys_srv_uri_scheme() . "://" . (igk_sys_is_subdomain() ? igk_sys_current_domain_name() : IGKSubDomainManager::GetBaseDomain());
     return $n;
 }
 /**
-* shortcut to IO::GetCurrentRelativePath
-* @param mixed $dir  $dir : sever absolute path or basedir relative path
-* @param mixed $mustexists  directery must exists
-* @param mixed $separator directory separator
-* @return mixed
-*/
+ * shortcut to IO::GetCurrentRelativePath
+ * @param mixed $dir  $dir : sever absolute path or basedir relative path
+ * @param mixed $mustexists  directery must exists
+ * @param mixed $separator directory separator
+ * @return mixed
+ */
 function igk_io_currentrelativepath($dir, $mustexists = 1, $separator = DIRECTORY_SEPARATOR)
 {
     return IO::GetCurrentDirRelativePath($dir, $mustexists, $separator);
 }
 /**
-* shortcut to IO::GetCurrentRelativeUri
-* @param mixed $dir
-* @return mixed
-*/
+ * shortcut to IO::GetCurrentRelativeUri
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_currentrelativeuri($dir = IGK_STR_EMPTY)
 {
     return IO::GetCurrentRelativeUri($dir);
 }
 /**
-* return request base uri without query string
-* @return mixed
-*/
+ * return request base uri without query string
+ * @return mixed
+ */
 function igk_io_currenturi()
 {
     $s = IGK_STR_EMPTY;
@@ -14013,28 +14036,28 @@ function igk_io_currenturi()
     return $s;
 }
 /**
-* helper
-* @param mixed $dir
-* @return mixed
-*/
+ * helper
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_cwdrelativepath($dir)
 {
     return igk_io_get_relativepath($dir, getcwd());
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_dir_level()
 {
     return igk_get_env("sys://io/relative_dir_level", 0);
 }
 if (!function_exists('igk_dirname')) {
     /**
-    * auto generate doc.
-    * @param string $dir
-    * @return .
-    */
+     * auto generate doc.
+     * @param string $dir
+     * @return .
+     */
     function igk_dirname(string $dir)
     {
         if (empty($dir) || ($dir == '/') || (($dir = dirname($dir)) == '.')) {
@@ -14044,14 +14067,14 @@ if (!function_exists('igk_dirname')) {
     }
 }
 /**
-* get child directories
-* @param mixed $dir
-* @param mixed $match
-* @param mixed $recursive
-* @param mixed $ignoredname
-* @param mixed & $ignored_dirs
-* @return mixed
-*/
+ * get child directories
+ * @param mixed $dir
+ * @param mixed $match
+ * @param mixed $recursive
+ * @param mixed $ignoredname
+ * @param mixed & $ignored_dirs
+ * @return mixed
+ */
 function igk_io_dirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredname = null, &$ignored_dirs = null)
 {
     $tab = array();
@@ -14092,13 +14115,13 @@ function igk_io_dirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredna
     return $tab;
 }
 /**
-* function used to serve file from view directory
-* @param mixed $dir
-* @param mixed $params
-* @param mixed $callback
-* @param mixed $cacheout
-* @return mixed
-*/
+ * function used to serve file from view directory
+ * @param mixed $dir
+ * @param mixed $params
+ * @param mixed $callback
+ * @param mixed $cacheout
+ * @return mixed
+ */
 function igk_io_dispatch_file($dir, $params, $callback = null, $cacheout = 3600)
 {
     if ((igk_count($params) > 0) && (igk_io_file_exists($f = $dir . "/" . implode("/", $params))) && (!$callback || $callback($f))) {
@@ -14110,37 +14133,37 @@ function igk_io_dispatch_file($dir, $params, $callback = null, $cacheout = 3600)
     return 0;
 }
 /**
-* get the full document uri
-* @return mixed
-*/
+ * get the full document uri
+ * @return mixed
+ */
 function igk_io_doc_root_request_uri()
 {
     return igk_uri(igk_io_rootdir() . igk_io_request_uri());
 }
 /**
-* existing file path to root entry path
-* @param mixed $file
-* @return mixed
-*/
+ * existing file path to root entry path
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_entry_path_uri($file)
 {
     return igk_uri(igk_io_query_info()->entryuri . igk_io_basepath($file));
 }
 /**
-* return entry relative path from existing file
-* @param mixed $file
-* @return mixed
-*/
+ * return entry relative path from existing file
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_entry_relative_path_uri($file)
 {
     return (new IGKHtmlRelativeUriValueAttribute(igk_io_basepath($file)))->getValue();
 }
 /**
-* expand system path
-* @param string $str
-* @param mixed $callback
-* @return mixed
-*/
+ * expand system path
+ * @param string $str
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_io_expand_path(string $str, $callback = null)
 {
     if (preg_match("/^(\"|')/", $str)) {
@@ -14158,10 +14181,10 @@ function igk_io_expand_path(string $str, $callback = null)
     return $str;
 }
 /**
-* auto generate doc.
-* @param mixed $type
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_io_fileispicture($type)
 {
     $t = array(
@@ -14174,30 +14197,30 @@ function igk_io_fileispicture($type)
     return isset($t[$type]);
 }
 /**
-* force directory entry on view context
-* @param mixed $ctrl controller that will request
-* @param mixed $fname view entry name path
-* @param mixed & $redirect_request
-* @return mixed
-*/
+ * force directory entry on view context
+ * @param mixed $ctrl controller that will request
+ * @param mixed $fname view entry name path
+ * @param mixed & $redirect_request
+ * @return mixed
+ */
 function igk_io_force_dir_entry($ctrl, $fname, &$redirect_request = null)
 {
     \IGK\Helper\ViewHelper::ForceDirEntry($ctrl, $fname, $redirect_request);
 }
 /**
-* return the full base uri
-* @return mixed
-*/
+ * return the full base uri
+ * @return mixed
+ */
 function igk_io_fullbaserequesturi()
 {
     return igk_uri(igk_str_rm_last(IO::GetRootUri(), "/") . "/" . igk_str_rm_last(igk_getv(explode('?', ltrim(igk_io_request_uri(), '/')), 0), '/'));
 }
 /**
-* auto generate doc.
-* @param mixed $c
-* @param mixed & $base
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $c
+ * @param mixed & $base
+ * @return mixed
+ */
 function igk_io_fullpath($c, &$base = null)
 {
     $scheme = "";
@@ -14226,10 +14249,10 @@ function igk_io_fullpath($c, &$base = null)
     return $scheme . implode('/', $b);
 }
 /**
-* get the full uri of full path
-* @param mixed $file
-* @return mixed
-*/
+ * get the full uri of full path
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_fullpath2fulluri($file)
 {
     $root_uri = IO::GetRootUri();
@@ -14246,11 +14269,11 @@ function igk_io_fullpath2fulluri($file)
     return $s;
 }
 /**
-* return the relative uri according to BASEDIR
-* @param mixed $file
-* @param mixed $img
-* @return mixed
-*/
+ * return the relative uri according to BASEDIR
+ * @param mixed $file
+ * @param mixed $img
+ * @return mixed
+ */
 function igk_io_fullpath2uri($file, $img = false)
 {
     $f = igk_io_currentrelativeuri(igk_io_baserelativepath($file));
@@ -14260,10 +14283,10 @@ function igk_io_fullpath2uri($file, $img = false)
     return $f;
 }
 /**
-* convert full path to base directory
-* @param mixed $uri
-* @return mixed
-*/
+ * convert full path to base directory
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_fulluri2basedir($uri)
 {
     $bdir = igk_io_baseuri();
@@ -14273,22 +14296,22 @@ function igk_io_fulluri2basedir($uri)
     return null;
 }
 /**
-* get article in folder
-* @param mixed $name
-* @param mixed $dir
-* @return mixed
-*/
+ * get article in folder
+ * @param mixed $name
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_get_article($name, $dir = null)
 {
     return IO::GetArticleInDir($dir, $name);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $dir
-* @param mixed $lang
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $dir
+ * @param mixed $lang
+ * @return mixed
+ */
 function igk_io_get_article_file($name, $dir, $lang = null)
 {
     if ($lang == null) {
@@ -14306,11 +14329,11 @@ function igk_io_get_article_file($name, $dir, $lang = null)
     return $file;
 }
 /**
-* get application entry request uri
-* @param mixed $ctrl
-* @param mixed $uri uri according to view application view files
-* @return mixed
-*/
+ * get application entry request uri
+ * @param mixed $ctrl
+ * @param mixed $uri uri according to view application view files
+ * @return mixed
+ */
 function igk_io_get_entry_uri($ctrl, $uri)
 {
     $s = "";
@@ -14320,11 +14343,11 @@ function igk_io_get_entry_uri($ctrl, $uri)
     return $s . $uri;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $params
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_io_get_full_entry_uri($ctrl, $params)
 {
     $e = igk_io_get_entry_uri($ctrl, "/" . implode("/", $params));
@@ -14352,10 +14375,10 @@ function igk_io_get_relative_currenturi(?string $uri = null): ?string
     return $t;
 }
 /**
-* helper: retrieve uploaded data . \environement : set RequestFakeJsonInput
-* @param bool $usefaker
-* @return mixed
-*/
+ * helper: retrieve uploaded data . \environement : set RequestFakeJsonInput
+ * @param bool $usefaker
+ * @return mixed
+ */
 function igk_io_get_uploaded_data(bool $usefaker = true)
 {
     if ($usefaker && ($input = igk_environment()->RequestFakeJsonInput())) {
@@ -14377,18 +14400,18 @@ function igk_io_get_uploaded_data(bool $usefaker = true)
     return $s;
 }
 /**
-* retrieve the current uri
-* @return mixed
-*/
+ * retrieve the current uri
+ * @return mixed
+ */
 function igk_io_get_uri()
 {
     $s = igk_sys_srv_uri_scheme() . "://" . igk_server_name() . igk_io_request_uri();
     return $s;
 }
 /**
-* get a list of include files that have a BOM header. testing functions
-* @return mixed
-*/
+ * get a list of include files that have a BOM header. testing functions
+ * @return mixed
+ */
 function igk_io_get_wbom_files()
 {
     $i = 0;
@@ -14406,43 +14429,43 @@ function igk_io_get_wbom_files()
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_getconf_file($dir)
 {
     return igk_dir($dir . "/" . IGK_DATA_FOLDER . "/" . IGK_CTRL_CONF_FILE);
 }
 /**
-* get schema data file
-* @param mixed $dir
-* @return mixed
-*/
+ * get schema data file
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_getdbconf_file($dir)
 {
     return igk_dir($dir . "/" . IGK_DATA_FOLDER . "/" . IGK_SCHEMA_FILENAME);
 }
 /**
-* shortcut to get files from directory
-* @param mixed $dir directory
-* @param mixed $match mixed, string regex expression or callback
-* @param mixed $recursive recursive
-* @param mixed & $excludedir
-* @return mixed
-*/
+ * shortcut to get files from directory
+ * @param mixed $dir directory
+ * @param mixed $match mixed, string regex expression or callback
+ * @param mixed $recursive recursive
+ * @param mixed & $excludedir
+ * @return mixed
+ */
 function igk_io_getfiles($dir, $match = IGK_ALL_REGEX, $recursive = true, &$excludedir = null)
 {
     return IO::GetFiles($dir, $match, $recursive, $excludedir);
 }
 if (!function_exists("igk_io_getdirs")) {
     /**
-    * auto generate doc.
-    * @param string $dir
-    * @param mixed $regex
-    * @param bool $recursive
-    * @return false|array
-    */
+     * auto generate doc.
+     * @param string $dir
+     * @param mixed $regex
+     * @param bool $recursive
+     * @return false|array
+     */
     function igk_io_getdirs(string $dir, $regex, bool $recursive = false)
     {
         if (!is_dir($dir)) return false;
@@ -14486,21 +14509,21 @@ function igk_io_getfullpath($path)
     return igk_realpath($path);
 }
 /**
-* helper: get relative path
-* @param string $source source path to get relative path from. Note: must have a trailing '/' if consider as directory
-* @param string $target path destination
-* @return mixed
-*/
+ * helper: get relative path
+ * @param string $source source path to get relative path from. Note: must have a trailing '/' if consider as directory
+ * @param string $target path destination
+ * @return mixed
+ */
 function igk_io_get_relativepath(string $source, string $target): ?string
 {
     return \IGK\System\IO\Path::GetRelativePath($source, $target);
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $dir
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_getviewname($file, $dir)
 {
     $v_s = "";
@@ -14515,39 +14538,39 @@ function igk_io_getviewname($file, $dir)
     return $v_s;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_global_uri()
 {
     return igk_get_env("sys://io/globaluri");
 }
 /**
-* shortcut to create new IGKHtmlRelativeUriValueAttribute
-* @param mixed $file
-* @return mixed
-*/
+ * shortcut to create new IGKHtmlRelativeUriValueAttribute
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_html_link($file)
 {
     return new IGKHtmlRelativeUriValueAttribute($file);
 }
 /**
-* get the web site full uri according to uri file pass form basedir
-* @param mixed $uri
-* @return mixed
-*/
+ * get the web site full uri according to uri file pass form basedir
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_htmluri($uri = null)
 {
     return igk_str_rm_last(igk_io_baseuri(), '/') . (($uri) ? "/" . igk_uri($uri) : IGK_STR_EMPTY);
 }
 /**
-* auto generate doc.
-* @param mixed $dir
-* @param mixed $match
-* @param mixed $recursive
-* @param mixed $ignoredname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $dir
+ * @param mixed $match
+ * @param mixed $recursive
+ * @param mixed $ignoredname
+ * @return mixed
+ */
 function igk_io_idirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredname = null)
 {
     $idir = array();
@@ -14555,11 +14578,11 @@ function igk_io_idirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredn
     return $idir;
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @param mixed $render
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_io_invoke_uri($uri, $render = 1)
 {
     $uri = igk_str_rm_last($uri, "/");
@@ -14619,12 +14642,12 @@ function igk_io_invoke_uri($uri, $render = 1)
     return 1;
 }
 /**
-* check if there is a controller that override uri pattern
-* @param mixed $uri
-* @param mixed $file
-* @param mixed & $data
-* @return mixed
-*/
+ * check if there is a controller that override uri pattern
+ * @param mixed $uri
+ * @param mixed $file
+ * @param mixed & $data
+ * @return mixed
+ */
 function igk_io_is_ctrl_uri($uri = null, $file = 1, &$data = null)
 {
     $uri = $uri ?? igk_io_base_request_uri();
@@ -14635,19 +14658,19 @@ function igk_io_is_ctrl_uri($uri = null, $file = 1, &$data = null)
     return $actionctrl && (($data = $actionctrl->matche($uri)) !== null);
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_io_is_file($f)
 {
     return igk_io_file_exists($f) && !is_dir($f);
 }
 /**
-* check if full path
-* @param mixed $d
-* @return mixed
-*/
+ * check if full path
+ * @param mixed $d
+ * @return mixed
+ */
 function igk_io_is_fullpath($d)
 {
     $k = igk_dir($d);
@@ -14663,10 +14686,10 @@ function igk_io_is_fullpath($d)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_is_subdomain_uri($uri = null)
 {
     $s = igk_io_subdomain_uri_name($uri);
@@ -14682,23 +14705,23 @@ function igk_io_joinpath(...$args)
     return igk_dir(implode(DIRECTORY_SEPARATOR, $args));
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_io_libdiruri($file, $options = null)
 {
     $target = substr($file, strlen(IGK_LIB_DIR) + 1);
     return igk_html_get_system_uri("/" . IGK_RES_FOLDER . "/_lib_/{$target}", $options);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed & $c
-* @param mixed & $p
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed & $c
+ * @param mixed & $p
+ * @return mixed
+ */
 function igk_io_locate_view_file($ctrl, &$c, &$p)
 {
     $d = $ctrl->getViewDir() . "/{$c}";
@@ -14744,11 +14767,11 @@ function igk_io_locate_view_file($ctrl, &$c, &$p)
     }
 }
 /**
-* move uploaded file to destination
-* @param string $file
-* @param string $destination
-* @return mixed
-*/
+ * move uploaded file to destination
+ * @param string $file
+ * @param string $destination
+ * @return mixed
+ */
 function igk_io_move_uploaded_file(string $file, string $destination): bool
 {
     if (php_sapi_name() == 'cli') {
@@ -14760,12 +14783,12 @@ function igk_io_move_uploaded_file(string $file, string $destination): bool
     return true;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $dir
-* @param mixed $pattern
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $dir
+ * @param mixed $pattern
+ * @return mixed
+ */
 function igk_io_moveuploadedfiletodatafolder($name, $dir, $pattern = "pics_%d%")
 {
     $img = igk_getv($_FILES, $name);
@@ -14802,18 +14825,18 @@ function igk_io_modulesdir(): ?string
     return igk_get_module_dir();
 }
 /**
-* helper to get node module
-* @return mixed
-*/
+ * helper to get node module
+ * @return mixed
+ */
 function igk_io_node_modules_dir()
 {
     return igk_io_packagesdir() . '/node_modules';
 }
 /**
-* protect the full request uri
-* @param mixed $uri
-* @return mixed
-*/
+ * protect the full request uri
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_protect_request($uri)
 {
     $uri = rtrim($uri, "/");
@@ -14824,10 +14847,10 @@ function igk_io_protect_request($uri)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_protect_request_ajx($uri)
 {
     if (igk_is_ajx_demand()) {
@@ -14836,10 +14859,10 @@ function igk_io_protect_request_ajx($uri)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $d
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $d
+ * @return mixed
+ */
 function igk_io_push_request_uri($d)
 {
     igk_set_env("sys://io/globaluri", $d);
@@ -14874,20 +14897,20 @@ function igk_io_query_info()
     return $v;
 }
 /**
-* return the query uri without GET QUERY ARGS
-* @return mixed
-*/
+ * return the query uri without GET QUERY ARGS
+ * @return mixed
+ */
 function igk_io_query_request_uri()
 {
     $buri = igk_getv(explode("?", igk_io_request_uri()), 0);
     return $buri;
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @param mixed $endpattern
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @param mixed $endpattern
+ * @return mixed
+ */
 function igk_io_read_header($f, $endpattern)
 {
     if (!igk_io_file_exists($f))
@@ -14903,29 +14926,29 @@ function igk_io_read_header($f, $endpattern)
     return $s;
 }
 /**
-* get real path without resolving like realpath does
-* @param string $dir
-* @return mixed
-*/
+ * get real path without resolving like realpath does
+ * @param string $dir
+ * @return mixed
+ */
 function igk_io_realpath(string $dir)
 {
     return Path::getInstance()->realpath($dir);
 }
 /**
-* helper: get relative link
-* @param string $path source path
-* @param string $link destination path
-* @return mixed
-*/
+ * helper: get relative link
+ * @param string $path source path
+ * @param string $link destination path
+ * @return mixed
+ */
 function igk_io_relativepath(string $path, string $link)
 {
     return Path::getInstance()->relativepath($path, $link);
 }
 /**
-* auto generate doc.
-* @param mixed $txt
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $txt
+ * @return mixed
+ */
 function igk_io_remove_bom($txt)
 {
     if ((strlen($txt) > 3) && (ord($txt[0]) === 239) && (ord($txt[1]) === 187) && (ord($txt[2]) === 191)) {
@@ -14934,10 +14957,10 @@ function igk_io_remove_bom($txt)
     return $txt;
 }
 /**
-* use to remove empty line from file
-* @param mixed $file
-* @return mixed
-*/
+ * use to remove empty line from file
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_removeemptyline($file)
 {
     if (!igk_io_file_exists($file))
@@ -14947,12 +14970,12 @@ function igk_io_removeemptyline($file)
     igk_io_save_file_as_utf8($file, $o, true);
 }
 /**
-* render resources file
-* @param mixed $dir
-* @param mixed $query
-* @param mixed $second
-* @return mixed
-*/
+ * render resources file
+ * @param mixed $dir
+ * @param mixed $query
+ * @param mixed $second
+ * @return mixed
+ */
 function igk_io_render_res_file($dir, $query, $second = 3600)
 {
     if (preg_match("/^res\.(?P<lang>[^\.]+)\.(?P<ext>(e?js(on)?|txt|xml|bin|dat))$/i", basename($query), $tab)) {
@@ -14975,9 +14998,9 @@ function igk_io_render_res_file($dir, $query, $second = 3600)
     igk_die(__("Resource not found"));
 }
 /**
-* get request uri entry according to base dir
-* @return mixed
-*/
+ * get request uri entry according to base dir
+ * @return mixed
+ */
 function igk_io_request_entry()
 {
     $b = igk_io_request_uri();
@@ -14989,9 +15012,9 @@ function igk_io_request_entry()
     return urldecode($s);
 }
 /**
-* request for Firefox thumbnails demand
-* @return mixed
-*/
+ * request for Firefox thumbnails demand
+ * @return mixed
+ */
 function igk_io_request_for_firefox_thumbnails()
 {
     $b = false;
@@ -15001,37 +15024,37 @@ function igk_io_request_for_firefox_thumbnails()
     return $b;
 }
 /**
-* alias to system SERVER : REQUEST_URI
-* @return mixed
-*/
+ * alias to system SERVER : REQUEST_URI
+ * @return mixed
+ */
 function igk_io_request_uri()
 {
     return igk_server()->REQUEST_URI ?? "/";
 }
 /**
-* get request uri path
-* @return mixed
-*/
+ * get request uri path
+ * @return mixed
+ */
 function igk_io_request_uri_path()
 {
     return igk_getv(parse_url(igk_io_request_uri()), "path");
 }
 /**
-* reset the query information
-* @return mixed
-*/
+ * reset the query information
+ * @return mixed
+ */
 function igk_io_reset_query_info()
 {
     igk_set_env("sys://io/query/info", null);
     return igk_io_query_info();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $uri
-* @param mixed $view
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $uri
+ * @param mixed $view
+ * @return mixed
+ */
 function igk_io_resolv($ctrl, $uri, $view = '')
 {
     $str = str_replace("%appuri%", $ctrl->getAppUri(), $uri);
@@ -15039,12 +15062,12 @@ function igk_io_resolv($ctrl, $uri, $view = '')
     return $str;
 }
 /**
-* resolve path
-* @param mixed $file
-* @param mixed $sourcedir
-* @param mixed & $resolved
-* @return mixed
-*/
+ * resolve path
+ * @param mixed $file
+ * @param mixed $sourcedir
+ * @param mixed & $resolved
+ * @return mixed
+ */
 function igk_io_resolvpath($file, $sourcedir, &$resolved = false): string
 {
     die("not implement: " . __FUNCTION__);
@@ -15073,17 +15096,17 @@ function igk_io_resolvpath($file, $sourcedir, &$resolved = false): string
     return $file;
 }
 /**
-* get the global resource folder
-* @return mixed
-*/
+ * get the global resource folder
+ * @return mixed
+ */
 function igk_io_resourcesdir()
 {
     return igk_io_combine(igk_io_basedir(), IGK_RES_FOLDER);
 }
 /**
-* retrieve root entry uri
-* @return mixed
-*/
+ * retrieve root entry uri
+ * @return mixed
+ */
 function igk_io_root_entryuri()
 {
     $dir = "";
@@ -15103,35 +15126,35 @@ function igk_io_root_entryuri()
     return $cdir;
 }
 /**
-* convert dir to uri from document root
-* @param mixed $dir
-* @return mixed
-*/
+ * convert dir to uri from document root
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_root_pathrequest($dir)
 {
     return igk_uri(igk_io_root_entryuri() . igk_io_basepath($dir));
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_io_root_uri()
 {
     return IO::GetRootUri();
 }
 /**
-* return the dir from document root
-* @param ?string $dir
-* @return mixed
-*/
+ * return the dir from document root
+ * @param ?string $dir
+ * @return mixed
+ */
 function igk_io_rootbasedir(?string $dir = null)
 {
     return IO::GetRootBaseDir($dir);
 }
 /**
-* return the root base request uri. starting with
-* @return mixed
-*/
+ * return the root base request uri. starting with
+ * @return mixed
+ */
 function igk_io_rootbaserequesturi()
 {
     $v_ruri = igk_io_base_request_uri();
@@ -15148,9 +15171,9 @@ function igk_io_rootdir()
     return Path::getInstance()->getRootDir();
 }
 /**
-* get the fully request root request uri base on DocumentRoot with IGK_APP_DIR
-* @return mixed
-*/
+ * get the fully request root request uri base on DocumentRoot with IGK_APP_DIR
+ * @return mixed
+ */
 function igk_io_rootrequesturi()
 {
     $o = "";
@@ -15163,38 +15186,38 @@ function igk_io_rootrequesturi()
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $filename
-* @param mixed $content
-* @param mixed $override
-* @param mixed $transform
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $filename
+ * @param mixed $content
+ * @param mixed $override
+ * @param mixed $transform
+ * @return mixed
+ */
 function igk_io_save_file_as_utf8($filename, $content, $override = true, $transform = true)
 {
     $r = $transform ? igk_ansi2utf8(igk_str_encode_to_utf8($content)) : $content;
     return igk_io_w2file($filename, $r, $override);
 }
 /**
-* shortcut to igk_io_save_file_as_utf8
-* @param mixed $filename
-* @param mixed $content
-* @param mixed $overwrite
-* @param mixed $chmod
-* @param mixed $type
-* @return mixed
-*/
+ * shortcut to igk_io_save_file_as_utf8
+ * @param mixed $filename
+ * @param mixed $content
+ * @param mixed $overwrite
+ * @param mixed $chmod
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_io_save_file_as_utf8_wbom($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
 {
     return \IGK\System\IO\FileWriter::Save($filename, $content, $overwrite, $chmod, $type);
 }
 /**
-* auto generate doc.
-* @param mixed $id
-* @param mixed $folder
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $id
+ * @param mixed $folder
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_io_save_posted_file($id, $folder, $callback)
 {
     $f = igk_getv($_FILES, $id);
@@ -15227,12 +15250,12 @@ function igk_io_save_posted_file($id, $folder, $callback)
     return 1;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $content
-* @param mixed $overwrite
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $content
+ * @param mixed $overwrite
+ * @return mixed
+ */
 function igk_io_savecontentfromtextarea($file, $content, $overwrite = true)
 {
     if (ini_get("magic_quotes_gpc")) {
@@ -15241,10 +15264,10 @@ function igk_io_savecontentfromtextarea($file, $content, $overwrite = true)
     return igk_io_save_file_as_utf8($file, $content, $overwrite);
 }
 /**
-* Represent igk_io_scandir function
-* @param mixed $dir
-* @return mixed
-*/
+ * Represent igk_io_scandir function
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_io_scandir($dir)
 {
     if (!is_dir($dir)) {
@@ -15264,20 +15287,20 @@ function igk_io_scandir($dir)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_io_set_dir_level($v)
 {
     igk_set_env("sys://io/relative_dir_level", $v);
 }
 /**
-* store ajx uploaded data to folder
-* @param mixed $folder
-* @param mixed $fname
-* @return mixed
-*/
+ * store ajx uploaded data to folder
+ * @param mixed $folder
+ * @param mixed $fname
+ * @return mixed
+ */
 function igk_io_store_ajx_uploaded_data($folder, $fname = null)
 {
     $tab = igk_get_allheaders();
@@ -15304,13 +15327,13 @@ function igk_io_store_ajx_uploaded_data($folder, $fname = null)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $cnf
-* @param mixed $tagname
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $cnf
+ * @param mixed $tagname
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_io_store_conf($file, $cnf, $tagname = "config", $callback = null)
 {
     $d = igk_create_node($tagname);
@@ -15327,11 +15350,11 @@ function igk_io_store_conf($file, $cnf, $tagname = "config", $callback = null)
     return false;
 }
 /**
-* store base64 encoding data to outfile
-* @param mixed $outfile
-* @param mixed $data
-* @return mixed
-*/
+ * store base64 encoding data to outfile
+ * @param mixed $outfile
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_io_store_uploaded_base64($outfile, $data)
 {
     if (empty($data))
@@ -15342,10 +15365,10 @@ function igk_io_store_uploaded_base64($outfile, $data)
     return igk_io_save_file_as_utf8_wbom($outfile, $g, true);
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_store_uploaded_file($file)
 {
     if (!IO::CreateDir(dirname($file)))
@@ -15369,36 +15392,36 @@ function igk_io_store_uploaded_file($file)
     return 1;
 }
 /**
-* Represent igk_io_sys_classes_dir function
-* @return mixed
-*/
+ * Represent igk_io_sys_classes_dir function
+ * @return mixed
+ */
 function igk_io_sys_classes_dir()
 {
     return IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER;
 }
 /**
-* auto generate doc.
-* @param mixed $prefix
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $prefix
+ * @return mixed
+ */
 function igk_io_sys_tempnam($prefix)
 {
     return tempnam(sys_get_temp_dir(), $prefix);
 }
 /**
-* Represent igk_io_sys_test_classes_dir function
-* @return mixed
-*/
+ * Represent igk_io_sys_test_classes_dir function
+ * @return mixed
+ */
 function igk_io_sys_test_classes_dir()
 {
     return IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_TESTS_FOLDER;
 }
 /**
-* return the system full path according to BASEDIR.convert file to uri offline presentation
-* @param mixed $f
-* @param mixed $exist
-* @return mixed
-*/
+ * return the system full path according to BASEDIR.convert file to uri offline presentation
+ * @param mixed $f
+ * @param mixed $exist
+ * @return mixed
+ */
 function igk_io_to_uri($f, $exist = 1)
 {
     if (igk_io_file_exists($f) || !$exist) {
@@ -15407,30 +15430,30 @@ function igk_io_to_uri($f, $exist = 1)
     return 0;
 }
 /**
-* shortcut to save file
-* @param mixed $filename file to touch
-* @param mixed $content
-* @return mixed
-*/
+ * shortcut to save file
+ * @param mixed $filename file to touch
+ * @param mixed $content
+ * @return mixed
+ */
 function igk_io_touch($filename, $content = '')
 {
     return igk_io_save_file_as_utf8_wbom($filename, $content, 1);
 }
 /**
-* get previous copntent name
-* @param mixed $filename
-* @param mixed $to_line
-* @return mixed
-*/
+ * get previous copntent name
+ * @param mixed $filename
+ * @param mixed $to_line
+ * @return mixed
+ */
 function igk_io_prev_content($filename, $to_line)
 {
     return implode("\n",  array_slice(explode("\n", file_get_contents($filename)), 0, $to_line));
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_io_treat_lnk_referer($f)
 {
     if (igk_is_ajx_demand()) {
@@ -15443,19 +15466,19 @@ function igk_io_treat_lnk_referer($f)
     return $f;
 }
 /**
-* return a unix presentation path
-* @param mixed $p
-* @return mixed
-*/
+ * return a unix presentation path
+ * @param mixed $p
+ * @return mixed
+ */
 function igk_io_unix_path($p)
 {
     return str_replace("\\", "/", $p);
 }
 /**
-* unlink file if exists
-* @param mixed $file
-* @return mixed
-*/
+ * unlink file if exists
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_io_unlink($file)
 {
     if (igk_io_file_exists($file)) {
@@ -15464,10 +15487,10 @@ function igk_io_unlink($file)
     return 0;
 }
 /**
-* determine that a local uri target a directory
-* @param mixed $uri
-* @return mixed
-*/
+ * determine that a local uri target a directory
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_io_uri_is_dir($uri)
 {
     $buri = igk_io_baseuri();
@@ -15479,11 +15502,11 @@ function igk_io_uri_is_dir($uri)
     return is_dir($b);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param string $filename
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param string $filename
+ * @return mixed
+ */
 function igk_io_view_entry_uri($ctrl, string $filename = "")
 {
     $c = $filename;
@@ -15496,11 +15519,11 @@ function igk_io_view_entry_uri($ctrl, string $filename = "")
     return $ctrl->getAppUri($c);
 }
 /**
-* auto generate doc.
-* @param BaseController $ctrl
-* @param string $fname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param BaseController $ctrl
+ * @param string $fname
+ * @return mixed
+ */
 function igk_io_view_root_entry_uri(BaseController $ctrl, string $fname = ""): string
 {
     $buri = igk_io_baseuri() ?? '';
@@ -15525,9 +15548,9 @@ if (!function_exists('igk_io_serve_file')) {
     }
 }
 /**
-* get if is ajx demand
-* @return mixed
-*/
+ * get if is ajx demand
+ * @return mixed
+ */
 function igk_is_ajx_demand()
 {
     return !(igk_get_env(IGK_ENV_NO_AJX_TEST) == 1) &&
@@ -15539,19 +15562,19 @@ function igk_is_ajx_demand()
         );
 }
 /**
-* Represent igk_is_ajx_form_request function
-* @return mixed
-*/
+ * Represent igk_is_ajx_form_request function
+ * @return mixed
+ */
 function igk_is_ajx_form_request()
 {
     return igk_getr("igk-ajx-form") == 1;
 }
 /**
-* auto generate doc.
-* @param mixed $o
-* @param mixed $k
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $o
+ * @param mixed $k
+ * @return mixed
+ */
 function igk_is_array_key_present($o, $k)
 {
     $t = is_object($o) ? (array)$o : (is_array($o) ? $o : null);
@@ -15567,10 +15590,10 @@ function igk_is_array_key_present($o, $k)
     return true;
 }
 /**
-* check if the defined class is included as script evaluation object
-* @param mixed $classname
-* @return mixed
-*/
+ * check if the defined class is included as script evaluation object
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_is_class_included($classname)
 {
     $c = igk_get_reg_class_file($classname);
@@ -15580,68 +15603,68 @@ function igk_is_class_included($classname)
     return false;
 }
 /**
-* check if an object is instance or subclass of a class
-* @param mixed $n
-* @param mixed $class
-* @return mixed
-*/
+ * check if an object is instance or subclass of a class
+ * @param mixed $n
+ * @param mixed $class
+ * @return mixed
+ */
 function igk_is_class_instance_of($n, $class)
 {
     return (get_class($n) == $class) || is_subclass_of($n, $class);
 }
 /**
-* Represent igk_is_class_subclass_of function
-* @param mixed $object object to check
-* @param mixed $cl
-* @return mixed
-*/
+ * Represent igk_is_class_subclass_of function
+ * @param mixed $object object to check
+ * @param mixed $cl
+ * @return mixed
+ */
 function igk_is_class_subclass_of($object, $cl)
 {
     return (get_class($object) == $cl) || is_subclass_of($object, $cl);
 }
 if (!function_exists('igk_is_class_assignable')) {
     /**
-    * check wether a class can be assign to a parent class
-    * @param string $class_name
-    * @param string $parent_class_name
-    * @return mixed
-    */
+     * check wether a class can be assign to a parent class
+     * @param string $class_name
+     * @param string $parent_class_name
+     * @return mixed
+     */
     function igk_is_class_assignable(string $class_name, string $parent_class_name)
     {
         return ($class_name == $parent_class_name) || is_subclass_of($class_name, $parent_class_name);
     }
 }
 /**
-* get if an object is typeof closure
-* @param mixed $f
-* @return mixed
-*/
+ * get if an object is typeof closure
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_is_closure($f)
 {
     return is_callable($f) && is_object($f) && strtolower(get_class($f)) == "closure";
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_is_conf_connected()
 {
     return (($c = igk_getconfigwebpagectrl()) && $c->getIsConnected()) ||
         igk_server()->IGK_IS_CONF_CONNECTED;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_is_confpagefolder()
 {
     return ($c = igk_getconfigwebpagectrl()) && ($c->getCurrentPageFolder() == IGK_CONFIG_PAGEFOLDER);
 }
 /**
-* check if a constant is present on tubestr
-* @param mixed $tubestr
-* @return mixed
-*/
+ * check if a constant is present on tubestr
+ * @param mixed $tubestr
+ * @return mixed
+ */
 function igk_is_const_defined($tubestr)
 {
     $r = explode("|", $tubestr);
@@ -15652,19 +15675,19 @@ function igk_is_const_defined($tubestr)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_is_controller($obj)
 {
     return is_object($obj) && igk_reflection_class_extends($obj, IGK_ROOT_CTRLBASECLASS);
 }
 /**
-* check if an object is a controller
-* @param mixed $ctrl
-* @return mixed
-*/
+ * check if an object is a controller
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_is_ctrl($ctrl)
 {
     if (is_object($ctrl) && igk_reflection_class_extends(get_class($ctrl), BaseController::class)) {
@@ -15673,37 +15696,37 @@ function igk_is_ctrl($ctrl)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_is_defaultwebpagectrl($ctrl)
 {
     return igk_get_defaultwebpagectrl() === $ctrl;
 }
 /**
-* check if this is presently on design mode
-* @return mixed
-*/
+ * check if this is presently on design mode
+ * @return mixed
+ */
 function igk_is_design_mode()
 {
     return igk_get_env("sys://designmode") == 1;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_is_domain_name($n)
 {
     return (strtolower($n) == "localhost") || (igk_get_domain_name($n) === $n);
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @param mixed $default
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_is_empty($t, $default = '')
 {
     if (empty($t)) {
@@ -15712,28 +15735,28 @@ function igk_is_empty($t, $default = '')
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $func
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $func
+ * @return mixed
+ */
 function igk_is_function_disable($func)
 {
     return in_array($func, explode(',', ini_get("disable_functions")));
 }
 /**
-* check if the node is html item
-* @param mixed $n
-* @return mixed
-*/
+ * check if the node is html item
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_is_html($n)
 {
     return is_object($n) && ($n instanceof HtmlItemBase);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_is_html_node_overriding_view($n)
 {
     if ($n instanceof XmlNode)
@@ -15746,28 +15769,28 @@ function igk_is_html_node_overriding_view($n)
     return false;
 }
 /**
-* check if the name if a valid identifier
-* @param mixed $name
-* @return mixed
-*/
+ * check if the name if a valid identifier
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_is_identifier($name)
 {
     return preg_match(IGK_ISIDENTIFIER_REGEX, $name);
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_is_included_view($file)
 {
     return ($g = igk_get_env(IGKEnvironment::VIEW_INC_VIEW)) && isset($g[igk_dir($file)]);
 }
 /**
-* check for module presence
-* @param mixed $modulename
-* @return mixed
-*/
+ * check for module presence
+ * @param mixed $modulename
+ * @return mixed
+ */
 function igk_is_module_present($modulename)
 {
     $v_k = "sys://require_mods";
@@ -15777,9 +15800,9 @@ function igk_is_module_present($modulename)
     return 0;
 }
 /**
-* determine that the request is coming from this local server
-* @return mixed
-*/
+ * determine that the request is coming from this local server
+ * @return mixed
+ */
 function igk_is_srv_request()
 {
     $tab = igk_get_allheaders();
@@ -15796,19 +15819,19 @@ function igk_is_thumbnail_request(): bool
     return !isset($_SERVER["HTTP_COOKIE"]) && (igk_server()->HTTP_CACHE_CONTROL == "no-cache") && (igk_server()->HTTP_PRAGMA == "no-cache");
 }
 /**
-* check if $uri command came from an uri request
-* @param mixed $uri
-* @return mixed
-*/
+ * check if $uri command came from an uri request
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_is_uri_demand($uri)
 {
     return igk_uri_is_match(igk_io_currenturi(), $uri);
 }
 /**
-* Represent igk_is_valid_module_info function
-* @param mixed $obj
-* @return mixed
-*/
+ * Represent igk_is_valid_module_info function
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_is_valid_module_info($obj)
 {
     if (!$obj)
@@ -15816,94 +15839,94 @@ function igk_is_valid_module_info($obj)
     return property_exists($obj, "name") && property_exists($obj, "author") && property_exists($obj, "version");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_is_webapp()
 {
     return igk_server()->IS_WEBAPP == 1;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_is_xmlnode($n)
 {
     return is_object($n) && igk_reflection_class_extends($n, IGK_HTML_ITEMBASE_CLASS);
 }
 /**
-* get a javascript link uri contain in a form
-* @param mixed $uri
-* @return mixed
-*/
+ * get a javascript link uri contain in a form
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_js_a_postform($uri)
 {
     return "javascript: return (function(q){var f = window.igk.getParentByTagName(q, 'form');  if (f){f.action ='" . $uri . "'; f.submit();return false;}})(this);";
 }
 /**
-* get a link javascript a posturi
-* @param mixed $uri
-* @param mixed $targetNodeId
-* @return mixed
-*/
+ * get a link javascript a posturi
+ * @param mixed $uri
+ * @param mixed $targetNodeId
+ * @return mixed
+ */
 function igk_js_ajx_aposturi($uri, $targetNodeId)
 {
     return "javascript: window.igk.ajx.aposturi('" . $uri . "', '" . $targetNodeId . "');";
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @param mixed $method
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @param mixed $method
+ * @return mixed
+ */
 function igk_js_ajx_post_auri($uri, $method = null)
 {
     return "javascript: window.igk.web.a_posturi(this,'" . $uri . "', " . (($method == null) ? 'null' : $method) . ");";
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_js_ajx_post_body_uri($uri)
 {
     $funcd = "function(xhr){ if (this.isReady()){ this.replaceBody();}} ";
     return "javascript: \$ns_igk.ajx.post('" . $uri . "', null,  " . $funcd . "); return false; ";
 }
 /**
-* post a link uri
-* @param mixed $parentTag
-* @return mixed
-*/
+ * post a link uri
+ * @param mixed $parentTag
+ * @return mixed
+ */
 function igk_js_ajx_post_luri($parentTag)
 {
     return "javascript: return window.igk.ajx.a_postResponse(this, '" . $parentTag . "');";
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_js_ajx_postform_frame($uri)
 {
     return "javascript:  \$ns_igk.ajx.postform(\$igk(this).getForm(), '" . $uri . "' , function(xhr){ if (this.isReady()){ \$ns_igk.ctrl.frames.appendFrameResponseToBody(xhr.responseText);  }});  return false;";
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_js_ajx_view_ctrl($ctrl)
 {
     $id = $ctrl->TargetNode["igk-type-id"];
     igk_js_render_script("ns_igk.ajx.fn.getfortarget('" . $ctrl->getUri("ViewAJX") . "', ns_igk.ctrl.getCtrlById('" . $id . "'));");
 }
 /**
-* auto generate doc.
-* @param mixed $folder
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $folder
+ * @return mixed
+ */
 function igk_js_bind_script_folder($folder)
 {
     $folder = igk_uri($folder);
@@ -15918,13 +15941,13 @@ function igk_js_bind_script_folder($folder)
     igk_environment()->set("ScriptFolder", $tab);
 }
 /**
-* used to bind script for wui component
-* @param mixed $document
-* @param mixed $ctrl
-* @param mixed $file
-* @param mixed $node
-* @return mixed
-*/
+ * used to bind script for wui component
+ * @param mixed $document
+ * @param mixed $ctrl
+ * @param mixed $file
+ * @param mixed $node
+ * @return mixed
+ */
 function igk_js_bind_wuiscript($document, $ctrl, $file, $node = null)
 {
     $f = igk_realpath($ctrl->getScriptsDir() . "/" . $file);
@@ -15945,11 +15968,11 @@ function igk_js_bind_wuiscript($document, $ctrl, $file, $node = null)
     $document->addScript($f, 'temp');
 }
 /**
-* used to post frame to uri. used in href of
-* @param mixed $ctrl  controller to where response must be send in ajax syntax
-* @param mixed $uri  request uri
-* @return mixed
-*/
+ * used to post frame to uri. used in href of
+ * @param mixed $ctrl  controller to where response must be send in ajax syntax
+ * @param mixed $uri  request uri
+ * @return mixed
+ */
 function igk_js_ctrl_posturi($ctrl, $uri)
 {
     $q = IGK_STR_EMPTY;
@@ -15960,10 +15983,10 @@ function igk_js_ctrl_posturi($ctrl, $uri)
     return "javascript:window.igk.ctrl.frames.postframe(this, '" . $ctrl->getUri($uri) . "&ajx=1'" . $q . ");";
 }
 /**
-* distribute js files
-* @param mixed $files
-* @return mixed
-*/
+ * distribute js files
+ * @param mixed $files
+ * @return mixed
+ */
 function igk_js_dist_scripts($files)
 {
     $out = "";
@@ -15986,14 +16009,14 @@ function igk_js_dist_scripts($files)
     return $out;
 }
 /**
-* used to enable tinymce on element with textarea
-* @param mixed $target
-* @param mixed $elements
-* @param mixed $op
-* @param mixed $doc
-* @deprecated use a lmodule that will
-* @return mixed
-*/
+ * used to enable tinymce on element with textarea
+ * @param mixed $target
+ * @param mixed $elements
+ * @param mixed $op
+ * @param mixed $doc
+ * @deprecated use a lmodule that will
+ * @return mixed
+ */
 function igk_js_enable_tinymce($target, $elements = null, $op = null, $doc = null)
 {
     $c_tinymce_class = 'tinymce';
@@ -16022,13 +16045,13 @@ EOF;
     return $sc;
 }
 /**
-* auto generate doc.
-* @param mixed $target
-* @param mixed $uri
-* @param mixed $func
-* @param mixed $saveState
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $target
+ * @param mixed $uri
+ * @param mixed $func
+ * @param mixed $saveState
+ * @return mixed
+ */
 function igk_js_get_posturi($target, $uri, $func = null, $saveState = false)
 {
     $func = ($func == null) ? "function(xhr){ if (this.isReady()){ this.setResponseTo(self);}}" : $func;
@@ -16036,9 +16059,9 @@ function igk_js_get_posturi($target, $uri, $func = null, $saveState = false)
     return $out;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_js_get_temp_script_files()
 {
     $h = igk_js_get_temp_script_host();
@@ -16048,17 +16071,17 @@ function igk_js_get_temp_script_files()
     return null;
 }
 /**
-* get tempory script host
-* @return mixed
-*/
+ * get tempory script host
+ * @return mixed
+ */
 function igk_js_get_temp_script_host()
 {
     return igk_get_env("sys://temp/script");
 }
 /**
-* init document to load
-* @return mixed
-*/
+ * init document to load
+ * @return mixed
+ */
 function igk_js_init()
 {
     $c = new \IGK\System\Html\Dom\HtmlScriptNode();
@@ -16070,11 +16093,11 @@ function igk_js_init()
     $c->renderAJX();
 }
 /**
-* Represent igk_js_inline_text function
-* @param mixed $msg
-* @param mixed $attrib
-* @return mixed
-*/
+ * Represent igk_js_inline_text function
+ * @param mixed $msg
+ * @param mixed $attrib
+ * @return mixed
+ */
 function igk_js_inline_text($msg, $attrib = 1)
 {
     $msg = str_replace("\\", "\\\\", $msg);
@@ -16085,20 +16108,20 @@ function igk_js_inline_text($msg, $attrib = 1)
     return "['" . implode("','", explode("\n", $msg)) . "'].join(String.fromCharCode(10))";
 }
 /**
-* auto generate doc.
-* @param mixed $text
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $text
+ * @return mixed
+ */
 function igk_js_lnk_confirm($text)
 {
     return "if (ns_igk) ns_igk.form.confirmLink(this, '$text'); return false;";
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $dirname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $dirname
+ * @return mixed
+ */
 function igk_js_load_found_script($doc, $dirname)
 {
     $dirname = igk_dir($dirname);
@@ -16112,14 +16135,14 @@ function igk_js_load_found_script($doc, $dirname)
     return true;
 }
 /**
-* load javascript document from directory
-* @param mixed $doc document where to load
-* @param mixed $dirname target directory
-* @param mixed $tag registration tag
-* @param mixed $regtype registration type. use for building regex searching expression. 0|1 1= for all script
-* @deprecated load script ... to document not allowed
-* @return mixed
-*/
+ * load javascript document from directory
+ * @param mixed $doc document where to load
+ * @param mixed $dirname target directory
+ * @param mixed $tag registration tag
+ * @param mixed $regtype registration type. use for building regex searching expression. 0|1 1= for all script
+ * @deprecated load script ... to document not allowed
+ * @return mixed
+ */
 function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype = 0)
 {
     $reskey = "sys://res_files";
@@ -16139,11 +16162,11 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
     $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($dirname);
     if (igk_io_file_exists($cache_path)) {
         $data = include($cache_path);
-        foreach ($data as $f => $tag) {
+        foreach ($data as $f => $vtag) {
             $f = igk_io_expand_path($f);
-            $res_files[$f] = $tag;
+            $res_files[$f] = $vtag;
             if (igk_io_path_ext($f) == "js") {
-                $doc->addScript($f, $tag);
+                $doc->addScript($f, $vtag);
             } else {
                 $callback($f);
             }
@@ -16211,12 +16234,12 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
     return true;
 }
 /**
-* min javascript source
-* @param mixed $s
-* @param mixed $compact No compact char
-* @param mixed $nocompactchar No compact char
-* @return mixed
-*/
+ * min javascript source
+ * @param mixed $s
+ * @param mixed $compact No compact char
+ * @param mixed $nocompactchar No compact char
+ * @return mixed
+ */
 function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
 {
     $count = strlen($s);
@@ -16338,19 +16361,19 @@ function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
     return $o;
 }
 /**
-* shortcut to no script loading shortcut
-* @param mixed $dir
-* @return mixed
-*/
+ * shortcut to no script loading shortcut
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_js_no_autoload($dir)
 {
     return igk_sys_js_ignore($dir);
 }
 /**
-* auto generate doc.
-* @param mixed $m
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_js_notify_danger($m)
 {
     $d = igk_create_node($m);
@@ -16359,11 +16382,11 @@ function igk_js_notify_danger($m)
     $d->renderAJX();
 }
 /**
-* get a javascript expression to from parent form variable to uri expression
-* @param mixed $uri
-* @param mixed $jsfunc
-* @return mixed
-*/
+ * get a javascript expression to from parent form variable to uri expression
+ * @param mixed $uri
+ * @param mixed $jsfunc
+ * @return mixed
+ */
 function igk_js_post_form_uri($uri, $jsfunc = null)
 {
     $c = IGK_STR_EMPTY;
@@ -16372,12 +16395,12 @@ function igk_js_post_form_uri($uri, $jsfunc = null)
     return "javascript: window.igk.ajx.postform(this.form, '" . $uri . "' " . $c . "); ";
 }
 /**
-* used to get javascript uri component to post frame on the javascript context
-* @param mixed $uri string uri or object(Listener)
-* @param mixed $ctrlid
-* @param mixed $global
-* @return mixed
-*/
+ * used to get javascript uri component to post frame on the javascript context
+ * @param mixed $uri string uri or object(Listener)
+ * @param mixed $ctrlid
+ * @param mixed $global
+ * @return mixed
+ */
 function igk_js_post_frame($uri, $ctrlid = null, $global = true)
 {
     if (is_string($uri))
@@ -16387,12 +16410,12 @@ function igk_js_post_frame($uri, $ctrlid = null, $global = true)
     }
 }
 /**
-* get the post frame javascript command
-* @param mixed $uri
-* @param mixed $ctrl
-* @param mixed $global
-* @return mixed
-*/
+ * get the post frame javascript command
+ * @param mixed $uri
+ * @param mixed $ctrl
+ * @param mixed $global
+ * @return mixed
+ */
 function igk_js_post_frame_cmd($uri, $ctrl = null, $global = true)
 {
     $q = IGK_STR_EMPTY;
@@ -16410,22 +16433,22 @@ function igk_js_post_frame_cmd($uri, $ctrl = null, $global = true)
     return "ns_igk.ctrl.frames.postframe(this, '" . $uri . "&ajx=1'" . $q . ");";
 }
 /**
-* get a javascript src that will post uri to server
-* @param mixed $uri
-* @param mixed $jsfunc
-* @return mixed
-*/
+ * get a javascript src that will post uri to server
+ * @param mixed $uri
+ * @param mixed $jsfunc
+ * @return mixed
+ */
 function igk_js_post_uri($uri, $jsfunc = null)
 {
     $jsfunc = $jsfunc ? $jsfunc : "null";
     return "javascript: window.igk.ajx.post('" . $uri . "', null, {$jsfunc});";
 }
 /**
-* render history
-* @param mixed $uri
-* @param mixed $data
-* @return mixed
-*/
+ * render history
+ * @param mixed $uri
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_js_push_history_ajx($uri, $data = null)
 {
     $n = igk_create_node("script");
@@ -16433,10 +16456,10 @@ function igk_js_push_history_ajx($uri, $data = null)
     $n->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_js_reg_global_script($u)
 {
     if (igk_io_file_exists($u)) {
@@ -16450,10 +16473,10 @@ function igk_js_reg_global_script($u)
     return false;
 }
 /**
-* render script node content
-* @param mixed $script
-* @return mixed
-*/
+ * render script node content
+ * @param mixed $script
+ * @return mixed
+ */
 function igk_js_render_script($script)
 {
     $s = igk_create_node("script");
@@ -16461,13 +16484,13 @@ function igk_js_render_script($script)
     $s->renderAJX();
 }
 /**
-* init history
-* @param mixed $t
-* @param mixed $cn
-* @param mixed $page
-* @param mixed $src
-* @return mixed
-*/
+ * init history
+ * @param mixed $t
+ * @param mixed $cn
+ * @param mixed $page
+ * @param mixed $src
+ * @return mixed
+ */
 function igk_js_winui_init_history($t, $cn, $page = IGK_HOME, $src = IGK_BALAFON_JS)
 {
     $id = igk_get_component_id($cn);
@@ -16476,70 +16499,70 @@ function igk_js_winui_init_history($t, $cn, $page = IGK_HOME, $src = IGK_BALAFON
     }
 }
 /**
-* json response helper
-* @param mixed $msg message to json
-* @param mixed $code
-* @return mixed
-*/
+ * json response helper
+ * @param mixed $msg message to json
+ * @param mixed $code
+ * @return mixed
+ */
 function igk_json($msg, $code = RequestResponseCode::Ok)
 {
     $rep = new JsonResponse($msg, $code);
     return igk_do_response($rep);
 }
 /**
-* do json error
-* @param string $msg
-* @param int $code
-* @return mixed
-*/
+ * do json error
+ * @param string $msg
+ * @param int $code
+ * @return mixed
+ */
 function igk_json_error(string $msg, int $code = RequestResponseCode::BadRequest)
 {
     igk_json(['error' => true, 'message' => $msg], $code);
 }
 /**
-* parse expression. multi json object expression
-* @param mixed $exp param or semi column expression
-* @param mixed & $err
-* @return mixed
-*/
+ * parse expression. multi json object expression
+ * @param mixed $exp param or semi column expression
+ * @param mixed & $err
+ * @return mixed
+ */
 function igk_json_array_parse($exp, &$err = null)
 {
     throw new IGKException("Obsolete: " . __FUNCTION__);
 }
 /**
-* transform object to json string presentation
-* @param mixed $t
-* @param mixed $options
-* @return mixed
-*/
+ * transform object to json string presentation
+ * @param mixed $t
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_json_encode($t, $options = null)
 {
     return json_encode($t);
 }
 /**
-* auto generate doc.
-* @param mixed $exp
-* @param mixed $strict
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $exp
+ * @param mixed $strict
+ * @return mixed
+ */
 function igk_json_expression($exp, $strict = true)
 {
     return IGKCoreJSon::GetExpression($exp, $strict);
 }
 /**
-* Represent igk_json_expression_error function
-* @return mixed
-*/
+ * Represent igk_json_expression_error function
+ * @return mixed
+ */
 function igk_json_expression_error()
 {
     return igk_get_env("error://igk_json_expression");
 }
 /**
-* convert json string expression to object
-* @param mixed $expression
-* @param mixed $strict
-* @return mixed
-*/
+ * convert json string expression to object
+ * @param mixed $expression
+ * @param mixed $strict
+ * @return mixed
+ */
 function igk_json_parse($expression, $strict = true)
 {
     $k = "sys://volatile/instance/" . __FUNCTION__;
@@ -16551,19 +16574,19 @@ function igk_json_parse($expression, $strict = true)
     return $r->ToDictionary($expression, $strict);
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_json_readarray($v)
 {
     throw new IGKException("Obsolete:" . __FUNCTION__);
 }
 /**
-* transform the reading string value to php entity data
-* @param mixed $v
-* @return mixed
-*/
+ * transform the reading string value to php entity data
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_json_value($v)
 {
     if (is_numeric($c = trim($v))) {
@@ -16587,21 +16610,21 @@ function igk_json_print_pretty($value, $option = null)
     return json_encode($value, $option ?: JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 }
 /**
-* default key sort callback
-* @param mixed $k
-* @param mixed $v
-* @return mixed
-*/
+ * default key sort callback
+ * @param mixed $k
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_key_sort($k, $v)
 {
     return strcmp($k, $v);
 }
 /**
-* destroy all stored session
-* @param mixed $exclude
-* @param mixed & $outtab
-* @return mixed
-*/
+ * destroy all stored session
+ * @param mixed $exclude
+ * @param mixed & $outtab
+ * @return mixed
+ */
 function igk_kill_all_sessions($exclude = null, &$outtab = null)
 {
     $d = ini_get("session.save_path");
@@ -16629,9 +16652,9 @@ function igk_kill_all_sessions($exclude = null, &$outtab = null)
     return $i;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_kill_trace()
 {
     $file = igk_io_basedir() . "/Data/.trace";
@@ -16639,10 +16662,10 @@ function igk_kill_trace()
         unlink($file);
 }
 /**
-* last element
-* @param mixed $tab
-* @return mixed
-*/
+ * last element
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_last($tab)
 {
     if ($tab) {
@@ -16653,19 +16676,19 @@ function igk_last($tab)
     return null;
 }
 /**
-* force loading class
-* @param mixed $classname
-* @return mixed
-*/
+ * force loading class
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_load_class($classname)
 {
     return igk_load_classes([$classname]);
 }
 /**
-* Represent igk_load_classes function
-* @param mixed $tab
-* @return mixed
-*/
+ * Represent igk_load_classes function
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_load_classes($tab = [])
 {
     if (is_string($tab)) {
@@ -16697,19 +16720,19 @@ function igk_load_classes($tab = [])
     return true;
 }
 /**
-* helper: load controllers
-* @param mixed $dirname root directory
-* @return mixed
-*/
+ * helper: load controllers
+ * @param mixed $dirname root directory
+ * @return mixed
+ */
 function igk_loadcontroller(string $dirname)
 {
     return igk_loadlib($dirname, ".php");
 }
 /**
-* helper: load request from uri
-* @param mixed $uri
-* @return mixed
-*/
+ * helper: load request from uri
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_loadr(string $uri)
 {
     if (count($uri) == 0)
@@ -16721,23 +16744,23 @@ function igk_loadr(string $uri)
     $_REQUEST = $tab;
 }
 /**
-* shurtcut to igk_log_append
-* @param mixed $msg
-* @param mixed $file
-* @param mixed $tag
-* @return mixed
-*/
+ * shurtcut to igk_log_append
+ * @param mixed $msg
+ * @param mixed $file
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_log($msg, $file, $tag = null)
 {
     igk_log_append($file, $msg, $tag);
 }
 /**
-* append log to file
-* @param mixed $file
-* @param mixed $msg
-* @param mixed $tag
-* @return mixed
-*/
+ * append log to file
+ * @param mixed $file
+ * @param mixed $msg
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
 {
     $s = date("Y-m-d H:i:s:");
@@ -16774,18 +16797,18 @@ function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_log_enabled()
 {
     return igk_const_defined("IGK_WRITE_LOG") || Server::IsLocal();
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_log_write($msg)
 {
     if (!igk_log_enabled())
@@ -16796,11 +16819,11 @@ function igk_log_write($msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $tag
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tag
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_log_write_i($tag, $msg)
 {
     if (!igk_log_enabled())
@@ -16813,11 +16836,11 @@ function igk_log_write_i($tag, $msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $tag
-* @param mixed $data
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tag
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_log_write_i_data($tag, $data)
 {
     if (!igk_log_enabled())
@@ -16830,11 +16853,11 @@ function igk_log_write_i_data($tag, $data)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $title
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $title
+ * @return mixed
+ */
 function igk_mail_admin_send($msg, $title = "admin mail")
 {
     $app = igk_app();
@@ -16843,10 +16866,10 @@ function igk_mail_admin_send($msg, $title = "admin mail")
     igk_mail_sendmail($mail, "no-reply@" . $domain, $title, $msg, null);
 }
 /**
-* return the system's @from mail
-* @param mixed $ctrl controller to get system mail
-* @return mixed
-*/
+ * return the system's @from mail
+ * @param mixed $ctrl controller to get system mail
+ * @return mixed
+ */
 function igk_mail_from($ctrl = null)
 {
     $m = null;
@@ -16857,9 +16880,9 @@ function igk_mail_from($ctrl = null)
     return $m;
 }
 /**
-* get mail no reply address
-* @return mixed
-*/
+ * get mail no reply address
+ * @return mixed
+ */
 function igk_mail_noreply_address()
 {
     return igk_sys_getconfig("mail_noreply", "no-reply@" . igk_sys_getconfig("website_domain"));
@@ -16875,16 +16898,16 @@ function igk_mail_option()
     return $opt;
 }
 /**
-* send mail to from
-* @param mixed $to
-* @param mixed $from
-* @param mixed $title
-* @param mixed $message
-* @param mixed $replyto
-* @param mixed $attachement
-* @param mixed $type
-* @return mixed
-*/
+ * send mail to from
+ * @param mixed $to
+ * @param mixed $from
+ * @param mixed $title
+ * @param mixed $message
+ * @param mixed $replyto
+ * @param mixed $attachement
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_mail_sendmail($to, $from, $title, $message, $replyto = null, $attachement = null, $type = "text/html")
 {
     $mail_ctrl = igk_getctrl(IGK_MAIL_CTRL);
@@ -16894,12 +16917,12 @@ function igk_mail_sendmail($to, $from, $title, $message, $replyto = null, $attac
     return false;
 }
 /**
-* utility function used to split string
-* @param mixed $s
-* @param mixed $ln
-* @param mixed $sep
-* @return mixed
-*/
+ * utility function used to split string
+ * @param mixed $s
+ * @param mixed $ln
+ * @param mixed $sep
+ * @return mixed
+ */
 function igk_mail_split_str($s, $ln = 75, $sep = IGK_LF)
 {
     $n = "";
@@ -16913,9 +16936,9 @@ function igk_mail_split_str($s, $ln = 75, $sep = IGK_LF)
     return $n;
 }
 /**
-* get mail style sheet
-* @return mixed
-*/
+ * get mail style sheet
+ * @return mixed
+ */
 function igk_mail_stylesheet()
 {
     $s = HtmlNode::CreateWebNode("style");
@@ -16932,11 +16955,11 @@ function igk_mail_stylesheet()
     return $s->render();
 }
 /**
-* Represent igk_map_array_to_str function
-* @param mixed $tab
-* @param mixed $usekey
-* @return mixed
-*/
+ * Represent igk_map_array_to_str function
+ * @param mixed $tab
+ * @param mixed $usekey
+ * @return mixed
+ */
 function igk_map_array_to_str($tab, $usekey = true): string
 {
     $m = "";
@@ -16974,38 +16997,38 @@ function igk_map_array_to_str($tab, $usekey = true): string
     return $m;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_menu_getmenu($name)
 {
     return igk_getctrl(IGK_MENU_CTRL)->getMenu($name);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_menu_getrootmenu($name)
 {
     return igk_getctrl(IGK_MENU_CTRL)->getRootMenu($name);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_menu_getroots()
 {
     return igk_getctrl(IGK_MENU_CTRL)->getRoots();
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @param mixed $level
-* @param mixed $auth
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @param mixed $level
+ * @param mixed $auth
+ * @return mixed
+ */
 function igk_menu_option_i($tab, $level = 1, $auth = 0)
 {
     $o = new StdClass();
@@ -17020,9 +17043,9 @@ function igk_menu_option_i($tab, $level = 1, $auth = 0)
     return $o;
 }
 /**
-* return font codenavigate to session redirection parameter
-* @return mixed
-*/
+ * return font codenavigate to session redirection parameter
+ * @return mixed
+ */
 function igk_nav_session()
 {
     $s = ($rf = igk_server()->HTTP_REFERER) ? $rf : igk_get_session(IGKSession::IGK_REDIRECTION_SESS_PARAM);
@@ -17033,11 +17056,11 @@ function igk_nav_session()
     igk_navtocurrent();
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @param ?int $headerStatus code
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @param ?int $headerStatus code
+ * @return mixed
+ */
 function igk_navto($uri, ?int $headerStatus = null)
 {
     if (!igk_is_webapp()) {
@@ -17060,9 +17083,9 @@ function igk_navto($uri, ?int $headerStatus = null)
     igk_exit();
 }
 /**
-* navigate du current main controller view
-* @return mixed
-*/
+ * navigate du current main controller view
+ * @return mixed
+ */
 function igk_navto_ctrl_view()
 {
     $g = igk_get_view_args();
@@ -17073,10 +17096,10 @@ function igk_navto_ctrl_view()
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_navto_home($ctrl = null)
 {
     if ($ctrl) {
@@ -17087,10 +17110,10 @@ function igk_navto_home($ctrl = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $failuri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $failuri
+ * @return mixed
+ */
 function igk_navto_referer($failuri = null)
 {
     $u = igk_getv(explode("?", igk_server()->HTTP_REFERER ?? ""), 0);
@@ -17107,10 +17130,10 @@ function igk_navto_referer($failuri = null)
     igk_navto($u);
 }
 /**
-* auto generate doc.
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_navtobase($path = null)
 {
     if (defined('IGK_NO_WEB_REDIRECT'))
@@ -17143,9 +17166,9 @@ function igk_navtobase($path = null)
     igk_exit();
 }
 /**
-* navigate to basic request uri
-* @return mixed
-*/
+ * navigate to basic request uri
+ * @return mixed
+ */
 function igk_navtobaseuri()
 {
     $uri = igk_io_rootrequesturi();
@@ -17153,10 +17176,10 @@ function igk_navtobaseuri()
     igk_navto($uri);
 }
 /**
-* navigate to current uri
-* @param mixed $extra
-* @return mixed
-*/
+ * navigate to current uri
+ * @param mixed $extra
+ * @return mixed
+ */
 function igk_navtocurrent($extra = null)
 {
     if (!($uri = igk_server()->HTTP_REFERER)) {
@@ -17170,35 +17193,35 @@ function igk_navtocurrent($extra = null)
     igk_navto($path);
 }
 /**
-* is network available
-* @return mixed
-*/
+ * is network available
+ * @return mixed
+ */
 function igk_network_available()
 {
     return 1;
 }
 /**
-* create and generate new id
-* @return mixed
-*/
+ * create and generate new id
+ * @return mixed
+ */
 function igk_new_id()
 {
     return date('Hmi') . md5(uniqid(rand()));
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_new_response()
 {
     return new \IGK\System\Http\WebResponse("");
 }
 /**
-* get node component uri
-* @param mixed $c  node to get uri
-* @param mixed $u  the local uri of the component
-* @return mixed
-*/
+ * get node component uri
+ * @param mixed $c  node to get uri
+ * @param mixed $u  the local uri of the component
+ * @return mixed
+ */
 function igk_node_get_uri($c, $u)
 {
     if (!$c)
@@ -17206,12 +17229,12 @@ function igk_node_get_uri($c, $u)
     return "?!/" . $c->getParam("system://component/id") . "/" . $u;
 }
 /**
-* register node fonction to parameter list
-* @param mixed $node
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * register node fonction to parameter list
+ * @param mixed $node
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_node_reg_function($node, $name, $callback)
 {
     $key = IGK_COMPONENT_REG_FUNC_KEY;
@@ -17222,63 +17245,63 @@ function igk_node_reg_function($node, $name, $callback)
     $node->setParam($key, $d);
 }
 /**
-* get notification event
-* @param mixed $name
-* @return mixed
-*/
+ * get notification event
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_notification_event($name)
 {
     $ctrl = igk_getctrl(IGK_NOTIFICATION_CTRL, false) ?? igk_die("no notification ctrl registrated");
     return $ctrl->getNotificationEvent($name);
 }
 /**
-* return a notification id for a controller
-* @param mixed $ctrl
-* @param mixed $n
-* @return mixed
-*/
+ * return a notification id for a controller
+ * @param mixed $ctrl
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_notification_id($ctrl, $n)
 {
     return "sys://ctrl/" . strtolower($ctrl->getName()) . "/{$n}";
 }
 /**
-* raise a notification event
-* @param mixed $name
-* @param mixed $o
-* @param mixed $param
-* @return mixed
-*/
+ * raise a notification event
+ * @param mixed $name
+ * @param mixed $o
+ * @param mixed $param
+ * @return mixed
+ */
 function igk_notification_push_event($name, $o, $param = null)
 {
     $args = array_slice(func_get_args(), 1);
     igk_hook($name, $args);
 }
 /**
-* registrate a notification event
-* @param mixed $name
-* @param mixed $callable
-* @return mixed
-*/
+ * registrate a notification event
+ * @param mixed $name
+ * @param mixed $callable
+ * @return mixed
+ */
 function igk_notification_reg_event($name, $callable)
 {
     igk_reg_hook($name, $callable);
     return;
 }
 /**
-* free all callable from notification event
-* @param mixed $name
-* @return mixed
-*/
+ * free all callable from notification event
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_notification_reset($name)
 {
     $ctrl = igk_getctrl(IGK_NOTIFICATION_CTRL, true);
     $ctrl->resetNotification($name);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_notification_response($name)
 {
     $v_notification = igk_notifyctrl()->getNotification($name, false);
@@ -17291,11 +17314,11 @@ function igk_notification_response($name)
     return null;
 }
 /**
-* unregister notification event
-* @param mixed $name
-* @param mixed $callable
-* @return mixed
-*/
+ * unregister notification event
+ * @param mixed $name
+ * @param mixed $callable
+ * @return mixed
+ */
 function igk_notification_unreg_event($name, $callable)
 {
     $name = $name ?? IGK_GLOBAL_EVENT;
@@ -17303,13 +17326,13 @@ function igk_notification_unreg_event($name, $callable)
     return $ctrl->unregisterNotification($name, $callable);
 }
 /**
-* auto generate doc.
-* @param mixed $cond
-* @param mixed $name
-* @param mixed $goodmsg
-* @param mixed $failemsg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $cond
+ * @param mixed $name
+ * @param mixed $goodmsg
+ * @param mixed $failemsg
+ * @return mixed
+ */
 function igk_notify_assert($cond, $name = null, $goodmsg = null, $failemsg = null)
 {
     $c = igk_notifyctrl($name);
@@ -17320,11 +17343,11 @@ function igk_notify_assert($cond, $name = null, $goodmsg = null, $failemsg = nul
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $notifytag
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $notifytag
+ * @return mixed
+ */
 function igk_notify_danger($msg, $notifytag = null)
 {
     if (igk_is_ajx_demand()) {
@@ -17334,11 +17357,11 @@ function igk_notify_danger($msg, $notifytag = null)
     }
 }
 /**
-* shortcut to notification error
-* @param mixed $msg
-* @param mixed $target
-* @return mixed
-*/
+ * shortcut to notification error
+ * @param mixed $msg
+ * @param mixed $target
+ * @return mixed
+ */
 function igk_notify_error($msg, $target = null)
 {
     if (igk_current_context() != IGKAppContext::running) {
@@ -17352,12 +17375,12 @@ function igk_notify_error($msg, $target = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $notifytag
-* @param mixed $type
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $notifytag
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_notify_post($msg, $notifytag = null, $type = "igk-default")
 {
     if (igk_is_ajx_demand()) {
@@ -17367,12 +17390,12 @@ function igk_notify_post($msg, $notifytag = null, $type = "igk-default")
     }
 }
 /**
-* utility to notify response
-* @param mixed $msg
-* @param mixed $type
-* @param mixed $name
-* @return mixed
-*/
+ * utility to notify response
+ * @param mixed $msg
+ * @param mixed $type
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_notify_reponse($msg, $type = 'default', $name = null)
 {
     if (igk_is_ajx_demand()) {
@@ -17383,47 +17406,47 @@ function igk_notify_reponse($msg, $type = 'default', $name = null)
     }
 }
 /**
-* shortcut to set notify host
-* @param mixed $node
-* @param mixed $notificationName
-* @return mixed
-*/
+ * shortcut to set notify host
+ * @param mixed $node
+ * @param mixed $notificationName
+ * @return mixed
+ */
 function igk_notify_sethost($node, $notificationName = "::global")
 {
     igk_notifyctrl()->setNotifyHost($node, $notificationName);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $notifytag
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $notifytag
+ * @return mixed
+ */
 function igk_notify_success($msg, $notifytag = null)
 {
     igk_notify_post($msg, $notifytag, "igk-panel igk-success");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_notifybox()
 {
     return igk_getctrl(IGK_SHARED_CONTENT_CTRL)->getEntity("notifybox");
 }
 /**
-* used to render directory an message for box notification
-* @param mixed $msg
-* @return mixed
-*/
+ * used to render directory an message for box notification
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_notifybox_ajx($msg)
 {
     igk_wln("<div class=\"igk-notify-box\" >" . $msg . "</div>");
 }
 /**
-* get notification controller
-* @param string $name notification handler
-* @return mixed
-*/
+ * get notification controller
+ * @param string $name notification handler
+ * @return mixed
+ */
 function igk_notifyctrl($name = null)
 {
     $ctrl = igk_getctrl(IGK_NOTIFICATION_CTRL, true);
@@ -17433,10 +17456,10 @@ function igk_notifyctrl($name = null)
     return $ctrl->getNotification($name, true);
 }
 /**
-* get naming class in core
-* @param string $ns
-* @return mixed
-*/
+ * get naming class in core
+ * @param string $ns
+ * @return mixed
+ */
 function igk_ns_name($ns)
 {
     $txt = explode("-", $ns);
@@ -17446,10 +17469,10 @@ function igk_ns_name($ns)
     return str_replace("/", "\\", $ns);
 }
 /**
-* clean ob - clear buffer  levels
-* @param int $level
-* @return mixed
-*/
+ * clean ob - clear buffer  levels
+ * @param int $level
+ * @return mixed
+ */
 function igk_ob_clean(int $level = 0)
 {
     if ($level == -1) {
@@ -17460,10 +17483,10 @@ function igk_ob_clean(int $level = 0)
     }
 }
 /**
-* get content
-* @param mixed $d
-* @return mixed
-*/
+ * get content
+ * @param mixed $d
+ * @return mixed
+ */
 function igk_ob_get($d)
 {
     IGKOb::Start();
@@ -17473,11 +17496,11 @@ function igk_ob_get($d)
     return $o;
 }
 /**
-* used to call a ajx function to render content offscreen
-* @param mixed $callback
-* @param mixed $args
-* @return mixed
-*/
+ * used to call a ajx function to render content offscreen
+ * @param mixed $callback
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_ob_get_func($callback, $args = [])
 {
     if (!empty($args) && !is_array($args))
@@ -17492,11 +17515,11 @@ function igk_ob_get_func($callback, $args = [])
     return $c;
 }
 /**
-* append data to current object
-* @param mixed & $obj
-* @param mixed $data
-* @return mixed
-*/
+ * append data to current object
+ * @param mixed & $obj
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_obj_append(&$obj, $data)
 {
     foreach ($data as $k => $v) {
@@ -17505,11 +17528,11 @@ function igk_obj_append(&$obj, $data)
     return $obj;
 }
 /**
-* used to bind request data to object
-* @param mixed $obj
-* @param mixed $data
-* @return mixed
-*/
+ * used to bind request data to object
+ * @param mixed $obj
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_obj_binddata($obj, $data)
 {
     if (is_object($data)) {
@@ -17520,12 +17543,12 @@ function igk_obj_binddata($obj, $data)
     return $obj;
 }
 /**
-* invoke a function of a StdClass
-* @param mixed $obj
-* @param mixed $callable
-* @param mixed $params
-* @return mixed
-*/
+ * invoke a function of a StdClass
+ * @param mixed $obj
+ * @param mixed $callable
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_obj_call($obj, $callable, $params = null)
 {
     $g = isset($obj->$callable) ? $obj->$callable : null;
@@ -17537,27 +17560,27 @@ function igk_obj_call($obj, $callable, $params = null)
     return null;
 }
 /**
-* shortcut to OwnViewCtrl::Contains
-* @param mixed $ctrl
-* @return mixed
-*/
+ * shortcut to OwnViewCtrl::Contains
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_own_view_ctrl($ctrl)
 {
     return OwnViewCtrl::Contains($ctrl);
 }
 /**
-* return an array of controller that possessed this rendering
-* @return mixed
-*/
+ * return an array of controller that possessed this rendering
+ * @return mixed
+ */
 function igk_own_view_list()
 {
     return OwnViewCtrl::GetList();
 }
 /**
-* transform page-method-view translations name
-* @param mixed $n
-* @return mixed
-*/
+ * transform page-method-view translations name
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_page($n)
 {
     static $page_list = null;
@@ -17570,10 +17593,10 @@ function igk_page($n)
     return $c;
 }
 /**
-* auto generate doc.
-* @param mixed $num
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $num
+ * @return mixed
+ */
 function igk_parse_num($num)
 {
     if (is_numeric($num)) {
@@ -17584,10 +17607,10 @@ function igk_parse_num($num)
     return "0";
 }
 /**
-* convert to bool string
-* @param mixed $bool
-* @return mixed
-*/
+ * convert to bool string
+ * @param mixed $bool
+ * @return mixed
+ */
 function igk_parsebool($bool)
 {
     if (!is_bool($bool)) {
@@ -17599,10 +17622,10 @@ function igk_parsebool($bool)
     return $bool ? "true" : "false";
 }
 /**
-* parse bool language expression
-* @param mixed $b
-* @return mixed
-*/
+ * parse bool language expression
+ * @param mixed $b
+ * @return mixed
+ */
 function igk_parsebools($b)
 {
     return __("V." . igk_parsebool($b));
@@ -17620,12 +17643,12 @@ function igk_bool_val($v): bool
     return (bool)boolval($v);
 }
 /**
-* used to parse string value to compatible xml value.
-* @param mixed $value
-* @param mixed $isvalue
-* @param mixed $isandroidres
-* @return mixed
-*/
+ * used to parse string value to compatible xml value.
+ * @param mixed $value
+ * @param mixed $isvalue
+ * @param mixed $isandroidres
+ * @return mixed
+ */
 function igk_parsexmlvalue($value, $isvalue = false, $isandroidres = false)
 {
     $value = preg_replace_callback(
@@ -17648,12 +17671,12 @@ function igk_parsexmlvalue($value, $isvalue = false, $isandroidres = false)
     return $value;
 }
 /**
-* retrieve matches
-* @param mixed $pattern
-* @param mixed $uri uri to check
-* @param mixed|array $keys keys to check
-* @return mixed
-*/
+ * retrieve matches
+ * @param mixed $pattern
+ * @param mixed $uri uri to check
+ * @param mixed|array $keys keys to check
+ * @return mixed
+ */
 function igk_pattern_get_matches($pattern, $uri, $keys)
 {
     $c = preg_match_all($pattern, $uri, $tab);
@@ -17681,12 +17704,12 @@ function igk_pattern_get_matches($pattern, $uri, $keys)
     return $t;
 }
 /**
-* get pattern match from uri key regex get from action
-* @param mixed $k
-* @param mixed $buri
-* @deprecated not implement
-* @return mixed
-*/
+ * get pattern match from uri key regex get from action
+ * @param mixed $k
+ * @param mixed $buri
+ * @deprecated not implement
+ * @return mixed
+ */
 function igk_pattern_get_uri_from_key($k, $buri = null)
 {
     igk_wln_e(__FILE__ . ":" . __LINE__, "invoke uri ... ", $k);
@@ -17712,10 +17735,10 @@ function igk_pattern_get_uri_from_key($k, $buri = null)
     return $buri . $k;
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_pattern_matcher_get_pattern($s)
 {
     $s = preg_replace_callback("#:(?P<name>([a-z0-9]+))\+?#i", "igk_pattern_matcher_matchcallback", $s);
@@ -17729,10 +17752,10 @@ function igk_pattern_matcher_get_pattern($s)
     return "/" . str_replace("/", "\/", $s) . "$/i";
 }
 /**
-* helper: important helper to resolve uri
-* @param mixed $m
-* @return mixed
-*/
+ * helper: important helper to resolve uri
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_pattern_matcher_matchcallback($m)
 {
     $n = $m["name"];
@@ -17790,12 +17813,12 @@ function igk_view_handler_info()
     return ViewHelper::GetHandlerInfo();
 }
 /**
-* Extract view argument from pattern
-* @param mixed $ctrl
-* @param mixed $p pattern data
-* @param mixed $globalregister globaly register
-* @return mixed
-*/
+ * Extract view argument from pattern
+ * @param mixed $ctrl
+ * @param mixed $p pattern data
+ * @param mixed $globalregister globaly register
+ * @return mixed
+ */
 function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
 {
     if (!$p) {
@@ -17870,18 +17893,18 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
     return $t;
 }
 /**
-* peek the data on environement variable
-* @param mixed $n
-* @return mixed
-*/
+ * peek the data on environement variable
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_peek_env($n)
 {
     return igk_environment()->peek($n);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_phar_available()
 {
     if (in_array('phar', stream_get_wrappers()) && class_exists('Phar', false)) {
@@ -17890,21 +17913,21 @@ function igk_phar_available()
     return 0;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_phar_running()
 {
     return igk_phar_available() && strstr(IGK_LIB_DIR, Phar::running());
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $content
-* @param mixed & $error
-* @param mixed & $code
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $content
+ * @param mixed & $error
+ * @param mixed & $code
+ * @return mixed
+ */
 function igk_php_check_and_savescript($file, $content, &$error, &$code)
 {
     $f = $file;
@@ -17927,11 +17950,11 @@ function igk_php_check_and_savescript($file, $content, &$error, &$code)
     return true;
 }
 /**
-* auto generate doc.
-* @param mixed $txt
-* @param mixed $exit
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $txt
+ * @param mixed $exit
+ * @return mixed
+ */
 function igk_plain_text($txt, $exit = 1)
 {
     header("Content-Type:text/plain");
@@ -17940,20 +17963,20 @@ function igk_plain_text($txt, $exit = 1)
         igk_exit();
 }
 /**
-* pop data on environment variable. use to restore state
-* @param mixed $n
-* @return mixed
-*/
+ * pop data on environment variable. use to restore state
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_pop_env($n)
 {
     return igk_environment()->pop($n);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed & $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed & $tab
+ * @return mixed
+ */
 function igk_pop_tab($name, &$tab)
 {
     $c = igk_pop_env("sys://pushtab/{$name}");
@@ -17961,12 +17984,12 @@ function igk_pop_tab($name, &$tab)
     return $c;
 }
 /**
-* filter menu
-* @param mixed $tab
-* @param mixed $source
-* @param mixed $tag
-* @return mixed
-*/
+ * filter menu
+ * @param mixed $tab
+ * @param mixed $source
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_post_filter_menu($tab, $source, $tag = null)
 {
     $itab = igk_get_env("sys://men/postfilter");
@@ -17999,33 +18022,33 @@ function igk_post_filter_menu($tab, $source, $tag = null)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $extraheader
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $extraheader
+ * @return mixed
+ */
 function igk_post_header($extraheader)
 {
     igk_set_env("sys://igk_post_uri/header", $extraheader);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $iMessageHandler
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $iMessageHandler
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_post_message($msg, $iMessageHandler, $args = null)
 {
     $iMessageHandler->handleCmd($msg, $args);
 }
 /**
-* post data in uri script a return data. in balafon system
-* @param mixed $uri
-* @param mixed $args
-* @param mixed $content
-* @param mixed $samesession
-* @return mixed
-*/
+ * post data in uri script a return data. in balafon system
+ * @param mixed $uri
+ * @param mixed $args
+ * @param mixed $content
+ * @param mixed $samesession
+ * @return mixed
+ */
 function igk_post_uri($uri, $args = null, $content = IGK_APP_FORM_CONTENT, $samesession = true)
 {
     if (igk_server_is_local()) {
@@ -18035,21 +18058,21 @@ function igk_post_uri($uri, $args = null, $content = IGK_APP_FORM_CONTENT, $same
     return "";
 }
 /**
-* get environment last error for last call to igk_post_uri
-* @return mixed
-*/
+ * get environment last error for last call to igk_post_uri
+ * @return mixed
+ */
 function igk_post_uri_last_error()
 {
     return igk_get_env("igk_post_uri:/Error");
 }
 /**
-* auto generate doc.
-* @param mixed $pattern
-* @param mixed $value
-* @param mixed $key
-* @param mixed $index
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $pattern
+ * @param mixed $value
+ * @param mixed $key
+ * @param mixed $index
+ * @return mixed
+ */
 function igk_preg_match($pattern, $value, $key, $index = 0)
 {
     $tab = array();
@@ -18060,27 +18083,27 @@ function igk_preg_match($pattern, $value, $key, $index = 0)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_print($msg)
 {
     igk_wl($msg);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_print_ln($msg)
 {
     igk_wl($msg . IGK_LF);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_print_stack_depth()
 {
     $callers = debug_backtrace();
@@ -18098,37 +18121,37 @@ function igk_print_stack_depth()
     }
 }
 /**
-* push data on environment variable. use to save state
-* @param mixed $n
-* @param mixed $v
-* @return mixed
-*/
+ * push data on environment variable. use to save state
+ * @param mixed $n
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_push_env($n, $v)
 {
     return igk_environment()->push($n, $v);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed & $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed & $tab
+ * @return mixed
+ */
 function igk_push_tab($name, &$tab)
 {
     igk_push_env("sys://pushtab/{$name}", $tab);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_qr_confirm()
 {
     return (igk_getr("confirm", 0) == 1);
 }
 /**
-* used to restore request
-* @return mixed
-*/
+ * used to restore request
+ * @return mixed
+ */
 function igk_qr_restore()
 {
     $v = igk_get_env("sys://store/request");
@@ -18140,10 +18163,10 @@ function igk_qr_restore()
     return $_REQUEST;
 }
 /**
-* used to save request
-* @param mixed $tab
-* @return mixed
-*/
+ * used to save request
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_qr_save($tab)
 {
     $v = igk_get_env("sys://store/request", array());
@@ -18153,21 +18176,21 @@ function igk_qr_save($tab)
     return $v;
 }
 /**
-* get registrated display key
-* @param mixed $key
-* @param mixed $param
-* @return mixed
-*/
+ * get registrated display key
+ * @param mixed $key
+ * @param mixed $param
+ * @return mixed
+ */
 function igk_r_getdisplay($key, $param = null)
 {
     return __($key, $param)->getValue();
 }
 /**
-* raise environment event.
-* @param string $evtn event name
-* @param array $params evtn event parameter
-* @return mixed
-*/
+ * raise environment event.
+ * @param string $evtn event name
+ * @param array $params evtn event parameter
+ * @return mixed
+ */
 function igk_raise_event(string $evtn, $params = array())
 {
     $g = igk_get_env("sys://environment/events", array());
@@ -18183,20 +18206,20 @@ function igk_raise_event(string $evtn, $params = array())
     }
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $n
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $n
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_raise_globalcallback($obj, $n, $args)
 {
     return $obj->onInvoke($n, igk_getv($args, 0), array_slice($args, 1));
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_raise_initenv_callback()
 {
     $c = igk_get_env("sys://init_env/callback");
@@ -18208,31 +18231,31 @@ function igk_raise_initenv_callback()
     igk_set_env("sys://init_env/callback", null);
 }
 /**
-* register file that will be used as script
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * register file that will be used as script
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_action_script($name, $callback)
 {
     igk_set_env("sys://actions/scripts/{$name}", $callback);
 }
 /**
-* auto generate doc.
-* @param mixed $filename
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $filename
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_reg_class_file($filename, $tab)
 {
     return igk_reg_file("sys://reflection/class", $filename, $tab);
 }
 /**
-* auto generate doc.
-* @param mixed $classname
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $classname
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_reg_class_instance_key($classname, $v)
 {
     if (class_exists($classname, false)) {
@@ -18241,12 +18264,12 @@ function igk_reg_class_instance_key($classname, $v)
         igk_die(__("Failed to register class instance key"));
 }
 /**
-* register command line
-* @param mixed $name
-* @param mixed $desc
-* @param mixed $callback
-* @return mixed
-*/
+ * register command line
+ * @param mixed $name
+ * @param mixed $desc
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_cmd_args($name, $desc, $callback)
 {
     $t = igk_get_env("sys://cmd/args", array());
@@ -18254,11 +18277,11 @@ function igk_reg_cmd_args($name, $desc, $callback)
     igk_set_env("sys://cmd/args", $t);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_reg_cmd_command($name, $args)
 {
     if (is_string($args)) {
@@ -18275,23 +18298,23 @@ function igk_reg_cmd_command($name, $args)
     return 0;
 }
 /**
-* register component
-* @param mixed $id identifier of the component
-* @param object $s the component
-* @return mixed
-*/
+ * register component
+ * @param mixed $id identifier of the component
+ * @param object $s the component
+ * @return mixed
+ */
 function igk_reg_component($id, $s)
 {
     $ctrl = igk_getctrl(IGK_COMPONENT_MANAGER_CTRL);
     $ctrl->setParam("sys://globalcomponent/{$id}", $s);
 }
 /**
-* Represent igk_reg_component_ajx function
-* @param mixed $n
-* @param mixed $attr
-* @param mixed $callback
-* @return mixed
-*/
+ * Represent igk_reg_component_ajx function
+ * @param mixed $n
+ * @param mixed $attr
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_component_ajx($n, $attr, $callback)
 {
     $n->setCallback($attr, $callback);
@@ -18299,12 +18322,12 @@ function igk_reg_component_ajx($n, $attr, $callback)
     return $n;
 }
 /**
-* only to register. auto detection package
-* @param ?string $packagename namespace package
-* @param ?closure $callback use to register package
-* @param ?string $desc description
-* @return mixed
-*/
+ * only to register. auto detection package
+ * @param ?string $packagename namespace package
+ * @param ?closure $callback use to register package
+ * @param ?string $desc description
+ * @return mixed
+ */
 function igk_reg_component_package(?string $packagename = null, $callback = null, ?string $desc = null)
 {
     $key = Constants::COMPONENT_PACKAGE_KEY;
@@ -18319,22 +18342,22 @@ function igk_reg_component_package(?string $packagename = null, $callback = null
     igk_set_env($key, $m);
 }
 /**
-* shortcut to register global system controller
-* @param mixed $name
-* @param mixed $ctrl
-* @deprecated do not register controller
-* @return mixed
-*/
+ * shortcut to register global system controller
+ * @param mixed $name
+ * @param mixed $ctrl
+ * @deprecated do not register controller
+ * @return mixed
+ */
 function igk_reg_ctrl($name, $ctrl)
 {
     die(__FUNCTION__);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $closure
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $closure
+ * @return mixed
+ */
 function igk_reg_env_closure($n, $closure)
 {
     if (!is_object($closure) || get_class($closure) != "Closure")
@@ -18346,12 +18369,12 @@ function igk_reg_env_closure($n, $closure)
     return 1;
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed $file
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed $file
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_reg_file($key, $file, $tab)
 {
     $fkey = "sys://files";
@@ -18373,11 +18396,11 @@ function igk_reg_file($key, $file, $tab)
     return -1;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $class
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $class
+ * @return mixed
+ */
 function igk_reg_form_builder_engine($name, $class)
 {
     $k = "sys://form/builderengines";
@@ -18387,20 +18410,20 @@ function igk_reg_form_builder_engine($name, $class)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_reg_func_files($file, $tab)
 {
     return igk_reg_file("sys://reflection/funcs", $file, $tab);
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_reg_handle_file_request($s)
 {
     if (empty($s) || is_object($s))
@@ -18410,13 +18433,13 @@ function igk_reg_handle_file_request($s)
     igk_set_env("sys://handle/file_request", $t);
 }
 /**
-* use to register html custom component to namespace
-* @param string $name
-* @param mixed $callback
-* @param mixed $ns
-* @deprecated use igk_reg_component_package insteed
-* @return mixed
-*/
+ * use to register html custom component to namespace
+ * @param string $name
+ * @param mixed $callback
+ * @param mixed $ns
+ * @deprecated use igk_reg_component_package insteed
+ * @return mixed
+ */
 function igk_reg_html_component(string $name, $callback, $ns = Constants::SYS_DEFAULT_HTML_PACKAGE)
 {
     $v_ks = 'components';
@@ -18432,10 +18455,10 @@ function igk_reg_html_component(string $name, $callback, $ns = Constants::SYS_DE
     igk_set_env(Constants::COMPONENT_PACKAGE_KEY, $package);
 }
 /**
-* auto generate doc.
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_initenv_callback($callback)
 {
     $c = igk_get_env("sys://init_env/callback", array());
@@ -18443,11 +18466,11 @@ function igk_reg_initenv_callback($callback)
     igk_set_env("sys://init_env/callback", $c);
 }
 /**
-* get registrated namespace
-* @param mixed $n
-* @param mixed $uri
-* @return mixed
-*/
+ * get registrated namespace
+ * @param mixed $n
+ * @param mixed $uri
+ * @return mixed
+ */
 function &igk_reg_ns($n = null, $uri = null)
 {
     static $nsmanager;
@@ -18460,11 +18483,11 @@ function &igk_reg_ns($n = null, $uri = null)
     return $nsmanager;
 }
 /**
-* register package
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * register package
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_package($name, $callback)
 {
     igk_die('not implemenent ' . __FUNCTION__);
@@ -18473,11 +18496,11 @@ function igk_reg_package($name, $callback)
     igk_set_env("sys://packages", $t);
 }
 /**
-* auto generate doc.
-* @param mixed $ext
-* @param mixed $p
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ext
+ * @param mixed $p
+ * @return mixed
+ */
 function igk_reg_path_exec($ext, $p)
 {
     $t = igk_get_env("sys://env//path_exec");
@@ -18487,11 +18510,11 @@ function igk_reg_path_exec($ext, $p)
     igk_set_env("sys://env//path_exec", $t);
 }
 /**
-* Register string pipe expression
-* @param mixed $mixed
-* @param mixed $callback
-* @return mixed
-*/
+ * Register string pipe expression
+ * @param mixed $mixed
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_pipe($mixed, $callback = null)
 {
     $k = "sys://localizedpipe";
@@ -18510,11 +18533,11 @@ function igk_reg_pipe($mixed, $callback = null)
     return $tab;
 }
 /**
-* register global tempary event. only one callback
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * register global tempary event. only one callback
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_reg_session_event($name, $callback)
 {
     $ctx = igk_current_context();
@@ -18541,23 +18564,23 @@ function igk_reg_session_event($name, $callback)
     return 3;
 }
 /**
-* shortcut to register subdomain
-* @param mixed $n
-* @param mixed $ctrl
-* @param mixed $row
-* @return mixed
-*/
+ * shortcut to register subdomain
+ * @param mixed $n
+ * @param mixed $ctrl
+ * @param mixed $row
+ * @return mixed
+ */
 function igk_reg_subdomain($n, $ctrl, $row = null)
 {
     return IGKSubDomainManager::getInstance()->reg_domain($n, $ctrl, $row);
 }
 /**
-* register widget
-* @param mixed $name
-* @param mixed $callback
-* @param mixed $priority
-* @return mixed
-*/
+ * register widget
+ * @param mixed $name
+ * @param mixed $callback
+ * @param mixed $priority
+ * @return mixed
+ */
 function igk_reg_widget($name, $callback = null, $priority = 10)
 {
     $g = igk_get_env(IGK_ENV_WIDGETS_KEY);
@@ -18568,20 +18591,20 @@ function igk_reg_widget($name, $callback = null, $priority = 10)
     igk_set_env(IGK_ENV_WIDGETS_KEY, $g);
 }
 /**
-* register a widget zone
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * register a widget zone
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_reg_widget_zone($name, $args) {}
 /**
-* get regex from pattern
-* @param mixed $pattern
-* @param mixed $key
-* @param mixed $value
-* @param mixed $index
-* @return mixed
-*/
+ * get regex from pattern
+ * @param mixed $pattern
+ * @param mixed $key
+ * @param mixed $value
+ * @param mixed $index
+ * @return mixed
+ */
 function igk_regex_get($pattern, $key, $value, $index = 0)
 {
     $t = array();
@@ -18628,21 +18651,21 @@ function igk_regex_read_value(string $data, string $value_delimiter = ':', $defi
     return $tab;
 }
 /**
-* core auto register class
-* @param mixed $func
-* @param mixed $priority
-* @return mixed
-*/
+ * core auto register class
+ * @param mixed $func
+ * @param mixed $priority
+ * @return mixed
+ */
 function igk_register_autoload_class(?callable $func = null, $priority = 10)
 {
     die(__FUNCTION__ . " obsolete");
 }
 /**
-* register or get class informations
-* @param mixed $classname
-* @param mixed $infos
-* @return mixed
-*/
+ * register or get class informations
+ * @param mixed $classname
+ * @param mixed $infos
+ * @return mixed
+ */
 function igk_register_class_info($classname = null, $infos = null)
 {
     static $info = null;
@@ -18666,20 +18689,20 @@ function igk_register_class_info($classname = null, $infos = null)
     return $info;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $class
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $class
+ * @return mixed
+ */
 function igk_register_dataadapter($name, $class)
 {
     igk_set_env_keys("sys://dataadapter", strtoupper($name), $class);
 }
 /**
-* register for post filter menu
-* @param mixed $callback
-* @return mixed
-*/
+ * register for post filter menu
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_register_post_filter_menu($callback)
 {
     $tab = null;
@@ -18692,11 +18715,11 @@ function igk_register_post_filter_menu($callback)
     igk_set_env("sys://men/postfilter/sort", 1);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_register_requirement($name, $callback)
 {
     $t = igk_get_env(IGK_ENV_REQUIREMENT_KEY, array());
@@ -18704,11 +18727,11 @@ function igk_register_requirement($name, $callback)
     igk_set_env(IGK_ENV_REQUIREMENT_KEY, $t);
 }
 /**
-* register tempory route to class
-* @param mixed $controllerClass
-* @param ?BaseController $loader
-* @return mixed
-*/
+ * register tempory route to class
+ * @param mixed $controllerClass
+ * @param ?BaseController $loader
+ * @return mixed
+ */
 function igk_register_temp_uri($controllerClass, ?BaseController $loader = null)
 {
     $routes = igk_app()->session->getRoutes();
@@ -18734,13 +18757,13 @@ function igk_register_temp_uri($controllerClass, ?BaseController $loader = null)
     return $routes[$rtname];
 }
 /**
-* register library with namespace generation on eval
-* @param mixed $dir
-* @param mixed $ext
-* @param mixed $callback
-* @param mixed $ns
-* @return mixed
-*/
+ * register library with namespace generation on eval
+ * @param mixed $dir
+ * @param mixed $ext
+ * @param mixed $callback
+ * @param mixed $ns
+ * @return mixed
+ */
 function igk_registerlib($dir = null, $ext = ".phlib", $callback = null, $ns = null)
 {
     $dir = $dir ?? IGK_LIB_DIR;
@@ -18805,10 +18828,10 @@ function igk_registerlib($dir = null, $ext = ".phlib", $callback = null, $ns = n
     ob_end_clean();
 }
 /**
-* used to registers files to library
-* @param mixed $files
-* @return mixed
-*/
+ * used to registers files to library
+ * @param mixed $files
+ * @return mixed
+ */
 function igk_reglib($files)
 {
     if (($files == null) || (igk_count($files) == 0))
@@ -18821,10 +18844,10 @@ function igk_reglib($files)
     }
 }
 /**
-* register lib file once
-* @param mixed $file
-* @return mixed
-*/
+ * register lib file once
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_reglib_once($file)
 {
     $f = is_file($file) ? $file : igk_realpath($file);
@@ -18834,10 +18857,10 @@ function igk_reglib_once($file)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_regtowebpage($ctrl)
 {
     $c = igk_get_defaultwebpagectrl();
@@ -18845,11 +18868,11 @@ function igk_regtowebpage($ctrl)
         $c->regChildController($ctrl);
 }
 /**
-* Represent igk_relection_get_properties_keys function
-* @param mixed $class
-* @param mixed $filter
-* @return mixed
-*/
+ * Represent igk_relection_get_properties_keys function
+ * @param mixed $class
+ * @param mixed $filter
+ * @return mixed
+ */
 function igk_relection_get_properties_keys($class, $filter = ReflectionProperty::IS_PUBLIC)
 {
     $properties = [];
@@ -18862,23 +18885,23 @@ function igk_relection_get_properties_keys($class, $filter = ReflectionProperty:
     return $properties;
 }
 /**
-* shortcut to render global document
-* @param mixed $doc
-* @param mixed $refreshdefault
-* @param mixed $ctrl
-* @return mixed
-*/
+ * shortcut to render global document
+ * @param mixed $doc
+ * @param mixed $refreshdefault
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_render_doc($doc = null, $refreshdefault = 0, $ctrl = null)
 {
     HtmlRenderer::RenderDocument($doc, $refreshdefault, $ctrl);
 }
 /**
-* render dummy document
-* @param mixed $n
-* @param mixed $title
-* @param mixed $t
-* @return mixed
-*/
+ * render dummy document
+ * @param mixed $n
+ * @param mixed $title
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_render_dummy_doc($n, $title, $t)
 {
     $d = igk_get_document($n);
@@ -18888,12 +18911,12 @@ function igk_render_dummy_doc($n, $title, $t)
     $d->dispose();
 }
 /**
-* Bind node to document and render it utility function
-* @param mixed $node
-* @param mixed $doc
-* @param mixed $render
-* @return mixed
-*/
+ * Bind node to document and render it utility function
+ * @param mixed $node
+ * @param mixed $doc
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_render_node($node, $doc, $render = 1)
 {
     if ($doc === null) {
@@ -18908,12 +18931,12 @@ function igk_render_node($node, $doc, $render = 1)
         $doc->renderAJX();
 }
 /**
-* render resources utility
-* @param mixed $file file to render
-* @param mixed $cache allow caching
-* @param mixed $exit force script end
-* @return mixed
-*/
+ * render resources utility
+ * @param mixed $file file to render
+ * @param mixed $cache allow caching
+ * @param mixed $exit force script end
+ * @return mixed
+ */
 function igk_render_resource($file, $cache = 1, $exit = 1)
 {
     if (preg_match("/\.(ph(p|tml))$/", $file)) {
@@ -18929,20 +18952,20 @@ function igk_render_resource($file, $cache = 1, $exit = 1)
     }
 }
 /**
-* render trace
-* @return mixed
-*/
+ * render trace
+ * @return mixed
+ */
 function igk_render_trace()
 {
     igk_wln(igk_show_trace(1));
 }
 /**
-* auto generate doc.
-* @param mixed $code
-* @param mixed $message
-* @param mixed $data
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $code
+ * @param mixed $message
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_render_xml_error($code, $message, $data = null)
 {
     $rp = igk_create_xmlnode("response");
@@ -18953,20 +18976,20 @@ function igk_render_xml_error($code, $message, $data = null)
     return $rp;
 }
 /**
-* auto generate doc.
-* @param mixed $type
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_request_is($type)
 {
     return igk_server()->REQUEST_METHOD == $type;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $resname
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $resname
+ * @return mixed
+ */
 function igk_res_img($ctrl, $resname)
 {
     if (igk_io_file_exists($f = igk_uri($ctrl->getResourcesDir() . "/Img/{$resname}"))) {
@@ -18975,44 +18998,44 @@ function igk_res_img($ctrl, $resname)
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_reset_db_dataadapter()
 {
     \IGK\Database\DataAdapterBase::ResetDataAdapter();
 }
 /**
-* reset all session global variable
-* @return mixed
-*/
+ * reset all session global variable
+ * @return mixed
+ */
 function igk_reset_globalvars()
 {
     igk_app()->session->setParam(IGKSession::GLOBALVARS, array());
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_reset_include()
 {
     igk_set_env("sys://include/init", null);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_resetr()
 {
     $_REQUEST = array();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $name
-* @param mixed $alllanguage
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @param mixed $alllanguage
+ * @return mixed
+ */
 function igk_rm_article($ctrl, $name, $alllanguage = false)
 {
     $f = '';
@@ -19051,11 +19074,11 @@ function igk_rm_article($ctrl, $name, $alllanguage = false)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $doc
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_rm_balafonscriptfile_callback($n, $doc)
 {
     $g = $doc->getParam("sys://igk/tempbalafonjs");
@@ -19063,10 +19086,10 @@ function igk_rm_balafonscriptfile_callback($n, $doc)
     $doc->setParam("sys://igk/tempbalafonjs", $g);
 }
 /**
-* run script on background
-* @param mixed $f
-* @return mixed
-*/
+ * run script on background
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_run_bg_script($f)
 {
     $v_rp = igk_get_run_script_path();
@@ -19087,10 +19110,10 @@ function igk_run_bg_script($f)
     return false;
 }
 /**
-* arguments or files lists
-* @param mixed $files
-* @return mixed
-*/
+ * arguments or files lists
+ * @param mixed $files
+ * @return mixed
+ */
 function igk_run_scripts($files)
 {
     $files = is_array($files) ? implode(" ", $files) : $files;
@@ -19105,30 +19128,30 @@ function igk_run_scripts($files)
     return implode(IGK_LF, $out);
 }
 /**
-* shortcut to save config
-* @param mixed $force
-* @return mixed
-*/
+ * shortcut to save config
+ * @param mixed $force
+ * @return mixed
+ */
 function igk_save_config($force = false)
 {
     return IGKAppConfig::getInstance()->saveConfig($force);
 }
 /**
-* save a module to path
-* @param mixed $path
-* @return mixed
-*/
+ * save a module to path
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_save_module($path)
 {
     throw new \IGK\System\Exceptions\NotImplementException(__FUNCTION__);
 }
 /**
-* get a secure uri. on ssl protocol
-* @param mixed $s
-* @param mixed $secured
-* @param mixed $ssl_protocol
-* @return mixed
-*/
+ * get a secure uri. on ssl protocol
+ * @param mixed $s
+ * @param mixed $secured
+ * @param mixed $ssl_protocol
+ * @return mixed
+ */
 function igk_secure_uri($s, $secured = false, $ssl_protocol = true)
 {
     if (($secured && !$ssl_protocol) || ($ssl_protocol && igk_sys_srv_is_secure())) {
@@ -19137,14 +19160,14 @@ function igk_secure_uri($s, $secured = false, $ssl_protocol = true)
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @param mixed $method
-* @param mixed $args
-* @param mixed $content
-* @param mixed $header
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @param mixed $method
+ * @param mixed $args
+ * @param mixed $content
+ * @param mixed $header
+ * @return mixed
+ */
 function igk_send_request($uri, $method = "POST", $args = null, $content = IGK_APP_FORM_CONTENT, $header = null)
 {
     $postdata = "";
@@ -19164,66 +19187,66 @@ function igk_send_request($uri, $method = "POST", $args = null, $content = IGK_A
     return $result;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_server_is_linux()
 {
     return strtolower(PHP_OS) == "linux";
 }
 /**
-* shortcut to Server::IsLocal()
-* @return mixed
-*/
+ * shortcut to Server::IsLocal()
+ * @return mixed
+ */
 function igk_server_is_local()
 {
     return Server::IsLocal();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_server_is_redirecting()
 {
     $f = igk_server()->SCRIPT_NAME;
     return (igk_server()->REDIRECT_URL != null) && (basename($f) == "igk_redirection.php");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_server_is_refreshing()
 {
     return igk_getctrl("igkpagectrl", false)->isRefreshing;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_server_is_window()
 {
     return preg_match("/(winnt)/i", strtolower(PHP_OS));
 }
 /**
-* grant access to any platform server
-* @return mixed
-*/
+ * grant access to any platform server
+ * @return mixed
+ */
 function igk_server_request_from_balafon()
 {
     return igk_getv(igk_get_allheaders(), "IGK_SERVER") == IGK_PLATEFORM_NAME;
 }
 /**
-* check if request in on local server
-* @return mixed
-*/
+ * check if request in on local server
+ * @return mixed
+ */
 function igk_server_request_onlocal_server()
 {
     return igk_server()->REMOTE_ADDR === igk_server()->SERVER_ADDR;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_session_block_exit_callback()
 {
     $t = null;
@@ -19232,11 +19255,11 @@ function igk_session_block_exit_callback()
     }
 }
 /**
-* check if session file exists
-* @param mixed $id
-* @param mixed & $filesize
-* @return mixed
-*/
+ * check if session file exists
+ * @param mixed $id
+ * @param mixed & $filesize
+ * @return mixed
+ */
 function igk_session_exists($id, &$filesize = null)
 {
     $d = ini_get("session.save_path");
@@ -19248,17 +19271,17 @@ function igk_session_exists($id, &$filesize = null)
     return false;
 }
 /**
-* determine if session is active or not
-* @return mixed
-*/
+ * determine if session is active or not
+ * @return mixed
+ */
 function igk_session_is_active()
 {
     return session_status() === PHP_SESSION_ACTIVE;
 }
 /**
-* force session handle to default behaviour.
-* @return mixed
-*/
+ * force session handle to default behaviour.
+ * @return mixed
+ */
 function igk_session_reset_handler()
 {
     ini_set("session.save_handler", "files");
@@ -19266,10 +19289,10 @@ function igk_session_reset_handler()
     session_reset();
 }
 /**
-* session function to unlink session file if exists
-* @param mixed $id
-* @return mixed
-*/
+ * session function to unlink session file if exists
+ * @param mixed $id
+ * @return mixed
+ */
 function igk_session_unlinkfile($id)
 {
     if (igk_app()->getApplication()->lib("session")) {
@@ -19278,12 +19301,12 @@ function igk_session_unlinkfile($id)
     return false;
 }
 /**
-* call it at end to update the session
-* @param mixed $id
-* @param mixed $callback
-* @param mixed $close
-* @return mixed
-*/
+ * call it at end to update the session
+ * @param mixed $id
+ * @param mixed $callback
+ * @param mixed $close
+ * @return mixed
+ */
 function igk_session_update($id, $callback, $close = 1)
 {
     if (!igk_session_exists($id) || ((session_id() == $id)))
@@ -19298,12 +19321,12 @@ function igk_session_update($id, $callback, $close = 1)
         igk_sess_write_close();
 }
 /**
-* set session cache data
-* @param string $n name for cache data
-* @param mixed $data data to store
-* @param int $duration duration
-* @return mixed
-*/
+ * set session cache data
+ * @param string $n name for cache data
+ * @param mixed $data data to store
+ * @param int $duration duration
+ * @return mixed
+ */
 function igk_set_cached(string $n, $data, int $duration = 600)
 {
     $igk = igk_app();
@@ -19319,24 +19342,24 @@ function igk_set_cached(string $n, $data, int $duration = 600)
     $igk->Session->setParam("sys://cache", $c);
 }
 /**
-* set cookie
-* @param string $n name of the cookie
-* @param mixed $v
-* @param mixed $override
-* @param mixed $tm
-* @return mixed
-*/
+ * set cookie
+ * @param string $n name of the cookie
+ * @param mixed $v
+ * @param mixed $override
+ * @param mixed $tm
+ * @return mixed
+ */
 function igk_set_cookie($n, $v = null, $override = 1, $tm = null)
 {
     $n = igk_get_cookie_name(igk_sys_domain_name() . "/" . $n);
     igk_set_global_cookie($n, $v, $override, $tm);
 }
 /**
-* store environment data as array
-* @param mixed $k
-* @param mixed $v
-* @return mixed
-*/
+ * store environment data as array
+ * @param mixed $k
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_set_env_array($k, $v)
 {
     $s = igk_get_env($k);
@@ -19348,12 +19371,12 @@ function igk_set_env_array($k, $v)
     return $s;
 }
 /**
-* set environment data value as assoc $key => $value
-* @param mixed $n
-* @param mixed $k
-* @param mixed $v
-* @return mixed
-*/
+ * set environment data value as assoc $key => $value
+ * @param mixed $n
+ * @param mixed $k
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_set_env_keys($n, $k, $v)
 {
     $s = igk_get_env($n);
@@ -19365,21 +19388,21 @@ function igk_set_env_keys($n, $k, $v)
     return $s;
 }
 /**
-* set error
-* @param mixed $tag
-* @param mixed $message
-* @param mixed $info
-* @return mixed
-*/
+ * set error
+ * @param mixed $tag
+ * @param mixed $message
+ * @param mixed $info
+ * @return mixed
+ */
 function igk_set_error($tag, $message, $info = null)
 {
     igk_push_env("sys://" . __FUNCTION__, array("tag" => $tag, "message" => $message, "info" => $info));
 }
 /**
-* set error message
-* @param mixed $tab
-* @return mixed
-*/
+ * set error message
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_set_error_msg($tab)
 {
     $t = igk_get_env("sys://error_msgs");
@@ -19389,29 +19412,29 @@ function igk_set_error_msg($tab)
     igk_set_env("sys://error_msgs", $t);
 }
 /**
-* auto generate doc.
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_set_export_callback($callback)
 {
     igk_set_env("sys://export_callback", $callback);
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_set_form_args($tab)
 {
     igk_set_env("sys://form_args", $tab);
 }
 /**
-* auto generate doc.
-* @param mixed $id
-* @param mixed $value
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $id
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_set_form_value($id, $value = null)
 {
     $tab = igk_get_env("sys://form_args");
@@ -19423,16 +19446,16 @@ function igk_set_form_value($id, $value = null)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $v
-* @param mixed $override
-* @param mixed $tm
-* @param mixed $dom
-* @param mixed $secure
-* @param mixed $options
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $v
+ * @param mixed $override
+ * @param mixed $tm
+ * @param mixed $dom
+ * @param mixed $secure
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = null, $secure = false, $options = null)
 {
     if (headers_sent()) {
@@ -19459,11 +19482,11 @@ function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = 
     return $rs;
 }
 /**
-* used to set session global variable
-* @param mixed $n
-* @param mixed $d
-* @return mixed
-*/
+ * used to set session global variable
+ * @param mixed $n
+ * @param mixed $d
+ * @return mixed
+ */
 function igk_set_globalvars($n, $d)
 {
     $s = igk_app()->session->getParam(IGKSession::GLOBALVARS);
@@ -19478,39 +19501,39 @@ function igk_set_globalvars($n, $d)
     igk_app()->session->setParam(IGKSession::GLOBALVARS, $s);
 }
 /**
-* set rendering node
-* @param mixed $n
-* @return mixed
-*/
+ * set rendering node
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_set_rendering_node($n)
 {
     igk_set_env("sys://igk_html_rendered_node/node", $n);
 }
 /**
-* auto generate doc.
-* @param mixed $engine
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $engine
+ * @return mixed
+ */
 function igk_set_selected_builder_engine($engine)
 {
     igk_set_env("sys://form/selectedbuilderengine", $engine);
 }
 /**
-* shortcut to set session param value
-* @param mixed $name
-* @param mixed $v
-* @return mixed
-*/
+ * shortcut to set session param value
+ * @param mixed $name
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_set_session($name, $v)
 {
     igk_app()->getSession()->$name = $v;
 }
 /**
-* set session redirection page
-* @param mixed $uri
-* @param mixed $reset
-* @return mixed
-*/
+ * set session redirection page
+ * @param mixed $uri
+ * @param mixed $reset
+ * @return mixed
+ */
 function igk_set_session_redirection($uri = null, $reset = 1)
 {
     $redirect_key = "sys://func/" . __FUNCTION__;
@@ -19527,31 +19550,31 @@ function igk_set_session_redirection($uri = null, $reset = 1)
     igk_set_env($redirect_key, 1);
 }
 /**
-* set execution timeout helper
-* @param int $t
-* @return mixed
-*/
+ * set execution timeout helper
+ * @param int $t
+ * @return mixed
+ */
 function igk_set_timeout(int $t)
 {
     ini_set("max_execution_time", $t);
 }
 /**
-* set request helper
-* @param mixed $key
-* @param mixed $value
-* @return mixed
-*/
+ * set request helper
+ * @param mixed $key
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_setr($key, $value)
 {
     $_REQUEST[$key] = $value;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $k
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $k
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_setv($obj, $k, $v)
 {
     if (is_object($obj))
@@ -19560,10 +19583,10 @@ function igk_setv($obj, $k, $v)
         $obj[$k] = $v;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_show_code($obj)
 {
     igk_wl("<code>");
@@ -19571,13 +19594,13 @@ function igk_show_code($obj)
     igk_wl("</code>");
 }
 /**
-* auto generate doc.
-* @param mixed $doc
-* @param mixed $code
-* @param mixed $redirect
-* @param mixed $message
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $doc
+ * @param mixed $code
+ * @param mixed $redirect
+ * @param mixed $message
+ * @return mixed
+ */
 function igk_show_error_doc($doc = null, $code = RequestResponseCode::NotFound, $redirect = null, $message = null)
 {
     if ($redirect == null)
@@ -19608,24 +19631,24 @@ function igk_show_error_doc($doc = null, $code = RequestResponseCode::NotFound, 
     $doc->renderAJX($opt);
 }
 /**
-* get the global application folder
-* @param mixed $ex
-* @param mixed $file
-* @param mixed $line
-* @param mixed $title
-* @return mixed
-*/
+ * get the global application folder
+ * @param mixed $ex
+ * @param mixed $file
+ * @param mixed $line
+ * @param mixed $title
+ * @return mixed
+ */
 function igk_show_exception($ex, $file = null, $line = null, $title = null)
 {
     require_once IGK_LIB_CLASSES_DIR . "/Helper/ExceptionUtils.php";
     IGK\Helper\ExceptionUtils::ShowException($ex, $file, $line, $title);
 }
 /**
-* Represent igk_show_exception_trace function
-* @param mixed $callers
-* @param mixed $depth
-* @return mixed
-*/
+ * Represent igk_show_exception_trace function
+ * @param mixed $callers
+ * @param mixed $depth
+ * @return mixed
+ */
 function igk_show_exception_trace($callers, $depth = 0)
 {
     $o = "";
@@ -19637,10 +19660,10 @@ function igk_show_exception_trace($callers, $depth = 0)
     echo $o;
 }
 /**
-* auto generate doc.
-* @param mixed $array
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $array
+ * @return mixed
+ */
 function igk_show_keytype($array)
 {
     $out = "<pre>";
@@ -19653,10 +19676,10 @@ function igk_show_keytype($array)
     igk_wl($out);
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_show_prev($obj)
 {
     igk_wl("<pre class=\"igk-prev igk-prev-sys\">");
@@ -19664,11 +19687,11 @@ function igk_show_prev($obj)
     igk_wl("</pre>");
 }
 /**
-* auto generate doc.
-* @param mixed $target
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $target
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_show_prevto($target, $obj)
 {
     $s = IGK_STR_EMPTY;
@@ -19679,10 +19702,10 @@ function igk_show_prevto($target, $obj)
     $target->div()->Content = $s;
 }
 /**
-* auto generate doc.
-* @param mixed $render
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_show_serverinfo($render = 1)
 {
     $t = "";
@@ -19700,10 +19723,10 @@ function igk_show_serverinfo($render = 1)
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_show_textarea($obj)
 {
     igk_wl("<textarea>");
@@ -19711,10 +19734,10 @@ function igk_show_textarea($obj)
     igk_wl("</textarea>");
 }
 /**
-* return the tracing information info
-* @param mixed $depth
-* @return mixed
-*/
+ * return the tracing information info
+ * @param mixed $depth
+ * @return mixed
+ */
 function igk_show_trace($depth = 1)
 {
     if (!defined("IGK_APP_DIR")) {
@@ -19781,11 +19804,11 @@ function igk_show_trace($depth = 1)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $a
-* @param mixed $b
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $a
+ * @param mixed $b
+ * @return mixed
+ */
 function igk_sort_bynodeindex($a, $b)
 {
     if ($a->TargetNode && $b->TargetNode) {
@@ -19796,10 +19819,10 @@ function igk_sort_bynodeindex($a, $b)
     return strcmp($a->Name, $b->Name);
 }
 /**
-* retrieve sql data from from balafon engine type
-* @param mixed $t
-* @return mixed
-*/
+ * retrieve sql data from from balafon engine type
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_sql_data_type($t)
 {
     switch (strtolower($t)) {
@@ -19815,21 +19838,21 @@ function igk_sql_data_type($t)
     return strtoupper($t);
 }
 /**
-* Represent igk_src_code function
-* @param mixed $src
-* @param mixed $start
-* @param mixed $end
-* @return mixed
-*/
+ * Represent igk_src_code function
+ * @param mixed $src
+ * @param mixed $start
+ * @param mixed $end
+ * @return mixed
+ */
 function igk_src_code($src, $start, $end)
 {
     return implode("\n", array_filter(array_slice(explode("\n", $src), $start, $end)));
 }
 /**
-* store start time
-* @param mixed $name
-* @return mixed
-*/
+ * store start time
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_start_time($name = null)
 {
     $t = microtime(true);
@@ -19837,11 +19860,11 @@ function igk_start_time($name = null)
     return $t;
 }
 /**
-* Represent igk_start_time_process function
-* @param mixed $name
-* @param callable $callback
-* @return mixed
-*/
+ * Represent igk_start_time_process function
+ * @param mixed $name
+ * @param callable $callback
+ * @return mixed
+ */
 function igk_start_time_process($name, callable $callback)
 {
     igk_start_time($name);
@@ -19850,20 +19873,20 @@ function igk_start_time_process($name, callable $callback)
     return compact("response", "execute_time");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_stop_timeout()
 {
     igk_set_timeout(0);
 }
 /**
-* used to add data to value
-* @param mixed & $s
-* @param mixed $v
-* @param mixed $sep
-* @return mixed
-*/
+ * used to add data to value
+ * @param mixed & $s
+ * @param mixed $v
+ * @param mixed $sep
+ * @return mixed
+ */
 function igk_str_append_to(&$s, $v, $sep = ',')
 {
     if (empty($v)) {
@@ -19875,10 +19898,10 @@ function igk_str_append_to(&$s, $v, $sep = ',')
         $s = $sep . $v;
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_str_array_rm_empty($tab)
 {
     $o = array();
@@ -19890,28 +19913,28 @@ function igk_str_array_rm_empty($tab)
     return $o;
 }
 /**
-* used to capitalize string
-* @param mixed $s
-* @return mixed
-*/
+ * used to capitalize string
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_str_capitalize($s)
 {
     return ucfirst($s);
 }
 /**
-* check if the length of string is equal to 0
-* @param mixed $t
-* @return mixed
-*/
+ * check if the length of string is equal to 0
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_str_empty($t)
 {
     return strlen($t) === 0;
 }
 /**
-* helper: is trim empty
-* @param string $str
-* @return mixed
-*/
+ * helper: is trim empty
+ * @param string $str
+ * @return mixed
+ */
 function igk_str_is_trim_empty(string $str): bool
 {
     return (strlen(trim($str)) === 0);
@@ -19946,20 +19969,20 @@ if (!function_exists('igk_str_transform_linefeed')) {
     }
 }
 /**
-* auto generate doc.
-* @param mixed $chaine
-* @param mixed $pattern
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $chaine
+ * @param mixed $pattern
+ * @return mixed
+ */
 function igk_str_endwith($chaine, $pattern)
 {
     return IGKString::EndWith($chaine, $pattern);
 }
 /**
-* detect all loadable tab in the string and replace with htmlentities
-* @param mixed $s
-* @return mixed
-*/
+ * detect all loadable tab in the string and replace with htmlentities
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_str_escape_tag($s)
 {
     if (empty($s))
@@ -20001,14 +20024,14 @@ function igk_str_escape_tag($s)
     return $s;
 }
 /**
-* Represent igk_str_escape_tag_replace function
-* @param mixed & $s
-* @param mixed & $offset
-* @param mixed $tab
-* @param mixed $entityflag
-* @param mixed $encoding
-* @return mixed
-*/
+ * Represent igk_str_escape_tag_replace function
+ * @param mixed & $s
+ * @param mixed & $offset
+ * @param mixed $tab
+ * @param mixed $entityflag
+ * @param mixed $encoding
+ * @return mixed
+ */
 function igk_str_escape_tag_replace(&$s, &$offset, $tab, $entityflag = ENT_NOQUOTES, $encoding = "UTF-8")
 {
     $_close_f = $tab[0][0][strlen($tab[0][0]) - 1] == ">";
@@ -20043,11 +20066,11 @@ function igk_str_escape_tag_replace(&$s, &$offset, $tab, $entityflag = ENT_NOQUO
     $offset = strlen($b);
 }
 /**
-* auto generate doc.
-* @param mixed $array
-* @param mixed $str
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $array
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_str_explode($array, $str)
 {
     $t = array();
@@ -20063,10 +20086,10 @@ function igk_str_explode($array, $str)
     return $t;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_str_explode_uppercase($v)
 {
     $o = array();
@@ -20091,21 +20114,21 @@ function igk_str_explode_uppercase($v)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $str
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_str_expr($str)
 {
     $str = str_replace(".", "\.", $str);
     return $str;
 }
 /**
-* bind data using format
-* @param mixed $format
-* @param mixed $data mixed. array of data or string
-* @return mixed
-*/
+ * bind data using format
+ * @param mixed $format
+ * @param mixed $data mixed. array of data or string
+ * @return mixed
+ */
 function igk_str_format_bind($format, $data)
 {
     $o = "";
@@ -20119,10 +20142,10 @@ function igk_str_format_bind($format, $data)
     return $o;
 }
 /**
-* used to retrieve pattern keys from path pattern expression
-* @param mixed $s
-* @return mixed
-*/
+ * used to retrieve pattern keys from path pattern expression
+ * @param mixed $s
+ * @return mixed
+ */
 function igk_str_get_pattern_keys($s)
 {
     $tab = array();
@@ -20134,13 +20157,13 @@ function igk_str_get_pattern_keys($s)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
-function igk_str_get_version($v)
+ * get real version
+ * @param string $version
+ * @return mixed
+ */
+function igk_str_get_version(string $version)
 {
-    $tb = explode(".", $v);
+    $tb = explode(".", $version);
     if (igk_count($tb) < 4) {
         $c = igk_count($tb) - 4;
         while ($c > 0) {
@@ -20148,15 +20171,16 @@ function igk_str_get_version($v)
             $c--;
         }
     } else {
-        $tb = array_shift($tb, 4);
+        igk_wln_e(__FILE__ . ":" . __LINE__, 'shifting');
+        $tb = array_slice($tb, 0, 4);
     }
     return igk_str_join_tab($tb, '.', false);
 }
 /**
-* glue data.
-* @param mixed $mix
-* @return mixed
-*/
+ * glue data.
+ * @param mixed $mix
+ * @return mixed
+ */
 function igk_str_glue($mix = ",")
 {
     $tab = array_slice(func_get_args(), 1);
@@ -20185,43 +20209,43 @@ function igk_str_glue($mix = ",")
     return $s;
 }
 /**
-* shortcut to IGKString::IndexOf
-* @param mixed $str
-* @param mixed $pattern
-* @param mixed $offset
-* @return mixed
-*/
+ * shortcut to IGKString::IndexOf
+ * @param mixed $str
+ * @param mixed $pattern
+ * @param mixed $offset
+ * @return mixed
+ */
 function igk_str_index_of($str, $pattern, $offset = 0)
 {
     return IGKString::IndexOf($str, $pattern, $offset);
 }
 /**
-* auto generate doc.
-* @param mixed $str1
-* @param mixed $str2
-* @param mixed $pattern
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $str1
+ * @param mixed $str2
+ * @param mixed $pattern
+ * @return mixed
+ */
 function igk_str_join($str1, $str2, $pattern)
 {
     return $str1 . $pattern . $str2;
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @param mixed $separator
-* @param mixed $key
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @param mixed $separator
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_str_join_tab($tab, $separator = ',', $key = true)
 {
     return IGKString::Join($tab, $separator, $key);
 }
 /**
-* convert string to php namespace name
-* @param mixed $n
-* @return mixed
-*/
+ * convert string to php namespace name
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_str_ns($n)
 {
     $n = str_replace(".", "\\", $n);
@@ -20233,7 +20257,7 @@ function igk_str_ns($n)
 * Represent igk_str_pipe_args function
 * @param mixed $src
 * @param mixed & $c
-* @param mixed $c
+* @param mixed $removequote
 * @return mixed
 */
 function igk_str_pipe_args($src, &$c, $removequote = 0)
@@ -20265,22 +20289,22 @@ function igk_str_pipe_args($src, &$c, $removequote = 0)
     return [$v, $pipe];
 }
 /**
-* helper: get piped data
-* @param mixed $src
-* @param mixed $removequote
-* @return mixed
-*/
+ * helper: get piped data
+ * @param mixed $src
+ * @param mixed $removequote
+ * @return mixed
+ */
 function igk_str_pipe_data($src, $removequote = 0)
 {
     list($v, $pipe) = igk_str_pipe_args($src, $c, $removequote);
     return igk_str_pipe_value($v, $pipe);
 }
 /**
-* pipe data
-* @param mixed $v data to evaluate
-* @param mixed $pipe string | separated
-* @return mixed
-*/
+ * pipe data
+ * @param mixed $v data to evaluate
+ * @param mixed $pipe string | separated
+ * @return mixed
+ */
 function igk_str_pipe_value($v, $pipe)
 {
     $tpipe = explode('|', $pipe);
@@ -20363,10 +20387,10 @@ function igk_str_quotes(string $content)
     return $content;
 }
 /**
-* read argument
-* @param string $s
-* @return mixed
-*/
+ * read argument
+ * @param string $s
+ * @return mixed
+ */
 function igk_str_read_args(string $s)
 {
     $count = strlen($s);
@@ -20407,11 +20431,11 @@ function igk_str_read_args(string $s)
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $treat
-* @param mixed & $goptions
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $treat
+ * @param mixed & $goptions
+ * @return mixed
+ */
 function igk_str_read_bracket_source_code($treat, &$goptions = null)
 {
     $goptions = $goptions ?? (function () {
@@ -20431,9 +20455,9 @@ function igk_str_read_bracket_source_code($treat, &$goptions = null)
 * @param mixed $c position offset
 * @param mixed $end char end
 * @param mixed $start char start
+* @param mixed $escaped
 * @param mixed $ln ln: size to read
 * @param mixed $autoclose
-* @param mixed $encapsechar
 * @return mixed
 */
 function igk_str_read_brank($exp, int &$c, $end = "]", $start = "[", $ln = null, $escaped = 0, $autoclose = 1, $encapsechar = null)
@@ -20491,9 +20515,9 @@ function igk_str_read_brank($exp, int &$c, $end = "]", $start = "[", $ln = null,
     return $iv;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_str_read_callback_list()
 {
     static $callbacklist;
@@ -20573,11 +20597,11 @@ function igk_str_read_callback_list()
     return $callbacklist;
 }
 /**
-* call this for cleaning code source
-* @param mixed $lines mixed. array of string
-* @param mixed & $options
-* @return mixed
-*/
+ * call this for cleaning code source
+ * @param mixed $lines mixed. array of string
+ * @param mixed & $options
+ * @return mixed
+ */
 function igk_str_read_clean_source_code($lines, &$options = null)
 {
     $tab = igk_str_read_create_cleanup_source();
@@ -20855,9 +20879,9 @@ function igk_str_read_clean_source_code($lines, &$options = null)
     );
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_str_read_create_cleanup_source()
 {
     $c = igk_str_read_callback_list();
@@ -20946,9 +20970,9 @@ function igk_str_read_create_cleanup_source()
     );
 }
 /**
-* represent basic options for reading source code
-* @return mixed
-*/
+ * represent basic options for reading source code
+ * @return mixed
+ */
 function igk_str_read_createoptions()
 {
     return (object)array(
@@ -20979,11 +21003,11 @@ function igk_str_read_createoptions()
     );
 }
 /**
-* auto generate doc.
-* @param mixed $options
-* @param mixed $mode
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $options
+ * @param mixed $mode
+ * @return mixed
+ */
 function igk_str_read_get_intent($options, $mode = 0)
 {
     if ($mode == 3)
@@ -20991,13 +21015,13 @@ function igk_str_read_get_intent($options, $mode = 0)
     return str_repeat($options->indentChar, igk_getv($options, 'offsetBracket', 0));
 }
 /**
-* read value in branket
-* @param mixed $s search string
-* @param mixed $start start branket in expression
-* @param mixed $end end branket in expression
-* @param mixed & $tc_c
-* @return mixed
-*/
+ * read value in branket
+ * @param mixed $s search string
+ * @param mixed $start start branket in expression
+ * @param mixed $end end branket in expression
+ * @param mixed & $tc_c
+ * @return mixed
+ */
 function igk_str_read_in_brancket($s, $start, $end, &$tc_c = null)
 {
     if (empty($s))
@@ -21059,7 +21083,7 @@ function igk_str_read_in_brancket($s, $start, $end, &$tc_c = null)
 * @param mixed $lines array of string line entries
 * @param mixed $callback callback to call at end
 * @param mixed & $options
-* @param mixed $options option paramater to pass
+* @param mixed $toclean
 * @return mixed
 */
 function igk_str_read_source_code($lines, $callback, &$options, $toclean = null)
@@ -21174,11 +21198,11 @@ function igk_str_read_source_code($lines, $callback, &$options, $toclean = null)
     return $callback($desc);
 }
 /**
-* read source code in bracket
-* @param mixed $lines
-* @param mixed & $options
-* @return mixed
-*/
+ * read source code in bracket
+ * @param mixed $lines
+ * @param mixed & $options
+ * @return mixed
+ */
 function igk_str_read_source_code_bracket($lines, &$options = null)
 {
     $tab = igk_str_read_create_cleanup_source();
@@ -21249,10 +21273,10 @@ function igk_str_read_source_code_bracket($lines, &$options = null)
     );
 }
 /**
-* remove all line empty line
-* @param mixed $str
-* @return mixed
-*/
+ * remove all line empty line
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_str_remove_empty_line($str)
 {
     $t = preg_split("/(\r\n)|(\n)/i", $str);
@@ -21278,10 +21302,10 @@ function igk_str_remove_lines(string $str)
     return StringUtility::SanitizeLine($str);
 }
 /**
-* remove surrounding quote
-* @param mixed $v
-* @return mixed
-*/
+ * remove surrounding quote
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_str_remove_quote(string $v)
 {
     if (($count = strlen($v = trim($v))) > 1) {
@@ -21298,11 +21322,11 @@ function igk_str_remove_quote(string $v)
     return $v;
 }
 /**
-* reprease string vak
-* @param string $p
-* @param int $c times to repeat
-* @return mixed
-*/
+ * reprease string vak
+ * @param string $p
+ * @param int $c times to repeat
+ * @return mixed
+ */
 function igk_str_repeat(string $p, int $c)
 {
     $o = "";
@@ -21313,12 +21337,12 @@ function igk_str_repeat(string $p, int $c)
     return $o;
 }
 /**
-* remove all parttern
-* @param string $str
-* @param string $pattern
-* @param ?int $infinite
-* @return mixed
-*/
+ * remove all parttern
+ * @param string $str
+ * @param string $pattern
+ * @param ?int $infinite
+ * @return mixed
+ */
 function igk_str_rm_last(string $str, string $pattern, ?int $infinite = -1)
 {
     $c = strlen($pattern);
@@ -21331,12 +21355,12 @@ function igk_str_rm_last(string $str, string $pattern, ?int $infinite = -1)
     return $str;
 }
 /**
-* auto generate doc.
-* @param string $str
-* @param mixed $pattern
-* @param ?int $infinite
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $str
+ * @param mixed $pattern
+ * @param ?int $infinite
+ * @return mixed
+ */
 function igk_str_rm_start(string $str, string $pattern, ?int $infinite = -1)
 {
     $c = strlen($pattern);
@@ -21349,10 +21373,10 @@ function igk_str_rm_start(string $str, string $pattern, ?int $infinite = -1)
     return $str;
 }
 /**
-* convert to snake version
-* @param string $str
-* @return mixed
-*/
+ * convert to snake version
+ * @param string $str
+ * @return mixed
+ */
 function igk_str_snake(string $str)
 {
     $str = preg_replace("/[^a-z0-9]/i", "", $str);
@@ -21376,20 +21400,20 @@ function igk_str_snake(string $str)
     return strtolower($out);
 }
 /**
-* auto generate doc.
-* @param mixed $str
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_str_split_lines($str)
 {
     return preg_split("/(\r\n)|(\n)/i", $str);
 }
 /**
-* split string data
-* @param mixed $splitchr
-* @param mixed $str
-* @return mixed
-*/
+ * split string data
+ * @param mixed $splitchr
+ * @param mixed $str
+ * @return mixed
+ */
 function igk_str_split_string($splitchr, $str)
 {
     $ln = strlen($str);
@@ -21427,21 +21451,21 @@ function igk_str_split_string($splitchr, $str)
     return $tab;
 }
 /**
-* Represent igk_str_startwith function
-* @param string $str string to search in
-* @param string $pattern pattern to search
-* @return mixed
-*/
+ * Represent igk_str_startwith function
+ * @param string $str string to search in
+ * @param string $pattern pattern to search
+ * @return mixed
+ */
 function igk_str_startwith(string $str, string $pattern)
 {
     return IGKString::StartWith($str, $pattern);
 }
 /**
-* auto generate doc.
-* @param mixed $content
-* @param mixed $length
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $content
+ * @param mixed $length
+ * @return mixed
+ */
 function igk_str_summary($content, $length = 150)
 {
     if (strlen($content) > $length) {
@@ -21450,10 +21474,10 @@ function igk_str_summary($content, $length = 150)
     return $content;
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_str_toupperentities($v)
 {
     return preg_replace_callback(
@@ -21471,11 +21495,11 @@ function igk_str_toupperentities($v)
     );
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $map
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $map
+ * @return mixed
+ */
 function igk_str_toupperinvariant($n, $map = null)
 {
     $interval = function ($min, $max, &$map, $callback) {
@@ -21524,10 +21548,10 @@ function igk_str_toupperinvariant($n, $map = null)
     return $hs;
 }
 /**
-* get uncollapse string
-* @param mixed $v
-* @return mixed
-*/
+ * get uncollapse string
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_str_uncollapsestring($v)
 {
     if (is_string($v)) {
@@ -21539,18 +21563,18 @@ function igk_str_uncollapsestring($v)
     return $v;
 }
 /**
-* transform [n] to conform balafon uri specification
-* @param mixed $n
-* @return mixed
-*/
+ * transform [n] to conform balafon uri specification
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_str_view_uri($n)
 {
     return str_replace("_", "/", $n);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_support_noextension_script()
 {
     $o = <<<EOF
@@ -21566,11 +21590,11 @@ EOF;
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $m
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_svg_bind_callable_list($n, $m)
 {
     $list = $m->getTempFlag("svg-list");
@@ -21589,11 +21613,11 @@ function igk_svg_bind_callable_list($n, $m)
     return 1;
 }
 /**
-* Represent igk_svg_bind_name function
-* @param mixed $name
-* @param mixed $context
-* @return mixed
-*/
+ * Represent igk_svg_bind_name function
+ * @param mixed $name
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_svg_bind_name($name, $context = null)
 {
     $_key = "sys://svg/lists";
@@ -21605,11 +21629,11 @@ function igk_svg_bind_name($name, $context = null)
     $c->setParam($_key, $obj);
 }
 /**
-* bind all svg document from the folder. All of them will be send to client. use igk_svg_register_icons if only send required is mandatory.
-* @param IGKHtmlDoc $doc
-* @param string $dir
-* @return mixed
-*/
+ * bind all svg document from the folder. All of them will be send to client. use igk_svg_register_icons if only send required is mandatory.
+ * @param IGKHtmlDoc $doc
+ * @param string $dir
+ * @return mixed
+ */
 function igk_svg_bind_svgs($doc, string $dir = IGK_LIB_DIR . "/Data/R/svg/icons")
 {
     igk_environment()->isDev() && igk_ilog('bind svgs : ' . $dir);
@@ -21630,11 +21654,11 @@ function igk_svg_bind_svgs($doc, string $dir = IGK_LIB_DIR . "/Data/R/svg/icons"
     $doc->setTempFlag("svg-list", $list);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_svg_bindfile($name, $file)
 {
     $_vkey = "sys://svg/file";
@@ -21646,12 +21670,12 @@ function igk_svg_bindfile($name, $file)
     }
 }
 /**
-* render svg list
-* @param mixed $n cibling node
-* @param mixed $m
-* @deprecated
-* @return mixed
-*/
+ * render svg list
+ * @param mixed $n cibling node
+ * @param mixed $m
+ * @deprecated
+ * @return mixed
+ */
 function igk_svg_callable_list($n, $m)
 {
     igk_dev_wln_e(
@@ -21680,9 +21704,9 @@ function igk_svg_content($s)
     return $s;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_svg_get_regicons()
 {
     $source = igk_environment()->{'' . IGK_SVG_REGNODE_KEY};
@@ -21691,12 +21715,12 @@ function igk_svg_get_regicons()
     return null;
 }
 /**
-* register svg item
-* @param mixed $doc
-* @param mixed $name
-* @param mixed $file
-* @return mixed
-*/
+ * register svg item
+ * @param mixed $doc
+ * @param mixed $name
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_svg_register($doc, $name, $file)
 {
     $v_svg_reg_key = "sys://node/svg_regnode";
@@ -21729,12 +21753,12 @@ function igk_svg_register($doc, $name, $file)
     return $n;
 }
 /**
-* register svg list document in directory. only required svg from the folder will be send to client
-* @param mixed $doc
-* @param mixed $name
-* @param mixed $dir
-* @return mixed
-*/
+ * register svg list document in directory. only required svg from the folder will be send to client
+ * @param mixed $doc
+ * @param mixed $name
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/R/svg/icons")
 {
     if (!empty($name)) {
@@ -21752,23 +21776,23 @@ function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/
     return $register;
 }
 /**
-* use svg image
-* @param string $name
-* @param mixed $context
-* @return mixed
-*/
+ * use svg image
+ * @param string $name
+ * @param mixed $context
+ * @return mixed
+ */
 function igk_svg_use(string $name, $context = null)
 {
     return \IGK\System\Html\SVG\SvgRenderer::RegisterIcon($name, $context);
 }
 if (!function_exists('igk_svg_inject')) {
     /**
-    * auto generate doc.
-    * @param mixed $doc
-    * @param string $name
-    * @param null|string $context
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $doc
+     * @param string $name
+     * @param null|string $context
+     * @return void
+     */
     function igk_svg_inject($doc, string $name, ?string $context = null)
     {
         $key = __FUNCTION__ . ':/svgInjector';
@@ -21785,12 +21809,12 @@ if (!function_exists('igk_svg_inject')) {
     }
 }
 /**
-* create uri system pattern info
-* @param mixed $ctrl controller 
-* @param string $uri
-* @param mixed $methodpattern
-* @return mixed
-*/
+ * create uri system pattern info
+ * @param mixed $ctrl controller 
+ * @param string $uri
+ * @param mixed $methodpattern
+ * @return mixed
+ */
 function igk_sys_ac_create_pattern($ctrl, $uri, $methodpattern = IGK_REG_ACTION_METH)
 {
     $k = $methodpattern;
@@ -21809,47 +21833,47 @@ function igk_sys_ac_create_pattern($ctrl, $uri, $methodpattern = IGK_REG_ACTION_
     return $e;
 }
 /**
-* auto generate doc.
-* @param mixed $basePatternUri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $basePatternUri
+ * @return mixed
+ */
 function igk_sys_ac_getpattern($basePatternUri)
 {
     return igk_pattern_matcher_get_pattern($basePatternUri);
 }
 /**
-* helper: get current uri pattern info
-* @return mixed
-*/
+ * helper: get current uri pattern info
+ * @return mixed
+ */
 function igk_sys_ac_getpatterninfo()
 {
     return igk_getctrl(IGK_SYSACTION_CTRL)->getPatternInfo();
 }
 /**
-* helper: use to register action
-* @param mixed $uriPattern
-* @param mixed $uri
-* @return mixed
-*/
+ * helper: use to register action
+ * @param mixed $uriPattern
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_ac_register($uriPattern, $uri)
 {
     igk_getctrl(IGK_SYSACTION_CTRL)->sys_ac_register($uriPattern, $uri);
 }
 /**
-* use to unregister uri action
-* @param mixed $uriPattern
-* @return mixed
-*/
+ * use to unregister uri action
+ * @param mixed $uriPattern
+ * @return mixed
+ */
 function igk_sys_ac_unregister($uriPattern)
 {
     igk_getctrl(IGK_SYSACTION_CTRL)->sys_ac_unregister($uriPattern);
 }
 /**
-* if muri is array ignore file
-* @param mixed $muri uri location
-* @param mixed $file physical file path
-* @return mixed
-*/
+ * if muri is array ignore file
+ * @param mixed $muri uri location
+ * @param mixed $file physical file path
+ * @return mixed
+ */
 function igk_sys_add_cache_uri($muri, $file = null)
 {
     $f = IGK_APP_DIR . "/Caches/uri.cache";
@@ -21868,19 +21892,19 @@ function igk_sys_add_cache_uri($muri, $file = null)
     igk_sys_store_uri_cache($t);
 }
 /**
-* get the system author. alias function of constant IGK_AUTHOR
-* @return mixed
-*/
+ * get the system author. alias function of constant IGK_AUTHOR
+ * @return mixed
+ */
 function igk_sys_author()
 {
     return IGK_AUTHOR;
 }
 /**
-* system shortcut to current user authorisation
-* @param mixed $authname
-* @param mixed $authCtrl
-* @return mixed
-*/
+ * system shortcut to current user authorisation
+ * @param mixed $authname
+ * @param mixed $authCtrl
+ * @return mixed
+ */
 function igk_sys_authorize($authname, $authCtrl = null)
 {
     if (igk_is_conf_connected())
@@ -21895,13 +21919,13 @@ function igk_sys_authorize($authname, $authCtrl = null)
     return false;
 }
 /**
-* Represent igk_sys_balafon_js function
-* @param mixed $controller
-* @param mixed $debug
-* @param mixed $minify minify on generation
-* @param mixed $usecache
-* @return mixed
-*/
+ * Represent igk_sys_balafon_js function
+ * @param mixed $controller
+ * @param mixed $debug
+ * @param mixed $minify minify on generation
+ * @param mixed $usecache
+ * @return mixed
+ */
 function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, bool $minify = true, $usecache = true)
 {
     $r = igk_io_cacheddist_jsdir();
@@ -21953,10 +21977,10 @@ function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, 
     return $src;
 }
 /**
-* build distribution
-* @param mixed $ctrl
-* @return mixed
-*/
+ * build distribution
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_sys_build_dist($ctrl)
 {
     $dir = $ctrl->getDeclaredDir();
@@ -21971,15 +21995,15 @@ function igk_sys_build_dist($ctrl)
     IO::CreateDir($distfolder . "/data");
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $id
-* @param mixed $uri
-* @param mixed $callback
-* @param mixed $message
-* @param mixed $hiddenEntries
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $id
+ * @param mixed $uri
+ * @param mixed $callback
+ * @param mixed $message
+ * @param mixed $hiddenEntries
+ * @return mixed
+ */
 function igk_sys_buildconfirm_ajx($ctrl, $id, $uri, $callback, $message, $hiddenEntries = null)
 {
     if (igk_qr_confirm()) {
@@ -21996,9 +22020,9 @@ function igk_sys_buildconfirm_ajx($ctrl, $id, $uri, $callback, $message, $hidden
     }
 }
 /**
-* cache library file
-* @return mixed
-*/
+ * cache library file
+ * @return mixed
+ */
 function igk_sys_cache_lib_files()
 {
     igk_clear_cache();
@@ -22010,9 +22034,9 @@ function igk_sys_cache_lib_files()
     IGKSysCache::CacheLibFiles(true);
 }
 /**
-* get the cache request file
-* @return mixed
-*/
+ * get the cache request file
+ * @return mixed
+ */
 function igk_sys_cache_request()
 {
     $g = "";
@@ -22041,34 +22065,34 @@ function igk_sys_cache_request()
     return $g;
 }
 /**
-* get if request require cache
-* @return mixed
-*/
+ * get if request require cache
+ * @return mixed
+ */
 function igk_sys_cache_require()
 {
     return defined("IGK_CACHE_REQUIRE") || igk_getv(igk_get_allheaders(), "IGK_CACHE_REQUIRE", 0);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_cache_uri()
 {
     return igk_getv(igk_get_allheaders(), "IGK_CACHE_URI");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_cgi_folder()
 {
     return IGK_LIB_CGI_BIN_DIR;
 }
 /**
-* invoke configuration page settings
-* @param mixed $file
-* @return mixed
-*/
+ * invoke configuration page settings
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_sys_config_view($file)
 {
     if (defined("IGK_PHAR_CONTEXT")) {
@@ -22140,9 +22164,9 @@ function igk_sys_config_view($file)
     igk_exit();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_create_app_setting()
 {
     $d = igk_createobj();
@@ -22150,9 +22174,9 @@ function igk_sys_create_app_setting()
     return $d;
 }
 /**
-* create session start info
-* @return mixed
-*/
+ * create session start info
+ * @return mixed
+ */
 function igk_sys_create_session_start_info()
 {
     igk_ilog("create start session info");
@@ -22171,15 +22195,15 @@ function igk_sys_create_session_start_info()
     );
 }
 /**
-* create a new system user
-* @param mixed $userdata
-* @param mixed $usertable
-* @param mixed $authtable
-* @param mixed $grouptable
-* @param mixed $groupauth
-* @param mixed $usergrouptable
-* @return mixed
-*/
+ * create a new system user
+ * @param mixed $userdata
+ * @param mixed $usertable
+ * @param mixed $authtable
+ * @param mixed $grouptable
+ * @param mixed $groupauth
+ * @param mixed $usergrouptable
+ * @return mixed
+ */
 function igk_sys_create_user($userdata, $usertable = IGK_TB_USERS, $authtable = IGK_TB_AUTHORISATIONS, $grouptable = IGK_TB_GROUPS, $groupauth = IGK_TB_GROUPAUTHS, $usergrouptable = IGK_TB_USERGROUPS)
 {
     $b = new IGKUserInfo();
@@ -22195,18 +22219,18 @@ function igk_sys_create_user($userdata, $usertable = IGK_TB_USERS, $authtable = 
     return $b;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_ctrl()
 {
     return igk_getctrl(IGK_SYS_CTRL);
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_sys_ctrl_type($ctrl)
 {
     $s = get_class($ctrl);
@@ -22222,9 +22246,9 @@ function igk_sys_ctrl_type($ctrl)
     return "unknow";
 }
 /**
-* get current domain name according to configuration
-* @return mixed
-*/
+ * get current domain name according to configuration
+ * @return mixed
+ */
 function igk_sys_current_domain_name()
 {
     if (igk_sys_is_subdomain()) {
@@ -22234,60 +22258,60 @@ function igk_sys_current_domain_name()
     }
 }
 /**
-* get current registrated user - die current user not set
-* @return mixed
-*/
+ * get current registrated user - die current user not set
+ * @return mixed
+ */
 function igk_sys_current_user()
 {
     ($u = igk_app()->session->User) || ($u = igk_get_system_user()) || igk_die("failed to get a current user");
     return $u;
 }
 /**
-* get the current user id
-* @return mixed
-*/
+ * get the current user id
+ * @return mixed
+ */
 function igk_sys_current_user_id()
 {
     $uid = ($u = igk_app()->session->User) || ($u = igk_get_system_user()) ? $u->clId : null;
     return $uid;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_db_constant_cache()
 {
     return igk_dir(igk_io_cachedir() . "/db/.db.constants.cache");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_debug_components()
 {
     return igk_get_env("sys://debug/components");
 }
 /**
-* get system debug zone controller
-* @return mixed
-*/
+ * get system debug zone controller
+ * @return mixed
+ */
 function igk_sys_debugzone_ctrl()
 {
     return igk_getctrl(igk_getv(igk_app()->getConfigs(), "debugHostCtrl", null), false);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_disable_html_caching()
 {
     @unlink(igk_dir(igk_io_applicationdir() . "/Caches/" . IGK_CACHE_HTML));
 }
 /**
-* check if a controller is a domain controller and return the controller or false
-* @param mixed $ctrl
-* @return mixed
-*/
+ * check if a controller is a domain controller and return the controller or false
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_sys_domain_control($ctrl)
 {
     $h = IGKSubDomainManager::GetSubDomainName();
@@ -22297,17 +22321,17 @@ function igk_sys_domain_control($ctrl)
     return false;
 }
 /**
-* get configured base domain
-* @return mixed
-*/
+ * get configured base domain
+ * @return mixed
+ */
 function igk_sys_domain_name()
 {
     return IGKSubDomainManager::GetBaseDomain();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_enable_html_caching()
 {
     $dir = igk_io_cachedir();
@@ -22322,27 +22346,27 @@ EOF,
     );
 }
 /**
-* return the current environment
-* @return mixed
-*/
+ * return the current environment
+ * @return mixed
+ */
 function igk_sys_env()
 {
     return igk_server()->ENVIRONMENT;
 }
 /**
-* force production mode
-* @return mixed
-*/
+ * force production mode
+ * @return mixed
+ */
 function igk_sys_env_enable_production_mode()
 {
     igk_server()->ENVIRONMENT = "production";
     igk_app()->session->setParam("sys://env/production", 1);
 }
 /**
-* auto generate doc.
-* @param mixed $error
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $error
+ * @return mixed
+ */
 function igk_sys_error($error)
 {
     igk_set_header(RequestResponseCode::NotFound);
@@ -22352,29 +22376,29 @@ function igk_sys_error($error)
     $r->RenderXML();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_errorzone_ctrl()
 {
     return igk_getctrl(igk_getv(igk_app()->getConfigs(), "errorHostCtrl", null), false);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_force_view()
 {
     igk_getctrl(IGK_SESSION_CTRL)->forceview();
 }
 /**
-* handle global error
-* @param mixed $severity
-* @param mixed $message
-* @param mixed $filename
-* @param mixed $lineno
-* @return mixed
-*/
+ * handle global error
+ * @param mixed $severity
+ * @param mixed $message
+ * @param mixed $filename
+ * @param mixed $lineno
+ * @return mixed
+ */
 function igk_sys_g_handle_error($severity, $message, $filename, $lineno)
 {
     $__handle_severity = function ($severity, $message, $filename, $lineno) {
@@ -22426,10 +22450,10 @@ function igk_sys_g_handle_error($severity, $message, $filename, $lineno)
     }
 }
 /**
-* return an array of server session id
-* @param mixed $checksize
-* @return mixed
-*/
+ * return an array of server session id
+ * @param mixed $checksize
+ * @return mixed
+ */
 function igk_sys_get_all_openedsessionid($checksize = true)
 {
     $tab = array();
@@ -22451,10 +22475,10 @@ function igk_sys_get_all_openedsessionid($checksize = true)
     return $tab;
 }
 /**
-* get prefix
-* @param mixed $ns
-* @return mixed
-*/
+ * get prefix
+ * @param mixed $ns
+ * @return mixed
+ */
 function igk_sys_get_html_ns_prefix($ns)
 {
     $nk = IGK_ENV_HTML_NS_PREFIX;
@@ -22465,9 +22489,9 @@ function igk_sys_get_html_ns_prefix($ns)
     return igk_getv($cp->ns, $ns);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_get_mtime_uid()
 {
     $m = microtime();
@@ -22475,52 +22499,52 @@ function igk_sys_get_mtime_uid()
     return Number::ToBase((int)($l), 36);
 }
 /**
-* helper: get projects
-* @return mixed
-*/
+ * helper: get projects
+ * @return mixed
+ */
 function igk_sys_get_projects_controllers()
 {
     return igk_app()->getControllerManager()->getUserControllers();
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @return mixed
+ */
 function igk_sys_get_referencedir($file)
 {
     return igk_getv(igk_get_env(IGK_ENV_COMPONENT_REFDIRS_KEY), igk_realpath($file));
 }
 /**
-* shortcut to get subdomain ctrl
-* @param mixed $uri
-* @return mixed
-*/
+ * shortcut to get subdomain ctrl
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_get_subdomain_ctrl($uri)
 {
     return IGKSubDomainManager::getInstance()->checkDomain($uri);
 }
 /**
-* shortcut to get user ctrl
-* @return mixed
-*/
+ * shortcut to get user ctrl
+ * @return mixed
+ */
 function igk_sys_get_user_ctrl()
 {
     return igk_getctrl(IGK_USER_CTRL);
 }
 /**
-* get all controllers shortcut
-* @return mixed
-*/
+ * get all controllers shortcut
+ * @return mixed
+ */
 function igk_sys_getall_ctrl()
 {
     return igk_app()->getControllerManager()->getControllers();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_sys_getall_funclist($ctrl)
 {
     $funcs = array();
@@ -22546,12 +22570,12 @@ function igk_sys_getall_funclist($ctrl)
     return $funcs;
 }
 /**
-* used to get only available functions list
-* @param mixed $ctrl
-* @param mixed $news
-* @param mixed $funcrequest
-* @return mixed
-*/
+ * used to get only available functions list
+ * @param mixed $ctrl
+ * @param mixed $news
+ * @param mixed $funcrequest
+ * @return mixed
+ */
 function igk_sys_getfunclist($ctrl, $news = false, $funcrequest = null)
 {
     if ($ctrl == null || !igk_reflection_class_extends($ctrl, IGK_CTRL_BASE))
@@ -22585,11 +22609,11 @@ function igk_sys_getfunclist($ctrl, $news = false, $funcrequest = null)
     return $func;
 }
 /**
-* handle global system single action
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * handle global system single action
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_sys_handle_action($name, $args)
 {
     $b = igk_get_env("sys://env/actions");
@@ -22603,25 +22627,25 @@ function igk_sys_handle_action($name, $args)
     return false;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_handle_cache() {}
 /**
-* helper: handle base controller request uri
-* @param mixed $u
-* @param mixed $defaultBehaviour
-* @return mixed
-*/
+ * helper: handle base controller request uri
+ * @param mixed $u
+ * @param mixed $defaultBehaviour
+ * @return mixed
+ */
 function igk_sys_handle_ctrl_request_uri($u = null, $defaultBehaviour = 1)
 {
     return \IGK\System\Http\RequestHandler::getInstance()->handle_ctrl_request_uri($u, $defaultBehaviour);
 }
 /**
-* handle entry files
-* @param mixed $dir
-* @return mixed
-*/
+ * handle entry files
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_sys_handle_entry_file($dir)
 {
     $tab = explode(',', IGK_ENTRY_FILES);
@@ -22640,11 +22664,11 @@ function igk_sys_handle_entry_file($dir)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $content
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $content
+ * @return mixed
+ */
 function igk_sys_handle_error($msg = null, $content = null)
 {
     $c = error_get_last();
@@ -22666,10 +22690,10 @@ function igk_sys_handle_error($msg = null, $content = null)
     }
 }
 /**
-* use in phar context to handle a request
-* @param mixed $uri
-* @return mixed
-*/
+ * use in phar context to handle a request
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_handle_request($uri)
 {
     if (empty($uri))
@@ -22719,9 +22743,9 @@ function igk_sys_handle_request($uri)
     igk_wln_e('File not found: ' . $f, __FILE__ . ":" . __LINE__);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_handle_request_method()
 {
     if (defined("IGK_NO_REST_ACTION"))
@@ -22743,10 +22767,10 @@ function igk_sys_handle_request_method()
     }
 }
 /**
-* auto generate doc.
-* @param mixed $query
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $query
+ * @return mixed
+ */
 function igk_sys_handle_res($query)
 {
     if (preg_match("/^res\.(?P<lang>[^\.]+)\.(?P<ext>(e?js(on)?|txt|xml|bin|dat))$/i", basename($query), $tab)) {
@@ -22769,27 +22793,27 @@ function igk_sys_handle_res($query)
     };
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_html_cache_dir()
 {
     return igk_dir(igk_io_cachedir() . "/html");
 }
 /**
-* include file in system configuration
-* @param mixed $name
-* @return mixed
-*/
+ * include file in system configuration
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_sys_include($name)
 {
     return include(igk_io_currentrelativepath($name));
 }
 /**
-* used to include a file base on the current file directory
-* @param mixed $f
-* @return mixed
-*/
+ * used to include a file base on the current file directory
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_sys_include_once($f)
 {
     $d = igk_trace_function(2);
@@ -22798,41 +22822,41 @@ function igk_sys_include_once($f)
         include_once($f);
 }
 /**
-* auto generate doc.
-* @param mixed $uri
-* @param mixed $u
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $uri
+ * @param mixed $u
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_sys_invoke_reg_uri($uri, $u, $callback)
 {
     return IGKRoutes::Invoke($uri, $u, $callback);
 }
 /**
-* shortcut to invoke uri
-* @param mixed $uri
-* @return mixed
-*/
+ * shortcut to invoke uri
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_invoke_uri($uri = null)
 {
     igk_app()->getControllerManager()->InvokeUri($uri);
 }
 /**
-* get if action registrated
-* @param mixed $name
-* @return mixed
-*/
+ * get if action registrated
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_sys_is_action($name)
 {
     $key = "sys://env/actions";
     return ($t = igk_get_env($key)) && igk_getv($t, $name) != null;
 }
 /**
-* Represent igk_sys_is_auth function
-* @param mixed $authname
-* @param mixed $user
-* @return mixed
-*/
+ * Represent igk_sys_is_auth function
+ * @param mixed $authname
+ * @param mixed $user
+ * @return mixed
+ */
 function igk_sys_is_auth($authname, $user = null)
 {
     if ($user === null) {
@@ -22841,18 +22865,18 @@ function igk_sys_is_auth($authname, $user = null)
     return $user->auth($authname);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_is_htmlcaching()
 {
     return igk_io_cache_file_exists(igk_io_cachedir() . "/" . IGK_CACHE_HTML);
 }
 /**
-* auto generate doc.
-* @param mixed $page
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $page
+ * @return mixed
+ */
 function igk_sys_is_page($page)
 {
     $tb = igk_sys_pagelist();
@@ -22864,28 +22888,28 @@ function igk_sys_is_page($page)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $document
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $document
+ * @return mixed
+ */
 function igk_sys_is_rootdocument($document)
 {
     return $document && (igk_app()->getDoc() === $document);
 }
 /**
-* get if the current rendering system is on subdomain context.
-* @return mixed
-*/
+ * get if the current rendering system is on subdomain context.
+ * @return mixed
+ */
 function igk_sys_is_subdomain()
 {
     return IGKSubDomainManager::IsSubDomain();
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed & $state
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed & $state
+ * @return mixed
+ */
 function igk_sys_ischanged($key, &$state)
 {
     $c = igk_getctrl(IGK_CHANGE_MAN_CTRL, false);
@@ -22894,19 +22918,19 @@ function igk_sys_ischanged($key, &$state)
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_sys_islanguagesupported($key)
 {
     die("obselete : " . __FUNCTION__);
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_sys_ispagesupported($key)
 {
     $m = igk_getctrl(IGK_MENU_CTRL);
@@ -22919,22 +22943,22 @@ function igk_sys_ispagesupported($key)
     return false;
 }
 /**
-* get that the current request is redirecting
-* @return mixed
-*/
+ * get that the current request is redirecting
+ * @return mixed
+ */
 function igk_sys_isredirecting()
 {
     return ((basename(igk_server()->SCRIPT_NAME) == "igk_redirection.php") && (igk_server()->REDIRECT_STATUS == 200));
 }
 /**
-* get if present user have the right to do an "authname"
-* @param mixed $u
-* @param mixed $authname
-* @param mixed $strict
-* @param mixed $authCtrl
-* @param mixed $adapter
-* @return mixed
-*/
+ * get if present user have the right to do an "authname"
+ * @param mixed $u
+ * @param mixed $authname
+ * @param mixed $strict
+ * @param mixed $authCtrl
+ * @param mixed $adapter
+ * @return mixed
+ */
 function igk_sys_isuser_authorize($u, $authname, $strict = false, $authCtrl = null, $adapter = IGK_MYSQL_DATAADAPTER)
 {
     if (!$u) {
@@ -22947,9 +22971,9 @@ function igk_sys_isuser_authorize($u, $authname, $strict = false, $authCtrl = nu
     return IGKUserInfo::GetIsAuthorize($v_uinfo, $authname, $strict, $authCtrl, $adapter);
 }
 /**
-* get core exclude directory
-* @return mixed
-*/
+ * get core exclude directory
+ * @return mixed
+ */
 function igk_sys_js_exclude_dir(): array
 {
     $exclude_dir = igk_sys_js_ignore();
@@ -22958,10 +22982,10 @@ function igk_sys_js_exclude_dir(): array
     return $exclude_dir;
 }
 /**
-* ignore lib folder
-* @param array|string $dir
-* @return mixed
-*/
+ * ignore lib folder
+ * @param array|string $dir
+ * @return mixed
+ */
 function igk_sys_lib_ignore($dir)
 {
     $key = IGKEnvironment::IGNORE_LIB_DIR;
@@ -22978,14 +23002,14 @@ function igk_sys_lib_ignore($dir)
     igk_set_env($key, $d);
 }
 /**
-* get class method that will be exposed
-* @param mixed $classname
-* @param mixed & $func
-* @param mixed $listnode
-* @param mixed $rlist
-* @param mixed $publicOnly
-* @return mixed
-*/
+ * get class method that will be exposed
+ * @param mixed $classname
+ * @param mixed & $func
+ * @param mixed $listnode
+ * @param mixed $rlist
+ * @param mixed $publicOnly
+ * @return mixed
+ */
 function igk_sys_load_class_method($classname, &$func, $listnode, $rlist, $publicOnly = 0)
 {
     static $exposable = null;
@@ -23021,10 +23045,10 @@ function igk_sys_load_class_method($classname, &$func, $listnode, $rlist, $publi
     }
 }
 /**
-* auto generate doc.
-* @param mixed $func
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $func
+ * @return mixed
+ */
 function igk_sys_meth_info($func)
 {
     $v = array();
@@ -23034,25 +23058,25 @@ function igk_sys_meth_info($func)
     return (object)$v;
 }
 /**
-* helper check if rewrite module is available
-* @return mixed
-*/
+ * helper check if rewrite module is available
+ * @return mixed
+ */
 function igk_sys_mod_rewrite_available()
 {
     return igk_apache_module("mod_rewrite") || isset($_SERVER["IGK_REWRITE_MOD"]);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_pagelist()
 {
     return igk_getctrl(IGK_MENU_CTRL)->getPageList();
 }
 /**
-* get a new powerd node block to add to body
-* @return mixed
-*/
+ * get a new powerd node block to add to body
+ * @return mixed
+ */
 function igk_sys_powered_node()
 {
     $d = igk_create_node("div");
@@ -23064,20 +23088,20 @@ function igk_sys_powered_node()
     return $d;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_powered_view_callback()
 {
     $i = igk_get_env("sys://nopowered");
     return $i ? false : true;
 }
 /**
-* register global system action
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
+ * register global system action
+ * @param mixed $name
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_sys_reg_action($name, $callback)
 {
     if (empty($name) || !is_callable($callback))
@@ -23089,20 +23113,20 @@ function igk_sys_reg_action($name, $callback)
     return 1;
 }
 /**
-* register autolibrary directory
-* @param mixed $dir
-* @param mixed $ns
-* @return mixed
-*/
+ * register autolibrary directory
+ * @param mixed $dir
+ * @param mixed $ns
+ * @return mixed
+ */
 function igk_sys_reg_autoloadlib($dir, $ns)
 {
     die(__FUNCTION__ . " obselete");
 }
 /**
-* register component display name
-* @param mixed $tab
-* @return mixed
-*/
+ * register component display name
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_sys_reg_componentname($tab)
 {
     $ttab = igk_get_env(IGK_ENV_COMPONENT_DISPLAY_NAMES_KEY, function () {
@@ -23122,21 +23146,21 @@ function igk_sys_reg_componentname($tab)
     igk_set_env(IGK_ENV_COMPONENT_DISPLAY_NAMES_KEY, $ttab);
 }
 /**
-* registrer controller
-* @param mixed $n
-* @param mixed $classname
-* @return mixed
-*/
+ * registrer controller
+ * @param mixed $n
+ * @param mixed $classname
+ * @return mixed
+ */
 function igk_sys_reg_controller($n, $classname)
 {
     igk_set_env_keys("sys://app/controllers", $n, $classname);
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @param mixed $callable
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @param mixed $callable
+ * @return mixed
+ */
 function igk_sys_reg_debugcomponents($n, $callable)
 {
     $g = igk_get_env("sys://debug/components");
@@ -23146,22 +23170,22 @@ function igk_sys_reg_debugcomponents($n, $callable)
     igk_get_env("sys://debug/components", $g);
 }
 /**
-* register a display setting
-* @param mixed $keyTab
-* @param mixed $expression callback expression
-* @return mixed
-*/
+ * register a display setting
+ * @param mixed $keyTab
+ * @param mixed $expression callback expression
+ * @return mixed
+ */
 function igk_sys_reg_display($keyTab, $expression)
 {
     igk_set_env("sys://tabdisplay/" . $keyTab, $expression);
 }
 /**
-* register a html component
-* @param mixed $ns namespace for element to register
-* @param mixed $name the component's name
-* @param mixed $callback callable to create the component
-* @return mixed
-*/
+ * register a html component
+ * @param mixed $ns namespace for element to register
+ * @param mixed $name the component's name
+ * @param mixed $callback callable to create the component
+ * @return mixed
+ */
 function igk_sys_reg_html_component($ns, $name, $callback)
 {
     $nk = IGK_ENV_HTML_COMPONENTS;
@@ -23176,11 +23200,11 @@ function igk_sys_reg_html_component($ns, $name, $callback)
     igk_set_env($nk, $cp);
 }
 /**
-* register namespace prefix
-* @param mixed $src
-* @param mixed $dir
-* @return mixed
-*/
+ * register namespace prefix
+ * @param mixed $src
+ * @param mixed $dir
+ * @return mixed
+ */
 function igk_sys_reg_referencedir($src, $dir)
 {
     $ttab = igk_get_env(IGK_ENV_COMPONENT_REFDIRS_KEY, function () {
@@ -23191,11 +23215,11 @@ function igk_sys_reg_referencedir($src, $dir)
     igk_set_env(IGK_ENV_COMPONENT_REFDIRS_KEY, $ttab);
 }
 /**
-* auto generate doc.
-* @param mixed $callback
-* @param mixed $priority
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callback
+ * @param mixed $priority
+ * @return mixed
+ */
 function igk_sys_reg_severity($callback, $priority = 10)
 {
     $fcs = igk_get_env("sys://severity_handle", array());
@@ -23210,22 +23234,22 @@ function igk_sys_reg_severity($callback, $priority = 10)
     igk_set_env("sys://severity_handle", $fcs);
 }
 /**
-* register uri callback
-* @param mixed $u
-* @param mixed $callback
-* @param mixed $prehandle
-* @return mixed
-*/
+ * register uri callback
+ * @param mixed $u
+ * @param mixed $callback
+ * @param mixed $prehandle
+ * @return mixed
+ */
 function igk_sys_reg_uri($u, $callback, $prehandle = 0)
 {
     return IGKRoutes::Register($u, $callback, $prehandle);
 }
 /**
-* auto generate doc.
-* @param mixed $key
-* @param mixed & $state
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $key
+ * @param mixed & $state
+ * @return mixed
+ */
 function igk_sys_regchange($key, &$state)
 {
     $c = igk_getctrl(IGK_CHANGE_MAN_CTRL, false);
@@ -23234,13 +23258,13 @@ function igk_sys_regchange($key, &$state)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @param mixed $gooduri
-* @param mixed $baduri
-* @param mixed $listener
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @param mixed $gooduri
+ * @param mixed $baduri
+ * @param mixed $listener
+ * @return mixed
+ */
 function igk_sys_register_user($u, $gooduri = null, $baduri = null, $listener = null)
 {
     $uc = igk_getctrl(IGK_USER_CTRL);
@@ -23272,12 +23296,12 @@ function igk_sys_register_user($u, $gooduri = null, $baduri = null, $listener = 
     return $i;
 }
 /**
-* auto generate doc.
-* @param mixed $ctrlname
-* @param mixed $ctrl
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrlname
+ * @param mixed $ctrl
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_sys_regview($ctrlname, $ctrl, $callback)
 {
     $c = igk_getctrl($ctrlname, false);
@@ -23286,12 +23310,12 @@ function igk_sys_regview($ctrlname, $ctrl, $callback)
     $c->regView($ctrl, $callback);
 }
 /**
-* handle or renderging by default
-* @param mixed $uri
-* @param mixed $ctrl
-* @param mixed $ownctrl
-* @return mixed
-*/
+ * handle or renderging by default
+ * @param mixed $uri
+ * @param mixed $ctrl
+ * @param mixed $ownctrl
+ * @return mixed
+ */
 function igk_sys_render_default_uri($uri = null, $ctrl = null, $ownctrl = 1)
 {
     $uri = $uri ?? igk_io_base_request_uri();
@@ -23308,39 +23332,39 @@ function igk_sys_render_default_uri($uri = null, $ctrl = null, $ownctrl = 1)
     }
 }
 /**
-* require file in syst1m configuration
-* @param mixed $name
-* @return mixed
-*/
+ * require file in syst1m configuration
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_sys_require($name)
 {
     require(igk_io_currentrelativepath($name));
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_sys_root_user($u)
 {
     return igk_sys_get_user_ctrl()->getRootUser($u);
 }
 /**
-* Represent igk_sys_setting function
-* @param mixed $key
-* @return mixed
-*/
+ * Represent igk_sys_setting function
+ * @param mixed $key
+ * @return mixed
+ */
 function igk_sys_setting($key)
 {
     return igk_app()->getConfigs()->getLangSetting($key);
 }
 /**
-* auto generate doc.
-* @param mixed $code
-* @param mixed $defctrl
-* @param mixed $callback
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $code
+ * @param mixed $defctrl
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
 {
     $defctrl = $defctrl ? $defctrl : igk_get_defaultwebpagectrl();
@@ -23419,10 +23443,10 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
     $doc->renderAJX($opt);
 }
 /**
-* system is showdown
-* @param mixed $evt
-* @return mixed
-*/
+ * system is showdown
+ * @param mixed $evt
+ * @return mixed
+ */
 function igk_sys_shutdown_function($evt = null)
 {
     if (!defined("IGK_APP_DIR")) {
@@ -23574,9 +23598,9 @@ EOF;
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_srv_domain_name()
 {
     $psrv = igk_server_name();
@@ -23586,9 +23610,9 @@ function igk_sys_srv_domain_name()
     return null;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_srv_is_ip()
 {
     $host = igk_server()->HTTP_HOST;
@@ -23597,27 +23621,27 @@ function igk_sys_srv_is_ip()
     return 0;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_sys_srv_is_secure()
 {
     $srv = igk_server();
     return $srv->HTTPS || $srv->SSL_PROTOCOL;
 }
 /**
-* shortcut to referer
-* @return mixed
-*/
+ * shortcut to referer
+ * @return mixed
+ */
 function igk_sys_srv_referer()
 {
     return igk_server()->HTTP_REFERER;
 }
 /**
-* auto generate doc.
-* @param mixed $scheme
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $scheme
+ * @return mixed
+ */
 function igk_sys_srv_uri_scheme($scheme = 'http')
 {
     $r = igk_server()->REQUEST_SCHEME;
@@ -23629,11 +23653,11 @@ function igk_sys_srv_uri_scheme($scheme = 'http')
     return $scheme;
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $render
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $render
+ * @return mixed
+ */
 function igk_sys_start_engine($file, $render = true)
 {
     try {
@@ -23648,12 +23672,12 @@ function igk_sys_start_engine($file, $render = true)
     }
 }
 /**
-* store document as cache
-* @param mixed $doc
-* @param mixed $file
-* @param mixed $uri
-* @return mixed
-*/
+ * store document as cache
+ * @param mixed $doc
+ * @param mixed $file
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_store_doc_cache($doc, $file, $uri = null)
 {
     $f = igk_dir(IGK_APP_DIR . "/Caches/html" . $file);
@@ -23667,12 +23691,12 @@ function igk_sys_store_doc_cache($doc, $file, $uri = null)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $src
-* @param mixed $name
-* @param mixed $uri
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $src
+ * @param mixed $name
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_sys_store_str_cache($src, $name, $uri = null)
 {
     $fn = preg_replace("/(\+|=|\?)/i", "_", $name);
@@ -23691,10 +23715,10 @@ function igk_sys_store_str_cache($src, $name, $uri = null)
     return null;
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_sys_store_uri_cache($t)
 {
     $f = IGK_APP_DIR . "/Caches/uri.cache";
@@ -23706,19 +23730,19 @@ function igk_sys_store_uri_cache($t)
     igk_io_save_file_as_utf8_wbom($f, $s, true);
 }
 /**
-* get the subdomain name
-* @return mixed
-*/
+ * get the subdomain name
+ * @return mixed
+ */
 function igk_sys_subdomain_name()
 {
     return IGKSubDomainManager::GetSubDomainName();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrlname
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrlname
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_sys_unregview($ctrlname, $ctrl)
 {
     $ctrl = igk_getctrl($ctrlname, false);
@@ -23727,18 +23751,18 @@ function igk_sys_unregview($ctrlname, $ctrl)
     $ctrl->unregView($ctrl);
 }
 /**
-* get the system version. alias function of constant IGK_VERSION
-* @return mixed
-*/
+ * get the system version. alias function of constant IGK_VERSION
+ * @return mixed
+ */
 function igk_sys_version()
 {
     return IGK_VERSION;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_sys_viewctrl($name)
 {
     $ctrl = igk_getctrl($name);
@@ -23784,14 +23808,14 @@ function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose = false)
     return false;
 }
 /**
-* Represent igk_sys_zip_project function
-* @param string|BaseController $controller name
-* @param mixed $path where to store
-* @param mixed $exclude_regex
-* @param mixed $author default author setting
-* @param ?array $manifestOptions
-* @return mixed
-*/
+ * Represent igk_sys_zip_project function
+ * @param string|BaseController $controller name
+ * @param mixed $path where to store
+ * @param mixed $exclude_regex
+ * @param mixed $author default author setting
+ * @param ?array $manifestOptions
+ * @return mixed
+ */
 function igk_sys_zip_project($controller, $path, $exclude_regex = null, $author = IGK_AUTHOR, ?array $manifestOptions = [])
 {
     if (!class_exists(ZipArchive::class)) {
@@ -23834,69 +23858,69 @@ function igk_sys_zip_project($controller, $path, $exclude_regex = null, $author 
     return false;
 }
 /**
-* activate the current template
-* @param mixed $name
-* @return mixed
-*/
+ * activate the current template
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_template_activate($name) {}
 /**
-* get the current active template
-* @return mixed
-*/
+ * get the current active template
+ * @return mixed
+ */
 function igk_template_active() {}
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_template_footer()
 {
     $c = igk_get_env(IGKEnvironment::CURRENT_CTRL);
     $t = $t ?? $c->TargetNode;
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_template_header($t = null)
 {
     $c = igk_get_env(IGKEnvironment::CURRENT_CTRL);
     $t = $t ?? $c->TargetNode;
 }
 /**
-* get list of templates
-* @return mixed
-*/
+ * get list of templates
+ * @return mixed
+ */
 function igk_template_list() {}
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_template_register($name) {}
 /**
-* auto generate doc.
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_template_unregister($name) {}
 /**
-* auto generate doc.
-* @param mixed $condition
-* @param mixed $target
-* @param mixed $message
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $condition
+ * @param mixed $target
+ * @param mixed $message
+ * @return mixed
+ */
 function igk_test_assert($condition, $target, $message)
 {
     if ($condition)
         $target->add("message")->Content = $message;
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_text($msg)
 {
     if (func_num_args() > 1)
@@ -23906,11 +23930,11 @@ function igk_text($msg)
     ]));
 }
 /**
-* auto generate doc.
-* @param mixed $file
-* @param mixed $line
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $file
+ * @param mixed $line
+ * @return mixed
+ */
 function igk_throw_exception($file, $line)
 {
     try {
@@ -23921,11 +23945,11 @@ function igk_throw_exception($file, $line)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $d
-* @param mixed $from
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $d
+ * @param mixed $from
+ * @return mixed
+ */
 function igk_time_max_info($d, $from = null)
 {
     $c = $from ?? time();
@@ -23948,11 +23972,11 @@ function igk_time_max_info($d, $from = null)
     return array($d, "y");
 }
 /**
-* get the time span
-* @param mixed $format
-* @param mixed $value
-* @return mixed
-*/
+ * get the time span
+ * @param mixed $format
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_time_span($format, $value)
 {
     $b = date_parse_from_format($format, $value);
@@ -23960,11 +23984,11 @@ function igk_time_span($format, $value)
     return $s;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $emptyarray
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $emptyarray
+ * @return mixed
+ */
 function igk_to_array($obj, $emptyarray = 1)
 {
     if (is_array($obj))
@@ -23976,11 +24000,11 @@ function igk_to_array($obj, $emptyarray = 1)
     return $obj == null ? (($emptyarray) ? array() : null) : array($obj);
 }
 /**
-* call a tool action
-* @param mixed $name
-* @param mixed $args
-* @return mixed
-*/
+ * call a tool action
+ * @param mixed $name
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_tool_call($name, $args = null)
 {
     if (empty($name))
@@ -24001,11 +24025,11 @@ function igk_tool_call($name, $args = null)
     return false;
 }
 /**
-* register a tool to a system engine
-* @param mixed $name
-* @param mixed $prop
-* @return mixed
-*/
+ * register a tool to a system engine
+ * @param mixed $name
+ * @param mixed $prop
+ * @return mixed
+ */
 function igk_tool_reg($name, $prop)
 {
     $r = igk_get_env(IGK_KEY_TOOLS);
@@ -24017,22 +24041,22 @@ function igk_tool_reg($name, $prop)
     igk_set_env(IGK_KEY_TOOLS, $r);
 }
 /**
-* auto generate doc.
-* @param mixed $level
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $level
+ * @return mixed
+ */
 function igk_trace_function($level = 1)
 {
     $c = IGKException::GetCallingFunction($level);
     return $c;
 }
 /**
-* Represent igk_trace_log function
-* @param mixed $message
-* @param mixed $tag
-* @param mixed $level
-* @return mixed
-*/
+ * Represent igk_trace_log function
+ * @param mixed $message
+ * @param mixed $tag
+ * @param mixed $level
+ * @return mixed
+ */
 function igk_trace_log($message, $tag = "IGK", $level = 2)
 {
     $s = igk_ob_get_func(function () use ($message, $level) {
@@ -24042,9 +24066,9 @@ function igk_trace_log($message, $tag = "IGK", $level = 2)
     igk_ilog($s, $tag);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_tracing()
 {
     $f = igk_io_basedir() . "/Data/.trace";
@@ -24053,10 +24077,10 @@ function igk_tracing()
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $b
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $b
+ * @return mixed
+ */
 function igk_typeof($b)
 {
     if ($b === null)
@@ -24071,41 +24095,41 @@ function igk_typeof($b)
     return "unknow";
 }
 /**
-* auto generate doc.
-* @param mixed $path
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $path
+ * @return mixed
+ */
 function igk_uninstall_module($path)
 {
     throw new \IGK\System\Exceptions\NotImplementException(__FUNCTION__);
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $callback
-* @param bool $all remove all occurence
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $callback
+ * @param bool $all remove all occurence
+ * @return mixed
+ */
 function igk_unreg_hook($name, $callback, $all = true)
 {
     return IGKEvents::unreg_hook($name, $callback, $all);
 }
 /**
-* unregister html component
-* @param mixed $name
-* @param mixed $ns
-* @return mixed
-*/
+ * unregister html component
+ * @param mixed $name
+ * @param mixed $ns
+ * @return mixed
+ */
 function igk_unreg_html_component($name, $ns = "igk")
 {
     igk_reg_html_component($name, null, $ns);
 }
 /**
-* unreg session event by name
-* @param mixed $name the key of the name session event
-* @param mixed $callback callback to register
-* @return mixed
-*/
+ * unreg session event by name
+ * @param mixed $name the key of the name session event
+ * @param mixed $callback callback to register
+ * @return mixed
+ */
 function igk_unreg_session_event($name, $callback)
 {
     $e = igk_get_session_event($name);
@@ -24151,10 +24175,10 @@ function igk_unreg_session_event($name, $callback)
     return 0;
 }
 /**
-* unserialize internal data
-* @param mixed $data
-* @return mixed
-*/
+ * unserialize internal data
+ * @param mixed $data
+ * @return mixed
+ */
 function igk_unseri_data($data)
 {
     $nobj = (object)array();
@@ -24185,10 +24209,10 @@ function igk_unseri_data($data)
     return $nobj;
 }
 /**
-* unset document
-* @param mixed $doc
-* @return mixed
-*/
+ * unset document
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_unset_document($doc)
 {
     $tab = igk_app()->session->getParam(IGK_KEY_DOCUMENTS);
@@ -24200,10 +24224,10 @@ function igk_unset_document($doc)
     $doc->Dispose();
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @return mixed
+ */
 function igk_update_include($f)
 {
     $f = igk_dir($f);
@@ -24224,11 +24248,11 @@ function igk_update_include($f)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @param mixed $args
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @param mixed $args
+ * @return mixed
+ */
 function igk_uri_add_args($u, $args = null)
 {
     $u = parse_url($u);
@@ -24242,10 +24266,10 @@ function igk_uri_add_args($u, $args = null)
     return $o;
 }
 /**
-* auto generate doc.
-* @param mixed $qparam
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $qparam
+ * @return mixed
+ */
 function igk_uri_invokecurrent($qparam = null)
 {
     $curi = igk_io_baseuri(igk_io_get_relative_currenturi()) . $qparam;
@@ -24253,37 +24277,37 @@ function igk_uri_invokecurrent($qparam = null)
     return $f;
 }
 /**
-* check is uri match by ignoring the case
-* @param mixed $u1
-* @param mixed $u2
-* @return mixed
-*/
+ * check is uri match by ignoring the case
+ * @param mixed $u1
+ * @param mixed $u2
+ * @return mixed
+ */
 function igk_uri_is_match($u1, $u2)
 {
     return strtolower($u1) == strtolower($u2);
 }
 /**
-* get the current uri
-* @return mixed
-*/
+ * get the current uri
+ * @return mixed
+ */
 function igk_uri_rquery()
 {
     return igk_getv($_SERVER, 'REQUEST_QUERY');
 }
 /**
-* uri sanitize value
-* @param mixed $v
-* @return mixed
-*/
+ * uri sanitize value
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_uri_sanitize($v)
 {
     return urlencode(str_replace(';', '_%', $v));
 }
 /**
-* reverse uri sanitize
-* @param mixed $v
-* @return mixed
-*/
+ * reverse uri sanitize
+ * @param mixed $v
+ * @return mixed
+ */
 function igk_uri_unsanitize($v)
 {
     $v = urldecode($v);
@@ -24291,10 +24315,10 @@ function igk_uri_unsanitize($v)
     return $v;
 }
 /**
-* force use of package
-* @param mixed $packagename
-* @return mixed
-*/
+ * force use of package
+ * @param mixed $packagename
+ * @return mixed
+ */
 function igk_use_component_package($packagename)
 {
     $key = Constants::COMPONENT_PACKAGE_KEY;
@@ -24306,10 +24330,10 @@ function igk_use_component_package($packagename)
     return 1;
 }
 /**
-* define usage of required package list
-* @param mixed $packageList
-* @return mixed
-*/
+ * define usage of required package list
+ * @param mixed $packageList
+ * @return mixed
+ */
 function igk_use_web_package($packageList)
 {
     $tab = $packageList;
@@ -24318,21 +24342,21 @@ function igk_use_web_package($packageList)
     igk_set_env("sys://web/package", $tab);
 }
 /**
-* shortcut to get system user
-* @return mixed
-*/
+ * shortcut to get system user
+ * @return mixed
+ */
 function igk_user()
 {
     return igk_app()->session->User;
 }
 /**
-* auto generate doc.
-* @param mixed $name
-* @param mixed $datatype
-* @param mixed $cardinality
-* @param mixed $type
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $name
+ * @param mixed $datatype
+ * @param mixed $cardinality
+ * @param mixed $type
+ * @return mixed
+ */
 function igk_user_add_info_type($name, $datatype, $cardinality, $type)
 {
     $ctrl = igk_getctrl(IGK_SYSDB_CTRL);
@@ -24345,13 +24369,13 @@ function igk_user_add_info_type($name, $datatype, $cardinality, $type)
     return igk_db_insert_if_not_exists($ctrl, igk_db_get_table_name(IGK_TB_USER_INFO_TYPES), $v_ktt);
 }
 /**
-* auto generate doc.
-* @param mixed $r
-* @param mixed $inf
-* @param mixed $v
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $r
+ * @param mixed $inf
+ * @param mixed $v
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_user_build_info($r, $inf, $v, $ctrl)
 {
     $d =  ($r->clType == 0) ? $ctrl->getDataAdapter()->selectAll(
@@ -24365,10 +24389,10 @@ function igk_user_build_info($r, $inf, $v, $ctrl)
     );
 }
 /**
-* auto generate doc.
-* @param mixed $login
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $login
+ * @return mixed
+ */
 function igk_user_connectas($login)
 {
     $u = igk_get_user_bylogin($login);
@@ -24379,10 +24403,10 @@ function igk_user_connectas($login)
     return 0;
 }
 /**
-* user fonctions . get fullname
-* @param mixed $u
-* @return mixed
-*/
+ * user fonctions . get fullname
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_user_fullname($u)
 {
     if (!empty(trim($t = igk_getv($u, 'clDisplay') ?? ''))) {
@@ -24391,10 +24415,10 @@ function igk_user_fullname($u)
     return igk_getv($u, "clFirstName") . " " . igk_getv($u, "clLastName");
 }
 /**
-* generate password
-* @param mixed $length
-* @return mixed
-*/
+ * generate password
+ * @param mixed $length
+ * @return mixed
+ */
 function igk_user_genpwd($length = 8)
 {
     static $chars = null;
@@ -24409,21 +24433,21 @@ function igk_user_genpwd($length = 8)
     return $r;
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_user_get_env_param($u)
 {
     $k = IGK_ENV_PARAM_KEY;
     return igk_getv($u, $k);
 }
 /**
-* auto generate doc.
-* @param string $inf
-* @param mixed $uid
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $inf
+ * @param mixed $uid
+ * @return mixed
+ */
 function igk_user_info(string $inf, $uid = null)
 {
     $u = $uid == null ? igk_app()->session->getUser() : igk_get_user($uid, ['Columns' => 'clId']);
@@ -24472,11 +24496,11 @@ function igk_user_info(string $inf, $uid = null)
     return "no";
 }
 /**
-* check if password require and is a valid system password
-* @param mixed $pwd
-* @param mixed $repwd
-* @return mixed
-*/
+ * check if password require and is a valid system password
+ * @param mixed $pwd
+ * @param mixed $repwd
+ * @return mixed
+ */
 function igk_user_pwd_required($pwd, $repwd)
 {
     if (!$pwd || !$repwd || ($pwd != $repwd)) {
@@ -24485,12 +24509,12 @@ function igk_user_pwd_required($pwd, $repwd)
     return IGKValidator::IsValidPwd($pwd);
 }
 /**
-* set environment param to users
-* @param mixed $u
-* @param mixed $pn
-* @param mixed $obj
-* @return mixed
-*/
+ * set environment param to users
+ * @param mixed $u
+ * @param mixed $pn
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_user_set_env_param($u, $pn, $obj)
 {
     if ($u === null)
@@ -24504,15 +24528,15 @@ function igk_user_set_env_param($u, $pn, $obj)
     return 1;
 }
 /**
-* get user information
-* @param mixed $inf
-* @param mixed $data
-* @param mixed $uid
-* @param mixed $cardinality  0 for infinite value, or more than 0
-* @param mixed $type  1 for regex, 2 for data type
-* @param mixed $expression  regex or data type
-* @return mixed
-*/
+ * get user information
+ * @param mixed $inf
+ * @param mixed $data
+ * @param mixed $uid
+ * @param mixed $cardinality  0 for infinite value, or more than 0
+ * @param mixed $type  1 for regex, 2 for data type
+ * @param mixed $expression  regex or data type
+ * @return mixed
+ */
 function igk_user_set_info($inf, $data, $uid = null, $cardinality = 0, $type = 1, $expression = "(.)+")
 {
     $u = $uid == null ? igk_app()->session->User : igk_get_user($uid);
@@ -24596,10 +24620,10 @@ function igk_user_set_info($inf, $data, $uid = null, $cardinality = 0, $type = 1
     return false;
 }
 /**
-* auto generate doc.
-* @param mixed $u
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $u
+ * @return mixed
+ */
 function igk_user_store_tokenid($u)
 {
     if (igk_environment()->NO_SESSION)
@@ -24610,11 +24634,11 @@ function igk_user_store_tokenid($u)
     $u->clTokenStored = 1;
 }
 /**
-* auto generate doc.
-* @param mixed & $item
-* @param mixed $params
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed & $item
+ * @param mixed $params
+ * @return mixed
+ */
 function igk_usort(&$item, $params)
 {
     if ($item === null) {
@@ -24632,11 +24656,11 @@ function igk_usort(&$item, $params)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @param mixed $cibling
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @param mixed $cibling
+ * @return mixed
+ */
 function igk_val_add_error($msg, $cibling = null)
 {
     $li = igk_val_node()->li();
@@ -24646,24 +24670,24 @@ function igk_val_add_error($msg, $cibling = null)
     return $li;
 }
 /**
-* auto generate doc.
-* @param mixed $e
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $e
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_val_cbcss($e, $name)
 {
     if ($e && isset($e[$name]))
         return "err_c";
 }
 /**
-* auto generate doc.
-* @param mixed $callback
-* @param mixed $object
-* @param mixed $name
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $callback
+ * @param mixed $object
+ * @param mixed $name
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_val_check($callback, $object, $name, $msg)
 {
     if (is_bool($callback)) {
@@ -24678,35 +24702,35 @@ function igk_val_check($callback, $object, $name, $msg)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_val_cibling()
 {
     return IGKValidator::Cibling();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_val_haserror()
 {
     return IGKValidator::Error()->HasChilds;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_val_init()
 {
     IGKValidator::Init();
 }
 /**
-* auto generate doc.
-* @param mixed $type
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $type
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_val_ispic($type, $msg)
 {
     if (!igk_io_fileispicture($type)) {
@@ -24714,11 +24738,11 @@ function igk_val_ispic($type, $msg)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $tname
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tname
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_val_isstrnullorempty($tname, $msg)
 {
     if (IGKValidator::IsStringNullOrEmpty($tname)) {
@@ -24726,41 +24750,41 @@ function igk_val_isstrnullorempty($tname, $msg)
     }
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_val_node()
 {
     return IGKValidator::Error();
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_val_regparam($ctrl, $name)
 {
     $ctrl->setParam($name . ":error", igk_val_node());
     $ctrl->setParam($name . ":errorcibling", igk_val_cibling());
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $name
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_val_unregparam($ctrl, $name)
 {
     $ctrl->setParam($name . ":error", null);
     $ctrl->setParam($name . ":errorcibling", null);
 }
 /**
-* validate session cref
-* @param mixed $regenerate
-* @param mixed $throwex
-* @return mixed
-*/
+ * validate session cref
+ * @param mixed $regenerate
+ * @param mixed $throwex
+ * @return mixed
+ */
 function igk_valid_cref($regenerate = 0, $throwex = 0)
 {
     $sess = igk_app()->getSession();
@@ -24778,10 +24802,10 @@ function igk_valid_cref($regenerate = 0, $throwex = 0)
     return $result;
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_verbose_wln($msg)
 {
     if (defined("IGK_VERBOSE")) {
@@ -24790,9 +24814,9 @@ function igk_verbose_wln($msg)
     }
 }
 /**
-* Represent igk_view_action_path function
-* @return mixed
-*/
+ * Represent igk_view_action_path function
+ * @return mixed
+ */
 function igk_view_action_path()
 {
     if ($t = igk_view_env_actions()) {
@@ -24801,21 +24825,21 @@ function igk_view_action_path()
     return null;
 }
 /**
-* shortcut to retrieve view argument
-* @param mixed $n
-* @param mixed $default
-* @return mixed
-*/
+ * shortcut to retrieve view argument
+ * @param mixed $n
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_view_args($n = null, $default = null)
 {
     return \IGK\Helper\ViewHelper::GetViewArgs($n, $default);
 }
 /**
-* shortcut : view controller's article content
-* @param mixed $ctrl
-* @param mixed $name
-* @return mixed
-*/
+ * shortcut : view controller's article content
+ * @param mixed $ctrl
+ * @param mixed $name
+ * @return mixed
+ */
 function igk_view_article($ctrl, $name)
 {
     $f = $name;
@@ -24826,13 +24850,13 @@ function igk_view_article($ctrl, $name)
     return $n->render();
 }
 /**
-* auto generate doc.
-* @param mixed $f
-* @param mixed $bindinginfo
-* @param mixed $target
-* @param mixed $exit
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $f
+ * @param mixed $bindinginfo
+ * @param mixed $target
+ * @param mixed $exit
+ * @return mixed
+ */
 function igk_view_bindfile($f, $bindinginfo, $target, $exit = 1)
 {
     if (igk_io_file_exists($f)) {
@@ -24857,11 +24881,11 @@ function igk_view_bindfile($f, $bindinginfo, $target, $exit = 1)
     return 0;
 }
 /**
-* Represent igk_view_builder_extra function
-* @param mixed $file
-* @param mixed $option
-* @return mixed
-*/
+ * Represent igk_view_builder_extra function
+ * @param mixed $file
+ * @param mixed $option
+ * @return mixed
+ */
 function igk_view_builder_extra($file, $option)
 {
     $extra = "\n// + | view file: ";
@@ -24872,26 +24896,26 @@ function igk_view_builder_extra($file, $option)
     return $extra;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_view_env_actions()
 {
     return igk_get_env(IGKEnvironment::VIEW_HANDLE_ACTIONS);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_view_get_action_params()
 {
     return ($r = igk_view_env_actions()) ? igk_getv($r, "args") : null;
 }
 /**
-* auto generate doc.
-* @param mixed $action
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $action
+ * @return mixed
+ */
 function igk_view_handle($action)
 {
     $fname = igk_get_env(IGKEnvironment::VIEW_HANDLE_ACTIONS);
@@ -24913,12 +24937,12 @@ function igk_view_handle($action)
     return $fc_result;
 }
 /**
-* handle view command action
-* @param mixed $fname
-* @param mixed $params
-* @param mixed $redirectfailed
-* @return mixed
-*/
+ * handle view command action
+ * @param mixed $fname
+ * @param mixed $params
+ * @param mixed $redirectfailed
+ * @return mixed
+ */
 function igk_view_handle_action($fname, $params, $redirectfailed = 1)
 {
     $action = igk_getv($params, 0);
@@ -24972,9 +24996,9 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
     return $fc_result;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_view_handle_missing_params()
 {
     $rs = igk_get_env($k = 'sys://view/handle_missing_action');
@@ -24982,10 +25006,10 @@ function igk_view_handle_missing_params()
     return $rs;
 }
 /**
-* in order to help retrieve the current action context
-* @param string $action
-* @return mixed
-*/
+ * in order to help retrieve the current action context
+ * @param string $action
+ * @return mixed
+ */
 function igk_env_action_chain_push(string $action)
 {
     $chain = igk_environment()->action_hain ?? [];
@@ -24993,9 +25017,9 @@ function igk_env_action_chain_push(string $action)
     igk_environment()->action_hain = $chain;
 }
 /**
-* call with pop to help action list environment
-* @return mixed
-*/
+ * call with pop to help action list environment
+ * @return mixed
+ */
 function igk_env_action_chain_pop()
 {
     if ($chain = igk_environment()->action_hain) {
@@ -25005,9 +25029,9 @@ function igk_env_action_chain_pop()
     }
 }
 /**
-* Igk env current action.
-* @return mixed
-*/
+ * Igk env current action.
+ * @return mixed
+ */
 function igk_env_current_action()
 {
     if ($chain = igk_environment()->action_hain) {
@@ -25021,6 +25045,7 @@ function igk_env_current_action()
 * @param mixed $arrayList mixed. string(classname)|assoc array of callback|.
 * @param mixed $params paramflag to enable handle specification
 * @param bool $exit exit if handle function return true.
+* @param mixed $flag
 * @return mixed
 */
 function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
@@ -25057,51 +25082,51 @@ function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $fla
     return $b;
 }
 /**
-* unset action
-* @param mixed $viewname
-* @param mixed $action
-* @return mixed
-*/
+ * unset action
+ * @param mixed $viewname
+ * @param mixed $action
+ * @return mixed
+ */
 function igk_view_unset_action($viewname, $action)
 {
     igk_set_env("sys://view/actions/" . $viewname . "/" . $action, null);
 }
 /**
-* get view handle last action name
-* @return mixed
-*/
+ * get view handle last action name
+ * @return mixed
+ */
 function igk_view_handle_name()
 {
     return igk_get_env(IGKEnvironment::VIEW_CURRENT_ACTION);
 }
 /**
-* Returns true if request type.
-* @param \ReflectionType $ref
-* @return mixed
-*/
+ * Returns true if request type.
+ * @param \ReflectionType $ref
+ * @return mixed
+ */
 function igk_is_request_type(\ReflectionType $ref)
 {
     return IGKType::GetName($ref) == \IGK\System\Http\Request::class;
 }
 /**
-* handle object action.
-* @param mixed $fname action identifier.
-* @param mixed $object object that will be used to handle actions.
-* @param mixed $params parameters.
-* @param mixed $exit
-* @param mixed $flag
-* @return mixed
-*/
+ * handle object action.
+ * @param mixed $fname action identifier.
+ * @param mixed $object object that will be used to handle actions.
+ * @param mixed $params parameters.
+ * @param mixed $exit
+ * @param mixed $flag
+ * @return mixed
+ */
 function igk_view_handle_obj_action($fname, $object, array $params = [], $exit = 1, $flag = 0)
 {
     return IGKActionBase::HandleObjAction($fname, $object, $params, $exit, $flag);
 }
 if (!function_exists('igk_view_navto')) {
     /**
-    * Igk view navto.
-    * @param mixed $path
-    * @return mixed
-    */
+     * Igk view navto.
+     * @param mixed $path
+     * @return mixed
+     */
     function igk_view_navto($path)
     {
         if ($fname = ViewHelper::GetViewArgs('fname')) {
@@ -25111,10 +25136,10 @@ if (!function_exists('igk_view_navto')) {
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @return mixed
+ */
 function igk_view_handle_uri($ctrl)
 {
     if ($s = igk_view_handle_name())
@@ -25122,9 +25147,9 @@ function igk_view_handle_uri($ctrl)
     return $ctrl->getAppUri($ctrl->getCurrentView() . $s);
 }
 /**
-* get initialize view binding array info
-* @return mixed
-*/
+ * get initialize view binding array info
+ * @return mixed
+ */
 function igk_view_init_bindinginfo()
 {
     $t = array(
@@ -25139,22 +25164,22 @@ function igk_view_init_bindinginfo()
     return $t;
 }
 /**
-* register view action
-* @param mixed $fname
-* @param mixed $action
-* @param mixed $callback
-* @return mixed
-*/
+ * register view action
+ * @param mixed $fname
+ * @param mixed $action
+ * @param mixed $callback
+ * @return mixed
+ */
 function igk_view_reg_action($fname, $action, $callback)
 {
     igk_set_env("sys://view/actions/" . $fname . "/" . $action, $callback);
 }
 /**
-* auto generate doc.
-* @param mixed $tab
-* @param mixed $tag
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $tab
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_warray($tab, $tag = "li")
 {
     $n = igk_html_node_notagnode();
@@ -25165,10 +25190,10 @@ function igk_warray($tab, $tag = "li")
     $n->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $m
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $m
+ * @return mixed
+ */
 function igk_wcode($m)
 {
     igk_wl("<code>");
@@ -25176,35 +25201,35 @@ function igk_wcode($m)
     igk_wl("</code>");
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_web_defaultpage()
 {
     return igk_configs()->get("menu_defaultPage", IGK_DEFAULT);
 }
 /**
-* shortcut to platform config
-* @param mixed $name
-* @param mixed $default
-* @return mixed
-*/
+ * shortcut to platform config
+ * @param mixed $name
+ * @param mixed $default
+ * @return mixed
+ */
 function igk_web_get_config($name, $default = null)
 {
     return igk_configs()->get($name, $default);
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_web_prefix()
 {
     return igk_configs()->website_prefix;
 }
 /**
-* retrieve web knows colors
-* @return mixed
-*/
+ * retrieve web knows colors
+ * @return mixed
+ */
 function igk_web_colors()
 {
     static $tab = null;
@@ -25218,20 +25243,20 @@ function igk_web_colors()
     return $tab;
 }
 /**
-* write to buffer and exit
-* @param mixed $msg
-* @return mixed
-*/
+ * write to buffer and exit
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_wl_e($msg)
 {
     call_user_func_array("igk_wl", func_get_args());
     igk_exit();
 }
 /**
-* utility: write a message in a textarea
-* @param mixed $msg
-* @return mixed
-*/
+ * utility: write a message in a textarea
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_wln_area($msg)
 {
     $t = igk_create_node("textarea");
@@ -25239,11 +25264,11 @@ function igk_wln_area($msg)
     $t->renderAJX();
 }
 /**
-* auto generate doc.
-* @param mixed $cond
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $cond
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_wln_assert($cond, $msg)
 {
     if ($cond) {
@@ -25251,20 +25276,20 @@ function igk_wln_assert($cond, $msg)
     }
 }
 /**
-* write with html
-* @param mixed $msg
-* @return mixed
-*/
+ * write with html
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_wln_html($msg)
 {
     header("Content-Type:text/html");
     igk_wln($msg);
 }
 /**
-* auto generate doc.
-* @param mixed $cond
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $cond
+ * @return mixed
+ */
 function igk_wln_if($cond)
 {
     if ((!$cond) || (count($args = array_slice(func_get_args(), 1)) == 0))
@@ -25272,20 +25297,20 @@ function igk_wln_if($cond)
     call_user_func_array("igk_wln", $args);
 }
 /**
-* auto generate doc.
-* @param mixed $msg
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_wln_ob_flushdata($msg)
 {
     igk_wln($msg);
     igk_flush_data();
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @return mixed
+ */
 function igk_wln_ob_get($obj)
 {
     IGKOb::Start();
@@ -25295,11 +25320,11 @@ function igk_wln_ob_get($obj)
     return $c;
 }
 /**
-* write in buffer output with html secification tag
-* @param mixed $msg
-* @param mixed $tag
-* @return mixed
-*/
+ * write in buffer output with html secification tag
+ * @param mixed $msg
+ * @param mixed $tag
+ * @return mixed
+ */
 function igk_wnode($msg, $tag = 'div')
 {
     $n = igk_create_node($tag);
@@ -25309,35 +25334,35 @@ function igk_wnode($msg, $tag = 'div')
     $n->renderAJX();
 }
 /**
-* xml response helper
-* @param mixed $msg
-* @return mixed
-*/
+ * xml response helper
+ * @param mixed $msg
+ * @return mixed
+ */
 function igk_xml($msg)
 {
     return igk_do_response(new \IGK\System\Http\XmlResponse($msg));
 }
 /**
-* file reading object
-* @param mixed & $inf
-* @return mixed
-*/
+ * file reading object
+ * @param mixed & $inf
+ * @return mixed
+ */
 function igk_xml_create_readinfo(&$inf)
 {
     return igk_create_filterobject($inf, ["min" => 0, "max" => 10, "offset" => 0, "path" => "root", "pathinfo" => [], "current" => null, "start" => 0, "count" => 0, "objects" => [], "item" => 0, "bufferSize" => 4096]);
 }
 /**
-* helper: - create render option
-* @return mixed
-*/
+ * helper: - create render option
+ * @return mixed
+ */
 function igk_xml_create_render_option()
 {
     return HtmlRenderer::CreateRenderOptions();
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
+ * auto generate doc.
+ * @return mixed
+ */
 function igk_xml_create_to_node_settings()
 {
     return (object)array(
@@ -25352,12 +25377,12 @@ function igk_xml_create_to_node_settings()
     );
 }
 /**
-* auto generate doc.
-* @param mixed $v
-* @param mixed $e
-* @param mixed $standalone
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $v
+ * @param mixed $e
+ * @param mixed $standalone
+ * @return mixed
+ */
 function igk_xml_header($v = "1.0", $e = "utf-8", $standalone = "yes")
 {
     $lf = "";
@@ -25366,11 +25391,11 @@ function igk_xml_header($v = "1.0", $e = "utf-8", $standalone = "yes")
     return "<?xml version=\"$v\" encoding=\"$e\" {$lf}?>";
 }
 /**
-* auto generate doc.
-* @param mixed $option
-* @param mixed $tab
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $option
+ * @param mixed $tab
+ * @return mixed
+ */
 function igk_xml_initialize($option, $tab)
 {
     foreach ($tab as $k => $v) {
@@ -25380,19 +25405,19 @@ function igk_xml_initialize($option, $tab)
     }
 }
 /**
-* determining if xml options is caching require
-* @param mixed $options
-* @return mixed
-*/
+ * determining if xml options is caching require
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_xml_is_cachingrequired($options = null)
 {
     return $options && ($options->Context ==  HtmlContext::Html) && $options->Cache;
 }
 /**
-* is mail option
-* @param mixed $options
-* @return mixed
-*/
+ * is mail option
+ * @param mixed $options
+ * @return mixed
+ */
 function igk_xml_is_mailoptions($options)
 {
     if ($options && !isset($options->Context)) {
@@ -25401,21 +25426,21 @@ function igk_xml_is_mailoptions($options)
     return $options && ($options->Context == "mail");
 }
 /**
-* auto generate doc.
-* @param mixed $n
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $n
+ * @return mixed
+ */
 function igk_xml_is_validname($n)
 {
     return preg_match("/^[a-z_][a-z_0-9\-]*(:[a-z]+){0,1}$/i", $n);
 }
 /**
-* Represent igk_xml_obj_2_xml function
-* @param mixed $node
-* @param mixed $data
-* @param mixed $attrib_style
-* @return mixed
-*/
+ * Represent igk_xml_obj_2_xml function
+ * @param mixed $node
+ * @param mixed $data
+ * @param mixed $attrib_style
+ * @return mixed
+ */
 function igk_xml_obj_2_xml($node, $data, $attrib_style = false)
 {
     $tbuild = [["t" => $node, "d" => $data]];
@@ -25435,13 +25460,13 @@ function igk_xml_obj_2_xml($node, $data, $attrib_style = false)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @param mixed & $pos
-* @param mixed & $outstring
-* @param mixed $securename
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @param mixed & $pos
+ * @param mixed & $outstring
+ * @param mixed $securename
+ * @return mixed
+ */
 function igk_xml_read_attribute($s, &$pos = 0, &$outstring = null, $securename = 1)
 {
     $ln = strlen($s);
@@ -25508,11 +25533,11 @@ function igk_xml_read_attribute($s, &$pos = 0, &$outstring = null, $securename =
     return $tab;
 }
 /**
-* auto generate doc.
-* @param mixed $s
-* @param mixed & $pos
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $s
+ * @param mixed & $pos
+ * @return mixed
+ */
 function igk_xml_read_doctype($s, &$pos)
 {
     $out = "";
@@ -25541,11 +25566,11 @@ function igk_xml_read_doctype($s, &$pos)
     return $out;
 }
 /**
-* used to read tagname
-* @param mixed $content
-* @param mixed & $pos
-* @return mixed
-*/
+ * used to read tagname
+ * @param mixed $content
+ * @param mixed & $pos
+ * @return mixed
+ */
 function igk_xml_read_tagname($content, &$pos)
 {
     $n = "";
@@ -25557,13 +25582,13 @@ function igk_xml_read_tagname($content, &$pos)
     return $n;
 }
 /**
-* used to read xml
-* @param mixed $c
-* @param mixed $path xpath object
-* @param mixed & $inf
-* @param mixed $callback the callback(index) used to read valid data at index
-* @return mixed
-*/
+ * used to read xml
+ * @param mixed $c
+ * @param mixed $path xpath object
+ * @param mixed & $inf
+ * @param mixed $callback the callback(index) used to read valid data at index
+ * @return mixed
+ */
 function igk_xml_read_xml($c, $path = null, &$inf = null, $callback = null)
 {
     $inf = new StdClass();
@@ -25720,12 +25745,12 @@ function igk_xml_read_xml($c, $path = null, &$inf = null, $callback = null)
     return $inf->out;
 }
 /**
-* return a xml representation of the object
-* @param mixed $name
-* @param mixed $object
-* @param mixed $setting
-* @return mixed
-*/
+ * return a xml representation of the object
+ * @param mixed $name
+ * @param mixed $object
+ * @param mixed $setting
+ * @return mixed
+ */
 function igk_xml_render($name, $object, $setting = null)
 {
     $tq = array((object)array("n" => $name, "t" => $object));
@@ -25783,24 +25808,24 @@ function igk_xml_render($name, $object, $setting = null)
     return $out;
 }
 /**
-* Represent igk_xml_text function
-* @param mixed $data
-* @param mixed $version
-* @param mixed $e
-* @param mixed $standalone
-* @return mixed
-*/
+ * Represent igk_xml_text function
+ * @param mixed $data
+ * @param mixed $version
+ * @param mixed $e
+ * @param mixed $standalone
+ * @return mixed
+ */
 function igk_xml_text($data, $version = "1.0", $e = "UTF-8", $standalone = "yes")
 {
     return igk_xml_header($version, $e, $standalone) . PHP_EOL . ltrim($data);
 }
 /**
-* convert a object stdClass object to core xml node object
-* @param mixed $obj
-* @param mixed $name
-* @param mixed $setting
-* @return mixed
-*/
+ * convert a object stdClass object to core xml node object
+ * @param mixed $obj
+ * @param mixed $name
+ * @param mixed $setting
+ * @return mixed
+ */
 function igk_xml_to_node($obj, $name = 'objResult', $setting = null)
 {
     $dobj = function () {
@@ -25837,11 +25862,11 @@ function igk_xml_to_node($obj, $name = 'objResult', $setting = null)
     return $tn;
 }
 /**
-* convert an igk balafon xml node presentation to stdClass object
-* @param mixed $n
-* @param mixed $arraycallback
-* @return mixed
-*/
+ * convert an igk balafon xml node presentation to stdClass object
+ * @param mixed $n
+ * @param mixed $arraycallback
+ * @return mixed
+ */
 function igk_xml_to_obj($n, $arraycallback = null)
 {
     $obj = igk_createobj();
@@ -25908,10 +25933,10 @@ function igk_xml_to_obj($n, $arraycallback = null)
     return $obj;
 }
 /**
-* auto generate doc.
-* @param mixed $t
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $t
+ * @return mixed
+ */
 function igk_xml_type2str($t)
 {
     $tab = array(
@@ -25929,10 +25954,10 @@ function igk_xml_type2str($t)
     return "UNKNOW";
 }
 /**
-* auto generate doc.
-* @param mixed & $inf
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed & $inf
+ * @return mixed
+ */
 function igk_xml_unset_read_info(&$inf)
 {
     if ($inf->count === null) {
@@ -25942,12 +25967,12 @@ function igk_xml_unset_read_info(&$inf)
     unset($inf->current);
 }
 /**
-* create xslt transform object
-* @param mixed $xml
-* @param mixed $xslt
-* @param mixed & $error
-* @return mixed
-*/
+ * create xslt transform object
+ * @param mixed $xml
+ * @param mixed $xslt
+ * @param mixed & $error
+ * @return mixed
+ */
 function igk_xml_xsl_transform($xml, $xslt, &$error = 0)
 {
     if ($error !== 0) {
@@ -25964,11 +25989,11 @@ function igk_xml_xsl_transform($xml, $xslt, &$error = 0)
     return $out;
 }
 /**
-* create xsl transform node
-* @param mixed $root
-* @param mixed $uri
-* @return mixed
-*/
+ * create xsl transform node
+ * @param mixed $root
+ * @param mixed $uri
+ * @return mixed
+ */
 function igk_xml_xsl_transformnode($root, $uri = null)
 {
     $p = new \IGK\System\Html\XML\XmlProcessor("xml-stylesheet");
@@ -25986,10 +26011,10 @@ function igk_xml_xsl_transformnode($root, $uri = null)
 }
 if (!function_exists('igk_template_create_ctrl')) {
     /**
-    * create and init application template controller
-    * @param mixed $n
-    * @return ?BaseController
-    */
+     * create and init application template controller
+     * @param mixed $n
+     * @return ?BaseController
+     */
     function igk_template_create_ctrl($n)
     {
         return null;
@@ -26038,10 +26063,10 @@ if (!function_exists('igk_load_env')) {
 }
 if (!function_exists('igk_map_conv_to_array')) {
     /**
-    * Igk map conv to array.
-    * @param mixed $a
-    * @return mixed
-    */
+     * Igk map conv to array.
+     * @param mixed $a
+     * @return mixed
+     */
     function igk_map_conv_to_array($a)
     {
         return $a->to_array();

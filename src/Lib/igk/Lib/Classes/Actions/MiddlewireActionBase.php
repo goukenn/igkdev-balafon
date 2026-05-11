@@ -107,6 +107,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $arguments
     * @return mixed
     */
@@ -323,6 +324,8 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $user
     * @param mixed $args
     * @return void
     */
@@ -363,13 +366,15 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
     }
     /**
-     * check method access no user 
-     * @param mixed $host 
-     * @param ReflectionMethod $v_refmethod 
-     * @param ReflectionMethod $global_security 
-     * @return never 
-     * @throws Exception 
-     */
+    * check method access no user
+    * @param mixed $host
+    * @param ReflectionMethod $v_refmethod
+    * @param ReflectionMethod $global_security
+    * @param mixed $global_auth
+    * @param mixed $global_strict_auth
+    * @throws Exception
+    * @return never
+    */
     private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
         $v_uses = [
@@ -413,7 +418,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     * @param null|mixed $global_security
     * @param null|mixed $global_auth
     * @param mixed $global_strict_auth
-    * @return
+    * @return mixed
     */
     private static function _HandleMethodAccessSecurity(BaseController $ctrl, $p, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {

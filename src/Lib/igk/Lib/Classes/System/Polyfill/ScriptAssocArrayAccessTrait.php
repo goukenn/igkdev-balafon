@@ -19,13 +19,14 @@ trait ScriptAssocArrayAccessTrait{
     }
     /**
     * auto generate doc.
-    * @param mixed $i
+    * @param mixed $key
     */
     public function offsetGet(mixed $key):mixed{
         return igk_getv($this->data, $key);
     }
     /**
     * auto generate doc.
+    * @param mixed $k
     * @param mixed $v
     */
     function offsetSet($k, $v):void{

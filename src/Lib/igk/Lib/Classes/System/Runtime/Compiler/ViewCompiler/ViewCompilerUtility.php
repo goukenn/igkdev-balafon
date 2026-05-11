@@ -14,11 +14,10 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerOptions;
 use IGK\System\Runtime\Compiler\ViewCompilerBockInfo;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
 /**
- * 
- * @package IGK\System\Runtime\Compiler\ViewCompiler
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -77,18 +76,17 @@ abstract class ViewCompilerUtility
         }
     }
     /**
-     * compile instruction block
-     * @param array|mixed $blocks 
-     * @param StringBuilder $sb 
-     * @param string $header declaration
-     * @param mixed|IViewCompilerOptions|object|ViewEnvironmentArgs $options 
-     * @param string $header declaration to init used and shared class and structures in the view
-     * @param ?array $variables detected variable 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     */
+    * compile instruction block
+    * @param array|mixed $blocks
+    * @param StringBuilder $sb
+    * @param string $header declaration
+    * @param mixed|IViewCompilerOptions|object|ViewEnvironmentArgs $options
+    * @param ?array $variable
+    * @throws IGKException
+    * @throws Exception
+    * @throws CssParserException
+    * @return void
+    */
     public static function CompileBlocks($blocks, StringBuilder $sb, $options, ?string $header = null,
         ?array $variable =null)
     {

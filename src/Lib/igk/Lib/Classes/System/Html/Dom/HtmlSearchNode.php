@@ -69,6 +69,10 @@ final class HtmlSearchNode extends HtmlNode {
     private $m_uri;
     /**
     * auto generate doc.
+    * @param mixed $uri
+    * @param mixed $search
+    * @param mixed $prop
+    * @param mixed $ajx
     * @param mixed $target the default value is null
     */
     public function __construct($uri=null, $search=null, $prop="q", $ajx=0, $target=null){

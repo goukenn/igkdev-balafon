@@ -115,7 +115,7 @@ trait UsersTrait
     * @param mixed $conditions
     * @param mixed $p
     * @param mixed $page_limit
-    * @return
+    * @return mixed
     */
     private function _getPagerResult(ModelBase $model, $conditions, $p, $page_limit)
     {

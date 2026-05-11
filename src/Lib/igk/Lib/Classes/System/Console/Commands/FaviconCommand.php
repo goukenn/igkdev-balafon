@@ -46,7 +46,7 @@ class FaviconCommand extends AppExecCommand
     /**
     * auto generate doc.
     * @param string $type
-    * @return
+    * @return mixed
     */
     private static function CheckType(string $type){
 		if (in_array($type, explode("|", "base64|svg|html|png")))
@@ -56,7 +56,7 @@ class FaviconCommand extends AppExecCommand
     /**
     * auto generate doc.
     * @param mixed $command
-    * @return
+    * @return mixed
     */
     private static function GetType($command){
 		if (property_exists($command->options, '--html'))

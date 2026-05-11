@@ -32,9 +32,11 @@ class XPathConfig{
         $this->m_config = $config;
     }
     /**
-     * get the config by XPath 
-     * 
-     */
+    * get the config by XPath
+    * @param mixed $path
+    * @param mixed $default
+    * @param mixed $strict
+    */
     public function get($path, $default=null, $strict=0){
         return igk_conf_get($this->m_config, $path, $default, $strict);
     }

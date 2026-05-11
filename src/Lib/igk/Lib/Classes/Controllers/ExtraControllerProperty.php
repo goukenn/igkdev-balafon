@@ -22,6 +22,8 @@ final class ExtraControllerProperty extends IGKObject{
     private $m_DefaultValue, $m_Type, $m_Values;
     /**
     * auto generate doc.
+    * @param mixed $type
+    * @param mixed $def
     * @param mixed $def1
     * @return void
     */

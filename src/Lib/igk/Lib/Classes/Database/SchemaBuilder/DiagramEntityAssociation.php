@@ -260,7 +260,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     * @param mixed $p
     * @param mixed $visitor
     * @param mixed $diagram
-    * @return
+    * @return mixed
     */
     private static function _RenderProperties($p, $visitor, $diagram)
     {
@@ -289,9 +289,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         return $o;
     }
     /**
-     * get or generated entities
-     * @return DiagramEntity
-     */
+    * get or generated entities
+    * @param mixed $name
+    * @param ?string $desc
+    * @param ?string $prefix
+    * @return DiagramEntity
+    */
     public function entity($name, ?string $desc = null, ?string $prefix = null): IDiagramSchemaEntity
     {
         if (is_string($name)) {

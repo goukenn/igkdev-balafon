@@ -96,6 +96,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $arguments
     */
     public function __call($name, $arguments){
@@ -164,6 +165,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * table fixture
+    * @param mixed $table
     */
     protected function _table($table){
         if(empty($table=trim($table))){
@@ -184,6 +186,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * add direct object for table name
+    * @param mixed $tablen
+    * @param mixed $mixed
     */
     public function addObject($tablen, $mixed){
         $r=igk_db_create_row($tablen, $mixed);
@@ -197,6 +201,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param bool $leaveopen
     */
     public function close(bool $leaveopen=true){
         if($this->m_ad){
@@ -220,6 +225,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $id the default value is null
     */
     public function delete($table, $id=null){
@@ -269,7 +275,11 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
         return true;
     }
     /**
-    *  get configs db function
+    * get configs db function
+    * @param mixed $n
+    * @param mixed $default
+    * @param mixed $table
+    * @param mixed $comment
     */
     public function getConfigv($n, $default=null, $table=null, $comment=null){
         return igk_db_get_config($n, $default, $comment, 0);
@@ -294,6 +304,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $condition
     */
     public function getID($table, $condition){
@@ -311,6 +322,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $condition
     */
     public function getRow($table, $condition){
@@ -319,6 +331,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $id
     */
     public function getRowById($table, $id){
@@ -326,6 +339,9 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * return a sync data id
+    * @param string $table
+    * @param string $value
+    * @param mixed $properties
     */
     public function getSyncDataID(string $table, string $value, $properties=null){
         if (($properties) && ($table == igk_db_get_table_name(IGK_TB_USERS))){
@@ -358,6 +374,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $valueInTable
     * @param mixed $info the default value is null
     */
     public function getSyncDataValueDisplay($table, $valueInTable, $info=null){
@@ -372,6 +390,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $syncrow
     */
     public function getSyncIdentificationId($table, $syncrow){
         $r=igk_getv($syncrow, "clId");
@@ -396,6 +416,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * get user by id
+    * @param mixed $uid
     */
     public function getUser($uid){
         return igk_get_user($uid);
@@ -418,6 +439,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $obj
     */
     public function insert($table, $obj){
@@ -442,7 +464,9 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
 	}
     /**
     * auto generate doc.
-    * @param clId
+    * @param mixed $table
+    * @param mixed $obj
+    * @param mixed $id
     */
     public function insertAndUpdate($table, $obj, $id='clId'){
         if($this->insert($table, $obj)){
@@ -453,6 +477,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param string $table
+    * @param mixed $obj
     * @param mixed $leaveOpen the default value is false
     */
     public function insertIfNotExists(string $table, $obj, $leaveOpen=false){
@@ -460,6 +486,10 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * insert or update $obj
+    * @param mixed $table
+    * @param mixed $condition
+    * @param mixed $obj
+    * @param ?callable $callback
     */
     public function insertOrUpdate($table, $condition, $obj, ?callable $callback=null){
         $_invoke=function($r) use ($table, $condition, $obj, $callback){
@@ -505,7 +535,9 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
-    * @param products
+    * @param mixed $tab
+    * @param mixed $callback
+    * @param mixed $tablen
     */
     public function loadCsvEntries($tab, $callback=null, $tablen="products"){
         $row=igk_db_create_row($tablen);
@@ -544,6 +576,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $condition
     * @param mixed $options the default value is null
     */
     public function select($table, $condition=null, $options=null){
@@ -556,6 +590,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $condition
     * @param mixed $callback the default value is null
     */
     public function selectCallback($table, $condition=null, $callback=null){
@@ -565,6 +601,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $condition
     * @param mixed $options the default value is null
     */
     public function selectFirstRow($table, $condition=null, $options=null){
@@ -575,6 +613,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $condition
     * @param mixed $options the default value is null
     */
     public function selectLastRow($table, $condition=null, $options=null){
@@ -585,6 +625,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $condition
     * @param mixed $options the default value is null
     */
     public function selectSingleRow($table, $condition=null, $options=null){
@@ -598,6 +640,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $querystring
     */    public final
     function sendQuery($querystring){
         $this->connect(); 
@@ -609,7 +652,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
         return $r;
     }
     /**
-    *  set the data adapter
+    * set the data adapter
+    * @param mixed $ad
     */
     protected final
     function setAd($ad){
@@ -639,6 +683,9 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $entrie
+    * @param mixed $condition
     * @param mixed $tabinfo the default value is null
     */
     public final

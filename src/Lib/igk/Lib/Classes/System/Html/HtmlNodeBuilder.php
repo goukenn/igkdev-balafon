@@ -28,6 +28,7 @@ use ReflectionException;
 /**
 * auto generate doc.
 * @package IGK\System\Html
+* @method mixed __invoke($target_or_parsed_data, $target, ...$options_or_context=null)
 */
 class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
 {
@@ -63,6 +64,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     var $t;
     /**
      * building context
+     * @var mixed
      */
     private $m_context;
     /**
@@ -121,6 +123,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     const TAG_KEY = ':tag';
     /**
      * tag exploder
+     * @var null|mixed listener to explode 
      */
     protected $explode;
     /**
@@ -146,8 +149,9 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         return $l_context;
     }
     /**
-     * set context object 
-     */
+    * set context object
+    * @param ?object $context
+    */
     public function setContext(?object $context)
     {
         $this->m_context = $context;
@@ -190,15 +194,15 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $this->explode = new HtmlNodeTagExplosionDefinition($this);
     }
     /**
-     * build node an return the last rendered element 
-     * @param mixed $data 
-     * @param null|HtmlItemBase $target 
-     * @param null|HtmlItemBase $target 
-     * @param ?object $context 
-     * @return HtmlItemBase 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * build node an return the last rendered element
+    * @param mixed $data
+    * @param null|HtmlItemBase $target
+    * @param ?IHtmlNodeBuilderVisitor $visitor
+    * @param null|HtmlItemBase $target
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return HtmlItemBase
+    */
     public function build($data, ?HtmlItemBase $target = null, ?IHtmlNodeBuilderVisitor $visitor = null,  $context = null)
     {
         $this->m_context = $context ?? $this->m_context;
@@ -213,13 +217,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         return self::Init($target ?? $this->t, $data, $visitor ?? $this);
     }
     /**
-     * build data a return the node
-     * @param string|HtmlItemBase $node 
-     * @param mixed|array|object $data 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * build data a return the node
+    * @param string|HtmlItemBase $node
+    * @param mixed|array|object $data
+    * @param mixed & $lastchild
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return mixed
+    */
     public function setup($node, $data, &$lastchild = null)
     {
         $tnode = $node;
@@ -240,8 +245,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * build node definition 
      * @param array|string $def_or_tag_expression 
-     * @param array|HtmlItemBase|null $target if def_or_tag_expression is string target must be an array
-     * @param ?object $context context defintion 
      * @return HtmlItemBase last create node
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -283,7 +286,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
     * auto generate doc.
     * @param mixed & $q
-    * @return
+    * @return array
     */
     private static function _GetKeys(&$q)
     {
@@ -293,24 +296,25 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         return array_keys($q);
     }
     /**
-     * explode tag
-     * @param string $tag 
-     * @param mixed $node 
-     * @param mixed $context 
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * explode tag
+    * @param string $tag
+    * @param mixed & $node
+    * @param mixed $node
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array
+    */
     public function explodeTag(string $tag, &$node, $context = null)
     {
         return $this->explode->explode($tag, $node, $context ?? $this->getContext());
     }
     /**
-     * parse item to node builder presentations
-     * @param HtmlItemBase $n 
-     * @return string 
-     */
+    * parse item to node builder presentations
+    * @param HtmlItemBase $n
+    * @param bool $ignore_empty_string
+    * @return string
+    */
     public static function Generate(HtmlItemBase $n, bool $ignore_empty_string = true): string
     {
         $g = new HtmlVisitor($n);
@@ -341,6 +345,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             $v_can_render_tag = $t->getCanRenderTag();
             $s = '';
             $g = null;
+            $lt = null;
             if ($tagname && $v_can_render_tag) {
                 $s .= $tagname;
                 if ($l = $t['id']) {
@@ -431,7 +436,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $_fallbackTagName = ($visitor instanceof static ? $visitor->fallbackTagName : null) ?? 'div';
         $b_counter = HtmlLoadingContext::CountCountext();
         while (count($list) > 0) {
-            extract(array_shift($list), EXTR_OVERWRITE);
+            extract(igk_extract_ref(array_shift($list)), EXTR_OVERWRITE);
             // + | when start $keys is null. empty for reach to end section end
             $keys = is_null($keys) ? self::_GetKeys($q) : $keys;
             $next = false;
@@ -474,7 +479,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * auto generate doc.
     * @param mixed $n
     * @param mixed & $context_container
-    * @return
+    * @return void
     */
     private static function _RemoveNode($n, &$context_container)
     {
@@ -494,7 +499,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * @param mixed & $conds
     * @param mixed & $activate
     * @param mixed & $fn_c
-    * @return
+    * @return void
     */
     private static function _DetectDefinition(
         HtmlItemBase &$n,
@@ -542,7 +547,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * @param HtmlItemBase & $n
     * @param array & $v
     * @param mixed & $k
-    * @return
+    * @return void 
     */
     private static function _HandleDefinition(HtmlItemBase &$n, array &$v, &$k)
     {
@@ -565,7 +570,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * @param mixed $visitor
     * @param HtmlItemBase & $n
     * @param array $v
-    * @return
+    * @return void
     */
     private static function _BindArray($visitor, HtmlItemBase &$n, array $v)
     {
@@ -581,7 +586,19 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
     }
     /**
-     * load - 
+     * load -  
+     * @param mixed $visitor 
+     * @param HtmlItemBase &$n 
+     * @param mixed $q 
+     * @param mixed &$keys 
+     * @param mixed &$next 
+     * @param mixed &$list 
+     * @param mixed &$v_chain_info 
+     * @param mixed &$_last 
+     * @param mixed $_is_php8 
+     * @param mixed &$context_container 
+     * @param string $fallbackTagName 
+     * @return void 
      */
     private static function _Loop($visitor, HtmlItemBase &$n, $q, &$keys, &$next, &$list, &$v_chain_info, &$_last, $_is_php8, &$context_container, string $fallbackTagName)
     {
@@ -883,7 +900,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * @param mixed & $list
     * @param mixed $v_chain_info
     * @param mixed & $next
-    * @return
+    * @return void 
     */
     private static function _InvokeInLast($_last, $fn_call_intarget, &$list, $v_chain_info, &$next)
     {
@@ -945,7 +962,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
     * auto generate doc.
     * @param mixed $n
-    * @return
+    * @return void
     */
     private function _checkForTemplate($n)
     {
@@ -954,8 +971,9 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
     }
     /**
-     * call on create node 
-     */
+    * call on create node
+    * @param HtmlItemBase $node
+    */
     public function onCreate(HtmlItemBase $node)
     {
         $this->_checkForTemplate($node);

@@ -10,8 +10,9 @@ namespace IGK\Database\SchemaBuilder;
 */
 interface IDiagramBuilder{
     /**
-     * schema upgrade schema builder. call when need to upgrade the schema 
-     */
+    * schema upgrade schema builder. call when need to upgrade the schema
+    * @param IDiagramSchemaBuilder $builder
+    */
     function upgrade(IDiagramSchemaBuilder $builder); 
     /**
      * downgrade schema builder

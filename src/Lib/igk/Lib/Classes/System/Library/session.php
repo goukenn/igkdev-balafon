@@ -112,10 +112,11 @@ class session extends \IGKLibraryBase
         return $v_p;
     }
     /**
-     * core start session
-     * @return void|bool 
-     * @throws IGKException 
-     */
+    * core start session
+    * @param mixed $reset
+    * @throws IGKException
+    * @return void|bool
+    */
     public function start($reset = 0)
     {
         $ie_diagnonstic = igk_server()->HTTP_REFERER == "diagnostics://5/";

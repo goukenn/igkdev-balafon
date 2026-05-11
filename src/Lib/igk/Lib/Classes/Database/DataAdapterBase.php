@@ -56,8 +56,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      */
     var $resolveLinkListener;
     /**
-     * inject a send db query listener 
-     * */
+    * inject a send db query listener
+    * @param ?IDbSendQueryListener $listener
+    */
     public abstract function setSendDbQueryListener(?IDbSendQueryListener $listener);
     /**
      * get the send db query listener
@@ -137,11 +138,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
     }
     /**
-     * get if adapter name is registered
-     * @param string #adName
-     * @param IGK\Database\adName #Parameter#830480dd 
-     * @return void 
-     */
+    * get if adapter name is registered
+    * @param ?string $adName
+    * @return void
+    */
     public static function IsRegister(?string $adName = null)
     {
         return $adName && isset(self::$sm_regAdapter[$adName]);
@@ -175,6 +175,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
+    * @param string $table
     * @param mixed $columninfo
     * @return false|void
     */
@@ -329,11 +330,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         return null;
     }
     /**
-     * get select wquery expression 
-     * @param mixed $express 
-     * @param mixed $tinf 
-     * @return string|null 
-     */
+    * get select wquery expression
+    * @param mixed $express
+    * @param mixed $tinf
+    * @param mixed $seperator
+    * @return string|null
+    */
     public function GetExpressQuery($express, $tinf, $seperator = '.')
     {
         if ($this->resolveLinkListener) {
@@ -374,7 +376,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     abstract public function connect($ctrl = null);
     /**
     * auto generate doc.
-    * @param string $ctrl adapter to create 
+    * @param string $ctrl adapter to create
+    * @param mixed $throwexception
+    * @param mixed $newAdapter
     * @param mixed $params the default value is null
     */
     public static function CreateDataAdapter($ctrl, $throwexception = true, $newAdapter = 0, $params = null)
@@ -482,7 +486,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
-    * @param mixed $entries
+    * @param mixed $tablename
+    * @param mixed $condition
     */
     public function delete($tablename, $condition = null)
     {
@@ -526,11 +531,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
     }
     /**
-     * create fetch result
-     * @param string $query 
-     * @param null|IGK\Database\ModelBase $model 
-     * @return null|IDbFetchResult|DbFetchResult 
-     */
+    * create fetch result
+    * @param string $query
+    * @param null|IGK\Database\ModelBase $model
+    * @param ?IDataDriver $driver
+    * @return null|IDbFetchResult|DbFetchResult
+    */
     public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
     {
         return null;
@@ -545,6 +551,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * auto generate doc.
     * @param mixed $tablename
+    * @param mixed $condition
     */
     public function deleteAll($tablename, $condition = null)
     {
@@ -552,6 +559,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
+    * @param mixed $condition
     */
     public function drop($tablename, $condition = null)
     {
@@ -559,6 +568,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
+    * @param mixed $complete
     */
     public function flushForInitDb($complete = null) {}
     /**
@@ -598,14 +608,14 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     */
     public function initForInitDb() {}
     /**
-     * primary insert class 
-     * @param mixed $table 
-     * @param mixed $entries 
-     * @param mixed $table table info
-     * @param bool $throwException 
-     * @return false 
-     * @throws IGKException 
-     */
+    * primary insert class
+    * @param mixed $table
+    * @param mixed $entries
+    * @param mixed $tableinfo
+    * @param mixed $table table info
+    * @throws IGKException
+    * @return false
+    */
     public function insert($table, $entries, $tableinfo = null, bool $throwException = true)
     {
         if ($throwException) {
@@ -718,6 +728,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
+    * @param mixed $condition
     * @param mixed $options
     * @return null|\IGK\Database\DbQueryResult
     */
@@ -746,15 +758,20 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         return 0;
     }
     /**
-     * return select query
-     * @return string|null
-     */
+    * return select query
+    * @param string $tbname
+    * @param ?array $where
+    * @param ?array $options
+    * @return string|null
+    */
     public function get_query(string $tbname, ?array $where = null, ?array $options = null)
     {
         throw new IGKException('not implement');
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
+    * @param mixed $conditions
     * @param mixed $options the default value is null
     */
     public function selectAndWhere($tablename, $conditions = null, $options = null)
@@ -775,7 +792,10 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
     /**
     * auto generate doc.
-    * @param mixed $entrie
+    * @param mixed $tablename
+    * @param mixed $entries
+    * @param mixed $condition
+    * @param mixed $tableinfo
     */
     public function update($tablename, $entries, $condition = null, $tableinfo = null)
     {

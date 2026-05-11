@@ -57,6 +57,8 @@ class BalafonInitEnvironment
     }
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param string $install_dir
     * @param mixed $appLibCore
     * @return void
     */
@@ -194,7 +196,7 @@ class BalafonInitEnvironment
     * auto generate doc.
     * @param mixed $command
     * @param mixed $dirs
-    * @return
+    * @return mixed
     */
     private static function _AuthFiles($command, $dirs)
     {
@@ -203,6 +205,7 @@ class BalafonInitEnvironment
     }
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param mixed $app_dir
     * @return void
     */

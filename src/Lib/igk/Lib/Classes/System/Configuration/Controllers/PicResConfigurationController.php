@@ -70,7 +70,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param mixed $div
-    * @return
+    * @return mixed
     */
     private function _addLoadPicForm($div){
         $frm=$div->addForm();
@@ -90,7 +90,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getexts(){
         $r=igk_get_env("sys://ctrl/picres/allowedextension", function(){
@@ -107,7 +107,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param null|mixed & $tab
-    * @return
+    * @return mixed
     */
     private function _initDefaultPictureRes(& $tab=null){
         $dir=IGK_LIB_DIR."/Default/R/Img";
@@ -134,7 +134,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _showdefault(){
         $div=$this->TargetNode->clearChilds()->addPanelBox();
@@ -168,7 +168,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _storeData(){
         $out=IGK_STR_EMPTY;
@@ -186,7 +186,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param mixed $ext
-    * @return
+    * @return mixed
     */
     private function _support($ext){
         $ext=$this->_getexts();
@@ -195,7 +195,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param mixed $g
-    * @return
+    * @return mixed
     */
     private function _updateRes($g){
         igk_set_env(self::KEY_FILES, $g);
@@ -486,7 +486,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param mixed $ctrl
-    * @return
+    * @return mixed
     */
     private function onPicResChanged($ctrl){
         if($ctrl->isChanged(self::PICRES_KEY, $this->m_changeState)){
@@ -541,7 +541,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     /**
     * auto generate doc.
     * @param mixed $page
-    * @return
+    * @return mixed
     */
     private function setCurrentPage($page){
         $this->setParam("currentPage", $page);

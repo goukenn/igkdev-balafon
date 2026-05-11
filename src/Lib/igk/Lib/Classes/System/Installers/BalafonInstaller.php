@@ -61,7 +61,7 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     * auto generate doc.
     * @param string $param
     * @param string $default
-    * @return
+    * @return mixed
     */
     private function _get_dir(string $param, string $default){
         $dir = null;

@@ -290,9 +290,10 @@ class SQLGrammar implements IDbQueryGrammar
         }
     }
     /**
-     * - 
-     * @var IGK\System\Database\SplitColumnMemberRereference
-     */
+    * -
+    * @param string $d
+    * @var IGK\System\Database\SplitColumnMemberRereference
+    */
     public static function SplitColumnMemberRereference(string $d)
     {
         return array_filter(array_map('trim', preg_split('/,|-/', $d)), function ($a) {
@@ -399,15 +400,16 @@ class SQLGrammar implements IDbQueryGrammar
         return $this->m_driver->remove_foreign($table, $column);
     }
     /**
-     * create table query
-     * @param mixed $tbname 
-     * @param mixed $columninfo 
-     * @param ?string|array[] $desc 
-     * @param int $engine_name set engine name 
-     * @param int $nocomment 
-     * @return string 
-     * @throws IGKException 
-     */
+    * create table query
+    * @param string $tablename
+    * @param mixed $tbname
+    * @param mixed $desc_or_options
+    * @param mixed $options
+    * @param ?string $prefix
+    * @param ?array $extra
+    * @throws IGKException
+    * @return string
+    */
     public function createTablequery(string $tablename, array $columninfo, $desc_or_options = null, $options = null, ?string $prefix = null, ?array $extra = null)
     {
         $desc = '';
@@ -670,10 +672,11 @@ class SQLGrammar implements IDbQueryGrammar
         return implode(',', $g);
     }
     /**
-     * get enum value string from data definition 
-     * @param string $d 
-     * @return null|string 
-     */
+    * get enum value string from data definition
+    * @param string $d
+    * @param mixed $driver
+    * @return null|string
+    */
     public static function GetEnumQueryValueQueryString(string $d, $driver): ?string
     {
         if ($g = ConfigurationReader::ParseEnumLitteralValue($d)) {
@@ -687,10 +690,12 @@ class SQLGrammar implements IDbQueryGrammar
         return null;
     }
     /**
-     * return null in case of foreign key exists in defined
-     * @param string $table
-     * @param IDbColumnInfo|array $column_info
-     */
+    * return null in case of foreign key exists in defined
+    * @param string $table
+    * @param IDbColumnInfo|array $column_info
+    * @param mixed $nk
+    * @param mixed $db
+    */
     public function add_foreign_key(string $table, $column_info, $nk = null, $db = null)
     {
         $db = $db ?? $this->m_driver->getDbName();
@@ -745,10 +750,11 @@ class SQLGrammar implements IDbQueryGrammar
         return implode(".", $s);
     }
     /**
-     * auto generate doc.
-     * @param string $column
-     * @return null|string|array
-     */
+    * auto generate doc.
+    * @param string $table
+    * @param string $column
+    * @return null|string|array
+    */
     public function add_index(string $table, $column): ?string
     {
         if (!$column) {
@@ -762,11 +768,12 @@ class SQLGrammar implements IDbQueryGrammar
         return $q;
     }
     /**
-     * query unique  unit key
-     * @param string $table 
-     * @param array $columns 
-     * @return string 
-     */
+    * query unique  unit key
+    * @param string $table
+    * @param array $columns
+    * @param ?string $id
+    * @return string
+    */
     public function addUnique(string $table, $columns, ?string $id = null)
     {
         $id = $id ? sprintf('`%s`', $this->m_driver->escape_string($id)) : null;
@@ -778,10 +785,10 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function dropAllUniqueContraints(string $table) {}
     /**
-     * auto generate doc.
-     * @param mixed $column
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $column
+    * @return mixed
+    */
     private function _get_column_list($column)
     {
         if (!is_array($column)) {
@@ -900,10 +907,12 @@ class SQLGrammar implements IDbQueryGrammar
         return $v_info;
     }
     /**
-     * auto generate doc.
-     * @param null|string $new_name
-     * @return ?string
-     */
+    * auto generate doc.
+    * @param string $table
+    * @param object $info
+    * @param null|string $new_name
+    * @return ?string
+    */
     public function change_column(string $table, object $info, ?string $new_name = null)
     {
         igk_debug_wln("change_column grammar: " . $table);
@@ -1043,10 +1052,12 @@ class SQLGrammar implements IDbQueryGrammar
         }
     }
     /**
-     * auto generate doc.
-     * @param mixed $tableInfo
-     * @return ?string
-     */
+    * auto generate doc.
+    * @param string $tbname
+    * @param mixed $values
+    * @param mixed $tableInfo
+    * @return ?string
+    */
     public function createInsertQuery(string $tbname, $values, $tableInfo = null): ?string
     {
         if ($tableInfo === null) {
@@ -1094,10 +1105,14 @@ class SQLGrammar implements IDbQueryGrammar
         return $query;
     }
     /**
-     * auto generate doc.
-     * @param mixed|null $tableInfo columns info to build the query
-     * @return string
-     */
+    * auto generate doc.
+    * @param string $tbname
+    * @param mixed $values
+    * @param mixed $condition
+    * @param mixed|null $tableInfo columns info to build the query
+    * @param ?bool $filter
+    * @return string
+    */
     public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter = null): ?string
     {
         if (is_null($values)) {
@@ -1189,9 +1204,14 @@ class SQLGrammar implements IDbQueryGrammar
         return false;
     }
     /**
-     * auto generate doc.
-     * @param i
-     */
+    * auto generate doc.
+    * @param mixed $driver
+    * @param mixed $tbname
+    * @param IDbColumnInfo $tinf
+    * @param mixed $columnName
+    * @param mixed $value
+    * @param mixed $type
+    */
     public static function GetValue($driver, $tbname, IDbColumnInfo $tinf, $columnName, $value, $type = "i")
     {
         if ($tinf === null) {
@@ -1385,14 +1405,15 @@ class SQLGrammar implements IDbQueryGrammar
         return false;
     }
     /**
-     * get update array values
-     * @param mixed $driver 
-     * @param mixed $values 
-     * @param mixed $tableInfo 
-     * @param int $update 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get update array values
+    * @param mixed $driver
+    * @param mixed $values
+    * @param mixed & $tableInfo
+    * @param mixed $tableInfo
+    * @param ?bool $filter
+    * @throws IGKException
+    * @return mixed
+    */
     protected static function GetValues($driver, $values, &$tableInfo, $update = 0, ?bool $filter = null)
     {
         $tvalues = new stdClass();
@@ -1544,13 +1565,14 @@ class SQLGrammar implements IDbQueryGrammar
         }, explode(".", $tbname)));
     }
     /**
-     * resolv query condition string
-     * @param mixed $driver 
-     * @param mixed $tab 
-     * @param string|'AND'|'OR' $operator 
-     * @param ?string $primaryKey 
-     * @return mixed 
-     */
+    * resolv query condition string
+    * @param mixed $driver
+    * @param mixed $tab
+    * @param string|'AND'|'OR' $operator
+    * @param ?string $primaryKey
+    * @param mixed $tableInfo
+    * @return mixed
+    */
     public static function GetCondString($driver, $tab, $operator = 'AND', string $primaryKey = IGK_FD_ID, $tableInfo = null)
     {
         $query = "";
@@ -1833,9 +1855,10 @@ class SQLGrammar implements IDbQueryGrammar
         return $columns;
     }
     /**
-     * Order query extra options
-     * @param IDbSQLGrammarExtraOptions $options
-     */
+    * Order query extra options
+    * @param IDbSQLGrammarExtraOptions $options
+    * @param mixed $ad
+    */
     protected static function GetExtraOptions($options, $ad)
     {
         /**
@@ -1974,12 +1997,12 @@ class SQLGrammar implements IDbQueryGrammar
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }
     /**
-     * auto generate doc.
-     * @param mixed $t
-     * @param mixed $adapter
-     * @param mixed $separator
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $adapter
+    * @param mixed $separator
+    * @return mixed
+    */
     protected static function Key($t, $adapter, $separator = ",")
     {
         return implode($separator, array_map(
@@ -2001,10 +2024,11 @@ class SQLGrammar implements IDbQueryGrammar
         return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);
     }
     /**
-     * auto generate doc.
-     * @param mixed $condition
-     * @return string
-     */
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $condition
+    * @return string
+    */
     public function createDeleteQuery($tbname, $condition = null)
     {
         $c = "";
@@ -2038,8 +2062,9 @@ class SQLGrammar implements IDbQueryGrammar
         return $tables;
     }
     /**
-     * get column string concatenation
-     */
+    * get column string concatenation
+    * @param array $s
+    */
     public static function GetColumnString(array $s)
     {
         return implode(", ", array_map(function ($a, $k) {
@@ -2050,21 +2075,23 @@ class SQLGrammar implements IDbQueryGrammar
         }, $s, array_keys($s)));
     }
     /**
-     * auto generate doc.
-     * @param string $dbname
-     * @return ?object
-     */
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $field
+    * @param string $dbname
+    * @return ?object
+    */
     public function get_relation(string $table, $field, string $dbname)
     {
         return [];
     }
     /**
-     * get column info
-     * @param string $table 
-     * @param string $dbname 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get column info
+    * @param string $table
+    * @param string $column
+    * @throws IGKException
+    * @return mixed
+    */
     public function get_column_info(string $table, string $column)
     {
         $db = $this->m_driver->getDbName();

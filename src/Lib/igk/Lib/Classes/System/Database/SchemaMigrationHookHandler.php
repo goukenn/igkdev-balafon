@@ -43,7 +43,7 @@ class SchemaMigrationHookHandler{
     const onColumnRename = 'onColumnRename';
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function initHooks(){
         $this->m_hooks[self::onColumnRename] = function($e){
@@ -66,6 +66,8 @@ class SchemaMigrationHookHandler{
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $column
     * @param mixed $name
     * @return void
     */

@@ -2,11 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: .global.php
 // @date: 20220803 13:48:59
-// @desc: 
-
+// @desc:
 /**
 * Igk community init node callback.
 * @param mixed $t
+* @return mixed
 */
 function igk_community_init_node_callback($t){
 	$ctrl = igk_db_sys_ctrl("community");
@@ -17,6 +17,7 @@ function igk_community_init_node_callback($t){
 /**
 * Igk community init share with callback.
 * @param mixed $t
+* @return mixed
 */
 function igk_community_init_ShareWith_callback($t){
 	$ctrl = igk_db_sys_ctrl("community");
@@ -26,6 +27,7 @@ function igk_community_init_ShareWith_callback($t){
 }
 /**
 * Igk html node community node.
+* @return mixed
 */
 function igk_html_node_CommunityNode(){
 	$n = igk_create_node("div");
@@ -36,6 +38,7 @@ function igk_html_node_CommunityNode(){
 /**
 * Igk html node shared with community.
 * @param null|mixed $tab
+* @return mixed
 */
 function igk_html_node_SharedWithCommunity($tab=null){
 	$n = igk_create_node("div");
@@ -52,6 +55,7 @@ function igk_html_node_SharedWithCommunity($tab=null){
 * Igk html node follow us button.
 * @param mixed $name
 * @param mixed $uid
+* @return mixed
 */
 function igk_html_node_FollowUsButton($name, $uid){
 	$srv = igk_community_get_followus_service();
@@ -67,6 +71,7 @@ function igk_html_node_FollowUsButton($name, $uid){
 /**
 * Igk community get follow entries.
 * @param mixed $cnf
+* @return mixed
 */
 function igk_community_get_follow_entries($cnf){
 	$tab = igk_community_get_followus_service();

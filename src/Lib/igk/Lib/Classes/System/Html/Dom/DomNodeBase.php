@@ -17,12 +17,12 @@ abstract class DomNodeBase extends IGKObject{
     * Constant: creator prefix key.
     * @var mixed
     */
-    const CREATOR_PREFIX_KEY = 'dom_creator://'; 
+    const CREATOR_PREFIX_KEY = 'dom_creator://';
     /**
-     * set property used to initialize the node
-     * @param string $type 
-     * @return mixed 
-     */
+    * set property used to initialize the node
+    * @param HtmlInitNodeInfo $info
+    * @return mixed
+    */
     protected abstract function setInitNodeTypeInfo(HtmlInitNodeInfo $info);
     /**
      * get init node type info
@@ -48,6 +48,7 @@ abstract class DomNodeBase extends IGKObject{
     /**
     * auto generate doc.
     * @param string $name
+    * @param mixed $class_name
     * @return void
     */
     public static function RegisterCreator(string $name, $class_name){

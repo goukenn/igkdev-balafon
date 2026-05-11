@@ -26,6 +26,9 @@ class RegexMatcherInitMarker
     public function __construct() {}
     /**
     * auto generate doc.
+    * @param mixed $e
+    * @param mixed $src
+    * @param mixed $pos
     * @param callable $fc
     * @return bool
     */
@@ -49,6 +52,10 @@ class RegexMatcherInitMarker
     }
     /**
     * auto generate doc.
+    * @param mixed & $v_rt
+    * @param mixed $e
+    * @param mixed $src
+    * @param mixed $pos
     * @param callable({tokenID:string,pos:int})  $fc
     * @return bool
     */

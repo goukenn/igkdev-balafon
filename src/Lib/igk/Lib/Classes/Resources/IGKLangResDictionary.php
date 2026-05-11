@@ -43,6 +43,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     }
     /**
     * auto generate doc.
+    * @param mixed $i
     * @param mixed $v
     */
     protected function _access_offsetSet($i, $v){   

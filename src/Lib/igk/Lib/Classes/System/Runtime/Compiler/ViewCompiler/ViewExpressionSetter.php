@@ -98,9 +98,10 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         }
     }
     /**
-     * get update expression
-     * @return null 
-     */
+    * get update expression
+    * @param string $source
+    * @return null
+    */
     public function getExpression(string $source){
         $n =  $this->m_name;
         $o = igk_getv($this->m_variables, $n);

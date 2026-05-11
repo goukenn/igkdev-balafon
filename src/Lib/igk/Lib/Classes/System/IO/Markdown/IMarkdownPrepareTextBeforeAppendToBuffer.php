@@ -10,12 +10,16 @@ namespace IGK\System\IO\Markdown;
 * @package IGK\System\IO\Markdown
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\IO\Markdown
+*/
 interface IMarkdownPrepareTextBeforeAppendToBuffer{
     /**
-     * 
-     * @param string $input 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $input
+    * @return string
+    */
     function prepareTextBeforeAppendToBuffer(string $input):string;
 
 }

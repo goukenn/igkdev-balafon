@@ -12,10 +12,11 @@ use IGK\System\Runtime\Compiler\ReadTokenUtility;
 * @package IGK\System\Runtime\Compiler
 */
 trait CompilerTokenMergeSourceTrait{
-   /**
-     * merge source code
-     * @return null|string 
-     */
+    /**
+    * merge source code
+    * @param mixed $header
+    * @return null|string
+    */
     public function mergeSourceCode($header=false): ?string
     {
         /** 

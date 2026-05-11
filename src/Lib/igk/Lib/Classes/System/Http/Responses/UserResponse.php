@@ -62,7 +62,7 @@ class UserResponse
     /**
     * auto generate doc.
     * @param Users $user
-    * @return
+    * @return mixed
     */
     private static function _CreateUserData(Users $user){
         return $user->CreateUserApiResponseData();
@@ -77,6 +77,9 @@ class UserResponse
     }
     /**
     * auto generate doc.
+    * @param IUserProfile $profile
+    * @param BaseController $ctrl
+    * @param IAuthenticatorService $authenticator
     * @param bool $rememberme
     * @return mixed
     */

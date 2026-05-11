@@ -19,6 +19,7 @@ class SQLObjectDef{
     /**
     * auto generate doc.
     * @param mixed $values
+    * @param bool $insert
     * @return ?array
     */
     public static function Resolve($values, bool $insert=true): ?array{

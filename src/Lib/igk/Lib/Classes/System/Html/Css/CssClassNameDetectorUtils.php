@@ -5,9 +5,8 @@
 namespace IGK\System\Html\Css;
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
@@ -35,7 +34,10 @@ abstract class CssClassNameDetectorUtils{
     }
     /**
     * auto generate doc.
+    * @param CssClassNameDetector $detector
+    * @param string $source
     * @param mixed &$references
+    * @param mixed $context
     * @return array|void
     */
     public static function DetectFromPhpSource(CssClassNameDetector $detector, string $source, & $references=null, $context=null){
@@ -85,6 +87,8 @@ abstract class CssClassNameDetectorUtils{
     }
     /**
     * auto generate doc.
+    * @param mixed $detector
+    * @param mixed $source
     * @param mixed &$references
     * @return mixed
     */

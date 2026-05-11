@@ -108,7 +108,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     * @param mixed $setting
     * @param mixed $h
     * @param mixed $ctrl
-    * @return
+    * @return mixed
     */
     private function _GetOutputdir($setting, $h, $ctrl){
         $path_key = self::PROJECT_DIR;
@@ -282,7 +282,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     * @param mixed $pdir
     * @param mixed & $cdir
     * @param string $project
-    * @return
+    * @return mixed
     */
     static function SyncFiles($v_files, $o_dir,  $h , $pdir,  & $cdir, string $project){
         foreach ($v_files as $f) {
@@ -315,7 +315,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     * @param mixed $ftp
     * @param mixed $path
     * @param mixed $project
-    * @return
+    * @return mixed
     */
     private function  _listRelease($ftp, $path, $project)
     {
@@ -334,7 +334,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     * auto generate doc.
     * @param mixed $ftp
     * @param mixed $project
-    * @return
+    * @return mixed
     */
     private function _getRelease($ftp, $project)
     {
@@ -378,17 +378,19 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     }
     // + | sync by zip controller project
     /**
-     * zip project by zip install 
-     * @param mixed $controller 
-     * @param mixed $exclude 
-     * @return string 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * zip project by zip install
+    * @param mixed $controller
+    * @param mixed $exclude
+    * @param mixed $h
+    * @param mixed $setting
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @throws Exception
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return string
+    */
     private function _installZipProject($controller, $exclude, $h, $setting)
     {
         /**
@@ -441,17 +443,20 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         );
     }
     /**
-     * Sync and and install 
-     * @param mixed $h ftp resource
-     * @param mixed $name name
-     * @param mixed $file zip file
-     * @param mixed $setting config setting
-     * @param string $token token
-     * @param string $script_install install source file 
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * Sync and and install
+    * @param mixed $h ftp resource
+    * @param mixed $project_name
+    * @param mixed $project_entry
+    * @param mixed $name name
+    * @param mixed $file zip file
+    * @param mixed $setting config setting
+    * @param string $token token
+    * @param string $script_install install source file
+    * @param mixed $install_path_name
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return void
+    */
     public static function SyncAndInstall(
         $h,
         $project_name,

@@ -10,8 +10,9 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 */
 interface IViewCompilerArgument{
     /**
-     * return instruction that will update the view context
-     * @return null|string 
-     */
+    * return instruction that will update the view context
+    * @param mixed $reset
+    * @return null|string
+    */
     function getInstruction($reset=true): ?string;
 }

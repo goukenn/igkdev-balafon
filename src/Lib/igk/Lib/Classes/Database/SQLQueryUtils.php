@@ -57,6 +57,11 @@ class SQLQueryUtils
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $columninfo
+    * @param mixed $desc
+    * @param mixed $adapter
+    * @param mixed $noengine
     * @param int $nocomment
     * @deprecated use SQLGrammar
     * @return string
@@ -292,6 +297,9 @@ class SQLQueryUtils
     }
     /**
     * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $operator
+    * @param mixed $adapter
     * @param mixed $grammar
     * @return mixed
     */
@@ -425,7 +433,7 @@ class SQLQueryUtils
     * auto generate doc.
     * @param mixed $express
     * @param mixed $tinf
-    * @return
+    * @return mixed
     */
     private static function GetExpressQuery($express, $tinf)
     {
@@ -662,7 +670,7 @@ class SQLQueryUtils
     * auto generate doc.
     * @param mixed $k
     * @param mixed $adapter
-    * @return
+    * @return mixed
     */
     private static function GetKey($k, $adapter)
     {
@@ -898,7 +906,7 @@ class SQLQueryUtils
     * @param mixed $values
     * @param mixed $tableInfo
     * @param mixed $update
-    * @return
+    * @return mixed
     */
     private static function GetValues($values, $tableInfo, $update = 0)
     {
@@ -977,7 +985,7 @@ class SQLQueryUtils
     /**
     * auto generate doc.
     * @param mixed $t
-    * @return
+    * @return mixed
     */
     private static function IsNumber($t)
     {
@@ -988,7 +996,7 @@ class SQLQueryUtils
     * @param mixed $t
     * @param mixed $adapter
     * @param mixed $separator
-    * @return
+    * @return mixed
     */
     private static function Key($t, $adapter, $separator = ",")
     {
@@ -1025,6 +1033,10 @@ class SQLQueryUtils
     }
     /**
     * auto generate doc.
+    * @param mixed $v
+    * @param mixed & $optset
+    * @param string $k
+    * @param mixed $ad
     * @param string $defOrder
     * @return void
     */
@@ -1052,6 +1064,8 @@ class SQLQueryUtils
     }
     /**
     * auto generate doc.
+    * @param mixed $columns
+    * @param mixed $type
     * @param mixed $adapter escaped_string method
     * @return string
     */

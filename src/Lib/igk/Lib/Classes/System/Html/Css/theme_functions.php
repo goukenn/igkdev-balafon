@@ -4,9 +4,10 @@
 // @date: 20220805 17:02:34
 // @desc: 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-
 /**
 * auto generate doc.
+* @param mixed $property
+* @param mixed $style
 * @param string $prefix prefix of class to prepend
 * @return void
 */

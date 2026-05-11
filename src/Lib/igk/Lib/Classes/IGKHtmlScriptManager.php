@@ -101,9 +101,10 @@ final class IGKHtmlScriptManager extends IGKObject {
             $this->m_scripts[$file] = $s;
         }
         return $s["item"]; 
-    } 
+    }
     /**
     * clear loaded script
+    * @param mixed $tag
     */
     public function Clear($tag=null){
         throw new NotImplementException(__METHOD__);
@@ -123,6 +124,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $default the default value is null
     * @return mixed
     */
@@ -138,7 +140,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * merge all required scripts
     * @param mixed $zip get or set if required minification
-    * @param mixed $files will recieve all merged scripts
+    * @param mixed & $files
     * @deprecated
     */
     public function getMergedContent($zip=0, & $files=null){
@@ -181,6 +183,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     }
     /**
     * get if this script file is loaded to the document
+    * @param mixed $file
     */
     public function isLoaded($file){
         return isset($this->m_assocTable[$file]);

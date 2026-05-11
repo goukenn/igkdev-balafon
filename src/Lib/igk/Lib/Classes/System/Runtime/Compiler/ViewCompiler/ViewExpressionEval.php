@@ -50,11 +50,11 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
         return true;
     }
     /**
-     * assert that string are equal
-     * @param string $eval 
-     * @param null|array $dependOn 
-     * @return void 
-     */
+    * assert that string are equal
+    * @param string $eval
+    * @param ?array & $dependOn
+    * @return void
+    */
     public function __construct(string $eval, ?array & $dependOn=null)
     {        
         // + | detect if value stream is escapsed

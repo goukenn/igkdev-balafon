@@ -45,6 +45,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */    protected function initComplete($context=null){
         parent::initComplete();
         $tab=$this->getAppleIcon();
@@ -81,7 +82,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     }
     /**
     * auto generate doc.
-    * @param * $t
+    * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clAppleIconUri"]=igk_getr("clAppleIconUri");

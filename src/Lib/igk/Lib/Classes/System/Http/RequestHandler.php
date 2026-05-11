@@ -51,7 +51,7 @@ class RequestHandler
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -91,7 +91,8 @@ class RequestHandler
     }
     /**
     * auto generate doc.
-    * @param IGK\System\Http\Routes|null #Parameter#ebc966f5
+    * @param mixed $path
+    * @param ?RouteCollection $routes
     * @return void
     */
     public function handle_route($path, ?RouteCollection $routes = null)
@@ -257,9 +258,11 @@ class RequestHandler
         igk_environment()->handle_ctrl_request = 1;  
     }
     /**
-     * handle redirect
-     * @return void 
-     */
+    * handle redirect
+    * @param IGKApplicationBase $application
+    * @param mixed $args
+    * @return void
+    */
     public function redirect(IGKApplicationBase $application, $args = [])
     {
         if (defined('IGK_REDIRECTION')) {
@@ -391,8 +394,9 @@ class RequestHandler
         }
     }
     /**
-     * handle command application command action
-     */
+    * handle command application command action
+    * @param string $redirect
+    */
     public function handle_cmd_action(string $redirect)
     {
         $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";

@@ -52,6 +52,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $title
     * @param mixed $msg
     */
     public function show($title, $msg){

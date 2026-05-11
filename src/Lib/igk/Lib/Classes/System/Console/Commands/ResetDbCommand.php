@@ -96,11 +96,13 @@ class ResetDbCommand extends AppExecCommand
         return 1;
     }
     /**
-     * reset controller 
-     * @param array<BaseController> $c 
-     * @param bool $force 
-     * @return void 
-     */
+    * reset controller
+    * @param array<BaseController> $c
+    * @param bool $force
+    * @param bool $seed
+    * @param bool $clean
+    * @return void
+    */
     public function controllerResetDatabase($c, bool $force, bool $seed=false, bool $clean=false){
         foreach ($c as $m) {
             $n = get_class($m);

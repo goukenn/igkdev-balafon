@@ -27,6 +27,7 @@ trait MediaArrayAccessTrait
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     public function offsetSet($key, $value):void{

@@ -218,8 +218,11 @@ class ApplicationControllerManager implements IApplicationControllerManager
         return false;
     }
     /**
-     * use to invoke system controller method
-     */
+    * use to invoke system controller method
+    * @param mixed $uri
+    * @param mixed $defaultBehaviour
+    * @param mixed $pattern
+    */
     public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         $c = null;

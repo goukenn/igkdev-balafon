@@ -56,6 +56,7 @@ class ConfigControllerRegistry
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */
     public static function InvokeRegisterComplete($context = null)
     {
@@ -77,11 +78,12 @@ class ConfigControllerRegistry
         self::$sm_regComplete = null;
     }
     /**
-     * register configuration class
-     * @param string $class 
-     * @return bool 
-     * @throws EnvironmentArrayException 
-     */
+    * register configuration class
+    * @param string $class
+    * @param mixed $name
+    * @throws EnvironmentArrayException
+    * @return bool
+    */
     public static function Register(string $class, $name = null)
     {
         if (is_subclass_of($class, ConfigControllerBase::class)) {

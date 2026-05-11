@@ -3,10 +3,11 @@
 // @filename: environment.php
 // @date: 20220831 14:22:54
 // @desc: environment helper functions
-
 /**
 * auto generate doc.
+* @param mixed $k
 * @param mixed $v
+* @return mixed
 */
 function igk_set_env($k, $v)
 {
@@ -14,7 +15,9 @@ function igk_set_env($k, $v)
 }
 /**
 * auto generate doc.
+* @param mixed $k
 * @param mixed $default
+* @return mixed
 */
 function igk_get_env($k, $default = null)
 {
@@ -25,7 +28,10 @@ function igk_get_env($k, $default = null)
 }
 /**
 * auto generate doc.
+* @param mixed $type
+* @param mixed $name
 * @param mixed $callback
+* @return mixed
 */
 function igk_register_service($type, $name, $callback)
 {

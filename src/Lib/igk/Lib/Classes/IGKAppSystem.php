@@ -127,7 +127,7 @@ class IGKAppSystem
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public static function reloadConfigCallback()
     {
@@ -241,10 +241,11 @@ class IGKAppSystem
         return igk_load_env_files(IGK_LIB_DIR, array("Inc", "Ext", "SysMods", igk_io_projectdir()));
     }
     /**
-     * load environment and cache
-     * @return void 
-     * @throws IGKException 
-     */
+    * load environment and cache
+    * @param IGKApp $app
+    * @throws IGKException
+    * @return void
+    */
     public static function LoadEnvironment(IGKApp $app)
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {
@@ -258,12 +259,13 @@ class IGKAppSystem
         self::_InitControllerEnvironment($app);
     }
     /**
-     * init controller environment
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * init controller environment
+    * @param IGKApp $app
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     private static function _InitControllerEnvironment(IGKApp $app)
     {
         // + | --------------------------------------------------------------------
@@ -283,7 +285,7 @@ class IGKAppSystem
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {}
 }

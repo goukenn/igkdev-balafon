@@ -42,13 +42,14 @@ class HtmlTemplateReaderDataBinding
      */
     var $context;
     /**
-     * .ctr
-     * @param HtmlItemBase $node 
-     * @param string $source 
-     * @param null|BaseController $ctrl 
-     * @param null|array $data raw data
-     * @return void 
-     */
+    * .ctr
+    * @param HtmlItemBase $node
+    * @param string $source
+    * @param null|BaseController $ctrl
+    * @param null|array $data raw data
+    * @param ?HtmlLoadingContextOptions $context
+    * @return void
+    */
     public function __construct(HtmlItemBase $node, string $source, ?BaseController $ctrl = null, ?array $data = null, ?HtmlLoadingContextOptions $context = null)
     {
         $this->node = $node;

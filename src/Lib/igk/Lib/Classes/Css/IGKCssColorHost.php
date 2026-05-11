@@ -29,11 +29,10 @@ class IGKCssColorHost implements ArrayAccess{
     private function __construct(){
     }
     /**
-     * Create a new IGKCssColorHost bound to the given color reference.
-     *
-     * @param mixed $color Reference to the color array.
-     * @return static
-     */
+    * Create a new IGKCssColorHost bound to the given color reference.
+    * @param mixed & $color
+    * @return static
+    */
     public static function Create(& $color){
         $c = new self();
         $c->_ = & $color;

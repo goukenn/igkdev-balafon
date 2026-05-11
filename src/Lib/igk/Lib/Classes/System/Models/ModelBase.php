@@ -434,15 +434,18 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return self::$sm_isCreateMocking;
     }
     /**
-     * check if model created mock instance
-     * @return bool 
-     */
+    * check if model created mock instance
+    * @param mixed $model
+    * @return bool
+    */
     public static function IsMockInstance($model)
     {
         return igk_getv(self::$mock_instance, static::class) === $model;
     }
     /**
     * auto generate doc.
+    * @param mixed $raw
+    * @param mixed $mock
     * @param bool $unset unset unused property definition
     * @return void
     */
@@ -746,7 +749,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function &_InitDbMacros()
     {
@@ -811,7 +814,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _InitMacros(){
          if (self::$sm_macros === null) {
@@ -878,15 +881,15 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         igk_die("ModelBase: failed to call [" . $name . "] - " . static::class);
     }
     /**
-     * invoke registrated macros function 
-     * @param mixed $macros macros list 
-     * @param string $name to get 
-     * @param mixed $instance that will call the 
-     * @param mixed $arguments arguments to pass 
-     * @param bool $failed ref failed result 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * invoke registrated macros function
+    * @param mixed $macros macros list
+    * @param string $name to get
+    * @param mixed $instance that will call the
+    * @param mixed $arguments arguments to pass
+    * @param mixed & $failed
+    * @throws IGKException
+    * @return mixed
+    */
     private static function _InvokeMacros($macros, $name, $instance, $arguments, &$failed = false)
     {
         $R_macros =  & self::$sm_macros;
@@ -1019,9 +1022,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return $this->is_mock;
     }
     /**
-     * return raw data
-     * @return mixed 
-     */
+    * return raw data
+    * @param mixed $alias
+    * @return mixed
+    */
     public function to_array($alias = false): array
     {
         if ($this->m_alias) {
@@ -1036,9 +1040,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return (array)$this->raw;
     }
     /**
-     * update field and return a boolean
-     * @return bool 
-     */
+    * update field and return a boolean
+    * @param bool $autoupdate
+    * @return bool
+    */
     public function save(bool $autoupdate = true): bool
     {
         $pkey = $this->primaryKey;
@@ -1066,9 +1071,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return $this->to_json();
     }
     /**
-     * retrieve all registrated model
-     * @return array
-     */
+    * retrieve all registrated model
+    * @param BaseController $controller
+    * @return array
+    */
     public static function GetModels(BaseController $controller)
     {
         $dir = $controller->getClassesDir() . "/Models"; 
@@ -1101,11 +1107,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         return $tab;
     }
     /**
-     * invoke loading
-     * @param mixed $arguments 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * invoke loading
+    * @param mixed ...$arguments
+    * @throws Exception
+    * @return mixed
+    */
     public function __invoke(...$arguments)
     {
         return static::__callStatic("select_query_rows", $arguments); 

@@ -21,9 +21,9 @@ use IGK\System\Database\PhoneBookEntryDetails;
 use IGK\System\IO\VCF\VCard;
 use IGK\System\IToJSon;
 /**
- * 
- * @package IGK\Database\Macros
- */
+* auto generate doc.
+* @package IGK\Database\Macros
+*/
 /**
 * auto generate doc.
 * @package IGK\Database\Macros
@@ -75,6 +75,9 @@ class PhoneBooksMacros
     }
     /**
     * auto generate doc.
+    * @param PhoneBooks $model
+    * @param ?Users $user
+    * @param ?string $search
     * @param string $type
     * @return mixed
     */
@@ -105,10 +108,11 @@ class PhoneBooksMacros
         return $user->getPhoneBookEntry();
     }
     /**
-     * retrieve entries for a phonebook
-     * @param PhoneBooks $model 
-     * @return void 
-     */
+    * retrieve entries for a phonebook
+    * @param PhoneBooks $model
+    * @param ?string $entry
+    * @return void
+    */
     public static function getEntries(PhoneBooks $model, ?string $entry = null)
     {
         if ($entry) {
@@ -156,6 +160,7 @@ class PhoneBooksMacros
     /**
     * auto generate doc.
     * @param PhoneBooks $phone
+    * @param ?IPhoneBookDetailVisitor $visitor
     * @return mixed
     */
     public static function getPhoneDetails(PhoneBooks $phone, ?IPhoneBookDetailVisitor $visitor = null)
@@ -211,6 +216,8 @@ class PhoneBooksMacros
     }
     /**
     * auto generate doc.
+    * @param PhoneBooks $phone
+    * @param ?Users $user
     * @param mixed $search
     * @return array<\IGK\Models\PhoneBooks
     */
@@ -236,12 +243,12 @@ class PhoneBooksMacros
         return $ids;
     }
     /**
-     * load vcard to user 
-     * @param PhoneBooks $model 
-     * @param Users $user 
-     * @param stinr file to load 
-     * @return void 
-     */
+    * load vcard to user
+    * @param PhoneBooks $model
+    * @param string $file
+    * @param Users $user
+    * @return void
+    */
     public static function loadVCardToUser(PhoneBooks $model, string $file, Users $user){
         $v_cards = VCard::OpenFile($file) ?? igk_die(__('missing or incorrect vcard file'));
         $user  || igk_die('required user');

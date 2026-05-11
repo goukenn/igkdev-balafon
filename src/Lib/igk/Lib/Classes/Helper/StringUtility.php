@@ -13,11 +13,10 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\Helper
- */
+* auto generate doc.
+* @package IGK\Helper
+*/
 /**
  * auto generate doc.
  * @package IGK\Helper
@@ -62,10 +61,11 @@ abstract class StringUtility
         return $s;
     }
     /**
-     * auto append prefix to column 
-     * @param null|string $prefix
-     * @return string     
-     */
+    * auto append prefix to column
+    * @param string $column
+    * @param null|string $prefix
+    * @return string
+    */
     public static function AutoPrefix(string $column, ?string $prefix = null): string
     {
         if (empty($prefix)) {
@@ -98,11 +98,11 @@ abstract class StringUtility
         return $sb;
     }
     /**
-     * read line utility class 
-     * @param string $content 
-     * @param int $pos 
-     * @return string 
-     */
+    * read line utility class
+    * @param string $content
+    * @param int & $pos
+    * @return string
+    */
     public static function ReadLine(string $content, int &$pos)
     {
         $lin = strpos($content, "\n", $pos);
@@ -145,11 +145,11 @@ abstract class StringUtility
         return $g;
     }
     /**
-     * helper to read brank
-     * @param string $str 
-     * @param int $pos 
-     * @return mixed 
-     */
+    * helper to read brank
+    * @param string $ln
+    * @param int & $pos
+    * @return mixed
+    */
     public static function ReadBrank(string $ln, int &$pos)
     {
         $ch = $ln[$pos];
@@ -196,11 +196,11 @@ abstract class StringUtility
         return strtoupper(self::GetSnakeKebab($s, false));
     }
     /**
-     * skake kebab data
-     * @param string $haystack 
-     * @param string $splitter 
-     * @return string 
-     */
+    * skake kebab data
+    * @param string $haystack
+    * @param ?bool $hiphen
+    * @return string
+    */
     public static function GetSnakeKebab(string $haystack, ?bool $hiphen = false)
     {
         $s_out = '';
@@ -317,10 +317,11 @@ abstract class StringUtility
         return $ns;
     }
     /**
-     * auto generate doc.
-     * @param null|string $controller
-     * @return string
-     */
+    * auto generate doc.
+    * @param string $name
+    * @param null|string $controller
+    * @return string
+    */
     public static function AuthorizationPath(string $name, ?string $controller): string
     {
         return implode("@", array_filter([$controller, $name]));
@@ -459,8 +460,9 @@ abstract class StringUtility
         }));
     }
     /**
-     * convert to uri presentation
-     */
+    * convert to uri presentation
+    * @param ?string $u
+    */
     public static function Uri(?string $u = "")
     {
         if ($u === null)
@@ -468,16 +470,18 @@ abstract class StringUtility
         return str_replace("\\", "/", $u);
     }
     /**
-     * Uri combine.
-     * @param mixed ...$args
-     */
+    * Uri combine.
+    * @param mixed ...$args
+    */
     public static function UriCombine(...$args)
     {
         return self::Uri(implode("/", $args));
     }
     /**
-     * convert to path presentation
-     */
+    * convert to path presentation
+    * @param mixed $dir
+    * @param mixed $separator
+    */
     public static function Dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         $g = self::Uri($dir);
@@ -487,9 +491,10 @@ abstract class StringUtility
         return $g;
     }
     /**
-     * auto generate doc.
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $text
+    * @param mixed $pattern
+    */
     public static function Contains($text, $pattern)
     {
         if (!empty($pattern))
@@ -497,9 +502,10 @@ abstract class StringUtility
         return true;
     }
     /**
-     * auto generate doc.
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $chaine
+    * @param mixed $pattern
+    */
     public static function EndWith($chaine, $pattern)
     {
         $c = strlen($chaine);
@@ -533,9 +539,11 @@ abstract class StringUtility
         return $s;
     }
     /**
-     * auto generate doc.
-     * @param mixed $offset the default value is 0
-     */
+    * auto generate doc.
+    * @param mixed $chaine
+    * @param mixed $research
+    * @param mixed $offset the default value is 0
+    */
     public static function IndexOf($chaine, $research, $offset = 0)
     {
         if (empty($chaine) || empty($research))
@@ -546,9 +554,11 @@ abstract class StringUtility
         return $i;
     }
     /**
-     * auto generate doc.
-     * @param mixed $key the default value is true
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $separator
+    * @param mixed $key the default value is true
+    */
     public static function Join($tab, $separator = ",", $key = true)
     {
         $s = IGK_STR_EMPTY;
@@ -567,17 +577,20 @@ abstract class StringUtility
         return $s;
     }
     /**
-     * auto generate doc.
-     * @param mixed $pattern
-     */
+    * auto generate doc.
+    * @param mixed $chaine
+    * @param mixed $pattern
+    */
     public static function StartWith($chaine, $pattern)
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
     /**
-     * auto generate doc.
-     * @param mixed $length the default value is null
-     */
+    * auto generate doc.
+    * @param mixed $chaine
+    * @param mixed $start
+    * @param mixed $length the default value is null
+    */
     public static function Sub($chaine, $start, $length = null)
     {
         if ($length) {
@@ -586,12 +599,12 @@ abstract class StringUtility
             return substr($chaine, $start);
     }
     /**
-     * read identifier token
-     * @param string $hastack 
-     * @param int $offset 
-     * @param string $token 
-     * @return string 
-     */
+    * read identifier token
+    * @param string $hastack
+    * @param int & $offset
+    * @param int $offset
+    * @return string
+    */
     public static function ReadIdentifier(string $hastack, int &$offset = 1, string $token = self::IDENTIFIER_TOKEN): string
     {
         $s = "";
@@ -635,10 +648,11 @@ abstract class StringUtility
         return $src;
     }
     /**
-     * auto generate doc.
-     * @param string $separator
-     * @return array
-     */
+    * auto generate doc.
+    * @param string $data
+    * @param string $separator
+    * @return array
+    */
     public static function ReadArgs(string $data, $separator = ",")
     {
         if (preg_match("/['\"]/", $separator)) {
@@ -986,9 +1000,12 @@ abstract class StringUtility
         return array_filter($v_t);
     }
     /**
-     * auto generate doc.
-     * @return string[]
-     */
+    * auto generate doc.
+    * @param mixed $haystack
+    * @param array $range
+    * @param bool $infinite
+    * @return string[]
+    */
     public static function SplitRange($haystack, array $range, bool $infinite = true): array
     {
         $r = [];
@@ -1012,11 +1029,11 @@ abstract class StringUtility
         return $r;
     }
     /**
-     * 
-     * @param string $p 
-     * @param int $spaceLineDepth 
-     * @return int 
-     */
+    * auto generate doc.
+    * @param string $p
+    * @param int $spaceLineDepth
+    * @return int
+    */
     public static function GetTabStopDepth(string $p, $spaceLineDepth = 4): int
     {
         $ln = strlen($p);

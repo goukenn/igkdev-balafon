@@ -44,6 +44,8 @@ class HtmlColorizer extends Colorize{
     }
     /**
     * auto generate doc.
+    * @param mixed $s
+    * @param ?RegexMatcherContainer $match
     * @param mixed $filter
     * @return ?string
     */

@@ -27,7 +27,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
     use ArrayAccessPropertyTrait;
     /**
     * auto generate doc.
-    * @param mixed $devices medias
+    * @param IGKMedia & ...$devices
     * @return void
     */
     public function __construct(IGKMedia & ...$devices)

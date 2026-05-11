@@ -17,6 +17,10 @@ final class HtmlImgLnkNode extends HtmlANode{
     private $m_img;
     /**
     * auto generate doc.
+    * @param mixed $uri
+    * @param mixed $img
+    * @param mixed $width
+    * @param mixed $height
     * @param mixed $desc the default value is null
     */
     public function __construct($uri=null, $img=null, $width="16px", $height="16px", $desc=null){

@@ -34,10 +34,11 @@ class ModelBaseInjector implements IInjector{
         $this->model = $model;
     }
     /**
-     * resolv from request type
-     * @param mixed $id
-     * @return mixed 
-     */
+    * resolv from request type
+    * @param mixed $id
+    * @param ?string $type
+    * @return mixed
+    */
     public function resolve($id, ?string $type=null){
         if (is_null($id)){ 
             igk_die("failed to resolve from [id] can not be null");

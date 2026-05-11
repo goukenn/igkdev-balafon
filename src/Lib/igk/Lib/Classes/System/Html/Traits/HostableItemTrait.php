@@ -12,11 +12,11 @@ use IGK\System\Html\HtmlUtils;
 */
 trait HostableItemTrait{
     /**
-     * hotable node item 
-     * @param callable $n 
-     * @param mixed $args 
-     * @return void 
-     */
+    * hotable node item
+    * @param callable $callback
+    * @param mixed ...$args
+    * @return void
+    */
     public function host(callable $callback, ...$args){
         HtmlUtils::HostNode($this, $callback, ...$args);
         return $this;

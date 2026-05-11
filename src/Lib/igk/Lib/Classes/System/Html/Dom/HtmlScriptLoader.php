@@ -62,15 +62,17 @@ class HtmlScriptLoader
         return self::LoadScripts($this->dirs, $options, $this->production, $this->getExcludeDir());
     }
     /**
-     * load system core script 
-     * @param array<string> $tab array of directories 
-     * @param mixed $options render option
-     * @param bool $production production mode 
-     * @param array $exclude_dir list of excluded directory
-     * @param string $cachePath cache path
-     * @return string|false result
-     * @throws IGKException 
-     */
+    * load system core script
+    * @param array<string> $tab array of directories
+    * @param mixed $options render option
+    * @param bool $production production mode
+    * @param array $exclude_dir list of excluded directory
+    * @param string $cachePath cache path
+    * @param mixed $defer
+    * @param mixed $no_page_cache
+    * @throws IGKException
+    * @return string|false result
+    */
     public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache=null)
     {
         $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
@@ -268,12 +270,13 @@ class HtmlScriptLoader
         ]);
     }
     /**
-     * remove global export from script content
-     * @param string $content 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * remove global export from script content
+    * @param string $content
+    * @param mixed & $export_list
+    * @throws IGKException
+    * @throws Exception
+    * @return string
+    */
     public static function RemoveGlobalExportFromContent(string $content, & $export_list =[])
     {
         $ctx = new RegexMatcherContainer;
@@ -324,6 +327,7 @@ class HtmlScriptLoader
     }
     /**
     * auto generate doc.
+    * @param string $file
     * @param string $uri
     * @return string
     */

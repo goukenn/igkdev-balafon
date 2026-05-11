@@ -230,10 +230,10 @@ abstract class PhonebookTypeNames{
      */
     const PHT_THUMBNAIL = 'thumbnail';
     /**
-     * check for cardinality
-     * @param string $s 
-     * @return bool 
-     */
+    * check for cardinality
+    * @param string $n
+    * @return bool
+    */
     public static function IsSingle(string $n):bool{
         return in_array($n, explode('|', 'name|lastname|firstname|locale'));
     }

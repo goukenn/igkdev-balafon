@@ -42,6 +42,7 @@ class HtmlRenderer
     /**
     * auto generate doc.
     * @param HtmlItemBase $n
+    * @param mixed $separator
     * @return string
     */
     public static function SplitterJoin(HtmlItemBase $n, $separator='')
@@ -65,6 +66,7 @@ class HtmlRenderer
     }
     /**
     * auto generate doc.
+    * @param HtmlItemBase $s
     * @param mixed $g
     * @return string
     */
@@ -106,6 +108,7 @@ class HtmlRenderer
     }
     /**
     * auto generate doc.
+    * @param mixed $o
     */
     public static function InitRendererOption($o)
     {
@@ -117,6 +120,7 @@ class HtmlRenderer
     }
     /**
     * auto generate doc.
+    * @param mixed $o
     * @param mixed $options
     * @return ?string
     */
@@ -131,8 +135,11 @@ class HtmlRenderer
         return null;
     }
     /**
-     * force to render global html document
-     */
+    * force to render global html document
+    * @param mixed $doc
+    * @param mixed $refreshDefault
+    * @param mixed $ctrl
+    */
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {
         $igk = igk_app();
@@ -176,9 +183,9 @@ class HtmlRenderer
         $response->output();
     }
     /**
-     * sanitize rendering option 
-     * @param object 
-     */
+    * sanitize rendering option
+    * @param object $options
+    */
     public static function SanitizeOptions(object $options)
     {
         if (!isset($options->sanitizeRendering)) {
@@ -262,15 +269,17 @@ class HtmlRenderer
     * auto generate doc.
     * @param mixed $options
     * @param null|mixed $tag
-    * @return
+    * @return mixed
     */
     private static function reduceDepth($options, $tag = null)
     {
         $options->Depth = max(0, $options->Depth - 1);
     }
     /**
-     * a way to render node
-     */
+    * a way to render node
+    * @param HtmlItemBase $item
+    * @param mixed $options
+    */
     public static function Render(HtmlItemBase $item, $options = null)
     {
         // + | render option definition
@@ -495,6 +504,7 @@ class HtmlRenderer
     }
     /**
     * auto generate doc.
+    * @param HtmlItemBase $item
     * @param mixed $options
     * @return string
     */

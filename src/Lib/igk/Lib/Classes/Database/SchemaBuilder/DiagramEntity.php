@@ -109,12 +109,15 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         return $e;
     }
     /**
-     * add email column
-     * @param mixed $prefix 
-     * @param string $name 
-     * @param int $length 
-     * @return $this 
-     */
+    * add email column
+    * @param mixed $prefix
+    * @param string $name
+    * @param mixed $notnull
+    * @param mixed $inputtype
+    * @param mixed $default
+    * @param mixed $description
+    * @return $this
+    */
     public function email($name = "Email", $length=50, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity
     {
         return $this->addProperties([
@@ -127,11 +130,12 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         ]);
     }
     /**
-     * add tel field
-     * @param mixed $prefix 
-     * @param int $length 
-     * @return $this 
-     */
+    * add tel field
+    * @param mixed $prefix
+    * @param string $name
+    * @param int $length
+    * @return $this
+    */
     public function tel(string $prefix, string $name = "Tel", $length = 15)
     {
         return $this->addProperties([
@@ -217,6 +221,10 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
     /**
     * auto generate doc.
+    * @param string $name
+    * @param mixed $length
+    * @param mixed $type
+    * @param mixed $notnull
     * @param mixed $description
     * @return IDiagramSchemaEntity
     */
@@ -298,18 +306,18 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         ]]);
     }
     /**
-     * add link to table
-     * @param string $name 
-     * @param string $table_name 
-     * @param string $linkColumn 
-     * @param mixed $linkName 
-     * @param bool $notnull 
-     * @param string $inputtype 
-     * @param int $default 
-     * @param mixed $description 
-     * @return IDiagramSchemaEntity 
-     * @throws IGKException 
-     */
+    * add link to table
+    * @param string $name
+    * @param string $table
+    * @param ?string $column
+    * @param string $table_name
+    * @param string $linkColumn
+    * @param mixed $linkName
+    * @param bool $notnull
+    * @param string $inputtype
+    * @throws IGKException
+    * @return IDiagramSchemaEntity
+    */
     public function link(string $name, string $table, ?string $column = null, $linkName = null, $notnull = false,
     $inputtype = "", $default = 0, $description = null
     ): IDiagramSchemaEntity
@@ -323,6 +331,15 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
     /**
     * auto generate doc.
+    * @param string $name
+    * @param string $table_name
+    * @param mixed $linkColumn
+    * @param mixed $linkName
+    * @param mixed $notnull
+    * @param bool $unique
+    * @param ?int $uniqueColumn
+    * @param mixed $inputtype
+    * @param mixed $default
     * @param mixed $description
     * @return IDiagramSchemaEntity
     */
@@ -344,12 +361,14 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         ]]);
     }
     /**
-     * add int column
-     * @param mixed $name 
-     * @param int $length 
-     * @param mixed $description 
-     * @return $this 
-     */
+    * add int column
+    * @param mixed $name
+    * @param int $length
+    * @param mixed $default
+    * @param mixed $description
+    * @param ?array $extra
+    * @return $this
+    */
     public function int(string $name, $length = 9, $default = 0, $description = null, ?array $extra = null): IDiagramSchemaEntity
     {
         $data = [

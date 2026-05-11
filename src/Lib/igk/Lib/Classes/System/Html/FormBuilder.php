@@ -76,11 +76,12 @@ class FormBuilder
         'datetime-local' => 'igk-form-control datetime-local',
     ];
     /**
-     * retrieve attribute args
-     * @param mixed $attr 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * retrieve attribute args
+    * @param mixed & $attr
+    * @param bool $clean
+    * @throws Exception
+    * @return mixed
+    */
     private static function _GetAttribArgs(&$attr, bool $clean = true)
     {
         $key = null;
@@ -588,7 +589,7 @@ class FormBuilder
     * auto generate doc.
     * @param mixed & $tattrib
     * @param mixed $p
-    * @return
+    * @return mixed
     */
     private static function _MergeAttributes(& $tattrib, $p){
         if (!is_array($p)){
@@ -615,6 +616,7 @@ class FormBuilder
     }
     /**
     * auto generate doc.
+    * @param mixed $a
     * @param mixed $b
     * @return int
     */
@@ -657,6 +659,7 @@ class FormBuilder
     }
     /**
     * auto generate doc.
+    * @param string $id
     * @param null|array $def_data
     * @return mixed|null|array
     */

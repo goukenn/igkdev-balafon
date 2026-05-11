@@ -42,7 +42,9 @@ abstract class DispatcherService
     const TYPE_PRECISION = '@precision';
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
     * @param mixed $rtype mixed type to inject
+    * @param string $typecheck
     * @return mixed
     */
     public static function CreateOrGetServiceInstance(BaseController $ctrl, $rtype, string $typecheck = IInjectable::class)
@@ -96,13 +98,13 @@ abstract class DispatcherService
         return null;
     }
     /**
-     * get register injectable or service
-     * @param BaseController $ctrl 
-     * @param string $class_name 
-     * @param bool $transient 
-     * @param mixed ...$args 
-     * @return mixed 
-     */
+    * get register injectable or service
+    * @param BaseController $ctrl
+    * @param string $class_name
+    * @param bool $transient
+    * @param mixed ...$args
+    * @return mixed
+    */
     public static function  GetServiceInstance(BaseController $ctrl, string $class_name, $transient=false,  ...$args)
     {
         self::$sm_last_initService = null;

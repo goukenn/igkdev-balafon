@@ -112,7 +112,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     * @param mixed $v
-    * @return
+    * @return mixed
     */
     private function _add($v)
     {
@@ -148,7 +148,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function &_GetRegClass()
     {
@@ -165,7 +165,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $App
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private static function _initThemeDef($App, $name)
     {
@@ -183,7 +183,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private static function _RegClass($name)
     {
@@ -199,7 +199,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private static function _UnRegClass($name)
     {
@@ -342,7 +342,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $theme
     * @param mixed $v
-    * @return
+    * @return mixed
     */
     private static function GetParentClass($theme, $v)
     {

@@ -62,6 +62,8 @@ class WsdlFile extends IGKObject {
     private $uri;
     /**
     * auto generate doc.
+    * @param mixed $name
+    * @param mixed $uri
     * @param mixed $attributes the default value is null
     */
     public function __construct($name, $uri, $attributes=null){
@@ -81,7 +83,10 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
-    * @param encoded
+    * @param mixed $name
+    * @param mixed $style
+    * @param mixed $porttype
+    * @param mixed $enctype
     */
     public function addBindingService($name, $style="rpc", $porttype=null, $enctype='encoded'){
         $c=$this->m_binding->AddChild();
@@ -95,6 +100,9 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $n
+    * @param mixed $input
+    * @param mixed $output
     * @param mixed $porttype the default value is null
     */
     public function addMethod($n, $input, $output=null, $porttype=null){
@@ -125,6 +133,9 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $srvname
+    * @param mixed $doc
+    * @param mixed $srv
     * @param mixed $loc
     */
     public function addService($srvname, $doc, $srv, $loc){
@@ -140,7 +151,10 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
-    * @param sample:demo
+    * @param mixed $srv
+    * @param mixed $name
+    * @param mixed $type
+    * @param mixed $urn
     */
     protected function addServiceOperation($srv, $name, $type="encoded", $urn="sample:demo"){
         $op=$srv->addNode("operation");
@@ -208,6 +222,7 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $attrs the default value is null
     */
     public function initService($n, $attrs=null){
@@ -216,6 +231,8 @@ class WsdlFile extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $className
+    * @param mixed $srvName
     * @param mixed $attrs the default value is null
     */
     public function registerClass($className, $srvName, $attrs=null){
@@ -248,9 +265,9 @@ class WsdlFile extends IGKObject {
     }
     /**
     * register methods
+    * @param mixed $className
     * @param mixed $classname class name
     * @param mixed $srvName service name
-    * @param mixed $funclist array list of available functions
     */
     public function registerMethod($className, $srvName, $funclist){
         $_subtolocal = [

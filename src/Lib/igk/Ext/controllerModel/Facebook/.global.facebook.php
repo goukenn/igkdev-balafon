@@ -82,6 +82,7 @@ function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 /**
 * Igk html node face book time line.
 * @param mixed $id
+* @return mixed
 */
 function igk_html_node_faceBookTimeLine($id){
 	$n = igk_create_node("div");
@@ -97,6 +98,7 @@ function igk_html_node_faceBookTimeLine($id){
 /**
 * Igk html node face book like button.
 * @param mixed $showface
+* @return mixed
 */
 function igk_html_node_faceBookLikeButton($showface=false){
 	$n = igk_create_node("div");
@@ -110,6 +112,7 @@ function igk_html_node_faceBookLikeButton($showface=false){
 }
 /**
 * Igk html node face book share button.
+* @return mixed
 */
 function igk_html_node_faceBookShareButton(){
 		$n = igk_create_node("div");
@@ -124,6 +127,7 @@ function igk_html_node_faceBookShareButton(){
 /**
 * Igk html node face book comments.
 * @param mixed $uri
+* @return mixed
 */
 function igk_html_node_faceBookComments($uri){
 	$n = igk_create_node("div");

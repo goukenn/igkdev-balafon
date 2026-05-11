@@ -34,19 +34,24 @@ trait PHPDocCommentParseTrait
         'author', 'example', 'link', 'todo','deprecated','requires', 'template','extends', 'implements', 'use']);
     }
     /**
-     * parse php doc comment
-     * @param string $cm 
-     * @param ?PhpDocBlocReader $reader
-     * @param ?array $filter array of property to filter
-     * @param null|callable $filterCallback
-     * @param null|callable(string $name, mixed $definition, $parser):bool $handlerCallback handle extra properties
-     * @return PHPDocCommentParser 
-     */
+    * auto generate doc.
+    * @return void
+    */
+    protected abstract static function CreateInstance();
+    /**
+    * parse php doc comment
+    * @param string $cm
+    * @param ?PhpDocBlocReader $reader
+    * @param ?array $filter array of property to filter
+    * @param null|callable $filterCallback
+    * @param mixed $handlerCallback
+    * @return PHPDocCommentParser
+    */
     public static function ParsePhpDocComment(string $cm,  $reader = null, ?array $filter = null, $filterCallback = null, $handlerCallback = null)
     {
         $c = trim(igk_str_rm_start($cm, "/**"));
         $c = rtrim(igk_str_rm_last($c, "*/"));
-        $g = new self;
+        $g = self::CreateInstance(); // new self;
         $g->setPropertyFilterListener($filterCallback);
         $g->setPropertyHandlerListener($handlerCallback);
         $g->summary = ''; 
@@ -98,6 +103,11 @@ trait PHPDocCommentParseTrait
         }
         return $g;
     }
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return bool
+    */
     public function activingName(string $name):bool{
         return in_array($name, ['deprecated']);
     }
@@ -163,5 +173,9 @@ trait PHPDocCommentParseTrait
         $key = str_replace('_', '-', $key);
         return $key;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     abstract function getExtraProperties();
 }

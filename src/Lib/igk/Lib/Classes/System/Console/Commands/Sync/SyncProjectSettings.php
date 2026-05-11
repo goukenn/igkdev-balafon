@@ -31,7 +31,8 @@ class SyncProjectSettings{
     }
     /**
     * auto generate doc.
-    * @param mixed $excludir
+    * @param string $pdir
+    * @param mixed & $excludedir
     * @return void
     */
     public static function InitProjectExcludeDir(string $pdir, & $excludedir){

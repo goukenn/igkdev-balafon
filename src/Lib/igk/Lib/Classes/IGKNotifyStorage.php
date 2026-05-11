@@ -43,7 +43,7 @@ class IGKNotifyStorage{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){    }
     /**

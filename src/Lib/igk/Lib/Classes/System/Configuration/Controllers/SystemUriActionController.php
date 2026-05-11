@@ -54,6 +54,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
     /**
     * auto generate doc.
+    * @param SystemUriActionController $controller
     */    private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
@@ -90,7 +91,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     * @param mixed $key
-    * @return
+    * @return mixed
     */
     public function contains($key){
         $tab=$this->_refRoutes();
@@ -200,6 +201,9 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
     /**
     * auto generate doc.
+    * @param mixed $uri
+    * @param mixed $params
+    * @param mixed $redirection
     * @param int|bool $render render content
     */
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
@@ -228,7 +232,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function & _refRoutes(){
         self::_RegActions($this);
@@ -277,7 +281,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $ctrl
     * @param mixed & $route
     * @param mixed $forceReload
-    * @return
+    * @return mixed
     */
     private static function InitActionList($ctrl, & $route, $forceReload=false){
         $actions=array();
@@ -463,11 +467,12 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         }
     }
     /**
-     * get controller that match the query
-     * @param string $uri 
-     * @return null|\IGK\Controllers\BaseController 
-     * @throws IGKException 
-     */
+    * get controller that match the query
+    * @param string $uri
+    * @param bool $forceMatch
+    * @throws IGKException
+    * @return null|\IGK\Controllers\BaseController
+    */
     public static function GetMatchCtrl(string $uri, bool $forceMatch=false){
         static $rsolv = true;
         if ($rsolv){

@@ -41,6 +41,8 @@ class CssLibraryExportCommand extends AppExecCommand{
     var $usage = 'filename [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param ?string $filename
     */
     public function exec($command, ?string $filename=null) {
 		is_null($filename) && igk_die('missing filename');

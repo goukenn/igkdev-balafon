@@ -20,6 +20,7 @@ class InitDataAnnotation extends AnnotationBase{
     /**
     * auto generate doc.
     * @param BaseController $controller
+    * @param bool $recursive
     * @return void
     */
     public static function InitData(BaseController $controller, bool $recursive=false){

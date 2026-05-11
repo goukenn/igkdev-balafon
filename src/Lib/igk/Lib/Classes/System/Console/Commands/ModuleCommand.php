@@ -85,7 +85,7 @@ class ModuleCommand extends AppExecCommand{
     * auto generate doc.
     * @param mixed $command
     * @param null|string $module
-    * @return
+    * @return mixed
     */
     private function _checkCommand($command, ?string $module=null){
         $mod = igk_get_module($module) ?? igk_die('module not found');
@@ -103,7 +103,7 @@ class ModuleCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function listCommand(){
         $mod = igk_get_modules();
@@ -130,14 +130,14 @@ class ModuleCommand extends AppExecCommand{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _installCommand(){
         throw new NotImplementException(__METHOD__);
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _removeCommand(){
         throw new NotImplementException(__METHOD__);

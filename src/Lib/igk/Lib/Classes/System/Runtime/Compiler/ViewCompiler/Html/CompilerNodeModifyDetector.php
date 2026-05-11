@@ -161,7 +161,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     /**
     * auto generate doc.
     * @param mixed $e
-    * @return
+    * @return mixed
     */
     private static function _PrefilterCreateNode($e)
     {

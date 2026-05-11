@@ -29,8 +29,10 @@ class FixLangCommand extends AppExecCommand{
     */
     var $desc = "fix language file";
     /**
-     * fix language 
-     */
+    * fix language
+    * @param mixed $command
+    * @param mixed $path
+    */
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");

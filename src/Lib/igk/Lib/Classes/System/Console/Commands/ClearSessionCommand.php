@@ -36,8 +36,9 @@ class ClearSessionCommand extends AppExecCommand{
     */
     var $skip = false;
     /**
-     * exec the command
-     */
+    * exec the command
+    * @param mixed $command
+    */
     public function exec($command)
     { 
         if ($command){

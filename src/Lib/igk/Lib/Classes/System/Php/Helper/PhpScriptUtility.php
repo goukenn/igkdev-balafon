@@ -4,12 +4,11 @@
 // @date: 20260320 14:22:13
 namespace IGK\System\Php\Helper;
 use IGK\Helper\Activator;
-
 /**
- * 
- * @package IGK\System\Php\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Php\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 /**
  * auto generate doc.
  * @package IGK\System\Php\Helper
@@ -33,10 +32,11 @@ abstract class PhpScriptUtility
         return $pos;
     }
     /**
-     * remove global functtion 
-     * @param string $src 
-     * @return ?string 
-     */
+    * remove global functtion
+    * @param string $src
+    * @param mixed $options
+    * @return ?string
+    */
     public static function RemoveGlobalFunc(string $src, $options = null): ?string
     {
         $f = Activator::CreateNewInstance(PhpRemoveGlobaFunc::class, $options ?? []);

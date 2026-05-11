@@ -22,6 +22,8 @@ final class Helper{
     const TABLE_PROPERTY  = 'tables';
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
+    * @param callable $callback
     * @param bool $force
     * @return array
     */
@@ -40,6 +42,8 @@ final class Helper{
     }
     /**
     * auto generate doc.
+    * @param string $file
+    * @param callable $callback
     * @param bool $force
     * @return array
     */

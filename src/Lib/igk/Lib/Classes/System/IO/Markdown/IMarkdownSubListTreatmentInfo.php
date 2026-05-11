@@ -22,6 +22,10 @@ namespace IGK\System\IO\Markdown;
 * @property ?callable(string):void $handleNullParentListener
 * @property ?callable(string):void $moveToQuoteDepthListener
 */
+/**
+* auto generate doc.
+* @package IGK\System\IO\Markdown
+*/
 interface IMarkdownSubListTreatmentInfo{
 
 }

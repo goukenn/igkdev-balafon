@@ -30,7 +30,7 @@ class ThemeRenderingTest extends BaseTestCase{
     /**
     * auto generate doc.
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private static function _CreateTheme($id){
         return new HtmlDocTheme( null, $id , false);
@@ -146,7 +146,7 @@ class ThemeRenderingTest extends BaseTestCase{
     /**
     * auto generate doc.
     * @param mixed $theme
-    * @return
+    * @return mixed
     */
     private function _out_theme($theme){
         $this->m_root = new HtmlDocTheme(null, 'root-css-test-theme');

@@ -51,7 +51,7 @@ final class SystemController extends NonVisibleControllerBase{
     /**
     * auto generate doc.
     * @param mixed $frm
-    * @return
+    * @return mixed
     */
     private function _buildForm($frm){
         $this->m_fontList=$this->_getFontList();
@@ -88,7 +88,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getFontList(){
         $file=igk_sys_cgi_folder()."/cscgi/fontlist.cgi";

@@ -10,6 +10,10 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class ProtectHtmlField{
     /**
     * Property: engines.

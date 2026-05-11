@@ -11,11 +11,12 @@ use IGK\XML\XMLNodeType;
 require_once __DIR__ . '/io.php';
 require_once __DIR__ . '/xml.php';
 /**
- * used to load configuration file.
- * @param mixed $file xml file to load
- * @param mixed $tag root name tag
- * @param mixed $obj object where to load
- */
+* used to load configuration file.
+* @param mixed $file xml file to load
+* @param mixed $tag root name tag
+* @param mixed $obj object where to load
+* @return mixed
+*/
 function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
 {
     $s = igk_io_read_allfile($file);
@@ -24,7 +25,10 @@ function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
 }
 /**
 * auto generate doc.
+* @param mixed $s
+* @param mixed $tag
 * @param mixed $deftext
+* @return mixed
 */
 function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
 {
@@ -82,7 +86,9 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
 }
 /**
 * auto generate doc.
+* @param mixed & $t
 * @param mixed $d
+* @return mixed
 */
 function igk_conf_load_attribs(&$t, $d)
 {
@@ -93,10 +99,12 @@ function igk_conf_load_attribs(&$t, $d)
     }
 }
 /**
- * used to load configuration settings
- * @param mixed $obj output object
- * @param mixed $n igk html node to load
- */
+* used to load configuration settings
+* @param mixed $obj output object
+* @param mixed $n igk html node to load
+* @param ?callable $attr_filter
+* @return mixed
+*/
 function igk_conf_load($obj, $n, ?callable $attr_filter = null)
 {
     if (!isset($n))

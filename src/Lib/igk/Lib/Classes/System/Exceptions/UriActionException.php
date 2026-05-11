@@ -17,6 +17,8 @@ class UriActionException extends IGKException{
     private $m_uri;
     /**
     * auto generate doc.
+    * @param mixed $msg
+    * @param mixed $uri
     * @param mixed $code the default value is 0
     */
     public function __construct($msg, $uri=null, $code=0){

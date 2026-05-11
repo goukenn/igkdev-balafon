@@ -178,7 +178,7 @@ class InstallSiteCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function getUserGroup(){
         if (igk_environment()->isUnix()){

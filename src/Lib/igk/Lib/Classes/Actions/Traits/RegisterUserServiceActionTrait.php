@@ -72,15 +72,18 @@ trait RegisterUserServiceActionTrait{
         return false;
     }
     /**
-     * send user mail registration 
-     * @param mixed $user 
-     * @return void 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * send user mail registration
+    * @param mixed $user
+    * @param ?array $data
+    * @param mixed $title
+    * @param mixed $template_or_article
+    * @throws IGKException
+    * @throws Exception
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     protected function _sendMailRegistration($user,?array $data=null, $title='Registration', $template_or_article='mails/registration.template'){
         $ctrl = $this->getController();
         if ($service = igk_app()->getService(ServiceNameConstants::MailService)){

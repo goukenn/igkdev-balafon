@@ -19,7 +19,7 @@ class GlobalCssParser{
     var $source;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

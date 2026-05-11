@@ -254,7 +254,7 @@ final class ApplicationModuleController extends BaseController{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initModuleClasses(){
         $dir = $this->getDeclaredDir();
@@ -385,7 +385,7 @@ final class ApplicationModuleController extends BaseController{
     }
     /**
     * auto generate doc.
-    * @param * $configs
+    * @param mixed & $configs
     */
     protected function _initconfig(& $configs){
         $configs["libdir"]= igk_io_collapse_path(IGK_LIB_DIR); 
@@ -492,6 +492,8 @@ final class ApplicationModuleController extends BaseController{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
+    * @param mixed $def
     * @param mixed $register the default value is false
     * @return *
     */
@@ -526,6 +528,7 @@ final class ApplicationModuleController extends BaseController{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $fc
     */
     protected function reg_function($n, $fc){
@@ -550,6 +553,7 @@ final class ApplicationModuleController extends BaseController{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function setParam($n, $v){

@@ -24,11 +24,10 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Runtime\Compiler\Armonic
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\Armonic
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\Armonic
@@ -716,7 +715,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     private function _readVariable(ReadTokenOptions $options, $id, $value)
     {
@@ -847,6 +846,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param mixed $value
     * @return bool
     */
@@ -1057,7 +1058,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     /**
     * auto generate doc.
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private static function IsModifier($id)
     {
@@ -1095,6 +1096,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param string $value
     * @return void
     */
@@ -1115,6 +1118,8 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param string $value
     * @return void
     */

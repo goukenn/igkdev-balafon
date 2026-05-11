@@ -61,6 +61,7 @@ implements IDatabaseHost
     private static $sm_apps;
     /**
     * auto generate doc.
+    * @param mixed $news
     * @param mixed $funcrequest the default value is null
     */
     private function _getfunclist($news = false, $funcrequest = null)
@@ -68,8 +69,11 @@ implements IDatabaseHost
         return igk_sys_getfunclist($this, $news, $funcrequest);
     }
     /**
-     *  override this method to handle shortcut evaluationUri according to function and param
-     */
+    * override this method to handle shortcut evaluationUri according to function and param
+    * @param mixed $fc
+    * @param mixed $param
+    * @param mixed $options
+    */
     protected function _handle_uri_param($fc, $param, $options = null)
     {
         return false;
@@ -98,6 +102,7 @@ implements IDatabaseHost
     }
     /**
     * auto generate doc.
+    * @param mixed $func
     * @param mixed $args
     */
     protected function bind_func($func, $args)
@@ -112,8 +117,9 @@ implements IDatabaseHost
         return false;
     }
     /**
-     * check before controller add
-     */
+    * check before controller add
+    * @param mixed $request
+    */
     public static function CheckBeforeAddControllerInfo($request)
     {
         $title = igk_getv($request, IGK_CTRL_CNF_TITLE);
@@ -242,8 +248,10 @@ implements IDatabaseHost
         igk_navto($this->getAppUri());
     }
     /**
-     * drop application table from system config
-     */
+    * drop application table from system config
+    * @param mixed $navigate
+    * @param mixed $force
+    */
     protected static function dropDb($navigate = true, $force = false)
     {
         if (!($c = igk_getctrl(static::class, false))) {
@@ -274,8 +282,9 @@ implements IDatabaseHost
         igk_exit();
     }
     /**
-     * List Exposed Functions
-     */
+    * List Exposed Functions
+    * @param mixed $n
+    */
     public function functions($n = false)
     {
         if (!igk_server_is_local() && !igk_is_conf_connected()) {
@@ -444,7 +453,10 @@ EOF;
      */
     /**
     * auto generate doc.
+    * @param ?string $function
     * @param bool $full indicate to full request uri
+    * @param bool $force_access
+    * @param ?bool $entry_controller
     * @return null|string
     */
     public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = null): ?string
@@ -825,8 +837,9 @@ EOF;
         return true;
     }
     /**
-     * check that if the controller handle base uri
-     */
+    * check that if the controller handle base uri
+    * @param mixed $uri
+    */
     public function is_handle_uri($uri = null)
     {
         if (igk_const('IGK_REDIRECTION') == 1) {
@@ -854,8 +867,9 @@ EOF;
         return false;
     }
     /**
-     * get if function is available
-     */
+    * get if function is available
+    * @param mixed & $func
+    */
     protected function IsFuncUriAvailable(&$func)
     {
         $c = new ReflectionMethod($this, $func);
@@ -936,6 +950,8 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $view
+    * @param mixed $doc
     * @param mixed $render the default value is true
     */
     protected function renderDefaultDoc($view = 'default', $doc = null, $render = true)
@@ -982,8 +998,9 @@ EOF;
         }
     }
     /**
-     *  save data schema
-     */
+    * save data schema
+    * @param mixed $exit
+    */
     public function save_data_schemas($exit = 1)
     {
         $this->checkFunc(__FUNCTION__);
@@ -995,7 +1012,7 @@ EOF;
     }
     /**
     * auto generate doc.
-    * @param * $t
+    * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(&$t)
     {
@@ -1042,8 +1059,9 @@ EOF;
         igk_wln(__FUNCTION__ . " Not implements");
     }
     /**
-     *  synchronize the current user data to target server
-     */
+    * synchronize the current user data to target server
+    * @param mixed $login
+    */
     public function sync_user_data($login = null)
     {
         if (($login == null) && ($this->User != null))

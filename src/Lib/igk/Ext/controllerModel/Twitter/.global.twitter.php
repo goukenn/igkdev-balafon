@@ -3,11 +3,11 @@
 // @filename: .global.twitter.php
 // @date: 20220803 13:48:58
 // @desc:
-
 /**
 * Igk html node twitter follow us.
 * @param mixed $id
 * @param mixed $showcount
+* @return mixed
 */
 function igk_html_node_twitterFollowUs($id, $showcount=0){
 	igk_trace();
@@ -34,6 +34,7 @@ EOF,array("n"=>$n)));
 * @param mixed $id
 * @param null|mixed $theme
 * @param null|mixed $color
+* @return mixed
 */
 function igk_html_node_twitterTimeLine($id, $theme=null, $color=null){
 	igk_trace();

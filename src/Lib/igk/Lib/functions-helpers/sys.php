@@ -6,9 +6,10 @@
 use IGK\System\Text\RegexMatcherContainer;
 
 if (!function_exists('igk_sys_request_time')){
-/**
-* Igk sys request time.
-*/
+    /**
+    * Igk sys request time.
+    * @return mixed
+    */
 function igk_sys_request_time(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
         return (microtime(true) - $time);
@@ -32,10 +33,11 @@ if (!function_exists('igk_sys_reflect_filter_public_properties')) {
     }
 }
 if (!function_exists('igk_sys_get_html_components')){
-/**
-* Igk sys get html components.
-* @param null|string $pattern
-*/
+    /**
+    * Igk sys get html components.
+    * @param null|string $pattern
+    * @return mixed
+    */
 function igk_sys_get_html_components(?string $pattern=null){
         $g = array_filter(array_map(function ($g) use($pattern) {
             if (preg_match("/^" . IGK_FUNC_NODE_PREFIX . "(?P<name>.+)/", $g, $tab) && (!is_string($pattern) || preg_match($pattern, $tab[1]) )) {
@@ -48,11 +50,13 @@ function igk_sys_get_html_components(?string $pattern=null){
 }
 if (!function_exists('igk_sys_reflect_is_support_trait')){
     /**
-     * the ReflectionClass::getTraits method return only the trait attached to current class 
-     * need to throw parent 
-     * @var string $class_name
-     * @var string $trait_class
-     */
+    * the ReflectionClass::getTraits method return only the trait attached to current classneed to throw parent
+    * @param string $class_name
+    * @param string $trait_class
+    * @var string $class_name
+    * @var string $trait_class
+    * @return mixed
+    */
     function igk_sys_reflect_is_support_trait(string $class_name , string $trait_class){
         if ($r = igk_sys_reflect_class($class_name)){
             while($r && !in_array($trait_class, array_keys($r->getTraits()))){
@@ -76,18 +80,20 @@ if (!function_exists('igk_sys_cookies_read_value')) {
     }
 }
 if (!function_exists('igk_sys_cookies_build')){
-/**
-* Igk sys cookies build.
-* @param array $cookies_entries
-*/
+    /**
+    * Igk sys cookies build.
+    * @param array $cookies_entries
+    * @return mixed
+    */
 function igk_sys_cookies_build(array $cookies_entries){
         return implode(";", array_map(function($a,$b){ return $b.'='.$a; }, $cookies_entries, array_keys($cookies_entries)));
     }
 }
 if (!function_exists('preg_last_error_msg')){
-/**
-* Preg last error msg.
-*/
+    /**
+    * Preg last error msg.
+    * @return mixed
+    */
 function preg_last_error_msg(){ 
         if ($c = preg_last_error()){
             return 'preg_last_error: '.$c;

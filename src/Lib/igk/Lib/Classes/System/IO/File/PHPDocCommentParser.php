@@ -113,7 +113,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }
@@ -187,7 +187,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     * auto generate doc.
     * @param mixed $t
     * @param mixed & $offset
-    * @return
+    * @return mixed
     */
     private static function ReadName($t, & $offset){
         $ln = strlen($t);

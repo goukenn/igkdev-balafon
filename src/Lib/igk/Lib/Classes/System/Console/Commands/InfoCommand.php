@@ -6,19 +6,37 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\Path;
 use IGKEvents;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class InfoCommand extends AppExecCommand{
 	var $command='--info';
-	var $desc='retrieve essential balafon information';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $desc='retrieve essential balafon information';
 	/* var $options=[]; */
-	var $category = 'sys';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $category = 'sys';
 	/* var $usage = ''; */
-	public function exec($command) { 
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @return void
+    */
+    public function exec($command) { 
 		$obj = igk_createobj();
 		$obj->version = IGK_VERSION;
 		$obj->cwd = getcwd();

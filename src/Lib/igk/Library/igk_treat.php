@@ -12,6 +12,8 @@ use IGK\System\Html\ProjectHtmlField as IGKProtectHtmlField;
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 /**
 * protect request information
+* @param mixed & $tab
+* @return mixed
 */
 function igk_protect_request(& $tab){
     static $protecResolver=null;
@@ -31,19 +33,21 @@ function igk_protect_request(& $tab){
 * @param string|array<string> $source string to treat
 * @param ?closure $callback callback to call when done
 * @param mixed $tab tab information for algorightm
-* @param mixed $options options for treatment
+* @param mixed & $options
+* @return mixed
 */
 function igk_treat_source($source, $callback, $tab=null, & $options=null){
     if(is_string($source)){
         $source=explode("\n", $source);
     }
     if(!function_exists("igk_treat_append")){
-/**
-* Igk treat append.
-* @param mixed $options
-* @param mixed $t
-* @param mixed $indent
-*/
+        /**
+        * Igk treat append.
+        * @param mixed $options
+        * @param mixed $t
+        * @param mixed $indent
+        * @return mixed
+        */
 function igk_treat_append($options, $t, $indent=0){
             if(isset($options->writeListener)){
                 $fc=$options->writeListener;
@@ -56,19 +60,21 @@ function igk_treat_append($options, $t, $indent=0){
         }
     }
     if(!function_exists("igk_treat_create_options")){
-/**
-* Igk treat create options.
-*/
+        /**
+        * Igk treat create options.
+        * @return mixed
+        */
 function igk_treat_create_options(){
             $options=(object)array();
             return $options;
         }
     }
     if(!function_exists("igk_treat_source_expression")){
-/**
-* Igk treat source expression.
-* @param mixed $options
-*/
+        /**
+        * Igk treat source expression.
+        * @param mixed $options
+        * @return mixed
+        */
 function igk_treat_source_expression($options){
             $tab=array();
             return $tab;

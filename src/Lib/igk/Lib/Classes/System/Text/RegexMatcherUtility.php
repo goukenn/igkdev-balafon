@@ -46,6 +46,10 @@ abstract class RegexMatcherUtility
     }
     /**
     * auto generate doc.
+    * @param string $source
+    * @param mixed $replacement
+    * @param mixed $pattern
+    * @param mixed $g
     * @param mixed $replaceCapturedDataCallback
     * @return void
     */
@@ -65,6 +69,9 @@ abstract class RegexMatcherUtility
     }
     /**
     * auto generate doc.
+    * @param string $s
+    * @param mixed $rp
+    * @param mixed $e
     */
     public static function ReplaceWithOnly(string $s, $rp, $e){
         $g = '/^(.+)$/m';
@@ -175,6 +182,7 @@ abstract class RegexMatcherUtility
     }
     /**
     * auto generate doc.
+    * @param RegexMatcherContainer $ctn
     * @param string $haystack the string to operate
     */
     public static function TreatByRemoveRootScopePattern(RegexMatcherContainer $ctn, string $haystack)
@@ -337,6 +345,7 @@ abstract class RegexMatcherUtility
     }
     /**
     * auto generate doc.
+    * @param mixed $regex
     * @param array &$patterns
     * @return void
     */
@@ -348,6 +357,7 @@ abstract class RegexMatcherUtility
     }
     /**
     * auto generate doc.
+    * @param mixed & $v_plc
     * @param IRegexMatcherEndDetectionInfo $e
     * @return array
     */

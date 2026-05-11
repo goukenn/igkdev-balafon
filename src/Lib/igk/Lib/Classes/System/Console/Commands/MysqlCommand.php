@@ -308,7 +308,7 @@ class MySQLCommand extends AppExecCommand
     * @param mixed $command
     * @param string $tablename
     * @param string $key_name
-    * @return
+    * @return mixed
     */
     public function action_drop_foreign_key($command, string $tablename , string $key_name){
         $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
@@ -330,6 +330,7 @@ class MySQLCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param string $query
     * @return string
     */
@@ -343,8 +344,10 @@ class MySQLCommand extends AppExecCommand
         return 0;
     }
     /**
-     * priview create query list
-     */
+    * priview create query list
+    * @param mixed $ctrl
+    * @param mixed $table
+    */
     private  function preview_create_query($ctrl, $table)
     {
         $ad = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
@@ -385,7 +388,7 @@ class MySQLCommand extends AppExecCommand
     * @param mixed $zip
     * @param string $type
     * @param null|string $filter
-    * @return
+    * @return mixed
     */
     private function dump_database(DataAdapter $ad, $zip = false, string $type='csv', ?string $filter=null)
     {
@@ -428,7 +431,7 @@ class MySQLCommand extends AppExecCommand
     * @param string $zipfile
     * @param mixed $ad
     * @param callable $callback
-    * @return
+    * @return mixed
     */
     private function UnZipRestoreDump(string $zipfile, $ad, callable $callback)
     {
@@ -574,7 +577,7 @@ class MySQLCommand extends AppExecCommand
     * @param mixed $table
     * @param mixed $entry
     * @param mixed $mode
-    * @return
+    * @return mixed
     */
     private static function update_data($ad, $table, $entry, $mode){
         $ad->insert($table, $entry);
@@ -583,7 +586,7 @@ class MySQLCommand extends AppExecCommand
     * auto generate doc.
     * @param mixed $ad
     * @param null|string $filter
-    * @return
+    * @return mixed
     */
     private function select_show_tables_query($ad, ?string $filter=null){
         $q = "show tables";

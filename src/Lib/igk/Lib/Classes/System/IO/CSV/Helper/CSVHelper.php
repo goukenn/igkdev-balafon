@@ -38,13 +38,14 @@ class CSVHelper
         }
     }
     /**
-     * helper
-     * @param string $src source to treat
-     * @param string $delimiter string delimiter
-     * @param mixed $last_segment will contain last invalid segment
-     * @param callable|null $callback 
-     * @return array 
-     */
+    * helper
+    * @param string $src source to treat
+    * @param string $delimiter string delimiter
+    * @param mixed & $last_segment
+    * @param mixed $last_segment will contain last invalid segment
+    * @param ?int $flags
+    * @return array
+    */
     public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         $v_is_read_serialize = $flags && (($flags & self::CSV_READ_SERIAL) == self::CSV_READ_SERIAL);
@@ -147,11 +148,11 @@ class CSVHelper
     }
 }
 /**
- * helper: read serialize data string
- * @param string $data 
- * @param int $pos 
- * @return string|false 
- */
+* helper: read serialize data string
+* @param string $str
+* @param int & $pos
+* @return string|false
+*/
 function igk_str_read_serialize_data(string $str, int &$pos)
 {
     $tpos = $pos;

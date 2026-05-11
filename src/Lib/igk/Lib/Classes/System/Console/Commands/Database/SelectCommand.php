@@ -169,6 +169,8 @@ class SelectCommand extends AppExecCommand
 	}
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param BaseController $ctrl
     * @param ModelBase $model
     * @return int
     */
@@ -180,11 +182,12 @@ class SelectCommand extends AppExecCommand
 		}
 		return 0;
 	}
-	/**
-	 * print result 
-	 * @param mixed $g 
-	 * @return void 
-	 */
+    /**
+    * print result
+    * @param mixed $g
+    * @param mixed $flag
+    * @return void
+    */
     public static function PrintResult($g, $flag)
 	{
 		if ($g instanceof ModelBase) {

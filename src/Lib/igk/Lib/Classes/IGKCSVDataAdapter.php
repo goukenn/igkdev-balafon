@@ -322,6 +322,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * auto generate doc.
     * @param mixed $l
+    * @param mixed $sep
+    * @param ?int $flags
     */
     private static function _CSVReadLine($l, $sep=",", ?int $flags=null){ 
         $ch = '';
@@ -407,7 +409,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
-    * @param file
+    * @param mixed $datafile
     */
     public function connect($datafile="file"){
         $this->m_dbname=$datafile;
@@ -420,6 +422,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
+    * @param string $table
+    * @param ?array $where
+    * @param ?array $options
     */
     public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
@@ -444,6 +449,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
     * @param mixed $callback
     */
     public function initSystablePushInitItem($tablename, $callback){}
@@ -457,6 +463,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * auto generate doc.
     * @param mixed $filename
+    * @param mixed $options
     */
     public static function LoadData($filename, $options=null){
         $txt=IO::ReadAllText($filename);
@@ -464,6 +471,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $txt
+    * @param mixed $rmBom
     * @param array|\IGK\System\IO\CSV\CSVDataAdapterLoadStringOptions $options assoc array of delimiter:ch|separator|flag : csv flag|filter callback to filter
     */
     public static function LoadString($txt, $rmBom=true, $options=null){
@@ -512,6 +521,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $filename
     * @param mixed $entries
     */
     public static function StoreData($filename, $entries){
@@ -537,6 +547,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $key
     */
     public static function toCSVLineEntry($tab, $key=null){
         $out=IGK_STR_EMPTY;

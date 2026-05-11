@@ -13,12 +13,12 @@ use DOMDocument;
 class XSDValidator
 {
     /**
-     * validate with source 
-     * @param string $source xml source
-     * @param string $xsd xsd source
-     * @param mixed|null $error allow error
-     * @return bool|void return true if succeed
-     */
+    * validate with source
+    * @param string $source xml source
+    * @param string $xsd xsd source
+    * @param ?array & $error
+    * @return bool|void return true if succeed
+    */
     public static function ValidateSource(string $source, string $xsd, ?array & $error = null)
     {
         $dom = new DOMDocument;
@@ -47,6 +47,8 @@ class XSDValidator
     }
     /**
     * auto generate doc.
+    * @param string $source
+    * @param string $uri
     * @return ?bool
     */
     public static function ValidateSourceUri(string $source, string $uri): ?bool{

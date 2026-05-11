@@ -126,6 +126,10 @@ class ConfigurationPageHandler
         $this->_unregHookHandleUri($func);
         return $c;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function _hookHandleUri()
     {
         $fc = function ($e) {
@@ -134,10 +138,20 @@ class ConfigurationPageHandler
         igk_reg_hook(CPanel::HOOK_HANDLE_URI, $fc);
         return $fc;
     }
+    /**
+    * auto generate doc.
+    * @param mixed $fc
+    * @return void
+    */
     protected function _unregHookHandleUri($fc)
     {
         igk_unreg_hook(CPanel::HOOK_HANDLE_URI, $fc);
     }
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    * @return void
+    */
     public function _handleConfigurationURI($e)
     {
         list($obj) = $e->args;

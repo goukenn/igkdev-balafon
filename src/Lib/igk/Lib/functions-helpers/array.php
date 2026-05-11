@@ -6,11 +6,12 @@
 use IGK\System\Regex\Replacement;
 
 if (!function_exists("igk_array_find_first")) {
-/**
-* Igk array find first.
-* @param array $tab
-* @param callable $callback
-*/
+    /**
+    * Igk array find first.
+    * @param array $tab
+    * @param callable $callback
+    * @return mixed
+    */
 function igk_array_find_first(array $tab, callable $callback)
     {
         foreach ($tab as $value) {
@@ -22,8 +23,10 @@ function igk_array_find_first(array $tab, callable $callback)
 }
 if (!function_exists("igk_array_keysv")) {
     /**
-     * return only non numeric keys value
-     */
+    * return only non numeric keys value
+    * @param array $tab
+    * @return mixed
+    */
     function igk_array_keysv(array $tab)
     {
         $o = [];
@@ -55,11 +58,12 @@ if (!function_exists('igk_array_pad')) {
 }
 if (!function_exists("igk_array_copy")) {
     /**
-     * copy array
-     * @param array $c source to copy
-     * @param int $from start index
-     * @param int $to -1 for all or end index .
-     */
+    * copy array
+    * @param array $c source to copy
+    * @param int $from start index
+    * @param int $to -1 for all or end index .
+    * @return mixed
+    */
     function igk_array_copy(array $c, $from = 0, $to = -1)
     {
         $tab = array();
@@ -84,8 +88,11 @@ if (!function_exists("igk_array_copy")) {
 }
 if (!function_exists("igk_array_createkeyarray")) {
     /**
-     *  create a key array for value
-     */
+    * create a key array for value
+    * @param mixed $tab
+    * @param mixed $default
+    * @return mixed
+    */
     function igk_array_createkeyarray($tab, $default = 1)
     {
         return array_fill_keys($tab, $default);
@@ -93,8 +100,11 @@ if (!function_exists("igk_array_createkeyarray")) {
 }
 if (!function_exists("igk_array_exclude")) {
     /**
-     * exclude some properties array
-     */
+    * exclude some properties array
+    * @param mixed $args
+    * @param mixed $property
+    * @return mixed
+    */
     function igk_array_exclude($args, $property)
     {
         if (is_string($property))
@@ -132,7 +142,10 @@ if (!function_exists("igk_array_extract")) {
 if (!function_exists("igk_array_fill")) {
     /**
     * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $size
     * @param mixed $default
+    * @return mixed
     */
     function igk_array_fill($tab, $size = 0, $default = 0)
     {
@@ -147,11 +160,15 @@ if (!function_exists("igk_array_fill")) {
 }
 if (!function_exists("igk_array_filter")) {
     /**
-     * array filter data, throw if require parameter is missing
-     * @var mixed $data object to filter
-     * @var mixed $data object to filter
-     * @var mixed $list list of defined value key=>required
-     */
+    * array filter data, throw if require parameter is missing
+    * @param mixed $data
+    * @param mixed $list
+    * @param mixed $die
+    * @var mixed $data object to filter
+    * @var mixed $data object to filter
+    * @var mixed $list list of defined value key=>required
+    * @return mixed
+    */
     function igk_array_filter($data, $list, $die = true)
     {
         $q = [];
@@ -172,9 +189,10 @@ if (!function_exists("igk_array_filter")) {
 }
 if (!function_exists("igk_array_first")) {
     /**
-     * first element on array
-     * @param mixed $c 
-     */
+    * first element on array
+    * @param mixed $c
+    * @return mixed
+    */
     function igk_array_first($c)
     {
         if (is_array($c) && (igk_count($c) > 0)) {
@@ -186,8 +204,10 @@ if (!function_exists("igk_array_first")) {
 }
 if (!function_exists("igk_array_is_assoc")) {
     /**
-     * Check if an array is an associative array. It contains at least one non-numeric index.
-     */
+    * Check if an array is an associative array. It contains at least one non-numeric index.
+    * @param array $tab
+    * @return mixed
+    */
     function igk_array_is_assoc(array $tab)
     {
         foreach (array_keys($tab) as $c) {
@@ -199,8 +219,10 @@ if (!function_exists("igk_array_is_assoc")) {
 }
 if (!function_exists("igk_array_is_indexed")) {
     /**
-     * get if an array is indexed
-     */
+    * get if an array is indexed
+    * @param mixed $arr
+    * @return mixed
+    */
     function igk_array_is_indexed($arr)
     {
         return array_values($arr) === $arr;
@@ -208,8 +230,10 @@ if (!function_exists("igk_array_is_indexed")) {
 }
 if (!function_exists("igk_array_is_assoc_only")) {
     /**
-     * get if an array is indexed
-     */
+    * get if an array is indexed
+    * @param mixed $arr
+    * @return mixed
+    */
     function igk_array_is_assoc_only($arr)
     {
         foreach (array_keys($arr) as $c) {
@@ -221,8 +245,10 @@ if (!function_exists("igk_array_is_assoc_only")) {
 }
 if (!function_exists("igk_array_key_value_toggle")) {
     /**
-     * used to get array of toggled value . keys=>keys 
-     */
+    * used to get array of toggled value . keys=>keys
+    * @param mixed $d
+    * @return mixed
+    */
     function igk_array_key_value_toggle($d)
     {
         $b = array();
@@ -236,9 +262,10 @@ if (!function_exists("igk_array_key_value_toggle")) {
 }
 if (!function_exists("igk_array_last")) {
     /**
-     * last element on array
-     * @param mixed c 
-     */
+    * last element on array
+    * @param mixed $c
+    * @return mixed
+    */
     function igk_array_last($c)
     {
         if (is_array($c) && (igk_count($c) > 0)) {
@@ -249,9 +276,10 @@ if (!function_exists("igk_array_last")) {
 }
 if (!function_exists("igk_array_log_print")) {
     /**
-     * Represent igk_array_log_print function
-     * @param array $tab 
-     */
+    * Represent igk_array_log_print function
+    * @param array $tab
+    * @return mixed
+    */
     function igk_array_log_print(array $tab)
     {
         $str = "";
@@ -267,10 +295,11 @@ if (!function_exists("igk_array_log_print")) {
 }
 if (!function_exists("igk_array_object_refkey")) {
     /**
-     * Create a reference assoc key from object
-     * @param mixed $d array of object
-     * @param mixed $key key that will be used as the association key
-     */
+    * Create a reference assoc key from object
+    * @param mixed $d array of object
+    * @param mixed $key key that will be used as the association key
+    * @return mixed
+    */
     function igk_array_object_refkey($d, $key)
     {
         $b = array();
@@ -285,8 +314,13 @@ if (!function_exists("igk_array_object_refkey")) {
 }
 if (!function_exists("igk_array_push_keyvalue")) {
     /**
-     * add value to array. if key is present make an array
-     */
+    * add value to array. if key is present make an array
+    * @param mixed & $tab
+    * @param mixed $k
+    * @param mixed $v
+    * @param mixed $replace
+    * @return mixed
+    */
     function igk_array_push_keyvalue(&$tab, $k, $v, $replace = true)
     {
         if (!isset($tab[$k]) || $replace) {
@@ -332,8 +366,10 @@ if (!function_exists("igk_array_rand_indexes")) {
 }
 if (!function_exists("igk_array_remove_empty")) {
     /**
-     * remove empty entries from the table
-     */
+    * remove empty entries from the table
+    * @param mixed & $tab
+    * @return mixed
+    */
     function igk_array_remove_empty(&$tab)
     {
         $ot = array();
@@ -348,8 +384,11 @@ if (!function_exists("igk_array_remove_empty")) {
 }
 if (!function_exists("igk_array_remove_keys")) {
     /**
-     * remove array keys and return a tab
-     */
+    * remove array keys and return a tab
+    * @param array $tab
+    * @param array $keys
+    * @return mixed
+    */
     function igk_array_remove_keys(array $tab, array $keys): array
     {
         foreach ($keys as $k) {
@@ -360,9 +399,13 @@ if (!function_exists("igk_array_remove_keys")) {
 }
 if (!function_exists("igk_array_replace_key")) {
     /**
-     * function __desc__
-     * @return 
-     */
+    * function __desc__
+    * @param array & $tab
+    * @param mixed $oldkey
+    * @param mixed $newkey
+    * @param mixed $value
+    * @return mixed
+    */
     function igk_array_replace_key(array &$tab, $oldkey, $newkey, $value)
     {
         $keys = array_keys($tab);
@@ -404,8 +447,12 @@ if (!function_exists("igk_array_replace_key_array")) {
 }
 if (!function_exists("igk_array_set")) {
     /**
-     * append array keys
-     */
+    * append array keys
+    * @param mixed & $array
+    * @param mixed $key
+    * @param mixed $value
+    * @return mixed
+    */
     function igk_array_set(&$array, $key, $value)
     {
         $m = igk_getv($array, $key);
@@ -423,7 +470,9 @@ if (!function_exists("igk_array_set")) {
 if (!function_exists("igk_array_sort_bykey")) {
     /**
     * auto generate doc.
+    * @param mixed & $tab
     * @param mixed $key
+    * @return mixed
     */
     function igk_array_sort_bykey(&$tab, $key)
     {
@@ -434,8 +483,10 @@ if (!function_exists("igk_array_sort_bykey")) {
 }
 if (!function_exists("igk_array_sortbykey")) {
     /**
-     * array utility. sort assoc array by key
-     */
+    * array utility. sort assoc array by key
+    * @param mixed & $tab
+    * @return mixed
+    */
     function igk_array_sortbykey(&$tab)
     {
         $k = array_keys($tab);
@@ -451,7 +502,8 @@ if (!function_exists("igk_array_sortbykey")) {
 if (!function_exists("igk_array_sortkey")) {
     /**
     * auto generate doc.
-    * @param mixed $tab
+    * @param mixed & $tab
+    * @return mixed
     */
     function igk_array_sortkey(&$tab)
     {
@@ -469,8 +521,11 @@ if (!function_exists("igk_array_sortkey")) {
 }
 if (!function_exists("igk_array_to_obj")) {
     /**
-     * convert assoc-array to object presentation
-     */
+    * convert assoc-array to object presentation
+    * @param mixed $c
+    * @param mixed $ns
+    * @return mixed
+    */
     function igk_array_to_obj($c, $ns)
     {
         if (($c == null) || !is_array($c)) {
@@ -516,10 +571,11 @@ if (!function_exists("igk_array_to_obj")) {
 }
 if (!function_exists("igk_array_tokeys")) {
     /**
-     * Used to convert array to values to assoc table of (value => value)
-     * helper: array_combine($d, $d)
-     * helper: array_fill_keys
-     */
+    * Used to convert array to values to assoc table of (value => value)helper: array_combine($d, $d)helper: array_fill_keys
+    * @param mixed $d
+    * @param mixed $value
+    * @return mixed
+    */
     function igk_array_tokeys($d, $value = true)
     {
         if (!$d) {
@@ -539,7 +595,9 @@ if (!function_exists("igk_array_tokeys")) {
 if (!function_exists("igk_array_value_exist")) {
     /**
     * auto generate doc.
+    * @param mixed $tab
     * @param mixed $obj
+    * @return mixed
     */
     function igk_array_value_exist($tab, $obj)
     {
@@ -569,10 +627,16 @@ if (!function_exists("igk_array_peek_last")) {
 }
 if (!function_exists("igk_array_key_map_implode")) {
     /**
-     * key map implode 
-     * @param mixed $tab 
-     * @return mixed 
-     */
+    * key map implode
+    * @param mixed $tab
+    * @param mixed $delimiter
+    * @param mixed $separator
+    * @param mixed $sub_start
+    * @param mixed $sub_end
+    * @param mixed $string_delimit
+    * @param string $empty_value
+    * @return mixed
+    */
     function igk_array_key_map_implode($tab, $delimiter = ':', $separator = ';', $sub_start = '{', $sub_end = '}', $string_delimit = true, string $empty_value = "")
     {
         $sep = '';
@@ -644,12 +708,13 @@ if (!function_exists("igk_array_key_map_implode")) {
     }
 }
 if (!function_exists("igk_array_unique_string")) {
-/**
-* Igk array unique string.
-* @param mixed $sep
-* @param mixed $source
-* @param mixed $add
-*/
+    /**
+    * Igk array unique string.
+    * @param mixed $sep
+    * @param mixed $source
+    * @param mixed $add
+    * @return mixed
+    */
 function igk_array_unique_string($sep, $source, $add)
     {
         return implode(",", array_unique(array_merge(
@@ -736,6 +801,7 @@ if (!function_exists('igk_array_dump_short')) {
 if (!function_exists('igk_array_order_by')) {
     /**
     * auto generate doc.
+    * @param string $property
     * @param mixed &$array
     * @return mixed
     */
@@ -751,10 +817,10 @@ if (!function_exists('igk_array_order_by')) {
 }
 if (!function_exists('igk_array_merge_assoc')) {
     /**
-     * merge array by preserving last key association 
-     * @param mixed ...$args 
-     * @return array 
-     */
+    * merge array by preserving last key association
+    * @param mixed ...$args
+    * @return array
+    */
     function igk_array_merge_assoc(...$args)
     {
         $r = [];

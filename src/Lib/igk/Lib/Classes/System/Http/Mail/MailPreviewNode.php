@@ -77,7 +77,7 @@ class MailPreviewNode extends HtmlNode
     /**
     * auto generate doc.
     * @param mixed $i
-    * @return
+    * @return mixed
     */
     private function _resolv_class($i)
     {

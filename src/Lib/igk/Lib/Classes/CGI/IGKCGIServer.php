@@ -41,14 +41,14 @@ class IGKCGIServer
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }
     /**
     * auto generate doc.
     * @param mixed $file
-    * @return
+    * @return mixed
     */
     private static function RegFile($file){
         if (!self::$sm_regFileCallback){            
@@ -64,7 +64,7 @@ class IGKCGIServer
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function getInstance(){
         self::$sm_instance = new IGKCGIServer();

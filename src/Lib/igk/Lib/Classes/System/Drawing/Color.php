@@ -131,7 +131,7 @@ class Color extends IGKObject{
     /**
     * auto generate doc.
     * @param mixed $a
-    * @return
+    * @return mixed
     */
     private static function trimByte($a){
         return max(min($a, 255), 0);

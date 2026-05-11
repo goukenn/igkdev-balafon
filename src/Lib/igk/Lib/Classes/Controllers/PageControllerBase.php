@@ -169,7 +169,8 @@ abstract class PageControllerBase extends ControllerTypeBase
         return 0;
     }
     /**
-    *  get a application document. getDoc return the global document
+    * get a application document. getDoc return the global document
+    * @param mixed $newdoc
     */
     protected function getAppDocument($newdoc=false){
         return igk_get_document($this::name("app_document"), $newdoc);

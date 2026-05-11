@@ -112,6 +112,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
+    * @param mixed $f
     * @param mixed $obj the default value is null
     */
     public function getUri($f=null, $obj=null){
@@ -124,6 +125,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */    protected function initComplete($context=null){
         parent::initComplete();
         igk_hook(IGK_NODE_DISPOSED_EVENT, array($this, "nodeDisposed"));
@@ -178,7 +180,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
-    * @param mixed $node
+    * @param mixed $e
     */
     public function nodeDisposed($e){
 		$node = $e->args[0];
@@ -186,6 +188,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $componentInterface the default value is true
     */
     public function Register($obj, $componentInterface=true){

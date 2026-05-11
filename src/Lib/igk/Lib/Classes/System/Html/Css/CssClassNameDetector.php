@@ -77,7 +77,7 @@ class CssClassNameDetector
     * auto generate doc.
     * @param mixed $d
     * @param mixed $k
-    * @return
+    * @return mixed
     */
     private static function _join_css_tab($d, $k){
         if (trim($d))
@@ -85,6 +85,7 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
+    * @param array $resolv_definition
     * @param mixed $option
     * @return string
     */
@@ -130,6 +131,9 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
+    * @param mixed $d
+    * @param mixed $c
+    * @param mixed $option
     * @param static $detector
     * @return string
     */
@@ -154,7 +158,7 @@ class CssClassNameDetector
     /**
     * auto generate doc.
     * @param mixed $d
-    * @return
+    * @return mixed
     */
     private function _detectAnimGlobalName($d)
     {
@@ -181,11 +185,11 @@ class CssClassNameDetector
         return false;
     }
     /**
-     * resolve css definition by detecting source code 
-     * @param string $src expression or separated space list of detected word
-     * @param array|null $references 
-     * @throws Exception 
-     */
+    * resolve css definition by detecting source code
+    * @param string $src expression or separated space list of detected word
+    * @param ?array & $references
+    * @throws Exception
+    */
     public function resolv(string $src, ?array &$references = null)
     {
         $v_c_mkey = self::MEDIA_KEY;
@@ -288,7 +292,7 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _clear()
     {
@@ -314,6 +318,8 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
+    * @param array $a
+    * @param CssClassNameDetector $detector
     * @param mixed $key
     * @return void
     */
@@ -357,6 +363,8 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
+    * @param mixed $a
+    * @param CssClassNameDetector $detector
     * @param string $key
     * @return void
     */
@@ -386,6 +394,7 @@ class CssClassNameDetector
     }
     /**
     * auto generate doc.
+    * @param array $a
     * @param null|CssClassNameDetector $detector
     * @return null
     */

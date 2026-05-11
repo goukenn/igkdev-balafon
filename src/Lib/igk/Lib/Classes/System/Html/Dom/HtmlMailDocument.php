@@ -47,7 +47,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     * auto generate doc.
     * @param mixed $target
     * @param mixed $source
-    * @return
+    * @return mixed
     */
     private function _copyAddBuildDefinition($target, $source){
         $selector=array();
@@ -73,7 +73,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initTheme(){    }
     /**

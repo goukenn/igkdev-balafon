@@ -91,6 +91,7 @@ trait ServiceContainerTrait
     }
     /**
     * auto generate doc.
+    * @param string $name
     * @param IAppService $service
     * @return bool
     */

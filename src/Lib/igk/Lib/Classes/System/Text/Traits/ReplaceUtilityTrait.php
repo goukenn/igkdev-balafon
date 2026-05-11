@@ -62,6 +62,9 @@ trait ReplaceUtilityTrait
     /**
     * auto generate doc.
     * @param Closure(string $s):string|string|null|array<string> $rp
+    * @param mixed $e
+    * @param mixed $rp
+    * @param mixed $property
     * @return string
     */
     static function ReplaceData(string $s, $e, $rp = null, $property = 'replaceWith')
@@ -81,6 +84,8 @@ trait ReplaceUtilityTrait
     }
     /**
     * auto generate doc.
+    * @param string $s
+    * @param string $pattern
     * @param string $replace replace data
     * @return string
     */
@@ -95,6 +100,8 @@ trait ReplaceUtilityTrait
     }
     /**
     * auto generate doc.
+    * @param string $pattern
+    * @param mixed $rp
     * @param string $s
     * @return string
     */
@@ -111,6 +118,7 @@ trait ReplaceUtilityTrait
     }
     /**
     * auto generate doc.
+    * @param string $rp
     * @param array $tab
     */
     public static function ReplaceRegexMatcherCaptureGlobal(string $rp, array $tab)
@@ -124,7 +132,12 @@ trait ReplaceUtilityTrait
     }
     /**
     * auto generate doc.
+    * @param string $s
+    * @param mixed $e
+    * @param array $captures
+    * @param array $matches
     * @param mixed $format
+    * @param ?int $from
     * @return mixed
     */
     public static function TreatFormatCapture(string $s, $e, array $captures, array $matches, string $format, 
@@ -188,12 +201,13 @@ trait ReplaceUtilityTrait
         return null;
     }
     /**
-     * update captured definition
-     * @param IReplaceCapturedFormatDefinition $e 
-     * @param array $v_def 
-     * @param string $s 
-     * @return string 
-     */
+    * update captured definition
+    * @param IReplaceCapturedFormatDefinition $e
+    * @param array $v_def
+    * @param string $s
+    * @param ?callable $treat
+    * @return string
+    */
     public static function UpdateCaptureDef(IReplaceCapturedFormatDefinition $e, array $v_def, string $s, ?callable $treat = null)
     {
         $lb = '';

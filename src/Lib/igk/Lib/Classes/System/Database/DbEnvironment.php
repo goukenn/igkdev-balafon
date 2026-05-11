@@ -21,7 +21,7 @@ class DbEnvironment{
     var $no_db_select = false;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){        
     }

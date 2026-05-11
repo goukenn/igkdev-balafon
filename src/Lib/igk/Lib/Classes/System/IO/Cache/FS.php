@@ -32,10 +32,11 @@ class FS{
         return igk_io_cachedir()."/.fs-caches.php";
     }
     /**
-     * file cache exists
-     * @param string $file 
-     * @return bool 
-     */
+    * file cache exists
+    * @param string $file
+    * @param bool $autocheck
+    * @return bool
+    */
     public function fileExists(string $file, bool $autocheck=false){
         $l = isset($this->m_caches[$file]);
         if (!$l && ($autocheck || $this->m_auto_cache)){

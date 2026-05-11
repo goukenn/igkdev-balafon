@@ -256,6 +256,8 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
     /**
     * auto generate doc.
+    * @param string $name
+    * @param int $length
     * @param null|array $options
     * @return IGK\System\Database\this
     */
@@ -285,6 +287,16 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
     /**
     * auto generate doc.
+    * @param string $name
+    * @param string $type
+    * @param ?int $length
+    * @param mixed $default
+    * @param ?bool $primarykey
+    * @param ?bool $auto_increment
+    * @param ?bool $not_null
+    * @param ?string $desc
+    * @param ?bool $is_unique
+    * @param ?bool $is_unique_column
     * @param null|int $column_member_index
     * @return $this
     */

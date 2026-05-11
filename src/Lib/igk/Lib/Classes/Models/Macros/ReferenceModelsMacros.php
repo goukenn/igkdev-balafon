@@ -12,8 +12,9 @@ use IGK\System\Number;
 */
 class ReferenceModelsMacros {
     /**
-	 * update object reference
-	 */
+    * update object reference
+    * @param mixed $refobj
+    */
 	public static function updateRef($refobj){
 		$refobj->clNextValue++;
 		$u = $refobj->update; 
@@ -21,15 +22,16 @@ class ReferenceModelsMacros {
 		$u = $refobj->get_output;
 		return $u();
 	}
-	/**
-	 * get reference data
-	 * @param mixed $ctrl 
-	 * @param mixed|null $refmodel 
-	 * @param int $base 
-	 * @param int $ref 
-	 * @return object 
-	 * @throws Exception 
-	 */
+    /**
+    * get reference data
+    * @param mixed $model
+    * @param mixed $ctrl
+    * @param mixed|null $refmodel
+    * @param int $base
+    * @param int $ref
+    * @throws Exception
+    * @return object
+    */
 	public static function get_ref($model, $ctrl=null, $refmodel=null, $base=36, $ref=6){
 		$obj=(object)array(); 
         $obj->update=function() use ($obj, & $model){		         

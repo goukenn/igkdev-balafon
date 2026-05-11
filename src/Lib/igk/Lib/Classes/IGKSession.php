@@ -104,7 +104,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     private $m_sessionParams;
     /**
     * auto generate doc.
-    * @param mixed * $params
+    * @param mixed & $params
     */
     public function __construct(& $params){
         $this->m_sessionParams=& $params;   
@@ -185,6 +185,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     public function __set($key, $value){
@@ -210,11 +211,13 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $method
     */
     public function addInitializeSessionEvent($obj, $method){}
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $method
     */
     public function addUserChangedEvent($obj, $method){}
@@ -228,6 +231,8 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * register a custom uri compoent to reg uris
+    * @param mixed $uri
+    * @param mixed $setting
     */
     public function component($uri, $setting){
         $c=$this->regUris;
@@ -239,6 +244,8 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * create instance item for session
+    * @param mixed $class
+    * @param mixed $callback
     */
     public function createInstance($class, $callback=null){
         if($this->m_instances == null){
@@ -361,6 +368,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $default the default value is null
     */
     public function getParam($key, $default=null){
@@ -445,6 +453,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $method
     */
     public function removeInitializeSessionEvent($obj, $method){}
@@ -507,6 +516,8 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * set session param
+    * @param mixed $key
+    * @param mixed $value
     */
     public function setParam($key, $value){
         if(empty($key))
@@ -525,6 +536,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $value
     */
     public function setRedirectTask($name, $value){
@@ -630,8 +642,10 @@ final class IGKSession extends IGKObject implements IParamHostService {
         return $default;
     }
     /**
-     * get value and reset 
-     */
+    * get value and reset
+    * @param string $key
+    * @param mixed $default
+    */
     public function getr(string $key, $default){
         $m = $this->get($key, $default);
         $this->{$key} = null;

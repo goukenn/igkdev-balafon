@@ -140,7 +140,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function getCanAddChilds()
     {

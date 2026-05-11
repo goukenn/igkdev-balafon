@@ -5,11 +5,11 @@
 // @desc: io function helpers
 use IGK\Helper\IO;
 use IGK\System\IO\Cache\FS;
-
 /**
 * Igk io mimetype ext.
 * @param mixed $type
 * @param mixed $default
+* @return mixed
 */
 function igk_io_mimetype_ext($type, $default = '.dat')
 {
@@ -62,9 +62,10 @@ function igk_io_flatten(string $path)
     return $path;
 }
 /**
- * read all file's content
- * @param mixed $f 
- */
+* read all file's content
+* @param mixed $f
+* @return mixed
+*/
 function igk_io_read_allfile($f): ?string
 {
     if (is_file($f))
@@ -72,17 +73,19 @@ function igk_io_read_allfile($f): ?string
     return null;
 }
 /**
- * get folder where to cache some file
- */
+* get folder where to cache some file
+* @return mixed
+*/
 function igk_io_cachedir()
 {
     return \IGK\System\IO\Path::getInstance()->getCacheDir();
 }
 /**
- * target, cibling 
- * @param mixed $target target of the link
- * @param mixed $cibling link to create
- */
+* target, cibling
+* @param mixed $target target of the link
+* @param mixed $link
+* @return mixed
+*/
 function igk_io_symlink($target, $link)
 {
     $r = false;
@@ -116,8 +119,9 @@ function igk_io_symlink($target, $link)
     return $r;
 }
 /**
- * return where global project are stored
- */
+* return where global project are stored
+* @return mixed
+*/
 function igk_io_projectdir()
 {
     $pdir = null;

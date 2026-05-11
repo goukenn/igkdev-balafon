@@ -19,7 +19,7 @@ class CssRulesParser
     private $m_regex;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

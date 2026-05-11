@@ -6,12 +6,12 @@ use IGK\System\DataArgs;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Helpers\HtmlEngineHelper;
 use IGK\System\Html\HtmlLoadingContextOptions;
-
 /**
- * Convert string argument to array list. in context
- * @param mixed $s parameter to convert
- * @param mixed $context context object that will store parameter to evaluate
- */
+* Convert string argument to array list. in context
+* @param mixed $s parameter to convert
+* @param mixed $context context object that will store parameter to evaluate
+* @return mixed
+*/
 function igk_engine_get_attr_arg(string $s, $context = null)
 {
     $__g_context = null;
@@ -78,8 +78,11 @@ function igk_engine_get_attr_arg(string $s, $context = null)
     return $tb;
 }
 /**
- * retrieve argument splitting
- */
+* retrieve argument splitting
+* @param mixed $s
+* @param mixed $engineReader
+* @return mixed
+*/
 function igk_engine_read_args($s, $engineReader=null)
 {
     if (empty($s))
@@ -152,8 +155,10 @@ function igk_engine_read_args($s, $engineReader=null)
     return $args;
 }
 /**
- * transform treat args
- */
+* transform treat args
+* @param mixed $v
+* @return mixed
+*/
 function igk_engine_treat_arg($v)
 {
     if (($v == 'null') || ($v == 'nil')) {
@@ -162,13 +167,14 @@ function igk_engine_treat_arg($v)
     return $v;
 }
 /**
- * get tempory binding attributes
- * @param mixed $reader 
- * @param mixed $attr 
- * @param mixed $value 
- * @param ?array $context context to bind
- * @param mixed $storecallback 
- */
+* get tempory binding attributes
+* @param mixed $reader
+* @param mixed $attr
+* @param mixed $value
+* @param ?array $context context to bind
+* @param mixed $storecallback
+* @return mixed
+*/
 function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null, $storecallback = null)
 {
     if ($context == null) {
@@ -191,9 +197,10 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     return false;
 }
 /**
- * retrieve binding attribute info
- * @param mixed $context 
- */
+* retrieve binding attribute info
+* @param mixed $context
+* @return mixed
+*/
 function igk_get_attrib_raw_context($context)
 {
     // + | init root context if exists 
@@ -241,8 +248,9 @@ function igk_get_article_root_context()
     return null;
 }
 /**
- * get current article chain data
- */
+* get current article chain data
+* @return mixed
+*/
 function igk_get_article_chain()
 {
     $g = igk_get_env(IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT);
@@ -253,7 +261,7 @@ function igk_get_article_chain()
 }
 /**
 * auto generate doc.
-* @param mixed $f
+* @return mixed
 */
 function igk_pop_article_chain()
 {
@@ -262,10 +270,13 @@ function igk_pop_article_chain()
     igk_set_env($key, $g);
 }
 /**
- * push article in chain data
- * @var string $f context identification 
- * @var ?array|HtmlLoadingContextOptions $context definition
- */
+* push article in chain data
+* @param string $f
+* @param mixed $context
+* @var string $f context identification
+* @var ?array|HtmlLoadingContextOptions $context definition
+* @return mixed
+*/
 function igk_push_article_chain(string $f, $context = null)
 {
     $key = IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT;
@@ -288,8 +299,9 @@ function igk_push_article_chain(string $f, $context = null)
     igk_set_env_array($key, new \IGK\System\Articles\ChainInfo($f, $ctx)); 
 }
 /**
- * get template binding attribute
- */
+* get template binding attribute
+* @return mixed
+*/
 function igk_get_template_bindingattributes()
 {
     static $binding = null;
@@ -303,10 +315,11 @@ function igk_get_template_bindingattributes()
     return $o;
 }
 /**
- * register template binding attributes
- * @param mixed $$name comma separated string of identifier for binding attribute
- * @param mixed $$callback the callback
- */
+* register template binding attributes
+* @param mixed $$name comma separated string of identifier for binding attribute
+* @param mixed $$callback the callback
+* @return mixed
+*/
 function igk_reg_template_bindingattributes($name, $callback)
 {
     $key = "sys://template/bindingProperties";
@@ -320,13 +333,14 @@ function igk_reg_template_bindingattributes($name, $callback)
 }
 if (!function_exists('igk_engine_html_load_content')) {
     /**
-     * helper: article bind content
-     * @param HtmlItemBase $node 
-     * @param string $content 
-     * @param mixed $args 
-     * @return void 
-     * @throws IGKException 
-     */
+    * helper: article bind content
+    * @param HtmlItemBase $node
+    * @param string $content
+    * @param mixed $args
+    * @param ?BaseController $ctrl
+    * @throws IGKException
+    * @return void
+    */
     function igk_engine_html_load_content(HtmlItemBase $node, string $content, $args, ?BaseController $ctrl = null)
     {
         HtmlEngineHelper::BindContent($node, $content, $args, $ctrl);
@@ -334,10 +348,14 @@ if (!function_exists('igk_engine_html_load_content')) {
 }
 if (!function_exists('igk_engine_eval')) {
     /**
-     * helper: evaluate pipe expression in context defition 
-     * @param string $pipe expression
-     * @param int position of the first separator
-     */
+    * helper: evaluate pipe expression in context defition
+    * @param string $content
+    * @param int $pos
+    * @param array $tab
+    * @param string $startMarker
+    * @param string $endMarker
+    * @return mixed
+    */
     function igk_engine_eval(string $content, int $pos, array $tab, string $startMarker = '{{', string $endMarker = '}}')
     {
         $n = substr($content, 0, $pos);

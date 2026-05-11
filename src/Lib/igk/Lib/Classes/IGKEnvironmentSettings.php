@@ -33,7 +33,7 @@ class IGKEnvironmentSettings{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function __function(){        
     }

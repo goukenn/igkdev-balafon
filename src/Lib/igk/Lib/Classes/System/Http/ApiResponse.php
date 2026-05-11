@@ -46,10 +46,11 @@ class ApiResponse extends Response{
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
     /**
-     * reply with response field
-     * @param mixed $data 
-     * @return array 
-     */
+    * reply with response field
+    * @param mixed $data
+    * @param mixed $code
+    * @return array
+    */
     public function response($data, $code=200){
         return [
             "code"=>$code,

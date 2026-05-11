@@ -9,12 +9,11 @@ use IGK\System\Console\Logger;
 use IGK\System\Text\Regex;
 use IGK\System\Text\RegexFormatMatcherUtility;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
- * 
- * @package IGK\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
 /**
  * auto generate doc.
  * @package IGK\System\Console\Commands

@@ -10,12 +10,22 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Text
+*/
 class RegexMatcherContainerTreatment{
     /**
-     * 
-     * @var {handle:array,filter:?null,postfilter:?null}
-     */
+    * auto generate doc.
+    * @var {handle:array,filter:?null,postfilter:?null}
+    */
     var $listener;
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @param RegexMatcherContainer $regex
+    * @return void
+    */
     public function treat(string $src,  RegexMatcherContainer $regex){
         $listener = $this->listener;
         if (!$listener){

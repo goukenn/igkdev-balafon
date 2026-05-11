@@ -15,15 +15,15 @@ use ReflectionMethod;
 */
 class ExtensionUtils{
     /**
-     * retrieve extension method for 
-     * @param mixed $array 
-     * @param mixed $class 
-     * @param mixed $topClass 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * retrieve extension method for
+    * @param mixed & $array
+    * @param mixed $array
+    * @param mixed $class
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     public static function LoadMethods(& $array, $class, $topClass){
         $ref = igk_sys_reflect_class($class);   
         foreach($ref->GetMethods(ReflectionMethod::IS_STATIC | ReflectionMethod::IS_PUBLIC) as $k){

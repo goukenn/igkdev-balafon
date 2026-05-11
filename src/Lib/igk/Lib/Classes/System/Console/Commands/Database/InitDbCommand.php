@@ -14,9 +14,8 @@ use IGK\System\Console\Logger;
 use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands\Database
 */
 /**

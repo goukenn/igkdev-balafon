@@ -104,6 +104,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
     /**
     * auto generate doc.
+    * @param string $name
     * @param mixed $value
     * @return $this
     */
@@ -161,13 +162,13 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         return $trule;
     }
     /**
-     * request to append or not properties
-     * @param mixed $g 
-     * @param string|int|null $i key index 
-     * @param mixed $v 
-     * @return void 
-     * @throws IGKException 
-     */
+    * request to append or not properties
+    * @param mixed & $g
+    * @param mixed $g
+    * @param string|int|null $i key index
+    * @throws IGKException
+    * @return void
+    */
     protected function _bindProperties(& $g, $i, $v){
         if (is_null($i)){
             if ($v){
@@ -452,7 +453,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     /**
     * auto generate doc.
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private function &prepareStorage($id)
     {

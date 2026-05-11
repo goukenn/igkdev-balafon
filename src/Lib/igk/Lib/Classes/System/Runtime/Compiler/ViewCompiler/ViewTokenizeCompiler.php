@@ -237,7 +237,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     * @param ViewTokenizeOptions $option
     * @param mixed $id
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     private function _handleFlag(ViewTokenizeOptions $option, $id, $value)
     {
@@ -298,7 +298,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     * @param ViewTokenizeOptions $options
     * @param mixed $id
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     private function _readTokenBlock(ViewTokenizeOptions $options, $id, $value)
     {
@@ -369,7 +369,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     * @param ViewTokenizeOptions $options
     * @param mixed $id
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     private function _readTokenEndBlock(ViewTokenizeOptions $options, $id, $value)
     {
@@ -389,7 +389,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     * auto generate doc.
     * @param ViewTokenizeOptions $options
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     private function _readTokenVariable(ViewTokenizeOptions $options, $value)
     {
@@ -414,7 +414,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     /**
     * auto generate doc.
     * @param mixed $options
-    * @return
+    * @return mixed
     */
     private function _popFlag($options)
     {
@@ -429,7 +429,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     /**
     * auto generate doc.
     * @param mixed $options
-    * @return
+    * @return mixed
     */
     private function _pushFlag($options)
     {

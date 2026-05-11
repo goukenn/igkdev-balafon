@@ -103,6 +103,7 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     }
     /**
     * auto generate doc.
+    * @param mixed $reader
     * @param mixed &$contentTab
     * @return void
     */

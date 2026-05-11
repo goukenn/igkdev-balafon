@@ -63,6 +63,8 @@ trait FormatterSplitterTrait
     }
     /**
     * auto generate doc.
+    * @param mixed $e
+    * @param string $fname
     * @param array $args
     * @return mixed
     */
@@ -146,6 +148,7 @@ trait FormatterSplitterTrait
     }
     /**
     * auto generate doc.
+    * @param RegexMatcherCapture $e
     * @param mixed &$list
     * @return void
     */

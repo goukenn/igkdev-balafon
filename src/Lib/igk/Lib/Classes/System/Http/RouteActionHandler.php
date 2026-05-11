@@ -44,12 +44,13 @@ class RouteActionHandler extends RouteHandler
      */
     protected $type;
     /**
-     * .ctr a route action handler
-     * @param string $path path 
-     * @param mixed $handleClass 
-     * @param string $verb 
-     * @return RouteActionHandler  
-     */
+    * .ctr a route action handler
+    * @param string $path path
+    * @param mixed $handleClass
+    * @param mixed $type
+    * @param string $verb
+    * @return RouteActionHandler
+    */
     public function __construct($path, $handleClass, $type = "action", $verb = "GET, POST")
     {
         if (!is_string($path))
@@ -63,10 +64,10 @@ class RouteActionHandler extends RouteHandler
         $this->security = null;
     }
     /**
-     * get request uri info
-     * @param mixed $name 
-     * @return string 
-     */
+    * get request uri info
+    * @param mixed $path
+    * @return string
+    */
     public function getUri($path = null)
     {
         if ($this->info) {
@@ -76,6 +77,7 @@ class RouteActionHandler extends RouteHandler
     }
     /**
     * auto generate doc.
+    * @param mixed $args
     * @param null|string $baseUri
     * @return string
     */
@@ -162,12 +164,12 @@ class RouteActionHandler extends RouteHandler
         return $this->classBind;
     }
     /**
-     * process this action
-     * @param BaseController $controller 
-     * @param mixed $args 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * process this action
+    * @param BaseController $controller
+    * @param mixed ...$args
+    * @throws IGKException
+    * @return mixed
+    */
     private function _processAction(BaseController $controller, ...$args)
     {
         $type = 0;
@@ -246,7 +248,7 @@ class RouteActionHandler extends RouteHandler
     * @param RouteActionHandler $route
     * @param BaseController $controller
     * @param null|mixed $routepattern
-    * @return
+    * @return mixed
     */
     public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $routepattern = null)
     {

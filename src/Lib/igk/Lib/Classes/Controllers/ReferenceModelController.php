@@ -14,6 +14,9 @@ use IGK\System\Number;
 final class ReferenceModelController extends NonVisibleControllerBase{
     /**
     * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $model
+    * @param mixed $base
     * @param mixed $ref the default value is 6
     */
     public function get_ref($ctrl, $model=null, $base=36, $ref=6){
@@ -36,6 +39,8 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     }
     /**
     * auto generate doc.
+    * @param mixed $t
+    * @param mixed $productTypeTable
     * @param mixed $prefix the default value is null
     */
     public function getnewproduct_ref($t, $productTypeTable, $prefix=null){

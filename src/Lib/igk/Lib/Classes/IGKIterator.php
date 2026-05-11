@@ -100,6 +100,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     protected function _access_offsetSet($key, $value):void{}
@@ -131,6 +132,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     }
     /**
     * auto generate doc.
+    * @param mixed $index
     * @param mixed $count the default value is null
     */
     public function Shift($index, $count=null){

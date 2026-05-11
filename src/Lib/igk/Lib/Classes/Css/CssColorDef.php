@@ -44,6 +44,7 @@ class CssColorDef implements ArrayAccess{
     }
     /**
     * auto generate doc.
+    * @param mixed $k
     * @param mixed $v
     * @return void
     */

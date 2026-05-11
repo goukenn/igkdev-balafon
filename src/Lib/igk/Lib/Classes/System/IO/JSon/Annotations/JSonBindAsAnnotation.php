@@ -107,6 +107,7 @@ class JSonBindAsAnnotation extends AnnotationBase
     /**
     * auto generate doc.
     * @param mixed $class_name
+    * @param mixed $uses
     * @return array
     */
     public static function GetJSonByAsProperties($class_name, $uses = null)
@@ -136,7 +137,7 @@ class JSonBindAsAnnotation extends AnnotationBase
     * @param mixed $v_typeresolve
     * @param mixed $converter
     * @param mixed $type
-    * @return
+    * @return mixed
     */
     private static function _ResolveTypeWithListener($v_typeresolve, $converter, $type){
         if ($v_typeresolve && !key_exists($type, $converter)){
@@ -147,6 +148,7 @@ class JSonBindAsAnnotation extends AnnotationBase
     /**
     * auto generate doc.
     * @param mixed $value
+    * @param mixed $options
     * @return void
     */
     public function Convert($value, $options)

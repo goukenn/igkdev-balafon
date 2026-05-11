@@ -155,6 +155,7 @@ class RegexDetectBuffer
     /**
     * auto generate doc.
     * @param IRegexMatcherEndDetectionInfo $e
+    * @param ?callable $update
     * @return void
     */
     public function bindReplacement($e, ?callable $update = null)
@@ -210,7 +211,7 @@ class RegexDetectBuffer
     * @param mixed & $v_rp
     * @param mixed $e
     * @param null|callable $update
-    * @return
+    * @return void
     */
     private static function BuildChain($t, &$cp, &$v_rp, $e, ?callable $update = null)
     {

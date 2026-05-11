@@ -123,6 +123,9 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $regex
+    * @param string $src
+    * @param bool $useSource
     * @param array $patterns initialize patterns
     * @return ?string
     */
@@ -306,6 +309,7 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param IReplaceCapturedFormatDefinition $e
     * @param array $v_def
     * @return array
     */
@@ -315,6 +319,7 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $e
     * @param mixed $v
     * @return mixed
     */
@@ -324,6 +329,7 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $e
     * @param mixed $v_def
     * @return mixed
     */
@@ -346,6 +352,7 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param string $tid
     * @param string $value
     * @return string
     */
@@ -388,11 +395,12 @@ abstract class FormatterBase extends IGKObject
         $ce->isDirty != (strlen(trim($ce->value)) > 0);
     }
     /**
-     * format code with 
-     * @param mixed $e 
-     * @return void 
-     * @throws Error 
-     */
+    * format code with
+    * @param mixed $e
+    * @param ?string $source
+    * @throws Error
+    * @return void
+    */
     public function format(RegexMatcherCapture $e, ?string $source = null)
     {
         $tid = $e->tokenID;
@@ -490,12 +498,12 @@ abstract class FormatterBase extends IGKObject
         return in_array($id, $flags);
     }
     /**
-     * FormatterBase Treat Chains . 
-     * @param mixed $e 
-     * @param mixed $chains 
-     * @param mixed $chains 
-     * @return string|string[] 
-     */
+    * FormatterBase Treat Chains .
+    * @param mixed $e
+    * @param mixed $chains
+    * @param ?callable $willTreatChainListener
+    * @return string|string[]
+    */
     protected function _treatChains(RegexMatcherCapture $e, $chains, ?callable $willTreatChainListener = null)
     {
         $offset = 0;
@@ -514,6 +522,7 @@ abstract class FormatterBase extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param ?string $source
     * @return string
     */
     public function output(?string $source = null): string

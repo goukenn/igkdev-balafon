@@ -51,7 +51,7 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     * auto generate doc.
     * @param mixed $a
     * @param null|mixed $id
-    * @return
+    * @return mixed
     */
     private function _init_list($a, $id=null){
         $n = igk_create_node('script');

@@ -28,13 +28,13 @@ class MakeUtility {
         };
     }
     /**
-     * bind default lang supports
-     * @param mixed $command 
-     * @param mixed $dir 
-     * @param mixed $bind 
-     * @return void 
-     * @throws IGKException 
-     */
+    * bind default lang supports
+    * @param mixed $command
+    * @param mixed $dir
+    * @param mixed & $bind
+    * @throws IGKException
+    * @return void
+    */
     public static function BindDefaultLangSupport($command, $dir, & $bind){
         if (!igk_getv($command->options, "--no-init-lang")){
             if ($v_langs = R::GetSupportedLangs()){

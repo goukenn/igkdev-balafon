@@ -12,13 +12,14 @@ require_once IGK_LIB_CLASSES_DIR.'/IGKApplicationBase.php';
  */
 abstract class IGKApplication extends IGKApplicationBase{
     /**
-     * create an application 
-     * @param string $type 
-     * @param mixed $bootoptions controller
-     * @return mixed a create application
-     * @throws TypeError 
-     * @throws IGKException 
-     */
+    * create an application
+    * @param string $type
+    * @param mixed $bootoptions controller
+    * @param ?callable $boot
+    * @throws TypeError
+    * @throws IGKException
+    * @return mixed a create application
+    */
     public static function Boot($type="web", $bootoptions=null, ?callable $boot=null){             
         $app = ApplicationLoader::Boot($type, $bootoptions);       
         if ($app && $boot){

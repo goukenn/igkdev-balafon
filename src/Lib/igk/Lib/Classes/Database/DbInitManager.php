@@ -42,6 +42,7 @@ class DbInitManager{
     /**
     * auto generate doc.
     * @param string $name
+    * @param ?BaseController $controller
     */
     protected function _registerGroupAndAuth(string $name, ?BaseController $controller){
         return DbInitManagement::RegisterGroupAndAuth($name, $controller);

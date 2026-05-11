@@ -38,6 +38,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     }
     /**
     * auto generate doc.
+    * @param mixed $b
     * @param mixed $target the default value is null
     */
     public function addCtrl($b, $target=null){
@@ -51,7 +52,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     }
     /**
     * auto generate doc.
-    * @param * $o the default value is null
+    * @param mixed & $o
     */
     protected function innerHTML(& $o=null){
         $so="";

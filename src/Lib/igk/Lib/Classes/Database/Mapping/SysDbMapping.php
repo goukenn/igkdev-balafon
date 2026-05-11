@@ -94,6 +94,7 @@ class SysDbMapping extends ModelMappingBase{
     }
     /**
     * auto generate doc.
+    * @param mixed $model
     */
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();

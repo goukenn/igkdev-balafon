@@ -74,6 +74,8 @@ class HtmlBodyNode extends HtmlNode{
     }
     /**
     * auto generate doc.
+    * @param mixed $key
+    * @param mixed $script
     */
     public function addScriptContent($key, $script){       
         return $this->m_bodyMainScript->addScript($key, $script);

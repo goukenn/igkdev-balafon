@@ -64,14 +64,14 @@ trait CompilerTokenReadStructHandlerTrait
         return true;
     }
     /**
-     * handle global use flag
-     * @param mixed $flag 
-     * @param mixed $options 
-     * @param mixed $id 
-     * @param mixed $value 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * handle global use flag
+    * @param mixed & $flag
+    * @param mixed $flag
+    * @param mixed $options
+    * @param mixed $id
+    * @throws IGKException
+    * @return bool
+    */
     protected function handleGlobalUseFlag(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $uses = &$options->uses;

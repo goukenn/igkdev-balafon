@@ -19,10 +19,12 @@ class Response{
     */
     const DEFAULT_ALLOWED_HEADERS = "Access-Control-Allow-Headers|igk-x-requested-with|igk-ajx|igk-from|Content-Type|Authorization|X-Authorization";
     /**
-     * do system option response
-     * @return void 
-     * @throws IGKException 
-     */
+    * do system option response
+    * @param mixed $data
+    * @param mixed $options
+    * @throws IGKException
+    * @return void
+    */
     public static function OptionResponse($data=null, $options=null){
         $_req = Request::getInstance(); 
         $data = $data ?? (igk_environment()->isDev() ?  "/Options:data,request_uri:".igk_io_request_uri():null);

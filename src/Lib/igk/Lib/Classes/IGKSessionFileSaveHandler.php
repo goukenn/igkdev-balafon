@@ -26,7 +26,7 @@ class IGKSessionFileSaveHandler{
     /**
     * auto generate doc.
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private function _getFile($id){
         return igk_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
@@ -104,6 +104,7 @@ class IGKSessionFileSaveHandler{
     }
     /**
     * auto generate doc.
+    * @param mixed $savepath
     * @param string $sessname
     * @return bool
     */
@@ -127,6 +128,7 @@ class IGKSessionFileSaveHandler{
     }
     /**
     * auto generate doc.
+    * @param mixed $id
     * @param mixed $data mixed data to write
     */
     public function write($id, $data){

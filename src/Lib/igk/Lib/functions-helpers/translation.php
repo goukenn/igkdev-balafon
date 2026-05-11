@@ -8,13 +8,13 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 if (!function_exists('__')){
     /**
-     * shortcut to igk_resource_gets global function 
-     * @param mixed $m arguments to format using core translation
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * shortcut to igk_resource_gets global function
+    * @param mixed ...$m
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return mixed
+    */
     function __(...$m){
         return igk_resources_gets(...$m);
     }
@@ -24,6 +24,10 @@ if (!function_exists('__')){
      * expose translation to other framework
      * @package 
      */
+    /**
+    * auto generate doc.
+    * @package
+    */
     /**
     * auto generate doc.
     * @package

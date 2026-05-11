@@ -73,7 +73,9 @@ class ModuleInclusionMethod implements JsonSerializable{
     * @param int $at
     * @param mixed $params
     * @param string $source
-    * @return
+    * @param ?string $namespace
+    * @param ?array $uses
+    * @return mixed
     */
     public function __construct(string $file, string $name, callable $callback, int $at, $params, string $source,?string $namespace=null, ?array $uses=null)
     {
@@ -108,10 +110,13 @@ class ModuleInclusionMethod implements JsonSerializable{
         ]);
     }
     /**
-     * wake up from cache
-     * @param mixed $data 
-     * @return ModuleInclusionMethod 
-     */
+    * wake up from cache
+    * @param mixed $data
+    * @param ?string $namespace
+    * @param ?array $uses
+    * @param ?string $conditions
+    * @return ModuleInclusionMethod
+    */
     public static function WakeUpFromCache($data, ?string $namespace=null, ?array $uses=null, ?string $conditions=null){
         list($file, $code, $at, $params, $name, $line) = igk_extract($data, 'file|src|at|params|name|line', [
             'params'=>''
@@ -138,7 +143,7 @@ class ModuleInclusionMethod implements JsonSerializable{
     }
     /**
     * Used by var_dump() to customize debug output.
-    * @return
+    * @return mixed
     */
     public function __debugInfo()
     {
@@ -149,7 +154,7 @@ class ModuleInclusionMethod implements JsonSerializable{
     /**
     * auto generate doc.
     * @param mixed $o
-    * @return
+    * @return mixed
     */
     public function bindTo($o){
         $this->m_callback = $this->m_callback->bindTo($o);
@@ -157,7 +162,7 @@ class ModuleInclusionMethod implements JsonSerializable{
     }
     /**
     * Called when an object is used as a function.
-    * @return
+    * @return mixed
     */
     public function __invoke(){
         try{

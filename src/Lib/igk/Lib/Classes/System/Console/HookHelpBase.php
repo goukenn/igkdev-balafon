@@ -14,11 +14,15 @@ namespace IGK\System\Console;
 * @package IGK\System\Console
 */
 abstract class HookHelpBase{
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     abstract function info(): ?array;
     /**
     * auto generate doc.
     * @param array $args
-    * @return
+    * @return mixed
     */
     abstract function filter(array $args);
 }

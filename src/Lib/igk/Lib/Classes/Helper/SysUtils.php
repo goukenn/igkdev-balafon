@@ -67,10 +67,10 @@ class SysUtils{
         return null;
     }
     /**
-     * prepent sys db controller 
-     * @param array $c 
-     * @return void 
-     */
+    * prepent sys db controller
+    * @param array & $c
+    * @return void
+    */
     public static function PrependSysDb(array & $c){
         $sysdb = SysDbController::ctrl();
         if ( false!== ($key = array_search($sysdb, $c))){
@@ -136,11 +136,12 @@ class SysUtils{
         return implode ($j, array_filter(array_merge(func_get_args(), [sprintf("[ %s ]", igk_configs()->website_domain)])) );
     }
     /**
-     * get controller by name
-     * @param string $ctrl 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get controller by name
+    * @param string $ctrl
+    * @param mixed $throwex
+    * @throws IGKException
+    * @return mixed
+    */
     public static function GetControllerByName(string $ctrl, $throwex = 1){     
         $sys_ctrl = SysDbController::ctrl();   
         if (($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER) || ($ctrl == $sys_ctrl->getName())){
@@ -173,6 +174,7 @@ class SysUtils{
     }
     /**
     * auto generate doc.
+    * @param ?callable $filter
     * @return array list of controller installed in project folder
     */
     public static function GetProjectControllers(?callable $filter=null){
@@ -258,9 +260,11 @@ class SysUtils{
             }
         }
     }
-    /***
-     * init class variable
-     */
+    /**
+    * init class variable
+    * @param mixed $n
+    * @param mixed $tag
+    */
     public static function InitClassVars($n, $tag){ 
         foreach(get_class_vars(get_class($n)) as $k=>$c){ 
             $n->$k = igk_getv($tag, $k, $c);
@@ -330,8 +334,10 @@ class SysUtils{
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }
     /**
-     * clear cache for base dir
-     */
+    * clear cache for base dir
+    * @param mixed $bdir
+    * @param mixed $init
+    */
     public static function ClearCache($bdir = null, $init = 0)
     {
         $t = null;

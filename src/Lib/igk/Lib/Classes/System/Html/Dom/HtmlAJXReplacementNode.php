@@ -24,6 +24,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $tag the default value is null
     */
     public function addNode($n, $tag=null){
@@ -44,7 +45,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     }
     /**
     * auto generate doc.
-    * @param * $o the default value is null
+    * @param mixed & $o
     */
     protected function innerHTML(& $o=null){
         $so="";

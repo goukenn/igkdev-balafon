@@ -31,6 +31,8 @@ use function igk_resources_gets as __;
 class Authorization{
     /**
     * auto generate doc.
+    * @param \IGK\Models\Users $user
+    * @param BaseController $controller
     * @param mixed $auth_name
     * @return bool
     */
@@ -145,11 +147,13 @@ class Authorization{
         return $gp;
     }
     /**
-     * grant autorization to group
-     * @param BaseController $controller 
-     * @param string $autorizationName 
-     * @return void 
-     */
+    * grant autorization to group
+    * @param BaseController $controller
+    * @param string $autorizationName
+    * @param string $groupName
+    * @param mixed $grant
+    * @return void
+    */
     public static function BindControllerAuth(?BaseController $controller, string $autorizationName, string $groupName, $grant=1){
         $name = is_null($controller) ? null : igk_uri(get_class($controller));
         $auth_name = StringUtility::AuthorizationPath($autorizationName, $name);

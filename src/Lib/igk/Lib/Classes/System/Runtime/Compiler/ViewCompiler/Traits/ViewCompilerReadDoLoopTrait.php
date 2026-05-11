@@ -9,11 +9,10 @@ use IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock\DoWhileBlock;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Runtime\Compiler\ViewCompiler
- */
+* auto generate doc.
+* @package IGK\System\Runtime\Compiler\ViewCompiler
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
@@ -47,6 +46,8 @@ trait ViewCompilerReadDoLoopTrait
     }
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param string $value
     * @return bool
     */

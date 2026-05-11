@@ -5,7 +5,7 @@ use IGK\System\Text\RegexMatcherParentChainReplacement;
 if (!function_exists('igk_dump_export')) {
     /**
     * auto generate doc.
-    * @param string $m
+    * @param mixed $data
     * @return void
     */
     function igk_dump_export($data)

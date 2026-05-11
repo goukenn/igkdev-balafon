@@ -138,6 +138,7 @@ class CsvFile
 /**
 * Parse line.
 * @param mixed $line
+* @return mixed
 */
 function _parseLine($line)
     {
@@ -183,11 +184,12 @@ function _parseLine($line)
         }
         return $tab;
     }
-    /**
-     * mapp data an return an object \
-     * the callable must accept two parameter : (?string $v, int $i=null): value
-     * @return null|object 
-     */
+/**
+* mapp data an return an object \the callable must accept two parameter : (?string $v, int $i=null): value
+* @param array $data
+* @param mixed $mapper
+* @return null|object
+*/
     public
 function map(array $data, $mapper): ?object
     {

@@ -24,7 +24,11 @@ require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
 /**
 * auto generate doc.
+* @param mixed $srv
+* @param mixed $dbu
 * @param mixed $pwd
+* @param mixed $options
+* @return mixed
 */
 function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
 {
@@ -75,7 +79,9 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
 }
 /**
 * auto generate doc.
+* @param mixed $v
 * @param mixed $r the default value is null
+* @return mixed
 */
 function igk_db_escape_string($v, $r = null)
 {
@@ -102,6 +108,7 @@ function igk_db_escape_string($v, $r = null)
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_db_fetch_field($r)
 {
@@ -111,6 +118,7 @@ function igk_db_fetch_field($r)
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_db_fetch_row($r)
 {
@@ -120,6 +128,7 @@ function igk_db_fetch_row($r)
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_db_is_resource($r)
 {
@@ -129,9 +138,10 @@ function igk_db_is_resource($r)
     return is_resource($r);
 }
 /**
- * get number of fielse
- * @param mixed $r
- */
+* get number of fielse
+* @param mixed $r
+* @return mixed
+*/
 function igk_db_num_fields($r){
     $g = DbQueryDriver::GetFunc("num_fields");
     return ($r && $g ) ? $g($r) : -1;
@@ -139,6 +149,7 @@ function igk_db_num_fields($r){
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_db_num_rows($r)
 {
@@ -149,6 +160,7 @@ function igk_db_num_rows($r)
 * Igk db seek.
 * @param mixed $r
 * @param int $row
+* @return mixed
 */
 function igk_db_seek($r, int $row){
     $g = DbQueryDriver::GetFunc("seek");
@@ -157,6 +169,7 @@ function igk_db_seek($r, int $row){
 /**
 * Igk db fetch assoc.
 * @param mixed $r
+* @return mixed
 */
 function igk_db_fetch_assoc($r){
     if ($g = DbQueryDriver::GetFunc("fetch_assoc")){
@@ -164,9 +177,11 @@ function igk_db_fetch_assoc($r){
     }
 }
 /**
- * send db query
- * @param mixed $query
- */
+* send db query
+* @param mixed $query
+* @param mixed $res
+* @return mixed
+*/
 function igk_db_query(string $query, $res = null)
 { 
     $g = DbQueryDriver::GetFunc("query");
@@ -184,6 +199,7 @@ function igk_db_query(string $query, $res = null)
 * Igk db multi query.
 * @param mixed $query
 * @param null|mixed $res
+* @return mixed
 */
 function igk_db_multi_query($query, $res = null)
 {
@@ -200,8 +216,9 @@ function igk_db_multi_query($query, $res = null)
     return $g($query);
 }
 /**
- * retreive the current server date
- */
+* retreive the current server date
+* @return mixed
+*/
 function igk_mysql_datetime_now()
 {
     return date(IGK_MYSQL_DATETIME_FORMAT);
@@ -209,6 +226,7 @@ function igk_mysql_datetime_now()
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_mysql_db_close($r)
 {
@@ -218,6 +236,7 @@ function igk_mysql_db_close($r)
 /**
 * auto generate doc.
 * @param mixed $r the default value is null
+* @return mixed
 */
 function igk_mysql_db_error($r = null)
 {
@@ -233,6 +252,8 @@ function igk_mysql_db_error($r = null)
 }
 /**
 * auto generate doc.
+* @param mixed $res
+* @return mixed
 */
 function igk_mysql_db_errorc($res=null)
 {
@@ -248,6 +269,7 @@ function igk_mysql_db_errorc($res=null)
 /**
 * auto generate doc.
 * @param mixed $t
+* @return mixed
 */
 function igk_mysql_db_gettypename($t)
 {
@@ -271,6 +293,7 @@ function igk_mysql_db_gettypename($t)
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_mysql_db_has_error()
 {
@@ -279,6 +302,7 @@ function igk_mysql_db_has_error()
 /**
 * auto generate doc.
 * @param mixed $flags
+* @return mixed
 */
 function igk_mysql_db_is_primary_key($flags)
 {
@@ -287,6 +311,7 @@ function igk_mysql_db_is_primary_key($flags)
 /**
 * auto generate doc.
 * @param mixed $r the default value is null
+* @return mixed
 */
 function igk_mysql_db_last_id($r = null)
 {
@@ -303,6 +328,7 @@ function igk_mysql_db_last_id($r = null)
 }
 /**
 * Igk db last connect error.
+* @return mixed
 */
 function igk_db_last_connect_error(){
     $g = DbQueryDriver::GetFunc("connect_error");
@@ -314,6 +340,7 @@ function igk_db_last_connect_error(){
 /**
 * auto generate doc.
 * @param mixed $mysql
+* @return mixed
 */
 function igk_mysql_db_selected_db($mysql)
 {
@@ -324,6 +351,7 @@ function igk_mysql_db_selected_db($mysql)
 /**
 * auto generate doc.
 * @param mixed $tbname
+* @return mixed
 */
 function igk_mysql_db_tbname($tbname)
 {
@@ -332,6 +360,7 @@ function igk_mysql_db_tbname($tbname)
 /**
 * auto generate doc.
 * @param mixed $resource
+* @return mixed
 */
 function igk_mysql_result_table($resource)
 {
@@ -357,6 +386,7 @@ function igk_mysql_result_table($resource)
 /**
 * auto generate doc.
 * @param mixed $date
+* @return mixed
 */
 function igk_mysql_time_span($date)
 {
@@ -366,6 +396,7 @@ function igk_mysql_time_span($date)
 * Igk mysqli multi query.
 * @param mixed $con
 * @param mixed $query
+* @return mixed
 */
 function igk_mysqli_multi_query($con, $query)
 {

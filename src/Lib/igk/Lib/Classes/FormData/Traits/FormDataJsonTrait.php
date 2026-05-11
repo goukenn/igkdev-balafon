@@ -13,11 +13,14 @@ use IGK\System\Http\Request;
 * @package IGK\FormData\Traits
 */
 trait FormDataJsonTrait{
- /**
-     * create instance from json request data
-     * @param mixed $data 
-     * @return static 
-     */
+    /**
+    * create instance from json request data
+    * @param mixed $data
+    * @param IContentSecurityProvider $request
+    * @param IActionRequestValidator $validator
+    * @param mixed & $errors
+    * @return static
+    */
     public static function FromJSonRequestData($data, IContentSecurityProvider $request, IActionRequestValidator $validator, & $errors=null){
         return Activator::CreateNewInstanceWithValidation(static::class, $data, $request, $validator, $errors);
     }

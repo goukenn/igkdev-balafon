@@ -39,8 +39,9 @@ abstract class FactoryBase {
     */
     protected $m_errors = [];
     /**
-     * helper retrieve model utility
-     */
+    * helper retrieve model utility
+    * @param string $name
+    */
     protected function modelUtility(string $name){
 		return $this->model->getController()->modelUtility($name);
 	}
@@ -91,18 +92,19 @@ abstract class FactoryBase {
     protected function reset(){
     }
     /**
-     * set error handler
-     * @param null|array $error 
-     * @return $this 
-     */
+    * set error handler
+    * @param ?array & $error
+    * @return $this
+    */
     public function setError(?array & $error){
         $this->m_errors = & $error;
         return $this;
     }
     /**
-     * initilize dependency and return the number of max created element
-     * @return void 
-     */
+    * initilize dependency and return the number of max created element
+    * @param int $max
+    * @return void
+    */
     protected function dependOn(int $max){
         return $max;
     }

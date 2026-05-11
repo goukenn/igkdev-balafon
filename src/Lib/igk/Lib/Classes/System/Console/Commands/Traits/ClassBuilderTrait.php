@@ -18,18 +18,20 @@ trait ClassBuilderTrait{
         return ["class", "interface", "trait", "struct", "enum"];
     }
     /**
-     * create a class file 
-     * @param mixed $command 
-     * @param string $dir 
-     * @param string $classPath 
-     * @param string $type 
-     * @param (null|string)|null $ns 
-     * @param mixed $extends 
-     * @param mixed $desc 
-     * @param bool $force 
-     * @return string|false 
-     * @throws IGKException 
-     */
+    * create a class file
+    * @param mixed $command
+    * @param string $dir
+    * @param string $classPath
+    * @param string $type
+    * @param (null|string)|null $ns
+    * @param mixed $extends
+    * @param mixed $desc
+    * @param bool $force
+    * @param ?string $content
+    * @param ?string $class_modifier
+    * @throws IGKException
+    * @return string|false
+    */
     public function makeClass($command, string $dir, string $classPath, 
         string $type,
         ?string $ns=null,

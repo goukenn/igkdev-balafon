@@ -41,7 +41,7 @@ final class Number
     /**
     * auto generate doc.
     * @param mixed $d
-    * @return
+    * @return mixed
     */
     private static function __GetValue($d)
     {
@@ -85,7 +85,7 @@ final class Number
     /**
     * auto generate doc.
     * @param mixed $r
-    * @return
+    * @return mixed
     */
     private static function HexP($r)
     {

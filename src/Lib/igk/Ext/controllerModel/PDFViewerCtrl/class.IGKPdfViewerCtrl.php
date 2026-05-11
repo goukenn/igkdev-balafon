@@ -47,12 +47,11 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 		$this["src"] = igk_io_baseuri().$uri;
 		return parent::Render($xmloption);
 	}
-	/**
-	 * Returns the inner HTML of the node.
-	 *
-	 * @param mixed $xmloption Optional XML render options passed by reference.
-	 * @return string
-	 */
+    /**
+    * Returns the inner HTML of the node.
+    * @param mixed & $xmloption
+    * @return string
+    */
     public function innerHTML (& $xmloption =null)
 	{
 			$o = parent::innerHTML($xmloption);

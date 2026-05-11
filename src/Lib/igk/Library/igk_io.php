@@ -6,15 +6,13 @@
 // @desc: io utility functions
 
 use IGK\Helper\IO;
-
-
 /**
- * 
- * @param string $fn 
- * @param null|string $regex 
- * @param null|string $assoc 
- * @return object|null 
- */
+* auto generate doc.
+* @param string $fn
+* @param null|string $regex
+* @param null|string $assoc
+* @return object|null
+*/
 function igk_io_split_litteral(string $fn, ?string $regex = null, ?string $assoc=null)
 {
     if (is_null($regex) && is_null($assoc)){

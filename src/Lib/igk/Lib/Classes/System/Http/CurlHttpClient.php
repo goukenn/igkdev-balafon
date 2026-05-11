@@ -131,6 +131,7 @@ class CurlHttpClient implements IHttpClient{
     }
     /**
     * auto generate doc.
+    * @param string $url
     * @param ?array $args the parameters
     * @return ?string the response
     */

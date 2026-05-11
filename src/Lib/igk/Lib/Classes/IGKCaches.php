@@ -44,7 +44,7 @@ final class IGKCaches
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -79,9 +79,11 @@ final class IGKCaches
         }
     }
     /**
-     * get system cache uri
-     * @return (string|bool)[]  uri and zip flag 
-     */
+    * get system cache uri
+    * @param mixed $controller
+    * @param ?string $requestUri
+    * @return (string|bool)[]  uri and zip flag
+    */
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
         $o = "";
@@ -200,7 +202,7 @@ final class IGKCaches
     /**
     * auto generate doc.
     * @param BaseController $ctrl
-    * @return
+    * @return mixed
     */
     private function _init_ctrl_filesystem_caches(BaseController $ctrl)
     {
@@ -235,18 +237,19 @@ final class IGKCaches
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _init_css_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/css");
     }
     /**
-     * check array file 
-     * @param string[]|array $files files list to check
-     * @param int $mtime time to check
-     * @return bool 
-     */
+    * check array file
+    * @param string[]|array $files files list to check
+    * @param int $mtime time to check
+    * @param mixed & $file
+    * @return bool
+    */
     public static function CheckCaches($files, int $mtime, & $file = null):bool
     {
         foreach ($files as $f) {

@@ -327,6 +327,8 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $column
     * @param array $options
     * @return $this|void
     */
@@ -345,6 +347,8 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
     * auto generate doc.
+    * @param mixed $table
+    * @param mixed $colname
     * @param mixed $newname
     * @return $this
     */
@@ -379,6 +383,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
     * auto generate doc.
+    * @param string $table
     * @param string $colname
     * @return static
     */

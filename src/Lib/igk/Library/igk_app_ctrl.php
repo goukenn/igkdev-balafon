@@ -14,7 +14,9 @@ define("IGK_INC_APP_INITDB", IGK_LIB_DIR."/".IGK_INC_FOLDER."/igk_initapp_db.pin
 use function igk_resources_gets as __;
 /**
 * auto generate doc.
+* @param mixed $ctrl
 * @param mixed $n
+* @return mixed
 */
 function igk_app_ctrl_dropped_callback($ctrl, $n){
     $c= & ApplicationController::GetApps();
@@ -22,7 +24,11 @@ function igk_app_ctrl_dropped_callback($ctrl, $n){
 }
 /**
 * auto generate doc.
+* @param mixed $app
+* @param mixed $node
+* @param mixed $fname
 * @param mixed $goodUri the default value is null
+* @return mixed
 */
 function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
     $u=$goodUri;
@@ -37,7 +43,11 @@ function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
 }
 /**
 * auto generate doc.
+* @param mixed $app
+* @param mixed $div
+* @param mixed $badUri
 * @param mixed $goodUri the default value is null
+* @return mixed
 */
 function igk_app_login_form($app, $div, $badUri=null, $goodUri=null){
     $frm=$div->addForm();
@@ -67,12 +77,16 @@ EOF    , R::ngets("lb.q.forgotpwd"), R::ngets("lb.remember_me"));
 }
 /**
 * get application authorization key
+* @param mixed $app
+* @param mixed $name
+* @return mixed
 */
 function igk_get_app_auth($app, $name){
     return $app->Name.":/".$name;
 }
 /**
 * get all application controller
+* @return mixed
 */
 function igk_get_app_ctrl(){
     $v_ruri=igk_io_base_request_uri();

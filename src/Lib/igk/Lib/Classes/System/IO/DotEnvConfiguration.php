@@ -40,6 +40,7 @@ class DotEnvConfiguration
     const APP_DOT_ENV_CONFIG = 'dotenv_config_location_dir';
     /**
     * auto generate doc.
+    * @param mixed & $refkey
     * @param mixed $ctrl
     * @return void
     */
@@ -69,7 +70,7 @@ class DotEnvConfiguration
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _GetRefNames()
     {
@@ -123,7 +124,7 @@ class DotEnvConfiguration
     * .ctr
     * @param string $value
     * @param null|mixed $ctrl
-    * @return
+    * @return mixed
     */
     public function __construct(string $value, $ctrl = null)
     { 

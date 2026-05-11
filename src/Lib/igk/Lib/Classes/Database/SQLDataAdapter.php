@@ -125,12 +125,13 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
         return igk_db_escape_string($str) ?? '';
     }
     /**
-     * get relation attached to table
-     * @param mixed $adapter 
-     * @param mixed $tname 
-     * @return mixed 
-     * @throws Exception 
-     */
+    * get relation attached to table
+    * @param mixed $adapter
+    * @param mixed $tname
+    * @param mixed $clname
+    * @throws Exception
+    * @return mixed
+    */
     protected static function GetRelation($adapter, $tname, $clname){
         $r = $adapter->getDbname();        
         $adapter->selectdb(static::DB_INFORMATION_SCHEMA); 
@@ -188,7 +189,8 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
     /**
     * auto generate doc.
-    * @param mixed $condition
+    * @param mixed $tbname
+    * @param mixed $conditions
     */
     public function delete($tbname, $conditions=null){
         $query = $this->getGrammar()->createDeleteQuery($tbname, $conditions);		
@@ -196,6 +198,8 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
     /**
     * delete all from table
+    * @param mixed $tbname
+    * @param mixed $condition
     */
     public function deleteAll($tbname, $condition=null){
         $query = $this->getGrammar()->createDeleteQuery($tbname, $condition);		
@@ -207,7 +211,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     protected function initConfig(){}
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
     * @param mixed $tableinfo the default value is null
+    * @param bool $throwException
     */
     public function insert($tbname, $values, $tableinfo=null, bool $throwException = true){
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
@@ -219,7 +226,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     public function last_id(){}
     /**
     * build and send a mysql select query
+    * @param mixed $tbname
+    * @param mixed $where
     * @param mixed $options callback or igk_db_create_opt_obj()
+    * @param mixed $throwex
+    * @param mixed $autoclose
     * @return object query result
     */
     public function select($tbname, $where=null, $options=null, $throwex=false, $autoclose=false){
@@ -236,6 +247,8 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $condition
     * @param mixed $options the default value is null
     */
     public function selectAndWhere($tbname, $condition=null, $options=null){       
@@ -245,6 +258,9 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
+    * @param mixed $entry
+    * @param mixed $condition
     * @param mixed $tabinfo the default value is null
     */
     public function update($tablename, $entry, $condition=null, $tabinfo=null){
@@ -254,6 +270,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
     /**
     * auto generate doc.
+    * @param mixed $type
     * @param mixed $value
     * @return string|null
     */
@@ -267,6 +284,8 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     /**
     * auto generate doc.
     * @param mixed $value
+    * @param ?string $for
+    * @param mixed $tableInfo
     * @return mixed
     */
     public function getObjValue($value, ?string $for=null, $tableInfo = null){

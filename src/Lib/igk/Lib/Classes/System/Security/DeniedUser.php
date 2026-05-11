@@ -12,6 +12,7 @@ namespace IGK\System\Security;
 class DeniedUser{
     /**
     * auto generate doc.
+    * @param mixed $role
     */    public function auth($role):bool{
         return false;
     }

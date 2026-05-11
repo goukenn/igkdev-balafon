@@ -57,7 +57,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     var $endCaptures;
     /**
     * auto generate doc.
-    * @var merge captures / begin / match
+    * @var ?array merge captures / begin / match
     */
     var $captures;
     /**

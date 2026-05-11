@@ -71,7 +71,7 @@ trait ClassFileVersionLoaderTrait
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initClassRegister()
     {      
@@ -82,11 +82,12 @@ trait ClassFileVersionLoaderTrait
         }
     }
     /**
-     * get register class 
-     * @param string $classname 
-     * @return ?string the registrated class 
-     * @throws IGKException 
-     */
+    * get register class
+    * @param string $classname
+    * @param ?string $version
+    * @throws IGKException
+    * @return ?string the registrated class
+    */
     public function getRegisterClass(string $classname, ?string $version=null ): ?string    
     {       
         if (!empty($this->_load_classes) && !is_null($index = igk_getv($this->_load_classes["cl"], $classname))) {

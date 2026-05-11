@@ -410,10 +410,9 @@ class IGKEvents extends IGKObject
      * cpanel hooks base
      */
     const CPANEL_HOOKS = 'sys://cpanel';
-
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     const FILTER_PRE_CPANEL_BEFORE_RENDER = self::CPANEL_HOOKS.'/filter/BEFORE_RENDER_DOC';
     /**
     * Creates Hook Options.
@@ -583,6 +582,8 @@ class IGKEvents extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $owner
+    * @param mixed $name
     * @param mixed $single the default value is false
     */
     public function __construct($owner, $name, $single = false)
@@ -627,8 +628,10 @@ class IGKEvents extends IGKObject
         return null;
     }
     /**
-     * invoke resgistrated method
-     */
+    * invoke resgistrated method
+    * @param mixed $sender
+    * @param mixed $args
+    */
     public function Call($sender, $args)
     {
         if ($this->m_methods) {
@@ -645,8 +648,9 @@ class IGKEvents extends IGKObject
         $this->m_methods = array();
     }
     /**
-     * enumerate registrated methods
-     */
+    * enumerate registrated methods
+    * @param mixed $callback
+    */
     public function enumerateMethod($callback)
     {
         foreach ($this->m_methods as $k) {
@@ -697,6 +701,7 @@ class IGKEvents extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $class
     * @param mixed $method
     */
     public function remove($class, $method)
@@ -715,6 +720,7 @@ class IGKEvents extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $obj
     * @param mixed $name the default value is IGK_FUNC_KEY
     */
     public function removeObject($obj, $name = IGK_FUNC_KEY)
@@ -739,12 +745,13 @@ class IGKEvents extends IGKObject
     */
     public function setIsDebugging($v) {}
     /**
-     * register hooks
-     * @param mixed $name 
-     * @param callable|string|array $callback 
-     * @param int $priority 
-     * @return void 
-     */
+    * register hooks
+    * @param mixed $name
+    * @param callable|string|array $callback
+    * @param int $priority
+    * @param mixed $injectable
+    * @return void
+    */
     public static function reg_hook(string $name, $callback, $priority = 10, $injectable = true)
     {
         $hooks = &igk_environment()->createArray(self::ENV_KEY);

@@ -33,16 +33,16 @@ class SyncComposerCommand extends SyncAppExecCommandBase{
             IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
             IGK_LIB_DIR."/Inc/core/composer.pinc",   
         ];
-    }  
+    }
     /**
-     * execute command
-     * @param mixed $command 
-     * @param mixed $args 
-     * @return never 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * execute command
+    * @param mixed $command
+    * @param mixed ...$args
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return never
+    */
     public function exec($command, ...$args) { 
         $this->syncScriptCommand($command, "install-composer.php", ["args"=>$args]); 
     } 

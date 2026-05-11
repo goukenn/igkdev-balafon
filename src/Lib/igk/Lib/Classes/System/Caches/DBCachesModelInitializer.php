@@ -43,13 +43,14 @@ class DBCachesModelInitializer
     private $m_migration = false;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {}
     /**
-     * create an instance for migration purpose
-     * @return DBCachesModelInitializer 
-     */
+    * create an instance for migration purpose
+    * @param mixed $plist
+    * @return DBCachesModelInitializer
+    */
     public static function InitMigration($plist)
     {
         $item = new self;
@@ -59,11 +60,13 @@ class DBCachesModelInitializer
         return $item;
     }
     /**
-     * Init initializer with loaded 
-     * @param array $plist array of definition table
-     * @return DBCachesModelInitializer 
-     * @throws IGKException 
-     */
+    * Init initializer with loaded
+    * @param array $plist array of definition table
+    * @param bool $force
+    * @param bool $clean
+    * @throws IGKException
+    * @return DBCachesModelInitializer
+    */
     public static function Init($plist, bool $force = false, bool $clean = false)
     {
         $item = new self;
@@ -73,11 +76,12 @@ class DBCachesModelInitializer
         return $item;
     }
     /**
-     * boot and init model base
-     * @param bool $force 
-     * @return void 
-     * @throws IGKException 
-     */
+    * boot and init model base
+    * @param bool $force
+    * @param bool $clean
+    * @throws IGKException
+    * @return void
+    */
     public function bootStrap(bool $force = false, bool $clean = false)
     {
         if (!$this->tableInfo) {
@@ -135,6 +139,7 @@ class DBCachesModelInitializer
     }
     /**
     * auto generate doc.
+    * @param BaseController $current
     * @param mixed $defs
     * @return void
     */
@@ -147,17 +152,19 @@ class DBCachesModelInitializer
         $this->m_loaded[$cl] = array_merge($this->m_loaded[$cl], $defs);
     }
     /**
-     * get model source declaration
-     * @param mixed $name 
-     * @param mixed $table 
-     * @param mixed $migrationInfo 
-     * @param mixed $ctrl 
-     * @param null|string $comment 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * get model source declaration
+    * @param mixed $name
+    * @param mixed $table
+    * @param mixed $migrationInfo
+    * @param mixed $ctrl
+    * @param null|string $comment
+    * @param ?string $prefix
+    * @param ?string $display_expression
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return string
+    */
     public function getModelDefaultSourceDeclaration(string $name, string $table, $migrationInfo, BaseController $ctrl, 
     ?string $comment = null, ?string $prefix=null, ?string $display_expression=null)
     {
@@ -174,7 +181,9 @@ class DBCachesModelInitializer
     }
     /**
     * auto generate doc.
+    * @param array $inf
     * @param BaseController $ctrl
+    * @param ?string $prefix
     * @return array
     */
     public function dBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl, ?string $prefix)
@@ -241,7 +250,11 @@ class DBCachesModelInitializer
     }
     /**
     * auto generate doc.
+    * @param string $name
+    * @param mixed $info
+    * @param BaseController $ctrl
     * @param bool $extra
+    * @param ?string $prefix
     * @return string
     */
     public function getPhpDoPropertyType(string $name, $info, BaseController $ctrl, $extra = false, ?string $prefix= null)

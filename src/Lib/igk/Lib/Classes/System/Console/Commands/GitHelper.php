@@ -14,8 +14,14 @@ use IGK\System\Console\Logger;
 class GitHelper
 {
     /**
-     * Generate project git ignore file 
-     */
+    * Generate project git ignore file
+    * @param mixed & $bind
+    * @param mixed $dir
+    * @param mixed $name
+    * @param mixed $author
+    * @param mixed $desc
+    * @param ?array $ignorelist
+    */
     public static function Generate(&$bind, $dir, $name = null, $author = null, $desc = null, ?array $ignorelist = null)
     {
         if (is_null($author)){

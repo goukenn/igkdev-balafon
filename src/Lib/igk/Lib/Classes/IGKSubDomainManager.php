@@ -41,6 +41,7 @@ final class IGKSubDomainManager extends IGKObject{
     private function __construct(){}
     /**
     * auto generate doc.
+    * @param mixed $domain
     * @param mixed $servername
     */
     public static function AcceptDomain($domain, $servername){
@@ -82,7 +83,9 @@ final class IGKSubDomainManager extends IGKObject{
     }
     /**
     * get the domain controller or return false
-    * @return false|BaseController found controller 
+    * @param mixed $uri
+    * @param mixed & $row
+    * @return false|BaseController found controller
     */
     public function checkDomain($uri=null, & $row=null){
         if(igk_is_atomic()){
@@ -273,6 +276,7 @@ final class IGKSubDomainManager extends IGKObject{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $ctrl
     */
     public static function IsControl($n, $ctrl){
@@ -293,6 +297,8 @@ final class IGKSubDomainManager extends IGKObject{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
+    * @param mixed $ctrl
     * @param mixed $row the default value is null
     */
     public function reg_domain($n, $ctrl, $row=null){
@@ -309,6 +315,7 @@ final class IGKSubDomainManager extends IGKObject{
     }
     /**
     * resole domain to match server name
+    * @param mixed $domain
     */
     public static function Resolv($domain){
         $servername=igk_server_name();
@@ -332,7 +339,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * auto generate doc.
     * @param null|string $uri
-    * @return
+    * @return mixed
     */
     public static function SubDomainUriName(?string $uri=null){
         $domain=igk_io_domain_uri_name($uri);

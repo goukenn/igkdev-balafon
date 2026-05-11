@@ -179,20 +179,21 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
     }
     /**
-     * remove all item in directory
-     * @param mixed $frp 
-     * @param mixed $dir 
-     * @return void 
-     */
+    * remove all item in directory
+    * @param mixed $ftp
+    * @param mixed $frp
+    * @return void
+    */
     protected function emptyDir($ftp, string $dir){
         FtpHelper::RmDir($ftp, $dir); 
         FtpHelper::CreateDir($ftp, $dir);
     }
     /**
-     * get install script 
-     * @param array|string installed script 
-     * @param string $token $ref token
-     */
+    * get install script
+    * @param mixed $script
+    * @param mixed & $token
+    * @param mixed $name
+    */
     public static function GetScriptInstall($script, & $token, $name=null){
         $src = null;
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
@@ -250,6 +251,8 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $script
     * @param mixed $args
     * @return mixed|void
     */

@@ -9,9 +9,8 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Controllers\IControllerRequestInfo;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestPreparer;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Controllers\Traits
 * @author C.A.D. BONDJE DOUE
 */

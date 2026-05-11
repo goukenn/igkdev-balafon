@@ -16,9 +16,8 @@ use IGK\System\Http\RequestHandler;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Console\Commands
 */
 /**
@@ -61,6 +60,8 @@ class RequestUriViewCommand extends RequestViewCommand{
     }
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
     * @param null|string $request
     * @return int
     */

@@ -14,16 +14,17 @@ use IGKException;
 */
 class ObjectDataValidator implements IDataValidator{
     /**
-     * just validate data
-     * @param mixed $data 
-     * @param array $mapper 
-     * @param null|array $defaultValues 
-     * @param null|array $not_required 
-     * @param mixed $requestData 
-     * @param null|array $error 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * just validate data
+    * @param mixed $data
+    * @param array $mapper
+    * @param null|array $defaultValues
+    * @param null|array $not_required
+    * @param mixed & $requestData
+    * @param ?array & $error
+    * @param ?array $resolvKeys
+    * @throws IGKException
+    * @return bool
+    */
     public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null, ?array $resolvKeys=null): bool
     { 
         $r = (new ObjectValidationMapper(

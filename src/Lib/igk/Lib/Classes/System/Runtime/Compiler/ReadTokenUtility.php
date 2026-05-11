@@ -21,7 +21,7 @@ class ReadTokenUtility
     * auto generate doc.
     * @param mixed $mod
     * @param mixed $p
-    * @return
+    * @return mixed
     */
     private static function _GetPonderation($mod, $p)
     {
@@ -32,11 +32,12 @@ class ReadTokenUtility
         return $h;
     }
     /**
-     * merge variables 
-     * @param mixed $vars 
-     * @param bool $mergeVariable 
-     * @return string 
-     */
+    * merge variables
+    * @param mixed $vars
+    * @param bool $mergeVariable
+    * @param ?string $type
+    * @return string
+    */
     public static function GenerateVariables($vars, bool $mergeVariable = false, ?string $type=null)
     {
         $sb = new StringBuilder();
@@ -97,7 +98,9 @@ class ReadTokenUtility
     }
     /**
     * auto generate doc.
-    * @param null|StringBuilder $cheader
+    * @param mixed $structs
+    * @param bool $header
+    * @param ?IReadTokenMergeOption $options
     * @return string
     */
     public static function GenerateStruct($structs, bool $header = false, ?IReadTokenMergeOption $options = null)

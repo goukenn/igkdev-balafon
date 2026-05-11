@@ -14,6 +14,10 @@ namespace IGK\System\Core;
 * @package IGK\System\Core
 */
 class RequiredPhpExtensions{
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function GetInfo(){
         return [
             'openssl',

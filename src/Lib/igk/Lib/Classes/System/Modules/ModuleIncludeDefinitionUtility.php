@@ -53,20 +53,23 @@ class ModuleIncludeDefinitionUtility
         return $t;
     }
     /**
-     * 
-     * @param mixed $tab 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @return mixed
+    */
     private static function & GetVar($tab){
         return $tab;
     }
     /**
-     * auto generate doc.
-     * @param string $param
-     * @param mixed $code
-     * @param string $selfKey
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param string $param
+    * @param mixed $code
+    * @param string $selfKey
+    * @param ?string $namespace
+    * @param ?array $uses
+    * @param ?string $in_condition
+    * @return mixed
+    */
     public static function CreateMethodHandle(
         string $param,
         $code,
@@ -124,13 +127,14 @@ class ModuleIncludeDefinitionUtility
         return self::BindSourceFile($src, $file, $reference, $fc_handle);
     }
     /**
-     * bind source file to get defined global functions
-     * @param string $source 
-     * @param string $file 
-     * @param null|array &$reference 
-     * @param null|array $fc_handle 
-     * @return array|object array if only function or object that contain namespace | uses | caches 
-     */
+    * bind source file to get defined global functions
+    * @param string $source
+    * @param string $file
+    * @param null|array &$reference
+    * @param null|array $fc_handle
+    * @param ?string $refkey
+    * @return array|object array if only function or object that contain namespace | uses | caches
+    */
     public static function BindSourceFile(string $source, string $file, ?array &$reference, ?array $fc_handle = [], ?string $refkey = self::SELF_REFERENCE)
     {
         $func_list = [];    

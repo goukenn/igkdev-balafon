@@ -25,7 +25,10 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      * @throws Exception 
      * @throws IGKException 
      */
-    /** inject the random fields */
+    /**
+    * inject the random fields
+    * @param mixed $context
+    */
     public function getFields($context=null): array{
         $v_fields = parent::getFields($context);
         return FormFieldHelper::FormRandFieldName($v_fields);

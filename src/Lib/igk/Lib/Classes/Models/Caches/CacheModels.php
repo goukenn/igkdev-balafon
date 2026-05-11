@@ -38,6 +38,7 @@ class CacheModels
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     * @return void
     */

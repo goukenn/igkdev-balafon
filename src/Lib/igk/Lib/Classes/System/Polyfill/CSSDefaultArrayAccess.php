@@ -24,7 +24,7 @@ trait CSSDefaultArrayAccess{
     }
     /**
     * auto generate doc.
-    * @param mixed $i
+    * @param mixed $key
     */
     public function offsetGet(mixed $key):mixed{
         $tab = & $this->_[self::PROPERTIES];
@@ -40,6 +40,7 @@ trait CSSDefaultArrayAccess{
     }
     /**
     * auto generate doc.
+    * @param mixed $i
     * @param ?string $v
     */
     public function offsetSet($i, $v):void{

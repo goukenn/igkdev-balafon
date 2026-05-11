@@ -14,7 +14,8 @@ class LoginAccessContentValidator extends MapContentValidatorBase
 {
     /**
     * auto generate doc.
-    * @param mixed $error
+    * @param mixed & $v
+    * @param mixed $n
     * @return bool
     */
   public function validate( &$v, $n):bool{

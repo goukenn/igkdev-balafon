@@ -152,9 +152,10 @@ abstract class FileHandler{
         return false;
     }
     /**
-     * transform content an return data
-     * @return mixed
-     */
+    * transform content an return data
+    * @param string $content
+    * @return mixed
+    */
     abstract function transform(string $content);
     /**
      * init default source

@@ -117,6 +117,7 @@ final class ApiFunctionController extends ApplicationController {
     }
     /**
     * represent a function database function list
+    * @param mixed $cmd
     */
     public function datadb($cmd=null){       
         /**

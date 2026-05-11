@@ -50,12 +50,13 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
         $this->m_regex->{$name} = $v;
     }
     /**
-     * matching info container 
-     * @param null|RegexDetectInfo &$info 
-     * @param string $source 
-     * @param int &$offset 
-     * @return void 
-     */
+    * matching info container
+    * @param ?RegexDetectInfo $parent_info
+    * @param null|RegexDetectInfo &$info
+    * @param string $source
+    * @param int &$offset
+    * @return void
+    */
     public function startMatch(?RegexDetectInfo $parent_info, ?RegexDetectInfo & $info, string $source, int & $offset){
         $this->m_regex->resetTreatment();
         $this->m_regex->setParentInfo($parent_info);

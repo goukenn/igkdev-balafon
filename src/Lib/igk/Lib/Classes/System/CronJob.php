@@ -56,7 +56,9 @@ class CronJob
     }
     /**
     * auto generate doc.
+    * @param array $crons
     * @param callable $handle_cron_script
+    * @param ?string $exclude_fs
     * @return void
     */
     public static function ExecuteCronList(array $crons, callable $handle_cron_script, ?string $exclude_fs = null)

@@ -68,10 +68,10 @@ abstract class CssUtils
         return $definition;
     }
     /**
-     * merge styles definition 
-     * @param mixed ...$args 
-     * @return string
-     */
+    * merge styles definition
+    * @param mixed ...$args
+    * @return string
+    */
     public static function MergeStyleDefinition(...$args)
     {
         if (!is_array($args)) {
@@ -167,6 +167,7 @@ abstract class CssUtils
     }
     /**
     * auto generate doc.
+    * @param BaseController $controller
     * @param null|string $ruri
     * @return null|string
     */
@@ -242,17 +243,19 @@ abstract class CssUtils
         $vsystheme->def->setFiles($g);
     }
     /**
-     * Get Injectable Style from file definition
-     * @param string $file pcss source file
-     * @param null|BaseController $ctrl 
-     * @param null|HtmlDocTheme $parent 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws EnvironmentArrayException 
-     * @throws CssParserException 
-     */
+    * Get Injectable Style from file definition
+    * @param string $file pcss source file
+    * @param null|BaseController $ctrl
+    * @param null|HtmlDocTheme $parent
+    * @param mixed & $css
+    * @param mixed $autoinit
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @throws EnvironmentArrayException
+    * @throws CssParserException
+    * @return string
+    */
     public static function GetInjectableStyleFromFileDefinition(
         string $file,
         ?BaseController $ctrl = null,
@@ -406,7 +409,11 @@ abstract class CssUtils
     }
     /**
     * auto generate doc.
+    * @param BaseController $controller
+    * @param HtmlDocTheme $a_theme
     * @param mixed $primaryTheme
+    * @param bool $theme_export
+    * @param mixed $rootListener
     * @return array
     */
     public static function AppendDataTheme(
@@ -551,7 +558,10 @@ abstract class CssUtils
     }
     /**
     * auto generate doc.
-    * @param mixed $source_defs
+    * @param string $lk
+    * @param array $tab
+    * @param mixed & $g
+    * @param mixed & $source_defs
     * @return void
     */
     public static function MapThemeDefinition(string $lk, array $tab, &$g, &$source_defs = null)
@@ -608,17 +618,17 @@ abstract class CssUtils
         }
     }
     /**
-     * render medias
-     * @param mixed $medias 
-     * @param mixed $theme 
-     * @param mixed $systheme 
-     * @param mixed $minfile 
-     * @param mixed $el 
-     * @param mixed $is_root 
-     * @param null|array $source_media 
-     * @return string 
-     * @throws IGKException 
-     */
+    * render medias
+    * @param mixed $medias
+    * @param mixed $theme
+    * @param mixed $systheme
+    * @param mixed $minfile
+    * @param mixed $el
+    * @param mixed $is_root
+    * @param ?array & $source_media
+    * @throws IGKException
+    * @return string
+    */
     public static function RenderMedia(array $medias, $theme, $systheme, $minfile, $el, $is_root, ?array &$source_media = null)
     {
         $g = "";
@@ -675,8 +685,12 @@ abstract class CssUtils
         return $s;
     }
     /**
-     * update array media properties 
-     * */
+    * update array media properties
+    * @param array $medias
+    * @param bool $is_primary_theme
+    * @param string $lk
+    * @param bool $skip
+    */
     public static function MapTheme(array $medias, bool $is_primary_theme, string $lk, bool $skip = false)
     {
         while (count($medias) > 0) {
@@ -789,8 +803,14 @@ abstract class CssUtils
         return $ch;
     }
     /**
-     * treat css detection 
-     */
+    * treat css detection
+    * @param mixed $v
+    * @param mixed $k
+    * @param mixed & $g
+    * @param bool $is_primaryTheme
+    * @param string $lk
+    * @param ?array & $source_defs
+    */
     public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
     {
         $v_ev = false;
@@ -840,8 +860,9 @@ abstract class CssUtils
         return $lk;
     }
     /**
-     * init sys global document 
-     */
+    * init sys global document
+    * @param \IGKHtmlDoc $doc
+    */
     public static function InitSysGlobal(\IGKHtmlDoc $doc)
     {
         $clear = 0;
@@ -860,6 +881,11 @@ abstract class CssUtils
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
+    * @param HtmlDocTheme $theme
+    * @param string $file
+    * @param bool $cssRendering
+    * @param bool $temp
     * @param bool $raiseHook
     * @return void
     */
@@ -883,13 +909,14 @@ abstract class CssUtils
         }
     }
     /**
-     * get inline style rendering
-     * @param \IGKHtmlDoc $doc 
-     * @return string|null 
-     * @throws IGKException 
-     * @throws CssParserException 
-     * @throws Exception 
-     */
+    * get inline style rendering
+    * @param \IGKHtmlDoc $doc
+    * @param bool $themeexport
+    * @throws IGKException
+    * @throws CssParserException
+    * @throws Exception
+    * @return string|null
+    */
     public static function GetInlineStyleRendering($doc, bool $themeexport)
     {
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
@@ -929,12 +956,11 @@ abstract class CssUtils
         return null;
     }
     /**
-     * helper append inline style
-     * @param string #Parameter#cfa1602d 
-     * @param IGK\System\Html\Css\file #Parameter#cea15e9a 
-     * @return void 
-     * @throws IGKException 
-     */
+    * helper append inline style
+    * @param string $file
+    * @throws IGKException
+    * @return void
+    */
     public static function AppendInlineStyle(string $file)
     {
         $ctrl = igk_get_current_base_ctrl();
@@ -944,6 +970,8 @@ abstract class CssUtils
     }
     /**
     * auto generate doc.
+    * @param string $file
+    * @param mixed $ctrl
     * @param mixed $theme
     * @return mixed
     */
@@ -961,14 +989,15 @@ abstract class CssUtils
         return strtolower(igk_css_str2class_name($ctrl->getName()));
     }
     /**
-     * include pcss binding files
-     * @param string $file file to incluce
-     * @param ?BaseController $ctrl controller
-     * @param HtmlDocTheme $theme theme to use
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * include pcss binding files
+    * @param string $file file to incluce
+    * @param ?BaseController $ctrl controller
+    * @param HtmlDocTheme $theme theme to use
+    * @param ?string $theme_name
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return void
+    */
     public static function Include(
         string $file,
         ?BaseController $ctrl = null,
@@ -1067,6 +1096,7 @@ abstract class CssUtils
     /**
     * auto generate doc.
     * @param string $content
+    * @param mixed $explode
     * @return array
     */
     public static function GetCssSelectorKeys(string $content, $explode = true): array

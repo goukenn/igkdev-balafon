@@ -8,11 +8,10 @@ use Exception;
 use CssParserException;
 use IGKHtmlDoc;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Http
- */
+* auto generate doc.
+* @package IGK\System\Http
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Http

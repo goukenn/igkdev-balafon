@@ -44,34 +44,40 @@ trait BearerAuthenticatorTrait
      */
     protected abstract function getUserFromToken(bool $update = true, &$token = null): ?ModelBase;
     /**
-     * create use profile from application'user
-     */
+    * create use profile from application'user
+    * @param ModelBase $app_user
+    */
     protected abstract function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile;
     /**
-     * get token user or die
-     * @return ?ModelBase
-     * @throws IGKException 
-     */
+    * get token user or die
+    * @param mixed $update
+    * @param mixed & $token
+    * @throws IGKException
+    * @return ?ModelBase
+    */
     protected function getUserFromTokenOrDie($update = true, &$token = null)
     {
         $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
         return $user;
     }
     /**
-     * generate token hash code 
-     * @param mixed $user 
-     * @return string 
-     */
+    * generate token hash code
+    * @param mixed $user
+    * @param string $prefix
+    * @return string
+    */
     protected function bearerAuthenticatorCreateToken($user, string $prefix = "blf-"): string
     {
         $str = $this->_bearerAuthenticatorTokenHash . date('YmdHis') . $user->clGuid;
         return $prefix . sha1($str);
     }
     /**
-     * create and register bearer token for active user
-     * @param mixed $users 
-     * @return ?array 
-     */
+    * create and register bearer token for active user
+    * @param Users $user
+    * @param BaseController $ctrl
+    * @param bool $rememberme
+    * @return ?array
+    */
     protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme = false): ?array
     {
         if ($user->clStatus != 1) {

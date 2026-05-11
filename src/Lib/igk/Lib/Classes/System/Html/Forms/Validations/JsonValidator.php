@@ -19,13 +19,13 @@ class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
         return json_decode($value)!==false;
     }
     /**
-     * validate a json data
-     * @param mixed $value 
-     * @param mixed $default 
-     * @param mixed $fieldinfo 
-     * @param array $error 
-     * @return mixed 
-     */
+    * validate a json data
+    * @param mixed $value
+    * @param mixed $default
+    * @param mixed & $error
+    * @param mixed $options
+    * @return mixed
+    */
     public function _validate($value, $default=null, & $error=[], $options=null){         
         if (json_decode($value) === null){
             $error[] = json_last_error();

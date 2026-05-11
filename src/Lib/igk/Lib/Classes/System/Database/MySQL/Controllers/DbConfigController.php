@@ -127,6 +127,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $tr
+    * @param mixed $tablename
     * @param mixed $selectedDb the default value is null
     */
     private function __addEditTable($tr, $tablename, $selectedDb = null)
@@ -228,6 +230,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $o
     * @param mixed $e
     */
     private function __inittable_callback($o, $e)
@@ -237,14 +240,20 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $this->_regTableDefinition($o, $tbname, $desc);
     }
     /**
-     * restore data base table from definition
-     */
+    * restore data base table from definition
+    * @param mixed $table
+    * @param mixed $header
+    * @param mixed $definition
+    * @param mixed $sync
+    */
     private function __restoredb($table, $header, $definition, $sync = 0)
     {
         throw new \IGKException("method not implement : " . __METHOD__);
     }
     /**
     * auto generate doc.
+    * @param mixed $tb
+    * @param mixed $ctrl
     */
     private function _addTable($tb, $ctrl)
     {
@@ -263,6 +272,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $h
     * @param mixed $mysql
     */
     private function _db_viewTables($h, $mysql)
@@ -430,6 +440,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $r
+    * @param mixed $c
     * @param mixed $conf_title the default value is null
     */
     private function _showDataBases($r, $c, $conf_title = null)
@@ -497,6 +509,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $c
+    * @param mixed $conf_title
+    * @param mixed $selected
     */
     private function _showSelectedDbTables($c, $conf_title = null, $selected = 1)
     {
@@ -598,8 +613,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $this->_showDataBaseBackup($zdiv->addPanelBox());
     }
     /**
-     * shows datas base
-     */
+    * shows datas base
+    * @param mixed $zdiv
+    */
     private function _view_conf_datas($zdiv)
     {
         $zdiv->clearChilds();
@@ -745,7 +761,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             (function(){
                 /**
                 * auto generate doc.
-                * @return
+                * @return mixed
                 */
                 function confirmBeforeInitSystemDatabase(e){
             if (e){
@@ -784,7 +800,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function notifyctrl()
     {
@@ -1008,8 +1024,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_ajx_panel_dialog(__("Confirm Clear Backup"), $d);
     }
     /**
-     * backup table associated to a controller
-     */
+    * backup table associated to a controller
+    * @param BaseController $controller
+    * @param ?string $outtag
+    * @param mixed $dbname
+    * @param mixed $storetableinfo
+    */
     public function db_backup_tables(BaseController $controller, ?string $outtag = null, $dbname = null, $storetableinfo = true)
     {
         // + | --------------------------------------------------------------------
@@ -1086,7 +1106,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     * auto generate doc.
     * @param mixed $file
     * @param mixed $mode
-    * @return
+    * @return mixed
     */
     private function _db_restore_db($file, $mode)
     {
@@ -1286,8 +1306,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $ldtables = [];
     }
     /**
-     * drop table associated to a controller
-     */
+    * drop table associated to a controller
+    * @param BaseController $ctrl
+    * @param mixed $dbname
+    */
     public function db_drop_tables(BaseController $ctrl, $dbname = null)
     {
         return DbUtils::DropControllerTables($ctrl, $dbname);
@@ -1343,6 +1365,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $dbname
+    * @param mixed $table
     * @param mixed $navigate the default value is false
     */
     public function db_droptable($dbname = null, $table = null, $navigate = false)
@@ -1452,6 +1476,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $dbname
+    * @param mixed $table
+    * @param mixed $n
+    * @param mixed $s
     * @param mixed $render the default value is true
     */
     public function db_edit_entry_frame($ctrl, $dbname, $table, $n, $s, $render = true)
@@ -1626,6 +1655,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $dbname
+    * @param mixed $table
+    * @param mixed $navigate
     * @param mixed $adapter the default value is null
     */
     public function db_viewtableentries($dbname = null, $table = null, $navigate = true, $adapter = null)
@@ -1693,6 +1725,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $dbname
+    * @param mixed $table
     * @param mixed $adapter the default value is null
     */
     public function db_viewtableentries_ajx($dbname = null, $table = null, $adapter = null)
@@ -1773,6 +1807,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $exp
     */
     public function dropTablesRegex($ctrl, $exp)
@@ -1826,8 +1861,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         return "mysqldatabase";
     }
     /**
-     * return the controller that manage the table name
-     */
+    * return the controller that manage the table name
+    * @param mixed $tablename
+    */
     public function getDataTableCtrl($tablename)
     {
         $tab = &$this->getLoadTables();
@@ -1890,6 +1926,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param bool $include_dependency
     * @deprecated use DbSchema insteed
     * @return false|array
@@ -1974,6 +2011,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $view
     * @param mixed $nav the default value is true
     */
     public function initSDb($view = true, $nav = true)
@@ -2052,9 +2090,10 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         }
     }
     /**
-     * reset entire database init db.
-     * clean all databases. with clean request args 
-     */
+    * reset entire database init db.clean all databases. with clean request args
+    * @param mixed $nav
+    * @param mixed $clean
+    */
     function pinitSDb($nav = true, $clean = null)
     {
         if (!igk_is_conf_connected()) {
@@ -2121,6 +2160,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
     * @param mixed $inf
     */
     private function regInfo($tablename, $inf)
@@ -2143,6 +2183,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $tbname
     * @param mixed $inf
     */
     private function _regTableDefinition($ctrl, $tbname, $inf)
@@ -2340,7 +2382,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
     * auto generate doc.
     * @param mixed $method
-    * @return
+    * @return mixed
     */
     private function _db_check_command($method)
     {
@@ -2393,7 +2435,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
     * auto generate doc.
     * @param mixed $ctrl
-    * @return
+    * @return mixed
     */
     private function _initdb_engine($ctrl)
     {

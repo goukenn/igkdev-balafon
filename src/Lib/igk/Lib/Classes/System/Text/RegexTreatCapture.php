@@ -75,19 +75,20 @@ class RegexTreatCapture{
         $this->m_info = self::OrderCaptures($this->m_captures);
     }
     /**
-     * treat capture 
-     * @param array $capture 
-     * @return void 
-     */
+    * treat capture
+    * @param array $captures
+    * @return void
+    */
     public function setRegexCaptures(array $captures){
         list($this->m_source_value, $this->m_offset) = array_shift($captures);
         $this->m_captures = $captures;
         $this->m_info = self::OrderCaptures($captures);
     }
     /**
-     * treat source capture 
-     * @return string 
-     */
+    * treat source capture
+    * @param mixed $listener
+    * @return string
+    */
     public function treat($listener=null){
         $listener = $listener ?? $this->treatListener;
         return self::TreatCapture($this->m_source_value, $this->m_offset, $this->m_info, $this->m_treat_capture, $listener);
@@ -163,13 +164,15 @@ class RegexTreatCapture{
         return $c;
     }
     /**
-     * Treat capture
-     * @param string source value
-     * @param array<string|int, IRegexCaptureInfo> $capture_info
-     * @param array<string|int, array> $capture
-     * @return mixed 
-     * @throws Exception 
-     */
+    * Treat capture
+    * @param string $source_value
+    * @param int $offset
+    * @param string source value
+    * @param array<string|int, IRegexCaptureInfo> $capture_info
+    * @param mixed $callable
+    * @throws Exception
+    * @return mixed
+    */
     public static function TreatCapture(string $source_value, int $offset, array $capture_info, $capture, $callable){
         $mark_key = self::MARK_KEY;
         $v_output = '';

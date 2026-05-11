@@ -28,7 +28,7 @@ final class SubDomainController extends ConfigControllerBase
 {
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function __init_domain()
     {
@@ -45,7 +45,7 @@ final class SubDomainController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _updateview()
     {
@@ -357,7 +357,7 @@ final class SubDomainController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function update_view_list_ajx(){
         $n = igk_create_node_arg("div.sub-domain-config");

@@ -19,13 +19,13 @@ class DateValidator extends FormFieldValidatorBase implements IFormValidator{
         return is_string($value);
     }
     /**
-     * Validate and return a date string in Y-m-d format.
-     * @param mixed $value The date value to validate.
-     * @param mixed $default Default date string if value cannot be parsed.
-     * @param mixed $fieldinfo Optional field metadata.
-     * @param array $error Reference to an array collecting errors.
-     * @return string
-     */
+    * Validate and return a date string in Y-m-d format.
+    * @param mixed $value The date value to validate.
+    * @param mixed $default Default date string if value cannot be parsed.
+    * @param mixed $fieldinfo Optional field metadata.
+    * @param mixed & $error
+    * @return string
+    */
     public function validate($value, $default=null, $fieldinfo=null, & $error=[]){
         if ($default === null){
             $default = date("Y-m-d");

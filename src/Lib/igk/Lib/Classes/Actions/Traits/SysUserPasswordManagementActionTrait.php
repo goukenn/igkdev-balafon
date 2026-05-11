@@ -77,10 +77,10 @@ trait SysUserPasswordManagementActionTrait
         }
     }
     /**
-     * protected form action 
-     * @param mixed $t 
-     * @return void 
-     */
+    * protected form action
+    * @param mixed $a
+    * @return void
+    */
     protected function form_reset_password($a)
     {   
         $a->h2()->Content = __("Reset password"); 

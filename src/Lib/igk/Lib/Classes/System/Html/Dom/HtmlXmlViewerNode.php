@@ -45,6 +45,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
     }
     /**
     * auto generate doc.
+    * @param mixed $target
     * @param mixed $depth
     */
     private function __renderDepth($target, $depth){
@@ -57,7 +58,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
     /**
     * auto generate doc.
     * @param null|mixed $options
-    * @return
+    * @return mixed
     */
     function getRenderedChilds($options = null)
     {
@@ -84,7 +85,9 @@ EOF        , HtmlContext::XML);
     }
     /**
     * auto generate doc.
+    * @param mixed $content
     * @param mixed $context the default value is XML
+    * @param ?callable $creator
     */
     public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
@@ -101,6 +104,8 @@ EOF        , HtmlContext::XML);
     }
     /**
     * auto generate doc.
+    * @param mixed $r
+    * @param mixed $target
     * @param mixed $depth the default value is 0
     */
     public function loadItem($r, $target, $depth=0){

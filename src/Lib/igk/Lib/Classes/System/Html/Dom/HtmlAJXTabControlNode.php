@@ -82,7 +82,10 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     }
     /**
     * auto generate doc.
-    * @param GET
+    * @param mixed $content
+    * @param mixed $uri
+    * @param mixed $active
+    * @param mixed $method
     */
     public function addTabPage($content=null, $uri=null, $active=false, $method="GET"){
         $li=$this->m_tablist->add("li");
@@ -139,7 +142,9 @@ EOF;
     }
     /**
     * auto generate doc.
-    * @param GET
+    * @param mixed $t
+    * @param mixed $uri
+    * @param mixed $method
     */
     private function replaceContent($t, $uri, $method='GET'){
         $t->addBalafonJS(1)->Content=<<<EOF
@@ -177,6 +182,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $listener
     * @param mixed $param the default value is null
     */
     public function setComponentListener($listener, $param=null){
@@ -189,7 +195,8 @@ EOF;
         $this->m_tabViewListener=$o;
     }
     /**
-    *  , "for demonstration"
+    * , "for demonstration"
+    * @param mixed $index
     */
     public function showpage($index=0){
         if($this->Ctrl){

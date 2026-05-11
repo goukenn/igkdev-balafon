@@ -121,7 +121,7 @@ class ModuleManager
     /**
     * auto generate doc.
     * @param mixed $list
-    * @return
+    * @return mixed
     */
     private static function _InitModuleList($list)
     {
@@ -153,7 +153,7 @@ class ModuleManager
     /**
     * auto generate doc.
     * @param mixed $type
-    * @return
+    * @return mixed
     */
     private static function _RequiredCachedModules($type = true)
     {
@@ -232,9 +232,10 @@ class ModuleManager
         return $mod;
     }
     /**
-     * bootstrap modules application
-     * @return void 
-     */
+    * bootstrap modules application
+    * @param mixed $auto_required
+    * @return void
+    */
     public static function Bootstrap($auto_required = false)
     {
         self::_Init();
@@ -242,7 +243,7 @@ class ModuleManager
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _Init()
     {
@@ -273,10 +274,10 @@ class ModuleManager
         }
     }
     /**
-     * auto generate doc.
-     * @param mixed $n
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return mixed
+    */
     private static function _BootModule($n)
     {
         $mod = igk_require_module($n, function () {

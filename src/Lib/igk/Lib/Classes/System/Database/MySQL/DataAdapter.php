@@ -127,10 +127,11 @@ class DataAdapter extends DataAdapterBase implements
         return IGK_MYSQL_DATETIME_FORMAT;
     }
     /**
-     * type allow type length
-     * @param string $type 
-     * @return bool 
-     */
+    * type allow type length
+    * @param string $type
+    * @param ?int $length
+    * @return bool
+    */
     public function allowTypeLength(string $type, ?int $length = null): bool
     {
         return (($type != 'int') || (($type == 'int') && version_compare($this->getVersion(), '8.0', '<')));
@@ -341,6 +342,8 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
+    * @param string $table_name
+    * @param string $referenced_column
     * @param null|string $db
     * @return void|false
     */
@@ -438,11 +441,12 @@ class DataAdapter extends DataAdapterBase implements
         return '`' . $v . '`';
     }
     /**
-     * create a fetch result
-     * @param string $query query to send
-     * @param ?\IGK\Models\ModelBase $model source model
-     * @return MYSQLQueryFetchResult 
-     */
+    * create a fetch result
+    * @param string $query query to send
+    * @param ?\IGK\Models\ModelBase $model source model
+    * @param ?IDataDriver $driver
+    * @return MYSQLQueryFetchResult
+    */
     public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
     {
         $driver = $driver ?? ($model ? $model->getDataAdapter() : igk_get_data_adapter(IGK_MYSQL_DATAADAPTER));
@@ -459,6 +463,10 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $entries
+    * @param mixed $where
+    * @param mixed $querytabinfo
     * @param null|bool $filter
     * @return IDbQueryResult|iterable|null|bool|void
     */
@@ -470,7 +478,9 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
-    * @param null|array $option
+    * @param string $tbname
+    * @param ?array $where
+    * @param ?array $options
     * @return string
     */
     public function get_query(string $tbname, ?array $where = null, ?array $options = null)
@@ -514,7 +524,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
     * auto generate doc.
     * @param mixed $ad
-    * @return
+    * @return mixed
     */
     private static function _InitSupportedTypes($ad)
     {
@@ -744,7 +754,13 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
+    * @param string $tablename
+    * @param mixed $columninfoArray
+    * @param mixed $entries
+    * @param mixed $desc
     * @param string $dbname the default value is null
+    * @param ?string $prefix
+    * @param mixed $extra
     */
     public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null, $extra=null)
     {
@@ -800,18 +816,23 @@ class DataAdapter extends DataAdapterBase implements
         return $this->m_dbManager->getHasError();
     }
     /**
-     * create table links definition
-     */
+    * create table links definition
+    * @param mixed $tablename
+    * @param mixed $ctrl
+    */
     public function haveNoLinks($tablename, $ctrl = null)
     {
         return $this->m_dbManager->haveNoLinks($tablename, $ctrl);
     }
     /**
-     * adapter send query with grammar helper
-     * @param mixed $tablename
-     * @param mixed $entry table entries
-     * @param mixed $tableinfo the default value is null
-     */
+    * adapter send query with grammar helper
+    * @param mixed $tablename
+    * @param mixed $entry table entries
+    * @param mixed $tableinfo the default value is null
+    * @param bool $throwException
+    * @param mixed $options
+    * @param mixed $autoclose
+    */
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
     {
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
@@ -843,6 +864,7 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
     * @param mixed $name
     */
     public function rmColumn($tbname, $name)
@@ -931,7 +953,10 @@ class DataAdapter extends DataAdapterBase implements
     }
     /**
     * auto generate doc.
+    * @param string $query
+    * @param mixed $throwex
     * @param mixed $options extra option. used by query result
+    * @param mixed $autoclose
     * @return IDbQueryResult|\Iterable|null|bool
     */
     public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
@@ -1018,9 +1043,10 @@ class DataAdapter extends DataAdapterBase implements
         return $this->sendQuery("SET foreign_key_checks=0;");
     }
     /**
-     * check if table exists
-     * @param mixed $tablename
-     */
+    * check if table exists
+    * @param mixed $tablename
+    * @param bool $throwex
+    */
     public function tableExists(string $tablename, bool $throwex = true): bool
     {
         return $this->m_dbManager->tableExists($tablename, $throwex);

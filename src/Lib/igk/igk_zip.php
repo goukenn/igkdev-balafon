@@ -39,6 +39,7 @@ function igk_zip_content(string $temp_file, string $name, string $content, $clos
 * Igk zip create dir.
 * @param mixed $outdir
 * @param mixed $name
+* @return mixed
 */
 function igk_zip_create_dir($outdir, $name){
     $t=explode('/', $name);
@@ -59,6 +60,7 @@ function igk_zip_create_dir($outdir, $name){
 * @param mixed $dir
 * @param null|mixed $folder
 * @param null|mixed $regex
+* @return mixed
 */
 function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     if(!is_dir($dir))
@@ -75,6 +77,7 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
 * @param mixed $file
 * @param mixed $entry
 * @param mixed $close
+* @return mixed
 */
 function igk_zip_delete($file, $entry, $close=1){
     if(!igk_io_file_exists($file))
@@ -89,14 +92,14 @@ function igk_zip_delete($file, $entry, $close=1){
     return $r;
 }
 /**
- * zip folder 
- * @param string $dir input directory 
- * @param mixed $zip zip resource create with ZipArchive
- * @param string $folder destination folder
- * @param mixed $regex ignore regex
- * @param ?bool allow_hidden_dir allow hidden directory against regex
- * @return void|array entries files
- */
+* zip folder
+* @param string $dir input directory
+* @param mixed $zip zip resource create with ZipArchive
+* @param string $folder destination folder
+* @param mixed $regex ignore regex
+* @param mixed $allow_hidden_dir
+* @return void|array entries files
+*/
 function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=null, $allow_hidden_dir=true){
     if(!$zip)
         return;
@@ -181,6 +184,7 @@ function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
 * @param mixed $dir
 * @param null|mixed $folder
 * @param null|mixed $regex
+* @return mixed
 */
 function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     if(is_String($dir) && (is_dir($dir) == false))
@@ -211,12 +215,15 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
 /**
 * Igk zip module.
 * @param mixed $outf
+* @return mixed
 */
 function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
 }
 /**
 * auto generate doc.
+* @param mixed $file
+* @param mixed $outdir
 * @param string|callable|mixed $entry
 * @return int
 */
@@ -255,6 +262,7 @@ function igk_zip_unzip($file, $outdir, $entry=null){
 * Igk zip unzip callback.
 * @param mixed $zipfile
 * @param mixed $callback
+* @return mixed
 */
 function igk_zip_unzip_callback($zipfile, $callback){
     igk_die('not implement');
@@ -263,6 +271,7 @@ function igk_zip_unzip_callback($zipfile, $callback){
 * Igk zip unzip entry.
 * @param mixed $f
 * @param mixed $entry
+* @return mixed
 */
 function igk_zip_unzip_entry($f, $entry){
     $c="zip://".igk_uri($f)."#".$entry;

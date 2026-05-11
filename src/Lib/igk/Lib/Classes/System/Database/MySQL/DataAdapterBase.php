@@ -189,6 +189,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $dbnamemix
     * @param mixed $selectdb the default value is true
     */
     public function connect($dbnamemix = null, $selectdb = true)
@@ -231,7 +232,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     * @param mixed $dbname
-    * @return
+    * @return mixed
     */
     private function _setDbName($dbname)
     {
@@ -240,6 +241,9 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $dbserver
+    * @param mixed $dbname
+    * @param mixed $dbuser
     * @param mixed $dbpwd
     */
     public function connectTo($dbserver, $dbname, $dbuser, $dbpwd)
@@ -278,6 +282,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
     * @param mixed $conditions
     * @return mixed
     */
@@ -292,6 +297,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     /**
     * auto generate doc.
     * @param mixed $tablename
+    * @param mixed $condition
     * @return mixed
     */
     public function deleteAll($tablename, $condition = null)
@@ -320,6 +326,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $complete
     */
     public function flushForInitDb($complete = null)
     {
@@ -443,6 +450,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $tablename
     * @param mixed $callback
     */
     public function initSystablePushInitItem($tablename, $callback)
@@ -581,6 +589,9 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $entries
+    * @param mixed $where
     * @param mixed $querytabinfo the default value is null
     */
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
@@ -591,13 +602,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
         return $this->m_dbManager->update($tbname, $entries, $where, $querytabinfo);
     }
     /**
-     * create table info query
-     * @param SQLGrammar $grammar 
-     * @param string $table 
-     * @param string $dbname 
-     * @return string 
-     * @throws IGKException 
-     */
+    * create table info query
+    * @param SQLGrammar $grammar
+    * @param string $table
+    * @param string $column
+    * @param string $dbname
+    * @throws IGKException
+    * @return string
+    */
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname): string
     {
         $tbname = $this->m_dbManager->escape_string($table);

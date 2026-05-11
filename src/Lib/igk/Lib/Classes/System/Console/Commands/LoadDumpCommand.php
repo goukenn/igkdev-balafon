@@ -29,6 +29,8 @@ class LoadDumpCommand extends AppExecCommand{
     var $category = "db";
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $file
     */
     public function exec($command, $file=null) { 
         if (empty($file) || !igk_io_file_exists($file)){
@@ -106,7 +108,7 @@ class LoadDumpCommand extends AppExecCommand{
     /**
     * auto generate doc.
     * @param mixed $row
-    * @return
+    * @return mixed
     */
     private function visit_wp_wplq_posts($row){
         if ($row->post_date_gmt=="0000-00-00 00:00:00"){
@@ -119,7 +121,7 @@ class LoadDumpCommand extends AppExecCommand{
     /**
     * auto generate doc.
     * @param mixed $row
-    * @return
+    * @return mixed
     */
     private function visit_wp_wplq_users($row){         
     }

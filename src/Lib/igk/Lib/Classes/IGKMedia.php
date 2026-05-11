@@ -301,7 +301,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     /**
     * auto generate doc.
     * @param mixed $n
-    * @return
+    * @return mixed
     */
     private function &getFlag($n)
     {
@@ -330,7 +330,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     * auto generate doc.
     * @param mixed $n
     * @param mixed $v
-    * @return
+    * @return mixed
     */
     private function setFlag($n, $v)
     {

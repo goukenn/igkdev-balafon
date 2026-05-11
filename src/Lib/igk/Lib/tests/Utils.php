@@ -41,6 +41,8 @@ class Utils{
     }
     /**
     * auto generate doc.
+    * @param mixed $test
+    * @param mixed $controllerClass
     * @param mixed $model
     * @return bool|void
     */

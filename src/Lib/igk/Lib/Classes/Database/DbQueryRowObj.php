@@ -40,7 +40,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     private $it_key;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){}
 	/**

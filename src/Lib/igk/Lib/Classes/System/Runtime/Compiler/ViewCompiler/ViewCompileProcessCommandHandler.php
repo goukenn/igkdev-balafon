@@ -92,9 +92,10 @@ class ViewCompileProcessCommandHandler{
     public function setViewAsMainLayout(){
             $this->compiler->options->layout->{'@MainLayout'} = 1;
         }
-        /**
-         * import file in layout
-         */
+    /**
+    * import file in layout
+    * @param string $file
+    */
     public function includeFile(string $file){  
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");

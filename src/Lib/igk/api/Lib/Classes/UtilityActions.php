@@ -29,6 +29,7 @@ class UtilityActions{
     var $target;
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $t
     */
     public function __construct($ctrl, $t){

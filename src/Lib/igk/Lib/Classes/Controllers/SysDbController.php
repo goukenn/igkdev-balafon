@@ -85,7 +85,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     /**
     * auto generate doc.
     * @param mixed $t
-    * @return
+    * @return mixed
     */
     private function setUserTypeInfo($t){
         $this->setParam("usertypeinfo", $t);
@@ -146,7 +146,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     * @param null|mixed $datatype
     * @param mixed $cardinality
     * @param mixed $nodb
-    * @return
+    * @return mixed
     */
     private function RegValueTypeArray($name, $datatype=null, $cardinality=0, $nodb=0){
         $tab=array(

@@ -13,9 +13,8 @@ use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
 use IGKEvents;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Controllers\Traits
 */
 /**
@@ -140,8 +139,12 @@ trait ControllerDbExtensionTrait{
         }
     }
     /**
-     * rename column extension macros
-     */
+    * rename column extension macros
+    * @param BaseController $ctrl
+    * @param mixed $table
+    * @param mixed $column
+    * @param mixed $new_column_name
+    */
     public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
     {
         $ad = self::getDataAdapter($ctrl); 
@@ -189,7 +192,10 @@ trait ControllerDbExtensionTrait{
     }
     /**
     * auto generate doc.
-    * @param mixed $column
+    * @param BaseController $ctrl
+    * @param string $table
+    * @param mixed $columns
+    * @param ?string $id
     * @return mixed|void
     */
     public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id=null){

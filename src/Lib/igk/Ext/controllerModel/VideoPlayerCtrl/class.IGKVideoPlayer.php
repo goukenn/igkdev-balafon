@@ -158,7 +158,7 @@ final class IGKHtmlVideoNode extends HtmlNode
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _buildObject()
 	{
@@ -226,7 +226,7 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initBasicsSource()
 	{
@@ -263,7 +263,7 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @param null|mixed $src
     * @param mixed $type
-    * @return
+    * @return mixed
     */
     public function setSource($src = null, $type = "video/mp4")
 	{

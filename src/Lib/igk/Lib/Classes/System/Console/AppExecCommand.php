@@ -129,12 +129,13 @@ abstract class AppExecCommand extends AppCommand{
     */
     public abstract function exec($command);
     /**
-     * get controller helper
-     * @param string $controller 
-     * @param int $throwex 
-     * @return mixed|BaseController  
-     * @throws IGKException 
-     */
+    * get controller helper
+    * @param string $controller
+    * @param int $throwex
+    * @param mixed $autoregister
+    * @throws IGKException
+    * @return mixed|BaseController
+    */
     protected static function GetController(?string $controller, $throwex = 1, $autoregister = true){
         if (is_null($controller)){
             if ($throwex){
@@ -169,14 +170,14 @@ abstract class AppExecCommand extends AppCommand{
 		}
 		return $system ? SysDbController::ctrl() : igk_die("controller required");
 	}
-     /**
-     * resolve controller 
-     * @param mixed $command 
-     * @param mixed $controller 
-     * @param mixed $controller 
-     * @return mixed 
-     * @throws Exception 
-     */
+    /**
+    * resolve controller
+    * @param mixed $command
+    * @param mixed $controller
+    * @param bool $fall_to_sys
+    * @throws Exception
+    * @return mixed
+    */
     public static function ResolveController($command, $controller=null, bool $fall_to_sys=true){
         $controller = $controller ?? igk_getv($command->options, '--controller' );
 		if ($controller){

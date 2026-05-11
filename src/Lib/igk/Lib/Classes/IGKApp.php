@@ -17,11 +17,10 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR.'/IGKEvents.php';
 require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
 /**
- * 
- * @package IGK
- * @property IGKAppSetting $settings application setting - store in session if library 'session' is available
- * 
- */
+* auto generate doc.
+* @package IGK
+* @property IGKAppSetting $settings application setting - store in session if library 'session' is available
+*/
 /**
 * auto generate doc.
 * @package
@@ -100,7 +99,7 @@ class IGKApp extends IGKObject
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }
@@ -327,9 +326,11 @@ class IGKApp extends IGKObject
         return (self::$sm_instance !==null) && self::$sm_instance->m_initialized;
     }
     /**
-     * balafon engine
-     * @return void 
-     */
+    * balafon engine
+    * @param IGKApplicationBase $app
+    * @param mixed $render
+    * @return void
+    */
     public static function StartEngine(IGKApplicationBase $app, $render = 1)
     {      
         $_env = igk_environment();        
@@ -349,7 +350,7 @@ class IGKApp extends IGKObject
     /**
     * auto generate doc.
     * @param mixed $_hookArgs
-    * @return
+    * @return mixed
     */
     private static function _InitHookLogic($_hookArgs){
         IGKEvents::hook(IGKEvents::HOOK_BEFORE_INIT_APP, $_hookArgs);  

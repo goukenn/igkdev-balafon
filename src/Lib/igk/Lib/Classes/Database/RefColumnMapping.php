@@ -6,9 +6,8 @@ namespace IGK\Database;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Database
 */
 /**

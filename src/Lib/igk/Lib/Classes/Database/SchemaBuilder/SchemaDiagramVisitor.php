@@ -50,11 +50,12 @@ class SchemaDiagramVisitor extends DiagramVisitor
     */
     private $m_operation;
     /**
-     * init SchemaDiagram
-     * @param BaseController $controller 
-     * @param object $schemaInfo 
-     * @return void 
-     */
+    * init SchemaDiagram
+    * @param BaseController $controller
+    * @param object $schemaInfo
+    * @param mixed $operation
+    * @return void
+    */
     public function __construct(BaseController $controller, $schemaInfo, $operation = 'migrate')
     {
         $this->m_controller = $controller;

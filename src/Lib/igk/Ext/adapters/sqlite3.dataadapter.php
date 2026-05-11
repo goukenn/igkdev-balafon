@@ -30,7 +30,9 @@ define("IGK_SQL3LITE_NAME_INDEX", 1);
 require_once __DIR__ .'/SQL3QueryResult.php';
 /**
 * auto generate doc.
-* @param * $info the default value is null
+* @param mixed $r
+* @param mixed & $info
+* @return mixed
 */
 function igk_sql3lite_autoincrement($r, & $info=null){
     if(preg_match("/^(int(eger)?)$/i", (strtolower($r->clType))) && ($r->clIsPrimary)){
@@ -44,6 +46,7 @@ function igk_sql3lite_autoincrement($r, & $info=null){
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_sql3lite_close(){
     $sq=IGKSQLite3DataAdapter::GetCurrent();
@@ -51,6 +54,7 @@ function igk_sql3lite_close(){
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_sql3lite_connect(){
     igk_wln(func_get_args());
@@ -58,6 +62,7 @@ function igk_sql3lite_connect(){
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_sql3lite_error(){
     $c=IGKSQLite3DataAdapter::GetCurrent();
@@ -67,6 +72,7 @@ function igk_sql3lite_error(){
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_sql3lite_error_code(){
     $c=IGKSQLite3DataAdapter::GetCurrent();
@@ -77,6 +83,7 @@ function igk_sql3lite_error_code(){
 /**
 * auto generate doc.
 * @param mixed $str
+* @return mixed
 */
 function igk_sql3lite_escapestring(?string $str = null){
     $sq=IGKSQLite3DataAdapter::GetCurrent();
@@ -85,7 +92,9 @@ function igk_sql3lite_escapestring(?string $str = null){
 }
 /**
 * auto generate doc.
+* @param mixed $r
 * @param mixed $requiretable the default value is 1
+* @return mixed
 */
 function igk_sql3lite_fetch_field($r, $requiretable=1){
     $index=0;
@@ -143,6 +152,7 @@ function igk_sql3lite_fetch_field($r, $requiretable=1){
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_sql3lite_fetch_row($r){
     return $r->fetchArray(SQLITE3_NUM);
@@ -157,6 +167,7 @@ function igk_sql3lite_fetch_assoc($r){
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_sql3lite_lastid(){
     return -1;
@@ -164,6 +175,7 @@ function igk_sql3lite_lastid(){
 /**
 * auto generate doc.
 * @param mixed $r
+* @return mixed
 */
 function igk_sql3lite_num_fields($r){
     return $r->numColumns();
@@ -171,6 +183,7 @@ function igk_sql3lite_num_fields($r){
 /**
 * auto generate doc.
 * @param mixed $t
+* @return mixed
 */
 function igk_sql3lite_num_rows($t){
     igk_sql3lite_fetch_row($t);
@@ -184,6 +197,7 @@ function igk_sql3lite_num_rows($t){
 /**
 * auto generate doc.
 * @param mixed $d
+* @return mixed
 */
 function igk_sql3lite_tosql_data($d){
     if(is_null($d) || !preg_match_all("/(?P<type>([^\(\)])+)(\((?P<number>[0-9]+)\))?/i", $d, $tab))
@@ -303,13 +317,14 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     public function getIsConnect(): bool {
         return !is_null($this->getSql());
      }
-     /**
-      * check for table exists
-      * @param string $table 
-      * @return bool 
-      * @throws IGKException 
-      * @throws EnvironmentArrayException 
-      */
+    /**
+    * check for table exists
+    * @param string $table
+    * @param bool $throwex
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return bool
+    */
     public function tableExists(string $table, bool $throwex=true): bool
      {  
         $g = @$this->sql->exec('SELECT count(*) FROM '.$table );
@@ -337,14 +352,15 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     function constraintForeignKeyExists(string $name):bool{
         return false;
     }
-       /**
-     * create able info query
-     * @param SQLGrammar $grammar 
-     * @param string $table 
-     * @param string $dbname 
-     * @return string 
-     * @throws IGKException 
-     */
+    /**
+    * create able info query
+    * @param SQLGrammar $grammar
+    * @param string $table
+    * @param string $column
+    * @param string $dbname
+    * @throws IGKException
+    * @return string
+    */
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table,string $column, string $dbname): string
     {
         $query = sprintf("PRAGMA table_info(%s)", $table);
@@ -477,7 +493,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * mixed. controller| filename |data value
-    *
+    * @param mixed $dbname
     */
     public function connect($dbname=null){
         if(func_num_args() > 0){
@@ -553,6 +569,9 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param string $table
+    * @param ?array $where
+    * @param mixed $options
     */
     public function selectCount(string $table, ?array $where=null, $options=null){
         return 0;
@@ -566,12 +585,15 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * create a sql db name
+    * @param ?string $dbname
     */
     public function createDb(?string $dbname=null){        
         return true;
     }
     /**
     * auto generate doc.
+    * @param mixed $result
+    * @param mixed $query
     * @param mixed $info the default value is null
     */
     public function createEmptyResult($result=null, $query=null, $info=null){
@@ -580,6 +602,8 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param mixed $r
+    * @param mixed $query
     * @param mixed $obj the default value is null
     */
     public function createResult($r, $query=null, $obj=null){
@@ -593,6 +617,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $columninfo
+    * @param mixed $entries
+    * @param mixed $desc
     * @param ?array $options driver options
     */
     public function createTable($tbname, $columninfo, $entries=null, $desc=null,  $options=null){
@@ -605,6 +633,9 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $columninfo
+    * @param mixed $entries
     * @param mixed $desc the default value is null
     */
     public static function CreateTableQuery($tbname, $columninfo, $entries=null, $desc=null){
@@ -839,6 +870,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * get data schema
+    * @param mixed $entries
     * @param string $fmt format of the request dataschema. default is xml. acceptable is xml|obj
     */
     public function getDataSchema($entries=0, $fmt='xml'){
@@ -1087,7 +1119,10 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
-    * @param mixed $tbname the default value is null
+    * @param mixed $query
+    * @param mixed $throwex
+    * @param mixed $options
+    * @param mixed $autoclose
     * @return null|IGK\Database\DbQueryResult
     */
     public function sendQuery($query, $throwex=true, $options=null, $autoclose=false){
@@ -1135,6 +1170,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param mixed $check
     */
     public function setForeignKeyCheck($check){}
     /**
@@ -1145,6 +1181,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
     /**
     * auto generate doc.
+    * @param mixed $fname
     * @param mixed $sql
     */
     public function storeConnexion($fname, $sql){

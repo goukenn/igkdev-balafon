@@ -86,6 +86,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
     /**
     * auto generate doc.
+    * @param mixed $node
     * @param mixed $title
     */
     protected function addTitle($node, $title)
@@ -141,6 +142,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */
     protected function initComplete($context = null)
     {
@@ -192,7 +194,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
     /**
     * auto generate doc.
-    * @param mixed $funcName
+    * @param string $function
     */
     protected function IsFunctionExposed(string $function)
     {
@@ -226,8 +228,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }  
     }
     /**
-     * used to initialize the config view node
-     */
+    * used to initialize the config view node
+    * @param mixed $target
+    * @param mixed $titlekey
+    * @param mixed $descfile
+    */
     protected function viewConfig($target, $titlekey, $descfile)
     {
         return igk_html_ctrl_view_config($this, $target, $titlekey, $descfile);

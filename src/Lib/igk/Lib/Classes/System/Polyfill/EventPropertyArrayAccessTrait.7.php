@@ -19,7 +19,7 @@ trait EventPropertyArrayAccessTrait{
     }
     /**
     * auto generate doc.
-    * @param mixed $i
+    * @param mixed $key
     */
     public function offsetGet($key){
         $n='@__callback';
@@ -32,6 +32,7 @@ trait EventPropertyArrayAccessTrait{
     }
     /**
     * auto generate doc.
+    * @param mixed $i
     * @param mixed $v
     */
     public function offsetSet($i, $v){

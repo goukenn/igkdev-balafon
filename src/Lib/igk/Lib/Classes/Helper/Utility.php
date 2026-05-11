@@ -27,6 +27,9 @@ abstract class Utility {
     }
     /**
     * auto generate doc.
+    * @param mixed $paramHandler
+    * @param mixed $requestName
+    * @param mixed $paramName
     * @param bool $update
     * @return mixed
     */
@@ -52,12 +55,13 @@ abstract class Utility {
         return implode(" ", array_filter([ strtoupper($r->clLastName), ucfirst($r->clFirstName)]));
     }
     /**
-     * helper: convert raw to json.
-     * @param mixed $raw 
-     * @param mixed|null $options , ignore_empty=1|0 , default_ouput='{}'
-     * @return mixed 
-     * @throws Exception 
-     */
+    * helper: convert raw to json.
+    * @param mixed $raw
+    * @param mixed|null $options , ignore_empty=1|0 , default_ouput='{}'
+    * @param mixed $json_option
+    * @throws Exception
+    * @return mixed
+    */
     public static function To_JSON($raw , $options=null, $json_option = JSON_UNESCAPED_SLASHES){
         return JSon::Encode($raw, $options, $json_option);       
     }

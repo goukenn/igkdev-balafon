@@ -33,7 +33,7 @@ abstract class CssEnvironment{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _InitClassStyle(){
         $tab = [];

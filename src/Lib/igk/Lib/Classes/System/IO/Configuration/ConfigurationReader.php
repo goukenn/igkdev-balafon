@@ -90,11 +90,11 @@ class ConfigurationReader
      */
     var $NonMarkedStringPropertiesListener;
     /**
-     * treat expression 
-     * @param string $text 
-     * @param mixed $expression 
-     * @return string 
-     */
+    * treat expression
+    * @param string $text
+    * @param mixed & $expression
+    * @return string
+    */
     public function treatExpression(string $text, &$expression)
     {
         $expression = [];
@@ -397,8 +397,9 @@ class ConfigurationReader
         return $reader;
     }
     /**
-     * direct parsing
-     */
+    * direct parsing
+    * @param string $value
+    */
     public static function Parse(string $value)
     {
         $reader = new self;

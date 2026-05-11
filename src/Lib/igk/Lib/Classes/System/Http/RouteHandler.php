@@ -223,12 +223,13 @@ class RouteHandler
         return $this->user_required;
     }
     /**
-     * get if match with the verbs
-     * @param mixed $path 
-     * @param string $verb 
-     * @return bool
-     * @throws Exception 
-     */
+    * get if match with the verbs
+    * @param mixed $path
+    * @param string $verb
+    * @param string $defaultEntryMethod
+    * @throws Exception
+    * @return bool
+    */
     public function match($path, $verb = 'GET', string $defaultEntryMethod='index'):bool
     { 
         // + match verb
@@ -250,19 +251,21 @@ class RouteHandler
         return $r;
     }
     /**
-     * check that the path is accessible 
-     * @param string $path 
-     * @return bool 
-     */
+    * check that the path is accessible
+    * @param string $path
+    * @param string $defaultEntryMethod
+    * @return bool
+    */
     public function isAccessible(string $path, string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD):bool{
         $regex = static::GetRouteRegex($this->path, null,true, $defaultEntryMethod);
         return preg_match($regex, $path);
     }
     /**
-     * retrieve pattern regex expression
-     * @return string 
-     * @throws Exception 
-     */
+    * retrieve pattern regex expression
+    * @param string $defaultEntryMethod
+    * @throws Exception
+    * @return string
+    */
     protected function getPatternRegex(string $defaultEntryMethod= Route::DEFAULT_ENTRY_METHOD): string
     {
         return static::GetRouteRegex($this->path, $this->m_expressions ?? [], true, $defaultEntryMethod);
@@ -283,7 +286,11 @@ class RouteHandler
     }
     /**
     * auto generate doc.
+    * @param string $path
+    * @param ?array $expressions
     * @param bool $strict_dir
+    * @param ?string $defaultEntryMethod
+    * @param ?string $format
     * @return string
     */
     public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true, 
@@ -393,9 +400,10 @@ class RouteHandler
         return $this;
     }
     /**
-     * set the shorcut key name
-     * @return RouteHandler 
-     */
+    * set the shorcut key name
+    * @param mixed $name
+    * @return RouteHandler
+    */
     public function name($name)
     {
         $this->name = $name;
@@ -511,7 +519,8 @@ class RouteHandler
     }
     /**
     * auto generate doc.
-    * @param array $arguments argument
+    * @param mixed $route
+    * @param mixed ...$arguments
     * @return mixed
     */
     public static function Handle($route, ...$arguments){

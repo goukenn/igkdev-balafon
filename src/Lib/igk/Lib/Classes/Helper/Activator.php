@@ -188,7 +188,13 @@ class Activator
         return get_class_vars($class_name);
     }
     /**
-     * create new instanace and validate
+     * create new instanace and validate 
+     * @param string $class_name 
+     * @param mixed $data 
+     * @param IContentSecurityProvider $request 
+     * @param IActionRequestValidator $validator 
+     * @param mixed &$errors 
+     * @return mixed 
      */
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, &$errors = null)
     {
@@ -283,9 +289,10 @@ class Activator
                         $g->$fc($v);
                         continue;
                     }
-                    $is_reference = $v instanceof ActivatorReference;
-                    if( $is_reference ){
+                    $is_reference = false;
+                    if($v instanceof ActivatorReference){
                         $v = DynamicActivableReference::Create($v->getReference());
+                        $is_reference = true;
                     }
                     if (!$v_interface){
                         $v_p = new ReflectionProperty($g, $k);
@@ -315,10 +322,12 @@ class Activator
         return $g;
     }
     /**
-    * auto generate doc.
-    * @param mixed $def definition
-    * @return void
-    */
+     * auto generate doc.    
+     * @param callable $callable 
+     * @param mixed $inf 
+     * @param mixed $def 
+     * @return void 
+     */
     public static function InitPrivatePropety(callable $callable, $inf, $def)
     {
         if ($fc = $callable->bindTo($inf)) {
@@ -373,7 +382,7 @@ class Activator
     /**
     * auto generate doc.
     * @param string $doc_comments
-    * @return array<mixed
+    * @return array
     */
     private static function _GetDocumentProperties(string $doc_comments)
     {

@@ -31,12 +31,11 @@ abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerType
 	{
 		return array("clTwitterUri");
 	}
-	/**
-	 * Populates additional configuration values from the request into the given array.
-	 *
-	 * @param array $t
-	 * @return void
-	 */
+    /**
+    * Populates additional configuration values from the request into the given array.
+    * @param mixed & $t
+    * @return void
+    */
 	public static function SetAdditionalConfigInfo(& $t)
 	{
 		$t["clTwitterUri"] = igk_getr("clTwitterUri");

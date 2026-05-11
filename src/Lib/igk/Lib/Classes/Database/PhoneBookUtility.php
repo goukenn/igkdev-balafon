@@ -114,13 +114,14 @@ class PhoneBookUtility
         return $v_tab;
     }
     /**
-     * impoortd vcard
-     * @param array $cards array of vcard 
-     * @param null|Users $user 
-     * @return void 
-     * @throws Exception 
-     * @throws IGKException 
-     */
+    * impoortd vcard
+    * @param array $cards array of vcard
+    * @param null|Users $user
+    * @param mixed & $count
+    * @throws Exception
+    * @throws IGKException
+    * @return void
+    */
     public static function ImportVCards($cards, ?Users $user = null, & $count = 0)
     {
         foreach ($cards as $c) {
@@ -142,12 +143,11 @@ class PhoneBookUtility
         }
     }
     /**
-     * get phone book entries
-     * @param null|Users $users 
-     * @param mixed $limit
-     * @return ?PhoneBookEntries[] 
-     * @return mixed 
-     */
+    * get phone book entries
+    * @param ?Users $user
+    * @param null|Users $users
+    * @return mixed
+    */
     public static function GetPhoneEntries(?Users $user, $limit=null)
     {
         $conditions = [];
@@ -215,6 +215,7 @@ class PhoneBookUtility
     }
     /**
     * auto generate doc.
+    * @param mixed $data
     * @param null|Users $user
     * @return bool
     */

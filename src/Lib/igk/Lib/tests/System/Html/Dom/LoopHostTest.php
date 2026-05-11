@@ -70,6 +70,7 @@ class LoopHostTest extends BaseTestCase
     }
     /**
     * auto generate doc.
+    * @param mixed $data
     * @return mixed
     */
     private function _loop_build($data): ?string
@@ -87,7 +88,7 @@ class LoopHostTest extends BaseTestCase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function test_loop_with_range()
     {

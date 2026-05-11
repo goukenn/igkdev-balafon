@@ -23,10 +23,36 @@ interface IMarkdownConverterListener extends IMarkdownPrepareTextBeforeAppendToB
      */
     function title(string $title, int $level, ?string $slug=null);
     function rtrimOutput(string $output):string;
+    /**
+    * auto generate doc.
+    * @param null|string $token_id
+    * @param string $value
+    * @param bool $isRoot
+    * @param \closure $callback
+    * @param RegexMatcherCapture $capture
+    * @param null|array $options
+    * @return ?string
+    */
     function filter(?string $token_id, string $value, bool $isRoot, \closure $callback, RegexMatcherCapture $capture, ?array $options = null);
     function endState():?string;
+    /**
+    * auto generate doc.
+    * @param string $output
+    * @return string
+    */
     function postTreatOutput(string $output) : string;
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     function endLineFeedToBuffer():?string;
+    /**
+    * auto generate doc.
+    * @param RegexMatcherCapture $capture
+    * @param MarkdownConverter $converter
+    * @param bool $lineFeed
+    * @return void
+    */
     function beforeBufferLine(RegexMatcherCapture $capture, MarkdownConverter $converter, bool $lineFeed);
 
     function didHandleOutput(bool & $isSingle, string & $output);

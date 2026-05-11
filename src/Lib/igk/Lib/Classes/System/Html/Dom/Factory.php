@@ -22,7 +22,7 @@ class Factory{
     private $m_actions;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){        
         $this->m_actions = [];
@@ -63,7 +63,7 @@ class Factory{
     * Handles. Check
     * @param string $name
     * @param string $funcName
-    * @return 
+    * @return mixed
     */
     public function handle(string $name, string $funcName): bool{
         return isset($this->m_actions[$name][$funcName]);

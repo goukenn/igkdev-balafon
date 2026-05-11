@@ -30,6 +30,8 @@ final class IGKLangKey implements IHtmlGetValue {
     var $key;
     /**
     * auto generate doc.
+    * @param mixed $key
+    * @param mixed $default
     * @param mixed $args the default value is null
     */
     public function __construct($key, $default, $args=null){
@@ -83,6 +85,7 @@ final class IGKLangKey implements IHtmlGetValue {
     }
     /**
     * auto generate doc.
+    * @param mixed $s
     * @param mixed $args
     */
     public static function GetValueKeys($s, $args){

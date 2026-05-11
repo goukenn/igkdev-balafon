@@ -42,6 +42,7 @@ class CssDistCommand extends AppExecCommand{
     ];
     /**
     * auto generate doc.
+    * @param mixed $command
     */
     public function exec($command){   
         $minfile = property_exists($command->options, '--min-file');

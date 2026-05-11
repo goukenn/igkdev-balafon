@@ -64,6 +64,9 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
     }
     /**
     * auto generate doc.
+    * @param mixed $t
+    * @param mixed $msg
+    * @param mixed $code
     */
     protected function dieinfo($t, $msg = "", $code = 0)
     {

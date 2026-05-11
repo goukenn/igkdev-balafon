@@ -10,6 +10,7 @@ use IGK\System\IAnnotation;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGK\Constants;
+use Override;
 
 /**
  * auto generate doc.
@@ -226,6 +227,14 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      */
     private $m_reader;
     /**
+    * auto generate doc.
+    * @return void
+    */
+    protected static function CreateInstance()
+    {
+        return new static;
+    }
+    /**
      * Uses.
      * @param null|array $cm
      */
@@ -341,7 +350,6 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     * @return void
     */
     protected function setPropertyHandlerListener($callback){
-        
     }
     /**
     * auto generate doc.

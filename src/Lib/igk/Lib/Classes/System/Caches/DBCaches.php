@@ -168,29 +168,33 @@ class DBCaches
         $i->_initDbCache();
     }
     /**
-     * reset the db cache info
-     * @return never 
-     * @throws NotImplementException 
-     */
+    * reset the db cache info
+    * @param bool $force
+    * @throws NotImplementException
+    * @return never
+    */
     public static function Reset(bool $force=false)
     {
         static::getInstance()->_clearAndReload($force);
     }
     /**
-     * retrieve cached table column info -
-     * @param string $table 
-     * @param null|BaseController $controller 
-     * @return SchemaMigrationInfo|array 
-     * @throws IGKException 
-     */
+    * retrieve cached table column info -
+    * @param string $table
+    * @param null|BaseController $controller
+    * @param mixed & $table_info
+    * @throws IGKException
+    * @return SchemaMigrationInfo|array
+    */
     public static function GetColumnInfo(string $table, ?BaseController $controller = null, & $table_info = null)
     {
         return static::getInstance()->resolve($table, $controller, $table_info);
     }
     /**
-     * get table information
-     * @return ?SchemaMigrationInfo
-     */
+    * get table information
+    * @param string $table
+    * @param ?BaseController $controller
+    * @return ?SchemaMigrationInfo
+    */
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
         $v_i = static::getInstance();
@@ -239,7 +243,7 @@ class DBCaches
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -264,13 +268,14 @@ class DBCaches
         DbSchemas::ResetSchema();
     }
     /**
-     * clear and restore store db cache
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * clear and restore store db cache
+    * @param bool $force
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @throws Exception
+    * @return void
+    */
     private function _clearAndReload(bool $force=false)
     {
         $this->_clear();
@@ -409,12 +414,13 @@ class DBCaches
         return $this->m_db_defs;
     }
     /**
-     * resolve according to criteria
-     * @param string $table 
-     * @param null|BaseController $controller 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * resolve according to criteria
+    * @param string $table
+    * @param null|BaseController $controller
+    * @param mixed & $table_info
+    * @throws IGKException
+    * @return mixed
+    */
     public function resolve(string $table, ?BaseController $controller = null, & $table_info = null)
     {
         if ($this->m_initializing) {
@@ -469,7 +475,7 @@ class DBCaches
     /**
     * auto generate doc.
     * @param mixed $m
-    * @return
+    * @return mixed
     */
     private static function _UnsetPropertiesDefinition($m)
     {
@@ -563,12 +569,12 @@ class DBCaches
         // + | force reload controller schema 
     }
     /**
-     * resolv and init tbinfo
-     * @param string $tb 
-     * @param mixed $tbinfo 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * resolv and init tbinfo
+    * @param string $tb
+    * @param mixed & $tbinfo
+    * @throws IGKException
+    * @return bool
+    */
     public static function ResolvAndInitDbTableCacheInfo(string $tb, & $tbinfo){
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
             $tables[$tb] = $tbinfo;

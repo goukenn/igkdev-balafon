@@ -25,6 +25,7 @@ function igk_html_node_youtubevideo(string $uri, ?array $param=null){
 /**
 * Igk html demo youtubevideo.
 * @param mixed $tg
+* @return mixed
 */
 function igk_html_demo_youtubevideo($tg){
 	$n = igk_create_node();
@@ -35,6 +36,7 @@ function igk_html_demo_youtubevideo($tg){
 /**
 * Igk html desc youtube video.
 * @param mixed $tg
+* @return mixed
 */
 function igk_html_desc_youtubeVideo($tg){
 	$n = igk_create_node();

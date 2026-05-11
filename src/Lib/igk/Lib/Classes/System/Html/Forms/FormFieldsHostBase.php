@@ -20,6 +20,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
 {
     /**
     * auto generate doc.
+    * @param mixed $context
     * @return array
     */
     public function getFields($context=null): array

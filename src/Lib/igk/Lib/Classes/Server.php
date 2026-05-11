@@ -115,9 +115,9 @@ final class Server implements IToArray{
         return null;
     }
     /**
-     * check accepts encoding support
-     * @param params hom
-     */
+    * check accepts encoding support
+    * @param mixed $list
+    */
     public function accepts($list){
         $accept = $this->HTTP_ACCEPT_ENCODING;
         if (is_array($list) && !is_null($accept)){
@@ -138,6 +138,7 @@ final class Server implements IToArray{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function __set($n, $v){
@@ -209,6 +210,7 @@ final class Server implements IToArray{
     }
     /**
     * check for method
+    * @param mixed $type
     */
     public function method($type=null){
 			if ($type===null)
@@ -328,7 +330,7 @@ final class Server implements IToArray{
     /**
     * auto generate doc.
     * @param mixed $secured
-    * @return
+    * @return mixed
     */
     public function GetRootUri($secured=false){
         if(!$secured && $this->is_secure())

@@ -80,7 +80,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_base_uri($prompt)
     {
@@ -92,7 +92,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_document_root($prompt)
     {
@@ -105,6 +105,8 @@ class AppConfigs
     }
     /**
     * auto generate doc.
+    * @param mixed $cwd
+    * @param mixed $l
     * @param mixed $d
     * @return string
     */
@@ -120,7 +122,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_base_dir($prompt)
     {
@@ -133,7 +135,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_app_dir($prompt)
     {
@@ -145,7 +147,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_project_dir($prompt)
     {
@@ -157,7 +159,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_vendor_dir($prompt)
     {
@@ -169,7 +171,7 @@ class AppConfigs
     /**
     * auto generate doc.
     * @param mixed $prompt
-    * @return
+    * @return mixed
     */
     private function read_env_igk_module_dir($prompt)
     {

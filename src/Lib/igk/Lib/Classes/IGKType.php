@@ -38,6 +38,7 @@ class IGKType{
     }
     /**
     * auto generate doc.
+    * @param ReflectionParameter $param
     * @param string $base_type
     * @return bool
     */

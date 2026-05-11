@@ -70,7 +70,7 @@ class XmlConfigurationNode extends XmlNode{
     * @param mixed $name
     * @param null|mixed $attributes
     * @param null|mixed $indexOrargs
-    * @return
+    * @return mixed
     */
     public static function CreateWebNode($name, $attributes = null, $indexOrargs = null)
     {

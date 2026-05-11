@@ -26,7 +26,7 @@ class SystemStorage extends Storage{
     /**
     * auto generate doc.
     * @param mixed $path
-    * @return
+    * @return mixed
     */
     private function _full_path($path){
         return igk_io_combine($this->root_dir, $path); 

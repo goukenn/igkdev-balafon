@@ -41,7 +41,9 @@ abstract class BaseUriHandler
     }
     /**
     * auto generate doc.
+    * @param string $uri
     * @param null|IGKApplicationBase $application
+    * @param ?callable $bootload
     * @return void
     */
     public static function Handle(string $uri, ?IGKApplicationBase $application =null, ?callable $bootload=null )

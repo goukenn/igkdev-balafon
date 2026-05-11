@@ -105,11 +105,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         }
     }
     /**
-     * mapt to Array object 
-     * @param array $mapping_table 
-     * @return array 
-     * @throws Exception 
-     */
+    * mapt to Array object
+    * @param array $mapping_table
+    * @param ?callable $treat_value
+    * @throws Exception
+    * @return array
+    */
     public function mapToArray(array $mapping_table, ?callable $treat_value = null){
         $c = [];
         foreach($mapping_table as $k=>$v){

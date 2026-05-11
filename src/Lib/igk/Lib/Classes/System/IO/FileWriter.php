@@ -16,12 +16,14 @@ use IGKException;
 class FileWriter
 {
     /**
-     * save to file 
-     * @param mixed $filename 
-     * @param mixed $content 
-     * @param bool $overwrite 
-     * @return true 
-     */
+    * save to file
+    * @param mixed $filename
+    * @param mixed $content
+    * @param bool $overwrite
+    * @param mixed $chmod
+    * @param mixed $type
+    * @return true
+    */
     public static function Save($filename, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
     {
         if (empty($filename)) {
@@ -60,10 +62,11 @@ class FileWriter
         return true;
     }
     /**
-     * create directory
-     * @string string 
-     * @return bool success
-     */
+    * create directory
+    * @param string $dirname
+    * @param mixed $mode
+    * @return bool success
+    */
     public static function CreateDir(string $dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
     {
         if (empty($dirname)) {

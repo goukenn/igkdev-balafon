@@ -20,9 +20,10 @@ abstract class JSonBindToConverterBase{
         return $this->convert($value, $options);
     }
     /**
-     * convert json value to data type
-     * @param mixed $value 
-     * @return mixed 
-     */
+    * convert json value to data type
+    * @param mixed $value
+    * @param mixed $options
+    * @return mixed
+    */
     abstract function convert($value, $options=null);
 }

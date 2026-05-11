@@ -236,6 +236,7 @@ class HtmlNode extends HtmlItemBase
     }
     /**
     * auto generate doc.
+    * @param HtmlItemBase $node
     * @param null|string $class
     * @return null|HtmlCssClassValueAttribute
     */
@@ -339,8 +340,9 @@ class HtmlNode extends HtmlItemBase
         return $this;
     }
     /**
-     * set the class combination of this item
-     */
+    * set the class combination of this item
+    * @param mixed $value
+    */
     public function setClass($value)
     {
         $this['class'] = $value;
@@ -426,8 +428,9 @@ class HtmlNode extends HtmlItemBase
         return $this;
     }
     /**
-     * set the id of this item
-     */
+    * set the id of this item
+    * @param mixed $id
+    */
     public function setId($id)
     {
         $this["id"] = $this["name"] = $id;
@@ -454,6 +457,8 @@ class HtmlNode extends HtmlItemBase
     }
     /**
     * auto generate doc.
+    * @param mixed $key
+    * @param mixed $value
     * @param mixed $context the default value is null
     */
     public function setSysAttribute($key, $value, $context = null)
@@ -530,6 +535,7 @@ class HtmlNode extends HtmlItemBase
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     function offsetSetExpression($key, $value)
@@ -570,6 +576,7 @@ class HtmlNode extends HtmlItemBase
     /**
     * auto generate doc.
     * @param mixed $n
+    * @param mixed $activate_condition
     * @return $this
     */
     public function activate($n, $activate_condition=null)
@@ -611,11 +618,11 @@ class HtmlNode extends HtmlItemBase
         return $nlist;
     }
     /**
-     * because of 'add' prefix forcing addding address 
-     * @param mixed $indexOrArgs 
-     * @return HtmlItemBase 
-     * @throws IGKException 
-     */
+    * because of 'add' prefix forcing addding address
+    * @param mixed $index_content_or_args
+    * @throws IGKException
+    * @return HtmlItemBase
+    */
     public function address($index_content_or_args=null){
         $n = new HtmlNode("address");
         HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 

@@ -70,6 +70,9 @@ abstract class ActionHelper
     }
     /**
     * auto generate doc.
+    * @param Users $u
+    * @param string $password
+    * @param string $repassword
     * @param mixed $not notification handler
     * @return IGK\Models\IQueryResult|false
     */
@@ -114,6 +117,8 @@ abstract class ActionHelper
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $token
     * @param null|RegistrationLinks $regLink
     * @return RegistrationLinks|bool
     */
@@ -200,12 +205,12 @@ abstract class ActionHelper
         return $name;
     }
     /**
-     * bind request args
-     * @param mixed $object 
-     * @param mixed $action 
-     * @param mixed $args 
-     * @return void 
-     */
+    * bind request args
+    * @param mixed $object
+    * @param mixed $action
+    * @param mixed & $args
+    * @return void
+    */
     public static function BindRequestArgs($object, $action, &$args)
     {
         $g = new ReflectionMethod($object, $action);
@@ -216,11 +221,12 @@ abstract class ActionHelper
         }
     }
     /**
-     * handle args helper 
-     * @param string $fname 
-     * @param array $handleArgs 
-     * @return bool 
-     */
+    * handle args helper
+    * @param string $fname
+    * @param array & $handlerArgs
+    * @param string $entryName
+    * @return bool
+    */
     public static function HandleArgs(string $fname, array &$handlerArgs, string $entryName = IGK_DEFAULT): bool
     {
         if ((strpos($fname, "/") !== false) && !igk_str_endwith($fname, $entryName)) {
@@ -246,18 +252,19 @@ abstract class ActionHelper
         return $ret;
     }
     /**
-     * send mail helper 
-     * @param BaseController $controller 
-     * @param string $to 
-     * @param null|string $from 
-     * @param string $title 
-     * @param string $msg 
-     * @param array|null $options 
-     * @return false|void 
-     * @throws NotFoundExceptionInterface  
-     * @throws ContainerExceptionInterface  
-     * @throws IGKException 
-     */
+    * send mail helper
+    * @param BaseController $controller
+    * @param string $to
+    * @param null|string $from
+    * @param string $title
+    * @param string $msg
+    * @param array|null $options
+    * @param ?string $mail_title
+    * @throws NotFoundExceptionInterface
+    * @throws ContainerExceptionInterface
+    * @throws IGKException
+    * @return false|void
+    */
     public static function SendMail(
         BaseController $controller,
         string $to,
@@ -409,6 +416,7 @@ abstract class ActionHelper
     }
     /**
     * auto generate doc.
+    * @param BaseController $controller
     * @param string $action_class_name
     * @return mixed
     */

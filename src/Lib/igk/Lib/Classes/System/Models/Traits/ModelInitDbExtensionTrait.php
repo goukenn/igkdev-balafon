@@ -11,11 +11,12 @@ use IGK\Models\ModelBase;
 */
 trait ModelInitDbExtensionTrait{
     /**
-     * extension method init entries from json data 
-     * @param ModelBase $model 
-     * @param string $path path to json file 
-     * @return bool|int number of entries 
-     */
+    * extension method init entries from json data
+    * @param ModelBase $model
+    * @param string $path path to json file
+    * @param mixed $extraData
+    * @return bool|int number of entries
+    */
     public static function initEntriesFromJsonDataFile(ModelBase $model, string $path, $extraData=null){
         $count = 0;
         if (igk_io_file_exists ($file = $path) || igk_io_file_exists ($file = $model->getController()->getDataDir().'/Database/'.$path)){

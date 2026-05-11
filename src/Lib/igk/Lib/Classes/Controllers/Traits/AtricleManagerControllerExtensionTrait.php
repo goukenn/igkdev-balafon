@@ -15,11 +15,12 @@ use IGKResourceUriResolver;
 */
 trait AtricleManagerControllerExtensionTrait{
     /**
-     * get article content
-     * @param BaseController $controller 
-     * @param mixed $name 
-     * @return null|string 
-     */
+    * get article content
+    * @param BaseController $controller
+    * @param mixed $name
+    * @param ?array $args
+    * @return null|string
+    */
     public static function article(BaseController $controller, $name, ?array $args= null) : ?string{
         if (igk_io_file_exists($file = $controller->getArticle($name))){
             $src = file_get_contents($file);
@@ -31,13 +32,14 @@ trait AtricleManagerControllerExtensionTrait{
         return null;
     }
     /**
-     * get asset lists
-     * @param BaseController $ctrl 
-     * @param string $path 
-     * @param mixed $ext 
-     * @param bool $recursive 
-     * @return null|array 
-     */
+    * get asset lists
+    * @param BaseController $ctrl
+    * @param string $path
+    * @param mixed $ext
+    * @param bool $recursive
+    * @param ?callable $callback
+    * @return null|array
+    */
     public static function assets_list(BaseController $ctrl, 
         string $path, 
         string $ext, bool $recursive = false, ?callable $callback=null){

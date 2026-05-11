@@ -104,6 +104,8 @@ final class MenuUtils{
     }
     /**
     * auto generate doc.
+    * @param HtmlNode $target
+    * @param MenuItem $menu
     * @param array & $pages reference page
     * @return void
     */

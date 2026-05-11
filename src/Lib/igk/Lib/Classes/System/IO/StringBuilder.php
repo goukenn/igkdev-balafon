@@ -49,6 +49,8 @@ class StringBuilder{
     }
     /**
     * auto generate doc.
+    * @param string $text
+    * @param int $offset
     * @param null|int $length
     * @return $this
     */
@@ -60,6 +62,7 @@ class StringBuilder{
     }
     /**
     * auto generate doc.
+    * @param string $text
     * @param int $offset
     * @return $this
     */
@@ -90,8 +93,9 @@ class StringBuilder{
         }
     }
     /**
-     * prepend text
-     */
+    * prepend text
+    * @param mixed $text
+    */
     public function prependLine($text){
         $cp = $this->m_src;
         $this->m_src = "";

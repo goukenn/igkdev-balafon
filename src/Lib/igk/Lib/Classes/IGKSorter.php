@@ -25,13 +25,13 @@ final class IGKSorter{
         $this->asc=true;
     }
     /**
-     * Applies a named sort function to an array or sortable object by key.
-     * @param mixed $tab The array or object to sort (by reference).
-     * @param mixed $key The key to sort by.
-     * @param bool $asc Whether to sort in ascending order.
-     * @param string $funcname The name of the comparison method to use.
-     * @return mixed The sorted array or object.
-     */
+    * Applies a named sort function to an array or sortable object by key.
+    * @param mixed & $tab
+    * @param mixed $tab The array or object to sort (by reference).
+    * @param mixed $key The key to sort by.
+    * @param bool $asc Whether to sort in ascending order.
+    * @return mixed The sorted array or object.
+    */
     private static function __SortValue(& $tab, $key, $asc, $funcname){
         $t=new IGKSorter();
         $t->key=$key;
@@ -47,10 +47,10 @@ final class IGKSorter{
         return $tab;
     }
     /**
-     * Sorts an array or sortable object using the current sorter settings.
-     * @param mixed $tab The array or object to sort (by reference).
-     * @param mixed $key Optional key to index the sorted result by.
-     */
+    * Sorts an array or sortable object using the current sorter settings.
+    * @param mixed & $tab
+    * @param mixed $tab The array or object to sort (by reference).
+    */
     public function Sort(& $tab, $key=null){
         if(is_array($tab)){
             usort($tab, array($this, "SortValue"));

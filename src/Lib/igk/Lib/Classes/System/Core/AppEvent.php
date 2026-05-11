@@ -14,7 +14,7 @@ class AppEvent
 {
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getkey()
     {

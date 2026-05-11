@@ -132,7 +132,7 @@ class ViewBlockCompiler
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function eval_source(){
         foreach (array_keys(func_get_arg(1)->data) as $_) {
@@ -151,7 +151,7 @@ class ViewBlockCompiler
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initListener(){
         return \Closure::fromCallable(function () {
@@ -197,7 +197,7 @@ class ViewBlockCompiler
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _execute()
     {

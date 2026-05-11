@@ -18,11 +18,11 @@ use PHPUnit\Framework\ExpectationFailedException;
 class MarkdownConverterTest extends BaseTestCase
 {
     /**
-     * auto generate doc.
-     * @param string $src
-     * @param bool $allowDocumentLink
-     * @return
-     */
+    * auto generate doc.
+    * @param string $src
+    * @param bool $allowDocumentLink
+    * @return mixed
+    */
     private function _transform(string $src, bool $allowDocumentLink = false)
     {
         $converter = new MarkdownConverter;
@@ -466,11 +466,10 @@ EOF
             json_encode($g)
         );
     }
-
     /**
-     * auto generate doc.
-     * @return
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     public function test_mdconverter_array_escaped()
     {
         $n = igk_create_notagnode();
@@ -488,11 +487,10 @@ EOF
             $n->render()
         );
     }
-
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function test_mdconverter_split_line_escaped()
     {
         $this->assertEquals(
@@ -501,7 +499,10 @@ EOF
             'not splitted escaped'
         );
     }
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_mdconverter_table_with_no_header()
     {
         $this->assertEquals(
@@ -510,6 +511,10 @@ EOF
             'not splitted escaped'
         );
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_mdconverter_sub_quoted_list()
     {
         $this->assertEquals(
@@ -524,6 +529,10 @@ EOF
             'sub not defined'
         );
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_mdconverter_sub_quoted_list2()
     {
         $this->assertEquals(
@@ -538,7 +547,11 @@ EOF
             'sub not defined'
         );
     }
-     public function test_mdconverter_sub_quoted_no_parent()
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function test_mdconverter_sub_quoted_no_parent()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">sub element 1</blockquote><p>list 2</p>',
@@ -549,7 +562,11 @@ EOF
             'sub not '
         );
     }
- public function test_mdconverter_sub_quoted_combine()
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function test_mdconverter_sub_quoted_combine()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">one<blockquote class="subquote-1">two</blockquote>three</blockquote>',
@@ -561,8 +578,10 @@ EOF
             'sub not '
         );
     }
-
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_mdconverter_list_sub_combine()
     {
         $this->assertEquals(
@@ -575,8 +594,11 @@ EOF
             'sub not '
         );
     }
-
- public function test_mdconverter_with_sub_only()
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function test_mdconverter_with_sub_only()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">A</blockquote><p>B </p><ul class="sublist-0"><li><b>C</b></li><li><b>D</b></li></ul>',

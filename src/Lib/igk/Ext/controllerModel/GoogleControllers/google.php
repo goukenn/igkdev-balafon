@@ -25,11 +25,12 @@ if (defined('IGK_GOOGLE_MODULE')) {
     define("IGK_GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
     define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s120");
     /**
-     * set theme definition
-     * @param mixed $theme 
-     * @param mixed $family 
-     * @return void 
-     */
+    * set theme definition
+    * @param mixed & $theme
+    * @param mixed $theme
+    * @param mixed $extra
+    * @return void
+    */
     function igk_google_css_setfont(&$theme, $family, $extra = "sans-serif")
     {
         $rp = new Replacement;
@@ -42,12 +43,14 @@ if (defined('IGK_GOOGLE_MODULE')) {
         $theme[".google-" . $key] = "font-family:'{$n}'{$extra};";
     }
     /**
-     * add google font to theme
-     * @param mixed $IGKHtmlDoc$doc  document to attach the google font
-     * @param mixed $string$family  Font's Name
-     * @param mixed $string$size  semi - column separated size
-     * @param mixed $bool$temp  attached temporaly
-     */
+    * add google font to theme
+    * @param mixed $doc
+    * @param mixed $family
+    * @param mixed $size
+    * @param mixed $temp
+    * @param mixed $extra
+    * @return mixed
+    */
     function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra = 'sans-serif')
     {
         $size = igk_google_get_font_sizes($family, $size);
@@ -71,12 +74,13 @@ if (defined('IGK_GOOGLE_MODULE')) {
             igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
     }
-/**
-* Igk google bindfont.
-* @param mixed $theme
-* @param mixed $family
-* @param null|mixed $size
-*/
+    /**
+    * Igk google bindfont.
+    * @param mixed $theme
+    * @param mixed $family
+    * @param null|mixed $size
+    * @return mixed
+    */
 function igk_google_bindfont($theme, $family, $size = null)
     {
         $g = trim($family);
@@ -92,6 +96,7 @@ function igk_google_bindfont($theme, $family, $size = null)
     }
     /**
     * auto generate doc.
+    * @param mixed $family
     * @param mixed $size
     * @return mixed
     */
@@ -109,14 +114,16 @@ function igk_google_bindfont($theme, $family, $size = null)
     }
     /**
     * auto generate doc.
+    * @return mixed
     */    function igk_google_apikey()
     {
         return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
     }
     /**
-     * get condensed family name for URI
-     * @param mixed $string$family Font's name definition
-     */
+    * get condensed family name for URI
+    * @param mixed $family
+    * @return mixed
+    */
     function igk_google_condensedfamilyname($family)
     {
         $s = str_replace(" ", "", $family);
@@ -125,9 +132,10 @@ function igk_google_bindfont($theme, $family, $size = null)
         return $s;
     }
     /**
-     * get local file path from family
-     * @param mixed $family name
-     */
+    * get local file path from family
+    * @param mixed $family name
+    * @return mixed
+    */
     function igk_google_filefromfamily($family)
     {
         return igk_google_get_css_fontfile($family);
@@ -154,6 +162,7 @@ function igk_google_bindfont($theme, $family, $size = null)
     /**
     * auto generate doc.
     * @param mixed $family
+    * @return mixed
     */
     function igk_google_get_css_fontfile($family)
     {
@@ -161,7 +170,9 @@ function igk_google_bindfont($theme, $family, $size = null)
     }
     /**
     * auto generate doc.
+    * @param mixed $folderid
     * @param mixed $filename
+    * @return mixed
     */
     function igk_google_get_drive_uri($folderid, $filename)
     {
@@ -169,13 +180,15 @@ function igk_google_bindfont($theme, $family, $size = null)
     }
     /**
     * auto generate doc.
+    * @return mixed
     */    function igk_google_get_fontdir()
     {
         return igk_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
     }
-/**
-* Igk google data dir.
-*/
+    /**
+    * Igk google data dir.
+    * @return mixed
+    */
 function igk_google_data_dir()
     {
         return implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), IGK_DATA_FOLDER]);
@@ -183,14 +196,18 @@ function igk_google_data_dir()
     /**
     * auto generate doc.
     * @param mixed $n
+    * @return mixed
     */
     function igk_google_jsmap_acceptrender_callback($n)
     {
         return 1;
     }
     /**
-     * convert google uri's font to App font resource
-     */
+    * convert google uri's font to App font resource
+    * @param mixed $uri
+    * @param mixed $e
+    * @return mixed
+    */
     function igk_google_local_uri_callback($uri, $e = null)
     {
         $s = igk_io_baseuri() . "/!@res//getgooglefont?q=" . base64_encode("uri=" . $uri . "&type=css");
@@ -209,8 +226,11 @@ function igk_google_data_dir()
         return $s;
     }
     /**
-     * register file that will respond to uri
-     */
+    * register file that will respond to uri
+    * @param mixed $uri
+    * @param mixed $family
+    * @return mixed
+    */
     function igk_google_regfont($uri, $family)
     {
         $s = igk_google_settings();
@@ -224,8 +244,9 @@ function igk_google_data_dir()
         igk_google_store_setting();
     }
     /**
-     * get google settings
-     */
+    * get google settings
+    * @return mixed
+    */
     function igk_google_settings()
     {
         return igk_get_env("google://settings", function () {
@@ -239,8 +260,10 @@ function igk_google_data_dir()
         });
     }
     /**
-     * store balafon controller configuration
-     */
+    * store balafon controller configuration
+    * @param mixed $setting
+    * @return mixed
+    */
     function igk_google_store_setting($setting = null)
     {
         $g = igk_google_settings();
@@ -248,14 +271,17 @@ function igk_google_data_dir()
     }
     /**
     * auto generate doc.
+    * @return mixed
     */    function igk_google_zonectrl()
     {
         $CF = igk_ctrl_zone_init(__FILE__);
         return $CF;
     }
     /**
-     *  init google zone
-     */
+    * init google zone
+    * @param mixed $g
+    * @return mixed
+    */
     function igk_google_zoneinit($g)
     {
         $f = IGK_LIB_DIR . "/../api/google-api-client/vendor/autoload.php";
@@ -264,6 +290,7 @@ function igk_google_data_dir()
     /**
     * auto generate doc.
     * @param mixed $t
+    * @return mixed
     */
     function igk_html_demo_google_circle_waiter($t)
     {
@@ -273,6 +300,8 @@ function igk_google_data_dir()
     }
     /**
     * auto generate doc.
+    * @param mixed $t
+    * @return mixed
     */    function igk_html_demo_google_js_maps($t)
     {
         $n = $t->addGoogleJSMaps("{zoom:15,center:{lat:50.850402, lng:4.357879}}");
@@ -285,6 +314,7 @@ EOF        );
         /**
         * auto generate doc.
         * @param mixed $t
+        * @return mixed
         */
         function igk_html_demo_google_line_waiter($t)
         {
@@ -294,14 +324,15 @@ EOF        );
         }
     }
     /**
-     * bind google material icons
-     * @param mixed $name 
-     * @param string $title 
-     * @param string $type 
-     * @return object 
-     * @throws ReflectionException 
-     * @throws IGKException 
-     */
+    * bind google material icons
+    * @param mixed $name
+    * @param string $title
+    * @param string $type
+    * @param mixed $class
+    * @throws ReflectionException
+    * @throws IGKException
+    * @return object
+    */
     function igk_html_node_google_icon($name, $title = "", $type = "span", $class = "material-icons")
     {
         $n = igk_create_node($type);
@@ -312,21 +343,23 @@ EOF        );
         return $n;
     }
     if (!function_exists('igk_html_node_google_icon_outlined')) {
-/**
-* Igk html node google icon outlined.
-* @param mixed $name
-* @param mixed $title
-* @param mixed $type
-*/
+        /**
+        * Igk html node google icon outlined.
+        * @param mixed $name
+        * @param mixed $title
+        * @param mixed $type
+        * @return mixed
+        */
 function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
         {
             return igk_html_node_google_icon($name, $title, $type, 'material-icons-outlined');
         }
     }
     if (!function_exists('igk_html_node_hamburger_button_menu')) {
-/**
-* Igk html node hamburger button menu.
-*/
+        /**
+        * Igk html node hamburger button menu.
+        * @return mixed
+        */
 function igk_html_node_hamburger_button_menu()
         {
             $n = igk_create_node('div');
@@ -337,6 +370,7 @@ function igk_html_node_hamburger_button_menu()
     /**
     * auto generate doc.
     * @param mixed $t
+    * @return mixed
     */
     function igk_html_demo_google_mapgeo($t)
     {
@@ -345,6 +379,7 @@ function igk_html_node_hamburger_button_menu()
     }
     /**
     * auto generate doc.
+    * @return mixed
     */    function igk_html_node_google_circle_waiter()
     {
         $n = igk_create_node();
@@ -352,8 +387,13 @@ function igk_html_node_hamburger_button_menu()
         return $n;
     }
     /**
-     * add google follows us button
-     */
+    * add google follows us button
+    * @param mixed $id
+    * @param mixed $height
+    * @param mixed $rel
+    * @param mixed $annotation
+    * @return mixed
+    */
     function igk_html_node_google_follow_us_button($id, $height = 15, $rel = "author", $annotation = "none")
     {
         $n = igk_create_xmlnode("g:follow");
@@ -377,8 +417,11 @@ EOF,
         return $n;
     }
     /**
-     * add google maps javascript api node
-     */
+    * add google maps javascript api node
+    * @param mixed $data
+    * @param mixed $apikey
+    * @return mixed
+    */
     function igk_html_node_google_js_maps($data = null, $apikey = null)
     {
         $apikey = $apikey ?? igk_google_apikey();
@@ -400,9 +443,10 @@ EOF;
         $n["igk:data"] = $data ?? "{zoom:7, center:{lat:50.41438075875331, lng:4.904006734252908}}";
         return $n;
     }
-/**
-* Igk google init css.
-*/
+    /**
+    * Igk google init css.
+    * @return mixed
+    */
 function igk_google_init_css()
     {
         if (!igk_get_env("google::init_global_style")) {
@@ -414,6 +458,7 @@ function igk_google_init_css()
     }
     /**
     * auto generate doc.
+    * @return mixed
     */    function igk_html_node_google_line_waiter()
     {
         $n = igk_create_node();
@@ -424,6 +469,8 @@ function igk_google_init_css()
     /**
     * auto generate doc.
     * @param mixed $loc
+    * @param mixed $apikey
+    * @return mixed
     */
     function igk_html_node_google_mapgeo($loc, $apikey = null)
     {
@@ -474,7 +521,10 @@ function igk_google_init_css()
         if (function_exists("igk_curl_post_uri")) {
             /**
             * auto generate doc.
+            * @param mixed $family
             * @param mixed $sizes
+            * @param mixed $file
+            * @return mixed
             */
             function igk_google_installfont($family, $sizes, $file = null)
             {
@@ -516,8 +566,11 @@ function igk_google_init_css()
                 return 0;
             }
             /**
-             * download google font to file
-             */
+            * download google font to file
+            * @param mixed $ft
+            * @param mixed $dir
+            * @return mixed
+            */
             function igk_google_get_font($ft = "Open Sans", $dir = null)
             {
                 igk_ilog("get font : " . $ft);
@@ -542,7 +595,9 @@ function igk_google_init_css()
             }
             /**
             * auto generate doc.
+            * @param mixed $links
             * @param mixed $download the default value is 1
+            * @return mixed
             */
             function igk_google_zip_fontlist($links, $download = 1)
             {
@@ -658,10 +713,11 @@ function igk_google_init_css()
     });
     igk_sys_reg_referencedir(__FILE__, igk_dir(dirname(__FILE__) . "/Data/References"));
     if (!function_exists('igk_html_node_google_oauth_link')) {
-/**
-* Igk html node google oauth link.
-* @param mixed $tab
-*/
+        /**
+        * Igk html node google oauth link.
+        * @param mixed $tab
+        * @return mixed
+        */
 function igk_html_node_google_oauth_link($tab)
         {
             $n = igk_create_node("a");
@@ -690,11 +746,12 @@ function igk_html_node_google_oauth_link($tab)
         }
     }
     if (!function_exists('igk_html_node_google_oth2_button')) {
-/**
-* Igk html node google oth2 button.
-* @param mixed $url
-* @param mixed $gclient
-*/
+        /**
+        * Igk html node google oth2 button.
+        * @param mixed $url
+        * @param mixed $gclient
+        * @return mixed
+        */
 function igk_html_node_google_oth2_button($url, $gclient)
         {
             $n = igk_create_node("a");

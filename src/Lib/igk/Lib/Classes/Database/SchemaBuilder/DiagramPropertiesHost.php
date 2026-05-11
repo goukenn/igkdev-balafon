@@ -39,6 +39,7 @@ abstract class DiagramPropertiesHost{
     }
     /**
     * auto generate doc.
+    * @param ?array $DiagramProperties
     */
     public function addProperties(?array $DiagramProperties ){
         $_key = IGK_FD_NAME;

@@ -116,10 +116,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         return $this;
     }
     /**
-     * set website icons 
-     * @var string $href reference
-     * @var string expected type 
-     * */
+    * set website icons
+    * @param string $href
+    * @param mixed $type
+    * @var string $href reference
+    * @var string expected type
+    */
     public function setWebSiteIcon(string $href, $type='png'){
         if (is_null($this->m_site_icon)){
             $ln = $this->head()->link();
@@ -441,6 +443,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
     /**
     * auto generate doc.
+    * @param mixed $minfile
+    * @param mixed $export
     * @param mixed $reset the default value is 0
     */
     public function getTemporaryCssDef($minfile, $export, $reset = 0)
@@ -478,10 +482,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         return $this;
     }
     /**
-     * get document theme. depending on environment in case ops is null
-     * @return mixed|IGK\System\Html\Dom\HtmlDocTheme 
-     * @throws Exception
-     */
+    * get document theme. depending on environment in case ops is null
+    * @param ?bool $ops
+    * @throws Exception
+    * @return mixed|IGK\System\Html\Dom\HtmlDocTheme
+    */
     public function getTheme(?bool $ops = null)
     {
         $r = $this->m_theme;
@@ -533,7 +538,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function getCanAddChilds()
     {
@@ -630,6 +635,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     * @param mixed $id
+    * @param ?array $init_properties
     * @return IGKHtmlDoc
     */
     public static function CreateDocument($id, ?array $init_properties = null)
@@ -713,10 +719,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, $v_func, 0);
     }
     /**
-     * load temp extra script file. must be called out of rendering context. /!\\ Before
-     * @var string $file file or uri
-     * @var ?array $query_args extra args
-     */
+    * load temp extra script file. must be called out of rendering context. /!\\ Before
+    * @param string $file
+    * @param ?array $query_args
+    * @var string $file file or uri
+    * @var ?array $query_args extra args
+    */
     public function addTempScript(string $file, ?array $query_args = null)
     {
         if (!IGKValidator::IsUri($file))
@@ -840,15 +848,17 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initializedocument()
     {
         die(__("Not implement : {0}", __METHOD__));
     }
     /**
-     * file : relative path to file according to system base dir
-     */
+    * file : relative path to file according to system base dir
+    * @param string $file
+    * @param mixed $system
+    */
     public function addStyle(string $file, $system = false)
     {
         return $this->_addStyle($this->m_head, $file, $system);
@@ -902,6 +912,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
     /**
     * auto generate doc.
+    * @param ?string $uri
     */
     public function setCanonical(?string $uri)
     {
@@ -953,6 +964,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
     * auto generate doc.
     * @param mixed $name
+    * @param bool $stop_first
     * @return mixed|array
     */
     public function getElementsByTagName($name, bool $stop_first = false)

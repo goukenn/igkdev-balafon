@@ -28,8 +28,9 @@ class HtmlCodeNode extends HtmlNode{
         return $this;
     }
     /**
-     * treat inner content presentation
-     */
+    * treat inner content presentation
+    * @param string $content
+    */
     static function TreatContent(string $content){
         $sb = $content;
         $sb = preg_replace('/&/', '&amp;', $sb);

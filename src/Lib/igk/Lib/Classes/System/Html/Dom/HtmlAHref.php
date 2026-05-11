@@ -46,7 +46,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     /**
     * auto generate doc.
     * @param mixed $option
-    * @return
+    * @return mixed
     */
     private function _checkLnk($option)
     {

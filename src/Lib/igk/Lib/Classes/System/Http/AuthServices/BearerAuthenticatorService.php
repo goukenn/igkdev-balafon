@@ -13,9 +13,8 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http\AuthServices
 */
 /**
@@ -35,8 +34,9 @@ class BearerAuthenticatorService implements IAuthenticatorService{
         throw new NotImplementException(__METHOD__);    
     }
     /**
-     * create use profile from application'user
-     */
+    * create use profile from application'user
+    * @param ModelBase $app_user
+    */
     protected function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile{
         throw new NotImplementException(__METHOD__);
     }
@@ -50,6 +50,8 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     }
     /**
     * auto generate doc.
+    * @param Users $user
+    * @param BaseController $ctrl
     * @param bool $rememberme remember me
     * @return ?array token info
     */

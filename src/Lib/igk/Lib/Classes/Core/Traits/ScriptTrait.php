@@ -13,11 +13,10 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use IGKValidator;
-
 /**
- * 
- * @package IGK\Core\Traits
- */
+* auto generate doc.
+* @package IGK\Core\Traits
+*/
 /**
 * auto generate doc.
 * @package IGK\Core\Traits
@@ -42,11 +41,12 @@ trait ScriptTrait
         ];
     }
     /**
-     * get script content resolver
-     * @param bool $production 
-     * @return string|false 
-     * @throws IGKException 
-     */
+    * get script content resolver
+    * @param mixed $options
+    * @param bool $production
+    * @throws IGKException
+    * @return string|false
+    */
     public static function GetCoreScriptContent($options, $production = false)
     {
         return HtmlScriptLoader::LoadScripts(self::GetCoreScriptDirs(), $options, $production, igk_sys_js_exclude_dir());

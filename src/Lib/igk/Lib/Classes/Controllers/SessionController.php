@@ -26,7 +26,7 @@ use IGKEvents;
 final class SessionController extends BaseController{
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
@@ -254,7 +254,7 @@ final class SessionController extends BaseController{
     * auto generate doc.
     * @param mixed $o
     * @param mixed $e
-    * @return
+    * @return mixed
     */
     private function onSessionNewDocCreated($o, $e){
         if($e && !igk_const_defined('IGK_NO_SESSION_BUTTON')){

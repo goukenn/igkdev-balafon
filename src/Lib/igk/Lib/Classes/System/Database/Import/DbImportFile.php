@@ -7,9 +7,8 @@ use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGKCSVDataAdapter;
 use IGKException;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database\Import
 * @author C.A.D. BONDJE DOUE
 */
@@ -45,13 +44,14 @@ class DbImportFile{
         return self::_HandleJson($model, $file, $autoregister);
     }
     /**
-     * handle json db imports
-     * @param ModelBase $model 
-     * @param string $file 
-     * @param null|bool $autoregister 
-     * @return true|void 
-     * @throws IGKException 
-     */
+    * handle json db imports
+    * @param ModelBase $model
+    * @param string $file
+    * @param null|bool $autoregister
+    * @param ?string $entry
+    * @throws IGKException
+    * @return true|void
+    */
     protected static function _HandleJson(ModelBase $model, string $file, ?bool $autoregister, ?string $entry=null){
         if ($data = json_decode(file_get_contents($file))){
             if ($entry){
@@ -67,8 +67,10 @@ class DbImportFile{
         }
     }
     /**
-     * s
-     */
+    * s
+    * @param ModelBase $model
+    * @param string $file
+    */
     protected static function _HandleCsv(ModelBase $model, string $file){
         $data = [];
         $mapping = DbModelImporterMap::CreateFrom($model);

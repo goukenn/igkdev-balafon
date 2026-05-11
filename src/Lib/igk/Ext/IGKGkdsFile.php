@@ -38,7 +38,7 @@ final class IGKGkdsFile extends IGKObject
     public function getDocument(){return $this->m_document; }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
 	}
@@ -65,19 +65,19 @@ final class IGKGkdsFile extends IGKObject
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _restore(){
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _save(){
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _visit(){
 		foreach($this->m_document->Childs as  $v){

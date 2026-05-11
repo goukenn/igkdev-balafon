@@ -68,6 +68,7 @@ class Logger{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $arguments
     * @return void|mixed
     */

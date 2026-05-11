@@ -119,8 +119,11 @@ class MakeMigrationCommand extends AppExecCommand{
         return property_exists($command->options, '--all');
     }
     /**
-     * create a new migration
-     */
+    * create a new migration
+    * @param mixed $command
+    * @param ?BaseController $ctrl
+    * @param mixed ...$name
+    */
     public function migrate_new($command, ?BaseController $ctrl, ...$name){
         Logger::print('make new migration');
         if (is_null($ctrl)){

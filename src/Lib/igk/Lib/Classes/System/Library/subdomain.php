@@ -80,6 +80,7 @@ class subdomain{
     }
     /**
     * check for subdomain
+    * @param ?string $file
     */
     private function __checkSubDomain(?string $file){
         $uri=igk_io_fullrequesturi();

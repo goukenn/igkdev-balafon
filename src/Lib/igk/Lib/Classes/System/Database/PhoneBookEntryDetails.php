@@ -9,10 +9,10 @@ use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\IToJSon;
 /**
- * 
- * @package IGK\System\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Database
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Database

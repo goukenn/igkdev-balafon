@@ -26,6 +26,7 @@ trait InvokeMethodActionTrait{
     }
     /**
     * auto generate doc.
+    * @param string $function
     * @param array $arguments
     * @return mixed
     */

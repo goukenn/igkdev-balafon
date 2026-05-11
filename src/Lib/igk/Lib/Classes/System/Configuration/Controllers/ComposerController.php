@@ -86,7 +86,7 @@ class ComposerController extends ConfigControllerBase {
     /**
     * auto generate doc.
     * @param mixed $command
-    * @return
+    * @return mixed
     */
     private function _exec_command($command){
         $cmd = igk_io_packagesdir()."/composer.phar";

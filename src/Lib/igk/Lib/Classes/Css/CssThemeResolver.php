@@ -225,10 +225,11 @@ class CssThemeResolver
         return $value;
     }
     /**
-     * treat value
-     * @param string $value 
-     * @return string 
-     */
+    * treat value
+    * @param string $value
+    * @param bool $themeexport
+    * @return string
+    */
     public function treat(string $value, bool $themeexport = false)
     {
         // + | check not expression 
@@ -378,7 +379,7 @@ class CssThemeResolver
     * auto generate doc.
     * @param string $v
     * @param mixed & $pos
-    * @return
+    * @return mixed
     */
     private function _nextSplitter(string $v, & $pos){
         $ln = strlen($v);
@@ -398,8 +399,10 @@ class CssThemeResolver
         return false; 
     }
     /**
-     * treat css  value
-     */
+    * treat css  value
+    * @param string $v
+    * @param bool $themeexport
+    */
     public function treat_value(string $v, bool $themeexport)
     {
         $reg = IGK_CSS_TREAT_REGEX;
@@ -442,7 +445,7 @@ class CssThemeResolver
     * @param mixed $a
     * @param mixed $stop
     * @param bool $themeexport
-    * @return
+    * @return mixed
     */
     private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
     { 
@@ -742,7 +745,9 @@ class CssThemeResolver
     }
     /**
     * auto generate doc.
-    * @param IGK\Css\newColor #Parameter#d4a73315
+    * @param array $tv
+    * @param mixed $cl
+    * @param mixed $ncl
     * @return string
     */
     private function _detect_color(array $tv, $cl, $ncl){
@@ -766,7 +771,7 @@ class CssThemeResolver
     * auto generate doc.
     * @param mixed $ncl
     * @param bool $themeexport
-    * @return
+    * @return mixed
     */
     protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);

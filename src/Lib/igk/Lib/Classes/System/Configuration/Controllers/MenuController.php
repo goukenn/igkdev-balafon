@@ -78,6 +78,9 @@ final class MenuController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
+    * @param mixed $div
+    * @param mixed $selectedMenu
+    * @param mixed $key
     * @param mixed $remove the default value is IGK_STR_EMPTY
     */
     public function __getEditController($div, $selectedMenu, $key = "lb.Controller", $remove = IGK_STR_EMPTY)
@@ -104,6 +107,11 @@ final class MenuController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
+    * @param mixed $host
+    * @param mixed $ctrl
+    * @param mixed $target
+    * @param mixed $tab
+    * @param mixed $tname
     * @param mixed $selected the default value is null
     */
     private function __initBuildMenu($host, $ctrl, $target, $tab, $tname = "li", $selected = null)
@@ -245,6 +253,9 @@ final class MenuController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
+    * @param mixed & $e
+    * @param mixed $v_ctab
+    * @param mixed $cul
     * @param mixed $bygroup the default value is false
     */
     private function _initConfigMenu(&$e, $v_ctab, $cul, $bygroup = false)
@@ -286,7 +297,9 @@ final class MenuController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @param mixed * $pages the default value is null
+    * @param mixed $ul
+    * @param mixed $menu
+    * @param mixed & $pages
     */
     private function _initMenu($ul, $menu, &$pages = null)
     {
@@ -387,6 +400,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $table
     * @param mixed $oMenu the default value is null
     */
     private function _m_loadTableHeader($table, $oMenu = null)
@@ -641,6 +655,11 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $name
+    * @param mixed $ctrl
+    * @param mixed $target
+    * @param mixed $tab
+    * @param mixed $li
     * @param mixed $selected the default value is null
     */
     public function initCustomMenu($name, $ctrl, $target, $tab, $li = "li", $selected = null)
@@ -659,6 +678,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $force
     */
     protected static function initDb($force = false)
     {
@@ -947,6 +967,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $t
     * @param mixed $saveconfig the default value is true
     */
     public function reg_menu($t, $saveconfig = true)
@@ -1008,6 +1029,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $page
     * @param mixed $fromcontext the default value is null
     */
     public function selectConfigMenu($page, $fromcontext = null)
@@ -1025,6 +1047,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $page
     * @param mixed $index the default value is 0
     */
     public function selectGlobalMenu($page, $index = 0)
@@ -1117,6 +1140,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $page
     * @param mixed $index
     */
     public function setPage($page, $index)
@@ -1145,6 +1169,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $a
     * @param mixed $b
     */
     public function sortmenu($a, $b)

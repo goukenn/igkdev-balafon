@@ -45,7 +45,8 @@ class DbQueryCondition{
     }
     /**
     * auto generate doc.
-    * @param OR
+    * @param mixed $obj
+    * @param mixed $operand
     * @return void
     */
     public function __construct($obj, $operand='AND')
@@ -97,6 +98,7 @@ class DbQueryCondition{
     /**
     * auto generate doc.
     * @param array $list
+    * @param mixed $operand
     * @return static
     */
     public static function Create(array $list, $operand = self::OP_AND){

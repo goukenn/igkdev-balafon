@@ -49,13 +49,13 @@ if (!function_exists('igk_db_table_info')) {
     }
 }
 /**
- * helper: reload with index .
- * @param mixed $controllerOrAdapterName 
- * @param mixed $table 
- * @param mixed $dbname 
- * @param mixed $leaveOpen 
- *  
- */
+* helper: reload with index .
+* @param mixed $controllerOrAdapterName
+* @param mixed $table
+* @param mixed $dbname
+* @param mixed $leaveOpen
+* @return mixed
+*/
 function igk_db_reload_index($controllerOrAdapterName, $table, $dbname = null, $leaveOpen = false)
 {
     $adapt = igk_get_data_adapter($controllerOrAdapterName, false);
@@ -76,7 +76,14 @@ function igk_db_reload_index($controllerOrAdapterName, $table, $dbname = null, $
 }
 /**
 * auto generate doc.
+* @param mixed $s
+* @param mixed $actionName
+* @param mixed $strict
+* @param mixed $authTable
+* @param mixed $userGroupTable
+* @param mixed $userGroupAuthTable
 * @deprecated use direct IGK\Helper\AutorizationHelper
+* @return mixed
 */
 function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable = IGK_TB_AUTHORISATIONS, $userGroupTable = IGK_TB_USERGROUPS, $userGroupAuthTable = IGK_TB_GROUPAUTHS)
 {
@@ -129,9 +136,17 @@ function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable 
     return $v_r;
 }
 /**
- * insert in table if data not exists
- * @deprecated use direct model access
- */
+* insert in table if data not exists
+* @param mixed $controllerOrAdpaterName
+* @param mixed $table
+* @param mixed $entry
+* @param mixed $condition
+* @param mixed $dbname
+* @param mixed $leaveOpen
+* @param mixed $Op
+* @deprecated use direct model access
+* @return mixed
+*/
 function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $condition = null, $dbname = null, $leaveOpen = false, $Op = 'OR')
 {
     $adapt = igk_get_data_adapter($controllerOrAdpaterName, false);
@@ -175,11 +190,12 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
     return null;
 }
 /**
- * utility global function 
- * @param BaseController $ctrl 
- * @param array $entries 
- * @deprecated use direct Model access
- */
+* utility global function
+* @param BaseController $ctrl
+* @param array $entries
+* @deprecated use direct Model access
+* @return mixed
+*/
 function igk_db_insertc(BaseController $ctrl, $entries)
 {
     $tb = $ctrl->getDataTableName();
@@ -187,9 +203,13 @@ function igk_db_insertc(BaseController $ctrl, $entries)
     return $tb && $ad && $ad->insert($tb, $entries);
 }
 /**
- *  shortcut to add multiple entries on the table
- * @param mixed $strict  add stop if error dected
- */
+* shortcut to add multiple entries on the table
+* @param mixed $ad
+* @param mixed $table
+* @param mixed $entries
+* @param mixed $strict  add stop if error dected
+* @return mixed
+*/
 function igk_db_inserts($ad, $table, $entries, $strict = 1)
 {
     $error = 1;
@@ -203,7 +223,13 @@ function igk_db_inserts($ad, $table, $entries, $strict = 1)
 }
 /**
 * auto generate doc.
+* @param mixed $controllerOrAdpaterName
+* @param mixed $table
+* @param mixed $entries
+* @param mixed $dbname
+* @param mixed $leaveOpen
 * @deprecated use model entry class
+* @return mixed
 */
 function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = null, $leaveOpen = false)
 {
@@ -224,7 +250,9 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
 }
 /**
 * auto generate doc.
+* @param mixed $ctrl
 * @param mixed $leaveopen
+* @return mixed
 */
 function igk_db_last_id($ctrl, $leaveopen = false)
 {
@@ -244,6 +272,7 @@ function igk_db_last_id($ctrl, $leaveopen = false)
 /**
 * auto generate doc.
 * @param mixed $groups
+* @return mixed
 */
 function igk_db_init_groups($groups)
 {
@@ -253,6 +282,8 @@ function igk_db_init_groups($groups)
 }
 /**
 * auto generate doc.
+* @param mixed $auths
+* @return mixed
 */
 function igk_db_init_auths($auths)
 {
@@ -262,8 +293,13 @@ function igk_db_init_auths($auths)
     }
 }
 /**
- * grant system authorisation
- */
+* grant system authorisation
+* @param mixed $authname
+* @param mixed $groupname
+* @param mixed $access
+* @param mixed $ctrl
+* @return mixed
+*/
 function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
 {
     $auth = igk_db_table_select_row(igk_db_get_table_name(IGK_TB_AUTHORISATIONS), array(IGK_FD_NAME => $authname));
@@ -282,7 +318,9 @@ function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
 }
 /**
 * auto generate doc.
+* @param mixed $tb
 * @param mixed $dataobj
+* @return mixed
 */
 function igk_db_create_obj_from_infokey($tb, $dataobj = null)
 {
@@ -301,9 +339,13 @@ function igk_db_create_obj_from_infokey($tb, $dataobj = null)
     return null;
 }
 /**
- * return column info association keys
- * @deprecated
- */
+* return column info association keys
+* @param mixed $db
+* @param mixed $tablename
+* @param mixed & $autoinc
+* @deprecated
+* @return mixed
+*/
 function igk_db_column_info($db, $tablename, &$autoinc = null)
 {
     $t = igk_getv(igk_getv($db->Data, $tablename), "ColumnInfo");
@@ -319,6 +361,7 @@ function igk_db_column_info($db, $tablename, &$autoinc = null)
 /**
 * auto generate doc.
 * @param mixed $ctrlorName
+* @return mixed
 */
 function igk_db_close($ctrlorName)
 {
@@ -327,8 +370,10 @@ function igk_db_close($ctrlorName)
         $apt->close(false);
 }
 /**
- * close adapter
- */
+* close adapter
+* @param mixed $ctrlOrAdapterName
+* @return mixed
+*/
 function igk_db_close_adapter($ctrlOrAdapterName)
 {
     $ad = igk_get_data_adapter($ctrlOrAdapterName);
@@ -338,8 +383,11 @@ function igk_db_close_adapter($ctrlOrAdapterName)
 }
 if (!function_exists('igk_db_command_table')) {
     /**
-     * create table command 
-     */
+    * create table command
+    * @param BaseController $controller
+    * @param string $list
+    * @return mixed
+    */
     function igk_db_command_table(BaseController $controller, string $list)
     {
         $updated = false;
@@ -384,8 +432,12 @@ if (!function_exists('igk_db_command_table')) {
 // + |
 if (!function_exists('igk_db_command_column')) {
     /**
-     * add column definition to table
-     */
+    * add column definition to table
+    * @param BaseController $controller
+    * @param string $table
+    * @param string $columndef
+    * @return mixed
+    */
     function igk_db_command_column(BaseController $controller, string $table, string $columndef)
     {
         $search = [$table];
@@ -438,12 +490,12 @@ if (!function_exists('igk_db_command_column')) {
 }
 if (!function_exists('igk_db_parse_column_def_arg')) {
     /**
-     * parse column definition command argument
-     * @param string $column_definition 
-     * @param array<string,string> $column_definition 
-     * @return array 
-     * @example column[;column2[,type(length)],autoincrement,index,primary,description:];column3
-     */
+    * parse column definition command argument
+    * @param string $column_definition
+    * @param ?array $string_data
+    * @example column[;column2[,type(length)],autoincrement,index,primary,description:];column3
+    * @return array
+    */
     function igk_db_parse_column_def_arg(string $column_definition, ?array $string_data=null)
     {
         $string_data = $string_data ?? [];

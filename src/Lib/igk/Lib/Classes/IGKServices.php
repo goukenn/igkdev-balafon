@@ -152,12 +152,14 @@ class IGKServices extends ListOfCoreServices
         return null;
     }
     /**
-     * register service.
-     * @param string $serviceName 
-     * @param string $className a class that implement IAppService
-     * @return bool
-     * @throws IGKException 
-     */
+    * register service.
+    * @param string $serviceName
+    * @param string $className a class that implement IAppService
+    * @param ?array $args
+    * @param mixed $life_time
+    * @throws IGKException
+    * @return bool
+    */
     public static function Register(string $serviceName, string $className, ?array $args = null, $life_time = LifeTime::SINGLETON): bool
     {
         $instance = self::getInstance();
@@ -237,6 +239,8 @@ class IGKServices extends ListOfCoreServices
     }
     /**
     * auto generate doc.
+    * @param mixed $instance
+    * @param string $serviceName
     * @param string $className
     * @return mixed|void
     */
@@ -286,6 +290,7 @@ class IGKServices extends ListOfCoreServices
     }
     /**
     * auto generate doc.
+    * @param ReflectionClass $v_refclass
     * @param null|array $args
     * @return object|null
     */
@@ -326,6 +331,7 @@ class IGKServices extends ListOfCoreServices
     }
     /**
     * auto generate doc.
+    * @param mixed $configuration
     * @param string $gkey
     * @return mixed
     */
@@ -352,6 +358,7 @@ class IGKServices extends ListOfCoreServices
     }
     /**
     * auto generate doc.
+    * @param mixed $configuration
     * @param string $gkey
     * @return mixed
     */

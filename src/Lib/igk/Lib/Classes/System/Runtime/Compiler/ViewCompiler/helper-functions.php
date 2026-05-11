@@ -8,10 +8,11 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\ViewExtractArgHelper;
 
 if (!function_exists('igk_express_var')){
-/**
-* Igk express var.
-* @param mixed $name
-*/
+    /**
+    * Igk express var.
+    * @param mixed $name
+    * @return mixed
+    */
 function igk_express_var($name){
         $c = igk_environment()->peek(ViewEnvironmentArgs::class."/compiler_args");  
         if ( $c && isset($c->$name)){            
@@ -32,10 +33,11 @@ function igk_express_var($name){
     }
 }
 if (!function_exists('igk_php_expression')){
-/**
-* Igk php expression.
-* @param mixed $expression
-*/
+    /**
+    * Igk php expression.
+    * @param mixed $expression
+    * @return mixed
+    */
 function igk_php_expression($expression){
         return '<?= '.$expression.' ?>';
     }
@@ -63,10 +65,11 @@ if (!function_exists('igk_express_arg')){
 }
 if (!function_exists('igk_express_eval')){
     /**
-     * express evaluate expression 
-     * @param mixed $expression 
-     * @return string 
-     */
+    * express evaluate expression
+    * @param mixed $expression
+    * @param ?array $dependOn
+    * @return string
+    */
     function igk_express_eval($expression, ?array $dependOn=null){ 
         $g = new ViewExpressionEval($expression, $dependOn); 
         return $g; 
@@ -84,20 +87,20 @@ if (!function_exists('igk_express_in_var')){
 }
 if (!function_exists('igk_express_litteral_var')){
     /**
-     * express evaluate expression 
-     * @param mixed $expression 
-     * @return string 
-     */
+    * express evaluate expression
+    * @param string $name
+    * @return string
+    */
     function igk_express_litteral_var(string $name){  
         return '<?= $'.$name.' /* litteral var */ ?>';
     }
 }
 if (!function_exists('igk_eval_expression')){
     /**
-     * express evaluate expression 
-     * @param mixed $expression 
-     * @return string 
-     */
+    * express evaluate expression
+    * @param string $name
+    * @return string
+    */
     function igk_eval_expression(string $name){  
         igk_wln( __FILE__.":".__LINE__, "express", $name);
         return 180; 

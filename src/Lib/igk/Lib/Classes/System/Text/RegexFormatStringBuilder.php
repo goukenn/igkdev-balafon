@@ -48,9 +48,10 @@ class RegexFormatStringBuilder
     */
     var $noInlinePrefixComment;
     /**
-     * get tab display
-     * @return string 
-     */
+    * get tab display
+    * @param ?int $depth
+    * @return string
+    */
     public function tab(?int $depth=null):string
     {
         return str_repeat($this->tabStop, $depth ?? $this->depth);

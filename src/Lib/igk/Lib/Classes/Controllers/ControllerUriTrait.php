@@ -48,4 +48,13 @@ trait ControllerUriTrait {
             $out .= "&v=".$page;
         return $out;
     }
+    /**
+    * auto generate doc.
+    * @param string $uri
+    * @param mixed $node
+    * @return void
+    */
+    public function getUriAttachedToNode(string $uri, $node){
+        return $this->getUri($uri);
+    }
 }

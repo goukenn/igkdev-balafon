@@ -56,13 +56,14 @@ class CssParser implements ArrayAccess
     var $lineFeed = '';
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {}
     /**
-     * get json definition
-     * @return string|false 
-     */
+    * get json definition
+    * @param mixed $mode
+    * @return string|false
+    */
     public function to_json($mode = JSON_PRETTY_PRINT)
     {
         return json_encode($this->m_definition, $mode);
@@ -79,7 +80,7 @@ class CssParser implements ArrayAccess
     * auto generate doc.
     * @param mixed $d
     * @param mixed $k
-    * @return
+    * @return mixed
     */
     private static function _join_css_tab($d, $k)
     {
@@ -103,7 +104,7 @@ class CssParser implements ArrayAccess
     * auto generate doc.
     * @param string $content
     * @param null|mixed & $errors
-    * @return
+    * @return mixed
     */
     private static function __ReadDefinition(string $content, &$errors = null)
     {
@@ -396,7 +397,7 @@ class CssParser implements ArrayAccess
     * @param string $content
     * @param mixed & $pos
     * @param mixed $len
-    * @return
+    * @return mixed
     */
     private static function _ReadName(string $content, &$pos, $len)
     {
@@ -412,14 +413,14 @@ class CssParser implements ArrayAccess
         return $p;
     }
     /**
-     * start reading key frames
-     * @param string $content 
-     * @param int $pos 
-     * @param mixed $length 
-     * @param mixed $media 
-     * @param mixed $error 
-     * @return false|CssKeyFrame 
-     */
+    * start reading key frames
+    * @param string $content
+    * @param int & $pos
+    * @param int $pos
+    * @param mixed $length
+    * @param mixed & $error
+    * @return false|CssKeyFrame
+    */
     private static function _ReadKeyFrames(string $content, int &$pos, $length, $media, &$error)
     {
         $s = $pos;
@@ -441,7 +442,7 @@ class CssParser implements ArrayAccess
     * @param int $length
     * @param mixed $media
     * @param mixed & $error
-    * @return
+    * @return mixed
     */
     private static function _ReadSupport(string $content, int &$pos, int $length, $media, &$error)
     {
@@ -520,7 +521,7 @@ class CssParser implements ArrayAccess
     /**
     * auto generate doc.
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private function _get_size_def($name)
     {
@@ -673,7 +674,7 @@ class CssParser implements ArrayAccess
     * @param string $name
     * @param mixed $root
     * @param mixed $section
-    * @return
+    * @return mixed
     */
     private static function _ResolvColor(string $name, $root, $section)
     {

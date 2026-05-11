@@ -66,7 +66,7 @@ class CssThemeRenderer
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _renderSystemTheme()
     {

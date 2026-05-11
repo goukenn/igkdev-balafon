@@ -127,6 +127,7 @@ abstract class DbSchemas
     }
     /**
     * auto generate doc.
+    * @param mixed $schema
     * @param mixed $data
     * @return mixed
     */
@@ -140,6 +141,7 @@ abstract class DbSchemas
     }
     /**
     * auto generate doc.
+    * @param mixed $schema
     * @param mixed $data
     * @return mixed
     */
@@ -238,13 +240,14 @@ abstract class DbSchemas
         return $data;
     }
     /**
-     * get schema definition from node
-     * @param XmlNode $d schema definition node
-     * @param null|IGK\Controllers\BaseController $ctrl base controller 
-     * @param bool $resolvname ressolv name
-     * @return object 
-     * @throws IGKException 
-     */
+    * get schema definition from node
+    * @param XmlNode $d schema definition node
+    * @param null|IGK\Controllers\BaseController $ctrl base controller
+    * @param bool $resolvname ressolv name
+    * @param string $operation
+    * @throws IGKException
+    * @return object
+    */
     public static function GetDefinition(XmlNode $d, ?BaseController $ctrl = null, bool $resolvname = true, string $operation = DbSchemasConstants::Migrate)
     {
         $tables = array();
@@ -261,17 +264,18 @@ abstract class DbSchemas
         return (object)$output;
     }
     /**
-     * loadd schema array
-     * @param mixed $n 
-     * @param array $tables 
-     * @param array $tbrelations 
-     * @param array $migrations 
-     * @param array $entries 
-     * @param mixed $ctrl 
-     * @param bool $resolvname 
-     * @param bool $reload 
-     * @return mixed 
-     */
+    * loadd schema array
+    * @param mixed $n
+    * @param mixed & $tables
+    * @param mixed & $tbrelations
+    * @param mixed & $migrations
+    * @param mixed & $entries
+    * @param array $tables
+    * @param array $tbrelations
+    * @param mixed $operation
+    * @param array $migrations
+    * @return mixed
+    */
     public static function LoadSchemaArray(
         $n,
         &$tables,
@@ -308,9 +312,12 @@ abstract class DbSchemas
         return $v_result;
     }
     /**
-     * create and empty table row
-     * @return stdClass|null 
-     */
+    * create and empty table row
+    * @param string $tablename
+    * @param ?BaseController $ctrl
+    * @param mixed $dataobj
+    * @return stdClass|null
+    */
     public static function CreateRow(string $tablename, ?BaseController $ctrl = null, $dataobj = null): ?object
     {
         static $sm_cacheinfo = null;
@@ -362,10 +369,11 @@ abstract class DbSchemas
         return  DBCaches::GetColumnInfo($tablename, $ctrl);
     }
     /**
-     * create object from info Key refererence
-     * @param array<IDbColumnInfo>|object<IDbColumnInfo> $tableRowReference 
-     * @param mixed $dataobj object to reference of
-     */
+    * create object from info Key refererence
+    * @param array<IDbColumnInfo>|object<IDbColumnInfo> $tableRowReference
+    * @param mixed $dataobj object to reference of
+    * @param ?string $prefix
+    */
     public static function CreateObjFromInfo($tableRowReference, $dataobj = null, ?string $prefix = null): ?object
     {
         // + | --------------------------------------------------------------------

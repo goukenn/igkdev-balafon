@@ -20,6 +20,7 @@ class IGKObject {
     }
     /**
     * auto generate doc.
+    * @param string $name
     * @param mixed $value
     */
     public function __set(string $name, $value){
@@ -40,7 +41,8 @@ class IGKObject {
     }
     /**
     * auto generate doc.
-    * @param mixed * $value
+    * @param mixed $name
+    * @param mixed & $value
     */
     protected function _setIn($name, & $value){
         if(method_exists($this, $fc  = "set".ucfirst($name))){
@@ -51,6 +53,7 @@ class IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $event
     * @param mixed $method
     */
     public function callEvent($event, $method){
@@ -75,6 +78,9 @@ class IGKObject {
     */    protected function getCmpObj(){}
     /**
     * override this method to filter call of global method used to call internal function (protected)
+    * @param mixed $instance
+    * @param string $method
+    * @param ?array $args
     */
     public static function Invoke($instance, string $method, ?array $args=null){
         if(method_exists($instance, $method)){
@@ -89,6 +95,7 @@ class IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $value
     */
     public function regEvent($name, $value){

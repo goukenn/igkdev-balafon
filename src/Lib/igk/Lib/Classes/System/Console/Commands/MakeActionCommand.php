@@ -60,6 +60,9 @@ class MakeActionCommand extends AppExecCommand
     var $usage = 'controller action_name [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param ?string $controller
+    * @param ?string $action_name
     * @var string $actionName the action to create
     */
     public function exec($command, ?string $controller = null, ?string $action_name = null)
@@ -146,7 +149,7 @@ class MakeActionCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getContent()
     {
@@ -157,7 +160,7 @@ class MakeActionCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getUses()
     {

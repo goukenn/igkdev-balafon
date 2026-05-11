@@ -17,10 +17,11 @@ interface IHttpClient{
      */
     function getRequestHeaderResponse(): ?array;
     /**
-     * download url 
-     * @param string $url 
-     * @return mixed 
-     */
+    * download url
+    * @param string $url
+    * @param IHttpClientOptions $options
+    * @return mixed
+    */
     function download(string $url, IHttpClientOptions $options);
     /**
      * get data 

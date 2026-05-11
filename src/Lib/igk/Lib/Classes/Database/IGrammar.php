@@ -10,9 +10,12 @@ namespace IGK\Database;
 */
 interface IGrammar{
     /**
-     * create random query 
-     * @param string $column 
-     * @return string 
-     */
+    * create random query
+    * @param string $table
+    * @param string $column
+    * @param ?array $columns
+    * @param int $limit
+    * @return string
+    */
     function createRandomQueryTableOnColumn(string $table, string $column, ?array $columns=null, int $limit=1): ?string;
 }

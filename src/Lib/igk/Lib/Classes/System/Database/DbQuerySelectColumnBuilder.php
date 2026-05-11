@@ -55,6 +55,8 @@ class DbQuerySelectColumnBuilder{
     }
     /**
     * auto generate doc.
+    * @param mixed $index
+    * @param mixed $cl
     * @param mixed $value
     * @return void
     */
@@ -69,7 +71,7 @@ class DbQuerySelectColumnBuilder{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }

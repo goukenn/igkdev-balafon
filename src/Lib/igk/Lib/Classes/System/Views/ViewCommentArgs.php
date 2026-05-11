@@ -39,6 +39,7 @@ class ViewCommentArgs{
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
     /**
     * auto generate doc.
+    * @param string $comment
     * @param mixed $file
     * @return bool
     */
@@ -71,7 +72,7 @@ class ViewCommentArgs{
     /**
     * auto generate doc.
     * @param mixed $tab
-    * @return
+    * @return mixed
     */
     private function _parseToken($tab){
         $this->m_entries = [];
@@ -92,7 +93,7 @@ class ViewCommentArgs{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getViewCommandProcess(){
         return null; 
@@ -100,7 +101,7 @@ class ViewCommentArgs{
     /**
     * auto generate doc.
     * @param string $expression
-    * @return
+    * @return mixed
     */
     private function _evaluate(string $expression){
         $this->evalData($expression);

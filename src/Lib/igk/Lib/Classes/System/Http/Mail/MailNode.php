@@ -47,7 +47,7 @@ class MailNode extends MailNodeBase
     /**
     * auto generate doc.
     * @param mixed $v
-    * @return
+    * @return mixed
     */
     private function _get_style($v)
     {
@@ -56,7 +56,7 @@ class MailNode extends MailNodeBase
     /**
     * auto generate doc.
     * @param mixed $i
-    * @return
+    * @return mixed
     */
     private function _class_to_style($i)
     {

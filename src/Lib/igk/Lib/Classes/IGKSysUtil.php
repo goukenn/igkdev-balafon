@@ -35,7 +35,7 @@ abstract class IGKSysUtil
     const PRIMARY_PWD = '#_12549@abcdkqors';
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -48,11 +48,11 @@ abstract class IGKSysUtil
         return substr(str_shuffle(self::PRIMARY_PWD), 0, 9);
     }
     /**
-     * get model full type name 
-     * @param string $defined_table_name table name to get 
-     * @param ?BaseController $controller controller in use to the model type name
-     * @return string 
-     */
+    * get model full type name
+    * @param string $defined_table_name table name to get
+    * @param ?BaseController $ctrl
+    * @return string
+    */
     public static function GetModelTypeName(string $defined_table_name, ?BaseController $ctrl = null): string
     {
         $_NS = "";
@@ -65,11 +65,12 @@ abstract class IGKSysUtil
         return $_NS . $name;
     }
     /**
-     * return model type name
-     * @param mixed $tableinfo with defTableName key property
-     * @return null|string 
-     * @throws IGKException 
-     */
+    * return model type name
+    * @param mixed $tableinfo with defTableName key property
+    * @param mixed & $table
+    * @throws IGKException
+    * @return null|string
+    */
     public static function GetModelTypeNameFromInfo($tableinfo, & $table = null) :?string{
         $table = igk_getv($tableinfo, DbColumnInfoPropertyConstants::DefTableName);
         if (!empty($table)) {
@@ -79,6 +80,7 @@ abstract class IGKSysUtil
     }
     /**
     * auto generate doc.
+    * @param mixed $data
     * @param mixed $prefix
     * @return string
     */
@@ -124,6 +126,8 @@ abstract class IGKSysUtil
     /**
     * auto generate doc.
     * @param mixed $file
+    * @param mixed $v
+    * @param mixed & $tables
     * @return void
     */
     public static function GetDataDefinitionFromFile($file, $v = null, &$tables = null)
@@ -288,6 +292,7 @@ abstract class IGKSysUtil
     }
     /**
     * auto generate doc.
+    * @param array $inf
     * @param BaseController $ctrl
     * @return array
     */
@@ -321,6 +326,9 @@ abstract class IGKSysUtil
     }
     /**
     * auto generate doc.
+    * @param mixed $name
+    * @param mixed $info
+    * @param BaseController $ctrl
     * @param bool $extra
     * @return string
     */

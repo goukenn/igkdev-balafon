@@ -79,11 +79,11 @@ abstract class HtmlUtils extends DomNodeBase
         return HtmlNodeBuilder::Init($n, $data);
     }
     /**
-     * update core attribute from classes
-     * @param string $classes 
-     * @param array $attrib 
-     * @return void 
-     */
+    * update core attribute from classes
+    * @param string $classes
+    * @param array & $attribs
+    * @return void
+    */
     public static function UpdateCoreAttribute(string $classes, array &$attribs)
     {
         if (strstr($classes, 'no-contextmenu')) {
@@ -91,14 +91,11 @@ abstract class HtmlUtils extends DomNodeBase
         }
     }
     /**
-     * explode string tag expression and return array of [tagname, id, classes, name]
-     * @param string $tag string syntax \
-     * #[identifer] to set the id \
-     * %[identifier] to set the name \
-     * .[identifer] to set a class \
-     * ([expression]) to pass the expression as argument 
-     * @return array
-     */
+    * explode string tag expression and return array of [tagname, id, classes, name]
+    * @param string $tagname
+    * @param mixed $context
+    * @return array
+    */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
         return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);
@@ -122,8 +119,10 @@ abstract class HtmlUtils extends DomNodeBase
         return (new AttributeEncoder)->decode($value);
     }
     /**
-     * create a select option data
-     */
+    * create a select option data
+    * @param string $text
+    * @param mixed $value
+    */
     public static function SelectOption(string $text, $value = null)
     {
         $n = [];
@@ -162,20 +161,20 @@ abstract class HtmlUtils extends DomNodeBase
     /**
     * auto generate doc.
     * @param string $tagname
-    * @return
+    * @return mixed
     */
     private static function _copy_node_create_node_callback(string $tagname)
     {
         return igk_create_node($tagname);
     }
     /**
-     * copy node 
-     * @param mixed $g where to copy
-     * @param array|mixed $childs childrend
-     * @param callable<string $n, ?DomNodeBase $parent, &$skip = false> $callback callback to call  
-     * @param T total number of copied element
-     * @return mixed 
-     */
+    * copy node
+    * @param mixed $g where to copy
+    * @param array|mixed $childs childrend
+    * @param ?callable $callback
+    * @param mixed & $T
+    * @return mixed
+    */
     public static function CopyNode($g, $childs, ?callable $callback = null, &$T = 0)
     {
         if ($callback === null) {
@@ -392,8 +391,9 @@ abstract class HtmlUtils extends DomNodeBase
         };
     }
     /**
-     * retrieve allowed input type
-     */
+    * retrieve allowed input type
+    * @param mixed $type
+    */
     public static function GetInputType($type)
     {
         static $requireInput;
@@ -407,6 +407,13 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $target
+    * @param mixed $uri
+    * @param mixed $imgname
+    * @param mixed $width
+    * @param mixed $height
+    * @param mixed $desc
+    * @param mixed $attribs
     */
     public static function AddAnimImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
@@ -427,6 +434,10 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $target
+    * @param mixed $langkey
+    * @param mixed $uri
+    * @param mixed $attributes
     */
     public static function AddBtnLnk($target, $langkey, $uri, $attributes = null)
     {
@@ -441,6 +452,13 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $target
+    * @param mixed $uri
+    * @param mixed $imgname
+    * @param mixed $width
+    * @param mixed $height
+    * @param mixed $desc
+    * @param mixed $attribs
     */
     public static function AddImgLnk($target, $uri, $imgname, $width = "16px", $height = "16px", $desc = null, $attribs = null)
     {
@@ -454,6 +472,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $tr
     * @param mixed $targetid the default value is null
     */
     public static function AddToggleAllCheckboxTh($tr, $targetid = null)
@@ -506,6 +525,9 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $target
+    * @param mixed $items
+    * @param mixed $selected
     */
     public static function CreateConfigSubMenu($target, $items, $selected = null)
     {
@@ -523,6 +545,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $t
     */
     public static function GetAllChilds($t)
     {
@@ -540,6 +563,8 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $c
+    * @param mixed $context
     * @param bool $expression read in expression
     */
     public static function GetAttributeValue($c, $context = null, bool $expression = false)
@@ -566,6 +591,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $options the default value is null
     */
     public static function GetContentValue($n, $options = null)
@@ -613,9 +639,11 @@ abstract class HtmlUtils extends DomNodeBase
         return $tab;
     }
     /**
-     * return value according to string
-     * @return ?string 
-     */
+    * return value according to string
+    * @param mixed $c
+    * @param mixed $options
+    * @return ?string
+    */
     public static function GetValue($c, $options = null): ?string
     {
         $out = IGK_STR_EMPTY;
@@ -643,6 +671,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $v
     * @param mixed $options
     */
     public static function GetValueObj($v, $options)
@@ -670,6 +699,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $item
     * @param mixed $target
     */
     public static function MoveChilds($item, $target)
@@ -683,7 +713,9 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
-    * @param text
+    * @param mixed $id
+    * @param mixed $value
+    * @param mixed $type
     * @return \IGK\System\Html\Dom\HtmlNode
     */
     public static function nInput($id, $value = null, $type = "text")
@@ -702,6 +734,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
+    * @param mixed $id
     * @param mixed $value
     */
     public static function nTextArea($id, $value)
@@ -748,7 +781,11 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
     * auto generate doc.
-    * @param table_lightrow
+    * @param mixed $target
+    * @param mixed $type
+    * @param mixed $startAt
+    * @param mixed $class1
+    * @param mixed $class2
     */
     public static function ToggleTableClassColor($target, $type = "tr", $startAt = 0, $class1 = "table_darkrow", $class2 = "table_lightrow")
     {
@@ -944,14 +981,14 @@ abstract class HtmlUtils extends DomNodeBase
         return $c;
     }
     /**
-     * filter node element hook call.
-     * @param HtmlItemBase $node 
-     * @param array $args 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * filter node element hook call.
+    * @param HtmlItemBase & $node
+    * @param HtmlItemBase $node
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     public static function FilterNode(HtmlItemBase &$node, array $args)
     {
         $options = IGKEvents::CreateHookOptions();

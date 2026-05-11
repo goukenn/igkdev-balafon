@@ -19,8 +19,9 @@ class ArticleContentBindingHelper{
     */
     const PIPE_ARG_FORMAT = "#\{\{\s*(?P<property>%s)\s*((\|(?P<pipe>[^\}]+))?\s*)?\}\}#";
     /**
-     * get system binding array of 
-     */
+    * get system binding array of
+    * @param mixed $data
+    */
     public static function GetData($data): array{
         $v_result = [];
         if (!is_null($data)){
@@ -36,10 +37,11 @@ class ArticleContentBindingHelper{
         return $v_result;
     }
     /**
-     * get binding article - from current controller or SysDbController
-     * @param BaseController $ctrl 
-     * @return false|string 
-     */
+    * get binding article - from current controller or SysDbController
+    * @param BaseController $ctrl
+    * @param string $article
+    * @return false|string
+    */
     public static function GetBindingArticle(BaseController $ctrl, string $article){
         $sysdb = SysDbController::ctrl();
         $p = [$ctrl];

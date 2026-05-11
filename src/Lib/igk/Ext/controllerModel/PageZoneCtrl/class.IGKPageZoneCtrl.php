@@ -68,6 +68,7 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */
     protected function initComplete($context=null){
         parent::initComplete();

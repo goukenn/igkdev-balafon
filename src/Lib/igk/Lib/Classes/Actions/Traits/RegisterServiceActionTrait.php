@@ -15,8 +15,9 @@ use ReflectionMethod;
 */
 trait RegisterServiceActionTrait{
     /**
-     * register service
-     */
+    * register service
+    * @param string $t
+    */
     protected function registerService(string $t){
         $action = str_replace("-", "_", $t);
         if (method_exists($this, $action)){
@@ -27,7 +28,7 @@ trait RegisterServiceActionTrait{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function activate_mail(){
         $g = base64_decode(igk_getr("q"));
@@ -44,7 +45,7 @@ trait RegisterServiceActionTrait{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function unregister_mail(){
         $g = base64_decode(igk_getr("q"));

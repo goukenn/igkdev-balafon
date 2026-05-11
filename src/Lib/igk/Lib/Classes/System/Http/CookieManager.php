@@ -46,7 +46,7 @@ class CookieManager{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getdata(){
         $v_c = igk_environment()->getCookieName();
@@ -82,7 +82,7 @@ class CookieManager{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

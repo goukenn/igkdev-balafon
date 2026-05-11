@@ -66,11 +66,12 @@ class SchemaBuilderHelper{
         $this->m_last_column = $m;
     }
     /**
-     * migrate utility methods
-     * @param mixed|array|object $options with 'migrations' fields. 
-     * @return false 
-     * @throws IGKException 
-     */
+    * migrate utility methods
+    * @param mixed|array|object $options with 'migrations' fields.
+    * @param ?BaseController $controller
+    * @throws IGKException
+    * @return false
+    */
     public static function Migrate($options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{
@@ -89,11 +90,12 @@ class SchemaBuilderHelper{
         return false;
     }
     /**
-     * downgrade utility 
-     * @param ixed|array|object $options with migrations fields. 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * downgrade utility
+    * @param ixed|array|object $options with migrations fields.
+    * @param ?BaseController $controller
+    * @throws IGKException
+    * @return bool
+    */
     public static function Downgrade( $options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{

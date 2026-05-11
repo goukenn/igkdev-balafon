@@ -29,6 +29,7 @@ class DbDisplayExpression{
     }
     /**
     * auto generate doc.
+    * @param string $exp
     * @param mixed $row
     */
     public static function RenderDisplayExpression(string $exp, $row):string{

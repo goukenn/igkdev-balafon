@@ -126,7 +126,7 @@ final class HtmlMetaManager extends IGKObject{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initMetas(){
         $cnf=igk_app()->configs;
@@ -261,6 +261,7 @@ final class HtmlMetaManager extends IGKObject{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param array $attributes assoc array
     * @return void
     */

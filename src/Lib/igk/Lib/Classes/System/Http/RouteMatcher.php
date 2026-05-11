@@ -34,7 +34,7 @@ class RouteMatcher extends RouteHandler{
     /**
     * .ctr
     * @param mixed $controller
-    * @return
+    * @return mixed
     */
     private function __construct($controller)
     {   
@@ -86,9 +86,10 @@ class RouteMatcher extends RouteHandler{
         return __CLASS__;
     }
     /**
-     * handle all 
-     * @return mixed 
-     */
+    * handle all
+    * @param bool $throwException
+    * @return mixed
+    */
     public function checkAll(bool $throwException=true){
         /**
          * @var self $rc self
@@ -113,6 +114,7 @@ class RouteMatcher extends RouteHandler{
     }
     /**
     * auto generate doc.
+    * @param ?string $verb
     */
     public function check(?string $verb=null){
         $verb = $verb ?? igk_server()->REQUEST_METHOD;

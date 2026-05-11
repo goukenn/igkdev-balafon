@@ -10,22 +10,24 @@ use IGK\System\Http\Request;
 * auto generate doc.
 * @package IGK\Actions
 */
-interface IActionRequestValidator extends IDataValidator{    
+interface IActionRequestValidator extends IDataValidator{
     /**
-     * validate data 
-     * @param mixed $data data to validate
-     * @param array $mapper mapper array 
-     * @param mixed $requestData request data result 
-     * @param null|array $error error in case of false
-     * @return bool 
-     */
+    * validate data
+    * @param mixed $data data to validate
+    * @param array $mapper mapper array
+    * @param ?array $defaultValues
+    * @param ?array $not_required
+    * @param mixed & $requestData
+    * @param ?array & $error
+    * @return bool
+    */
     function validate($data, array $mapper,  ?array $defaultValues, ?array $not_required, & $requestData = null,  ?array & $error=null): bool;
     /**
-     * validate request json 
-     * @param IGK\Actions\Request $request 
-     * @param string $formdata_class 
-     * @param null|array $error 
-     * @return bool|mixed 
-     */
+    * validate request json
+    * @param IGK\Actions\Request $request
+    * @param string $formdata_class
+    * @param ?array & $error
+    * @return bool|mixed
+    */
     function validateJSon(Request $request, string $formdata_class, ?array & $error=null);
 }

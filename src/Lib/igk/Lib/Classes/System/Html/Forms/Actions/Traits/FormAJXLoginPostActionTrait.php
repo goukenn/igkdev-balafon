@@ -14,11 +14,10 @@ use IGK\System\Http\WebResponse;
 use IGKActionBase;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Html\Forms\Actions\Traits
- */
+* auto generate doc.
+* @package IGK\System\Html\Forms\Actions\Traits
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Html\Forms\Actions\Traits
@@ -49,6 +48,7 @@ trait FormAJXLoginPostActionTrait
     }
     /**
     * auto generate doc.
+    * @param Request $request
     * @param IAuthenticatorService $authenticator
     * @return mixed
     */

@@ -6,9 +6,8 @@
 namespace IGK\Database\Macros;
 use IGK\Models\Connections;
 use IGK\Models\Users;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Database\Macros
 * @author C.A.D. BONDJE DOUE
 */

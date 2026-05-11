@@ -13,10 +13,11 @@ use function igk_resources_gets as __;
  */
 class PasswordValidator extends FormFieldValidatorBase implements IFormValidator{
     /**
-     * assert validation 
-     * @param mixed $value 
-     * @return bool 
-     */
+    * assert validation
+    * @param mixed $value
+    * @param ?FieldInfo $fieldInfo
+    * @return bool
+    */
     public function assertValidate($value, ?FieldInfo $fieldInfo = null): bool { 
         if (!is_string($value)) return false;
         $v_min = IGK_PWD_LENGTH;
@@ -43,13 +44,13 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
         return $f;
     }
     /**
-     * validate from 
-     * @param mixed $value val
-     * @param mixed $default 
-     * @param mixed $fieldinfo 
-     * @param array $error 
-     * @return null|mixed passing value or mixed 
-     */
+    * validate from
+    * @param mixed $value val
+    * @param mixed $default
+    * @param mixed & $error
+    * @param ?object $options
+    * @return null|mixed passing value or mixed
+    */
     protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
         $fieldinfo = $fieldinfo ?? $this->_initFieldRequirement();
         if (empty($value)){

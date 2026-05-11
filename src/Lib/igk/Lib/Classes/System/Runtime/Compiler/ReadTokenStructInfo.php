@@ -165,9 +165,10 @@ class ReadTokenStructInfo
         $sb->append("}");  
     }
     /**
-     * get the generated output
-     * @return mixed 
-     */
+    * get the generated output
+    * @param ?IReadTokenMergeOption $options
+    * @return mixed
+    */
     public function output(?IReadTokenMergeOption $options=null){ 
         $bck = & $this->buffer ;
         $this->m_output = "";

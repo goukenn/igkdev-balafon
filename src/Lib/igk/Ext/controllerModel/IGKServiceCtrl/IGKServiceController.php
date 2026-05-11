@@ -37,7 +37,7 @@ abstract class IGKServiceController
     /**
     * auto generate doc.
     * @param mixed $method
-    * @return
+    * @return mixed
     */
     private function __getMethodParameter($method){
         if(empty($method) || !method_exists($this, $method))
@@ -49,7 +49,7 @@ abstract class IGKServiceController
     * auto generate doc.
     * @param mixed $new
     * @param null|mixed $funcrequest
-    * @return
+    * @return mixed
     */
     private function _getAvailableFuncs($new=false, $funcrequest=null){ 
         return $this->getExposedServiceFunction(); 
@@ -70,7 +70,7 @@ abstract class IGKServiceController
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _viewDoc(){ 
         $doc=igk_get_document(self::DOC_ID, true);
@@ -205,7 +205,7 @@ abstract class IGKServiceController
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function generate_wsdl(){
         $b=$this->getWsdlFile();
@@ -494,7 +494,7 @@ EOF;
     protected function pageFolderChanged(){    }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function register_service(){
         $c="^/".IGK_SERVICE_BASE_URI."/".$this->getServiceName();

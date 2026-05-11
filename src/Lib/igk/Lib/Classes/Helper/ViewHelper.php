@@ -102,6 +102,7 @@ class ViewHelper
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $default
     * @return mixed
     */
@@ -171,11 +172,11 @@ class ViewHelper
         return $dir;
     }
     /**
-     * must handle a form class 
-     * @param string $name 
-     * @param ActionFormOptions|array $name 
-     * @return null|callable 
-     */
+    * must handle a form class
+    * @param string $name
+    * @param mixed $options
+    * @return null|callable
+    */
     public static function Form(string $name, $options = null)
     {
         $handler = self::GetViewArgs("action_handler");
@@ -200,7 +201,7 @@ class ViewHelper
     /**
     * auto generate doc.
     * @param null|mixed $args
-    * @return
+    * @return mixed
     */
     private static function _GetIncArgs($args = null)
     {
@@ -431,15 +432,15 @@ class ViewHelper
         return $n;
     }
     /**
-     * force directory entry
-     * @param BaseController $ctrl 
-     * @param string $fname 
-     * @param mixed $redirect_request 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * force directory entry
+    * @param BaseController $ctrl
+    * @param string $fname
+    * @param mixed & $redirect_request
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         return ControllerExtension::forceDirEntry($ctrl, $fname, $redirect_request);
@@ -491,11 +492,12 @@ class ViewHelper
         return  igk_environment()->last(IGKEnvironmentConstants::VIEW_FILE_CACHES);
     }
     /**
-     * get included file directory
-     * @return string 
-     * @throws IGKException 
-     * @throws Deprecated 
-     */
+    * get included file directory
+    * @param ?string $path
+    * @throws IGKException
+    * @throws Deprecated
+    * @return string
+    */
     public static function Dir(?string $path = null): ?string
     {
         if ($file = self::File()) {
@@ -570,6 +572,7 @@ class ViewHelper
     }
     /**
     * auto generate doc.
+    * @param ?string $filter_context
     * @return mixed|ViewEnvironmentArgs
     */
     public static function GetViewContextArgs(?string $filter_context = null)
@@ -621,14 +624,14 @@ class ViewHelper
         return $f;
     }
     /**
-     * resolv view file and get attached params
-     * @param string $viewDir root view directory
-     * @param string $view demand
-     * @param string $file file
-     * @param int $check enable check
-     * @param mixed $param params to return
-     * @return null|string 
-     */
+    * resolv view file and get attached params
+    * @param string $viewDir root view directory
+    * @param string $view demand
+    * @param string $f
+    * @param mixed $checkfile
+    * @param mixed & $param
+    * @return null|string
+    */
     public static function ResolveViewFile(string $viewDir, string $view, string $f, $checkfile = 1, &$param = null): ?string
     {
         $s = null;
@@ -677,8 +680,11 @@ class ViewHelper
         return $s;
     }
     /**
-     * resolve default extension 
-     */
+    * resolve default extension
+    * @param string $dir
+    * @param array $extsupport
+    * @param string $view
+    */
     public static function ResolveDefaultView(string $dir, array $extsupport, string $view = IGK_DEFAULT_VIEW){
         $g = self::_AppendExtension($dir.'/'. $view, $extsupport);
         while(count($g)>0){
@@ -693,7 +699,7 @@ class ViewHelper
     * auto generate doc.
     * @param string $path
     * @param array $exts
-    * @return
+    * @return mixed
     */
     private static function _AppendExtension(string $path, array $exts)
     {
@@ -728,14 +734,16 @@ class ViewHelper
         return $rsc;
     }
     /**
-     * load current theme  
-     * @return void 
-     * @throws Exception 
-     * @throws NotFoundExceptionInterface 
-     * @throws ContainerExceptionInterface 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
+    * load current theme
+    * @param HtmlDocTheme $theme
+    * @param ?BaseController $ctrl
+    * @throws Exception
+    * @throws NotFoundExceptionInterface
+    * @throws ContainerExceptionInterface
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @return void
+    */
     static function LoadCurrentTheme(HtmlDocTheme $theme, ?BaseController $ctrl = null)
     {
         $ctrl = $ctrl ?? self::CurrentCtrl();

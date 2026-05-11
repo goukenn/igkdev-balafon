@@ -145,6 +145,8 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
     /**
     * auto generate doc.
+    * @param mixed $query
+    * @param IDataDriver $driver
     * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase $model source model
     * @return MYSQLQueryFetchResult
     */

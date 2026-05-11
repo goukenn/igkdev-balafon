@@ -24,13 +24,14 @@ abstract class FormFieldValidatorBase implements IFormValidator{
      */
     protected $m_allowNull;
     /**
-     * validate field 
-     * @param mixed|FormValidationParam $value 
-     * @param mixed $default 
-     * @param array $error 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * validate field
+    * @param mixed|FormValidationParam $value
+    * @param mixed $default
+    * @param mixed & $error
+    * @param mixed ...$extra
+    * @throws IGKException
+    * @return mixed
+    */
     final
     public function validate($value, $default=null, & $error=[], ...$extra){
         $v_is_require = false;
@@ -65,13 +66,13 @@ abstract class FormFieldValidatorBase implements IFormValidator{
         return $v_output; 
     }
     /**
-     * effective validate data
-     * @param mixed $value value data to validate
-     * @param mixed $default the default value in case of not valid data if required
-     * @param array $error error data 
-     * @param null|object $options extra options
-     * @return mixed 
-     */
+    * effective validate data
+    * @param mixed $value value data to validate
+    * @param mixed $default the default value in case of not valid data if required
+    * @param array & $error
+    * @param array $error error data
+    * @return mixed
+    */
     protected abstract function _validate($value, $default=null, array & $error=[], ?object $options=null);
     /**
      * factory form field creation validator

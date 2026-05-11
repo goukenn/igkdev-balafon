@@ -11,6 +11,10 @@ namespace IGK\System\Console;
 * @author C.A.D. BONDJE DOUE
 * @property object $options 
 */
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 interface ICommandInfo{
 
 }

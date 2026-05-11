@@ -32,7 +32,7 @@ class InvocatorListDelegate{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

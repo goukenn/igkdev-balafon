@@ -16,12 +16,11 @@ use IGK\System\Http\WebResponse;
 trait ApiConnectTrait
 {
     /**
-     * bearer connect
-     * @responses()
-     * @security(['BearerAuth'])
-     * @request({"login":{"type":"string"}, "password":{"type":"string", "format":"password"}})
-     * @return Reponse
-     */
+    * bearer connect
+    * @param Request $request
+    * @param BaseController $ctrl
+    * @return Reponse
+    */
     public function connect_post(Request $request, BaseController $ctrl)
     {
         try {

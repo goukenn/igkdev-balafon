@@ -5,10 +5,11 @@
 // @desc: document helper 
 
 if (!function_exists('igk_doc_interface')){
-/**
-* Igk doc interface.
-* @param mixed $obj
-*/
+    /**
+    * Igk doc interface.
+    * @param mixed $obj
+    * @return mixed
+    */
 function igk_doc_interface($obj){
         $r = is_array($obj) ? $obj : array_keys((array)$obj);
         sort($r);

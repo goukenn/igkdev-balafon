@@ -5,12 +5,11 @@
 // @desc: 
 namespace IGK\XSD;
 use ArrayAccess;
-use Exception; 
-
+use Exception;
 /**
- * 
- * @package IGK\XSD
- */
+* auto generate doc.
+* @package IGK\XSD
+*/
 /**
 * auto generate doc.
 * @package IGK\XSD
@@ -101,9 +100,10 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         return $this->m_node->render();
     }
     /**
-     * add type element
-     * @return XsdElementBuilder
-     */
+    * add type element
+    * @param mixed $name
+    * @return XsdElementBuilder
+    */
     public function addElement($name):XsdElementBuilder{
         $n = $this->m_node->add("xs:element")->setAttribute("name", $name);
         return XsdElementBuilder::Create($n, $this);
@@ -127,7 +127,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     * @param mixed $items
     * @param mixed $tag
     * @param mixed $itemTag
-    * @return
+    * @return mixed
     */
     private function _buildGroup($name, $items, $tag="xs:group", $itemTag="xs:sequence"){
         $e = $this->m_node->add($tag)->setAttribute("name", $name);
@@ -201,6 +201,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $type white space type
     * @return $this
     */
@@ -226,11 +227,13 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         return $this;
     }
     /**
-     * define complex type
-     * @param mixed $name 
-     * @param mixed|array $sequences 
-     * @return XsdBuilder 
-     */
+    * define complex type
+    * @param mixed $name
+    * @param mixed|array $sequences
+    * @param mixed $attributes
+    * @param mixed $ctype
+    * @return XsdBuilder
+    */
     public function addComplexTypeElement($name, $sequences = [], $attributes =null, $ctype=
     XsdBuilderUtility::SEQUENCE): XsdBuilder{
         $e = XsdBuilderUtility::BuildComplexType($this->m_node, $sequences, $ctype);

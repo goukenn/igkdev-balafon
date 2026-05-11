@@ -181,7 +181,7 @@ HTML;
     * @param mixed $template
     * @param mixed $data
     * @param null|BaseController $ctrl
-    * @return
+    * @return mixed
     */
     private function _bind_article($template, $data, ?BaseController $ctrl = null)
     {

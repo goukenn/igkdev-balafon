@@ -115,10 +115,10 @@ class HtmlCssLinkNode extends HtmlNode{
         return $this->ln["type"];
     }
     /**
-     * Returns null to suppress inner HTML output for this node.
-     * @param mixed $option Render options.
-     * @return null
-     */
+    * Returns null to suppress inner HTML output for this node.
+    * @param mixed & $option
+    * @return null
+    */
     protected function innerHTML(& $option=null){
         return null;
     }

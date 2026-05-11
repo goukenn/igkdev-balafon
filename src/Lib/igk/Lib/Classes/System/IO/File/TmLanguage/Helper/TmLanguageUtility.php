@@ -11,12 +11,11 @@ use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\IO\File\TmLanguage\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage\Helper
@@ -45,6 +44,8 @@ abstract class TmLanguageUtility
     }
     /**
     * auto generate doc.
+    * @param mixed $container
+    * @param mixed $v
     * @param null|ITmLanguageLoaderListener $listener
     * @return mixed
     */
@@ -120,6 +121,9 @@ abstract class TmLanguageUtility
     }
     /**
     * auto generate doc.
+    * @param mixed $repository
+    * @param RegexMatcherContainer $container
+    * @param mixed & $v_trepos
     * @param null|ITmLanguageLoaderListener $listener
     * @return void
     */
@@ -137,6 +141,7 @@ abstract class TmLanguageUtility
     /**
     * auto generate doc.
     * @param string $file
+    * @param ?ITmLanguageLoaderListener $listener
     * @return RegexMatcherContainer
     */
     public static function CreateRegexMatcherContainerFromFile(string $file, ?ITmLanguageLoaderListener $listener = null)
@@ -145,14 +150,15 @@ abstract class TmLanguageUtility
         return $json_data ? self::CreateRegexMatcherContainerFromData($json_data, $listener) : null;
     }
     /**
-     * create regex match container from data
-     * @param mixed $json_data 
-     * @return RegexMatcherContainer 
-     * @throws Exception 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * create regex match container from data
+    * @param mixed $json_data
+    * @param ?ITmLanguageLoaderListener $listener
+    * @throws Exception
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return RegexMatcherContainer
+    */
     public static function CreateRegexMatcherContainerFromData($json_data, ?ITmLanguageLoaderListener $listener = null)
     {
         list($scope, $patterns, $repository) = igk_extract($json_data, '$scope|patterns|repository');

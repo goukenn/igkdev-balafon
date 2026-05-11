@@ -3,9 +3,8 @@
 // @file: Regex.php
 // @date: 20260204 09:30:05
 namespace IGK\System\Text;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

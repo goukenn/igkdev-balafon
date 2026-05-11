@@ -29,8 +29,11 @@ class FixCssCommand extends AppExecCommand{
     */
     var $desc = "fix css file";
     /**
-     * exec the command
-     */
+    * exec the command
+    * @param mixed $command
+    * @param mixed $path
+    * @param mixed $ctrl
+    */
     public function exec($command, $path=null, $ctrl=null)
     { 
         Logger::info("fix css file");
@@ -135,7 +138,7 @@ class ExpressionHandler{
     /**
     * auto generate doc.
     * @param mixed $arguments
-    * @return
+    * @return mixed
     */
     private static function get_arg_s($arguments){
         return array_map(function($v){

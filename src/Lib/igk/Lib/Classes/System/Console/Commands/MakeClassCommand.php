@@ -92,6 +92,7 @@ class MakeClassCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param mixed $file
     * @return void
     */
@@ -138,6 +139,7 @@ class MakeClassCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
+    * @param string $path
     * @param mixed $extensions
     * @return string|null
     */
@@ -153,7 +155,7 @@ class MakeClassCommand extends AppExecCommand
     }
     /**
     * auto generate doc.
-    * @param null|{name:string, defs: template}
+    * @param mixed $type
     * @return mixed
     */
     protected function resolveTypeDefinition($type)
@@ -189,8 +191,11 @@ class MakeClassCommand extends AppExecCommand
         Logger::print('');
     }
     /**
-     * exec command
-     */
+    * exec command
+    * @param mixed $command
+    * @param mixed $class_path
+    * @param ?string $definition
+    */
     public function exec($command, $class_path = null, ?string $definition = null)
     { 
         if ($scaffold_help = igk_getv($command->options, '--scaffold')){

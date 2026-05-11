@@ -141,7 +141,9 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
-    * @param mixed $template template
+    * @param mixed $reader
+    * @param mixed & $cnode
+    * @param mixed & $template
     * @return int
     */
     private static function _BindTemplate($reader, &$cnode, &$template)
@@ -227,7 +229,7 @@ final class HtmlReader extends IGKObject
     /**
     * .ctr
     * @param mixed $text
-    * @return
+    * @return mixed
     */
     private function __construct($text)
     {
@@ -245,14 +247,14 @@ final class HtmlReader extends IGKObject
         ];
     }
     /**
-     * read name
-     * @param mixed $text 
-     * @param mixed $length length to read
-     * @param mixed $offset move position to the last read char
-     * @param mixed $eval_context 
-     * @param bool $expressionRead 
-     * @return string 
-     */
+    * read name
+    * @param mixed $text
+    * @param mixed $length length to read
+    * @param mixed & $offset
+    * @param mixed $offset move position to the last read char
+    * @param mixed & $expressionRead
+    * @return string
+    */
     private static function _ReadName($text, $length, &$offset, $eval_context, &$expressionRead = false)
     {
         $expressionRead = false;
@@ -281,6 +283,11 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $reader
+    * @param string $text
+    * @param mixed & $offset
+    * @param string $tag
+    * @param bool $replacement
     * @param bool $replace_expression
     * @return string
     */
@@ -579,22 +586,23 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param string $name
-    * @return
+    * @return mixed
     */
     private static function _SupportSingleQuote(string $name)
     {
         return in_array($name, ['code', 'script']);
     }
     /**
-     * replace litteral expression 
-     * @param mixed $reader 
-     * @param string $v 
-     * @param bool $replace_expression 
-     * @return string 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * replace litteral expression
+    * @param mixed $reader
+    * @param string $v
+    * @param bool $replace_expression
+    * @param mixed $skip
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return string
+    */
     private static function _ReplaceLitteralExpression($reader, string $v, bool $replace_expression, $skip = true): string
     {
         if (self::_ReplaceDetectedExpression(
@@ -687,6 +695,10 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $reader
+    * @param mixed $text
+    * @param mixed & $v
+    * @param bool $transformToEval
     * @param bool $skip skip detected expression : transform to
     * @return bool
     */
@@ -728,7 +740,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $n
     * @param mixed $tab
     * @param mixed $args
-    * @return
+    * @return mixed
     */
     private function _addNode($cnode, $n, $tab, $args)
     {
@@ -751,7 +763,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $topnode
     * @param mixed $cnode
     * @param mixed $node
-    * @return
+    * @return mixed
     */
     private static function _AddToParent($topnode, $cnode, $node)
     {
@@ -769,7 +781,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $n
     * @param mixed $k
     * @param mixed $cnode
-    * @return
+    * @return mixed
     */
     private function _appendResolvNode($n, $k, $cnode)
     {
@@ -786,7 +798,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $name
     * @param mixed $tab_doc
     * @param mixed $pargs
-    * @return
+    * @return mixed
     */
     private static function _BuildNode(HtmlReader $reader, $cnode, $name, $tab_doc, $pargs)
     {
@@ -807,7 +819,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $cnode
     * @param mixed $tag
     * @param null|mixed $peekData
-    * @return
+    * @return mixed
     */
     private function _LoadComplete($cnode, $tag, $peekData = null)
     {
@@ -863,7 +875,10 @@ final class HtmlReader extends IGKObject
         return $cnode;
     }
     /**
-    * manual attribute reading 
+    * manual attribute reading
+    * @param self $reader
+    * @param mixed & $v
+    * @param mixed & $attribs
     * @param mixed $callback
     * @return bool
     */
@@ -1054,6 +1069,8 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param self $reader
+    * @param mixed $tab_doc
     * @param string $caller_context from Load|LoadExpression
     * @return void
     */
@@ -1277,6 +1294,10 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $reader
+    * @param mixed & $v_tags
+    * @param mixed & $cnode
+    * @param mixed $tab_doc
     * @param mixed $caller_context
     * @return void
     */
@@ -1380,7 +1401,10 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
-    * @param mixed $krsv
+    * @param mixed $n
+    * @param mixed $cnode
+    * @param mixed & $v_tags
+    * @param mixed & $krsv
     * @return void
     */
     private static function _ShifSetting($n, $cnode, &$v_tags, &$krsv)
@@ -1405,7 +1429,7 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function CanRead()
     {
@@ -1551,7 +1575,7 @@ final class HtmlReader extends IGKObject
     * auto generate doc.
     * @param mixed & $node
     * @param string $tagName
-    * @return
+    * @return mixed
     */
     private function IsResolved(&$node, string $tagName)
     {
@@ -1577,6 +1601,8 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param string $text
+    * @param mixed $context
     * @param callable $listener creator to call
     */
     public static function Load(string $text,  $context = null, ?callable $listener = null)
@@ -1660,7 +1686,7 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param mixed $context
-    * @return
+    * @return mixed
     */
     private static function _PushContext($context)
     {
@@ -1668,7 +1694,7 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _PopContext()
     {
@@ -1701,6 +1727,9 @@ final class HtmlReader extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $binfo
+    * @param mixed $fc_attrib
+    * @param mixed & $v_expressions
     * @param mixed $context
     * @return Closure(mixed $k
     */
@@ -1987,7 +2016,7 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param null|string $value
-    * @return
+    * @return mixed
     */
     private function _setText(?string $value = "")
     {
@@ -2000,7 +2029,7 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param mixed $value
-    * @return
+    * @return mixed
     */
     public static function ReadAttributes($value)
     {
@@ -2026,7 +2055,7 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param mixed $reader
-    * @return
+    * @return mixed
     */
     private static function _ReadProcessText($reader)
     {
@@ -2125,7 +2154,7 @@ final class HtmlReader extends IGKObject
     /**
     * auto generate doc.
     * @param mixed $context
-    * @return
+    * @return mixed
     */
     private function setContext($context)
     {

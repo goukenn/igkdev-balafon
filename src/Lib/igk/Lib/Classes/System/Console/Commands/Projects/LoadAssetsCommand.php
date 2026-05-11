@@ -17,7 +17,12 @@ use IGK\System\IO\Path;
 * @package IGK\System\Console\Commands\Projects
 */
 class LoadAssetsCommand extends AppExecCommand{
-	var $command='--project:store-asset';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command='--project:store-asset';
     /**
     * auto generate doc.
     * @var mixed
@@ -33,7 +38,7 @@ class LoadAssetsCommand extends AppExecCommand{
     * @param null|string $controller
     * @param null|string $file
     * @param mixed $algo
-    * @return
+    * @return mixed
     */
     public function exec($command, ?string $controller=null, ?string $file=null, $algo='crc32b') { 
 		$ctrl = self::GetController($controller) ?? igk_die('missing controller');

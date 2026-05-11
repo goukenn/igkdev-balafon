@@ -24,7 +24,7 @@ trait IGKMediaArrayAccessTrait
     }
     /**
     * auto generate doc.
-    * @param mixed $n
+    * @param mixed $key
     */
     public function offsetGet(mixed $key):mixed{
         $g=$this->getFlag(self::DEFAULT_THEME);
@@ -35,6 +35,7 @@ trait IGKMediaArrayAccessTrait
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function offsetSet($n, $v):void{

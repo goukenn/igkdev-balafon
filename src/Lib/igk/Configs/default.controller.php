@@ -16,9 +16,5 @@ return array(
     "clTargetNodeIndex" => 0,
     "clVisiblePages" => "*",
     "clDescription" => null,
-    /**
-     * auto cache view. when caching in controller is active. view will
-     * be pre-evaluate
-     */
     "no_auto_cache_view"=>0
 );

@@ -15,10 +15,17 @@ use function igk_resources_gets as __;
 * @package IGK\Services\Traits
 */
 trait MailServiceTrait{
-      /**
-     * send mail 
-     * @return void 
-     */
+    /**
+    * send mail
+    * @param BaseController $controller
+    * @param string $to
+    * @param string $subject
+    * @param string $file_or_article
+    * @param ?array $data
+    * @param ?string $from
+    * @param ?string $mail_title
+    * @return void
+    */
     public function sendMail(
         BaseController $controller, 
         string $to, 

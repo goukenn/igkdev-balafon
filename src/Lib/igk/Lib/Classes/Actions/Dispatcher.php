@@ -123,10 +123,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return false;
     }
     /**
-     * auto generate doc.
-     * @param mixed $args
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param callable $fc
+    * @param mixed ...$args
+    * @return mixed
+    */
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
@@ -165,14 +166,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return (new static(null))->$name(...$args);
     }
     /**
-     * Invoke.
-     * @param string $name
-     * @param mixed ...$args
-     */
+    * Invoke.
+    * @param string $name
+    * @param mixed ...$args
+    */
     public function invoke(string $name, ...$args)
     {
         return $this->__call($name, $args);
     }
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private static $sm_dispatcher_host;
     /**
      * Triggered when calling an inaccessible or undefined method on an object.
@@ -203,23 +209,25 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         throw new ActionNotFoundException($name);
     }
     /**
-     * auto generate doc.
-     * @param mixed $args
-     * @return void
-     */
+    * auto generate doc.
+    * @param ReflectionFunctionAbstract $g
+    * @param mixed & $args
+    * @return void
+    */
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
         $args = self::GetInjectArgs($g, $args);
     }
     /**
-     * get argument to inject or dispatch
-     * @param mixed $parameters 
-     * @param mixed $args 
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * get argument to inject or dispatch
+    * @param mixed $parameters
+    * @param mixed $args
+    * @param ?IInjectedArgHost $host
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array
+    */
     public static function GetInjectArgsByParameters($parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -247,10 +255,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return $targs;
     }
     /**
-     * auto generate doc.
-     * @param ?IInjectedArgHost $host injected argument host
-     * @return array
-     */
+    * auto generate doc.
+    * @param array & $targs
+    * @param mixed $parameters
+    * @param mixed $args
+    * @param ?IInjectedArgHost $host injected argument host
+    * @return array
+    */
     private static function _GetInjectedParameters(array &$targs, $parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -450,6 +461,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return self::_GetInjectable($class_name, []);
     }
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    * @return void
+    */
     private static function _UseTypeCallback($e){
         list ($type) = igk_extract($e->args, 'type');
         $injects = & $e->args['injects'];

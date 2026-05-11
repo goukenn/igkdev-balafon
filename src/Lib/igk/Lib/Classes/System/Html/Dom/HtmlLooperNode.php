@@ -114,6 +114,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param bool $force
     * @return bool
     */
@@ -174,6 +175,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
     /**
     * auto generate doc.
+    * @param mixed $children
     * @param mixed $options
     * @return mixed
     */
@@ -238,7 +240,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _TreatFCallback()
     {
@@ -253,6 +255,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
     /**
     * auto generate doc.
+    * @param mixed $children
     * @param mixed $t_options
     * @return string
     */
@@ -353,6 +356,10 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
     /**
     * auto generate doc.
+    * @param HtmlItemBase $n
+    * @param string $content
+    * @param mixed $data
+    * @param ?BaseController $ctrl
     * @param null|string $hookExpression expression name that will serve as global variables
     * @return void
     */
@@ -372,11 +379,11 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
         }
     }
     /**
-     * bind host callable 
-     * @param callable $callback 
-     * @param mixed $param 
-     * @return void 
-     */
+    * bind host callable
+    * @param callable $callback
+    * @param mixed ...$param
+    * @return void
+    */
     public function host(callable $callback, ...$param)
     {
         $this->node->setFlag(self::OVERRIDE_PARENT_TAG_FLAG, null);

@@ -25,8 +25,10 @@ class ArrayUtils
         return $value;
     }
     /**
-     * auto generate doc.
-     */
+    * auto generate doc.
+    * @param array & $source
+    * @param array $array_to_merge
+    */
     public static function MergeWith(array &$source, array $array_to_merge)
     {
         $source = array_merge($source, $array_to_merge);
@@ -51,10 +53,11 @@ class ArrayUtils
             $c = $value;
     }
     /**
-     * auto generate doc.
-     * @param mixed $property
-     * @return void
-     */
+    * auto generate doc.
+    * @param array & $array
+    * @param mixed $search
+    * @return void
+    */
     public static function PrependAfterSearch(array &$array, $search)
     {
         if (($index = array_search($search, $array)) !== false) {
@@ -101,10 +104,11 @@ class ArrayUtils
         }
     }
     /**
-     * dump array 
-     * @param array $array 
-     * @return string 
-     */
+    * dump array
+    * @param array $array
+    * @param mixed $lf
+    * @return string
+    */
     public static function Export(array $array, $lf = PHP_EOL): string
     {
         $sb = new StringBuilder;
@@ -123,10 +127,12 @@ class ArrayUtils
         return '' . $sb;
     }
     /**
-     * auto generate doc.
-     * @param bool $merging
-     * @return array
-     */
+    * auto generate doc.
+    * @param array $array
+    * @param string $filter_regex
+    * @param bool $merging
+    * @return array
+    */
     public static function MergeFilter(array $array, string $filter_regex, bool $merging = true)
     {
         $conf = $array;
@@ -162,10 +168,11 @@ class ArrayUtils
         }
     }
     /**
-     * auto generate doc.
-     * @param array &$tab
-     * @return void
-     */
+    * auto generate doc.
+    * @param array &$tab
+    * @param array & $list
+    * @return void
+    */
     public static function UnpackArrayKeys(array &$tab, array &$list)
     {
         if (version_compare(PHP_VERSION, '8.0', '<')) {

@@ -26,6 +26,7 @@ class IGKAppMethodFlag{
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $def
     * @return mixed
     */

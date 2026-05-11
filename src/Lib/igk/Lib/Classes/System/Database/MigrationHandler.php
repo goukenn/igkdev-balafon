@@ -54,10 +54,11 @@ class MigrationHandler{
         }
     }
     /**
-     * get order file 
-     * @return null|string[] 
-     * @throws IGKException 
-     */
+    * get order file
+    * @param string $order
+    * @throws IGKException
+    * @return null|string[]
+    */
     protected function getfiles(string $order='up'){
         $ctrl = $this->m_controller;
         $dir = $ctrl->getClassesDir()."/Database/Migrations";
@@ -73,7 +74,7 @@ class MigrationHandler{
     /**
     * auto generate doc.
     * @param string $order
-    * @return
+    * @return mixed
     */
     private function _getProps(string $order='up'){
         $files = $this->getfiles($order);
@@ -108,6 +109,7 @@ class MigrationHandler{
     }
     /**
     * auto generate doc.
+    * @param string $name
     */
     public function remove(string $name){
         /**
@@ -143,7 +145,7 @@ class MigrationHandler{
     * auto generate doc.
     * @param SchemaBuilder $builder
     * @param BaseController $ctrl
-    * @return
+    * @return mixed
     */
     private static function _MigrateSchemaBuilder(SchemaBuilder $builder, BaseController $ctrl){
         $node = HtmlReader::Load($builder->render(), "xml"); 
@@ -158,7 +160,7 @@ class MigrationHandler{
     * @param BaseController $ctrl
     * @param string $method
     * @param SchemaMigrationBuilder $schema
-    * @return
+    * @return mixed
     */
     private static function MigrateFile(string $file, BaseController $ctrl, string $method, SchemaMigrationBuilder $schema){   
         $ns = $ctrl::ns(EntryClassResolution::DbMigrations);
@@ -179,28 +181,30 @@ class MigrationHandler{
         }
     }
     /**
-     * migrate up
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     * @throws Error 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * migrate up
+    * @param bool $fist_only
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @throws Error
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @throws Exception
+    * @return void
+    */
     public function up(bool $fist_only=true){
         return $this->migrate(__FUNCTION__, $fist_only);         
     }
     /**
-     * migrate down
-     * @return void 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     * @throws Error 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     */
+    * migrate down
+    * @param bool $fist_only
+    * @throws IGKException
+    * @throws EnvironmentArrayException
+    * @throws Error
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @throws Exception
+    * @return void
+    */
     public function down(bool $fist_only=true){
         return $this->migrate(__FUNCTION__, $fist_only);
     }

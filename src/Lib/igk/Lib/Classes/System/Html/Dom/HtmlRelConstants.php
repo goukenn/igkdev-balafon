@@ -27,7 +27,7 @@ abstract class HtmlRelConstants {
     const Icon = "icon";
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }

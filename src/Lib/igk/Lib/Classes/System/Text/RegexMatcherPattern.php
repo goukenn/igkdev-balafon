@@ -10,9 +10,8 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IGKException;
 use IGKObject;
 use JsonSerializable;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
@@ -155,7 +154,7 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     * auto generate doc.
     * @param mixed $n
     * @param mixed $v
-    * @return
+    * @return mixed
     */
     protected function _access_OffsetSet($n, $v){
     }
@@ -175,9 +174,13 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         return $this->m_matcher;
     }
     /**
-     * create a new matcher instance 
-     * @return static 
-     */
+    * create a new matcher instance
+    * @param string $pattern
+    * @param ?string $tokenId
+    * @param mixed $refid
+    * @param ?array $patterns
+    * @return static
+    */
     public function match(string $pattern, ?string $tokenId = null, $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
@@ -188,14 +191,15 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         ]);
     }
     /**
-     * create a new begin definition 
-     * @param string $begin 
-     * @param string $end 
-     * @param null|string $tokenId 
-     * @param null|string $refid 
-     * @return static 
-     * @throws IGKException 
-     */
+    * create a new begin definition
+    * @param string $begin
+    * @param string $end
+    * @param null|string $tokenId
+    * @param null|string $refid
+    * @param ?array $patterns
+    * @throws IGKException
+    * @return static
+    */
     public function begin(string $begin, ?string $end=null, ?string $tokenId = null, ?string $refid=null, ?array $patterns=null){
         return Activator::CreateNewInstance(static::class, [
             $this->m_matcher,
@@ -255,9 +259,10 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         }
     }
     /**
-     * get matching type depeing on value 
-     * @return string 
-     */
+    * get matching type depeing on value
+    * @param RegexMatcherPattern $matcher
+    * @return string
+    */
     public static function GetMatcherType(RegexMatcherPattern $matcher){
         list($begin, $while, $end, $match) = igk_extract($matcher, 'begin|while|end|match');
         if ($match){

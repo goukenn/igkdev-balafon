@@ -13,12 +13,13 @@ use IGK\Models\ModelBase;
 abstract class StringDisplay
 {
     /**
-     * return core string display
-     * @param string $display 
-     * @param array $properties 
-     * @param mixed $row 
-     * @return string 
-     */
+    * return core string display
+    * @param string $display
+    * @param array $properties
+    * @param mixed $row
+    * @param ?bool $exposed
+    * @return string
+    */
     public static function Display(string $display, array $properties, $row, ?bool $exposed=null): string
     {
         $args = StringUtility::ReadArgs($display);

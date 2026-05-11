@@ -66,6 +66,7 @@ class UnicodeUtility
     }
     /**
     * auto generate doc.
+    * @param int $region
     * @param int $code
     * @return string
     */
@@ -86,7 +87,7 @@ class UnicodeUtility
     }
     /**
     * auto generate doc.
-    * @param BE
+    * @param string $countryCode
     * @return void
     */
     public static function EmojisFlag(string $countryCode){

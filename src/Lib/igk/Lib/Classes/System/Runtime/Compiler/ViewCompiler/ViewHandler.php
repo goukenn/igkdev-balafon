@@ -33,7 +33,7 @@ class ViewHandler{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){  
         $this->tab = ["class"=>null, "style"=>null];      

@@ -20,8 +20,10 @@ class HtmlConvDefinition{
      */
     var $value;
     /**
-     * create Helper
-     */
+    * create Helper
+    * @param mixed $value
+    * @param mixed $attr
+    */
     public static function CreateFromArray($value, $attr){
         $o = new self;
         $o->attr = $attr;

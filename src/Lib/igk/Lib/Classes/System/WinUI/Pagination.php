@@ -50,7 +50,11 @@ class Pagination{
     var $pageQuery;
     /**
     * auto generate doc.
+    * @param int $itemPerPage
+    * @param int $total
     * @param string $p request page field
+    * @param mixed $default_page
+    * @param mixed $shift
     * @return void
     */
     public function __construct(int $itemPerPage, int $total, $p="p", $default_page=1, $shift=1)
@@ -72,10 +76,12 @@ class Pagination{
         $this->page = $page;
     }
     /**
-     * generate list 
-     * @return mixed|object
-     * @throws IGKException 
-     */
+    * generate list
+    * @param mixed $ajx
+    * @param mixed $request_uri
+    * @throws IGKException
+    * @return mixed|object
+    */
     public function list($ajx=0, $request_uri = null){ 
         $total = floor($this->total/$this->count)+1;
         $n = igk_create_node("ul");
@@ -134,7 +140,7 @@ class Pagination{
     * @param mixed $u
     * @param mixed $total
     * @param mixed $ajx
-    * @return
+    * @return mixed
     */
     private function _prefix($n, $u, $total, $ajx=0 ){
         $link = "#";
@@ -157,7 +163,7 @@ class Pagination{
     * @param mixed $u
     * @param mixed $total
     * @param mixed $ajx
-    * @return
+    * @return mixed
     */
     private function _postfix($n, $u, $total, $ajx){
         $next = min($this->page+1, $total);

@@ -11,15 +11,17 @@ if (!extension_loaded("gd")) {
 }
 define("IGK_GD_SUPPORT", 1);
 /**
- * resize proportional 
- * @param string $src image data to get from
- * @param int $w
- * @param int $h
- * @param mixed $type the default value is 1. 1 = png, other value is for jpeg
- * @param mixed $compression from 0-100 the default value is 0= no compression
- * @param bool $antialias activate or not antialize on image
- * @param bool $cover activate or not antialize on image
- */
+* resize proportional
+* @param string $src image data to get from
+* @param int $w
+* @param int $h
+* @param mixed $type the default value is 1. 1 = png, other value is for jpeg
+* @param mixed $compression from 0-100 the default value is 0= no compression
+* @param bool $antialias activate or not antialize on image
+* @param bool $cover activate or not antialize on image
+* @param mixed $notransparent
+* @return mixed
+*/
 function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, bool $antialias = false, $cover=false, $notransparent=null)
 {
     $notransparent = $notransparent ?? (($type==1) && $cover);
@@ -89,6 +91,8 @@ class IGKGD
     private $m_transparentColor;
     /**
     * auto generate doc.
+    * @param mixed $w
+    * @param mixed $h
     * @param mixed $himg
     */
     private function __construct($w, $h, $himg)
@@ -99,7 +103,7 @@ class IGKGD
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function getWidth()
     {
@@ -307,6 +311,8 @@ class IGKGD
     }
     /**
     * auto generate doc.
+    * @param mixed $color
+    * @param mixed $center
     * @param mixed $radius
     */
     public function DrawEllipse($color, $center, $radius)
@@ -317,6 +323,10 @@ class IGKGD
     }
     /**
     * auto generate doc.
+    * @param mixed $himg
+    * @param mixed $x
+    * @param mixed $y
+    * @param mixed $w
     * @param mixed $h the default value is -1
     */
     public function DrawImage($himg, $x, $y, $w = -1, $h = -1)
@@ -364,6 +374,10 @@ class IGKGD
     }
     /**
     * auto generate doc.
+    * @param mixed $color
+    * @param mixed $rect
+    * @param mixed $y
+    * @param mixed $width
     * @param mixed $height the default value is null
     */
     public function DrawRectangle($color, $rect, $y = null, $width = null, $height = null)
@@ -385,6 +399,11 @@ class IGKGD
     public function Scale($scalex, $scaley) {}
     /**
     * auto generate doc.
+    * @param mixed $string
+    * @param mixed $font
+    * @param mixed $size
+    * @param mixed $x
+    * @param mixed $y
     * @param mixed $color
     */
     public function DrawString($string, $font, $size, $x, $y, $color)
@@ -401,6 +420,8 @@ class IGKGD
     }
     /**
     * auto generate doc.
+    * @param mixed $color
+    * @param mixed $center
     * @param mixed $radius
     */
     public function fillEllipse($color, $center, $radius)
@@ -411,6 +432,10 @@ class IGKGD
     }
     /**
     * auto generate doc.
+    * @param mixed $color
+    * @param mixed $rectx
+    * @param mixed $y
+    * @param mixed $width
     * @param mixed $height the default value is null
     */
     public function fillRectangle($color, $rectx, $y = null, $width = null, $height = null)
@@ -435,9 +460,10 @@ class IGKGD
         return new IGKGD(imagesx($himg), imagesy($himg), $himg);
     }
     /**
-     * output the image
-     * @param string|null|1| $type null
-     */
+    * output the image
+    * @param string|null|1| $type null
+    * @param mixed $quality
+    */
     public function render($type = null, $quality = null)
     {
         if (($type === null) || preg_match('/png/i', $type))
@@ -521,7 +547,7 @@ class IGKGD
     /**
     * auto generate doc.
     * @param mixed $color
-    * @return
+    * @return mixed
     */
     private function _allocColor($color)
     {
@@ -549,14 +575,15 @@ class IGKGD
         return $this->_allocColor($color);
     }
     /**
-     * draw rectangle
-     * @param mixed $x 
-     * @param mixed $y 
-     * @param mixed $width 
-     * @param mixed $height 
-     * @param mixed $color_id 
-     * @return void 
-     */
+    * draw rectangle
+    * @param mixed $x
+    * @param mixed $y
+    * @param mixed $width
+    * @param mixed $height
+    * @param mixed $color_id
+    * @param mixed $fill
+    * @return void
+    */
     public function rect($x, $y, $width, $height, $color_id, $fill = 0)
     {
         if (is_object($color_id)){
@@ -625,11 +652,13 @@ class IGKGD
         imagelayereffect($this->m_himg, $t);
     }
     /**
-     * draw curve 
-     * @param array $points 
-     * @param mixed $color_or_brush_res 
-     * @return void 
-     */
+    * draw curve
+    * @param array $points
+    * @param mixed $color_or_brush_res
+    * @param mixed $fill
+    * @param mixed $closed
+    * @return void
+    */
     public function drawCurve(array $points, $color_or_brush_res, $fill = 0, $closed = false)
     {
         if ($fill)

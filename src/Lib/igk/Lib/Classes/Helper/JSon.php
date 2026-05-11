@@ -144,10 +144,12 @@ class JSon
         return $data;
     }
     /**
-     * auto generate doc.
-     * @param mixed $a
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $a
+    * @param mixed $option
+    * @param int $flag
+    * @return mixed
+    */
     private static function _ConvertItemObject($a, $option=null, int $flag=0)
     {
         if ($a instanceof JsonSerializable) {
@@ -180,13 +182,13 @@ class JSon
         return $a;
     }
     /**
-     * auto generate doc.
-     * @param mixed & $tv
-     * @param null|mixed $keys
-     * @param null|mixed $c
-     * @param null|mixed $root
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed & $tv
+    * @param null|mixed $keys
+    * @param null|mixed $c
+    * @param null|mixed $root
+    * @return mixed
+    */
     private function _filter_array_map(&$tv, $keys = null, $c = null, $root = null)
     {
         $root =  $root;
@@ -276,7 +278,7 @@ class JSon
     /**
     * auto generate doc.
     * @param mixed $tv
-    * @return
+    * @return mixed
     */
     private function _encode_data($tv)
     {
@@ -365,13 +367,13 @@ class JSon
         return false;
     }
     /**
-     * bind object to data
-     * @param mixed $object_or_class 
-     * @param mixed $data 
-     * @return mixed 
-     * @throws JSonBindAsException missing required properties
-     * @remarks properties with JSonBindAsAnnotation will define requirement of binding data
-     */
+    * bind object to data
+    * @param mixed $object_or_class
+    * @param mixed $data
+    * @param mixed $throw_error
+    * @throws JSonBindAsException missing required properties
+    * @return mixed
+    */
     public static function BindData($object_or_class, $data, $throw_error = true)
     {
         if (is_string($object_or_class) && class_exists($object_or_class)) {

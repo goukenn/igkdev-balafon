@@ -76,7 +76,7 @@ class TerminalActionCommand
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _clearLastErrors()
     {

@@ -88,6 +88,7 @@ class DbModelImporterMap
     }
     /**
     * auto generate doc.
+    * @param string $field_name
     * @param null|callable $callable
     * @return void
     */
@@ -115,6 +116,7 @@ class DbModelImporterMap
     }
     /**
     * auto generate doc.
+    * @param mixed $data
     */
     public function __invoke($data)
     {
@@ -168,11 +170,12 @@ class DbModelImporterMap
         return $row;
     }
     /**
-     * override this to handle 
-     * @param mixed $tab 
-     * @param mixed $model_classe 
-     * @return bool must return true to handle
-     */
+    * override this to handle
+    * @param array $data
+    * @param mixed $tab
+    * @param mixed & $row
+    * @return bool must return true to handle
+    */
     protected function _onLoadData(array $data, string $model_classe, & $row):bool{
         return false;
     }
@@ -260,7 +263,7 @@ class DbModelImporterMap
     * auto generate doc.
     * @param mixed $v
     * @param mixed $s
-    * @return
+    * @return mixed
     */
     private function _registerColumn($v, $s)
     {

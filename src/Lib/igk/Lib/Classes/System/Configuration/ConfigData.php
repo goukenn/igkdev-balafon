@@ -47,6 +47,10 @@ class ConfigData
     private $m_extra;
     /**
     * auto generate doc.
+    * @param mixed $conffile
+    * @param mixed $configCtrl
+    * @param mixed $entries
+    * @param ?array $extra
     */    public function __construct($conffile, $configCtrl, $entries, ?array $extra = null)
     {
         $this->m_confile = $conffile;
@@ -86,6 +90,7 @@ class ConfigData
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     public function __set($key, $value)
@@ -114,6 +119,7 @@ class ConfigData
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $default the default value is null
     */
     public function getConfig($name, $default = null)
@@ -169,6 +175,7 @@ class ConfigData
     }
     /**
     * auto generate doc.
+    * @param mixed $force
     */    public function saveData($force = false)
     {
         if (!$force && defined("IGK_FRAMEWORK_ATOMIC")) {
@@ -182,6 +189,7 @@ class ConfigData
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $entries
     * @return void
     */
@@ -263,10 +271,11 @@ class ConfigData
         return $this->m_confile;
     }
     /**
-     * get web site title
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * get web site title
+    * @param mixed $default
+    * @throws IGKException
+    * @return mixed
+    */
     public function website_title($default="IGKDEV"){
         return $this->get(__FUNCTION__, $default);
     }

@@ -16,8 +16,12 @@ use IGKException;
 abstract class ExceptionUtils
 {
     /**
-     * show exception 
-     */
+    * show exception
+    * @param Exception $Ex
+    * @param mixed $file
+    * @param mixed $line
+    * @param mixed $title
+    */
     public static function ShowException(Exception $Ex, $file = null, $line = null, $title = null)
     {
         // + | --------------------------------------------------------------------

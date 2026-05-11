@@ -257,12 +257,12 @@ abstract class AppCommand {
         Logger::print("");
     }
     /**
-     * generate file according to command information
-     * @param mixed $command 
-     * @param array $bind 
-     * @param mixed $extra 
-     * @return void 
-     */
+    * generate file according to command information
+    * @param mixed $command
+    * @param array $bind
+    * @param mixed ...$extra
+    * @return void
+    */
     public static function Generate($command, array $bind, ...$extra){    
         foreach($bind as $path=>$callback){
             if (!igk_io_file_exists($path)){
@@ -282,10 +282,11 @@ abstract class AppCommand {
         return $command->app->getConfigs()->get("author", IGK_AUTHOR);
     }
     /**
-     * helper create command options
-     * @param mixed $command 
-     * @return mixed 
-     */
+    * helper create command options
+    * @param mixed $command
+    * @param ?array $options
+    * @return mixed
+    */
     public static function CreateOptionsCommandFrom($command, ?array $options=null){
         $c = (object)$command;
         unset($c->options);

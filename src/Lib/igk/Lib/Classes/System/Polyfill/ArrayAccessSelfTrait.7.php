@@ -12,6 +12,7 @@ namespace IGK\System\Polyfill;
 trait ArrayAccessSelfTrait{
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     * @return void
     */

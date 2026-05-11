@@ -25,7 +25,8 @@ class ReflectionHelper
     }
     /**
     * auto generate doc.
-    * @param callable|null $filter
+    * @param array $parameters
+    * @param ?callable $callable
     * @return void
     */
     public static function GetParameterInfo(array $parameters, ?callable $callable = null)

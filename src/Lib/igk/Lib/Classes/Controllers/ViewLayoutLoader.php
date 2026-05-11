@@ -168,7 +168,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     * auto generate doc.
     * @param mixed $file
     * @param mixed $bdir
-    * @return
+    * @return mixed
     */
     private function _resolveContextFile($file, $bdir)
     {
@@ -179,12 +179,11 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         return $file;
     }
     /**
-     * import file  
-     * @param string $file 
-     * @param null|array *3b22bd6a 
-     * @param IGK\Controllers\args|null *2c206736 
-     * @return void 
-     */
+    * import file
+    * @param string $file
+    * @param ?array $args
+    * @return void
+    */
     public function import(string $file, ?array $args = null)
     {
         return ViewHelper::Include($file, $args);
@@ -206,9 +205,11 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         return $this->{'@MainLayout'} || ViewCommentArgs::Check("@MainLayout()", $file);
     }
     /**
-     * get page title 
-     * @return string
-     */
+    * get page title
+    * @param string $title
+    * @param mixed $main
+    * @return string
+    */
     public function getPageTitle(string $title, $main = false): string
     {
         return $main ?

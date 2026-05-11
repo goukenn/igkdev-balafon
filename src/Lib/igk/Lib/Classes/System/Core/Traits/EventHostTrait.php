@@ -17,11 +17,12 @@ trait EventHostTrait{
     */
     protected abstract function getEventObject():array;
     /**
-     * remove event 
-     * @param string $name 
-     * @param callable $callback 
-     * @return void 
-     */
+    * remove event
+    * @param string $name
+    * @param callable $callback
+    * @param bool $all
+    * @return void
+    */
     public function removeEvent(string $name, ?callable $callback, bool $all = true)
     {
         if (($g = igk_getv($this->getEventObject(), $name)) instanceof AppEvent) {

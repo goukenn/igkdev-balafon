@@ -156,7 +156,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initActivateAttrib(){
         $g=array();
@@ -165,7 +165,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initattribs(){
         $g=array();

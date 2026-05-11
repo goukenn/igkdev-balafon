@@ -50,8 +50,9 @@ class View{
         }
     }
     /**
-     * view of the compoent
-     */
+    * view of the compoent
+    * @param HtmlNode $n
+    */
     public function view(HtmlNode $n){
     }
 }

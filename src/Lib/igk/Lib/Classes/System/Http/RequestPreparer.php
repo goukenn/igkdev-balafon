@@ -5,9 +5,8 @@
 namespace IGK\System\Http;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Http
 * @author C.A.D. BONDJE DOUE
 */

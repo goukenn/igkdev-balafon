@@ -65,6 +65,10 @@ trait ApplicationUserProfileTrait{
     }
     /**
     * auto generate doc.
+    * @param mixed $userInfo
+    * @param string $profileClassName
+    * @param coreModelBase $customModel
+    * @param array $condition
     * @param mixed $newDefinition
     * @return null|IGK\System\Database\ICustomUserProfile
     */

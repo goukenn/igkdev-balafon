@@ -75,6 +75,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
     /**
     * auto generate doc.
+    * @param mixed $login
     * @param mixed $pwd
     * @deprecated 1
     * @return bool

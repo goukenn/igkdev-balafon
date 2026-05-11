@@ -28,6 +28,8 @@ abstract class ReferenceModelsMacros
     }
     /**
     * auto generate doc.
+    * @param ReferenceModels $model
+    * @param int $uid
     * @param string $modelname
     * @return mixed|int
     */
@@ -45,6 +47,8 @@ abstract class ReferenceModelsMacros
     }
     /**
     * auto generate doc.
+    * @param ReferenceModels $model
+    * @param int $uid
     * @param string $modelname
     * @return null|ReferenceModels
     */

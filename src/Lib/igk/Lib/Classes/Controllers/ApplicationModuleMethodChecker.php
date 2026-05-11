@@ -3,9 +3,8 @@
 // @file: ApplicationModuleMethodChecker.php
 // @date: 20230303 10:54:17
 namespace IGK\Controllers;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Controllers
 */
 /**

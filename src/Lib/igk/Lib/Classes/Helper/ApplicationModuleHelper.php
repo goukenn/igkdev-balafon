@@ -9,11 +9,10 @@ use IGK\Controllers\BaseController;
 use IGKEvents;
 use IGKException;
 use stdClass;
-
 /**
- * 
- * @package IGK\Helpers
- */
+* auto generate doc.
+* @package IGK\Helpers
+*/
 /**
 * auto generate doc.
 * @package IGK\Helper
@@ -69,9 +68,11 @@ class ApplicationModuleHelper
         }
     }
     /**
-     * get module required info
-     * @return mixed|ApplicationModuleConfigurationInfo
-     */
+    * get module required info
+    * @param \IGK\Controllers\ApplicationModuleController $module
+    * @param ?BaseController $ctrl
+    * @return mixed|ApplicationModuleConfigurationInfo
+    */
     public static function GetModuleRequireInfo(\IGK\Controllers\ApplicationModuleController $module, ?BaseController $ctrl)
     {
         $g = igk_environment()->get(self::SYS_ENV_KEY);
@@ -98,8 +99,9 @@ class ApplicationModuleHelper
         return $info;
     }
     /**
-     * return get configuration key
-     */
+    * return get configuration key
+    * @param \IGK\Controllers\ApplicationModuleController $module
+    */
     public static function GetConfigKey(\IGK\Controllers\ApplicationModuleController $module): string
     {
         return str_replace('.', '/', ltrim($module->getName(), '.'));

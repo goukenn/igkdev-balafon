@@ -17,6 +17,9 @@ use ReflectionException;
 class NotifyHelper{
     /**
     * auto generate doc.
+    * @param string $name
+    * @param mixed $condition
+    * @param mixed $success
     * @param string $error error message
     * @return mixed condition passed
     */

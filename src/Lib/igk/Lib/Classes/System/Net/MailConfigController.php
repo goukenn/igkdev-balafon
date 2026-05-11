@@ -43,7 +43,7 @@ class MailConfigController extends ConfigControllerBase
     /**
     * auto generate doc.
     * @param mixed $mail
-    * @return
+    * @return mixed
     */
     private function init_mail_config($mail)
     {
@@ -245,21 +245,22 @@ class MailConfigController extends ConfigControllerBase
         }
     }
     /**
-     * controller send mail
-     * @param null|string $from email. if whant to pass From title ["" <email@domain>"]
-     * @param string $to email to send
-     * @param null|string $subject subject title
-     * @param null|string $message message body
-     * @param null|string $reply email used for reply
-     * @param mixed $attachement array of attachement
-     * @param string $type default mail type
-     * @return mixed 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * controller send mail
+    * @param null|string $from email. if whant to pass From title ["" <email@domain>"]
+    * @param string $to email to send
+    * @param null|string $subject subject title
+    * @param null|string $message message body
+    * @param null|string $reply email used for reply
+    * @param mixed $attachement array of attachement
+    * @param string $type default mail type
+    * @param ?string $fromTitle
+    * @throws IGKException
+    * @throws Exception
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return mixed
+    */
     public function sendmail(?string $from, string $to, ?string $subject, ?string $message,
         ?string $reply = null, 
         $attachement = null, 

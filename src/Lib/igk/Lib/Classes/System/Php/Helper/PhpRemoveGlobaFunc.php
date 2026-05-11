@@ -19,6 +19,11 @@ use IGK\System\Text\RegexMatcherUtility;
 */
 class PhpRemoveGlobaFunc
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $removeEmptyLine;
     /**
     * auto generate doc.

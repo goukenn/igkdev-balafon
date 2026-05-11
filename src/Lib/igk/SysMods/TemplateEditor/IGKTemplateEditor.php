@@ -22,10 +22,12 @@ final class IGKTemplateEditor extends BaseController{
     }
     /**
     * cancel edition of the controller
+    * @param mixed $ctrl
     */
     public function Cancel($ctrl){}
     /**
     * call this function edit a controller
+    * @param mixed $ctrl
     */
     public function Edit($ctrl){
         if(!$this->can_edit($ctrl)){

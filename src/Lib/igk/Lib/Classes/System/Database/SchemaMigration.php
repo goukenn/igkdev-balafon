@@ -300,12 +300,13 @@ class SchemaMigration
         }
     }
     /**
-     * udpate the generated columns
-     * @param mixed $node 
-     * @param mixed &$cl 
-     * @param mixed $passing 
-     * @return void 
-     */
+    * udpate the generated columns
+    * @param mixed $node
+    * @param mixed &$cl
+    * @param mixed $passing
+    * @param mixed $info
+    * @return void
+    */
     public static function UpdateGenColumn($node, &$cl, $passing = null, $info = null)
     {
         $name = $node["name"];
@@ -320,14 +321,15 @@ class SchemaMigration
         }
     }
     /**
-     * load require schema 
-     * @param array $tab 
-     * @param mixed $rq 
-     * @return void 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * load require schema
+    * @param array & $tab
+    * @param array $tab
+    * @param mixed & $load_schema
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return void
+    */
     private static function _LoadRequireSchema(array &$tab, $rq, &$load_schema)
     {
         extract((array)igk_createobj_filter($rq->getAttributes()->to_array(), "from|name|argument|file"));
@@ -402,17 +404,19 @@ class SchemaMigration
         }
     }
     /**
-     * Load schema and migrate
-     * @param DomNodeBase $node schema node 
-     * @param mixed $result table response
-     * @param null|array $tables 
-     * @param mixed $tbrelations 
-     * @param mixed $migrations 
-     * @param mixed $ctrl 
-     * @param bool $resolvname 
-     * @param bool $reload 
-     * @return static 
-     */
+    * Load schema and migrate
+    * @param DomNodeBase $node schema node
+    * @param mixed & $result
+    * @param ?array & $tables
+    * @param mixed & $tbrelations
+    * @param mixed & $migrations
+    * @param mixed & $entries
+    * @param mixed $result table response
+    * @param null|array $tables
+    * @param mixed $tbrelations
+    * @param mixed $operation
+    * @return static
+    */
     public static function LoadSchema(
         DomNodeBase $node,
         &$result,
@@ -438,12 +442,12 @@ class SchemaMigration
         return $mi;
     }
     /**
-     * resolve db cache information 
-     * @param array $tables 
-     * @param string $tb 
-     * @return bool 
-     * @throws IGKException 
-     */
+    * resolve db cache information
+    * @param array & $tables
+    * @param array $tables
+    * @throws IGKException
+    * @return bool
+    */
     private static function _ResolvDbCacheDefinition(array &$tables, string $tb): bool
     {
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
@@ -458,8 +462,13 @@ class SchemaMigration
         return false;
     }
     /**
-     * do update and update the list of current schema data tables
-     */
+    * do update and update the list of current schema data tables
+    * @param string $key
+    * @param mixed $item
+    * @param array & $tables
+    * @param mixed $c
+    * @param ?BaseController $ctrl
+    */
     private static function _DoUpgrade(string $key, $item, array &$tables, $c, ?BaseController $ctrl)
     {
         // + | --------------------------------------------------------------------
@@ -623,7 +632,7 @@ class SchemaMigration
     * @param mixed & $tables
     * @param mixed $c
     * @param BaseController $ctrl
-    * @return
+    * @return mixed
     */
     private static function _DoDowngrade($key, $item, &$tables, $c, BaseController $ctrl)
     {
@@ -706,7 +715,7 @@ class SchemaMigration
     * @param array & $tables
     * @param null|BaseController $ctrl
     * @param mixed $callback
-    * @return
+    * @return mixed
     */
     private function _do_migration($tmigrations, array &$tables, ?BaseController $ctrl, $callback)
     {
@@ -733,20 +742,23 @@ class SchemaMigration
         $mighandler->unregister();
     }
     /**
-     * oad schema and downgrade
-     * @param mixed $migrations 
-     * @param mixed $tables 
-     * @param BaseController $ctrl 
-     * @return void 
-     */
+    * oad schema and downgrade
+    * @param mixed $migrations
+    * @param array & $tables
+    * @param mixed $tables
+    * @return void
+    */
     public function upgrade($migrations, array &$tables,  ?BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoUpgrade']);
     }
     /**
-     * load schema and downgrade
-     * @return void 
-     */
+    * load schema and downgrade
+    * @param mixed $migrations
+    * @param array & $tables
+    * @param BaseController $ctrl
+    * @return void
+    */
     public function downgrade($migrations, array &$tables,  BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoDowngrade']);

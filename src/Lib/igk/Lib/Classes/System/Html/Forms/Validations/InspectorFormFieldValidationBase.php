@@ -25,12 +25,13 @@ use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 * @package IGK\System\Html\Forms\Validations
 */
 abstract class InspectorFormFieldValidationBase implements 
-    IFormFieldContainer{ 
-     /**
-     * validate from request
-     * @param Request $request 
-     * @return bool|mixed 
-     */
+    IFormFieldContainer{
+    /**
+    * validate from request
+    * @param Request $request
+    * @param ?array & $error
+    * @return bool|mixed
+    */
     public function validateFromRequest(Request $request, ?array &$error = [])
     {
         // + | --------------------------------------------------------------------
@@ -46,16 +47,16 @@ abstract class InspectorFormFieldValidationBase implements
         return $this->getFields(__METHOD__);
     }
     /**
-     * core validation
-     * @param object|array $data data to validate
-     * @param array $error error definition  
-     * @return bool 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws Error 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * core validation
+    * @param object|array $data data to validate
+    * @param ?array & $error
+    * @throws IGKException
+    * @throws Exception
+    * @throws Error
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return bool
+    */
     public function validate($data, ?array & $error=[]){        
         $fields = $this->getValidationFields();
         $validations = [];
@@ -113,14 +114,17 @@ abstract class InspectorFormFieldValidationBase implements
         return false;
     }
     /**
-     * on validateion complete 
-     * @return void 
-     */
+    * on validateion complete
+    * @param mixed $data
+    * @param mixed $validations
+    * @return void
+    */
     protected function onValidationComplete($data, $validations){
     }
     /**
     * auto generate doc.
     * @param null|string $class_name
+    * @param ?array $def
     * @return array<string
     */
     static function GetFormDataFieldProperties(?string $class_name=null, ?array $def=null){

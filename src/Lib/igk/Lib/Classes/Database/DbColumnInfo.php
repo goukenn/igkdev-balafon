@@ -318,6 +318,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     }
     /**
     * auto generate doc.
+    * @param mixed $attribs
+    * @param mixed $tb
+    * @param mixed $ctrl
     * @param mixed &$tbrelation
     * @return DbColumnInfo
     */
@@ -348,6 +351,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     public function __set($key, $value)
@@ -363,6 +367,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     }
     /**
     * auto generate doc.
+    * @param mixed $array
+    * @param mixed $tablename
     */
     public static function AssocInfo($array, $tablename = null)
     {

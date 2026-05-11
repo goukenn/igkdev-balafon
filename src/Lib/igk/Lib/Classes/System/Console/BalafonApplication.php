@@ -79,8 +79,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         return igk_environment()->NoAppInitFileStruct;
     }
     /**
-     * initialize application modules 
-     * */
+    * initialize application modules
+    * @param mixed $v_pdir
+    * @param mixed $conf
+    * @param mixed & $argv
+    */
     public static function InitModule($v_pdir, $conf, &$argv)
     {
         if (!preg_match("/--module:/", implode(' ', $argv))) {
@@ -190,7 +193,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     public function bootstrap()
     {
@@ -258,6 +261,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     }
     /**
     * auto generate doc.
+    * @param string $entryfile
     * @param int $render
     * @return string|int
     */
@@ -282,9 +286,10 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
     /**
-     * return primary command array
-     * @return array
-     */
+    * return primary command array
+    * @param array $argv
+    * @return array
+    */
     public function getPrimaryCommand(array $argv): array
     {
         // + |--------------------------------------------------------
@@ -619,11 +624,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         return $command;
     }
     /**
-     * initialize command
-     * @param array $command 
-     * @param array $argv 
-     * @return void 
-     */
+    * initialize command
+    * @param array $command
+    * @param array & $argv
+    * @return void
+    */
     protected function initCommand(array $command, array & $argv)
     {
         igk_environment()->NoAppInitFileStruct = true;
@@ -663,7 +668,9 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     }
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param null|BaseController $ctrl
+    * @param mixed & $user
     * @return void
     */
     public static function BindCommandUser($command, ?BaseController $ctrl = null, &$user = null)
@@ -680,6 +687,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
     * @param null|Users $user
     * @return void
     */

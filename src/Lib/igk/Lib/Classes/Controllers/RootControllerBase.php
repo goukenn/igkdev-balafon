@@ -117,8 +117,9 @@ abstract class RootControllerBase extends IGKObject{
         return strstr($dir, $o);        
     }
     /**
-     * return registrated macro function 
-     */
+    * return registrated macro function
+    * @param mixed $name
+    */
     public final
     static function getMacro($name){
         return igk_getv(self::$macros, $name);
@@ -245,8 +246,9 @@ abstract class RootControllerBase extends IGKObject{
     public function getDoc(){
         return $this->getApp()->getDoc();
     }
-	 /**
+    /**
     * getfull uri
+    * @param ?string $function
     */
     public function getAppUri(?string $function=null):?string{ 
         if(SysUtils::GetSubDomainCtrl() === $this){
@@ -269,6 +271,9 @@ abstract class RootControllerBase extends IGKObject{
     }
     /**
     * get the article binding content
+    * @param mixed $name
+    * @param mixed $entries
+    * @param mixed $prebuild
     */
     public function getArticleBindingContent($name, $entries, $prebuild=true){
         if(is_object($entries) && ($entries->RowCount > 0)){
@@ -280,6 +285,8 @@ abstract class RootControllerBase extends IGKObject{
     }
     /**
     * get the article binding content with name. of the target controller
+    * @param mixed $name
+    * @param mixed $targetCtrlName
     */
     public function getArticleBindingContentW($name, $targetCtrlName){
         die(__METHOD__.": Not implement");
@@ -310,6 +317,7 @@ abstract class RootControllerBase extends IGKObject{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $dir
     */
     public function getArticleInDir($name, $dir){        
@@ -334,14 +342,17 @@ abstract class RootControllerBase extends IGKObject{
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
     }
     /**
-     * override this to initialize context
-     * @return void 
-     */
+    * override this to initialize context
+    * @param mixed $context
+    * @return void
+    */
     protected function initComplete($context = null){
     }
-    /***
-     * create controller an 
-     */
+    /**
+    * create controller an
+    * @param mixed $n
+    * @param callable $init
+    */
     public static function CreateInstanceAndInit($n, callable $init){
         if (!class_exists($n, false) || !is_subclass_of($n, self::class)){
             return null;

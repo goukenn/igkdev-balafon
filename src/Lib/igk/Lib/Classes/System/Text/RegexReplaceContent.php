@@ -4,9 +4,8 @@
 // @date: 20250126 17:49:52
 namespace IGK\System\Text;
 use Exception;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

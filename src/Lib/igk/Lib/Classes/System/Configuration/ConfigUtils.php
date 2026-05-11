@@ -11,12 +11,13 @@ namespace IGK\System\Configuration;
 */
 class ConfigUtils{
     /**
-     * load configuration utility
-     * @param string $file 
-     * @param mixed $data 
-     * @param bool $autocontext 
-     * @return void 
-     */
+    * load configuration utility
+    * @param string $file
+    * @param mixed & $data
+    * @param mixed $data
+    * @param bool $contextual
+    * @return void
+    */
     public static function LoadData(string $file, & $data, $autocontext=true, bool $contextual=false){      
         $data = @include($file); 
         if ($autocontext && ($ctx = igk_environment()->context()) != "web"){

@@ -39,16 +39,16 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     */
     public function assertValidate($value): bool { 
         return true;
-    } 
+    }
     /**
-     * required field info as options
-     * @param mixed $value 
-     * @param mixed $default 
-     * @param array $error 
-     * @param null|object $options 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * required field info as options
+    * @param mixed $value
+    * @param mixed $default
+    * @param mixed & $error
+    * @param array $error
+    * @throws IGKException
+    * @return mixed
+    */
     protected function _validate($value, $default=null, & $error=[], $options=null){ 
         if (empty($value)){
             return $default;

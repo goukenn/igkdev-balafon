@@ -13,7 +13,7 @@ use IGKXmlNode;
 class XsdAttributeBuilder extends XsdElement{
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

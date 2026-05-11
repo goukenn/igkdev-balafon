@@ -30,9 +30,12 @@ interface IDbQueryGrammar extends IGrammar {
      */
     function createSelectQuery(string $table_name, ?array $condition, $options=null): ?string;
     /**
-     * create and insert query
-     * @return ?string 
-     */
+    * create and insert query
+    * @param string $table_name
+    * @param mixed $values
+    * @param mixed $tableInfo
+    * @return ?string
+    */
     function createInsertQuery(string $table_name, $values, $tableInfo= null):?string;
     /**
      * create update query
@@ -43,6 +46,9 @@ interface IDbQueryGrammar extends IGrammar {
     function createUpdateQuery(string $table_name, $values): ?string;
     /**
     * auto generate doc.
+    * @param string $table
+    * @param mixed $column_info
+    * @param mixed $nk
     * @param ?string $db db name
     * @return mixed
     */

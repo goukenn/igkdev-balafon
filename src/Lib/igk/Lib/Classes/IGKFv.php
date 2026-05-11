@@ -45,6 +45,7 @@ class IGKFv {
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function __set($n, $v){
@@ -77,6 +78,8 @@ class IGKFv {
     }
     /**
     * auto generate doc.
+    * @param mixed $classname
+    * @param mixed & $tab
     * @param mixed * $listener update listener
     */
     public static function Create($classname, & $tab, $listener = null){
@@ -92,6 +95,8 @@ class IGKFv {
     }
     /**
     * free the flag if test ok
+    * @param mixed $code
+    * @param mixed $force
     */
     public function freeFlag($code, $force=0){
         $g=$this->getFlag($code);
@@ -112,6 +117,9 @@ class IGKFv {
     }
     /**
     * get the flag.use explicitly setFlag to store reference data
+    * @param mixed $code
+    * @param mixed & $default
+    * @param mixed $register
     */
     public function & getFlag($code, & $default=null, $register=0){
         $g=null;
@@ -136,6 +144,7 @@ class IGKFv {
     }
     /**
     * auto generate doc.
+    * @param mixed $code
     * @param mixed $v
     */
     public function setFlag($code, $v){
@@ -154,7 +163,7 @@ class IGKFv {
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _updateBinding(){
 		if ($this->_listener){
@@ -180,6 +189,7 @@ class IGKFv {
     }
     /**
     * auto generate doc.
+    * @param mixed $code
     * @param mixed $v
     */
     public function updateFlag($code, $v){

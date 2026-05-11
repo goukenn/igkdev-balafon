@@ -84,11 +84,12 @@ class QueryBuilder
         return $this;
     }
     /**
-     * with expression to get single data value
-     * @param mixed $table 
-     * @param null|string $key 
-     * @return $this 
-     */
+    * with expression to get single data value
+    * @param mixed $table
+    * @param null|string $key
+    * @param ?bool $ignore_data
+    * @return $this
+    */
     public function with($table, ?string $key = null, ?bool $ignore_data = false)
     {
         if (!$this->m_with)
@@ -199,14 +200,15 @@ class QueryBuilder
         return $this;
     }
     /**
-     * set joint left
-     * @param string $table table name to joint
-     * @param string $condition condition expression ... on ... for mysql
-     * @return $this 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * set joint left
+    * @param string $table table name to joint
+    * @param string $condition condition expression ... on ... for mysql
+    * @param ?string $alias
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return $this
+    */
     public function join_left(string $table, string $condition, ?string $alias = null)
     {
         $rc = [$condition, "type" => QueryBuilderConstant::LeftJoin];
@@ -217,15 +219,16 @@ class QueryBuilder
         ]);
     }
     /**
-     * helper: join left
-     * @param string $table 
-     * @param string $first_column 
-     * @param string $second_column 
-     * @return $this 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * helper: join left
+    * @param string $table
+    * @param string $first_column
+    * @param string $second_column
+    * @param ?string $alias
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return $this
+    */
     public function join_left_on(string $table, string $first_column, string $second_column, ?string $alias = null)
     {
         return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column), $alias);
@@ -241,11 +244,11 @@ class QueryBuilder
         ]);
     }
     /**
-     * limit query
-     * @param null|array|int $limit_min
-     * @param ?int $limit_max
-     * @return $this 
-     */
+    * limit query
+    * @param mixed $limit_raw
+    * @param ?int $max
+    * @return $this
+    */
     public function limit($limit_raw, ?int $max = null)
     {
         if (!is_null($limit_raw)) {
@@ -382,10 +385,11 @@ class QueryBuilder
         return $this;
     }
     /**
-     * return the fetchable result
-     * @return null|IGK\Database\IDbFetchResult 
-     * @throws IGKException 
-     */
+    * return the fetchable result
+    * @param mixed $options
+    * @throws IGKException
+    * @return null|IGK\Database\IDbFetchResult
+    */
     public function query_fetch($options=null)
     {
         // + | --------------------------------------------------------------------
@@ -405,10 +409,13 @@ class QueryBuilder
         return $res;
     }
     /**
-     * execute the current builded query
-     * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
-     * @throws IGKException 
-     */
+    * execute the current builded query
+    * @param mixed $throwOnError
+    * @param mixed $options
+    * @param mixed $autoclose
+    * @throws IGKException
+    * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
+    */
     public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
@@ -471,6 +478,9 @@ class QueryBuilder
     }
     /**
     * auto generate doc.
+    * @param mixed $source_row
+    * @param mixed $row
+    * @param mixed $model
     * @param mixed $with
     * @return mixed
     */
@@ -491,6 +501,12 @@ class QueryBuilder
     }
     /**
     * auto generate doc.
+    * @param mixed $source_row
+    * @param mixed $row
+    * @param mixed $ctrl
+    * @param mixed $tab
+    * @param mixed $with
+    * @param mixed $links
     * @param mixed $linktab linktables
     * @return void
     */

@@ -112,6 +112,7 @@ EOF);
     }
     /**
     * auto generate doc.
+    * @param mixed $ad
     * @param string $table
     * @return string
     */

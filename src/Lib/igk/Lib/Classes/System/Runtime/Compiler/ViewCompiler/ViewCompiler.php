@@ -493,7 +493,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _appendInstructBuffer()
     {
@@ -509,6 +509,8 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     #region Expression
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param mixed $value
     * @return bool
     */
@@ -636,7 +638,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     * auto generate doc.
     * @param mixed $depend
     * @param mixed & $buffer
-    * @return
+    * @return mixed
     */
     private function _replaceGetterArgs($depend, &$buffer)
     {
@@ -977,9 +979,10 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return $this->mergeSourceCode();
     }
     /**
-     * merge source script
-     * @return null|string 
-     */
+    * merge source script
+    * @param mixed $header
+    * @return null|string
+    */
     public function mergeSourceCode($header = false): ?string
     {
         if (!$this->m_output) return null;

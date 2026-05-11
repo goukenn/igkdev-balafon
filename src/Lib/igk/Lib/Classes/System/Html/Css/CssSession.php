@@ -42,7 +42,7 @@ class CssSession extends IGKObject{
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _session_data(){        
 		if ($data = igk_app()->session->css_data){

@@ -44,6 +44,8 @@ final class IGKLog extends IGKObject
     }
     /**
     * Writes i data.
+    * @param string $tag
+    * @param string $mesage
     */
     public function write_i_data(string $tag, string $mesage){
         throw new NotImplementException(__METHOD__);
@@ -72,11 +74,12 @@ final class IGKLog extends IGKObject
         return $f;
     }
     /**
-     * write log to IGK_LOG_FILE
-     * @param mixed $msg
-     * @param mixed $tag
-     * @param mixed $traceindex
-     */
+    * write log to IGK_LOG_FILE
+    * @param mixed $msg
+    * @param mixed $tag
+    * @param mixed $traceindex
+    * @param bool $dblog
+    */
     public static function Append(string $msg, ?string $tag = null,int $traceindex = 0, bool $dblog=true)
     {
         if (self::$sm_loggin){          
@@ -194,6 +197,8 @@ final class IGKLog extends IGKObject
     }
     /**
     * auto generate doc.
+    * @param mixed $tag
+    * @param mixed $message
     * @param mixed $eval the default value is 1
     */
     public function write_i($tag, $message, $eval = 1)

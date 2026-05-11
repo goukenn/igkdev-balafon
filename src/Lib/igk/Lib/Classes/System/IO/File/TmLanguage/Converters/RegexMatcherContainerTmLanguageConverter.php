@@ -62,16 +62,17 @@ class RegexMatcherContainerTmLanguageConverter
         return $a;
     }
     /**
-     * convert to tm language 
-     * @param RegexMatcherContainer $ctn 
-     * @return array 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws Error 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * convert to tm language
+    * @param RegexMatcherContainer $ctn
+    * @param string $scopeName
+    * @throws IGKException
+    * @throws Exception
+    * @throws Error
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array
+    */
     public function convert(RegexMatcherContainer $ctn, string $scopeName):array
     {
         $this->m_data = Activator::CreateNewInstance(RegexMatcherContainerTmDefinition::class, (object)[
@@ -136,6 +137,7 @@ class RegexMatcherContainerTmLanguageConverter
     }
     /**
     * auto generate doc.
+    * @param mixed $refdata
     * @param array $tab
     * @return array
     */
@@ -154,7 +156,7 @@ class RegexMatcherContainerTmLanguageConverter
     /**
     * auto generate doc.
     * @param array $tab
-    * @return
+    * @return mixed
     */
     private function _unsetPrivateMembers(array $tab)
     {
@@ -224,7 +226,7 @@ class RegexMatcherContainerTmLanguageConverter
     /**
     * auto generate doc.
     * @param mixed $ind
-    * @return
+    * @return mixed
     */
     private function get_identifier($ind)
     {

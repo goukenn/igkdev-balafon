@@ -12,14 +12,14 @@ final class InstallerUtils
 {
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){        
     }
     /**
     * auto generate doc.
     * @param mixed $option
-    * @return
+    * @return mixed
     */
     private static function GetExtraDefinition($option){
         $data = [

@@ -30,11 +30,12 @@ class ResponseHandler
             }
     }
     /**
-     * handle response
-     * @param mixed $r 
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * handle response
+    * @param mixed $r
+    * @param mixed $code
+    * @throws IGKException
+    * @return mixed
+    */
     public function HandleReponse($r, $code = RequestResponseCode::Ok)
     {
         $e = 0;

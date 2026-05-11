@@ -96,6 +96,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function __set($n, $v){
@@ -121,6 +122,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     /**
     * auto generate doc.
     * @param mixed $t
+    * @param mixed $file
     */
     public function initConfigSetting(\stdClass $t, $file=null){
         $f= $file ?? $this->getConfigFile();

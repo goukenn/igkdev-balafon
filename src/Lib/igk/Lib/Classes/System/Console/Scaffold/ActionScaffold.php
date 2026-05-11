@@ -14,11 +14,10 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Console\Scaffold
- */
+* auto generate doc.
+* @package IGK\System\Console\Scaffold
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Console\Scaffold
@@ -44,8 +43,9 @@ class ActionScaffold extends ScaffoldBase
         $this->run($command, ...array_slice(func_get_args(), 1));
     }
     /**
-     * show help
-     */
+    * show help
+    * @param mixed $command
+    */
     public function showHelp($command)
     {
         Logger::print(App::Gets(App::BLUE_I, "params"));
@@ -157,7 +157,7 @@ EOF;
     * auto generate doc.
     * @param mixed $file
     * @param null|string $content
-    * @return
+    * @return mixed
     */
     private static function GenerateViewTemplate($file, ?string $content = null)
     {

@@ -77,7 +77,7 @@ final class CacheConfigs
     /**
     * .destructor
     * @param mixed $n
-    * @return
+    * @return mixed
     */
     public function __get($n){
         igk_die("try access ". $n);
@@ -182,7 +182,7 @@ final class CacheConfigs
     * auto generate doc.
     * @param mixed $controller
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private static function _GetKey($controller, $name)
     {
@@ -195,7 +195,7 @@ final class CacheConfigs
     * @param mixed $name
     * @param mixed $default
     * @param mixed & $value
-    * @return
+    * @return mixed
     */
     private static function _GetCacheValue($i, $controller, $name, $default, &$value)
     {

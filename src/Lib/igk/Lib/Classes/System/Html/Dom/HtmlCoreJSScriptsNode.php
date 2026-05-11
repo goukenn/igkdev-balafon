@@ -37,7 +37,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
         parent::__construct("igk:js-core-script");

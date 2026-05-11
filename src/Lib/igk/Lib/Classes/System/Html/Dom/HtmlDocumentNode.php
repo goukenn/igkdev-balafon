@@ -112,8 +112,10 @@ class HtmlDocumentNode extends HtmlItemBase{
         return null;
     }
     /**
-     * use igkdoc to handle theme
-     */
+    * use igkdoc to handle theme
+    * @param ?HtmlItemBase $head
+    * @param ?HtmlItemBase $body
+    */
     public function __construct(?HtmlItemBase $head = null, ?HtmlItemBase $body = null){
         $this->m_head = $head ?? $this->add(new HtmlHeadNode());
         $this->m_body = $body ?? $this->add(new HtmlBodyNode());

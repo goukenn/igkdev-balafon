@@ -24,7 +24,7 @@ final class IGKGlobalColor{
     private static $sm_instance;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
         $this->m_COLORS=array();
@@ -55,6 +55,7 @@ final class IGKGlobalColor{
     }
     /**
     * auto generate doc.
+    * @param string $clname
     * @param string $value
     * @return void
     */

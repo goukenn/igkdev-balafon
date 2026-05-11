@@ -50,20 +50,20 @@ class CssThemeValueDetector{
     /**
     * auto generate doc.
     * @param string $value
-    * @return
+    * @return mixed
     */
     private static function _TreatPropertyExpression(string $value){
         $v = preg_replace("/\s+/", "", $value);
         return $v;
     }
     /**
-     * - remove global transform litteral 
-     * - preserve string expression 
-     * @param string $v 
-     * @param bool $remove_global remove global expression 
-     * @return string 
-     * @throws Exception 
-     */
+    * - remove global transform litteral- preserve string expression
+    * @param string $v
+    * @param bool $remove_global remove global expression
+    * @param bool $remove_static_property
+    * @throws Exception
+    * @return string
+    */
     public static function RemoveTransformLitteralFrom(string $v, 
         bool $remove_global=false,
         bool $remove_static_property=false)

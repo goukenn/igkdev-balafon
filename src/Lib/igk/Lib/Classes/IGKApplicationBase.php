@@ -60,10 +60,11 @@ abstract class IGKApplicationBase{
         return $this->no_init_environment;
     }
     /**
-     * check and get application option
-     * @param mixed $name 
-     * @return mixed
-     */
+    * check and get application option
+    * @param mixed $name
+    * @param mixed $default
+    * @return mixed
+    */
     public function options($name, $default=null){
         return false;
     }
@@ -129,10 +130,11 @@ abstract class IGKApplicationBase{
      */
     abstract function bootstrap();
     /**
-     * run application
-     * @param string $entryfile 
-     * @return mixed 
-     */
+    * run application
+    * @param string $entryfile
+    * @param mixed $render
+    * @return mixed
+    */
     abstract function run(string $entryfile, $render=1);
     /**
     * Used by var_dump() to customize debug output.

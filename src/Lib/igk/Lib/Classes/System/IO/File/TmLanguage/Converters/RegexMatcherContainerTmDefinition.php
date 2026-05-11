@@ -5,12 +5,11 @@
 namespace IGK\System\IO\File\TmLanguage\Converters;
 use Exception;
 use JsonSerializable;
-
 /**
- * 
- * @package IGK\System\IO\File\TmLanguage\Converters
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\IO\File\TmLanguage\Converters
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\System\IO\File\TmLanguage\Converters

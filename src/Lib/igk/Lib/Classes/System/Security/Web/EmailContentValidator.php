@@ -13,7 +13,9 @@ use function igk_resources_gets as __;
 class EmailContentValidator  extends MapContentValidatorBase{
     /**
     * auto generate doc.
-    * @param mixed $error
+    * @param mixed & $value
+    * @param mixed $key
+    * @param mixed $missing
     * @return mixed
     */
     public function validate(&$value, $key, $missing=false) : bool{      

@@ -90,10 +90,12 @@ abstract class UserProfileBase implements ICustomUserProfile{
         return $this->systemModel()->auths();
     }
     /**
-     * check user auth 
-     * @param mixed $auth 
-     * @return bool 
-     */
+    * check user auth
+    * @param mixed $auth
+    * @param bool $strict
+    * @param ?BaseController $ctrl
+    * @return bool
+    */
     public function auth($auth, bool $strict=false, ?BaseController $ctrl=null):bool{
         return $this->systemModel()->auth($auth, $strict, $ctrl);
     }

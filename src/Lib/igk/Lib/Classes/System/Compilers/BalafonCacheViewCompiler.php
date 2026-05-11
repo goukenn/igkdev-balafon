@@ -13,11 +13,10 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewHandler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
 /**
- * 
- * @package IGK\System\Compilers
- */
+* auto generate doc.
+* @package IGK\System\Compilers
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Compilers
@@ -49,6 +48,8 @@ class BalafonCacheViewCompiler{
     }
     /**
     * auto generate doc.
+    * @param string $source
+    * @param string $file
     * @param mixed $args
     */
     public static function TreatOuput(string $source, string $file, $args = null){

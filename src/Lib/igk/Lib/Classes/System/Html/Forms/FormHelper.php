@@ -47,6 +47,9 @@ class FormHelper{
     }
     /**
     * auto generate doc.
+    * @param mixed $data
+    * @param string $key
+    * @param string $name
     * @param null|array $options
     * @return void
     */

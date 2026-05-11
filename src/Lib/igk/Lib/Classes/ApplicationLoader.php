@@ -87,10 +87,10 @@ class ApplicationLoader
         return  IGK_LIB_DIR . "/.Caches/.included." . implode(".", array_filter([$this->_context, igk_environment()->getPhpCoreVersion()])) . ".cache";
     }
     /**
-     * .ctr
-     * @param null|mixed $context
-     * @return
-     */
+    * .ctr
+    * @param null|mixed $context
+    * @return mixed
+    */
     private function __construct($context = null)
     {
         $this->_context = $context;
@@ -130,10 +130,13 @@ class ApplicationLoader
         self::getInstance()->Load($callable, $priority, $classdir);
     }
     /**
-     * register autoload callback
-     * @param mixed $callable 
-     * @return void 
-     */
+    * register autoload callback
+    * @param mixed $callable
+    * @param mixed $priority
+    * @param mixed $classdir
+    * @param mixed $namespace
+    * @return void
+    */
     private function Load($callable, $priority = 20, $classdir = null, $namespace = null)
     {
         $this->callables[] = get_defined_vars();
@@ -163,11 +166,11 @@ class ApplicationLoader
         return false;
     }
     /**
-     * auto generate doc.
-     * @param mixed $a
-     * @param mixed $b
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $a
+    * @param mixed $b
+    * @return mixed
+    */
     private function _sort_priority($a, $b)
     {
         $g = strcmp((string)$b["namespace"], (string)$a["namespace"]);
@@ -179,9 +182,9 @@ class ApplicationLoader
         return $x == $y ? 0 : $y - $x / abs($y - $x);
     }
     /**
-     * auto generate doc.
-     * @return
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     private function _createAutoLoadClosure()
     {
         return function ($n) {
@@ -227,10 +230,14 @@ class ApplicationLoader
         return self::_TryLoadClasses($classnames, IGK_LIB_CLASSES_DIR, EntryClassResolution::IGK);
     }
     /**
-     * auto generate doc.
-     * @param bool $auto_register auto register cache class if found.
-     * @return bool
-     */
+    * auto generate doc.
+    * @param array $classnames
+    * @param mixed $path
+    * @param mixed $entryNS
+    * @param mixed $throw
+    * @param bool $auto_register auto register cache class if found.
+    * @return bool
+    */
     private static function _TryLoadClasses(array $classnames, $path, $entryNS = null,  $throw = false, $auto_register = true)
     {
         $included = null;
@@ -323,10 +330,10 @@ class ApplicationLoader
         return $result;
     }
     /**
-     * auto generate doc.
-     * @param mixed $classname
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $classname
+    * @return mixed
+    */
     public static function LoadClass($classname)
     {
         return self::LoadClasses([$classname]);
@@ -487,11 +494,11 @@ class ApplicationLoader
         self::LoadCoreEnvironmentConstant();
     }
     /**
-     * load core system environment constant
-     * - each core environment must start with IGK_
-     * @var string $prefix_pattern
-     * @return void 
-     */
+    * load core system environment constant- each core environment must start with IGK_
+    * @param ?string $prefix_pattern
+    * @var string $prefix_pattern
+    * @return void
+    */
     public static function LoadCoreEnvironmentConstant(?string $prefix_pattern = null)
     {
         $c = getenv(null);

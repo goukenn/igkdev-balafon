@@ -88,7 +88,7 @@ class Client{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _get_wellknow_config(){
         $f = null;

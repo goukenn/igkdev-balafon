@@ -40,9 +40,11 @@ class SvgRenderer
     */
     const RENDER_LIST_METHOD = 'RenderList';
     /**
-     * return svg folder 
-     * @return mixed 
-     */
+    * return svg folder
+    * @param mixed $name
+    * @param mixed & $class
+    * @return mixed
+    */
     public static function GetPath($name, &$class = null)
     {
         if (!empty($name)) {
@@ -68,11 +70,12 @@ class SvgRenderer
         return $svg_folder;
     }
     /**
-     * register folder 
-     * @param mixed $folder 
-     * @return void 
-     * @throws EnvironmentArrayException 
-     */
+    * register folder
+    * @param mixed $folder
+    * @param ?string $targetLib
+    * @throws EnvironmentArrayException
+    * @return void
+    */
     public static function RegisterFolder(string $folder, ?string $targetLib = null)
     {
         if (is_dir($folder)) {
@@ -177,7 +180,7 @@ class SvgRenderer
     /**
     * auto generate doc.
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private static function svgNewIcons($name)
     {

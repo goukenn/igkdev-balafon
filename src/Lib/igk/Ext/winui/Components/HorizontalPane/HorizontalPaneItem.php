@@ -174,7 +174,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function loadConfigSetting()
 	{
@@ -407,6 +407,7 @@ EOF;
 	}
     /**
     * auto generate doc.
+    * @param mixed $doc
     * @param BaseController|null $ctrl
     * @return void
     */

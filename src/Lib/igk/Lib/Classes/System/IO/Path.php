@@ -127,11 +127,11 @@ class Path
         return ($t = explode(".", $path)) > 1 ? array_pop($t) : "";
     }
     /**
-     * get existing file
-     * @param mixed $path 
-     * @param mixed $extension 
-     * @return bool 
-     */
+    * get existing file
+    * @param mixed & $path
+    * @param mixed $path
+    * @return bool
+    */
     public static function GetExistingFile(&$path, array $extension = []): bool
     {
         if (igk_io_file_exists($path)) {
@@ -247,7 +247,7 @@ class Path
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -349,13 +349,13 @@ class Path
         return  !is_null($_r) ? igk_uri($_r) : null;
     }
     /**
-     * get full base uri
-     * @param mixed $dir : relativepath 
-     * @param mixed $secured force secure path
-     * @param mixed $path output path-info
-     * @return string|false|null 
-     * @throws IGKException 
-     */
+    * get full base uri
+    * @param mixed $dir : relativepath
+    * @param mixed $secured force secure path
+    * @param mixed & $path
+    * @throws IGKException
+    * @return string|false|null
+    */
     public function baseuri($dir = null, $secured = null, &$path = null): ?string
     {
         if (!is_null($baseURI = igk_environment()->get("baseURI"))) {
@@ -447,6 +447,9 @@ class Path
     }
     /**
     * auto generate doc.
+    * @param mixed $dir
+    * @param mixed $basedir
+    * @param mixed $sep
     */
     public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
     {
@@ -459,6 +462,8 @@ class Path
     }
     /**
     * auto generate doc.
+    * @param mixed $spath
+    * @param mixed $link
     */
     public function relativepath($spath, $link)
     {
@@ -468,11 +473,12 @@ class Path
         return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
     }
     /**
-     * Get relative path
-     * @param mixed $source 
-     * @param mixed $target 
-     * @return string|null 
-     */
+    * Get relative path
+    * @param mixed $source
+    * @param mixed $target
+    * @param string $separator
+    * @return string|null
+    */
     public static function GetRelativePath(string $source, string $target, string $separator = DIRECTORY_SEPARATOR)
     {
         $vsource = igk_uri($source);
@@ -531,10 +537,10 @@ class Path
         );
     }
     /**
-     * combine path 
-     * @param array $path 
-     * @return string 
-     */
+    * combine path
+    * @param mixed ...$path
+    * @return string
+    */
     public static function Combine(...$path)
     {
         $sep = '/';
@@ -558,10 +564,11 @@ class Path
         return null;
     }
     /**
-     * trim directory separator
-     * @param mixed $a 
-     * @return string 
-     */
+    * trim directory separator
+    * @param mixed $a
+    * @param mixed $sep
+    * @return string
+    */
     public static function TrimDir(?string $a = null, $sep = DIRECTORY_SEPARATOR)
     {
         return trim($a ?? '', $sep);
@@ -630,10 +637,10 @@ class Path
         return $s;
     }
     /**
-     * combine an flatten path
-     * @param ?string[] $path 
-     * @return string 
-     */
+    * combine an flatten path
+    * @param mixed ...$path
+    * @return string
+    */
     public static function CombineAndFlattenPath(...$path)
     {
         return self::FlattenPath(self::Combine(...$path));
@@ -671,10 +678,11 @@ class Path
         return null;
     }
     /**
-     * resolve path with include path list 
-     * @param string $path 
-     * @return false|string 
-     */
+    * resolve path with include path list
+    * @param string $path
+    * @param ?array $include_pathlist
+    * @return false|string
+    */
     public static function ResolvePath(string $path, ?array $include_pathlist =null){
         if (is_null($include_pathlist)){
             $include_pathlist = get_include_path();
@@ -693,8 +701,10 @@ class Path
         return $p;
     }
     /**
- * get string local path
- */
+    * get string local path
+    * @param string $path
+    * @param ?string $cwd
+    */
     public static function ToLocalPath(string $path, ?string $cwd=null):string{
     $cwd = $cwd ?? getcwd();
     $c = igk_uri($path);

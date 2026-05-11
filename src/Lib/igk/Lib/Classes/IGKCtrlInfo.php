@@ -32,7 +32,7 @@ final class IGKCtrlInfo extends IGKObject{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _initInfo(){
         foreach(get_declared_classes() as $v){

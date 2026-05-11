@@ -34,8 +34,11 @@ class ZipProjectCommand extends AppExecCommand{
     */
     var $usage = "controller [path] [options]";
     /**
-     * exec the command
-     */
+    * exec the command
+    * @param mixed $command
+    * @param mixed $controller
+    * @param mixed $path
+    */
     public function exec($command, $controller=null, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

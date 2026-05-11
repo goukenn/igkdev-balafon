@@ -141,6 +141,7 @@ interface IDataDriver{
     function createAlterTableFormat():string;
     /**
     * auto generate doc.
+    * @param mixed $columninfo
     * @param mixed $value
     * @return bool
     */
@@ -160,12 +161,13 @@ interface IDataDriver{
      */
     function getCreateTableFormat(?array $options=null): ?string;
     /**
-     * create table info query
-     * @param SQLGrammar $grammar 
-     * @param string $table 
-     * @param string $dbname 
-     * @return string 
-     */
+    * create table info query
+    * @param SQLGrammar $grammar
+    * @param string $table
+    * @param string $column
+    * @param string $dbname
+    * @return string
+    */
     function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname):string;
     /**
      * check that a constraint exists

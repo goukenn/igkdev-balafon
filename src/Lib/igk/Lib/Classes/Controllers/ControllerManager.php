@@ -16,6 +16,9 @@ use IGKControllerTypeManager;
 final class ControllerManager extends NonVisibleControllerBase {
     /**
     * add a controller from request
+    * @param mixed $name
+    * @param mixed $webpagecontent
+    * @param mixed $webparent
     */
     public function addControllerRequest($name=null, $webpagecontent=false, $webparent=null){
         $n=str_replace(" ", "_", trim($name ?? igk_getr(IGK_FD_NAME, null)));
@@ -139,9 +142,10 @@ final class ControllerManager extends NonVisibleControllerBase {
     }
     /**
     * Represent GetDefaultClassContent function
-    * @param  $name
-    * @param  $extends
-    * @param  $webparent the default value is null
+    * @param $name
+    * @param $extends
+    * @param $webparent the default value is null
+    * @param ?array $config
     */
     public static function GetDefaultClassContent($name, $extends, $webparent=null, ?array $config=null){
         if(igk_ctrl_is_reservedname($name))

@@ -77,7 +77,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _regexDetectFuncData()
     {
@@ -127,7 +127,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _regexDetectDeclareFuncData()
     {
@@ -357,6 +357,10 @@ class RegexMatcherContainerTest extends BaseTestCase
             }
         }
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private function _stop_detector(){
         $regex = new RegexMatcherContainer;
         $regex->begin('begin:', '$', 'mark')->last()->patterns = [

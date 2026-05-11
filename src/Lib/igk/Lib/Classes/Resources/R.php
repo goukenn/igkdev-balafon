@@ -110,6 +110,8 @@ final class R extends IGKObject {
     private function __construct(){}
     /**
     * set the langage key
+    * @param mixed $key
+    * @param mixed $value
     */
     public static function AddLang($key, $value){
         if(!empty($key))
@@ -160,7 +162,7 @@ final class R extends IGKObject {
     }
     /**
     * auto generate doc.
-    * @param fr
+    * @param mixed $lang
     */
     public static function ChangeLang($lang="fr"){
         $app=igk_app();
@@ -185,6 +187,7 @@ final class R extends IGKObject {
     }
     /**
     * auto generate doc.
+    * @param mixed $autosave
     */
     public static function ClearLang($autosave=true){
         $v=self::getInstance();
@@ -204,7 +207,8 @@ final class R extends IGKObject {
         return $lg;
     }
     /**
-    *  get the current language file
+    * get the current language file
+    * @param mixed $folder
     */
     public static function GetCurrentLangPath($folder=null){
         if($folder == null)
@@ -224,6 +228,9 @@ final class R extends IGKObject {
     }
     /**
     * get resource image uri
+    * @param mixed $name
+    * @param mixed & $path
+    * @param mixed $check
     */
     public static function GetImgResUri($name, & $path=null, $check=true): ?string {
         $v=igk_getctrl(IGK_PIC_RES_CTRL);
@@ -263,7 +270,8 @@ final class R extends IGKObject {
         return igk_getv($v->langRes, $key);
     }
     /**
-    *  get Language key
+    * get Language key
+    * @param mixed $keys
     */
     public static function GetLang($keys){
         return new IGKLangExpression($keys);
@@ -276,6 +284,7 @@ final class R extends IGKObject {
     }
     /**
     * get string expression
+    * @param string $key
     */
     public static function Gets(string $key){
         if(igk_current_context() == IGKAppContext::initializing){ 
@@ -348,7 +357,7 @@ final class R extends IGKObject {
     /**
     * auto generate doc.
     * @param mixed $key
-    * @return
+    * @return mixed
     */
     public static function Contains($key){ 
         return isset(self::getInstance()->langRes[$key]); 
@@ -391,6 +400,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $files the default value is null
     */
     public static function LoadCtrlLang($ctrl, $files=null){  
@@ -484,6 +494,7 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param mixed $file
     * @param mixed $override the default value is true
     */
     public static function LoadLangFileXml($file, $override=true){
@@ -505,6 +516,8 @@ EOF;
     }
     /**
     * get new key string value from controller
+    * @param mixed $ctrl
+    * @param mixed $key
     */
     public static function ncgets($ctrl, $key){
         if(empty($key) || ($ctrl == null))
@@ -513,6 +526,7 @@ EOF;
     }
     /**
     * get new language expression
+    * @param mixed $key
     */
     public static function ngets($key){
         if($key == null)
@@ -570,6 +584,7 @@ EOF;
     }
     /**
     * register a language controller
+    * @param mixed $ctrl
     */
     public static function RegLangCtrl($ctrl){
         $_instance=self::getInstance();

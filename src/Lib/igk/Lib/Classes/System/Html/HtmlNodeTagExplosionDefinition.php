@@ -85,7 +85,9 @@ class HtmlNodeTagExplosionDefinition
     }
     /**
     * auto generate doc.
+    * @param mixed $node
     * @param array $data
+    * @param mixed $tnode
     * @return mixed
     */
     public function setup($node, $data, $tnode = null)
@@ -99,15 +101,15 @@ class HtmlNodeTagExplosionDefinition
         return $r;
     }
     /**
-     * explode tag
-     * @param string $tagname 
-     * @param mixed $pnode 
-     * @param mixed $context 
-     * @return array 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * explode tag
+    * @param string $tagname
+    * @param mixed & $pnode
+    * @param mixed $pnode
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array
+    */
     public function explode(string $tagname, &$pnode, $context = null)
     {
         $id =
@@ -174,10 +176,10 @@ class HtmlNodeTagExplosionDefinition
         return $i;
     }
     /**
-     * read active attribute per arg array
-     * @param string $a 
-     * @return array 
-     */
+    * read active attribute per arg array
+    * @param string & $a
+    * @return array
+    */
     private static function _GetActiveAttribute(string &$a)
     {
         $active_attrib = [];
@@ -419,7 +421,7 @@ class HtmlNodeTagExplosionDefinition
     * auto generate doc.
     * @param mixed $e
     * @param mixed & $def
-    * @return
+    * @return mixed
     */
     private static function _SetTagName($e, &$def)
     {
@@ -430,6 +432,7 @@ class HtmlNodeTagExplosionDefinition
     }
     /**
     * auto generate doc.
+    * @param string & $tagname
     * @param mixed $value
     * @return void
     */
@@ -440,14 +443,15 @@ class HtmlNodeTagExplosionDefinition
         $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos + $ln);
     }
     /**
-     * create node wwith date deifnition 
-     * @param string $tag_def 
-     * @return array 
-     * @throws IGKException 
-     * @throws Exception 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * create node wwith date deifnition
+    * @param string $tag_def
+    * @param mixed ...$args
+    * @throws IGKException
+    * @throws Exception
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array
+    */
     public static function CreateNodes(string $tag_def, ...$args)
     {
         $ctn = new RegexMatcherContainer;
@@ -488,14 +492,14 @@ class HtmlNodeTagExplosionDefinition
         return [$root, $last];
     }
     /**
-     * create node args 
-     * @param string $tagname 
-     * @param mixed ...$index_or_args 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * create node args
+    * @param string $tagname
+    * @param mixed ...$index_or_args
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return mixed
+    */
     public static function CreateNodeArg(string $tagname, ...$index_or_args)
     {
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname);

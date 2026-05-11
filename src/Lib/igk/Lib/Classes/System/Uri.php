@@ -51,15 +51,16 @@ class Uri
     * Property: fragment.
     * @var mixed
     */
-    private $m_fragment; 
+    private $m_fragment;
     /**
-     * build a query arg query
-     * @param mixed $uri 
-     * @param null|array $append_args 
-     * @param null|array $exclude_query 
-     * @return string 
-     * @throws IGKException 
-     */
+    * build a query arg query
+    * @param mixed $uri
+    * @param null|array $append_args
+    * @param null|array $exclude_query
+    * @param mixed $append
+    * @throws IGKException
+    * @return string
+    */
     public static function BuildUri($uri, ?array $append_args = [], ?array $exclude_query = null, $append = true)
     {
         $q = parse_url($uri);
@@ -138,7 +139,7 @@ class Uri
     * auto generate doc.
     * @param mixed $n
     * @param string $uri
-    * @return
+    * @return mixed
     */
     private static function _Parse($n, string $uri)
     {

@@ -44,7 +44,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     /**
     * auto generate doc.
     * @param mixed $ctrl
-    * @return
+    * @return mixed
     */
     private function __updateview($ctrl)
     {
@@ -57,7 +57,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function GetSysProject()
     {
@@ -70,7 +70,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     /**
     * auto generate doc.
     * @param mixed $t
-    * @return
+    * @return mixed
     */
     private function __viewDefaultPageCtrl($t)
     {
@@ -127,7 +127,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * @param mixed $file
     * @param mixed $v_content
     * @param null|mixed $property
-    * @return
+    * @return mixed
     */
     private function __write_article_for_tiny($file, $v_content, $property = null)
     {
@@ -174,7 +174,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * auto generate doc.
     * @param mixed $ctrl
     * @param mixed $p
-    * @return
+    * @return mixed
     */
     public function _buildAdditionalInfo($ctrl, $p)
     {
@@ -232,7 +232,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * auto generate doc.
     * @param mixed $div
     * @param null|mixed $ctrl
-    * @return
+    * @return mixed
     */
     private function _buildViewArticle($div, $ctrl = null)
     {
@@ -244,7 +244,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * @param mixed $k
     * @param null|mixed $default
     * @param mixed $nonevalue
-    * @return
+    * @return mixed
     */
     private function _ca_add_adapter($node, $k, $default = null, $nonevalue = false)
     {
@@ -270,7 +270,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * @param mixed $name
     * @param null|mixed $value
     * @param mixed $showspace
-    * @return
+    * @return mixed
     */
     private function _frm_tablevisiblectrl($li, $name, $value = null, $showspace = true)
     {
@@ -294,7 +294,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getarticleid()
     {
@@ -302,7 +302,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _getviewid()
     {
@@ -311,7 +311,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     /**
     * auto generate doc.
     * @param mixed $col
-    * @return
+    * @return mixed
     */
     private function _view_ctrl_EditCtrl($col)
     {
@@ -433,7 +433,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     * auto generate doc.
     * @param \IGK\Controllers\BaseController $ctrl
     * @param mixed $dv
-    * @return
+    * @return mixed
     */
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
@@ -461,7 +461,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     /**
     * auto generate doc.
     * @param mixed $t
-    * @return
+    * @return mixed
     */
     private function _view_default_tab($t)
     {
@@ -484,7 +484,7 @@ EOF;
     /**
     * auto generate doc.
     * @param mixed $v_dv
-    * @return
+    * @return mixed
     */
     private function _viewCtrlEditResult($v_dv)
     {
@@ -2004,7 +2004,7 @@ JS;
     /**
     * auto generate doc.
     * @param null|mixed $ctrltab
-    * @return
+    * @return mixed
     */
     private function setup_defaultpage($ctrltab = null)
     {

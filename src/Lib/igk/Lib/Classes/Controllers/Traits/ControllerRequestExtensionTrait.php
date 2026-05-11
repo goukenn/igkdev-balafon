@@ -26,7 +26,7 @@ trait ControllerRequestExtensionTrait
 {
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _BackupServerInfo(){
         $v_backup = [
@@ -40,7 +40,7 @@ trait ControllerRequestExtensionTrait
     /**
     * auto generate doc.
     * @param mixed $data
-    * @return
+    * @return mixed
     */
     private static function _RestoreBackupServerInfo($data){
         $v_backup = [
@@ -52,14 +52,15 @@ trait ControllerRequestExtensionTrait
         return $v_backup;
     }
     /**
-     * call new request view
-     * @param BaseController $ctrl 
-     * @param string $view  
-     * @return never 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * call new request view
+    * @param BaseController $ctrl
+    * @param string $path
+    * @param mixed $options
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return never
+    */
     public static function request(BaseController $ctrl, string $path, $options = null)
     { 
         $v_backup = self::_BackupServerInfo();

@@ -69,6 +69,7 @@ abstract class FormData
     }
     /**
     * auto generate doc.
+    * @param mixed $var_tab
     * @param mixed $tab
     * @return array
     */
@@ -128,12 +129,13 @@ abstract class FormData
         return $frm;
     }
     /**
-     * expand value 
-     * @param mixed $_o 
-     * @param mixed $v_ 
-     * @param mixed $ls 
-     * @return void 
-     */
+    * expand value
+    * @param mixed & $_o
+    * @param mixed $_o
+    * @param mixed $v_
+    * @param mixed $not_required
+    * @return void
+    */
     private static function _ExpandValue(&$_o, $v_, $ls, $not_required = false)
     {
         foreach ($v_ as $k => $b) {
@@ -166,18 +168,21 @@ abstract class FormData
         return null;
     }
     /**
-     * get content secure field
-     * @return null|array 
-     */
+    * get content secure field
+    * @param Request $request
+    * @return null|array
+    */
     protected function getContentSecureFormRequest(Request $request): ?array
     {
         return null;
     }
     /**
-     * validate from json request
-     * @param Request $request 
-     * @return static|false|\IGK\System\DataArgs data argument that implement static definition
-     */
+    * validate from json request
+    * @param Request $request
+    * @param mixed $validator
+    * @param ?array & $errors
+    * @return static|false|\IGK\System\DataArgs data argument that implement static definition
+    */
     public static function ValidateJSon(Request $request, $validator, ?array &$errors = null)
     {
         if ($g = $validator->validateJSon($request, static::class, $errors)) {
@@ -186,11 +191,12 @@ abstract class FormData
         return false;
     }
     /**
-     * validate data
-     * @param mixed $data 
-     * @param null $validator 
-     * @return false|static|object validated data or false - static::class's properties only 
-     */
+    * validate data
+    * @param mixed $data
+    * @param null $validator
+    * @param ?array & $errors
+    * @return false|static|object validated data or false - static::class's properties only
+    */
     public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
     {
         if (!$data){

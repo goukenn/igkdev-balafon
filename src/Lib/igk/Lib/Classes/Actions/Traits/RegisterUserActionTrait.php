@@ -160,18 +160,18 @@ trait RegisterUserActionTrait
         ];
     }
     /**
-     * send registration mail
-     * @param mixed $login 
-     * @return object 
-     * @throws IGKException 
-     * @throws BindingResolutionException  
-     * @throws NotFoundExceptionInterface   
-     * @throws ContainerExceptionInterface 
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * send registration mail
+    * @param \IGK\Models\Users $user
+    * @throws IGKException
+    * @throws BindingResolutionException
+    * @throws NotFoundExceptionInterface
+    * @throws ContainerExceptionInterface
+    * @throws Exception
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return object
+    */
     public function sendRegistrationMail(\IGK\Models\Users $user)
     {
         $login = $user->clLogin;
@@ -202,19 +202,20 @@ trait RegisterUserActionTrait
         return (object)["registrated" => 1];
     }
     /**
-     * get registration mail
-     * @param mixed $login 
-     * @param mixed $uri 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws BindingResolutionException  
-     * @throws NotFoundExceptionInterface  
-     * @throws ContainerExceptionInterface  
-     * @throws Exception 
-     * @throws CssParserException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * get registration mail
+    * @param Users $user
+    * @param ?string $registerUri
+    * @param ?string $unregisterUri
+    * @throws IGKException
+    * @throws BindingResolutionException
+    * @throws NotFoundExceptionInterface
+    * @throws ContainerExceptionInterface
+    * @throws Exception
+    * @throws CssParserException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return mixed
+    */
     public function getRegistrationMailMessage(Users $user, ?string $registerUri = null, ?string $unregisterUri = null)
     {
         $ctrl = $this->getController();
@@ -261,17 +262,18 @@ trait RegisterUserActionTrait
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _GetDomain()
     {
         return $this->getController()->getConfig('domain');
     }
     /**
-     * present registration form
-     * @param mixed $form 
-     * @return void 
-     */
+    * present registration form
+    * @param mixed $form
+    * @param mixed $options
+    * @return void
+    */
     public function form_subscribe($form, $options = null)
     {
         $ctrl = $this->getController();

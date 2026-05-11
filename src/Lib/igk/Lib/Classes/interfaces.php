@@ -83,7 +83,9 @@ interface IControllerInitListener{
     function addDir($name);
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $source
+    * @param mixed $override
     */
     function addSource($name, $source, $override=true);
 }
@@ -130,9 +132,13 @@ interface ICtrlDirManagement{
 interface IDataAdapter{
     /**
     * auto generate doc.
+    * @param string $tbname
+    * @param ?array $where
+    * @param ?array $options
     */    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
     /**
     * auto generate doc.
+    * @param mixed $check
     */    function setForeignKeyCheck($check);
 }
 /**
@@ -145,6 +151,8 @@ interface IDataTable{}
 interface IDbUtility{
     /**
     * auto generate doc.
+    * @param string $table
+    * @param mixed $obj
     * @param mixed $leaveopen the default value is false
     */
     function insertIfNotExists(string $table, $obj, $leaveopen=false);
@@ -165,16 +173,22 @@ interface IDbModel{
 interface IFormBuilderEngine{
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $type
     * @param mixed $text the default value is null
     */
     function addButton($id, $type='submit', $text=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $value
     * @param mixed $attribs the default value is null
     */
     function addCheckbox($id, $value=null, $attribs=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $type
     * @param mixed $style the default value is null
     */
     function addControl($id, $type='text', $style=null);
@@ -183,36 +197,48 @@ interface IFormBuilderEngine{
     */    function addGroup();
     /**
     * auto generate doc.
+    * @param mixed $id
     * @param mixed $class the default value is null
     */
     function addLabel($id, $class=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $value
+    * @param mixed $type
     * @param mixed $style the default value is null
     */
     function addLabelControl($id, $value=null, $type='text', $style=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $entries
     * @param mixed $filter the default value is null
     */
     function addLabelSelect($id, $entries, $filter=null);
     /**
     * auto generate doc.
+    * @param mixed $id
     * @param mixed $value the default value is null
     */
     function addLabelTextarea($id, $value=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $value
     * @param mixed $attribs the default value is null
     */
     function addRadioButton($id, $value=null, $attribs=null);
     /**
     * auto generate doc.
+    * @param mixed $id
     * @param mixed $value the default value is null
     */
     function addTextarea($id, $value=null);
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $value
     * @param mixed $attribs the default value is null
     */
     function addTextfield($id, $value=null, $attribs=null);
@@ -231,6 +257,8 @@ interface IFormBuilderEngine{
 interface IFrameController{
     /**
     * auto generate doc.
+    * @param mixed $id
+    * @param mixed $frame
     * @param mixed $remove the default value is true
     */
     function ContainFrame($id, $frame, $remove=true);
@@ -252,6 +280,7 @@ interface IHtmlComponent{
     */    function getController();
     /**
     * auto generate doc.
+    * @param mixed $listener
     * @param mixed $param the default value is null
     */
     function setComponentListener($listener, $param=null);
@@ -275,6 +304,7 @@ interface IHtmlCookieItem{
 interface IHtmlLoadContent {
     /**
     * auto generate doc.
+    * @param mixed $data
     * @param mixed $context the default value is null
     */
     function LoadExpression($data, $context=null);
@@ -285,6 +315,7 @@ interface IHtmlLoadContent {
     function LoadFile($file);
     /**
     * auto generate doc.
+    * @param mixed $ctr
     * @param mixed $article
     */
     function LoadView($ctr, $article);
@@ -320,11 +351,15 @@ interface IListener{
 interface IMailAttachmentContainer{
     /**
     * auto generate doc.
+    * @param mixed $content
+    * @param mixed $type
     * @param mixed $cid the default value is null
     */
     function attachContent($content, $type=IGK_CT_PLAIN_TEXT, $cid=null);
     /**
     * auto generate doc.
+    * @param mixed $file
+    * @param mixed $type
     * @param mixed $cid the default value is null
     */
     function attachFile($file, $type=IGK_CT_PLAIN_TEXT, $cid=null);
@@ -390,6 +425,7 @@ interface INotifyMessage {
 interface IParamHostService{
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $default the default value is null
     */
     function getParam($name, $default=null);
@@ -401,6 +437,7 @@ interface IParamHostService{
     */    function resetParam();
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $value
     */
     function setParam($name, $value);
@@ -452,6 +489,7 @@ interface ISystemUser {
 interface IUriActionListener{
     /**
     * auto generate doc.
+    * @param mixed $e
     * @param mixed $render the default value is 1
     */
     function invokeUriPattern($e, $render=1);
@@ -579,7 +617,8 @@ interface IGetValue{
 interface IQueryConditionalExpression extends IGetValue {
     /**
     * auto generate doc.
-    * @param AND
+    * @param mixed $expression
+    * @param mixed $operator
     */
     function add($expression, $operator="AND");
     /**

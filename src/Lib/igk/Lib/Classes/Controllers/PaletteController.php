@@ -51,6 +51,7 @@ final class PaletteController extends NonVisibleControllerBase {
     }
     /**
     * auto generate doc.
+    * @param mixed $context
     */
     protected function initComplete($context=null){
        parent::initComplete(); 

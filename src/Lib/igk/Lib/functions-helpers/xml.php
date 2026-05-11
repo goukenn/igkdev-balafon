@@ -2,26 +2,29 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: xml.php
 // @date: 20220831 14:18:33
-// @desc: 
-
+// @desc:
 /**
- * create xml node
- */
+* create xml node
+* @param mixed $d
+* @return mixed
+*/
 function igk_create_xmlnode($d)
 {
     $c = new \IGK\System\Html\XML\XmlNode($d);
     return $c;
 }
 /**
- * shorcut to create xml data
- */
+* shorcut to create xml data
+* @return mixed
+*/
 function igk_create_xml_cdata()
 {
     return new \IGK\System\Html\XML\XmlCDATA();
 }
 /**
- * create xlst node
- */
+* create xlst node
+* @return mixed
+*/
 function igk_create_xslt_node()
 {
     $xsl = igk_create_xmlnode("xsl:stylesheet");

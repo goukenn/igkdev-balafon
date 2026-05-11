@@ -24,10 +24,11 @@ use IGKValidator;
 abstract class UsersMacros
 {
     /**
-     * get user form id or guid
-     * @param mixed $user_id 
-     * @return null|Users 
-     */
+    * get user form id or guid
+    * @param Users $model
+    * @param mixed $user_id
+    * @return null|Users
+    */
     public static function GetUserFromIdOrGuid(Users $model, $user_id)
     {
         return (IGKValidator::IsGUID($user_id)) ?
@@ -35,20 +36,24 @@ abstract class UsersMacros
             Users::get(USers::FD_CL_ID, $user_id);
     }
     /**
-     * get all active users
-     * @return mixed 
-     */
+    * get all active users
+    * @param Users $model
+    * @param ?array $options
+    * @return mixed
+    */
     public static function ActiveUsersArray(Users $model, ?array $options)
     {
         return Users::select_all(['clStatus' => 1], $options);
     }
     /**
-     * register user helper
-     * @param Users $model 
-     * @param object|array|IUserRegisterInfo $o 
-     * @return ModelBase 
-     * @throws IGKException 
-     */
+    * register user helper
+    * @param Users $model
+    * @param object|array|IUserRegisterInfo $o
+    * @param ?BaseController $ctrl
+    * @param ?callable $beforeHook
+    * @throws IGKException
+    * @return ModelBase
+    */
     public static function Register(Users $model, $o, ?BaseController $ctrl = null, ?callable $beforeHook = null)
     {
         if (!is_array($o) && !is_object($o)) {
@@ -161,8 +166,10 @@ abstract class UsersMacros
         return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME()), $model->auths());
     }
     /**
-     * get user form guid :
-     */
+    * get user form guid :
+    * @param Users $model
+    * @param string $guid
+    */
     public static function fromGuid(Users $model, string $guid)
     {
         return $model->GetCache(Users::FD_CL_GUID, $guid);

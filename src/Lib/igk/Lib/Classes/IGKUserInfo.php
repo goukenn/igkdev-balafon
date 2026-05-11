@@ -71,6 +71,8 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
+    * @param mixed $strict
     * @param ?BaseController $ctrl current - load controller
     * @return mixed
     */

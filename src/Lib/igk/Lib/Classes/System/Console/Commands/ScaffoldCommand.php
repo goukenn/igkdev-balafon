@@ -47,7 +47,7 @@ class ScaffoldCommand extends AppExecCommand
     ];
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _InitScaffOfld(){
         $ns = \IGK\System\Console\Scaffold::class;

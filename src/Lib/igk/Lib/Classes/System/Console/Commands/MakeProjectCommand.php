@@ -478,6 +478,8 @@ EOF;
     }
     /**
     * auto generate doc.
+    * @param array & $bind
+    * @param mixed $dir
     */
     protected function _bind_langs(array &$bind, $dir)
     { 
@@ -584,7 +586,7 @@ EOF;
     * @param mixed & $bind
     * @param mixed $dir
     * @param mixed $options
-    * @return
+    * @return mixed
     */
     private function _initConfigurationFile(&$bind, $dir, $options)
     {

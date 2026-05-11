@@ -16,9 +16,10 @@ abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBas
     * Returns Can Add Child.
     */
     public function getCanAddChild(){return false;}
-	/**
-	 * warning initialize 
-	 */
+    /**
+    * warning initialize
+    * @param mixed $context
+    */
     protected function initComplete($context=null)
 	{
 		parent::initComplete($context); 

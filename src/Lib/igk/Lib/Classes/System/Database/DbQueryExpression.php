@@ -30,7 +30,7 @@ class DbQueryExpression{
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }

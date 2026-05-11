@@ -108,9 +108,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return $this->getRows();
     }
     /**
-     * encode to json 
-     * @return mixed 
-     */
+    * encode to json
+    * @param mixed $option
+    * @param mixed $json_option
+    * @return mixed
+    */
     public function to_json($option = null, $json_option = JSON_UNESCAPED_SLASHES)
     {
         return JSon::Encode($this->to_array(), $option, $json_option);
@@ -138,8 +140,9 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return "IGKMySQLQueryResult [RowCount: " . $this->RowCount . "]";
     }
     /**
-     * add a row to query result
-     */
+    * add a row to query result
+    * @param mixed $row
+    */
     public function addRow($row)
     {
         if (($this->m_type == "igk_db_query_result") && ($this->m_query == ":igk_build_in_query_result")) {
@@ -160,8 +163,10 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
     }
     /**
-     * create a empty result from result type
-     */
+    * create a empty result from result type
+    * @param mixed $result
+    * @param mixed $seacharray
+    */
     public static function CreateEmptyResult($result, $seacharray = null)
     {
         $out = new IGKMySQLQueryResult();
@@ -463,6 +468,8 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
     /**
     * auto generate doc.
+    * @param mixed $key
+    * @param mixed $asc
     * @param mixed $preserveid the default value is true
     */
     public function SortBy($key, $asc = true, $preserveid = true)
@@ -470,8 +477,12 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         return $this->SortValueBy($key, $asc, null, $preserveid);
     }
     /**
-     * sort result
-     */
+    * sort result
+    * @param mixed $key
+    * @param mixed $asc
+    * @param mixed $param
+    * @param mixed $preserveid
+    */
     public function SortValueBy($key, $asc = true, $param = null, $preserveid = false)
     {
         if (is_callable($key))

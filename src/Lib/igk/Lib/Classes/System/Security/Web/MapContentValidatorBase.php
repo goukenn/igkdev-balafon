@@ -92,13 +92,14 @@ abstract class MapContentValidatorBase
         return $this->map($value, $key, $error, $missing, $required);
     }
     /**
-     * map value 
-     * @param mixed $value value to validate
-     * @param mixed $key key of the value
-     * @param mixed $error error to update 
-     * @param mixed $missing key not provider in request
-     * @return mixed 
-     */
+    * map value
+    * @param mixed $value value to validate
+    * @param mixed $key key of the value
+    * @param mixed & $error
+    * @param mixed $error error to update
+    * @param bool $required
+    * @return mixed
+    */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true){
         if (is_null($value)){
             if (!$this->allowNullValue && $this->defaultValue && $required ){
@@ -125,6 +126,7 @@ abstract class MapContentValidatorBase
     protected abstract function validate(& $value, $key) : bool;
     /**
     * auto generate doc.
+    * @param string $t
     * @return static
     */
     public static function Get(string $t)

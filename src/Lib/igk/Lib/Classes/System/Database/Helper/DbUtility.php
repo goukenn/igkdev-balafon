@@ -34,9 +34,11 @@ abstract class DbUtility
         return str_replace("/", "\\\\\\\\/", $value);
     }
     /**
-     * prepare columnt list 
-     * @var array
-     */
+    * prepare columnt list
+    * @param array $columns
+    * @param string $prefix
+    * @var array
+    */
     public static function PrepareColumnList(array $columns, string $prefix = IGK_FIELD_PREFIX): array
     {
         $user_tab_c = array_combine($columns, array_map(function ($a) use ($prefix) {
@@ -46,11 +48,12 @@ abstract class DbUtility
         }, $columns));
         return $user_tab_c;
     }
-    /**
-    * auto generate doc.
-    * @param mixed $columns
-    * @return void
-    */
+    /** 
+     * column object 
+     * @param array &$conditions 
+     * @param mixed $columns 
+     * @return void 
+     */
     public static function TreatColumnsCondition(&$conditions, $columns)
     {
         if (!$conditions) return;
@@ -91,6 +94,7 @@ abstract class DbUtility
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
     * @param mixed $tables
     * @return mixed
     */
@@ -122,6 +126,7 @@ abstract class DbUtility
     }
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
     * @param mixed $options
     * @return void
     */
@@ -144,10 +149,13 @@ abstract class DbUtility
             $ofile = $file;
         }
         return igk_io_w2file($ofile, $src);
-    }
+    } 
     /**
-    * auto generate doc.
-    */
+     * BackupData flatten schema
+     * @param BaseController $ctrl 
+     * @param ?array $defentries 
+     * @return mixed 
+     */
     public static function BackupDataSchema(BaseController $ctrl, $defentries)
     {
         $tb = igk_db_get_ctrl_tables($ctrl);
@@ -169,11 +177,11 @@ abstract class DbUtility
         return $schema;
     }
     /**
-     * get link column name 
-     * @param string $table 
+     * get link column name  
+     * @param mixed $columnInfo 
      * @param mixed $column 
      * @param null|string $prefix 
-     * @return string
+     * @return mixed|null 
      */
     public static function GetLinkColumn($columnInfo, $column, ?string $prefix = null)
     {
@@ -192,11 +200,12 @@ abstract class DbUtility
         return null;
     }
     /**
-     * treat value conditions
-     * @param mixed $columns 
-     * @param mixed $conditions 
-     * @return array<string|int, mixed> 
-     */
+    * treat value conditions
+    * @param mixed $columns
+    * @param mixed $conditions
+    * @param ?string $prefix
+    * @return array<string|int, mixed>
+    */
     public static function TreatSelectCondition(array $columns, array $conditions, ?string $prefix = null)
     {
         $keys = array_keys($conditions);
@@ -222,11 +231,12 @@ abstract class DbUtility
         return array_combine($keys, array_values($conditions));
     }
     /**
-     * get auto detected reversal column of table
-     * @param string $table_name 
-     * @return array<string, IDbColumnInfo>|false 
-     * @throws IGKException 
-     */
+    * get auto detected reversal column of table
+    * @param string $table_name
+    * @param bool $use_autoincrement
+    * @throws IGKException
+    * @return array<string, IDbColumnInfo>|false
+    */
     public static function GetReversalUniqueColumn(string $table_name, bool $use_autoincrement = false)
     {
         $r = DbSchemas::GetTableColumnInfo($table_name);
@@ -245,7 +255,7 @@ abstract class DbUtility
     /**
      * get reversal mapping link 
      * @param ModelBase $model 
-     * @return mixed|<string,DbReverseMappingLink>
+     * @return mixed <string,DbReverseMappingLink>
      * @throws IGKException 
      */
     public static function GetReversalMappingLink(ModelBase $model)
@@ -336,6 +346,10 @@ abstract class DbUtility
     }
     /**
     * auto generate doc.
+    * @param ModelBase $model
+    * @param ModelBase $link
+    * @param string $model_column
+    * @param string $link_column
     * @param array $conditions link model conditions
     * @return void
     */

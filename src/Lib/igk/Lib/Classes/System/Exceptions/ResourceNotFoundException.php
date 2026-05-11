@@ -18,7 +18,9 @@ class ResourceNotFoundException extends IGKException {
     private $m_file;
     /**
     * auto generate doc.
+    * @param mixed $message
     * @param mixed $file
+    * @param mixed $code
     */
     public function __construct($message, $file, $code= RequestResponseCode::NotFound){
         parent::__construct($message, $code);

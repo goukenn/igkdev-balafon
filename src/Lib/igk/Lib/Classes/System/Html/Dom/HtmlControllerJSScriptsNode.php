@@ -30,7 +30,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {

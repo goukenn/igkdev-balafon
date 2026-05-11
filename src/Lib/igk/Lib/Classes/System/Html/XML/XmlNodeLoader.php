@@ -21,7 +21,7 @@ final class XmlNodeLoader extends XmlNode{
     var $tagname = 'igk:xml-loader';
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
         parent::__construct();

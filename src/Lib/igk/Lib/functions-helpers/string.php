@@ -43,6 +43,7 @@ if (!function_exists('igk_str_replace_assoc_array')) {
 if (!function_exists('igk_str_preg_replace_assoc_array')) {
     /**
     * auto generate doc.
+    * @param array $assoc_pattern
     * @param string $subject
     * @return string
     */
@@ -55,22 +56,23 @@ if (!function_exists('igk_str_preg_replace_assoc_array')) {
     }
 }
 /**
- * shortcut to string ::Format method helper
- * @param string $data format key
- * @param ?array $params format param
- * @return string formatted string
- * @throws IGKException 
- */
+* shortcut to string ::Format method helper
+* @param string $data format key
+* @param mixed ...$params
+* @throws IGKException
+* @return string formatted string
+*/
 function igk_str_format(string $data, ...$params):string
 {
     return stringUtility::Format(...func_get_args());
 }
 if (!function_exists('igk_str_assert_prepend')){
-/**
-* Igk str assert prepend.
-* @param null|string $data
-* @param string $prepend
-*/
+    /**
+    * Igk str assert prepend.
+    * @param null|string $data
+    * @param string $prepend
+    * @return mixed
+    */
 function igk_str_assert_prepend(?string $data, string $prepend){
         if ($data){
             $data = $prepend.$data;
@@ -80,11 +82,11 @@ function igk_str_assert_prepend(?string $data, string $prepend){
 }
 if (!function_exists('igk_str_escape')) {
     /**
-     * use to escape char
-     * @param string $str 
-     * @param string $list char list as string
-     * @return string 
-     */
+    * use to escape char
+    * @param string $str
+    * @param string $char_list
+    * @return string
+    */
     function igk_str_escape(string $str, string $char_list = "'")
     {
         $tab = str_split($char_list, 1);
@@ -109,12 +111,13 @@ if (!function_exists('igk_str_escape')) {
     }
 }
 if (!function_exists('igk_str_rm')) {
-/**
-* Igk str rm.
-* @param string $str
-* @param int $start_index
-* @param null|int $length
-*/
+    /**
+    * Igk str rm.
+    * @param string $str
+    * @param int $start_index
+    * @param null|int $length
+    * @return mixed
+    */
 function igk_str_rm(string $str, int $start_index, ?int $length = null)
     {
         if (!is_null($length)) {
@@ -126,7 +129,11 @@ function igk_str_rm(string $str, int $start_index, ?int $length = null)
 if (!function_exists('igk_str_insert')) {
     /**
     * auto generate doc.
+    * @param string $glue
+    * @param string $text
+    * @param int $start
     * @param mixed $offset offset from where substring start
+    * @return mixed
     */
     function igk_str_insert(string $glue, string $text, int $start, ?int $offset = null)
     {
@@ -136,10 +143,11 @@ if (!function_exists('igk_str_insert')) {
 }
 if (!function_exists('igk_str_lwfirst')) {
     /**
-     * while first word segment is uppercase make it lower case 
-     * @param mixed $g 
-     * @return void 
-     */
+    * while first word segment is uppercase make it lower case
+    * @param mixed $g
+    * @param ?string $tokens
+    * @return void
+    */
     function igk_str_lwfirst($g, ?string $tokens = null)
     {
         $s = '';
@@ -221,10 +229,11 @@ if (!function_exists('igk_str_repeat_callback')){
     }
 }
 if (!function_exists('igk_str_rm_php_csharp_summary')){
-/**
-* Igk str rm php csharp summary.
-* @param string $src
-*/
+    /**
+    * Igk str rm php csharp summary.
+    * @param string $src
+    * @return mixed
+    */
 function igk_str_rm_php_csharp_summary(string $src){
 $regex = new RegexMatcherContainer;
 $regex->autoStore = false;

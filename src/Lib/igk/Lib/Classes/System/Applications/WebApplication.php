@@ -52,10 +52,10 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         return $this->file;
     }
     /**
-     * auto generate doc.
-     * @param mixed $render
-     * @return
-     */
+    * auto generate doc.
+    * @param mixed $render
+    * @return mixed
+    */
     private function runEngine($render = true)
     {
         throw new NotImplementException(__METHOD__);
@@ -171,10 +171,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         igk_app()->getControllerManager()->setDefaultController($controller);
     }
     /**
-     * auto generate doc.
-     * @param string $file entry file
-     * @return void
-     */
+    * auto generate doc.
+    * @param string $file entry file
+    * @param bool $render
+    * @return void
+    */
     public function handleRequest(string $file, bool $render = true)
     {
         $srv = igk_server();
@@ -248,19 +249,17 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         RequestHandler::getInstance()->handle_ctrl_request_uri();
     }
     /**
-     * 
-     * @param mixed $requestHandler 
-     * @param string $path_info 
-     * @param null|array $_redirectArgs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $requestHandler
+    * @param string $path_info
+    * @param null|array $_redirectArgs
+    * @return void
+    */
     public function handleConfigurationPageRoute(string $file, $requestHandler, string $path_info, ?array $_redirectArgs = null, $display_callback=null)
     {
-     
 
         $display_callback = $display_callback ?? function (bool $display) {};
         (new  ConfigurationPageHandler($display_callback, $file))->handle_route($path_info, function () use ($requestHandler, $path_info, $_redirectArgs) {
- 
             $this->_redirectUri($requestHandler, $path_info, $_redirectArgs);
         });
     }

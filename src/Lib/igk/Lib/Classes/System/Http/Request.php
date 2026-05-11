@@ -168,15 +168,18 @@ class Request implements IInjectable, IContentSecurityProvider
         return isset($_REQUEST[$key]);
     }
     /**
-     * set the request parameters
-     */
+    * set the request parameters
+    * @param mixed $params
+    */
     public function setParam($params)
     {
         $this->m_params = $params;
     }
     /**
-     * get the set parameters
-     */
+    * get the set parameters
+    * @param mixed $id
+    * @param mixed $default
+    */
     public function getParam($id = null, $default = null)
     {
         if ($id !== null) {
@@ -213,9 +216,10 @@ class Request implements IInjectable, IContentSecurityProvider
         return false;
     }
     /**
-     * parse current query options 
-     * @return string 
-     */
+    * parse current query options
+    * @param ?bool $full
+    * @return string
+    */
     public function parseOptions(?bool $full=false):string{
         $s = '';
         if ($q = igk_getv($this->getQueryInfo(), self::QUERY_OPTIONS)){
@@ -254,7 +258,7 @@ class Request implements IInjectable, IContentSecurityProvider
     }
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
@@ -315,9 +319,10 @@ class Request implements IInjectable, IContentSecurityProvider
         return igk_server()->method($type);
     }
     /**
-     * get the file
-     * @return void 
-     */
+    * get the file
+    * @param mixed $name
+    * @return void
+    */
     public function file($name)
     {
         return igk_getv($_FILES, $name);
@@ -403,12 +408,13 @@ class Request implements IInjectable, IContentSecurityProvider
             return igk_io_move_uploaded_file($file['tmp_name'], $destination);             
         }
         return false;
-    }   
+    }
     /**
-     * create an error message data
-     * @param string $message 
-     * @return array 
-     */
+    * create an error message data
+    * @param string $message
+    * @param ?int $code
+    * @return array
+    */
     public function error(string $message, ?int $code=null):array{
         $t = ['error'=>true, 'message'=>$message];
         $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         

@@ -196,6 +196,8 @@ class VCard
     }
     /**
     * auto generate doc.
+    * @param mixed $file
+    * @param array $vcards
     * @param array|IVCardSaveOptions $save_options
     * @return void
     */

@@ -2,12 +2,12 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: .global.php
 // @date: 20220803 13:48:59
-// @desc: 
-
+// @desc:
 /**
 * Igk srv bind cookie.
 * @param mixed $lie
 * @param mixed $s
+* @return mixed
 */
 function igk_srv_bind_cookie($lie, $s){
 	preg_replace_callback("/(?P<name>([^;=])+)=(?P<value>([^;])+)/i", function($m)use($lie){
@@ -21,6 +21,7 @@ function igk_srv_bind_cookie($lie, $s){
 * @param mixed $u
 * @param mixed $name
 * @param mixed $args
+* @return mixed
 */
 function igk_srv_soap_call($u, $name, $args){
 	$lie = new SoapClient(null, array(
@@ -45,12 +46,14 @@ function igk_srv_soap_call($u, $name, $args){
 }
 /**
 * Igk srv soap session.
+* @return mixed
 */
 function igk_srv_soap_session(){
 	igk_set_env("igk_srv_soap_call://prevent_session", 1);
 }
 /**
 * Igk srv soap last header.
+* @return mixed
 */
 function igk_srv_soap_LastHeader(){
 	$e = igk_get_env("igk_srv_soap_call");
@@ -79,6 +82,7 @@ function igk_srv_soap_LastHeader(){
 * Igk srv notexposed attr.
 * @param mixed $classname
 * @param mixed $method
+* @return mixed
 */
 function igk_srv_notexposed_attr($classname, $method){
 		$key = IGK_SERVICE_PREFIX_PATH.$classname."/notexposed";

@@ -113,6 +113,8 @@ class PHPScriptBuilder
     }
     /**
     * auto generate doc.
+    * @param mixed $file
+    * @param mixed $data
     * @param string $desc
     * @return void
     */
@@ -258,9 +260,10 @@ class PHPScriptBuilder
         return "<?php\n" . $h . "\n" . $o;
     }
     /**
-     * get script file header
-     * @return string
-     */
+    * get script file header
+    * @param mixed $options
+    * @return string
+    */
     public static function GenScriptFileHeader($options)
     {
         $l = igk_extract_var(
@@ -278,7 +281,7 @@ class PHPScriptBuilder
     * auto generate doc.
     * @param mixed & $h
     * @param mixed & $_uses
-    * @return
+    * @return mixed
     */
     private function _getHeaderMap(&$h, &$_uses)
     {

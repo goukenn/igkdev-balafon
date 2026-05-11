@@ -277,8 +277,10 @@ class Mail extends IGKObject implements IMailAttachmentContainer
         $this->TextCharset = self::UTF8_CHARSET;
     }
     /**
-     * send mail with TLS by using socket
-     */
+    * send mail with TLS by using socket
+    * @param mixed $headers
+    * @param mixed $message
+    */
     private function __sendMailTLS($headers, $message)
     {
         if (!igk_network_available()) {
@@ -505,6 +507,8 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     }
     /**
     * auto generate doc.
+    * @param mixed $content
+    * @param mixed $contentType
     * @param mixed $cid the default value is null
     */
     public function attachContent($content, $contentType = IGK_CT_PLAIN_TEXT, $cid = null)
@@ -519,6 +523,8 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     }
     /**
     * auto generate doc.
+    * @param mixed $file
+    * @param mixed $contentType
     * @param mixed $cid the default value is null
     */
     public function attachFile($file, $contentType = IGK_CT_PLAIN_TEXT, $cid = null)
@@ -752,6 +758,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     }
     /**
     * auto generate doc.
+    * @param mixed $socket
     * @param mixed $expected_response
     */
     private function server_parse($socket, $expected_response)

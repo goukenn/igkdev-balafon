@@ -37,8 +37,9 @@ class JsonPackage
         return false;
     }
     /**
-     * mergin configuration file 
-     */
+    * mergin configuration file
+    * @param string $file
+    */
     public function mergeWith(string $file)
     {
         if (!($package = self::Load($file))) {
@@ -47,8 +48,9 @@ class JsonPackage
         $this->mergeWithContent($package);
     }
     /**
-     * merge with content packages
-     */
+    * merge with content packages
+    * @param mixed $package
+    */
     public function mergeWithContent($package){
         $fields = ['dependencies', 'devDependencies'];
         while (count($fields) > 0) {

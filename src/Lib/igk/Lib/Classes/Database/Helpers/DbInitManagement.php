@@ -7,12 +7,11 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
-
 /**
- * 
- * @package IGK\Database\Helper
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Database\Helper
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\Database\Helpers
@@ -39,6 +38,7 @@ class DbInitManagement
     /**
     * auto generate doc.
     * @param BaseController $controller
+    * @param ?bool $reset
     * @return void
     */
     public static function InitControllerProfile(BaseController $controller, ?bool $reset = false)

@@ -68,6 +68,7 @@ abstract class Delegate{
     }
     /**
     * auto generate doc.
+    * @param Closure $closure
     * @param bool $all
     * @return void
     */

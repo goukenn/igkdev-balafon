@@ -7,10 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 /**
 * auto generate doc.
 * @param mixed $callback
+* @return mixed
 */
 function igk_html_ob($callback){
     ob_start();
@@ -21,7 +21,13 @@ function igk_html_ob($callback){
 }
 /**
 * auto generate doc.
+* @param mixed $id
+* @param mixed $options
+* @param mixed $selected
+* @param mixed $display
+* @param mixed $attribs
 * @param mixed $render the default value is 1
+* @return mixed
 */
 function igk_html_ob_select($id, $options, $selected=null, $display=null, $attribs=null, $render=1){
     $o="<select name=\"{$id}\" ";
@@ -54,7 +60,11 @@ function igk_html_ob_select($id, $options, $selected=null, $display=null, $attri
 }
 /**
 * auto generate doc.
+* @param mixed $id
+* @param mixed $text
+* @param mixed $attribs
 * @param mixed $render the default value is 1
+* @return mixed
 */
 function igk_html_ob_submit($id, $text, $attribs=null, $render=1){
     $o="<input ";

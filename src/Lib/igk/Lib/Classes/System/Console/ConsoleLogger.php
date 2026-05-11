@@ -89,7 +89,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function get_lang(){
         $l = [];

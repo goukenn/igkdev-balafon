@@ -24,8 +24,10 @@ class AppBuilder extends MacrosConstant{
         return igk_app()->getService($name);
     }
     /**
-     * register services
-     */
+    * register services
+    * @param string $name
+    * @param string $instance_class
+    */
     public function registerService(string $name, string $instance_class){
         return IGKServices::Register($name, $instance_class);
     }

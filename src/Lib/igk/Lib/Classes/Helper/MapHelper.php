@@ -81,6 +81,7 @@ class MapHelper
     }
     /**
     * auto generate doc.
+    * @param mixed $data
     * @param array|IDataMapper $map
     * @return mixed
     */

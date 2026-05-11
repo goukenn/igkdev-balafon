@@ -22,7 +22,7 @@ final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
     private $m_member, $m_obj;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){    }
     /**

@@ -59,11 +59,12 @@ abstract class SystemUserProfile implements IUserProfile
         return $this->m_controller;
     }
     /**
-     * check auth 
-     * @param array|string $type 
-     * @param bool $strict if array must match all requirement
-     * @return bool 
-     */
+    * check auth
+    * @param array|string $type
+    * @param bool $strict if array must match all requirement
+    * @param ?BaseController $ctrl
+    * @return bool
+    */
     public function auth($type, bool $strict=true, ?BaseController $ctrl=null): bool {        
         return $this->m_profile->auth($type, $strict, $ctrl);
     }
@@ -78,10 +79,11 @@ abstract class SystemUserProfile implements IUserProfile
         return $this->m_model;
     }
     /**
-     * create user profile from info
-     * @param mixed $userInfo 
-     * @return static 
-     */
+    * create user profile from info
+    * @param mixed $userInfo
+    * @param BaseController $controller
+    * @return static
+    */
     public static function Create($userInfo, BaseController $controller)
     {   
         if (is_null($userInfo)){
@@ -100,6 +102,7 @@ abstract class SystemUserProfile implements IUserProfile
     }
     /**
     * auto generate doc.
+    * @param Users $u
     */
     protected static function _CreateClassInstance(Users $u) { 
         $l = new static;
@@ -119,6 +122,7 @@ abstract class SystemUserProfile implements IUserProfile
     }
     /**
     * auto generate doc.
+    * @param Users $user
     * @param string $model_class
     * @return mixed
     */

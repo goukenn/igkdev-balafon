@@ -57,6 +57,8 @@ class CssThemeCompiler
     }
     /**
     * auto generate doc.
+    * @param string $value
+    * @param ICssStyleContainer $theme
     * @param null|ICssStyleContainer $parentTheme
     * @return string
     */
@@ -75,21 +77,22 @@ class CssThemeCompiler
         return (strpos($value, "[") !== false) || (strpos($value, "{") !== false);
     }
     /**
-     * compile and render css 
-     * @param HtmlDocTheme $theme 
-     * @param string $docid 
-     * @param string $cacheid cache item
-     * @param bool $css_cache use css cache
-     * @param bool $minfile use css cache
-     * @param bool $theme_export use css cache
-     * @return int 1 = no_systheme, 0 = systheme
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     * @throws Exception 
-     * @throws EnvironmentArrayException 
-     * @throws CssParserException 
-     */
+    * compile and render css
+    * @param HtmlDocTheme $theme
+    * @param string $docid
+    * @param string $cacheid cache item
+    * @param bool $css_cache use css cache
+    * @param bool $minfile use css cache
+    * @param bool $theme_export use css cache
+    * @param ?ICssResourceResolver $resolver
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @throws Exception
+    * @throws EnvironmentArrayException
+    * @throws CssParserException
+    * @return int 1 = no_systheme, 0 = systheme
+    */
     public static function CompileAndRenderTheme(
         HtmlDocTheme $theme,
         string $docid,

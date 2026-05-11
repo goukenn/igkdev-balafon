@@ -113,7 +113,7 @@ class HtmlBindingArticleNode extends HtmlNode{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _bind(){
         $f = $this->file;

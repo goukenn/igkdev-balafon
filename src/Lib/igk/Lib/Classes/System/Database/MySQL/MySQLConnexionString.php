@@ -42,10 +42,10 @@ class MySQLConnexionString {
     */
     var $dbcharset = 'utf-8';
     /**
-     * create a connection string
-     * @param string $connection 
-     * @return object 
-     */
+    * create a connection string
+    * @param string $connexion
+    * @return object
+    */
     public static function Create(string $connexion){
         $g = Activator::CreateNewInstance(self::class, CssParser::Parse($connexion)->to_array());
         return $g;

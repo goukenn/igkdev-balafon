@@ -152,8 +152,10 @@ class UriHandler extends BaseUriHandler
         return $host ? $host : explode('/', $path, 2)[0];
     }
     /**
-     * check subdmain. or OP Address 
-     */
+    * check subdmain. or OP Address
+    * @param string $path
+    * @param ?string $host
+    */
     protected final
     static function _CheckSubDomain(string $path, ?string $host=null)
     {
@@ -211,16 +213,17 @@ class UriHandler extends BaseUriHandler
         return null;
     }
     /**
-     * retrieve controller depending of controller domain manager - other controller will be after 
-     * @param array $v_domains 
-     * @param string $domain 
-     * @return false|object|void 
-     * @throws Exception 
-     * @throws Error 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * retrieve controller depending of controller domain manager - other controller will be after
+    * @param array $v_domains
+    * @param string $domain
+    * @param string $path
+    * @throws Exception
+    * @throws Error
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return false|object|void
+    */
     protected static function _GetDomainManagerEntry(array $v_domains, string $domain, string $path)
     {
         $v_pdir = igk_io_projectdir();
@@ -270,12 +273,12 @@ class UriHandler extends BaseUriHandler
         }
     }
     /**
-     * serve to handle Base URI request
-     * @param string $uri
-     * @param mixed $app
-     * @param string $callaback
-     * @param string|true $subdomain 
-     */
+    * serve to handle Base URI request
+    * @param string $uri
+    * @param mixed $app
+    * @param ?callable $bootload
+    * @param string $callaback
+    */
     public static function Handle(string $uri, $app = null, ?callable $bootload = null, ?string  $subdomain = null)
     {
         $v_tab = parse_url($uri);
@@ -306,6 +309,8 @@ class UriHandler extends BaseUriHandler
     }
     /**
     * auto generate doc.
+    * @param string $path
+    * @param ?string $cwd
     */
     public static function HandlePublicDir(string $path, ?string $cwd = null)
     {

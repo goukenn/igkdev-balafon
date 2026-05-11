@@ -24,6 +24,7 @@ class ReferenceCounter
     private static $REF_UPDATE;
     /**
     * auto generate doc.
+    * @param ModelBase $data
     * @param callable $callback
     * @return void
     */

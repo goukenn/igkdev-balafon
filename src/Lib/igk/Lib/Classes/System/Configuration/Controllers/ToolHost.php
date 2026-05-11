@@ -16,6 +16,7 @@ class ToolHost{
     private $_tools;
     /**
     * Represent __construct function
+    * @param mixed $tab
     */
     public function __construct($tab){
         $this->_tools=$tab;

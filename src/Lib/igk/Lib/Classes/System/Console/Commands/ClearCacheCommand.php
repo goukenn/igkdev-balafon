@@ -29,8 +29,9 @@ class ClearCacheCommand extends AppExecCommand{
     */
     var $category = "administration";
     /**
-     * exec the command
-     */
+    * exec the command
+    * @param mixed $command
+    */
     public function exec($command)
     { 
         Logger::print("Cache directory : ".igk_io_cachedir());  

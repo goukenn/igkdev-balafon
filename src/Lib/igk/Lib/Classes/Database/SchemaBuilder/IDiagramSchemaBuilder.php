@@ -11,10 +11,12 @@ use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
 */
 interface IDiagramSchemaBuilder{
     /**
-     * create or get the diagrame entity schema
-     * @param string $name table's name
-     * @return IGK\Database\SchemaBuilder\IDiagramSchemaEntity|DiagramEntity 
-     */
+    * create or get the diagrame entity schema
+    * @param string $name table's name
+    * @param ?string $desc
+    * @param ?string $prefix
+    * @return IGK\Database\SchemaBuilder\IDiagramSchemaEntity|DiagramEntity
+    */
     function entity(string $name, ?string $desc=null, ?string $prefix=null);
     /**
      * retrieve configured table prefix
@@ -28,9 +30,10 @@ interface IDiagramSchemaBuilder{
      */
     function getPrefixTable(string $name): string;
     /**
-     * add drop entity to schema builder 
-     * @return mixed 
-     */
+    * add drop entity to schema builder
+    * @param string $name
+    * @return mixed
+    */
     function dropEntity(string $name): void;
     /**
      * add migration column info 

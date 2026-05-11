@@ -54,7 +54,7 @@ class Loader
     /**
     * auto generate doc.
     * @param mixed $f
-    * @return
+    * @return mixed
     */
     private function _autoload($f)
     {

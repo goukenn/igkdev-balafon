@@ -13,6 +13,7 @@ use IGK\Models\ModelBase;
 class DefaultMap{
     /**
     * auto generate doc.
+    * @param mixed $map
     * @param mixed $data
     * @return array<array-key
     */

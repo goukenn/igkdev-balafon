@@ -36,7 +36,7 @@ class SearchFileExclusion{
     * auto generate doc.
     * @param array $patterns
     * @param mixed $ignoreCase
-    * @return
+    * @return mixed
     */
     public static function Create(array $patterns, $ignoreCase = false){
         $s = new static;
@@ -63,7 +63,7 @@ class SearchFileExclusion{
     /**
     * auto generate doc.
     * @param string $q
-    * @return
+    * @return mixed
     */
     public function prepareRegex(string $q){
         $q = str_replace("**",'.+', $q);

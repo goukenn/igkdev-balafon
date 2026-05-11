@@ -3,9 +3,8 @@
 // @file: IRegexMatcherPatternContainer.php
 // @date: 20250816 10:37:34
 namespace IGK\System\Text;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */

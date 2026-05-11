@@ -18,6 +18,11 @@ use Throwable;
 * @package IGK\System\Excpetions
 */
 class ApplicationModuleControllerException extends IGKException{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_controller;
     /**
     * .ctr
@@ -25,7 +30,7 @@ class ApplicationModuleControllerException extends IGKException{
     * @param string $message
     * @param mixed $code
     * @param null|Throwable $throwable
-    * @return
+    * @return mixed
     */
     public function __construct(ApplicationModuleController $controller, string $message, $code = 500, ?Throwable $throwable = null)
     {

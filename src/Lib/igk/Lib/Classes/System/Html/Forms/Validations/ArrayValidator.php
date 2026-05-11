@@ -19,12 +19,13 @@ class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
         return is_array($value);
     }
     /**
-     * validator
-     * @param mixed $value 
-     * @param mixed $default  
-     * @param array $error 
-     * @return mixed 
-     */
+    * validator
+    * @param mixed $value
+    * @param mixed $default
+    * @param array & $error
+    * @param ?object $options
+    * @return mixed
+    */
     protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
         if (empty($value)){
             if (is_array($default)){

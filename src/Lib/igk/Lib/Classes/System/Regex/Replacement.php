@@ -114,12 +114,12 @@ class Replacement{
         return $delimiter.$s.$delimiter.$op;
     }
     /**
-     * create a not match regex callback.
-     * @param mixed $regex 
-     * @param mixed $tab 
-     * @param int $flag 
-     * @return Closure(mixed $s): bool 
-     */
+    * create a not match regex callback.
+    * @param mixed $regex
+    * @param mixed & $tab
+    * @param mixed $tab
+    * @return Closure(mixed $s): bool
+    */
     public static function NotMatchRegex($regex, & $tab=null, $flag=0){
         return function($s)use($regex, & $tab, $flag){
             return !preg_match($regex, $s, $tab, $flag);

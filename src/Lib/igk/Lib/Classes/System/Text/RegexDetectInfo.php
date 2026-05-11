@@ -70,6 +70,11 @@ class RegexDetectInfo implements IRegexMatcherDetectInfo{
     public function id(){
         return $this->match->name ?? ($s =$this->match->tokenID)?explode(' ', $s)[0] : null;
     }
+    /**
+    * .destructor
+    * @param string $n
+    * @return void
+    */
     public function __get(string $n){
         igk_die('missing property ['.$n.']');
     }

@@ -189,7 +189,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     * auto generate doc.
     * @param mixed & $token
     * @param mixed $name
-    * @return
+    * @return mixed
     */
     private function _getInstallScript(&$token, $name)
     {

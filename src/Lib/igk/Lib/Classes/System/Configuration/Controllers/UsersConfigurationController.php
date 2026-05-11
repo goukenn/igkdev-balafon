@@ -46,6 +46,7 @@ class UsersConfigurationController extends ConfigControllerBase
     const NOTIFY_KEY = 'sys://uc/auf';
     /**
     * auto generate doc.
+    * @param mixed $a
     */    
     public static function ViewAction($a)
     {
@@ -160,6 +161,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
+    * @param string $login
     * @param string $pwd
     * @return array
     */
@@ -447,6 +449,11 @@ class UsersConfigurationController extends ConfigControllerBase
     }
     /**
     * auto generate doc.
+    * @param mixed $login
+    * @param mixed $pwd
+    * @param mixed $firstname
+    * @param mixed $lastname
+    * @param mixed $parentclass
     * @param mixed $level the default value is 1
     */
     public function register($login, $pwd, $firstname, $lastname, $parentclass = null, $level = 1)

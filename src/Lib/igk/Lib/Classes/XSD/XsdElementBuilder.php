@@ -25,13 +25,14 @@ class XsdElementBuilder extends XsdElement
     private $_defining;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct()
     {
     }
     /**
     * auto generate doc.
+    * @param IGKXmlNode $node
     * @param XsdBuilder $builder
     * @return XsdElementBuilder
     */
@@ -81,7 +82,10 @@ class XsdElementBuilder extends XsdElement
     }
     /**
     * auto generate doc.
+    * @param array $defs
     * @param mixed|null $attributes
+    * @param mixed $type
+    * @param mixed $tattributes
     * @return void
     */
     public function addComplexType(array $defs, $attributes=null, $type="sequence", $tattributes=null)

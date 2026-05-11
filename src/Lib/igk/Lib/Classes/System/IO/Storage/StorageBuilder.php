@@ -36,7 +36,9 @@ class StorageBuilder implements IStorageBuilder{
     }
     /**
     * auto generate doc.
+    * @param mixed $file
     * @param bool $ovewrite
+    * @param ?string $type
     * @return IStorageInfo
     */
     public function store($file, bool $ovewrite=false, ?string $type=null): ?IStorageInfo{

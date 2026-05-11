@@ -18,6 +18,7 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     const IGK_COMPONENT_CTRL_FLAG=0xc001;
     /**
     * auto generate doc.
+    * @param mixed $tagname
     * @param mixed $controller the default value is null
     */
     public function __construct($tagname, $controller=null){
@@ -62,7 +63,9 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
         return $this->getFlag(self::IGK_COMPONENT_CTRL_FLAG);
     }
     /**
-    *  override this to set component listner
+    * override this to set component listner
+    * @param mixed $listener
+    * @param mixed $params
     */
     public function setComponentListener($listener, $params=null){}
 }

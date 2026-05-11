@@ -12,6 +12,7 @@ use Exception;
 abstract class ArrayMapHelper{
     /**
     * auto generate doc.
+    * @param mixed $o
     * @param int $throw
     * @return null|float
     */

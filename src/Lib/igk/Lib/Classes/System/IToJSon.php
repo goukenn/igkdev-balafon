@@ -3,9 +3,8 @@
 // @file: IToJSon.php
 // @date: 20240906 17:24:07
 namespace IGK\System;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */

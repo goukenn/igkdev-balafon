@@ -14,6 +14,7 @@ use IGKException;
 abstract class ResponseUtility{
     /**
     * auto generate doc.
+    * @param bool $allow_auto_origin
     * @param null|array $allowed_header
     * @return array
     */

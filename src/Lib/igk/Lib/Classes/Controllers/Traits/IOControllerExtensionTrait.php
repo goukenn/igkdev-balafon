@@ -37,7 +37,7 @@ trait IOControllerExtensionTrait{
     * @param mixed $g
     * @param null|mixed & $pos
     * @param null|mixed & $a_pos
-    * @return
+    * @return mixed
     */
     private static function _GetResProjectIdentifier($path, $g, & $pos =null, & $a_pos = null){
         $ln =  strlen(IGK_RES_FOLDER);

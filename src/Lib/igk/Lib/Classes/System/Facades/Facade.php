@@ -16,7 +16,7 @@ class Facade{
     /**
     * auto generate doc.
     * @param mixed $f
-    * @return
+    * @return mixed
     */
     private static function _GetCoreClass($f){
         $core_ns = IGK_CORE_ENTRY_NS."/";

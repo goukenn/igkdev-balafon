@@ -30,7 +30,7 @@ abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     }
     /**
     * auto generate doc.
-    * @param * $t
+    * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clGoogleMapUrl"]=igk_getr("clGoogleMapUrl");

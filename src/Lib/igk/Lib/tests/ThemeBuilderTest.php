@@ -19,14 +19,14 @@ class ThemeBuilderTest extends BaseTestCase
     /**
     * auto generate doc.
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private static function _CreateTheme($id){
         return new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), $id, false);
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function _get_primary_theme(){
         $theme = self::_CreateTheme('test');

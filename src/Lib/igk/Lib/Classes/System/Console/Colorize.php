@@ -55,6 +55,8 @@ class Colorize
     }
     /**
     * auto generate doc.
+    * @param mixed $s
+    * @param ?RegexMatcherContainer $match
     * @param mixed $filter
     * @return null|string
     */

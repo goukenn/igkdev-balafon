@@ -22,7 +22,7 @@ trait CSSDefaultArrayAccess{
     }
     /**
     * auto generate doc.
-    * @param mixed $i
+    * @param mixed $key
     */
     public function offsetGet($key){
         if(!isset($this->_[self::PROPERTIES])){
@@ -32,6 +32,7 @@ trait CSSDefaultArrayAccess{
     }
     /**
     * auto generate doc.
+    * @param mixed $i
     * @param mixed $v
     */
     public function offsetSet($i, $v){         

@@ -28,7 +28,7 @@ class CSSContext{
     static $sm_instance;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){
     }

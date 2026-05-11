@@ -17,6 +17,8 @@ class PhpDocBlocReader
     private $m_docblock;
     /**
     * auto generate doc.
+    * @param string $docblock
+    * @param array $uses
     * @param ?array $filter list of class annotation to filter
     * @return IGK\System\IO\File\Php\Traits\PHPDocCommentParser
     */

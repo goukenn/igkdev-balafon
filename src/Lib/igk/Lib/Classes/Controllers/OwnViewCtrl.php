@@ -55,6 +55,7 @@ final class OwnViewCtrl extends IGKObject  {
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $handleevent the default value is 1
     */
     public static function RegViewCtrl($ctrl, $handleevent=1){

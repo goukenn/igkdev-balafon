@@ -72,7 +72,7 @@ final class IGKModuleListMigration extends BaseController implements
     private $m_initializer;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {}
     /**
@@ -320,7 +320,10 @@ final class IGKModuleListMigration extends BaseController implements
     }
     /**
     * auto generate doc.
+    * @param mixed $method
+    * @param mixed $navigate
     * @param bool $force
+    * @param ?array $modules
     * @return void
     */
     private static function _InvokeExtension($method, $navigate = false, $force = false, ?array $modules = null)
@@ -368,6 +371,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $arguments
     * @return mixed
     */
@@ -497,11 +501,12 @@ final class IGKModuleListMigration extends BaseController implements
         }
     }
     /**
-     * schema definition info 
-     * @param object|IDbSchemaDefinitionResult $definition definition source
-     * @return void 
-     * @throws IGKException 
-     */
+    * schema definition info
+    * @param DatabaseInitializer $initializer
+    * @param mixed $operation
+    * @throws IGKException
+    * @return void
+    */
     public function loadMigrationSchema(DatabaseInitializer $initializer, $operation = DbSchemasConstants::Migrate)
     {
         $this->m_initializer = $initializer;

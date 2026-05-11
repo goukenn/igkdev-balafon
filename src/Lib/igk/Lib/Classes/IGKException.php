@@ -10,7 +10,9 @@
 class IGKException extends \Exception implements Throwable{
     /**
     * auto generate doc.
+    * @param mixed $msg
     * @param mixed $code the default value is 500
+    * @param ?\Throwable $throwable
     */
     public function __construct($msg, $code=500, ?\Throwable $throwable=null){
         parent::__construct($msg, $code, $throwable);        

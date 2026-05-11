@@ -37,7 +37,7 @@ abstract class ConsoleUtility
     * auto generate doc.
     * @param mixed $options
     * @param null|mixed $title
-    * @return
+    * @return mixed
     */
     public static function ShowOptionsCommand($options, $title=null){
         $opts = $options;
@@ -95,8 +95,9 @@ abstract class ConsoleUtility
         return $c;
     }
     /**
-     * show db result 
-     */
+    * show db result
+    * @param mixed $result
+    */
     static function ShowJSonDdResult($result)
     {
         echo ($result ? Utility::TO_JSON($result, null, JSON_PRETTY_PRINT) : '') . PHP_EOL;
@@ -108,11 +109,12 @@ abstract class ConsoleUtility
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
     use BacktickHelperCommandTrait;
     /**
-     * bind and make file 
-     * @param array $bind 
-     * @param mixed $command 
-     * @return bool 
-     */
+    * bind and make file
+    * @param array $bind
+    * @param mixed $command
+    * @param bool $force
+    * @return bool
+    */
     static function MakeFiles(array $bind, $command, bool $force = false)
     {
         return CommandsUtility::MakeBindFiles($command, $bind, $force);
@@ -142,10 +144,12 @@ abstract class ConsoleUtility
         return $gen;
     }
     /**
-     * auto generate doc.
-     * @param mixed $color_two
-     * @return void
-     */
+    * auto generate doc.
+    * @param mixed $opts
+    * @param mixed $color_one
+    * @param mixed $color_two
+    * @return void
+    */
     public static function PrintCommand($opts, $color_one = App::AQUA, $color_two = App::GREEN)
     {
         foreach ($opts as $k => $v) {
@@ -219,10 +223,13 @@ abstract class ConsoleUtility
         return $cm;
     }
     /**
-     * auto generate doc.
-     * @param array &$args
-     * @return stdClass|ICommandOptions|mixed
-     */
+    * auto generate doc.
+    * @param ICLICommandApp $app
+    * @param mixed $argv
+    * @param array &$args
+    * @param ?array $handle
+    * @return stdClass|ICommandOptions|mixed
+    */
     public static function TreatCommandArgs(ICLICommandApp $app, $argv, array &$args, ?array $handle = null)
     {
         $command = igk_createobj();

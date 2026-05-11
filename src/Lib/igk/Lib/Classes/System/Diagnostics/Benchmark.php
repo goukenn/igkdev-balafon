@@ -42,7 +42,7 @@ class Benchmark{
     const REQUEST_PARAM = "IGK_BENCHMARK";
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct(){  
         $this->m_configs = new BenchmarkOptions();
@@ -71,11 +71,12 @@ class Benchmark{
         }
     }
     /**
-     * bech mark expectation
-     * @param string $name identifier
-     * @param float $duration duration
-     * @return void 
-     */
+    * bech mark expectation
+    * @param string $name identifier
+    * @param float $duration duration
+    * @param ?string $message
+    * @return void
+    */
     public static function expect(string $name, float $duration, ?string $message=null){
         if (!self::$Enabled){
             return;
@@ -105,6 +106,7 @@ class Benchmark{
     }
     /**
     * auto generate doc.
+    * @param string $name
     * @param bool $unset unset the mark measure
     * @return int|float|void
     */
@@ -131,11 +133,11 @@ class Benchmark{
         self::getInstance()->mark[$name] = igk_sys_request_time();
     }
     /**
-     * write to - if enabled
-     * @param mixed $args 
-     * @return void 
-     * @throws IGKException 
-     */
+    * write to - if enabled
+    * @param mixed ...$args
+    * @throws IGKException
+    * @return void
+    */
     public static function write(...$args){
         if (self::$Enabled){
             igk_wln($args);

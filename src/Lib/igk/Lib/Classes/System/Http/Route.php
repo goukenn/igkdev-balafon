@@ -195,6 +195,7 @@ class Route
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $arguments
     * @return RouteActionHandler|RouteHandler
     */

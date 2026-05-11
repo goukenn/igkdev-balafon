@@ -23,7 +23,7 @@ trait JSonFileConfigurationTrait{
     }
     /**
     * auto generate doc.
-    * @param mixed $datacreate from configuration data
+    * @param mixed $data
     * @return static
     */
     public abstract static function CreateFromConfigData($data);

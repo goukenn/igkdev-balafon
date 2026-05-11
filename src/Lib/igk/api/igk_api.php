@@ -17,6 +17,7 @@ define("IGK_API_MYSQLPINC", realpath(IGK_API_LIB."/.mysql.pinc"));
 require_once(IGK_API_LIB."/.igk.api.func.pinc");
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_api_free_session(){
     if(!igk_server_request_onlocal_server()){
@@ -27,8 +28,14 @@ function igk_api_free_session(){
     }
 }
 /**
- *  evaluate entries
- */
+* evaluate entries
+* @param mixed $entries
+* @param mixed $table_n
+* @param mixed $mysql
+* @param mixed $db
+* @param mixed $tables
+* @return mixed
+*/
 function igk_api_sync_def_evaluate_entries($entries, $table_n, $mysql, $db, $tables){
     $n=$entries->addNode("Rows")->setAttribute("For", $table_n);
     $list=$tables->list[$table_n];

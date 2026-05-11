@@ -53,7 +53,7 @@ class HtmlLoadingContext{
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function  & _RefLoading(){
         $sm = & self::$sm_context_loading;
@@ -63,11 +63,12 @@ class HtmlLoadingContext{
         return $sm;
     }
     /**
-     * push loading context
-     * @param HtmlLoadingContext $p 
-     * @return void 
-     * @throws EnvironmentArrayException 
-     */
+    * push loading context
+    * @param HtmlLoadingContext $context
+    * @param HtmlItemBase $parent
+    * @throws EnvironmentArrayException
+    * @return void
+    */
     public static function PushContext(HtmlLoadingContext $context, HtmlItemBase $parent){
         $sm_context_loading = & self::_RefLoading();
         $def = [$context, $parent];
@@ -81,7 +82,7 @@ class HtmlLoadingContext{
     * auto generate doc.
     * @param mixed & $sm_context_loading
     * @param mixed $def
-    * @return
+    * @return mixed
     */
     private static function _LoadContextAndInitialize(& $sm_context_loading, $def){
         self::_LoadContext($sm_context_loading, $def);
@@ -91,7 +92,7 @@ class HtmlLoadingContext{
     * auto generate doc.
     * @param mixed & $sm_context_loading
     * @param mixed $def
-    * @return
+    * @return mixed
     */
     private static function _LoadContext(& $sm_context_loading, $def){
         array_unshift($sm_context_loading, $def);
@@ -148,13 +149,13 @@ class HtmlLoadingContext{
     protected function uninitialize(){
     }
     /**
-     * surround container with
-     * @param IHtmlContextContainer $container 
-     * @param callable $callable 
-     * @param mixed $args 
-     * @return bool 
-     * @throws EnvironmentArrayException 
-     */
+    * surround container with
+    * @param IHtmlContextContainer $container
+    * @param callable $callable
+    * @param mixed & ...$args
+    * @throws EnvironmentArrayException
+    * @return bool
+    */
     public static function SurroundWith(IHtmlContextContainer $container, $callable, &...$args):bool{
         $sm_context_loading = & self::_RefLoading(); 
         $c = $container->getContext() ?? igk_die('missing HtmlContext container');

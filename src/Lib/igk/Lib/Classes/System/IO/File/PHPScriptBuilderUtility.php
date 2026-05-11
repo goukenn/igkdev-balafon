@@ -21,10 +21,10 @@ use ReflectionMethod;
 abstract class PHPScriptBuilderUtility
 {
     /**
-     * auto generate doc.
-     * @param mixed ...$sources
-     * @return null|string
-     */
+    * auto generate doc.
+    * @param mixed ...$sources
+    * @return null|string
+    */
     public static function MergeSource(...$sources): ?string
     {
         if (!$sources) return null;
@@ -84,10 +84,12 @@ abstract class PHPScriptBuilderUtility
         return $s . $tsrc;
     }
     /**
-     * auto generate doc.
-     * @param null|string $desc
-     * @return string
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @param ?string $fc
+    * @param null|string $desc
+    * @return string
+    */
     public static function GetArrayReturn($data, ?string $fc = null, ?string $desc = null)
     {
         $o  = "<?php\n";
@@ -120,10 +122,12 @@ abstract class PHPScriptBuilderUtility
         return $src;
     }
     /**
-     * auto generate doc.
-     * @param mixed $data
-     * @return string
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @param ?string $name
+    * @param mixed $options
+    * @return string
+    */
     public static function ExtractClassDefinition($data, ?string $name = null, $options = null)
     {
         $sb = new PhpScriptBuilder;
@@ -160,10 +164,12 @@ abstract class PHPScriptBuilderUtility
         return $sb->render();
     }
     /**
-     * extract parameter list from func definition 
-     * @param string $src 
-     * @return array 
-     */
+    * extract parameter list from func definition
+    * @param string $src
+    * @param mixed & $default
+    * @param mixed $src_obj
+    * @return array
+    */
     public static function ExtractArgsFromFuncParamDefinition(string $src, &$default = null, $src_obj = null)
     {
         $regex = new RegexMatcherContainer;
@@ -204,10 +210,11 @@ abstract class PHPScriptBuilderUtility
         return $def;
     }
     /**
-     * treat default value 
-     * @param string $default 
-     * @return float|null|mixed|string 
-     */
+    * treat default value
+    * @param string $default
+    * @param mixed $src
+    * @return float|null|mixed|string
+    */
     public static function TreatDefaultValue(string $default, $src=null)
     {
         $g = trim($default);

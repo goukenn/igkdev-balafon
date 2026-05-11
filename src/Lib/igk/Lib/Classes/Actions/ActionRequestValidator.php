@@ -30,17 +30,17 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
         $this->action = $action;
     }
     /**
-     * validate data
-     * @param mixed $data 
-     * @param array $mapper mappgin data with validation security if require
-     * @param null|array $defaultValues default values for each data 
-     * @param null|array $not_required //list of not required field
-     * @param mixed $requestData returned data
-     * @param null|array $error list of errors
-     * @param null|array $resolvKeys resolved keys
-     * @return bool 
-     * @throws IGKException 
-     */
+    * validate data
+    * @param mixed $data
+    * @param array $mapper mappgin data with validation security if require
+    * @param null|array $defaultValues default values for each data
+    * @param null|array $not_required //list of not required field
+    * @param mixed & $requestData
+    * @param ?array & $error
+    * @param mixed $requestData returned data
+    * @throws IGKException
+    * @return bool
+    */
     public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, 
      & $requestData = null,  ?array &$error = null,
      ?array $resolvKeys=null): bool    

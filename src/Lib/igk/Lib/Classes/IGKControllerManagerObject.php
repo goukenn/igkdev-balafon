@@ -101,8 +101,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     */
     public function setDefaultController(?BaseController $controller) { }
     /**
-     * get or init controller instance
-     */
+    * get or init controller instance
+    * @param mixed $classname
+    */
     public function getControllerInstance($classname)
     {
         if ($c = igk_getv($this->m_tbcontrollers, $classname)) {
@@ -154,6 +155,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $value
     */
     public function __set($key, $value)
@@ -186,6 +188,12 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $s
+    * @param mixed $tab
+    * @param mixed $fname
+    * @param mixed $fsize
+    * @param mixed $x
+    * @param mixed $y
     * @param mixed $cl
     */
     private function _cm_measure($s, $tab, $fname, $fsize, $x, $y, $cl)
@@ -206,6 +214,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $regname the default value is null
     */
     private function _registerCtrl($ctrl, $regname = null)
@@ -223,6 +232,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $a
     * @param mixed $b
     */
     private function _sort_byConfigNodeIndex($a, $b)
@@ -235,8 +245,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return strcmp($a->Name, $b->Name);
     }
     /**
-     * clear cache for base dir
-     */
+    * clear cache for base dir
+    * @param mixed $bdir
+    * @param mixed $init
+    */
     public static function ClearCache($bdir = null, $init = 0)
     {
        \IGK\Helper\SysUtils::ClearCache($bdir, $init);
@@ -435,8 +447,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         igk_io_w2file($f, $m);
     }
     /**
-     * get registerd global controller for specific fonctionnality
-     */
+    * get registerd global controller for specific fonctionnality
+    * @param mixed $name
+    */
     public function getRegCtrl($name)
     {
         igk_die("not allowed: " . __METHOD__);
@@ -453,6 +466,8 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param bool $sysload
+    * @param mixed $context
     */
     private function initCallBack(bool $sysload, $context=null)
     {
@@ -463,9 +478,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->onInitComplete($context);
     }
     /**
-     * init all controllers
-     * @param IGKApp application controller
-     */
+    * init all controllers
+    * @param IGKApp $app
+    */
     private function InitControllers(IGKApp $app)
     {
         if (func_num_args() > 1) {
@@ -568,6 +583,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $ctrl
     * @param mixed $new the default value is false
     */
     public function initCtrl($ctrl, $new = false)
@@ -584,6 +600,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $uri
     */
     public function InvokeFunctionUri($uri = null)
     {
@@ -649,8 +666,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return $this->InvokeUri($pattern->value, 1, $pattern);
     }
     /**
-     * use to invoke system controller method
-     */
+    * use to invoke system controller method
+    * @param mixed $uri
+    * @param mixed $defaultBehaviour
+    * @param mixed $pattern
+    */
     public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         igk_sys_handle_uri($uri);
@@ -732,8 +752,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return $c;
     }
     /**
-     * raise init complete event
-     */
+    * raise init complete event
+    * @param mixed $context
+    */
     private function onInitComplete($context)
     {
         \IGK\System\Diagnostics\Benchmark::mark("lib_controller_init_complete");
@@ -747,24 +768,31 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
     }
     /**
-     * register controller for specific fonctionnality
-     * @deprecated register controller not allowed
-     */
+    * register controller for specific fonctionnality
+    * @param BaseController $ctrl
+    * @deprecated register controller not allowed
+    */
     public function register(BaseController $ctrl)
     {
         $this->m_tbcontrollers[get_class($ctrl)] = $ctrl;
     }
     /**
-     * register controller. register to init complete
-     */
+    * register controller. register to init complete
+    * @param BaseController $controller
+    * @param mixed $regname
+    * @param mixed $initComplete
+    */
     public function registerController(BaseController $controller, $regname = null,  $initComplete = true)
     {
         $this->_registerCtrl($controller, $regname);
         $initComplete && ConfigControllerRegistry::RegisterInitComplete($controller);
     }
     /**
-     * reload controller table list
-     */
+    * reload controller table list
+    * @param mixed $tab
+    * @param mixed $redirect
+    * @param mixed $initCtrl
+    */
     public function reloadModules($tab, $redirect, $initCtrl = 1)
     {
         igk_set_env("sys://reloadingCtrl", 1);
@@ -809,6 +837,13 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $s
+    * @param mixed $v
+    * @param mixed $fname
+    * @param mixed $fsize
+    * @param mixed $x
+    * @param mixed $y
+    * @param mixed $cl
     * @param mixed $indexpos the default value is 0
     */
     private function renderController($s, $v, $fname, $fsize, $x, $y, $cl, $indexpos = 0)
@@ -867,12 +902,12 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
     }
     /**
-     * retrieve controller
-     * @param mixed $ctrlname 
-     * @param bool $throw exception if not found
-     * @return mixed 
-     * @throws IGKException 
-     */
+    * retrieve controller
+    * @param mixed $ctrlname
+    * @param bool $throwex
+    * @throws IGKException
+    * @return mixed
+    */
     public function getController($ctrlname, bool $throwex = true): ?BaseController
     {
         $cc = $this;
@@ -915,8 +950,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return null;
     }
     /**
-     * resolv project class 
-     */
+    * resolv project class
+    * @param mixed $n
+    */
     public static function ProjectClass($n)
     {
         static $project_info;

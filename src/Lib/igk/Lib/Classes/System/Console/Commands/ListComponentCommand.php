@@ -57,6 +57,7 @@ class ListComponentCommand extends AppExecCommand
 	}
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param string|null $pattern
     * @return void
     */

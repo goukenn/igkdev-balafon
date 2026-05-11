@@ -120,12 +120,12 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             ?? SysDbController::ctrl();
     }
     /**
-     * init with this controller
-     * @param BaseController $ctrl controller base on the initialization
-     * @param string $operation schema loading operation mode
-     * @return object newly created definition - that will be the global bindign reference
-     * @throws IGKException 
-     */
+    * init with this controller
+    * @param BaseController $ctrl controller base on the initialization
+    * @param string $op
+    * @throws IGKException
+    * @return object newly created definition - that will be the global bindign reference
+    */
     public function init(BaseController $ctrl, string $op = DbSchemasConstants::Migrate)
     {
         $ad_name = $ctrl->getDataAdapterName();
@@ -233,6 +233,9 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
     /**
     * auto generate doc.
+    * @param mixed $ad
+    * @param mixed $tableName
+    * @param mixed $entries
     * @param mixed $columnInfo
     * @return void
     */
@@ -276,7 +279,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     * @param BaseController $a
     * @param mixed $info
     * @param mixed $parent
-    * @return
+    * @return mixed
     */
     private function _MigrateModuleCallback(BaseController $a, $info,  $parent)
     {
@@ -288,7 +291,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     * auto generate doc.
     * @param BaseController $ctrl
     * @param mixed $tables
-    * @return
+    * @return mixed
     */
     private function _initLogic(BaseController $ctrl, $tables)
     {
@@ -305,7 +308,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     private $m_definition;
     /**
     * auto generate doc.
+    * @param string $file
+    * @param mixed $definition
+    * @param mixed $tableReferenceResolver
     * @param self $operation
+    * @param ?DatabaseInitializer $initializer
     * @return void
     */
     public static function InitSchemaDefinition(

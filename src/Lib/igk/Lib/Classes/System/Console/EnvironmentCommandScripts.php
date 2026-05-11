@@ -77,6 +77,7 @@ class EnvironmentCommandScripts
     }
     /**
     * auto generate doc.
+    * @param ?string $dir
     * @return array
     */
     static function DetectCachingCommand(?string $dir = null)
@@ -100,6 +101,8 @@ class EnvironmentCommandScripts
     }
     /**
     * auto generate doc.
+    * @param string $file
+    * @param ?string $dir
     */
     public static function GetCommandFile(string $file, ?string $dir = null)
     {
@@ -122,6 +125,7 @@ class EnvironmentCommandScripts
     }
     /**
     * auto generate doc.
+    * @param string $file
     * @param mixed &$definition
     * @return void
     */

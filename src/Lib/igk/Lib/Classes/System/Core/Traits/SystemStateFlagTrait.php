@@ -3,12 +3,11 @@
 // @file: SystemStateFlagTrait.php
 // @date: 20250801 04:10:37
 namespace IGK\System\Core\Traits;
-
 /**
- * 
- * @package IGK\System\Core\Traits
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Core\Traits
+* @author C.A.D. BONDJE DOUE
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Core\Traits
@@ -31,7 +30,7 @@ trait SystemStateFlagTrait
     }
     /**
     * auto generate doc.
-    * @param no-flag
+    * @param string $name
     * @return mixed
     */
     public function getFlag(string $name)
@@ -40,7 +39,7 @@ trait SystemStateFlagTrait
     }
     /**
     * auto generate doc.
-    * @param no-flag
+    * @param string $name
     * @return void
     */
     public function unsetFlag(string $name)

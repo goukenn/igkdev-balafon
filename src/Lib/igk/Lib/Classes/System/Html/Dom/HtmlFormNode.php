@@ -94,7 +94,7 @@ final class HtmlFormNode extends HtmlNode
     }
     /**
     * auto generate doc.
-    * @param mixed $o the default value is null
+    * @param mixed $options
     */
     protected function _acceptRender($options = null): bool
     {
@@ -105,6 +105,9 @@ final class HtmlFormNode extends HtmlNode
     }
     /**
     * auto generate doc.
+    * @param mixed $action
+    * @param mixed $method
+    * @param mixed $notitle
     * @param mixed $nofoot the default value is true
     */
     public function __construct($action = ".", $method = "POST", $notitle = false, $nofoot = true)
@@ -164,7 +167,7 @@ final class HtmlFormNode extends HtmlNode
     * @param mixed & $prop
     * @param mixed $value
     * @param mixed $id
-    * @return
+    * @return mixed
     */
     private function _update_node(& $prop, $value, $id){
         $n = & $prop;
@@ -186,6 +189,7 @@ final class HtmlFormNode extends HtmlNode
     }
     /**
     * auto generate doc.
+    * @param mixed $item
     * @param mixed $index the default value is null
     */
     protected function _Add($item, $index = null): bool
@@ -194,6 +198,8 @@ final class HtmlFormNode extends HtmlNode
     }
     /**
     * auto generate doc.
+    * @param mixed $nameoritem
+    * @param mixed $attributes
     * @param mixed $index the default value is null
     */
     public function add($nameoritem, $attributes = null, $index = null)
@@ -201,14 +207,16 @@ final class HtmlFormNode extends HtmlNode
         return $this->m_bodydiv->add($nameoritem, $attributes, $index);
     }
     /**
-     * input environement confirmation
-     */
+    * input environement confirmation
+    * @param mixed $v
+    */
     public function addConfirm($v = 1)
     {
         return $this->addInput("confirm", "hidden", $v);
     }
     /**
     * auto generate doc.
+    * @param mixed $n
     * @param mixed $v
     */
     public function addHidden($n, $v)

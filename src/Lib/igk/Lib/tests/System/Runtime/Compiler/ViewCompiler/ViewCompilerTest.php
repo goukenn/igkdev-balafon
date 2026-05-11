@@ -16,7 +16,7 @@ class ViewCompilerTest extends BaseTestCase{
     /**
     * auto generate doc.
     * @param mixed ...$args
-    * @return
+    * @return mixed
     */
     private function _source(...$args){
         $t = array_merge(["<?php"],  $args);

@@ -45,6 +45,7 @@ class FormatterServiceContainer implements IAppServiceContainer{
     }
     /**
     * auto generate doc.
+    * @param string $scopeName
     */
     public function resolveFormat(string $scopeName){
         if($scopeName=='source.html'){

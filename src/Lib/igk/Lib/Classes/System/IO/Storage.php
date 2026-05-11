@@ -23,8 +23,9 @@ abstract class Storage{
      */
     public abstract function get($path) : ?object;
     /**
-     * unlink path in 
-     * @return mixed 
-     */
+    * unlink path in
+    * @param mixed $path
+    * @return mixed
+    */
     public abstract function unlink($path);
 }

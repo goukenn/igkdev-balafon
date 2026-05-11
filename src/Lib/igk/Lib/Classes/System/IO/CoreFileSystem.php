@@ -100,8 +100,9 @@ abstract class CoreFileSystem{
         return implode(DIRECTORY_SEPARATOR, [$this->_getDir(), sha1($path).$ext]);
     }
     /**
-     * return the full path
-     */
+    * return the full path
+    * @param string $path
+    */
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }

@@ -11,13 +11,13 @@ namespace IGK\System\Html\Forms\Validations;
 */
 class CheckboxValidator extends BoolValidator implements IFormValidator{
     /**
-     * Validate and return a boolean value suitable for a checkbox field.
-     * @param mixed $value The value to validate.
-     * @param mixed $default The default value if validation fails.
-     * @param array $error Reference to an array collecting errors.
-     * @param mixed $options Optional validation options.
-     * @return bool
-     */
+    * Validate and return a boolean value suitable for a checkbox field.
+    * @param mixed $value The value to validate.
+    * @param mixed $default The default value if validation fails.
+    * @param mixed & $error
+    * @param array $error Reference to an array collecting errors.
+    * @return bool
+    */
     protected function _validate($value, $default=null, & $error=[], $options=null){
         if (is_bool($value))
             return $value;

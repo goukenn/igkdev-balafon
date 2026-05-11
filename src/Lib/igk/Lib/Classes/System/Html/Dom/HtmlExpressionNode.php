@@ -28,7 +28,9 @@ class HtmlExpressionNode extends HtmlNode{
     var $openerContext;
     /**
     * auto generate doc.
+    * @param mixed $args
     * @param mixed $ctrl the default value is null
+    * @param mixed $openerContext
     */
     public function __construct($args=null, $ctrl=null, $openerContext=null){
         parent::__construct(IGK_ENGINE_EXPRESSION_NODE);

@@ -23,8 +23,14 @@ if (in_array('eval', explode(',', ini_get('disable_functions')))) {
 }
 if (!function_exists('igk_template_if_attrib_expression')) {
     /**
-     * bind if attribute on loading
-     */
+    * bind if attribute on loading
+    * @param mixed $readerInfo
+    * @param mixed $attr
+    * @param mixed $v
+    * @param mixed $context
+    * @param mixed $setattrib
+    * @return mixed
+    */
     function igk_template_if_attrib_expression($readerInfo, $attr, $v, $context, $setattrib)
     {
         $g = (function () use ($readerInfo, $context, $setattrib, $attr) {
@@ -55,6 +61,7 @@ if (!function_exists('igk_template_if_attrib_expression')) {
 * @param mixed $v
 * @param mixed $context
 * @param mixed $setattrib
+* @return mixed
 */
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib)
 {
@@ -72,6 +79,10 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
 }
 /**
 * auto generate doc.
+* @param mixed $n
+* @param mixed $attr
+* @param mixed $v
+* @param mixed $context
 * @param mixed $setattrib
 * @return null
 */
@@ -89,6 +100,7 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
 }
 /**
 * auto generate doc.
+* @param mixed $rv
 * @param mixed $context
 * @return mixed
 */
@@ -130,6 +142,8 @@ function igk_template_get_piped_value($rv, $context)
 }
 /**
 * auto generate doc.
+* @param mixed $rv
+* @param mixed $attrname
 * @param mixed $setattrib
 * @return null|void
 */

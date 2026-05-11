@@ -36,8 +36,10 @@ if (!function_exists('igk_html_init')) {
 }
 if (!function_exists('igk_create_rnode')) {
     /**
-     * helper : to create relative node. no parameter need in chain.
-     */
+    * helper : to create relative node. no parameter need in chain.
+    * @param mixed $tag
+    * @return mixed
+    */
     function igk_create_rnode($tag)
     {
         return HtmlNodeTagExplosionDefinition::Core()->setup($tag, []);
@@ -80,6 +82,7 @@ function igk_html_tag($tag, $content, ?array $attributes = null)
 * Igk html reg class.
 * @param mixed $name
 * @param mixed $class
+* @return mixed
 */
 function igk_html_reg_class($name, $class)
 {
@@ -93,6 +96,8 @@ function igk_html_reg_class($name, $class)
 }
 /**
 * auto generate doc.
+* @param string $name
+* @param mixed $funcName
 * @param mixed $callable
 * @return mixed
 */
@@ -126,6 +131,7 @@ function igk_html_get_method($name, $method)
 * Igk html get class callable.
 * @param mixed $name
 * @param mixed $method
+* @return mixed
 */
 function igk_html_get_class_callable($name, $method)
 {
@@ -144,6 +150,7 @@ function igk_html_get_class_callable($name, $method)
 /**
 * Igk html print r.
 * @param mixed $args
+* @return mixed
 */
 function igk_html_print_r($args)
 {
@@ -151,7 +158,9 @@ function igk_html_print_r($args)
 }
 /**
 * auto generate doc.
-* @param mixed
+* @param mixed $t
+* @param mixed $ctrl
+* @return mixed
 */
 function igk_html_add_good_uri($t, $ctrl)
 {
@@ -165,6 +174,7 @@ function igk_html_add_good_uri($t, $ctrl)
 /**
 * auto generate doc.
 * @param mixed $n
+* @return mixed
 */
 function igk_html_attribvalue($n)
 {
@@ -177,7 +187,9 @@ function igk_html_attribvalue($n)
 }
 /**
 * auto generate doc.
-* @param mixed
+* @param mixed $node
+* @param mixed $title
+* @return mixed
 */
 function igk_html_add_title($node, $title)
 {
@@ -189,10 +201,11 @@ function igk_html_add_title($node, $title)
     return $d;
 }
 /**
- * get paget title function
- * @param mixed ctrl the controller the application title. mixed string|control implement AppTitle property
- * @param mixed title the text title
- */
+* get paget title function
+* @param mixed $ctrl
+* @param mixed $title
+* @return mixed
+*/
 function igk_html_app_page_title($ctrl, $title)
 {
     return IGKLangKey::GetValueKeys(Constants::STR_PAGE_TITLE, array(
@@ -202,7 +215,9 @@ function igk_html_app_page_title($ctrl, $title)
 }
 /**
 * auto generate doc.
+* @param mixed $ctrl
 * @param mixed $title
+* @return mixed
 */
 function igk_html_apptitle($ctrl, $title)
 {
@@ -210,7 +225,9 @@ function igk_html_apptitle($ctrl, $title)
 }
 /**
 * auto generate doc.
+* @param mixed $tab
 * @param mixed $headercallback the default value is null
+* @return mixed
 */
 function igk_html_array_table($tab, $headercallback = null)
 {
@@ -225,9 +242,13 @@ function igk_html_array_table($tab, $headercallback = null)
     return $n;
 }
 /**
- * utility to build form data
- * @deprecated use IGK\System\Html\FormBuilder instead
- */
+* utility to build form data
+* @param mixed $t
+* @param mixed $data
+* @param mixed $defaultTarget
+* @deprecated use IGK\System\Html\FormBuilder instead
+* @return mixed
+*/
 function igk_html_build_form($t, $data, $defaultTarget = "li")
 {
     foreach ($data as $id => $k) {
@@ -293,8 +314,13 @@ function igk_html_build_form($t, $data, $defaultTarget = "li")
     }
 }
 /**
- * build entry
- */
+* build entry
+* @param mixed $name
+* @param mixed $type
+* @param mixed $n
+* @param mixed $value
+* @return mixed
+*/
 function igk_html_build_form_array_entry($name, $type, $n, $value = null)
 {
     $pwd = $name == IGK_FD_PASSWORD;
@@ -342,7 +368,14 @@ function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, 
 }
 /**
 * auto generate doc.
+* @param mixed $target
+* @param mixed $tab
+* @param mixed $item
+* @param mixed $subnode
+* @param mixed $user
+* @param mixed $ctrl
 * @param mixed $callback the default value is null
+* @return mixed
 */
 function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", $user = null, $ctrl = null, $callback = null)
 {
@@ -526,8 +559,13 @@ function igk_html_load_menu_array($target, $tab, $item = "li", $subnode = "ul", 
 }
 /**
 * auto generate doc.
+* @param mixed $target
+* @param mixed $name
+* @param mixed $tab
+* @param mixed $selectattributes
+* @param mixed $selectedvalue
 * @param array $attr attribute to bind to select
-* @return HtmlSelectNode
+* @return mixed
 */
 function igk_html_build_select($target, $name, $tab, $selectattributes = null, $selectedvalue = null, $attr = null)
 {
@@ -541,6 +579,7 @@ function igk_html_build_select($target, $name, $tab, $selectattributes = null, $
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_html_build_select_setting()
 {
@@ -553,8 +592,13 @@ function igk_html_build_select_setting()
     );
 }
 /**
- * utility to build table result
- */
+* utility to build table result
+* @param mixed $tab
+* @param mixed $rows
+* @param mixed $headers
+* @param mixed $callback
+* @return mixed
+*/
 function igk_html_build_table($tab, $rows, $headers, $callback = null)
 {
     igk_html_db_build_table_header($tab->add("tr"), $headers, null, $callback);
@@ -564,7 +608,10 @@ function igk_html_build_table($tab, $rows, $headers, $callback = null)
 }
 /**
 * auto generate doc.
+* @param mixed $tab
+* @param mixed $nav
 * @param mixed $selected the default value is null
+* @return mixed
 */
 function igk_html_buildmenu_nav($tab, $nav, $selected = null)
 {
@@ -577,10 +624,12 @@ function igk_html_buildmenu_nav($tab, $nav, $selected = null)
     }
 }
 /**
- * build menu array for ul
- * @param mixed $tab  must be array of {key,'uri'}
- * @param mixed $ul the uri tab list
- */
+* build menu array for ul
+* @param mixed $tab  must be array of {key,'uri'}
+* @param mixed $ul the uri tab list
+* @param mixed $selected
+* @return mixed
+*/
 function igk_html_buildmenu_ul($tab, $ul, $selected = null)
 {
     foreach ($tab as $k => $v) {
@@ -594,6 +643,7 @@ function igk_html_buildmenu_ul($tab, $ul, $selected = null)
 /**
 * auto generate doc.
 * @param mixed $ctrl
+* @return mixed
 */
 function igk_html_create_message($ctrl)
 {
@@ -611,7 +661,10 @@ function igk_html_create_message($ctrl)
 }
 /**
 * auto generate doc.
+* @param mixed $tr
+* @param mixed $tab
 * @param mixed $filter the default value is null
+* @return mixed
 */
 function igk_html_db_build_table_entry($tr, $tab, $filter = null)
 {
@@ -619,7 +672,11 @@ function igk_html_db_build_table_entry($tr, $tab, $filter = null)
 }
 /**
 * auto generate doc.
+* @param mixed $tr
+* @param mixed $tab
+* @param mixed $filter
 * @param mixed $callback the default value is null
+* @return mixed
 */
 function igk_html_db_build_table_header($tr, $tab, $filter = null, $callback = null)
 {
@@ -627,7 +684,12 @@ function igk_html_db_build_table_header($tr, $tab, $filter = null, $callback = n
 }
 /**
 * auto generate doc.
+* @param mixed $tr
+* @param mixed $tab
+* @param mixed $filter
+* @param mixed $cell
 * @param mixed $callback the default value is null
+* @return mixed
 */
 function igk_html_db_build_table_row($tr, $tab, $filter = null, $cell = "td", $callback = null)
 {
@@ -687,7 +749,10 @@ function igk_html_db_build_table_row($tr, $tab, $filter = null, $cell = "td", $c
 }
 /**
 * auto generate doc.
+* @param mixed $dbResult
+* @param mixed $sortcallback
 * @param mixed $useempty the default value is 0
+* @return mixed
 */
 function igk_html_db_select_filter($dbResult, $sortcallback, $useempty = 0)
 {
@@ -699,6 +764,7 @@ function igk_html_db_select_filter($dbResult, $sortcallback, $useempty = 0)
 /**
 * auto generate doc.
 * @param mixed $title
+* @return mixed
 */
 function igk_html_domaintitle($title)
 {
@@ -707,6 +773,7 @@ function igk_html_domaintitle($title)
 /**
 * auto generate doc.
 * @param mixed $obj
+* @return mixed
 */
 function igk_html_dump($obj)
 {
@@ -733,6 +800,7 @@ function igk_html_dump($obj)
 /**
 * auto generate doc.
 * @param mixed $id
+* @return mixed
 */
 function igk_html_extract_id($id)
 {
@@ -748,6 +816,7 @@ function igk_html_extract_id($id)
 * Igk html bind.
 * @param mixed $node
 * @param mixed $callback
+* @return mixed
 */
 function igk_html_bind($node, $callback)
 {
@@ -757,6 +826,7 @@ function igk_html_bind($node, $callback)
 /**
 * Igk html select constants.
 * @param mixed $type
+* @return mixed
 */
 function igk_html_select_constants($type)
 {
@@ -768,7 +838,10 @@ function igk_html_select_constants($type)
 }
 /**
 * auto generate doc.
+* @param mixed $frm
+* @param mixed $fields
 * @param mixed $data
+* @return mixed
 */
 function igk_html_form_buildformfield($frm, $fields, $data)
 {
@@ -778,10 +851,11 @@ function igk_html_form_buildformfield($frm, $fields, $data)
     return $frm;
 }
 /**
- * get select data
- * @param array $data get select data
- * @param callback $callback callback to resolve data to field data
- */
+* get select data
+* @param array $data get select data
+* @param \Closure $callback callback to resolve data to field data
+* @return mixed
+*/
 function igk_html_form_select_data(array $data, $callback)
 {
     $o = [];
@@ -795,6 +869,10 @@ function igk_html_form_select_data(array $data, $callback)
 }
 /**
 * auto generate doc.
+* @param mixed $formFields
+* @param mixed $datasource
+* @param mixed $render
+* @param mixed $engine
 * @param string $tag
 * @return string
 */
@@ -810,11 +888,12 @@ function igk_html_form_fields($formFields, $datasource = null, $render = 0, $eng
     return $o;
 }
 if (!function_exists("igk_get_unique_identifier")) {
-/**
-* Returns unique identifier.
-* @param mixed $length
-* @param null|mixed & $identifers
-*/
+    /**
+    * Returns unique identifier.
+    * @param mixed $length
+    * @param null|mixed & $identifers
+    * @return mixed
+    */
 function igk_get_unique_identifier($length = 3, &$identifers = null)
     {
         if (is_null($identifers)) {
@@ -832,6 +911,7 @@ function igk_get_unique_identifier($length = 3, &$identifers = null)
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_html_form_init()
 {
@@ -857,6 +937,8 @@ function igk_html_form_cref()
 }
 /**
 * auto generate doc.
+* @param mixed $frm
+* @return mixed
 */
 function igk_html_form_initfield($frm)
 {
@@ -866,7 +948,9 @@ function igk_html_form_initfield($frm)
 }
 /**
 * auto generate doc.
+* @param mixed $ns
 * @param mixed $e
+* @return mixed
 */
 function igk_html_js_lang($ns, $e)
 {
@@ -885,7 +969,10 @@ function igk_html_js_lang($ns, $e)
 }
 /**
 * auto generate doc.
+* @param mixed $ctrl
+* @param mixed $d
 * @param mixed $source the default value is null
+* @return mixed
 */
 function igk_html_login_form($ctrl, $d, $source = null)
 {
@@ -893,6 +980,7 @@ function igk_html_login_form($ctrl, $d, $source = null)
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_html_loremipsum()
 {
@@ -955,6 +1043,7 @@ EOF;
 /**
 * auto generate doc.
 * @param mixed $setting
+* @return mixed
 */
 function igk_html_match_message($setting)
 {
@@ -975,7 +1064,15 @@ function igk_html_match_message($setting)
 }
 /**
 * auto generate doc.
+* @param mixed $target
+* @param mixed $pagingHost
+* @param mixed $tab
+* @param mixed $maxperpage
+* @param mixed $callback
+* @param mixed $uri
 * @param mixed $selected the default value is 1
+* @param mixed $ajxtarget
+* @return mixed
 */
 function igk_html_paginate($target, $pagingHost, $tab, $maxperpage, $callback, $uri, $selected = 1, $ajxtarget = null)
 {
@@ -996,7 +1093,10 @@ function igk_html_paginate($target, $pagingHost, $tab, $maxperpage, $callback, $
 }
 /**
 * auto generate doc.
-* @param current-password
+* @param mixed $t
+* @param mixed $id
+* @param mixed $auto
+* @return mixed
 */
 function igk_html_password($t, $id, $auto = "current-password")
 {
@@ -1005,16 +1105,21 @@ function igk_html_password($t, $id, $auto = "current-password")
     return $i;
 }
 /**
- * submit input helper 
- * @param mixed $a 
- * @return void 
- */
+* submit input helper
+* @param mixed $a
+* @param ?string $text
+* @return void
+*/
 function igk_html_submit($a, ?string $text = null)
 {
     $a->input("submit", "submit", $text ?? __("Submit"));
 }
 /**
 * auto generate doc.
+* @param mixed $tag
+* @param mixed $array
+* @param mixed $attr
+* @return mixed
 */
 function igk_html_render($tag, $array, $attr = "")
 {
@@ -1029,6 +1134,7 @@ function igk_html_render($tag, $array, $attr = "")
 /**
 * auto generate doc.
 * @param mixed $s
+* @return mixed
 */
 function igk_html_render_message($s)
 {
@@ -1051,15 +1157,20 @@ function igk_html_render_message($s)
     igk_notifyctrl($s["notifyname"])->addMsg($s["message"], igk_getv($s, "style", "default"));
 }
 /**
- * repalce uri
- */
+* repalce uri
+* @param mixed $d
+* @param mixed $uri
+* @return mixed
+*/
 function igk_html_replace_uri($d, $uri)
 {
     $d->addBalafonJS()->Content = "igk.winui.history.replace('{$uri}');";
 }
 /**
 * auto generate doc.
+* @param mixed $data
 * @param mixed $callback the default value is null
+* @return mixed
 */
 function igk_html_select_values($data, $callback = null)
 {
@@ -1075,6 +1186,7 @@ function igk_html_select_values($data, $callback = null)
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_html_server_info()
 {
@@ -1092,8 +1204,11 @@ function igk_html_server_info()
     return $srv;
 }
 /**
- * render directly to content
- */
+* render directly to content
+* @param mixed $value
+* @param mixed $id
+* @return mixed
+*/
 function igk_html_submit_button($value = "submit", $id = "submit")
 {
     $n = igk_create_node("input");
@@ -1106,6 +1221,7 @@ function igk_html_submit_button($value = "submit", $id = "submit")
 /**
 * auto generate doc.
 * @param mixed $title
+* @return mixed
 */
 function igk_html_subtitle($title)
 {
@@ -1113,7 +1229,9 @@ function igk_html_subtitle($title)
 }
 /**
 * auto generate doc.
+* @param mixed $id
 * @param mixed $value the default value is null
+* @return mixed
 */
 function igk_html_textarea($id, $value = null)
 {
@@ -1124,7 +1242,10 @@ function igk_html_textarea($id, $value = null)
 }
 /**
 * auto generate doc.
+* @param mixed $t
+* @param mixed $s
 * @param mixed $level the default value is 2
+* @return mixed
 */
 function igk_html_title($t, $s, $level = 2)
 {
@@ -1132,7 +1253,10 @@ function igk_html_title($t, $s, $level = 2)
 }
 /**
 * auto generate doc.
-* @param igk-default
+* @param mixed $doc
+* @param mixed $message
+* @param mixed $type
+* @return mixed
 */
 function igk_html_toast($doc, $message, $type = "igk-default")
 {
@@ -1146,6 +1270,9 @@ function igk_html_toast($doc, $message, $type = "igk-default")
 /**
 * auto generate doc.
 * @param mixed $formfields
+* @param ?array $data
+* @param mixed $render
+* @return mixed
 */
 function igk_html_utils_buildformfield($formfields, ?array $data = null, $render = 1)
 {
@@ -1153,7 +1280,10 @@ function igk_html_utils_buildformfield($formfields, ?array $data = null, $render
 }
 /**
 * auto generate doc.
-* @param html
+* @param mixed $tag
+* @param mixed $callback
+* @param mixed $type
+* @return mixed
 */
 function igk_html_view_node($tag, $callback, $type = "html")
 {
@@ -1168,6 +1298,7 @@ function igk_html_view_node($tag, $callback, $type = "html")
 }
 /**
 * auto generate doc.
+* @return mixed
 */
 function igk_html_wdump()
 {
@@ -1176,6 +1307,7 @@ function igk_html_wdump()
 /**
 * Igk html dump table.
 * @param mixed $tab
+* @return mixed
 */
 function igk_html_dump_table($tab)
 {
@@ -1201,7 +1333,11 @@ function igk_html_dump_table($tab)
 }
 /**
 * auto generate doc.
+* @param ?string $tag
+* @param string $content
+* @param mixed $attribs
 * @param mixed $forcexml the default value is 0
+* @return mixed
 */
 function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml = 0)
 {
@@ -1233,6 +1369,7 @@ function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml
 /**
 * Igk html render attribs.
 * @param mixed $attribs
+* @return mixed
 */
 function igk_html_render_attribs($attribs)
 {
@@ -1245,6 +1382,7 @@ function igk_html_render_attribs($attribs)
 * @param mixed $text
 * @param mixed $update
 * @param mixed $update_target
+* @return mixed
 */
 function igk_html_installer_button($node, $class, $text, $update = "/update", $update_target = "#update_target")
 {
@@ -1265,6 +1403,7 @@ function igk_html_installer_button($node, $class, $text, $update = "/update", $u
 /**
 * Igk html render template.
 * @param mixed $node
+* @return mixed
 */
 function igk_html_render_template($node)
 {
@@ -1277,6 +1416,7 @@ function igk_html_render_template($node)
 }
 /**
 * Igk html form login fields.
+* @return mixed
 */
 function igk_html_form_login_fields()
 {
@@ -1304,14 +1444,15 @@ function igk_html_form_login_fields()
     return $fields;
 }
 /**
- * cookie agreement utility functions. 
- * @param mixed $ctrl 
- * @param mixed $article 
- * @param mixed $t 
- * @param string $cookiename 
- * @param null|string $uri if not provided the controller must handle /cookie-details request
- * @return void 
- */
+* cookie agreement utility functions.
+* @param mixed $ctrl
+* @param mixed $article
+* @param mixed $t
+* @param string $cookiename
+* @param null|string $uri if not provided the controller must handle /cookie-details request
+* @param ?string $id
+* @return void
+*/
 function igk_html_cookie_agreement($ctrl, $article, $t, $cookiename = CookieManager::agree, ?string $uri = null, ?string $id = "cookie-agree")
 {
     if (!CookieManager::getInstance()->get($cookiename)) {
@@ -1354,11 +1495,11 @@ if (!function_exists('igk_html_conv2html')) {
 }
 if (!function_exists('igk_html_host')) {
     /**
-     * host on child 
-     * @param string|IHtmlNode|'@loop' $p
-     * @param array $params list of parameter string(content)|attribute +@|HtmlNode
-     * @note: if $p == 'loop' parameter must be and required parameter must br an array
-     */
+    * host on child
+    * @param string|HtmlNode|'@loop' $p
+    * @param mixed ...$params
+    * @return mixed
+    */
     function igk_html_host($p, ...$params)
     {
         $root = $last = null;
@@ -1423,11 +1564,12 @@ if (!function_exists('igk_html_host')) {
     }
 }
 if (!function_exists('igk_html_title_domain')) {
-/**
-* Igk html title domain.
-* @param string $s
-* @param null|string $domain
-*/
+    /**
+    * Igk html title domain.
+    * @param string $s
+    * @param null|string $domain
+    * @return mixed
+    */
 function igk_html_title_domain(string $s, ?string $domain = null)
     {
         return sprintf('%s [ %s ]', $s, $domain ?? igk_configs()->website_domain);

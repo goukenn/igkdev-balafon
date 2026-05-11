@@ -10,12 +10,11 @@ use IGK\System\Console\BalafonInitEnvironment;
 use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Console\Logger;
 use IGKAppSystem;
-use IGKEvents; 
-
+use IGKEvents;
 /**
- * 
- * @package IGK\System\Console\Commands
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -75,6 +74,7 @@ class BalafonInitCommand extends AppExecCommand
 	}
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param null|string $install_dir
     * @return null
     */

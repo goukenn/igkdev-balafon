@@ -4,11 +4,12 @@
 // @date: 20220831 14:27:24
 // @desc: reflection helpers function
 use Hamcrest\Type\IsObject;
-
 /**
- * check for class exists
- * @param mixed $name 
- */
+* check for class exists
+* @param mixed $name
+* @param mixed $autoload
+* @return mixed
+*/
 function igk_reflection_class_exists($name, $autoload= false)
 {
     if (!class_exists($name, $autoload)) {
@@ -18,10 +19,11 @@ function igk_reflection_class_exists($name, $autoload= false)
     return $name;
 }
 /**
- * get if object or classname is type of $name or extends it
- * @param mixed $objOrClassName
- * @param string $name
- */
+* get if object or classname is type of $name or extends it
+* @param mixed $objOrClassName
+* @param string $name
+* @return mixed
+*/
 function igk_reflection_class_extends($objOrClassName, string $name)
 {
     igk_reflection_class_exists($name);
@@ -36,9 +38,10 @@ function igk_reflection_class_extends($objOrClassName, string $name)
     return false;
 }
 /**
- * Represent igk_reflection_class_hierachi function
- * @param ReflectionClass $type 
- */
+* Represent igk_reflection_class_hierachi function
+* @param ReflectionClass $type
+* @return mixed
+*/
 function igk_reflection_class_hierachi(ReflectionClass $type)
 {
     $q = [];
@@ -50,7 +53,9 @@ function igk_reflection_class_hierachi(ReflectionClass $type)
 }
 /**
 * auto generate doc.
+* @param mixed $objOrClassName
 * @param mixed $name
+* @return mixed
 */
 function igk_reflection_class_implement($objOrClassName, $name)
 {
@@ -71,9 +76,11 @@ function igk_reflection_class_implement($objOrClassName, $name)
     return false;
 }
 /**
- * check if class name is an abstract class
- * @return bool|int bool if class exist -1 if not class
- */
+* check if class name is an abstract class
+* @param mixed $name
+* @param mixed $autoload
+* @return bool|int bool if class exist -1 if not class
+*/
 function igk_reflection_class_isabstract($name, $autoload = true)
 {
     if (class_exists($name, $autoload)) {
@@ -83,8 +90,10 @@ function igk_reflection_class_isabstract($name, $autoload = true)
     return -1;
 }
 /**
- * get reflection function arguments
- */
+* get reflection function arguments
+* @param mixed $args
+* @return mixed
+*/
 function igk_reflection_func_get_args($args)
 {
     $callers = debug_backtrace();
@@ -104,6 +113,7 @@ function igk_reflection_func_get_args($args)
 /**
 * auto generate doc.
 * @param mixed $cl
+* @return mixed
 */
 function igk_reflection_get_constants($cl)
 {
@@ -133,9 +143,11 @@ function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::
     }
 }
 /**
- * get reflexion properties. ignore dynamic data value
- * @return bool|property
- */
+* get reflexion properties. ignore dynamic data value
+* @param mixed $cl
+* @param mixed $exclude_empty
+* @return bool|property
+*/
 function igk_reflection_get_member($cl, $exclude_empty = 1)
 {
     $c = get_class($cl);
@@ -180,9 +192,10 @@ function igk_reflection_get_member($cl, $exclude_empty = 1)
     return $t;
 }
 /**
- * helper get class vars
- * @param mixed $obj 
- */
+* helper get class vars
+* @param mixed $obj
+* @return mixed
+*/
 function igk_reflection_getclass_vars($obj)
 {
     if (is_object($obj))
@@ -197,6 +210,7 @@ function igk_reflection_getclass_vars($obj)
 /**
 * auto generate doc.
 * @param mixed $class
+* @return mixed
 */
 function igk_reflection_getdeclared_filename($class)
 {
@@ -206,6 +220,7 @@ function igk_reflection_getdeclared_filename($class)
 /**
 * auto generate doc.
 * @param mixed $name
+* @return mixed
 */
 function igk_reflection_interface_exists($name)
 {

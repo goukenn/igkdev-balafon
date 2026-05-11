@@ -92,7 +92,7 @@ class Installer
     * @param mixed & $args
     * @param null|string & $cli
     * @param mixed $idx
-    * @return
+    * @return mixed
     */
     private static function _composer_install(string $chdir, &$argv, &$args, ?string &$cli, $idx) {}
     /**
@@ -102,7 +102,7 @@ class Installer
     * @param mixed & $args
     * @param null|string & $cli
     * @param mixed $idx
-    * @return
+    * @return mixed
     */
     private static function _composer_create_project(string $chdir, &$argv, &$args, ?string &$cli, $idx)
     {

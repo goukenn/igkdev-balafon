@@ -97,7 +97,7 @@ class CssConverter{
     const MEDIA_KEYFRAME_KEY = '@keyframes';
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private function initialize(){
         $this->imports = [];
@@ -150,13 +150,14 @@ class CssConverter{
         return array_merge($data,  $merge);
     }
     /**
-     * after : if char 
-     * @param mixed $src 
-     * @param mixed $offset 
-     * @param mixed $data 
-     * @param mixed $ln 
-     * @return void 
-     */
+    * after : if char
+    * @param mixed $src
+    * @param mixed & $offset
+    * @param mixed & $data
+    * @param mixed $offset
+    * @param mixed & $bch
+    * @return void
+    */
     private static function _TryReadSelector($src, & $offset,& $data, $ln, & $bch){
         $pos = $offset;
         $pos++;
@@ -213,7 +214,7 @@ class CssConverter{
     * @param mixed $depth
     * @param mixed $selector
     * @param mixed $stop
-    * @return
+    * @return mixed
     */
     private function _readData(& $offset, $depth, $selector,
         $stop=false){
@@ -396,12 +397,13 @@ class CssConverter{
         return implode(",", $cp);
     }
     /**
-     * read selector and stop at the '{' or end files
-     * @param mixed $src 
-     * @param mixed $offset 
-     * @param mixed $length 
-     * @return string 
-     */
+    * read selector and stop at the '{' or end files
+    * @param mixed $src
+    * @param mixed & $offset
+    * @param mixed $offset
+    * @param mixed $selector
+    * @return string
+    */
     private static function _ReadSelector($src, &$offset, $length, $selector)
     {
         $sl = '';
@@ -437,7 +439,7 @@ class CssConverter{
     * @param mixed $src
     * @param mixed & $offset
     * @param mixed $length
-    * @return
+    * @return mixed
     */
     private static function _ReadName($src, &$offset, $length)
     {
@@ -457,7 +459,7 @@ class CssConverter{
     * auto generate doc.
     * @param mixed $name
     * @param mixed $options
-    * @return
+    * @return mixed
     */
     protected function _visit($name, $options)
     {
@@ -471,7 +473,7 @@ class CssConverter{
     /**
     * auto generate doc.
     * @param mixed $gt
-    * @return
+    * @return mixed
     */
     private function _copyData($gt){
         $this->variables = array_merge($this->variables, igk_getv($gt, self::MEDIA_VARIABLES_KEY, []));
@@ -561,7 +563,7 @@ class CssConverter{
     * @param mixed $src
     * @param mixed & $offset
     * @param mixed $length
-    * @return
+    * @return mixed
     */
     private function _ReadVariable($src, &$offset, $length)
     {

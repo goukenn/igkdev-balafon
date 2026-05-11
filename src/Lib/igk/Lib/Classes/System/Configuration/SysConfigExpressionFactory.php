@@ -46,6 +46,7 @@ class SysConfigExpressionFactory{
     }
     /**
     * auto generate doc.
+    * @param mixed $name
     * @param mixed $expression
     * @return object|null
     */

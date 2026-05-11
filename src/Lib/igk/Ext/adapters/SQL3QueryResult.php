@@ -41,7 +41,7 @@ class SQLite3Result extends DbQueryResult
     private $m_rows = [];
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {}
     /**

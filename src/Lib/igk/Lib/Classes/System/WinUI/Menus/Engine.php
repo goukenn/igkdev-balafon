@@ -40,6 +40,10 @@ class Engine{
     }
     /**
     * auto generate doc.
+    * @param HtmlNode $hi
+    * @param string $text
+    * @param string $u
+    * @param bool $ajx
     * @param mixed $options
     * @return void
     */

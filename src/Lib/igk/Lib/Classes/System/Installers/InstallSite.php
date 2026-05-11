@@ -26,6 +26,9 @@ class InstallSite
 {
     /**
     * auto generate doc.
+    * @param mixed $folder
+    * @param mixed $listen
+    * @param mixed $environment
     * @param array $options extra options
     * @return false|void
     */
@@ -36,6 +39,9 @@ class InstallSite
     }
     /**
     * auto generate doc.
+    * @param mixed $folder
+    * @param mixed $listen
+    * @param mixed $environment
     * @param array $options parameter
     * @return bool
     */
@@ -248,6 +254,8 @@ class InstallSite
     }
     /**
     * auto generate doc.
+    * @param string $folder
+    * @param string $c_app
     * @param string $c_public
     * @return void
     */
@@ -273,6 +281,12 @@ class InstallSite
     }
     /**
     * auto generate doc.
+    * @param ?string $servername
+    * @param string $folder
+    * @param string $src
+    * @param string $c_root
+    * @param mixed $tport
+    * @param mixed $listen
     * @param string $environment
     * @return void
     */

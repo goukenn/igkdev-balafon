@@ -27,7 +27,7 @@ class InjectorProvider{
     private static $sm_instance;
     /**
     * .ctr
-    * @return
+    * @return mixed
     */
     private function __construct() {
     }

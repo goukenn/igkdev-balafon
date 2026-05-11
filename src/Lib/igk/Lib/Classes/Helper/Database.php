@@ -164,7 +164,7 @@ class Database
     }
     /**
     * auto generate doc.
-    * @return
+    * @return mixed
     */
     private static function _Init()
     {
@@ -253,15 +253,15 @@ class Database
         return false;
     }
     /**
-     * for single value column 
-     * @param string $constants 
-     * @param mixed $model_or_class 
-     * @param string $c column name  
-     * @return array<array-key, mixed>|false 
-     * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
-     */
+    * for single value column
+    * @param string $constant_class
+    * @param string $constants
+    * @param mixed $model_or_class
+    * @throws IGKException
+    * @throws ArgumentTypeNotValidException
+    * @throws ReflectionException
+    * @return array<array-key, mixed>|false
+    */
     public static function InitConstanstsColumn(string $constant_class, $model_or_class, string $c)
     {
         foreach ($constant_class::GetConstants() as $v) {
@@ -290,7 +290,10 @@ class Database
     }
     /**
     * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $tb
     * @param mixed $etb
+    * @param mixed $adapter
     * @return void
     */
     public static function CreateTableBase(BaseController $controller, $tb, $etb = null, $adapter = null)
@@ -347,12 +350,12 @@ class Database
         ]);
     }
     /**
-     * only for system an core
-     * @param BaseController $controller 
-     * @param array $definition table definition 
-     * @param bool $force force to init logic
-     * @return void 
-     */
+    * only for system an core
+    * @param BaseController $controller
+    * @param mixed $definitions
+    * @param array $definition table definition
+    * @return void
+    */
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force)
     {
         SchemaBuilderHelper::Migrate($definitions);

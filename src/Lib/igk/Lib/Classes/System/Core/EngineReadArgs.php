@@ -14,6 +14,7 @@ use IGKException;
  * 
  * @package IGK\System\Core
  * @author C.A.D. BONDJE DOUE
+ * @method mixed evalContext(string $src, $context=null)
  */
 /**
 * auto generate doc.
@@ -40,17 +41,17 @@ class EngineReadArgs
     */
     protected function evalContext()
     {
-        extract(func_get_arg(1) ?? []);
+        extract(igk_extract_ref(func_get_arg(1) ?? []));
         return @eval(func_get_arg(0));
     }
     /**
      * eval expression 
-     * @param string $e 
-     * @return void 
+     * @param string $src
+     * @return mixed 
      */
     public function evalExpression(string $src)
     {
-        $r = $this->evalContext('return $context->' . $src . ';', $this->context);
+        $r = call_user_func_array([$this, 'evalContext'], ['return $context->' . $src . ';', $this->context]);
         if ($r && !is_string($r) && !is_numeric($r)) {
             $r = json_encode($r);
         }
@@ -173,8 +174,9 @@ class EngineReadArgs
     }
     /**
     * auto generate doc.
+    * @param string $src
     * @param mixed $context
-    * @return void
+    * @return string
     */
     public static function TreatGlobalArgs(string $src, $context)
     {
