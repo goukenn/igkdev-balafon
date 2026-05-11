@@ -1893,9 +1893,9 @@ function igk_io_rm_redirectvar(&$uri, $force = 0)
 /**
  * create and fill stdClass from array or object
  * @param mixed $tab 
- * @return stdClass|mixed 
+ * @return stdClass 
  */
-function igk_createobj($tab = null)
+function igk_createobj($tab = null): stdClass
 {
     $o = new stdClass();
     if ($tab) {

@@ -40,7 +40,7 @@ interface IControllerManagerObject{
      * list of project controller
      * @return array 
      */
-    function getUserControllers():array;
+    function getUserControllers($filter = null):array;
     /**
      * get registrated named controller
      * @param string $name 

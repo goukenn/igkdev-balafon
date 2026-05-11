@@ -298,6 +298,9 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
                     $s = $g;
                 }
             }
+            if (empty($s) && $this->activingName($name)){
+                $s = true;
+            }
             $this->$name = $s;
             return $this;
         }
@@ -335,7 +338,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     /**
     * auto generate doc.
     * @param mixed $callback
-    * @return
+    * @return void
     */
     protected function setPropertyHandlerListener($callback){
         
@@ -343,7 +346,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     /**
     * auto generate doc.
     * @param mixed $callback
-    * @return
+    * @return void
     */
     protected function setPropertyFilterListener($callback){
     }

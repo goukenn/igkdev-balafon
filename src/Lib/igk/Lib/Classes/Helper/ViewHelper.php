@@ -22,6 +22,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
+use IGK\System\Views\IViewHandlerInfo;
 use IGKEnvironment;
 use IGKEnvironmentConstants;
 use IGKException;
@@ -140,7 +141,9 @@ class ViewHelper
         }
         $pattern = '/(\.' . $extension . ')$/i';
         $list = $v_ext_support;
-        return (object)compact('pattern', 'extension', 'list');
+        $ret = compact('pattern', 'extension', 'list');
+        return (object)$ret;
+        // return Activator::CreateNewInstance(IViewHandlerInfo::class, (object)compact('pattern', 'extension', 'list'));
     }
     /**
      * help to build view content

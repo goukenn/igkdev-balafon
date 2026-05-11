@@ -3,6 +3,9 @@
 // @file: PHPDocCommentParseTrait.php
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
+
+use IGK\System\Annotations\PhpDocBlocReader;
+use IGK\System\IO\File\PHPDocCommentParser;
 use IGK\System\IO\StringBuilder;
 
 /**
@@ -36,7 +39,7 @@ trait PHPDocCommentParseTrait
      * @param ?PhpDocBlocReader $reader
      * @param ?array $filter array of property to filter
      * @param null|callable $filterCallback
-     * @param null|callable(string $name, mixed $definition, $parser):bool $handler handle extra properties
+     * @param null|callable(string $name, mixed $definition, $parser):bool $handlerCallback handle extra properties
      * @return PHPDocCommentParser 
      */
     public static function ParsePhpDocComment(string $cm,  $reader = null, ?array $filter = null, $filterCallback = null, $handlerCallback = null)
@@ -66,10 +69,10 @@ trait PHPDocCommentParseTrait
                     }
                 }
                 if (!$summary) {
-                    $g->summary .= $k;
+                    $g->{'summary'} .= $k;
                     return;
                 }
-                $content .= $g->_TreatContent(substr($k, $offset));
+                $content .= ltrim($g->_TreatContent(substr($k, $offset)));
             } else {
                 if (strlen($k) > 0) {
                     if ($k[0] === '@') {
@@ -88,12 +91,15 @@ trait PHPDocCommentParseTrait
                 }
             }
         }, explode("\n", $c));
-        if (!empty($content)) {
+        if (!empty($content) || ($name && $g->activingName($name))) {
             self::$sm_loading = true;
             $g->$name($content);
             self::$sm_loading = false;
         }
         return $g;
+    }
+    public function activingName(string $name):bool{
+        return in_array($name, ['deprecated']);
     }
     /**
      * auto generate doc.
@@ -103,7 +109,7 @@ trait PHPDocCommentParseTrait
     {
         $update_key = function (& $p, $k, $v) {
             $tv = $v;
-            if (is_string($v)) {
+            if (is_string($v) || is_bool($v)) {
                 $tv = [$v];
             }
             while (count($tv) > 0) {
@@ -117,7 +123,11 @@ trait PHPDocCommentParseTrait
                     }
                     igk_dev_wln_e(__FILE__.":".__LINE__ , "is array ", $v);
                 }
-                $p[] = '@' . $k . ' ' . trim($v);
+                $s = '@' . $k ;
+                if (!is_bool($v) || !$this->activingName($k)){
+                    $s.= ' ' . trim($v);
+                }
+                $p[] = $s;
             }
         };
         $sb = new StringBuilder;
@@ -153,4 +163,5 @@ trait PHPDocCommentParseTrait
         $key = str_replace('_', '-', $key);
         return $key;
     }
+    abstract function getExtraProperties();
 }

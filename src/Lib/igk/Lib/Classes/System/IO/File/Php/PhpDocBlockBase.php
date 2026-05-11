@@ -37,7 +37,7 @@ abstract class PhpDocBlockBase{
      * @param string $content 
      * @return string 
      */
-    protected static function _TreatContent(string $content){
+    protected static function _TreatContent(string $content): string{
         if (igk_str_endwith($content, "\\")){
             $content.="\n";
         }   

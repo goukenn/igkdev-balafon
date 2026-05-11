@@ -318,13 +318,17 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
     /**
      * list of user controllers
+     * @param \closure $filter
      * @return array 
      */
-    public function getUserControllers(): array
+    public function getUserControllers($filter = null ): array
     {
         $tab = $this->getControllers();
         $out = array();
         $callbackfilter = null;
+        if ($filter){
+            $callbackfilter = $filter;
+        }
         if (igk_count($tab) > 0) {
             foreach ($tab as $v) {
                 if ((get_class($v) === \__PHP_Incomplete_Class::class) ||
@@ -353,7 +357,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     /**
     * auto generate doc.
     * @param string $reference
-    * @return void
+    * @return mixed
     */
     static function RetrieveControllerFromReference(string $reference)
     {

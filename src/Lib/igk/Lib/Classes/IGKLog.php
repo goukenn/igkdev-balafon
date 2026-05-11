@@ -45,7 +45,7 @@ final class IGKLog extends IGKObject
     /**
     * Writes i data.
     */
-    public function write_i_data(){
+    public function write_i_data(string $tag, string $mesage){
         throw new NotImplementException(__METHOD__);
     }
     /**
@@ -62,8 +62,7 @@ final class IGKLog extends IGKObject
         return self::$sm_instance;
     }
     /**
-     * get log file in use 
-     * @var GetLogFile
+     * get log file in use  
      */
     public static function GetSystemLogFile():string {
         $f = igk_environment()->get("logfile", igk_const("IGK_LOG_FILE"));
@@ -124,10 +123,13 @@ final class IGKLog extends IGKObject
         self::$sm_loggin = false;
     }
     /**
-    * auto generate doc.
-    * @param mixed $dblog
-    * @return void
-    */
+    * auto generate doc.   
+     * @param mixed $msg 
+     * @param mixed $tag 
+     * @param mixed $dblog 
+     * @return void 
+     * @throws Exception 
+     */
     public static function WriteDbLog($msg, $tag, $dblog){
         if ($dblog && self::CanDBLog()){  
             try{          
