@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Html;
+
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\Activator;
@@ -30,22 +31,22 @@ use ReflectionMethod;
 class HtmlRenderer
 {
     /**
-    * Constant: reflect class.
-    * @var mixed
-    */
+     * Constant: reflect class.
+     * @var mixed
+     */
     const reflect_class = 'reflec_class';
     /**
-    * Constant: render method.
-    * @var mixed
-    */
+     * Constant: render method.
+     * @var mixed
+     */
     const render_method = 'render';
     /**
-    * auto generate doc.
-    * @param HtmlItemBase $n
-    * @param mixed $separator
-    * @return string
-    */
-    public static function SplitterJoin(HtmlItemBase $n, $separator='')
+     * auto generate doc.
+     * @param HtmlItemBase $n
+     * @param mixed $separator
+     * @return string
+     */
+    public static function SplitterJoin(HtmlItemBase $n, $separator = '')
     {
         $s = '';
         $attr = '';
@@ -56,20 +57,20 @@ class HtmlRenderer
                 $attr = ' ' . $attr;
             }
             if ($n->isEmptyTag()) {
-                $s = sprintf('<%s%s/>'.$separator, $t, $attr);
+                $s = sprintf('<%s%s/>' . $separator, $t, $attr);
             } else {
-                $close = sprintf("</%s>", $t).$separator;
+                $close = sprintf("</%s>", $t) . $separator;
                 $s = sprintf('%s<%s%s>', $close, $t, $attr);
             }
         }
         return $s;
     }
     /**
-    * auto generate doc.
-    * @param HtmlItemBase $s
-    * @param mixed $g
-    * @return string
-    */
+     * auto generate doc.
+     * @param HtmlItemBase $s
+     * @param mixed $g
+     * @return string
+     */
     public static function Encapsulate(HtmlItemBase $s, $g): string
     {
         $t = $s->getTagName();
@@ -97,9 +98,9 @@ class HtmlRenderer
         array_push($option->__append__, $node);
     }
     /**
-    * auto generate doc.
-    * @return object|IHtmlRenderOptions
-    */
+     * auto generate doc.
+     * @return object|IHtmlRenderOptions
+     */
     public static function CreateRenderOptions()
     {
         $o = new HtmlRendererOptions;
@@ -107,9 +108,9 @@ class HtmlRenderer
         return $o;
     }
     /**
-    * auto generate doc.
-    * @param mixed $o
-    */
+     * auto generate doc.
+     * @param mixed $o
+     */
     public static function InitRendererOption($o)
     {
         $o->Cache = igk_sys_cache_require();
@@ -119,11 +120,11 @@ class HtmlRenderer
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $o
-    * @param mixed $options
-    * @return ?string
-    */
+     * auto generate doc.
+     * @param mixed $o
+     * @param mixed $options
+     * @return ?string
+     */
     public static function GetValue($o, $options = null)
     {
         if ($o instanceof IHtmlGetValue) {
@@ -135,11 +136,11 @@ class HtmlRenderer
         return null;
     }
     /**
-    * force to render global html document
-    * @param mixed $doc
-    * @param mixed $refreshDefault
-    * @param mixed $ctrl
-    */
+     * force to render global html document
+     * @param mixed $doc
+     * @param mixed $refreshDefault
+     * @param mixed $ctrl
+     */
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {
         $igk = igk_app();
@@ -183,9 +184,9 @@ class HtmlRenderer
         $response->output();
     }
     /**
-    * sanitize rendering option
-    * @param object $options
-    */
+     * sanitize rendering option
+     * @param object $options
+     */
     public static function SanitizeOptions(object $options)
     {
         if (!isset($options->sanitizeRendering)) {
@@ -207,21 +208,29 @@ class HtmlRenderer
         }
     }
     /**
-    * Def options.
-    * @param null|mixed & $options
-    */
+     * Def options.
+     * @param null|mixed & $options
+     */
     public static function DefOptions(&$options = null)
     {
         if ($options == null) {
             $options = self::CreateRenderOptions();
         } else {
-            if (is_array($options)){
-                $options = Activator::CreateNewInstance( HtmlRendererOptions::class, $options);  
+            if (is_array($options)) {
+                $options = Activator::CreateNewInstance(HtmlRendererOptions::class, $options);
             }
             self::SanitizeOptions($options);
         }
-        $options->LF = $options->Indent ? "\n" : "";
+        $options->LF = self::_GetLineFeed($options); 
         $options->__invoke = [];
+    }
+    /**
+     * 
+     * @param mixed $options 
+     * @return string 
+     */
+    private static function _GetLineFeed($options){
+        return $options->Indent ? "\n" : "";
     }
     /**
      * retrieve tab stop
@@ -251,10 +260,10 @@ class HtmlRenderer
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed|string $o
-    * @return null|string
-    */
+     * auto generate doc.
+     * @param mixed|string $o
+     * @return null|string
+     */
     private static function _GetHeader($o): ?string
     {
         if (is_string($o)) {
@@ -266,20 +275,20 @@ class HtmlRenderer
         return null;
     }
     /**
-    * auto generate doc.
-    * @param mixed $options
-    * @param null|mixed $tag
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $options
+     * @param null|mixed $tag
+     * @return mixed
+     */
     private static function reduceDepth($options, $tag = null)
     {
         $options->Depth = max(0, $options->Depth - 1);
     }
     /**
-    * a way to render node
-    * @param HtmlItemBase $item
-    * @param mixed $options
-    */
+     * a way to render node
+     * @param HtmlItemBase $item
+     * @param mixed $options
+     */
     public static function Render(HtmlItemBase $item, $options = null)
     {
         // + | render option definition
@@ -287,16 +296,20 @@ class HtmlRenderer
         $tab = [
             ["item" => $item, "close" => false]
         ];
+        $v_tabstop = '';
         $options->Source = $item;
-        $is_html_redering = in_array( igk_getv($options, 'Context', HtmlRenderingContext::Html),  [
-            HtmlRenderingContext::Html, 
-            HtmlRenderingContext::XML]
-        ); 
+        $is_html_redering = in_array(
+            igk_getv($options, 'Context', HtmlRenderingContext::Html),
+            [
+                HtmlRenderingContext::Html,
+                HtmlRenderingContext::XML
+            ]
+        );
         self::UpdateInvoke(__METHOD__, $options);
         $s = "";
         $reflect = [];
         $ln = $options->LF;
-        $engine = $options->Engine; 
+        $engine = $options->Engine;
         if ($options->header) {
             $s = self::_GetHeader($options->header);
             $options->header = null;
@@ -305,6 +318,7 @@ class HtmlRenderer
         $close_ln = '';
         $child_render = 0;
         $v_renderingNSContext = [];
+        $skipTabStop = false;
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
                 continue;
@@ -320,9 +334,12 @@ class HtmlRenderer
             if (!$q["close"]) {
                 $s .= $close_ln;
                 $close_ln = '';
+                $v_tabstop = '';
                 if (($ln && ($options->Depth > 0))) {
-                    $s .= self::GetTabStop($options);
+                    $v_tabstop = $skipTabStop ? '' : self::GetTabStop($options);
+                    $s .= $v_tabstop;
                 }
+                $skipTabStop = false;
                 if ($i instanceof HtmlItemBase) {
                     if ($filter && $filter($i)) {
                         continue;
@@ -359,15 +376,19 @@ class HtmlRenderer
                     }
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
-                        if (!empty($v_c = $i->render($options))) { 
-                            $s .=  $v_c . $ln;
+                        if (!empty($v_c = $i->render($options))) {
+                            if (!($ln && empty(trim($v_c)))) {
+                                $s .=  $v_c . ':::' . $ln;
+                            } else {
+                                $skipTabStop = true;
+                            }
                             continue;
                         }
                         self::reduceDepth($options, self::reflect_class);
                         continue;
                     }
                 }
-                $options->lastRendering = $i; 
+                $options->lastRendering = $i;
                 $tag_support = $is_html_redering && !$i->getFlag(HtmlItemBase::OVERRIDE_PARENT_TAG_FLAG);
                 $tag = $tag_support && $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
                 $havTag = !empty($tag);
@@ -386,6 +407,9 @@ class HtmlRenderer
                 }
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
+                if ($options->Indent && !is_null($content) && empty(trim($content)) && $childs) {
+                    $content = '';
+                }
                 // + | --------------------------------------------------------------------
                 // + | aside array of node that might be render after the cibling node
                 // + |                
@@ -416,7 +440,7 @@ class HtmlRenderer
                 }
                 if ($have_childs) {
                     if ($havTag)
-                        $s .= $ln;
+                        $s = self::_StartTagRendering($s, $ln);
                     array_push($tab, $q);
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
@@ -435,18 +459,23 @@ class HtmlRenderer
                     if ($ln) {
                         if ($q["have_childs"]) {
                             // + | determine child contains
-                            $ts = !empty(trim(substr($s, $q['child_render'])));
-                            if ($ts)
-                                $s = rtrim($s) . $ln;
-                            if ($options->Depth > 0) {
-                                $s .= self::GetTabStop($options);
+                            $ts = !empty($sub_contain = trim(substr($s, $q['child_render'])));
+                            if ($ts && !empty(trim($sub_contain))){
+                                $s = igk_str_rm_last($s, $v_tabstop, 1);
+                                // $s = rtrim($s);// . '>close<' . $ln;
+                                $v_tabstop = '';
+                                if ($options->Depth > 0) {
+                                    $v_tabstop = self::GetTabStop($options);
+                                    $s .= $v_tabstop;
+                                }
                             }
                         }
                     }
-                    $s .=  "</" . $tag . ">" . $ln;
+                    $s .=  "</" . $tag . ">";
                 } else {
-                    $s .= "/>" . $ln;
+                    $s .= "/>";
                 }
+                $s.= $ln;
             }
             if ($i instanceof IHtmlRederingCallback)
                 $i->afterRenderCallback($options, ['output' => &$s]);
@@ -456,20 +485,29 @@ class HtmlRenderer
             }
         }
         $options->child_renderCount = $child_render;
-        return $s; 
+        return $s;
     }
     /**
-    * Mail theme rendering.
-    * @param HtmlItemBase $item
-    * @param mixed & $attribs
-    * @param null|mixed $options
-    */
+     * 
+     * @param string $buffer
+     * @param string $ln calculated line feed
+     * @return string 
+     */
+    private static function _StartTagRendering(string $buffer, string $ln){
+        return $buffer.$ln;
+    }
+    /**
+     * Mail theme rendering.
+     * @param HtmlItemBase $item
+     * @param mixed & $attribs
+     * @param null|mixed $options
+     */
     public static function MailThemeRendering(HtmlItemBase $item, &$attribs = [],  $options = null)
     {
         if (!isset($options->renderTheme)) {
             $th = igk_app()->getDoc()->getTheme();
-            $options->renderTheme = $th; 
-            CssUtils::BindCoreFile($th); 
+            $options->renderTheme = $th;
+            CssUtils::BindCoreFile($th);
         }
         if ($attribs) {
             $v_old_style = $g = $attribs["style"];
@@ -503,11 +541,11 @@ class HtmlRenderer
         }
     }
     /**
-    * auto generate doc.
-    * @param HtmlItemBase $item
-    * @param mixed $options
-    * @return string
-    */
+     * auto generate doc.
+     * @param HtmlItemBase $item
+     * @param mixed $options
+     * @return string
+     */
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
         $filter = $item->getPrefilterAttribute();
@@ -550,16 +588,16 @@ class HtmlRenderer
         return  rtrim($out);
     }
     /**
-    * Returns Attribute Array To String.
-    * @param mixed $attrs
-    * @param null|mixed $options
-    */
+     * Returns Attribute Array To String.
+     * @param mixed $attrs
+     * @param null|mixed $options
+     */
     public static function GetAttributeArrayToString($attrs, $options = null)
     {
         /**
-        * auto generate doc.
-        * @var mixed|HtmlExpressionAttribute $v
-        */
+         * auto generate doc.
+         * @var mixed|HtmlExpressionAttribute $v
+         */
         $out = "";
         $ac_keys = [];
         $active = '';
@@ -643,8 +681,8 @@ class HtmlRenderer
                 }
                 $usekey = true;
                 if ($v_is_obj  && is_object($v)) {
-                    $usekey = method_exists($v, $fc = HtmlUtils::DOM_USE_ATTRIB_NAME_METHOD) && 
-                        call_user_func([$v, $fc],[]);
+                    $usekey = method_exists($v, $fc = HtmlUtils::DOM_USE_ATTRIB_NAME_METHOD) &&
+                        call_user_func([$v, $fc], []);
                 }
                 if (!$usekey) {
                     $out .= $c . " ";

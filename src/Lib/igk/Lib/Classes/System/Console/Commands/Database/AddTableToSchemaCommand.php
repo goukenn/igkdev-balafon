@@ -23,7 +23,9 @@ class AddTableToSchemaCommand extends AppExecCommand{
     * @var mixed
     */
     var $desc	 ='add table to db schema file';
-	/* var $options=[]; */
+	var $options=[
+        '--unique-columns:[column,...]'=>'comma separated column name'
+    ];
     /**
     * Property: category.
     * @var mixed
@@ -44,6 +46,7 @@ class AddTableToSchemaCommand extends AppExecCommand{
 		if (igk_is_null_or_empty($table_list)){
 			throw new CommandException('table\"s required');
 		}
+        require_once IGK_LIB_DIR.'/Lib/functions-helpers/db_schema.php';
 		$ctrl = self::ResolveController($command, $controller) ?? igk_die('missing controller'); 
 		igk_db_command_table($ctrl, $table_list);
 		igk_exit(0);
