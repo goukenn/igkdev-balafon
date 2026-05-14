@@ -378,7 +378,7 @@ class HtmlRenderer
                         $options->lastRendering = $i;
                         if (!empty($v_c = $i->render($options))) {
                             if (!($ln && empty(trim($v_c)))) {
-                                $s .=  $v_c . ':::' . $ln;
+                                $s .=  $v_c  . $ln;
                             } else {
                                 $skipTabStop = true;
                             }

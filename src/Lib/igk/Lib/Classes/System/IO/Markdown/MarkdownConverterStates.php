@@ -45,7 +45,8 @@ class MarkdownConverterStates
     */
     public function treatSubDefinition($converter, IMarkdownSubListTreatmentInfo $info)
     {
-        extract(igk_extract_assoc($info, 'type|canCreateSubContainerListener|moveToQuoteDepthListener|handleNullParentListener|depth|parent|value|subcontainer*|state*|currentNode*'), EXTR_REFS);
+        extract(igk_extract_ref(igk_extract_assoc($info, 'type|canCreateSubContainerListener|moveToQuoteDepthListener|handleNullParentListener|depth|parent|value|subcontainer*|state*|currentNode*')),
+         EXTR_REFS);
         $canCreateSubContainerListener = $this->_canCreateSubContainerListener($info) ?? $canCreateSubContainerListener;
         $info->canCreateSubContainer = $canCreateSubContainerListener($type, $depth);
         $func_name = StringUtility::FuncName($type);
@@ -89,7 +90,7 @@ class MarkdownConverterStates
     * auto generate doc.
     * @param string $type
     * @param int $depth
-    * @return void
+    * @return mixed
     */
     public function createNode(string $type, int $depth)
     {

@@ -25,6 +25,16 @@ namespace IGK\System\IO\Markdown;
 /**
 * auto generate doc.
 * @package IGK\System\IO\Markdown
+* @property mixed $type
+* @property mixed $canCreateSubContainerListener
+* @property mixed $moveToQuoteDepthListener
+* @property mixed $handleNullParentListener
+* @property mixed $depth
+* @property mixed $parent
+* @property mixed $value
+* @property mixed $subcontainer
+* @property mixed $state
+* @property mixed $currentNode
 */
 interface IMarkdownSubListTreatmentInfo{
 

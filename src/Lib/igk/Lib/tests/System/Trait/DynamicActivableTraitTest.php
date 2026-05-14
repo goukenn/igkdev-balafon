@@ -11,15 +11,10 @@ use IGK\Tests\BaseTestCase;
 
 
 /**
-* 
-* @package IGK\Tests\System\Trait
-* @author C.A.D. BONDJE DOUE
-* @property $x
-* @property $y
-*/
-/**
 * auto generate doc.
 * @package IGK\Tests\System\Trait
+* @property mixed $x
+* @property mixed $y
 */
 interface IDynamicActivableTraitTest{
 
