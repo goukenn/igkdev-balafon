@@ -9,7 +9,7 @@ use IGK\Models\ModelBase;
 * auto generate doc.
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
-* @property string|datetime $backup_update_at
+* @property string $backup_update_at
 * @method static ?self AddIfNotExists(string $backup_type
 */
 class Backups extends ModelBase{

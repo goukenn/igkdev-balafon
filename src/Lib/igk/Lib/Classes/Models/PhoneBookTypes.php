@@ -13,8 +13,8 @@ use IGK\Models\ModelBase;
 * @property string $Name
 * @property string $Cat
 * @property int $Cardinality cardinality of the entry
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `Id` full column name 
 * @method static string FN_NAME() - `Name` full column name 
 * @method static string FN_CAT() - `Cat` full column name 

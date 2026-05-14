@@ -12,8 +12,8 @@ use IGK\Models\ModelBase;
 * @property int $usrphb_Id
 * @property string $usrphb_UserGuid
 * @property string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid
-* @property string|datetime $usrphb_Create_At ="Now()"
-* @property string|datetime $usrphb_Update_At ="Now()"
+* @property string $usrphb_Create_At ="Now()"
+* @property string $usrphb_Update_At ="Now()"
 * @method static string FN_USRPHB_ID() - `usrphb_Id` full column name 
 * @method static string FN_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
 * @method static string FN_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 

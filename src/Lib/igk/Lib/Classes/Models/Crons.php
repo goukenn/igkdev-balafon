@@ -16,8 +16,8 @@ use IGK\Models\ModelBase;
 * @property string $options
 * @property string $class
 * @property int $status running script response status
-* @property string|datetime $create_at ="CURRENT_TIMESTAMP"
-* @property string|datetime $update_at ="CURRENT_TIMESTAMP"
+* @property string $create_at ="CURRENT_TIMESTAMP"
+* @property string $update_at ="CURRENT_TIMESTAMP"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_NAME() - `name` full column name 
 * @method static string FN_PROCESS() - `process` full column name 

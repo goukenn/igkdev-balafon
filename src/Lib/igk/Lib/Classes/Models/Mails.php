@@ -14,8 +14,8 @@ use IGK\Models\ModelBase;
 * @property int $mail_try attemps
 * @property int $mail_status staus
 * @property string $mail_data mail data info
-* @property string|datetime $mail_createAt ="NOW()" Now
-* @property string|datetime $mail_updateAt Last try datetime
+* @property string $mail_createAt ="NOW()" Now
+* @property string $mail_updateAt Last try datetime
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_MAIL_FROM() - `mail_from` full column name 
 * @method static string FN_MAIL_TRY() - `mail_try` full column name 

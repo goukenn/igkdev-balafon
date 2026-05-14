@@ -21,8 +21,8 @@ use IGK\Models\ModelBase;
 * @property string $loglogs_City
 * @property int $loglogs_Status 0 = loggin, 1 = logut
 * @property string $loglogs_Description location y
-* @property string|datetime $loglogs_Create_At ="NOW()"
-* @property string|datetime $loglogs_Update_At ="NOW()"
+* @property string $loglogs_Create_At ="NOW()"
+* @property string $loglogs_Update_At ="NOW()"
 * @method static string FN_LOGLOGS_ID() - `loglogs_Id` full column name 
 * @method static string FN_LOGLOGS_USER_GUID() - `loglogs_UserGuid` full column name 
 * @method static string FN_LOGLOGS_AGENT() - `loglogs_Agent` full column name 

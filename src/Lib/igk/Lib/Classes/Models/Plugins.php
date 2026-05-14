@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clName
 * @property string $clEmail Author's email
-* @property string|datetime $clRelease
+* @property string $clRelease
 * @property string $clVersion plugin version
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_NAME() - `clName` full column name 

@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clSessId
 * @property string $clSessIp
-* @property string|datetime $clSessStartAt ="NOW()"
+* @property string $clSessStartAt ="NOW()"
 * @property float $clSessLatitude
 * @property float $clSessLongitude
 * @property string $clSessCountryName

@@ -10,7 +10,7 @@
  * @return array{type: null|string, size: null|int, auto_increment: bool, is_primary: bool, foreign_key: null|string, not_null: null, default: null} 
  */
 function igk_db_schema_parse(string $expression)
-{ 
+{
     $def = igk_db_schema_table_column_blueprint();
     $mark = [
         "auto_increment" => function (&$def) {
@@ -25,11 +25,11 @@ function igk_db_schema_parse(string $expression)
             $def['not_null'] = true;
             return true;
         },
-        'index'=>function(& $def){
-             $def['index'] = true;
+        'index' => function (&$def) {
+            $def['index'] = true;
             return true;
         },
-        'unique'=>function(& $def){
+        'unique' => function (&$def) {
             $def['unique'] = true;
             return true;
         }
@@ -75,7 +75,7 @@ function igk_db_schema_parse_load(string $expression, array &$def, array $mark)
         $s .= $ch;
         $pos++;
     }
-    if (!empty($s)){
+    if (!empty($s)) {
         igk_db_schema_parse_load_def($s, $def, $mark);
     }
 }
@@ -129,23 +129,23 @@ function igk_db_schema_tables_from_litteral(?string $list)
     $ln = strlen($list);
     $c = 0;
     $mark = [
-         '{' => function ($inf) {
+        '{' => function ($inf) {
             $inf->tablename = $inf->s;
-            $d = ['::parent'=>& $inf->l];
-            $inf->l[$inf->tablename] = & $d;
-            $inf->l = & $d; // change pointer 
+            $d = ['::parent' => &$inf->l];
+            $inf->l[$inf->tablename] = &$d;
+            $inf->l = &$d; // change pointer 
             $inf->s = '';
             $inf->mode = 0;
             $inf->data = [];
         },
-        '}' => function ($inf) {  
-            if ($inf->mode == 0) {                
+        '}' => function ($inf) {
+            if ($inf->mode == 0) {
                 igk_db_schema_parse_append($inf);
             }
-            $d = & $inf->l;
-            $l = & $d['::parent'];
+            $d = &$inf->l;
+            $l = &$d['::parent'];
             unset($d['::parent']);
-            $inf->l = & $l; // change pointer 
+            $inf->l = &$l; // change pointer 
             $inf->s = '';
             $inf->mode = 0;
             $inf->data = [];
@@ -167,10 +167,10 @@ function igk_db_schema_tables_from_litteral(?string $list)
                 $inf->data = [];
             } else
                 $inf->l[] = $inf->name;
-            $inf->mode= 0;
+            $inf->mode = 0;
         },
         ',' => function ($inf) {
-            if ($inf->mode == 0) {                
+            if ($inf->mode == 0) {
                 igk_db_schema_parse_append($inf);
                 $inf->name = null;
                 $inf->s = null;
@@ -196,7 +196,8 @@ function igk_db_schema_tables_from_litteral(?string $list)
  * @param mixed $inf 
  * @return void 
  */
-function igk_db_schema_parse_append($inf){
+function igk_db_schema_parse_append($inf)
+{
     if (!empty($inf->s)) {
         $inf->l[] = trim($inf->s);
     }
@@ -214,9 +215,9 @@ function igk_db_schema_table_column_blueprint()
         'is_primary' => null,
         'foreign_key' => null,
         'not_null' => false,
-        'unique'=>false,
-        'index'=>null,
-        'unique_columns'=>null,
+        'unique' => false,
+        'index' => null,
+        'unique_columns' => null,
         'default' => null
     ];
 }
@@ -227,16 +228,23 @@ function igk_db_schema_table_column_blueprint()
  * @param mixed $def index
  * @return void 
  */
-function igk_db_schema_load_column_info($cl, $def){
-    if ($def['auto_increment'])
+function igk_db_schema_load_column_info($cl, $def)
+{
+    if ($def['auto_increment']) {
         $cl["clAutoIncrement"] = true;
+        $cl["clIsPrimary"] = true;
+    } else {
+        if ($def['is_primary']) {
+            $cl["clIsPrimary"] = true;
+        }
+    }
     $cl["clNotNull"] = $def['not_null'];
     if ($def['unique'])
-        $cl["clIsUnique"] =true;
-    $cl["clIndex"] = $def['index']; 
+        $cl["clIsUnique"] = true;
+    $cl["clIndex"] = $def['index'];
 
     $cl["clType"] = $def['type'];
-    if ($r = $def['size']){
+    if ($r = $def['size']) {
         $cl['clTypeLength'] = $r;
     }
 }

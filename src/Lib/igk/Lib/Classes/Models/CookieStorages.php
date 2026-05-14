@@ -9,7 +9,7 @@ use IGK\Models\ModelBase;
 * auto generate doc.
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
-* @property string|datetime $clDateTime
+* @property string $clDateTime
 * @method static ?self AddIfNotExists(string $clIdentifier
 */
 class CookieStorages extends ModelBase{

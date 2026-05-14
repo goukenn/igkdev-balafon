@@ -13,9 +13,9 @@ use IGK\Models\ModelBase;
 * @property string $clName Subdomain name. exemple. 'mail'  in the .domain.com will be mail.domain.dom
 * @property string $clCtrl Controller name
 * @property string $clView Entry
-* @property string|datetime $clDeactivate_At
-* @property string|datetime $clCreate_At ="Now()"
-* @property string|datetime $clUpdate_At ="Now()"
+* @property string $clDeactivate_At
+* @property string $clCreate_At ="Now()"
+* @property string $clUpdate_At ="Now()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_NAME() - `clName` full column name 
 * @method static string FN_CL_CTRL() - `clCtrl` full column name 

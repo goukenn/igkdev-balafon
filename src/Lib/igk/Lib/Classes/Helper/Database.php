@@ -322,9 +322,14 @@ class Database
             if ($dbname) {
                 $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
             }
-            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix, [
-                'indexes'=>$v->indexes
-            ])) {
+            $extra = [];
+            if (isset($v->indexes)){
+                $extra['indexes'] = $v->indexes;
+            }
+
+            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix, 
+                $extra)
+                ) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));
                 igk_ilog("failed to create " . $n);
             } else {

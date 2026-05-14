@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clWebSite
 * @property int $clState
-* @property string|datetime $clDateTime
+* @property string $clDateTime
 * @property string $clIP
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_WEB_SITE() - `clWebSite` full column name 

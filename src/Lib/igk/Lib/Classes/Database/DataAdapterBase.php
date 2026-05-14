@@ -795,7 +795,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * @param mixed $tablename
     * @param mixed $entries
     * @param mixed $condition
-    * @param mixed $tableinfo
+    * @param mixed $tableinfo    
     */
     public function update($tablename, $entries, $condition = null, $tableinfo = null)
     {

@@ -1642,9 +1642,9 @@ abstract class ModelEntryExtension
     * @param ModelBase $model
     * @param bool $check
     * @param mixed $params
-    * @return null|object|bool|void
+    * @return mixed
     */
-    private static function _Add(ModelBase $model, bool $check, $params)
+    private static function _Add(\IGK\Models\ModelBase $model, bool $check, $params)
     {
         $info =  $model->getTableColumnInfo();
         $controller = $model->getController();

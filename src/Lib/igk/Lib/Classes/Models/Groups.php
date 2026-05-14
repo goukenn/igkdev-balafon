@@ -13,8 +13,8 @@ use IGK\Models\ModelBase;
 * @property string $clName
 * @property string $clDescription
 * @property string $clController
-* @property string|datetime $clCreate_At ="NOW()"
-* @property string|datetime $clUpdate_At ="NOW()"
+* @property string $clCreate_At ="NOW()"
+* @property string $clUpdate_At ="NOW()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_NAME() - `clName` full column name 
 * @method static string FN_CL_DESCRIPTION() - `clDescription` full column name 

@@ -38,7 +38,7 @@ trait ModelExtensionTrait
     * @param bool $check
     * @param mixed $params
     */
-    public abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
+    private abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
     /**
      * extension methods 
      */

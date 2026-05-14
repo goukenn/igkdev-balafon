@@ -113,23 +113,8 @@ class QueryBuilder
         $this->m_options = [];
         $this->m_model = $model;
     }
-    /**
-     * help left join
-     * @param mixed $condition 
-     * @return array 
-     */
-    public static function LeftJoin($condition)
-    {
-        return ["type" => QueryBuilderConstant::LeftJoin, $condition];
-    }
-    /**
-    * Inner join.
-    * @param mixed $condition
-    */
-    public static function InnerJoin($condition)
-    {
-        return ["type" => QueryBuilderConstant::InnerJoin, $condition];
-    }
+     
+  
     /**
     * Or.
     * @param array $conditions

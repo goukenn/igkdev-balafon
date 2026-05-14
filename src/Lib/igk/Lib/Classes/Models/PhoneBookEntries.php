@@ -12,8 +12,8 @@ use IGK\Models\ModelBase;
 * @property int $Id
 * @property string $Guid
 * @property string|?\IGK\Models\Users $user_guid
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `Id` full column name 
 * @method static string FN_GUID() - `Guid` full column name 
 * @method static string FN_USER_GUID() - `user_guid` full column name 

@@ -12,8 +12,8 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $logginattempts_login loggin - unique
 * @property int $logginattempts_try attemps
-* @property string|datetime $logginattempts_createAt ="NOW()" Now
-* @property string|datetime $logginattempts_updateAt Last try datetime
+* @property string $logginattempts_createAt ="NOW()" Now
+* @property string $logginattempts_updateAt Last try datetime
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_LOGGINATTEMPTS_LOGIN() - `logginattempts_login` full column name 
 * @method static string FN_LOGGINATTEMPTS_TRY() - `logginattempts_try` full column name 

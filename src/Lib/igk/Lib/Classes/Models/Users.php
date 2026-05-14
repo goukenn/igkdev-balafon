@@ -20,13 +20,13 @@ use IGK\Models\ModelBase;
 * @property string $clPicture uri of 255 max length
 * @property string $clLevel user's primary level|if enum supported error can be truncated
 * @property int $clStatus ="-1" state of the account, -1 = not activated, 1=activated, 0or2=blocked, 4=update
-* @property string|datetime $clDate ="CURRENT_TIMESTAMP" registration date
-* @property string|datetime $clLastLogin last login
+* @property string $clDate ="CURRENT_TIMESTAMP" registration date
+* @property string $clLastLogin last login
 * @property int|?\IGK\Models\Users $clParent_Id Parent of this account
 * @property string $clClassName if clParent_Id then object refer to class name that initialize the sub user
-* @property string|datetime $clcreate_at ="CURRENT_TIMESTAMP" user create at
-* @property string|datetime $clupdate_at ="CURRENT_TIMESTAMP" update user's info at
-* @property string|datetime $clDeactivate_At user deactivated
+* @property string $clcreate_at ="CURRENT_TIMESTAMP" user create at
+* @property string $clupdate_at ="CURRENT_TIMESTAMP" update user's info at
+* @property string $clDeactivate_At user deactivated
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_LOGIN() - `clLogin` full column name 
 * @method static string FN_CL_GUID() - `clGuid` full column name 

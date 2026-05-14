@@ -13,9 +13,9 @@ use IGK\Models\ModelBase;
 * @property string|?\IGK\Models\Users $regLinkUserGuid
 * @property string $regLinkToken token
 * @property int $regLinkAlive alive for activation
-* @property string|datetime $regLinkActivate activation date
-* @property string|datetime $regLinkCreate_At ="NOW()"
-* @property string|datetime $regLinkUpdate_At ="NOW()"
+* @property string $regLinkActivate activation date
+* @property string $regLinkCreate_At ="NOW()"
+* @property string $regLinkUpdate_At ="NOW()"
 * @method static string FN_REG_LINK_ID() - `regLinkId` full column name 
 * @method static string FN_REG_LINK_USER_GUID() - `regLinkUserGuid` full column name 
 * @method static string FN_REG_LINK_TOKEN() - `regLinkToken` full column name 

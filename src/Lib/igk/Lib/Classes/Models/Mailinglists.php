@@ -16,8 +16,8 @@ use IGK\Models\ModelBase;
 * @property string $clml_locale ="en"
 * @property string $clml_init
 * @property string $clml_agent
-* @property string|datetime $clml_create_at ="NOW()"
-* @property string|datetime $clml_update_at ="NOW()"
+* @property string $clml_create_at ="NOW()"
+* @property string $clml_update_at ="NOW()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CLML_EMAIL() - `clml_email` full column name 
 * @method static string FN_CLML_STATE() - `clml_state` full column name 

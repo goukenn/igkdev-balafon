@@ -13,8 +13,8 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\Groups $clGroup_Id
 * @property int|\IGK\Models\Authorizations $clAuth_Id
 * @property string $clGrant Grant access depending on the authorization usage
-* @property string|datetime $clCreate_At ="NOW()"
-* @property string|datetime $clUpdate_At ="NOW()"
+* @property string $clCreate_At ="NOW()"
+* @property string $clUpdate_At ="NOW()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_GROUP_ID() - `clGroup_Id` full column name 
 * @method static string FN_CL_AUTH_ID() - `clAuth_Id` full column name 

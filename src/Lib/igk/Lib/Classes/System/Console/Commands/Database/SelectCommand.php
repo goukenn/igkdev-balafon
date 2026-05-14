@@ -81,6 +81,7 @@ class SelectCommand extends AppExecCommand
 		}
 		is_null($ctrl) && igk_die("require controller");
 		is_null($model) && igk_die("require model");
+		!defined('IGK_THROW_MISSING_MACROS_EXCEPTION') && define('IGK_THROW_MISSING_MACROS_EXCEPTION', 1);
 		$v_sep = ',';
 		$limit = igk_getv($command->options, '--limit');
 		$order = igk_getv($command->options, '--order');
@@ -89,6 +90,7 @@ class SelectCommand extends AppExecCommand
 		$map = igk_getv($command->options, '--map');
 		$for = igk_getv($command->options, '--for');
 		$pretty = property_exists($command->options, '--pretty');
+		$dump = property_exists($command->options, '--dump');
 		if ($limit) {
 			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode($v_sep, $limit, 2));
 		}
@@ -121,9 +123,16 @@ class SelectCommand extends AppExecCommand
 					}
 				}
 				// + | execute a model macros
-				$g = call_user_func_array([$m, $method], $args);
-				if ($g) {
-					self::PrintResult($g, $flag);
+				try{
+					$g = call_user_func_array([$m, $method], $args);
+					if ($g) {
+						if ($dump){
+							echo json_encode($g); 
+						}else 
+							self::PrintResult($g, $flag);
+					}
+				} catch(\Exception $ex){
+					Logger::danger($ex->getMessage());
 				}
 				igk_exit();
 			}

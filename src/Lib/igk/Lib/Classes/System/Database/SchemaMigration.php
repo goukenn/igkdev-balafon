@@ -161,6 +161,7 @@ class SchemaMigration
             }
             foreach ($n->getElementsByTagName(DbSchemas::DATA_DEFINITION) as $v) {
                 $c = array();
+                $indexes = null;
                 $tb = $stb = $v["TableName"];
                 $constant = $v['clConstant'];
                 $prefix = $v['Prefix'];
@@ -323,7 +324,7 @@ class SchemaMigration
     /**
     * load require schema
     * @param array & $tab
-    * @param array $tab
+    * @param mixed $rq
     * @param mixed & $load_schema
     * @throws IGKException
     * @throws ArgumentTypeNotValidException
@@ -332,7 +333,7 @@ class SchemaMigration
     */
     private static function _LoadRequireSchema(array &$tab, $rq, &$load_schema)
     {
-        extract((array)igk_createobj_filter($rq->getAttributes()->to_array(), "from|name|argument|file"));
+        extract(igk_extract_ref((array)igk_createobj_filter($rq->getAttributes()->to_array(), "from|name|argument|file")));
         switch ($from) {
             case 'self':
                 list($file, $p) = $rq->getInheritedParam('migration:info') ?? [null, null];

@@ -19,7 +19,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static array|array<static>|null|mixed select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  
  * @method static bool drop() macros function drop table - function
  * @method static bool createTable() macros function create table if not exists
- * @method static bool delete(null|array|object $condition) macros function delete table's entries
+ * @method static bool delete(null|array|object $condition=null) macros function delete table's entries
  * @method static ?static select_row($condition, $options=null, $autoclose = false, $strict = true) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
@@ -30,14 +30,14 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static int count(?array $conditions=null) macros function get number of entries
  * @method static object|null createFromCache(object $identifier, ?object $conditions=null) macros function
  * @method static \IGK\Database\DbQueryCondition createCondition() macros function create condition object
- * @method static ?static createIfNotExists($data_condition, ?object|array $extra=null extra model field definition, & $new = false new field) macros function: create if not exists
+ * @method static ?static createIfNotExists($data_condition, ?object|array $extra=null, & $new = false ) macros function: create if not exists new field
  * @method static string display() macros function return a string used for display
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function
  * @method static array formSelectData() macros function : form selection data
  * @method static ?array form_select_all() macros function
  * @method static string id() macros function - get row identification. by default the auto_increment primary field.
- * @method static mixed insert() macros function
- * @method static mixed insertOrUpdate() macros function
+ * @method static mixed insert(?array $data=null) macros function
+ * @method static mixed insertOrUpdate(?array $data=null) macros function
  * @method static void last_error() macros function
  * @method static void last_id() macros function
  * @method static ?static last() return last instance
@@ -55,27 +55,28 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static void select_row_query() macros function
  * @method static \IGK\Database\IDbQueryFetchResult select_fetch(?array $conditions[], array? $options[]) macros function return a fetch result
  * @method static string table() macros function
- * @method static null|IryResult update(array $values, $condition=null) macros function
+ * @method static null|IQueryResult update(array $values, $condition=null) macros function
+ * @method static null|IQueryResult update() macros instance function
  * @method static void updateOrCreateIfNotExists() macros function
  * @method static void registerMacro($macroName, Callable|array $callable) register/override model macros
  * @method static \IGK\System\Database\Factories\FactoryBase factory(int $number, ?string $class_name = null, ...$args=null) macros function create a factory object for seeding \
  * if $class_name is set use $args to inject constructor argument. 
- * @method static array queryColumns(?array filter=null, bool useall if filter user all column by filter column with as property) macros function query columns
+ * @method static array queryColumns(?array $filter=null, bool $useall=false ) macros function query columns - if filter user all column by filter column with as property
  * @method array to_array() macros function model's array data
- * @method static \IGK\System\Database\DbConditionExpressionBuilder query_condition(string operand); OR|AND query condition 
- * @method void set(name, value): set value
+ * @method static \IGK\System\Database\DbConditionExpressionBuilder query_condition(string $operand='AND'); OR|AND query condition 
+ * @method void set($name, $value): set value
  * @method static \IGK\Database\DataAdapterBase driver() macros helper get the driver attached to the current model
  * @method static string get_insert_query() marcros helper insert query  
  * @method static ?static Get(?string $column, mixed $value, $autoinsert=null) macros function get row from defined value
  * @method static ?static GetCache(mixed $value) macros function get row from column will be the primary key
  * @method static ?static GetCache(string $column, mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
- * @method static ?static cacheRow(where) macros function get row from defined value autoinsert
+ * @method static ?static cacheRow(array $where) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class
  * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 
- * @method static array columnList(string|Closure|array $prefix=null, ?string $filter=null two) prepare columns list 
+ * @method static array columnList(string|\Closure|array $prefix=null, ?string $filter=null) prepare columns list 
  *      - `$prefix`: prefix value or Closure to use to generate an alias name 
  *      - `$filter`: callable/regex used to filter column list. 
- * @method static array columnSelectArray(...array $list_of_column_names) 
+ * @method static array columnSelectArray(...$array) $list_of_column_names
  * @method static array columnOnlyArray(array* $definition)
  *  - `$definition` array with association key usage. `prefix` prefix in use, see `::columnList`;
  */

@@ -16,8 +16,8 @@ use IGK\Models\ModelBase;
 * @property string $session_id
 * @property string $data
 * @property string $description
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_NAME() - `name` full column name 
 * @method static string FN_PID() - `pid` full column name 

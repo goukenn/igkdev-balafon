@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clGUID
 * @property string $clDesc
-* @property string|datetime $clCreateAt ="NOW()"
+* @property string $clCreateAt ="NOW()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_GUID() - `clGUID` full column name 
 * @method static string FN_CL_DESC() - `clDesc` full column name 

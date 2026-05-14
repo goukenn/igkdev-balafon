@@ -12,7 +12,7 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clName
 * @property string $clDownloadTime
-* @property string|datetime $clLast Last download time
+* @property string $clLast Last download time
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_NAME() - `clName` full column name 
 * @method static string FN_CL_DOWNLOAD_TIME() - `clDownloadTime` full column name 

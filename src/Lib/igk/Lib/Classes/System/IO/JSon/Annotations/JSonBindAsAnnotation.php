@@ -106,8 +106,8 @@ class JSonBindAsAnnotation extends AnnotationBase
     }
     /**
     * auto generate doc.
-    * @param mixed $class_name
-    * @param mixed $uses
+    * @param mixed|string $class_name
+    * @param mixed|array $uses
     * @return array
     */
     public static function GetJSonByAsProperties($class_name, $uses = null)

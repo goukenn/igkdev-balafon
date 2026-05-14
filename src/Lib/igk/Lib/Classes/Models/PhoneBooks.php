@@ -14,8 +14,8 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\PhoneBookTypes $Type
 * @property string $Value
 * @property string $is_preferred
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `Id` full column name 
 * @method static string FN_ENTRY_GUID() - `EntryGuid` full column name 
 * @method static string FN_TYPE() - `Type` full column name 

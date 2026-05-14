@@ -13,10 +13,10 @@ use IGK\Models\ModelBase;
 * @property string|\IGK\Models\Users $clUser_Guid user request authentication
 * @property string $clToken
 * @property string $clTokenInfo store token information
-* @property string|datetime $clDateTime
+* @property string $clDateTime
 * @property string $clFrom
-* @property string|datetime $cnx_createAt ="NOW()" Now
-* @property string|datetime $cnx_updateAt Last try datetime
+* @property string $cnx_createAt ="NOW()" Now
+* @property string $cnx_updateAt Last try datetime
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_CL_USER_GUID() - `clUser_Guid` full column name 
 * @method static string FN_CL_TOKEN() - `clToken` full column name 

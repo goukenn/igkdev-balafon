@@ -89,7 +89,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     */
     public function __debugInfo()
     {
-        return null;
+        return [];
     }
     /**
     * Success.

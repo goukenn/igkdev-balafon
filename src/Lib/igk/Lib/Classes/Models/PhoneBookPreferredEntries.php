@@ -12,8 +12,8 @@ use IGK\Models\ModelBase;
 * @property int $id
 * @property string|\IGK\Models\PhoneBookEntries $phone_book_guid
 * @property int|\IGK\Models\PhoneBookTypes $type_id
-* @property string|datetime $Create_At ="Now()"
-* @property string|datetime $Update_At ="Now()"
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
 * @method static string FN_ID() - `id` full column name 
 * @method static string FN_PHONE_BOOK_GUID() - `phone_book_guid` full column name 
 * @method static string FN_TYPE_ID() - `type_id` full column name 

@@ -14,8 +14,8 @@ use IGK\Models\ModelBase;
 * @property string $cxnAccount requested account
 * @property int $cxnGeoX location x
 * @property int $cxnGeoY location y
-* @property string|datetime $cxnCreate_At ="NOW()"
-* @property string|datetime $cxnUpdate_At ="NOW()"
+* @property string $cxnCreate_At ="NOW()"
+* @property string $cxnUpdate_At ="NOW()"
 * @method static string FN_CXN_ID() - `cxnId` full column name 
 * @method static string FN_CXN_ATTEMPT() - `cxnAttempt` full column name 
 * @method static string FN_CXN_ACCOUNT() - `cxnAccount` full column name 

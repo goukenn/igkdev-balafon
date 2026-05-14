@@ -14,8 +14,8 @@ use IGK\Models\ModelBase;
 * @property int $migration_batch Batch Running
 * @property string $migration_desc
 * @property string $migration_controller
-* @property string|datetime $migration_create_at ="NOW()"
-* @property string|datetime $migration_update_at ="NOW()"
+* @property string $migration_create_at ="NOW()"
+* @property string $migration_update_at ="NOW()"
 * @method static string FN_CL_ID() - `clId` full column name 
 * @method static string FN_MIGRATION_NAME() - `migration_name` full column name 
 * @method static string FN_MIGRATION_BATCH() - `migration_batch` full column name 
