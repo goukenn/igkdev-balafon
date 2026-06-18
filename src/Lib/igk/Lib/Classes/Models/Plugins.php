@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -21,35 +23,15 @@ use IGK\Models\ModelBase;
 * @method static string FN_CL_VERSION() - `clVersion` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry helper
-* @method static ?self AddIfNotExists(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry if not exists. check for unique column.
+* @method static ?self Add(string $clName, string $clEmail, string $clRelease, string $clVersion) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clEmail, string $clRelease, string $clVersion) add entry if not exists. check for unique column.
 * */
 class Plugins extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl email.
-    * @var mixed
-    */
-    const FD_CL_EMAIL="clEmail";
-    /**
-    * Constant: fd cl release.
-    * @var mixed
-    */
-    const FD_CL_RELEASE="clRelease";
-    /**
-    * Constant: fd cl version.
-    * @var mixed
-    */
-    const FD_CL_VERSION="clVersion";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_EMAIL="clEmail";
+	const FD_CL_RELEASE="clRelease";
+	const FD_CL_VERSION="clVersion";
 	/**
 	* table's name
 	*/

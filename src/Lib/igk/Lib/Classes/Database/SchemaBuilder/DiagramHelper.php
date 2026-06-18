@@ -32,7 +32,7 @@ abstract class DiagramHelper{
                         $n = null;
                         $n = Database::AutoPrefixColumn($v_n, $cinfo->prefix);
                         if (!$n || !isset($cinfo->columnInfo[$n])){
-                            throw new IGKException("column  [{$n}] not found");
+                            throw new IGKException(sprintf(__("column %s not found"), $n));
                         }
                         $v_n = $n;
                     }

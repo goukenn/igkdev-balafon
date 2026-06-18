@@ -3,6 +3,7 @@
 // @file: DbUtility.php
 // @date: 20230118 11:28:43
 namespace IGK\System\Database\Helper;
+
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
@@ -26,19 +27,19 @@ use IGKSysUtil;
 abstract class DbUtility
 {
     /**
-    * Escape slashes value for json detection.
-    * @param string $value
-    */
+     * Escape slashes value for json detection.
+     * @param string $value
+     */
     public static function EscapeSlashesValueForJSonDetection(string $value)
     {
         return str_replace("/", "\\\\\\\\/", $value);
     }
     /**
-    * prepare columnt list
-    * @param array $columns
-    * @param string $prefix
-    * @var array
-    */
+     * prepare columnt list
+     * @param array $columns
+     * @param string $prefix
+     * @var array
+     */
     public static function PrepareColumnList(array $columns, string $prefix = IGK_FIELD_PREFIX): array
     {
         $user_tab_c = array_combine($columns, array_map(function ($a) use ($prefix) {
@@ -93,11 +94,11 @@ abstract class DbUtility
         return $columnName;
     }
     /**
-    * auto generate doc.
-    * @param BaseController $ctrl
-    * @param mixed $tables
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param BaseController $ctrl
+     * @param mixed $tables
+     * @return mixed
+     */
     public static function ExportToXMLSchemaData(BaseController $ctrl, $tables)
     {
         $xml = HtmlNode::CreateWebNode('dbdataschema');
@@ -106,7 +107,9 @@ abstract class DbUtility
         foreach ($tables as $t => $v) {
             $rep = $xml->addNode(DbSchemas::DATA_DEFINITION)->setAttributes(array(
                 "TableName" => $v->defTableName,
-                "RefKey" => null
+                "RefKey" => null,
+                "Prefix" => $v->prefix,
+                "Description" => $v->description,
             ));
             foreach ($v->columnInfo as $info) {
                 $tab = $info->to_array();
@@ -125,11 +128,11 @@ abstract class DbUtility
         return $xml;
     }
     /**
-    * auto generate doc.
-    * @param BaseController $ctrl
-    * @param mixed $options
-    * @return void
-    */
+     * auto generate doc.
+     * @param BaseController $ctrl
+     * @param mixed $options
+     * @return void
+     */
     public static function UpdateDbSchema(BaseController $ctrl, $options = null)
     {
         $file = $ctrl::getDataSchemaFile();
@@ -149,7 +152,7 @@ abstract class DbUtility
             $ofile = $file;
         }
         return igk_io_w2file($ofile, $src);
-    } 
+    }
     /**
      * BackupData flatten schema
      * @param BaseController $ctrl 
@@ -200,12 +203,12 @@ abstract class DbUtility
         return null;
     }
     /**
-    * treat value conditions
-    * @param mixed $columns
-    * @param mixed $conditions
-    * @param ?string $prefix
-    * @return array<string|int, mixed>
-    */
+     * treat value conditions
+     * @param mixed $columns
+     * @param mixed $conditions
+     * @param ?string $prefix
+     * @return array<string|int, mixed>
+     */
     public static function TreatSelectCondition(array $columns, array $conditions, ?string $prefix = null)
     {
         $keys = array_keys($conditions);
@@ -231,12 +234,12 @@ abstract class DbUtility
         return array_combine($keys, array_values($conditions));
     }
     /**
-    * get auto detected reversal column of table
-    * @param string $table_name
-    * @param bool $use_autoincrement
-    * @throws IGKException
-    * @return array<string, IDbColumnInfo>|false
-    */
+     * get auto detected reversal column of table
+     * @param string $table_name
+     * @param bool $use_autoincrement
+     * @throws IGKException
+     * @return array<string, IDbColumnInfo>|false
+     */
     public static function GetReversalUniqueColumn(string $table_name, bool $use_autoincrement = false)
     {
         $r = DbSchemas::GetTableColumnInfo($table_name);
@@ -306,10 +309,14 @@ abstract class DbUtility
             }
             if ($v->clIsUniqueColumnMember) {
                 $idx = $v->clColumnMemberIndex ?? 0;
-                if (!isset($unique_columns[$idx]))
-                    $unique_columns[$idx] = [];
-                if (!is_null($tv) || $v->clNotNull) {
-                    $unique_columns[$idx][$k] = $tv;
+                if (is_array($idx)) {
+                    self::_LoadIndexColumns($unique_columns, $idx, $k, $tv);
+                } else {
+                    if (!isset($unique_columns[$idx]))
+                        $unique_columns[$idx] = [];
+                    if (!is_null($tv) || $v->clNotNull) {
+                        $unique_columns[$idx][$k] = $tv;
+                    }
                 }
             }
         }
@@ -331,6 +338,14 @@ abstract class DbUtility
         }
         return $tab;
     }
+    private static function _LoadIndexColumns(array & $column_index, array $idx, string $column, $tv){
+        foreach($idx as $index){
+            if (!isset($column_index[$index])){
+                $column_index[$index ] = [];
+            }
+            $column_index[$index ][$column] = $tv;
+        }
+    }
     /**
      * default map sys value
      * @param array $data 
@@ -345,21 +360,24 @@ abstract class DbUtility
         }, array_keys($data)), array_values($data));
     }
     /**
-    * auto generate doc.
-    * @param ModelBase $model
-    * @param ModelBase $link
-    * @param string $model_column
-    * @param string $link_column
-    * @param array $conditions link model conditions
-    * @return void
-    */
-    public static function CleanRereference(ModelBase $model, ModelBase $link, string $model_column, 
+     * auto generate doc.
+     * @param ModelBase $model
+     * @param ModelBase $link
+     * @param string $model_column
+     * @param string $link_column
+     * @param array $conditions link model conditions
+     * @return void
+     */
+    public static function CleanRereference(
+        ModelBase $model,
+        ModelBase $link,
+        string $model_column,
         string $link_column,
-        array $conditions)
-    {
-        $rd = $link->get_query($conditions, ['Columns'=>[$link_column]]); 
+        array $conditions
+    ) {
+        $rd = $link->get_query($conditions, ['Columns' => [$link_column]]);
         return $model->delete([
-            SQLQueryFieldPrefixOperators::IN($model_column)=>$rd
+            SQLQueryFieldPrefixOperators::IN($model_column) => $rd
         ]);
     }
 }

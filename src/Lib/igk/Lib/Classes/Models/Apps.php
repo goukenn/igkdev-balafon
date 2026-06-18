@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Apps.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -19,30 +21,14 @@ use IGK\Models\ModelBase;
 * @method static string FN_CL_LAST() - `clLast` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clName, string $clDownloadTime, string|datetime $clLast) add entry helper
-* @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string|datetime $clLast) add entry if not exists. check for unique column.
+* @method static ?self Add(string $clName, string $clDownloadTime, string $clLast) add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string $clLast) add entry if not exists. check for unique column.
 * */
 class Apps extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl download time.
-    * @var mixed
-    */
-    const FD_CL_DOWNLOAD_TIME="clDownloadTime";
-    /**
-    * Constant: fd cl last.
-    * @var mixed
-    */
-    const FD_CL_LAST="clLast";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DOWNLOAD_TIME="clDownloadTime";
+	const FD_CL_LAST="clLast";
 	/**
 	* table's name
 	*/

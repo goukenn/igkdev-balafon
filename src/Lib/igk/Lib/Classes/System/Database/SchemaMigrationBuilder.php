@@ -55,7 +55,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     /**
      * use to add a reference chain column
      * @param string $name 
-     * @return static 
+     * @return SchemaMigrationBuilder 
      */
     public function column(string $name):SchemaMigrationBuilder{
         if ($this->m_table){
@@ -124,7 +124,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
      * set auto increment
-     * @return static 
+     * @return SchemaMigrationBuilder 
      * @throws Error 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -163,7 +163,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
      * set column as unique
-     * @return static 
+     * @return SchemaMigrationBuilder 
      * @throws Error 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -233,7 +233,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param string $name 
      * @param null|string $description 
      * @param null|array $options 
-     * @return static 
+     * @return SchemaMigrationBuilder 
      * @throws IGKException 
      */
     public function addTable(string $name, ?string $description=null, ?array $options = null):SchemaMigrationBuilder{
@@ -327,7 +327,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     /**
     * auto generate doc.
-    * @param mixed $table
+    * @param string $table
     * @param mixed $column
     * @param array $options
     * @return $this|void
@@ -368,7 +368,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * remove column
      * @param mixed $table 
      * @param mixed $colname 
-     * @return $this 
+     * @return SchemaMigrationBuilder
      */
     public function removeColumn($table, $colname):SchemaMigrationBuilder
     {
@@ -385,7 +385,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     * auto generate doc.
     * @param string $table
     * @param string $colname
-    * @return static
+    * @return SchemaMigrationBuilder
     */
     public function addIndex(string $table, $colname):SchemaMigrationBuilder
     {

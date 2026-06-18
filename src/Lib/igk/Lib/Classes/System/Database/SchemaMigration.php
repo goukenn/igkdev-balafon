@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Database;
+
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -42,39 +43,43 @@ class SchemaMigration
 {
     use SchemaGenerationFieldTrait;
     /**
-    * Property: node.
-    * @var mixed
-    */
+     * param used to load migrating info parameter
+     */
+    const MIGRATION_INFO_PARAM = 'migration:info';
+    /**
+     * Property: node.
+     * @var mixed
+     */
     var $node;
     /**
-    * Property: reload.
-    * @var mixed
-    */
+     * Property: reload.
+     * @var mixed
+     */
     var $reload;
     /**
-    * Name of resovlname.
-    * @var mixed
-    */
+     * Name of resovlname.
+     * @var mixed
+     */
     var $resovlname;
     /**
-    * Map of table.
-    * @var mixed
-    */
+     * Map of table.
+     * @var mixed
+     */
     var $table;
     /**
-    * Property: tbrelations.
-    * @var mixed
-    */
+     * Property: tbrelations.
+     * @var mixed
+     */
     var $tbrelations;
     /**
-    * auto generate doc.
-    * @var ?array
-    */
+     * auto generate doc.
+     * @var ?array
+     */
     var $migrations;
     /**
-    * auto generate doc.
-    * @var ?array loaded entries to initialize
-    */
+     * auto generate doc.
+     * @var ?array loaded entries to initialize
+     */
     var $entries;
     /**
      * resolve name
@@ -130,10 +135,10 @@ class SchemaMigration
                         $v_roots[] = $n;
                         array_push($qtb, $n);
                         continue;
-                    } else {
                     }
                 }
             }
+            $v_param_info = $n->getInheritedParam(self::MIGRATION_INFO_PARAM);
             if ($ctrl instanceof IDbGetTableReferenceHandler) {
                 $gtables = $ctrl->getDataTablesReference($tables);
                 $tables = &$gtables->getRefTableDefinition();
@@ -160,10 +165,11 @@ class SchemaMigration
                 }
             }
             foreach ($n->getElementsByTagName(DbSchemas::DATA_DEFINITION) as $v) {
+                $this->_loadTableDataDefinition($v);
                 $c = array();
                 $indexes = null;
                 $tb = $stb = $v["TableName"];
-                $constant = $v['clConstant'];
+                // $constant = $v['clConstant'];
                 $prefix = $v['Prefix'];
                 if (empty($tb)) {
                     continue;
@@ -172,7 +178,7 @@ class SchemaMigration
                     $tb = IGKSysUtil::DBGetTableName($stb, $ctrl);
                 foreach ($v->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
                     $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
-                    $this->_treatColumnName($cl, $prefix, $tb); 
+                    $this->_treatColumnName($cl, $prefix);//, $tb);
                     $c[$cl->clName] = $cl;
                     // + | --------------------------------------------------------------------
                     // + | Load links
@@ -184,7 +190,7 @@ class SchemaMigration
                         }
                         $links[$lnk][$tb][] = $cl->clName;
                     }
-                } 
+                }
                 $passing = null;
                 $v_info = (object)[
                     "table" => $tb,
@@ -207,8 +213,8 @@ class SchemaMigration
                 }
                 // + | load indexed
                 $t_index = $v->getElementsByTagName(DbSchemas::Index);
-                if ($t_index){   
-                    call_user_func_array([$this, '_load_index'], [$t_index, & $indexes]); 
+                if ($t_index) {
+                    call_user_func_array([$this, '_load_index'], [$t_index, &$indexes]);
                 }
                 $info = new SchemaMigrationInfo;
                 $info->defTableName = $stb;
@@ -227,24 +233,8 @@ class SchemaMigration
                 $info->indexes = $indexes;
                 $tables[$tb] =  $info;
             }
-            if (
-                in_array($this->operation, [
-                    DbSchemasConstants::Downgrade,
-                    DbSchemasConstants::Migrate
-                ]) &&
-                ($resolvname && ($nmigrations = igk_getv($n->getElementsByTagName(DbSchemas::MIGRATIONS_TAG), 0)))
-            ) {
-                $v_mlist = $nmigrations->getElementsByTagName(DbSchemas::MIGRATION_TAG);
-                switch ($this->operation) {
-                    case DbSchemasConstants::Downgrade:
-                        if (!empty($tables))
-                            $v_mlist && $this->downgrade($v_mlist, $tables, $ctrl);
-                        break;
-                    default:
-                        $v_mlist && $this->upgrade($v_mlist, $tables, $ctrl);
-                        break;
-                }
-            }
+            $this->_load_migration($n, $resolvname, $v_mlist, $tables, $ctrl);
+
             if ($v_t_relation = igk_getv($n->getElementsByTagName(DbSchemas::RELATIONS_TAG), 0)) {
                 foreach ($v_t_relation->getElementsByTagName(DbSchemas::RELATION_TAG) as $vv) {
                     $cl = DbRelation::Create(igk_to_array($vv->Attributes), $ctrl);
@@ -277,14 +267,74 @@ class SchemaMigration
         return $v_result;
     }
     /**
-    * Treat column name.
-    * @param mixed $cl
-    * @param null|string $prefix
-    */
-    protected function _treatColumnName($cl, ?string $prefix){
+     * 
+     * @param mixed $n 
+     * @param mixed $resolvname 
+     * @param mixed &$v_mlist 
+     * @param mixed &$tables 
+     * @param mixed $ctrl 
+     * @return void 
+     */
+    protected function _load_migration($n, $resolvname, & $v_mlist, & $tables, $ctrl)
+    {
+        $v_op = $this->operation;
+        if (
+            in_array($v_op, [
+                DbSchemasConstants::Downgrade,
+                DbSchemasConstants::Migrate
+            ]) &&
+            ($resolvname && ($nmigrations = igk_getv($n->getElementsByTagName(DbSchemas::MIGRATIONS_TAG), 0)))
+        ) {
+            $v_mlist = $nmigrations->getElementsByTagName(DbSchemas::MIGRATION_TAG);
+            switch ($this->operation) {
+                case DbSchemasConstants::Downgrade:
+                    !empty($tables) && $v_mlist && $this->downgrade($v_mlist, $tables, $ctrl);
+                    break;
+                default:
+                    $v_mlist && $this->upgrade($v_mlist, $tables, $ctrl);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param XmlNode $data_definition 
+     * @return void 
+     */
+    protected function _loadTableDataDefinition(XmlNode $data_definition){
+        $children = $data_definition->getChilds()->to_array();
+        $def = [];
+        
+        while(count($children)>0){
+            $q = array_shift($children);
+            if ($n = $q->tagName){
+                $n = ucfirst($n);
+                $cl = sprintf('%s\\SchemaDefinitionLoaders\\%s', __NAMESPACE__, $n );
+                if (class_exists($cl, true)){
+                    $loader = new $cl();
+                    $loader->load($q, $def);
+                }else { 
+                    $fc = sprintf('_loadTableData%sDefinition',ucfirst($n));
+
+                    if (method_exists($this, $fc))
+                    call_user_func_array([$this, $fc], [$q, & $def]);
+                }
+            }
+
+
+        }
+    }
+    /**
+     * Treat column name.
+     * @param mixed $cl
+     * @param null|string $prefix
+     */
+    protected function _treatColumnName($cl, ?string $prefix)
+    {
         if ($prefix) {
-            $cl->clName = DbUtility::TreatColumnName($cl->clName, $prefix); 
-        } 
+            $cl->clName = DbUtility::TreatColumnName($cl->clName, $prefix);
+        }
     }
     /**
      * column column tables index
@@ -292,22 +342,27 @@ class SchemaMigration
      * @param mixed &$indexes 
      * @return void 
      */
-    protected function _load_index($list, & $indexes){
-        while(count($list)>0){
+    protected function _load_index($list, &$indexes)
+    {
+        while (count($list) > 0) {
             $q = array_shift($list);
             $tab = igk_to_array($q->Attributes);
-            $info = Activator::CreateNewInstance(SchemaIndexInfo::class, $tab);
-            $indexes[] = $info;
+            if (!empty(array_filter($tab))) {
+                $info = Activator::CreateNewInstance(SchemaIndexInfo::class, $tab);
+                $indexes[] = $info;
+            } else {
+                igk_dev_wln('-:missing loading index:-');
+            }
         }
     }
     /**
-    * udpate the generated columns
-    * @param mixed $node
-    * @param mixed &$cl
-    * @param mixed $passing
-    * @param mixed $info
-    * @return void
-    */
+     * udpate the generated columns
+     * @param mixed $node
+     * @param mixed &$cl
+     * @param mixed $passing
+     * @param mixed $info
+     * @return void
+     */
     public static function UpdateGenColumn($node, &$cl, $passing = null, $info = null)
     {
         $name = $node["name"];
@@ -322,21 +377,21 @@ class SchemaMigration
         }
     }
     /**
-    * load require schema
-    * @param array & $tab
-    * @param mixed $rq
-    * @param mixed & $load_schema
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return void
-    */
+     * load require schema
+     * @param array & $tab
+     * @param mixed $rq
+     * @param mixed & $load_schema
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return void
+     */
     private static function _LoadRequireSchema(array &$tab, $rq, &$load_schema)
     {
         extract(igk_extract_ref((array)igk_createobj_filter($rq->getAttributes()->to_array(), "from|name|argument|file")));
         switch ($from) {
             case 'self':
-                list($file, $p) = $rq->getInheritedParam('migration:info') ?? [null, null];
+                list($file, $p) = $rq->getInheritedParam(self::MIGRATION_INFO_PARAM) ?? [null, null];
                 if ($file) {
                     self::_loadControllerRequireSchema($p, $tab, $argument, $load_schema);
                 }
@@ -368,35 +423,40 @@ class SchemaMigration
      */
     private static function _loadControllerRequireSchema(?BaseController $p, &$tab, $argument, &$load_schema)
     {
+        $v_use_arg = true;
         if (is_null($argument)) {
             $files = [Path::Combine($p->getDataDir(), 'data.schema.xml')];
         } else {
             if ($argument == "*") {
                 $files = IO::GetFiles($p->getDataDir(), "/\.db-schema.xml$/", false);
+                $v_use_arg = false;
             } else
                 $files = [$argument];
         }
         while (count($files) > 0) {
             $f = $argument = array_shift($files);
             if (!$f) continue;
-            $tc = [$f,  $p->getDataDir() . "/" . $argument . ".db-schema.xml" ,  $p->getDataSchemaFile($argument)];
+            $tc = [$f];
+            if ($v_use_arg) {
+                $tc[] = $p->getDataDir() . "/" . $argument . ".db-schema.xml";
+                $tc[] = $p->getDataSchemaFile($argument);
+            }
             $f = null;
-            while(count($tc)>0){
+            while (count($tc) > 0) {
                 $f = array_shift($tc);
-                if(!igk_io_cache_file_exists($f)){
-                    $f=null;
+                if (!igk_io_cache_file_exists($f)) {
+                    $f = null;
                 } else {
                     break;
                 }
             }
-            if ($f
-            ) {
+            if ($f) {
                 if (isset($load_schema[$f])) {
                     continue;
                 }
                 if ($n = HtmlReader::LoadFile($f)) {
                     if ($c = igk_getv($n->getElementsByTagName(DbSchemas::RT_SCHEMA_TAG), 0)) {
-                        $c->setParam('migration:info', [$f, $p]);
+                        $c->setParam(self::MIGRATION_INFO_PARAM , [$f, $p]);
                         array_push($tab, $c);
                     }
                 }
@@ -405,19 +465,19 @@ class SchemaMigration
         }
     }
     /**
-    * Load schema and migrate
-    * @param DomNodeBase $node schema node
-    * @param mixed & $result
-    * @param ?array & $tables
-    * @param mixed & $tbrelations
-    * @param mixed & $migrations
-    * @param mixed & $entries
-    * @param mixed $result table response
-    * @param null|array $tables
-    * @param mixed $tbrelations
-    * @param mixed $operation
-    * @return static
-    */
+     * Load schema and migrate
+     * @param DomNodeBase $node schema node
+     * @param mixed & $result
+     * @param ?array & $tables
+     * @param mixed & $tbrelations
+     * @param mixed & $migrations
+     * @param mixed & $entries
+     * @param mixed $result table response
+     * @param null|array $tables
+     * @param mixed $tbrelations
+     * @param mixed $operation
+     * @return static
+     */
     public static function LoadSchema(
         DomNodeBase $node,
         &$result,
@@ -443,12 +503,12 @@ class SchemaMigration
         return $mi;
     }
     /**
-    * resolve db cache information
-    * @param array & $tables
-    * @param array $tables
-    * @throws IGKException
-    * @return bool
-    */
+     * resolve db cache information
+     * @param array & $tables
+     * @param array $tables
+     * @throws IGKException
+     * @return bool
+     */
     private static function _ResolvDbCacheDefinition(array &$tables, string $tb): bool
     {
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
@@ -463,15 +523,17 @@ class SchemaMigration
         return false;
     }
     /**
-    * do update and update the list of current schema data tables
-    * @param string $key
-    * @param mixed $item
-    * @param array & $tables
-    * @param mixed $c
-    * @param ?BaseController $ctrl
-    */
+     * do update and update the list of current schema data tables
+     * @param string $key
+     * @param mixed $item
+     * @param array & $tables
+     * @param mixed $c
+     * @param ?BaseController $ctrl
+     */
     private static function _DoUpgrade(string $key, $item, array &$tables, $c, ?BaseController $ctrl)
     {
+        $v_is_debug = igk_is_debug();
+        Logger::info('doUpgrade: ' . $key);
         // + | --------------------------------------------------------------------
         // + | upgrade the schema definition file 
         // + |
@@ -479,14 +541,14 @@ class SchemaMigration
         switch ($key) {
             case DbSchemasConstants::OP_ADD_COLUMN: // + | on add column in migration
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                igk_is_debug() && igk_ilog("add column to :=> ".$tb);
+                igk_is_debug() && igk_ilog("add column to :=> " . $tb);
                 if (!isset($tables[$tb])) {
                     if (!self::_ResolvDbCacheDefinition($tables, $tb)) {
                         return;
                     }
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
-                list ($prefix) = igk_extract($tables[$tb], 'prefix');
+                list($prefix) = igk_extract($tables[$tb], 'prefix');
                 $after = $item->after ? Database::AutoPrefixColumn($item->after, $prefix) : null;
                 $keys = null;
                 foreach ($c->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
@@ -513,13 +575,13 @@ class SchemaMigration
                     $tabcl = &$ctab->columnInfo;
                     $nslist = [$item->column];
                     if ($ctab->prefix)
-                        $nslist[] = $ctab->prefix.$item->column;
-                    while(count($nslist)>0){
+                        $nslist[] = $ctab->prefix . $item->column;
+                    while (count($nslist) > 0) {
                         $qn = array_shift($nslist);
-                        if (igk_getv($tabcl, $qn)){
-                            unset($tabcl[$qn]); 
+                        if (igk_getv($tabcl, $qn)) {
+                            unset($tabcl[$qn]);
                             break;
-                        } 
+                        }
                     }
                 } else {
                     $inf = DbSchemas::GetTableColumnInfo($tb);
@@ -529,7 +591,7 @@ class SchemaMigration
                             unset($inf[$item->column]);
                         }
                         break;
-                    } 
+                    }
                     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "table not present is schema tables definition");
                 }
                 break;
@@ -537,6 +599,11 @@ class SchemaMigration
                 $item->table || igk_die("migration: change column missing table name");
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 $cl = $item->column;
+
+                if (preg_match('/^tbrental_/', $tb)) {
+                    Logger::warn(sprintf('for rentaal  card ..... %s', $tb));
+                }
+
                 if (empty($cl)) {
                     throw new \IGKException(" changeColumn migration [column] not defined");
                 }
@@ -548,31 +615,31 @@ class SchemaMigration
                 $v_tinf = $tables[$tb];
                 $v_prefix = $v_tinf->prefix;
                 $v_src_cl = $cl;
-                $tabcl = & $v_tinf->columnInfo;
-                if (!isset($tabcl[$cl]) && !isset($tabcl[$cl = $v_prefix.$cl])) {
+                $tabcl = &$v_tinf->columnInfo;
+                if (!isset($tabcl[$cl]) && !isset($tabcl[$cl = $v_prefix . $cl])) {
                     igk_dev_wln_e("[schemap-migration] - change missing table column ", $cl);
                     return;
                 }
                 $v_real_cl = $cl;
                 $item->columnInfo = $tabcl[$cl];
                 $vv = igk_getv($c->getElementsByTagName(IGK_COLUMN_TAGNAME), 0);
-                    $v_ncl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
-                    if ($v_src_cl==$v_ncl->clName){
-                        $v_ncl->clName = $cl;
-                    }
-                    igk_array_replace_key($tabcl, $v_real_cl, $cl, $v_ncl);
+                $v_ncl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
+                if ($v_src_cl == $v_ncl->clName) {
+                    $v_ncl->clName = $cl;
+                }
+                igk_array_replace_key($tabcl, $v_real_cl, $cl, $v_ncl);
                 break;
             case DbSchemasConstants::OP_RENAME_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                if (!isset($tables[$tb])) {                
+                if (!isset($tables[$tb])) {
                     break;
                 }
                 $v_table = $tables[$tb];
-                $tabcl = & $v_table->columnInfo;
+                $tabcl = &$v_table->columnInfo;
                 if ($tabcl) {
                     $column = igk_getv($tabcl, $item->column);
-                    if (!$column){
-                        igk_wln_e(__FILE__.":".__LINE__ , "missing column ".$item->column);
+                    if (!$column) {
+                        igk_wln_e(__FILE__ . ":" . __LINE__, "missing column " . $item->column);
                     }
                     $column->clName = $item->new_name;
                     // + | --------------------------------------------
@@ -602,7 +669,7 @@ class SchemaMigration
                     'tableName' => $tb,
                     '::context_db' => 'from create table - SchemaMigration',
                     'controller' => $ctrl,
-                    'prefix'=> $item->prefix, 
+                    'prefix' => $item->prefix,
                     'definitionResolver' => null,
                 ]);
                 if (!isset($tables[$tb])) {
@@ -627,14 +694,14 @@ class SchemaMigration
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $key
-    * @param mixed $item
-    * @param mixed & $tables
-    * @param mixed $c
-    * @param BaseController $ctrl
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $key
+     * @param mixed $item
+     * @param mixed & $tables
+     * @param mixed $c
+     * @param BaseController $ctrl
+     * @return mixed
+     */
     private static function _DoDowngrade($key, $item, &$tables, $c, BaseController $ctrl)
     {
         switch ($key) {
@@ -688,7 +755,7 @@ class SchemaMigration
                 } else {
                     $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                     $tabcl = &$tables[$tb]->columnInfo;
-                    $tabcl[$item->column] = $item->columnInfo; 
+                    $tabcl[$item->column] = $item->columnInfo;
                 }
                 break;
             case DbSchemasConstants::OP_RENAME_COLUMN:
@@ -702,7 +769,7 @@ class SchemaMigration
             case DbSchemasConstants::OP_CREATE_TABLE:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 if (!isset($tables[$tb])) {
-                    unset($tables[$tb]); 
+                    unset($tables[$tb]);
                 }
                 break;
             case DbSchemasConstants::OP_DROP_TABLE:
@@ -711,13 +778,13 @@ class SchemaMigration
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $tmigrations
-    * @param array & $tables
-    * @param null|BaseController $ctrl
-    * @param mixed $callback
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $tmigrations
+     * @param array & $tables
+     * @param null|BaseController $ctrl
+     * @param mixed $callback
+     * @return mixed
+     */
     private function _do_migration($tmigrations, array &$tables, ?BaseController $ctrl, $callback)
     {
         $migrations = &$this->migrations;
@@ -743,23 +810,23 @@ class SchemaMigration
         $mighandler->unregister();
     }
     /**
-    * oad schema and downgrade
-    * @param mixed $migrations
-    * @param array & $tables
-    * @param mixed $tables
-    * @return void
-    */
+     * oad schema and downgrade
+     * @param mixed $migrations
+     * @param array & $tables
+     * @param mixed $tables
+     * @return void
+     */
     public function upgrade($migrations, array &$tables,  ?BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoUpgrade']);
     }
     /**
-    * load schema and downgrade
-    * @param mixed $migrations
-    * @param array & $tables
-    * @param BaseController $ctrl
-    * @return void
-    */
+     * load schema and downgrade
+     * @param mixed $migrations
+     * @param array & $tables
+     * @param BaseController $ctrl
+     * @return void
+     */
     public function downgrade($migrations, array &$tables,  BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoDowngrade']);

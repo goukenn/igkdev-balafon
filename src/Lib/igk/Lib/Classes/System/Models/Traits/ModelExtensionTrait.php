@@ -38,7 +38,7 @@ trait ModelExtensionTrait
     * @param bool $check
     * @param mixed $params
     */
-    private abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
+    protected abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
     /**
      * extension methods 
      */
@@ -284,6 +284,9 @@ trait ModelExtensionTrait
     public abstract static function update(\IGK\Models\ModelBase $model, $value = null, $conditions = null);
     /**
      * extension methods 
+     * @param mixed $model
+     * @param mixed $condition
+     * @param mixed $update_extras extra definition to pass
      */
     public abstract static function updateOrCreateIfNotExists(\IGK\Models\ModelBase $model, $condition, $update_extras = null);
     /**
@@ -296,6 +299,9 @@ trait ModelExtensionTrait
     public abstract static function viewFilter(\IGK\Models\ModelBase $model);
     /**
      * extension methods 
+    * @param mixed $model
+    * @param mixed $modelUnion
+    * @param mixed $propertyName
      */
     public abstract static function with(\IGK\Models\ModelBase $model, $modelUnion, ?string $propertyName = null);
 }

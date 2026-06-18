@@ -4,6 +4,7 @@
 // @date: 20220728 14:50:19
 // @desc: 
 namespace IGK\System\Database;
+
 use Closure;
 use IGK\Database\DbConstants;
 use IGK\Models\ModelBase;
@@ -23,39 +24,39 @@ use ReflectionException;
 class QueryBuilder
 {
     /**
-    * Property: conditions.
-    * @var mixed
-    */
+     * Property: conditions.
+     * @var mixed
+     */
     private $m_conditions;
     /**
-    * Property: options.
-    * @var mixed
-    */
+     * Property: options.
+     * @var mixed
+     */
     private $m_options;
     /**
-    * Property: model.
-    * @var mixed
-    */
+     * Property: model.
+     * @var mixed
+     */
     private $m_model;
     /**
-    * Property: with.
-    * @var mixed
-    */
+     * Property: with.
+     * @var mixed
+     */
     private $m_with;
     /**
-    * Count: with total count.
-    * @var mixed
-    */
+     * Count: with total count.
+     * @var mixed
+     */
     private $m_withTotalCount;
     /**
-    * Listener: row listener.
-    * @var mixed
-    */
+     * Listener: row listener.
+     * @var mixed
+     */
     private $m_row_listener;
     /**
-    * Constant: joins.
-    * @var mixed
-    */
+     * Constant: joins.
+     * @var mixed
+     */
     const JOINS = QueryOptions::JOINS;
     /**
      * field to add as total counter 
@@ -68,9 +69,9 @@ class QueryBuilder
         return $this;
     }
     /**
-    * Append columns.
-    * @param null|array $columns
-    */
+     * Append columns.
+     * @param null|array $columns
+     */
     public function append_columns(?array $columns)
     {
         if (isset($this->m_options["Columns"]) && $columns) {
@@ -84,12 +85,12 @@ class QueryBuilder
         return $this;
     }
     /**
-    * with expression to get single data value
-    * @param mixed $table
-    * @param null|string $key
-    * @param ?bool $ignore_data
-    * @return $this
-    */
+     * with expression to get single data value
+     * @param mixed $table
+     * @param null|string $key
+     * @param ?bool $ignore_data
+     * @return $this
+     */
     public function with($table, ?string $key = null, ?bool $ignore_data = false)
     {
         if (!$this->m_with)
@@ -102,9 +103,9 @@ class QueryBuilder
         return $this;
     }
     /**
-    * .ctr
-    * @param ModelBase $model
-    */
+     * .ctr
+     * @param ModelBase $model
+     */
     public function __construct(ModelBase $model)
     {
         if (!$model)
@@ -113,12 +114,12 @@ class QueryBuilder
         $this->m_options = [];
         $this->m_model = $model;
     }
-     
-  
+
+
     /**
-    * Or.
-    * @param array $conditions
-    */
+     * Or.
+     * @param array $conditions
+     */
     public static function Or(array $conditions)
     {
         return (object)["operand" => "OR", "conditions" => $conditions];
@@ -156,7 +157,8 @@ class QueryBuilder
      * @param ?callable $callback 
      * @return $this 
      */
-    public function registerRowListener($callback){
+    public function registerRowListener($callback)
+    {
         $this->m_row_listener = $callback;
         return $this;
     }
@@ -185,15 +187,15 @@ class QueryBuilder
         return $this;
     }
     /**
-    * set joint left
-    * @param string $table table name to joint
-    * @param string $condition condition expression ... on ... for mysql
-    * @param ?string $alias
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return $this
-    */
+     * set joint left
+     * @param string $table table name to joint
+     * @param string $condition condition expression ... on ... for mysql
+     * @param ?string $alias
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return $this
+     */
     public function join_left(string $table, string $condition, ?string $alias = null)
     {
         $rc = [$condition, "type" => QueryBuilderConstant::LeftJoin];
@@ -204,24 +206,40 @@ class QueryBuilder
         ]);
     }
     /**
-    * helper: join left
-    * @param string $table
-    * @param string $first_column
-    * @param string $second_column
-    * @param ?string $alias
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return $this
-    */
+     * helper: join left
+     * @param string $table
+     * @param string $first_column
+     * @param string $second_column
+     * @param ?string $alias
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return $this
+     */
     public function join_left_on(string $table, string $first_column, string $second_column, ?string $alias = null)
     {
         return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column), $alias);
     }
     /**
-    * Joins table.
-    * @param string $table
-    */
+     * 
+     * @param string $table 
+     * @param string $first_column 
+     * @param string $second_column 
+     * @return $this 
+     */
+    public function join_on(string $table, string $first_column, string $second_column)
+    {
+        return $this->join([
+            $table => [
+                sprintf('%s=%s', $first_column, $second_column),
+                "type" => QueryBuilderConstant::Join
+            ]
+        ]);
+    }
+    /**
+     * Joins table.
+     * @param string $table
+     */
     public function join_table(string $table)
     {
         return $this->join([
@@ -229,11 +247,11 @@ class QueryBuilder
         ]);
     }
     /**
-    * limit query
-    * @param mixed $limit_raw
-    * @param ?int $max
-    * @return $this
-    */
+     * limit query
+     * @param mixed $limit_raw
+     * @param ?int $max
+     * @return $this
+     */
     public function limit($limit_raw, ?int $max = null)
     {
         if (!is_null($limit_raw)) {
@@ -249,9 +267,9 @@ class QueryBuilder
         return $this;
     }
     /**
-    * Latest.
-    * @param null|string $column
-    */
+     * Latest.
+     * @param null|string $column
+     */
     public function latest(?string $column = null)
     {
         $cl = $column;
@@ -283,7 +301,7 @@ class QueryBuilder
     }
     /**
      * set callback filter
-     * @param null|\callbable|Closure $filter 
+     * @param null|\Closure $filter 
      * @return $this 
      */
     public function filter(?callable $filter = null)
@@ -305,8 +323,21 @@ class QueryBuilder
         return $this;
     }
     /**
+     * skip reccord
+     * @param int $record 
+     * @return $this 
+     */
+    public function skip(?int $record)
+    {
+        if (is_null($record)) {
+            unset($this->m_options['Skip']);
+        } else
+            $this->m_options['Skip'] = $record;
+        return $this;
+    }
+    /**
      * send query
-     * @return IGK\Models\IQueryResult 
+     * @return \IGK\Models\IQueryResult 
      */
     public function query()
     {
@@ -330,7 +361,7 @@ class QueryBuilder
      * retrieve the query to send
      * @return ?string 
      */
-    public function get_query()
+    public function get_query(): ?string
     {
         if (!isset($this->m_options["primaryKey"])) {
             $this->m_options["NoPrimaryKey"] = 1;
@@ -360,22 +391,22 @@ class QueryBuilder
         return rtrim($this->get_query(), " ;");
     }
     /**
-    * auto generate doc.
-    * @param null|object $options
-    * @return static
-    */
+     * auto generate doc.
+     * @param null|object $options
+     * @return static
+     */
     public function setOptions($options = null)
     {
         $this->m_options = (array)$options;
         return $this;
     }
     /**
-    * return the fetchable result
-    * @param mixed $options
-    * @throws IGKException
-    * @return null|IGK\Database\IDbFetchResult
-    */
-    public function query_fetch($options=null)
+     * return the fetchable result
+     * @param mixed $options
+     * @throws IGKException
+     * @return null|IGK\Database\IDbFetchResult
+     */
+    public function query_fetch($options = null)
     {
         // + | --------------------------------------------------------------------
         // + | create a db fetch result to handle with a foreach in case no need to load every data
@@ -394,22 +425,22 @@ class QueryBuilder
         return $res;
     }
     /**
-    * execute the current builded query
-    * @param mixed $throwOnError
-    * @param mixed $options
-    * @param mixed $autoclose
-    * @throws IGKException
-    * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
-    */
+     * execute the current builded query
+     * @param mixed $throwOnError
+     * @param mixed $options
+     * @param mixed $autoclose
+     * @throws IGKException
+     * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
+     */
     public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
-        if ($options){
-            if ($limit = igk_getv($options, 'Limit')){
+        if ($options) {
+            if ($limit = igk_getv($options, 'Limit')) {
                 $this->limit($limit);
             }
         }
-        if (!empty($query = $this->get_query()) && $driver->connect()) { 
+        if (!empty($query = $this->get_query()) && $driver->connect()) {
             $n = $driver->getIsConnect() ? -1 : $driver->connect();
             $v_goptions = $options ?? $this->m_options;
             if (!empty($this->m_with)) {
@@ -428,7 +459,7 @@ class QueryBuilder
                             }
                         }
                         $row = self::_BuildRefWith($v, $row, $this->model(), $this->m_with);
-                        if ($listener = $this->m_row_listener){
+                        if ($listener = $this->m_row_listener) {
                             $listener($row, $this);
                         }
                         return $row;
@@ -462,13 +493,13 @@ class QueryBuilder
         }, $ref));
     }
     /**
-    * auto generate doc.
-    * @param mixed $source_row
-    * @param mixed $row
-    * @param mixed $model
-    * @param mixed $with
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $source_row
+     * @param mixed $row
+     * @param mixed $model
+     * @param mixed $with
+     * @return mixed
+     */
     private static function _BuildRefWith($source_row, $row, $model, $with)
     {
         $tab = \IGK\Models\ModelBase::RegisterModels();
@@ -485,16 +516,16 @@ class QueryBuilder
         return $row;
     }
     /**
-    * auto generate doc.
-    * @param mixed $source_row
-    * @param mixed $row
-    * @param mixed $ctrl
-    * @param mixed $tab
-    * @param mixed $with
-    * @param mixed $links
-    * @param mixed $linktab linktables
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $source_row
+     * @param mixed $row
+     * @param mixed $ctrl
+     * @param mixed $tab
+     * @param mixed $with
+     * @param mixed $links
+     * @param mixed $linktab linktables
+     * @return void
+     */
     private static function _BuildRowDef($source_row, $row, $ctrl, $tab, $with, $links, $linktab)
     {
         $row_defs = [$source_row];
@@ -523,7 +554,7 @@ class QueryBuilder
             $columns_keys = [];
             foreach ($links as $cl => $info) {
                 list($table, $clname) = $info;
-                if (key_exists($table, $linktab)) { 
+                if (key_exists($table, $linktab)) {
                     $w_mod = $tab[$table]->model::model();
                     if ($dd = $v->$cl) {
                         if (igk_getv($linktab, $table) === 1) {
@@ -542,7 +573,7 @@ class QueryBuilder
                                     if (!is_array($columns_keys[$key][$cl])) {
                                         $c_cl = $columns_keys[$key][$cl];
                                         $c_clk = $c_cl->{$prim_id};
-                                        $columns_keys[$key][$cl] = [$c_clk=>$c_cl];
+                                        $columns_keys[$key][$cl] = [$c_clk => $c_cl];
                                     }
                                     if ($prim_id)
                                         $columns_keys[$key][$cl][$v_ref] = $g;
@@ -585,8 +616,8 @@ class QueryBuilder
         }
     }
     /**
-    * get string presentation.
-    */
+     * get string presentation.
+     */
     public function __toString()
     {
         return __CLASS__ . "[" . $this->get_query() . "]";
@@ -607,16 +638,41 @@ class QueryBuilder
     public function get()
     {
         if ($tab = $this->execute()) {
-            return  $tab->getRows(); 
+            return  $tab->getRows();
         }
     }
     /**
-    * Group by.
-    * @param null|array $column
-    */
+     * Group by.
+     * @param null|array $column
+     */
     public function groupBy(?array $column = null)
     {
         $this->m_options[QueryOptions::GROUP_BY] = $column;
         return $this;
+    }
+
+
+    /**
+     * 
+     * @param mixed $ad 
+     * @param string $query 
+     * @param array $q 
+     * @return string 
+     */
+    public static function BuildQuestionMarkQuery($ad, string $query, array $q): string
+    {
+        $offset = 0;
+        while (($pos = strpos($query, '?', $offset)) !== false) {
+            if (count($q) > 0) {
+                $s = array_shift($q);
+                $after = substr($query, $pos + 1);
+                $query = substr($query, 0, $pos) . $ad->escape_string($s);
+                $offset = strlen($query);
+                $query .= $after;
+            } else {
+                $offset = strlen($query);
+            }
+        }
+        return $query;
     }
 }

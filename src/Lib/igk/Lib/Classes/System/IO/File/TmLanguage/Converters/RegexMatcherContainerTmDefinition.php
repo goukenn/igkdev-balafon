@@ -4,6 +4,7 @@
 // @date: 20250704 13:50:33
 namespace IGK\System\IO\File\TmLanguage\Converters;
 use Exception;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use JsonSerializable;
 /**
 * auto generate doc.
@@ -16,6 +17,7 @@ use JsonSerializable;
 */
 class RegexMatcherContainerTmDefinition implements JsonSerializable
 {
+    use JsonSerializableTrait;
     /**
     * Name of scope name.
     * @var mixed
@@ -67,7 +69,7 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * serialize object 
      * @return mixed 
      */
-    public function jsonSerialize(): mixed
+    public function _json_serialize()
     {
         $ref = (array)$this;
         foreach (array_keys($ref) as $k) {

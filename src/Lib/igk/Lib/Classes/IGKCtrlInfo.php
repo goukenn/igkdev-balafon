@@ -59,9 +59,9 @@ final class IGKCtrlInfo extends IGKObject{
     }
     /**
     * Returns Name.
-    * @return mixed
+    * @return ?string
     */
-    public function getName(): mixed{
+    public function getName(){
         return $this->m_name;
     }
     /**

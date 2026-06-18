@@ -95,7 +95,7 @@ trait DbColumnInfoTrait
   var $clIsUnique;
   /**
    * unique column member list
-   * @var mixed
+   * @var ?bool|array
    */
   var $clIsUniqueColumnMember;
   /**

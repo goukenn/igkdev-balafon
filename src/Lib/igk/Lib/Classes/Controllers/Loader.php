@@ -2,8 +2,9 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: Loader.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc: for loading response 
 namespace IGK\Controllers;
+
 use Closure;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -16,6 +17,9 @@ use IGK\System\IO\Path;
 use IGKCaches;
 use IGKException;
 use ReflectionException;
+
+// igk_trace();
+// igk_wln_e(__FILE__.":".__LINE__ ,  igk_app()->IsInit());
 
 /**
 * represent internal core loader

@@ -55,9 +55,7 @@ $def[".fitf"] = "[fit:fill]";
 $def[".igk-underline-div"] = "display:block; position:absolute; height:2px; width:100%; background-color:#414141; bottom :0px;";
 $def[".igk-underline-div:hover"] = "[sysbgcl: underlineHover]";
 $def[".bdr-1"] = "border:1px solid black;";
-$def[".fts-i"] = "font-style:italic;";
-$def[".cur-pointer"] = "cursor:pointer;";
-$def[".cur-default"] = "cursor:default;";
+$def[".fts-i"] = "font-style:italic;"; 
 $def[".margin-a-w"]
     = $def[".margin-w-a"]
     = $def[".mg-w-a"]
@@ -132,7 +130,7 @@ $theme->supports('scrollbar-width:none')->set(
     ".no-scrollbar",
     "scrollbar-width:none; -ms-overflow-style:none;"
 );
-$def[".no-cursor"] = "cursor: none;";
+
 // + | disable speudo class entry on item .no-speudo
 $def['.no-speudo-a:before'] =
     $def['.no-speudo-a:after'] =  "display:none;";
@@ -320,9 +318,15 @@ $def[".xsm-block-only"] = "display:none";
 $sm_screen[".sm-block-only"] = "display:block;";
 $xsm_screen[".xsm-block-only"] = "display:block;";
 $def[".clear-b:after"] = "display:table; clear: both; content:' '; ";
-/* cursor style */
-$def[".cursor-pointer"] = "cursor: pointer;";
-$def[".cursor-help"] = "cursor: help;";
+// +| ===================================== CURSOR STYLE ======================
+foreach(['pointer', 'help','wait','crosshair','not-allowed','zoom-in', 'zoom-out', 'copy',
+    'move', 'grabbing','all-scroll','col-resize',
+    'ns-resize'
+    ] as $k){
+    $def[".cursor-".$k] = $def[".".$k] = "cursor: ".$k.";";
+}
+$def[".no-cursor"] = "cursor: none;";
+ 
 $tab = ["xsm", "sm", "lg", "xlg", "xxlg"];
 $c = 0;
 $tkey = [];

@@ -506,6 +506,7 @@ class DataAdapter extends DataAdapterBase implements
     public function __construct($ctrl = null)
     {
         parent::__construct($ctrl);
+        $this->m_name = IGK_MYSQL_DATAADAPTER;
     }
     /**
      * check if driver support typ

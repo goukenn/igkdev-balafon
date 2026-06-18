@@ -121,6 +121,13 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var null|'auto-reset'
      */
     var $captureMode;
+
+
+    /**
+     * 
+     * @var ?bool
+     */
+    var $noSkipToEnd;
     /**
     * Json serialize.
     * @return mixed

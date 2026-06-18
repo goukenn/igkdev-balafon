@@ -647,7 +647,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // + | --------------------------------------------------------------------
                     // + | add skip end element detected using internal skip definition 
                     // + |
-                    ($this->autoSkipEndCapture) && self::_SkipToEndOfLine($offset, $v_sln, $v_nextline_offset);
+                    ($this->autoSkipEndCapture && !$e->match->noSkipToEnd) && self::_SkipToEndOfLine($offset, $v_sln, $v_nextline_offset);
                     return $e;
             }
         }
@@ -813,6 +813,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     }
                     break;
                 case RegexMatcherPattern::MATCH_TYPE:
+                    if ($g = igk_is_debug('css_parse')){
+                        igk_wln_e('kdj');
+                    }
                     $n = $info->pos + $v_size;
                     $offset = $n + ($info->moveToNextLine ? 1 : 0);
                     $bsrc = $treated = $src = substr($source, $info->pos, $n - $info->pos);
@@ -1014,8 +1017,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $this->_setParent($info);
         $_size = strlen($compared_end->value);
         if (!$compared_end->emptyLine && ($_size == 0)) {
-            $info->endType = 'end';
             $offset = $l->pos;
+            $info->endType = 'end';
+            $this->m_last_detect_info = null;
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
                 'tag' => '3',
@@ -2150,6 +2154,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public function updateBufferLine(string $line, &$pos): string
     {
+        /**
+         * @var mixed $buff 
+         */
         $buff = $this->getBuffer(true) ?? '';
         $pos = strlen($buff);
         $line = $buff . $line;
@@ -2158,7 +2165,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
     * auto generate doc.
     * @param mixed $clear
-    * @return void
+    * @return mixed
     */
     protected function getBuffer($clear = false)
     {

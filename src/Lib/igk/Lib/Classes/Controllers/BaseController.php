@@ -852,7 +852,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     public function getLoader()
     {
         $l = $this->getEnvParam("loader");
-        if ($l == null) {
+        if ($l == null) { 
             $l = new Loader($this, function () {
                 return (object)["entryNS" => $this->getEntryNamespace()];
             });

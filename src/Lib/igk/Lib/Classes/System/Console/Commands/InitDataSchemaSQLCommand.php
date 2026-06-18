@@ -99,8 +99,13 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
                     $db->release++;
                     $n['version']= $db.'';
                 }
-                $n['author'] = $this->getAuthor($command);  
-                $n->renderXML();
+                $n['author'] = $this->getAuthor($command); 
+                ob_start(); 
+                $n->renderXML(null, 0);
+                $c = ob_get_contents();
+                ob_end_clean();
+                echo $c;
+
                 break;
         } 
         return 0;

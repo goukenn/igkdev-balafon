@@ -6,7 +6,7 @@ namespace IGK\System\Html\Css;
 use IGK\System\Text\RegexMatcherContainer;
 
 /**
- * parse css string content and return and array of string 
+ * parse css string content and return and array of string css rules 
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */

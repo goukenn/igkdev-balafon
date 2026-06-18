@@ -61,4 +61,13 @@ interface IDbQueryGrammar extends IGrammar {
      * @return mixed 
      */
     function createJoinOperation($type, $a, $b);
+
+
+    /**
+     * build query on expression
+     * @param string $first_column 
+     * @param string $second_column 
+     * @return null|string 
+     */
+    function joinOnEqual(string $first_column, string $second_column):?string;
 }

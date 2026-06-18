@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookPreferences.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -25,45 +27,17 @@ use IGK\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbpId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbpId() - macros function
-* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookPreferences extends ModelBase{
-    /**
-    * Constant: fd id.
-    * @var mixed
-    */
-    const FD_ID="rcphbp_Id";
-    /**
-    * Constant: fd entry guid.
-    * @var mixed
-    */
-    const FD_ENTRY_GUID="rcphbp_EntryGuid";
-    /**
-    * Constant: fd phone guid.
-    * @var mixed
-    */
-    const FD_PHONE_GUID="rcphbp_phoneGuid";
-    /**
-    * Constant: fd user guid.
-    * @var mixed
-    */
-    const FD_USER_GUID="rcphbp_userGuid";
-    /**
-    * Constant: fd type id.
-    * @var mixed
-    */
-    const FD_TYPE_ID="rcphbp_TypeId";
-    /**
-    * Constant: fd create at.
-    * @var mixed
-    */
-    const FD_CREATE_AT="rcphbp_Create_At";
-    /**
-    * Constant: fd update at.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="rcphbp_Update_At";
+	const FD_ID="rcphbp_Id";
+	const FD_ENTRY_GUID="rcphbp_EntryGuid";
+	const FD_PHONE_GUID="rcphbp_phoneGuid";
+	const FD_USER_GUID="rcphbp_userGuid";
+	const FD_TYPE_ID="rcphbp_TypeId";
+	const FD_CREATE_AT="rcphbp_Create_At";
+	const FD_UPDATE_AT="rcphbp_Update_At";
 	/**
 	* table's name
 	*/
@@ -76,11 +50,7 @@ class PhoneBookPreferences extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphbp_Id";
-    /**
-    * Property: unique columns.
-    * @var mixed
-    */
-    protected $unique_columns = array (
+	protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphbp_EntryGuid',

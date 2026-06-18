@@ -27,6 +27,8 @@ use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\Html\HtmlRendererOptions;
+use IGK\System\Html\HtmlRenderingContext;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\IHtmlContextContainer;
 use IGK\System\Html\XML\XmlNode;
@@ -1627,7 +1629,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         igk_header_set_contenttype("xml");
         $opt = $options ?? HtmlRenderer::CreateRenderOptions();
-        $opt->Context = "xml";
+        $opt->Context = HtmlRenderingContext::XML; 
         if (igk_getv($opt, 'xmldefinition') == 1) {
             $xml = new \IGK\System\Html\XML\XmlProcessor("xml");
             $xml["version"] = igk_getv($opt, "version") ?? "1.0";

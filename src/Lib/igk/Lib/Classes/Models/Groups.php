@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Groups.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -23,49 +25,21 @@ use IGK\Models\ModelBase;
 * @method static string FN_CL_UPDATE_AT() - `clUpdate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clName, string $clDescription, string $clController, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clController, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clName, string $clDescription, string $clController, string $clCreate_At ="NOW()", string $clUpdate_At ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clController, string $clCreate_At ="NOW()", string $clUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class Groups extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl description.
-    * @var mixed
-    */
-    const FD_CL_DESCRIPTION="clDescription";
-    /**
-    * Constant: fd cl controller.
-    * @var mixed
-    */
-    const FD_CL_CONTROLLER="clController";
-    /**
-    * Constant: fd cl create at.
-    * @var mixed
-    */
-    const FD_CL_CREATE_AT="clCreate_At";
-    /**
-    * Constant: fd cl update at.
-    * @var mixed
-    */
-    const FD_CL_UPDATE_AT="clUpdate_At";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DESCRIPTION="clDescription";
+	const FD_CL_CONTROLLER="clController";
+	const FD_CL_CREATE_AT="clCreate_At";
+	const FD_CL_UPDATE_AT="clUpdate_At";
 	/**
 	* table's name
 	*/
 	protected $table = "%prefix%groups";
-    /**
-    * Property: unique columns.
-    * @var mixed
-    */
-    protected $unique_columns = array (
+	protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'clName',

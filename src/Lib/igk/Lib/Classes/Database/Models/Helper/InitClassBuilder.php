@@ -140,6 +140,7 @@ class InitClassBuilder
                 $hiddens[] = $cinfo->clName;
             }
             if ($cinfo->clIsUniqueColumnMember) {
+                $v_unique_column_def = true;
                 if (!($index = $cinfo->clColumnMemberIndex)) {
                     $index = 0;
                 } else {
@@ -147,11 +148,14 @@ class InitClassBuilder
                         if (count($index) == 1){
                             $index = igk_getv($index, 0) ?? 0;
                         } else {
-                            throw new IGKException('main clClumnMemberIndex as array '. igk_debug_sprintf(__FILE__.":".__LINE__));
+                            self::_LoadUniqueColumns($unique_columns, $index, $cinfo->clName);          
+                            $v_unique_column_def = false;                  
+                            // throw new IGKException('main clColumnMemberIndex as array '. igk_debug_sprintf(__FILE__.":".__LINE__));
                         }
                     }
                 }
-                $unique_columns[$index][] = $cinfo->clName;
+                if ($v_unique_column_def)
+                    $unique_columns[$index][] = $cinfo->clName;
             }
             if ($cinfo->clDisplay) {
                 $displays[] = $cinfo->clName;
@@ -247,5 +251,13 @@ class InitClassBuilder
         }
         $cf = $builder->render();
         return $cf;
+    }
+    private static function _LoadUniqueColumns(array & $column_index, array $indices, string $name){
+        foreach($indices as $i){
+            if (!isset($column_index[$i])){
+                $column_index[$i] = [];
+            }
+            $column_index[$i][] = $name; 
+        }
     }
 }

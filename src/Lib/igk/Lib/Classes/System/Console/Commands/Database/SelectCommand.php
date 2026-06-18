@@ -204,7 +204,7 @@ class SelectCommand extends AppExecCommand
 			return;
 		}
 		if (is_bool($g) || is_numeric($g)) {
-			echo var_dump($g);
+			var_dump($g);
 			return;
 		}
 		if (is_array($g)) {

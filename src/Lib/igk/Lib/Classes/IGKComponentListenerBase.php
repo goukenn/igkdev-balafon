@@ -11,7 +11,7 @@
 /**
 * Igkcomponent listener base.
 */
-abstract class IGKComponentListenerBase extends IGKParamStorage implements IParamHostService{
+abstract class IGKComponentListenerBase extends IGKParamStorage implements \IGK\IParamHostService{
     /**
     * .ctr
     */

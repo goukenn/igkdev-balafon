@@ -3,6 +3,8 @@
 // @file: CssItemInfo.php
 // @date: 20240913 09:09:00
 namespace IGK\System\Html\Css;
+
+use IGK\System\Polyfill\JsonSerializableTrait;
 use JsonSerializable;
 
 /**
@@ -16,6 +18,7 @@ use JsonSerializable;
 */
 class CssItemInfo implements JsonSerializable, ICssClassList
 {
+    use JsonSerializableTrait;
     /**
     * Count: count.
     * @var mixed
@@ -69,7 +72,7 @@ class CssItemInfo implements JsonSerializable, ICssClassList
     * Json serialize.
     * @return mixed
     */
-    public function jsonSerialize(): mixed
+    public function _json_serialize()
     {
         $o = igk_get_object_public_vars($this);
         $o['__isPrimary'] = $this->isPrimary();

@@ -64,7 +64,7 @@ class DynamicActivableTraitTest extends BaseTestCase{
     */
     function test_dynactivate_extract_update(){
         $info = $this->_ref_info(); 
-        extract(igk_extract_assoc( $info, 'x*|y'), EXTR_REFS); 
+        extract(igk_extract_assoc_ref( $info, 'x*|y'), EXTR_REFS); 
         $x = 8; 
         $y = 10;
         $this->assertEquals($info->x, $x , 'not the same');
@@ -72,7 +72,7 @@ class DynamicActivableTraitTest extends BaseTestCase{
     }
     /**
     * auto generate doc.
-    * @return void
+    * @return mixed
     */
     private function _ref_info(){
         $x = 4;

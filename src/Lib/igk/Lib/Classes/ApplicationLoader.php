@@ -239,7 +239,7 @@ class ApplicationLoader
     * @return bool
     */
     private static function _TryLoadClasses(array $classnames, $path, $entryNS = null,  $throw = false, $auto_register = true)
-    {
+    { 
         $included = null;
         $v_coreload  = !self::$sm_instance->_coreload;
         if ($v_coreload) {

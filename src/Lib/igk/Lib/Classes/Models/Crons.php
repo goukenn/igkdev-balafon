@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Crons.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -29,55 +31,19 @@ use IGK\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `update_at` full column name 
 * @method static ?array joinOnCronsId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnCronsId() - macros function
-* @method static ?self Add(string $name, string $process, string $script, string $options, string $class, int $status, string|datetime $create_at ="CURRENT_TIMESTAMP", string|datetime $update_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $name, string $process, string $script, string $options, string $class, int $status, string|datetime $create_at ="CURRENT_TIMESTAMP", string|datetime $update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $name, string $process, string $script, string $options, string $class, int $status, string $create_at ="CURRENT_TIMESTAMP", string $update_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $name, string $process, string $script, string $options, string $class, int $status, string $create_at ="CURRENT_TIMESTAMP", string $update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Crons extends ModelBase{
-    /**
-    * Constant: fd id.
-    * @var mixed
-    */
-    const FD_ID="crons_id";
-    /**
-    * Constant: fd name.
-    * @var mixed
-    */
-    const FD_NAME="crons_name";
-    /**
-    * Constant: fd process.
-    * @var mixed
-    */
-    const FD_PROCESS="crons_process";
-    /**
-    * Constant: fd script.
-    * @var mixed
-    */
-    const FD_SCRIPT="crons_script";
-    /**
-    * Constant: fd options.
-    * @var mixed
-    */
-    const FD_OPTIONS="crons_options";
-    /**
-    * Constant: fd class.
-    * @var mixed
-    */
-    const FD_CLASS="crons_class";
-    /**
-    * Constant: fd status.
-    * @var mixed
-    */
-    const FD_STATUS="crons_status";
-    /**
-    * Constant: fd create at.
-    * @var mixed
-    */
-    const FD_CREATE_AT="crons_create_at";
-    /**
-    * Constant: fd update at.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="crons_update_at";
+	const FD_ID="crons_id";
+	const FD_NAME="crons_name";
+	const FD_PROCESS="crons_process";
+	const FD_SCRIPT="crons_script";
+	const FD_OPTIONS="crons_options";
+	const FD_CLASS="crons_class";
+	const FD_STATUS="crons_status";
+	const FD_CREATE_AT="crons_create_at";
+	const FD_UPDATE_AT="crons_update_at";
 	/**
 	* table's name
 	*/

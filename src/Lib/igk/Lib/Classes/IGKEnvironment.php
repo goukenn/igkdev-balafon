@@ -751,8 +751,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         if ($v === null) {
             unset($this->m_envs[$k]);
-        } else
-            $this->m_envs[$k] = $v;
+        } else{
+            if (!is_null($k)){
+                $this->m_envs[$k] = $v;    
+            }else{
+                $this->m_envs[] = $v;
+            }
+        }
     }
     /**
     * Checks In Array.

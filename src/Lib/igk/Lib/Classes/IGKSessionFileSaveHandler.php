@@ -87,7 +87,7 @@ class IGKSessionFileSaveHandler{
                 return $this->host->destroy($id);
             }
             function gc(int $maxlifetime): int{
-                return $this->host->gc($maxlifetime);
+                return intval($this->host->gc($maxlifetime));
             }
             function open(string $save_path, string $session_name): bool {
                 return $this->host->open($save_path, $session_name);

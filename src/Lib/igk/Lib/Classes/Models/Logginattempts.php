@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Logginattempts.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -21,35 +23,15 @@ use IGK\Models\ModelBase;
 * @method static string FN_LOGGINATTEMPTS_UPDATE_AT() - `logginattempts_updateAt` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $logginattempts_login, int $logginattempts_try, string $logginattempts_updateAt, string $logginattempts_createAt ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string $logginattempts_login, int $logginattempts_try, string $logginattempts_updateAt, string $logginattempts_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Logginattempts extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd logginattempts login.
-    * @var mixed
-    */
-    const FD_LOGGINATTEMPTS_LOGIN="logginattempts_login";
-    /**
-    * Constant: fd logginattempts try.
-    * @var mixed
-    */
-    const FD_LOGGINATTEMPTS_TRY="logginattempts_try";
-    /**
-    * Constant: fd logginattempts create at.
-    * @var mixed
-    */
-    const FD_LOGGINATTEMPTS_CREATE_AT="logginattempts_createAt";
-    /**
-    * Constant: fd logginattempts update at.
-    * @var mixed
-    */
-    const FD_LOGGINATTEMPTS_UPDATE_AT="logginattempts_updateAt";
+	const FD_CL_ID="clId";
+	const FD_LOGGINATTEMPTS_LOGIN="logginattempts_login";
+	const FD_LOGGINATTEMPTS_TRY="logginattempts_try";
+	const FD_LOGGINATTEMPTS_CREATE_AT="logginattempts_createAt";
+	const FD_LOGGINATTEMPTS_UPDATE_AT="logginattempts_updateAt";
 	/**
 	* table's name
 	*/

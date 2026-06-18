@@ -5,9 +5,10 @@
 namespace IGK\System\IO\Cache;
 use Exception;
 use IGK\System\IO\StringBuilder;
-use IGKEvents;
-use IGKException;
+use IGKEvents; 
 
+
+ 
 /**
 * system file caches
 * @package IGK\System\IO\Cache

@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -25,47 +27,19 @@ use IGK\Models\ModelBase;
 * @method static string FN_CL_UPDATE_AT() - `clUpdate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clName, string $clCtrl, string $clView, string|datetime $clDeactivate_At, string|datetime $clCreate_At ="Now()", string|datetime $clUpdate_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $clName, string $clCtrl, string $clView, string|datetime $clDeactivate_At, string|datetime $clCreate_At ="Now()", string|datetime $clUpdate_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clName, string $clCtrl, string $clView, string $clDeactivate_At, string $clCreate_At ="Now()", string $clUpdate_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $clName, string $clCtrl, string $clView, string $clDeactivate_At, string $clCreate_At ="Now()", string $clUpdate_At ="Now()") add entry if not exists. check for unique column.
 * @method static mixed GetAllActivateDomain() macros function
 * @method static mixed RegisterSubDomain(string $domain,\IGK\Controllers\BaseController $controller,?string $view= null) macros function
 * */
 class Subdomains extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl ctrl.
-    * @var mixed
-    */
-    const FD_CL_CTRL="clCtrl";
-    /**
-    * Constant: fd cl view.
-    * @var mixed
-    */
-    const FD_CL_VIEW="clView";
-    /**
-    * Constant: fd cl deactivate at.
-    * @var mixed
-    */
-    const FD_CL_DEACTIVATE_AT="clDeactivate_At";
-    /**
-    * Constant: fd cl create at.
-    * @var mixed
-    */
-    const FD_CL_CREATE_AT="clCreate_At";
-    /**
-    * Constant: fd cl update at.
-    * @var mixed
-    */
-    const FD_CL_UPDATE_AT="clUpdate_At";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_CTRL="clCtrl";
+	const FD_CL_VIEW="clView";
+	const FD_CL_DEACTIVATE_AT="clDeactivate_At";
+	const FD_CL_CREATE_AT="clCreate_At";
+	const FD_CL_UPDATE_AT="clUpdate_At";
 	/**
 	* table's name
 	*/

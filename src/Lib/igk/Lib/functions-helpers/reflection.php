@@ -111,6 +111,22 @@ function igk_reflection_func_get_args($args)
     return $tc;
 }
 /**
+ * 
+ * @return mixed|null 
+ */
+function igk_reflection_callee_class(){
+        $callers = debug_backtrace();
+        $i = 1;
+        $ln = count($callers);
+        while($i<$ln){
+            if (isset($callers[$i]['class'])){
+                return $callers[$i]['class'];
+            }
+            $i++;
+        }
+        return null;
+}
+/**
 * auto generate doc.
 * @param mixed $cl
 * @return mixed

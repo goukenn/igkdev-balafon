@@ -29,7 +29,7 @@ namespace IGK\Database;
 * @property ?bool $clIsNotInQueryInsert
 * @property ?bool $clIsPrimary
 * @property ?bool $clIsUnique
-* @property ?bool $clIsUniqueColumnMember
+* @property ?bool|array $clIsUniqueColumnMember 
 * @property ?bool $clIsUsedBy
 * @property ?string $clLinkColumn
 * @property ?string $clLinkConstraintName

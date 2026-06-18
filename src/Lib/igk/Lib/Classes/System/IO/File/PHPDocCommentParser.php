@@ -6,6 +6,7 @@ namespace IGK\System\IO\File;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGKException;
+use Override;
 
 /**
 * extends to handle custom property 
@@ -65,13 +66,13 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     var $responses;
     /**
      * block phpunit test 
-     * @var ?
+     * @var mixed
      * @usage @covers classMethod 
      */
     var $covers;
     /**
      * use with 
-     * @var ?
+     * @var ?array
      */
     var $uses;
     /**
@@ -89,6 +90,18 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     * @var ?bool auth enable strict definition
     */
     var $strict_auth;
+ 
+    protected static function CreateInstance()
+    {
+        $cl = new static;
+        return $cl;
+    }
+
+    #[Override]
+    public function getExtraProperties()
+    {
+        throw new \Exception('Not implemented 55 ');
+    }
     /**
     * Returns Property Filter Listener.
     */
@@ -122,7 +135,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @param string $content 
      * @return string 
      */
-    protected static function _TreatContent(string $content){
+    protected static function _TreatContent(string $content): string{
         if (igk_str_endwith($content, "\\")){
             $content.="\n";
         }   

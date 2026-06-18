@@ -4,6 +4,8 @@
 // @date: 20220830 09:47:38
 // @desc: object config
 namespace IGK\System\IO\Configuration;
+
+use IGK\System\Polyfill\JsonSerializableTrait;
 use JsonSerializable;
 
 /**
@@ -11,6 +13,7 @@ use JsonSerializable;
  * @package IGK\System\IO\Configuration
  */
 class ConfigurationObject implements JsonSerializable{
+    use JsonSerializableTrait;
     /**
     * Property: key.
     * @var mixed
@@ -30,7 +33,7 @@ class ConfigurationObject implements JsonSerializable{
     * Json serialize.
     * @return mixed
     */
-    public function jsonSerialize(): mixed { 
+    public function _json_serialize() { 
         return json_encode((array)$this);
     }
     /**

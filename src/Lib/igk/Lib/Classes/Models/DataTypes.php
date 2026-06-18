@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DataTypes.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -23,26 +25,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clRegex) add entry if not exists. check for unique column.
 * */
 class DataTypes extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl description.
-    * @var mixed
-    */
-    const FD_CL_DESCRIPTION="clDescription";
-    /**
-    * Constant: fd cl regex.
-    * @var mixed
-    */
-    const FD_CL_REGEX="clRegex";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DESCRIPTION="clDescription";
+	const FD_CL_REGEX="clRegex";
 	/**
 	* table's name
 	*/

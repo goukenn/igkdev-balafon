@@ -112,9 +112,9 @@ abstract class AppExecCommand extends AppCommand{
             }
             $command->exec = function($command){
                 if (property_exists($command->options, "--help")){
-                    $h= $this->help();
+                    $this->help();
                     Logger::print("\n");
-                    return $h;
+                    return -1;
                 }
                 DbCommandHelper::Init($command); 
                 $fc = $this->handle;

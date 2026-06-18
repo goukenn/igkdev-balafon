@@ -217,8 +217,8 @@ abstract class IGKActionBase implements IActionProcessor
     }   
     /**
      * initialize controller definition 
-     * @param mixed $ctrl
-     * @return static
+     * @param mixed $ctrl 
+     * @return IGKActionBase
      */
     protected function initialize(BaseController $ctrl): IGKActionBase
     {    

@@ -21,6 +21,12 @@ class QueryOptions{
     * @var mixed
     */
     const CallbackProperty = \IGK\Database\DbConstants::CALLBACK_OPTS;
+
+    /**
+     * columns definitions
+     * @var string
+     */
+    const Columns = 'Columns';
     /**
     * Constant: joins.
     * @var mixed

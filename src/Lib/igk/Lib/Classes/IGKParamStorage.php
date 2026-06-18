@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\IParamHostService;
 /**
 * Igkparam storage.
 */

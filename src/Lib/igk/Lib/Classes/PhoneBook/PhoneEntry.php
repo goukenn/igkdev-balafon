@@ -56,7 +56,7 @@ class PhoneEntry{
     * Property: organisation.
     * @var mixed
     */
-    var $organisation;
+    var $organization;
     /**
     * Property: birthdate.
     * @var mixed

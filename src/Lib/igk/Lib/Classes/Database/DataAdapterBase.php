@@ -249,7 +249,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                     }
                     $query = $_grammar->add_foreign_key($tbname, $c);
                     if (is_null($query)) {
-                        igk_ilog("can't create foreign key. possibility on constraint name exists");
+                        $m = "can't create foreign key. possibility on constraint name exists";
+                        igk_ilog($m);
                         continue;
                     }
                     if (! $this->sendQuery($query)) {
@@ -300,11 +301,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         $this->m_relations = null;
     }
     /**
-    * Returns Name.
+    * database adapter's name
+    * return string
     */
     public function getName()
     {
-        return $this->m_name;
+        return $this->m_name ?? static::class;
     }
     /**
      * get last error
@@ -572,7 +574,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     */
     public function flushForInitDb($complete = null) {}
     /**
-    * auto generate doc.
+    * get loaded data adapters
+    * @return array
     */
     public static function GetAdapters()
     {

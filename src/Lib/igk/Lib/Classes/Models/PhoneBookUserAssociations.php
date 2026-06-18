@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -21,36 +23,16 @@ use IGK\Models\ModelBase;
 * @method static string FN_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
 * @method static ?array joinOnRcphbUsrphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbUsrphbId() - macros function
-* @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string|datetime $usrphb_Create_At ="Now()", string|datetime $usrphb_Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string|datetime $usrphb_Create_At ="Now()", string|datetime $usrphb_Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry if not exists. check for unique column.
 * @method static mixed getEntries() macros function
 * */
 class PhoneBookUserAssociations extends ModelBase{
-    /**
-    * Constant: fd usrphb id.
-    * @var mixed
-    */
-    const FD_USRPHB_ID="rcphb_usrphb_Id";
-    /**
-    * Constant: fd usrphb user guid.
-    * @var mixed
-    */
-    const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
-    /**
-    * Constant: fd usrphb phone book entry guid.
-    * @var mixed
-    */
-    const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
-    /**
-    * Constant: fd usrphb create at.
-    * @var mixed
-    */
-    const FD_USRPHB_CREATE_AT="usrphb_Create_At";
-    /**
-    * Constant: fd usrphb update at.
-    * @var mixed
-    */
-    const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
+	const FD_USRPHB_ID="rcphb_usrphb_Id";
+	const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
+	const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
+	const FD_USRPHB_CREATE_AT="usrphb_Create_At";
+	const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
 	/**
 	* table's name
 	*/
@@ -67,11 +49,7 @@ class PhoneBookUserAssociations extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphb_usrphb_UserGuid";
-    /**
-    * Property: unique columns.
-    * @var mixed
-    */
-    protected $unique_columns = array (
+	protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphb_usrphb_UserGuid',

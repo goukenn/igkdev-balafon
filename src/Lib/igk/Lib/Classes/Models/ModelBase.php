@@ -15,7 +15,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
  * @method static null|bool|\IGK\Database\DataAdapterBase insertIfNotExists(array $conditions, ?array $option_with_extra = null, ?bool $update_with_selected_row=false) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension
- * @method static array|null select(?array $condition=null) macros function - DefaultModelEntryExtension
+ * @method static array|null select(?array $condition=null, ?array $options=null) macros function - DefaultModelEntryExtension
  * @method static array|array<static>|null|mixed select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  
  * @method static bool drop() macros function drop table - function
  * @method static bool createTable() macros function create table if not exists

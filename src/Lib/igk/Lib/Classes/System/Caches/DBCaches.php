@@ -446,7 +446,8 @@ class DBCaches
             // + |
             $this->m_db_init_request = true;
             $requests_def = null;
-            if ($controller && $controller->getCanInitDb()) {
+            $v_initd = $controller && $controller->getCanInitDb();
+            if ($v_initd) {
                 $db = new DatabaseInitializer;
                 $definition = $db->init($controller);
                 if (isset($definition->tables[$table])) {

@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -21,21 +23,9 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clValue) add entry if not exists. check for unique column.
 * */
 class Colors extends ModelBase{
-    /**
-    * Constant: fd cl id.
-    * @var mixed
-    */
-    const FD_CL_ID="clId";
-    /**
-    * Constant: fd cl name.
-    * @var mixed
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * Constant: fd cl value.
-    * @var mixed
-    */
-    const FD_CL_VALUE="clValue";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_VALUE="clValue";
 	/**
 	* table's name
 	*/

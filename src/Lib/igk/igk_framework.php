@@ -24,6 +24,7 @@ require_once IGK_LIB_CLASSES_DIR . "/Server.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
 require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Number.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/IO/StringBuilder.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/IO/Cache/FS.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/array.php";
 require_once IGK_LIB_DIR . "/Lib/functions-helpers/engine.php";

@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PoolingProcess.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -29,55 +31,19 @@ use IGK\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnPprocId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnPprocId() - macros function
-* @method static ?self Add(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PoolingProcess extends ModelBase{
-    /**
-    * Constant: fd id.
-    * @var mixed
-    */
-    const FD_ID="pproc_id";
-    /**
-    * Constant: fd name.
-    * @var mixed
-    */
-    const FD_NAME="pproc_name";
-    /**
-    * Constant: fd pid.
-    * @var mixed
-    */
-    const FD_PID="pproc_pid";
-    /**
-    * Constant: fd ip.
-    * @var mixed
-    */
-    const FD_IP="pproc_ip";
-    /**
-    * Constant: fd session id.
-    * @var mixed
-    */
-    const FD_SESSION_ID="pproc_session_id";
-    /**
-    * Constant: fd data.
-    * @var mixed
-    */
-    const FD_DATA="pproc_data";
-    /**
-    * Constant: fd description.
-    * @var mixed
-    */
-    const FD_DESCRIPTION="pproc_description";
-    /**
-    * Constant: fd create at.
-    * @var mixed
-    */
-    const FD_CREATE_AT="pproc_Create_At";
-    /**
-    * Constant: fd update at.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="pproc_Update_At";
+	const FD_ID="pproc_id";
+	const FD_NAME="pproc_name";
+	const FD_PID="pproc_pid";
+	const FD_IP="pproc_ip";
+	const FD_SESSION_ID="pproc_session_id";
+	const FD_DATA="pproc_data";
+	const FD_DESCRIPTION="pproc_description";
+	const FD_CREATE_AT="pproc_Create_At";
+	const FD_UPDATE_AT="pproc_Update_At";
 	/**
 	* table's name
 	*/

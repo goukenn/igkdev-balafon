@@ -5,6 +5,7 @@
 namespace IGK\Database;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
+use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
 /**
 * auto generate doc.
@@ -17,6 +18,7 @@ use Iterator;
 */
 class DbRowDefEntry implements Iterator, IDbEntryDefinition
 {
+    use IteratorTrait;
     /**
      * strict value
      * @var mixed
@@ -75,7 +77,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     * get the current reference
     * @return mixed
     */
-    public function current(): mixed
+    protected function _iterator_current()
     {
         if (!empty($k = $this->key()))
             return igk_getv($this->m_ref, StringUtility::AutoPrefix($k, $this->m_prefix)); 
@@ -93,7 +95,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     * Key.
     * @return mixed
     */
-    public function key(): mixed
+    public function _iterator_key()
     {
         if (!is_null($k = $this->m_it_info->key)){
             return $this->m_it_info->tab[$k];

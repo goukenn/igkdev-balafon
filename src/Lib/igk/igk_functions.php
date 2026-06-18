@@ -7089,6 +7089,16 @@ function igk_extract_assoc($obj, $list)
 }
 
 /**
+ * 
+ * @param mixed $obj 
+ * @param mixed $list 
+ * @return mixed 
+ */
+function &igk_extract_assoc_ref($obj, $list){
+    return igk_extract_ref(igk_extract_assoc($obj, $list));
+}
+
+/**
  * get ref value 
  * @param mixed $obj 
  * @param mixed $k 
@@ -9424,7 +9434,7 @@ function igk_get_system_user()
 function igk_sys_default_user()
 {
     $login = igk_configs()->default_user;
-    if ($login) {
+    if ($login){
         return igk_get_user_bylogin($login);
     }
 }
@@ -15735,11 +15745,11 @@ function igk_is_empty($t, $default = '')
     return $t;
 }
 /**
- * auto generate doc.
- * @param mixed $func
- * @return mixed
+ * is disabled function
+ * @param string $func
+ * @return bool
  */
-function igk_is_function_disable($func)
+function igk_is_function_disable(string $func): bool
 {
     return in_array($func, explode(',', ini_get("disable_functions")));
 }

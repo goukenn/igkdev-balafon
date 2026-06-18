@@ -381,6 +381,7 @@ abstract class IGKSysUtil
         }
         $t .= "\\";
         $g = &\IGK\Models\ModelBase::RegisterModels();
+        $gu = null;
         if (isset($g[$type])) {
             if (!isset($g[$type]->model)) {
                 igk_die(" model class defined.");
@@ -432,7 +433,7 @@ abstract class IGKSysUtil
             "int" => "int",
             "decimal" => "int",
             "float" => "float",
-            "datetime" => "string|datetime"
+            "datetime" => "string"
         ], strtolower($type), "string");
     }
 }

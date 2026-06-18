@@ -1,8 +1,10 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookEntries.php
-// @date: 20260102 09:35:11
+// @date: 20260524 03:48:40
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
 
 /**
@@ -21,35 +23,15 @@ use IGK\Models\ModelBase;
 * @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbeId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbeId() - macros function
-* @method static ?self Add(string $Guid, string|?\IGK\Models\Users $user_guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $Guid, string|?\IGK\Models\Users $user_guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string $Guid, string|?\IGK\Models\Users $user_guid, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $Guid, string|?\IGK\Models\Users $user_guid, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookEntries extends ModelBase{
-    /**
-    * Constant: fd id.
-    * @var mixed
-    */
-    const FD_ID="rcphbe_Id";
-    /**
-    * Constant: fd guid.
-    * @var mixed
-    */
-    const FD_GUID="rcphbe_Guid";
-    /**
-    * Constant: fd user guid.
-    * @var mixed
-    */
-    const FD_USER_GUID="rcphbe_user_guid";
-    /**
-    * Constant: fd create at.
-    * @var mixed
-    */
-    const FD_CREATE_AT="rcphbe_Create_At";
-    /**
-    * Constant: fd update at.
-    * @var mixed
-    */
-    const FD_UPDATE_AT="rcphbe_Update_At";
+	const FD_ID="rcphbe_Id";
+	const FD_GUID="rcphbe_Guid";
+	const FD_USER_GUID="rcphbe_user_guid";
+	const FD_CREATE_AT="rcphbe_Create_At";
+	const FD_UPDATE_AT="rcphbe_Update_At";
 	/**
 	* table's name
 	*/

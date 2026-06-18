@@ -37,4 +37,7 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
      {
           return DbUtils::GetIsDumpField($this);
      }
+     public function to_array(){
+          return (array)$this;
+     }
 }

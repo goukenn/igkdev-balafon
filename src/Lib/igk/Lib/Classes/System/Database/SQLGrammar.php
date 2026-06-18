@@ -1272,7 +1272,8 @@ class SQLGrammar implements IDbQueryGrammar
                 }
             } else {
                 if (($data = json_encode($value, JSON_UNESCAPED_SLASHES)) || ($data == '0')) {
-                    return "'" . str_replace('\\"', '\\\\"', $data) . "'";
+                    //return "'-" . str_replace('\\"', '\\\\"', $data) . "'"; 
+                    return "'" . $data. "'";
                 }
             }
         }
@@ -1391,7 +1392,8 @@ class SQLGrammar implements IDbQueryGrammar
         $value = $driver->getDataValue($value, $tinf);
         if ($is_json || is_object($value) || is_array($value)) {            
             $grammar = $driver->getGrammar();
-            $value = $grammar->dataToJson($value);            
+            $value = $grammar->dataToJson($value);                
+            return sprintf("'%s'", addslashes($value)); 
         }
         return "'" . $driver->escape_string($value) . "'";
     }
@@ -1816,6 +1818,9 @@ class SQLGrammar implements IDbQueryGrammar
             case 'right':
                 $t = "RIGHT JOIN";
                 break;
+            case 'join':
+                $t = 'INNER JOIN';
+                break;
             default:
                 throw new SQLGrammarException("invalid join type ['" . $t . "']");
         }
@@ -1918,7 +1923,7 @@ class SQLGrammar implements IDbQueryGrammar
                 }
             }
         };
-        $t_data = get_robjs("Distinct|GroupBy|OrderBy|OrderByField|Columns|Limit|Joins", 0, $options);
+        $t_data = get_robjs("Distinct|GroupBy|OrderBy|OrderByField|Columns|Limit|Joins|Skip", 0, $options);
         foreach ($t_data as $k => $v) {
             if (!$v) continue;
             switch ($k) {
@@ -1973,6 +1978,9 @@ class SQLGrammar implements IDbQueryGrammar
                     $a = 0;
                     $columns = self::BuildColumn($v, $ad, $a);
                     break;
+                case queryConstant::Skip:
+                    $optset['Skip'] = $v;
+                    break;
             }
         }
         $v_sc = igk_getv($options, 'SortColumn');
@@ -2008,8 +2016,19 @@ class SQLGrammar implements IDbQueryGrammar
         } else {
             $query .= " Limit " . $optset['Limit'];
         }
+        if (isset($optset['Skip'])){
+            $query .= self::_BuildSkip(intval($optset['Skip']));
+        }
         $query = trim($query);
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
+    }
+    /**
+     * 
+     * @param int $offset 
+     * @return string 
+     */
+    protected static function _BuildSkip(int $offset){
+        return sprintf(" OFFSET %s", $offset);
     }
     /**
      * auto generate doc.
@@ -2154,7 +2173,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $column2 
      * @return string 
      */
-    public function joinOnEqual(string $column, string $column2)
+    public function joinOnEqual(string $column, string $column2): ?string
     {
         return sprintf('%s=%s', $this->escape_string($column), $this->escape_string($column2));
     }

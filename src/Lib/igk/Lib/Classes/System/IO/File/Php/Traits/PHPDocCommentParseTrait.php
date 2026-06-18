@@ -35,7 +35,7 @@ trait PHPDocCommentParseTrait
     }
     /**
     * auto generate doc.
-    * @return void
+    * @return mixed
     */
     protected abstract static function CreateInstance();
     /**
@@ -51,7 +51,7 @@ trait PHPDocCommentParseTrait
     {
         $c = trim(igk_str_rm_start($cm, "/**"));
         $c = rtrim(igk_str_rm_last($c, "*/"));
-        $g = self::CreateInstance(); // new self;
+        $g = self::CreateInstance(); 
         $g->setPropertyFilterListener($filterCallback);
         $g->setPropertyHandlerListener($handlerCallback);
         $g->summary = ''; 

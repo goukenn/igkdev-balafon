@@ -193,7 +193,7 @@ abstract class AppCommand {
     }
     /**
      * help view
-     * @return void 
+     * @return mixed 
      */
     public function help(){
         igk_hook(IGKEvents::COMMAND_HELP_HOOK, ['command'=>$this]);

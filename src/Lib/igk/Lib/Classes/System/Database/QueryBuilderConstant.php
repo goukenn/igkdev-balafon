@@ -55,4 +55,9 @@ abstract class QueryBuilderConstant {
     * @var mixed
     */
     const Columns = "Columns";
+
+    /**
+     * skip limit offset 
+     */
+    const Skip = 'Skip';
 }

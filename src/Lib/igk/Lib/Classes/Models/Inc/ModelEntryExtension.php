@@ -172,7 +172,8 @@ abstract class ModelEntryExtension
     */
     public static function createEmptyRow(ModelBase $model, bool $strict = true, bool $force = false)
     {
-        $p   = $model->getTableInfo()->prefix;
+        $tableinf = $model->getTableInfo();
+        $p   = $tableinf ? $tableinf->prefix : null;
         $row = DbSchemas::CreateRow($model->getTable(), $model->getController());
         if ($p || $force){
             return new DbRowDefEntry($row, $p, $strict, $model);
@@ -1644,7 +1645,7 @@ abstract class ModelEntryExtension
     * @param mixed $params
     * @return mixed
     */
-    private static function _Add(\IGK\Models\ModelBase $model, bool $check, $params)
+    protected static function _Add(\IGK\Models\ModelBase $model, bool $check, $params)
     {
         $info =  $model->getTableColumnInfo();
         $controller = $model->getController();
@@ -1656,6 +1657,8 @@ abstract class ModelEntryExtension
             $row = $model::createEmptyRow();
             if (is_null($row)) {
                 $trow = DbSchemas::CreateRow($model->getTable(), $controller);
+                igk_trace();
+                igk_wln_e(__FILE__.":".__LINE__ ,  "why ", $trow,  get_class($model));
                 igk_die('failed to create an empty row to add. missing table definitions ' . get_class($model));
             }
             $g = array_keys($args);
