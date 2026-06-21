@@ -11,7 +11,7 @@ use IGKEnvironment;
  * @package IGK
  * @property bool $no_init_controller in bootstrap disable the init controller behaviour
  */
-class IGKEnvironmentSettings{
+class EnvironmentSettings{
     /**
     * Property: instance.
     * @var mixed

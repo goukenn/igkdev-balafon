@@ -481,6 +481,10 @@ class IGKGD
         ob_end_clean();
         return $c;
     }
+    public function __invoke()
+    {
+        return $this->renderText();
+    }
     /**
     * Sets Line Width.
     * @param mixed $size

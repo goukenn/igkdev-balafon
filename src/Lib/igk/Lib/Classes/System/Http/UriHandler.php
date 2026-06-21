@@ -12,6 +12,7 @@ use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\IO\Path;
 use IGK\Controllers\ApiController;
 use IGK\Helper\ViewHelper;
+use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKApp;
 use IGKAppSystem;
@@ -21,6 +22,7 @@ use IGKException;
 use IGKSubDomainManager;
 use IGKValidator;
 use ReflectionException;
+use function igk_resources_gets as __;
 
 require_once __DIR__ . "/BaseUriHandler.php";
 require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
@@ -99,30 +101,67 @@ class UriHandler extends BaseUriHandler
         include(IGK_LIB_DIR . "/Default/R/Img/balafon.ico");
         igk_exit();
     }
+    protected function sitemapRes(string $t){
+        
+        return igk_getv([
+            'fr'=>[
+                'Last update'=>'Dernière mise a jour',
+                'Sitemap collection of this site'=>'Collection de sitemap.xml'
+            ]
+        ], $t);
+    }
+    private function _replaceSiteMapDefinition(string $s, string $lang='en'): string{
+        $res = $this->sitemapRes($lang);
+        $key_res = function ($key)use($res){
+            return igk_getv($res, $key, $key);
+        };
+        return SitemapGeneratorCommand::ReplaceSitemapDefinition($s,[
+            '/%base-uri%/'=>igk_io_baseuri(),            
+            '/%sitemap-title%/'=>igk_configs()->website_title,
+            '/%sitemap-description%/'=>$key_res('Sitemap collection of this site'),
+            '/%sitemap-collection-description%/'=>$key_res('Sitemap collections'),
+            '/%res-location%/'=>$key_res('sitemap (URL)'),
+            '/%res-lastupdate%/'=>$key_res('Last update'),
+            '/%res-counting-ref%/'=>('Nom de site : ')
+        ]);
+    }
+    public function genSiteMapStyle(){
+        $fs = igk_io_basedir().'/assets/balafon-sitemap.xml';
+        if (!file_exists($fs)){
+            copy(IGK_LIB_DIR.'/Default/assets/balafon-sitemap.xml', $fs);
+        }
+    }
     /**
-    * Sitemap.
+    * Sitemap. render sitemap's collection  
     */
-    public function _sitemap()
-    {
+    public function _sitemap($uri, $handler, ?array $query_options, ?string $lang )
+    { 
         IGKSubDomainManager::Init();
+        list($url_set) = igk_extract($query_options, SitemapGeneratorCommand::URL_SET_OPTION); 
         $_is_sub = IGKSubDomainManager::IsSubDomain();
+        //igk_wln_e("kjsldf", __FILE__.":".__LINE__ );
         if (!$_is_sub) {
+            if ($url_set){
+                return;
+            }        
             $file = igk_io_cachedir() . "/.sitemap.cache";
-            if (igk_io_file_exists($file)) {
+            if (0 && igk_io_file_exists($file)) {
                 header("Content-Type: application/xml");
-                echo file_get_contents($file);
+                igk_header_cache_output(3600);
+                echo $this->_replaceSiteMapDefinition(file_get_contents($file), $lang);
                 igk_exit();
             } else {
                 $this->bootApp();
                 $buri = igk_io_baseuri();
                 $indexes = SitemapGeneratorCommand::GetProjectIndexes();
                 $s = SitemapGeneratorCommand::GenerateSiteMapIndex($indexes, $buri);
+                
                 if ($s == -1) {
                     header("Content-Type: application/xml");
                     echo '<?xml version="1.0"?><sitemapindex></sitemapindex>';
                 } else {
-                    igk_io_w2file($file, $s);
-                    igk_xml($s);
+                    igk_io_w2file($file, $s); 
+                    igk_xml($this->_replaceSiteMapDefinition($s));
                 }
             }
             igk_exit();
@@ -277,7 +316,7 @@ class UriHandler extends BaseUriHandler
     * @param string $uri
     * @param mixed $app
     * @param ?callable $bootload
-    * @param string $callaback
+    * @param string $subdomain
     */
     public static function Handle(string $uri, $app = null, ?callable $bootload = null, ?string  $subdomain = null)
     {
@@ -347,10 +386,10 @@ class UriHandler extends BaseUriHandler
                     $_SERVER['PHP_SELF'] = substr($target, strlen($td));
                 igk_server()->prepareServerInfo();
                 chdir(dirname($target));
-                (function () {
+                call_user_func_array(function () {
                     require(func_get_args()[0]);
                     igk_exit();
-                })($target);
+                }, [$target]);
             }
         }
     }

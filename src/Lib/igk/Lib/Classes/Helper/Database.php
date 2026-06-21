@@ -147,6 +147,9 @@ class Database
         if ($info) {
             $v_i = igk_getv($info, $name);
             if ($v_i) {
+                if (is_null($value) && !$v_i->clNotNull){
+                    return $value;
+                }
                 if (!is_object($value) && self::IsNumber($v_i->clType)) {
                     return floatval($value);
                 }
@@ -255,8 +258,8 @@ class Database
     /**
     * for single value column
     * @param string $constant_class
-    * @param string $constants
-    * @param mixed $model_or_class
+    * @param string $model_or_class
+    * @param string $c
     * @throws IGKException
     * @throws ArgumentTypeNotValidException
     * @throws ReflectionException

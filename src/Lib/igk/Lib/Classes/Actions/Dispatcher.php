@@ -18,6 +18,7 @@ use IGK\Actions\ActionBase;
 use IGK\Controllers\ControllerParams;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\ViewHelper;
+use IGK\Models\Caches\CacheModels;
 use IGK\Models\Injectors\ModelBaseInjector;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
@@ -386,7 +387,8 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         }
                         else
                             $v_t1 = (string)$p;
-                        if ($c = $j->resolve($arg, $v_t1)) {
+                        $c = self::autoCached($j, $arg, $v_t1);
+                        if ($c ){
                             $targs[] = $c;
                             $i++;
                             continue;
@@ -412,7 +414,46 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if ($i < count($args)) {
             $targs = array_merge($targs, array_slice($args, $i));
         }
+        self::$sm_caches = [];
         return $targs;
+    }
+    /**
+     * 
+     * @var mixed
+     */
+    private static $sm_caches;
+    /**
+     * 
+     * @param mixed $j 
+     * @param mixed $value 
+     * @param mixed $model 
+     * @return mixed 
+     */
+    public static function autoCached(ModelBaseInjector $j, $value, $model){
+        $caches = & static::$sm_caches;
+        if (is_null($caches)){
+            $caches = [];
+        }
+        $td = get_class($j);
+        if (!isset(self::$sm_caches[$td])){
+            self::$sm_caches[$td] = [];
+        }
+        if (isset($caches[$td][$model][$value])){
+            return $caches[$td][$model][$value];
+        }
+        $c =  $j->resolve($value, $model);
+        if ($c){
+            $caches[$td][$model][$value] = $c;          
+            $cmodel = $model::model();
+            $column = null;
+            if($j instanceof ModelBaseInjector){
+                $column = $j->column();
+            }
+            CacheModels::StoreCache( $cmodel, $value, $c , $column);
+        }
+        return $c;
+        
+
     }
     /**
      * auto generate doc.

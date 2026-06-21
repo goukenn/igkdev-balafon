@@ -19,6 +19,15 @@ class ModelBaseInjector implements IInjector{
     */
     protected $model;
     /**
+     * resolved column
+     * @var ?string
+     */
+    private $m_column;
+
+    public function column(){
+        return $this->m_column;
+    }
+    /**
      * retrieve the stored model 
      * @return null|ModelBase 
      */
@@ -43,14 +52,22 @@ class ModelBaseInjector implements IInjector{
         if (is_null($id)){ 
             igk_die("failed to resolve from [id] can not be null");
         } 
+        $this->m_column = null;
+        $fc_update_column =  function($column){
+            $this->m_column = $column;
+        };
         if (is_numeric($id)){
+            if ($this->model->supportMacroFunction('fromId')){
+                return $this->model::fromId($id, $fc_update_column);
+            }
+            $this->m_column = $this->model->getPrimaryKey();
             return $this->model::select_row($id);
         }
-        if (IGKValidator::IsGUID($id)){
-            return $this->model::fromGuid($id);
+        if (IGKValidator::IsGUID($id)){            
+            return $this->model::fromGuid($id, $fc_update_column);
         }
         try{
-            return $this->model::resolve($id);
+            return $this->model::resolve($id, $this->m_column);
         }
         catch(\Exception $ex) {
            if (igk_environment()->isDev()){
@@ -58,5 +75,17 @@ class ModelBaseInjector implements IInjector{
            }
         }
         return null;
+    }
+    /**
+     * 
+     * @param ?callable $cache_listener 
+     * @param string $column 
+     * @return void 
+     */
+    public static function ChangeColumn($cache_listener, string $column){
+
+        if ($cache_listener){
+            $cache_listener($column, 'change-column');
+        }
     }
 }

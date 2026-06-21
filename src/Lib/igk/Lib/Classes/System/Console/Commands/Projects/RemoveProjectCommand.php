@@ -11,6 +11,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
+use IGKEvents;
 
 /**
 * auto generate doc.
@@ -44,7 +45,7 @@ class RemoveProjectCommand extends AppExecCommand{
     * @param null|string $controller
     */
     public function exec($command, ?string $controller = null) { 
-		$ctrl = self::GetController($controller);
+		$ctrl = self::GetController($controller) ?? igk_die('missing controller');
 		DbCommandHelper::Init($command);
 		$sm = new RemoveProjectMiddleWare;
 		$mig = new MigrationHandler($ctrl);
@@ -55,8 +56,9 @@ class RemoveProjectCommand extends AppExecCommand{
 		IO::CreateDir($dir = IGK_PROJECT_DIR.'/.removed');
 		$v_dec = $ctrl->getDeclaredDir();
 		$v_folder = basename($v_dec); 
-		rename($v_dec, $dir.'/'.$v_folder);
+		rename($v_dec, $new_dir =  $dir.'/'.$v_folder);
 		Logger::info('clear cache');
+        igk_hook(IGKEvents::HOOK_PROJECT_REMOVED, ['ctrl'=>$ctrl, 'new_dir'=>$new_dir]);
 		SysUtils::ClearCache();
 	}	
 }

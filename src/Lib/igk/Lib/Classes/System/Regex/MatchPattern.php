@@ -28,7 +28,8 @@ abstract class MatchPattern{
     const DateSearch = "[0-9]{4}((-|\/)([0-9]{2}))?";
     /**
     * auto generate doc.
-    */    const Guid = "(?:\{[0-9a-fA-F]+(-[0-9a-fA-F]+){4}\})";
+    */    
+    const Guid = "(?:\{[0-9a-fA-F]+(-[0-9a-fA-F]+){4}\})";
     /**
     * Constant: short guid.
     * @var mixed

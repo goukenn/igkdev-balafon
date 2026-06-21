@@ -37,7 +37,7 @@ class MigrationHandler{
     * .ctr
     * @param BaseController $controller
     */
-    public function __construct(BaseController $controller)
+    public function __construct(?BaseController $controller)
     {
         $this->m_controller = $controller;
     }

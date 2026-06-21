@@ -109,8 +109,12 @@ class ApplicationControllerManager implements IApplicationControllerManager
         if (is_null($resolved)){
             $resolved = [];
         }
-        if (key_exists($n, $resolved)){
-            return $resolved[$n];
+        $nkey = $n;
+        if (is_string($n)){
+            $nkey = strtolower($n);
+        }
+        if (key_exists($nkey, $resolved)){
+            return $resolved[$nkey];
         }
         if (is_string($n) && $this->m_default_controller && (get_class($this->m_default_controller) === $n)) {
             return $this->m_default_controller;
@@ -118,7 +122,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
         if ($n instanceof BaseController) {
             return $n;
         }
-        if (is_string($n) && ($ctrl = igk_getv($this->m_controllers, igk_str_ns($n)))) {
+        if (is_string($n) && ($ctrl = igk_getv($this->m_controllers, igk_str_ns($nkey)))) {
             return $ctrl;
         }
         $resolv_controler = &self::GetResolvController();
@@ -202,12 +206,16 @@ class ApplicationControllerManager implements IApplicationControllerManager
         // + | --------------------------------------------------------------------
         // + | CALL init complete took too long
         // + |
-        $c = get_class($controller);
+        
         if ($this->notPresent($controller)) {
             $cl = get_class($controller);
             $n = $controller->getName();
+            if (strtolower($cl) == strtolower($n)){
+                $this->m_controllers[strtolower($n)] = $controller;    
+            }else{
             $this->m_controllers[$n] = $controller;
-            $this->m_controllers[$c] = $controller;
+            $this->m_controllers[$cl] = $controller;
+            }
             ApplicationLoader::getInstance()->registerClass(
                 igk_reflection_getdeclared_filename($cl),
                 $cl

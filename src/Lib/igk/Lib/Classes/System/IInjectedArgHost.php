@@ -9,7 +9,7 @@ namespace IGK\System;
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 * @method mixed configFile(string $name)
-* @method mixed getUser(string $name)
+* @method mixed getUser(?string $name=null)
 */
 interface IInjectedArgHost{
 }

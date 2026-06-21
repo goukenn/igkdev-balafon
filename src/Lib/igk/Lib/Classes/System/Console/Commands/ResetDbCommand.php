@@ -108,7 +108,7 @@ class ResetDbCommand extends AppExecCommand
             $n = get_class($m);
             if ($m->getCanInitDb()) {
                 $m->register_autoload();
-                Logger::print("resetdb : " . $n);
+                Logger::print("resetdb: " . $n);
                 if ( ($m->resetDb(false, $force, $clean)) !=1){                
                     Logger::danger("failed resetdb [".$n."]");                    
                 } else {

@@ -49,7 +49,7 @@ class DbInitManagement
         }
         $tpro = null;
         $pro = $controller->configFile('profiles');
-        if ($pro && igk_io_file_exists($pro)) {
+        if ($pro &&  igk_io_file_exists($pro, true) ) {
             $tpro = include($pro);
         }
         if (!is_array($tpro))

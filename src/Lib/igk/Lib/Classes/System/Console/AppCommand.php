@@ -119,9 +119,11 @@ abstract class AppCommand {
      */
     public static function GetCommands(){
         static $loaded_command = null;
+       
         if ($loaded_command === null){
             $loaded_command = [];
-            foreach(get_declared_classes() as $cl){
+            $v_tdeclared_classes = get_declared_classes();
+            foreach($v_tdeclared_classes as $cl){
                 if ($cl == BalafonCLICommand::class){
                     continue;
                 }
@@ -139,6 +141,7 @@ abstract class AppCommand {
                 }
             }
             if (file_exists($file = AppCommandConstant::GetCacheFile())){
+        
                 $list = include($file);
                 $mod = igk_get_modules();
                 foreach($mod as $c => $v){
@@ -175,7 +178,7 @@ abstract class AppCommand {
             else {
                 Logger::danger("command file not present ". $file);
                 Logger::info("please run with  --command:init to initialize command's cache file ");
-            }
+            } 
         } 
         return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
     } 

@@ -6,16 +6,9 @@ namespace IGK\Database;
 use Exception;
 use Error;
 use IGK\Controllers\BaseController;
-use IGK\Database\Helpers\DbInitManagement;
-use IGK\Models\Authorizations;
-use IGK\Models\Groupauthorizations;
-use IGK\Models\Groups;
-use IGKException;
+use IGK\Database\Helpers\DbInitManagement;  
 
-/**
-* 
-* @package IGK\Database
-*/
+ 
 /**
 * auto generate doc.
 * @package IGK\Database

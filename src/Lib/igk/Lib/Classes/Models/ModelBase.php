@@ -45,20 +45,20 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static static model() macros function return Model mock instance
  * @method static \IGK\System\Database\QueryBuilder prepare() macros function prepare data query builder
  * @method static void primaryKey() macros function
- * @method static IQueryResult query(string $query) macros function send query string
+ * @method static mixed query(string $query) macros function send query string
  * @method static object|null|bool requestAdd() macros function add model entry by request
  * @method static void requestUpdate() macros function
  * @method static void rollback() macros function 
  * @method static string get_query($conditions=null, $options=null) macros function get only the query expression to send
- * @method static IQueryResult select_query($conditions=null, $options=null) macros function
+ * @method static mixed select_query($conditions=null, $options=null) macros function
  * @method static null|iterable select_query_rows($conditions=null, $options=null) macros function
  * @method static void select_row_query() macros function
  * @method static \IGK\Database\IDbQueryFetchResult select_fetch(?array $conditions[], array? $options[]) macros function return a fetch result
  * @method static string table() macros function
- * @method static null|IQueryResult update(array $values, $condition=null) macros function
- * @method static null|IQueryResult update() macros instance function
+ * @method static mixed update() macros instance function instance
+ * @method static mixed update(array $values, $condition=null) macros function
  * @method static void updateOrCreateIfNotExists() macros function
- * @method static void registerMacro($macroName, Callable|array $callable) register/override model macros
+ * @method static void registerMacro($macroName, callable|array $callable) register/override model macros
  * @method static \IGK\System\Database\Factories\FactoryBase factory(int $number, ?string $class_name = null, ...$args=null) macros function create a factory object for seeding \
  * if $class_name is set use $args to inject constructor argument. 
  * @method static array queryColumns(?array $filter=null, bool $useall=false ) macros function query columns - if filter user all column by filter column with as property
@@ -68,6 +68,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static \IGK\Database\DataAdapterBase driver() macros helper get the driver attached to the current model
  * @method static string get_insert_query() marcros helper insert query  
  * @method static ?static Get(?string $column, mixed $value, $autoinsert=null) macros function get row from defined value
+ * @method static ?static Get(?string $value) macros function get row from defined value . this will resolve form value
  * @method static ?static GetCache(mixed $value) macros function get row from column will be the primary key
  * @method static ?static GetCache(string $column, mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static cacheRow(array $where) macros function get row from defined value autoinsert

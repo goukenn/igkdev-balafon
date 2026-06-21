@@ -71,6 +71,13 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
     public function success(): bool{
         return $this->m_result;
     }
+
+    /**
+     * 
+     */
+    public function getSuccess(): bool{
+        return $this->m_result;
+    }
     /**
     * Returns Row Count.
     */

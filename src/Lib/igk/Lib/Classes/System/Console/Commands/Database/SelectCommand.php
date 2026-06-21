@@ -95,7 +95,7 @@ class SelectCommand extends AppExecCommand
 			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode($v_sep, $limit, 2));
 		}
 		$ctrl = self::GetController($ctrl);
-		$flag = JSON_UNESCAPED_SLASHES + ($pretty ? JSON_PRETTY_PRINT : 0);
+		$flag = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | ($pretty ? JSON_PRETTY_PRINT : 0);
 		BalafonApplication::BindCommandUser($command, $ctrl, $user);
 		$tab = explode('.', $model, 2);
 		$model = array_shift($tab);
@@ -186,6 +186,7 @@ class SelectCommand extends AppExecCommand
     public function showModelMacros($command, BaseController $ctrl, ModelBase $model)
 	{
 		$macros = $model->getMacroKeys($model);
+		sort($macros);
 		foreach ($macros as $s) {
 			igk_wln($s . '');
 		}

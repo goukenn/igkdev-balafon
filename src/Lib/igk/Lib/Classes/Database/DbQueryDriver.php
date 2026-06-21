@@ -896,7 +896,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     /**
     * send query and return resources
     * @param mixed $query
-    * @param bool|option $throwex throw
+    * @param bool $throwex throw exception
     * @param mixed $options
     * @return resource|null
     */

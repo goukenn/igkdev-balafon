@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Console\Commands;
+
 use Closure;
 use IGK\ApplicationLoader;
 use IGK\Controllers\ControllerInitListener;
@@ -31,7 +32,15 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
 use IGK\Constants;
+
+use IGK\System\Caches\InitEnvControllerChain;
+use IGK\System\Traits\HookNameTrait;
 use IGKEvents;
+use IGKGD;
+use Logger as GlobalLogger;
+use ReflectionClass;
+use ReflectionMethod;
+
 use function igk_resources_gets as __;
 use stdClass;
 
@@ -41,25 +50,26 @@ use stdClass;
  */
 class MakeProjectCommand extends AppExecCommand
 {
+    use HookNameTrait;
     /**
-    * Property: category.
-    * @var mixed
-    */
+     * Property: category.
+     * @var mixed
+     */
     var $category = "make";
     /**
-    * Property: command.
-    * @var mixed
-    */
+     * Property: command.
+     * @var mixed
+     */
     var $command = "--make:project";
     /**
-    * Property: desc.
-    * @var mixed
-    */
+     * Property: desc.
+     * @var mixed
+     */
     var $desc = "make new project.";
     /**
-    * Property: options.
-    * @var mixed
-    */
+     * Property: options.
+     * @var mixed
+     */
     var $options = [
         "--type:[type]" => "project type. default is ApplicationController::class",
         "--entryNamespace:[namespace]" => "define project entry NS",
@@ -73,20 +83,21 @@ class MakeProjectCommand extends AppExecCommand
         "--version" => "application version"
     ];
     /**
-    * Name of entry namespace.
-    * @var mixed
-    */
+     * Name of entry namespace.
+     * @var mixed
+     */
     var $entryNamespace;
     /**
      * define author
      * @var mixed
      */
     protected $author;
+
     /**
-    * Exec.
-    * @param mixed $command
-    * @param mixed $controller
-    */
+     * Exec.
+     * @param mixed $command
+     * @param mixed $controller
+     */
     public function exec($command, $controller = "")
     {
         if (empty($controller)) {
@@ -104,15 +115,16 @@ class MakeProjectCommand extends AppExecCommand
         $e_ns = igk_getv($command->options, "--entryNamespace", null);
         $desc = igk_getv($command->options, "--desc", null);
         $configs = igk_getv($command->options, "--configs", null);
-        $no_config = property_exists($command->options, "--noconfig");
+        $no_config = property_exists($command->options, "--no-config");
         $use_git = property_exists($command->options, "--git");
         $force = property_exists($command->options, "--force");
         $ns = igk_str_ns($controller);
         $pname = basename(igk_dir($ns));
-        $clname = igk_str_add_suffix(ucfirst($pname) , "Controller");
+        $clname = igk_str_add_suffix(ucfirst($pname), "Controller");
         $dir = igk_io_projectdir() . "/{$pname}";
         igk_init_controller(new ControllerInitListener($dir, 'appsystem'));
         $defs = "";
+        self::_FilterActions();
         if (!defined('IGK_TEST_INIT')) {
             spl_autoload_register(ApplicationLoader::TestClassesLoaderCallback(), true, true);
         }
@@ -146,14 +158,15 @@ class MakeProjectCommand extends AppExecCommand
         // + | --------------------------------------------------------------------
         // + | bind readme definition 
         // + |
-        $bind[$dir.'/README.md']=function($file){
+        $bind[$dir . '/README.md'] = function ($file) {
             $sb = new StringBuilder;
             $sb->appendLine("# Balafon's projects");
-            igk_io_w2file($file, $sb.'');
+            igk_io_w2file($file, $sb . '');
         };
         $this->_bind_articles($bind, $dir);
         $this->_bind_langs($bind, $dir);
         $this->_bind_layout($bind, $dir);
+        igk_hook(self::HookName('/project-init'), ['name' => $pname, 'bind' => &$bind, 'dir' => $dir, 'cli' => 'yes']);
         $defaultsrc = <<<EOF
 /**
  * @var object \$t
@@ -194,25 +207,28 @@ EOF;
             }
             ksort($tab);
             if (function_exists('readline')) {
-                Logger::info(__("Configure")); 
+                Logger::info(__("Configure"));
                 $names = [
                     "clAppName" => __("Name"),
                     "clTitle" => __("Title"),
                     "clBasicUriPattern" => __("Entry URI"),
-                    "clDataSchema"=>__('Use Database Schema'),
+                    "clDataSchema" => __('Use Database Schema'),
                     "clDataTablePrefix" => __("Table's Prefix"),
-                    "clAppNotActive"=>__("Is project not active ?"),
+                    "clAppNotActive" => __("Is project not active ?"),
+                ];
+                $v_tdefault =  [
+                    'clAppName' => $controller,
+                    'clBasicUriPattern' => '^/' . StringUtility::Slugify(strtolower($controller)),
+                    'clDataTablePrefix' => str_replace('-', '_',  strtolower($controller)) . '_'
                 ];
                 foreach ($tab as $key => $value) {
                     $def = null;
-                    if ($value instanceof ConfigurationPropertyInfo){
-                        if ($key == 'clAppName'){
-                            $value->clDefaultValue = $controller;
-                        }
-                        if ($value->clType== 'bool'){
+                    if ($value instanceof ConfigurationPropertyInfo) {
+                        $value->clDefaultValue = $this->getDefaultValue($key, $v_tdefault);
+                        if ($value->clType == 'bool') {
                             $names[$key] .= App::Gets(App::GRAY, ' (1|0)');
                         }
-                        if (!is_null($value->clDefaultValue)){
+                        if (!is_null($value->clDefaultValue)) {
                             $def = $value->clDefaultValue;
                             $names[$key] .= App::Gets(App::GRAY_I, sprintf(' (%s)', $value->clDefaultValue));
                         }
@@ -220,7 +236,7 @@ EOF;
                     if (property_exists($obj_conf, $key)) {
                         $config->$key = $obj_conf->$key;
                     } else {
-                        if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : null)) ){
+                        if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : null))) {
                             if (igk_is_closure($def)) {
                                 $def = $def($prop);
                             }
@@ -239,7 +255,7 @@ EOF;
                 $d = igk_createxml_config_data($config);
                 igk_io_w2file($file, $d->render((object)["Indent" => true]));
             };
-        } 
+        }
         $bind[$dir . "/" . IGK_VIEW_FOLDER .
             "/default.phtml"] = function ($file) use ($author, $defaultsrc) {
             $builder = new PHPScriptBuilder();
@@ -295,13 +311,14 @@ EOF;
                 '...',
                 '</Migrations>',
             ]));
-            igk_io_w2file($file, 
-            implode("\n",array_filter([
-                "<?xml version=\"1.0\" standalone=\"yes\"?>",
-                defined('IGK_DB_SCHEMA') ? "<?xml-model href=\"".IGK_DB_SCHEMA."\"?>" : null,
-                $build->render((object)["Context" => "XML", "Indent" => true]) 
-            ]))
-        );
+            igk_io_w2file(
+                $file,
+                implode("\n", array_filter([
+                    "<?xml version=\"1.0\" standalone=\"yes\"?>",
+                    defined('IGK_DB_SCHEMA') ? "<?xml-model href=\"" . IGK_DB_SCHEMA . "\"?>" : null,
+                    $build->render((object)["Context" => "XML", "Indent" => true])
+                ]))
+            );
         };
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/autoload.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
@@ -429,11 +446,11 @@ EOF;
                     ".phpunit.result.cache",
                 ]);
         }
-        foreach(explode('|', 'dark|light') as $k){
-            $bind[$dir.'/'.IGK_STYLE_FOLDER.'/Themes/'.$k.'.theme.pcss'] = function($file){
+        foreach (explode('|', 'dark|light') as $k) {
+            $bind[$dir . '/' . IGK_STYLE_FOLDER . '/Themes/' . $k . '.theme.pcss'] = function ($file) {
                 igk_io_w2file($file, implode("\n", [
                     "<?php",
-                    "// @desc: theme file ", 
+                    "// @desc: theme file ",
                     "/** @var array \$cl */"
                 ]));
             };
@@ -443,17 +460,55 @@ EOF;
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
-        if (empty(igk_configs()->default_controller)){
+        if (empty(igk_configs()->default_controller)) {
             $cnf = igk_configs();
             $cnf->default_controller = $clname;
             $cnf->saveData(true);
         }
+        Logger::info('init database schema');
+        $this->initDbController($controller, $dir);
         Logger::success("done\n");
     }
     /**
-    * Store article.
-    * @param mixed $f
-    */
+     * retrieve properties default value 
+     * @param mixed $c 
+     * @param mixed $tab 
+     * @return mixed 
+     */
+    protected function getDefaultValue(string $c, array $tab)
+    {
+        return igk_getv($tab, $c);
+    }
+    /**
+     * load controller on directory 
+     * @param string $dir 
+     * @return void 
+     */
+    public static function LoadNewController(string $dir)
+    {
+        $manager = igk_app()->getControllerManager();
+        $loader = ApplicationLoader::getInstance();
+        $c = new InitEnvControllerChain;
+        $classes = get_declared_classes();
+        igk_loadlib($dir);
+        $nclasses = get_declared_classes();
+        $tab = array_diff($nclasses, $classes);
+        $c->load($tab, $manager, $loader);
+    }
+
+    protected function initDbController(string $controller, string $dir)
+    {
+
+        self::LoadNewController($dir);
+        if ($ctrl = self::GetController($controller, false)) {
+            $ctrl::InitDataInitialization(true);
+        }
+        //shell_exec('balafon --db:initdb --init-db-structure --controller:'.$controller);
+    }
+    /**
+     * Store article.
+     * @param mixed $f
+     */
     protected function _store_article($f)
     {
         $builder = new PHPScriptBuilder();
@@ -461,10 +516,10 @@ EOF;
         igk_io_w2file($f, $builder->render());
     }
     /**
-    * Bind articles.
-    * @param array & $bind
-    * @param mixed $dir
-    */
+     * Bind articles.
+     * @param array & $bind
+     * @param mixed $dir
+     */
     protected function _bind_articles(array &$bind, $dir)
     {
         $tab = R::GetSupportedLangs();
@@ -477,12 +532,12 @@ EOF;
         }
     }
     /**
-    * auto generate doc.
-    * @param array & $bind
-    * @param mixed $dir
-    */
+     * auto generate doc.
+     * @param array & $bind
+     * @param mixed $dir
+     */
     protected function _bind_langs(array &$bind, $dir)
-    { 
+    {
         $touch = function ($file) {
             $sb = new StringBuilder();
             $sb->appendLine('$l["title.default"] = "Home";');
@@ -499,10 +554,10 @@ EOF;
         }
     }
     /**
-    * Bind layout.
-    * @param array & $bind
-    * @param mixed $dir
-    */
+     * Bind layout.
+     * @param array & $bind
+     * @param mixed $dir
+     */
     protected function _bind_layout(array &$bind, $dir)
     {
         $view_dir = implode("/", [$dir, IGK_VIEW_FOLDER]);
@@ -530,11 +585,11 @@ EOF;
         };
     }
     /**
-    * Bind database.
-    * @param array & $bind
-    * @param mixed $dir
-    * @param mixed $controller
-    */
+     * Bind database.
+     * @param array & $bind
+     * @param mixed $dir
+     * @param mixed $controller
+     */
     protected function _bind_database(array &$bind, $dir, $controller)
     {
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER . "/Database/InitMacros.php"] = function ($file) use ($controller) {
@@ -565,7 +620,7 @@ EOF;
             $extends = \IGK\Database\SchemaBuilder\IDiagramBuilder::class;
             $desc = null;
             $content = implode("\n", [
-                 file_get_contents(IGK_LIB_DIR."/Inc/core/db.initschemas.pinc")
+                file_get_contents(IGK_LIB_DIR . "/Inc/core/db.initschemas.pinc")
             ]);
             $builder->type("class")
                 ->namespace($e_ns . "\\Database")
@@ -582,12 +637,12 @@ EOF;
         };
     }
     /**
-    * auto generate doc.
-    * @param mixed & $bind
-    * @param mixed $dir
-    * @param mixed $options
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed & $bind
+     * @param mixed $dir
+     * @param mixed $options
+     * @return mixed
+     */
     private function _initConfigurationFile(&$bind, $dir, $options)
     {
         $v_conf_dir = $dir . "/" . IGK_CONF_FOLDER;
@@ -607,19 +662,19 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
-        $bind[$dir . "/".Constants::PROJECT_CONF_FILE] = function ($file) use ($options) {
+        $bind[$dir . "/" . Constants::PROJECT_CONF_FILE] = function ($file) use ($options) {
             $config = new BalafonConfiguration;
-            $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller'): null)
-            ?? igk_create_guid();
-            $config->version = ($options ? igk_conf_get($options, 'version') :null) ?? '1.0';
-            $config->author =( $options ?igk_conf_get($options, 'author') : null) ?? IGK_AUTHOR;
+            $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller') : null)
+                ?? igk_create_guid();
+            $config->version = ($options ? igk_conf_get($options, 'version') : null) ?? '1.0';
+            $config->author = ($options ? igk_conf_get($options, 'author') : null) ?? IGK_AUTHOR;
             $options = JSonEncodeOption::IgnoreEmpty();
             igk_io_w2file($file, JSon::Encode($config, $options));
         };
     }
     /**
-    * Help.
-    */
+     * Help.
+     */
     public function help()
     {
         Logger::print("-");
@@ -632,5 +687,46 @@ EOF;
             Logger::print(App::Gets(App::GREEN, $k) . Logger::TabSpace . " $v \n");
         }
         Logger::print("");
+    }
+    protected static function _GetFilterActions()
+    {
+        return array_filter(array_map(function ($n) {
+            $n = $n->getName();
+            if (preg_match("/^_filter_project_/", $n)) {
+                return $n;
+            }
+        }, igk_sys_reflect_class(static::class)->getMethods(ReflectionMethod::IS_STATIC)));
+    }
+    private static function _FilterActions()
+    {
+        igk_reg_hook(self::HookName('/project-init'), function ($e) {
+            $fcs = self::_GetFilterActions();
+            $cl = static::class;
+            foreach ($fcs as $fc) {
+                if (method_exists($cl, $fc)) {
+                    call_user_func_array([$cl, $fc], [$e]);
+                    if ($e->handle) {
+                        break;
+                    }
+                } else if (is_callable($fc)) {
+                    call_user_func_array($fc, [$e]);
+                }
+            }
+        });
+    }
+    /**
+     * 
+     * @param mixed $e 
+     * @return mixed
+     */
+    private static function _filter_project_init_app_icon($e)
+    {
+        if (!extension_loaded('gd'))
+            return false;
+        $bind = &$e->args['bind'];
+        $bind[$e->args['dir'] . '/Data/assets/app-icon.ico'] = function ($f) {
+            $s = IGKGD::Create(256, 128);
+            igk_io_a2file($f, $s->renderText());
+        };
     }
 }

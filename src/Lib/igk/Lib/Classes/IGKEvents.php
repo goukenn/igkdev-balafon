@@ -546,6 +546,11 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_CRONJOB = 'on_do_cronjob';
+
+    /**
+     * project removed 
+     */
+    const HOOK_PROJECT_REMOVED = 'sys://project/removed';
     /**
     * Property: methods.
     * @var mixed
@@ -849,8 +854,24 @@ class IGKEvents extends IGKObject
                 $count++;
             }
             return $cargs[0]->output;
+        } else{
+            $args = (object)[
+                '::_'=>self::class,
+                'no-hooks'=>true, 
+                'args'=>$args, 
+                'handle'=>false];
         }
         return $def ? $def->output : $args;
+    }
+    /**
+     * 
+     * @param mixed $obj 
+     * @return bool 
+     */
+    public static function IsEmptyHookResult($obj){
+        return is_object($obj) && isset($obj->{'no-hooks'}) 
+        && (igk_getv($obj, '::_') ==self::class) 
+        && (false === $obj->handle);
     }
     /**
      * unregister hook
@@ -904,5 +925,15 @@ class IGKEvents extends IGKObject
         $hooks = [];
         unset($hooks);
         igk_environment()->set(self::ENV_KEY, null);
+    }
+
+    /**
+     * Create hook key 
+     * @param string $tag 
+     * @param string $path 
+     * @return string 
+     */
+    public static function CreateHookKey(string $tag, string $path){
+        return strtolower(sprintf('%s:/%s',$tag, $path));
     }
 }

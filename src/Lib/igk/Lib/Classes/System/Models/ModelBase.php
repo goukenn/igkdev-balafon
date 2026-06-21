@@ -358,6 +358,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     public function getDisplay()
     {
+        if ($prefix = $this->tablePrefix()){
+            $p = StringUtility::AutoPrefix('display', $prefix);
+            if ($f = igk_getv($this->raw, $p)){
+                return $f;
+            }
+        }
         return $this->display;
     }
     /**
@@ -704,6 +710,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     */
     public function getController()
     {
+        
         if (!empty($this->controller))
             return igk_getctrl($this->controller, false);
     }
@@ -789,7 +796,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 $cl = igk_getv($macros, MacrosConstant::REF_MACROS) ?? static::class;                
                 $f = igk_sys_reflect_class($classname);
                 foreach ($f->getMethods() as $k) {
-                    if ($k->isStatic()) {
+                    $n=$k->getName();
+                    if ($k->isStatic() && $k->isPublic()) {
                         $macros[$cl . self::StaticSeparator . $k->getName()] = [$classname, $k->getName()];
                     }
                 }

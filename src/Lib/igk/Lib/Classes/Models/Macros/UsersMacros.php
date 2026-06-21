@@ -20,6 +20,7 @@ use IGKValidator;
 /**
  * use macros
  * @package IGK\Models\Macros
+ * @method bool auth($auths, bool $strict=false) macros instance 
  */
 abstract class UsersMacros
 {
@@ -266,5 +267,74 @@ abstract class UsersMacros
 			],
 			true
 		);
+    }
+
+    /**
+     * check system user authentication 
+     * @param Users $user 
+     * @param ?string|array<string> $auths separated | string
+     * @param bool $strict 
+     * @return bool 
+     */
+    public static function checkAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
+        /**
+        * auto generate doc.
+        * @var ModelBase $q
+        */
+        if ($user->is_mock()){
+            return false;
+        }  
+        $q = $user;
+        $key = \IGK\Models\ModelBase::AuthKey;
+        $is_auth = false;
+        if (!is_array($auths)) {
+            if (!is_string($auths)) {
+                return false;
+            }
+            $auths = explode('|', $auths); 
+        } 
+        if (($g = $q->{$key}) === null) {
+            $g = [];
+            if ($q->clId !==null){
+                if ($b = $user->auths()) {
+                    foreach ($b as $t) {
+                        $g[] = $t->name;
+                    }
+                }
+                $q->set($key, $g);
+            } else 
+                return false;
+        }
+        if (($is_auth = count($g) > 0)) {
+            if ($strict) {
+                while ($is_auth && ($auth = array_shift($auths))) {
+                    if (!($is_auth = in_array($auth, $g))) {
+                        break;
+                    }
+                }
+            } else {
+                $is_auth = false;
+                while ($auth = array_shift($auths)) {
+                    if (in_array($auth, $g)) {
+                        $is_auth = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $is_auth;
+    }
+    /**
+     * auth calculation 
+     * @param Users $model 
+     * @param mixed $auths 
+     * @param bool $strict must strictly be granted 
+     * @return bool 
+     */
+    public static function auth(Users $model, $auths, bool $strict = false){
+        return self::checkAuth($model,$auths, $strict);
+    }
+    public static function groups(Users $model){
+        return Usergroups::getUserGroups($model->clId);   
     }
 }

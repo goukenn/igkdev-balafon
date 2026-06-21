@@ -1219,7 +1219,7 @@ class SQLGrammar implements IDbQueryGrammar
             fdie("can't get column: {$columnName} info in table: {$tbname}");
         }
         $def = static::AllowedDefValue();
-
+        $v_null_value = $driver->getNullValue();
         if (!empty($tinf->clLinkType) && is_string($value) && (strpos($value, ".") !== false)) {
             if ($v = $driver->GetExpressQuery($value, $tinf)) {
                 return $v;
@@ -1263,6 +1263,9 @@ class SQLGrammar implements IDbQueryGrammar
             return $value;
         }
         if ($is_json) {
+            if (is_null($value) && !$tinf->clNotNull){
+                return $v_null_value;
+            }
             if (is_string($value)) {
                 $deco = json_decode($value);
                 if (!json_last_error()) {
@@ -1277,7 +1280,7 @@ class SQLGrammar implements IDbQueryGrammar
                 }
             }
         }
-        $of = 'NULL';
+        $of = $v_null_value;
         $s = null;
         if (($type == "i") && $tinf->clInsertFunction) {
             $of = $tinf->clInsertFunction;
@@ -1289,6 +1292,9 @@ class SQLGrammar implements IDbQueryGrammar
                 $value = IGKSysUtil::Encrypt(igk_create_guid());
                 $of = null;
             }
+        }
+        if (is_numeric($value) && $driver->isNumeric($tinf->clType)){
+            return $value;
         }
         if (($value === null) || ($value === $tinf->clDefault) || (($value !== '0') && empty($value))) {
             if ($tinf->clNotNull) {

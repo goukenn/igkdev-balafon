@@ -194,6 +194,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
         }
         !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s - %s', '[BLF_EX]', $msg));
         // + | Last Exception   
+      
         throw new IGKException($msg, $code);
     } else {
         ob_get_level() && ob_clean();
@@ -570,7 +571,7 @@ function igk_io_detect_config_working_dir(string $dir, string $config_file = IGK
 * evalute constant and get the value
 * @param mixed $name
 * @param mixed $default
-* @var sstring $name
+* @var string $name
 * @return mixed|int
 */
 function igk_const($name, $default = null)
@@ -583,7 +584,7 @@ function igk_const($name, $default = null)
 /**
 * check value for assertion
 * @param mixed $b
-* @return void
+* @return bool
 */
 function igk_check($b): bool
 {
@@ -616,7 +617,7 @@ function igk_const_defined($ctname, $defvalue = 1)
 * helper: check obj check for class or create a new instance by calling the callback create
 * @param string $class_name name of the class to create
 * @param mixed & $obj
-* @param mixed $obj object reference
+* @param mixed $callback 
 * @return mixed
 */
 function igk_create_instance($class_name, &$obj, $callback)
@@ -939,8 +940,7 @@ function igk_dev_ilog()
     }
 }
 /**
- * helper: in dev write line and exit
- * @param array $args variadic parameter 
+ * helper: in dev write line and exit 
  * @return void 
  */
 function igk_dev_wln_e()
@@ -1416,7 +1416,7 @@ function igk_lib_configs()
 * @param string $name reference name. key or class name
 * @param int|bool $throwex throw exception if not found
 * @param bool $register_autoload
-* @return null|IGK\Controllers\BaseController controller found
+* @return ?\IGK\Controllers\BaseController controller found
 */
 function igk_getctrl(?string $name, $throwex = 1, bool $register_autoload = false)
 {
@@ -1738,7 +1738,7 @@ function igk_sys_handle_uri($uri = null)
  * load library specification
  * @param string $dir directory to load
  * @param string $ext extension file or regext to used for matching class
- * @param string $excludedir directory to exclude
+ * @param array<string> $excludedir directory to exclude
  * @return null|array $files loaded
  * */
 function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null): ?array
@@ -2153,7 +2153,7 @@ if (!function_exists('igk_io_workingdir')) {
     /**
     * get working directory
     * @param bool $server
-    * @throws \IGK\Exception
+    * @throws \IGKException
     * @return string|false
     */
     function igk_io_workingdir(bool $server = true)
@@ -2203,8 +2203,8 @@ function igk_io_tempfile($prefix = 'tmp')
  */
 function igk_setting()
 {
-    require_once IGK_LIB_CLASSES_DIR . "/IGKEnvironmentSettings.php";
-    return \IGK\IGKEnvironmentSettings::getInstance();
+    require_once IGK_LIB_CLASSES_DIR . "/EnvironmentSettings.php";
+    return \IGK\EnvironmentSettings::getInstance();
 }
 /**
  * write text on testing
@@ -2323,7 +2323,7 @@ if (!function_exists('igk_uri_base_uri')) {
 }
 /**
 * check if $c is a framework callback object
-* @param mixed $$c the callback object to check
+* @param mixed $c the callback object to check
 * @return mixed
 */
 function igk_is_callback_obj($c)
@@ -2698,7 +2698,7 @@ if (!function_exists('igk_read_line')) {
 /**
  * just find a user
  * @param string $name 
- * @return Users|mixed 
+ * @return \IGK\Models\Users|mixed 
  */
 function igk_sys_find_auth_user(string $name)
 {

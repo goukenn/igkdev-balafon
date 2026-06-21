@@ -46,7 +46,7 @@ class InitEnvControllerChain{
         }
     }
     /**
-     * init controller defition 
+     * init controller definition 
      * @param mixed $tab 
      * @param mixed $manager 
      * @param mixed $loader 

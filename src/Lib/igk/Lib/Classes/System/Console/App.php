@@ -135,14 +135,14 @@ class App implements ICLICommandApp
         $app->_basePath = $basePath;
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
-        $app->boot();
-        if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile(), true)) {
+        $app->boot(); 
+        if (!file_exists($fc = AppCommandConstant::GetCacheFile())) {
             Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);
             unset($v_cmd);
-        } // + | load commands 
+        } // + | load commands  
         $command_args = AppCommand::GetCommands($app);
         if ($command_args) {
             foreach ($command_args as $c) {

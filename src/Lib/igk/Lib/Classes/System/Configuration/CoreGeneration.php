@@ -39,7 +39,7 @@ class CoreGeneration
             '        $resolv_path = function ($dir, $value) {',
             '            $p = realpath($value);',
             '            if (empty($p)) {',
-            '                return str_replace("\\", "/", $dir . "/" . $value);',
+            '                return str_replace("\\\\", "/", $dir . "/" . $value);',
             '            }',
             '            return $p;',
             '        };',

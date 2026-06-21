@@ -3,16 +3,22 @@
 // @file: ControllerDbExtensionTrait.php
 // @date: 20230703 14:24:34
 namespace IGK\Controllers\Traits;
+
+use Elementor\Data\Base\Controller;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\DbUtilityHelper;
+use IGK\Models\Groupauthorizations;
+use IGK\Models\Groups;
+use IGK\Models\Usergroups;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
-use IGKEvents;
+use IGKEvents; 
+
 /**
 * auto generate doc.
 * @package IGK\Controllers\Traits
@@ -67,6 +73,10 @@ trait ControllerDbExtensionTrait{
                         'ctrl'=>$controller 
                     ]);
                     $db->dropTable($v_tblist);
+
+                    // drop table's groups auth
+                    $controller->dbDropProfilesAndAuth();  
+
                     $_vinit = 1;
                     $db->close();
                 }
@@ -78,6 +88,27 @@ trait ControllerDbExtensionTrait{
         }
         return $_vinit;
     }
+
+    /**
+     * 
+     * @param BaseController $controller 
+     * @return void 
+     */
+    public static function dbDropProfilesAndAuth(BaseController $controller ){
+        $cond = [
+            Groups::FD_CL_CONTROLLER=>$controller->getName()
+        ];
+        $r = Groups::select_all($cond);
+        foreach($r as $raw){
+            Usergroups::delete([
+                Usergroups::FD_CL_GROUP_ID=>$raw->clId
+            ]);
+            Groupauthorizations::delete([
+                Groupauthorizations::FD_CL_GROUP_ID=>$raw->clId
+            ]);
+        }
+        Groups::delete($cond);
+    }  
   /**
      * remove column 
      * @param BaseController $ctrl 

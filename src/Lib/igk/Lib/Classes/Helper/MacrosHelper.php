@@ -6,6 +6,8 @@
 // @file: MacrosHelper.php
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\Helper;
+
+use IGK\Models\Macros\UsersMacros;
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
@@ -42,14 +44,15 @@ class MacrosHelper
     {
         if (self::$macros == null) {
             self::$macros = [
-                'auth' => function ($auths, $strict = false) { 
-                    /**
-                     * @var \IGK\Models\Users $q 
-                     * @var mixed|string|string[] $auths
-                     */
-                    $q = $this;
-                    return self::_CheckAuth($q, $auths, $strict);                    
-                },
+                // 'auth' => function ($auths, $strict = false): bool { 
+                //     igk_wln_e(__FILE__.":".__LINE__ , "invoke");
+                //     /**
+                //      * @var \IGK\Models\Users $q 
+                //      * @var mixed|string|string[] $auths
+                //      */
+                //     $q = $this;
+                //     return self::_CheckAuth($q, $auths, $strict);                    
+                // },
                 /**
                  * retrieve current user from cache .... 
                  */
@@ -86,52 +89,55 @@ class MacrosHelper
      * @return bool 
      */
     private static function _CheckAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
-        /**
-        * auto generate doc.
-        * @var ModelBase $q
-        */
-        if ($user->is_mock()){
-            return false;
-        }  
-        $q = $user;
-        $key = \IGK\Models\ModelBase::AuthKey;
-        $is_auth = false;
-        if (!is_array($auths)) {
-            if (!is_string($auths)) {
-                return false;
-            }
-            $auths = explode('|', $auths); 
-        } 
-        if (($g = $q->{$key}) === null) {
-            $g = [];
-            if ($q->clId !==null){
-                if ($b = $user->auths()) {
-                    foreach ($b as $t) {
-                        $g[] = $t->name;
-                    }
-                }
-                $q->set($key, $g);
-            } else 
-                return false;
-        }
-        if (($is_auth = count($g) > 0)) {
-            if ($strict) {
-                while ($is_auth && ($auth = array_shift($auths))) {
-                    if (!($is_auth = in_array($auth, $g))) {
-                        break;
-                    }
-                }
-            } else {
-                $is_auth = false;
-                while ($auth = array_shift($auths)) {
-                    if (in_array($auth, $g)) {
-                        $is_auth = true;
-                        break;
-                    }
-                }
-            }
-        }
-        return $is_auth;
+        return UsersMacros::checkAuth($user, $auths, $strict);
+
+    
+    // /**
+    //     * auto generate doc.
+    //     * @var ModelBase $q
+    //     */
+    //     if ($user->is_mock()){
+    //         return false;
+    //     }  
+    //     $q = $user;
+    //     $key = \IGK\Models\ModelBase::AuthKey;
+    //     $is_auth = false;
+    //     if (!is_array($auths)) {
+    //         if (!is_string($auths)) {
+    //             return false;
+    //         }
+    //         $auths = explode('|', $auths); 
+    //     } 
+    //     if (($g = $q->{$key}) === null) {
+    //         $g = [];
+    //         if ($q->clId !==null){
+    //             if ($b = $user->auths()) {
+    //                 foreach ($b as $t) {
+    //                     $g[] = $t->name;
+    //                 }
+    //             }
+    //             $q->set($key, $g);
+    //         } else 
+    //             return false;
+    //     }
+    //     if (($is_auth = count($g) > 0)) {
+    //         if ($strict) {
+    //             while ($is_auth && ($auth = array_shift($auths))) {
+    //                 if (!($is_auth = in_array($auth, $g))) {
+    //                     break;
+    //                 }
+    //             }
+    //         } else {
+    //             $is_auth = false;
+    //             while ($auth = array_shift($auths)) {
+    //                 if (in_array($auth, $g)) {
+    //                     $is_auth = true;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return $is_auth;
     }
     /**
      * add User with storage data

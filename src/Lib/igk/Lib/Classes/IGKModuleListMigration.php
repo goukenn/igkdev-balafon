@@ -36,9 +36,9 @@ final class IGKModuleListMigration extends BaseController implements
         return true;
     }
     /**
-    * Collection of list.
-    * @var mixed
-    */
+     * Collection of list.
+     * @var mixed
+     */
     private static $sm_list;
     /**
      * module list instance 
@@ -46,39 +46,39 @@ final class IGKModuleListMigration extends BaseController implements
      */
     private static $sm_instance;
     /**
-    * Property: host.
-    * @var mixed
-    */
+     * Property: host.
+     * @var mixed
+     */
     private $m_host;
     /**
-    * Collection of list.
-    * @var mixed
-    */
+     * Collection of list.
+     * @var mixed
+     */
     private $m_list;
     /**
-    * Property: loaded.
-    * @var mixed
-    */
+     * Property: loaded.
+     * @var mixed
+     */
     private $m_loaded = [];
     /**
-    * Property: definition.
-    * @var mixed
-    */
+     * Property: definition.
+     * @var mixed
+     */
     private $m_definition;
     /**
-    * Property: initializer.
-    * @var mixed
-    */
+     * Property: initializer.
+     * @var mixed
+     */
     private $m_initializer;
     /**
-    * .ctr
-    * @return mixed
-    */
+     * .ctr
+     * @return mixed
+     */
     private function __construct() {}
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function useAsInstance()
     {
         if (self::$sm_instance === $this) {
@@ -87,8 +87,8 @@ final class IGKModuleListMigration extends BaseController implements
         self::$sm_instance = $this;
     }
     /**
-    * Resets.
-    */
+     * Resets.
+     */
     public function reset()
     {
         self::$sm_instance = null;
@@ -122,28 +122,37 @@ final class IGKModuleListMigration extends BaseController implements
             }
         }
     }
-    /**
-    * Db add column.
-    * @param string $table
-    * @param mixed $columnInfo
-    * @param null|string $after
-    */
-    public function db_add_column(string $table, $columnInfo, ?string $after = null)
+    protected function getControllerFromTableInfo(string $table)
     {
+        /**
+         * @var mixed
+         */
+        $tbinfo = null;
         if (DBCaches::ResolvAndInitDbTableCacheInfo($table, $tbinfo)) {
             $ctrl = $tbinfo->controller;
+            return $ctrl;
+        }
+    }
+    /**
+     * Db add column.
+     * @param string $table
+     * @param mixed $columnInfo
+     * @param null|string $after
+     */
+    public function db_add_column(string $table, $columnInfo, ?string $after = null)
+    {
+        if ($ctrl = $this->getControllerFromTableInfo($table)) {
             $ctrl->db_add_column($table, $columnInfo, $after);
         };
     }
     /**
-    * Db rm column.
-    * @param string $table
-    * @param mixed $columnInfo
-    */
+     * Db rm column.
+     * @param string $table
+     * @param mixed $columnInfo
+     */
     public function db_rm_column(string $table, $columnInfo)
     {
-        if (DBCaches::ResolvAndInitDbTableCacheInfo($table, $tbinfo)) {
-            $ctrl = $tbinfo->controller;
+        if ($ctrl = $this->getControllerFromTableInfo($table)) {
             $ctrl->db_rm_column($table, $columnInfo);
         };
     }
@@ -178,10 +187,10 @@ final class IGKModuleListMigration extends BaseController implements
         }
     }
     /**
-    * Handles Model Creation.
-    * @param mixed $table_list
-    * @return bool
-    */
+     * Handles Model Creation.
+     * @param mixed $table_list
+     * @return bool
+     */
     public function handleModelCreation($table_list): bool
     {
         if ($this->m_host && method_exists($this->m_host, __FUNCTION__)) {
@@ -226,40 +235,40 @@ final class IGKModuleListMigration extends BaseController implements
         return null;
     }
     /**
-    * Get modules.
-    */
+     * Get modules.
+     */
     static function _GetModules()
     {
         if (is_null(self::$sm_list)) {
             self::$sm_list = array_filter(array_map(function ($a) {
-                if ($mod = igk_get_module($a->name)){
+                if ($mod = igk_get_module($a->name)) {
                     return $mod;
                 } else {
-                    igk_ilog('missing module '.$a->name);
+                    igk_ilog('missing module ' . $a->name);
                 }
             },  igk_get_modules() ?? []));
         }
         return self::$sm_list;
     }
     /**
-    * Returns Classes Dir.
-    */
+     * Returns Classes Dir.
+     */
     public function getClassesDir()
     {
         return $this->m_host->getClassesDir();
     }
     /**
-    * Returns Entry Name Space.
-    */
+     * Returns Entry Name Space.
+     */
     public function getEntryNameSpace()
     {
         return $this->m_host->getEntryNamespace();
     }
     /**
-    * auto generate doc.
-    * @param string $path
-    * @return string|void
-    */
+     * auto generate doc.
+     * @param string $path
+     * @return string|void
+     */
     public static function ns(string $path = '')
     {
         $sm = self::$sm_instance;
@@ -319,13 +328,13 @@ final class IGKModuleListMigration extends BaseController implements
         return true;
     }
     /**
-    * auto generate doc.
-    * @param mixed $method
-    * @param mixed $navigate
-    * @param bool $force
-    * @param ?array $modules
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $method
+     * @param mixed $navigate
+     * @param bool $force
+     * @param ?array $modules
+     * @return void
+     */
     private static function _InvokeExtension($method, $navigate = false, $force = false, ?array $modules = null)
     {
         self::$sm_instance = new self();
@@ -370,11 +379,11 @@ final class IGKModuleListMigration extends BaseController implements
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $name
-    * @param mixed $arguments
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $name
+     * @param mixed $arguments
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments)
     {
         if (method_exists(ControllerExtension::class, $name)) {
@@ -396,14 +405,14 @@ final class IGKModuleListMigration extends BaseController implements
         return true;
     }
     /**
-    * Registers autoload.
-    */
+     * Registers autoload.
+     */
     public function register_autoload() {}
     /**
-    * Drops Db.
-    * @param mixed $navigate
-    * @param mixed $force
-    */
+     * Drops Db.
+     * @param mixed $navigate
+     * @param mixed $force
+     */
     public static function dropDb($navigate = 1, $force = 0)
     {
         self::_InvokeExtension(__FUNCTION__, $navigate, $force);
@@ -421,10 +430,10 @@ final class IGKModuleListMigration extends BaseController implements
         self::_InvokeExtension(__FUNCTION__, $force);
     }
     /**
-    * Initializes Db Module.
-    * @param bool $force
-    * @param array $modules
-    */
+     * Initializes Db Module.
+     * @param bool $force
+     * @param array $modules
+     */
     public static function InitDbModule(bool $force, array $modules)
     {
         self::_InvokeExtension('initDb', false, $force, $modules);
@@ -475,9 +484,9 @@ final class IGKModuleListMigration extends BaseController implements
     {
         self::$sm_instance = new self();
         $v_modules = self::_GetModules();
-        if ($v_modules)
-            $idx = 0;
-            foreach ($v_modules as $s=>$t) {
+        $idx = 0;
+        if ($v_modules) {
+            foreach ($v_modules as $s => $t) {
                 if ($t instanceof BaseController) {
                     self::$sm_instance->m_host = $t;
                     $c = new MigrationHandler($t);
@@ -486,14 +495,15 @@ final class IGKModuleListMigration extends BaseController implements
                         igk_db_load_data_schemas($file, self::$sm_instance, true, DbSchemasConstants::Downgrade);
                     }
                 } else {
-                    igk_json(['error'=>'missing modules info at '.$idx. ' : '.$s]);
+                    igk_json(['error' => 'missing modules info at ' . $idx . ' : ' . $s]);
                 }
                 $idx++;
             }
+        }
     }
     /**
-    * Returns Data Schema File.
-    */
+     * Returns Data Schema File.
+     */
     public static function getDataSchemaFile()
     {
         if (self::$sm_instance) {
@@ -501,12 +511,12 @@ final class IGKModuleListMigration extends BaseController implements
         }
     }
     /**
-    * schema definition info
-    * @param DatabaseInitializer $initializer
-    * @param mixed $operation
-    * @throws IGKException
-    * @return void
-    */
+     * schema definition info
+     * @param DatabaseInitializer $initializer
+     * @param mixed $operation
+     * @throws IGKException
+     * @return void
+     */
     public function loadMigrationSchema(DatabaseInitializer $initializer, $operation = DbSchemasConstants::Migrate)
     {
         $this->m_initializer = $initializer;
@@ -532,9 +542,9 @@ final class IGKModuleListMigration extends BaseController implements
         return $this->m_definition;
     }
     /**
-    * Resolv table definition.
-    * @param string $table
-    */
+     * Resolv table definition.
+     * @param string $table
+     */
     public function resolvTableDefinition(string $table)
     {
         static $rstable;
@@ -554,25 +564,25 @@ final class IGKModuleListMigration extends BaseController implements
         return null;
     }
     /**
-    * Returns Env Param.
-    * @param mixed $key
-    */
+     * Returns Env Param.
+     * @param mixed $key
+     */
     public function getEnvParam($key)
     {
         $key = $this->getEnvKey($key);
         return igk_getv($this->m_loaded, $key);
     }
     /**
-    * Returns Env Key.
-    * @param mixed $key
-    */
+     * Returns Env Key.
+     * @param mixed $key
+     */
     public function getEnvKey($key)
     {
         return $this->m_host->getName() . "/" . $key;
     }
     /**
-    * get string presentation.
-    */
+     * get string presentation.
+     */
     public function __toString()
     {
         if ($this->m_host) {

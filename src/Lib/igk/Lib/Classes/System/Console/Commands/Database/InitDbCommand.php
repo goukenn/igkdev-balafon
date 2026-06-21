@@ -23,6 +23,7 @@ use L81Controller;
 * @package IGK\System\Console\Commands\Database
 */
 class InitDbCommand extends AppExecCommand{
+	const ENV_DB_INFO_KEY = '__cmd_initdb:info';
     /**
     * Property: command.
     * @var mixed
@@ -40,6 +41,7 @@ class InitDbCommand extends AppExecCommand{
     var $options=[
 		'--clean'=>'flag: enable drop database if exists',
 		'--force'=>'flag: force file creation',
+		'--init-db-structure'=>'flag: init db class structrure',
 	];
     /**
     * Property: category.
@@ -60,6 +62,7 @@ class InitDbCommand extends AppExecCommand{
 		$c = null;
 		DbCommandHelper::Init($command);
 		$clean = false;
+		list($initdb_structure) = igk_prop_exists($command->options, '--init-db-structure');
 		if (empty($ctrl)){
 			$ctrl = igk_getv($command->options,"--controller");
 		}
@@ -93,6 +96,10 @@ class InitDbCommand extends AppExecCommand{
 					}
 				}
 			}
+			$cmd_key = self::ENV_DB_INFO_KEY;
+			igk_environment()->set($cmd_key,(object)[
+				'initdb_structure' =>$initdb_structure
+			]);
 			foreach ($c as $m) {
 				BalafonApplication::BindCommandController($m, null);
 				$cl = get_class($m);
@@ -104,6 +111,7 @@ class InitDbCommand extends AppExecCommand{
 					Logger::warn("can't initdb of " . $cl);
 				}
 			}
+			igk_environment()->set($cmd_key, null);
 			return 1;
 		}
 		return -1;

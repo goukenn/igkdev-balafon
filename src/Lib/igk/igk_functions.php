@@ -730,15 +730,16 @@ function igk_bind_session_id($id)
     return @session_id($id);
 }
 /**
- * Represent igk_bind_sitemap function
+ * Represent igk_bind_sitemap function 
  * @return mixed
+ * @diagnostic ignore: undefined-parameters 
  */
 function igk_bind_sitemap()
 {
     extract(igk_extract_ref(func_get_arg(0)));
     if (!isset($c)) {
         return;
-    }
+    } 
     if ($ctrl && preg_match("/^" . IGK_SITEMAP_FUNC . "(\.(xml|php|pinc))?$/", $c)) {
         if (method_exists($ctrl, "sitemap")) {
             call_user_func_array([$ctrl, "sitemap"], []);
@@ -746,9 +747,10 @@ function igk_bind_sitemap()
             // + | Render xml file 
             $uri = $ctrl->getAppUri();
             $hash = sha1($uri);
-            if (igk_io_file_exists($file = $ctrl->getDeclaredDir() . "/.Caches/.{$hash}.sitemap.cache")) {
+            $file = $ctrl->getDeclaredDir() . "/.Caches/.{$hash}.sitemap.cache";
+            if (0 && igk_io_file_exists($file)){
                 header("Content-Type: application/xml");
-                include($file);
+                echo file_get_contents($file);                
                 igk_exit();
             }
             $e = SitemapGeneratorCommand::GenerateSiteMap($ctrl->getViews(false, true), $uri);
@@ -795,6 +797,7 @@ function igk_cache_array_content(string $m, $fc = null)
  * helper: check for cache expire
  * @param mixed $o time {date:string, duration:int} 
  * @return mixed
+ * @igk-type $o {date:string, duration:int}
  */
 function igk_cache_expired($o)
 {
@@ -3476,8 +3479,7 @@ function &igk_css_get_treat_colors(?array $defColor = null)
 /**
 * treatt color
 * @param mixed & $colors
-* @param mixed $value
-* @param mixed $defined
+* @param mixed $value 
 * @return mixed
 */
 function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
@@ -8257,7 +8259,7 @@ function igk_get_defaultcron_data($file = "cronjob.php")
  * auto generate doc.
  * @return mixed
  */
-function igk_get_defaultview_content()
+function igk_get_defaultview_content(?BaseController $controller=null)
 {
     $date = date("Y/m/d - H:i:s");
     $author = igk_configs()->defaultAuthor ?? IGK_AUTHOR;
@@ -9071,9 +9073,12 @@ function igk_get_query_options(string $query_options): array
 {
     $data = array();
     preg_replace_callback(
-        "/(?P<name>[^;]+)=(?P<value>([^;]+|;;))/i",
+        "/(?P<name>[^;=]+)(?:=(?P<value>([^;]+|;;))?)?/i",
         function ($m) use (&$data) {
-            $v = $m["value"];
+            $v = 1;
+            if (isset($m['value'])){                
+                $v = igk_getv($m, "value");
+            } 
             if ($v == ';;')
                 $v = ';';
             $data[$m["name"]] = $v;
@@ -17751,6 +17756,7 @@ function igk_pattern_get_uri_from_key($k, $buri = null)
  */
 function igk_pattern_matcher_get_pattern($s)
 {
+   
     $s = preg_replace_callback("#:(?P<name>([a-z0-9]+))\+?#i", "igk_pattern_matcher_matchcallback", $s);
     $s = preg_replace_callback(
         "/\\$\$/i",
@@ -17777,7 +17783,8 @@ function igk_pattern_matcher_matchcallback($m)
         case "options":
             // + | ----------------------------------------------
             // + | options matching 
-            $tm = "(?P<" . $n . ">([^;]+=([^;\?]+;?|;)?)+)";
+            // $tm = "(?P<" . $n . ">([^;]+=([^;\?]+;?|;)?)+)";
+            $tm = "(?P<" . $n . ">([^;=]+((=([^;\?]+;?|;)?)+)?)+)";
             break;
         case "query":
             $tm = "(?P<" . $n . ">([^;]+;?)+)";

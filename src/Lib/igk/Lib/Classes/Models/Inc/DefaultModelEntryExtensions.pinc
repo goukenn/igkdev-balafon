@@ -66,12 +66,11 @@ Groupauthorizations::registerMacro("getUserAuths", function(int $uid){
         }
     ]);  
     return $tab; 
-}); 
-Users::registerMacro("groups", function($user=null){    
-    return Usergroups::getUserGroups($this->clId);
 });
-// + | check auth
-Users::registerMacro("auth", MacrosHelper::auth());
+
+// Users::registerMacro("groups", function($user=null){    
+//     return Usergroups::getUserGroups($this->clId);
+// });
 //+ | get current user helper 
 Users::registerMacro('currentUser', MacrosHelper::currentUser());
 //+ | check user login 

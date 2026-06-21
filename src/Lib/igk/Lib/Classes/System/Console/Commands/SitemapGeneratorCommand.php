@@ -12,6 +12,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\XML\XmlProcessor;
+use IGK\System\Regex\Replacement;
 use IGK\XML\XSDValidator;
 use IGKException;
 use ReflectionException;
@@ -21,6 +22,7 @@ use ReflectionException;
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
+    const URL_SET_OPTION = 'url-set';
     /**
     * Property: command.
     * @var mixed
@@ -86,7 +88,10 @@ class SitemapGeneratorCommand extends AppExecCommand{
     public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
-            "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0"])->render()
+            "header"=>implode("\n", [
+            (new XmlProcessor("xml"))->setAttributes(["version"=>"1.0"])->render(),            
+            (new XmlProcessor("xml-stylesheet"))->setAttributes(["href"=>"/assets/balafon-urlset-sitemap.xsl", "type"=>"text/xsl"])->render(),
+            ''])
         ]; 
         $map = igk_create_xmlnode("urlset");
         $map["xmlns"] = "http://www.sitemaps.org/schemas/sitemap/0.9";
@@ -124,32 +129,59 @@ class SitemapGeneratorCommand extends AppExecCommand{
     * @return int|null|string
     */
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
+    
         $options = (object)[
             "Indent"=>1,
-            "header"=>(new XmlProcessor("xml"))->setAttributes([
+            "header"=>implode("\n", [(new XmlProcessor("xml"))->setAttributes([
                 "version"=>"1.0"
-                ])->render()
+                ])->render(),
+                '<?xml-stylesheet type="text/xsl" href="/assets/balafon-sitemap.xsl"?>'
+            ])
         ]; 
         $map = igk_create_xmlnode("sitemapindex");
         $map["xmlns"] = "http://www.sitemaps.org/schemas/sitemap/0.9";
         $map["xmlns:igk"] = "http://schemas.igkdev.com/sitemap";   
         $base_uri = rtrim($baseuri, "/");
         $mod =  date("Y-m-d");
+        foreach(['title','description'] as $k){
+            $map->add('igk:'.$k)->content =  '%sitemap-'.$k.'%';
+        }
+        foreach(['location','lastupdate', 'counting-ref'] as $k){
+            $map->add('igk:'.$k)->content =  '%res-'.$k.'%';
+        }
         foreach($indexes as $p){
             if (basename($p) == "default"){
                 if ( ($s = dirname($p)) != "."){
                     $p = $s;
                 }
             }
+            if (empty($p)){
+                //$p = ';'.self::URL_SET_OPTION;
+            }
             $u = $map->sitemap();
-            $u->loc()->Content = implode("/", [$base_uri, $p]);
+            $u->loc()->Content = implode("/", [ $base_uri, $p]);
             $u->lastmod()->Content = $mod; 
         }        
-        $s = $map->render($options);     
-        if (XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_INDEX_VALIDATOR) === false){
+        $s = $map->render($options);
+        if (!igk_environment()->isDev() && (XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_INDEX_VALIDATOR) === false)){
             $error[] = "not a good validator";            
             return -1;
-        }
+        } 
+        $s = str_replace($base_uri, '%base-uri%', $s);
         return $s; 
     }
+    /**
+     * replace site definition 
+     * @param string $def 
+     * @param array $option 
+     * @return string 
+     */
+    public static function ReplaceSitemapDefinition(string $def, array $option){
+        $rp = new Replacement;
+        foreach($option as $k=>$v){
+            $rp->add($k, $v);
+        }
+        return $rp->replace($def);
+    }
+
 }

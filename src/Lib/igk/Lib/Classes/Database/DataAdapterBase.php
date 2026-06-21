@@ -52,7 +52,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     public function select_all(string $tablename) {}
     /**
      * get tor set the resolve link listener 
-     * @var ?IDbResolveLinkListener
+     * @var ?\IGK\System\Database\IDbResolveLinkListener
      */
     var $resolveLinkListener;
     /**
@@ -459,7 +459,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param mixed $entries the default value is null
      * @param string $desc table description
      * @param string $options driver table options
-     * @param bool
+     * @return bool
      */
     public function createTable(string $tablename, $columninfoArray, $entries = null, ?string $desc = null, $options = null)
     {
@@ -490,6 +490,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * auto generate doc.
     * @param mixed $tablename
     * @param mixed $condition
+    * @return mixed
     */
     public function delete($tablename, $condition = null)
     {
@@ -535,9 +536,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
     * create fetch result
     * @param string $query
-    * @param null|IGK\Database\ModelBase $model
+    * @param ?\IGK\Models\ModelBase $model
     * @param ?IDataDriver $driver
-    * @return null|IDbFetchResult|DbFetchResult
+    * @return null|IDbFetchResult
     */
     public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
     {
@@ -554,6 +555,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * auto generate doc.
     * @param mixed $tablename
     * @param mixed $condition
+    * @return mixed
     */
     public function deleteAll($tablename, $condition = null)
     {
@@ -776,6 +778,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * @param mixed $tablename
     * @param mixed $conditions
     * @param mixed $options the default value is null
+    * @return mixed
     */
     public function selectAndWhere($tablename, $conditions = null, $options = null)
     {

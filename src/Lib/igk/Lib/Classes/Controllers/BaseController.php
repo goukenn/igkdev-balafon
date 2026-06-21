@@ -75,7 +75,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static BaseController ctrl(bool $register_autoload=false) macros function get controller instance
  * @method static void db_add_column() macros function
  * @method static void db_change_column() macros function
- * @method static \IQueryResult db_query(string $query) macros function
+ * @method static \IGK\IQueryResult db_query(string $query) macros function
  * @method static void db_rename_column() macros function
  * @method static void db_rm_column() macros function
  * @method static void dispatchToModelUtility() macros function
@@ -92,7 +92,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static \IGKHtmlDoc getCurrentDoc() macros function
  * @method static object getDataAdapter() macros function data driver
  * @method static string getDataSchemaFile() macros function
- * @method static ?\IGK\System\Database\DbSchemaMigrationInfo getDataTableDefinition(?string $tablename=null) macros function
+ * @method static mixed getDataTableDefinition(?string $tablename=null) macros function
  * @method static void getEnvKey() macros function
  * @method static mixed getEnvParam() macros function
  * @method static void getEnvParamKey() macros function
@@ -102,7 +102,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static void getTestClassesDir() macros function
  * @method static ?\IGK\System\Database\IUserProfile getUser() macros function user model
  * @method static ?\IGK\System\Database\IUserProfile getUserProfile() macros get use profile 
- * @method static void array getViewArgs() macros function
+ * @method static array getViewArgs() macros function
  * @method static string hookName() macros function get hook name
  * @method static void initDbConstantFiles() macros function
  * @method static void initDbFromFunctions() macros function
@@ -110,7 +110,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static void libdir() macros function
  * @method static object|\IGK\Database\DbSchemaLoadEntriesFromSchemaInfo loadDataAndNewEntriesFromSchemas() macros function load data and update the datable with entries
  * @method static mixed|\IGK\Database\IDbSchemaInfo loadDataFromSchemas() macros function load data from schema file. do not modify the database
- * @method static bool login(\IUserInfo|string $user, ?string $password, bool $nav=true, bool $rememberme=false) macros function. try login with the user
+ * @method static bool login(mixed $user, ?string $password, bool $nav=true, bool $rememberme=false) macros function. try login with the user
  * ## params
  *      - `$user` : user login or object info that describe a use connection
  *      - `$password`: if $user is a string(user's login) this will be an user's password.
@@ -130,15 +130,15 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method ?string asset(string $path, bool $must_exist=true) macros function resolve controller assets  * 
  * @method static string resolveTableName(string $real_table_name) macros function resolve to entry table
  * @method static void seed() macros function
- * @method static void setEnvParam(key, value) macros function
+ * @method static void setEnvParam($key, $value) macros function
  * @method static void storeConfigSettings() macros function
  * @method static string uri(?string $path, ?bool $full=true, ?bool $force_app_access=false) macros function 
  * @method static string loadMigrationFile() macros function 
  * @method bool checkUser(bool $redirect, ?string $redirectUri=null ) macros function check if user or navigate
- * @method static string getErrorViewFile(int code) macros function get controller error file
+ * @method static string getErrorViewFile(int $code) macros function get controller error file
  * @method static mixed getConfig(string $name, mixed $default=null) macros function get config setting
- * @method static mixed js(string $name, default=null) macros function load inline js script
- * @method static mixed pcss(string $name, default=null) macros function load temp inline pcss
+ * @method static mixed js(string $name, $default=null) macros function load inline js script
+ * @method static mixed pcss(string $name, $default=null) macros function load temp inline pcss
  * @method static mixed getViews(bool $withHiddenFile, bool $recursive=false) macros function load temp inline pcss
  * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
  * @method static array getCachedDataTableDefinition() macros function get cached datable table definitions 
@@ -485,6 +485,9 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $conf = $this->configFile(ConfigFiles::views);
         $redirect_request = null;
         if (igk_io_file_exists($conf, true)) {
+            /**
+             * @var mixed
+             */
             $inc = function () {
                 return include(func_get_arg(0));
             };
@@ -1064,7 +1067,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $this->regSystemVars($args, $options);
             $this->View();
             if ($bck)
-                $this->getTargetNode($bck);
+                $this->setTargetNode($bck);
         }
     }
     /**
@@ -1100,7 +1103,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * invoke view logic. \
      * override this method to customize your view logic.
-     * @return static
+     * @return self
      */
     public function View(): BaseController
     {
@@ -1404,8 +1407,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return igk_sys_getconfig("default_dataadapter", IGK_MYSQL_DATAADAPTER);
     }
     /**
-     * auto generate doc.
-     * @return 's table info
+     * auto generate doc.     
      */
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {

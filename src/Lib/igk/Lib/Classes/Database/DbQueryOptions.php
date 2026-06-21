@@ -15,6 +15,8 @@ class DbQueryOptions implements IDbQueryOptions{
     * @var mixed
     */
     const PROP_COLUMNS = 'Columns';
+
+    const CALLBACK = DbConstants::CALLBACK_OPTS;
     /**
      * selected columns 
      * @var ?array 

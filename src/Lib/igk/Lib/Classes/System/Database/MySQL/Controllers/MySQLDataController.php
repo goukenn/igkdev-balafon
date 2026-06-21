@@ -4,51 +4,56 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Database\MySQL\Controllers;
+
 use IGK\Controllers\BaseController;
+use IGK\System\Console\Logger;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Database\MySQL\DataAdapter;
-use IGK\System\Html\Dom\HtmlNode; 
+use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* Represent IGKMySQLDataCtrl class
-*/
-class MySQLDataController extends BaseController{
+ * Represent IGKMySQLDataCtrl class
+ */
+class MySQLDataController extends BaseController
+{
     use NoDbActiveControllerTrait;
     /**
-    * Constant: drop table query.
-    * @var mixed
-    */
+     * Constant: drop table query.
+     * @var mixed
+     */
     const DROP_TABLE_QUERY = 'Drop Table IF EXISTS `%s`;';
-    const TABLE_CONSTRAINTS =  DataAdapter::DB_INFORMATION_SCHEMA.'.`TABLE_CONSTRAINTS`';
-    protected function getAutoGenerateModels(){
+    const TABLE_CONSTRAINTS =  DataAdapter::DB_INFORMATION_SCHEMA . '.`TABLE_CONSTRAINTS`';
+    protected function getAutoGenerateModels()
+    {
         return false;
     }
     /**
      * clean mysql database
-    */
-    public function drop_all_tables(){
-        $d=igk_get_data_adapter($this);
-        $node=null; 
+     */
+    public function drop_all_tables()
+    {
+        $d = igk_get_data_adapter($this);
+        $node = null;
         igk_ilog("drop all tables ....");
-        if($d->connect()){
-            $node=igk_create_node("div");
-            $r=$d->sendQuery("SHOW TABLES");
-            $table=igk_html_build_query_result_table($r);
+        if ($d->connect()) {
+            $node = igk_create_node("div");
+            $r = $d->sendQuery("SHOW TABLES");
+            $table = igk_html_build_query_result_table($r);
             $node->add($table);
-            $dbname=$d->dbName;
-            $tablelist=array();
-            $deleted=array();
-            foreach($r->Rows as $k=>$v){
-                $i=$r->Columns[0]->name;
-                $tablelist[$v->$i]=1;
+            $dbname = $d->dbName;
+            $tablelist = array();
+            $deleted = array();
+            foreach ($r->Rows as $k => $v) {
+                $i = $r->Columns[0]->name;
+                $tablelist[$v->$i] = 1;
                 self::DropTableRelation($d, $v->$i, $dbname, $tablelist, $deleted);
             }
             $d->selectdb($dbname);
-            $c=0;
-            foreach($tablelist as $tbname=>$k){
-                if(!$d->sendQuery( sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($tbname)))->success()){
-                    $node->addNotifyBox("danger")->Content="Table ".$tbname. " not deleted ".igk_mysql_db_error();
+            $c = 0;
+            foreach ($tablelist as $tbname => $k) {
+                if (!$d->sendQuery(sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($tbname)))->success()) {
+                    $node->addNotifyBox("danger")->Content = "Table " . $tbname . " not deleted " . igk_mysql_db_error();
                 }
                 $c++;
             }
@@ -58,41 +63,42 @@ class MySQLDataController extends BaseController{
         return $node;
     }
     /**
-    * drop all constraint attached to this database
-    * @param mixed $adapt
-    * @param mixed $dbname
-    */
-    public static function DropAllRelations($adapt, $dbname){
-        $bck=$dbname;
-        $table = self::TABLE_CONSTRAINTS; 
-        $g=$adapt->sendQuery("DELETE FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'");
+     * drop all constraint attached to this database
+     * @param mixed $adapt
+     * @param mixed $dbname
+     */
+    public static function DropAllRelations($adapt, $dbname)
+    {
+        $bck = $dbname;
+        $table = self::TABLE_CONSTRAINTS;
+        $g = $adapt->sendQuery("DELETE FROM {$table} WHERE `TABLE_SCHEMA`='" . igk_db_escape_string($dbname) . "'");
         $adapt->selectdb($bck);
         return $g;
     }
     /**
-    * drop all constraint
-    * @param mixed $adapt
-    * @param mixed $dbname
-    * @param mixed $qregex
-    */
-    public static function DropConstraints($adapt, $dbname, $qregex){
-        $r=0;
-        $g=0;
-        $bck=$dbname;
-        $table = self::TABLE_CONSTRAINTS; 
-        $e=$adapt->sendQuery("SELECT * FROM {$table} WHERE `CONSTRAINT_NAME` LIKE '".igk_db_escape_string($qregex)."' AND `CONSTRAINT_SCHEMA`='".igk_db_escape_string($dbname)."'");
+     * drop all constraint
+     * @param mixed $adapt
+     * @param mixed $dbname
+     * @param mixed $qregex
+     */
+    public static function DropConstraints($adapt, $dbname, $qregex)
+    {
+        $r = 0;
+        $g = 0;
+        $bck = $dbname;
+        $table = self::TABLE_CONSTRAINTS;
+        $e = $adapt->sendQuery("SELECT * FROM {$table} WHERE `CONSTRAINT_NAME` LIKE '" . igk_db_escape_string($qregex) . "' AND `CONSTRAINT_SCHEMA`='" . igk_db_escape_string($dbname) . "'");
         $adapt->selectdb($bck);
-        if($e && ($e->RowCount > 0)){
+        if ($e && ($e->RowCount > 0)) {
             $adapt->begintransaction();
-            $r=1;
-            foreach($e->Rows as  $v){
-                $q="ALTER TABLE `".$v->TABLE_NAME."` DROP ".$v->CONSTRAINT_TYPE. " `".$v->CONSTRAINT_NAME."` ";
-                $r=$r && $adapt->sendQuery($q);
+            $r = 1;
+            foreach ($e->Rows as  $v) {
+                $q = "ALTER TABLE `" . $v->TABLE_NAME . "` DROP " . $v->CONSTRAINT_TYPE . " `" . $v->CONSTRAINT_NAME . "` ";
+                $r = $r && $adapt->sendQuery($q);
             }
-            if($r){
+            if ($r) {
                 $adapt->commit();
-            }
-            else{
+            } else {
                 $adapt->rollback();
             }
         }
@@ -100,176 +106,191 @@ class MySQLDataController extends BaseController{
         return $r;
     }
     /**
-    * drop table
-    * @param array|mixed tbname mixed single table name or array of table name
-    * @param string $dbname
-    * @param string $node response node
-    */
-    public static function DropTable($adapter, $tbname, $dbname, $node=null){
+     *   /**
+     * drop table 
+     * @param mixed $adapter 
+     * @param mixed|array<string>|string $tbname 
+     * @param mixed $dbname 
+     * @param mixed $node 
+     * @return false|true 
+     */
+    public static function DropTable($adapter, $tbname, $dbname, $node = null)
+    {
+        igk_environment()->isDebug() && Logger::info('drop tables');
         /**
          * @var mixed $node
          */
-        if(is_array($tbname)){
-            $tablelist=array();
-            $deleted=array();
-            foreach($tbname as $k=>$v){
-                $i=$v;
-                $tablelist[$i]=1;
-                $deleted=array();
+        if (is_array($tbname)) {
+            $tablelist = array();
+            $deleted = array();
+            foreach ($tbname as $k => $v) {
+                $i = $v;
+                $tablelist[$i] = 1;
+                $deleted = array();
                 self::DropTableRelation($adapter, $i, $dbname, $tablelist, $deleted, $node);
             }
             $adapter->selectdb($dbname);
-            $r=true;
+            $r = true;
             $adapter->stopRelationChecking();
-            foreach($tablelist as $ktbname=>$k){
-                if (!
-                    ($c = $adapter->sendQuery(sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($ktbname)))) || 
+            foreach ($tablelist as $ktbname => $k) {
+                if (
+                    ! ($c = $adapter->sendQuery(sprintf(self::DROP_TABLE_QUERY, igk_db_escape_string($ktbname)))) ||
                     $c->success()
-                ){
-                    if($node)
-                        $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
+                ) {
+                    if ($node)
+                        $node->addNotifyBox("danger")->Content = "Table " . $ktbname . " not deleted " . igk_mysql_db_error();
                 }
             }
             $adapter->restoreRelationChecking();
             igk_hook(IGK_NOTIFICATION_DB_TABLEDROPPED, [$adapter, $tbname]);
-        }
-        else{
-            $delete=null;
+        } else {
+            $delete = null;
             self::DropTableRelation($adapter, $tbname, $dbname, null, $delete, $node);
-            $g = $adapter->sendQuery( sprintf(self::DROP_TABLE_QUERY,  igk_db_escape_string($tbname)) );
-            if(!$g || !$g->success()){
-                igk_notifyctrl()->addErrorr("Table ".$tbname. " not deleted ".igk_mysql_db_error());
+            $g = $adapter->sendQuery(sprintf(self::DROP_TABLE_QUERY,  igk_db_escape_string($tbname)));
+            if (!$g || !$g->success()) {
+                igk_notifyctrl()->addErrorr("Table " . $tbname . " not deleted " . igk_mysql_db_error());
                 return false;
             }
         }
         return true;
     }
     /**
-    * 
-    * @param mixed $adapter
-    * @param mixed $tbname
-    * @param mixed $dbname
-    * @param mixed $tablelist the default value is null
-    * @param  * $deleted the default value is null
-    * @param mixed $node the default value is null
-    */
-    public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist=null, & $deleted=null, $node=null){
-        $d=$adapter;
-        $bck=$dbname;
+     * 
+     * @param mixed $adapter
+     * @param mixed $tbname
+     * @param mixed $dbname
+     * @param mixed $tablelist the default value is null
+     * @param  * $deleted the default value is null
+     * @param mixed $node the default value is null
+     */
+    public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist = null, &$deleted = null, $node = null)
+    {
+        $d = $adapter;
+        $bck = $dbname;
         $table = self::TABLE_CONSTRAINTS;
-        $h=$d->sendQuery(
-            sprintf("SELECT * FROM {$table} WHERE `TABLE_NAME`='".igk_mysql_db_tbname($tbname)."' AND `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."';", 
+        $h = $d->sendQuery(
+            sprintf(
+                "SELECT * FROM {$table} WHERE `TABLE_NAME`='" . igk_mysql_db_tbname($tbname) . "' AND `TABLE_SCHEMA`='" . igk_db_escape_string($dbname) . "';",
             ),
-            true, null, false
+            true,
+            null,
+            false
         );
         $d->selectdb($bck);
-        $r=false;
-        if($h && $h->RowCount > 0){
-            $del=false;
-            $ns="";
-            foreach($h->Rows as $m=>$n){
-                $ns=$n->CONSTRAINT_NAME;
-                $nt=$n->CONSTRAINT_TYPE;
-                switch($nt){
+        $r = false;
+        if ($h && $h->RowCount > 0) {
+            $del = false;
+            $ns = "";
+            foreach ($h->Rows as $m => $n) {
+                $ns = $n->CONSTRAINT_NAME;
+                $nt = $n->CONSTRAINT_TYPE;
+                switch ($nt) {
                     case "FOREIGN KEY":
-                    if(!isset($deleted[$ns])){
-                        $q="ALTER TABLE `".$n->TABLE_NAME."` DROP ".$nt." `".$ns."`";
-                        if(!$d->sendQuery($q)->success()){
-                            if($node)
-                                $node->addNotifyBox("danger")->Content=$q." ".igk_mysql_db_error();
-                        }
-                        if($nt !== "FOREIGN KEY"){
-                            $q="ALTER TABLE `".$n->TABLE_NAME."` DROP INDEX `".$ns."`";
-                            if(!$d->sendQuery($q)->success()){
-                                if($node)
-                                    $node->addNotifyBox("danger")->Content=$q." ".igk_mysql_db_error();
+                        if (!isset($deleted[$ns])) {
+                            $q = "ALTER TABLE `" . $n->TABLE_NAME . "` DROP " . $nt . " `" . $ns . "`";
+                            if (!$d->sendQuery($q)->success()) {
+                                if ($node)
+                                    $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
                             }
+                            if ($nt !== "FOREIGN KEY") {
+                                $q = "ALTER TABLE `" . $n->TABLE_NAME . "` DROP INDEX `" . $ns . "`";
+                                if (!$d->sendQuery($q)->success()) {
+                                    if ($node)
+                                        $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
+                                }
+                            }
+                            $deleted[$n->CONSTRAINT_NAME] = 1;
                         }
-                        $deleted[$n->CONSTRAINT_NAME]=1;
-                    }
-                    break;
+                        break;
                     case "PRIMARY KEY":
-                    break;
+                        break;
                 }
             }
         }
         return $r;
     }
     /**
-    * 
-    * @param mixed $adapt
-    * @param mixed $dbname
-    */
-    public static function GetAllRelations($adapt, $dbname){
-        $bck=$dbname;
+     * 
+     * @param mixed $adapt
+     * @param mixed $dbname
+     */
+    public static function GetAllRelations($adapt, $dbname)
+    {
+        $bck = $dbname;
         $table = self::TABLE_CONSTRAINTS;
-        $g=$adapt->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".igk_db_escape_string($dbname)."'"));
+        $g = $adapt->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='" . igk_db_escape_string($dbname) . "'"));
         $adapt->selectdb($bck);
         return $g;
     }
     /**
-    * 
-    * @param mixed $a
-    * @param mixed $b
-    * @param mixed $tbase
-    */
-    public static function GetConstraint_Index($a, $b, $tbase){
-        $bck=$tbase;
+     * 
+     * @param mixed $a
+     * @param mixed $b
+     * @param mixed $tbase
+     */
+    public static function GetConstraint_Index($a, $b, $tbase)
+    {
+        $bck = $tbase;
         $table = self::TABLE_CONSTRAINTS;
-        $h=$a->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='".$tbase."'"));
-        $i=1;
-        $max=0;
-        $ln=strlen($b);
-        foreach($h->Rows as  $v){
-            if(preg_match("/^".$b."/i", $v->CONSTRAINT_NAME)){
+        $h = $a->sendQuery(sprintf("SELECT * FROM {$table} WHERE `TABLE_SCHEMA`='" . $tbase . "'"));
+        $i = 1;
+        $max = 0;
+        $ln = strlen($b);
+        foreach ($h->Rows as  $v) {
+            if (preg_match("/^" . $b . "/i", $v->CONSTRAINT_NAME)) {
                 $i++;
-                $max=max($max, intval(substr($v->CONSTRAINT_NAME, $ln)));
+                $max = max($max, intval(substr($v->CONSTRAINT_NAME, $ln)));
             }
         }
         $a->selectdb($bck);
         return max($i, $max + 1);
     }
     /**
-    * 
-    */
-    public function getDataAdapterName():string{
+     * 
+     */
+    public function getDataAdapterName(): string
+    {
         return IGK_MYSQL_DATAADAPTER;
     }
     /**
-    * 
-    */
+     * 
+     */
     /**
-    * 
-    * @param mixed $tbname
-    */
-    public function getEntries($tbname){
-        $v=$this->getInfo($tbname);
-        return ($v == null) ? null: $v->Entries;
+     * 
+     * @param mixed $tbname
+     */
+    public function getEntries($tbname)
+    {
+        $v = $this->getInfo($tbname);
+        return ($v == null) ? null : $v->Entries;
     }
     /**
-    * 
-    * @param mixed $tbname
-    */
-    public function getInfo($tbname){
+     * 
+     * @param mixed $tbname
+     */
+    public function getInfo($tbname)
+    {
         return igk_getv($this->m_dictionary, $tbname);
     }
     /**
-    * not visible controller
-    */
-    public function getIsVisible():bool{
+     * not visible controller
+     */
+    public function getIsVisible(): bool
+    {
         return false;
     }
     protected function initTargetNode(): ?HtmlNode
     {
-       return null;
+        return null;
     }
     /**
-    * 
-    * @param mixed $adapt
-    * @param mixed $dbname
-    * @param mixed $e
-    */
-    public static function RestoreRelations($adapt, $dbname, $e){
-        throw new \IGK\System\Exceptions\NotImplementException(__METHOD__); 
+     * 
+     * @param mixed $adapt
+     * @param mixed $dbname
+     * @param mixed $e
+     */
+    public static function RestoreRelations($adapt, $dbname, $e)
+    {
+        throw new \IGK\System\Exceptions\NotImplementException(__METHOD__);
     }
 }

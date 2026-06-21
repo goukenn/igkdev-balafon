@@ -2781,6 +2781,8 @@ if (!function_exists("igk_html_node_igksitemap")) {
     */
 	function igk_html_node_igksitemap()
 	{
+		igk_trace();
+		igk_exit();
 		$n = igk_create_xmlnode("urlset");
 		$n["xmlns"] = "http://www.sitemaps.org/schemas/sitemap/0.9";
 		$n["xmlns:sitemap"] = "http://www.sitemaps.org/schemas/sitemap/0.9";

@@ -83,6 +83,14 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     public function getRows(){
         return null;
     }
+
+    /**
+     * is empty rows
+     * @return bool 
+     */
+    public function isEmpty():bool{
+        return $this->getRowCount() === 0;
+    }
     /**
     * Returns Success.
     */

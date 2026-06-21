@@ -2,8 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: InitRolesCommand.php
 // @date: 20251112 13:47:34
-namespace IGK\System\Console\Commands\User;
-use IGK\Database\Helper\DbInitManagement;
+namespace IGK\System\Console\Commands\User; 
 use IGK\Models\Users;
 use IGK\System\Console\AppExecCommand;
 use IGKEvents;

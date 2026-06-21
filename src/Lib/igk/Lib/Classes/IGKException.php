@@ -21,7 +21,11 @@ class IGKException extends \Exception implements Throwable{
     * display value
     */
     public function __toString(){
-        return get_class($this);
+        $s = '';
+        if (igk_environment()->isDev()){
+            $s = sprintf('[msg:%s]', $this->getMessage());
+        }
+        return get_class($this).$s;
     }
     /**
     * auto generate doc.

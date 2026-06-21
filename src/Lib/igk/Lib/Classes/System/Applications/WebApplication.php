@@ -84,8 +84,9 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         IGKApp::Init();
         // + | must setup application before call the facade 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
-        if (isset($_SERVER["REQUEST_URI"]) && $uri_handler)
+        if (isset($_SERVER["REQUEST_URI"]) && $uri_handler){
             $uri_handler::Handle($_SERVER["REQUEST_URI"], $this, $loader);
+        }
         else {
             if ($loader) {
                 $loader();

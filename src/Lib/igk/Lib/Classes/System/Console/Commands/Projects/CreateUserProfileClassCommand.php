@@ -9,6 +9,7 @@ use IGK\System\Applications\ApplicationUserProfile;
 use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
+use IGK\System\Database\Traits\DbRegisterProfileTrait;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
@@ -66,9 +67,11 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		$bind = [];
 		$bind[$file]= function($file)use($ctrl, $v_pname){
 		$code = implode("\n",[ 
-			'protected function registerProfile() {',
-			'	/* Authorization::BindUserToGroup($this->getController(), $this->model(), Profiles::getDefaultProfile());*/',
-			'}'
+			'user DbRegisterProfileTrait;',
+			'',
+			// 'protected function registerProfile() {',
+			// '	/* Authorization::BindUserToGroup($this->getController(), $this->model(), Profiles::getDefaultProfile());*/',
+			// '}'
 		]);
 		$parent = SystemUserProfile::class;
 		if ($ctrl instanceof ApplicationController){
@@ -79,7 +82,8 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		->comment("support - specific user connection to service")
 		->type('class')
 		->uses([
-			ModelBase::class
+			ModelBase::class,
+			DbRegisterProfileTrait::class
 		])
 		->namespace($ctrl->getEntryNamespace())
 		->extends($parent)

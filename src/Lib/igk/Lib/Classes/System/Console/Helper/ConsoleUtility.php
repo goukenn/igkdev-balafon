@@ -25,6 +25,22 @@ require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
 abstract class ConsoleUtility
 {
     /**
+     * 
+     * @param mixed $command 
+     * @param mixed &$controller 
+     * @param mixed &$action_name 
+     * @return void 
+     */
+    public static function AutoProjectAction($command, & $controller, & $action_name){
+        $context = $command->app->getContext();
+        if ('project'==$context){
+            if ($controller && empty($action_name)){
+                $action_name = $controller;
+            } 
+            $controller = igk_getv_nil($command->options, "--controller");
+        } 
+    }
+    /**
      * check of help support
      * @param mixed $command 
      * @return bool 

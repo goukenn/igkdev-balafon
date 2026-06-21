@@ -570,6 +570,15 @@ class DataAdapter extends DataAdapterBase implements
     {
         return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
     }
+
+    /**
+     * check that type is a numeric type 
+     * @param string $type 
+     * @return bool 
+     */
+    public function isNumeric(string $type):bool{
+        return in_array(strtolower($type),explode('|', 'int|float|decimal'));
+    }
     /**
     * auto generate doc.
     */

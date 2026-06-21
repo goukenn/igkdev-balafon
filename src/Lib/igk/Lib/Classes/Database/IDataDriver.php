@@ -200,4 +200,19 @@ interface IDataDriver{
      * @return ?string 
      */
     function queryColumnCharset(string $charset):?string;
+
+    /**
+     * 
+     * @return mixed 
+     */
+    function close();
+
+    /**
+     * 
+     * @param string $table 
+     * @param mixed $columnInfo 
+     * @param mixed $entries  
+     * @return mixed 
+     */
+    function createTable(string $table, $columnInfo, ?array $entries = null);
 }

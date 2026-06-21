@@ -112,7 +112,7 @@ class DBCachesModelInitializer
             }
             if (!isset($ab->modelClass) || is_null($ab->modelClass)) {
                 $table = igk_getv($ab, DbColumnInfoPropertyConstants::DefTableName);
-                $table = basename(igk_uri(IGKSysUtil::GetModelTypeName($table), $current));
+                $table = basename(igk_uri(IGKSysUtil::GetModelTypeName($table, $current)));
                 $ns = $current::ns(''); 
                 $ab->modelClass = $ns . "\\Models\\" . $table;
             }
@@ -160,9 +160,8 @@ class DBCachesModelInitializer
     * @param null|string $comment
     * @param ?string $prefix
     * @param ?string $display_expression
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
+    * @throws IGKException 
+    * @throws \ReflectionException
     * @return string
     */
     public function getModelDefaultSourceDeclaration(string $name, string $table, $migrationInfo, BaseController $ctrl, 
@@ -219,7 +218,7 @@ class DBCachesModelInitializer
     /**
     * auto generate doc.
     * @param string $type
-    * @return void
+    * @return mixed
     */
     public function getPhpDocDefaultLinkType(string $type)
     {
@@ -304,8 +303,7 @@ class DBCachesModelInitializer
      * @param null|BaseController $ctrl 
      * @return string 
      * @throws IGKException 
-     * @throws ArgumentTypeNotValidException 
-     * @throws ReflectionException 
+     * @throws \ReflectionException 
      */
     public function getLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {

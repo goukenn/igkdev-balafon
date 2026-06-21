@@ -20,6 +20,15 @@ use IGKEvents;
  */
 abstract class DataAdapterBase extends SQLDataAdapter
 {
+    const NULL_VALUE = 'NULL';
+    /**
+     * check if numeric type 
+     * @param string $type 
+     * @return bool 
+     */
+    public function isNumeric(string $type):bool{
+        return preg_match('/^(int|float|double)$/i', $type);
+    }
     /**
     * Property: controller.
     * @var mixed
@@ -615,5 +624,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $tbname = $this->m_dbManager->escape_string($table);
         $query =  "DESCRIBE " . $tbname . " " . $column;
         return $query;
+    }
+    /**
+     * return default null value 
+     * @return string 
+     */
+    public function getNullValue(){
+        return static::NULL_VALUE;
     }
 }

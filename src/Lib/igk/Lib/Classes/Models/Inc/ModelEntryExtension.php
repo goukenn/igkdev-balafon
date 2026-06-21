@@ -15,6 +15,7 @@ use IGK\System\Database\QueryBuilder;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbRowDefEntry;
 use IGK\Database\DbSchemas;
+use IGK\Database\IDbColumnInfo;
 use IGK\Database\IDbQueryResult;
 use IGK\Database\RefColumnMapping;
 use IGK\Helper\Database;
@@ -28,6 +29,7 @@ use IGK\System\Database\DbQuerySelectColumnBuilder;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\JoinTableOp;
+use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -138,6 +140,10 @@ abstract class ModelEntryExtension
         $cl = get_class($model);
         $c = new $cl($raw);
         if ($craw = $c->to_array()) {
+        // if (igk_getv($craw, 'les_require_profile_id') === '0'){
+        //     $craw = $c->to_array();
+        // }
+
             $g = $c->insert($craw, $update, $throwException);
             if (is_bool($g) && (!$g)) {
                 return null;
@@ -320,7 +326,7 @@ abstract class ModelEntryExtension
     * @param ModelBase $model
     * @param mixed $condition
     * @param mixed $update_extras
-    * @return null|ModelBase|bool|IGK\Models\IQueryResult
+    * @return null|ModelBase|bool|mixed
     */
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras = null)
     {
@@ -537,7 +543,7 @@ abstract class ModelEntryExtension
         return self::select_row($model, $conditions, $options, $autoclose);
     }
     /**
-    * select sigle row
+    * select single row
     * @param ModelBase $model
     * @param mixed $conditions treated conditions
     * @param mixed $options
@@ -628,9 +634,8 @@ abstract class ModelEntryExtension
     * @param ModelBase $model
     * @param mixed $data
     */
-    public static function resolve(ModelBase $model, $data)
-    {
-        return null;
+    public static function resolve(ModelBase $model, $data){
+        return $model::Get($data);
     }
     /**
      * get first items 
@@ -700,6 +705,7 @@ abstract class ModelEntryExtension
         $tbinfo = $model->getTableColumnInfo();
         $table = $model->getTable();
         $v_prefix = $model->getTableInfo()->prefix;
+        $v_udf = null;
         if ($model->is_mock()) {
             if ($value === null) {
                 $value = $model->to_array();
@@ -715,17 +721,38 @@ abstract class ModelEntryExtension
             $value = $model->to_array();
             if ($g = $model->getUpdateUnset()) {
                 foreach ($g as $k) {
+
                     unset($value[$k]);
                 }
             }
             return $driver->update($table, $value, [$primary => $model->$primary], $tbinfo, $filter);
         }
-        if (is_null($conditions) && isset($value[$primary])) {
+        else {
+            $v_udf = [];
+            foreach($value as $k=>$v){
+                if ($v_prefix)
+                 $k = StringUtility::AutoPrefix($k, $v_prefix);
+                 if (isset($tbinfo[$k]))
+                    $v_udf[$k] = $v;
+            }
+        }
+        // + | null condition for non mock definition - 
+        if (is_null($conditions)) {
             $conditions = [
                 $primary => $model->{$primary}
             ];
+            
         }
+        // + | 
         $r = $driver->update($table, $value, $conditions, $tbinfo, $filter);
+        if ($r instanceof BooleanQueryResult){
+            if ($v_udf && $r->success()){
+                // update manually 
+                foreach($v_udf as $k=>$v){
+                    $model->{$k} = $v;
+                }
+            }
+        }
         return $r;
     }
     /**
@@ -1639,6 +1666,25 @@ abstract class ModelEntryExtension
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
     }
     /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $key 
+     * @return bool 
+     */
+    public static function supportMacroFunction(\IGK\Models\ModelBase $model, string $key):bool{
+        $c = $model->getMacro(self::getMacroKeys($model, $key));
+        return !is_null($c);
+    }
+    /**
+     * get macros key
+     * @param ModelBase $model 
+     * @param string $key 
+     * @return string 
+     */
+    public static function getMacroKeys(\IGK\Models\ModelBase $model, string $key){
+        return sprintf('%s::%s', get_class($model), $key);
+    }
+    /**
     * auto generate doc.
     * @param ModelBase $model
     * @param bool $check
@@ -1652,7 +1698,8 @@ abstract class ModelEntryExtension
         if (is_null($controller)) {
             igk_die(__FUNCTION__ . " failed:[controller] is null model name = " . get_class($model));
         }
-        if ($params && !is_array($params)) {
+        $is_passing = (func_num_args()>3) || is_array($params);
+        if ($is_passing) {
             $args = IGKSysUtil::DBGetPhpDocModelArgEntries((array)$info, $controller);
             $row = $model::createEmptyRow();
             if (is_null($row)) {
@@ -1987,7 +2034,7 @@ abstract class ModelEntryExtension
     public static function getColumnPrivateFields(ModelBase $model)
     {
         $v_column_info = $model->getTableColumnInfo();
-        return array_filter($v_column_info, function (\IGK\Database\DbColumnInfo $field) {
+        return array_filter($v_column_info, function (IDbColumnInfo $field) {
             return ($field->clModifier == 'private');
         });
     }

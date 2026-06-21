@@ -26,6 +26,6 @@ interface IControllerConfigurationData extends IToArray, IToJSon{
     /**
     * Returns.
     */
-    public function get();
+    public function get(?string $key=null, $default=null);
     public function storeConfig();
 }

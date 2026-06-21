@@ -14,6 +14,7 @@ use IGK\Models\Users;
 use IGK\PhoneBook\PhoneBookEntry;
 use IGK\System\Constants\PhonebookTypeNames;
 use IGK\System\Database\MySQL\BooleanQueryResult;
+use IGK\System\Database\QueryBuilder;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
@@ -319,5 +320,24 @@ abstract class UsersMacros
             return $r;
         }
         return null;
+    }
+
+    public static function notRegisterToAProfile(Users $model, BaseController $controller):bool{
+        $ctrl_name = $controller->getName();
+        $attachegroups = Usergroups::prepare()->where([
+            Groups::FD_CL_CONTROLLER=>$ctrl_name,
+            Usergroups::FD_CL_USER_ID=>$model->clId,
+        ])
+        ->join_left_on(Users::table(), Users::FN_CL_ID(), Usergroups::FN_CL_USER_ID())
+        ->join_left_on(Groups::table(), Groups::FN_CL_ID(), Usergroups::FN_CL_GROUP_ID())  
+        ->columns([
+            Users::FN_CL_LOGIN()=>'login',
+            Groups::FN_CL_ID()=>'id',
+            Groups::FN_CL_NAME()=>'name',
+            Groups::FN_CL_CONTROLLER()=>'controller'
+        ]) 
+        ->execute();
+        $empty = $attachegroups && $attachegroups->isEmpty();
+        return $empty;
     }
 }

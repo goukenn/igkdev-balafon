@@ -62,9 +62,11 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
 use IGK\Constants;
+use IGK\Database\IDataDriver;
 use IGK\Helper\Authorization;
 use IGK\System\Controllers\ControllerParamKeys;
 use IGK\System\Controllers\Traits\AuthorizationHelpers;
+use IGK\System\Database\SchemaMigrationInfo;
 use IGKActionBase;
 use IGKEnvironment;
 use IGKEvents;
@@ -297,7 +299,7 @@ abstract class ControllerExtension
             $f = Path::Combine($f, $path);
         }
         if ($exists) {
-            if (!igk_io_cache_file_exists($f, true))
+            if (!igk_io_cache_file_exists($f))
                 return null;
             $t = $res_i->resolve($f);
             if (empty($t)) {
@@ -506,7 +508,7 @@ abstract class ControllerExtension
             else
                 $v_uri = substr($v_uri, strpos($v_uri, '/'));
         }
-        return $ctrl->getAppUri($v_uri ?? '', $full_uri, $force_access, $entry_controller);
+        return $ctrl->getAppUri($v_uri ?? '');//, $full_uri, $force_access, $entry_controller);
     }
     /**
      * return base path 
@@ -789,7 +791,7 @@ abstract class ControllerExtension
             return true;
         };
         if ($ctrl instanceof IGKModuleListMigration) {
-            return $ctrl->migrateHost($invoke, $force);
+            return $ctrl->migrateHost($invoke);//, $force);
         }
         return $invoke($ctrl, $force);
     }
@@ -891,8 +893,7 @@ abstract class ControllerExtension
     /**
     * initialize controller's database models
     * @param BaseController $ctrl
-    * @param array $definitions
-    * @param array $array of table definitions
+    * @param array $definitions array of table definitions
     * @param mixed $clean
     * @throws IGKException
     * @return void
@@ -1041,11 +1042,11 @@ abstract class ControllerExtension
     * Initializes Data Seeder.
     * @param BaseController $ctrl
     */
-    public static function InitDataSeeder(BaseController $ctrl)
+    public static function InitDataSeeder(BaseController $ctrl, bool $force=false)
     {
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Seeds/DataBaseSeeder.php";
-        if (!igk_io_cache_file_exists($c)) {
+        if ($force || !igk_io_cache_file_exists($c)) {
             $ns = $ctrl::ns("Database/Seeds");
             $builder = new PHPScriptBuilder();
             $builder->type("class")
@@ -1169,7 +1170,7 @@ abstract class ControllerExtension
                 $loader->registerLoading($ns . "\\Tests", $cldir);
             }
             $_auto_file = dirname($cldir) . "/autoload.php";
-            if (igk_io_cache_file_exists($_auto_file, true)) {
+            if (igk_io_cache_file_exists($_auto_file)) {
                 if (!igk_environment()->NO_PROJECT_AUTOLOAD) {
                     require_once($_auto_file);
                 } else {
@@ -1536,7 +1537,7 @@ abstract class ControllerExtension
      * get store user session
      * @param BaseController $controller 
      * @param mixed $uid 
-     * @return IGKUserInfo|null|\IGK\Models\User
+     * @return IGKUserInfo|null|\IGK\Models\Users
      */
     public static function getUser(BaseController $controller, $uid = null)
     {
@@ -1710,7 +1711,7 @@ abstract class ControllerExtension
         $db = self::getDataAdapter($controller);
         igk_hook(IGK_NOTIFICATION_INITTABLE, [$controller, $tbname, $v_tab]);
         try {
-            $s = $db->createTable($tbname, $v_tab, null, null, $db->DbName);
+            $s = call_user_func_array([$db, 'createTable'] , [$tbname, $v_tab, null, null, $db->DbName]);
             $controller::Invoke($controller, "initDataEntry", [$db, $tbname]);
         } catch (Exception $ex) {
             $db->close();
@@ -1775,9 +1776,9 @@ abstract class ControllerExtension
     * auto generate doc.
     * @param BaseController $controller
     * @param mixed $key
-    * @return 's environment key
+    * @return string
     */
-    public static function getEnvKey(BaseController $controller, $key)
+    public static function getEnvKey(BaseController $controller, $key): string
     {
         return self::getEnvParamKey($controller) . "/" . $key;
     }
@@ -1906,7 +1907,7 @@ abstract class ControllerExtension
     * @return null|IDataDriver
     */
     public static function getDataAdapter(BaseController $controller, $throw = true)
-    {
+    {        
         $db = igk_get_data_adapter($controller, $throw);
         return $db;
     }
@@ -2019,7 +2020,7 @@ abstract class ControllerExtension
     * controller get data table definition basic reference
     * @param BaseController $ctrl
     * @param ?string $tablename
-    * @return ?stdClass { $tableRowReference, $columnInfo }
+    * @return ?\stdClass { $tableRowReference, $columnInfo }
     */
     public static function getDataTableDefinition(BaseController $ctrl, ?string $tablename = null)
     {
@@ -2195,6 +2196,9 @@ abstract class ControllerExtension
     public static function loadRoute(BaseController $controller)
     {
         if (igk_io_cache_file_exists($cf = $controller->configFile("routes"))) {
+            /**
+             * @var mixed
+             */
             $inc = function () {
                 include_once(func_get_arg(0));
             };
@@ -2362,7 +2366,7 @@ abstract class ControllerExtension
     {
         $s = igk_is_conf_connected() || igk_user()->auth($controller->Name . ":" . __FUNCTION__);
         if (!$s) {
-            igk_ilog("// not authorize to updateDb of " + $controller->getName());
+            igk_ilog("// not authorize to updateDb of " . $controller->getName());
             igk_navto($controller->getAppUri());
         }
         $schema = igk_db_backup_ctrl($controller);
@@ -2624,7 +2628,7 @@ abstract class ControllerExtension
                 $fcl = substr($cl, $sublen);
             }
             $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));
-            if (igk_io_cache_file_exists($f, true) && class_exists($cl)) {
+            if (igk_io_cache_file_exists($f) && class_exists($cl)) {
                 if (count($t) > 0) {
                     $responseData->level = $level;
                     $responseData->class = $cl;

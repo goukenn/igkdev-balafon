@@ -7,6 +7,9 @@ namespace IGK\Controllers;
 
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Database/IDatabaseHost.php";
+require_once IGK_LIB_CLASSES_DIR . "/CoreFunctions.php";
+
+use IGK\CoreFunctions;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
@@ -27,6 +30,8 @@ use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
+
+ 
 /**
 * Application controller.
 * @package IGK\Controllers
@@ -204,6 +209,10 @@ implements IDatabaseHost
     */    public final
     function dbinitentries()
     {
+        /**
+         * @var mixed $ee
+         */
+        $ee = null;
         $s = igk_is_conf_connected() || $this->IsUserAllowedTo(igk_ctrl_auth_key($this, __FUNCTION__));
         if (!$s) {
             igk_notifyctrl()->addErrorr("err.operation.notallowed");
@@ -342,7 +351,7 @@ implements IDatabaseHost
     }
     /**
      * primary configuration additional configuration 
-     * @return <string,ConfigInfo
+     * @return array
      */
     public static function GetAdditionalConfigInfo(): array
     {
@@ -614,7 +623,7 @@ EOF;
     }
     /**
      *  base application uri handle
-     * @param mixed|string|\IGK\System\Http\UriHandleObject $u
+     * @param mixed|string $u
      * @param mixed $forcehandle default is true. will stop the script 
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
@@ -633,11 +642,12 @@ EOF;
         if (is_string($u)) {
             if (empty($u)) {
                 igk_die('handle_redirection_uri, empty uri request');
-            }
-            $page = explode("?", $u);
-            $k = $this->getDomainUriAction();
-            $pattern = igk_pattern_matcher_get_pattern($k);
-            $p = igk_pattern_get_matches($pattern, $page[0], array_merge(["lang"], igk_str_get_pattern_keys($k)));
+                }
+                $page = explode("?", $u, 2);
+                $k = $this->getDomainUriAction();
+                $pattern = igk_pattern_matcher_get_pattern($k);
+                $p = igk_pattern_get_matches($pattern, $page[0], array_merge(["lang"], igk_str_get_pattern_keys($k)));
+ 
         } else {
             unset($u->ctrl);
             $page = explode("?", $u->uri);
@@ -648,8 +658,8 @@ EOF;
         extract(igk_pattern_view_extract($this, $p, 1));
         igk_ctrl_change_lang($this, $p);
         // + | get request query options 
-        $query_options = igk_getv($p, 'options');
-        igk_bind_sitemap(["ctrl" => $this, "c" => $c]);
+        $query_options = igk_getv($p, 'options');  
+        call_user_func_array(CoreFunctions::igk_bind_sitemap(), [["ctrl" => $this, "c" => $c]]);
         $tn = $this->getTargetNode();
         if ($this->_handle_uri_param($c, $param, $query_options)) {
             $forcehandle && igk_exit();

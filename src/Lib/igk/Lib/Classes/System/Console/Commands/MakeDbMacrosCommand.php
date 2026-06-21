@@ -21,6 +21,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
+use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\EntryClassResolution;
 
 /**
@@ -74,6 +75,8 @@ class MakeDbMacrosCommand extends AppExecCommand{
     * @var string $actionName the action to create
     */
     public function exec($command, $controller="", $action_name=""){
+        
+        ConsoleUtility::AutoProjectAction($command, $controller, $action_name);        
         if (empty($controller)){
             Logger::danger("controller is required");
             return false;

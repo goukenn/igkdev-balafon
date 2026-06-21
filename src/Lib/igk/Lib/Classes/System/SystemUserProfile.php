@@ -10,11 +10,12 @@ use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 
 /**
- * represent user profile
+ * Base class of Balafon System's Application Project Profile
  * @package IGK\System
  */
 abstract class SystemUserProfile implements IUserProfile
 { 
+    
     /**
      * overriding constant to setup profile model class 
      */

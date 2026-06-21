@@ -263,7 +263,7 @@ class RouteHandler
     /**
     * retrieve pattern regex expression
     * @param string $defaultEntryMethod
-    * @throws Exception
+    * @throws \Exception
     * @return string
     */
     protected function getPatternRegex(string $defaultEntryMethod= Route::DEFAULT_ENTRY_METHOD): string
@@ -305,6 +305,7 @@ class RouteHandler
             $count = 0;
             $optional = false;
             $expressions = $expressions ?? [];
+            $rp = null;
             foreach ($tab["name"] as $i) {
                 $c = trim($i[0]);
                 $s = $tab[0][$count][0];
@@ -351,7 +352,7 @@ class RouteHandler
             if (strrpos($croute, "(/)",-3) !== false){
                 $croute .= "?";
             }
-        }
+        } 
         return sprintf($format, $croute );
     }
     /**
