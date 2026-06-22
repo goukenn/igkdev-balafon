@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Logginattempts.php
-// @date: 20260524 03:48:40
+// @date: 20260622 08:43:57
 namespace IGK\Models;
 
 

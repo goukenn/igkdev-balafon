@@ -263,7 +263,7 @@ class DBCaches
     {
         $this->m_tableInfo = [];
         $this->m_init_cache = false;
-        if (igk_io_file_exists($file = self::GetCacheFile()))
+        if (igk_io_file_exists($file = self::GetCacheFile(), true))
             @unlink($file);
         DbSchemas::ResetSchema();
     }
@@ -308,9 +308,7 @@ class DBCaches
                     $rdata = [];
                     if ($trdata) {
                         foreach ($trdata as $ctrl => $v) {
-                            if ($ctrl== ApplicationModuleController::class){
-                                $ctrl = SysDbController::class;
-                            }
+                           
                             if (!($gctrl = igk_getctrl($ctrl, false))) {
                                 continue;
                             }
@@ -318,10 +316,10 @@ class DBCaches
                                 // + | --------------------------------------------------------------------
                                 // + | load DB cache info
                                 // + |  
-                                $v_tbname = $d->controller->tableName;
+                                $v_tbname = $d->tableName;
                                 if (!isset($v_tbname)){
-                                    igk_dev_wln_e(__FILE__.":".__LINE__ , $file, 
-                                    $d->controller->tableName,
+                                    igk_dev_wln_e(__FILE__.":".__LINE__ , 
+                                    $file,                                     
                                     'missing definition on <pre>', json_encode($d, JSON_PRETTY_PRINT), '</pre>');
                                 }else{                           
                                     $rdata[$v_tbname] = SchemaMigrationInfo::CreateFromCacheInfo($d, $gctrl);
@@ -462,7 +460,7 @@ class DBCaches
             }
             return $requests_def;
         }
-        if (empty($ref_def->tableRowReference)) {
+        if (empty($ref_def->tableRowReference) && $ref_def->columnInfo) {
             // + | update data with table's row model reference info
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
         }
@@ -502,6 +500,7 @@ class DBCaches
     public static function CacheData(array $data)
     {
         $g =  (object)['m_serie' => []];
+        $k = null;
         foreach ($data as $k => $m) {
             $cl = $m->controller;
             if (is_null($cl)) {
@@ -509,15 +508,16 @@ class DBCaches
                 continue;
             }
             $ad = $cl->getDataAdapterName();
-            $m = self::_UnsetPropertiesDefinition((array)$m);
             $cl_name = self::GetClassKeyEntryDefinition($cl);
+            $m = self::_UnsetPropertiesDefinition((array)$m);
             if (!isset($g->m_serie[$ad]))
                 $g->m_serie[$ad] = [];
             if (!isset($g->m_serie[$ad][$cl_name])) {
                 $g->m_serie[$ad][$cl_name] = [];
             }
             $g->m_serie[$ad][$cl_name][$k] = $m;
-        }
+        } // serie
+       //  $g->m_serie[$ad] = [$cl_name=>[$k=>$m]]; 
         $src = serialize(json_decode(Utility::TO_JSON(
             [$g->m_serie, 
             'generate' => date('Ymd His')],[
@@ -525,7 +525,9 @@ class DBCaches
                 'ignore_null' => true,
             ]
         )));
-        igk_io_w2file(self::GetCacheFile(), $src);  
+        $cache_file =self::GetCacheFile();
+        igk_io_w2file($cache_file, $src);  
+        // unlink($cache_file);
     }
     /**
     * Returns Class Key Entry Definition.

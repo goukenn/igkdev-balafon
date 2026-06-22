@@ -193,15 +193,22 @@ class JSon
     {
         $root =  $root;
         $is_object = false;
+        $parent = null;
         $tq = [['d' => $tv, 'keys' => $keys, 'c' => $c]];
         list($allow_empty_array) = igk_extract($this->m_options, 'allow_key_assoc_empty_array');
+        $ignore_empty =  $this->m_options->ignore_empty;
+    
         while (count($tq) > 0) {
             $q = array_shift($tq);
-            extract($q);
+            extract($q,  EXTR_OVERWRITE | EXTR_REFS);
             $v = $d;
             $keys = $keys ?? array_keys((array)$d);
             $is_object = (isset($is_object) ? $is_object : null) ?? is_object($v);
             $end = false;
+            if(empty($keys)){
+                $c = $parent ? $parent : null;
+                $parent = null;
+            }
             while (!$end  && (count($keys) > 0)) {
                 $k = array_shift($keys);
                 if (strpos($k, "\0") === 0) {
@@ -209,7 +216,7 @@ class JSon
                     continue;
                 }
                 $tv = igk_getv($v, $k);
-                if ((!is_bool($tv) && !is_numeric($tv)) && $this->m_options->ignore_empty && empty($tv)) {
+                if ((!is_bool($tv) && !is_numeric($tv)) && $ignore_empty && empty($tv)) {
                     if (!is_array($tv) || !$allow_empty_array)
                         continue;
                 }
@@ -237,6 +244,11 @@ class JSon
                         }, $tv);
                     }
                 } else if (is_object($tv)) {
+                    if (empty((array)$tv)){
+                        if (!$ignore_empty)
+                            $c->$k = $tv;
+                        continue;
+                    }
                     if ($tv instanceof IJSonLitteral) {
                         $c->$k = $tv;
                         continue;
@@ -262,7 +274,7 @@ class JSon
                         }, $tv));
                     } else {
                         $c->$k = new stdClass;
-                        array_unshift($tq, ['d' => $tv, 'keys' => null, 'c' => &$c->$k, 'is_object' => true]);
+                        array_unshift($tq, ['d' => $tv, 'keys' => null, 'c' => &$c->$k, 'is_object' => true, 'parent'=>$c]);
                     }
                     $end = true;
                     break;

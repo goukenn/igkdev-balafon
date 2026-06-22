@@ -24,9 +24,9 @@ class FtpHelper
     }
     /**
      * create directory
-     * @param resource $ftpresourse ftp resource 
+     * @param resource|mixed $ftpresourse ftp resource 
      * @param string $directory
-     * @return void 
+     * @return bool 
      */
     public static function CreateDir($ftpresourse, string $directory)
     {

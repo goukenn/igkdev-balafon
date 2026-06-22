@@ -4,6 +4,8 @@
 // @date: 20230120 09:12:31
 namespace IGK\System\IO\File;
 use IGK\Helper\MapHelper;
+use IGK\Helper\StringUtility;
+use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 
 /**
@@ -50,17 +52,29 @@ class CsvFile
     public function parseData(string $content): ?array
     {
         $src = $content;
+        $gsep = $this->separator ?? ',';
         $regex = new RegexMatcherContainer;
-        $regex->match($this->separator ?? ',', 'separator');
+        $sep = $regex->match($gsep, 'separator')->last();
         $regex->appendStringDetection();
+        $p = $regex->begin("(?=[^,'\" ]+('|\"))", "\n", "start-multistring")->last();
+        $p->noSkipToEnd = true;
+        $p->patterns = [
+            $regex->createPattern([
+                'match'=>'(?='.$gsep.')',
+            ])
+        ];
         $regex->match('\\n', 'end');
         $sb = '';
         $pos = 0;
         $r = [];
         $poffset = 0;
         $sb = '';
+        $v_is_debug = igk_is_debug(StringUtility::Slugify(static::class));
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
+                $v_is_debug && Logger::info('token: '.$e->tokenID. ', value='. json_encode($e->value));
+                if (!is_null($e->parentInfo))
+                    continue;
                 if ($e->tokenID == 'end') {
                     if ($before = substr($src, $poffset, $e->from - $poffset)) {
                         $sb .= rtrim($before);
@@ -80,6 +94,11 @@ class CsvFile
                     }
                     if ($e->tokenID == 'string') {
                         $sb .= $e->value; 
+                    }
+                    if ($e->tokenID == 'start-multistring') {
+                        // $poffset = $e->to;
+                        $sb = substr($src, $poffset, $e->from - $poffset).$e->value;
+                        $sb = igk_str_remove_quote(trim($sb));                        
                     }
                 }
                 $poffset = $e->to;

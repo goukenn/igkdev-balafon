@@ -127,7 +127,7 @@ trait ControllerDbExtensionTrait{
         }
         Logger::warn('remove column: '.$table. ' '.$name);
         $ad = self::getDataAdapter($ctrl);
-        if ($ad->exist_column($table, $name)) {
+        if ($ad->isConnect() && $ad->exist_column($table, $name)) {
             if (
                 (($is_obj && $info->clLinkType) || is_string($info)) &&
                 ($query = $ad->grammar->remove_foreign($table, $name))
@@ -151,7 +151,7 @@ trait ControllerDbExtensionTrait{
     {
         $ad = self::getDataAdapter($ctrl);
         ColumnMigrationInjector::Inject($ad, $table, [new ColumnMigrationInjector($info), "add"]);
-        if (!$ad->exist_column($table, $info->clName)) {
+        if ($ad->isConnect() && !$ad->exist_column($table, $info->clName)) {
             if ($query = $ad->grammar->add_column($table, $info, $after)) {
                 if ($ad->sendQuery($query)) {
                     // + | auto resolve column link type 
@@ -179,7 +179,7 @@ trait ControllerDbExtensionTrait{
     public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
     {
         $ad = self::getDataAdapter($ctrl); 
-        if ($ad->exist_column($table, $column)) {
+        if ($ad->isConnect() && $ad->exist_column($table, $column)) {
             if (!$ad->exist_column($table, $new_column_name)) {
                 if ($query = $ad->grammar->rename_column($table, $column, $new_column_name)) {
                     return $ad->sendQuery($query);
@@ -291,8 +291,9 @@ trait ControllerDbExtensionTrait{
      */
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
-        $ad = self::getDataAdapter($ctrl); 
-        if ($ad->exist_column($table, $info->clName)) {
+        $ad = self::getDataAdapter($ctrl);
+
+        if ($ad->isConnect() && $ad->exist_column($table, $info->clName)) {
             $ad->drop_foreign_key($table, $info);
             if ($query = $ad->grammar->change_column($table, $info)) {
                 if ($r = $ad->sendQuery($query)) {

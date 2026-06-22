@@ -144,6 +144,9 @@ class DataAdapter extends DataAdapterBase implements
      */
     public function drop_column(string $table, string $column_name)
     {
+        if (!$this->isConnect())
+            return;
+
         if ($this->exist_column($table, $column_name)) {
             $q = $this->getGrammar()->createDropColumnQuery($table, $column_name);
             return $this->sendQuery($q);

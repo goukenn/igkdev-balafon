@@ -533,7 +533,7 @@ class SchemaMigration
     private static function _DoUpgrade(string $key, $item, array &$tables, $c, ?BaseController $ctrl)
     {
         $v_is_debug = igk_is_debug();
-        Logger::info('doUpgrade: ' . $key);
+        $v_is_debug && Logger::info('doUpgrade: ' . $key);
         // + | --------------------------------------------------------------------
         // + | upgrade the schema definition file 
         // + |

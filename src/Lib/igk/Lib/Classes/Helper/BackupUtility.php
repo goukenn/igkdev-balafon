@@ -45,7 +45,7 @@ class BackupUtility{
             $file = $dir."/version.db";
             $tbname = 'versions';
             $litedb = igk_get_data_adapter("SQLite3");
-            if ($litedb->connect($dir."/version.db")){
+            if ($litedb->connect($file)){
                 if (!$litedb->tableExists($tbname)){
                     $litedb->createTable($tbname, DbColumnInfo::CreateDefArrayFromClass(VersionClass::class));
                 } 

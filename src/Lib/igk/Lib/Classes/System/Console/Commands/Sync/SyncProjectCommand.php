@@ -133,6 +133,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         /**
         * auto generate doc.
         * @var mixed $excludedir
+        * @var mixed $setting
         */
         $excludedir = '';
         $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
@@ -229,13 +230,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     $cdir = [];
                     $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
                     // + | check 
-                    if (igk_io_file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
-                        $g = SyncProjectSettings::Load(json_decode(file_get_contents($fc)));
-                        if ($g->ignoredirs) {
-                            $v_ignores =  array_fill_keys($g->ignoredirs, 1);
-                            $excludedir = array_merge($excludedir, $v_ignores);
-                        }
-                    }
+                    SyncProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
+                   
                     $fc = function ($f, ?array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
                         $dir = dirname($f);
                         $basename = basename($f);

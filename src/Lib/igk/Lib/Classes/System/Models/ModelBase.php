@@ -685,7 +685,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * retrieve cache table info
-     * @var IGK\System\Models\getTableInfo
+     * @return mixed
      */
     public function getTableInfo()
     {

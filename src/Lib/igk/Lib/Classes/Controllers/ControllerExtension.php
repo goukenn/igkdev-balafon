@@ -2057,8 +2057,8 @@ abstract class ControllerExtension
                 ($clinfo = $ctrl->getDataTableInfo())
             ) {
                 $cinfo = (object)[
-                    "columnInfo" => $clinfo,
-                    "tableRowReference" =>  igk_array_object_refkey($clinfo, IGK_FD_NAME)
+                    'columnInfo' => $clinfo,
+                    'tableRowReference' =>  igk_array_object_refkey($clinfo, IGK_FD_NAME)
                 ];
                 return $cinfo;
             }

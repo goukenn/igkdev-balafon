@@ -123,8 +123,8 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
             'defTableName' => igk_getv($d, 'defTableName'),
             'controller' => $gctrl,
             'definitionResolver' => null,
-            'tableName' => igk_getv($d->controller, 'tableName'),
-            'prefix' => igk_getv($d->controller, 'prefix')
+            'tableName' => igk_getv($d, 'tableName'),
+            'prefix' => igk_getv($d, 'prefix')
         ]);
     }
     /**

@@ -138,4 +138,15 @@ EOF        );
             $file->map($data[0], $mapper)
         );
     } 
+
+    public function test_in_litteral_detection(){
+        $src = <<<EOF
+a, comme, d'habit, ute
+EOF;
+$csf = new CsvFile;
+$g = $csf->parseData($src); 
+$this->assertEquals('["a","comme","d\'habit","ute"]', json_encode($g[0]), "sdfs");
+$g = $csf->parseData('a, "comme, d\'habit, ute", c'); 
+$this->assertEquals('["a","comme, d\'habit, ute","c"]', json_encode($g[0]), "sdfs");
+    }
 }

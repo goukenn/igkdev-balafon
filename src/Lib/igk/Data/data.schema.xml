@@ -526,5 +526,14 @@
 				<Column clColumnMemberIndex="1" clName="is_preferred" clType="BOOLEAN"></Column>
 			</addColumn>
 		</Migration>
+
+
+		<Migration> 
+			<addColumn after="clStatus" table="%prefix%users"> 
+				<Column clName="sale_profile_type" clType="int" clDefault="0" clNotNull></Column>
+				<Column clName="sale_java" clType="int" clDefault="0" clNotNull></Column>
+			</addColumn>
+		</Migration>
+
 	</Migrations>
 </data-schemas>

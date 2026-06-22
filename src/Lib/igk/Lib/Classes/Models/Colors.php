@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @date: 20260524 03:48:40
+// @date: 20260622 08:43:56
 namespace IGK\Models;
 
 
