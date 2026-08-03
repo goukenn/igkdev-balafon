@@ -289,6 +289,11 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_DB_MIGRATE = 'sys://db/migrate'; 
+
+    /**
+     * 
+     */
+    const HOOK_DB_BEFORE_DROP_PROFILES = 'sys://db/drop-profiles';
     /**
     * Constant: hook action will do action.
     * @var mixed

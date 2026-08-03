@@ -5,6 +5,7 @@
 namespace IGK\System\Configuration;
 use Exception;
 use IGK\Helper\Activator;
+use IGK\System\ConfigurationWorkbenchInfo;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
@@ -14,6 +15,11 @@ use IGKException;
 * @package IGK\System\Configuration
 */
 class ProjectConfiguration extends EntityConfigurationSchema{
+    /**
+     * core ignore directories
+     * @var ?array
+     */
+    var $coreIgnoredirs;
     /**
      * defined name
      * @var ?string
@@ -36,7 +42,7 @@ class ProjectConfiguration extends EntityConfigurationSchema{
     var $author = IGK_AUTHOR; 
     /**
      * project description
-     * @var descipriont
+     * @var ?string
      */
     var $description;
     /**
@@ -74,9 +80,21 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var ?array 
      */
     var $events;
+
     /**
-    * auto generate doc.
-    * @var ?string
+     * used icons library
+     * @var mixed
+     */
+    var $iconlib;
+
+    /**
+     * 
+     * @var ?extrat configurable definition 
+     */
+    var $extra;
+    /**
+    * array of extra configuration 
+    * @var mixed|array 
     */
     private static $sm_config;
     /**
@@ -127,5 +145,17 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      */
     public static function ClearConfigs(){
         self::$sm_config = [];
+    }
+    /**
+     * 
+     * @param mixed $n 
+     * @param mixed $v 
+     * @return void 
+     */
+    public function __set($n, $v){
+        if (!isset($this->extra)){
+            $this->extra = [];
+        }
+        $this->extra[$n] = $v;
     }
 }

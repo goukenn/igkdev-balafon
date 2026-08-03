@@ -35,6 +35,8 @@ class DataAdapter extends DataAdapterBase implements
     IDbRetrieveColumnInfoDriver,
     IDataDriverCharsetSupport
 {
+
+const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
     /**
     * Listener: query listener.
     * @var mixed
@@ -520,6 +522,9 @@ class DataAdapter extends DataAdapterBase implements
      */
     public function isTypeSupported(string $type): bool
     {
+        if (preg_match(self::OP_TYPE_REGEX, $type)){
+            return true;
+        }        
         if (self::$supportedList === null) {
             self::_InitSupportedTypes($this); 
         }
@@ -1078,4 +1083,23 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->getError();
     }
+
+    /**
+     * 
+     * @param string $type 
+     * @param mixed $default 
+     * @return mixed 
+     */
+    public static function ResolvType(string $type, $default =null){
+
+        if ($p = strtolower($type)){
+            if (preg_match(self::OP_TYPE_REGEX, $p, $tab)){
+                $n = isset($tab['number']) ? 
+                    sprintf("(%s)", $tab['number']) : ''; 
+                return 'decimal'.$n;
+            }
+        }        
+        return $default;
+    }
+    
 }

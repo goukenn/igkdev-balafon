@@ -56,7 +56,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         // + | 
         if (is_null($this->clTypeLength)) {
             $this->clTypeLength = 11;
-        }
+        } 
     }
     /**
      * explode linkto expression 
@@ -155,6 +155,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     */
     private static function _TreatUniqeColumnMember($q)
     {
+        /**
+         * @var mixed
+         */
         $l = $q->clIsUniqueColumnMember;
         if ($l) {
             if (is_bool($l)) {

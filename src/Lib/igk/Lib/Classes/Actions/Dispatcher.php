@@ -466,11 +466,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         foreach ($lbService as $k => $m) {
             if (isset($services[$k])) {
                 $g = $services[$k];
-                $m = array_merge($m, $g);
-                $services[$k] = $m;
-            } else {
-                $services[$k] = $m;
-            }
+                if(is_string($g)){
+                    // just define a default class 
+                    $g = [IGKServices::KEY_DEF=>$g];
+                }
+                $m = array_merge($m, $g); 
+            }  
+            $services[$k] = $m;
         } 
     }
     /**

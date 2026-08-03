@@ -8,11 +8,7 @@ namespace IGK\System\Console;
 * auto generate doc.
 * @package IGK\System\Console
 * @author C.A.D. BONDJE DOUE
-*/
-/**
-* auto generate doc.
-* @package IGK\System\Console
-*/
+*/ 
 abstract class HookHelpBase{
     /**
     * auto generate doc.

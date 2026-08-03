@@ -23,6 +23,14 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
 final class IGKCaches
 {
     /**
+     * 
+     * @param BaseController $ctrl 
+     * @return mixed 
+     */
+    public static function ControllerFileSystem(BaseController $ctrl){
+        return call_user_func_array([static::class, 'ctrl_filesystem'], [$ctrl]);
+    }
+    /**
     * Property: storage.
     * @var mixed
     */
@@ -264,12 +272,16 @@ final class IGKCaches
     }
     /**
      * store cache data 
-     * @param mixed $file 
+     * @param mixed $file relative path to cache dir 
      * @param mixed $data 
      * @return bool 
      */
     public function store($file, $data){
-        return igk_io_w2file(Path::Combine(igk_io_cachedir(), $file), $data);
+        $dir = igk_io_cachedir();
+        if (0!==strpos($file, $dir)){
+            $file = Path::Combine($dir, $file);
+        }
+        return igk_io_w2file($file, $data);
     }
     /**
      * check if file exists in cache 

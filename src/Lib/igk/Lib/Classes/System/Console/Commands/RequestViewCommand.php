@@ -82,7 +82,7 @@ class RequestViewCommand extends AppExecCommand
         $path = ltrim(igk_uri($request ?? ''), '/');
         $_SERVER['REQUEST_METHOD'] = $method = strtoupper(igk_getv($command->options, '--method', 'GET'));
         $_SERVER['REQUEST_URI'] = '/' . $path; 
-        $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
+        $_SERVER['HTTP_IGK_AJX'] = $is_ajx =  property_exists($command->options, "--ajx") || (igk_getv($command->options, "--render") == "ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
         ServerCommandHelper::Init($command);
         $ctrl->register_autoload();
@@ -129,6 +129,7 @@ class RequestViewCommand extends AppExecCommand
                     echo $t->getInnerHtml($xml_render_option);
                     break;
                 case 'view':
+                case 'ajx':
                 default: 
                     $t->renderAJX($xml_render_option);
                 break;

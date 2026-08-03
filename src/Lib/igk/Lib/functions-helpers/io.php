@@ -84,12 +84,14 @@ function igk_io_cachedir()
 * target, cibling
 * @param mixed $target target of the link
 * @param mixed $link
-* @return mixed
+* @return bool
 */
-function igk_io_symlink($target, $link)
+function igk_io_symlink($target, $link):bool
 {
+    igk_debug_wln('symlink: '.$link.' => '.$target);
     $r = false;
-    if (!file_exists($link) && !is_link($link) && IO::CreateDir(dirname($link))) {
+    $fexists = file_exists($link);
+    if (!$fexists && !is_link($link) && IO::CreateDir(dirname($link))) {
         $target = IGKCaches::ResolvPath($target);
         if (($home = igk_server()->HOME) && is_link($home)) {
             $cpath = realpath($home);
@@ -115,7 +117,7 @@ function igk_io_symlink($target, $link)
                 igk_wln_e("failed to create symlink ");
             }
         }
-    }
+    } 
     return $r;
 }
 /**

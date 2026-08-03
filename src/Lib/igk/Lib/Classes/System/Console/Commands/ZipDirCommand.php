@@ -31,6 +31,8 @@ class ZipDirCommand extends AppExecCommand{
     var $options=[
 		'--regex:[]'=>'exclude file pattern'
 	]; 
+
+  var $usage = "input_dir [out_dir] [options]";
 	/* var $category; */
     /**
     * Exec.

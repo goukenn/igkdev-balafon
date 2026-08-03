@@ -1,0 +1,57 @@
+<?php
+
+
+$def[':root'] = [
+    '--blf-stepper-selected-route-border-color' => '#ececec',
+    '--blf-stepper-route-bg-color' => '#dff',
+    '--blf-danger' => '#A11',
+    '--blf-stepper-route-line'=>'indigo'
+];
+
+$def['.igk-stepper-form'] = '--line: indigo; position:relative;';
+$def['.igk-form-row'] = 'display:flex; flex-direction:row; gap:10px;';
+$def['.igk-stepper-form section.step'] = 'display:none; animation: fade-in 0.25s ease;';
+$def['.igk-stepper-form section.step.is-active'] = 'display:block;';
+$def['.igk-stepper-form .igk-form-group.error input'] = 'border: 1px solid var(--blf-danger);';
+$def['.igk-stepper-form .igk-form-group .tips'] = 'display:none; font-size:12px; margin:6px 0; color:var(--blf-danger);';
+$def['.igk-stepper-form .igk-form-group.error .tips'] = 'display:block';
+
+$def['.igk-stepper-form .route'] = 'display:flex; margin-bottom:32px; align-items: flex-start;';
+$def['.igk-stepper-form .route .route__stop'] = 'flex:1;';
+$def['.igk-stepper-form .route .route__stop.is-active .route__seal'] = 'box-shadow: 0 0 0 3px color(from var(--blf-stepper-selected-route-border-color) xyz x y z / 0.9);';
+$def['.igk-stepper-form .route .route__label'] = 'text-align:center; margin-top:8px; font-size:11px; letter-spacing: 0.074em';
+$def['.igk-stepper-form .route .route__block'] = '{sys: no-selection} display:flex; flex-direction:column; align-items:center;';
+$def['.igk-stepper-form .route .route__stop.is-visited .route__block > * '] = 'cursor: pointer;';
+$def['.igk-stepper-form .route .route__seal'] = 'font-size:12px; transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease; width: 32px; height:32px; border-radius:50%; border:2px solid var(--blf-stepper-selected-route-border-color); background-color:var(--blf-stepper-route-bg-color); position: relative; z-index: 1;  display: flex; align-items: center; justify-content: center;';
+$def['.step__hint'] = 'font-size:0.83em';
+
+$def['.igk-stepper-form .igk-form-group'] = '{sys:dispflex, flex-column}';
+
+$def['.igk-stepper-form .igk-action-bar'] = 'display:flex; justify-content: space-between; margin-top:32px; border-top: 1px solid var(--blf-split-color); padding-top:32px;';
+
+$def['.igk-stepper-form .igk-action-bar::after'] = 'display:none;';
+$def['.igk-stepper-form .igk-action-bar button'] = 'font-size: 14px;font-weight: 600;padding: 11px 22px; border-radius: 2px; cursor: pointer; 
+border: 1px solid transparent; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;';
+
+$def['.igk-stepper-form .igk-action-bar button[hidden]'] = 'visibility:hidden; display:block';
+
+$def['.igk-stepper-form input.igk-form-control + .igk-progressbar'] = '{sys:no-overflow} margin-top:6px; height:4px; background-color:#eee; border-radius:2px;';
+
+$def['.has-mismatch .mismatch'] = '{sys:dispb}';
+$def['.mismatch'] = '{sys:dispn} [anim: fade-in 0.25s ease-in]';
+
+$def['.route__stop:not(:last-child)::after'] = implode('', [
+  'content: "";',
+  'position: absolute;',
+  'top: 15px;',
+  'left: 50%;',
+  'width: 100%;',
+  'height: 0;',
+  'border-top: 2px dashed var(--line);',
+  'z-index: 0;',
+]);
+
+$theme->registerKeyFrame($def, 'fade-in', 'from{opacity: 0; transform: translateY(10px);} to{ opacity: 1; transform: translateY(0px);}');
+
+
+ 

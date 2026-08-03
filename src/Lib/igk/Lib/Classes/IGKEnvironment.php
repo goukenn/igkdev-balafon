@@ -39,6 +39,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
  * @property bool $NoConsoleLogger disable console logger - 
  * @property bool $NoLoadAction disable console logger - 
  * @property bool $NoAppInitFileStruct disable file structure initialization - 
+ * @property bool $NOLOG_COLOR disable file structure initialization - 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEnvironmentProperty
 {
@@ -309,7 +310,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     */
     public function createClassInstance($classname, $callback = null)
     {
-        $b = $this->instances;
+        $b = & $this->instances;
         if ($b === null) {
             $b = [];
             $this->instances = $b;
@@ -330,6 +331,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
             $b[$classname] = new $classname();
         }
         return getv($b, $classname);
+    }
+    public function resetClassInstance(string $classname, $callback=null){
+        unset($this->instances[$classname]);
+        return $this->createClassInstance($classname, $callback);
     }
     /**
      * return resolved enviromnent key
@@ -760,13 +765,32 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
     }
     /**
+     * set by reference definition 
+     * @param string $key 
+     * @param mixed &$value 
+     * @return void 
+     */
+    public function setByRef( string $key, & $value){
+        $this->m_envs[$key] = & $value;    
+    }
+
+    /**
     * Checks In Array.
     * @param mixed $key
     * @param mixed $value
+    * @return $value 
     */
     public function checkInArray($key, $value)
     {
         return is_array($t = $this->$key) && key_exists($value, $t);
+    }
+    /**
+     * check for environment key exists
+     * @param string $key 
+     * @return bool 
+     */
+    public function exists(string $key):bool{
+        return key_exists($key, $this->m_envs);
     }
     /**
     * Unset in array.

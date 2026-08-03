@@ -4992,7 +4992,7 @@ if (!function_exists("igk_html_node_textarea")) {
 		$tx->setParam("p:_escapeChar", false);
 		$tx->setCallback("setContent", "igk_html_TextAreaV_Callback");
 		if ($content == null) {
-			$tx->Content = igk_getr($name);
+			$tx->Content = !empty($name) ? igk_getr($name) : null;
 		} else
 			$tx->Content = $content;
 		return $tx;
@@ -6078,4 +6078,19 @@ if (!function_exists('igk_html_node_inflate')) {
 	 */
 	function igk_html_node_inflate(string $file, $data = null) {}
 }
+
+if (!function_exists('igk_wtag')){
+	/**
+	 * writing 
+	 * @param string $tagname 
+	 * @param string $content 
+	 * @return ?string 
+	 */
+	function igk_wtag(string $tagname, string $content){
+		$n = igk_create_node($tagname);
+		$n->text($content);
+		return $n->render();
+	}
+}
 require_once __DIR__.'/Inc/html/forms/actionbar.pinc';
+require_once __DIR__.'/Lib/Classes/System/Html/Dom/StepperForm.php';

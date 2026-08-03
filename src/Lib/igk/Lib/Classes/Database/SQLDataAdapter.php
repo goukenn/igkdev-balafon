@@ -44,11 +44,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
     /**
     * auto generate doc.
-    * @param mixed $t
+    * @param string $t
     * @deprecated since 11.7.05.19 use SQLGrammar insteed
     * @return mixed
     */
-    public static function ResolvType($t){        
+    public static function ResolvType(string $t){        
         return SQLQueryUtils::ResolvType($t);
     }
     /**
@@ -297,11 +297,23 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
             }
             return $value->id();
         } 
+        if (($value instanceof DbExpression)&&($value->isAvailable($this))){            
+                return $value->getValue(
+                    (object)[
+                        "grammar"=>$this->getGrammar(),
+                        "type"=>"insert",
+                        'info'=>'dbexpression'
+                    ]
+                );
+            
+        }
+
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){
             return $value->getValue(
                 (object)[
                     "grammar"=>$this->getGrammar(),
-                    "type"=>"insert"
+                    "type"=>"insert",
+                    'info'=>'value'
                 ]
             );
         }

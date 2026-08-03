@@ -6,13 +6,9 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\Path;
 use IGKEvents;
+
 /**
-* auto generate doc.
-* @package IGK\System\Console\Commands
-* @author C.A.D. BONDJE DOUE
-*/
-/**
-* auto generate doc.
+* show balafon'on basics informations
 * @package IGK\System\Console\Commands
 */
 class InfoCommand extends AppExecCommand{
@@ -42,9 +38,10 @@ class InfoCommand extends AppExecCommand{
 		$obj->cwd = getcwd();
 		$obj->libdir = IGK_LIB_DIR;
 		$cp =  Path::getInstance();
+        $obj->cachedir = igk_io_cachedir();
 		$obj->homedir = $cp->getHomeDir();
-		$obj->packagedir = igk_io_packagesdir();
 		$obj->moduledir = igk_get_module_dir();
+		$obj->packagedir = igk_io_packagesdir();
 		$obj->projectdir = igk_io_projectdir();
 		igk_hook(IGKEvents::FILTER_BALAFON_COMMAND_INFO, ['info'=>$obj]);
 		echo json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

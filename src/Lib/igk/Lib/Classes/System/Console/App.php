@@ -171,7 +171,8 @@ class App implements ICLICommandApp
         }
         ksort($command);
         $app->commands = $command;
-        $tab = array_slice(igk_server()->argv, 1);
+        $tab = igk_server()->argv = $_SERVER['argv'];        
+        $tab = array_slice($tab, 1); 
         // + | before execute a command move the working directory to server PWD
         self::ResetCommandWorkingDir();       
         return self::Exec($app, $tab) ?? 0;
@@ -367,9 +368,19 @@ class App implements ICLICommandApp
         $this->print(sprintf("Version:  %s", self::Gets(self::GREEN, self::version)));
         $this->print("");
         $this->print(self::Gets(self::YELLOW, "Usage:"));
-        $this->print("\tbalafon [command] [options] [arguments]");
+        $this->print("\tbalafon [command] [options] [arguments] [flags]");
         $this->print("");
         $this->print("");
+
+        $this->print(self::Gets(self::BLUE, 'Global Flags:'));
+        $tab = CommandFlags::GetConstants() ;
+        sort($tab);
+        foreach($tab as $v){
+            $this->print($v);
+        }
+        $this->print("\n\n");
+
+
         $groups = [];
         array_walk($this->commands, function ($c, $key) use (&$groups) {
             $cat = null; 
@@ -395,7 +406,7 @@ class App implements ICLICommandApp
                 Logger::print("");
             }
             foreach ($g as $n => $c) {
-                $s = " " . self::GREEN . $n . "\e[0m \r\t\t\t\t";
+                $s = " " . App::Gets(App::GREEN, $n ). "\r\t\t\t\t";
                 if (is_array($c) && is_array($c[1])) {
                     $s .= (igk_getv($c[1], "desc"));
                 } else  if (! ($c instanceof Closure)) {
@@ -421,6 +432,12 @@ class App implements ICLICommandApp
      */
     public static function Gets($color, $s)
     {
+        if (php_sapi_name() == 'cli'){
+            if (igk_environment()->NOLOG_COLOR){
+                return $s;
+            }
+        }
+
         return $color . $s . "\e[0m";
     }
     private function __construct() {}

@@ -16,10 +16,10 @@ use IGKObject;
 */
 final class MenuHostControl extends IGKObject{
     /**
-    * Properties: active, diseable.
+    * Properties: active, disable.
     * @var mixed
     */
-    private $m_active, $m_diseable;
+    private $m_active, $m_disable;
     /**
     * .ctr
     */
@@ -34,7 +34,7 @@ final class MenuHostControl extends IGKObject{
     * Returns Diseable.
     */
     public function getDiseable(){
-        return $this->m_diseable;
+        return $this->m_disable;
     }
     /**
     * Sets Active.
@@ -48,6 +48,6 @@ final class MenuHostControl extends IGKObject{
     * @param mixed $v
     */
     public function setDiseable($v){
-        $this->m_diseable=$v;
+        $this->m_disable=$v;
     }
 }

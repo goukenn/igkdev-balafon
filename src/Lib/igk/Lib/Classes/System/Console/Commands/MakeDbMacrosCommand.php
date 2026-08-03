@@ -75,7 +75,12 @@ class MakeDbMacrosCommand extends AppExecCommand{
     * @var string $actionName the action to create
     */
     public function exec($command, $controller="", $action_name=""){
-        
+        if (empty($action_name)){
+            if ($c = igk_getv($command->options, '--controller')){
+                $action_name = $controller;
+                $controller = $c;
+            }
+        }
         ConsoleUtility::AutoProjectAction($command, $controller, $action_name);        
         if (empty($controller)){
             Logger::danger("controller is required");
@@ -127,7 +132,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
             $content = $this->_getContent(); 
             $v_uses = $this->_getUses() ?? [];
             $builder = new PHPScriptBuilder();
-            $fname = $action_name.IGK_VIEW_FILE_EXT;           
+            $fname = $action_name.'.php';           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->class_modifier('abstract')
             ->uses($v_uses)

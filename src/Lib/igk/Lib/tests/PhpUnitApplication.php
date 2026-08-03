@@ -23,7 +23,7 @@ class PhpUnitApplication extends IGKApplicationBase{
     * @param string $entryfile
     * @param mixed $render
     */
-    public function run(string $entryfile, $render = 1) { 
+    public function run(string $entryfile, $render = 1) {  
         $options = (object)[];
         $argv = igk_getv($_SERVER, 'argv');
         $n = $q = '';
@@ -65,8 +65,9 @@ class PhpUnitApplication extends IGKApplicationBase{
             $tmodule = igk_require_module($tmodule);
         } 
         if ($m = igk_getv($_ENV,'IGK_TEST_CONTROLER')){
-            $m = igk_getctrl($m);
-            $m::register_autoload();
+           if ( $m = igk_getctrl($m)){
+                $m::register_autoload();
+           }
         } 
     }
 }

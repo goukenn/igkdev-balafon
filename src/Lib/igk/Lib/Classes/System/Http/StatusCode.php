@@ -34,8 +34,8 @@ class StatusCode extends RequestResponseCode
     public static function GetStatus(int $code)
     {
         static $t = null;
-        if ($t === null) {
-            $protocol = igk_server()->SERVER_PROTOCOL ?? "HTTP/1.0";
+        $protocol = igk_server()->SERVER_PROTOCOL ?? "HTTP/1.0"; ;
+        if ($t === null) { 
             $t = array( 
                 202 => "{$protocol} 202 Accept with error", 
                 204 => "{$protocol} 204 No Content", 
@@ -62,7 +62,7 @@ class StatusCode extends RequestResponseCode
                 505 => "{$protocol} 505 Version not supported"
             );
         } 
-        $defCodeMSG = "HTTP/2.0 200 OK - ".igk_server()->SERVER_PROTOCOL ;        
+        $defCodeMSG = sprintf('%s %s', $protocol, "200 OK");
         return igk_getv($t, $code, $defCodeMSG); 
     }
 }

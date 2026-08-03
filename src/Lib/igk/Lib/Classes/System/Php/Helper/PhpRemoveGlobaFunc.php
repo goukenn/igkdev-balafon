@@ -12,11 +12,7 @@ use IGK\System\Text\RegexMatcherUtility;
 * auto generate doc.
 * @package IGK\System\Php\Helper
 * @author C.A.D. BONDJE DOUE
-*/
-/**
-* auto generate doc.
-* @package IGK\System\Php\Helper
-*/
+*/ 
 class PhpRemoveGlobaFunc
 {
     /**

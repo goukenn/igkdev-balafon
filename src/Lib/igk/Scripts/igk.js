@@ -948,7 +948,7 @@ Name:balafon.js
                 win = win[i];
             }
             if (d) {
-                // add addiional definition properties		
+                // + | add addiional definition properties		
                 m_attribs[a] = d;
             }
             if (!b(c)) {
@@ -957,9 +957,7 @@ Name:balafon.js
                     callback(win);
             }
             return win;
-        };
-        // return;
-        // var _fileSrc=(d && d.fileSrc) || igk_getScript().src;
+        }; 
     }
     // >@ create private namespace
     function createPNS(t, a, c, d, callback) {
@@ -1396,9 +1394,9 @@ Name:balafon.js
     };
     // create a igk object element
     function __igk(name) {
-        if (window.igk && window.igk.DEBUG) {
-            // igk.debug.write("[CREATE A IGKOBJECT] " + name +  " : "+igk.ajx);
-        }
+        // if (window.igk && window.igk.DEBUG) {
+        //     // igk.debug.write("[CREATE A IGKOBJECT] " + name +  " : "+igk.ajx);
+        // }
         if (name == window) {
             throw ("/!\\ Call to __igk function on [window] is not allowed. It will break the igk js framework namespace hierarchi." +
                 "if you want to register event please use 'igk_winui_reg_event instead'");
@@ -3906,7 +3904,14 @@ Name:balafon.js
             return this;
         },
         // remove class 
+        /**
+         * 
+         * @param {*|any|string|array} classname 
+         * @returns 
+         */
         rmClass: function (classname) {
+            if (Array.isArray(classname))
+                classname = classname.join(' ');
             if (typeof classname === "string") {
                 classname = igk_str_trim(classname);
                 if (classname.length == 0) {

@@ -71,6 +71,9 @@ trait RegisterUserServiceActionTrait{
     protected function _createUserApp($user):bool{
         return false;
     }
+    private static function _MailService(){
+        return igk_app()->getService(ServiceNameConstants::MailService);
+    }
     /**
     * send user mail registration
     * @param mixed $user
@@ -86,7 +89,7 @@ trait RegisterUserServiceActionTrait{
     */
     protected function _sendMailRegistration($user,?array $data=null, $title='Registration', $template_or_article='mails/registration.template'){
         $ctrl = $this->getController();
-        if ($service = igk_app()->getService(ServiceNameConstants::MailService)){
+        if ($service = self::_MailService()){
             $service->sendMail($ctrl, $user->clLogin, $title, $template_or_article, $data);
         }     
     }
@@ -100,7 +103,7 @@ trait RegisterUserServiceActionTrait{
      */
     protected function _sendMailChangePassword($user,?array $data=null, $title='Change password', $template_or_article='mails/resetPassword.template'){
         $ctrl = $this->getController();
-        if ($service = igk_app()->getService(ServiceNameConstants::MailService)){
+        if ($service = self::_MailService()){
             $service->sendMail($ctrl, $user->clLogin, $title, $template_or_article, $data);
         }     
     }

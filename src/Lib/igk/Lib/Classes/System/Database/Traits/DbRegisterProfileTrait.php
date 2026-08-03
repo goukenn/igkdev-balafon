@@ -5,6 +5,7 @@
 namespace IGK\System\Database\Traits;
 
 use IGK\Helper\Authorization;
+use IGK\System\EntryClassResolution;
 
 /**
 * 
@@ -39,7 +40,7 @@ trait DbRegisterProfileTrait{
             $ns .='\\';
         }
         $cl = $ns."Profiles";
-        if (class_exists($cl) && method_exists($cl, $fc = 'getDefaultProfile')){
+        if (class_exists($cl) && method_exists($cl, $fc = EntryClassResolution::ProfileGetDefaultProfileMethod)){
             return call_user_func([$cl, $fc],[]);
         }
         return null;

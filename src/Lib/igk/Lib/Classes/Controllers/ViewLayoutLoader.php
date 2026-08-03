@@ -23,6 +23,7 @@ use function igk_resources_gets as __;
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
 {
+    const HOOK_AFTER_INC = 'sys::/viewlayout/after_include';
     /**
     * Path to dir.
     * @var mixed
@@ -159,8 +160,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         if (!$v_main && $v_footer && $this->exists($v_footer)) {
             igk_include_view_file($this->controller, $v_footer, true, $args);
         }
-        $this->afterInc(); 
-        if (!igk_is_ajx_demand() && ($lib = igk_conf_get($obj= $this->controller->_globalConfigSettings(), 'project/iconlib')))
+        $this->afterInc($file); 
+        if (!igk_is_ajx_demand() && ($lib = igk_conf_get($obj= $this->controller->_globalConfigSettings(), 'iconlib')))
             $this->didRegisterIconLibrary($lib); 
         return $response;
     }
@@ -192,8 +193,9 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * afert view inclusion
      * @return void 
      */
-    protected function afterInc()
+    protected function afterInc(string $file)
     {
+        igk_hook(self::HOOK_AFTER_INC, ['file'=>$file,'layout'=>$this]);
     }
     /**
      * check if the view is a main layout 

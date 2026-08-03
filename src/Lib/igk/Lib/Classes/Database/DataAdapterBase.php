@@ -4,8 +4,11 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Database;
+
+use IGK\Helper\Activator;
 use IGK\Helper\Database;
 use IGK\System\Console\Logger;
+use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\IDbQueryGrammar;
 use IGK\System\Database\IDbSendQueryListener;
 use IGKException;
@@ -186,12 +189,33 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         if (!isset($this->m_relations->relations[$table])) {
             $this->m_relations->relations[$table] = [];
         }
-        $this->m_relations->relations[$table][] = [
-            "target" => $columninfo->clLinkType,
-            "column" => $columninfo,
-            "ctrl" => $this->m_relations->ctrl,
-            "info" => []
+        $this->m_relations->relations[$table][] = 
+        $this->_initRelationInstance($columninfo, $this->m_relations->ctrl);
+        // Activator::CreateNewInstance(RelationDataInfo::class, [
+        //     "target" => $columninfo->clLinkType,
+        //     "column" => $columninfo,
+        //     "ctrl" => $this->m_relations->ctrl,
+        //     "info" => [],
+        //     'prefixes'=>[] // store prefixes info
+        // ]);
+    }
+    /**
+     * 
+     * @param mixed $columnInfo 
+     * @param mixed $ctrl 
+     * @return object|mixed 
+     */
+    protected function _initRelationInstance($columnInfo, $ctrl){
+        $tab = [
+            "ctrl" => $ctrl,
+            "info" => [],
+            'prefixes'=>[] // store prefixes info
         ];
+        if ($columnInfo){
+            $tab = array_merge($tab, ["target" => $columnInfo->clLinkType,
+            "column" => $columnInfo,]);
+        }
+        return Activator::CreateNewInstance(RelationDataInfo::class, $tab);
     }
     /**
      * push entries
@@ -217,7 +241,9 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      */
     public function beginInitDb($ctrl = null)
     {
-        $this->m_relations = (object)["relations" => [], "entries" => [], "ctrl" => $ctrl];
+        $this->m_relations = 
+         $this->_initRelationInstance(null, $ctrl);
+        //(object)["relations" => [], "entries" => [], "ctrl" => $ctrl, '_type'=>'begin', 'indexes'=>[] ];
     }
     /**
      * end db init info
@@ -225,7 +251,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return void 
      * @throws IGKException 
      */
-    public function endInitDb(array $tb)
+    public function endInitDb(array $tb, ?array $prefixes=null)
     {
         if (is_null($this->m_relations)) {
             igk_dev_wln_e(__FILE__ . ":" . __LINE__, "please call beginInitDb first");
@@ -235,8 +261,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         if ($this->m_relations->relations) {
             foreach ($this->m_relations->relations as $tbname => $r) {
                 foreach ($r as $p) {
-                    $ctrl = $p["ctrl"];
-                    $c = clone ($p["column"]);
+                    $ctrl = $p->ctrl;
+                    $c = clone ($p->column);
                     $c->clLinkType = igk_db_get_table_name($c->clLinkType, $ctrl);
                     if ($c->clLinkConstraintName) {
                         $c->clLinkConstraintName = igk_db_get_table_name($c->clLinkConstraintName, $ctrl);
@@ -286,9 +312,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             });
             foreach ($this->m_relations->entries as $tbname => $r) {
                 $info = getv($this->m_relations->info, $tbname);
+                $prefix = getv($prefixes, $tbname);
                 Logger::info('init entries : ' . $tbname);
                 foreach ($r as $b) {
                     foreach ($b as $row) {
+                        $row = $prefix ? DbUtility::AutoPrefixColumn($prefix, $row) : $row;
                         $query = $_grammar->createInsertQuery($tbname, $row, $info);
                         Logger::info($query);
                         if (!$this->sendQuery($query, false)) {

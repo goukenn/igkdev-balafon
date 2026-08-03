@@ -457,6 +457,7 @@ class SQLGrammar implements IDbQueryGrammar
                 $v_name = $k;
                 $v->clName = $k;
             }
+            // Logger::info('for: '.$k);
             $v_type = $v->clType;
             if (preg_match($length_regex, $v_type, $tinfo)) {
                 if (!$v->clTypeLength || ($v->clTypeLength != $tinfo['size'])) {
@@ -468,7 +469,7 @@ class SQLGrammar implements IDbQueryGrammar
             $primkey = "noprimkey://" . $v_name;
             $v_name = $driver->escape_string($v_name);
             $query .= "" . self::GetKey($v_name,  $driver) . " ";
-            $type = getev(static::ResolvType($v_type), "Int");
+            $type = $driver->resolvType($v_type, getev(static::ResolvType($v_type), "Int"));
             $v_fallback_type = false;
             if ($resovlType && $driver && !$driver->isTypeSupported($type)) {
                 $type = static::fallbackType($type, $driver);
@@ -867,7 +868,7 @@ class SQLGrammar implements IDbQueryGrammar
     public function rename_column(string $table, string  $column, string $new_name): string
     {
         // + |  rename columns 
-        Logger::warn("rename columns .... " . $table);
+        igk_is_debug() && Logger::warn("rename columns .... " . $table);
         $adapter  = $this->m_driver;
         $q = null;
         $version = $this->getVersion();
@@ -1218,9 +1219,13 @@ class SQLGrammar implements IDbQueryGrammar
         if ($tinf === null) {
             fdie("can't get column: {$columnName} info in table: {$tbname}");
         }
+        $v_haslink = !empty($tinf->clLinkType);
         $def = static::AllowedDefValue();
         $v_null_value = $driver->getNullValue();
-        if (!empty($tinf->clLinkType) && is_string($value) && (strpos($value, ".") !== false)) {
+        if ($v_haslink &&  (empty($value) && !is_null($value))) {
+            $value = null;
+        }
+        if ($v_haslink && is_string($value) && (strpos($value, ".") !== false)) {
             if ($v = $driver->GetExpressQuery($value, $tinf)) {
                 return $v;
             }
@@ -1263,7 +1268,7 @@ class SQLGrammar implements IDbQueryGrammar
             return $value;
         }
         if ($is_json) {
-            if (is_null($value) && !$tinf->clNotNull){
+            if (is_null($value) && !$tinf->clNotNull) {
                 return $v_null_value;
             }
             if (is_string($value)) {
@@ -1276,7 +1281,7 @@ class SQLGrammar implements IDbQueryGrammar
             } else {
                 if (($data = json_encode($value, JSON_UNESCAPED_SLASHES)) || ($data == '0')) {
                     //return "'-" . str_replace('\\"', '\\\\"', $data) . "'"; 
-                    return "'" . $data. "'";
+                    return "'" . $data . "'";
                 }
             }
         }
@@ -1293,13 +1298,20 @@ class SQLGrammar implements IDbQueryGrammar
                 $of = null;
             }
         }
-        if (is_numeric($value) && $driver->isNumeric($tinf->clType)){
+        $is_numeric = $driver->isNumeric($tinf->clType);
+        if (is_numeric($value) && $is_numeric) {
             return $value;
         }
         if (($value === null) || ($value === $tinf->clDefault) || (($value !== '0') && empty($value))) {
             if ($tinf->clNotNull) {
                 // + allow null value
                 if ($tinf->clDefault !== null) {
+                    // + | fix default value 
+                    if (is_string($tinf->clDefault) && $is_numeric) {
+                        $tinf->clDefault = floatval($tinf->clDefault);
+                        return $tinf->clDefault;
+                    }
+
                     if (is_integer($tinf->clDefault)) {
                         return $tinf->clDefault;
                     } else {
@@ -1309,6 +1321,10 @@ class SQLGrammar implements IDbQueryGrammar
                         return "'" . $driver->escape_string($tinf->clDefault) . "'";
                     }
                 }
+                if ($tv = Database::GetNonExistingValue($tinf)) {
+                    return $tv;
+                }
+
                 // + | handle mysql fallback data
                 switch (strtolower($tinf->clType)) {
                     // + | handle mysql data number
@@ -1396,10 +1412,10 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
         $value = $driver->getDataValue($value, $tinf);
-        if ($is_json || is_object($value) || is_array($value)) {            
+        if ($is_json || is_object($value) || is_array($value)) {
             $grammar = $driver->getGrammar();
-            $value = $grammar->dataToJson($value);                
-            return sprintf("'%s'", addslashes($value)); 
+            $value = $grammar->dataToJson($value);
+            return sprintf("'%s'", addslashes($value));
         }
         return "'" . $driver->escape_string($value) . "'";
     }
@@ -1497,7 +1513,7 @@ class SQLGrammar implements IDbQueryGrammar
                     if ($v->clNotAllowEmptyString) {
                         igk_die("value passed to $k is an empty string");
                     }
-                    $tvalues->$k = null;
+                    $tvalues->$k = Database::GetNonExistingValue($v, $driver);
                 } else {
                     if (empty($values->{$k}) && $v->clNotAllowEmptyString) {
                         igk_die("value passed to $k is an empty string");
@@ -1533,7 +1549,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createSelectQuery(string $tbname, $where = null, $options = null): ?string
+    public function createSelectQuery(?string $tbname, $where = null, $options = null): ?string
     {
         $q = "";
         $ad = $this->m_driver;
@@ -1675,10 +1691,11 @@ class SQLGrammar implements IDbQueryGrammar
                     if ($r = $adapter->getObjValue($v, $k, $tableInfo)) {
                         if ($t == 1)
                             $query .= " $op ";
-                        if (!is_numeric($k)) {
-                            // + if (is_null($k = self::_GetKeyOperator($k, $v, $query,$c, $op, $t, $c_exp,$adapter))){
-                            $r = "" . $driver->escape_table_column($k) . "=" . $r;
+                        $c_exp = null;
+                        if (is_null($k = self::_GetKeyOperator($k, $r, $query, $c, $op, $t, $c_exp, $adapter))) {
+                            continue;
                         }
+                        $r = sprintf('%s %s %s', $driver->escape_table_column($k), $c, $r);                        
                         $query .= $r;
                         $t = 1;
                         continue;
@@ -1711,19 +1728,7 @@ class SQLGrammar implements IDbQueryGrammar
                     if (is_null($k = self::_GetKeyOperator($k, $v, $query, $c, $op, $t, $c_exp, $adapter))) {
                         continue;
                     }
-                    $query .= static::GetKey($k, $adapter);
-                    if ($v !== null) {
-                        if (is_array($v)) {
-                            $query .= $c;
-                            if ($op == 'in') {
-                                $query .= "(" . implode(", ", $v) . ")";
-                            } else
-                                $query .= implode(" ", $v);
-                        } else {
-                            $query .= "{$c}'" . $adapter->escape_string($v) . "'";
-                        }
-                    } else
-                        $query .= " " . ($c_exp ?? 'IS NULL');
+                    $query .= self::_BuildConditionExpression($k, $v,$op, $c, $c_exp, $adapter);
                 }
                 $t = 1;
             }
@@ -1733,6 +1738,54 @@ class SQLGrammar implements IDbQueryGrammar
             $query = "(" . implode(") {$operator} (", $tquery) . ")";
         }
         return $query;
+    }
+ 
+    /**
+     * 
+     * @param mixed $k key on test 
+     * @param mixed $v value
+     * @param mixed $op operator 
+     * @param mixed $c real calculation mode 
+     * @param mixed $adapter 
+     * @return string 
+     */
+    private static function _BuildConditionExpression($k, $v, $op, $c, $c_exp, $adapter)
+    {
+        $query = '';
+        $lkey = static::GetKey($k, $adapter);
+        if ($v !== null) {
+            if (is_array($v)) {
+                $query .= $c;
+                if ($op == 'in') {
+                    $query .= "(" . implode(", ", self::MapInValueData($v, $adapter)) . ")";
+                } else{
+                    $lkey='';
+                    $c = '';
+                    $query = self::GetFieldConditionString($adapter, $k, $v) ??  $c.implode(" ", $v);
+                }
+            } else {
+                $query .= "{$c}'" . $adapter->escape_string($v) . "'";
+            }
+        } else
+            $query .= " " . ($c_exp ?? 'IS NULL');
+        return $lkey.$query;
+    }
+    /**
+     * 
+     * @param array $value 
+     * @param mixed $ad 
+     * @return mixed[] 
+     */
+    public static function MapInValueData(array $value, $ad)
+    {
+        $tc = [];
+        foreach ($value as $v) {
+            if (!is_numeric($v)) {
+                $v = sprintf("'%s'", $ad->escape_string($v));
+            }
+            $tc[] = $v;
+        }
+        return $tc;
     }
     /**
      * get operator 
@@ -1752,6 +1805,7 @@ class SQLGrammar implements IDbQueryGrammar
             $ch = substr($k, 0, $ln = strlen($tab[0]));
             $k = substr($k, $ln);
             $op = null;
+            //  igk_wln('operator : '.$ch);
             switch ($ch) {
                 case SQLQueryFieldPrefixOperators::NOT_IN:
                     $c = " NOT IN ";
@@ -2022,7 +2076,7 @@ class SQLGrammar implements IDbQueryGrammar
         } else {
             $query .= " Limit " . $optset['Limit'];
         }
-        if (isset($optset['Skip'])){
+        if (isset($optset['Skip'])) {
             $query .= self::_BuildSkip(intval($optset['Skip']));
         }
         $query = trim($query);
@@ -2033,7 +2087,8 @@ class SQLGrammar implements IDbQueryGrammar
      * @param int $offset 
      * @return string 
      */
-    protected static function _BuildSkip(int $offset){
+    protected static function _BuildSkip(int $offset)
+    {
         return sprintf(" OFFSET %s", $offset);
     }
     /**
@@ -2191,5 +2246,64 @@ class SQLGrammar implements IDbQueryGrammar
     private function escape_string(string $v)
     {
         return $this->m_driver->escape_string($v);
+    }
+
+    public static function GetFieldConditionString($driver, string $field, array $cond)
+    {
+        $sb = '';
+        foreach ($cond as $op => $defs) {
+            if (is_numeric($op)) {
+                $rc[] = $defs;
+                continue;
+            }
+
+            $op = igk_getv(['or' => 'OR', 'and' => 'AND'], strtolower($op), 'AND');
+            $ch = '';
+            $rt = [];
+            foreach ($defs as $v) {
+                $l = '';
+                if (is_null($v)) {
+                    $l = sprintf('%s IS NULL', $field);
+                } else {
+                    if (is_array($v) && (count($v) == 2)) {
+                        list($cop, $value) = $v;
+                        $l = sprintf('(%s %s %s)', $field, self::Op($cop, $driver), self::GetFieldConditionValue($cop, $value, $driver));
+                    } else
+                        $l = sprintf('%s=\'%s\'', $field, $driver->escape_string($v));
+                }
+                $rt[] = $l;
+            }
+            $sb .= implode(sprintf(' %s ', $op), $rt);
+        }
+        return sprintf('(%s)', $sb);
+    }
+    /**
+     * 
+     * @param string $op 
+     * @param mixed $driver 
+     * @return string 
+     */
+    public static function Op(string $op, $driver)
+    {
+
+        return $op;
+    }
+    /**
+     * 
+     * @param string $op 
+     * @param mixed $value 
+     * @param mixed $driver 
+     * @return string 
+     */
+    public static function GetFieldConditionValue(string $op, $value, $driver)
+    {
+        if ($op == 'in') {
+
+            if (!is_array($value)) {
+                $value = [];
+            }
+            return sprintf('(\'%s\')', implode("','", $value));
+        }
+        return sprintf('\'%s\'', $driver->escape_string($value));
     }
 }

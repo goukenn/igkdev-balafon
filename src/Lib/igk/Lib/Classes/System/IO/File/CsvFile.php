@@ -54,22 +54,23 @@ class CsvFile
         $src = $content;
         $gsep = $this->separator ?? ',';
         $regex = new RegexMatcherContainer;
+        $regex->match('\\n', 'end');
         $sep = $regex->match($gsep, 'separator')->last();
-        $regex->appendStringDetection();
-        $p = $regex->begin("(?=[^,'\" ]+('|\"))", "\n", "start-multistring")->last();
+       
+        $regex->appendStringDetection('string', true);
+        $p = $regex->begin("(?=[^,'\" ]+('|\"))", ".(?=\\n)", "start-multistring")->last();
         $p->noSkipToEnd = true;
         $p->patterns = [
             $regex->createPattern([
                 'match'=>'(?='.$gsep.')',
             ])
         ];
-        $regex->match('\\n', 'end');
         $sb = '';
         $pos = 0;
         $r = [];
         $poffset = 0;
-        $sb = '';
-        $v_is_debug = igk_is_debug(StringUtility::Slugify(static::class));
+        $sb = '';        
+        $v_is_debug = igk_is_debug(); // igk_is_debug(StringUtility::Slugify('csv-file-reading'));
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 $v_is_debug && Logger::info('token: '.$e->tokenID. ', value='. json_encode($e->value));
@@ -86,18 +87,24 @@ class CsvFile
                     $r = [];
                     $sb = '';
                 } else {
+                    $tx = substr($src, $poffset, $e->from - $poffset);
+                    if (empty(trim($tx))){
+                        $tx = '';
+                    }
                     if ($e->tokenID == 'separator') {
-                        $before = substr($src, $poffset, $e->from - $poffset);
+                        $before = $tx;//substr($src, $poffset, $e->from - $poffset);
                         $sb.= rtrim($before);
                         $r[] = igk_str_remove_quote(trim($sb));
                         $sb = '';
+                        $tx = '';
                     }
                     if ($e->tokenID == 'string') {
-                        $sb .= $e->value; 
+                        
+                        $sb .= $tx.self::_TreatString($e->value); 
                     }
                     if ($e->tokenID == 'start-multistring') {
                         // $poffset = $e->to;
-                        $sb = substr($src, $poffset, $e->from - $poffset).$e->value;
+                        $sb = $tx.$e->value;
                         $sb = igk_str_remove_quote(trim($sb));                        
                     }
                 }
@@ -133,10 +140,14 @@ class CsvFile
         );
         return array_filter($data);
     }
+    public function _TreatString(string $v){
+        $v = stripslashes($v);
+        return $v;
+    }
     /**
      * use data to expor line 
      * @param array $data 
-     * @return void 
+     * @return string 
      */
     public function exportLine(array $data, $length = null): string
     {

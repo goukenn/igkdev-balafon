@@ -51,13 +51,18 @@ foreach(["IGK_NO_DBCACHE"] as $k){
 }
 unset($k,$t, $appdir);
 defined("IGK_PROJECT_DIR") || define("IGK_PROJECT_DIR", IGK_APP_DIR."/Projects");           
+
 require_once(__DIR__."/PhpUnitApplication.php");
 require_once(IGK_LIB_CLASSES_DIR."/ApplicationFactory.php");
 require_once(IGK_LIB_CLASSES_DIR."/IGKEnvironment.php");
+require_once(IGK_LIB_CLASSES_DIR."/ApplicationLoader.php");
+
 igk_environment()->setArray("extra_config", "configFiles", ["unittest"]);
 // + | ---------------------------------------------------------------------------------------------------
 // + | register phpunit application
+// + |
 ApplicationFactory::Register("phpunit", PhpUnitApplication::class);
 // + | ---------------------------------------------------------------------------------------------------
 // + | run phpunit app
-ApplicationLoader::Boot("phpunit")->run(__FILE__, false);
+// + | 
+ ApplicationLoader::Boot("phpunit")->run(__FILE__, false);

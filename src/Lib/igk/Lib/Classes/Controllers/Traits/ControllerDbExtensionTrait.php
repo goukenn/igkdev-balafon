@@ -8,6 +8,7 @@ use Elementor\Data\Base\Controller;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
+use IGK\Database\IDbColumnInfo;
 use IGK\Helper\DbUtilityHelper;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
@@ -28,6 +29,7 @@ use IGKEvents;
 * @package IGK\Controllers\Traits
 */
 trait ControllerDbExtensionTrait{
+    abstract static function getDataAdapter(BaseController $ctrl);
      /**
      * drop list data base
      */
@@ -99,6 +101,7 @@ trait ControllerDbExtensionTrait{
             Groups::FD_CL_CONTROLLER=>$controller->getName()
         ];
         $r = Groups::select_all($cond);
+        $r && igk_hook(IGKEvents::HOOK_DB_BEFORE_DROP_PROFILES, ['profiles'=>$r, 'ctrl'=>$controller]);
         foreach($r as $raw){
             Usergroups::delete([
                 Usergroups::FD_CL_GROUP_ID=>$raw->clId
@@ -115,7 +118,7 @@ trait ControllerDbExtensionTrait{
      * @param string $table 
      * @param mixed|IDbColumnInfo|object $info 
      * @return mixed 
-     * @throws IGKException 
+     * @throws \IGKException 
      */
     public static function db_rm_column(BaseController $ctrl, string $table, $info)
     {
@@ -141,7 +144,7 @@ trait ControllerDbExtensionTrait{
     }
     /**
      * add column
-     * @param IGK\Controllers\Traits\BaseController $ctrl 
+     * @param BaseController $ctrl 
      * @param mixed $table 
      * @param mixed $info 
      * @param mixed $after 

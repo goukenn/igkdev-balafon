@@ -130,7 +130,6 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * retrieve model info
-     * @var IGK\Models\Models
      * @return array
      */
     public static function &RegisterModels(): array

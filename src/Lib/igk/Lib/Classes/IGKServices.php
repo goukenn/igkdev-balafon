@@ -10,23 +10,26 @@ use IGK\Services\IAppService;
 use IGK\Services\IAppServiceContainer;
 use IGK\System\Core\ListOfCoreServices;
 use IGK\System\DependencyInjection\LifeTime;
+use IGK\System\Services\AppBaseContainerService;
+
 use function igk_resources_gets as __;
 
 require_once __DIR__ . "/IService.php";
 /**
-* Igkservices.
-*/
+ * Core services definitions 
+ * @package 
+ */
 class IGKServices extends ListOfCoreServices
 {
     /**
-    * Property: instance.
-    * @var mixed
-    */
+     * Property: instance.
+     * @var mixed
+     */
     private static $sm_instance;
     /**
-    * Property: services.
-    * @var mixed
-    */
+     * Property: services.
+     * @var mixed
+     */
     private $m_services = [];
     /**
      * store init transient service 
@@ -34,39 +37,39 @@ class IGKServices extends ListOfCoreServices
      */
     private $m_transients = [];
     /**
-    * Constant: key def.
-    * @var mixed
-    */
+     * Constant: key def.
+     * @var mixed
+     */
     const KEY_DEF = '@def';
     /**
-    * Constant: key lifetime.
-    * @var mixed
-    */
+     * Constant: key lifetime.
+     * @var mixed
+     */
     const KEY_LIFETIME = '@lifetime';
     /**
-    * Constant: init args.
-    * @var mixed
-    */
+     * Constant: init args.
+     * @var mixed
+     */
     const INIT_ARGS = DispatcherService::INIT_ARGS;
     /**
-    * Constant: key instance.
-    * @var mixed
-    */
+     * Constant: key instance.
+     * @var mixed
+     */
     const KEY_INSTANCE = 'instance';
     /**
-    * Constant: path separator.
-    * @var mixed
-    */
+     * Constant: path separator.
+     * @var mixed
+     */
     const PATH_SEPARATOR = '::';
     /**
-    * Property: init def.
-    * @var mixed
-    */
+     * Property: init def.
+     * @var mixed
+     */
     private static $sm_initDef;
     /**
-    * Sets Definition.
-    * @param mixed $n
-    */
+     * Sets Definition.
+     * @param mixed $n
+     */
     public static function SetDefinition($n)
     {
         self::$sm_initDef = $n;
@@ -80,18 +83,18 @@ class IGKServices extends ListOfCoreServices
         return igk_configs()->get('service_configuration_file') ?? igk_io_sys_datadir() . '/services.php';
     }
     /**
-    * Magic getter for dynamic properties.
-    * @param mixed $name
-    */
+     * Magic getter for dynamic properties.
+     * @param mixed $name
+     */
     public function __get($name)
     {
         return igk_getv($this->m_services, $name);
     }
     /**
-    * Magic setter for dynamic properties.
-    * @param mixed $name
-    * @param null|IAppService $service
-    */
+     * Magic setter for dynamic properties.
+     * @param mixed $name
+     * @param null|IAppService $service
+     */
     public function __set($name, ?IAppService $service = null)
     {
         if ($service == null) {
@@ -127,22 +130,22 @@ class IGKServices extends ListOfCoreServices
         $v_isn = $i->{$sn};
         $l = igk_getv($v_isn,  $v_key);
         $v_transient = false;
-        if ($l){
-            if (!($v_isn = igk_getv($i->m_transients, $serviceName))){
+        if ($l) {
+            if (!($v_isn = igk_getv($i->m_transients, $serviceName))) {
                 return $l;
             }
             $v_transient = true;
         }
         $className = igk_getv($v_isn, self::KEY_DEF);
-        if ($className){
-            if (!$v_transient && igk_getv($v_isn, self::KEY_LIFETIME) == LifeTime::TRANSIENT){
+        if ($className) {
+            if (!$v_transient && igk_getv($v_isn, self::KEY_LIFETIME) == LifeTime::TRANSIENT) {
                 $i->m_transients[$serviceName] = $v_isn;
             }
             self::_InitServiceInstance($i, $sn, $className);
-            $l = igk_getv($i->{$sn},  $v_key );
+            $l = igk_getv($i->{$sn},  $v_key);
             if ($container) {
                 $ext = igk_io_path_ext($serviceName);
-                if (is_null($v_icontainer = igk_getv($container,  $v_key ))) {
+                if (is_null($v_icontainer = igk_getv($container,  $v_key))) {
                     $v_icontainer = self::Get(substr($serviceName, 0, stripos($serviceName, '.')));
                 }
                 $v_icontainer->register($ext, $l);
@@ -152,14 +155,14 @@ class IGKServices extends ListOfCoreServices
         return null;
     }
     /**
-    * register service.
-    * @param string $serviceName
-    * @param string $className a class that implement IAppService
-    * @param ?array $args
-    * @param mixed $life_time
-    * @throws IGKException
-    * @return bool
-    */
+     * register service.
+     * @param string $serviceName
+     * @param string $className a class that implement IAppService
+     * @param ?array $args
+     * @param mixed $life_time
+     * @throws IGKException
+     * @return bool
+     */
     public static function Register(string $serviceName, string $className, ?array $args = null, $life_time = LifeTime::SINGLETON): bool
     {
         $instance = self::getInstance();
@@ -167,7 +170,7 @@ class IGKServices extends ListOfCoreServices
             self::_GetContainer($serviceName, $container, $path);
             $v_kdef = self::KEY_DEF;
             if (!($c = igk_getv($instance->m_services, $serviceName)) || key_exists($v_kdef, $c) || (get_class($c[self::KEY_INSTANCE]) != $className)) {
-                $cf = [$v_kdef => $className, self::KEY_LIFETIME=>$life_time];
+                $cf = [$v_kdef => $className, self::KEY_LIFETIME => $life_time];
                 if ($args) {
                     $cf[$className] = self::_InitDefArgs($args);
                 }
@@ -225,25 +228,40 @@ class IGKServices extends ListOfCoreServices
             $q = array_shift($p);
             $path .= $ch . $q;
             if (is_null($container)) {
-                $container = igk_getv($instance->m_services, $q) ?? igk_die('missing root service container. ' . $q);
+                $container = igk_getv($instance->m_services, $q) ?? self::_InitBaseContainerService($q, $instance->m_services) ?? igk_die('missing root service container. ' . $q);
             } else {
                 $container = $container->get($q) ?? igk_die('missing service-container in !' . $path);
             }
             $ch = '/';
         }
-        if (empty($path)){
+        if (empty($path)) {
             $path = $n;
-        }else{
+        } else {
             $path = $path . self::PATH_SEPARATOR . $n;
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $instance
-    * @param string $serviceName
-    * @param string $className
-    * @return mixed|void
-    */
+     * 
+     * @param mixed $n 
+     * @param mixed $service 
+     * @return object 
+     */
+    protected static function _InitBaseContainerService($n, & $service){
+        $c = "\\IGK\\System\\Services\\".ucfirst($n)."ServiceContainer";
+        $cl = AppBaseContainerService::class;
+        if(class_exists($c) && is_subclass_of($c, IAppServiceContainer::class)){
+          $cl = $c; 
+        }
+        self::Register($n, $cl);
+        return self::Get($n);
+    }
+    /**
+     * auto generate doc.
+     * @param mixed $instance
+     * @param string $serviceName
+     * @param string $className
+     * @return mixed|void
+     */
     private static function _InitServiceInstance($instance, string $serviceName, string $className)
     {
         static $initializing;
@@ -261,27 +279,27 @@ class IGKServices extends ListOfCoreServices
             if ($v_tci = igk_getv($configuration, $serviceName)) {
                 if (!is_array($v_tci)) {
                     $v_tci = [$v_tci];
-                } 
-            }  
+                }
+            }
             $configuration[$serviceName] = $v_tci ? array_merge($v_tci, $ci) : $ci;
         }
         $config_key = str_replace('/', '.',  str_replace('::', '.', $serviceName));
         $gkey = sprintf('%s/%s', $config_key, $className);
         $args = self::_GetConfigurationServiceArgs($configuration, $gkey);
-        if ($args && !is_array($args)){
+        if ($args && !is_array($args)) {
             $args = [$args];
         }
-        $v_refcl = igk_sys_reflect_class($className);        
-        $cl = self::CreateServiceNewInstance($v_refcl, $args);       
+        $v_refcl = igk_sys_reflect_class($className);
+        $cl = self::CreateServiceNewInstance($v_refcl, $args);
         $initializing[$className] = $cl;
         $cnf = self::_GetFallingConfiguration($configuration, $gkey);
-        if ($cl->init($cnf)){
+        if ($cl->init($cnf)) {
             $file = $v_refcl->getFileName();
             $instance->m_services[$serviceName] = [
                 self::KEY_INSTANCE => $cl,
                 "file" => $file
             ];
-            if ($cl instanceof IAppServiceContainer){
+            if ($cl instanceof IAppServiceContainer) {
                 $cl->setName($serviceName);
             }
             ServiceController::register($className, igk_io_collapse_path($file));
@@ -289,24 +307,25 @@ class IGKServices extends ListOfCoreServices
         unset($initializing[$className]);
     }
     /**
-    * auto generate doc.
-    * @param ReflectionClass $v_refclass
-    * @param null|array $args
-    * @return object|null
-    */
-    public static function CreateServiceNewInstance(ReflectionClass $v_refclass, ?array $args){
+     * auto generate doc.
+     * @param ReflectionClass $v_refclass
+     * @param null|array $args
+     * @return object|null
+     */
+    public static function CreateServiceNewInstance(ReflectionClass $v_refclass, ?array $args)
+    {
         static $createedInstance;
         ($v_refclass->isAbstract()) && igk_die('class is abstract');
-        if (is_null($createedInstance)){
+        if (is_null($createedInstance)) {
             $createedInstance = [];
         }
         $classname = $v_refclass->getName();
         isset($createedInstance[$classname]) && igk_die(sprintf(__('recursive create service instance detected on %s'), $classname));
         $createedInstance[$classname] = 1;
         $ctr = $v_refclass->getConstructor();
-        if ($ctr){
-            $parameters = $ctr->getParameters();        
-            $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $args ?? []);        
+        if ($ctr) {
+            $parameters = $ctr->getParameters();
+            $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $args ?? []);
             $cl = $v_refclass->newInstanceArgs($arguments);
         } else {
             $cl = new $classname();
@@ -330,38 +349,40 @@ class IGKServices extends ListOfCoreServices
         return true;
     }
     /**
-    * auto generate doc.
-    * @param mixed $configuration
-    * @param string $gkey
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $configuration
+     * @param string $gkey
+     * @return mixed
+     */
     private static function _GetFallingConfiguration($configuration, string $gkey)
     {
-        $fc_unset_args = function($l): bool{
+        $fc_unset_args = function ($l): bool {
+            if (!is_array($l)){
+                $l = [$l];
+            }
             unset($l[self::INIT_ARGS]);
             unset($l[self::KEY_LIFETIME]);
-            if ($def = igk_getv($l, self::KEY_DEF)){
+            if ($def = igk_getv($l, self::KEY_DEF)) {
                 unset($l[self::KEY_DEF]);
                 unset($l[$def]);
             }
             return empty($l);
         };
         $l = null;
-        if ($gkey) {
-            while (!($l = igk_conf_get($configuration, $gkey)) || $fc_unset_args($l)) {
-                if (!self::_GoKeyUp($gkey)) {
-                    break;
-                }
+
+        while (!($l = igk_conf_get($configuration, $gkey)) || $fc_unset_args($l)) {
+            if (!self::_GoKeyUp($gkey)) {
+                break;
             }
         }
         return $l;
     }
     /**
-    * auto generate doc.
-    * @param mixed $configuration
-    * @param string $gkey
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $configuration
+     * @param string $gkey
+     * @return mixed
+     */
     private static function _GetConfigurationServiceArgs($configuration, string $gkey)
     {
         $l = null;
@@ -380,7 +401,7 @@ class IGKServices extends ListOfCoreServices
      */
     public function services(): array
     {
-        if (is_null($this->m_services)){
+        if (is_null($this->m_services)) {
             $this->clear();
         }
         return $this->m_services;
@@ -389,7 +410,8 @@ class IGKServices extends ListOfCoreServices
      * clear loading service
      * @return void 
      */
-    public function clear(){
+    public function clear()
+    {
         $this->m_services = [];
         $this->m_transients = [];
     }

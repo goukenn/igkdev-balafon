@@ -195,4 +195,6 @@ abstract class EntryClassResolution
      * classe entry use to define hook command info help if filter hook failed 
      */
     const COMMAND_HELP_INFO_NS = 'System/Console/Help/';
+
+    const ProfileGetDefaultProfileMethod = 'getDefaultProfile';
 }

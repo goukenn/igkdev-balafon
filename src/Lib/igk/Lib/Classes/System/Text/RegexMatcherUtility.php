@@ -34,12 +34,15 @@ abstract class RegexMatcherUtility
     * @var mixed
     */
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
+    const DEFAULT_ESCAPED_LIST =  '.)(*+[]/';
     /**
     * Escape char list.
     * @param array $list
     */
-    public static function EscapeCharList(array $list){
-        $t = str_split('.)(*+[]/', 1);
+    public static function EscapeCharList(array $list, ?string $escaped_list = self::DEFAULT_ESCAPED_LIST){
+        if (empty($escaped_list))
+                $escaped_list = self::DEFAULT_ESCAPED_LIST;
+        $t = str_split($escaped_list, 1);
         return array_map(function($a)use ($t){
                 return in_array($a , $t) ? '\\'.$a: $a;
         }, $list);

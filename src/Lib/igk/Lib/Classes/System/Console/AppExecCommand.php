@@ -148,8 +148,7 @@ abstract class AppExecCommand extends AppCommand{
         return $ctrl;
     }
     /**
-     * get controller or die
-     * @param mixed $command 
+     * get controller or die 
      * @param null|string $controller 
      * @param bool $system 
      * @return mixed 
@@ -186,4 +185,5 @@ abstract class AppExecCommand extends AppCommand{
 		$ctrl = $ctrl ?? ($fall_to_sys? SysDbController::ctrl() : null);
         return $ctrl;
     }
+   
 }

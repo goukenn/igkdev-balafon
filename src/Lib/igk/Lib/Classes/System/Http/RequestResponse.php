@@ -33,6 +33,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     var $code = 200;
     /**
      * additinal header
+     * @var mixed
      */
     var $headers; 
     /**

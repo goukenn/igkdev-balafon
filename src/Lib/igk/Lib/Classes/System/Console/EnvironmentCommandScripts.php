@@ -16,11 +16,7 @@ use IGKException;
  * 
  * @package IGK\System\Console
  * @author C.A.D. BONDJE DOUE
- */
-/**
-* auto generate doc.
-* @package IGK\System\Console
-*/
+ */ 
 class EnvironmentCommandScripts
 {
     /**

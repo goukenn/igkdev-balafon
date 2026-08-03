@@ -26,16 +26,35 @@ function igk_get_env($k, $default = null)
     }
     return igk_environment()->get($k, $default);
 }
+
 /**
-* auto generate doc.
-* @param mixed $type
-* @param mixed $name
-* @param mixed $callback
-* @return mixed
-*/
-function igk_register_service($type, $name, $callback)
+ * get service key definition 
+ * @param string $type 
+ * @return string 
+ */
+function igk_get_service_key(string $type):string{
+    return IGK_SERVICE_PREFIX_PATH . strtolower($type);
+}
+/**
+ * get registrated action service by service type
+ * @param string $service_type service root type name
+ * @return mixed
+ */
+function igk_get_services(string $service_type)
 {
-    $k = IGK_SERVICE_PREFIX_PATH . strtolower($type);
+    $k = igk_get_service_key($service_type);
+    return igk_get_env($k);
+}
+/**
+* register action service 
+* @param string $type
+* @param string $name
+* @param callable $callback
+* @return mixed registrated service key 
+*/
+function igk_register_service(string $type,string $name,callable $callback)
+{
+    $k = igk_get_service_key($type);
     $tab = igk_get_env($k, function () {
         return array();
     });

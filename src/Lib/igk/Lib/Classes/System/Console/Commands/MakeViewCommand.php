@@ -181,7 +181,7 @@ class MakeViewCommand extends AppExecCommand
                 igk_die('missing scaffold type');
             }
         }
-        return  "\$t->div()->Content = 'View : $viewname';";
+        return "\$t->div()->Content = 'View : $viewname';";
     }
     /**
     * Returns Styled Def Data.

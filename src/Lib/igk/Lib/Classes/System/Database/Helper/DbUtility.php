@@ -9,6 +9,7 @@ use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
+use IGK\Helper\Database;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
@@ -26,6 +27,20 @@ use IGKSysUtil;
  */
 abstract class DbUtility
 {
+    /**
+     * 
+     * @param string $prefix 
+     * @param mixed $row 
+     * @return array 
+     */
+    public static function AutoPrefixColumn(string $prefix, $row){
+        $trow = [];
+        foreach($row as $k=>$v){
+            $a = Database::AutoPrefixColumn($k, $prefix);
+            $trow[$a] = $v;
+        }
+        return $trow;
+    }
     /**
      * Escape slashes value for json detection.
      * @param string $value

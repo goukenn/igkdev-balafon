@@ -9,11 +9,7 @@ use IGK\System\Text\RegexMatcherContainer;
 * auto generate doc.
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
-*/
-/**
-* auto generate doc.
-* @package IGK\System\Html\Css
-*/
+*/ 
 abstract class CssClassNameDetectorUtils{
     /**
     * auto generate doc.

@@ -5223,16 +5223,13 @@
             var frm = this.select("form").first();
             if (frm) {
                 frm.reg_event("submit", g.subfunc(frm));
-                // diseable pression on input to enter data
+                // disable pression on input to enter data
                 frm.select("input").reg_event("keyup keydown keypress", function (evt) {
                     if (evt.keyCode == 13) {
                         evt.preventDefault();
                         return false;
                     }
-                });
-                // igk.getKeys(evt);
-                // }
-                // ));
+                }); 
             }
             if (g.options) {
                 g.options.addClass("dispn");
@@ -7130,6 +7127,7 @@
             }
 
             function __init() {
+                //   console.log('.....................; 1111 ;');
                 var self = this;
                 var r = this.getAttribute("igk-ajx-form");
                 var r_obj = r && (r != '1') ? igk.JSON.parse(r) : null;
@@ -7158,6 +7156,7 @@
                         if (cancel) {
                             return;
                         }
+                        // console.log('.....................;;');
                         const selector = self.qselect('input, button');
                         const ovalue = [];
 

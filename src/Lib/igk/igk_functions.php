@@ -22,6 +22,7 @@ use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Controllers\ControllerTypeBase;
 use IGK\Controllers\OwnViewCtrl;
+use IGK\Core\View\TreatViewContent;
 use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssResourceResolver;
 use IGK\Database\DbColumnInfo;
@@ -3556,15 +3557,17 @@ function igk_css_type($b)
  */
 function igk_css_type_styles()
 {
-    return array(
+    return [
         "default",
+        "disable",
         "success",
         "danger",
         "warning",
         "info",
         "active",
-        "disable"
-    );
+        "primary",
+        "accent"
+    ];
 }
 /**
  * unregister font package
@@ -4064,6 +4067,26 @@ function igk_ctrl_zone_init($filepath)
     }
     igk_set_env("sys://ctrl/zone/files", $b);
     return $b[$filepath];
+}
+
+/**
+ * 
+ * @param mixed $ctrl 
+ * @param mixed $field 
+ * @return mixed 
+ */
+function igk_ctrl_extra_field_setting(BaseController $ctrl, string $field){
+    $project = $ctrl->getProjectConfig();
+    $o = igk_conf_get($project, 'extra/'.$field);
+    $settings = igk_project_extra_configuration();
+    $r = null;
+    if($cl = igk_getv($settings, $field)){        
+        if ($cl instanceof \IGK\System\Data\DataMappingBase){
+            $r = $cl->Map($o);
+        } else 
+            $r = Activator::CreateNewInstance($cl, $o); 
+    }
+    return $r;
 }
 /**
  * auto generate doc.
@@ -5133,12 +5156,7 @@ function igk_db_init_dataschema($ctrl, $dataschema, $adapter)
 {
     return DbSchemas::InitData($ctrl, $dataschema, $adapter);
 }
-/**
- * auto generate doc.
- * @param mixed $ctrl
- * @param mixed $schema
- * @param mixed $entries
- */
+ 
 /**
 * auto generate doc.
 * @param mixed $file
@@ -7835,7 +7853,7 @@ function igk_get_class_constants($classname)
  * @param mixed $callback
  * @return mixed
  */
-function igk_get_class_instance($classname, $callback)
+function igk_get_class_instance($classname, $callback = null)
 {
     return igk_environment()->createClassInstance($classname, $callback);
 }
@@ -8260,21 +8278,11 @@ function igk_get_defaultcron_data($file = "cronjob.php")
  * @return mixed
  */
 function igk_get_defaultview_content(?BaseController $controller=null)
-{
-    $date = date("Y/m/d - H:i:s");
-    $author = igk_configs()->defaultAuthor ?? IGK_AUTHOR;
-    return <<<EOF
-<?php
-// +-
-// @author: {$author}
-// view file: {$date}
-// +-
-
-\$t->clearChilds();
-\$doc->Title = \$fname." - ".\$this->Name;
-\$t->div()->Content = "200 - Empty view";
-
-EOF;
+{     
+    return implode("\n", [ 
+        '$doc->Title = $fname." - ".$this->Name;',
+        '$t->div()->Content = "200 - Empty view";',
+    ]);
 }
 /**
  * auto generate doc.
@@ -9283,16 +9291,7 @@ function igk_get_selector_map($node)
     $o[] = "/(" . $toi . ")/im";
     return $o;
 }
-/**
- * get registrated service by name
- * @param string $service_type service root type name
- * @return mixed
- */
-function igk_get_services(string $service_type)
-{
-    $k = Path::Combine(IGK_SERVICE_PREFIX_PATH, $service_type);
-    return igk_get_env($k);
-}
+
 /**
  * retrieve the registrate service
  * @param string $service_type
@@ -13250,93 +13249,103 @@ function igk_include_view($ctrl, $target, string $file, $args = null, $create = 
  * @param BaseController $ctrl
  * @param string $file
  * @param mixed $no_cache
+ * @param mixed ...$params extra args options 
  * @return mixed
  */
-function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = false)
+function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = false, ...$params)
 {
-    $ext = igk_io_path_ext($file);
-    $handler = null;
-    $args = array_slice(func_get_args(), 3);
-    $cache = igk_cache()::view();
-    $key = IGKEnvironmentConstants::VIEW_FILE_CACHES;
-    igk_environment()->push($key, $file);
-    if (!in_array($ext, ['phtml', 'pinc'])) {
-        // + | handling response from file handler
-        if (($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtension('.' . $ext)) instanceof FileHandler) {
-            $response = $handler->transform(file_get_contents($file), (object)['ctrl' => $ctrl, 'raw' => ViewHelper::GetViewArgs('data')]);
-            if ($response instanceof HtmlItemBase)
-                $ctrl->getTargetNode()->add($response);
-            else if ($response) {
-                igk_wl($response);
-            }
-            igk_environment()->pop($key);
-            return;
-        }
+    // + | to handle view view content 
+    static  $treat;
+    if (is_null($treat)){
+        $treat = new TreatViewContent();
     }
-    $_bindfc = (function () {
-        if ((func_num_args() >= 2) && (is_array(func_get_arg(1)))) {
-            extract(igk_extract_ref(func_get_arg(1)));
-        }
-        // + | include view file.
-        extract(igk_extract_ref($this->getExtraArgs()), EXTR_SKIP);
-        return include(func_get_arg(0));
-    })->bindTo($ctrl);
-    if ($no_cache) {
-        array_unshift($args, $file);
-    } else {
-        $_f = $cache->getCacheFilePath($file);
-        $_bindfc = BalafonCacheViewCompiler::GetBindViewCompilerHandler($ctrl);
-        if ($cache->cacheExpired($file)) {
-            // + | ---------------------------------------------------------------
-            // + | Build cache view from article file 
-            // + | 
-            $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
-            igk_io_w2file($_f, $output);
-        }
-        array_unshift($args, $_f);
-    }
-    $response = null;
-    try {
-        $response = $_bindfc(...$args);
-    } catch (TypeError $ex) {
-        igk_dev_wln_e("fatal error: " . $ex->getMessage());
-        throw $ex;
-    } catch (Exception $ex) {
-        if (!igk_environment()->no_handle_error && igk_environment()->isDev() && !defined("IGK_TEST_INIT")) {
-            igk_ilog("INC VIEW ERROR:::" . $ex->getMessage());
-            $rp = realpath(igk_environment()->last($key));
-            $src = $ex->getFile();
-            $code = $ex->getCode();
-            if ($code) {
-                igk_set_header($code);
-            }
-            igk_environment()->isDev() && igk_dev_wln_e(
-                implode("\n", [
-                    "<html>",
-                    "<head><title>Error  : " . $code . "</title></head>",
-                    "<body>",
-                    "<h2>INC VIEW ERROR</h2>" . $rp,
-                    "<div>" . $ex->getMessage() . "</div>",
-                    $rp == $ex->getFile() ? $ex->getFile() . ":" . $ex->getLine() : '',
-                    implode("<br />", array_map(function ($e) use ($src) {
-                        $file = igk_getv($e, "file");
-                        $line = igk_getv($e, "line");
-                        if ($src == $file) {
-                            return "__CACHE__:" . basename($file) . "." . $line;
-                        }
-                        return implode(":", [empty($file) ? null : igk_io_collapse_path($file) . ':' . $line]);
-                    }, $ex->getTrace())),
-                    "</body>",
-                    "</html>"
-                ])
-            );
-        }
-        ob_end_clean();
-        throw $ex;
-    } finally {
-        igk_environment()->pop($key);
-    }
-    return $response;
+    return call_user_func_array([$treat, 'treat'], func_get_args()); 
+
+    // $ext = igk_io_path_ext($file);
+    // $handler = null;
+    // $args = array_slice(func_get_args(), 3);
+    // $cache = igk_cache()::view();
+    // $key = IGKEnvironmentConstants::VIEW_FILE_CACHES;
+    // igk_environment()->push($key, $file);
+    // if (!in_array($ext, ['phtml', 'pinc'])) {
+    //     // + | handling response from file handler
+    //     if (($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtension('.' . $ext)) instanceof FileHandler) {
+    //         $response = $handler->transform(file_get_contents($file), (object)['ctrl' => $ctrl, 'raw' => ViewHelper::GetViewArgs('data')]);
+    //         $target = $ctrl->getTargetNode();
+    //         if ($response instanceof HtmlItemBase)
+    //             $target->add($response);
+    //         else if ($response) {
+    //             $target->text($response);
+    //             // igk_wl($response);
+    //         }
+    //         igk_environment()->pop($key);
+    //         return;
+    //     }
+    // }
+    // $_bindfc = (function () {
+    //     if ((func_num_args() >= 2) && (is_array(func_get_arg(1)))) {
+    //         extract(igk_extract_ref(func_get_arg(1)));
+    //     }
+    //     // + | include view file.
+    //     extract(igk_extract_ref($this->getExtraArgs()), EXTR_SKIP);
+    //     return include(func_get_arg(0));
+    // })->bindTo($ctrl);
+    // if ($no_cache) {
+    //     array_unshift($args, $file);
+    // } else {
+    //     $_f = $cache->getCacheFilePath($file);
+    //     $_bindfc = BalafonCacheViewCompiler::GetBindViewCompilerHandler($ctrl);
+    //     if ($cache->cacheExpired($file)) {
+    //         // + | ---------------------------------------------------------------
+    //         // + | Build cache view from article file 
+    //         // + | 
+    //         $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
+    //         igk_io_w2file($_f, $output);
+    //     }
+    //     array_unshift($args, $_f);
+    // }
+    // $response = null;
+    // try {
+    //     $response = $_bindfc(...$args);
+    // } catch (TypeError $ex) {
+    //     igk_dev_wln_e("fatal error: " . $ex->getMessage());
+    //     throw $ex;
+    // } catch (Exception $ex) {
+    //     if (!igk_environment()->no_handle_error && igk_environment()->isDev() && !defined("IGK_TEST_INIT")) {
+    //         igk_ilog("INC VIEW ERROR:::" . $ex->getMessage());
+    //         $rp = realpath(igk_environment()->last($key));
+    //         $src = $ex->getFile();
+    //         $code = $ex->getCode();
+    //         if ($code) {
+    //             igk_set_header($code);
+    //         }
+    //         igk_environment()->isDev() && igk_dev_wln_e(
+    //             implode("\n", [
+    //                 "<html>",
+    //                 "<head><title>Error  : " . $code . "</title></head>",
+    //                 "<body>",
+    //                 "<h2>INC VIEW ERROR</h2>" . $rp,
+    //                 "<div>" . $ex->getMessage() . "</div>",
+    //                 $rp == $ex->getFile() ? $ex->getFile() . ":" . $ex->getLine() : '',
+    //                 implode("<br />", array_map(function ($e) use ($src) {
+    //                     $file = igk_getv($e, "file");
+    //                     $line = igk_getv($e, "line");
+    //                     if ($src == $file) {
+    //                         return "__CACHE__:" . basename($file) . "." . $line;
+    //                     }
+    //                     return implode(":", [empty($file) ? null : igk_io_collapse_path($file) . ':' . $line]);
+    //                 }, $ex->getTrace())),
+    //                 "</body>",
+    //                 "</html>"
+    //             ])
+    //         );
+    //     }
+    //     ob_end_clean();
+    //     throw $ex;
+    // } finally {
+    //     igk_environment()->pop($key);
+    // }
+    // return $response;
 }
 /**
  * auto generate doc.
@@ -23006,7 +23015,14 @@ function igk_sys_js_exclude_dir(): array
 function igk_sys_lib_ignore($dir)
 {
     $key = IGKEnvironment::IGNORE_LIB_DIR;
-    $d = igk_get_env($key);
+    $env = igk_environment();
+    $exists = $env->exists($key);
+    $d = null;
+    if ($exists){ 
+        $d = & igk_environment()->getRefArray($key);
+    }else
+        $d = igk_get_env($key);
+
     if (!$d) {
         $d = array();
     }
@@ -23016,7 +23032,8 @@ function igk_sys_lib_ignore($dir)
     foreach ($dir as $k) {
         $d[igk_uri($k)] = 1;
     }
-    igk_set_env($key, $d);
+    if (!$exists)
+        igk_environment()->setByRef($key, $d); 
 }
 /**
  * get class method that will be exposed

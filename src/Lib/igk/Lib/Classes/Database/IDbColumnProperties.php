@@ -37,6 +37,7 @@ namespace IGK\Database;
 * @property ?string $clLinkName
 * @property ?string $clLinkRelationName
 * @property ?string $clLinkTableDisplay
+* @property ?string $clLinkNotNullDefaultValue
 * @property ?string $clLinkTo
 * @property ?string $clLinkType
 * @property ?string $clMap

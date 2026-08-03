@@ -68,13 +68,16 @@ class SelectCommand extends AppExecCommand
     */
     var $usage = '[controller] model[.macrosFunction] [options]';
     /**
-    * Exec.
+    * Exec. 
     * @param mixed $command
-    * @param null|string $ctrl
+    * @param null|string $controller
     * @param null|string $model
     */
-    public function exec($command, ?string $ctrl = null, ?string $model = null)
+    public function exec($command, ?string $controller = null, ?string $model = null)
 	{
+		$ctrl = $controller;
+		 // + | copy arguments to pass to calling model 
+		$cmd_args = array_slice(func_get_args(), 1);
 		if (property_exists($command->options, '--controller')) {
 			$model = $ctrl;
 			$ctrl = igk_getv($command->options, '--controller');
@@ -82,6 +85,7 @@ class SelectCommand extends AppExecCommand
 		is_null($ctrl) && igk_die("require controller");
 		is_null($model) && igk_die("require model");
 		!defined('IGK_THROW_MISSING_MACROS_EXCEPTION') && define('IGK_THROW_MISSING_MACROS_EXCEPTION', 1);
+		$ctrl = self::GetController($ctrl) ?? igk_die('missing controller');
 		$v_sep = ',';
 		$limit = igk_getv($command->options, '--limit');
 		$order = igk_getv($command->options, '--order');
@@ -110,8 +114,9 @@ class SelectCommand extends AppExecCommand
 				if ($args = igk_json_parse($targ)){
 					$args = [$args];
 				}
-			}
-			$args = $args ?? igk_getv($command->options, '--arg') ?? array_slice(func_get_args(), 3);
+			} 
+			$args = $args ?? igk_getv($command->options, '--arg') ?? array_slice($cmd_args, 1);
+			 
 			if ($method = trim(array_shift($tab))) {
 				if (!is_array($args)) {
 					$args = [$args];

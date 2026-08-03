@@ -4,8 +4,12 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK;
+
+use IGK\System\Console\CommandFlags;
 use IGK\System\EntryClassResolution;
 use IGKEnvironment;
+
+require_once IGK_LIB_CLASSES_DIR.'/System/Console/CommandFlags.php';
 
 /**
  * Represent Balafon's global constants
@@ -14,8 +18,7 @@ final class Constants
 {
     /**
     * auto generate doc.
-    * @var mixed
-    * @return
+    * @var mixed 
     */
     const ENVIRONMENT_VARS_PATTERN = '^IGK_';
     /**
@@ -223,6 +226,10 @@ final class Constants
      * @var mixed
      */
     const INIT_COMMAND = '--init';
+    /**
+     * Constant: pre-include file on command start 
+     */
+    const INCLUDE_COMMAND = CommandFlags::INCLUDE_COMMAND;
     /**
      * get the core version 
      * @return string 

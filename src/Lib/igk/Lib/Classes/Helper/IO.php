@@ -55,7 +55,10 @@ class IO
         $tab = null;
         if ($fileinfo  = finfo_open(FILEINFO_MIME_TYPE)) {
             $tab = finfo_file($fileinfo, $file);
-            finfo_close($fileinfo);
+            // 'finfo_close'($fileinfo);
+            if (version_compare(PHP_VERSION, '8.5', '<')){
+                @finfo_close($fileinfo);
+            }
             if ($tab=='text/plain'){
                 $ext= igk_io_path_ext($file);
                 $tab = igk_getv([

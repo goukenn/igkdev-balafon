@@ -5,6 +5,7 @@
 // @desc: 
 use IGK\Constants;
 use IGK\Css\CssThemeOptions;
+use IGK\EnvironmentProperties;
 use IGK\Helper\Activator;
 use IGK\IGKHtmlDocFlagOption;
 use IGK\Resources\R;
@@ -765,15 +766,22 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     public function addTempStyle(string $file)
     {
-        $v_t = igk_get_env("sys://temp/css");
+        $key = EnvironmentProperties::DOM_TEMP_STYLE;
+
+        $v_t = igk_get_env($key);
+        $v_resolver = IGKResourceUriResolver::getInstance();
         if ($v_t == null) {
             $v_t = new HtmlSingleNodeViewerNode(igk_html_node_notagnode());
         }
         if (is_link($file) || ($file == realpath($file))) {
-            $file = IGKResourceUriResolver::getInstance()->resolve($file);
+            $tfile = $v_resolver->resolve($file);
+            if (empty($tfile)){
+                igk_die('resolve a local empty file ');
+            }
+            // $file = $tfile;
         }
         $ln = $this->_addStyle($v_t->targetNode, $file);
-        igk_set_env("sys://temp/css", $v_t);
+        igk_set_env($key, $v_t);
         $this->m_head->add($v_t);
         return $ln;
     }
@@ -871,14 +879,22 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     protected function _addStyle($n, string $file, $system = false)
     {
+        if(empty($file)){
+            igk_wln(':::: missing file for style : '. $file);
+            igk_trace();
+            igk_exit();
+            return null;
+        }
         $g = $n->getParam("sys://css");
         if ($g == null) {
             $g = array();
         }
         if (realpath($file)) {
-            $file = IGKResourceUriResolver::getInstance()->resolve($file, ["hashed" => 1]);
+            $file = IGKResourceUriResolver::getInstance()->resolve($file, ["hashed" => 1]) ?? igk_die('resolve path is null. ');            
+        }else{
+            return;
         }
-        if (isset($g[$file])) {
+        if (!is_null($file) && isset($g[$file])) {
             return $g[$file];
         }
         $ln = new HtmlCssLinkNode($file, $system);

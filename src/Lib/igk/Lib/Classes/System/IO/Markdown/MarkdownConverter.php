@@ -308,7 +308,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_states = new MarkdownConverterStates;
         $this->allowBreakLine = true;
         $this->formatCodeBlock = false;
-        $this->supportCounter = false;
+        $this->supportCounter = false;  
     }
     /**
      * retrieve current output

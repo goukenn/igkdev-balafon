@@ -70,7 +70,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 			'user DbRegisterProfileTrait;',
 			'',
 			// 'protected function registerProfile() {',
-			// '	/* Authorization::BindUserToGroup($this->getController(), $this->model(), Profiles::getDefaultProfile());*/',
+			// '	/* if ($profile= Profiles::getDefaultProfile()) Authorization::BindUserToGroup($this->getController(), $this->model(), $profile);*/',
 			// '}'
 		]);
 		$parent = SystemUserProfile::class;

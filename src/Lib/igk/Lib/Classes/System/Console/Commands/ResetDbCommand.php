@@ -65,7 +65,7 @@ class ResetDbCommand extends AppExecCommand
         if ($ctrl== self::SYS_CTRL_PLACEHOLDER){
             $ctrl = SysDbController::ctrl();
         }
-        $ctrl =  $ctrl ?? igk_getv($command->options, "--controller");
+        $ctrl = $ctrl ?? self::ResolveController($command, $ctrl) ?? igk_die('missing controller');
         if ($ctrl) {
             $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl);
             if ($c) {

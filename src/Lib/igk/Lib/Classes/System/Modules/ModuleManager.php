@@ -137,7 +137,7 @@ class ModuleManager
     {
         $f_cached_load = ApplicationModules::GetSystemRequireCachedFile();
         $f_init = false;
-        $cf = igk_io_file_exists($f_cached_load, true)
+        $cf = file_exists($f_cached_load)
             ? json_decode(igk_io_read_allfile($f_cached_load)) : (function () use ($f_cached_load, &$f_init) {
                 $t = self::_RequiredCachedModules();
                 self::_InitModuleList($t); 

@@ -1042,7 +1042,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param mixed $targetNode passed target node
      * @param mixed $args argument to attach to view 
      * @param mixed $options extra option
-     * @return void 
+     * @return mixed
      * @throws IGKException 
      * @throws ResourceNotFoundException 
      * @throws PageNotFoundException 

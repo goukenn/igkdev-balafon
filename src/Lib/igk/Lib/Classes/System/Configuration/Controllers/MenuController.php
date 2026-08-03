@@ -143,7 +143,7 @@ final class MenuController extends ConfigControllerBase
                 $li->setClass("igk-active");
             }
             if ($host->Diseable == $k) {
-                $li->setClass("igk-diseable");
+                $li->setClass("igk-disable");
             }
             $uri = "#";
             if (is_string($v))
@@ -185,12 +185,21 @@ final class MenuController extends ConfigControllerBase
             $c = $e ? $e->getChilds() : null;
             if ($c) {
                 foreach ($c as  $v) {
-                    $s = array();
+                    $s = [];
                     $ch = $v->getChilds();
                     if ($ch) {
                         $ch = $ch->to_array();
                         foreach ($ch as $c => $m) {
-                            $s[$m->TagName] = $m->getInnerHtml();
+                            $tn = $m->TagName;
+                            $inner = $m->getInnerHtml();
+                            if (is_null($tn)){
+                                if (empty(trim($inner))){
+                                    continue;
+                                }
+                                igk_dev_wln_e(__FILE__.":".__LINE__ , 'tag name is null', $m, 'inner: ['.igk_wtag('pre', $inner).']');
+                                continue;
+                            }
+                            $s[$tn] = $m->getInnerHtml();
                         }
                         $tab[$v->TagName] = (object)$s;
                     }

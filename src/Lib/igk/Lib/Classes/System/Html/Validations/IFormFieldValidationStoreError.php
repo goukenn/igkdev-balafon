@@ -8,11 +8,7 @@ namespace IGK\System\Html\Validations;
 * 
 * @package IGK\System\Html\Validations
 * @author C.A.D. BONDJE DOUE
-*/
-/**
-* auto generate doc.
-* @package IGK\System\Html\Validations
-*/
+*/ 
 interface IFormFieldValidationStoreError{
     /**
      * set error 

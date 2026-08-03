@@ -13,10 +13,6 @@ namespace IGK\System\Console;
 * @property ?mixed $storage
 * @property array $commands array of command definition 
 * @property ?bool $waitForNextEntryFlag wait for next entry flag  
-*/
-/**
-* auto generate doc.
-* @package IGK\System\Console
-*/
+*/ 
 interface ICommandOptions{
 }

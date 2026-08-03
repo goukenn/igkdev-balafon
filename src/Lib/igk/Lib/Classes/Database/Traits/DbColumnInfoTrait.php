@@ -5,20 +5,17 @@
 // @desc: 
 namespace IGK\Database\Traits;
 
+use IGK\Database\IDbColumnProperties;
+use IGK\System\Html\Forms\IFormFieldDbOptions;
+
 /**
+ * auto generate doc.
+ * @package IGK\Database\Traits
  * @extends IDbColumnProperties
- */
-/**
-* auto generate doc.
-* @package IGK\Database\Traits
 */
 trait DbColumnInfoTrait
 {
-  /**
-   * store link name
-   * @var mixed
-   */
-  var $clLinkName;
+
   /**
    * reference key column
    * @var mixed
@@ -129,6 +126,16 @@ trait DbColumnInfoTrait
    */
   var $clLinkInverseName;
   /**
+   * store link name
+   * @var mixed
+   */
+  var $clLinkName;
+  /**
+   * link default value in case of not null value is required
+   * @var mixed
+   */
+  var $clLinkNotNullDefaultValue;  
+  /**
    * the name of the column
    * @var mixed
    */
@@ -165,11 +172,12 @@ trait DbColumnInfoTrait
   var $clCheckConstraint;
   /**
    * the link expression for default value
+   * @var mixed
    */
   var $clDefaultLinkExpression;
   /**
    * this column is require in form input
-   * @var clRequire
+   * @var mixed
    */
   var $clRequire;
   /**

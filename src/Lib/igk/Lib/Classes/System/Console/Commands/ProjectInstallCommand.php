@@ -14,7 +14,7 @@ class ProjectInstallCommand extends AppExecCommand{
     * Property: command.
     * @var mixed
     */
-    var $command = '--projet:install';
+    var $command = '--project:install';
     /**
     * Property: desc.
     * @var mixed
@@ -31,6 +31,9 @@ class ProjectInstallCommand extends AppExecCommand{
     * @param null|string $controller
     */
     public function exec($command, ?string $controller = null) {
+        /// TODO: get project packages 
         is_null($controller) && igk_die("controller required.");
+        // + | go no network and get project manifest
+        $manifest_url = igk_configs()->get('packagist://project', IGK_WEB_SITE.'/packagist/'.$command);
      }
 }

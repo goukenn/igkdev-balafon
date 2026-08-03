@@ -16,13 +16,7 @@ use IGK\Models\Users;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\DotEnvConfiguration;
-use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\System\IO\FileHandler;
-use IGK\System\IO\Markdown\MarkdownFileHandler;
 use IGK\System\IO\Path;
-use IGK\System\IO\TextFileHandler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
@@ -52,12 +46,18 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
 {
     use IOPathCheckerTrait;
     /**
+     * no color cli
+     * @var ?bool
+     */
+    private $m_no_color;
+    /**
      * store command
      * @var mixed
      */
     public $command;
     /**
      * application base path
+     * @var ?string
      */
     public $basePath;
     /**
@@ -77,6 +77,17 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     public function getInitEnvironmentFileStructure()
     {
         return igk_environment()->NoAppInitFileStruct;
+    }
+
+    /**
+     * enable no color rendering
+     * @return bool 
+     */
+    public function getNoColor():bool{
+        return $this->m_no_color;
+    }
+    public function setNoColor(bool $value){
+        $this->m_no_color = $value;
     }
     /**
     * initialize application modules
@@ -109,7 +120,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             if ($controller)
                 $argv[] = "--controller:" . $controller;
         }
-        igk_environment()->console = json_decode('{"type":"project"}');
+        igk_environment()->console = (object)['type' => 'project'];
     }
     /**
      * filter arguments list 
@@ -665,6 +676,50 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         if (1 == array_search(Constants::INIT_COMMAND, $argv)) {
             \IGK\System\Console\Commands\BalafonInitCommand::Handle($this->no_init_environment, $argv);
         }
+        if ($inc_args = self::GetArgArray($argv, Constants::INCLUDE_COMMAND)){
+            foreach($inc_args as $f){
+                require_once $f;
+            }
+        }
+
+        // disable console log 
+        if ((false !== array_search(CommandFlags::DISABLE_LOG_COLOR,  $argv)) ||
+        self::NotInTerminal() ){
+           igk_environment()->set('NOLOG_COLOR', true);
+        }
+        
+    }
+    /**
+     * check in terminal and redirected
+     * @return bool|false 
+     */
+    public static function NotInTerminal(){
+        if (php_sapi_name()=='cli'){
+        $g = stream_isatty(STDOUT);
+        return !$g;
+        }
+        return false; 
+
+    }
+    /**
+     * 
+     * @param mixed &$argv 
+     * @param mixed $command 
+     * @return string[] 
+     */
+    public static function GetArgArray(& $argv, $command){
+        $tdebug = [];
+        $tc = array_slice($argv, 1);
+        $v_c = 1;
+        foreach($tc as $c){
+            if (preg_match('/^'.$command.':/', $c)){
+                $tdebug[] = explode(':', $c,2)[1];
+                unset($argv[$v_c]);
+            }
+            $v_c++;
+        }
+        return $tdebug;
+        
     }
     /**
     * auto generate doc.

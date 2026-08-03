@@ -718,6 +718,9 @@ class SchemaMigration
                 break;
             case DbSchemasConstants::OP_RM_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
+                if (!isset($tables[$tb])){
+                    break;
+                }
                 $tabcl = &$tables[$tb]->columnInfo;
                 $after = $item->after;
                 $keys = null;
@@ -739,7 +742,8 @@ class SchemaMigration
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
                 $ref = igk_getv($tables, $tb);
                 if (is_null($ref)) {
-                    igk_wln_e("is null");
+                    break;
+                    // igk_wln_e(__FILE__.":".__LINE__, $tb, "op migration add column [$ref] is null", $item);
                 }
                 $tabcl = &$tables[$tb]->columnInfo;
                 $columns = $item->columns;

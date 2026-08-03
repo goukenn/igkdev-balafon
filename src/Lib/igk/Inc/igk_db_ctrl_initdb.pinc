@@ -44,8 +44,8 @@ $db = igk_get_data_adapter($controller);
 $db->initForInitDb();
 $response = false;
 $mustclose = false;
-if (!$db->getIsConnect()) {
-    if ($db->connect()) {
+if (!($is_connect = $db->getIsConnect())) {
+    if ($is_connect = $db->connect()) {
         $mustclose = true;
     } else if (!$force) {
         return false;
@@ -72,7 +72,11 @@ if (!$controller->getUseDataSchema()) {
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
-        igk_db_ctrl_initdata($controller);
+        if ($is_connect){
+            igk_db_ctrl_initdata($controller);
+        } else {
+            Logger::warn('- no connection can not initialize database ');
+        }
         igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
         $response = true;
     } else {

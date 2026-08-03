@@ -5,7 +5,7 @@
 namespace IGK\System\Configuration;
 
 /**
-* auto generate doc.
+* module configuration 
 * @package IGK\System\Configuration
 * @author C.A.D. BONDJE DOUE
 */

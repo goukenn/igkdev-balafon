@@ -34,6 +34,7 @@ use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
 use IGK\Constants;
 
 use IGK\System\Caches\InitEnvControllerChain;
+use IGK\System\Configuration\ProjectConfiguration;
 use IGK\System\Traits\HookNameTrait;
 use IGKEvents;
 use IGKGD;
@@ -66,6 +67,11 @@ class MakeProjectCommand extends AppExecCommand
      * @var mixed
      */
     var $desc = "make new project.";
+    /**
+     * 
+     * @var string
+     */
+    var $usage = 'project_name [options]';
     /**
      * Property: options.
      * @var mixed
@@ -131,7 +137,7 @@ class MakeProjectCommand extends AppExecCommand
         $this->author = $author;
         if (!empty($e_ns)) {
             $e_ns = str_replace("\\\\", "\\", igk_str_ns($e_ns));
-            $defs .= "protected function getEntryNamespace(){ return \\{$e_ns}::class; }";
+            $defs .= "protected function getEntryNamespace():string { return '{$e_ns}'; }";
             $this->entryNamespace = $e_ns;
         } else {
             $this->entryNamespace =  SysUtils::GetProjectEntryNamespace($dir);
@@ -167,15 +173,7 @@ class MakeProjectCommand extends AppExecCommand
         $this->_bind_langs($bind, $dir);
         $this->_bind_layout($bind, $dir);
         igk_hook(self::HookName('/project-init'), ['name' => $pname, 'bind' => &$bind, 'dir' => $dir, 'cli' => 'yes']);
-        $defaultsrc = <<<EOF
-/**
- * @var object \$t
- * @var object \$doc
-*/
-\$doc->title = \$this->getName();
-\$t->clearChilds();
-\$t->div()->h1()->Content = "Hello !!! ".\$this->getName();
-EOF;
+        $defaultsrc = self::_PrimaryDefaultSrc();
         // + | --------------------------------------------------------------------
         // + | Auto configuration 
         // + |
@@ -257,7 +255,7 @@ EOF;
             };
         }
         $bind[$dir . "/" . IGK_VIEW_FOLDER .
-            "/default.phtml"] = function ($file) use ($author, $defaultsrc) {
+            "/default.phtml"] = function ($file) use ($author, & $defaultsrc) {
             $builder = new PHPScriptBuilder();
             $builder->type("function")->file(basename($file))
                 ->desc("default balafon view")
@@ -390,7 +388,9 @@ EOF;
             $env = $n->php();
             $env->add("env")->setAttributes(["name" => 'IGK_BASE_DIR', "value" => IGK_BASE_DIR]);
             $env->add("env")->setAttributes(["name" => "IGK_APP_DIR", "value" => IGK_APP_DIR]);
-            $env->add("env")->setAttributes(["name" => "IGK_TEST_CONTROLER", "value" => $fullClassName]);
+            if ($fullClassName){
+                $env->add("env")->setAttributes(["name" => "IGK_TEST_CONTROLER", "value" => addslashes($fullClassName)]);
+            }
             igk_io_w2file($file, $n->render((object)["Indent" => true]));
         };
         $bind[$dir . "/phpunit-watcher.yml"] = function ($file) {
@@ -663,11 +663,13 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
         $bind[$dir . "/" . Constants::PROJECT_CONF_FILE] = function ($file) use ($options) {
-            $config = new BalafonConfiguration;
+            $config = new ProjectConfiguration; // new BalafonConfiguration;
             $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller') : null)
                 ?? igk_create_guid();
             $config->version = ($options ? igk_conf_get($options, 'version') : null) ?? '1.0';
             $config->author = ($options ? igk_conf_get($options, 'author') : null) ?? IGK_AUTHOR;
+            if ($e_ns = igk_conf_get($options, 'e_ns'))
+                $config->entryNamespace = $e_ns;
             $options = JSonEncodeOption::IgnoreEmpty();
             igk_io_w2file($file, JSon::Encode($config, $options));
         };
@@ -728,5 +730,22 @@ EOF;
             $s = IGKGD::Create(256, 128);
             igk_io_a2file($f, $s->renderText());
         };
+    }
+
+    /**
+     * get primary default source 
+     * @return string 
+     */
+    private static function _PrimaryDefaultSrc(): string
+    {
+        return implode("\n", [
+            "/**",
+            " * @var object \$t",
+            " * @var object \$doc",
+            "*/",
+            "\$doc->title = \$this->getName();",
+            "\$t->clearChilds();",
+            "\$t->div()->h1()->Content = \"Hello !!! \".\$this->getName();",
+        ]);
     }
 }

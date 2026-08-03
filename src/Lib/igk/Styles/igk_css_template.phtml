@@ -2,6 +2,9 @@
 // @author: C.A.D. BONDJE DOUE
 use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
 use IGK\System\WinUI\LayoutRules;
+/**
+ * @var mixed $theme
+ */
 
 $pad1 = "8px";
 $pad2 = "10px";
@@ -259,10 +262,13 @@ $def[".igk-lborder.pull-right"] = "height:auto; width:4px; {sys:loc_t, loc_b} le
 $def[".igk-bullet"] = "width:32px; height:32px; background-repeat:no-repeat;";
 $def[".igk-bullet.igk-active"] = "background-position:-32px 0px;";
 $theme->registerKeyFrame($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
-$def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] height:16px;";
+$def[".igk-progressbar"] = "{sys:dispib, alignc, posr}; [bgcl: progressBarBackgroundColor, #444] height:8px;";
 $def[".igk-progressbar:after"] = "display:inline-block; width: 0%; content: ' '; height:100%; background-color:[cl:progressBarCur, red];";
-$def[".igk-progressbar-cur"] = "height:16px; {sys:dispb} [sysbgcl:progressCursorBackground]";
+$def[".igk-progressbar-cur"] = "height:8px; {sys:dispb} [sysbgcl:progressCursorBackground] [trans: 0.25s width ease, 0.25s background-color ease]";
 $def[".igk-progressbar-cur.igk-pull-top"] = "{sys:dispb, fitw}";
+$def[".igk-progressbar-cur.danger"] = "background-color:var(--blf-danger);";
+$def[".igk-progressbar-cur.warning"] = "background-color:var(--blf-warning);";
+$def[".igk-progressbar-cur.success"] = "background-color:var(--blf-success);";
 $def[".igk-progressbar.igk-anim .igk-progressbar-cur"] = "[anim:igk-progress-frame 1.5s linear infinite]";
 $def[".igk-progressbar.igk-stripped"] = "";
 $def[".igk-progressbar.igk-stripped .igk-progressbar-cur"] = "background-size:40px 40px; background-image: linear-gradient(45deg, [cl:igk-progressbar-cur-bg, lime] 25%,transparent 25%, transparent 50%, red 50%, red 75%, transparent 75%, transparent);";
@@ -772,6 +778,7 @@ $def[".igk-winui-pagination.igk-pull-right:after"] = "display:table;content:' ';
 $PTR[".igk-session-button"] = "display: none;";
 $PTR["body.igk-body"] = "background-color:transparent ;";
 $PTR[".no-print"] = "display:none !important;";
+$def['.no-visibility'] = 'visibility: hidden;';
 $def[".igk-action-bar a.igk-btn"] = "line-height:normal;";
 $def[".igk-action-bar .igk-btn > svg"] = "width:24px; height:24px; padding:4px; fill:#777";
 $def[".igk-action-bar a.igk-btn:hover > svg"] = "fill:#54e;";
@@ -954,6 +961,17 @@ $def["::selection"] = "[fcl:--igk-selection-color,#4361ee] [bgcl:--igk-selection
 $root["--selection-bgColor"] = "transparent";
 $root["--selection-foreColor"] = "indianred";
 $root['--igk-panelBoxBackgroundColor'] = '#233233';
+
+foreach(igk_css_type_styles() as $k){
+    $root['--blf-'.$k] = igk_getv([
+        'default'=>'#222',
+        'disable'=>'#eee',
+        'warning'=>'orange',
+        'success'=>'#28a745'
+    ], $k, 'transparent');
+}
+
+
 // + ----------------------------------------------------------------------------------------
 // + Material design definitions
 // + ----------------------------------------------------------------------------------------
@@ -1061,6 +1079,7 @@ $def['.spacer.line-style:after'] =  'height:1px; border-bottom: 1px solid #3338;
 include_once __DIR__.'/winui/session.pcss';
 include_once __DIR__.'/winui/controls.pcss';
 include_once __DIR__.'/winui/macos.pcss';
+include_once __DIR__.'/winui/stepper.pcss';
 $def['.no-device-container .igk-container'] = 
 $sm_screen['.no-device-container .igk-container'] =
 $xsm_screen['.no-device-container .igk-container'] = 
@@ -1071,3 +1090,11 @@ $root['--blf-container-page-width']='';
 $def['.dispflex.alignm'] = 'align-items: center;';
 $def['.dispflex.alignc'] = 'justify-content: center;';
 $def['.no-focus-styled:focus'] = 'outline:none; box-shadow:none; border:none !important;';
+
+
+
+$def['.pw-field'] = '{sys:dispflex} align-items:center;';
+$def['.pw-field input[type="password"], .pw-field input[type="text"]'] =
+    'padding: 10px 46px 10px 12px;';
+$def['.pw-field #pw-toggle'] = '{sys:posab} z-index:1; right: 6px; display: flex; align-items: center; justify-content: center;width: 32px;height: 32px;padding: 0;background: transparent;border: none;border-radius: 6px;color: var(--muted);cursor: pointer;transition: color 0.15s ease, background 0.15s ease;';
+

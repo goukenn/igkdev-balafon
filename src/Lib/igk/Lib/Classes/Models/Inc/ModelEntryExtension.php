@@ -140,10 +140,7 @@ abstract class ModelEntryExtension
         $cl = get_class($model);
         $c = new $cl($raw);
         if ($craw = $c->to_array()) {
-        // if (igk_getv($craw, 'les_require_profile_id') === '0'){
-        //     $craw = $c->to_array();
-        // }
-
+    
             $g = $c->insert($craw, $update, $throwException);
             if (is_bool($g) && (!$g)) {
                 return null;
@@ -461,7 +458,7 @@ abstract class ModelEntryExtension
                 $columns = [$columns];
             }
             foreach ($data->getRows() as $row) {
-                $v_data = $row->to_array();
+                $v_data = is_array($row) ? $row : $row->to_array();
                 if ($columns) {
                     $v_data = new RefColumnMapping($v_data, $columns);
                 }
@@ -554,6 +551,7 @@ abstract class ModelEntryExtension
     */
     public static function select_row(ModelBase $model, $conditions, $options = null, $autoclose = false, $strict = true)
     {
+        $count = null;
         $cl = get_class($model);
         if (is_numeric($conditions)) {
             $conditions = [$model->getPrimaryKey() => $conditions];
@@ -1654,7 +1652,12 @@ abstract class ModelEntryExtension
     */
     public static function Add(ModelBase $model, $params)
     {
-        return self::_Add($model, false, ...array_slice(func_get_args(), 1));
+        if (!is_array($params)){
+            $params = array_slice(func_get_args(), 1);
+        } else{
+            return $model::insert($params);
+        }
+        return self::_Add($model, false, ...$params);
     }
     /**
     * Adds If Not Exists.

@@ -4,6 +4,7 @@
 // @desc: PhpScript builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
+
 use IGK\Helper\StringUtility;
 use IGK\System\IO\Path;
 use IGK\System\Traits\StoredPropertiesTrait;
@@ -17,7 +18,7 @@ use IGKException;
  * @method self extends(string|array $class) if type is class mark extends
  * @method self author(string $author) set author text
  * @method self namespace(string $namespace) define the namespace
- * @method self type(string $type) define the type. class|trait|interface|function
+ * @method self type(string|'class'|'trait'|'interface'|'function' $type) define the type. class|trait|interface|function
  * @method self name(?string $name) define the of type in case class|trait|interface
  * @method self comment(?string $comment) define the top comment
  * @method self phpdoc(?string $phpdoc) set phpdoc
@@ -29,14 +30,14 @@ use IGKException;
 class PHPScriptBuilder
 {
     /**
-    * Property: no header comment.
-    * @var mixed
-    */
+     * Property: no header comment.
+     * @var mixed
+     */
     var $no_header_comment;
     /**
-    * Property: author.
-    * @var mixed
-    */
+     * Property: author.
+     * @var mixed
+     */
     var $author;
     use StoredPropertiesTrait;
     /**
@@ -45,16 +46,17 @@ class PHPScriptBuilder
      * @param null|string $namespace 
      * @return string 
      */
-    public static function GetFullType(string $type, ?string $namespace=null){
+    public static function GetFullType(string $type, ?string $namespace = null)
+    {
         $ns = '';
-        if ($namespace){
+        if ($namespace) {
             $ns = $namespace;
         }
         return StringUtility::NS(Path::Combine($ns, $type));
     }
     /**
-    * Creates Empty Script Callback.
-    */
+     * Creates Empty Script Callback.
+     */
     public static function CreateEmptyScriptCallback()
     {
         return function ($file) {
@@ -64,25 +66,25 @@ class PHPScriptBuilder
         };
     }
     /**
-    * .ctr
-    */
+     * .ctr
+     */
     public function __construct()
     {
         $this->author = IGK_AUTHOR;
     }
     /**
-    * .destructor
-    * @param mixed $name
-    */
+     * .destructor
+     * @param mixed $name
+     */
     public function __get($name)
     {
         return $this->getProperty($name);
     }
     /**
-    * Triggered when calling an inaccessible or undefined method on an object.
-    * @param mixed $name
-    * @param mixed $arguments
-    */
+     * Triggered when calling an inaccessible or undefined method on an object.
+     * @param mixed $name
+     * @param mixed $arguments
+     */
     public function __call($name, $arguments)
     {
         if (isset($arguments[0]))
@@ -100,10 +102,7 @@ class PHPScriptBuilder
     public static function WriteArray($file, $tab, $desc = "")
     {
         $builder = new static;
-        $s = "";
-        array_walk($tab, function ($v, $k) use (&$s) {
-            $s .= "'{$k}'=>'{$v}',\n";
-        }, $tab);
+        $s = self::DumpObject($tab);
         $builder->type("function")
             ->author(IGK_AUTHOR)
             ->desc($desc)
@@ -112,12 +111,60 @@ class PHPScriptBuilder
         igk_io_w2file($file, $builder->render());
     }
     /**
-    * auto generate doc.
-    * @param mixed $file
-    * @param mixed $data
-    * @param string $desc
-    * @return void
-    */
+     * Dump object to string
+     * @param mixed $data 
+     * @return string 
+     */
+    public static function DumpObject($data)
+    {
+        $s = "";
+        $tab = $data;
+        array_walk($tab, function ($v, $k) use (&$s) {
+            $q = [['v' => $v, 'k' => $k, 's' => &$s, 'sub' => false]];
+            while (count($q) > 0) {
+                $rtv = array_shift($q);
+                $s = &$rtv['s'];
+                $v = $rtv['v'];
+                $k = $rtv['k'];
+                $m = $rtv['sub'] ? ']'."\n" : '';
+                $tv = '';
+                if (is_array($v) || is_object($v)) {
+                    $t = (array)$v;
+                    if (empty($t)) {
+                        $s .= "'{$k}'=>[]," . "\n";
+                    } else {
+                        $s .= "'{$k}'=>[";
+                        while (count($t) > 0) {
+                            $tkey = key($t);
+                            $r = array_shift($t);
+                            array_unshift($q, [
+                                "v" => $r,
+                                "k" => $tkey,
+                                "s" => &$s,
+                                "sub" => count($t) == 0,
+                            ]);
+                        }
+                    }
+                } else {
+                    $tv = is_null($v) ? 'null' : sprintf("'%s'", $v);
+                    if ('null' !== $tv) {
+                        if (is_numeric($v)) {
+                            $tv = $v;
+                        }  
+                    }
+                    $s .= "'{$k}'=>{$tv},\n".$m;
+                }
+            }
+        }, $tab);
+        return $s;
+    }
+    /**
+     * auto generate doc.
+     * @param mixed $file
+     * @param mixed $data
+     * @param string $desc
+     * @return void
+     */
     public static function WriteData($file, $data, $desc = "")
     {
         $builder = new static;
@@ -130,8 +177,8 @@ class PHPScriptBuilder
         igk_io_w2file($file, $builder->render());
     }
     /**
-    * Renders.
-    */
+     * Renders.
+     */
     public function render()
     {
         $lf = "\n";
@@ -260,10 +307,10 @@ class PHPScriptBuilder
         return "<?php\n" . $h . "\n" . $o;
     }
     /**
-    * get script file header
-    * @param mixed $options
-    * @return string
-    */
+     * get script file header
+     * @param mixed $options
+     * @return string
+     */
     public static function GenScriptFileHeader($options)
     {
         $l = igk_extract_var(
@@ -278,11 +325,11 @@ class PHPScriptBuilder
         return implode("\n", $tb);
     }
     /**
-    * auto generate doc.
-    * @param mixed & $h
-    * @param mixed & $_uses
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed & $h
+     * @param mixed & $_uses
+     * @return mixed
+     */
     private function _getHeaderMap(&$h, &$_uses)
     {
         return function ($e) use (&$h, &$_uses) {

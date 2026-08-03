@@ -214,13 +214,13 @@ class DBCaches
         return $c;
     }
     /**
-    * Returns.
-    * @param string $n
+    * get  dtable information for 
+    * @param string $table_name
     */
-    public static function Get(string $n)
+    public static function Get(string $table_name)
     {
         $g = static::getInstance();
-        return igk_getv($g->m_tableInfo, $n);
+        return igk_getv($g->m_tableInfo, $table_name);
     }
     /**
      * register table information 
@@ -573,7 +573,7 @@ class DBCaches
     }
     /**
     * resolv and init tbinfo
-    * @param string $tb
+    * @param string $tb table name if info
     * @param mixed & $tbinfo
     * @throws IGKException
     * @return bool

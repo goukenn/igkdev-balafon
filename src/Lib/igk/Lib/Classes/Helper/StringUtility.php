@@ -11,6 +11,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Text\RegexMatcherUtility;
 use IGKException;
 use ReflectionException;
 /**
@@ -1044,5 +1045,13 @@ abstract class StringUtility
             $ln = $ln / $spaceLineDepth;
         }
         return intval($ln);
+    }
+
+    public static function EscapeChar(string $l, string $char = RegexMatcherUtility::DEFAULT_ESCAPED_LIST){
+        $t = array_unique(str_split($char, 1));
+        foreach($t as $k){
+            $l = str_replace($k, '\\'.$k, $l);
+        }
+        return $l;
     }
 }

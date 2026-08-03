@@ -6,7 +6,7 @@
 use IGK\Tests\BaseTestCase;
 
 /**
-* Csvtest.
+* testing Csv data adapter 
 */
 class CSVTest extends BaseTestCase{
     /**

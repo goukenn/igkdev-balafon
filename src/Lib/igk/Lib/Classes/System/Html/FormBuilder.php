@@ -149,11 +149,11 @@ class FormBuilder
                 return;
             }
             $clprop->setClasses($v_def_form_control);
-            foreach ($v[$key] as $k => $v) {
+            foreach ($v[$key] as $k => $vv) {
                 if ($k == 'class') {
-                    $clprop->setClasses($v);
+                    $clprop->setClasses($vv);
                 } else {
-                    $o .= $k . "=\"" . $v . "\" ";
+                    $o .= $k . "=\"" . $vv . "\" ";
                 }
             }
             if (!empty($defclass = $clprop->getValue())) {
@@ -196,6 +196,9 @@ class FormBuilder
             }
             if ($_class_name = igk_getv($v, 'class_name')) {
                 unset($v['class_name']);
+            }
+            if ($_after_input = igk_getv($v, 'after_input')){
+                unset($v['after_input']);
             }
             // + | --------------------------------------------------------------------
             // + | handle special type 
@@ -452,19 +455,29 @@ class FormBuilder
                         if ($_is_required) {
                             $attrib["required"] = 1;
                         }
+                        // igk_wln_e(__FILE__.":".__LINE__ , $attrib, $jp);
+
                         $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
                         $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
                         if ($_activate) {
                             $o .= ' ' . implode(" ", $_activate);
                         }
                         $o .= "/>";
-                        if (isset($v["tips"])) {
-                            $o .= '<div class="tips">' . $v["tips"] . '</div>';
-                        }
+                        // if (isset($v["tips"])) {
+                        //     $o .= '<p class="tips">' . $v["tips"] . '</p>';
+                        // }
                         unset($_activate);
                         break;
                 }
             }
+            if ($_after_input){
+                $o .= ''.$_after_input;
+            }
+
+            if (isset($v["tips"])) {
+                $o .= '<p class="tips">' . $v["tips"] . '</p>';
+            }
+
             if ($v_error) {
                 $o .= '<div class="error-tip">' . __($v_error) . '</div>';
             }
@@ -499,6 +512,10 @@ class FormBuilder
                         continue;
                     }
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
+                }else if (is_array($v)){
+                    // load field block 
+                    $o.= $this->_buildRowFieldBlock($v);
+                    continue;
                 }
             } else if (is_string($v)) {
                 $v = ['value' => $v];
@@ -558,6 +575,16 @@ class FormBuilder
             echo $o;
         }
         return $o;
+    }
+    /**
+     * 
+     * @param mixed $v 
+     * @return void 
+     */
+    private function _buildRowFieldBlock(array $v){
+        $n = igk_html_host('div.igk-form-row');
+        $n->fields($v);
+        return $n->render();
     }
     /**
      * render component

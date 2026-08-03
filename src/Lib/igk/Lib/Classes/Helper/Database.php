@@ -3,6 +3,7 @@
 // @file: Database.php
 // @date: 20221119 00:06:15
 namespace IGK\Helper;
+
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -19,8 +20,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
+use IGK\Database\DbSchemas;
+use IGK\Database\IDbColumnInfo;
 use IGKEvents;
 use IGKException;
+use IGKSysUtil;
 use IGKType;
 use ReflectionException;
 use ReflectionMethod;
@@ -31,32 +35,32 @@ use function igk_resources_gets;
  * @package IGK\Helper
  */
 /**
-* auto generate doc.
-* @package IGK\Helper
-*/
+ * auto generate doc.
+ * @package IGK\Helper
+ */
 class Database
 {
     // + | init data field constants
     /**
-    * Constant: insert extra fields method.
-    * @var mixed
-    */
+     * Constant: insert extra fields method.
+     * @var mixed
+     */
     const InsertExtraFieldsMethod = 'InsertExtraFields';
     /**
-    * Constant: auto insert cache method.
-    * @var mixed
-    */
+     * Constant: auto insert cache method.
+     * @var mixed
+     */
     const AutoInsertCacheMethod = 'AutoInsertCache';
     /**
-    * Property: shared info.
-    * @var mixed
-    */
+     * Property: shared info.
+     * @var mixed
+     */
     static $sm_shared_info;
     /**
-    * auto generate doc.
-    * @param mixed $model_class
-    * @return null|string
-    */
+     * auto generate doc.
+     * @param mixed $model_class
+     * @return null|string
+     */
     public static function GetPhpDocMacrosDefintionToInject($model_class): ?string
     {
         if (!($cl = self::GetMacroClass($model_class))) {
@@ -70,7 +74,8 @@ class Database
      * @param null|string $model_class 
      * @return null|string 
      */
-    public static function GetPhpDocMacrosDefinitionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
+    public static function GetPhpDocMacrosDefinitionToInjectFromMacroClass(string $macro_class, ?string $model_class = null): ?string
+    {
         $v_macro_class = $macro_class;
         $g = igk_sys_reflect_class($v_macro_class);
         $methods = $g->getMethods(ReflectionMethod::IS_PUBLIC || ReflectionMethod::IS_STATIC);
@@ -78,11 +83,11 @@ class Database
             return strcmp($a->getName(), $b->getName());
         });
         $sb = new StringBuilder;
-        $s = '';
         // + | ----------------------------------------------------------------------------------
         // + | return type to avoid mixed
         // + |
-        foreach($methods as $method) {
+        foreach ($methods as $method) {
+            $s = '';
             $t = 'mixed ';
             $params = $method->getParameters();
             if (!($method->getNumberOfRequiredParameters() > 0))
@@ -99,9 +104,9 @@ class Database
                 if ($v_return_type->allowsNull()) {
                     $s = '?';
                 }
-                if ($model_class && ($model_class == $tg)){
+                if ($model_class && ($model_class == $tg)) {
                     $s .= 'static';
-                }else {   
+                } else {
                     if (!IGKType::IsPrimaryType($tg)) {
                         $s .= '\\';
                     }
@@ -109,15 +114,16 @@ class Database
                 $s .= $tg;
                 $t = $s . ' ';
             }
-            $sb->appendLine(sprintf("@method static %s%s(%s) macros function", $t, $method->getName(), $ps));
+            $sb->appendLine(sprintf("@method static %s%s(%s) macros function definition ", $t, $method->getName(), $ps));
+            
         }
-        return $sb.'';
+        return $sb . '';
     }
     /**
-    * auto generate doc.
-    * @param string|\IGK\Models\ModelBase $model
-    * @return string
-    */
+     * auto generate doc.
+     * @param string|\IGK\Models\ModelBase $model
+     * @return string
+     */
     public static function GetMacroClass($model): ?string
     {
         $instance = null;
@@ -147,10 +153,10 @@ class Database
         if ($info) {
             $v_i = igk_getv($info, $name);
             if ($v_i) {
-                if (is_null($value) && !$v_i->clNotNull){
+                if (is_null($value) && !$v_i->clNotNull) {
                     return $value;
                 }
-                if (!is_object($value) && self::IsNumber($v_i->clType)) {
+                if (!is_object($value) && self::IsNumber($v_i->clType)) {                    
                     return floatval($value);
                 }
             }
@@ -158,17 +164,17 @@ class Database
         return $value;
     }
     /**
-    * Returns true if Number.
-    * @param mixed $t
-    */
+     * Returns true if Number.
+     * @param mixed $t
+     */
     public static function IsNumber($t)
     {
         return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);
     }
     /**
-    * auto generate doc.
-    * @return mixed
-    */
+     * auto generate doc.
+     * @return mixed
+     */
     private static function _Init()
     {
         self::$sm_shared_info = [];
@@ -200,10 +206,10 @@ class Database
             }
             // + | init data : 
             $recursive = false;
-            if (isset($cl::$RecursiveInit)){
+            if (isset($cl::$RecursiveInit)) {
                 $recursive = igk_getv(get_class_vars($cl), 'RecursiveInit');
-            } 
-            InitDataAnnotation::InitData($controller, $recursive);  
+            }
+            InitDataAnnotation::InitData($controller, $recursive);
             $call && $cl::Init($controller);
             return true;
         }
@@ -256,15 +262,15 @@ class Database
         return false;
     }
     /**
-    * for single value column
-    * @param string $constant_class
-    * @param string $model_or_class
-    * @param string $c
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return array<array-key, mixed>|false
-    */
+     * for single value column
+     * @param string $constant_class
+     * @param string $model_or_class
+     * @param string $c
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return array<array-key, mixed>|false
+     */
     public static function InitConstanstsColumn(string $constant_class, $model_or_class, string $c)
     {
         foreach ($constant_class::GetConstants() as $v) {
@@ -274,9 +280,9 @@ class Database
         }
     }
     /**
-    * Initializes System Db.
-    * @param bool $force
-    */
+     * Initializes System Db.
+     * @param bool $force
+     */
     public static function InitSystemDb(bool $force = false)
     {
         self::_Init();
@@ -292,13 +298,13 @@ class Database
         unset($dbinitializer);
     }
     /**
-    * auto generate doc.
-    * @param BaseController $controller
-    * @param mixed $tb
-    * @param mixed $etb
-    * @param mixed $adapter
-    * @return void
-    */
+     * auto generate doc.
+     * @param BaseController $controller
+     * @param mixed $tb
+     * @param mixed $etb
+     * @param mixed $adapter
+     * @return void
+     */
     public static function CreateTableBase(BaseController $controller, $tb, $etb = null, $adapter = null)
     {
         $ctrl = $controller;
@@ -313,6 +319,7 @@ class Database
         $dbname = $adapter->getDbName();
         $adapter->beginInitDb($ctrl);
         $v_foreignConstraints = [];
+        $prefixes = [];
         foreach ($tb as $k => $v) {
             if (is_numeric($k)) {
                 $k = $v->defTableName;
@@ -326,13 +333,19 @@ class Database
                 $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
             }
             $extra = [];
-            if (isset($v->indexes)){
+            if (isset($v->indexes)) {
                 $extra['indexes'] = $v->indexes;
             }
 
-            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix, 
-                $extra)
-                ) {
+            if (!$adapter->createTable(
+                $n,
+                $columnInfo,
+                $data,
+                $v->description,
+                $adapter->DbName,
+                $v->prefix,
+                $extra
+            )) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));
                 igk_ilog("failed to create " . $n);
             } else {
@@ -340,8 +353,11 @@ class Database
                     $v_foreignConstraints[] = [$k, $v->foreignConstraint];
                 }
             }
+            if ($vp = $v->prefix) {
+                $prefixes[$n] = $vp;
+            }
         }
-        $adapter->endInitDb($tb);
+        $adapter->endInitDb($tb, $prefixes);
         if ($v_foreignConstraints) {
             array_map(function ($i) use ($adapter, $ctrl) {
                 list($tbname, $a) = $i;
@@ -358,12 +374,12 @@ class Database
         ]);
     }
     /**
-    * only for system an core
-    * @param BaseController $controller
-    * @param mixed $definitions
-    * @param array $definition table definition
-    * @return void
-    */
+     * only for system an core
+     * @param BaseController $controller
+     * @param mixed $definitions
+     * @param array $definition table definition
+     * @return void
+     */
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force)
     {
         SchemaBuilderHelper::Migrate($definitions);
@@ -377,10 +393,10 @@ class Database
         $controller->InitDataBaseModel($definitions, $force);
     }
     /**
-    * auto generate doc.
-    * @param BaseController $controller
-    * @return void
-    */
+     * auto generate doc.
+     * @param BaseController $controller
+     * @return void
+     */
     public static function InitDataEntries(BaseController $controller)
     {
         $adapter = $controller->getDataAdapter();
@@ -412,10 +428,10 @@ class Database
         }
     }
     /**
-    * auto generate doc.
-    * @param BaseController $controller
-    * @return void
-    */
+     * auto generate doc.
+     * @param BaseController $controller
+     * @return void
+     */
     public static function DropForeignKeys(BaseController $controller)
     {
         $tableinfo = $controller->getDataTableInfo();
@@ -428,9 +444,9 @@ class Database
         return false;
     }
     /**
-    * Drops Uniques Contraints.
-    * @param BaseController $controller
-    */
+     * Drops Uniques Contraints.
+     * @param BaseController $controller
+     */
     public static function DropUniquesContraints(BaseController $controller)
     {
         $tableinfo = $controller->getDataTableInfo();
@@ -476,7 +492,59 @@ class Database
      * @param null|string $prefix 
      * @return string 
      */
-    public static function AutoPrefixColumn(string $column, ?string $prefix=null): string{
-        return StringUtility::AutoPrefix($column, $prefix);        
+    public static function AutoPrefixColumn(string $column, ?string $prefix = null): string
+    {
+        return StringUtility::AutoPrefix($column, $prefix);
+    }
+
+
+
+    /**
+     * 
+     * @param IDbColumnInfo $columInfo 
+     * @return null 
+     */
+    public static function GetNonExistingValue($columInfo)
+    {
+        list($link, $linkcolumn, $notnull, $linknotnulldefaultvalue, $default) = [
+            $columInfo->clLinkType,
+            $columInfo->clLinkColumn,
+            $columInfo->clNotNull,
+            $columInfo->clLinkNotNullDefaultValue,
+            $columInfo->clDefault
+        ];
+        if ($link && $notnull && $linknotnulldefaultvalue) {
+            if ($model = self::GetModelFromLinkColumn($link)) {
+                $r = self::ResolveLinkValue($model, $linknotnulldefaultvalue);
+                return $r->{$linkcolumn} ?? igk_die('missing value');
+            }
+        }
+        return null;
+    }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $linknotnulldefaultvalue 
+     * @return null|ModelBase 
+     */
+    public static function ResolveLinkValue(ModelBase $model, $linknotnulldefaultvalue)
+    {
+        $col = $model->getPrimaryKey();
+        $value = $linknotnulldefaultvalue;
+        if (preg_match('/^[a-z][a-z_0-9]*\./', $linknotnulldefaultvalue)) {
+            $tab = explode('.', $linknotnulldefaultvalue, 2);
+            $col = $tab[0];
+            $value = $tab[1];
+        }
+        return $model->getCache($col, $value);
+    }
+    public static function GetModelFromLinkColumn(string $link)
+    {
+        if ($info = DBCaches::Get($link)) {
+            if ($typename = IGKSysUtil::GetModelTypeName($info->defTableName, $info->controller)) {
+                $model = $info->controller->model($typename);
+                return $model;
+            }
+        }
     }
 }

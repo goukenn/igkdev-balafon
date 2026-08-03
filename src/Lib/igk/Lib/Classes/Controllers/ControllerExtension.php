@@ -320,6 +320,19 @@ abstract class ControllerExtension
         return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, ltrim($path ?? '', '/')]));
     }
     /**
+     * retrieve store configuration object
+     * @param BaseController $ctrl 
+     * @return object|mixed|null 
+     */
+    public static function getProjectConfig(BaseController $ctrl){
+        if (is_file($file = ($ctrl->getDeclaredDir()) . "/" . Constants::PROJECT_CONF_FILE)){
+            if ($g = json_decode(file_get_contents($file))){
+              return Activator::CreateNewInstance(ProjectConfiguration::class, $g);
+            }
+        }
+        return null;
+    }
+    /**
     * expose assets
     * @param BaseController $ctrl
     * @param mixed $dirs
