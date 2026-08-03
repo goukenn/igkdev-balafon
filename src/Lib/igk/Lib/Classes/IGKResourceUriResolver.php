@@ -263,8 +263,8 @@ class IGKResourceUriResolver
     public function resolveResource(string $rp, bool $fulluri = false): ?string
     {
         $v_cpath = igk_io_collapse_path($rp);
-        $v_res_path = $this->_getResPath($v_cpath) ?? igk_die('res path is null : '.$rp);
-        if (igk_environment()->isOPS() && strstr($v_res_path, sprintf('/%s/', self::PRJ_FOLDER))) {
+        $v_res_path = $this->_getResPath($v_cpath);//  ?? igk_die('res path is null : '.$rp);
+        if (igk_environment()->isOPS() && $v_res_path && strstr($v_res_path, sprintf('/%s/', self::PRJ_FOLDER))) {
             $v_res_path = $this->treatProjectAssetPath($v_res_path);
         }
         $v_bdir = igk_io_basedir();
