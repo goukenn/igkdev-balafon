@@ -6457,7 +6457,7 @@ function igk_display_error($a)
  * @return mixed
  */
 function igk_do_response($r)
-{
+{ 
     \IGK\System\Http\Response::HandleResponse($r);
     return $r;
 }
@@ -7170,12 +7170,11 @@ if (!function_exists('igk_extract_var')) {
      * @return array assoc array of variable
      */
     function igk_extract_var($data, $list)
-    {
-        igk_wln_e(__FILE__ . ":" . __LINE__, 'extract');
-        return call_user_func_array([function () {
+    { 
+        return call_user_func_array(function () {
             extract(igk_extract_ref((array)igk_extract_obj(func_get_arg(0), func_get_arg(1))));
             return get_defined_vars();
-        }], [$data, $list]);
+        }, [$data, $list]);
     }
 }
 /**
@@ -15582,7 +15581,7 @@ function igk_is_ajx_demand()
             (igk_getv($headers = igk_get_allheaders(), "IGK_X_REQUESTED_WITH") ||
                 (igk_getv($headers, "X_REQUESTED_WITH") == "XMLHttpRequest"))
             || igk_server()->HTTP_IGK_AJX ||
-            (php_sapi_name() != 'cli') && igk_server()->accept('json')
+            ((php_sapi_name() != 'cli') && igk_server()->accept('json', true))
         );
 }
 /**
@@ -17086,7 +17085,7 @@ function igk_nav_session()
  * @return mixed
  */
 function igk_navto($uri, ?int $headerStatus = null)
-{
+{ 
     if (!igk_is_webapp()) {
         return;
     }

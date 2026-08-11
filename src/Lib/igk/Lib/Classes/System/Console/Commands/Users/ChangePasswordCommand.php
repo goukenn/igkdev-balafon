@@ -17,7 +17,7 @@ class ChangePasswordCommand extends AppExecCommand{
     * Property: command.
     * @var mixed
     */
-    var $command='--user:change-pwd';
+    var $command='--users:change-pwd';
     /**
     * Property: desc.
     * @var mixed

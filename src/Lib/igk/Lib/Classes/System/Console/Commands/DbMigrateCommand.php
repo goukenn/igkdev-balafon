@@ -65,6 +65,9 @@ class DbMigrateCommand extends AppExecCommand
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
+        if (empty($ctrl)){
+            $ctrl = igk_getv($command->options, '--controller');
+        }
         if (!is_null($ctrl)) {
             if (($c = self::GetController($ctrl, false))) {
                 $c = [$c];

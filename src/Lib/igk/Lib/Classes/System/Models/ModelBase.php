@@ -101,8 +101,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * get the table prefix stored on initialize 
      * @return mixed 
      */
-    protected final
-    function tablePrefix()
+    protected final function tablePrefix()
     {
         return $this->getTableInfo()->prefix;
     }
@@ -172,6 +171,13 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             }
         }
         igk_die(sprintf('column %s not found', $n));
+    }
+    /**
+     * retrieve a class resolver 
+     * @return ?IControllerClassResolver 
+     */
+    public function getClassResolver(){
+        return $this->getController();
     }
     /**
      * stored macros
@@ -269,7 +275,18 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     */
     public function _json_serialize()
     {
-        return  (object)array_filter($this->to_array());
+        $filter_columns = $this->_getFilteredColumns();
+        $tab = $this->to_array();
+        if ($filter_columns){
+            foreach($filter_columns as $cp){
+                unset($tab[$cp]);
+            }
+        }
+        return  (object)array_filter($tab);
+    }
+    protected function _getFilteredColumns(){
+        $arg = $this->hidden ?? [];
+        return $arg;
     }
     /**
      * get factory class
@@ -495,7 +512,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
             if (igk_environment()->isDev()) {
-                igk_wln([
+                igk_dev_wln([
                     "access" => __FILE__ . ":" . __LINE__,
                     "msg" => "raw is null",
                     "class" => get_class($this),
@@ -709,9 +726,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     */
     public function getController()
     {
-        
         if (!empty($this->controller))
             return igk_getctrl($this->controller, false);
+        return SysDbController::ctrl();
     }
     /**
     * auto generate doc.

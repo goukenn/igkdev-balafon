@@ -1,6 +1,9 @@
 <?php
 // desc: on theme context global style definition
- 
+/**
+ * @var mixed $theme
+ */
+
 
 $def[".igk-google-circle-waiter"] = "{sys:no-overflow} width:48px; height:48px; padding:4px; margin:8px";
 $def[".igk-google-circle-waiter .igk-anim-time-board.i-1"] = 

@@ -1051,6 +1051,7 @@ abstract class CssUtils
         }
         $args = get_defined_vars();
         self::BindThemeFile($file, $render_options->theme_name, $args);
+        unset($args);
         $root = [];
         $theme->setRootReference($root);
         ob_start();

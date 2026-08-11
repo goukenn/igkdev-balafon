@@ -134,8 +134,8 @@ class ApplicationControllerManager implements IApplicationControllerManager
         if ($cl) {
             $ctrl = new $cl();
         } else if ($is_s && class_exists($n) && is_subclass_of($n, BaseController::class)) {
-            if (($n == ApplicationModuleController::class) || is_subclass_of($n, ApplicationModuleController::class)) {
-                throw new \IGKException('module controller can\'t be instancied');
+            if (($n == ApplicationModuleController::class) || is_subclass_of($n, ApplicationModuleController::class)) { 
+                igk_die('module controller can\'t be instancied. ');
             }
             $ctrl = new $n();
         } else if ($is_s){

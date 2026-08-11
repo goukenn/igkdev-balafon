@@ -6,6 +6,7 @@
 namespace IGK\System;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 
@@ -20,6 +21,8 @@ abstract class SystemUserProfile implements IUserProfile
      * overriding constant to setup profile model class 
      */
     const profileModelClass=null;
+
+    const profileModelLinkCachedColumn=null;
     /**
     * Constant: init project db user method.
     * @var mixed
@@ -98,7 +101,9 @@ abstract class SystemUserProfile implements IUserProfile
         $c->m_profile = $userInfo;
         $c->m_model = $userInfo->model();
         $c->m_controller = $controller;
-        $c->registerProfile(); 
+        if ($c->m_projectUser->isNew()){
+            $c->registerProfile(); 
+        }
         return $c;
     }
     /**
@@ -108,7 +113,8 @@ abstract class SystemUserProfile implements IUserProfile
     protected static function _CreateClassInstance(Users $u) { 
         $l = new static;
         $v_user = null;
-        if ($model_class = static::profileModelClass){
+        $model_class = static::profileModelClass;
+        if ($model_class){
             if (method_exists($l, $fc = self::initProjectDbUserMethod)){
                 call_user_func_array([$l, $fc], [$u]);  
             }else{
@@ -133,8 +139,13 @@ abstract class SystemUserProfile implements IUserProfile
     /**
     * auto generate doc.
     * @param mixed $smodel_class
+    * @return array
     */
-    protected function getdbCacheColumnList($smodel_class){
+    protected function getdbCacheColumnList(string $smodel_class): array{
+        $h = static::profileModelLinkCachedColumn;
+        if (!is_null($h)){
+            return $h;
+        }
         $column = $smodel_class::FD_USER_ID;
         $prop = IGK_FD_GUID;
         return [
@@ -171,9 +182,15 @@ abstract class SystemUserProfile implements IUserProfile
             return igk_getv($this->m_profile, $name);
         }
     }
+    public function user(): ModelBase
+    {
+        return $this->m_projectUser;
+    }
     /**
      * register a user profile with initial profile setting. bind to group or user 
      * @return mixed 
      */
-    protected abstract function registerProfile();
+    protected function registerProfile(){
+        
+    }
 }

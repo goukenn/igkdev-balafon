@@ -8,6 +8,7 @@ use IGK\Helper\Activator;
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Converters\Converter;
+use IGK\System\Html\Dom\AsideScripting;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlTextNode;
@@ -21,6 +22,17 @@ use IGK\System\IO\Path;
 use IGK\System\WinUI\Forms\IFormFieldDataForm;
 use IGK\System\WinUI\Menus\MenuItemInfo;
 use function igk_resources_gets as __;
+
+function igk_html_use_script(string $component_name){
+    $a = AsideScripting::getInstance();
+    $components = igk_environment()->component_scripts;
+    $key = strtolower($component_name);
+    if (isset($components[$key])){
+        $components = & $a->components;
+        $components[$key] = $components[$key];
+    } 
+    
+}
 
 if (!function_exists('igk_html_init')) {
     /**

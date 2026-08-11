@@ -23,7 +23,7 @@ Usergroups::registerMacro("getUserGroups", function(int $uid){
         "OrderBy" => ["clName|ASC"],
         "Joins"=>
         [
-            [ Groups::table() =>QueryBuilder::LeftJoin(Groups::column("clId")." = clGroup_Id")]
+            [ Groups::table() =>QueryBuilder::LeftJoin([Groups::column("clId"), 'clGroup_Id'])]
         ]
     ]);  
     return $c ? $c->getRows() : null;
@@ -86,7 +86,10 @@ Users::registerMacro('GetUserByLogin', function(string $login){
 $conditions = [];
 if (!IGKValidator::IsEmail($login)) {
     // append login domain 
-    $conditions[] = (object)["operand" => "OR", "conditions" => ["clLogin" => $login, "clLogin" => $login . "@" . igk_configs()->website_domain]];
+    $conditions[] = (object)["operand" => "OR", "conditions" => [
+        ["clLogin" => $login], 
+        ["clLogin" => $login . "@" . igk_configs()->website_domain]]
+    ];
 } else {
     $conditions["clLogin"] = $login;
 }

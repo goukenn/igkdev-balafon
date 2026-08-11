@@ -1953,7 +1953,7 @@ class SQLGrammar implements IDbQueryGrammar
         $query = "";
         $flag = "";
         $join = "";
-        $_buildjoins = function ($v, &$join) {
+        $_buildjoins = function ($v, &$join)use($ad) {
             if (!is_array($v)) {
                 die("join options not an array");
             }
@@ -1978,7 +1978,10 @@ class SQLGrammar implements IDbQueryGrammar
                     if (is_string($v_cond)) {
                         $join .= "on (" . $v_cond . ")";
                     } else {
-                        die("condition not allowed");
+                        if($d = self::QueryBuilderJoinArrayCondition($ad, $vv, $v_cond)){
+                            $join .= sprintf('on (%s)', $d);
+                        }
+                        $d || igk_die("condition not allowed");
                     }
                 }
             }
@@ -2081,6 +2084,22 @@ class SQLGrammar implements IDbQueryGrammar
         }
         $query = trim($query);
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
+    }
+    protected function builderJoinArrayConditionFrom($vv, $v_cond){
+        if (is_array($v_cond) && (count($v_cond)==2)){
+            list($operator) = igk_extract($vv,'operator');
+            $v_cond = array_map(function($a){
+                return $this->escape_string($a);
+            }, $v_cond);
+            if ($operator=='='){
+                return implode($operator, $v_cond);
+            }
+        }
+    }
+    public static function QueryBuilderJoinArrayCondition($ad, $vv, $v_cond){
+        $s = $ad->getGrammar()->builderJoinArrayConditionFrom($vv, $v_cond);
+        
+        return $s;
     }
     /**
      * 

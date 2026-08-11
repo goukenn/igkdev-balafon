@@ -133,18 +133,12 @@ function igk_css_rm_comment(string $src){
 if (!function_exists('igk_css_array_key_map_implode')){
     /**
     * Igk css array key map implode.
-    * @param mixed $value
+    * @param array $value
     * @return mixed
     */
 function igk_css_array_key_map_implode($value){
         return igk_array_key_map_implode(
-            $value,
-            $delimiter = ':', 
-            $separator = ';', 
-            $sub_start = '{', 
-            $sub_end = '}', 
-            $string_delimit = true, 
-            $empty_value='""'
+            $value
         );
     }
 }

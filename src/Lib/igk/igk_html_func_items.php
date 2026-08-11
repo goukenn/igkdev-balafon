@@ -295,7 +295,7 @@ if (!function_exists("igk_html_node_a")) {
     /**
     * create winui-a
     * @param mixed $href
-    * @param mixed $attributes
+    * @param mixed $attributes string:target, array, set attributes 
     * @param mixed $index
     * @param mixed $content
     * @return mixed
@@ -4934,19 +4934,6 @@ if (!function_exists("igk_html_node_tablehost")) {
 		return $n;
 	}
 }
-if (!function_exists("igk_html_node_td")) {
-    /**
-    * create winui-td
-    * @param mixed $for
-    * @param mixed $key
-    * @return mixed
-    */
-	function igk_html_node_td($for = null, $key = null)
-	{
-		$n = new HtmlNode("td");
-		return $n;
-	}
-}
 if (!function_exists("igk_html_node_template")) {
     /**
     * use to add a template node
@@ -6092,5 +6079,15 @@ if (!function_exists('igk_wtag')){
 		return $n->render();
 	}
 }
+
+/**
+ * monitor progress component for global ajx uploading
+ * @return mixed 
+ */
+function igk_html_node_ajx_monitor_progress(){
+    $n = igk_create_node_arg('div.igk-winui-monitor-progress');
+    return $n;
+}
+
 require_once __DIR__.'/Inc/html/forms/actionbar.pinc';
 require_once __DIR__.'/Lib/Classes/System/Html/Dom/StepperForm.php';

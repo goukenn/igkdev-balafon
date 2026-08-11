@@ -14,7 +14,17 @@ use IGKEvents;
 */
 
 class AsideScripting{
+    /**
+     * 
+     * @var mixed
+     */
     var $aside;
+
+    /**
+     * used components
+     * @var mixed
+     */
+    var $components;
 
     protected static function _initHooks(& $init){
        
@@ -34,6 +44,10 @@ class AsideScripting{
         });
         $init = true;
     }
+    /**
+     * 
+     * @return static 
+     */
     public static function getInstance(){
         static $init;
         if (is_null($init)){

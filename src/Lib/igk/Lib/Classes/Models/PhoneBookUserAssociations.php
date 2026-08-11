@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20260622 08:43:57
+// @date: 20260806 19:49:23
 namespace IGK\Models;
 
 
@@ -25,7 +25,7 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnRcphbUsrphbId() - macros function
 * @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry if not exists. check for unique column.
-* @method static mixed getEntries() macros function
+* @method static mixed getEntries() macros function definition
 * */
 class PhoneBookUserAssociations extends ModelBase{
 	const FD_USRPHB_ID="rcphb_usrphb_Id";

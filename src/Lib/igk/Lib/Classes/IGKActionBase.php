@@ -26,6 +26,7 @@ use IGK\System\Traits\InjectableTrait;
 
 /**
  * Represent view's action definition
+ * @method static Handle(BaseController $controller, string $fname, array $args, $exit=1, $flag=0,$verb='GET'))
  */
 abstract class IGKActionBase implements IActionProcessor
 {
@@ -180,6 +181,11 @@ abstract class IGKActionBase implements IActionProcessor
     public static function ActionParams()
     {
         return igk_environment()->get(IGKEnvironment::VIEW_ACTION_PARAMS);
+    }
+    public static function & DispatchedCall(){
+        $key = 'sys://actions/dispatched-call';
+        $tab = & igk_environment()->getRefArray($key); 
+        return $tab;
     }
     /**
      * get action request validate
@@ -351,7 +357,7 @@ abstract class IGKActionBase implements IActionProcessor
                 $tab[] = substr($m, 0, $ipos);
             }
         } 
-        if (is_null($topVerb) && is_null($verb) && $c_verb) {
+        if (is_null($topVerb) && ((is_null($verb) && $c_verb) || ($c_verb && ($c_verb!= $verb)))){
             $tab[] = $m.'_'.strtolower($c_verb);      
         }
         foreach($tab as $m){
@@ -375,6 +381,10 @@ abstract class IGKActionBase implements IActionProcessor
         // + : -----------------------------------------
         // + : fallback to index if numeric name is call 
         // + : -----------------------------------------
+        $_invoke_dispatched = & self::DispatchedCall();
+        if (is_null($_invoke_dispatched)){
+            $_invoke_dispatched = [];
+        }
         $verb = $this->m_verb; 
         if (is_numeric($name)) {
             array_unshift($arguments, $name);
@@ -397,7 +407,7 @@ abstract class IGKActionBase implements IActionProcessor
                 return $this->$fc(...$arguments);
             }
         }
-        if ($verb && method_exists($this, $fc = $name . "_" . $verb)) {
+        if ($verb && (method_exists($this, $fc = $name . "_" . $verb) || method_exists($this, $fc = $name))) {
             return $this->_dispatchAndInvoke($fc, $arguments);       
         } else if ($verb == "options") {
             \IGK\System\Http\Helper\Response::OptionResponse();
@@ -407,6 +417,10 @@ abstract class IGKActionBase implements IActionProcessor
             array_unshift($arguments, $name);
             $name = $this->defaultEntryMethod;
             if (($verb && method_exists($this, $fc=$name."_".$verb)) || method_exists($this, $fc = $name)) {
+                if (isset($_invoke_dispatched[$fc])){
+                    igk_die('dispatched ... ');
+                }
+                $_invoke_dispatched[$fc] = 1;
                 $rf = new ReflectionMethod($this, $fc);
                 $arguments = Dispatcher::GetInjectArgs($rf, $arguments);
                 return $this->$fc(...$arguments);
@@ -626,7 +640,8 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 igk_dev_wln_e(__FILE__.":".__LINE__ , 'error: ', $ex->getMessage(),
                 'code:', $ex->getCode(), 
-                    'is host ',  $v_host );
+                $ex->getFile().':'.$ex->getLine(),
+                'is host ',  $v_host );
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

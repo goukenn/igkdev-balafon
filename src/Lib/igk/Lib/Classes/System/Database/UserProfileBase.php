@@ -63,7 +63,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * bind user info
      * @param Users|IGKUserInfo $userInfo 
      * @param ModelBase $app_user 
-     * @return void 
+     * @return mixed 
      */
     public function bindInfo($userInfo, ModelBase $app_user): ?ICustomUserProfile{
         if (is_null($userInfo)){

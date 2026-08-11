@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connections.php
-// @date: 20260622 08:43:57
+// @date: 20260806 19:49:23
 namespace IGK\Models;
 
 
@@ -31,7 +31,7 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
-* @method static mixed clear(?\IGK\Models\Users $user= null) macros function
+* @method static mixed clear(?\IGK\Models\Users $user= null) macros function definition
 * */
 class Connections extends ModelBase{
 	const FD_CL_ID="clId";

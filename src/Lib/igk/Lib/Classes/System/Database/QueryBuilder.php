@@ -675,4 +675,18 @@ class QueryBuilder
         }
         return $query;
     }
+
+    /**
+     * convert to left join expression on table 
+     * @param array $columns list 
+     * @param string $operator 
+     * @return array 
+     */
+    public static function LeftJoin(array $columns, string $operator='='){
+
+        return [
+            $columns,
+            'operator'=>$operator && in_array($operator, ['='])? $operator : '='  
+        ];
+    }
 }

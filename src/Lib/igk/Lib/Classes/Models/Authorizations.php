@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Authorizations.php
-// @date: 20260622 08:43:56
+// @date: 20260806 19:49:23
 namespace IGK\Models;
 
 

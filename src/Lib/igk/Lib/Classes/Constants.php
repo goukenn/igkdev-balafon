@@ -230,6 +230,8 @@ final class Constants
      * Constant: pre-include file on command start 
      */
     const INCLUDE_COMMAND = CommandFlags::INCLUDE_COMMAND;
+
+    const NS_COMMAND_REGEX = '/^[a-zA-Z]+(_[a-zA-Z0-9]+)*((\/|\.)[a-zA-Z]+(_[a-zA-Z0-9]+)*)*$/';
     /**
      * get the core version 
      * @return string 

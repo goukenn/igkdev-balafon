@@ -240,7 +240,7 @@ final class IGKValidator extends IGKObject
     }
     /**
     * check if full uri
-    * @param mixed $v
+    * @param bool $v
     */
     public static function IsUri($v)
     {
@@ -252,7 +252,7 @@ final class IGKValidator extends IGKObject
         if (!$r && preg_match("#^/(index\.php/)?\{[^\}]+\}#i", $v)) {
             return true;
         }
-        return $r;
+        return(bool) $r;
     }
     /**
     * auto generate doc.

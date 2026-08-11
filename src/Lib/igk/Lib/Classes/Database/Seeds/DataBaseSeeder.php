@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @desc: database seeder
-// @date: 20260622 08:43:57
+// @date: 20260806 19:49:23
 namespace IGK\Database\Seeds;
 
 use IGK\Controllers\SysDbController;

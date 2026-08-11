@@ -13,8 +13,9 @@ class PhpUnitApplication extends IGKApplicationBase{
     * Bootstrap.
     */
     public function bootstrap() { 
-        $this->library("mysql");
-        $this->library("zip");
+        $this->library('mysql');
+        $this->library('zip');
+        $this->library('curl');
         igk_environment()->app_type = 'phpunit';
         igk_server()->REQUEST_URI = "/";
     }

@@ -155,7 +155,7 @@ final class Server implements IToArray{
     * Accept.
     * @param mixed|'html'|'json' $type
     */
-    public function accept($type="html"){
+    public function accept($type="html", bool $strict=false){
         static $accept_type= null;
         if ($accept_type===null){
             $accept_type = [
@@ -164,8 +164,10 @@ final class Server implements IToArray{
             ];
         }
         $v_accept = $this->HTTP_ACCEPT ?? '*/*';
-        $a = explode(',', $v_accept);
-        if (in_array("*/*", $a)){
+        $a = array_map(function($a){
+            return explode(';', $a, 2)[0];
+        }, explode(',', $v_accept));
+        if (!$strict && in_array("*/*", $a)){
             return true;
         }
         $mtype = igk_getv($accept_type, $type, null);

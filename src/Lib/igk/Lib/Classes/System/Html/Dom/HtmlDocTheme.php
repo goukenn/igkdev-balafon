@@ -17,6 +17,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssConstants;
 use IGK\System\Html\Css\CssMinifier;
+use IGK\System\Html\Css\CssRootPropertyStorageListener;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -673,8 +674,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 }
                 $v_var_def .= "--igk-prop-" . $k . ":" . $v . ";" . $lineseparator;
             }
-            if (!empty($v_var_def))
-                $out .= ":root{" . $v_var_def . "}";
+            if (!empty($v_var_def)){
+                $out .= sprintf(":root{%s}", $v_var_def);
+            }
         }
         // + | --------------------------------------------------------------------
         // + | render font definition 
@@ -1102,7 +1104,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             if ($v_opts && $v_opts->rootListener) {
                 $v_opts->rootListener->store($rtdef_root);
             } else {
-                $out .= sprintf(':root{%s}', igk_css_array_key_map_implode($rtdef_root));
+                $tr = new CssRootPropertyStorageListener;
+                $tr->store($rtdef_root);
+                $out .= $tr->render(); //  sprintf(':root{%s}', igk_css_array_key_map_implode($rtdef_root));
             }
         }
         if ($this->m_bindThemeColor && $this->m_themingResolv) {

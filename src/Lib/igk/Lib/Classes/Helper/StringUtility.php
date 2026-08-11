@@ -910,6 +910,33 @@ abstract class StringUtility
         return $identifer;
     }
     /**
+     * basic format replacement 
+     * @return array 
+     */
+    public static function GetSystemReplacementFormat():array{
+        return [
+            '%date_ymd%' => date('Ymd'),
+            '%date_year%' => date('Y')
+        ];
+    }
+    /**
+     * create format replace 
+     * @param null|array $params 
+     * @return Replacement 
+     */
+    public static function CreateFormatReplacement(?array $params = null){
+          $params = $params ?? self::GetSystemReplacementFormat();
+        $rp = new Replacement;
+        foreach($params as $k=>$v){
+            $rp->add(RegexMatcherUtility::ConverToRegex($k), $v);
+        }
+        return $rp;
+    }
+    public static function ReplacementFormat(string $value, ?array $params = null){
+        $rp = self::CreateFormatReplacement($params); 
+        return $rp->replace($value);
+    }
+    /**
      * array to environment - filter value
      * @param mixed $tab 
      * @return string 

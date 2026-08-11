@@ -176,9 +176,9 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
     }catch(Exception $ex){
         header("Content-Type: text/css");
         if (igk_environment()->isDev()){
-            echo  PHP_EOL."/* Exception : ".$ex->getMessage(). " */\n";
+            igk_ilog(PHP_EOL."/* Exception : ".$ex->getMessage(). " */\n");
         }
-        echo "body{background-color: yellow !important;} body:before{content:'css-contains error to display';}";
+        echo "body{background-color: yellow !important;} body:before{content:'css-contains error to display".$ex->getMessage()." ';}";
     }
     igk_exit();
 }

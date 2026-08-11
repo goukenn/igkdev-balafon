@@ -120,6 +120,26 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         return false;
     }
     /**
+     * is ajx view file request
+     * @param string $file 
+     * @return bool 
+     */
+    protected function isAjxViewFileRequest(string $file){
+            return preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
+    }
+    protected function isMainInclusion(string $file){
+        return $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
+    }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return bool 
+     */
+    public function noCache(BaseController $ctrl){
+         return $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
+            || \getenv('IGK_ENV_NO_AUTOCACHEVIEW');
+    }
+    /**
      * include view file 
      * @param string $file 
      * @param null|array $args 
@@ -132,13 +152,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     public function include(string $file, ?array $args = null)
     {
-        $v_is_ajx_view_request = preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
+        $v_is_ajx_view_request = $this->isAjxViewFileRequest($file);
         $v_common = $v_footer = $v_header = $v_dir = $response = null;
         $ctrl =  $this->controller;
         $ctrl->setExtraArgs(["layout" => $this]);
-        $v_main = $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
-        $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
-            || \getenv('IGK_ENV_NO_AUTOCACHEVIEW');
+        $v_main = $this->isMainInclusion($file);
+        $v_no_cache = $this->noCache($ctrl);
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
         $v_dir = dirname($file);
         if (($v_common = $this->common) && $this->exists($v_common)){
@@ -171,7 +190,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     * @param mixed $bdir
     * @return mixed
     */
-    private function _resolveContextFile($file, $bdir)
+    protected function _resolveContextFile(string $file, $bdir)
     {
         $g = array_values(array_filter(explode($this->controller->getViewDir(), $file, 2)));
         if (igk_io_file_exists($f = $bdir . $g[0], true)) {

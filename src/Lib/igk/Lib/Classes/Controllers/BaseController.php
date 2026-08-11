@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
+
 use Exception;
 use IGK\Actions\ActionResolutionInfo;
 use IGK\Actions\Dispatcher;
@@ -303,7 +304,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $v = IGK_DEFAULT;
         }
         $meth = StringUtility::FuncName($v);
-        if ($view_protect_request_function_name) {            
+        if ($view_protect_request_function_name) {
             if (!preg_match('/^[a-zA-Z]/', $meth)) {
                 array_unshift($params, $v);
                 $meth = IGK_DEFAULT;
@@ -409,10 +410,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $allowed_view;
     }
     /**
-    * create view loader
-    * @param ?string $fname
-    * @return IViewLayoutLoader
-    */
+     * create view loader
+     * @param ?string $fname
+     * @return IViewLayoutLoader
+     */
     protected function createViewLoader(?string $fname = null): ?IViewLayoutLoader
     {
         $ctrl = ViewHelper::CurrentCtrl();
@@ -420,7 +421,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $n = $fname ?? ViewHelper::GetViewArgs("fname");
             if ($n) {
                 $n = ViewHelper::TreatViewNameForClassDefinition($n);
-                $p = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n));
+                $p = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n)); 
                 if (($cl = $this->resolveClass($p)) && is_subclass_of($cl, IViewLayoutLoader::class)) {
                     return new $cl($this);
                 }
@@ -429,13 +430,13 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return new ViewLayoutLoader($this);
     }
     /**
-    * get the view loader
-    * @param ?string $fname
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return null|IViewLayoutLoader
-    */
+     * get the view loader
+     * @param ?string $fname
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return null|IViewLayoutLoader
+     */
     protected function getViewLoader(?string $fname = null)
     {
         if ($l = $this->getEnvParam(ControllerEnvParams::ViewLoader)) {
@@ -447,30 +448,30 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $l;
     }
     /**
-    * handle action
-    * @param string $fname
-    * @param array $params
-    * @param mixed & $handler
-    * @param mixed $is_ajx
-    * @param mixed $is_view
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return mixed
-    */
+     * handle action
+     * @param string $fname
+     * @param array $params
+     * @param mixed & $handler
+     * @param mixed $is_ajx
+     * @param mixed $is_view
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return mixed
+     */
     protected function handleAction(string $fname, array $params, &$handler = null, $is_ajx = null, $is_view = null)
     {
         $srv = igk_server();
         $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
-        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView(); 
+        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView();
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))
         ) {
-            $params = $rep->params ?? $params; 
-            $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep, [
+            $params = $rep->params ?? $params;
+            $r = ActionHelper::DoHandle($this, $handler, $fname, $params, $rep, [
                 'method' => $srv->REQUEST_METHOD,
-                'is_ajx' => $is_ajx, 
+                'is_ajx' => $is_ajx,
                 'is_view' => $is_view
             ]);
             return $r;
@@ -522,12 +523,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         include_once(IGK_LIB_DIR . "/Lib/functions-helpers/view.php");
     }
     /**
-    * copy this fonction to allow file inclusion on the current context controller
-    * @param string $file
-    */
-    protected final
-    function _include_view(string $file)
-    {
+     * copy this fonction to allow file inclusion on the current context controller
+     * @param string $file
+     */
+    protected final function _include_view(string $file)
+    { 
         $response = null;
         $this->_include_func_helpers();
         $this->_include_constants();
@@ -560,6 +560,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                     }
                 }
                 $handle_response = $this->handleAction($fname, $params, $action_handler);
+
                 $i = igk_environment()->action_handler_instance;
                 if ($handle_response && igk_sys_support_trait($i, ApiActionTrait::class)) {
                     igk_exit();
@@ -601,8 +602,8 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;
             igk_set_env('igk_view_handle_actions', null);
-            $response = $this->getViewLoader()->include($file, $viewargs);
-            $g = igk_get_env('igk_view_handle_actions'); 
+            $response = $layout->include($file, $viewargs);
+            $g = igk_get_env('igk_view_handle_actions');
             if (($tg = igk_view_handle_missing_params()) && ($params = igk_getv($tg, 'params'))) {
                 $this::viewError($tg['code'], igk_getv($tg, 'params'));
             }
@@ -689,12 +690,12 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return strtolower(get_class($this));
     }
     /**
-    * get store parameter
-    * @param mixed $key
-    * @param mixed $default
-    * @param mixed $register
-    * @return mixed objet reference value
-    */
+     * get store parameter
+     * @param mixed $key
+     * @param mixed $default
+     * @param mixed $register
+     * @return mixed objet reference value
+     */
     public function &getParam($key, $default = null, $register = false)
     {
         $param = &$this->getM_();
@@ -855,7 +856,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     public function getLoader()
     {
         $l = $this->getEnvParam("loader");
-        if ($l == null) { 
+        if ($l == null) {
             $l = new Loader($this, function () {
                 return (object)["entryNS" => $this->getEntryNamespace()];
             });
@@ -864,10 +865,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $l;
     }
     /**
-    * utility view args
-    * @param string $fname
-    * @param ?string $file
-    */
+     * utility view args
+     * @param string $fname
+     * @param ?string $file
+     */
     protected function utilityViewArgs(string $fname, ?string $file = null)
     {
         $this->setCurrentView($fname, false);
@@ -909,13 +910,13 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $this->setEnvParam(IGK_VIEW_OPTIONS, $options);
     }
     /**
-    * resolve view files and update parameters
-    * @param string $view extension
-    * @param string $checkfile _exist
-    * @param mixed & $param
-    * @param mixed $ajx_demand
-    * @return string view file path
-    */
+     * resolve view files and update parameters
+     * @param string $view extension
+     * @param string $checkfile _exist
+     * @param mixed & $param
+     * @param mixed $ajx_demand
+     * @return string view file path
+     */
     public function getViewFile(string $view, $checkfile = 1, &$param = null, $ajx_demand = null)
     {
         $detect = function ($f, $d, $exts) {
@@ -1020,10 +1021,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $g;
     }
     /**
-    * get the flag value
-    * @param mixed $code
-    * @param mixed $default
-    */
+     * get the flag value
+     * @param mixed $code
+     * @param mixed $default
+     */
     public function getFlag($code, $default = null)
     {
         return $this->getM_()->getFlag($code, $default);
@@ -1264,18 +1265,18 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         igk_hook(IGKEvents::HOOK_INIT_VIEW, ['ctrl' => $this]);
     }
     /**
-    * set environment param flags the flag
-    * @param mixed $code
-    * @param mixed $value
-    */
+     * set environment param flags the flag
+     * @param mixed $code
+     * @param mixed $value
+     */
     public function setFlag($code, $value)
     {
         $this->setEnvParam($code, $value);
     }
     /**
-    * reset the value of the current view
-    * @param mixed $view
-    */
+     * reset the value of the current view
+     * @param mixed $view
+     */
     protected function resetCurrentView($view = null)
     {
         $this->setParam(self::CURRENT_VIEW, $view);
@@ -1293,12 +1294,12 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return (igk_getv(self::$sm_sysController, $className) != null);
     }
     /**
-    * auto generate doc.
-    * @param string $view
-    * @param mixed $target
-    * @param mixed $forcecreation
-    * @param mixed $args the default value is null
-    */
+     * auto generate doc.
+     * @param string $view
+     * @param mixed $target
+     * @param mixed $forcecreation
+     * @param mixed $args the default value is null
+     */
     public function getViewContent(string $view, $target, $forcecreation = false, $args = null)
     {
         $key = "ctrl/backupnode";
@@ -1316,10 +1317,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $this->setParam($key, null);
     }
     /**
-    * set the controller parameters
-    * @param mixed $key
-    * @param mixed $value
-    */
+     * set the controller parameters
+     * @param mixed $key
+     * @param mixed $value
+     */
     public function setParam($key, $value)
     {
         $m = &$this->getM_();
@@ -1331,12 +1332,12 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         return $this;
     }
     /**
-    * call view layout without changing current view
-    * @param mixed $view
-    * @param mixed $forcecreation
-    * @param mixed $args
-    * @param mixed $options
-    */
+     * call view layout without changing current view
+     * @param mixed $view
+     * @param mixed $forcecreation
+     * @param mixed $args
+     * @param mixed $options
+     */
     public function getView($view = null, $forcecreation = false, $args = null, $options = null)
     {
         extract($this->getSystemVars());
@@ -1380,10 +1381,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         igk_hook(IGKEvents::VIEWCOMPLETE, array("ctrl" => $this));
     }
     /**
-    * include view on contex
-    * @param string $view
-    * @param mixed $args
-    */
+     * include view on contex
+     * @param string $view
+     * @param mixed $args
+     */
     protected function _include_view_file(string $view, $args = null)
     {
         $v_file = igk_io_cache_file_exists($view) ? $view : $this->getViewFile($view);

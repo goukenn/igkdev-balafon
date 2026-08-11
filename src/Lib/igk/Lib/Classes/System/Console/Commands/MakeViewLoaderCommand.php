@@ -47,6 +47,9 @@ class MakeViewLoaderCommand extends AppExecCommand{
     * @param null|string $name
     */
     public function exec($command, ?string $controller=null, ?string $name=null) { 
+
+        self::AutoInjectController($command, $controller, $name);      
+
 		$ctrl = self::GetController($controller);
 		if (empty($name)){
 			igk_die('missing name');
@@ -54,6 +57,7 @@ class MakeViewLoaderCommand extends AppExecCommand{
 		$force = property_exists($command->options, '--force');
 		$n = ViewHelper::TreatViewNameForClassDefinition($name);
 		$cl = $ctrl::resolveClass($path = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n)));
+        $bind = [];
 		if ($force || !$cl){
 			$dir = $ctrl::classdir();
 		$bind[Path::Combine($dir, $path.'.php')] = function($file)use($ctrl, $path){

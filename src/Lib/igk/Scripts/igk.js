@@ -7060,7 +7060,7 @@ Name:balafon.js
 
     function igk_form_submit(frm) {
         if (frm) {
-            var ajxform = $igk(frm).getAttribute("igk-ajx-form");
+            var ajxform = $igk(frm).getAttribute('igk-ajx-form');
             if (ajxform) {
                 ns_igk.ajx.postform(frm, igk_form_geturi(frm), igk_form_ajx_getfunc(frm));
             } else {
@@ -10480,6 +10480,9 @@ Name:balafon.js
             m_exajxdata = 0;
         };
 
+        // + | ------------------------------------------------------------------------------
+        // + | igk.ajx namespace 
+        // + | 
         (function () {
             var _ajx_info = {
                 initializer: null
@@ -10516,9 +10519,17 @@ Name:balafon.js
                     }
                     _p.init();
                 },
+                /**
+                 * 
+                 * @param {*} p 
+                 */
                 bindHeader: function (p) { //bind properties to next ajx header
                     m_ajxhe = p;
                 },
+                /**
+                 * 
+                 * @param {*} exdata 
+                 */
                 bindExtraData: function (exdata) { // bind extra data that will be used for ajx request
                     // + |object property or null 
                     m_exajxdata = exdata;
@@ -10645,6 +10656,12 @@ Name:balafon.js
                         });
                     }
                 },
+                /**
+                 * 
+                 * @param {*} cibling 
+                 * @param {*} parentNodeTag 
+                 * @returns 
+                 */
                 getResponseNodeFunction: function (cibling, parentNodeTag) {
                     var b = $igk(cibling).getParentByTagName(parentNodeTag);
                     if (b) {
@@ -10766,7 +10783,7 @@ Name:balafon.js
                                 // for url encoding
                                 this.xhr.setRequestHeader("Content-Type", this.contentType || "application/x-www-form-urlencoded;charset=iso-8859-1");
                             }
-                        }
+                        } 
                         if (monitorlistener) {
                             this.xhr.onloadstart = monitorlistener.loadstart;
                             this.xhr.onloadend = monitorlistener.loadend;
@@ -10795,15 +10812,9 @@ Name:balafon.js
                     });
                     ajx.setResponseMethod(__ajx_initfunc(func)); // || igk.ajx.fn.replace_or_append_to_body);
                     ajx.xhr.open("POST", uri, async);
-                    // ajx.xhr.setRequestHeader("Content-Type", "text/html");
                     ajx.xhr.setRequestHeader("Content-Type", "text/plain");
                     igk.ajx.setHeader(ajx.xhr);
                     ajx.xhr.setRequestHeader("SOAPACTION", action);
-                    // if (headers) {
-                    //      for (var i in headers) {
-                    //      ajx.xhr.setRequestHeader(i, headers[i]);
-                    //      }
-                    // }
                     var v_params = ""; // params to send 		
                     for (var i in param) {
                         v_params += "<" + i + ">" + param[i] + "</" + i + ">";
@@ -10884,7 +10895,7 @@ Name:balafon.js
                  * @param {*} uri uri target 
                  * @param {*} func callback function 
                  * @param {*} sync async call
-                 * @param {*} callback metho to call after sending 
+                 * @param {*} callback method to call after sending 
                  */
                 postform: function (form, uri, func, sync, callback) {
                     if (!form)
@@ -11292,7 +11303,6 @@ Name:balafon.js
                     });
                 }
             });
-
         })();
 
         function encodeQueryFromData(frmData) {

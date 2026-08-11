@@ -171,8 +171,8 @@ class UsersConfigurationController extends ConfigControllerBase
             $condition[] = (object)[
                 "operand" => "OR",
                 "conditions" => [
-                    "clLogin" => $login,
-                    "clLogin" => $login . "@" . igk_configs()->website_domain
+                    ["clLogin" => $login],
+                    ["clLogin" => $login . "@" . igk_configs()->website_domain]
                 ]
             ];
         } else {

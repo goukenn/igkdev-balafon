@@ -32,7 +32,7 @@
                 return !0;
             });
         }
-    })(); 
+    })();
     // 
     // controller utility presentation igk-new-lang-key
     // 
@@ -302,7 +302,7 @@
         this.reg_event("mouseout", function () {
             // igk.show_prop(store);
             if (q.isCssSupportAnimation()) {
-                const transition = ['all',rmduration, effect].join(' ');
+                const transition = ['all', rmduration, effect].join(' ');
                 if (tq.select) {
                     q.select(tq.select)
                         .setCss({ transition })
@@ -683,7 +683,7 @@
                     r += '|';
                 r += t[i];
             }
-            return new RegExp('((?<type>' + r + ')code)|(code-(?<type>'+r+'))', 'i');
+            return new RegExp('((?<type>' + r + ')code)|(code-(?<type>' + r + '))', 'i');
         })(m_types);
         const treatHtmlSource = {
             /**
@@ -696,13 +696,13 @@
                 let o = '', g = null, loffset = 0, closed_tag = 0, regex = new RegexContainer();
                 src = src.replaceAll('&amp;', '&')
                     .replaceAll('&gt;', '>')
-                    .replaceAll('&lt;', '<') 
+                    .replaceAll('&lt;', '<')
                     ;
                 regex.begin('<!--\\?(php|=)', '(:\/){0,1}--(:\\?){0,1}>');
                 // regex.begin('<!--\\?(php|=)', '\/--(\\?){0,1}>');
-                length = src.length;  
+                length = src.length;
                 const options = { offset: 0 };
-                while (g = regex.detect(src, options)) { 
+                while (g = regex.detect(src, options)) {
                     let e = regex.end(g);
                     if (e) {
                         if (e.isContinue)
@@ -732,7 +732,7 @@
                         o += '?>';
                     }
                     o += src.substring(loffset);
-                } 
+                }
                 return o;
             }
         };
@@ -752,7 +752,7 @@
             var c = '';
             var b = null;
             if ((b = m_reg.exec(q.o.className))) {
-                c = b.groups['type']; 
+                c = b.groups['type'];
             } else {
                 c = q.getAttribute("lang");
                 if (!(c in m_types)) {
@@ -768,7 +768,7 @@
             }
             var s = ts || q.o.textContent.trim();
             var t = s.split('\n');
-            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;'); 
+            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
             // return;
             // clear node
             q.setHtml("");
@@ -809,7 +809,7 @@
             var m = null;
             if (c) {
                 m = "igk.highlightjs." + c;
-                let p = igk.system.getNS(m);                
+                let p = igk.system.getNS(m);
                 m = p ? _eval("return new " + m + "();") : new igk_e();
             } else {
                 m = new igk_e();
@@ -854,21 +854,21 @@
             var w = "";
             var c = 0;
             var ch = "";
-            const bc = inf.pos ;
+            const bc = inf.pos;
             while (inf.pos < inf.ln) {
                 ch = inf.s[inf.pos];
                 // TODO TRADITIONAL WAY               
                 c = ch.toLowerCase().charCodeAt(0);
-                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || ((c >= 230) && (c <= 240)) || (ch == '_')||(ch == '-')) {
+                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || ((c >= 230) && (c <= 240)) || (ch == '_') || (ch == '-')) {
                     w += ch;
                 } else {
                     break;
                 }
                 inf.pos++;
             }
-            if ( bc == inf.pos){
-                console.log({bc, inf});
-                throw new Error('read word missing - charactor reading - '+ch+' - '+bc);
+            if (bc == inf.pos) {
+                console.log({ bc, inf });
+                throw new Error('read word missing - charactor reading - ' + ch + ' - ' + bc);
             }
             return w;
         }
@@ -920,8 +920,8 @@
         /**
          * php code highlight
          */
-        function igk_php_eval() { 
-            igk_e.apply(this); 
+        function igk_php_eval() {
+            igk_e.apply(this);
             var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
             var w = 0;
             var l = 1; // line count
@@ -975,13 +975,13 @@
                                     }
                                     break;
                                 case "`":
-                                    inf.mode = 1; 
+                                    inf.mode = 1;
                                     inf.pos++;
                                     w = _readStringLitteral(ch);
                                     inf.mode = 0;
                                     sp.add('span').addClass("litteral").setHtml(w);
                                     break;
-                                case '/': 
+                                case '/':
                                     if ((inf.pos + 1 < inf.ln) && (inf.s[inf.pos + 1] == "/")) {
                                         sp.add("span").addClass("cm").setHtml(
                                             present(ch + inf.s.substr(inf.pos + 1))
@@ -1002,7 +1002,7 @@
                                         sp.add("span").addClass("s-mark").setHtml("@" + w);
                                     }
                                     break;
-                                case '$': 
+                                case '$':
                                     inf.pos++;
                                     w = _readWord();
                                     if (w.length > 0) {
@@ -1012,14 +1012,14 @@
                                     }
                                     inf.pos--;
                                     // inf.read = 0;
-                                    break; 
+                                    break;
                                 case "\n":
                                     break;
                                 default:
-                                    if (/[^\w\d\s\\<>#\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)){ 
+                                    if (/[^\w\d\s\\<>#\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)) {
                                         sp.add("span")
                                             .setHtml('&nbsp;')
-                                            .addClass('no-char'); 
+                                            .addClass('no-char');
 
                                         break;
                                     }
@@ -1041,13 +1041,13 @@
                                             w = _readWord();
                                             var _cl = "w";
                                             ch = s[inf.pos];
-                                            if (ch=='\\'){
+                                            if (ch == '\\') {
                                                 // + | php namespace detection
                                                 let r = /(\\[a-zA-Z_][a-zA-Z0-9]*)*/.exec(s.substr(inf.pos));
-                                                if (r){
-                                                    _cl+=' ns';
-                                                    w+= r[0];
-                                                    inf.pos+=r[0].length;
+                                                if (r) {
+                                                    _cl += ' ns';
+                                                    w += r[0];
+                                                    inf.pos += r[0].length;
                                                 }
                                             }
                                             if (/[0-9.]+/.test(w)) {
@@ -1081,9 +1081,11 @@
             'txt': null,
             'xml': null
         });
-        igk.defineProperty(_NS, 'base', {get(){
-            return igk_e;
-        }});
+        igk.defineProperty(_NS, 'base', {
+            get() {
+                return igk_e;
+            }
+        });
 
         function __initCode() {
             $igk("code.igk-code").each_all(__init_code_area);
@@ -1092,13 +1094,13 @@
             /**
              * just reload the component 
              */
-            reload(){
-                $igk("code.igk-code").each_all(function(){
-                    if(this.highlight){ 
-                        this.highlight = 0;  
+            reload() {
+                $igk("code.igk-code").each_all(function () {
+                    if (this.highlight) {
+                        this.highlight = 0;
                         __init_code_area.apply(this);
                     }
-                }); 
+                });
             }
         });
         igk.ready(__initCode);
@@ -1491,8 +1493,8 @@
                         k[ni] = properties[ni];
                         continue;
                     }
-                    let ti = ni.replace(/([a-z])(?:-([a-zA-Z]))/, (match,x,y)=>{
-                        return x+y.toUpperCase();
+                    let ti = ni.replace(/([a-z])(?:-([a-zA-Z]))/, (match, x, y) => {
+                        return x + y.toUpperCase();
                     });
                     v = properties[ni];
                     if (igk.css.isItemSupport(['webkit' + ni])) {
@@ -1849,9 +1851,9 @@
             const { isChrome, isSafari, isFirefox, isIEEdge, isOpera } = igk.navigator;
             var B = igk.dom.body();
             let cookies = igk.cookies;
- 
 
-            if (isFirefox() || isChrome() || isSafari() ||  isIEEdge() || isOpera()) {
+
+            if (isFirefox() || isChrome() || isSafari() || isIEEdge() || isOpera()) {
                 // to get content of css style item must be added to document
                 B.add("div").setCss({ position: 'absolute', visibility: 'hidden', overflow: 'hidden', 'height': '0px', 'bottom': '0px' })
                     .addClass("igk-m-i") // media info
@@ -1873,7 +1875,7 @@
                 }
                 // - console.log('media type : ', {mediaType:i, oldMediaType:m_c});
             };
-           // - console.log('init ie events::', {dev, m_c});
+            // - console.log('init ie events::', {dev, m_c});
             function __raiseMedia(i) {
                 m_c = i;
                 igk.publisher.publish(igk.publisher.events.mediachanged, {
@@ -3769,7 +3771,7 @@
                                     break;
                             }
                         }
-                        m.innerText = v; 
+                        m.innerText = v;
                     }
                 }); // end append prop
             } // end reader
@@ -5229,7 +5231,7 @@
                         evt.preventDefault();
                         return false;
                     }
-                }); 
+                });
             }
             if (g.options) {
                 g.options.addClass("dispn");
@@ -6045,8 +6047,8 @@
     (function () {
         // auto hide core component
         igk.winui.initClassControl("igk-anim-autohide", function () {
-            var q = this; 
-            q.reg_event("animationend", function (e) {                
+            var q = this;
+            q.reg_event("animationend", function (e) {
                 if (e.animationName == "anim-autohide") {
                     q.remove();
                 }
@@ -6261,7 +6263,7 @@
                     if (evt.keyCode == 13) {
                         evt.preventDefault();
                         evt.stopPropagation();
-                        if (isValid(form.o)){
+                        if (isValid(form.o)) {
                             form.o.submit();
                         }
                         return false;
@@ -6269,27 +6271,27 @@
                 }
             }
         };
-        function isValid(f){
+        function isValid(f) {
             let valid = true;
             let ln = f.elements.length;
             let i = 0;
-            while(valid && (i < ln)){
+            while (valid && (i < ln)) {
                 let s = f.elements.item(i);
-                i++;  
+                i++;
                 const t = s.type;
                 const v = s.value;
-                if (s.required){
-                    switch(t){
+                if (s.required) {
+                    switch (t) {
                         default:
-                        if (v.length==0){
-                            valid = false;
-                        }else{
-                            if (s.pattern){
-                                let rg = new RegExp(s.pattern);
-                                valid = !rg.test(v);
+                            if (v.length == 0) {
+                                valid = false;
+                            } else {
+                                if (s.pattern) {
+                                    let rg = new RegExp(s.pattern);
+                                    valid = rg.test(v);
+                                }
                             }
-                        }
-                        break;
+                            break;
                     }
                 }
             };
@@ -6328,14 +6330,14 @@
             let no_button = this.select('input[type=submit]').first() || this.select('button[type=submit]').first();
             if (!no_button) {
                 const v_qfrom = this;
-                const v_qfc = _handler.form_key_enter_handler(v_qfrom); 
+                const v_qfc = _handler.form_key_enter_handler(v_qfrom);
                 this.select('input.key-enter').each_all(function () {
                     this.on('keypress', v_qfc);
                 });
             }
             // alert('for '+ no_button);
-            this.on('submit', (e)=>{
-                if (!isValid(this.o)){
+            this.on('submit', (e) => {
+                if (!isValid(this.o)) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -7118,16 +7120,21 @@
                     return item;
                 }
             });
+            const ovalue = [];
 
-            function close(q) {
-                var h = q.select("^.igk-js-notify-box").first();
-                if (h) {
-                    igk.winui.notify.close();
-                }
-            }
+            function _restoreSelection(selector) {
+                let pos = 0;
+                selector.each_all(function () {
+                    let v = ovalue[pos];
+                    if (!v)
+                        this.o.removeAttribute('disabled');
+                    else
+                        this.o.setAttribute("disabled", true);
+                    pos++;
+                });
+            };
 
             function __init() {
-                //   console.log('.....................; 1111 ;');
                 var self = this;
                 var r = this.getAttribute("igk-ajx-form");
                 var r_obj = r && (r != '1') ? igk.JSON.parse(r) : null;
@@ -7135,6 +7142,21 @@
                 var no_c = this.getAttribute("igk-ajx-form-no-close");
                 var ajxdata = igk.JSON.parse(this.getAttribute("igk-ajx-form-data"));
                 var complete = this.getAttribute("igk-ajx-form-complete");
+
+
+                function close(q, selector, xhr) {
+                    var h = q.select("^.igk-js-notify-box").first();
+                    if (h) {
+                        igk.winui.notify.close();
+                    }
+                    _complete(q,xhr);
+                    _restoreSelection(selector);
+                };
+                function _complete(q, xhr) {
+                    if (complete) {
+                        (new Function('data', complete)).apply(q, [JSON.parse(xhr.response)]);
+                    }
+                };
                 //register cusom event
                 this.addEvent(BEFORESUBMIT_EVENT, {
                     "cancelable": true,
@@ -7156,13 +7178,12 @@
                         if (cancel) {
                             return;
                         }
-                        // console.log('.....................;;');
+                        // console.log('.....................;;', complete);
                         const selector = self.qselect('input, button');
-                        const ovalue = [];
 
                         igk.ajx.postform(self.o, self.o.getAttribute("action"), function (xhr) {
                             if ((xhr.readyState == 4) && (xhr.status != 200)) {
-                                close(self);
+                                close(self, selector, xhr);
                                 return;
                             }
                             if (this.isReady()) {
@@ -7202,7 +7223,7 @@
                                 if (!no_c && frame) {
                                     frame.close();
                                 } else {
-                                    close(self);
+                                    close(self, selector, xhr);
                                 }
                                 // autoreset
                                 if (!noa)
@@ -7212,19 +7233,7 @@
                                 }
                                 if (r_obj && r_obj.complete) {
                                     r_obj.complete.apply(self);
-                                }
-                                if (complete) {
-                                    (new Function(complete)).apply(self);
-                                }
-                                let pos = 0;
-                                selector.each_all(function () {
-                                    let v = ovalue[pos];
-                                    if (!v)
-                                        this.o.removeAttribute('disabled');
-                                    else
-                                        this.o.setAttribute("disabled", true);
-                                    pos++;
-                                });
+                                } 
                             }
                         }, true, () => {
                             selector.each_all(function () {
@@ -7232,7 +7241,6 @@
                                 this.o.setAttribute("disabled", true);
                             });
                         });
-
                     });
                 }
             }

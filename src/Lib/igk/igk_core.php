@@ -10,6 +10,7 @@
 
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 
+use Faker\Provider\Base;
 use IGK\ApplicationLoader;
 use IGK\Constants;
 use IGK\Resources\R;
@@ -26,6 +27,8 @@ use IGK\System\IArrayKeyExists;
 use IGK\System\IO\Path;
 use IGK\System\Number;
 use IGK\System\Regex\RegexConstant;
+use IGK\System\Regex\Replacement;
+
 use function igk_resources_gets  as __;
 
 /**
@@ -195,13 +198,29 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
         !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s - %s', '[BLF_EX]', $msg));
         // + | Last Exception   
 
+        $msg = igk_die_log_message($msg);
         throw new IGKException($msg, $code);
     } else {
+        $msg = igk_die_log_message($msg);
         ob_get_level() && ob_clean();
         igk_set_header($code);
         igk_dev_wln($msg . PHP_EOL);
         igk_exit();
     }
+}
+/**
+ * tag message 
+ * @param mixed $msg 
+ * @return string 
+ */
+function igk_die_log_message($msg){
+    $rp = new Replacement;
+    $rp->add('/%tag%/', Constants::LOG_TAG);
+    if (!preg_match('/^[^:]+(:|-)/', $msg)){
+        $msg = sprintf('%s - %s', Constants::LOG_TAG, $msg);
+    }
+    $msg = $rp->replace($msg);
+    return $msg;
 }
 if (!function_exists('igk_die_exception')) {
     /**
@@ -229,6 +248,8 @@ if (!function_exists('igk_resources_gets')) {
      */
     function igk_resources_gets($text, $parameters = null)
     {
+        if (preg_match('/%[a-zA-Z\-_0-9]+%/', $text))
+            $text = StringUtility::ReplacementFormat($text);
         $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);
@@ -2096,33 +2117,33 @@ function igk_sys_getdefaultctrlconf()
 }
 /**
  * get cached reflected class
- * @param mixed $cl
+ * @param mixed $class class name or object
  * @param mixed & $reference
  * @return ?ReflectionClass
  */
-function igk_sys_reflect_class($cl, &$reference = null)
+function igk_sys_reflect_class($class, &$reference = null)
 {
     static $reflection;
     if (is_null($reflection)) {
         $reflection = [];
     }
     $reference = $reflection;
-    if (is_null($cl)) {
+    if (is_null($class)) {
         return null;
     }
-    if (is_object($cl)) {
-        $cl = get_class($cl);
+    if (is_object($class)) {
+        $class = get_class($class);
     }
-    if (isset($reflection[$cl])) {
-        return $reflection[$cl];
+    if (isset($reflection[$class])) {
+        return $reflection[$class];
     }
-    if (is_string($cl) && (class_exists($cl) || trait_exists($cl) || interface_exists($cl))) {
-        $rf = new ReflectionClass($cl);
-        $reflection[$cl] = $rf;
+    if (is_string($class) && (class_exists($class) || trait_exists($class) || interface_exists($class))) {
+        $rf = new ReflectionClass($class);
+        $reflection[$class] = $rf;
         return $rf;
     }
     igk_trace();
-    igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
+    igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $class);
 }
 /**
  * Igk sys reflect class unset.
@@ -2611,7 +2632,7 @@ if (!function_exists('igk_get_object_public_vars')) {
 }
 if (!function_exists('igk_sys_detect_project_controller')) {
     /**
-     * Igk sys detect project controller.
+     * detect project controller.
      * @param string $project_dir
      * @return mixed
      */
@@ -2622,8 +2643,11 @@ if (!function_exists('igk_sys_detect_project_controller')) {
         if ($c = opendir($dir)) {
             while ($l = readdir($c)) {
                 if (preg_match("/\.php$/", $l)) {
-                    include_once($dir . "/" . $l);
-                    $n = igk_io_basenamewithoutext($l);
+                    if(basename($l)[0]=='.') continue; // skip 
+                    $file = $dir . "/" . $l;
+                    include_once($file);
+                    $n = igk_sys_get_controller_class_from($file) ?? igk_io_basenamewithoutext($l);
+
                     if (class_exists($n, false) && is_subclass_of($n, BaseController::class)) {
                         $s[] = $n;
                     }
@@ -2635,6 +2659,40 @@ if (!function_exists('igk_sys_detect_project_controller')) {
         return $project;
     }
 }
+
+function igk_sys_get_controller_class_from(string $file){
+    static $caching; 
+    
+    // if (is_null($caching)){
+    //     $caching = [];
+    //     igk_hook(IGKEvents::HOOK_APP_SHUTDOWN, function(){
+    //         $fs = igk_io_cachedir().'/.controller-caching-file.php';
+    //     });
+    // }
+    $rf = realpath($file);
+    if (isset($caching[$rf])){
+        return $caching[$rf];
+
+    }
+    $tab = get_declared_classes();
+    $cp = [];
+    while(count($tab)>0){
+        $cl = array_pop($tab);
+        if (igk_sys_reflect_class($cl)->getFileName() == $file){
+            if (is_subclass_of($cl, BaseController::class)){
+                $cp[] = $cl;
+                $caching[$rf] = $cl;
+            }
+        }else{
+            break;
+        }
+    }
+    if ($cp){ 
+        return array_shift($cp);
+    }
+    return null;
+}
+
 if (!function_exists('igk_clamp')) {
     /**
      * clamp value

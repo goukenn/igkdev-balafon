@@ -3,14 +3,11 @@
 // @file: ViewDataArgs.php
 // @date: 20221113 08:48:43
 namespace IGK\System;
-use ArrayAccess;
-use ArrayIterator;
-use IGK\Helper\JSon;
-use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use ArrayAccess; 
+use IGK\Helper\JSon; 
 use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
-use JsonSerializable;
-use Traversable;
+use JsonSerializable; 
 
 /**
  * 
@@ -72,5 +69,8 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
      */
     public function to_json($options=null, int $encode= 0){
         return JSon::Encode($this->p_data, $options, $encode);
+    }
+    public function to_array(){
+        return $this->p_data; 
     }
 }

@@ -73,6 +73,12 @@ class RequestViewCommand extends AppExecCommand
     */
     public function exec($command, $controller = null, ?string $request = null)
     {
+        if (empty($request)){
+            if ($ctrl = igk_getv($command->options, '--controller')){
+                $request = $controller;
+                $controller = $ctrl;
+            }
+        }
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
         if (!$ctrl || !($ctrl = SysUtils::GetControllerByName($ctrl, false))) {
             igk_die('missing controller');

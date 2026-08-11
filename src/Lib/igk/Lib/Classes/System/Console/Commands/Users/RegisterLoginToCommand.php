@@ -32,6 +32,10 @@ class RegisterLoginToCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = 'controller login [options]';
+
+    var $options = [
+        '--controller:'=>'the controller to use'
+    ];
     /**
     * Exec.
     * @param mixed $command
@@ -39,6 +43,12 @@ class RegisterLoginToCommand extends AppExecCommand{
     * @param null|string $login
     */
     public function exec($command, ?string $controller=null, ?string $login = null) { 
+        if (empty($login)){
+            if ($c = igk_getv($command->options, '--controller')){
+                $login = $controller;
+                $controller = $c;
+            }
+        }
 		$login || igk_die("require login");
 		$ctrl = self::GetController($controller);
 		$user = igk_get_user_bylogin($login) ?? igk_die('missing user');

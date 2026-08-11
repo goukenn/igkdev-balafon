@@ -529,7 +529,7 @@
 
 
 		<Migration> 
-			<addColumn after="clStatus" table="%prefix%users"> 
+			<addColumn after="clStatus" table="%prefix%users" description="used to add sale definition to core table "> 
 				<Column clName="sale_profile_type" clType="int" clDefault="0" clNotNull></Column>
 				<Column clName="sale_java" clType="int" clDefault="0" clNotNull></Column>
 			</addColumn>

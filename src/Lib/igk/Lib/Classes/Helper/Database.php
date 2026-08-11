@@ -136,9 +136,10 @@ class Database
             igk_die('failed to resolve model');
         }
         $s = null;
+        $ctrl = $instance->getClassResolver(); 
         $path = Constants::NS_MACROS_CLASS . '\\' .
             ucfirst(basename(igk_uri(get_class($instance)))) . 'Macros';
-        $s = $instance->getController()->resolveClass($path);
+        $s = $ctrl->resolveClass($path);
         return $s;
     }
     /**

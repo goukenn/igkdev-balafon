@@ -29,6 +29,7 @@ class TreatViewContent
      */
     public function treat(BaseController $ctrl, string $file, $no_cache = false)
     {
+       // igk_wln_e('not expired. treat .... sd', ob_get_level());
         $ext = igk_io_path_ext($file);
         $handler = null;
         $args = array_slice(func_get_args(), 3);
@@ -58,6 +59,7 @@ class TreatViewContent
             extract(igk_extract_ref(call_user_func_array([$this, 'getExtraArgs'], [])), EXTR_SKIP);
             return include(func_get_arg(0));
         })->bindTo($ctrl);
+        
         if ($no_cache) {
             array_unshift($args, $file);
         } else {
@@ -69,6 +71,11 @@ class TreatViewContent
                 // + | 
                 $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
                 igk_io_w2file($_f, $output);
+                if (function_exists('opcache_invalidate')) {
+                    opcache_invalidate($_f, true);
+                    opcache_invalidate($file, true);
+                    opcache_invalidate(__FILE__, true);
+                }
             }
             array_unshift($args, $_f);
         }

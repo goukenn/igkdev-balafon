@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
+
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -19,26 +20,27 @@ use IGKEvents;
 use ReflectionClass;
 use ReflectionException;
 
-require_once(__DIR__."/AppCommandConstant.php");
+require_once(__DIR__ . "/AppCommandConstant.php");
 /**
-* App command.
-* @package IGK\System\Console
-*/
-abstract class AppCommand {
+ * App command.
+ * @package IGK\System\Console
+ */
+abstract class AppCommand
+{
     /**
-    * Constant: env key.
-    * @var mixed
-    */
+     * Constant: env key.
+     * @var mixed
+     */
     const ENV_KEY = "balafon/command_args";
     /**
-    * Constant: options tab space.
-    * @var mixed
-    */
+     * Constant: options tab space.
+     * @var mixed
+     */
     const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
     /**
-    * Constant: init command method.
-    * @var mixed
-    */
+     * Constant: init command method.
+     * @var mixed
+     */
     const INIT_COMMAND_METHOD = 'InitCommand';
     /**
      * register command name
@@ -71,16 +73,17 @@ abstract class AppCommand {
      */
     var $usage;
     /**
-    * Property: app.
-    * @var mixed
-    */
+     * Property: app.
+     * @var mixed
+     */
     var $app;
     /**
      * show command usage
      * @param mixed $usage 
      * @return void 
      */
-    protected function showCommandUsage(?string $usage=null){
+    protected function showCommandUsage(?string $usage = null)
+    {
         Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? $this->usage));
     }
     /**
@@ -91,7 +94,8 @@ abstract class AppCommand {
      * @return void 
      * @throws EnvironmentArrayException 
      */
-    public static function Register($command, callable $callable, $desc=""){
+    public static function Register($command, callable $callable, $desc = "")
+    {
         $o = igk_createobj();
         $o->command = $command;
         $o->description = $desc;
@@ -104,8 +108,9 @@ abstract class AppCommand {
      * @param int $id 
      * @return void 
      */
-    public static function BindUser(BaseController $controller, int $id){
-        if ($user = \IGK\Models\Users::Get(\IGK\Models\Users::FD_CL_ID, $id)){
+    public static function BindUser(BaseController $controller, int $id)
+    {
+        if ($user = \IGK\Models\Users::Get(\IGK\Models\Users::FD_CL_ID, $id)) {
             $controller::login($user, null, false);
         }
     }
@@ -117,79 +122,80 @@ abstract class AppCommand {
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    public static function GetCommands(){
+    public static function GetCommands()
+    {
         static $loaded_command = null;
-       
-        if ($loaded_command === null){
+
+        if ($loaded_command === null) {
             $loaded_command = [];
             $v_tdeclared_classes = get_declared_classes();
-            foreach($v_tdeclared_classes as $cl){
-                if ($cl == BalafonCLICommand::class){
+            foreach ($v_tdeclared_classes as $cl) {
+                if ($cl == BalafonCLICommand::class) {
                     continue;
                 }
-                if (is_subclass_of($cl, __CLASS__)){
-                    if (!(igk_sys_reflect_class($cl))->isAbstract()){
-                        if (method_exists($cl, self::INIT_COMMAND_METHOD)){
-                            call_user_func_array([$cl, self::INIT_COMMAND_METHOD],[]);
-                        }   
+                if (is_subclass_of($cl, __CLASS__)) {
+                    if (!(igk_sys_reflect_class($cl))->isAbstract()) {
+                        if (method_exists($cl, self::INIT_COMMAND_METHOD)) {
+                            call_user_func_array([$cl, self::INIT_COMMAND_METHOD], []);
+                        }
                         $b = new $cl();
-                        if (empty($b->command)){
-                            die("command : ".$cl. " not specified");
-                        } 
-                        $loaded_command[$b->command] = $b; 
+                        if (empty($b->command)) {
+                            die("command : " . $cl . " not specified");
+                        }
+                        $loaded_command[$b->command] = $b;
                     }
                 }
             }
-            if (file_exists($file = AppCommandConstant::GetCacheFile())){
-        
+            if (file_exists($file = AppCommandConstant::GetCacheFile())) {
+
                 $list = include($file);
                 $mod = igk_get_modules();
-                foreach($mod as $c => $v){
+                foreach ($mod as $c => $v) {
                     igk_require_module($c, null, false);
                 }
-                foreach($list as $ctrl=>$b){
-                    if (!is_string($b) && ($m = igk_getctrl($ctrl, false))){
+                foreach ($list as $ctrl => $b) {
+                    if (!is_string($b) && ($m = igk_getctrl($ctrl, false))) {
                         $m::register_autoload();
-                        foreach($b as $c){
+                        foreach ($b as $c) {
                             $b = new $c();
-                            if (empty($b->command)){
-                                die("command : ".$c. " not specified");
-                            } 
-                            $loaded_command[$b->command] = $b; 
-                        }
-                    }else  {
-                        if (!class_exists($ctrl,false)){
-                            if(!is_string($b)){
-                                igk_die("failed: ". json_encode($b));
+                            if (empty($b->command)) {
+                                die("command : " . $c . " not specified");
                             }
-                                $b = igk_io_expand_path($b);
-                                include($b);
+                            $loaded_command[$b->command] = $b;
                         }
-                        if (!class_exists($ctrl)){
-                            die("class [".$ctrl ."] not found or is abstract".$b);
+                    } else {
+                        if (!class_exists($ctrl, false)) {
+                            if (!is_string($b)) {
+                                igk_die("failed: " . json_encode($b));
+                            }
+                            $b = igk_io_expand_path($b);
+                            include($b);
+                        }
+                        if (!class_exists($ctrl)) {
+                            die("class [" . $ctrl . "] not found or is abstract" . $b);
                         }
                         if ((igk_sys_reflect_class($ctrl))->isAbstract() || !is_subclass_of($ctrl, __CLASS__))
-                            continue; 
+                            continue;
                         $b = new $ctrl();
-                        $loaded_command[$b->command] = $b;  
+                        $loaded_command[$b->command] = $b;
                     }
                 }
-            }
-            else {
-                Logger::danger("command file not present ". $file);
+            } else {
+                Logger::danger("command file not present " . $file);
                 Logger::info("please run with  --command:init to initialize command's cache file ");
-            } 
-        } 
-        return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, [])); 
-    } 
+            }
+        }
+        return  array_merge($loaded_command,  igk_environment()->get(self::ENV_KEY, []));
+    }
     /**
      * execute command
      * @param mixed $args 
      * @param mixed $command 
      * @return mixed 
      */
-    public function run($args, $command){
-        if ($fc = $this->callable){
+    public function run($args, $command)
+    {
+        if ($fc = $this->callable) {
             $argument = func_get_args();
             return $fc(...$argument);
         }
@@ -198,12 +204,13 @@ abstract class AppCommand {
      * help view
      * @return mixed 
      */
-    public function help(){
-        igk_hook(IGKEvents::COMMAND_HELP_HOOK, ['command'=>$this]);
-        Logger::print("");        
-        Logger::info($this->command. PHP_EOL);
-        if ($d = $this->desc){
-            Logger::print($d. PHP_EOL); 
+    public function help()
+    {
+        igk_hook(IGKEvents::COMMAND_HELP_HOOK, ['command' => $this]);
+        Logger::print("");
+        Logger::info($this->command . PHP_EOL);
+        if ($d = $this->desc) {
+            Logger::print($d . PHP_EOL);
         }
         $this->showUsage();
         Logger::print("");
@@ -214,8 +221,9 @@ abstract class AppCommand {
      * show command usage
      * @return void 
      */
-    protected function showUsage(){
-        if ($u = $this->usage){
+    protected function showUsage()
+    {
+        if ($u = $this->usage) {
             self::showCommandUsage($u);
         }
     }
@@ -223,79 +231,99 @@ abstract class AppCommand {
      * show command options
      * @return void 
      */
-    protected function showOptions(){
-        $opts = $this->options ??[];
-        igk_hook(IGKEvents::COMMAND_HELP_OPTIONS_HOOK, ['command'=>$this, 'options'=> & $opts]);
-    ;
-        if (!$opts){
-            return ;
+    protected function showOptions()
+    {
+        $opts = $this->options ?? [];
+        igk_hook(IGKEvents::COMMAND_HELP_OPTIONS_HOOK, ['command' => $this, 'options' => &$opts]);;
+        if (!$opts) {
+            return;
         }
         ksort($opts);
         Logger::info("Options");
-        foreach($opts as $k=>$v){
-            if (empty($v) && (strpos($k, '+')===0)){
-                Logger::print(App::Gets(App::AQUA, $k));     
+        foreach ($opts as $k => $v) {
+            if (empty($v) && (strpos($k, '+') === 0)) {
+                Logger::print(App::Gets(App::AQUA, $k));
                 Logger::print('');
                 continue;
             }
             $p = explode(':', $k, 2);
             $oc = App::Gets(App::GREEN, array_shift($p));
-            if($p){
+            if ($p) {
                 // + | set color help definition for command
                 $s = array_shift($p);
                 $cl = App::SHA_INDIGO;
-                if(preg_match("/\[.+\]/", $s)){
+                if (preg_match("/\[.+\]/", $s)) {
                     $cl = App::GRAY;
                 }
-                $oc.=":".App::Gets($cl,  $s);
+                $oc .= ":" . App::Gets($cl,  $s);
             }
-            if (is_array($v)){
+            if (is_array($v)) {
                 ksort($v);
-                $v = "\n\n".implode("\n", array_map(function($i, $k){
-                    return $k.self::OPTIONS_TAB_SPACE.$i;
+                $v = "\n\n" . implode("\n", array_map(function ($i, $k) {
+                    return $k . self::OPTIONS_TAB_SPACE . $i;
                 }, $v, array_keys($v)));
             }
-            Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
+            Logger::print($oc . self::OPTIONS_TAB_SPACE . "{$v}" . PHP_EOL);
         }
         Logger::print("");
     }
     /**
-    * generate file according to command information
-    * @param mixed $command
-    * @param array $bind
-    * @param mixed ...$extra
-    * @return void
-    */
-    public static function Generate($command, array $bind, ...$extra){    
-        foreach($bind as $path=>$callback){
-            if (!igk_io_file_exists($path)){
-                $callback($path, $command, ...$extra); 
+     * generate file according to command information
+     * @param mixed $command
+     * @param array $bind
+     * @param mixed ...$extra
+     * @return void
+     */
+    public static function Generate($command, array $bind, ...$extra)
+    {
+        foreach ($bind as $path => $callback) {
+            if (!igk_io_file_exists($path)) {
+                $callback($path, $command, ...$extra);
             }
-        }       
+        }
     }
     /**
      * retrieve command author
      * @param mixed $command 
      * @return mixed 
      */
-    public function getAuthor($command){
-        if (!$command->app){
+    public function getAuthor($command)
+    {
+        if (!$command->app) {
             return IGK_AUTHOR;
         }
         return $command->app->getConfigs()->get("author", IGK_AUTHOR);
     }
     /**
-    * helper create command options
-    * @param mixed $command
-    * @param ?array $options
-    * @return mixed
-    */
-    public static function CreateOptionsCommandFrom($command, ?array $options=null){
+     * helper create command options
+     * @param mixed $command
+     * @param ?array $options
+     * @return mixed
+     */
+    public static function CreateOptionsCommandFrom($command, ?array $options = null)
+    {
         $c = (object)$command;
         unset($c->options);
         $tp = $options ?? [];
-        $c->options = (object)$tp; 
+        $c->options = (object)$tp;
         $g = Activator::CreateNewInstance(AppCommandOptions::class, $c);
         return $g;
+    }
+
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed &$controller 
+     * @param mixed &$param 
+     * @return void 
+     */
+    protected static function AutoInjectController($command, &$controller, &$param, $key='--controller')
+    {   
+        if (empty($name)) {
+            if (property_exists($command->options, $key)) {
+                $param = $controller;
+                $controller = igk_getv($command->options, $key);
+            }
+        }
     }
 }

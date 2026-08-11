@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20260622 08:43:57
+// @date: 20260806 19:49:23
 namespace IGK\Models;
 
 
@@ -63,21 +63,21 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, int $sale_profile_type, int $sale_java, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
 * @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, int $sale_profile_type, int $sale_java, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
-* @method static array CreateUserApiResponseData() macros function
-* @method static mixed activate() macros function
-* @method static mixed addPhoneBookEntry($type,$value) macros function
-* @method static mixed auths() macros function
-* @method static mixed bindToGroup(\IGK\Controllers\BaseController $ctrl,string $groupname) macros function
-* @method static mixed changePassword(string $newPassword) macros function
-* @method static mixed cleanAndDrop() macros function
-* @method static mixed fullName() macros function
-* @method static mixed getPhoneBookEntries() macros function
-* @method static mixed getPhoneBookEntry() macros function
-* @method static mixed getPhoneBookEntryByType(?string $type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function
-* @method static mixed isActive() macros function
-* @method static arraybool notRegisterToAProfile(\IGK\Controllers\BaseController $controller) macros function
-* @method static arrayboolbool removeFromGroup(string $groupName) macros function
-* @method static mixed resolve($data) macros function
+* @method static array CreateUserApiResponseData() macros function definition 
+* @method static mixed activate() macros function definition 
+* @method static mixed addPhoneBookEntry($type,$value) macros function definition 
+* @method static mixed auths() macros function definition 
+* @method static mixed bindToGroup(\IGK\Controllers\BaseController $ctrl,string $groupname) macros function definition 
+* @method static mixed changePassword(string $newPassword) macros function definition 
+* @method static mixed cleanAndDrop() macros function definition 
+* @method static mixed fullName() macros function definition 
+* @method static mixed getPhoneBookEntries() macros function definition 
+* @method static mixed getPhoneBookEntry() macros function definition 
+* @method static mixed getPhoneBookEntryByType(?string $type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function definition 
+* @method static mixed isActive() macros function definition 
+* @method static bool notRegisterToAProfile(\IGK\Controllers\BaseController $controller) macros function definition 
+* @method static bool removeFromGroup(string $groupName) macros function definition 
+* @method static mixed resolve($data) macros function definition
 * */
 class Users extends ModelBase{
 	const FD_CL_ID="clId";

@@ -44,9 +44,9 @@ class dropUserCommand extends AppExecCommand
 	{
 		$user = igk_get_user_bylogin($userid);
 		if (!$user) {
-			igk_die('missing user');
+			igk_die('[%tag%] - missing user');
 		}
-		$v_hook = 'sys://database/drop/system_user';
+		$v_hook = \IGK\System\Hooks\Database::DROP_SYS_USER_HOOK;
 		igk_reg_hook($v_hook, function($e){
 			$user = $e->args['user'];
 			$s = true;

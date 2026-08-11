@@ -93,9 +93,12 @@ class FileSystem extends CoreFileSystem
      */
     public function cacheExpired(string $path, ?string $ext = ".php")
     {
-        $p = filemtime($path);
-        if (is_file($file = $this->getCacheFilePath($path, $ext))) {
-            return filemtime($file) < $p;
+        // $p = filemtime($path);
+        if (is_file($file=  $this->getCacheFilePath($path, $ext))){
+            // save store chache file base on current file             
+            $expired = $this->storeCachingFileTime($path, $file, $ext); 
+           
+            return $expired;
         }
         return true;
     }
@@ -135,28 +138,13 @@ class FileSystem extends CoreFileSystem
                 return $r;
             }
         }
-        $r = true;
-
-        // $cache = $this;
-        // $icache = igk_cache();
-        // $fp = $cache->getCacheFilePath($fs, $ext);
-        // $expired = $cache->checkNotExpired($manifest, $fs, $ext);
-        // if (!$expired) {
-        //     $r = true;
-        // } else {
-        //     $time = intval(file_get_contents($fp));
-        //     if ($time < $g) {
-        //         $r = true;
-        //     }
-        // }
-        // if ($r) {
-        //     $icache->store($fp, $g);
-        // }
+        $r = true; 
+       
         self::$sm_cachingHistory[$fs] = $g;
 
         if (!self::$sm_registerSingle) {
             igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, function ($e) {
-                static::class::_onShutdown();
+               static::class::_onShutdown();
             });
             self::$sm_registerSingle = true;
         }

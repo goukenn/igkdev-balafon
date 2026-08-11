@@ -321,7 +321,7 @@ class Request implements IInjectable, IContentSecurityProvider
     /**
     * get the file
     * @param mixed $name
-    * @return void
+    * @return mixed
     */
     public function file($name)
     {

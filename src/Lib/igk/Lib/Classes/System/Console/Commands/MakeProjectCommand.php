@@ -113,12 +113,18 @@ class MakeProjectCommand extends AppExecCommand
             Logger::danger(__("Create Project in temporary folder is not allowed. please setup your environment"));
             return false;
         }
+        if (!preg_match(Constants::NS_COMMAND_REGEX, $controller)){
+            igk_die('module not a valid module name');
+        }
         $controller = StringUtility::CamelClassName($controller);
         $dir = igk_io_projectdir() . "/" . $controller;
         Logger::info(__("Make project ... {0}",  $controller));
         $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
         $e_ns = igk_getv($command->options, "--entryNamespace", null);
+        if ($e_ns && !preg_match(Constants::NS_COMMAND_REGEX, $e_ns)){
+            igk_die('namespace not valid');
+        }
         $desc = igk_getv($command->options, "--desc", null);
         $configs = igk_getv($command->options, "--configs", null);
         $no_config = property_exists($command->options, "--no-config");

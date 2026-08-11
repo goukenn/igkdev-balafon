@@ -22,19 +22,31 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
      */
     public function store(array $tab){
         if (is_null($this->m_roots)){
-            $this->m_roots =  $tab;
+            $this->m_roots = $tab;
         }
         else {
             $this->m_roots = array_merge($tab, $this->m_roots);
             ksort($this->m_roots);
         }
     }
+    var $m_treat = false;
     /**
-     * render root 
+     * render root style definition 
      * @return string 
      */
     public function render(){
-        return $this->m_roots ? 
-            sprintf(':root{%s}',igk_css_array_key_map_implode($this->m_roots)) : null; 
+        $r = & $this->m_roots;
+        // if (!$this->m_treat){
+        //     $this->m_treat = true;
+        //     foreach($r as $k=>$v){
+        //         if (preg_match('/\[cl:.+\]/', $v)){
+        //             igk_trace();
+        //             igk_exit();
+        //         }
+        //     }
+        // }
+
+        return $r ? 
+            sprintf(':root{%s}',igk_css_array_key_map_implode($r)) : null; 
     }
 }

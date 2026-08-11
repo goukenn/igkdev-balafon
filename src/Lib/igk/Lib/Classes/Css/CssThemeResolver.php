@@ -612,7 +612,7 @@ class CssThemeResolver
                     $b = $this->_get_fcl($b);
                 }
                 $v = str_replace($v_m, $b, $v);
-                igk_ilog('syscolor: '.$cl);
+                // igk_ilog('syscolor: '.$cl);
                 break;
             case self::ATTR_SYS_BCL : 
                 $tv = explode(',', $value);
