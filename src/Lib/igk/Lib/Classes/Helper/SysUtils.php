@@ -67,7 +67,7 @@ class SysUtils{
         return null;
     }
     /**
-    * prepent sys db controller
+    * prepend sys db controller
     * @param array & $c
     * @return void
     */
@@ -159,8 +159,10 @@ class SysUtils{
                 if (class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class)){
                     return $ctrl::ctrl();
                 }
+                igk_wln(__FILE__.":".__LINE__ , "not found");
             }
         } 
+         igk_wln_e("continue", $ctrl, get_included_files());
         return igk_app()->getControllerManager()->getController($ctrl, $throwex);
     }
     /**

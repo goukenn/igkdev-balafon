@@ -13,6 +13,7 @@ use IGK\System\Html\Dom\HtmlItemBase;
 * @property ?string $type type |radio|text|password|email|number|date
 * @property ?string $placeholder message place holder
 * @property ?string $label_text label to display
+* @property ?array  $label_attribs label attributes
 * @property ?string|HtmlItemBase $after_input hosting after input
 * @property ?string|HtmlItemBase $afterComponent hosting after input
 * @property ?string $tips message to show on error

@@ -3,6 +3,8 @@
 // @file: FormUtils.php
 // @date: 20221111 14:05:40
 namespace IGK\System\Html\Forms;
+
+use ArrayAccess;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGKException;
 
@@ -15,14 +17,15 @@ class FormUtils
     /**
      * build select data
      * @param mixed $list 
-     * @param mixed $key key used for the value : i
-     * @param mixed $display key used for display: t
+     * @param string $key key used for the value : i
+     * @param string|callable $display key used for display: t
      * @param mixed $options 
      * @return array 
      * @throws IGKException 
      */    
-    public static function SelectData($list, $key, $display, $options = null)
+    public static function SelectData($list, string $key, ?string $display=null, $options = null)
     {
+        $display = $display ?? $key;
         $selected = $options ? igk_getv($options, 'selected') : null;
         $callback = $options ? igk_getv($options, 'callback') : null;
         $empty = $options ? igk_getv($options, 'empty') : null;
@@ -40,8 +43,8 @@ class FormUtils
             if (is_callable($display)){
                 $text = $display($m);
             } else if (is_string($display)){
-                if (property_exists($m, $display)){
-                    $text =  $m->$display;
+                if (property_exists($m, $display) || isset($m->$display) || (($m instanceof ArrayAccess) && isset($m[$display]))){
+                    $text = igk_getv($m, $display);
                 }else {
                     $g = ArticleContentBindingHelper::GetData($m); 
                     if (key_exists($display, $g)){

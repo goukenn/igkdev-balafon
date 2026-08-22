@@ -180,7 +180,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult
    * @param mixed $i
    */
   public function __isset($i)
-  {
+  {  
     return $this->OffsetExists($i);
   }
   /**

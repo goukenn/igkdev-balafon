@@ -10,7 +10,7 @@ use IGK\System\Http\RouteActionHandler;
 
 /**
  * controller task : routable controller action
- * note: a Balafon Page is a ControllerTask
+ * - **note**: a Balafon Page is a ControllerTask
  * @package IGK\Controllers
  */
 abstract class ControllerTask{
@@ -26,7 +26,7 @@ abstract class ControllerTask{
     protected $route;
     /**
     * .ctr
-    * @param mixed $controller
+    * @param BaseController $controller
     * @param null|RouteActionHandler $route
     */
     public function __construct($controller, ?RouteActionHandler $route=null)

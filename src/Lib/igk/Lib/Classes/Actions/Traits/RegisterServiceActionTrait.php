@@ -6,7 +6,7 @@ namespace IGK\Actions\Traits;
 use IGK\Actions\Dispatcher;
 use IGK\Models\Mailinglists;
 use IGK\System\Exceptions\ActionNotFoundException;
-use igk_default\Actions\MailingStates;
+use igk_default\MailingStates;
 use ReflectionMethod;
 
 /**
@@ -37,7 +37,7 @@ trait RegisterServiceActionTrait{
         if ($c = igk_getv($q, "email")){
             $r = Mailinglists::update([
                 "clState"=>MailingStates::MAILING_STATE_ACTIVE], [
-                "clEmail"=>$c
+                Mailinglists::FD_CLML_EMAIL=>$c
             ]) !== null;            
         }
         $g = $this->getController();
@@ -52,8 +52,9 @@ trait RegisterServiceActionTrait{
         parse_str($g, $q);
         $r = false;
         if ($c = igk_getv($q, "email")){
-            $r = Mailinglists::update(["clState"=>MailingStates::MAILING_STATE_UNSUBCRIBE], [
-                "clEmail"=>$c
+            $r = Mailinglists::update([
+                Mailinglists::FD_CLML_STATE =>MailingStates::MAILING_STATE_UNSUBCRIBE], [
+                Mailinglists::FD_CLML_EMAIL=>$c
             ]) !== null;            
         }
         $g = $this->getController();

@@ -10,27 +10,85 @@ use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Database\IDbColumnInfo;
 use IGK\Helper\DbUtilityHelper;
+use IGK\Helper\IO;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
+use IGK\Models\ModelBase;
 use IGK\Models\Usergroups;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\ColumnMigrationInjector;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
-use IGKEvents; 
+use IGKEvents;
 
 /**
-* auto generate doc.
-* @package IGK\Controllers\Traits
-*/
+ * auto generate doc.
+ * @package IGK\Controllers\Traits
+ */
 /**
-* auto generate doc.
-* @package IGK\Controllers\Traits
-*/
-trait ControllerDbExtensionTrait{
+ * auto generate doc.
+ * @package IGK\Controllers\Traits
+ */
+trait ControllerDbExtensionTrait
+{
     abstract static function getDataAdapter(BaseController $ctrl);
-     /**
+
+    /**
+     * 
+     * @param BaseController $controller 
+     * @return array 
+     */
+    public static function getAllUsedModelInfoFromCache(BaseController $controller): array
+    {
+        $g = $controller->getCachedDataTableDefinition();
+        $r = [];
+        foreach ($g as $info) {
+            if (!$info->modelClass) {
+                DBCaches::UpdateModelClass($info, $info->defTableName, $controller);
+            }
+            $r[$info->modelClass] = $info;
+        }
+        return $r;
+    }
+    public static function cleanAllCreatedModel(BaseController $controller)
+    {
+        $md = $controller->getClassesDir() . '/Models';
+        $p = IO::GetFiles($md, '/\.php$/', false);
+        $is_debug = igk_is_debug();
+        if ($p) {
+            foreach ($p as $c) {
+                $n = igk_io_basenamewithoutext($c);
+                $cl = $controller->resolveClass('Models/' . $n);
+                if (class_exists($cl)) {
+                    $dcl = igk_sys_reflect_class($cl);
+                    if (!$dcl->isAbstract() && $dcl->isSubclassOf(ModelBase::class)) {
+                        //
+                        $is_debug && Logger::info('unlink: ' . $dcl->getFileName());
+                        @unlink($dcl->getFileName());
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * drop owned database 
+     * @param BaseController $controller 
+     * @return void 
+     */
+    public static function dropOwnedTables(BaseController $controller)
+    {
+        $ad = $controller->getDataAdapter();
+        if ($r = $controller->getCachedDataTableDefinition()) {
+            $ad->stopRelationChecking();
+
+            foreach ($r as $t => $info) {
+                $ad->sendQuery('DROP TABLE `' . $t . '`');
+            }
+            $ad->restoreRelationChecking();
+        }
+    }
+    /**
      * drop list data base
      */
     public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
@@ -54,7 +112,7 @@ trait ControllerDbExtensionTrait{
                 ) {
                     $table = igk_db_get_table_name($table, $ctrl);
                     $func();
-                    $db->dropTable($table); 
+                    $db->dropTable($table);
                     $db->close();
                 }
             } else {
@@ -71,13 +129,13 @@ trait ControllerDbExtensionTrait{
                     }
                     $func();
                     igk_hook(IGKEvents::HOOK_DB_MIGRATE, [
-                        'type'=>DbSchemasConstants::Downgrade,
-                        'ctrl'=>$controller 
+                        'type' => DbSchemasConstants::Downgrade,
+                        'ctrl' => $controller
                     ]);
                     $db->dropTable($v_tblist);
 
                     // drop table's groups auth
-                    $controller->dbDropProfilesAndAuth();  
+                    $controller->dbDropProfilesAndAuth();
 
                     $_vinit = 1;
                     $db->close();
@@ -96,23 +154,24 @@ trait ControllerDbExtensionTrait{
      * @param BaseController $controller 
      * @return void 
      */
-    public static function dbDropProfilesAndAuth(BaseController $controller ){
+    public static function dbDropProfilesAndAuth(BaseController $controller)
+    {
         $cond = [
-            Groups::FD_CL_CONTROLLER=>$controller->getName()
+            Groups::FD_CL_CONTROLLER => $controller->getName()
         ];
         $r = Groups::select_all($cond);
-        $r && igk_hook(IGKEvents::HOOK_DB_BEFORE_DROP_PROFILES, ['profiles'=>$r, 'ctrl'=>$controller]);
-        foreach($r as $raw){
+        $r && igk_hook(IGKEvents::HOOK_DB_BEFORE_DROP_PROFILES, ['profiles' => $r, 'ctrl' => $controller]);
+        foreach ($r as $raw) {
             Usergroups::delete([
-                Usergroups::FD_CL_GROUP_ID=>$raw->clId
+                Usergroups::FD_CL_GROUP_ID => $raw->clId
             ]);
             Groupauthorizations::delete([
-                Groupauthorizations::FD_CL_GROUP_ID=>$raw->clId
+                Groupauthorizations::FD_CL_GROUP_ID => $raw->clId
             ]);
         }
         Groups::delete($cond);
-    }  
-  /**
+    }
+    /**
      * remove column 
      * @param BaseController $ctrl 
      * @param string $table 
@@ -128,7 +187,7 @@ trait ControllerDbExtensionTrait{
         } else {
             $name = $info;
         }
-        Logger::warn('remove column: '.$table. ' '.$name);
+        Logger::warn('remove column: ' . $table . ' ' . $name);
         $ad = self::getDataAdapter($ctrl);
         if ($ad->isConnect() && $ad->exist_column($table, $name)) {
             if (
@@ -163,7 +222,7 @@ trait ControllerDbExtensionTrait{
                         DbUtils::ResolveColumnLink($info, $ctrl, $bck);
                         $query_link = $ad->grammar->add_foreign_key($table, $info);
                         $ad->sendQuery($query_link);
-                        if ($bck){
+                        if ($bck) {
                             $info->clLinkColumn = $bck;
                         }
                     }
@@ -173,23 +232,23 @@ trait ControllerDbExtensionTrait{
         }
     }
     /**
-    * rename column extension macros
-    * @param BaseController $ctrl
-    * @param mixed $table
-    * @param mixed $column
-    * @param mixed $new_column_name
-    */
+     * rename column extension macros
+     * @param BaseController $ctrl
+     * @param mixed $table
+     * @param mixed $column
+     * @param mixed $new_column_name
+     */
     public static function db_rename_column(BaseController $ctrl, $table, $column, $new_column_name)
     {
-        $ad = self::getDataAdapter($ctrl); 
+        $ad = self::getDataAdapter($ctrl);
         if ($ad->isConnect() && $ad->exist_column($table, $column)) {
             if (!$ad->exist_column($table, $new_column_name)) {
                 if ($query = $ad->grammar->rename_column($table, $column, $new_column_name)) {
                     return $ad->sendQuery($query);
                 } else {
                     $n_info = igk_getv($ad->getColumnInfo($table, $column), $column);
-                    if ($n_info){
-                        if (empty($n_info->clName)){
+                    if ($n_info) {
+                        if (empty($n_info->clName)) {
                             $n_info->clName = $column;
                         }
                     }
@@ -198,13 +257,13 @@ trait ControllerDbExtensionTrait{
                     }
                 }
             } else {
-                if(strtolower($column) == strtolower($new_column_name)){
-                     $query = $ad->grammar->rename_column($table, $column, $new_column_name);
-                    if ($query){
-                       return $ad->sendQuery($query);  
-                    }           
+                if (strtolower($column) == strtolower($new_column_name)) {
+                    $query = $ad->grammar->rename_column($table, $column, $new_column_name);
+                    if ($query) {
+                        return $ad->sendQuery($query);
+                    }
                 }
-                Logger::warn(sprintf('target column already exists : %s.%s ',$table, $new_column_name ));
+                Logger::warn(sprintf('target column already exists : %s.%s ', $table, $new_column_name));
                 return false;
             }
         }
@@ -217,25 +276,27 @@ trait ControllerDbExtensionTrait{
      * @param mixed $column 
      * @return mixed 
      */
-    public static function db_add_index(BaseController $ctrl, string $table, $column){
-        $ad = self::getDataAdapter($ctrl);  
+    public static function db_add_index(BaseController $ctrl, string $table, $column)
+    {
+        $ad = self::getDataAdapter($ctrl);
         $query = $ad->grammar->add_index($table, $column);
-        if ($query){
+        if ($query) {
             return  $ad->sendQuery($query);
         }
     }
     /**
-    * auto generate doc.
-    * @param BaseController $ctrl
-    * @param string $table
-    * @param mixed $columns
-    * @param ?string $id
-    * @return mixed|void
-    */
-    public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id=null){
-        $ad = self::getDataAdapter($ctrl);  
+     * auto generate doc.
+     * @param BaseController $ctrl
+     * @param string $table
+     * @param mixed $columns
+     * @param ?string $id
+     * @return mixed|void
+     */
+    public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id = null)
+    {
+        $ad = self::getDataAdapter($ctrl);
         $query = $ad->grammar->addUnique($table, $columns, $id);
-        if ($query){
+        if ($query) {
             return  $ad->sendQuery($query);
         }
     }
@@ -245,41 +306,44 @@ trait ControllerDbExtensionTrait{
      * @param string $table 
      * @return mixed|void 
      */
-    public static function db_drop_uniques(BaseController $ctrl, string $table){
-        $ad = self::getDataAdapter($ctrl);  
+    public static function db_drop_uniques(BaseController $ctrl, string $table)
+    {
+        $ad = self::getDataAdapter($ctrl);
         return $ad->dropAllUniqueContraints($table);
     }
     /**
-    * Db drop index.
-    * @param BaseController $ctrl
-    * @param string $table
-    * @param mixed $column
-    */
-    public static function db_drop_index(BaseController $ctrl, string $table, $column){
-        $ad = self::getDataAdapter($ctrl);  
+     * Db drop index.
+     * @param BaseController $ctrl
+     * @param string $table
+     * @param mixed $column
+     */
+    public static function db_drop_index(BaseController $ctrl, string $table, $column)
+    {
+        $ad = self::getDataAdapter($ctrl);
         $query = $ad->grammar->drop_index($table, $column);
-        if ($query){
-            try{ 
+        if ($query) {
+            try {
                 return  $ad->sendQuery($query);
-            } catch(\Exception $ex){
+            } catch (\Exception $ex) {
                 Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
                 return false;
             }
         }
     }
     /**
-    * Db drop column.
-    * @param BaseController $ctrl
-    * @param string $table
-    * @param mixed $column
-    */
-    public static function db_drop_column(BaseController $ctrl, string $table, $column){
-        $ad = self::getDataAdapter($ctrl);  
+     * Db drop column.
+     * @param BaseController $ctrl
+     * @param string $table
+     * @param mixed $column
+     */
+    public static function db_drop_column(BaseController $ctrl, string $table, $column)
+    {
+        $ad = self::getDataAdapter($ctrl);
         $query = $ad->grammar->drop_column($table, $column);
-        if ($query){
-            try{ 
+        if ($query) {
+            try {
                 return  $ad->sendQuery($query);
-            } catch(\Exception $ex){
+            } catch (\Exception $ex) {
                 Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
                 return false;
             }
@@ -302,7 +366,7 @@ trait ControllerDbExtensionTrait{
                 if ($r = $ad->sendQuery($query)) {
                     if ($info->clLinkType) {
                         if ($info->clLinkConstraintName) {
-                            $info = clone ($info);
+                            $info = clone($info);
                             $info->clLinkConstraintName = igk_db_get_table_name($info->clLinkConstraintName, $ctrl);
                         }
                         if ($query_link = $ad->grammar->add_foreign_key($table, $info)) {

@@ -32,7 +32,7 @@ ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::
 /**
  * @var \IGK\System\Console\BalafonApplication $app 
  */
-$app = ApplicationLoader::Boot("balafon");
+$app = ApplicationLoader::Boot( IGKApplication::BALAFON_TYPE);
 // + | ------------------------------------------------------------------------------
 // + | get primary action command 
 // + |

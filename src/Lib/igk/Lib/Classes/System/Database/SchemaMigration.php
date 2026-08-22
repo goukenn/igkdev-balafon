@@ -22,6 +22,7 @@ use IGK\Helper\Activator;
 use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
+use IGK\Helper\StringUtility;
 use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
@@ -178,7 +179,7 @@ class SchemaMigration
                     $tb = IGKSysUtil::DBGetTableName($stb, $ctrl);
                 foreach ($v->getElementsByTagName(IGK_COLUMN_TAGNAME) as $vv) {
                     $cl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
-                    $this->_treatColumnName($cl, $prefix);//, $tb);
+                    $this->_treatColumnName($cl, $prefix); //, $tb);
                     $c[$cl->clName] = $cl;
                     // + | --------------------------------------------------------------------
                     // + | Load links
@@ -228,7 +229,7 @@ class SchemaMigration
                     $tentries,
                     $tb
                 );
-                $info->modelClass = IGKSysUtil::GetModelTypeName($stb, $ctrl);
+                DBCaches::UpdateModelClass($info, $stb, $ctrl);
                 $info->foreignConstraint = $fconstraints;
                 $info->indexes = $indexes;
                 $tables[$tb] =  $info;
@@ -275,7 +276,7 @@ class SchemaMigration
      * @param mixed $ctrl 
      * @return void 
      */
-    protected function _load_migration($n, $resolvname, & $v_mlist, & $tables, $ctrl)
+    protected function _load_migration($n, $resolvname, &$v_mlist, &$tables, $ctrl)
     {
         $v_op = $this->operation;
         if (
@@ -302,27 +303,26 @@ class SchemaMigration
      * @param XmlNode $data_definition 
      * @return void 
      */
-    protected function _loadTableDataDefinition(XmlNode $data_definition){
+    protected function _loadTableDataDefinition(XmlNode $data_definition)
+    {
         $children = $data_definition->getChilds()->to_array();
         $def = [];
-        
-        while(count($children)>0){
+
+        while (count($children) > 0) {
             $q = array_shift($children);
-            if ($n = $q->tagName){
+            if ($n = $q->tagName) {
                 $n = ucfirst($n);
-                $cl = sprintf('%s\\SchemaDefinitionLoaders\\%s', __NAMESPACE__, $n );
-                if (class_exists($cl, true)){
+                $cl = sprintf('%s\\SchemaDefinitionLoaders\\%s', __NAMESPACE__, $n);
+                if (class_exists($cl, true)) {
                     $loader = new $cl();
                     $loader->load($q, $def);
-                }else { 
-                    $fc = sprintf('_loadTableData%sDefinition',ucfirst($n));
+                } else {
+                    $fc = sprintf('_loadTableData%sDefinition', ucfirst($n));
 
                     if (method_exists($this, $fc))
-                    call_user_func_array([$this, $fc], [$q, & $def]);
+                        call_user_func_array([$this, $fc], [$q, &$def]);
                 }
             }
-
-
         }
     }
     /**
@@ -456,7 +456,7 @@ class SchemaMigration
                 }
                 if ($n = HtmlReader::LoadFile($f)) {
                     if ($c = igk_getv($n->getElementsByTagName(DbSchemas::RT_SCHEMA_TAG), 0)) {
-                        $c->setParam(self::MIGRATION_INFO_PARAM , [$f, $p]);
+                        $c->setParam(self::MIGRATION_INFO_PARAM, [$f, $p]);
                         array_push($tab, $c);
                     }
                 }
@@ -514,7 +514,7 @@ class SchemaMigration
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
             $tables[$tb] = $tbinfo;
             if (!$tbinfo->modelClass) {
-                $tbinfo->modelClass = IGKSysUtil::GetModelTypeName($tbinfo->defTableName, $tbinfo->controller);
+                DBCaches::UpdateModelClass( $tbinfo, $tbinfo->defTableName, $tbinfo->controller);
             }
             return true;
         } else {
@@ -596,38 +596,7 @@ class SchemaMigration
                 }
                 break;
             case DbSchemasConstants::OP_CHANGE_COLUMN:
-                $item->table || igk_die("migration: change column missing table name");
-                $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                $cl = $item->column;
-
-                if (preg_match('/^tbrental_/', $tb)) {
-                    Logger::warn(sprintf('for rentaal  card ..... %s', $tb));
-                }
-
-                if (empty($cl)) {
-                    throw new \IGKException(" changeColumn migration [column] not defined");
-                }
-                if (empty($tb)) {
-                    throw new \IGKException(" changeColumn migration [table] not defined");
-                    igk_dev_wln_e("table not defined ");
-                    return;
-                }
-                $v_tinf = $tables[$tb];
-                $v_prefix = $v_tinf->prefix;
-                $v_src_cl = $cl;
-                $tabcl = &$v_tinf->columnInfo;
-                if (!isset($tabcl[$cl]) && !isset($tabcl[$cl = $v_prefix . $cl])) {
-                    igk_dev_wln_e("[schemap-migration] - change missing table column ", $cl);
-                    return;
-                }
-                $v_real_cl = $cl;
-                $item->columnInfo = $tabcl[$cl];
-                $vv = igk_getv($c->getElementsByTagName(IGK_COLUMN_TAGNAME), 0);
-                $v_ncl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
-                if ($v_src_cl == $v_ncl->clName) {
-                    $v_ncl->clName = $cl;
-                }
-                igk_array_replace_key($tabcl, $v_real_cl, $cl, $v_ncl);
+                self::_ChangeColumn($c, $item, $ctrl, $tables);
                 break;
             case DbSchemasConstants::OP_RENAME_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
@@ -694,6 +663,49 @@ class SchemaMigration
         }
     }
     /**
+     * 
+     * @param mixed $c 
+     * @param mixed $item 
+     * @param mixed $ctrl 
+     * @param mixed &$tables 
+     * @return void 
+     * @throws IGKException 
+     */
+    static function _ChangeColumn($c, $item, $ctrl, &$tables)
+    {
+        $item->table || igk_die("migration: change column missing table name");
+        $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
+        $cl = $item->column;
+
+        if (empty($cl)) {
+            throw new \IGKException(" changeColumn migration [column] not defined");
+        }
+        if (empty($tb)) {
+            throw new \IGKException(" changeColumn migration [table] not defined");
+        }
+        $v_tinf = $tables[$tb];
+        $v_prefix = $v_tinf->prefix;
+        $tabcl = &$v_tinf->columnInfo;
+        if (!isset($tabcl[$cl]) &&  ($v_prefix && !isset($tabcl[$cl = StringUtility::AutoPrefix($cl, $v_prefix)]))) {
+            igk_dev_wln_e("[schemap-migration] - change missing table column ", $cl);
+            return;
+        }
+        // column to replace 
+        $v_src_cl = $cl;
+        $v_real_cl = $cl;
+        // $item->columnInfo = $tabcl[$cl];
+        // $vv = igk_getv($c->getElementsByTagName(IGK_COLUMN_TAGNAME), 0);
+        // $v_ncl = DbColumnInfo::CreateWithRelation(igk_to_array($vv->Attributes), $tb, $ctrl, $tbrelations);
+        $v_ncl = DbColumnInfo::CreateWithRelation($item->columnInfo, $tb, $ctrl, $tbrelations);
+        if ($v_src_cl == $v_ncl->clName) {
+            $v_ncl->clName = $cl;
+        } else {
+            $cl = $v_prefix ? StringUtility::AutoPrefix($v_ncl->clName, $v_prefix) : $v_ncl->clName;
+            $v_ncl->clName = $cl;
+        }
+        igk_array_replace_key($tabcl, $v_real_cl, $cl, $v_ncl);
+    }
+    /**
      * auto generate doc.
      * @param mixed $key
      * @param mixed $item
@@ -718,7 +730,7 @@ class SchemaMigration
                 break;
             case DbSchemasConstants::OP_RM_COLUMN:
                 $tb = IGKSysUtil::DBGetTableName($item->table, $ctrl);
-                if (!isset($tables[$tb])){
+                if (!isset($tables[$tb])) {
                     break;
                 }
                 $tabcl = &$tables[$tb]->columnInfo;

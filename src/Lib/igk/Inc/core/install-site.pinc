@@ -52,7 +52,7 @@ if (!function_exists("igk_install_site")) {
         /**
          * @var \IGK\System\Console\BalafonApplication $app 
          */
-        $app = ApplicationLoader::Boot("balafon");
+        $app = ApplicationLoader::Boot( IGKApplication::BALAFON_TYPE);
         $command = $app->getPrimaryCommand($argv);
         //-----------------------------------------------------------------------------
         // + | handle default

@@ -35,7 +35,12 @@
                     console.log('inline script: ', e.lineNumber + ":" + e.columnNumber);
                     window.__igk_var_script_error = b;                    
                     if (b){
-                        console.log(b.substring(Math.min(0, e.columnNumber-100),200)); 
+                        console.log(e);
+
+                        console.log(
+                            'error:', 
+                            '[use window.__igk_var_script_error]',
+                            b.substring(Math.max(0, e.columnNumber-50),100)); 
                     } 
                 }
             }

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connections.php
-// @date: 20260806 19:49:23
+// @date: 20260821 14:07:37
 namespace IGK\Models;
 
 
@@ -29,8 +29,8 @@ use IGK\Models\ModelBase;
 * @method static string FN_CNX_UPDATE_AT() - `cnx_updateAt` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Guid, string $clToken, string $clTokenInfo, string $clDateTime, string $clFrom, string $cnx_updateAt, string $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
 * @method static mixed clear(?\IGK\Models\Users $user= null) macros function definition
 * */
 class Connections extends ModelBase{

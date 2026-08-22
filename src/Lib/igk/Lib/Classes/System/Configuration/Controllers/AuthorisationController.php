@@ -132,7 +132,7 @@ class AuthorisationController extends ConfigControllerBase{
         return $r;
     }
     /**
-    * Auth level ajx.
+    * Auth level 
     */
     public function auth_level_ajx(){
         $this->auth()->renderAJX();
@@ -231,7 +231,7 @@ class AuthorisationController extends ConfigControllerBase{
         $b=igk_notifyctrl()->getNotification("notify:checkauth", true);
         $d=igk_create_node();
         $d->addObData($v_r);
-        $d->div()->Content="Autorisation : ".$v_r;
+        $d->div()->Content= __("Authorisation : {0}", $v_r);
         $b->addMsg($d, $t);
         if (igk_is_ajx_demand()){
             igk_ajx_toast($t);
@@ -358,12 +358,13 @@ class AuthorisationController extends ConfigControllerBase{
         $li->addLabel()->Content=R::ngets("lb.users");
         $select=$li->addSelect("clUser");
         $r= Users::select_all(); 
+        $v_cl = Authorizations::FD_CL_CONTROLLER;
         $cg = Authorizations::select_all(['!clController'=>null], ['Distinct'=>true, 'OrderBy'=>[
-            'clController'
+            $v_cl,
         ],  'Columns'=>[
-            'clController',            
+            $v_cl,
         ]]);
-        $data = FormUtils::SelectData($cg, null, 'clController',[
+        $data = FormUtils::SelectData($cg, $v_cl, $v_cl, [
             'empty'=>['text'=>'no controller', 'value'=>0],
             'offset'=>1
         ]);
@@ -377,7 +378,7 @@ class AuthorisationController extends ConfigControllerBase{
             $opt->Content=(empty($fn) ? "NoName://[".$v->clLogin."]": $fn);
         }
         $ul->fields([
-            'clAuth'=>[],
+            'clAuth'=>['placeholder'=>'authorisation'],
             'clController'=>['type'=>'select', 'data'=>$data]
         ]); 
         $frm->actionbar(FormHelper::submit()); 
@@ -446,15 +447,16 @@ class AuthorisationController extends ConfigControllerBase{
             igk_navto($buri."/".__FUNCTION__);
         }
         $n = igk_create_node('div');
+        $cl = Authorizations::FD_CL_CONTROLLER;
         $g = Authorizations::prepare()
         ->distinct(true)
-        ->Columns(['clController'])
+        ->Columns([$cl])
         ->execute();
         if ($g && !$g->success()){
             $g = null;
-        }
+        } 
         $buri=igk_register_temp_uri(__CLASS__);
-        $g_group_uri = $buri.'/list_group_ajx';
+        $g_group_uri = htmlentities($buri).'/list_group_ajx';
         $frm = $n->form($buri."/".__FUNCTION__);
         $frm->div()->notifyhost(__FUNCTION__);
         $frm->ajx();
@@ -464,9 +466,9 @@ class AuthorisationController extends ConfigControllerBase{
                 'type'=>'select',
                 'attribs'=>[
                     'data-uri'=>$g_group_uri,
+                    'id'=>"owner",
                 ],
-                'attribs'=>['id'=>"owner"],
-                'data'=>$g ? FormUtils::SelectData($g->to_array(), 'clController', 'clController') : []
+                'data'=>$g ? FormUtils::SelectData($g->to_array(), $cl, $cl) : []
             ], 
             "group"=>[
                 'type'=>'select',                
@@ -495,7 +497,7 @@ class AuthorisationController extends ConfigControllerBase{
             if (this.value){
                 if (xhr)
                     xhr.abort();
-                xhr = igk.ajx.post(u+'?v='+this.value, true, '#group');
+                xhr = igk.ajx.post(u+'?v='+this.value, null, '#group');
             }
         }          
     });
@@ -507,15 +509,18 @@ JS;
     /**
     * Lists group ajx.
     */
-    public function list_group_ajx(){
+    public function list_group_ajx(){ 
         $g = igk_getr("v");
+        $cl = Groups::FD_CL_CONTROLLER;
         $g = Groups::prepare()
         ->distinct(true)
-        ->Columns(['clName', 'clName'])
-        ->where(["clController"=>$g])
+        ->Columns(['clName', $cl])
+        ->where([$cl =>$g])
         ->execute();
         $n = igk_create_notagnode();
-        $n->Content = FormHelper::SelectOptions($g->to_array(), "clId", "clName");
+        $n->Content = FormHelper::SelectOptions($g->to_array(), Groups::FD_CL_ID, Groups::FD_CL_NAME);
+        igk_wl($n->renderAJX());        
+        igk_exit();
         return $n;
     }
 }

@@ -53,7 +53,7 @@ trait NewsLetterRegisterTrait{
         $mailinfo->clml_locale = strtolower(R::GetCurrentLang());
         $mailinfo->clml_agent = IGKUserAgent::Agent();
         $mailinfo->clml_init = '';
-        if (!Mailinglists::select_row(["clml_email"=>$mail])){
+        if (!Mailinglists::select_row(["email"=>$mail])){
             if ($inf = Mailinglists::create($mailinfo)){
                 $this->notify_success("welcome to new letter mailing list"); 
                 igk_hook(IGKEvents::HOOK_MAIL_REGISTER, ["mailinfo"=>$inf]);

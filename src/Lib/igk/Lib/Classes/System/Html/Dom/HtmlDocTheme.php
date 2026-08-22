@@ -12,18 +12,13 @@ use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssAddRule;
 use IGK\Css\ICssAnimation;
 use IGK\Css\ICssResourceResolver;
-use IGK\Css\ICssStyleContainer;
-use IGK\Helper\SysUtils;
-use IGK\System\Console\Logger;
-use IGK\System\Html\Css\CssConstants;
-use IGK\System\Html\Css\CssMinifier;
+use IGK\Css\ICssStyleContainer; 
 use IGK\System\Html\Css\CssRootPropertyStorageListener;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
-use IGK\System\IO\FileHandler;
-use IGK\System\IO\StringBuilder;
+use IGK\System\IO\FileHandler; 
 use IGKCssDefaultStyle;
 use IGKEnvironmentConstants;
 use IGKMedia;
@@ -238,20 +233,22 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     * auto generate doc.
     * @param string $file
     * @param mixed $args
-    * @return void
+    * @return bool
     */
-    public function include_once(string $file, $args = null)
+    public function includeOnce(string $file, $args = null): bool
     {
         if (is_null($this->m_includes)) {
-            $this->m_includes = [];
+            $this->m_includes = []; 
         }
         if (($f = realpath($file)) && !key_exists($f, $this->m_includes)) {
             $this->m_includes[$f] = 1;
             (function () {
                 extract(func_get_arg(1));
                 include(func_get_arg(0));
-            })($f, $args ?? $this->get_include_args());
+            })($f, $args ?? $this->get_include_args()); 
+            return true;
         }
+        return false;
     }
     /**
     * Returns include args.

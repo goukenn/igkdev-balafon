@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Http;
 use IGK\Actions\Dispatcher;
+use IGK\Controllers\BaseController;
 use IGK\System\Regex\MatchPattern;
 use IGKException;
 use ReflectionMethod;
@@ -418,6 +419,9 @@ class RouteHandler
      */
     public function auth($name, bool $strict=true)
     {
+        // if (false === strpos($name, '@')){
+        //     $name = $this->controller->authName($name);
+        // }
         $this->auth = $name;
         $this->auth_requirement = $strict;
         return $this;
@@ -501,9 +505,10 @@ class RouteHandler
     */
     protected function process(...$arguments)
     {
-        $ctrl = igk_getctrl($this->controller); 
+        $controller = $this->controller ?? igk_die('controller is null');
+        $ctrl = igk_getctrl($controller); 
         $args = $arguments;
-        $functions = get_class_methods($this->controller);
+        $functions = get_class_methods($controller);
         $method = igk_server()->REQUEST_METHOD;
         $extens = ["_".$method, ""]; 
         while($func = array_shift($args)){

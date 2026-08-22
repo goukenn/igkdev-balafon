@@ -122,10 +122,14 @@ class MakeViewCommand extends AppExecCommand
             $src = $this->getInitViewContent($viewname, $scaffold);
             $builder = new PHPScriptBuilder();
             $ext = igk_io_path_ext($viewname);
+            $uses = [
+                \IGK\System\Html\Dom\HtmlNode::class
+            ];
             if ($ext == 'phtml') {
                 $fname = $viewname;
                 $builder->type("function")->name($viewname)
                     ->author($author)
+                    ->uses($uses)
                     ->defs($src)
                     ->docs("view entry point")
                     ->file($fname)
@@ -181,7 +185,12 @@ class MakeViewCommand extends AppExecCommand
                 igk_die('missing scaffold type');
             }
         }
-        return "\$t->div()->Content = 'View : $viewname';";
+        return implode("\n", [
+            "/**",
+            "* @var HtmlNode \$t",
+            "*/",
+            "\$t->div()->Content = 'View : $viewname';"
+        ]);
     }
     /**
     * Returns Styled Def Data.

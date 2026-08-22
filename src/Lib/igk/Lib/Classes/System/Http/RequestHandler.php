@@ -119,7 +119,7 @@ class RequestHandler
                 }
                 $v->setUser($user);
                 $arguments = array_filter(explode("/", $path));
-                $api = IGKApplication::Boot('api');
+                $api = IGKApplication::Boot(IGKApplication::API_TYPE);
                 IGKApp::StartEngine($api, false);
                 return RouteHandler::Handle($v, $arguments); 
             }

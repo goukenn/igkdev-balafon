@@ -33,7 +33,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     }
     /**
     * auto generate doc.
-    * @return Traversable<mixed
+    * @return Traversable
     */
     public function getIterator(): Traversable
     {
@@ -129,5 +129,14 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
             $c = $c->getData();
         }
         return $c;
+    }
+    /**
+     * 
+     * @param mixed $name 
+     * @return bool 
+     */
+    public function __isset(string $name):bool
+    {
+        return isset($this->p_data[$name]);
     }
 }

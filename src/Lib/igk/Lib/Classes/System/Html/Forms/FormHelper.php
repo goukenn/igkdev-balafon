@@ -51,7 +51,7 @@ class FormHelper{
     * @param string $key
     * @param string $name
     * @param null|array $options
-    * @return void
+    * @return mixed
     */
     public static function SelectOptions($data, string $key, string  $name,?array $options=null){
         if ($options && !key_exists('no_sort_text', $options))

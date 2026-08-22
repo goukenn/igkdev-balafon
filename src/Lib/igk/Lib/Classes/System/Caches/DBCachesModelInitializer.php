@@ -357,7 +357,7 @@ class DBCachesModelInitializer
                 if (!isset($gu->defTableName)) {
                     $gu->defTableName = DbUtils::ResolvDefTableTypeName($type, $ctrl);
                 }
-                $gu->modelClass = IGKSysUtil::GetModelTypeName($gu->defTableName, $ctrl);
+                DBCaches::UpdateModelClass($gu, $gu->defTableName, $ctrl);
             }
             $t .=  $gu->modelClass;
         }

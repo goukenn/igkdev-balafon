@@ -614,12 +614,14 @@ class UsersConfigurationController extends ConfigControllerBase
             unset($o->clRePwd);
             unset($o->clAcceptCondition);
             $i = 0;
+            $error = 0;
             if (Users::Get('clLogin', $o->clLogin)) {
                 $not->danger(__('user already register'));
             } else {
                 try {
                     $i = Users::Register($o, null);
                 } catch (\Exception $ex) {
+                    $error = $ex->getMessage();
                     igk_ilog('--- failed to register user ----');
                     igk_ilog($ex->getMessage());
                 }
@@ -628,6 +630,8 @@ class UsersConfigurationController extends ConfigControllerBase
                 $not->addSuccessr("msg.useradded");                                           
             } else {
                 $not->addErrorr("e.registrationnotpossible");
+                igk_wl("erreur : ",$error );
+                igk_exit();
             }
             $nonav = !igk_getr("noNavigation");
             igk_resetr();

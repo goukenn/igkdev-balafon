@@ -52,7 +52,7 @@ class UserGroupCommand extends AppExecCommand{
 		$ctrl = SysDbController::ctrl();
 		if (
 			$m = igk_getv($command->options, '--controller')){
-				$ctrl = self::GetController($m);
+				$ctrl = self::GetController($m) ?? igk_die('missing controller');
 		};
 		foreach($groups as $g){
 			if ($g[0]=='-'){

@@ -42,6 +42,12 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_PREPROCESS_COMMAND_LINE = 'sys://cli/preprocess-command-line';
+
+    /**
+     * filter command to extends options
+     */
+    const FILTER_HELP_COMMAND = 'sys://cli/command-line-help';
+    
     /**
     * Constant: hook init web app library.
     * @var mixed
@@ -117,6 +123,8 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_CSS_REG = "css_class_reg";
+
+    const HOOK_LOGIN_NEW_PROFILE = 'sys://connect-create-profile';
     /**
     * Constant: hook terminate.
     * @var mixed
@@ -556,6 +564,12 @@ class IGKEvents extends IGKObject
      * project removed 
      */
     const HOOK_PROJECT_REMOVED = 'sys://project/removed';
+
+
+    /**
+     * hook raised to remove the current user en request 
+     */
+    const HOOK_RGPD_REMOVE_ME = 'sys://rgpd/remove-me';
     /**
     * Property: methods.
     * @var mixed

@@ -11,6 +11,7 @@ use IGK\helper\StringUtility;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
+use IGKApplication;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -344,7 +345,7 @@ class ApplicationLoader
      * @param array|object $bootoptions view IGKApplicationBootOptions for allowed properties 
      * @return IGKApplication 
      */
-    public static function Boot(string $type = "web", $bootoptions = null)
+    public static function Boot(string $type = IGKApplication::WEB_TYPE, $bootoptions = null)
     {
         // + protect
         static $initialize;

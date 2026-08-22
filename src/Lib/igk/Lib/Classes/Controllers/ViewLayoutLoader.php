@@ -165,8 +165,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             igk_include_view_file($ctrl, $v_common, true, $args);
         } 
         if (!$v_is_ajx_view_request) {
-            $v_header = $this->_resolveContextFile($this->header, $v_dir);
-            $v_footer = $this->_resolveContextFile($this->footer, $v_dir);
+            $v_header = $this->header ? $this->_resolveContextFile($this->header, $v_dir) : null;
+            $v_footer = $this->footer ? $this->_resolveContextFile($this->footer, $v_dir) : null;
         } else {
             $t = $ctrl->getTargetNode();
             $t['id'] = null;

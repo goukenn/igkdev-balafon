@@ -3,14 +3,18 @@
 // @file: HookRegister.php
 // @date: 20221116 00:53:02
 namespace IGK\System\Applications;
+
+use IGK\Models\Mailinglists;
 use IGK\System\Core\CookieManager;
 use IGKEvents;
 use IGKServices;
+use IGKUserAgent;
+use IGKValidator;
 
 /**
-* auto generate doc.
-* @package IGK\System\Applications
-*/
+ * auto generate doc.
+ * @package IGK\System\Applications
+ */
 class HookRegister
 {
     /**
@@ -51,6 +55,21 @@ class HookRegister
                 $description
             );
         });
+
+        igk_reg_hook(IGKEvents::HOOK_LOGIN_NEW_PROFILE, function ($e) {
+            $user = $e->args['user'];
+            if (IGKValidator::IsEmail($user->clLogin)) {
+                // + | register to mail list  
+                Mailinglists::createIfNotExists([
+                    Mailinglists::FD_CLML_EMAIL => $user->clLogin,
+                    Mailinglists::FD_CLML_STATE => 1,
+                    Mailinglists::FD_CLML_SOURCE => igk_configs()->website_domain,
+                    Mailinglists::FD_CLML_AGENT=>IGKUserAgent::Agent(),
+                    Mailinglists::FD_CLML_LOCALE=>$user->clLocale,
+                ]);
+            }
+        });
+
         if ($_COOKIE && preg_match('/\\b__blf_/', implode('|', array_keys($_COOKIE)))) {
             igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function () {
                 $cl = IGKServices::Get('CookieManager') ?? CookieManager::class;

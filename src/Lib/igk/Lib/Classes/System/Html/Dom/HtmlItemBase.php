@@ -852,8 +852,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     * @param string $name
     * @param mixed & $o
     */
-    protected final
-    function evalCallback($name, &$o)
+    protected final function evalCallback($name, &$o)
     {
         $v_nsfc = $this->getFlag(IGK_NSFC_FLAG);
         $g = $this->getFlag(IGK_CALLBACK_FLAG);

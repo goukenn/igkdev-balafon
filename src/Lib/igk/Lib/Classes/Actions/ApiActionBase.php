@@ -5,6 +5,7 @@
 // @desc: comment 
 namespace IGK\Actions;
 use IGK\System\Http\ErrorRequestResponse;
+use IGK\System\Http\JsonResponse;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
 use IGK\System\Http\RequestResponseCode;
@@ -44,6 +45,16 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     protected function die($message, $code=400){
         igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
+    }
+    /**
+     * handle error
+     * @param mixed $code 
+     * @param mixed ...$params 
+     * @return mixed|void 
+     */
+    protected function handleError($code, ...$params)
+    {
+        igk_do_response(new JsonResponse(json_encode($params), $code));
     }
     /**
     * Json.

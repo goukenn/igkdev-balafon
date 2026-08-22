@@ -157,9 +157,9 @@ class Loader implements IResponse {
     * @param mixed $view
     */
     public function igk_io_file_exists($view){
-        if (preg_match('/RegexContainer.d.js/', $view)){
-            igk_wln_e(__FILE__.":".__LINE__ , "finish");
-        }
+        // if (preg_match('/RegexContainer.d.js/', $view)){
+        //     igk_wln_e(__FILE__.":".__LINE__ , "finish");
+        // }
         $f=stream_resolve_include_path($view);
         if(!empty($f))
             return $f;

@@ -118,9 +118,9 @@ abstract class UsersMacros
     public static function addPhoneBookEntry(Users $model, $type, $value)
     {
         $r = static::getPhoneBookEntry($model);
-        $guid = ($r ? $r->usrphb_PhoneBookEntryGuid : null) ?? PhoneBookEntries::create()->rcphbe_Guid;
-        if (($r && !$r->usrphb_PhoneBookEntryGuid) && ($guid)) {
-            $r->usrphb_PhoneBookEntryGuid = $guid;
+        $guid = ($r ? $r->PhoneBookEntryGuid : null) ?? PhoneBookEntries::create()->Guid;
+        if (($r && !$r->PhoneBookEntryGuid) && ($guid)) {
+            $r->PhoneBookEntryGuid = $guid;
             $r->save();
         }
         $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $type);
@@ -142,8 +142,8 @@ abstract class UsersMacros
             ])) {
                 if (!$r) {
                     $success  = $g && PhoneBookUserAssociations::create([
-                        PhoneBookUserAssociations::FD_USRPHB_USER_GUID => $model->clGuid,
-                        PhoneBookUserAssociations::FD_USRPHB_PHONE_BOOK_ENTRY_GUID => $guid,
+                        PhoneBookUserAssociations::FD_USER_GUID => $model->clGuid,
+                        PhoneBookUserAssociations::FD_PHONE_BOOK_ENTRY_GUID => $guid,
                     ]);
                 } else {
                     if ($g->isNew()) {
@@ -166,7 +166,7 @@ abstract class UsersMacros
     public static function getPhoneBookEntries(Users $model)
     {
         return PhoneBookUserAssociations::select_all([
-            PhoneBookUserAssociations::FD_USRPHB_USER_GUID => $model->clGuid
+            PhoneBookUserAssociations::FD_USER_GUID => $model->clGuid
         ]);
     }
     /**
@@ -177,7 +177,7 @@ abstract class UsersMacros
     public static function getPhoneBookEntry(Users $model)
     {
         return PhoneBookUserAssociations::select_row([
-            PhoneBookUserAssociations::FD_USRPHB_USER_GUID => $model->clGuid
+            PhoneBookUserAssociations::FD_USER_GUID => $model->clGuid
         ]);
     }
     /**
@@ -192,7 +192,7 @@ abstract class UsersMacros
     public static function getPhoneBookEntryByType(Users $model, ?string $type = PhonebookTypeNames::PHT_PHONE)
     {
         if ($g = PhoneBookUserAssociations::select_row([
-            PhoneBookUserAssociations::FD_USRPHB_USER_GUID => $model->clGuid
+            PhoneBookUserAssociations::FD_USER_GUID => $model->clGuid
         ])) {
             $response = [];
             PhoneBooks::prepare()
@@ -201,7 +201,7 @@ abstract class UsersMacros
                     PhoneBooks::FD_TYPE . '=' . PhoneBookTypes::FD_ID
                 )
                 ->where([
-                    PhoneBooks::FD_ENTRY_GUID => $g->usrphb_PhoneBookEntryGuid,
+                    PhoneBooks::FD_ENTRY_GUID => $g->PhoneBookEntryGuid,
                     PhoneBookTypes::FD_NAME => $type
                 ])
                 ->execute(true, [

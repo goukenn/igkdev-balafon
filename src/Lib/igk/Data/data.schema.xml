@@ -231,10 +231,10 @@
 	</DataDefinition>
 	<!-- PHONE BOOKS -->
 	<DataDefinition Description="User's Phone books" Prefix="rcphb_" TableName="%prefix%phoneBookUserAssociations"> 
-		<Column clAutoIncrement="1" clIsPrimary="1" clName="usrphb_Id" clType="Int"></Column>
-		<Column clIsUnique="True" clIsUniqueColumnMember="True" clName="usrphb_UserGuid" clNotNull="1" clType="Guid"></Column>
-		<Column clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid" clLinkType="%prefix%phoneBookEntries" clName="usrphb_PhoneBookEntryGuid" clNotNull="1" clType="Guid"></Column>
-		<GenColumn name="updateTime" prefix="usrphb_"></GenColumn>
+		<Column clName="id" clAutoIncrement="1" clIsPrimary="1"  clType="Int"></Column>
+		<Column clName="UserGuid"  clIsUnique="false" clIsUniqueColumnMember="True" clNotNull="1" clType="Guid"></Column>
+		<Column clName="PhoneBookEntryGuid"  clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid" clLinkType="%prefix%phoneBookEntries" clNotNull="false" clType="Guid"></Column>
+		<GenColumn name="updateTime" ></GenColumn>
 	</DataDefinition>
 	<DataDefinition Description="Phone books" Display="Value" Prefix="rcphb_" TableName="%prefix%phoneBooks"> 
 		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphb_Id" clType="Int"></Column>
@@ -519,7 +519,7 @@
 		</Migration>
 		<Migration> 
 			<addColumn after="Guid" table="%prefix%phoneBookEntries"> 
-				<Column clIsUnique="false" clLinkColumn="clGuid" clLinkType="%sysprefix%users" clName="user_guid" clNotNull="false" clType="GUID"></Column>
+				<Column clIsUnique="false" clLinkType="%sysprefix%users(clGuid)" clName="user_guid" clNotNull="false" clType="GUID"></Column>
 			</addColumn>
 			<addColumn after="Value" table="%prefix%phoneBooks"> 
 				<Column clColumnMemberIndex="1" clLinkColumn="Id" clLinkType="%prefix%phoneBookTypes" clName="Type" clNotNull="1"></Column>
@@ -528,12 +528,7 @@
 		</Migration>
 
 
-		<Migration> 
-			<addColumn after="clStatus" table="%prefix%users" description="used to add sale definition to core table "> 
-				<Column clName="sale_profile_type" clType="int" clDefault="0" clNotNull></Column>
-				<Column clName="sale_java" clType="int" clDefault="0" clNotNull></Column>
-			</addColumn>
-		</Migration>
+		
 
 	</Migrations>
 </data-schemas>

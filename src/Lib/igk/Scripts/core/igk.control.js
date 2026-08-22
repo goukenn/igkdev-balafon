@@ -1143,7 +1143,7 @@
     })();
 
     // + | --------------------------------------------------------------------------
-    // + | register media type 
+    // + | REGISTER MEDIA TYPE 
     // + |  
     (function () {
         const IGK_UNDEF = "undefined";
@@ -1791,11 +1791,13 @@
                 let h = document.getElementsByTagName('html')[0];
                 h.setAttribute("data-theme", m);
                 saveItem(m);
+                igk.publisher.publish('sys://dom/css/theme-changed', {theme: m});       
             }
             function __updatemode(r) {
                 return (e) => {
                     let m = (('dark' == r) && e.matches) || (('dark' != r) && !e.matches) ? 'dark' : 'light';
                     __setTheme(m);
+               
                 }
             }
             if ('matchMedia' in window) {
@@ -1926,6 +1928,8 @@
         if (!String.prototype.startsWith)
             String.prototype.startsWith = igk_str_startWith;
     })();
+   
+   
     //
     // canvas utility 
     //
@@ -4978,7 +4982,7 @@
             var m_inf = {};
 
             function __media_change() {
-                console.debug("media change");
+                // console.debug("media change");
                 var c = igk.css.getMediaType();
                 if ((c != 'global') && !(c in m_inf)) {
                     var d = document.createElement("div");
@@ -7153,8 +7157,10 @@
                     _restoreSelection(selector);
                 };
                 function _complete(q, xhr) {
-                    if (complete) {
-                        (new Function('data', complete)).apply(q, [JSON.parse(xhr.response)]);
+                    if (complete) {                        
+                        const d = xhr.responseText ? JSON.parse(xhr.responseText) : null;
+                        (new Function('data', complete)).apply(q, [d]);
+
                     }
                 };
                 //register cusom event

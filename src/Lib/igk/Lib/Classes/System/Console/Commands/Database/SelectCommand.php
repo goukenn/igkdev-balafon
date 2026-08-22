@@ -115,7 +115,7 @@ class SelectCommand extends AppExecCommand
 					$args = [$args];
 				}
 			} 
-			$args = $args ?? igk_getv($command->options, '--arg') ?? array_slice($cmd_args, 1);
+			$args = $args ?? igk_getv($command->options, '--arg') ?? array_slice($cmd_args, 2);
 			 
 			if ($method = trim(array_shift($tab))) {
 				if (!is_array($args)) {

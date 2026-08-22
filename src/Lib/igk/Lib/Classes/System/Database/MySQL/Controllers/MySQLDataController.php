@@ -184,30 +184,56 @@ class MySQLDataController extends BaseController
             foreach ($h->Rows as $m => $n) {
                 $ns = $n->CONSTRAINT_NAME;
                 $nt = $n->CONSTRAINT_TYPE;
-                switch ($nt) {
-                    case "FOREIGN KEY":
-                        if (!isset($deleted[$ns])) {
-                            $q = "ALTER TABLE `" . $n->TABLE_NAME . "` DROP " . $nt . " `" . $ns . "`";
-                            if (!$d->sendQuery($q)->success()) {
-                                if ($node)
-                                    $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
-                            }
-                            if ($nt !== "FOREIGN KEY") {
-                                $q = "ALTER TABLE `" . $n->TABLE_NAME . "` DROP INDEX `" . $ns . "`";
-                                if (!$d->sendQuery($q)->success()) {
-                                    if ($node)
-                                        $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
-                                }
-                            }
-                            $deleted[$n->CONSTRAINT_NAME] = 1;
-                        }
-                        break;
-                    case "PRIMARY KEY":
-                        break;
+                try {
+                    static::_DropSQLDBRelation($d,$n->TABLE_NAME, $nt, $ns, $node, $deleted);
+                } catch (\Exception $ex) {
+                    Logger::danger('failed to drop : '. $ex->getMessage());
+                } catch(\Error $ex){
+                    Logger::danger('def to drop : '. $ex->getMessage());
                 }
             }
         }
         return $r;
+    }
+    /**
+     * 
+     * @param mixed $driver 
+     * @param mixed $table 
+     * @param mixed $type 
+     * @param mixed $name 
+     * @param mixed $node 
+     * @param mixed &$deleted 
+     * @return void 
+     */
+    private static function _DropSQLDBRelation($driver, $table, $type, $name, $node, & $deleted)
+    {
+        $nt = $type;
+        $ns = $name;
+        $d = $driver;
+        switch ($nt) {
+            case "UNIQUE":
+                break;
+            case "PRIMARY KEY":
+                break;
+            case "FOREIGN KEY":
+            default:
+                if (!isset($deleted[$ns])) {
+                    $q = "ALTER TABLE `" . $table . "` DROP " . $nt . " `" . $ns . "`";
+                    if (!$d->sendQuery($q)->success()) {
+                        if ($node)
+                            $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
+                    }
+                    if ($nt !== "FOREIGN KEY") {
+                        $q = "ALTER TABLE `" . $table . "` DROP INDEX `" . $ns . "`";
+                        if (!$d->sendQuery($q)->success()) {
+                            if ($node)
+                                $node->addNotifyBox("danger")->Content = $q . " " . igk_mysql_db_error();
+                        }
+                    }
+                    $deleted[$ns] = 1;
+                }
+                break;
+        }
     }
     /**
      * 

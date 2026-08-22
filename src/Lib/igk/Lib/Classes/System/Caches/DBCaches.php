@@ -58,18 +58,27 @@ class DBCaches
     * @var mixed
     */
     private $m_mock;
+
+    /**
+     * reload controller cache definition 
+     * @var mixed
+     */
+    private $m_reload;
     /**
      * store controller loaded definition
      * @var ?array|?object
      */
     private $m_db_defs;
+    private function isCacheInitilized(){       
+        return $this->m_init_cache;
+    }
     /**
      * return loaded controller info 
      * @param BaseController $controller 
      * @return <string, SchemaMigrationInfo>[]
      */
     public static function GetControllerDataTableDefinition(BaseController $controller){
-        if (!self::getInstance()->m_init_cache){
+        if (!self::getInstance()->isCacheInitilized()){
             self::Init();
         }
         $mp = self::GetCacheData();
@@ -162,7 +171,7 @@ class DBCaches
     public static function Init()
     {
         $i = self::getInstance();
-        if ($i->m_init_cache) {
+        if ($i->isCacheInitilized()) {
             return;
         }
         $i->_initDbCache();
@@ -198,8 +207,12 @@ class DBCaches
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
         $v_i = static::getInstance();
-        if (!$v_i->m_init_cache || is_null($v_i->m_tableInfo)){
+        $v_reload = $v_i->m_reload && $controller && isset($v_i->m_reload[get_class($controller)]);
+        if ($v_reload || !$v_i->isCacheInitilized() || is_null($v_i->m_tableInfo)){
             self::GetColumnInfo($table, $controller);
+            if ($v_reload){
+                unset($v_i->m_reload[get_class($controller)]);
+            }
         }
         $c = igk_getv($v_i->m_tableInfo, $table);
         if ($controller && $c) {
@@ -299,7 +312,7 @@ class DBCaches
         // + | cache is empty - load from cache -  convert stClass - close to migration DbColumnInfo
         // + |
         $sysctrl = SysDbController::ctrl();
-        if (!$this->m_init_cache) {
+        if (!$this->isCacheInitilized()) {
             if (is_file($file = self::GetCacheFile())) {
                 $data = unserialize(file_get_contents($file));
                 if ($data !== false) {
@@ -433,7 +446,7 @@ class DBCaches
             $table_info = $this->m_mock[$table];
             return $table_info->tableRowReference;
         }
-        !$this->m_init_cache && $this->_initDbCache();
+        !$this->isCacheInitilized() && $this->_initDbCache();
         /**
          * @param $ref_def 
          */
@@ -465,11 +478,26 @@ class DBCaches
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
         }
         if (empty($ref_def->modelClass) && $ref_def->controller){
-            // + | retrieve the controller attaached
-            $ref_def->modelClass = IGKSysUtil::GetModelTypeName($ref_def->defTableName, $ref_def->controller);
+            // + | retrieve the model call attached 
+            self::UpdateModelClass($ref_def, $ref_def->defTableName, $ref_def->controller);
+            
         }
         $table_info = $ref_def;
         return $ref_def->tableRowReference;
+    }
+    /**
+     * 
+     * @param mixed $ref_def 
+     * @param mixed $table 
+     * @param mixed $controller 
+     * @return void 
+     */
+    public static function UpdateModelClass($ref_def, string $table, $controller){
+        igk_is_debug() && Logger::info("update : ".$table);
+        if (is_null($ref_def)){
+            igk_wln_e("is null");
+        }
+        $ref_def->modelClass = IGKSysUtil::GetModelTypeName($table, $controller);
     }
     /**
     * auto generate doc.
@@ -553,7 +581,8 @@ class DBCaches
     public static function ClearControllerCache(BaseController $controller)
     {
         $v_i = self::getInstance();
-        if (!$v_i->m_init_cache) {
+        // igk_debug(true);
+        if (!$v_i->isCacheInitilized()) {
             DbSchemas::ClearControllerSchema($controller);
             $v_i->_initDbCache();
         }
@@ -561,6 +590,7 @@ class DBCaches
         // + | get database that match controller 
         // + |
         $cl = get_class($controller);
+        $info = $v_i->m_db_defs->$cl;
         unset($v_i->m_db_defs->$cl);
         $v_tabinfo = &$v_i->m_tableInfo;
         $v_tabinfo = array_filter(array_map(function ($d) use ($controller) {
@@ -570,6 +600,9 @@ class DBCaches
             return $d;
         }, $v_tabinfo));
         // + | force reload controller schema 
+        // DbSchemas::LoadSchema()
+        // $v_i->m_init_cache = false;
+        $v_i->m_reload[$cl] = 1;
     }
     /**
     * resolv and init tbinfo
@@ -582,7 +615,7 @@ class DBCaches
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
             $tables[$tb] = $tbinfo;
             if (!$tbinfo->modelClass) {
-                $tbinfo->modelClass = IGKSysUtil::GetModelTypeName($tbinfo->defTableName, $tbinfo->controller);
+                self::UpdateModelClass($tbinfo, $tbinfo->defTableName, $tbinfo->controller);
             }
             return true;
         } 

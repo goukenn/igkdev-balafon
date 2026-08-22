@@ -42,7 +42,7 @@ trait ModelTableConstantTrait{
         $model = $tmodel;
         $fn = $tfn; 
         $init_fields = method_exists(static::class, $fc);
-        $v_constants = $cl::GetConstants();
+        $v_constants = call_user_func_array([$cl, 'GetConstants'],  []);
         foreach($v_constants as $ut){
             $fields = [
                 $fn=>$ut

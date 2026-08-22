@@ -6073,6 +6073,12 @@ Name:balafon.js
                     context: ctx
                 };
             },
+            /**
+             * regiter function 
+             * @param {*} n key name 
+             * @param {*} func 
+             * @returns 
+             */
             register: function (n, func) {
                 if (!n || !func)
                     return !1;
@@ -6102,7 +6108,7 @@ Name:balafon.js
                 // array copy
                 var tab = [];
                 for (var i = 0; i < e.s.getCount(); i++) {
-                    tab.push(e.s.getItemAt(0));
+                    tab.push(e.s.getItemAt(i));
                 }
                 for (var i = 0; i < tab.length; i++) {
                     m_cinf = {
@@ -6112,7 +6118,6 @@ Name:balafon.js
                     };
                     m_cinf.caller.apply(m_cinf, [prop]);
                 }
-                // this.name = m_names.pop();
             },
             getName: function (obj, ns, name) {
                 if (obj instanceof igk.object) {
@@ -10159,12 +10164,7 @@ Name:balafon.js
             var v_animeffect = igk_getv(animinfo, "effect", 'linear'); // // easein,easeout,easeinout
             var v_animeffectmode = igk_getv(animinfo, "effectmode", 'easein');
             var v_update = igk_getv(animinfo, "update", null);
-            var v_complete = igk_getv(animinfo, "complete", null);
-            // if((v_complete==null) && $igk(element).isCssSupportTransition())
-            // {
-            // $igk(element).addClass("igk-transition-"+v_animeffectmode).setCss(properties);
-            // return;
-            // }
+            var v_complete = igk_getv(animinfo, "complete", null); 
             var c = igk.animation.context($igk(element).o, contextname, v_duration, v_animtype);
             // stop the previous animation context
             c.stop();
@@ -10439,8 +10439,7 @@ Name:balafon.js
                     if (xhr.getResponseHeader("Content-Type").toLowerCase()
                         .indexOf("application/force-download") != -1) {
                         xhr.responseType = "blob";
-                    }
-                    // console.debug("receive header");
+                    } 
                 }
             }
             // + | force file download
@@ -11363,7 +11362,7 @@ Name:balafon.js
                 // get json data
                 var r = this.xhr.responseText;
                 if (r) {
-                    return JSON.parse(r);
+                    return JSON.parse(r.trim());
                 }
             },
             isFailed: function () {

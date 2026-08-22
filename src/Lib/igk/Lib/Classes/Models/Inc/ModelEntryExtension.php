@@ -776,7 +776,13 @@ abstract class ModelEntryExtension
         $def = $model->getTableInfo();
         $columns = $model->getTableColumnInfo();
         $conditions = DbUtility::TreatSelectCondition($columns, $conditions ?? [], $def->prefix);
-        return $driver->delete($model->getTable(), $conditions);
+        try{
+            return $driver->delete($model->getTable(), $conditions);
+        }
+        catch(\Exception $ex){
+            
+        }
+        return false;
     }
     /**
     * auto generate doc.

@@ -4,13 +4,21 @@
 // @desc: Database initialization
 // @date: 20211007 08:31:28
 namespace IGK\System\Database;
+
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
+use IGK\Helper\Database;
+use IGK\System\Caches\DBCaches;
+use IGK\System\Console\Logger as ConsoleLogger;
+use Logger;
 
 /**
 * Init base.
 * @package IGK\System\Database
 */
 abstract class InitBase{
+    const ACTION_METHOD_PREFIX = 'Action';
     /**
     * Constant: init method.
     * @var mixed
@@ -70,5 +78,34 @@ abstract class InitBase{
                 "clController"=>$cl,
             ];
         });      
+    }
+    /**
+     * Base Action to clean the model before init data
+     * @param BaseController $ctrl 
+     * @return void 
+     */
+    public static function ActionCleanModel(BaseController $ctrl){        
+        $ctrl->cleanAllCreatedModel();     
+        DBCaches:: //Clear($ctrl);
+        ClearControllerCache($ctrl);
+        
+        $ctrl->migrate(true);
+        if (($ctrl instanceof SysDbController) && !($ctrl instanceof  ApplicationModuleController)){
+            $r = Database::ModuleMigrations();
+            $r::migrate();
+        }       
+        Database::InitData($ctrl);
+    }
+    public static function ActionBackup(BaseController $ctrl){
+        $ad = $ctrl->getDataAdapter();
+        $info = $ctrl->getAllUsedModelInfoFromCache();
+
+        $error = [];
+        $tables = [];
+        foreach ($info as $key => $value) { 
+            $tables[] = Database::DumpData($ad, $value->tableName, $error);
+        }
+        $src = implode("\n", $tables); 
+        igk_wl($src);
     }
 }

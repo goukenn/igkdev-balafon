@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20260806 19:49:23
+// @date: 20260821 14:07:37
 namespace IGK\Models;
 
 
@@ -41,8 +41,8 @@ use IGK\Models\ModelBase;
 * @method static string FN_LOGLOGS_UPDATE_AT() - `loglogs_Update_At` full column name 
 * @method static ?array joinOnLoglogsId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnLoglogsId() - macros function
-* @method static ?self Add(string|?\IGK\Models\Users $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string $regLinkCreate_At ="NOW()", string $regLinkUpdate_At ="NOW()") add entry helper
-* @method static ?self AddIfNotExists(string|?\IGK\Models\Users $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string $regLinkCreate_At ="NOW()", string $regLinkUpdate_At ="NOW()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|?\IGK\Models\Users $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string $loglogs_Create_At ="NOW()", string $loglogs_Update_At ="NOW()") add entry helper
+* @method static ?self AddIfNotExists(string|?\IGK\Models\Users $loglogs_UserGuid, string $loglogs_Agent, string $loglogs_IP, float $loglogs_GeoX, float $loglogs_GeoY, string $loglogs_Region, string $loglogs_Code, string $loglogs_CountryName, string $loglogs_City, int $loglogs_Status, string $loglogs_Description, string $loglogs_Create_At ="NOW()", string $loglogs_Update_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class LoginLogs extends ModelBase{
 	const FD_LOGLOGS_ID="loglogs_Id";

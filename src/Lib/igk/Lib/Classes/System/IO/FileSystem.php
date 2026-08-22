@@ -144,7 +144,8 @@ class FileSystem extends CoreFileSystem
 
         if (!self::$sm_registerSingle) {
             igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, function ($e) {
-               static::class::_onShutdown();
+                $cl = static::class;
+                $cl::_onShutdown();
             });
             self::$sm_registerSingle = true;
         }

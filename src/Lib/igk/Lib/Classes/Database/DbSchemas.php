@@ -180,7 +180,7 @@ abstract class DbSchemas
     */
     public static function schemaDef()
     {
-        $file =  '/Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Data/data.schema.xml';
+        $file = IGK_LIB_DIR. '/Data/data.schema.xml';
         if (isset(self::$sm_schemas[$file])) {
             return self::$sm_schemas[$file];
         }
@@ -212,8 +212,8 @@ abstract class DbSchemas
             if (!$xcode) {
                 return null;
             }
-            self::$sm_isLoadingFromSchema && igk_die('already in loading from schema');
-            self::$sm_isLoadingFromSchema = true;
+            self::$sm_isLoadingFromSchema && igk_die('already in loading from schema: '.self::$sm_isLoadingFromSchema);
+            self::$sm_isLoadingFromSchema = $file;
             try {
                 $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);
                 // + |init Check and update data

@@ -10,7 +10,7 @@ namespace IGK\Database;
 */
 abstract class DbConstants{
     /**
-    * Constant: callback opts.
+    * Constant: database row filter 
     * @var mixed
     */
     const CALLBACK_OPTS = '@callback';

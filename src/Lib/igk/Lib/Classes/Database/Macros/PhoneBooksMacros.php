@@ -121,7 +121,7 @@ class PhoneBooksMacros
                     return ["type" => $a->type, "value" => $a->value];
                 },
                 PhoneBookUserAssociations::prepare()
-                    ->join_left($model::table(), PhoneBooks::FD_ENTRY_GUID . '=' . PhoneBookUserAssociations::FD_USRPHB_PHONE_BOOK_ENTRY_GUID)
+                    ->join_left($model::table(), PhoneBooks::FD_ENTRY_GUID . '=' . PhoneBookUserAssociations::FD_PHONE_BOOK_ENTRY_GUID)
                     ->join_left(PhoneBookTypes::table(), PhoneBookTypes::FD_ID . '=' . $model::FD_TYPE)
                     ->columns([
                         PhoneBookTypes::FD_NAME => "type",

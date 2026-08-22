@@ -8,11 +8,13 @@ use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;
 use IGK\Database\DbQueryRowObj;
 use IGK\Helper\JSon;
+use IGK\Helper\PhpHelper;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArrayResolver;
 use IGKSorter;
 use IGK\IQueryResult;
+use IGKType;
 
 /**
  * Represent MySQL Query result wrapper
@@ -258,6 +260,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         $v_primkey = !$no_primary && (count($prim_key) == 1) ? $prim_key[0]->name : null;
         $v_primkeyindex = count($prim_key) == 1 ? $prim_key[0]->index : null;
         $callback = is_callable($options) ? $options : igk_getv($options, self::CALLBACK_OPTS);
+        $callback && PhpHelper::ResolveTypeCallback($callback);
         $_nn = (igk_count($out->m_tables) > 1);
         $c = 0;
         while ($d = igk_db_fetch_row($dbresult)) {

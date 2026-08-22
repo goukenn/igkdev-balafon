@@ -53,4 +53,4 @@ if (!empty($uri) && ($uri!= $web) && ($uri !='/') && !igk_get_env($key)){
     igk_sys_handle_request($uri);
     igk_set_env($key, null);
 }
-IGKApplication::Boot("phar")->run(__FILE__);
+IGKApplication::Boot(IGKApplication::PHAR_TYPE)->run(__FILE__);

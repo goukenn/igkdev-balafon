@@ -54,6 +54,10 @@ trait ModuleIncludeDefinitionInvokeTrait
                 $fc = $m;
             }
             try {
+                if (is_string($fc)){
+                    $fc = Closure::fromCallable($fc) ?? igk_die('not a callable');
+                }
+
                 if (!isset($list[$key][$name])) {
                     $fc = $fc->bindTo($this);
                     $list[$key][$name] = 1;

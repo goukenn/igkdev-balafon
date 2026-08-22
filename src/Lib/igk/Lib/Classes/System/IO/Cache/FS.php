@@ -3,51 +3,61 @@
 // @file: FS.php
 // @date: 20250520 06:35:43
 namespace IGK\System\IO\Cache;
+
 use Exception;
+use IGK\System\IO\FileSystem;
 use IGK\System\IO\StringBuilder;
-use IGKEvents; 
+use IGKEvents;
 
 
- 
+
 /**
-* system file caches
-* @package IGK\System\IO\Cache
-* @author C.A.D. BONDJE DOUE
-*/
-class FS{
+ * system file caches
+ * @package IGK\System\IO\Cache
+ * @author C.A.D. BONDJE DOUE
+ */
+class FS
+{
     /**
-    * Cache: caches.
-    * @var mixed
-    */
+     * 
+     * @var ?FS
+     */
+    private static $sm_instance;
+    /**
+     * Cache: caches.
+     * @var mixed
+     */
     private $m_caches;
     /**
-    * Cache: auto cache.
-    * @var mixed
-    */
+     * Cache: auto cache.
+     * @var mixed
+     */
     private $m_auto_cache;
     /**
      * get cache file path
      * @return string 
      */
-    public static function CacheFile(){
-        return igk_io_cachedir()."/.fs-caches.php";
+    public static function CacheFile()
+    {
+        return igk_io_cachedir() . "/.fs-caches.php";
     }
     /**
-    * file cache exists
-    * @param string $file
-    * @param bool $autocheck
-    * @return bool
-    */
-    public function fileExists(string $file, bool $autocheck=false){
+     * file cache exists
+     * @param string $file
+     * @param bool $autocheck
+     * @return bool
+     */
+    public function fileExists(string $file, bool $autocheck = false)
+    {
         $l = isset($this->m_caches[$file]);
-        if (!$l && ($autocheck || $this->m_auto_cache)){
-            if ($l = file_exists($file)){
-                $this->m_caches[$file] = $file;     
-                if ($autocheck && !$this->m_auto_cache){
+        if (!$l && ($autocheck || $this->m_auto_cache)) {
+            if ($l = file_exists($file)) {
+                $this->m_caches[$file] = $file;
+                if ($autocheck && !$this->m_auto_cache) {
                     $this->m_auto_cache = true;
-                     $this->_registerStoreCache(); 
-                }           
-            } else{
+                    $this->_registerStoreCache();
+                }
+            } else {
                 return false;
             }
         }
@@ -58,52 +68,86 @@ class FS{
      * @param string $file 
      * @return bool 
      */
-    public function checkExists(string $file):bool{
-        if (!$this->fileExists($file)){
-            if (file_exists($file)){
-                $this->m_caches[$file] = igk_realpath($file);                
-            } else{
+    public function checkExists(string $file): bool
+    {
+        if (!$this->fileExists($file)) {
+            if (file_exists($file)) {
+                $this->m_caches[$file] = igk_realpath($file);
+            } else {
                 return false;
             }
         }
         return true;
     }
     /**
-    * Loads Cache.
-    */
-    public function loadCache(){
+     * Loads Cache.
+     */
+    public function loadCache()
+    {
         $this->m_caches = ($c = @include self::CacheFile()) === false ? [] : $c;
-        if ($c===false){
+        if ($c === false) {
             $this->m_auto_cache = true;
-            $this->_registerStoreCache(); 
+            $this->_registerStoreCache();
         }
     }
     /**
-    * Register store cache.
-    */
-    protected function _registerStoreCache(){        
+     * Register store cache.
+     */
+    protected function _registerStoreCache()
+    {
         static $clean_cache;
-        igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function()use(& $clean_cache){
+        igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function () use (&$clean_cache) {
             $clean_cache = true;
         });
-        igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
-            function()use(& $clean_cache){
-                if (!$clean_cache){
-                    $this->storeCache(); 
+        igk_reg_hook(
+            IGKEvents::HOOK_APP_SHUTDOWN,
+            function () use (&$clean_cache) {
+                if (!$clean_cache) {
+                    $this->storeCache();
                 }
-        });
+            }
+        );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
-    public function storeCache(){
+     * auto generate doc.
+     * @return void
+     */
+    public function storeCache()
+    {
         $sb = new StringBuilder;
-        $ch ='';
-        foreach($this->m_caches as $k=>$v){
-            $sb->appendLine($ch.'"'.$k.'"=>"'.$v.'"');
+        $ch = '';
+        foreach ($this->m_caches as $k => $v) {
+            $sb->appendLine($ch . '"' . $k . '"=>"' . $v . '"');
             $ch = ',';
         }
-        igk_io_w2file(self::CacheFile(), igk_cache_array_content($sb.''));
+        igk_io_w2file(self::CacheFile(), igk_cache_array_content($sb . ''));
+    }
+
+    /**
+     * clear cache file 
+     * @return void 
+     */
+    public static function ClearCacheFile()
+    {
+        $fs = self::CacheFile();
+        if (file_exists($fs)) {
+            @unlink($fs);
+        }
+        self::getInstance()->m_caches = [];
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(self::$sm_instance)) {
+            $FS = new FS();
+            $FS->loadCache();
+            $env_outside = igk_env_count_get('file_exists_outside');
+            if ($env_outside) {
+                igk_environment()->getDebugger()->fs_filesystem_check_counter =
+                    $env_outside;
+            }
+            self::$sm_instance = $FS;
+        }
+        return self::$sm_instance;
     }
 }

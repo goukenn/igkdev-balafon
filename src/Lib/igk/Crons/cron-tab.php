@@ -15,7 +15,8 @@ use IGK\System\Console\Logger;
 use IGK\System\Cron\CronScriptHandler;
 use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\Path; 
+use IGK\System\IO\Path;
+use IGKApplication;
 
 define('IGK_CRON_START_DIR', __DIR__);
 define('IGK_APP_CRON', 1);
@@ -155,7 +156,7 @@ $_SERVER["HTTP_USER_AGENT"] = "balafon - cron";
 $_SERVER["SERVER_NAME"] = "balafon cron-server";
 ApplicationFactory::Register("crontab", cronApp::class);
 \IGK\System\Console\BalafonApplication::InitAndTreatArgument($argv);
-$app = ApplicationLoader::Boot("crontab");
+$app = ApplicationLoader::Boot(IGKApplication::CRONTAB_TYPE);
 $status = $app->run(__FILE__, false);
 $projects = igk_sys_get_projects_controllers();
 igk_hook(IGKEvents::HOOK_CRUNJOB, ['app' => $app, 'time' => time()]);

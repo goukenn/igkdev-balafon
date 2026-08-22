@@ -89,6 +89,7 @@ class UriHandler extends BaseUriHandler
      */
     protected function _favicon()
     {
+        
         igk_set_header(
             200,
             'ok',
@@ -96,7 +97,7 @@ class UriHandler extends BaseUriHandler
                 "Content-Type: image/png",
                 "Cache-Control: max-age=31536000"
             ]
-        );
+        ); 
         igk_header_cache_output($this->cacheoutput);
         include(IGK_LIB_DIR . "/Default/R/Img/balafon.ico");
         igk_exit();

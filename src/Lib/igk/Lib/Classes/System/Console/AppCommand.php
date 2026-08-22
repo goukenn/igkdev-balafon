@@ -311,7 +311,7 @@ abstract class AppCommand
     }
 
     /**
-     * 
+     * use that to auto replace parameter key 
      * @param mixed $command 
      * @param mixed &$controller 
      * @param mixed &$param 

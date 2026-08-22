@@ -182,7 +182,7 @@ class MigrationHandler{
     }
     /**
     * migrate up
-    * @param bool $fist_only
+    * @param bool $first_only
     * @throws IGKException
     * @throws EnvironmentArrayException
     * @throws Error
@@ -191,12 +191,12 @@ class MigrationHandler{
     * @throws Exception
     * @return void
     */
-    public function up(bool $fist_only=true){
-        return $this->migrate(__FUNCTION__, $fist_only);         
+    public function up(bool $first_only=true){
+        return $this->migrate(__FUNCTION__, $first_only);         
     }
     /**
     * migrate down
-    * @param bool $fist_only
+    * @param bool $first_only
     * @throws IGKException
     * @throws EnvironmentArrayException
     * @throws Error
@@ -205,8 +205,8 @@ class MigrationHandler{
     * @throws Exception
     * @return void
     */
-    public function down(bool $fist_only=true){
-        return $this->migrate(__FUNCTION__, $fist_only);
+    public function down(bool $first_only=true){
+        return $this->migrate(__FUNCTION__, $first_only);
     }
     /**
      * migrate operation 

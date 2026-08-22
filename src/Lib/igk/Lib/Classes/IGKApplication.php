@@ -11,6 +11,13 @@ require_once IGK_LIB_CLASSES_DIR.'/IGKApplicationBase.php';
  * @package 
  */
 abstract class IGKApplication extends IGKApplicationBase{
+    const WEB_TYPE = 'web';
+    const CRONTAB_TYPE  = 'crontab';
+    const PHAR_TYPE = 'phar';
+    const CSS_TYPE = 'css';
+    const BALAFON_TYPE = 'balafon';
+    const API_TYPE = 'api';
+    const PHPUNIT_TYPE = 'phpunit';
     /**
     * create an application
     * @param string $type
@@ -20,7 +27,7 @@ abstract class IGKApplication extends IGKApplicationBase{
     * @throws IGKException
     * @return mixed a create application
     */
-    public static function Boot($type="web", $bootoptions=null, ?callable $boot=null){             
+    public static function Boot($type= self::WEB_TYPE, $bootoptions=null, ?callable $boot=null){             
         $app = ApplicationLoader::Boot($type, $bootoptions);       
         if ($app && $boot){
             // + | callback before return the application instance 

@@ -144,6 +144,7 @@ abstract class AppExecCommand extends AppCommand{
             return null;
         }
         $ctrl =  \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
+       
         $ctrl && $autoregister && $ctrl->register_autoload();
         return $ctrl;
     }

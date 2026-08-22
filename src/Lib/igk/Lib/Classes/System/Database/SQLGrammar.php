@@ -831,6 +831,10 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function add_column(string $table, $info, ?string $after = null)
     {
+        if(('user_guid' == $info->clName) && ('tbigk_phoneBookEntries' == $table)){
+
+            igk_wln_e(__FILE__.":".__LINE__ , "stop here");
+        }
         Logger::warn('try add column: ' . $table . ' :-> ' . $info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
@@ -2267,6 +2271,13 @@ class SQLGrammar implements IDbQueryGrammar
         return $this->m_driver->escape_string($v);
     }
 
+    /**
+     * 
+     * @param mixed $driver 
+     * @param string $field 
+     * @param array $cond 
+     * @return string 
+     */
     public static function GetFieldConditionString($driver, string $field, array $cond)
     {
         $sb = '';
@@ -2276,8 +2287,7 @@ class SQLGrammar implements IDbQueryGrammar
                 continue;
             }
 
-            $op = igk_getv(['or' => 'OR', 'and' => 'AND'], strtolower($op), 'AND');
-            $ch = '';
+            $op = igk_getv(['or' => 'OR', 'and' => 'AND'], strtolower($op), 'AND');            
             $rt = [];
             foreach ($defs as $v) {
                 $l = '';

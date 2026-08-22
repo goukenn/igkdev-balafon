@@ -65,4 +65,12 @@ class StatusCode extends RequestResponseCode
         $defCodeMSG = sprintf('%s %s', $protocol, "200 OK");
         return igk_getv($t, $code, $defCodeMSG); 
     }
+    /**
+     * 
+     * @param int $code 
+     * @return bool 
+     */
+    public static function IsSupportedStatus(int $code):bool{
+        return ($code==200) || !igk_str_endwith(self::GetStatus($code), '200 OK');        
+    }
 }

@@ -11,9 +11,11 @@ use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Controllers\ViewLayoutLoader;
 use IGK\Helper\IO;
+use IGK\Helper\StringUtility;
 use IGK\Server;
 use IGK\System\Configuration\WinUI\ConfigurationPageViewLoader;
 use IGK\System\CronJob;
+use IGK\System\Html\Dom\HtmlComponents;
 use IGK\System\Html\Dom\HtmlConfigContentNode;
 use IGK\System\Html\Dom\HtmlConfigPageNode;
 use IGK\System\Html\Dom\HtmlNode;
@@ -1041,11 +1043,17 @@ EOF;
      */
     public function initConfigMenu()
     {
-        $t = array(
+        $t = [
             new MenuItem(
                 IGK_HOME_PAGEFOLDER,
                 IGK_DEFAULT_VIEW,
                 $this->getUri("setpage"),
+                -900
+            ),
+            new MenuItem(
+                'CoreSystem',
+                'core-system',
+                $this->getUri("show_core_system"),
                 -900
             ),
             new MenuItem(
@@ -1066,7 +1074,7 @@ EOF;
                 igk_io_baseuri(),
                 10800
             ),
-        );
+        ];
         $t[] = new MenuItem("LogOut", null, $this->getUri("logout"), 20000);
         return $t;
     }
@@ -1680,9 +1688,134 @@ EOF;
                 igk_set_env($key, 1);
                 break;
             default:
-                igk_dev_wln_e("no page. handle");
+                if ($f = $this->getViewFile('config.'.$p.'.phtml')){
+                    include($f);
+                    igk_set_env($key, 1);
+                    break;
+                }else{
+                    if (method_exists($this, $fc = '_view_'.strtolower(StringUtility::FuncName($p)))){
+                        call_user_func_array([$this, $fc], [[
+                            't'=>$cnf_n
+                        ]]);
+                        igk_set_env($key, '_func');
+                        break;
+                    }
+                    igk_dev_wln('missing function : '.$fc);
+                }
+                igk_dev_wln_e("no page. handle. ");
                 break;
         }
+    }
+    /**
+     *
+     * @param mixed $arg
+     * @return void
+     */
+    protected function _view_core_system($arg){
+        extract($arg);
+        $this->_selectMenu("core-system");
+        $view = $t->container()->div();
+        $view->h2(__('System Configuration'));
+        $v_tab = $this->getcore_system_tab() ?? 'general';
+
+        $tab = $view->addComponent($this, HtmlComponents::AJXTabControl, "core-system:tab-control", 1);
+        $tab->addTabPage(__("General"), $this->getUri("core_system_general_ajx"), $v_tab == 'general');
+        $tab->addTabPage(__("Console"), $this->getUri("core_system_console_ajx"), $v_tab == 'console');
+    }
+    /**
+     * ajx: core system general information tab content
+     * @return void
+     */
+    public function core_system_general_ajx()
+    {
+        $this->core_system_tab = 'general';
+        $n = igk_create_node("div");
+        $pan = $n->addPanelBox();
+        $pan->h3()->Content = __("Core System Information");
+        $rows = [
+            __("Balafon Framework Version") => defined('IGK_VERSION') ? IGK_VERSION : __("unknown"),
+            __("PHP Version") => PHP_VERSION,
+            __("Server Software") => igk_getv($_SERVER, "SERVER_SOFTWARE", php_sapi_name()),
+            __("Base Dir") => IGK_BASE_DIR,
+            __("App Dir") => IGK_APP_DIR,
+            __("Project Dir") => IGK_PROJECT_DIR,
+            __("Environment") => igk_environment()->isDev() ? __("Development") : __("Production"),
+            __("Memory Limit") => ini_get('memory_limit'),
+            // __("Balafon CLI") => trim((string) \IGK\System\Console\BalafonCommand::Exec('--version')),
+        ];
+        foreach ($rows as $label => $value) {
+            $row = $pan->addRow();
+            $row->addCol("igk-col-4")->div()->setClass("lbl")->Content = $label;
+            $row->addCol("igk-col-8")->div()->setClass("val")->Content = $value;
+        }
+        $n->renderAJX();
+        igk_exit();
+    }
+    public function getcore_system_tab(){
+        return igk_app()->getSession()->config_core_system_tab_view;        
+    }
+    /**
+     * 
+     * @param mixed $v 
+     * @return void 
+     */
+    public function setcore_system_tab($v){
+        igk_app()->getSession()->config_core_system_tab_view = $v;
+    }
+    /**
+     * ajx: core system console tab content
+     * @return void
+     */
+    public function core_system_console_ajx()
+    {
+        $this->core_system_tab = 'console';
+        $n = igk_create_node("div");
+        $pan = $n->addPanelBox();
+        $pan->h3()->Content = __("Balafon CLI Console");
+        $pan->div()->p()->Content = __("Execute a balafon command on the server. Example: --db:clearcache");
+        $pan->div()->setId("core-system-console-result")->setClass("fitw-i");
+        $frm = $pan->addForm();
+        $frm["action"] = $this->getUri("core_system_run_command_ajx");
+        $frm["igk-ajx-form"] = 1;
+        $frm["igk-ajx-form-no-autoreset"] = 1;
+        $frm["igk-ajx-form-target"] = "#core-system-console-result";
+        $row = $frm->addRow();
+        $row->addCol("igk-col-12-9")->div()->addInput(
+            "command", "text", null)
+            ->setId("command")
+            ->setClass("igk-form-control fitw-i")
+            ->setAttribute("placeholder", "--version");
+        $acb = $row->addCol("igk-col-12-3")->div()->addActionBar();
+        $acb->addInput("btn.send", "submit", __("Execute"))->setClass("-clsubmit +igk-btn igk-btn-default");
+        echo $n->render();
+        igk_exit();
+    }
+    /**
+     * ajx: execute a balafon cli command and return output
+     * @return void
+     */
+    public function core_system_run_command_ajx()
+    {
+        if (!igk_is_conf_connected()) {
+            igk_exit();
+        }
+        $cmd = trim((string) igk_getr("command", ""));
+        $n = igk_create_node("pre");
+        $n->setClass("igk-console-output");
+        if (empty($cmd)) {
+            $n->Content = __("No command provided.");
+        } else {
+            igk_ilog("core-system console command: " . $cmd);
+            if (igk_str_startwith($cmd, '--')){
+                $out = \IGK\System\Console\BalafonCommand::Exec($cmd);
+                $n->Content = $out ?: __("(no output)");
+            } else {
+                $out = shell_exec($cmd);
+                $n->Content = $out ?: __('(no output)');
+            }
+        }
+        echo $n->render();
+        igk_exit();
     }
     /**
     * auto generate doc.
@@ -1715,6 +1848,14 @@ EOF;
     {
         $this->SelectedConfigCtrl = null;
         $this->setpage("phpinfo", 1);
+    }
+    /**
+     * 
+     * @return void 
+     */
+    public function show_core_system(){
+        $this->SelectedConfigCtrl = null;
+        $this->setpage("core-system", 1);
     }
     /**
      * auto generate doc.

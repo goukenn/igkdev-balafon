@@ -13,6 +13,7 @@ use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKAppType;
+use IGKEvents;
 use IGKException;
 use ReflectionException;
 use stdClass;
@@ -303,11 +304,16 @@ class App implements ICLICommandApp
     {
         igk_hook("console::app_boot", $this);
     }
+    /**
+     * 
+     * @param mixed ...$text 
+     * @return void 
+     */
     public function print(...$text)
     {
         $cl = Logger::GetColorizer();
         foreach ($text as $s) {
-            if ($cl) {
+            if ($cl && $s) {
                 $s = $cl($s);
             }
             echo $s . PHP_EOL;
@@ -356,8 +362,10 @@ class App implements ICLICommandApp
                     }
                 } else {
                     if (isset($cmd[0][0])) {
+                        $v_command = $cmd[0][0];
                         $c = func_get_args();
-                        $cmd[0][0]->help(...$c);
+                        igk_hook(IGKEvents::FILTER_HELP_COMMAND, ['command'=>$v_command, 'options'=>& $v_command->options, '_type'=>'help']);
+                        $v_command->help(...$c);
                     }
                 }
             }

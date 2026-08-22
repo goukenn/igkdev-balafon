@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Configuration;
 
+
 /**
  * represent the xpath configuration
  */

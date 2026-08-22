@@ -26,8 +26,7 @@ use IGK\System\Console\BalafonApplication;
 use IGK\System\Console\Commands\ResetDbCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
-use IGK\System\Database\IDatabaseHost;
-use IGK\System\Database\MySQL\BooleanQueryResult;
+use IGK\System\Database\IDatabaseHost; 
 use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -44,7 +43,7 @@ use IGKEvents;
 use IGKException;
 use IGKLog;
 use IGKModuleListMigration;
-use IGK\IDataAdapter;
+use IGK\IDataAdapter; 
 use mysqli;
 use ReflectionException;
 use TypeError;
@@ -147,9 +146,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         $g = null;
         $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
-        $q = trim(igk_getr("clQuery"));
+        $q = trim(igk_getr("clQuery", ''), ' ;');
         $data = null;
-        if (empty($q) || !igk_is_conf_connected())
+        if (empty($q) || ((php_sapi_name() != 'cli') && !igk_is_conf_connected()))
             igk_exit();
         if (!preg_match("#^(SELECT|UPDATE|DELETE|SHOW|ALTER|INSERT|CREATE|DROP) (.)+#i", $q)) {
             igk_wl("/!\\" . __("Query not allowed : {0}", $q));
@@ -187,7 +186,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $dv->div()
                     ->setStyle("min-height:80px; line-height:1")
                     ->tablehost()->setClass("posab fit overflow-y-a")
-                    ->addDbResult($g, $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
+                    ->addDbResult($g ? $r : [], $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
+
+                igk_wln_e($dv->renderAJX());
                 if ($data) {
                     $headers = array_keys($data->getRowAtIndex(0)->to_array());
                     array_unshift($headers, ' ');
@@ -1933,38 +1934,38 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     */
     public function getTablesFor($ctrl, $include_dependency = false)
     {
-        die("deprecated " . __METHOD__);
-        return null;
-        if (is_string($ctrl)) {
-            $h = igk_getctrl($ctrl);
-            if ($h == null)
-                return false;
-            $ctrl = $h;
-        }
-        $t = array();
-        $tab = &$this->getLoadTables();
-        foreach ($tab as $k => $v) {
-            if ($v == $ctrl) {
-                $t[$k] = $k;
-            }
-        }
-        if ($include_dependency) {
-            $s = array_merge($t, array());
-            while ($s && (igk_count($s) > 0)) {
-                $d = array_pop($s);
-                $tabinfo = $this->getDataTableDefinition($d, false);
-                if (!$tabinfo)
-                    continue;
-                $info = igk_array_object_refkey(igk_getv($tabinfo, "ColumnInfo"), IGK_FD_NAME);
-                foreach ($info as $m => $n) {
-                    if (!isset($n->clLinkType) || isset($s[$n->clLinkType]) || isset($t[$n->clLinkType]))
-                        continue;
-                    $s[$n->clLinkType] = $n->clLinkType;
-                    $t[$n->clLinkType] = $n->clLinkType;
-                }
-            }
-        }
-        return $t;
+        igk_die("deprecated " . __METHOD__. " use schema instead");
+        // return null;
+        // if (is_string($ctrl)) {
+        //     $h = igk_getctrl($ctrl);
+        //     if ($h == null)
+        //         return false;
+        //     $ctrl = $h;
+        // }
+        // $t = array();
+        // $tab = &$this->getLoadTables();
+        // foreach ($tab as $k => $v) {
+        //     if ($v == $ctrl) {
+        //         $t[$k] = $k;
+        //     }
+        // }
+        // if ($include_dependency) {
+        //     $s = array_merge($t, array());
+        //     while ($s && (igk_count($s) > 0)) {
+        //         $d = array_pop($s);
+        //         $tabinfo = $this->getDataTableDefinition($d, false);
+        //         if (!$tabinfo)
+        //             continue;
+        //         $info = igk_array_object_refkey(igk_getv($tabinfo, "ColumnInfo"), IGK_FD_NAME);
+        //         foreach ($info as $m => $n) {
+        //             if (!isset($n->clLinkType) || isset($s[$n->clLinkType]) || isset($t[$n->clLinkType]))
+        //                 continue;
+        //             $s[$n->clLinkType] = $n->clLinkType;
+        //             $t[$n->clLinkType] = $n->clLinkType;
+        //         }
+        //     }
+        // }
+        // return $t;
     }
     /**
     * auto generate doc.
@@ -2100,23 +2101,37 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             igk_set_header(403);
             igk_navtocurrent();
         }
-        require_once IGK_LIB_DIR . "/igk_html_utils.php";
-        $success = 1;
-        $is_ajx = igk_is_ajx_demand();
-        $not = $this->notifyctrl();
-        set_time_limit(0);
-        igk_set_env(__FUNCTION__, 1);
-        if (igk_environment()->isOPS()) {
+
+         if (igk_environment()->isOPS()) {
             if (!igk_qr_confirm()) {
                 igk_ajx_toast(__('need to "confirm" before reset mysql database'));
                 igk_exit();
             }
         }
+
+        return self::_StartpinitSDb($this, $nav, $clean);
+    }
+    /**
+     * 
+     * @param mixed $ctrl 
+     * @param bool $nav 
+     * @param mixed $clean 
+     * @return void 
+     */
+    public static function _StartpinitSDb($ctrl, $nav=true, $clean=null){
+    
+        require_once IGK_LIB_DIR . "/igk_html_utils.php";
+        $success = 1;
+        $is_ajx = igk_is_ajx_demand();
+        $not = $ctrl->notifyctrl();
+        set_time_limit(0);
+        igk_set_env(__FUNCTION__, 1);
+       
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
-        DBCaches::Reset();
+        DBCaches::Reset(); 
         igk_module_inject_all();
-        $db = $this->getDataAdapter();
+        $db = $ctrl->getDataAdapter();
         $clean = $clean ?? igk_getr('clean') ?? false;
         if ($db->connect()) {
             $command = new ResetDbCommand;
@@ -2140,6 +2155,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             } 
             $db->close();
         }
+        igk_wl(json_encode(['error'=>"debug", "script"=>"alert"]));
+        igk_exit();
+
         if ($nav && !$is_ajx) {
             igk_close_session();
             igk_ob_clean();

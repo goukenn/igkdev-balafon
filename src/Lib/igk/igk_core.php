@@ -23,6 +23,7 @@ use IGK\Helper\StringUtility as stringUtility;
 use IGK\Helper\SysUtils;
 use IGK\Helper\TraitHelper;
 use IGK\Server;
+use IGK\System\Http\StatusCode;
 use IGK\System\IArrayKeyExists;
 use IGK\System\IO\Path;
 use IGK\System\Number;
@@ -1044,6 +1045,17 @@ function igk_wln($msg = "")
     }
     foreach (func_get_args() as $k) {
         $msg = $k;
+        if (is_bool($k)){
+            $cl = 'red';
+            $v = 'false';
+            if ($k){
+                $cl = 'green';
+                $v = 'true';
+            }
+            echo '<span class="igk-text" style="color: '.$cl.';">'.$v.'</span>';
+            continue;
+        }
+
         if (is_string($msg) || is_numeric($msg)) {
             echo ($msg . $lf);
         } else {
@@ -2466,12 +2478,20 @@ function igk_set_header(int $code, $message = "", $headers = [])
         }
     }
     igk_clear_header_list();
-    $msg = igk_get_header_status($code);
-    $txt = "Status: {$code} $msg";
+    $txt = null;
+    $msg = '';
+    if ( StatusCode::IsSupportedStatus($code)){
+        $msg = igk_get_header_status($code);
+        $txt = "Status: {$code} $msg";
+    }
+    else {
+        $txt = 'Status: 500 '.StatusCode::GetStatus(500);
+    }  
     $is_dev = igk_environment()->isDev();  
     if (!$fcall) {
         if ($new) {
             header($txt);
+            
             $is_dev && header(IGK_FRAMEWORK . ":" . IGK_CODE_NAME . "-" . IGK_VERSION);
             // + | -----------------------------------------------------------------
             // + | for new security strict on https request demand 

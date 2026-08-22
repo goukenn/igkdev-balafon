@@ -870,6 +870,7 @@ $l["menu.global"] = "Système";
 $l["menu.google.sdk"] = "SDK";
 $l["menu.gotoindex"] = "Page d'accueil";
 $l["menu.groupauth"] = "Autorisations";
+$l["Authorization"] = "Autorisations";
 $l["menu.groupconfig"] = "Groupes";
 $l["menu.groups"] = "Groupes";
 $l["menu.guide"] = "Guide";

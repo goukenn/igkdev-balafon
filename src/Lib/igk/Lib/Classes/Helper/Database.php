@@ -24,6 +24,7 @@ use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGKEvents;
 use IGKException;
+use IGKModuleListMigration;
 use IGKSysUtil;
 use IGKType;
 use ReflectionException;
@@ -115,7 +116,6 @@ class Database
                 $t = $s . ' ';
             }
             $sb->appendLine(sprintf("@method static %s%s(%s) macros function definition ", $t, $method->getName(), $ps));
-            
         }
         return $sb . '';
     }
@@ -136,7 +136,7 @@ class Database
             igk_die('failed to resolve model');
         }
         $s = null;
-        $ctrl = $instance->getClassResolver(); 
+        $ctrl = $instance->getClassResolver();
         $path = Constants::NS_MACROS_CLASS . '\\' .
             ucfirst(basename(igk_uri(get_class($instance)))) . 'Macros';
         $s = $ctrl->resolveClass($path);
@@ -157,7 +157,7 @@ class Database
                 if (is_null($value) && !$v_i->clNotNull) {
                     return $value;
                 }
-                if (!is_object($value) && self::IsNumber($v_i->clType)) {                    
+                if (!is_object($value) && self::IsNumber($v_i->clType)) {
                     return floatval($value);
                 }
             }
@@ -190,6 +190,19 @@ class Database
     {
         return igk_getv(self::$sm_shared_info, $n);
     }
+    public static function InitDataModel(BaseController $ctrl)
+    {
+        $d = $ctrl->getAllUsedModelInfoFromCache();
+        $def = [];
+        foreach ($d as $k => $info) {
+            if (!class_exists($k) || !file_exists(igk_sys_reflect_class($k)->getFileName())) {
+                $def[$info->tableName] = $info;
+            }
+        }
+        if ($def) {
+            $ctrl->InitDataBaseModel($def);
+        }
+    }
     /**
      * init controller database 
      * @param BaseController $controller 
@@ -198,6 +211,7 @@ class Database
     public static function InitData(BaseController $controller): bool
     {
         $controller->register_autoload();
+        self::InitDataModel($controller);
         if (($cl = $controller->resolveClass(EntryClassResolution::DbInitData)) && class_exists($cl, false)) {
             $call = true;
             // + | Check Init :
@@ -378,7 +392,7 @@ class Database
      * only for system an core
      * @param BaseController $controller
      * @param mixed $definitions
-     * @param array $definition table definition
+     * @param bool $force force
      * @return void
      */
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force)
@@ -516,8 +530,9 @@ class Database
         ];
         if ($link && $notnull && $linknotnulldefaultvalue) {
             if ($model = self::GetModelFromLinkColumn($link)) {
-                $r = self::ResolveLinkValue($model, $linknotnulldefaultvalue);
-                return $r->{$linkcolumn} ?? igk_die('missing value');
+                if ($r = self::ResolveLinkValue($model, $linknotnulldefaultvalue)) {
+                    return $r->{$linkcolumn} ?? igk_die('missing value on table', 1, 'ERROR_MISSING_TABLE_LINK');
+                }
             }
         }
         return null;
@@ -547,5 +562,53 @@ class Database
                 return $model;
             }
         }
+    }
+    /**
+     * get IGKModuleListMigration from system module 
+     * @return IGKModuleListMigration|null 
+     */
+    public static function ModuleMigrations()
+    {
+        if ($modules = igk_get_modules()) {
+            $list = array_filter(array_map(function ($c, $k) {
+                if ($mod = igk_get_module($k)) {
+                    return $mod;
+                }
+            }, $modules, array_keys($modules)));
+            return IGKModuleListMigration::Create($list);
+        }
+    }
+
+    /**
+     * 
+     * @param mixed $ad 
+     * @param string $table 
+     * @return mixed
+     */
+    public static function DumpData($ad, string $table, & $error = null)
+    {
+        /**
+         * @var IGKCSVDataAdapter
+         */
+        $adapter = igk_get_data_adapter('CSV');
+        $v_tbname = $table;
+        $out = '';
+        $query = $ad->getGrammar()->createSelectQuery($v_tbname);
+        $r = $ad->sendQuery($query);
+        if ($r) {
+            $out .= $v_tbname . IGK_LF;
+            $out .= $adapter->toCSVLineEntry($r->Columns, "name") . IGK_LF;
+            if ($r->Rows) {
+                foreach ($r->Rows as $e) {
+                    $out .= $adapter->toCSVLineEntry($e) . IGK_LF;
+                }
+            } else {
+                $warn[] = ("notice: no data row for [" . $v_tbname . "]\r\n");
+            }
+            $out .= "\0" . IGK_LF;
+        } else {
+            $error[] = ("error: mysql adapter failed");
+        }
+        return $out;
     }
 }

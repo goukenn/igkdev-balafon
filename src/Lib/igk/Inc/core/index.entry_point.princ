@@ -33,4 +33,4 @@ require_once IGK_APP_DIR."/Lib/igk/igk_framework.php";
 // + | ----------------------------------------------------
 // + | Boot and run application
 // + |
-IGKApplication::Boot('web')->run(__FILE__); 
+IGKApplication::Boot(IGKApplication::WEB_TYPE)->run(__FILE__); 

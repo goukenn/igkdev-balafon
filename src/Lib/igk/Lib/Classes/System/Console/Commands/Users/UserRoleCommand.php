@@ -3,43 +3,54 @@
 // @file: UserRoleCommand.php
 // @date: 20230704 14:17:10
 namespace IGK\System\Console\Commands\Users;
+
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
 
 /**
-* auto generate doc.
-* @package IGK\System\Console\Commands\Users
-*/
-class UserRoleCommand extends AppExecCommand{
+ * auto generate doc.
+ * @package IGK\System\Console\Commands\Users
+ */
+class UserRoleCommand extends AppExecCommand
+{
     /**
-    * Property: command.
-    * @var mixed
-    */
-    var $command='--users:role';
+     * Property: command.
+     * @var mixed
+     */
+    var $command = '--users:role';
     /**
-    * Property: desc.
-    * @var mixed
-    */
-    var $desc='get user\'s roles';
+     * Property: desc.
+     * @var mixed
+     */
+    var $desc = 'get user\'s roles';
 	/* var $options=[]; */
     /**
-    * Property: category.
-    * @var mixed
-    */
+     * Property: category.
+     * @var mixed
+     */
     var $category = self::USER_CAT;
     /**
-    * Exec.
-    * @param mixed $command
-    * @param null|string $user
-    */
-    public function exec($command, ?string $user=null) {  
-		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
-		$auths = $user->auths();
-		$data = [
-			'member_of'=> array_map(ModelHelper::MapToArray(),  $user->groups()), 
-			'authorizations'=> array_map(ModelHelper::MapToArray(), $auths)
-		];		
-		echo json_encode((object)$data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .PHP_EOL; 
-		return 0;
-	}
+     * Exec.
+     * @param mixed $command
+     * @param null|string $user
+     */
+    public function exec($command, ?string $user = null)
+    {
+        $user = igk_get_user_bylogin($user) ?? igk_die('missing user');
+        $auths = $user->auths();
+        $data = [
+            'member_of' => array_map(ModelHelper::MapToArray(),  $user->groups()),
+            'authorizations' => array_map(function ($r) {
+                $n = $r->name;
+                if (false !== strpos($n, '@')) {
+                    if ($r->controller == explode('@' , $n, 2)[0]) {
+                        return $n;
+                    }
+                }
+                return (array)$r->to_array();
+            }, $auths)
+        ];
+        echo json_encode((object)$data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL;
+        return 0;
+    }
 }

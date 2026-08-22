@@ -35,6 +35,9 @@ use IGK\Constants;
 
 use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Configuration\ProjectConfiguration;
+use IGK\System\Console\Helper\ConsoleUtility;
+use IGK\System\IO\Cache\FS;
+use IGK\System\IO\FileSystem;
 use IGK\System\Traits\HookNameTrait;
 use IGKEvents;
 use IGKGD;
@@ -83,9 +86,10 @@ class MakeProjectCommand extends AppExecCommand
         "--configs" => "setup project config",
         "--git" => "flag: to enabled git configuration",
         "--conf-default" => "flag: to allow default configuration",
-        "--force" => "flag force create project",
-        "--no-config" => "flag disable auto configuration",
+        "--force" => "flag: force create project",
+        "--no-config" => "flag: disable auto configuration",
         "--conf:[name=value]" => "set configuration",
+        "--reset"=> 'flag: clear folder if exists',
         "--version" => "application version"
     ];
     /**
@@ -106,6 +110,7 @@ class MakeProjectCommand extends AppExecCommand
      */
     public function exec($command, $controller = "")
     {
+        
         if (empty($controller)) {
             return false;
         }
@@ -118,6 +123,30 @@ class MakeProjectCommand extends AppExecCommand
         }
         $controller = StringUtility::CamelClassName($controller);
         $dir = igk_io_projectdir() . "/" . $controller;
+        list($v_clearcache, $v_reset) = igk_prop_exists($command->options, '--clearcache|--reset');
+        if ($v_reset && is_dir($dir)){
+            Logger::info('reset directory');
+            FS::ClearCacheFile();
+            IO::RmDir($dir);
+        }
+
+        $this->_make($command, $dir, $controller);
+       
+     
+        if (empty(igk_configs()->default_controller)) {
+            $cnf = igk_configs();
+            $cnf->default_controller = $controller;
+            $cnf->saveData(true);
+        }
+        Logger::info('init database schema');
+        $this->initDbController($controller, $dir);
+         if ($v_clearcache){
+            \IGK\Helper\SysUtils::ClearCache(null, true);
+        } 
+        Logger::success("output: " . $dir);
+        Logger::success("done\n");
+    }
+    protected function _make($command, $dir, $controller){
         Logger::info(__("Make project ... {0}",  $controller));
         $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
@@ -464,16 +493,7 @@ class MakeProjectCommand extends AppExecCommand
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
-        \IGK\Helper\SysUtils::ClearCache(null, true);
-        Logger::info("output: " . $dir);
-        if (empty(igk_configs()->default_controller)) {
-            $cnf = igk_configs();
-            $cnf->default_controller = $clname;
-            $cnf->saveData(true);
-        }
-        Logger::info('init database schema');
-        $this->initDbController($controller, $dir);
-        Logger::success("done\n");
+      
     }
     /**
      * retrieve properties default value 
@@ -691,6 +711,7 @@ class MakeProjectCommand extends AppExecCommand
         Logger::print("Usage : ");
         Logger::print(App::Gets(App::GREEN, $this->command) . Logger::TabSpace . " name [options]\n");
         Logger::info("Options");
+        ksort($this->options);
         foreach ($this->options as $k => $v) {
             Logger::print(App::Gets(App::GREEN, $k) . Logger::TabSpace . " $v \n");
         }
@@ -746,11 +767,10 @@ class MakeProjectCommand extends AppExecCommand
     {
         return implode("\n", [
             "/**",
-            " * @var object \$t",
-            " * @var object \$doc",
+            " * @var mixed \$t",
+            " * @var mixed \$doc",
             "*/",
-            "\$doc->title = \$this->getName();",
-            "\$t->clearChilds();",
+            "\$doc->title = \$this->getName();", 
             "\$t->div()->h1()->Content = \"Hello !!! \".\$this->getName();",
         ]);
     }

@@ -184,6 +184,9 @@ function igk_db_fetch_assoc($r){
 */
 function igk_db_query(string $query, $res = null)
 { 
+    if ("SELECT * FROM `tbassimil_lesson_level_types` WHERE `id`='1' AND `code`='A1' AND `display_name`='Débutant (A1)';" == $query){
+        igk_wln_e("init entries");
+    }
     $g = DbQueryDriver::GetFunc("query");
     if (DbQueryDriver::Is("MySQLI")) { 
         if ($res) {

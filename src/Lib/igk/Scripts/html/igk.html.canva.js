@@ -341,11 +341,7 @@
         loadObj: function(uri, callback) {
             igk.ajx.get(uri, null, function(xhr) {
                 if (this.isReady()) {
-                    var obj = _eval(xhr.responseText);
-                    // console.debug(f);
-                    //var obj = igk.JSON.parse(xhr.responseText);
-                    // console.debug("loead ....");
-                    //load 
+                    var obj = _eval(xhr.responseText);                 
                     if (obj && obj.length == 1) {
                         callback(obj[0]);
                     }

@@ -20,6 +20,15 @@ use JsonSerializable;
 class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, JsonSerializable
 {
     use JsonSerializableTrait;
+
+    /**
+     * check if isset 
+     * @param string $name 
+     * @return bool 
+     */
+    public function __isset(string $name): bool{
+        return is_array($this->p_data) ? isset($this->p_data[$name]) : isset($this->p_data);
+    }
     /**
     * .ctr
     * @param mixed $data

@@ -3,209 +3,237 @@
 // @filename: content.phtml
 // @date: 20220803 13:51:47
 // @desc: 
+
+use IGK\Controllers\SysDbController;
+use IGK\Database\DbSchemas;
+
 use function igk_resources_gets as __;
 
-if (igk_server()->accept("json")){
-    $_code = ($_code = $Ex->getCode())==0? 500 : $_code;
+/**
+ * @var mixed $Ex
+ * @var mixed $content
+ * @var mixed $title
+ * @var mixed $traces
+ * @var mixed $tab
+ * @var mixed $line
+ */
+
+if (igk_server()->accept("json")) {
+    $_code = ($_code = $Ex->getCode()) == 0 ? 500 : $_code;
+    if (in_array($_code, [1452, 1048, 1062, 1063])) {
+        /**
+         * @var \IGK\System\Database\MySQL\DataAdapter
+         */
+        $ad = SysDbController::ctrl(true)->getDataAdapter();
+        igk_json([
+            "code" => $_code,
+            "type"=>"exception",
+            "msg"=>$Ex->getMessage(),
+            "last query"=> $ad->getLastQuery()
+        ]);
+    }
+
     igk_json([
-        "error"=>true,
-        "message"=>$Ex->getMessage(),
-        "code"=>$_code,
-    ], $_code); 
-} 
+        '_from' => 'inc_',
+        "message" => $Ex->getMessage(),
+        "error" => true,
+        "code" => $_code,
+    ], $_code);
+}
+$content .= '';
 $display_error = ini_get("display_errors");
 $is_prod = !igk_server_is_local() && !igk_configs()->error_debug && igk_sys_env_production();
 $base_path = $is_prod;
 $cl1 = "#ddd";
 $w_padding = "20px";
 $content .= ("<div style='height:100%' > ");
-    $content .= ("<h1 style=\" white-space: nowrap; background-color: #efefef; padding: {$w_padding} 20px;\">/!\\ ERROR </h1>");
-    if($title){
-        $content .= ("<h2>".$title."</h2>");
+$content .= ("<h1 style=\" white-space: nowrap; background-color: #efefef; padding: {$w_padding} 20px;\">/!\\ ERROR </h1>");
+if ($title) {
+    $content .= ("<h2>" . $title . "</h2>");
+}
+$class = $is_prod ? "prod" : "dev";
+$content .= ("<div style=\"color: $cl1; padding: 0px 20px; \">");
+$content .= ("<ul class=\"google-Roboto-Condensed $class\" >");
+$from = "";
+$tx = $Ex->getPrevious();
+while ($tx) {
+    $file = (($file != null) ? $file : $tx->getFile());
+    $from .= "<div> From : <span>" . get_class($tx) . "</span>";
+    $from .= "<ul>";
+    $from .= ("<li><span>File: </span>" . ($base_path ? igk_io_basepath($file) : $file) . ":" .
+        (($line != null) ? $line : $tx->getLine())
+        . "</li>");
+    $from .= '<li><span>Message: </span>' . $tx->getMessage() . '</li>';
+    $from .= "</ul>";
+    $from . "</div>";
+    $tx = $tx->getPrevious();
+}
+if (!$is_prod) {
+    if (!empty($m = $Ex->getMessage())) {
+        $content .= ("<li><span>Message: </span>" . $m . "</li>");
     }
-    $class = $is_prod ? "prod" : "dev";
-    $content .= ("<div style=\"color: $cl1; padding: 0px 20px; \">");
-    $content .= ("<ul class=\"google-Roboto-Condensed $class\" >");
-    $from = "";
-    $tx = $Ex->getPrevious();
-    while($tx){
-        $file = (($file != null) ? $file: $tx->getFile());
-        $from .= "<div> From : <span>".get_class($tx)."</span>";
-        $from .= "<ul>";
-        $from .= ("<li><span>File: </span>". ($base_path ? igk_io_basepath($file) : $file ).":".
-        (($line != null) ? $line: $tx->getLine())
-        ."</li>");   
-        $from.= '<li><span>Message: </span>'.$tx->getMessage().'</li>';
-        $from .= "</ul>";
-        $from ."</div>";
-        $tx = $tx->getPrevious();
-    } 
-    if(!$is_prod){
-        if (!empty($m = $Ex->getMessage())){
-            $content .= ("<li><span>Message: </span>".$m."</li>");
-        }
-        if (($s = $Ex->getCode())>0){
-            $content .= ("<li><span>Code: </span>".$s."</li>");
-        }
-        $content .= ("<li><span>Exception Type :</span>".get_class($Ex)."</li>");
-        $file = (($file != null) ? $file: $Ex->getFile());
-        $content .= ("<li><span>File :</span>". ($base_path ? igk_io_basepath($file) : $file )."</li>");
-        $content .= ("<li><span>Line :</span> ".(($line != null) ? $line: $Ex->getLine())."</li>");        
-        $content .= "</ul>";
-        if (!empty($from)){
-            $content .= $from;
-        }
-        $tabs = [
-            "Stack traces"=>function(&$content)use($Ex, $traces, $base_path){
-                $content .= "<div>";        
-                $content .= igk_get_exception_eval($Ex, $traces);     
-                $content .= ("</div>");
-                $content .= ("<div id=\"tracelist\" class=\"igk-tracelist\" style=\"overflow:hidden\" >");
-                $content .= ("<h2 id=\"hd\">Trace :</h2>");
-                $content .= ("<div style=\"overflow-x:auto; width:100%;\" >");
-                $content .= ("<table style=\"min-width:450px;\" >");
-                foreach($traces as  $v){
-                    $content .= ("<tr style=\"margin-bottom:4px; background-color:#efefef; line-height:1.4em; text-overflow: ellipsis; overflow:hidden; white-space: nowrap !important;\">");
-                    if(isset($v["file"])){
-                        $file = $base_path ? igk_io_basepath($v["file"]) : $v["file"];
-                        $content .= ("<td style=\"white-space: nowrap !important;\">File :</td><td style=\"color: #349bdd;\"> ".$file. "</td><td>".$v["line"]."</td><td>".igk_getv($v, "function")."</td>");
-                    }
-                    else{
-                        $content .= ("<td style=\"white-space: nowrap !important;\">File :</td><td> &amp;</td><td style=\"color: #349bdd;\">".igk_getv($v, "line", "__INLINE__")."</td><td>".igk_getv($v, "function")."</td>");
-                    }
-                    $content .= "</tr>";
+    if (($s = $Ex->getCode()) > 0) {
+        $content .= ("<li><span>Code: </span>" . $s . "</li>");
+    }
+    $content .= ("<li><span>Exception Type :</span>" . get_class($Ex) . "</li>");
+    $file = (($file != null) ? $file : $Ex->getFile());
+    $content .= ("<li><span>File :</span>" . ($base_path ? igk_io_basepath($file) : $file) . "</li>");
+    $content .= ("<li><span>Line :</span> " . (($line != null) ? $line : $Ex->getLine()) . "</li>");
+    $content .= "</ul>";
+    if (!empty($from)) {
+        $content .= $from;
+    }
+    $tabs = [
+        "Stack traces" => function (&$content) use ($Ex, $traces, $base_path) {
+            $content .= "<div>";
+            $content .= igk_get_exception_eval($Ex, $traces);
+            $content .= ("</div>");
+            $content .= ("<div id=\"tracelist\" class=\"igk-tracelist\" style=\"overflow:hidden\" >");
+            $content .= ("<h2 id=\"hd\">Trace :</h2>");
+            $content .= ("<div style=\"overflow-x:auto; width:100%;\" >");
+            $content .= ("<table style=\"min-width:450px;\" >");
+            foreach ($traces as  $v) {
+                $content .= ("<tr style=\"margin-bottom:4px; background-color:#efefef; line-height:1.4em; text-overflow: ellipsis; overflow:hidden; white-space: nowrap !important;\">");
+                if (isset($v["file"])) {
+                    $file = $base_path ? igk_io_basepath($v["file"]) : $v["file"];
+                    $content .= ("<td style=\"white-space: nowrap !important;\">File :</td><td style=\"color: #349bdd;\"> " . $file . "</td><td>" . $v["line"] . "</td><td>" . igk_getv($v, "function") . "</td>");
+                } else {
+                    $content .= ("<td style=\"white-space: nowrap !important;\">File :</td><td> &amp;</td><td style=\"color: #349bdd;\">" . igk_getv($v, "line", "__INLINE__") . "</td><td>" . igk_getv($v, "function") . "</td>");
                 }
-                $content .= "</table>";
-                $content .= "</div>";
-                $content .= "</div>";
-            },
-            "Request"=>function(&$content){
-                $content .= "<table class=\"request\">";
-                $content .= "<tr>";
-                    $content .= "<td>&nbsp;</td>";
-                    $content .= "<td><b>Request</b></td>";
-                $content .= "</tr>";                
-                $content .= "<tr>";
-                    $content .= "<td>URL</td>";
-                    $content .= "<td>".igk_server()->REQUEST_URI."</td>";
-                $content .= "</tr>";  
-                $content .= "<tr>";  
-                    $content .= "<td>Method</td>";
-                    $content .= "<td>".igk_server()->REQUEST_METHOD."</td>";
-                $content .= "</tr>";  
-                $content .= "</table>";
-                $paggig = [
-                    "Headers"=>getallheaders(),
-                    "Body"=>[],
-                    "Files"=>[],
-                    "Sessions"=>[],
-                    "Cookies"=>[]
-                ];
-                foreach($paggig as $k=>$v){
+                $content .= "</tr>";
+            }
+            $content .= "</table>";
+            $content .= "</div>";
+            $content .= "</div>";
+        },
+        "Request" => function (&$content) {
+            $content .= "<table class=\"request\">";
+            $content .= "<tr>";
+            $content .= "<td>&nbsp;</td>";
+            $content .= "<td><b>Request</b></td>";
+            $content .= "</tr>";
+            $content .= "<tr>";
+            $content .= "<td>URL</td>";
+            $content .= "<td>" . igk_server()->REQUEST_URI . "</td>";
+            $content .= "</tr>";
+            $content .= "<tr>";
+            $content .= "<td>Method</td>";
+            $content .= "<td>" . igk_server()->REQUEST_METHOD . "</td>";
+            $content .= "</tr>";
+            $content .= "</table>";
+            $paggig = [
+                "Headers" => getallheaders(),
+                "Body" => [],
+                "Files" => [],
+                "Sessions" => [],
+                "Cookies" => []
+            ];
+            foreach ($paggig as $k => $v) {
                 $content .= "<hr />";
                 $content .= "<table class=\"request\">";
                 $content .= "<tr>";
-                    $content .= "<td>&nbsp;</td>";
-                    $content .= "<td><b>".$k."</b></td>";
+                $content .= "<td>&nbsp;</td>";
+                $content .= "<td><b>" . $k . "</b></td>";
                 $content .= "</tr>";
-                if (empty($v)){
-                    $content .= "<tr>";  
+                if (empty($v)) {
+                    $content .= "<tr>";
                     $content .= "<td>&nbsp;</td><td>...</td>";
-                    $content .= "</tr>";  
-                }else{
-                    foreach($v as $t=>$m){
-                        $content .= "<tr>";  
-                        $content .= "<td>".$t."</td>";
-                        $content .= "<td>".$m."</td>";
-                    $content .= "</tr>";  
+                    $content .= "</tr>";
+                } else {
+                    foreach ($v as $t => $m) {
+                        $content .= "<tr>";
+                        $content .= "<td>" . $t . "</td>";
+                        $content .= "<td>" . $m . "</td>";
+                        $content .= "</tr>";
                     }
                 }
                 $content .= "</table>";
-                }
-            },
-            "Server"=>function(& $content){
-                $content .= "<table>";
-                foreach($_SERVER as $k=>$v){
-                    $content.= "<tr>";
-                    $content.= "<td>".$k;
-                    $content.= "</td>";
-                    $content.= "<td>";
-                    $content.= is_string($v) ? $v :  (is_array($v) ? implode("\n<br />", $v) : "object");
-                    $content.= "</td>";
-                    $content.= "</tr>";
-                }
-                $content .= "</table>";
-            },
-            "Environment" => function(& $content){
-                $c = IGKEnvironment::getInstance()->getEnvironments();
-                ksort($c);
-                $content .= "<table>";
-                foreach($c as $k=>$v){
-                    $tv = $v;
-                    if (is_array($tv)){
-                        $tv = "ARRAY[]";
-                    } else if (is_object($tv)){
-                        $tv = "OBJECT<".get_class($tv).">";
-                    }
-                    $content.= "<tr>";
-                    $content.= "<td>".$k;
-                    $content.= "</td>";
-                    $content.= "<td>";
-                    $content.= htmlspecialchars($tv);
-                    $content.= "</td>";
-                    $content.= "</tr>";
-                }
-                $content .= "</table>";
             }
-        ];
-        igk_hook("ERROR_DEBUG", ["info"=>& $tab]);
-        $mc = "<div class=\"tabcontrol\" style=\"overflow:hidden\" >";
-        $content .= "<ul class=\"menu\">";
-        foreach($tabs as $k=>$v){
-            $content .= "<li>";
-            $content .= "<a href=\"#\" >". $k ."</a>";
-            $content .= "</li>";
-            $mc.="<div class=\"tab dispn\">";
-            $v($mc);
-            $mc.="</div>";
-        }  
-        $mc.="</div>";      
-        $content .= "</ul>";
-        $content .= $mc;
-            $content .= "</div>";
-        $content .= "<div class='uti-action' style='padding:0 20px;'>";
-        if ($c_session = igk_getctrl(IGK_SESSION_CTRL, false)){
-            $buri = $c_session::getBaseFullUri();
-            if (session_id()){
-            $content .= ("<a href=\"".$buri."&f=ClearS\" class=\"igk-btn\" >". __("Clear session") ."</a>");
+        },
+        "Server" => function (&$content) {
+            $content .= "<table>";
+            foreach ($_SERVER as $k => $v) {
+                $content .= "<tr>";
+                $content .= "<td>" . $k;
+                $content .= "</td>";
+                $content .= "<td>";
+                $content .= is_string($v) ? $v : (is_array($v) ? implode("\n<br />", $v) : "object");
+                $content .= "</td>";
+                $content .= "</tr>";
             }
-            $content .= ("<a href=\"".$buri."&f=clearcache\" class=\"igk-btn\" >".__("Clear Cache")."</a>");
+            $content .= "</table>";
+        },
+        "Environment" => function (&$content) {
+            $c = IGKEnvironment::getInstance()->getEnvironments();
+            ksort($c);
+            $content .= "<table>";
+            foreach ($c as $k => $v) {
+                $tv = $v;
+                if (is_array($tv)) {
+                    $tv = "ARRAY[]";
+                } else if (is_object($tv)) {
+                    $tv = "OBJECT<" . get_class($tv) . ">";
+                }
+                $content .= "<tr>";
+                $content .= "<td>" . $k;
+                $content .= "</td>";
+                $content .= "<td>";
+                $content .= htmlspecialchars($tv);
+                $content .= "</td>";
+                $content .= "</tr>";
+            }
+            $content .= "</table>";
         }
-        $content .= ("<a href=\"".igk_io_baseuri()."\" class=\"igk-btn\" > Home </a>");
-        $content .= "</div>";
+    ];
+    igk_hook("ERROR_DEBUG", ["info" => &$tab]);
+    $mc = "<div class=\"tabcontrol\" style=\"overflow:hidden\" >";
+    $content .= "<ul class=\"menu\">";
+    foreach ($tabs as $k => $v) {
+        $content .= "<li>";
+        $content .= "<a href=\"#\" >" . $k . "</a>";
+        $content .= "</li>";
+        $mc .= "<div class=\"tab dispn\">";
+        $v($mc);
+        $mc .= "</div>";
     }
-    else{
-        $m = $Ex->getMessage();
-        $code = $Ex->getCode(); 
-        $content .="<li class=\"code-view\">".$code."</li>";   
-        if ($display_error){
-            $content .= "<li class='message-code' style='display:block; text-align:center; padding: 2em 10px; font-size: 0.9em; width: auto;'>".$m."</li>";
-        }
-        $content .= "</ul>"; 
-        header("bal-err-message: '{$m}'");
-        $p = $Ex->getPrevious();
-        if ($p && method_exists($p, "headers")){
-            if ($h = $p->headers()){
-                array_map(function($h){header($h);}, $h);
-            } 
-        }
-    }  
+    $mc .= "</div>";
+    $content .= "</ul>";
+    $content .= $mc;
     $content .= "</div>";
+    $content .= "<div class='uti-action' style='padding:0 20px;'>";
+    if ($c_session = igk_getctrl(IGK_SESSION_CTRL, false)) {
+        $buri = $c_session::getBaseFullUri();
+        if (session_id()) {
+            $content .= ("<a href=\"" . $buri . "&f=ClearS\" class=\"igk-btn\" >" . __("Clear session") . "</a>");
+        }
+        $content .= ("<a href=\"" . $buri . "&f=clearcache\" class=\"igk-btn\" >" . __("Clear Cache") . "</a>");
+    }
+    $content .= ("<a href=\"" . igk_io_baseuri() . "\" class=\"igk-btn\" > Home </a>");
     $content .= "</div>";
+} else {
+    $m = $Ex->getMessage();
+    $code = $Ex->getCode();
+    $content .= "<li class=\"code-view\">" . $code . "</li>";
+    if ($display_error) {
+        $content .= "<li class='message-code' style='display:block; text-align:center; padding: 2em 10px; font-size: 0.9em; width: auto;'>" . $m . "</li>";
+    }
+    $content .= "</ul>";
+    header("bal-err-message: '{$m}'");
+    $p = $Ex->getPrevious();
+    if ($p && method_exists($p, "headers")) {
+        if ($h = $p->headers()) {
+            array_map(function ($h) {
+                header($h);
+            }, $h);
+        }
+    }
+}
+$content .= "</div>";
+$content .= "</div>";
 $content .= "<noscript>";
 $content .= "Please activate javascript";
 $content .= "</noscript>";
 $content .= "<script type=\"text/javascript\" language=\"javascript\">";
-$content .= file_get_contents(IGK_LIB_DIR."/Inc/exceptions/base.js");
+$content .= file_get_contents(IGK_LIB_DIR . "/Inc/exceptions/base.js");
 $content .= "</script>";
 return $content;

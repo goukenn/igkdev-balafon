@@ -27,7 +27,7 @@ class TreatViewContent
      * @param bool $no_cache 
      * @return null|mixed 
      */
-    public function treat(BaseController $ctrl, string $file, $no_cache = false)
+    public function treat(BaseController $ctrl, string $file, $no_cache = false, ...$params)
     {
        // igk_wln_e('not expired. treat .... sd', ob_get_level());
         $ext = igk_io_path_ext($file);
@@ -87,12 +87,13 @@ class TreatViewContent
             throw $ex;
         } catch (Exception $ex) {
             if (!igk_environment()->no_handle_error && igk_environment()->isDev() && !defined("IGK_TEST_INIT")) {
-                igk_ilog("INC VIEW ERROR:::" . $ex->getMessage());
-                $rp = realpath(igk_environment()->last($key));
                 $src = $ex->getFile();
+                $msg = $ex->getMessage();
+                igk_ilog("INC VIEW ERROR: " . $msg);
+                $rp = realpath(igk_environment()->last($key));
                 $code = $ex->getCode();
                 if ($code) {
-                    igk_set_header($code);
+                    igk_set_header($code); 
                 }
                 igk_environment()->isDev() && igk_dev_wln_e(
                     implode("\n", [
@@ -101,7 +102,7 @@ class TreatViewContent
                         "<body>",
                         "<h2>INC VIEW ERROR</h2>" . $rp,
                         "<div>" . $ex->getMessage() . "</div>",
-                        $rp == $ex->getFile() ? $ex->getFile() . ":" . $ex->getLine() : '',
+                        $rp == $src ? $src. ":" . $ex->getLine() : '',
                         implode("<br />", array_map(function ($e) use ($src) {
                             $file = igk_getv($e, "file");
                             $line = igk_getv($e, "line");

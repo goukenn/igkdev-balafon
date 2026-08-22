@@ -159,4 +159,14 @@ class PhpHelper{
         }
         return $s;
     }
+    /**
+     * replace type callback to allow callable if (@)type 
+     * @param mixed &$callback 
+     * @return void 
+     */
+    public static function ResolveTypeCallback(& $callback){
+        if ($callback && is_string($callback) && !is_callable($callback)){
+            $callback = str_replace('@', '::', $callback);
+        }
+    }
 }

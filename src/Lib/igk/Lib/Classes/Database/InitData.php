@@ -20,16 +20,16 @@ class InitData extends InitBase{
     */
     public static function Init(ControllersSysDbController $controller){ 
 		// + | init phone books type 
-		foreach(PhonebookTypeNames::GetConstants() as $v){
-			PhoneBookTypes::insertIfNotExists([
-				PhoneBookTypes::FD_NAME => $v,
-				PhoneBookTypes::FD_CARDINALITY=>0
-			]);
-		}
-		foreach(
-			igk_get_class_constants(LayoutRules::class) 
-		as $k=>$v){
-			Configurations::AddIfNotExists(strtolower('winui.'.$k),$v);
-		}
+		// foreach(PhonebookTypeNames::GetConstants() as $v){
+		// 	PhoneBookTypes::insertIfNotExists([
+		// 		PhoneBookTypes::FD_NAME => $v,
+		// 		PhoneBookTypes::FD_CARDINALITY=>0
+		// 	]);
+		// }
+		// foreach(
+		// 	igk_get_class_constants(LayoutRules::class) 
+		// as $k=>$v){
+		// 	Configurations::AddIfNotExists(strtolower('winui.'.$k),$v);
+		// }
 	}
 }

@@ -147,15 +147,9 @@ if (!function_exists('igk_io_file_exists')) {
     function igk_io_file_exists(string $file, bool $autocheck =false): bool
     {        
         static $FS;
-        if (IGKApp::IsInit()) {
+        if (IGKApp::IsInit()) {            
             if (is_null($FS)) {
-                $FS = new FS();
-                $FS->loadCache();
-                $env_outside = igk_env_count_get('file_exists_outside');
-                if ($env_outside){
-                    igk_environment()->getDebugger()->fs_filesystem_check_counter = 
-                    $env_outside; 
-                }
+                $FS = FS::getInstance();              
             } 
             return $FS->fileExists($file, $autocheck);
         }

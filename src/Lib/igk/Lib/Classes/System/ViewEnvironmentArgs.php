@@ -9,8 +9,10 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\Resources\R;
 use IGK\System\Controllers\ControllerSysKeyConstants;
 use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Http\Request;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -24,6 +26,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     use ArrayAccessSelfTrait;
     /**
      * target node 
+     * @var HtmlNode
      */
     var $t;
     /**
@@ -200,6 +203,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var ?string
      */
     var $subdomain;
+
+    /**
+     * the current lang 
+     * @var mixed
+     */
+    var $lang;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -236,6 +245,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
         }
         $def = $doc->getTheme();
         $request = Request::getInstance();
+        $lang = R::GetCurrentLang();
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

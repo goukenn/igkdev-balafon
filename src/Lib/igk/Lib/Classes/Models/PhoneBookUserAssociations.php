@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20260806 19:49:23
+// @date: 20260821 14:07:37
 namespace IGK\Models;
 
 
@@ -11,28 +11,28 @@ use IGK\Models\ModelBase;
 * User's Phone books
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
-* @property int $usrphb_Id
-* @property string $usrphb_UserGuid
-* @property string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid
-* @property string $usrphb_Create_At ="Now()"
-* @property string $usrphb_Update_At ="Now()"
-* @method static string FN_USRPHB_ID() - `usrphb_Id` full column name 
-* @method static string FN_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
-* @method static string FN_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 
-* @method static string FN_USRPHB_CREATE_AT() - `usrphb_Create_At` full column name 
-* @method static string FN_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
-* @method static ?array joinOnRcphbUsrphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
-* @method static ?string targetOnRcphbUsrphbId() - macros function
-* @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string $usrphb_Create_At ="Now()", string $usrphb_Update_At ="Now()") add entry if not exists. check for unique column.
+* @property int $id
+* @property string $UserGuid
+* @property string|?\IGK\Models\PhoneBookEntries $PhoneBookEntryGuid
+* @property string $Create_At ="Now()"
+* @property string $Update_At ="Now()"
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_USER_GUID() - `UserGuid` full column name 
+* @method static string FN_PHONE_BOOK_ENTRY_GUID() - `PhoneBookEntryGuid` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
+* @method static ?array joinOnRcphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static ?string targetOnRcphbId() - macros function
+* @method static ?self Add(string $UserGuid, string|?\IGK\Models\PhoneBookEntries $PhoneBookEntryGuid, string $Create_At ="Now()", string $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string $UserGuid, string|?\IGK\Models\PhoneBookEntries $PhoneBookEntryGuid, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * @method static mixed getEntries() macros function definition
 * */
 class PhoneBookUserAssociations extends ModelBase{
-	const FD_USRPHB_ID="rcphb_usrphb_Id";
-	const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
-	const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
-	const FD_USRPHB_CREATE_AT="usrphb_Create_At";
-	const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
+	const FD_ID="rcphb_id";
+	const FD_USER_GUID="rcphb_UserGuid";
+	const FD_PHONE_BOOK_ENTRY_GUID="rcphb_PhoneBookEntryGuid";
+	const FD_CREATE_AT="rcphb_Create_At";
+	const FD_UPDATE_AT="rcphb_Update_At";
 	/**
 	* table's name
 	*/
@@ -40,20 +40,16 @@ class PhoneBookUserAssociations extends ModelBase{
 	/**
 	* override primary key 
 	*/
-	protected $primaryKey = "rcphb_usrphb_Id";
+	protected $primaryKey = "rcphb_id";
 	/**
 	* override refid key 
 	*/
-	protected $refId = "rcphb_usrphb_Id";
-	/**
-	*override display key
-	*/
-	protected $display = "rcphb_usrphb_UserGuid";
+	protected $refId = "rcphb_id";
 	protected $unique_columns = array (
 	  0 => 
 	  array (
-	    0 => 'rcphb_usrphb_UserGuid',
-	    1 => 'rcphb_usrphb_PhoneBookEntryGuid',
+	    0 => 'rcphb_UserGuid',
+	    1 => 'rcphb_PhoneBookEntryGuid',
 	  ),
 	);
 }

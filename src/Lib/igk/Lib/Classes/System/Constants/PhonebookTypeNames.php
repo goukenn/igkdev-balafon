@@ -16,6 +16,11 @@ abstract class PhonebookTypeNames{
     * @var mixed
     */
     const PHT_LOCALE = 'locale';
+
+    /**
+     * 
+     */
+    const PHT_BILL_ADDRESS = 'bill adress';
     /**
     * Constant: pht name.
     * @var mixed

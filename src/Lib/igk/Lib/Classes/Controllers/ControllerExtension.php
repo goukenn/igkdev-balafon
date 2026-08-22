@@ -675,12 +675,17 @@ abstract class ControllerExtension
     /**
      * get default autorization name
      * @param BaseController $ctrl 
-     * @param string $name 
+     * @param string $name auth name  
+     * @param string[] ...$extra more authorisations 
      * @return mixed 
      */
-    public static function authName(BaseController $ctrl, string $name): string
+    public static function authName(BaseController $ctrl, string $name, ...$extra): string
     {
         $cl = get_class($ctrl);
+        if ($extra){
+            array_unshift($extra, $name);
+            $name = implode ('|', $extra);
+        }
         if (-1 !== strpos($name, '|')) {
             $r = array_map(function ($a) use ($cl) {
                 return StringUtility::AuthorizationPath($a, $cl);
@@ -917,6 +922,7 @@ abstract class ControllerExtension
         $force = false,
         $clean = false
     ) {
+        $is_debug = igk_is_debug();
         // + | --------------------------------------------------------------------
         // + | INIT CONTROLLER MODELS 
         // + |
@@ -943,10 +949,12 @@ abstract class ControllerExtension
         }
         $factory = [];
         if ($tb) {
+            $sys_c = ($ctrl instanceof SysDbController);
             $model_init =
-                !($ctrl instanceof SysDbController) ?
-                DBCachesModelInitializer::InitMigration($tb) :
-                null;
+               // !$sys_c ?
+                DBCachesModelInitializer::InitMigration($tb)// :
+                //($sys_c ? true: null)
+                ;
             if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
                 foreach ($tb as $v) {
                     $table = null;
@@ -958,7 +966,7 @@ abstract class ControllerExtension
                             continue;
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
-                            Logger::info("generate db model class :=> " . $file);
+                            $is_debug && Logger::info("generate db model class :=> " . $file);
                             igk_io_w2file($file,  $definitionHandler->getModelDefaultSourceDeclaration(
                                 $name,
                                 $table,

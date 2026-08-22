@@ -9,6 +9,7 @@ use IGK\Helper\Activator;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
+use IGKEvents;
 
 /**
  * Base class of Balafon System's Application Project Profile
@@ -101,7 +102,8 @@ abstract class SystemUserProfile implements IUserProfile
         $c->m_profile = $userInfo;
         $c->m_model = $userInfo->model();
         $c->m_controller = $controller;
-        if ($c->m_projectUser->isNew()){
+        // igk_wln_e(__FILE__.":".__LINE__ , "the project user: ", $c->m_projectUser); 
+        if ($c->m_projectUser && $c->m_projectUser->isNew()){
             $c->registerProfile(); 
         }
         return $c;
@@ -120,6 +122,7 @@ abstract class SystemUserProfile implements IUserProfile
             }else{
                 list($column, $prop) = $l->getdbCacheColumnList($model_class);
                 if (is_null($v_user = $model_class::GetCache($column, $u->{$prop}))){
+                    igk_hook(IGKEvents::HOOK_LOGIN_NEW_PROFILE, ['user'=>$u, 'model_class'=>$model_class, 'manager'=>$l]);
                     $v_user = $l->createNewProjectUser($u, $model_class);
                 }
                 ($l->m_projectUser = $v_user) || igk_die('failed to register project user');

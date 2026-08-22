@@ -225,7 +225,7 @@ IGKRoutes::Register("^/robots.txt$", function(){
 IGKRoutes::Register("^/(index\.php/)?\{(:guid)\}(/(:path+))?[%q%]", function($guid, $query=null, $version=null){
     $sessid = session_id(); 
     if (!defined("IGK_INIT") && empty($sessid)) {
-        $app = IGKApplication::Boot('web'); 
+        $app = IGKApplication::Boot(IGKApplication::WEB_TYPE); 
         IGKApp::StartEngine($app);
     }
     if ( ($code = igk_server()->REDIRECT_STATUS) != 200){      

@@ -293,7 +293,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         $i++;
                         continue;
                     }
-                    igk_die(sprintf(__('argument %s not matching'), $i));
+                    igk_die(sprintf(__('argument %s not matching %s vs %s'), $i, get_class($c), $type));
                 }
                 if ($type == 'string') {
                     $targs[] = $c;

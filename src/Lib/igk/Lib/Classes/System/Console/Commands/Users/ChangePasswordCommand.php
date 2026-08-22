@@ -47,7 +47,7 @@ class ChangePasswordCommand extends AppExecCommand{
     public function exec($command, ?string $user=null, ?string $newPassword = null) { 
 		if ($newPassword && $user && ($v_tu = igk_get_user_bylogin($user))){ 
 			$v_tu->changePassword($newPassword);
-			Logger::success("done");
+			Logger::success("password updated");
 		}else {
 			Logger::danger("failed to change password");
 			return -1;

@@ -50,9 +50,13 @@ class GroupCommand extends AppExecCommand
             $groups = $user->groups();
             Logger::info("group result : ");
             Logger::SetColorizer(new Colorize);
-            Logger::print(
-                 JSon::Encode($groups, null, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-            );
+            if ($groups) {
+                Logger::print(
+                    JSon::Encode($groups, null, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+                );
+            } else {
+                Logger::print('no group found');
+            }
             echo PHP_EOL;
         }
     }

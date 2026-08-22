@@ -6,12 +6,17 @@
 use IGK\System\Console\Logger;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
+use IGK\Controllers\SysDbController;
+
 // + | --------------------------------------------------------------------
 // + | RESET DATABASE
 // + |
 
 /**
  * @var BaseController $controller 
+ * @var bool $force
+ * @var bool $navigate
+ * @var bool $clean
  */
 $funcName = RootControllerBase::MACRO_RESETDB_METHOD;
 $s_iscmd = igk_is_cmd();
@@ -40,7 +45,7 @@ $is_connect = $db->isConnect();
 if ($deflog === null) {
     Logger::print("db-name: " . igk_configs()->db_name);
     Logger::print("db-server: " . igk_configs()->db_server);
-    Logger::print("dropdb ... " . ($force ? "--force" : ""));
+    Logger::print("dropdb ... " . ($force ? "--force" : "-no-forcing"));
     Logger::print("dataadapter: " . $controller->getDataAdapterName());
     Logger::print("isconnect: " . $is_connect);
     Logger::print("name: " . get_class($db));
@@ -50,9 +55,10 @@ if ($deflog === null) {
 }
 if (!$is_connect) {
     Logger::danger('driver not connected');
-    // return false;
+    //return false;
 }
-$controller->dropDb(false, $force);
+if ($controller instanceof SysDbController)
+    $controller->dropDb(false, $force);
 igk_set_env("sys://db_init_table/ctrl", $controller);
 Logger::info("init controller db ... ");
 $controller->initDb($force, $clean);

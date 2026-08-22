@@ -45,13 +45,13 @@ use IGK\System\UriResolver;
 use function igk_resources_gets as __;
 
 if (!function_exists("igk_css_link_callback")) {
-    /**
-    * function igk_css_link_callback
-    * @param mixed $p
-    * @param mixed $key
-    * @param mixed $href
-    * @return mixed
-    */
+	/**
+	 * function igk_css_link_callback
+	 * @param mixed $p
+	 * @param mixed $key
+	 * @param mixed $href
+	 * @return mixed
+	 */
 	function igk_css_link_callback($p, $key, $href)
 	{
 		$g = $p->getParam($key);
@@ -66,22 +66,22 @@ if (!function_exists("igk_css_link_callback")) {
 	}
 }
 if (!function_exists("igk_file_content")) {
-    /**
-    * encapsulate file_get_contents
-    * @param mixed $file
-    * @return mixed
-    */
+	/**
+	 * encapsulate file_get_contents
+	 * @param mixed $file
+	 * @return mixed
+	 */
 	function igk_file_content($file)
 	{
 		return file_get_contents($file);
 	}
 }
 if (!function_exists("igk_html_node_cdata")) {
-    /**
-    * create a cdata node
-    * @param mixed $value
-    * @return mixed
-    */
+	/**
+	 * create a cdata node
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	function igk_html_node_cdata($value = null)
 	{
 		$v = (new XmlNode("!CDATA"));
@@ -90,11 +90,11 @@ if (!function_exists("igk_html_node_cdata")) {
 	}
 }
 if (!function_exists("igk_html__tabbutton_add")) {
-    /**
-    * function igk_html__tabbutton_add
-    * @param mixed $q
-    * @return mixed
-    */
+	/**
+	 * function igk_html__tabbutton_add
+	 * @param mixed $q
+	 * @return mixed
+	 */
 	function igk_html__tabbutton_add($q)
 	{
 		$n = igk_create_node("div");
@@ -103,36 +103,36 @@ if (!function_exists("igk_html__tabbutton_add")) {
 	}
 }
 if (!function_exists("igk_html_add_context_menu_item")) {
-    /**
-    * function igk_html_add_context_menu_item
-    * @param mixed $n
-    * @param mixed $uri
-    * @param mixed $display
-    * @return mixed
-    */
+	/**
+	 * function igk_html_add_context_menu_item
+	 * @param mixed $n
+	 * @param mixed $uri
+	 * @param mixed $display
+	 * @return mixed
+	 */
 	function igk_html_add_context_menu_item($n, $uri, $display)
 	{
 		$n->li()->addA($uri)->Content = $display;
 	}
 }
 if (!function_exists("igk_html_callback_ajx_lnksettarget")) {
-    /**
-    * function igk_html_callback_ajx_lnksettarget
-    * @param mixed $n
-    * @param mixed $p
-    * @return mixed
-    */
+	/**
+	 * function igk_html_callback_ajx_lnksettarget
+	 * @param mixed $n
+	 * @param mixed $p
+	 * @return mixed
+	 */
 	function igk_html_callback_ajx_lnksettarget($n, $p)
 	{
 		$n["igk-lnk-target"] = $p;
 	}
 }
 if (!function_exists("igk_html_callback_alinktn")) {
-    /**
-    * function igk_html_callback_alinktn
-    * @param mixed $n
-    * @return mixed
-    */
+	/**
+	 * function igk_html_callback_alinktn
+	 * @param mixed $n
+	 * @return mixed
+	 */
 	function igk_html_callback_alinktn($n)
 	{
 		$n->setStyle("width: " . $n->getParam('data')->w . "px; height: " . $n->getParam('data')->h . "px;");
@@ -143,13 +143,13 @@ if (!function_exists("igk_html_callback_alinktn")) {
 	}
 }
 if (!function_exists("igk_html_callback_ctrlview_acceptrender")) {
-    /**
-    * function igk_html_callback_ctrlview_acceptrender
-    * @param mixed $n
-    * @param mixed $s
-    * @param mixed $clear
-    * @return mixed
-    */
+	/**
+	 * function igk_html_callback_ctrlview_acceptrender
+	 * @param mixed $n
+	 * @param mixed $s
+	 * @param mixed $clear
+	 * @return mixed
+	 */
 	function igk_html_callback_ctrlview_acceptrender($n, $s, $clear = 1)
 	{
 		if ($clear) {
@@ -180,11 +180,11 @@ if (!function_exists("igk_html_callback_ctrlview_acceptrender")) {
 	}
 }
 if (!function_exists("igk_html_callback_replacecontent_acceptrender")) {
-    /**
-    * function igk_html_callback_replacecontent_acceptrender
-    * @param mixed $n
-    * @return mixed
-    */
+	/**
+	 * function igk_html_callback_replacecontent_acceptrender
+	 * @param mixed $n
+	 * @return mixed
+	 */
 	function igk_html_callback_replacecontent_acceptrender($n)
 	{
 		if (!$n->isVisible)
@@ -197,11 +197,11 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_code_copyright_callback")) {
-    /**
-    * function igk_html_code_copyright_callback
-    * @param mixed $ctrl
-    * @return mixed
-    */
+	/**
+	 * function igk_html_code_copyright_callback
+	 * @param mixed $ctrl
+	 * @return mixed
+	 */
 	function igk_html_code_copyright_callback($ctrl = null)
 	{
 		$s = ($ctrl ? igk_getv($ctrl->Configs, 'copyright') : null) ?? igk_configs()->get('copyright', IGK_COPYRIGHT);
@@ -212,13 +212,13 @@ if (!function_exists("igk_html_code_copyright_callback")) {
 	}
 }
 if (!function_exists("igk_html_community_view")) {
-    /**
-    * function __desc__
-    * @param mixed $n
-    * @param mixed $v
-    * @param mixed $k
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $n
+	 * @param mixed $v
+	 * @param mixed $k
+	 * @return mixed
+	 */
 	function igk_html_community_view($n, $v, $k)
 	{
 		if (is_object($v) || is_array($v)) {
@@ -233,11 +233,11 @@ if (!function_exists("igk_html_community_view")) {
 	}
 }
 if (!function_exists("igk_html_create_container_section")) {
-    /**
-    * utility to create a container section
-    * @param mixed $t
-    * @return mixed
-    */
+	/**
+	 * utility to create a container section
+	 * @param mixed $t
+	 * @return mixed
+	 */
 	function igk_html_create_container_section($t)
 	{
 		$dv = $t->div();
@@ -247,11 +247,11 @@ if (!function_exists("igk_html_create_container_section")) {
 	}
 }
 if (!function_exists("igk_html_handle_cssstyle")) {
-    /**
-    * handle used to render css style
-    * @param mixed $n
-    * @return mixed
-    */
+	/**
+	 * handle used to render css style
+	 * @param mixed $n
+	 * @return mixed
+	 */
 	function igk_html_handle_cssstyle($n)
 	{
 		$s = $n->Content;
@@ -292,14 +292,14 @@ if (!function_exists("igk_html_node_ViewCallback")) {
 	}
 }
 if (!function_exists("igk_html_node_a")) {
-    /**
-    * create winui-a
-    * @param mixed $href
-    * @param mixed $attributes string:target, array, set attributes 
-    * @param mixed $index
-    * @param mixed $content
-    * @return mixed
-    */
+	/**
+	 * create winui-a
+	 * @param mixed $href
+	 * @param mixed $attributes string:target, array, set attributes 
+	 * @param mixed $index
+	 * @param mixed $content
+	 * @return mixed
+	 */
 	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content = null)
 	{
 		$a = new HtmlANode();
@@ -321,12 +321,12 @@ if (!function_exists("igk_html_node_a")) {
 	}
 }
 if (!function_exists("igk_html_node_a_get")) {
-    /**
-    * function __desc__
-    * @param mixed $uri
-    * @param mixed $complete
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $uri
+	 * @param mixed $complete
+	 * @return mixed
+	 */
 	function igk_html_node_a_get($uri, $complete = '')
 	{
 		$a = igk_html_node_a("#");
@@ -337,12 +337,12 @@ if (!function_exists("igk_html_node_a_get")) {
 	}
 }
 if (!function_exists("igk_html_node_a_post")) {
-    /**
-    * function __desc__
-    * @param mixed $uri
-    * @param mixed $complete
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $uri
+	 * @param mixed $complete
+	 * @return mixed
+	 */
 	function igk_html_node_a_post($uri, $complete = '')
 	{
 		$a = igk_html_node_a();
@@ -356,11 +356,11 @@ if (!function_exists("igk_html_node_a_post")) {
 	}
 }
 if (!function_exists("igk_html_node_abbr")) {
-    /**
-    * create winui-abbr
-    * @param mixed $title
-    * @return mixed
-    */
+	/**
+	 * create winui-abbr
+	 * @param mixed $title
+	 * @return mixed
+	 */
 	function igk_html_node_abbr($title = null)
 	{
 		$n = new HtmlNode("abbr");
@@ -370,13 +370,13 @@ if (!function_exists("igk_html_node_abbr")) {
 	}
 }
 if (!function_exists("igk_html_node_abtn")) {
-    /**
-    * auto generate doc.
-    * @param mixed $uri
-    * @param mixed $type
-    * @param string $role role
-    * @return HtmlItemBase|mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $uri
+	 * @param mixed $type
+	 * @param string $role role
+	 * @return HtmlItemBase|mixed
+	 */
 	function igk_html_node_abtn($uri = "#", $type = "default", $role = "button")
 	{
 		$n = igk_create_node("a");
@@ -388,14 +388,14 @@ if (!function_exists("igk_html_node_abtn")) {
 	}
 }
 if (!function_exists("igk_html_node_accordeon_menus")) {
-    /**
-    * auto generate doc.
-    * @param mixed $items
-    * @param mixed $engine
-    * @param mixed $tag
-    * @param string $item
-    * @return HtmlItemBase|mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $items
+	 * @param mixed $engine
+	 * @param mixed $tag
+	 * @param string $item
+	 * @return HtmlItemBase|mixed
+	 */
 	function igk_html_node_accordeon_menus($items, $engine = null, $tag = "ul", $item = "li")
 	{
 		$n = igk_html_node_menus($items, $engine, $tag, $item);
@@ -404,10 +404,10 @@ if (!function_exists("igk_html_node_accordeon_menus")) {
 	}
 }
 if (!function_exists("igk_html_node_aclearsandreload")) {
-    /**
-    * create winui-aclearsandreload
-    * @return mixed
-    */
+	/**
+	 * create winui-aclearsandreload
+	 * @return mixed
+	 */
 	function igk_html_node_aclearsandreload()
 	{
 		if (is_null($curi = igk_io_currentUri())) {
@@ -423,11 +423,11 @@ if (!function_exists("igk_html_node_aclearsandreload")) {
 	}
 }
 if (!function_exists("igk_html_node_actionbar")) {
-    /**
-    * create winui-actionbar
-    * @param array|callable $actions array or
-    * @return mixed
-    */
+	/**
+	 * create winui-actionbar
+	 * @param array|callable $actions array or
+	 * @return mixed
+	 */
 	function igk_html_node_actionbar($actions = null)
 	{
 		$n = igk_create_node("div");
@@ -461,11 +461,11 @@ if (!function_exists("igk_html_node_actiongroup")) {
 	}
 }
 if (!function_exists("igk_html_node_actions")) {
-    /**
-    * function __desc__
-    * @param mixed $actionlist
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $actionlist
+	 * @return mixed
+	 */
 	function igk_html_node_actions($actionlist)
 	{
 		$p = igk_html_parent_node() ?? igk_create_notagnode();
@@ -487,22 +487,22 @@ if (!function_exists("igk_html_node_actions")) {
 	}
 }
 if (!function_exists("igk_html_node_address")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_address()
 	{
 		return new \IGK\System\Html\Dom\HtmlNode("address");
 	}
 }
 if (!function_exists("igk_html_node_ajsbutton")) {
-    /**
-    * create winui-ajsbutton
-    * @param mixed $code
-    * @param mixed $type
-    * @return mixed
-    */
+	/**
+	 * create winui-ajsbutton
+	 * @param mixed $code
+	 * @param mixed $type
+	 * @return mixed
+	 */
 	function igk_html_node_ajsbutton($code, $type = 'default')
 	{
 		$n = igk_create_node("a");
@@ -513,12 +513,12 @@ if (!function_exists("igk_html_node_ajsbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_ajspickfile")) {
-    /**
-    * auto generate doc.
-    * @param mixed $u
-    * @param mixed $options
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $u
+	 * @param mixed $options
+	 * @return mixed
+	 */
 	function igk_html_node_ajspickfile($u, $options = null)
 	{
 		$n = igk_create_node("a");
@@ -534,14 +534,14 @@ if (!function_exists("igk_html_node_ajspickfile")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxa")) {
-    /**
-    * represent an ajx link. use to retrieve view from framework
-    * @param mixed $lnk
-    * @param string $target
-    * @param mixed $replacemode the content mode . value (content|node)
-    * @param string $method
-    * @return mixed
-    */
+	/**
+	 * represent an ajx link. use to retrieve view from framework
+	 * @param mixed $lnk
+	 * @param string $target
+	 * @param mixed $replacemode the content mode . value (content|node)
+	 * @param string $method
+	 * @return mixed
+	 */
 	function igk_html_node_ajxa($lnk = null, string $target = "", string $replacemode = 'content', string $method = "GET")
 	{
 		$dn = new HtmlNode("a");
@@ -554,11 +554,11 @@ if (!function_exists("igk_html_node_ajxa")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxabutton")) {
-    /**
-    * create winui-ajxabutton
-    * @param mixed $link
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxabutton
+	 * @param mixed $link
+	 * @return mixed
+	 */
 	function igk_html_node_ajxabutton($link)
 	{
 		$n = igk_html_node_ajxa($link);
@@ -567,11 +567,11 @@ if (!function_exists("igk_html_node_ajxabutton")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxappendto")) {
-    /**
-    * append async content
-    * @param mixed $cibling
-    * @return mixed
-    */
+	/**
+	 * append async content
+	 * @param mixed $cibling
+	 * @return mixed
+	 */
 	function igk_html_node_ajxappendto($cibling)
 	{
 		$n = igk_create_node("div");
@@ -581,11 +581,11 @@ if (!function_exists("igk_html_node_ajxappendto")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxdoctitle")) {
-    /**
-    * change the document code in ajx context
-    * @param mixed $title
-    * @return mixed
-    */
+	/**
+	 * change the document code in ajx context
+	 * @param mixed $title
+	 * @return mixed
+	 */
 	function igk_html_node_ajxdoctitle($title)
 	{
 		$n = igk_create_node("balafonJS");
@@ -594,12 +594,12 @@ if (!function_exists("igk_html_node_ajxdoctitle")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxform")) {
-    /**
-    * represent ajx form
-    * @param mixed $uri
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * represent ajx form
+	 * @param mixed $uri
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_ajxform($uri = null, $target = null)
 	{
 		$f = igk_create_node("form");
@@ -610,11 +610,11 @@ if (!function_exists("igk_html_node_ajxform")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxlnkreplace")) {
-    /**
-    * create winui-ajxlnkreplace
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxlnkreplace
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_ajxlnkreplace($target = "::")
 	{
 		$n = igk_create_node("div");
@@ -625,27 +625,27 @@ if (!function_exists("igk_html_node_ajxlnkreplace")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxpaginationview")) {
-    /**
-    * create winui-ajxpaginationview
-    * @param mixed $baseuri url
-    * @param mixed $total total number of items
-    * @param mixed $perpage items per page
-    * @param mixed $selected selected page
-    * @param mixed $target cibling
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxpaginationview
+	 * @param mixed $baseuri url
+	 * @param mixed $total total number of items
+	 * @param mixed $perpage items per page
+	 * @param mixed $selected selected page
+	 * @param mixed $target cibling
+	 * @return mixed
+	 */
 	function igk_html_node_ajxpaginationview($baseuri, $total, $perpage, $selected = 1, $target = null)
 	{
 		return igk_html_node_paginationView($baseuri, $total, $perpage, $selected, 1, null, $target);
 	}
 }
 if (!function_exists("igk_html_node_ajxpickfile")) {
-    /**
-    * ajx div component used to load a file
-    * @param string $uri
-    * @param ?string $param
-    * @return mixed
-    */
+	/**
+	 * ajx div component used to load a file
+	 * @param string $uri
+	 * @param ?string $param
+	 * @return mixed
+	 */
 	function igk_html_node_ajxpickfile(string $uri, ?string $param = null)
 	{
 		$u = igk_create_node('input');
@@ -657,12 +657,12 @@ if (!function_exists("igk_html_node_ajxpickfile")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxreplacecontent")) {
-    /**
-    * create winui-ajxreplacecontent
-    * @param mixed $uri
-    * @param mixed $method
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxreplacecontent
+	 * @param mixed $uri
+	 * @param mixed $method
+	 * @return mixed
+	 */
 	function igk_html_node_ajxreplacecontent($uri, $method = "GET")
 	{
 		$n = igk_create_notagnode();
@@ -673,11 +673,11 @@ if (!function_exists("igk_html_node_ajxreplacecontent")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxreplacesource")) {
-    /**
-    * create winui-ajxreplacesource
-    * @param mixed $selection
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxreplacesource
+	 * @param mixed $selection
+	 * @return mixed
+	 */
 	function igk_html_node_ajxreplacesource($selection)
 	{
 		$n = igk_create_node("div");
@@ -687,12 +687,12 @@ if (!function_exists("igk_html_node_ajxreplacesource")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxtabcomponent")) {
-    /**
-    * add tab component
-    * @param mixed $host
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * add tab component
+	 * @param mixed $host
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_ajxtabcomponent($host, $name)
 	{
 		$n = igk_create_node(
@@ -708,21 +708,21 @@ if (!function_exists("igk_html_node_ajxtabcomponent")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxtabcontrol")) {
-    /**
-    * create an ajx tab control component
-    * @return mixed
-    */
+	/**
+	 * create an ajx tab control component
+	 * @return mixed
+	 */
 	function igk_html_node_ajxtabcontrol()
 	{
 		return new \IGK\System\Html\Dom\HtmlAJXTabControlNode();
 	}
 }
 if (!function_exists("igk_html_node_ajxupdateview")) {
-    /**
-    * create winui-ajxupdateview
-    * @param mixed $cibling
-    * @return mixed
-    */
+	/**
+	 * create winui-ajxupdateview
+	 * @param mixed $cibling
+	 * @return mixed
+	 */
 	function igk_html_node_ajxupdateview($cibling)
 	{
 		$n = igk_create_node("div");
@@ -732,12 +732,12 @@ if (!function_exists("igk_html_node_ajxupdateview")) {
 	}
 }
 if (!function_exists("igk_html_node_ajxuriloader")) {
-    /**
-    * Igk html node ajxuriloader.
-    * @param mixed $uri
-    * @param mixed $append
-    * @return mixed
-    */
+	/**
+	 * Igk html node ajxuriloader.
+	 * @param mixed $uri
+	 * @param mixed $append
+	 * @return mixed
+	 */
 	function igk_html_node_ajxuriloader($uri, $append = 0)
 	{
 		$n = igk_create_node("div");
@@ -780,25 +780,25 @@ if (!function_exists("igk_html_node_app_hearder_bar")) {
 	}
 }
 if (!function_exists("igk_html_node_app_login_form")) {
-    /**
-    * function __desc__
-    * @param BaseController $controller
-    * @param ?string $entryfname
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param BaseController $controller
+	 * @param ?string $entryfname
+	 * @return mixed
+	 */
 	function igk_html_node_app_login_form(BaseController $controller, ?string $entryfname)
 	{
 		return $controller->getLoader()->getLayout()->loginForm();
 	}
 }
 if (!function_exists("igk_html_node_apploginform")) {
-    /**
-    * auto generate doc.
-    * @param mixed $app
-    * @param mixed $baduri
-    * @param mixed $goodUri the default value is null
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $app
+	 * @param mixed $baduri
+	 * @param mixed $goodUri the default value is null
+	 * @return mixed
+	 */
 	function igk_html_node_apploginform($app, $baduri = null, $goodUri = null)
 	{
 		igk_load_library("app_ctrl");
@@ -808,11 +808,11 @@ if (!function_exists("igk_html_node_apploginform")) {
 	}
 }
 if (!function_exists("igk_html_node_arraydata")) {
-    /**
-    * used to render data
-    * @param mixed $tab
-    * @return mixed
-    */
+	/**
+	 * used to render data
+	 * @param mixed $tab
+	 * @return mixed
+	 */
 	function igk_html_node_arraydata($tab)
 	{
 		if (!is_array($tab)) {
@@ -829,13 +829,13 @@ if (!function_exists("igk_html_node_arraydata")) {
 	}
 }
 if (!function_exists("igk_html_node_arraylist")) {
-    /**
-    * create winui-arraylist
-    * @param mixed $list
-    * @param mixed $tag
-    * @param mixed $callback
-    * @return mixed
-    */
+	/**
+	 * create winui-arraylist
+	 * @param mixed $list
+	 * @param mixed $tag
+	 * @param mixed $callback
+	 * @return mixed
+	 */
 	function igk_html_node_arraylist($list, $tag = "li", $callback = null)
 	{
 		$n = igk_create_notagnode();
@@ -850,14 +850,14 @@ if (!function_exists("igk_html_node_arraylist")) {
 	}
 }
 if (!function_exists("igk_html_node_article")) {
-    /**
-    * auto generate doc.
-    * @param ?BaseController $ctrl
-    * @param ?string $name
-    * @param mixed $raw
-    * @param int $showAdminOption
-    * @return HtmlNode
-    */
+	/**
+	 * auto generate doc.
+	 * @param ?BaseController $ctrl
+	 * @param ?string $name
+	 * @param mixed $raw
+	 * @param int $showAdminOption
+	 * @return HtmlNode
+	 */
 	function igk_html_node_article(?BaseController $ctrl = null, ?string $name = null,  $raw = [], $showAdminOption = 1)
 	{
 		if (is_null($ctrl) && is_null($name)) {
@@ -870,14 +870,14 @@ if (!function_exists("igk_html_node_article")) {
 	}
 }
 if (!function_exists("igk_html_node_loadArticle")) {
-    /**
-    * Igk html node load article.
-    * @param BaseController $controller
-    * @param string $article_path
-    * @param mixed $raw
-    * @param bool $show_admin_option
-    * @return mixed
-    */
+	/**
+	 * Igk html node load article.
+	 * @param BaseController $controller
+	 * @param string $article_path
+	 * @param mixed $raw
+	 * @param bool $show_admin_option
+	 * @return mixed
+	 */
 	function igk_html_node_loadArticle(BaseController $controller, string $article_path, $raw = [], bool $show_admin_option = true)
 	{
 		$n = igk_html_node_notagnode();
@@ -889,12 +889,12 @@ if (!function_exists("igk_html_node_loadArticle")) {
 	}
 }
 if (!function_exists("igk_html_node_assertnode")) {
-    /**
-    * auto generate doc.
-    * @param bool $condition
-    * @param mixed ...$args
-    * @return HtmlAssertNode
-    */
+	/**
+	 * auto generate doc.
+	 * @param bool $condition
+	 * @param mixed ...$args
+	 * @return HtmlAssertNode
+	 */
 	function igk_html_node_assertnode(bool $condition,  ...$args)
 	{
 		if (!($p = igk_html_parent_node())) {
@@ -905,11 +905,11 @@ if (!function_exists("igk_html_node_assertnode")) {
 }
 if (!function_exists("igk_html_node_attr_expression")) {
 	// + attribute expression only use for child node
-    /**
-    * Igk html node attr expression.
-    * @param null|mixed $p
-    * @return mixed
-    */
+	/**
+	 * Igk html node attr expression.
+	 * @param null|mixed $p
+	 * @return mixed
+	 */
 	function igk_html_node_attr_expression($p = null)
 	{
 		if ($p == null) {
@@ -921,12 +921,12 @@ if (!function_exists("igk_html_node_attr_expression")) {
 	}
 }
 if (!function_exists("igk_html_node_author_community")) {
-    /**
-    * render autocommunity node - system community link
-    * @param ?array $options
-    * @throws IGKException
-    * @return HtmlItemBase
-    */
+	/**
+	 * render autocommunity node - system community link
+	 * @param ?array $options
+	 * @throws IGKException
+	 * @return HtmlItemBase
+	 */
 	function igk_html_node_author_community(?array $options = null)
 	{
 		$n = igk_create_node("div");
@@ -935,11 +935,11 @@ if (!function_exists("igk_html_node_author_community")) {
 	}
 }
 if (!function_exists("igk_html_node_backgroundlayer")) {
-    /**
-    * create winui-backgroundlayer
-    * @param mixed $imgPath
-    * @return mixed
-    */
+	/**
+	 * create winui-backgroundlayer
+	 * @param mixed $imgPath
+	 * @return mixed
+	 */
 	function igk_html_node_backgroundlayer($imgPath = null)
 	{
 		$n = igk_create_node();
@@ -951,11 +951,11 @@ if (!function_exists("igk_html_node_backgroundlayer")) {
 	}
 }
 if (!function_exists("igk_html_node_badge")) {
-    /**
-    * auto generate doc.
-    * @param mixed $v
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $v
+	 * @return mixed
+	 */
 	function igk_html_node_badge($v)
 	{
 		$n = igk_create_node("span");
@@ -965,21 +965,21 @@ if (!function_exists("igk_html_node_badge")) {
 	}
 }
 if (!function_exists("igk_html_node_balafonComponentJS")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_balafonComponentJS()
 	{
 		return new \IGK\System\Html\Dom\HtmlBalafonJSComponentNode();
 	}
 }
 if (!function_exists("igk_html_node_balafonjs")) {
-    /**
-    * create winui-balafonjs
-    * @param mixed $autoremove
-    * @return mixed
-    */
+	/**
+	 * create winui-balafonjs
+	 * @param mixed $autoremove
+	 * @return mixed
+	 */
 	function igk_html_node_balafonjs($autoremove = 0)
 	{
 		$c = new \IGK\System\Html\Dom\HtmlBalafonJSNode();
@@ -987,21 +987,21 @@ if (!function_exists("igk_html_node_balafonjs")) {
 	}
 }
 if (!function_exists("igk_html_node_bar")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_bar()
 	{
 		return new \IGK\System\Html\Dom\HtmlBarNode();
 	}
 }
 if (!function_exists("igk_html_node_beforeRenderNextSibling")) {
-    /**
-    * use to configure node before next cibling rendering
-    * @param callable $callback
-    * @return \IGK\System\Html\Dom\HtmlBeforeRenderNextSiblingChildrenCallbackNode
-    */
+	/**
+	 * use to configure node before next cibling rendering
+	 * @param callable $callback
+	 * @return \IGK\System\Html\Dom\HtmlBeforeRenderNextSiblingChildrenCallbackNode
+	 */
 	function igk_html_node_beforeRenderNextSibling(callable $callback)
 	{
 		return new \IGK\System\Html\Dom\HtmlBeforeRenderNextSiblingChildrenCallbackNode($callback);
@@ -1024,14 +1024,14 @@ if (!function_exists("igk_html_node_bindMenu")) {
 	}
 }
 if (!function_exists("igk_html_node_bindarticle")) {
-    /**
-    * create winui-bindarticle
-    * @param mixed $ctrl
-    * @param mixed $name
-    * @param mixed $data
-    * @param mixed $showAdminOption
-    * @return mixed
-    */
+	/**
+	 * create winui-bindarticle
+	 * @param mixed $ctrl
+	 * @param mixed $name
+	 * @param mixed $data
+	 * @param mixed $showAdminOption
+	 * @return mixed
+	 */
 	function igk_html_node_bindarticle($ctrl, $name, $data = null, $showAdminOption = 1)
 	{
 		$n = igk_create_node();
@@ -1040,13 +1040,13 @@ if (!function_exists("igk_html_node_bindarticle")) {
 	}
 }
 if (!function_exists("igk_html_node_bindcontent")) {
-    /**
-    * create winui-bindcontent
-    * @param mixed $content
-    * @param mixed $entries
-    * @param mixed $ctrl
-    * @return mixed
-    */
+	/**
+	 * create winui-bindcontent
+	 * @param mixed $content
+	 * @param mixed $entries
+	 * @param mixed $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_bindcontent($content, $entries, $ctrl = null)
 	{
 		$n = igk_html_node_notagnode();
@@ -1055,14 +1055,14 @@ if (!function_exists("igk_html_node_bindcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_bindscript")) {
-    /**
-    * auto generate doc.
-    * @param mixed $data
-    * @param mixed $uri
-    * @param mixed $name
-    * @param null|bool $production
-    * @return null|HtmlItemBase
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $data
+	 * @param mixed $uri
+	 * @param mixed $name
+	 * @param null|bool $production
+	 * @return null|HtmlItemBase
+	 */
 	function igk_html_node_bindscript($data, $uri, $name, ?bool $production = null)
 	{
 		$p = igk_html_parent_node();
@@ -1088,10 +1088,10 @@ if (!function_exists("igk_html_node_bindscript")) {
 	}
 }
 if (!function_exists("igk_html_node_blocknode")) {
-    /**
-    * create winui-blocknode
-    * @return mixed
-    */
+	/**
+	 * create winui-blocknode
+	 * @return mixed
+	 */
 	function igk_html_node_blocknode()
 	{
 		$n = igk_create_xmlnode("igk-block-viewitem");
@@ -1101,10 +1101,10 @@ if (!function_exists("igk_html_node_blocknode")) {
 	}
 }
 if (!function_exists("igk_html_node_bodybox")) {
-    /**
-    * create winui-bodybox
-    * @return mixed
-    */
+	/**
+	 * create winui-bodybox
+	 * @return mixed
+	 */
 	function igk_html_node_bodybox()
 	{
 		$n = igk_create_node();
@@ -1113,10 +1113,10 @@ if (!function_exists("igk_html_node_bodybox")) {
 	}
 }
 if (!function_exists("igk_html_node_boxdialog")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_boxdialog()
 	{
 		$n = igk_create_node("div");
@@ -1125,14 +1125,14 @@ if (!function_exists("igk_html_node_boxdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_btn")) {
-    /**
-    * create winui-btn
-    * @param mixed $name
-    * @param mixed $value
-    * @param mixed $type
-    * @param mixed $attributes
-    * @return mixed
-    */
+	/**
+	 * create winui-btn
+	 * @param mixed $name
+	 * @param mixed $value
+	 * @param mixed $type
+	 * @param mixed $attributes
+	 * @return mixed
+	 */
 	function igk_html_node_btn($name, $value, $type = "submit", $attributes = null)
 	{
 		$btn = new HtmlNode("input");
@@ -1144,15 +1144,15 @@ if (!function_exists("igk_html_node_btn")) {
 	}
 }
 if (!function_exists("igk_html_node_buildselect")) {
-    /**
-    * build select node
-    * @param mixed $name
-    * @param mixed $rows
-    * @param mixed $idk
-    * @param mixed $callback
-    * @param mixed $selected
-    * @return mixed
-    */
+	/**
+	 * build select node
+	 * @param mixed $name
+	 * @param mixed $rows
+	 * @param mixed $idk
+	 * @param mixed $callback
+	 * @param mixed $selected
+	 * @return mixed
+	 */
 	function igk_html_node_buildselect($name, $rows, $idk, $callback = null, $selected = null)
 	{
 		$sl = igk_create_node("select")->setId($name)->setClass("igk-form-control");
@@ -1168,10 +1168,10 @@ if (!function_exists("igk_html_node_buildselect")) {
 	}
 }
 if (!function_exists("igk_html_node_bullet")) {
-    /**
-    * create winui-bullet
-    * @return mixed
-    */
+	/**
+	 * create winui-bullet
+	 * @return mixed
+	 */
 	function igk_html_node_bullet()
 	{
 		$n = igk_create_node();
@@ -1180,38 +1180,45 @@ if (!function_exists("igk_html_node_bullet")) {
 	}
 }
 if (!function_exists("igk_html_node_button")) {
-    /**
-    * create a button
-    * @param ?string $id
-    * @param mixed $button_type_or_content
-    * @param ?string $type
-    * @var string $id id for the button
-    * @var string $buttontype type submit|button
-    * @var string $type class type
-    * @return mixed
-    */
+	/**
+	 * create a button
+	 * @param ?string $id
+	 * @param mixed $button_type_or_content int: button type, array: attributes , other setContent 
+	 * @param ?string $type
+	 * @var string $id id for the button
+	 * @var string $buttontype type submit|button
+	 * @var string $type class type
+	 * @return mixed
+	 */
 	function igk_html_node_button(?string $id = null, $button_type_or_content = 0, ?string $type = null)
 	{
 		$n = new HtmlNode("button");
 		$n["class"] = "igk-btn";
+		// + | set id and name
+		$n->setId($id);
 		if ($type)
 			$n["class"] = "+igk-btn-{$type}";
 		if (is_int($button_type_or_content))
 			$n["type"] = igk_getv([1 => 'submit'], $button_type_or_content, 'button');
 		else {
-			$n->setContent($button_type_or_content);
+			if ($button_type_or_content) {
+				if (is_array($button_type_or_content)) {
+					$n->setAttributes($button_type_or_content);
+				} else {
+					$n->setContent($button_type_or_content);
+				}
+			}
 		}
-		// + | set id and name
-		$n->setId($id);
+
 		return $n;
 	}
 }
 if (!function_exists("igk_html_node_canvabalafonscript")) {
-    /**
-    * create winui-canvabalafonscript
-    * @param mixed $uri
-    * @return mixed
-    */
+	/**
+	 * create winui-canvabalafonscript
+	 * @param mixed $uri
+	 * @return mixed
+	 */
 	function igk_html_node_canvabalafonscript($uri = null)
 	{
 		$n = igk_create_node();
@@ -1223,10 +1230,10 @@ if (!function_exists("igk_html_node_canvabalafonscript")) {
 	}
 }
 if (!function_exists("igk_html_node_canvaeditorsurface")) {
-    /**
-    * create a canva editor surface
-    * @return mixed
-    */
+	/**
+	 * create a canva editor surface
+	 * @return mixed
+	 */
 	function igk_html_node_canvaeditorsurface()
 	{
 		$n = igk_create_node();
@@ -1235,12 +1242,12 @@ if (!function_exists("igk_html_node_canvaeditorsurface")) {
 	}
 }
 if (!function_exists("igk_html_node_cardid")) {
-    /**
-    * create winui-cardid
-    * @param mixed $src
-    * @param mixed $ctrl
-    * @return mixed
-    */
+	/**
+	 * create winui-cardid
+	 * @param mixed $src
+	 * @param mixed $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_cardid($src = null, $ctrl = null)
 	{
 		$n = igk_create_node("div");
@@ -1258,10 +1265,10 @@ if (!function_exists("igk_html_node_cardid")) {
 	}
 }
 if (!function_exists("igk_html_node_carousel")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_carousel()
 	{
 		$n = new  \IGK\System\Html\Dom\HtmlCarouselNode("div");
@@ -1276,10 +1283,10 @@ if (!function_exists("igk_html_node_carousel")) {
 	}
 }
 if (!function_exists("igk_html_node_cell")) {
-    /**
-    * create winui-cell
-    * @return mixed
-    */
+	/**
+	 * create winui-cell
+	 * @return mixed
+	 */
 	function igk_html_node_cell()
 	{
 		$n = igk_create_node();
@@ -1288,10 +1295,10 @@ if (!function_exists("igk_html_node_cell")) {
 	}
 }
 if (!function_exists("igk_html_node_cellrow")) {
-    /**
-    * create winui-cellrow
-    * @return mixed
-    */
+	/**
+	 * create winui-cellrow
+	 * @return mixed
+	 */
 	function igk_html_node_cellrow()
 	{
 		$n = igk_create_node();
@@ -1300,23 +1307,23 @@ if (!function_exists("igk_html_node_cellrow")) {
 	}
 }
 if (!function_exists("igk_html_node_centerbox")) {
-    /**
-    * create winui-centerbox
-    * @param mixed $content
-    * @return mixed
-    */
+	/**
+	 * create winui-centerbox
+	 * @param mixed $content
+	 * @return mixed
+	 */
 	function igk_html_node_centerbox($content = null)
 	{
 		return new IGK\System\Html\Dom\HtmlCenterBoxNode($content);
 	}
 }
 if (!function_exists("igk_html_node_checkbox")) {
-    /**
-    * create a web checkbox
-    * @param string $id id that identify the checkbox
-    * @param mixed $value value that need to referer the when checkbox is active
-    * @return mixed
-    */
+	/**
+	 * create a web checkbox
+	 * @param string $id id that identify the checkbox
+	 * @param mixed $value value that need to referer the when checkbox is active
+	 * @return mixed
+	 */
 	function igk_html_node_checkbox(string $id, $value = null)
 	{
 		$n = igk_create_node('input');
@@ -1327,10 +1334,10 @@ if (!function_exists("igk_html_node_checkbox")) {
 	}
 }
 if (!function_exists("igk_html_node_circlewaiter")) {
-    /**
-    * create winui-circlewaiter
-    * @return mixed
-    */
+	/**
+	 * create winui-circlewaiter
+	 * @return mixed
+	 */
 	function igk_html_node_circlewaiter()
 	{
 		$n = igk_create_node();
@@ -1339,10 +1346,10 @@ if (!function_exists("igk_html_node_circlewaiter")) {
 	}
 }
 if (!function_exists("igk_html_node_clearboth")) {
-    /**
-    * auto generate doc.
-    * @return mixed
-    */	function igk_html_node_clearboth()
+	/**
+	 * auto generate doc.
+	 * @return mixed
+	 */	function igk_html_node_clearboth()
 	{
 		$n = igk_create_node("div");
 		$n["style"] = "clear:both;";
@@ -1350,11 +1357,11 @@ if (!function_exists("igk_html_node_clearboth")) {
 	}
 }
 if (!function_exists("igk_html_node_clearfloatbox")) {
-    /**
-    * create winui-clearfloatbox
-    * @param mixed $t
-    * @return mixed
-    */
+	/**
+	 * create winui-clearfloatbox
+	 * @param mixed $t
+	 * @return mixed
+	 */
 	function igk_html_node_clearfloatbox($t = 'b')
 	{
 		$n = igk_create_node("br");
@@ -1363,10 +1370,10 @@ if (!function_exists("igk_html_node_clearfloatbox")) {
 	}
 }
 if (!function_exists("igk_html_node_cleartab")) {
-    /**
-    * create winui-cleartab
-    * @return mixed
-    */
+	/**
+	 * create winui-cleartab
+	 * @return mixed
+	 */
 	function igk_html_node_cleartab()
 	{
 		$n = igk_create_node();
@@ -1375,11 +1382,11 @@ if (!function_exists("igk_html_node_cleartab")) {
 	}
 }
 if (!function_exists("igk_html_node_clone")) {
-    /**
-    * helper: class dom element at location
-    * @param string $target
-    * @return mixed
-    */
+	/**
+	 * helper: class dom element at location
+	 * @param string $target
+	 * @return mixed
+	 */
 	function igk_html_node_clone(string $target)
 	{
 		$n = igk_create_node();
@@ -1389,12 +1396,12 @@ if (!function_exists("igk_html_node_clone")) {
 	}
 }
 if (!function_exists("igk_html_node_clonenode")) {
-    /**
-    * create winui-clonenode
-    * @param mixed $node
-    * @param mixed $children
-    * @return mixed
-    */
+	/**
+	 * create winui-clonenode
+	 * @param mixed $node
+	 * @param mixed $children
+	 * @return mixed
+	 */
 	function igk_html_node_clonenode(HtmlItemBase $node, $children = false)
 	{
 		$n = new \IGK\System\Html\Dom\HtmlCloneNode($node);
@@ -1403,11 +1410,11 @@ if (!function_exists("igk_html_node_clonenode")) {
 	}
 }
 if (!function_exists("igk_html_node_code")) {
-    /**
-    * create base php code
-    * @param mixed $type
-    * @return mixed
-    */
+	/**
+	 * create base php code
+	 * @param mixed $type
+	 * @return mixed
+	 */
 	function igk_html_node_code($type = 'php')
 	{
 		$n = new \IGK\System\Html\Dom\HtmlCodeNode();
@@ -1416,11 +1423,11 @@ if (!function_exists("igk_html_node_code")) {
 	}
 }
 if (!function_exists("igk_html_node_col")) {
-    /**
-    * create winui-col
-    * @param mixed $clname
-    * @return mixed
-    */
+	/**
+	 * create winui-col
+	 * @param mixed $clname
+	 * @return mixed
+	 */
 	function igk_html_node_col($clname = null)
 	{
 		if ($clname) {
@@ -1430,10 +1437,10 @@ if (!function_exists("igk_html_node_col")) {
 	}
 }
 if (!function_exists("igk_html_node_colviewbox")) {
-    /**
-    * column view item
-    * @return mixed
-    */
+	/**
+	 * column view item
+	 * @return mixed
+	 */
 	function igk_html_node_colviewbox()
 	{
 		$n = igk_create_node("div");
@@ -1442,13 +1449,13 @@ if (!function_exists("igk_html_node_colviewbox")) {
 	}
 }
 if (!function_exists("igk_html_node_combobox")) {
-    /**
-    * auto generate doc.
-    * @param mixed $id
-    * @param mixed $tab
-    * @param mixed $options the default value is null
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $id
+	 * @param mixed $tab
+	 * @param mixed $options the default value is null
+	 * @return mixed
+	 */
 	function igk_html_node_combobox($id, $tab, $options = null)
 	{
 		$n = igk_create_node("select")->setId($id);
@@ -1461,23 +1468,23 @@ if (!function_exists("igk_html_node_combobox")) {
 	}
 }
 if (!function_exists("igk_html_node_comment")) {
-    /**
-    * create comment node
-    * @param ?string $content
-    * @return HtmlCommentNode
-    */
+	/**
+	 * create comment node
+	 * @param ?string $content
+	 * @return HtmlCommentNode
+	 */
 	function igk_html_node_comment(?string $content = null)
 	{
 		return new HtmlCommentNode($content);
 	}
 }
 if (!function_exists("igk_html_node_communitylink")) {
-    /**
-    * create winui-communitylink
-    * @param mixed $name
-    * @param mixed $link
-    * @return mixed
-    */
+	/**
+	 * create winui-communitylink
+	 * @param mixed $name
+	 * @param mixed $link
+	 * @return mixed
+	 */
 	function igk_html_node_communitylink($name, $link)
 	{
 		$s = igk_create_node("div");
@@ -1488,12 +1495,12 @@ if (!function_exists("igk_html_node_communitylink")) {
 	}
 }
 if (!function_exists("igk_html_node_communitylinks")) {
-    /**
-    * create winui-communitylinks
-    * @param mixed $tab
-    * @param ?array $options
-    * @return mixed
-    */
+	/**
+	 * create winui-communitylinks
+	 * @param mixed $tab
+	 * @param ?array $options
+	 * @return mixed
+	 */
 	function igk_html_node_communitylinks($tab, ?array $options = null)
 	{
 		$symbols = igk_getv($options, "symbols");
@@ -1523,14 +1530,14 @@ if (!function_exists("igk_html_node_communitylinks")) {
 	}
 }
 if (!function_exists("igk_html_node_component")) {
-    /**
-    * used to create component
-    * @param mixed $listener
-    * @param mixed $typename
-    * @param mixed $regName
-    * @param mixed $unregister
-    * @return mixed
-    */
+	/**
+	 * used to create component
+	 * @param mixed $listener
+	 * @param mixed $typename
+	 * @param mixed $regName
+	 * @param mixed $unregister
+	 * @return mixed
+	 */
 	function igk_html_node_component($listener, $typename, $regName, $unregister = 0)
 	{
 		if ($unregister) {
@@ -1550,11 +1557,11 @@ if (!function_exists("igk_html_node_component")) {
 	}
 }
 if (!function_exists("igk_html_node_conditionalnode")) {
-    /**
-    * create a node that will only be visible on conditional callback is evaluted to true
-    * @param mixed $conditioncallback
-    * @return mixed
-    */
+	/**
+	 * create a node that will only be visible on conditional callback is evaluted to true
+	 * @param mixed $conditioncallback
+	 * @return mixed
+	 */
 	function igk_html_node_conditionalnode($conditioncallback)
 	{
 		$n = igk_create_node(__FUNCTION__);
@@ -1564,12 +1571,12 @@ if (!function_exists("igk_html_node_conditionalnode")) {
 	}
 }
 if (!function_exists("igk_html_node_configsubmenu")) {
-    /**
-    * auto generate doc.
-    * @param mixed $menuList
-    * @param mixed $selected
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $menuList
+	 * @param mixed $selected
+	 * @return mixed
+	 */
 	function igk_html_node_configsubmenu($menuList, $selected)
 	{
 		$ul = igk_create_node("ul")->setClass("igk-cnf-content_submenu");
@@ -1586,10 +1593,10 @@ if (!function_exists("igk_html_node_configsubmenu")) {
 	}
 }
 if (!function_exists("igk_html_node_container")) {
-    /**
-    * create a container
-    * @return \IGK\System\Html\Dom\HtmlItemBase
-    */
+	/**
+	 * create a container
+	 * @return \IGK\System\Html\Dom\HtmlItemBase
+	 */
 	function igk_html_node_container()
 	{
 		$n = igk_create_node('div');
@@ -1598,11 +1605,11 @@ if (!function_exists("igk_html_node_container")) {
 	}
 }
 if (!function_exists("igk_html_node_containerRowCol")) {
-    /**
-    * create a containerRowCol 
-    * @param mixed $style
-    * @return mixed
-    */
+	/**
+	 * create a containerRowCol 
+	 * @param mixed $style
+	 * @return mixed
+	 */
 	function igk_html_node_containerRowCol($style = "")
 	{
 		$p = igk_html_parent_node();
@@ -1611,11 +1618,11 @@ if (!function_exists("igk_html_node_containerRowCol")) {
 	}
 }
 if (!function_exists("igk_html_node_cookiewarning")) {
-    /**
-    * create winui-cookiewarning
-    * @param mixed $warnurl
-    * @return mixed
-    */
+	/**
+	 * create winui-cookiewarning
+	 * @param mixed $warnurl
+	 * @return mixed
+	 */
 	function igk_html_node_cookiewarning($warnurl = null)
 	{
 		$n = igk_create_node("div");
@@ -1628,11 +1635,11 @@ if (!function_exists("igk_html_node_cookiewarning")) {
 	}
 }
 if (!function_exists("igk_html_node_copyright")) {
-    /**
-    * create winui-copyright
-    * @param mixed $ctrl
-    * @return mixed
-    */
+	/**
+	 * create winui-copyright
+	 * @param mixed $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_copyright($ctrl = null)
 	{
 		$n = igk_create_node("div");
@@ -1643,12 +1650,12 @@ if (!function_exists("igk_html_node_copyright")) {
 	}
 }
 if (!function_exists("igk_html_node_csscomponentstyle")) {
-    /**
-    * create winui-csscomponentstyle
-    * @param mixed $file
-    * @param mixed $host
-    * @return mixed
-    */
+	/**
+	 * create winui-csscomponentstyle
+	 * @param mixed $file
+	 * @param mixed $host
+	 * @return mixed
+	 */
 	function igk_html_node_csscomponentstyle($file, $host = null)
 	{
 		$n = IGKCssComponentStyle::getInstance()->regFile($file, $host);
@@ -1656,13 +1663,13 @@ if (!function_exists("igk_html_node_csscomponentstyle")) {
 	}
 }
 if (!function_exists("igk_html_node_csslink")) {
-    /**
-    * add css link
-    * @param mixed $href
-    * @param mixed $temp
-    * @param mixed $defer
-    * @return mixed
-    */
+	/**
+	 * add css link
+	 * @param mixed $href
+	 * @param mixed $temp
+	 * @param mixed $defer
+	 * @return mixed
+	 */
 	function igk_html_node_csslink($href, $temp = 0, $defer = 0)
 	{
 		$p = igk_html_parent_node();
@@ -1710,12 +1717,12 @@ if (!function_exists("igk_html_node_csslink")) {
 	}
 }
 if (!function_exists("igk_html_node_cssstyle")) {
-    /**
-    * represent a css style element
-    * @param mixed $id
-    * @param mixed $minfile
-    * @return mixed
-    */
+	/**
+	 * represent a css style element
+	 * @param mixed $id
+	 * @param mixed $minfile
+	 * @return mixed
+	 */
 	function igk_html_node_cssstyle($id, $minfile = 1)
 	{
 		$o = igk_html_parent_node();
@@ -1734,13 +1741,13 @@ if (!function_exists("igk_html_node_cssstyle")) {
 	}
 }
 if (!function_exists("igk_html_node_ctrlview")) {
-    /**
-    * create winui-ctrlview
-    * @param mixed $view
-    * @param mixed $ctrl
-    * @param mixed $params
-    * @return mixed
-    */
+	/**
+	 * create winui-ctrlview
+	 * @param mixed $view
+	 * @param mixed $ctrl
+	 * @param mixed $params
+	 * @return mixed
+	 */
 	function igk_html_node_ctrlview($view, $ctrl, $params = null)
 	{
 		$n = igk_create_notagnode();
@@ -1761,13 +1768,13 @@ if (!function_exists("igk_html_node_dataschema")) {
 	}
 }
 if (!function_exists("igk_html_node_dbTableView")) {
-    /**
-    * create table view node
-    * @param mixed $tabResult
-    * @param mixed $theader
-    * @param mixed $header_prefix
-    * @return mixed
-    */
+	/**
+	 * create table view node
+	 * @param mixed $tabResult
+	 * @param mixed $theader
+	 * @param mixed $header_prefix
+	 * @return mixed
+	 */
 	function igk_html_node_dbTableView($tabResult, $theader = null, $header_prefix = "header.")
 	{
 		$n = igk_create_notagnode();
@@ -1853,10 +1860,10 @@ if (!function_exists("igk_html_node_dbTableView")) {
 	}
 }
 if (!function_exists("igk_html_node_dbdataschema")) {
-    /**
-    * create a data base schema node
-    * @return mixed
-    */
+	/**
+	 * create a data base schema node
+	 * @return mixed
+	 */
 	function igk_html_node_dbdataschema()
 	{
 		$rep = igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
@@ -1866,14 +1873,14 @@ if (!function_exists("igk_html_node_dbdataschema")) {
 	}
 }
 if (!function_exists("igk_html_node_dbentriescallback")) {
-    /**
-    * create winui-dbentriescallback
-    * @param mixed $target
-    * @param mixed $callback    
-    * @param mixed $queryResult
-    * @param mixed $fallback
-    * @return mixed
-    */
+	/**
+	 * create winui-dbentriescallback
+	 * @param mixed $target
+	 * @param mixed $callback    
+	 * @param mixed $queryResult
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
 	function igk_html_node_dbentriescallback($target, $callback, $queryResult, $fallback = null)
 	{
 		if ($queryResult && ($queryResult->RowCount > 0)) {
@@ -1891,15 +1898,15 @@ if (!function_exists("igk_html_node_dbentriescallback")) {
 	}
 }
 if (!function_exists("igk_html_node_dbresult")) {
-    /**
-    * create winui-dbresult
-    * @param mixed $r
-    * @param mixed $uri
-    * @param mixed $selected
-    * @param mixed $max
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * create winui-dbresult
+	 * @param mixed $r
+	 * @param mixed $uri
+	 * @param mixed $selected
+	 * @param mixed $max
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_dbresult($r, $uri, $selected, $max = -1, $target = null)
 	{
 		$n = igk_create_notagnode();
@@ -1909,14 +1916,14 @@ if (!function_exists("igk_html_node_dbresult")) {
 	}
 }
 if (!function_exists("igk_html_node_dbselect")) {
-    /**
-    * DataBase select component
-    * @param mixed $name
-    * @param mixed $result
-    * @param mixed $callback
-    * @param mixed $valuekey
-    * @return mixed
-    */
+	/**
+	 * DataBase select component
+	 * @param mixed $name
+	 * @param mixed $result
+	 * @param mixed $callback
+	 * @param mixed $valuekey
+	 * @return mixed
+	 */
 	function igk_html_node_dbselect($name, $result, $callback = null, $valuekey = IGK_FD_ID)
 	{
 		$n = new HtmlNode("select");
@@ -1986,12 +1993,12 @@ if (!function_exists("igk_html_node_defercsslink")) {
 	}
 }
 if (!function_exists("igk_html_node_definition")) {
-    /**
-    * function __desc__
-    * @param mixed $title
-    * @param mixed $def
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $title
+	 * @param mixed $def
+	 * @return mixed
+	 */
 	function igk_html_node_definition($title, $def)
 	{
 		$d = igk_create_node("dl");
@@ -2001,11 +2008,11 @@ if (!function_exists("igk_html_node_definition")) {
 	}
 }
 if (!function_exists("igk_html_node_definitions")) {
-    /**
-    * function __desc__
-    * @param mixed $args
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $args
+	 * @return mixed
+	 */
 	function igk_html_node_definitions($args)
 	{
 		if ($q = igk_html_parent_node()) {
@@ -2021,11 +2028,11 @@ if (!function_exists("igk_html_node_definitions")) {
 	}
 }
 if (!function_exists("igk_html_node_winui_dialog")) {
-    /**
-    * create a dialog host that will not being displayed<
-    * @param mixed $title
-    * @return mixed
-    */
+	/**
+	 * create a dialog host that will not being displayed<
+	 * @param mixed $title
+	 * @return mixed
+	 */
 	function igk_html_node_winui_dialog($title = null)
 	{
 		$n = igk_create_node("div");
@@ -2035,10 +2042,10 @@ if (!function_exists("igk_html_node_winui_dialog")) {
 	}
 }
 if (!function_exists("igk_html_node_dialog_circle_waiter")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_dialog_circle_waiter()
 	{
 		$bar = igk_create_node("boxdialog")->setClass("igk-dialog");
@@ -2047,11 +2054,11 @@ if (!function_exists("igk_html_node_dialog_circle_waiter")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogbox")) {
-    /**
-    * create a dialog box
-    * @param mixed $title
-    * @return mixed
-    */
+	/**
+	 * create a dialog box
+	 * @param mixed $title
+	 * @return mixed
+	 */
 	function igk_html_node_dialogbox($title)
 	{
 		$n = igk_create_node("div");
@@ -2064,10 +2071,10 @@ if (!function_exists("igk_html_node_dialogbox")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogboxcontent")) {
-    /**
-    * create a dialog box content
-    * @return mixed
-    */
+	/**
+	 * create a dialog box content
+	 * @return mixed
+	 */
 	function igk_html_node_dialogboxcontent()
 	{
 		$n = igk_create_node("div");
@@ -2076,10 +2083,10 @@ if (!function_exists("igk_html_node_dialogboxcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_dialogboxoptions")) {
-    /**
-    * create dialogbox options node
-    * @return mixed
-    */
+	/**
+	 * create dialogbox options node
+	 * @return mixed
+	 */
 	function igk_html_node_dialogboxoptions()
 	{
 		$o = igk_html_parent_node();
@@ -2095,11 +2102,11 @@ if (!function_exists("igk_html_node_dialogboxoptions")) {
 	}
 }
 if (!function_exists("igk_html_node_divcontainer")) {
-    /**
-    * create winui-divcontainer
-    * @param mixed $attribs
-    * @return mixed
-    */
+	/**
+	 * create winui-divcontainer
+	 * @param mixed $attribs
+	 * @return mixed
+	 */
 	function igk_html_node_divcontainer($attribs = null)
 	{
 		$n = igk_create_node();
@@ -2108,21 +2115,21 @@ if (!function_exists("igk_html_node_divcontainer")) {
 	}
 }
 if (!function_exists("igk_html_node_dl")) {
-    /**
-    * helper: create a Document list node
-    * @return mixed
-    */
+	/**
+	 * helper: create a Document list node
+	 * @return mixed
+	 */
 	function igk_html_node_dl()
 	{
 		return new \IGK\System\Html\Dom\HtmlDocumentListNode();
 	}
 }
 if (!function_exists("igk_html_node_domainlink")) {
-    /**
-    * create winui-domainlink
-    * @param mixed $src
-    * @return mixed
-    */
+	/**
+	 * create winui-domainlink
+	 * @param mixed $src
+	 * @return mixed
+	 */
 	function igk_html_node_domainlink($src)
 	{
 		$n = igk_create_node("a");
@@ -2133,11 +2140,11 @@ if (!function_exists("igk_html_node_domainlink")) {
 	}
 }
 if (!function_exists("igk_html_node_dumpdata")) {
-    /**
-    * function __desc__
-    * @param mixed $data
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $data
+	 * @return mixed
+	 */
 	function igk_html_node_dumpdata($data)
 	{
 		$n = igk_create_notagnode();
@@ -2148,12 +2155,12 @@ if (!function_exists("igk_html_node_dumpdata")) {
 	}
 }
 if (!function_exists("igk_html_node_enginecontrol")) {
-    /**
-    * engine control editor
-    * @param mixed $name
-    * @param mixed $type
-    * @return mixed
-    */
+	/**
+	 * engine control editor
+	 * @param mixed $name
+	 * @param mixed $type
+	 * @return mixed
+	 */
 	function igk_html_node_enginecontrol($name, $type)
 	{
 		$p = igk_html_parent_node();
@@ -2164,12 +2171,12 @@ if (!function_exists("igk_html_node_enginecontrol")) {
 	}
 }
 if (!function_exists("igk_html_node_error404")) {
-    /**
-    * create winui-error404
-    * @param mixed $title
-    * @param mixed $m
-    * @return mixed
-    */
+	/**
+	 * create winui-error404
+	 * @param mixed $title
+	 * @param mixed $m
+	 * @return mixed
+	 */
 	function igk_html_node_error404($title, $m)
 	{
 		$n = igk_create_node("div");
@@ -2182,10 +2189,10 @@ if (!function_exists("igk_html_node_error404")) {
 	}
 }
 if (!function_exists("igk_html_node_expo")) {
-    /**
-    * create winui-expo
-    * @return mixed
-    */
+	/**
+	 * create winui-expo
+	 * @return mixed
+	 */
 	function igk_html_node_expo()
 	{
 		$n = igk_create_node("span");
@@ -2194,12 +2201,12 @@ if (!function_exists("igk_html_node_expo")) {
 	}
 }
 if (!function_exists("igk_html_node_expression_node")) {
-    /**
-    * auto generate doc.
-    * @param mixed $raw
-    * @param mixed $ctrl the default value is null
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $raw
+	 * @param mixed $ctrl the default value is null
+	 * @return mixed
+	 */
 	function igk_html_node_expression_node($raw, $ctrl = null)
 	{
 		$ctx = HtmlReader::GetOpenerContext();
@@ -2213,15 +2220,15 @@ if (!function_exists("igk_html_node_expression_node")) {
 	}
 }
 if (!function_exists("igk_html_node_fields")) {
-    /**
-    * load field list to parent
-    * @param array|IFormFields $fielddata
-    * @param mixed $datasource
-    * @param null|object $engine to use
-    * @param ?string $tag
-    * @throws IGKException
-    * @return mixed
-    */
+	/**
+	 * load field list to parent
+	 * @param array|IFormFields $fielddata
+	 * @param mixed $datasource
+	 * @param null|object $engine to use
+	 * @param ?string $tag
+	 * @throws IGKException
+	 * @return mixed
+	 */
 	function igk_html_node_fields($fielddata, $datasource = null, ?object $engine = null, ?string $tag = null)
 	{
 		if ($fielddata instanceof IFormFields) {
@@ -2242,12 +2249,12 @@ if (!function_exists("igk_html_node_fields")) {
 	}
 }
 if (!function_exists("igk_html_node_fixedactionbar")) {
-    /**
-    * a BJS's class control. used to show on scroll visibility.
-    * @param mixed $targetid
-    * @param mixed $offset
-    * @return mixed
-    */
+	/**
+	 * a BJS's class control. used to show on scroll visibility.
+	 * @param mixed $targetid
+	 * @param mixed $offset
+	 * @return mixed
+	 */
 	function igk_html_node_fixedactionbar($targetid = "", $offset = 1)
 	{
 		$n = igk_create_node("div");
@@ -2258,12 +2265,12 @@ if (!function_exists("igk_html_node_fixedactionbar")) {
 	}
 }
 if (!function_exists("igk_html_node_fontsymbol")) {
-    /**
-    * create a font symbol.
-    * @param mixed $name
-    * @param mixed $code
-    * @return mixed
-    */
+	/**
+	 * create a font symbol.
+	 * @param mixed $name
+	 * @param mixed $code
+	 * @return mixed
+	 */
 	function igk_html_node_fontsymbol($name, $code)
 	{
 		$n = igk_create_node("span");
@@ -2289,14 +2296,14 @@ if (!function_exists("igk_html_node_fontsymbol")) {
 	}
 }
 if (!function_exists("igk_html_node_form")) {
-    /**
-    * function __desc__
-    * @param ?string $uri
-    * @param string $method
-    * @param bool $notitle
-    * @param bool $nofoot
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param ?string $uri
+	 * @param string $method
+	 * @param bool $notitle
+	 * @param bool $nofoot
+	 * @return mixed
+	 */
 	function igk_html_node_form(?string $uri = ".", string $method = "POST", bool $notitle = false, bool $nofoot = false)
 	{
 		$c = new \IGK\System\Html\Dom\HtmlFormNode($uri, $method, $notitle, $nofoot);
@@ -2323,15 +2330,15 @@ if (!function_exists("igk_html_node_form_post")) {
 	}
 }
 if (!function_exists("igk_html_node_formactionbutton")) {
-    /**
-    * create winui-formactionbutton
-    * @param mixed $id
-    * @param mixed $value
-    * @param mixed $uri
-    * @param mixed $method
-    * @param mixed $text
-    * @return mixed
-    */
+	/**
+	 * create winui-formactionbutton
+	 * @param mixed $id
+	 * @param mixed $value
+	 * @param mixed $uri
+	 * @param mixed $method
+	 * @param mixed $text
+	 * @return mixed
+	 */
 	function igk_html_node_formactionbutton($id, $value, $uri, $method = "GET", $text = null)
 	{
 		$f = igk_create_node("form");
@@ -2341,10 +2348,10 @@ if (!function_exists("igk_html_node_formactionbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_formcref")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_formcref()
 	{
 		$n = igk_create_notagnode();
@@ -2355,12 +2362,12 @@ if (!function_exists("igk_html_node_formcref")) {
 	}
 }
 if (!function_exists("igk_html_node_formfields")) {
-    /**
-    * auto generate doc.
-    * @param mixed $formfields
-    * @param mixed $engine the default value is null
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $formfields
+	 * @param mixed $engine the default value is null
+	 * @return mixed
+	 */
 	function igk_html_node_formfields($formfields, $engine = null)
 	{
 		$n = igk_html_node_notagnode();
@@ -2372,10 +2379,10 @@ if (!function_exists("igk_html_node_formfields")) {
 	}
 }
 if (!function_exists("igk_html_node_formgroup")) {
-    /**
-    * auto generate doc.
-    * @return mixed
-    */	function igk_html_node_formgroup()
+	/**
+	 * auto generate doc.
+	 * @return mixed
+	 */	function igk_html_node_formgroup()
 	{
 		$n = igk_create_node('div');
 		$n["class"] = "igk-form-group";
@@ -2383,10 +2390,10 @@ if (!function_exists("igk_html_node_formgroup")) {
 	}
 }
 if (!function_exists("igk_html_node_formusagecondition")) {
-    /**
-    * create winui-formusagecondition
-    * @return mixed
-    */
+	/**
+	 * create winui-formusagecondition
+	 * @return mixed
+	 */
 	function igk_html_node_formusagecondition()
 	{
 		$dd = igk_create_node();
@@ -2397,24 +2404,24 @@ if (!function_exists("igk_html_node_formusagecondition")) {
 	}
 }
 if (!function_exists("igk_html_node_frame")) {
-    /**
-    * create winui-frame
-    * @return mixed
-    */
+	/**
+	 * create winui-frame
+	 * @return mixed
+	 */
 	function igk_html_node_frame()
 	{
 		return igk_create_node("div")->setAttributes(array("class" => "igk-ui-frame frame"));
 	}
 }
 if (!function_exists("igk_html_node_framedialog")) {
-    /**
-    * create winui-framedialog
-    * @param mixed $id
-    * @param mixed $ctrl
-    * @param mixed $closeuri
-    * @param mixed $reloadcallback
-    * @return mixed
-    */
+	/**
+	 * create winui-framedialog
+	 * @param mixed $id
+	 * @param mixed $ctrl
+	 * @param mixed $closeuri
+	 * @param mixed $reloadcallback
+	 * @return mixed
+	 */
 	function igk_html_node_framedialog($id, $ctrl, $closeuri = ".", $reloadcallback = null)
 	{
 		$frame = igk_getctrl(IGK_FRAME_CTRL)->createFrame($id, $ctrl, $closeuri, $reloadcallback);
@@ -2422,13 +2429,13 @@ if (!function_exists("igk_html_node_framedialog")) {
 	}
 }
 if (!function_exists("igk_html_node_galleryfolder")) {
-    /**
-    * auto generate doc.
-    * @param mixed $ctrl
-    * @param mixed $folder
-    * @param mixed $ignorethumb the default value is 1
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $ctrl
+	 * @param mixed $folder
+	 * @param mixed $ignorethumb the default value is 1
+	 * @return mixed
+	 */
 	function igk_html_node_galleryfolder($ctrl, $folder, $ignorethumb = 1)
 	{
 		$n = igk_create_node("div");
@@ -2449,10 +2456,10 @@ if (!function_exists("igk_html_node_galleryfolder")) {
 	}
 }
 if (!function_exists("igk_html_node_grid")) {
-    /**
-    * create a grid node
-    * @return mixed
-    */
+	/**
+	 * create a grid node
+	 * @return mixed
+	 */
 	function igk_html_node_grid()
 	{
 		$n = igk_create_node("div");
@@ -2461,10 +2468,10 @@ if (!function_exists("igk_html_node_grid")) {
 	}
 }
 if (!function_exists("igk_html_node_headerbar")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_headerbar()
 	{
 		$n = igk_create_node("div");
@@ -2473,11 +2480,11 @@ if (!function_exists("igk_html_node_headerbar")) {
 	}
 }
 if (!function_exists("igk_html_node_hiddenFields")) {
-    /**
-    * function __desc__
-    * @param array $fields
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param array $fields
+	 * @return mixed
+	 */
 	function igk_html_node_hiddenFields(array $fields)
 	{
 		if ($f = igk_html_parent_node()) {
@@ -2489,10 +2496,10 @@ if (!function_exists("igk_html_node_hiddenFields")) {
 	}
 }
 if (!function_exists("igk_html_node_hlineseparator")) {
-    /**
-    * create winui-hlineseparator
-    * @return mixed
-    */
+	/**
+	 * create winui-hlineseparator
+	 * @return mixed
+	 */
 	function igk_html_node_hlineseparator()
 	{
 		$n = igk_create_node("div");
@@ -2501,12 +2508,12 @@ if (!function_exists("igk_html_node_hlineseparator")) {
 	}
 }
 if (!function_exists("igk_html_node_hook")) {
-    /**
-    * call hook to render content on node
-    * @param mixed $hook
-    * @param mixed ...$args
-    * @return HtmlNoTagNode
-    */
+	/**
+	 * call hook to render content on node
+	 * @param mixed $hook
+	 * @param mixed ...$args
+	 * @return HtmlNoTagNode
+	 */
 	function igk_html_node_hook($hook, ...$args)
 	{
 		$n = igk_html_node_notagnode();
@@ -2517,12 +2524,12 @@ if (!function_exists("igk_html_node_hook")) {
 	}
 }
 if (!function_exists("igk_html_node_hooknode")) {
-    /**
-    * create hook node to update content on render
-    * @param mixed $hook
-    * @param ?string $context
-    * @return mixed
-    */
+	/**
+	 * create hook node to update content on render
+	 * @param mixed $hook
+	 * @param ?string $context
+	 * @return mixed
+	 */
 	function igk_html_node_hooknode($hook, ?string $context = null)
 	{
 		$n = new IGK\System\Html\Dom\HtmlHookNode($hook, $context);
@@ -2530,10 +2537,10 @@ if (!function_exists("igk_html_node_hooknode")) {
 	}
 }
 if (!function_exists("igk_html_node_horizontalpageview")) {
-    /**
-    * create  winui-horizontalpageview
-    * @return mixed
-    */
+	/**
+	 * create  winui-horizontalpageview
+	 * @return mixed
+	 */
 	function igk_html_node_horizontalpageview()
 	{
 		$n = igk_create_node("div");
@@ -2542,21 +2549,21 @@ if (!function_exists("igk_html_node_horizontalpageview")) {
 	}
 }
 if (!function_exists("igk_html_node_host")) {
-    /**
-    * host callable to
-    * @param callable|string $callback . if string custom function of 'igk_html_'+$callback name
-    * @param mixed ...$args
-    * @throws Exception
-    * @throws IGKException
-    * @return mixed
-    */
+	/**
+	 * host callable to
+	 * @param callable|string $callback . if string custom function of 'igk_html_'+$callback name
+	 * @param mixed ...$args
+	 * @throws Exception
+	 * @throws IGKException
+	 * @return mixed
+	 */
 	function igk_html_node_host($callback, ...$args)
 	{
-		if (!($callback instanceof \Closure)){
-			if (!is_callable($callback) && is_string($callback)){
-				if (function_exists($fc = 'igk_html_'.$callback)){
+		if (!($callback instanceof \Closure)) {
+			if (!is_callable($callback) && is_string($callback)) {
+				if (function_exists($fc = 'igk_html_' . $callback)) {
 					$callback = Closure::fromCallable($fc);
-				}else{
+				} else {
 					igk_die('callback is not a valid callback');
 				}
 			}
@@ -2586,11 +2593,11 @@ if (!function_exists("igk_html_node_host")) {
 	}
 }
 if (!function_exists('igk_html_host_wln')) {
-    /**
-    * auto generate doc.
-	* @param mixed $t
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $t
+	 * @return mixed
+	 */
 	function igk_html_host_wln($t)
 	{
 		$n = igk_create_notagnode();
@@ -2605,12 +2612,12 @@ if (!function_exists('igk_html_host_wln')) {
 	}
 }
 if (!function_exists("igk_html_node_hostobdata")) {
-    /**
-    * Hosted object data. will pass the current node to callback as first argument
-    * @param mixed $callback
-    * @param mixed $host
-    * @return mixed
-    */
+	/**
+	 * Hosted object data. will pass the current node to callback as first argument
+	 * @param mixed $callback
+	 * @param mixed $host
+	 * @return mixed
+	 */
 	function igk_html_node_hostobdata($callback, $host = null)
 	{
 		$p = $q = igk_html_parent_node();
@@ -2632,10 +2639,10 @@ if (!function_exists("igk_html_node_hostobdata")) {
 	}
 }
 if (!function_exists("igk_html_node_hscrollbar")) {
-    /**
-    * create winui-hscrollbar
-    * @return mixed
-    */
+	/**
+	 * create winui-hscrollbar
+	 * @return mixed
+	 */
 	function igk_html_node_hscrollbar()
 	{
 		$n = igk_create_node();
@@ -2644,31 +2651,31 @@ if (!function_exists("igk_html_node_hscrollbar")) {
 	}
 }
 if (!function_exists("igk_html_node_hsep")) {
-    /**
-    * create winui-hsep
-    * @return mixed
-    */
+	/**
+	 * create winui-hsep
+	 * @return mixed
+	 */
 	function igk_html_node_hsep()
 	{
 		return igk_html_node_Separator("horizontal");
 	}
 }
 if (!function_exists("igk_html_node_htmlnode")) {
-    /**
-    * create winui-htmlnode
-    * @param mixed $tag
-    * @return mixed
-    */
+	/**
+	 * create winui-htmlnode
+	 * @param mixed $tag
+	 * @return mixed
+	 */
 	function igk_html_node_htmlnode($tag)
 	{
 		return new HtmlNode($tag);
 	}
 }
 if (!function_exists("igk_html_node_huebar")) {
-    /**
-    * used to render a pick a huebar value
-    * @return mixed
-    */
+	/**
+	 * used to render a pick a huebar value
+	 * @return mixed
+	 */
 	function igk_html_node_huebar()
 	{
 		$n = igk_create_node("div");
@@ -2692,10 +2699,10 @@ if (!function_exists("igk_html_node_if")) {
 	}
 }
 if (!function_exists("igk_html_node_if_condition")) {
-    /**
-    * helper to create igk:if-condition node
-    * @return mixed
-    */
+	/**
+	 * helper to create igk:if-condition node
+	 * @return mixed
+	 */
 	function igk_html_node_if_condition()
 	{
 		$g = new HtmlConditionNode;
@@ -2703,11 +2710,11 @@ if (!function_exists("igk_html_node_if_condition")) {
 	}
 }
 if (!function_exists("igk_html_node_igkcopyright")) {
-    /**
-    * create winui-igkcopyright
-    * @param ?string $title
-    * @return mixed
-    */
+	/**
+	 * create winui-igkcopyright
+	 * @param ?string $title
+	 * @return mixed
+	 */
 	function igk_html_node_igkcopyright(?string $title = null)
 	{
 		$n = igk_create_node();
@@ -2723,10 +2730,10 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 	}
 }
 if (!function_exists("igk_html_node_igkgloballangselector")) {
-    /**
-    * create winui-igkgloballangselector
-    * @return mixed
-    */
+	/**
+	 * create winui-igkgloballangselector
+	 * @return mixed
+	 */
 	function igk_html_node_igkgloballangselector()
 	{
 		$dv = igk_create_node("div");
@@ -2739,10 +2746,10 @@ if (!function_exists("igk_html_node_igkgloballangselector")) {
 	}
 }
 if (!function_exists("igk_html_node_igkglobalthemeselector")) {
-    /**
-    * create winui-igkglobalthemeselector
-    * @return mixed
-    */
+	/**
+	 * create winui-igkglobalthemeselector
+	 * @return mixed
+	 */
 	function igk_html_node_igkglobalthemeselector()
 	{
 		$dv = igk_create_node("div");
@@ -2754,12 +2761,12 @@ if (!function_exists("igk_html_node_igkglobalthemeselector")) {
 	}
 }
 if (!function_exists("igk_html_node_igkheaderbar")) {
-    /**
-    * create winui-headerbar
-    * @param string $title
-    * @param mixed $baseuri
-    * @return mixed
-    */
+	/**
+	 * create winui-headerbar
+	 * @param string $title
+	 * @param mixed $baseuri
+	 * @return mixed
+	 */
 	function igk_html_node_igkheaderbar($title, $baseuri = null)
 	{
 		$baseuri = $baseuri ? $baseuri : igk_io_baseDomainUri();
@@ -2775,10 +2782,10 @@ if (!function_exists("igk_html_node_igkheaderbar")) {
 	}
 }
 if (!function_exists("igk_html_node_igksitemap")) {
-    /**
-    * create winui-igksitemap
-    * @return mixed
-    */
+	/**
+	 * create winui-igksitemap
+	 * @return mixed
+	 */
 	function igk_html_node_igksitemap()
 	{
 		igk_trace();
@@ -2791,10 +2798,10 @@ if (!function_exists("igk_html_node_igksitemap")) {
 	}
 }
 if (!function_exists("igk_html_node_imagenode")) {
-    /**
-    * create winui-imagenode
-    * @return mixed
-    */
+	/**
+	 * create winui-imagenode
+	 * @return mixed
+	 */
 	function igk_html_node_imagenode()
 	{
 		$n = igk_create_node("img");
@@ -2802,11 +2809,11 @@ if (!function_exists("igk_html_node_imagenode")) {
 	}
 }
 if (!function_exists("igk_html_node_img")) {
-    /**
-    * function __desc__
-    * @param mixed $src
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $src
+	 * @return mixed
+	 */
 	function igk_html_node_img($src = null)
 	{
 		if (is_string($src)) {
@@ -2816,23 +2823,23 @@ if (!function_exists("igk_html_node_img")) {
 	}
 }
 if (!function_exists("igk_html_node_imglnk")) {
-    /**
-    * create winui-imglnk
-    * @return mixed
-    */
+	/**
+	 * create winui-imglnk
+	 * @return mixed
+	 */
 	function igk_html_node_imglnk()
 	{
 		return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args());
 	}
 }
 if (!function_exists("igk_html_node_include")) {
-    /**
-    * auto generate doc.
-    * @param mixed $ctrl
-    * @param mixed $view
-    * @param mixed|null $params
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $ctrl
+	 * @param mixed $view
+	 * @param mixed|null $params
+	 * @return mixed
+	 */
 	function igk_html_node_include($ctrl, $view, $params = null)
 	{
 		$bind = function () {
@@ -2859,11 +2866,11 @@ if (!function_exists("igk_html_node_include")) {
 	}
 }
 if (!function_exists("igk_html_node_include_js")) {
-    /**
-    * include local file as javascript
-    * @param string $file
-    * @return mixed
-    */
+	/**
+	 * include local file as javascript
+	 * @param string $file
+	 * @return mixed
+	 */
 	function igk_html_node_include_js(string $file)
 	{
 		if (($f = igk_html_parent_node()) && is_file($file)) {
@@ -2886,10 +2893,10 @@ if (!function_exists("igk_html_node_include_js")) {
 	}
 }
 if (!function_exists("igk_html_node_innerimg")) {
-    /**
-    * create winui-innerimg
-    * @return mixed
-    */
+	/**
+	 * create winui-innerimg
+	 * @return mixed
+	 */
 	function igk_html_node_innerimg()
 	{
 		$n = new IGK\System\Html\Dom\HtmlImgNode();
@@ -2897,14 +2904,14 @@ if (!function_exists("igk_html_node_innerimg")) {
 	}
 }
 if (!function_exists("igk_html_node_input")) {
-    /**
-    * create input node helper
-    * @param string|array|null $id id or arg of the input or arg
-    * @param mixed $type
-    * @param mixed $value
-    * @param mixed $attributes
-    * @return mixed
-    */
+	/**
+	 * create input node helper
+	 * @param string|array|null $id id or arg of the input or arg
+	 * @param mixed $type
+	 * @param mixed $value
+	 * @param mixed $attributes
+	 * @return mixed
+	 */
 	function igk_html_node_input($id = null, $type = 'text', $value = null, $attributes = null)
 	{
 		$i = new HtmlNode('input');
@@ -2932,11 +2939,11 @@ if (!function_exists("igk_html_node_input")) {
 	}
 }
 if (!function_exists("igk_html_node_jombotron")) {
-    /**
-    * auto generate doc.
-    * @param mixed $text
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $text
+	 * @return mixed
+	 */
 	function igk_html_node_jombotron($text = 'Jombotron')
 	{
 		$n = igk_create_node("div");
@@ -2948,10 +2955,10 @@ if (!function_exists("igk_html_node_jombotron")) {
 	}
 }
 if (!function_exists("igk_html_node_js_autofix_width")) {
-    /**
-    * mark parent node with autofixing with.
-    * @return mixed
-    */
+	/**
+	 * mark parent node with autofixing with.
+	 * @return mixed
+	 */
 	function igk_html_node_js_autofix_width()
 	{
 		$n = new HtmlNode('igk:auto-fix-width');
@@ -2961,12 +2968,12 @@ if (!function_exists("igk_html_node_js_autofix_width")) {
 	}
 }
 if (!function_exists("igk_html_node_jsaextern")) {
-    /**
-    * create winui-jsaextern
-    * @param mixed $method
-    * @param mixed $args
-    * @return mixed
-    */
+	/**
+	 * create winui-jsaextern
+	 * @param mixed $method
+	 * @param mixed $args
+	 * @return mixed
+	 */
 	function igk_html_node_jsaextern($method, $args = null)
 	{
 		$n = igk_create_node("div");
@@ -2980,13 +2987,13 @@ if (!function_exists("igk_html_node_jsaextern")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbindNS")) {
-    /**
-    * inject namespace with properties js namespace
-    * @param string $namespace
-    * @param array $data
-    * @param mixed $coredef
-    * @return mixed
-    */
+	/**
+	 * inject namespace with properties js namespace
+	 * @param string $namespace
+	 * @param array $data
+	 * @param mixed $coredef
+	 * @return mixed
+	 */
 	function igk_html_node_jsbindNS(string $namespace, array $data, $coredef = "igk")
 	{
 		$s = igk_create_node("script");
@@ -3005,12 +3012,12 @@ if (!function_exists("igk_html_node_jsbindNS")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbtn")) {
-    /**
-    * create winui-jsbtn
-    * @param mixed $script
-    * @param mixed $value
-    * @return mixed
-    */
+	/**
+	 * create winui-jsbtn
+	 * @param mixed $script
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	function igk_html_node_jsbtn($script, $value = null)
 	{
 		$n = igk_create_node("input");
@@ -3022,11 +3029,11 @@ if (!function_exists("igk_html_node_jsbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbtnshowdialog")) {
-    /**
-    * create winui-jsbtnshowdialog
-    * @param mixed $id
-    * @return mixed
-    */
+	/**
+	 * create winui-jsbtnshowdialog
+	 * @param mixed $id
+	 * @return mixed
+	 */
 	function igk_html_node_jsbtnshowdialog($id)
 	{
 		$n = igk_create_node();
@@ -3036,11 +3043,11 @@ if (!function_exists("igk_html_node_jsbtnshowdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_jsbutton")) {
-    /**
-    * create winui-jsbutton
-    * @param mixed $js
-    * @return mixed
-    */
+	/**
+	 * create winui-jsbutton
+	 * @param mixed $js
+	 * @return mixed
+	 */
 	function igk_html_node_jsbutton($js)
 	{
 		$n = igk_create_node("a");
@@ -3051,12 +3058,12 @@ if (!function_exists("igk_html_node_jsbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_jsclone")) {
-    /**
-    * use to close node on client side
-    * @param string $target
-    * @param ?string $complete
-    * @return IGK\System\Html\Dom\HtmlNode
-    */
+	/**
+	 * use to close node on client side
+	 * @param string $target
+	 * @param ?string $complete
+	 * @return IGK\System\Html\Dom\HtmlNode
+	 */
 	function igk_html_node_jsclone(string $target, ?string $complete = null)
 	{
 		$n = igk_create_node("div");
@@ -3067,11 +3074,11 @@ if (!function_exists("igk_html_node_jsclone")) {
 	}
 }
 if (!function_exists("igk_html_node_jsclonenode")) {
-    /**
-    * create winui-jsclonenode
-    * @param mixed $node
-    * @return mixed
-    */
+	/**
+	 * create winui-jsclonenode
+	 * @param mixed $node
+	 * @return mixed
+	 */
 	function igk_html_node_jsclonenode($node)
 	{
 		if (($node == null) || !is_object($node))
@@ -3088,12 +3095,12 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 	}
 }
 if (!function_exists("igk_html_node_jsclonetarget")) {
-    /**
-    * create igk-winui-clone-target class node
-    * @param string $selector
-    * @param string $tag default tag
-    * @return mixed
-    */
+	/**
+	 * create igk-winui-clone-target class node
+	 * @param string $selector
+	 * @param string $tag default tag
+	 * @return mixed
+	 */
 	function igk_html_node_jsclonetarget(string $selector, ?string $tag = 'div')
 	{
 		$n = igk_create_node($tag);
@@ -3103,10 +3110,10 @@ if (!function_exists("igk_html_node_jsclonetarget")) {
 	}
 }
 if (!function_exists("igk_html_node_jslogger")) {
-    /**
-    * create winui-jslogger
-    * @return mixed
-    */
+	/**
+	 * create winui-jslogger
+	 * @return mixed
+	 */
 	function igk_html_node_jslogger()
 	{
 		$n = igk_create_node("div");
@@ -3115,11 +3122,11 @@ if (!function_exists("igk_html_node_jslogger")) {
 	}
 }
 if (!function_exists("igk_html_node_jsreadyscript")) {
-    /**
-    * used to call ready invoke
-    * @param mixed $script
-    * @return mixed
-    */
+	/**
+	 * used to call ready invoke
+	 * @param mixed $script
+	 * @return mixed
+	 */
 	function igk_html_node_jsreadyscript($script)
 	{
 		$n = igk_html_node_script();
@@ -3128,11 +3135,11 @@ if (!function_exists("igk_html_node_jsreadyscript")) {
 	}
 }
 if (!function_exists("igk_html_node_jsreplaceuri")) {
-    /**
-    * create winui-jsreplaceuri
-    * @param string $uri
-    * @return mixed
-    */
+	/**
+	 * create winui-jsreplaceuri
+	 * @param string $uri
+	 * @return mixed
+	 */
 	function igk_html_node_jsreplaceuri(string $uri)
 	{
 		$n = igk_create_node('balafonJS');
@@ -3142,12 +3149,12 @@ if (!function_exists("igk_html_node_jsreplaceuri")) {
 	}
 }
 if (!function_exists("igk_html_node_jsscript")) {
-    /**
-    * used to load manually script tag
-    * @param mixed $file
-    * @param mixed $minify
-    * @return mixed
-    */
+	/**
+	 * used to load manually script tag
+	 * @param mixed $file
+	 * @param mixed $minify
+	 * @return mixed
+	 */
 	function igk_html_node_jsscript($file, $minify = false)
 	{
 		if (igk_io_file_exists($file)) {
@@ -3180,10 +3187,10 @@ if (!function_exists("igk_html_node_jsscript_options")) {
 	}
 }
 if (!function_exists("igk_html_node_jsview")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_jsview()
 	{
 		$n = igk_create_node("script");
@@ -3193,10 +3200,10 @@ if (!function_exists("igk_html_node_jsview")) {
 	}
 }
 if (!function_exists("igk_html_node_jswaiter")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_jswaiter()
 	{
 		$n = igk_create_node("div");
@@ -3205,13 +3212,13 @@ if (!function_exists("igk_html_node_jswaiter")) {
 	}
 }
 if (!function_exists("igk_html_node_jumbotron")) {
-    /**
-    * create a jumbotron element
-    * @param ?string $title
-    * @param mixed $desc
-    * @throws IGKException
-    * @return HtmlItemBase<mixed, string>
-    */
+	/**
+	 * create a jumbotron element
+	 * @param ?string $title
+	 * @param mixed $desc
+	 * @throws IGKException
+	 * @return HtmlItemBase<mixed, string>
+	 */
 	function igk_html_node_jumbotron(?string $title = null, $desc = null)
 	{
 		$n = igk_create_node('div');
@@ -3224,12 +3231,12 @@ if (!function_exists("igk_html_node_jumbotron")) {
 	}
 }
 if (!function_exists("igk_html_node_label")) {
-    /**
-    * create winui-label
-    * @param ?string $for
-    * @param ?string $key
-    * @return mixed
-    */
+	/**
+	 * create winui-label
+	 * @param ?string $for
+	 * @param ?string $key
+	 * @return mixed
+	 */
 	function igk_html_node_label(?string $for = null, ?string $key = null)
 	{
 		$n = new HtmlNode("label");
@@ -3243,20 +3250,20 @@ if (!function_exists("igk_html_node_label")) {
 	}
 }
 if (!function_exists("igk_html_node_labelinput")) {
-    /**
-    * create winui-labelinput
-    * @param mixed $id
-    * @param mixed $text
-    * @param mixed $type
-    * @param mixed $value
-    * @param mixed $attributes
-    * @param mixed $require
-    * @param mixed $description
-    * @return mixed
-    */
+	/**
+	 * create winui-labelinput
+	 * @param mixed $id
+	 * @param mixed $text
+	 * @param mixed $type
+	 * @param mixed $value
+	 * @param mixed $attributes
+	 * @param mixed $require
+	 * @param mixed $description
+	 * @return mixed
+	 */
 	function igk_html_node_labelinput($id, $text, $type = "text", $value = null, $attributes = null, $require = false, $description = null)
 	{
-		$o = igk_create_notagnode(); 
+		$o = igk_create_notagnode();
 		$o->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
 		$o->setCallback("getinput", "return \$this->input;");
 		$i = $o->add("label");
@@ -3288,10 +3295,10 @@ if (!function_exists("igk_html_node_labelinput")) {
 	}
 }
 if (!function_exists("igk_html_node_lborder")) {
-    /**
-    * create winui-lborder
-    * @return mixed
-    */
+	/**
+	 * create winui-lborder
+	 * @return mixed
+	 */
 	function igk_html_node_lborder()
 	{
 		$n = igk_create_node();
@@ -3300,10 +3307,10 @@ if (!function_exists("igk_html_node_lborder")) {
 	}
 }
 if (!function_exists("igk_html_node_linewaiter")) {
-    /**
-    * create winui-linewaiter
-    * @return mixed
-    */
+	/**
+	 * create winui-linewaiter
+	 * @return mixed
+	 */
 	function igk_html_node_linewaiter()
 	{
 		$n = igk_create_node();
@@ -3319,35 +3326,37 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_linkbtn")) {
-    /**
-    * create winui-linkbtn
-    * @param mixed $uri
-    * @param mixed $img
-    * @param mixed $width
-    * @param mixed $height
-    * @return mixed
-    */
+	/**
+	 * create winui-linkbtn
+	 * @param mixed $uri
+	 * @param mixed $img
+	 * @param mixed $width
+	 * @param mixed $height
+	 * @return mixed
+	 */
 	function igk_html_node_linkbtn($uri, $img, $width = 16, $height = 16)
 	{
 		$n = igk_create_node("a");
 		$img = $n->add("img");
 		$n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_html_callback_alinktn");
 		$n->setCallback(
-			"setUri",<<<EOF
+			"setUri",
+			<<<EOF
 \$this->getParam('data')->src=\$value;
-EOF		);
+EOF
+		);
 		$n->setParam("data", (object)array("img" => $img, "w" => $width, "h" => $height, "src" => $uri));
 		return $n;
 	}
 }
 if (!function_exists("igk_html_node_list")) {
-    /**
-    * function __desc__
-    * @param mixed $items
-    * @param mixed $callback
-    * @param mixed $ordered
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $items
+	 * @param mixed $callback
+	 * @param mixed $ordered
+	 * @return mixed
+	 */
 	function igk_html_node_list($items, $callback = null, $ordered = 0)
 	{
 		if ($callback == null) {
@@ -3365,20 +3374,20 @@ if (!function_exists("igk_html_node_list")) {
 	}
 }
 if (!function_exists("igk_html_node_livenodecallback")) {
-    /**
-    * create winui-componentnodecallback
-    * @param mixed $listener
-    * @param mixed $name
-    * @param mixed $callback
-    * @return mixed
-    */
+	/**
+	 * create winui-componentnodecallback
+	 * @param mixed $listener
+	 * @param mixed $name
+	 * @param mixed $callback
+	 * @return mixed
+	 */
 	function igk_html_node_livenodecallback($listener, $name, $callback)
 	{
 		static $livenode = null;
 		if ($livenode === null) {
 			$livenode = [];
 		}
-		$f = null; 
+		$f = null;
 		$c = $listener->getParam(IGK_NAMED_NODE_PARAM, array());
 		if (isset($c[$name])) {
 			$f = $c[$name];
@@ -3395,7 +3404,7 @@ if (!function_exists("igk_html_node_livenodecallback")) {
 		$args = array_merge(array($listener, $name), array_slice(func_get_args(), 3));
 		$h = call_user_func_array($callback, $args);
 		if ($h) {
-			$c[$name] = []; 
+			$c[$name] = [];
 			$h->setParam(IGK_NAMED_ID_PARAM, $name);
 			$listener->setParam(IGK_NAMED_NODE_PARAM, $c);
 			return $h;
@@ -3405,12 +3414,12 @@ if (!function_exists("igk_html_node_livenodecallback")) {
 	}
 }
 if (!function_exists("igk_html_node_load_array")) {
-    /**
-    * function __desc__
-    * @param array $items
-    * @param string $tag
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param array $items
+	 * @param string $tag
+	 * @return mixed
+	 */
 	function igk_html_node_load_array(array $items, string $tag = 'div')
 	{
 		$n = igk_create_notagnode();
@@ -3426,12 +3435,12 @@ if (!function_exists("igk_html_node_load_array")) {
 	}
 }
 if (!function_exists("igk_html_node_localizabletext")) {
-    /**
-    * auto generate doc.
-    * @param mixed $expression
-    * @param mixed $data the default value is null
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $expression
+	 * @param mixed $data the default value is null
+	 * @return mixed
+	 */
 	function igk_html_node_localizabletext($expression, $data = null)
 	{
 		$c = igk_html_initbindexpression($expression);
@@ -3466,12 +3475,12 @@ if (!function_exists("igk_html_node_login_form")) {
 	}
 }
 if (!function_exists("igk_html_node_loop")) {
-    /**
-    * helper: loop thru array . or template binding
-    * @param mixed|int|Iterable|IViewExpressionArg $array iterable
-    * @param ?callable $callback
-    * @return mixed
-    */
+	/**
+	 * helper: loop thru array . or template binding
+	 * @param mixed|int|Iterable|IViewExpressionArg $array iterable
+	 * @param ?callable $callback
+	 * @return mixed
+	 */
 	function igk_html_node_loop($array, ?callable $callback = null)
 	{
 		require_once IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlLooperNode.php';
@@ -3488,11 +3497,11 @@ if (!function_exists("igk_html_node_loop")) {
 	}
 }
 if (!function_exists("igk_html_node_loremipsum")) {
-    /**
-    * represent the loremIpSum zone
-    * @param mixed $mode
-    * @return mixed
-    */
+	/**
+	 * represent the loremIpSum zone
+	 * @param mixed $mode
+	 * @return mixed
+	 */
 	function igk_html_node_loremipsum($mode = 1)
 	{
 		$n = igk_create_notagnode();
@@ -3507,12 +3516,12 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_mailto")) {
-    /**
-    * auto generate doc.
-    * @param mixed $href
-    * @param mixed $text
-    * @return mixed
-    */	function igk_html_node_mailto($href, $text = "")
+	/**
+	 * auto generate doc.
+	 * @param mixed $href
+	 * @param mixed $text
+	 * @return mixed
+	 */	function igk_html_node_mailto($href, $text = "")
 	{
 		$n = igk_create_node("a");
 		$n["href"] = "mailto: {$href}";
@@ -3531,15 +3540,15 @@ if (!function_exists("igk_html_node_memoryusageinfo")) {
 	}
 }
 if (!function_exists("igk_html_node_menukey")) {
-    /**
-    * function __desc__
-    * @param mixed $menus
-    * @param mixed $ctrl
-    * @param mixed $root
-    * @param mixed $item
-    * @param mixed $callback
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $menus
+	 * @param mixed $ctrl
+	 * @param mixed $root
+	 * @param mixed $item
+	 * @param mixed $callback
+	 * @return mixed
+	 */
 	function igk_html_node_menukey($menus, $ctrl = null, $root = "ul", $item = "li", $callback = null)
 	{
 		$n = igk_create_node("ul");
@@ -3548,11 +3557,11 @@ if (!function_exists("igk_html_node_menukey")) {
 	}
 }
 if (!function_exists("igk_html_node_menulist")) {
-    /**
-    * function __desc__
-    * @param mixed $menuTab
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $menuTab
+	 * @return mixed
+	 */
 	function igk_html_node_menulist($menuTab)
 	{
 		$b = igk_create_notagnode();
@@ -3561,16 +3570,16 @@ if (!function_exists("igk_html_node_menulist")) {
 	}
 }
 if (!function_exists("igk_html_node_menus")) {
-    /**
-    * build menus node item
-    * @param mixed $items
-    * @param mixed $callback subitem menu initialize callback
-    * @param string $subtag default subitem group tag 'ul'
-    * @param string $item default 'li' tag
-    * @param ?object $option
-    * @throws IGKException
-    * @return HtmlItemBase<mixed, string>
-    */
+	/**
+	 * build menus node item
+	 * @param mixed $items
+	 * @param mixed $callback subitem menu initialize callback
+	 * @param string $subtag default subitem group tag 'ul'
+	 * @param string $item default 'li' tag
+	 * @param ?object $option
+	 * @throws IGKException
+	 * @return HtmlItemBase<mixed, string>
+	 */
 	function igk_html_node_menus($items, $callback = null, $subtag = "ul", $item = "li", ?object $option = null)
 	{
 		$node = igk_create_node($subtag);
@@ -3580,11 +3589,11 @@ if (!function_exists("igk_html_node_menus")) {
 	}
 }
 if (!function_exists("igk_html_node_moreview")) {
-    /**
-    * create winui-moreview
-    * @param mixed $hide
-    * @return mixed
-    */
+	/**
+	 * create winui-moreview
+	 * @param mixed $hide
+	 * @return mixed
+	 */
 	function igk_html_node_moreview($hide = 1)
 	{
 		$n = igk_create_node("span");
@@ -3595,11 +3604,11 @@ if (!function_exists("igk_html_node_moreview")) {
 	}
 }
 if (!function_exists("igk_html_node_msdialog")) {
-    /**
-    * create winui-msdialog
-    * @param mixed $id
-    * @return mixed
-    */
+	/**
+	 * create winui-msdialog
+	 * @param mixed $id
+	 * @return mixed
+	 */
 	function igk_html_node_msdialog($id = null)
 	{
 		$n = igk_create_node();
@@ -3610,11 +3619,11 @@ if (!function_exists("igk_html_node_msdialog")) {
 	}
 }
 if (!function_exists("igk_html_node_mstitle")) {
-    /**
-    * create winui-mstitle
-    * @param mixed $key
-    * @return mixed
-    */
+	/**
+	 * create winui-mstitle
+	 * @param mixed $key
+	 * @return mixed
+	 */
 	function igk_html_node_mstitle($key)
 	{
 		$n = igk_create_node();
@@ -3624,11 +3633,11 @@ if (!function_exists("igk_html_node_mstitle")) {
 	}
 }
 if (!function_exists("igk_html_node_navigationlink")) {
-    /**
-    * create winui-navigationlink
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * create winui-navigationlink
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_navigationlink($target)
 	{
 		$n = igk_create_node("a");
@@ -3637,10 +3646,10 @@ if (!function_exists("igk_html_node_navigationlink")) {
 	}
 }
 if (!function_exists("igk_html_node_nbsp")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_nbsp()
 	{
 		$c = igk_createtextnode("&nbsp;");
@@ -3652,13 +3661,13 @@ if (!function_exists("igk_html_node_nbsp")) {
 	}
 }
 if (!function_exists("igk_html_node_newsletterregistration")) {
-    /**
-    * create winui-newsletterregistration
-    * @param mixed $uri
-    * @param mixed $type
-    * @param mixed $ajx
-    * @return mixed
-    */
+	/**
+	 * create winui-newsletterregistration
+	 * @param mixed $uri
+	 * @param mixed $type
+	 * @param mixed $ajx
+	 * @return mixed
+	 */
 	function igk_html_node_newsletterregistration($uri, $type = "email", $ajx = 1)
 	{
 		$n = igk_create_node();
@@ -3671,10 +3680,10 @@ if (!function_exists("igk_html_node_newsletterregistration")) {
 	}
 }
 if (!function_exists("igk_html_node_notagnode")) {
-    /**
-    * create winui-notagnode
-    * @return mixed
-    */
+	/**
+	 * create winui-notagnode
+	 * @return mixed
+	 */
 	function igk_html_node_notagnode()
 	{
 		$n = new HtmlNoTagNode();
@@ -3682,23 +3691,23 @@ if (!function_exists("igk_html_node_notagnode")) {
 	}
 }
 if (!function_exists("igk_html_node_notagobdata")) {
-    /**
-    * shortcut to create ObData node with noTag to display
-    * @param mixed $content
-    * @return mixed
-    */
+	/**
+	 * shortcut to create ObData node with noTag to display
+	 * @param mixed $content
+	 * @return mixed
+	 */
 	function igk_html_node_notagobdata($content)
 	{
 		return igk_html_node_obdata($content, IGK_HTML_NOTAG_ELEMENT);
 	}
 }
 if (!function_exists("igk_html_node_notification")) {
-    /**
-    * used to add notification node
-    * @param mixed $nodeType
-    * @param mixed $notifyName
-    * @return mixed
-    */
+	/**
+	 * used to add notification node
+	 * @param mixed $nodeType
+	 * @param mixed $notifyName
+	 * @return mixed
+	 */
 	function igk_html_node_notification($nodeType = "div", $notifyName = null)
 	{
 		$n = igk_create_node($nodeType);
@@ -3707,24 +3716,24 @@ if (!function_exists("igk_html_node_notification")) {
 	}
 }
 if (!function_exists("igk_html_node_notifyhost")) {
-    /**
-    * used to bind notify global ctrl message
-    * @param mixed $name
-    * @param ?bool $autohide
-    * @return mixed
-    */
+	/**
+	 * used to bind notify global ctrl message
+	 * @param mixed $name
+	 * @param ?bool $autohide
+	 * @return mixed
+	 */
 	function igk_html_node_notifyhost($name = "::global", ?bool $autohide = null)
 	{
 		return new \IGK\System\Html\Dom\HtmlNotifyResponse($name, $autohide);
 	}
 }
 if (!function_exists("igk_html_node_notifyhostbind")) {
-    /**
-    * create winui-notifyhostbind
-    * @param mixed $name
-    * @param mixed $autohide
-    * @return mixed
-    */
+	/**
+	 * create winui-notifyhostbind
+	 * @param mixed $name
+	 * @param mixed $autohide
+	 * @return mixed
+	 */
 	function igk_html_node_notifyhostbind($name = null, $autohide = 1)
 	{
 		$o = igk_create_node('div');
@@ -3734,13 +3743,13 @@ if (!function_exists("igk_html_node_notifyhostbind")) {
 	}
 }
 if (!function_exists("igk_html_node_notifyzone")) {
-    /**
-    * create winui-notifyzone
-    * @param mixed $name
-    * @param mixed $autohide
-    * @param mixed $tag
-    * @return mixed
-    */
+	/**
+	 * create winui-notifyzone
+	 * @param mixed $name
+	 * @param mixed $autohide
+	 * @param mixed $tag
+	 * @return mixed
+	 */
 	function igk_html_node_notifyzone($name = null, $autohide = 1, $tag = "div")
 	{
 		$n = igk_create_node($tag);
@@ -3749,12 +3758,12 @@ if (!function_exists("igk_html_node_notifyzone")) {
 	}
 }
 if (!function_exists("igk_html_node_obdata")) {
-    /**
-    * used to add a node with buffer content
-    * @param mixed $data
-    * @param mixed $nodeType
-    * @return mixed
-    */
+	/**
+	 * used to add a node with buffer content
+	 * @param mixed $data
+	 * @param mixed $nodeType
+	 * @return mixed
+	 */
 	function igk_html_node_obdata($data, $nodeType = "div")
 	{
 		if (($nodeType == null) || ($nodeType === false))
@@ -3798,11 +3807,11 @@ if (!function_exists("igk_html_node_obscript")) {
 	}
 }
 if (!function_exists("igk_html_node_onrendercallback")) {
-    /**
-    * create node on callback. create a callback object to send to this
-    * @param mixed $callbackObj
-    * @return mixed
-    */
+	/**
+	 * create node on callback. create a callback object to send to this
+	 * @param mixed $callbackObj
+	 * @return mixed
+	 */
 	function igk_html_node_onrendercallback($callbackObj)
 	{
 		if (!igk_is_callable($callbackObj)) {
@@ -3813,21 +3822,21 @@ if (!function_exists("igk_html_node_onrendercallback")) {
 	}
 }
 if (!function_exists("igk_html_node_page")) {
-    /**
-    * create winui-page
-    * @return mixed
-    */
+	/**
+	 * create winui-page
+	 * @return mixed
+	 */
 	function igk_html_node_page()
 	{
 		return igk_create_node("div")->setAttributes(array("class" => "igk-ui-page page"));
 	}
 }
 if (!function_exists("igk_html_node_pageCenterBox")) {
-    /**
-    * Igk html node page center box.
-    * @param null|callable $host
-    * @return mixed
-    */
+	/**
+	 * Igk html node page center box.
+	 * @param null|callable $host
+	 * @return mixed
+	 */
 	function igk_html_node_pageCenterBox(?callable $host = null)
 	{
 		$box = null;
@@ -3847,17 +3856,17 @@ if (!function_exists("igk_html_node_pageCenterBox")) {
 	}
 }
 if (!function_exists("igk_html_node_paginationview")) {
-    /**
-    * build pagination settings
-    * @param mixed $baseuri
-    * @param mixed $total
-    * @param mixed $perpage
-    * @param mixed $selected
-    * @param mixed $ajx
-    * @param mixed $cookiepath
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * build pagination settings
+	 * @param mixed $baseuri
+	 * @param mixed $total
+	 * @param mixed $perpage
+	 * @param mixed $selected
+	 * @param mixed $ajx
+	 * @param mixed $cookiepath
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_paginationview($baseuri, $total, $perpage, $selected = 1, $ajx = 0, $cookiepath = null, $target = "::")
 	{
 		$e = "";
@@ -3916,10 +3925,10 @@ if (!function_exists("igk_html_node_paginationview")) {
 	}
 }
 if (!function_exists("igk_html_node_panelbox")) {
-    /**
-    * create winui-panelbox
-    * @return mixed
-    */
+	/**
+	 * create winui-panelbox
+	 * @return mixed
+	 */
 	function igk_html_node_panelbox()
 	{
 		$n = igk_create_node("div");
@@ -3928,13 +3937,13 @@ if (!function_exists("igk_html_node_panelbox")) {
 	}
 }
 if (!function_exists("igk_html_node_paneldialog")) {
-    /**
-    * create winui-paneldialog
-    * @param mixed $title
-    * @param mixed $content
-    * @param mixed $settings
-    * @return mixed
-    */
+	/**
+	 * create winui-paneldialog
+	 * @param mixed $title
+	 * @param mixed $content
+	 * @param mixed $settings
+	 * @return mixed
+	 */
 	function igk_html_node_paneldialog($title, $content = null, $settings = null)
 	{
 		if (is_string($settings)) {
@@ -3971,11 +3980,11 @@ if (!function_exists("igk_html_node_paneldialog")) {
 	}
 }
 if (!function_exists("igk_html_node_parallaxnode")) {
-    /**
-    * parallax node view
-    * @param mixed $uri
-    * @return mixed
-    */
+	/**
+	 * parallax node view
+	 * @param mixed $uri
+	 * @return mixed
+	 */
 	function igk_html_node_parallaxnode($uri = null)
 	{
 		$n = igk_create_node("div");
@@ -3985,13 +3994,13 @@ if (!function_exists("igk_html_node_parallaxnode")) {
 	}
 }
 if (!function_exists("igk_html_node_picker_zone")) {
-    /**
-    * function __desc__
-    * @param mixed $uri
-    * @param mixed $accepts
-    * @param mixed $complete
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $uri
+	 * @param mixed $accepts
+	 * @param mixed $complete
+	 * @return mixed
+	 */
 	function igk_html_node_picker_zone($uri, $accepts = "", $complete = null)
 	{
 		$dv = igk_create_node("div");
@@ -4005,10 +4014,10 @@ if (!function_exists("igk_html_node_picker_zone")) {
 	}
 }
 if (!function_exists("igk_html_node_popupmenu")) {
-    /**
-    * create winui-popupmenu
-    * @return mixed
-    */
+	/**
+	 * create winui-popupmenu
+	 * @return mixed
+	 */
 	function igk_html_node_popupmenu()
 	{
 		$n = igk_create_node("div");
@@ -4038,11 +4047,11 @@ if (!function_exists("igk_html_node_pre")) {
 	}
 }
 if (!function_exists("igk_html_node_printbtn")) {
-    /**
-    * print button
-    * @param mixed $uri
-    * @return mixed
-    */
+	/**
+	 * print button
+	 * @param mixed $uri
+	 * @return mixed
+	 */
 	function igk_html_node_printbtn($uri = null)
 	{
 		$s = igk_create_node("div");
@@ -4052,10 +4061,10 @@ if (!function_exists("igk_html_node_printbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_progressbar")) {
-    /**
-    * create winui-progressbar
-    * @return mixed
-    */
+	/**
+	 * create winui-progressbar
+	 * @return mixed
+	 */
 	function igk_html_node_progressbar()
 	{
 		$n = igk_create_node();
@@ -4081,11 +4090,11 @@ if (!function_exists("igk_html_node_radiobutton")) {
 	}
 }
 if (!function_exists("igk_html_node_readonlytextzone")) {
-    /**
-    * create winui-readonlytextzone
-    * @param mixed $file
-    * @return mixed
-    */
+	/**
+	 * create winui-readonlytextzone
+	 * @param mixed $file
+	 * @return mixed
+	 */
 	function igk_html_node_readonlytextzone($file)
 	{
 		$n = igk_create_node();
@@ -4096,10 +4105,10 @@ if (!function_exists("igk_html_node_readonlytextzone")) {
 	}
 }
 if (!function_exists("igk_html_node_registermailform")) {
-    /**
-    * create winui-registermailform
-    * @return mixed
-    */
+	/**
+	 * create winui-registermailform
+	 * @return mixed
+	 */
 	function igk_html_node_registermailform()
 	{
 		$n = igk_create_node("form");
@@ -4113,11 +4122,11 @@ if (!function_exists("igk_html_node_registermailform")) {
 	}
 }
 if (!function_exists("igk_html_node_renderingexpression")) {
-    /**
-    * renderging Expression
-    * @param mixed $callback
-    * @return mixed
-    */
+	/**
+	 * renderging Expression
+	 * @param mixed $callback
+	 * @return mixed
+	 */
 	function igk_html_node_renderingexpression($callback)
 	{
 		if (!igk_is_callable($callback))
@@ -4129,11 +4138,11 @@ if (!function_exists("igk_html_node_renderingexpression")) {
 	}
 }
 if (!function_exists("igk_html_node_repeatcontent")) {
-    /**
-    * create winui-repeatcontent
-    * @param mixed $number
-    * @return mixed
-    */
+	/**
+	 * create winui-repeatcontent
+	 * @param mixed $number
+	 * @return mixed
+	 */
 	function igk_html_node_repeatcontent($number)
 	{
 		$n = igk_create_node("div");
@@ -4143,11 +4152,11 @@ if (!function_exists("igk_html_node_repeatcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_replace_uri")) {
-    /**
-    * auto generate doc.
-    * @param mixed $uri
-    * @return mixed
-    */	function igk_html_node_replace_uri($uri = null)
+	/**
+	 * auto generate doc.
+	 * @param mixed $uri
+	 * @return mixed
+	 */	function igk_html_node_replace_uri($uri = null)
 	{
 		$c = igk_create_notagnode();
 		$rp = $uri;
@@ -4160,14 +4169,14 @@ if (!function_exists("igk_html_node_replace_uri")) {
 	}
 }
 if (!function_exists("igk_html_node_resimg")) {
-    /**
-    * function __desc__
-    * @param mixed $name
-    * @param mixed $desc
-    * @param mixed $width
-    * @param mixed $height
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $name
+	 * @param mixed $desc
+	 * @param mixed $width
+	 * @param mixed $height
+	 * @return mixed
+	 */
 	function igk_html_node_resimg($name, $desc = "", $width = 16, $height = 16)
 	{
 		$n = new HtmlNode("img");
@@ -4181,10 +4190,10 @@ if (!function_exists("igk_html_node_resimg")) {
 	}
 }
 if (!function_exists("igk_html_node_responsenode")) {
-    /**
-    * create winui-responsenode
-    * @return mixed
-    */
+	/**
+	 * create winui-responsenode
+	 * @return mixed
+	 */
 	function igk_html_node_responsenode()
 	{
 		$n = igk_create_node('div');
@@ -4193,10 +4202,10 @@ if (!function_exists("igk_html_node_responsenode")) {
 	}
 }
 if (!function_exists("igk_html_node_rollin")) {
-    /**
-    * create winui-rollin
-    * @return mixed
-    */
+	/**
+	 * create winui-rollin
+	 * @return mixed
+	 */
 	function igk_html_node_rollin()
 	{
 		$n = igk_create_node();
@@ -4205,10 +4214,10 @@ if (!function_exists("igk_html_node_rollin")) {
 	}
 }
 if (!function_exists("igk_html_node_roundbullet")) {
-    /**
-    * create winui-roundbullet
-    * @return mixed
-    */
+	/**
+	 * create winui-roundbullet
+	 * @return mixed
+	 */
 	function igk_html_node_roundbullet()
 	{
 		$n = igk_create_node("span");
@@ -4217,10 +4226,10 @@ if (!function_exists("igk_html_node_roundbullet")) {
 	}
 }
 if (!function_exists("igk_html_node_row")) {
-    /**
-    * create winui-row
-    * @return mixed
-    */
+	/**
+	 * create winui-row
+	 * @return mixed
+	 */
 	function igk_html_node_row()
 	{
 		$n = igk_create_node('div');
@@ -4244,11 +4253,11 @@ if (!function_exists("igk_html_node_row")) {
 	}
 }
 if (!function_exists("igk_html_node_rowcolumn")) {
-    /**
-    * add a row column
-    * @param mixed $classLevel css classname that init the column level
-    * @return mixed
-    */
+	/**
+	 * add a row column
+	 * @param mixed $classLevel css classname that init the column level
+	 * @return mixed
+	 */
 	function igk_html_node_rowcolumn($classLevel = null)
 	{
 		$n = igk_create_node("div");
@@ -4257,10 +4266,10 @@ if (!function_exists("igk_html_node_rowcolumn")) {
 	}
 }
 if (!function_exists("igk_html_node_rowcontainer")) {
-    /**
-    * create winui-rowcontainer
-    * @return mixed
-    */
+	/**
+	 * create winui-rowcontainer
+	 * @return mixed
+	 */
 	function igk_html_node_rowcontainer()
 	{
 		$n = igk_create_node();
@@ -4269,24 +4278,24 @@ if (!function_exists("igk_html_node_rowcontainer")) {
 	}
 }
 if (!function_exists("igk_html_node_script")) {
-    /**
-    * function __desc__
-    * @param mixed $script
-    * @param mixed $version
-    * @var ?string $script
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $script
+	 * @param mixed $version
+	 * @var ?string $script
+	 * @return mixed
+	 */
 	function igk_html_node_script($script = null, $version = null)
 	{
 		return new \IGK\System\Html\Dom\HtmlScriptNode($script, $version);
 	}
 }
 if (!function_exists("igk_html_node_scrollimg")) {
-    /**
-    * create winui-scrollimg
-    * @param mixed $src
-    * @return mixed
-    */
+	/**
+	 * create winui-scrollimg
+	 * @param mixed $src
+	 * @return mixed
+	 */
 	function igk_html_node_scrollimg($src)
 	{
 		$n = igk_create_node("igk-img-js");
@@ -4295,11 +4304,11 @@ if (!function_exists("igk_html_node_scrollimg")) {
 	}
 }
 if (!function_exists("igk_html_node_scrollloader")) {
-    /**
-    * used to load scroll Loader Item
-    * @param mixed $src
-    * @return mixed
-    */
+	/**
+	 * used to load scroll Loader Item
+	 * @param mixed $src
+	 * @return mixed
+	 */
 	function igk_html_node_scrollloader($src)
 	{
 		if ($p = igk_html_parent_node()) {
@@ -4326,12 +4335,12 @@ if (!function_exists("igk_html_node_searchField")) {
 	}
 }
 if (!function_exists("igk_html_node_searchbox")) {
-    /**
-    * function __desc__
-    * @param string $uri
-    * @param mixed $id
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param string $uri
+	 * @param mixed $id
+	 * @return mixed
+	 */
 	function igk_html_node_searchbox(string $uri, $id = "search")
 	{
 		$n = igk_create_node("div");
@@ -4342,12 +4351,12 @@ if (!function_exists("igk_html_node_searchbox")) {
 	}
 }
 if (!function_exists("igk_html_node_searchbutton")) {
-    /**
-    * search button view
-    * @param mixed $uri
-    * @param string $id
-    * @return mixed
-    */
+	/**
+	 * search button view
+	 * @param mixed $uri
+	 * @param string $id
+	 * @return mixed
+	 */
 	function igk_html_node_searchbutton(string $uri, string $id = "search")
 	{
 		$n = igk_create_node("span");
@@ -4360,11 +4369,11 @@ if (!function_exists("igk_html_node_searchbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_sectiontitle")) {
-    /**
-    * create winui-sectiontitle
-    * @param mixed $level
-    * @return mixed
-    */
+	/**
+	 * create winui-sectiontitle
+	 * @param mixed $level
+	 * @return mixed
+	 */
 	function igk_html_node_sectiontitle($level = null)
 	{
 		$n = igk_create_node();
@@ -4392,12 +4401,12 @@ if (!function_exists("igk_html_node_select")) {
 	}
 }
 if (!function_exists("igk_html_node_select_options")) {
-    /**
-    * function __desc__
-    * @param mixed $optionsList
-    * @param mixed $options
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $optionsList
+	 * @param mixed $options
+	 * @return mixed
+	 */
 	function igk_html_node_select_options($optionsList, $options = null)
 	{
 		($p = igk_html_parent_node()) || igk_die("required a parent list");
@@ -4441,15 +4450,15 @@ if (!function_exists("igk_html_node_select_options")) {
 	}
 }
 if (!function_exists("igk_html_node_selecttag")) {
-    /**
-    * create a select tag node JS requirement
-    * @param mixed $id
-    * @param mixed|null $data
-    * @param mixed $options
-    * @throws ReflectionException
-    * @throws IGKException
-    * @return object
-    */
+	/**
+	 * create a select tag node JS requirement
+	 * @param mixed $id
+	 * @param mixed|null $data
+	 * @param mixed $options
+	 * @throws ReflectionException
+	 * @throws IGKException
+	 * @return object
+	 */
 	function igk_html_node_selecttag($id, $data = null, $options = null)
 	{
 		$n = igk_create_node("div");
@@ -4461,11 +4470,11 @@ if (!function_exists("igk_html_node_selecttag")) {
 	}
 }
 if (!function_exists("igk_html_node_separator")) {
-    /**
-    * create winui-separator
-    * @param mixed $type
-    * @return mixed
-    */
+	/**
+	 * create winui-separator
+	 * @param mixed $type
+	 * @return mixed
+	 */
 	function igk_html_node_separator($type = 'horizontal')
 	{
 		$n = igk_create_node();
@@ -4481,11 +4490,11 @@ if (!function_exists("igk_html_node_separator")) {
 	}
 }
 if (!function_exists("igk_html_node_sidemenunavigation")) {
-    /**
-    * auto generate doc.
-    * @param mixed $menulist
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $menulist
+	 * @return mixed
+	 */
 	function igk_html_node_sidemenunavigation($menulist)
 	{
 		$ul = igk_create_node("ul")->setClass("side-navigation");
@@ -4506,11 +4515,11 @@ if (!function_exists("igk_html_node_sidemenunavigation")) {
 	}
 }
 if (!function_exists("igk_html_node_singlenodeviewer")) {
-    /**
-    * mixed create a shortcut to single node viewer
-    * @param mixed $node
-    * @return mixed
-    */
+	/**
+	 * mixed create a shortcut to single node viewer
+	 * @param mixed $node
+	 * @return mixed
+	 */
 	function igk_html_node_singlenodeviewer($node = null)
 	{
 		$s = 0;
@@ -4526,11 +4535,11 @@ if (!function_exists("igk_html_node_singlenodeviewer")) {
 	}
 }
 if (!function_exists("igk_html_node_singlerowcol")) {
-    /**
-    * shortcut to call node->addRow()->addCol()-> and return the column
-    * @param mixed $col
-    * @return mixed
-    */
+	/**
+	 * shortcut to call node->addRow()->addCol()-> and return the column
+	 * @param mixed $col
+	 * @return mixed
+	 */
 	function igk_html_node_singlerowcol($col = null)
 	{
 		$d = igk_html_parent_node();
@@ -4561,14 +4570,14 @@ if (!function_exists("igk_html_node_singleviewnode")) {
 	}
 }
 if (!function_exists("igk_html_node_slabelcheckbox")) {
-    /**
-    * create winui-slabelcheckbox
-    * @param mixed $id
-    * @param mixed $value
-    * @param mixed $attributes
-    * @param mixed $require
-    * @return mixed
-    */
+	/**
+	 * create winui-slabelcheckbox
+	 * @param mixed $id
+	 * @param mixed $value
+	 * @param mixed $attributes
+	 * @param mixed $require
+	 * @return mixed
+	 */
 	function igk_html_node_slabelcheckbox($id, $value = false, $attributes = null, $require = false)
 	{
 		$n = igk_html_node_notagnode();
@@ -4580,31 +4589,31 @@ if (!function_exists("igk_html_node_slabelcheckbox")) {
 	}
 }
 if (!function_exists("igk_html_node_slabelinput")) {
-    /**
-    * create winui-slabelinput
-    * @param mixed $id
-    * @param mixed $type
-    * @param mixed $value
-    * @param mixed $attributes
-    * @param mixed $require
-    * @param mixed $description
-    * @return mixed
-    */
+	/**
+	 * create winui-slabelinput
+	 * @param mixed $id
+	 * @param mixed $type
+	 * @param mixed $value
+	 * @param mixed $attributes
+	 * @param mixed $require
+	 * @param mixed $description
+	 * @return mixed
+	 */
 	function igk_html_node_slabelinput($id, $type = "text", $value = null, $attributes = null, $require = false, $description = null)
 	{
 		return igk_html_node_labelinput($id, R::ngets("lb." . $id), $type, $value, $attributes, $require, $description);
 	}
 }
 if (!function_exists("igk_html_node_slabelselect")) {
-    /**
-    * create winui-slabelselect
-    * @param mixed $id
-    * @param mixed $values
-    * @param mixed $valuekey
-    * @param mixed $defaultCallback
-    * @param mixed $required
-    * @return mixed
-    */
+	/**
+	 * create winui-slabelselect
+	 * @param mixed $id
+	 * @param mixed $values
+	 * @param mixed $valuekey
+	 * @param mixed $defaultCallback
+	 * @param mixed $required
+	 * @return mixed
+	 */
 	function igk_html_node_slabelselect($id, $values, $valuekey = false, $defaultCallback = null, $required = false)
 	{
 		$p = igk_html_parent_node();
@@ -4629,14 +4638,14 @@ if (!function_exists("igk_html_node_slabelselect")) {
 	}
 }
 if (!function_exists("igk_html_node_slabeltextarea")) {
-    /**
-    * create winui-slabeltextarea
-    * @param mixed $id
-    * @param mixed $attributes
-    * @param mixed $require
-    * @param mixed $description
-    * @return mixed
-    */
+	/**
+	 * create winui-slabeltextarea
+	 * @param mixed $id
+	 * @param mixed $attributes
+	 * @param mixed $require
+	 * @param mixed $description
+	 * @return mixed
+	 */
 	function igk_html_node_slabeltextarea($id, $attributes = null, $require = false, $description = null)
 	{
 		$i = igk_create_node("label");
@@ -4666,12 +4675,12 @@ if (!function_exists("igk_html_node_space")) {
 	}
 }
 if (!function_exists("igk_html_node_span_label")) {
-    /**
-    * function __desc__
-    * @param mixed $title
-    * @param mixed $text
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $title
+	 * @param mixed $text
+	 * @return mixed
+	 */
 	function igk_html_node_span_label($title, $text)
 	{
 		$skip = false;
@@ -4689,10 +4698,10 @@ if (!function_exists("igk_html_node_span_label")) {
 	}
 }
 if (!function_exists("igk_html_node_spangroup")) {
-    /**
-    * create winui-spangroup
-    * @return mixed
-    */
+	/**
+	 * create winui-spangroup
+	 * @return mixed
+	 */
 	function igk_html_node_spangroup()
 	{
 		$n = igk_create_node("div");
@@ -4701,10 +4710,10 @@ if (!function_exists("igk_html_node_spangroup")) {
 	}
 }
 if (!function_exists("igk_html_node_style")) {
-    /**
-    * create winui-style
-    * @return mixed
-    */
+	/**
+	 * create winui-style
+	 * @return mixed
+	 */
 	function igk_html_node_style()
 	{
 		$s = new HtmlNode("style");
@@ -4712,13 +4721,13 @@ if (!function_exists("igk_html_node_style")) {
 	}
 }
 if (!function_exists("igk_html_node_submit")) {
-    /**
-    * function __desc__
-    * @param mixed $name
-    * @param mixed $value
-    * @param mixed $type
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $name
+	 * @param mixed $value
+	 * @param mixed $type
+	 * @return mixed
+	 */
 	function igk_html_node_submit($name = null, $value = null, $type = "submit")
 	{
 		$n = igk_html_node_input($name, $type, $value);
@@ -4735,12 +4744,12 @@ if (!function_exists("igk_html_node_submit")) {
 	}
 }
 if (!function_exists("igk_html_node_submitbtn")) {
-    /**
-    * create winui-submitbtn
-    * @param mixed $name
-    * @param mixed $key
-    * @return mixed
-    */
+	/**
+	 * create winui-submitbtn
+	 * @param mixed $name
+	 * @param mixed $key
+	 * @return mixed
+	 */
 	function igk_html_node_submitbtn($name = "btn_", $key = "btn.add")
 	{
 		$n = igk_create_node("input");
@@ -4752,11 +4761,11 @@ if (!function_exists("igk_html_node_submitbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svg_container")) {
-    /**
-    * function __desc__
-    * @param ?array $containerlist
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param ?array $containerlist
+	 * @return mixed
+	 */
 	function igk_html_node_svg_container(?array $containerlist)
 	{
 		$n = igk_create_node("div")->setClass("igk-svg-container dispn");
@@ -4769,12 +4778,12 @@ if (!function_exists("igk_html_node_svg_container")) {
 	}
 }
 if (!function_exists("igk_html_node_svga")) {
-    /**
-    * create winui-svga
-    * @param mixed $uri
-    * @param mixed $svgname
-    * @return mixed
-    */
+	/**
+	 * create winui-svga
+	 * @param mixed $uri
+	 * @param mixed $svgname
+	 * @return mixed
+	 */
 	function igk_html_node_svga($uri, $svgname)
 	{
 		$n = igk_html_node_a($uri);
@@ -4784,12 +4793,12 @@ if (!function_exists("igk_html_node_svga")) {
 	}
 }
 if (!function_exists("igk_html_node_svgajxformbtn")) {
-    /**
-    * create winui-svgajxformbtn
-    * @param mixed $uri
-    * @param mixed $svgname
-    * @return mixed
-    */
+	/**
+	 * create winui-svgajxformbtn
+	 * @param mixed $uri
+	 * @param mixed $svgname
+	 * @return mixed
+	 */
 	function igk_html_node_svgajxformbtn($uri, $svgname)
 	{
 		$n = igk_html_node_a($uri);
@@ -4799,12 +4808,12 @@ if (!function_exists("igk_html_node_svgajxformbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svglnkbtn")) {
-    /**
-    * create winui-svglnkbtn
-    * @param mixed $uri
-    * @param mixed $svgname
-    * @return mixed
-    */
+	/**
+	 * create winui-svglnkbtn
+	 * @param mixed $uri
+	 * @param mixed $svgname
+	 * @return mixed
+	 */
 	function igk_html_node_svglnkbtn($uri, $svgname)
 	{
 		$n = igk_html_node_a($uri);
@@ -4814,11 +4823,11 @@ if (!function_exists("igk_html_node_svglnkbtn")) {
 	}
 }
 if (!function_exists("igk_html_node_svgsymbol")) {
-    /**
-    * create winui-svgsymbol
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * create winui-svgsymbol
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_svgsymbol($name = null)
 	{
 		$n = igk_create_node("div");
@@ -4828,11 +4837,11 @@ if (!function_exists("igk_html_node_svgsymbol")) {
 	}
 }
 if (!function_exists("igk_html_node_svguse")) {
-    /**
-    * create winui-svguse
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * create winui-svguse
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_svguse($name)
 	{
 		$n = igk_html_node_notagnode();
@@ -4841,14 +4850,14 @@ if (!function_exists("igk_html_node_svguse")) {
 	}
 }
 if (!function_exists("igk_html_node_symbol")) {
-    /**
-    * create winui-symbol
-    * @param mixed $code
-    * @param mixed $w
-    * @param mixed $h
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * create winui-symbol
+	 * @param mixed $code
+	 * @param mixed $w
+	 * @param mixed $h
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_symbol($code, $w = 16, $h = 16, $name = 'default')
 	{
 		$n = igk_create_node();
@@ -4860,11 +4869,11 @@ if (!function_exists("igk_html_node_symbol")) {
 	}
 }
 if (!function_exists("igk_html_node_sysarticle")) {
-    /**
-    * used to add system article
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * used to add system article
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_sysarticle($name)
 	{
 		$f = igk_io_get_article($name);
@@ -4874,10 +4883,10 @@ if (!function_exists("igk_html_node_sysarticle")) {
 	}
 }
 if (!function_exists("igk_html_node_tabbutton")) {
-    /**
-    * create winui-tabbutton
-    * @return mixed
-    */
+	/**
+	 * create winui-tabbutton
+	 * @return mixed
+	 */
 	function igk_html_node_tabbutton()
 	{
 		$n = igk_create_node("div");
@@ -4887,11 +4896,11 @@ if (!function_exists("igk_html_node_tabbutton")) {
 	}
 }
 if (!function_exists("igk_html_node_table")) {
-    /**
-    * function __desc__
-    * @param ?string $id
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param ?string $id
+	 * @return mixed
+	 */
 	function igk_html_node_table(?string $id = null)
 	{
 		$i = new \IGK\System\Html\Dom\HtmlTableNode();
@@ -4901,12 +4910,12 @@ if (!function_exists("igk_html_node_table")) {
 	}
 }
 if (!function_exists("igk_html_node_tableheader")) {
-    /**
-    * function __desc__
-    * @param mixed $headers
-    * @param mixed $filter
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $headers
+	 * @param mixed $filter
+	 * @return mixed
+	 */
 	function igk_html_node_tableheader($headers, $filter = null)
 	{
 		$tr = igk_create_node("tr");
@@ -4923,10 +4932,10 @@ if (!function_exists("igk_html_node_tableheader")) {
 	}
 }
 if (!function_exists("igk_html_node_tablehost")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_tablehost()
 	{
 		$n = igk_create_node("div");
@@ -4935,13 +4944,13 @@ if (!function_exists("igk_html_node_tablehost")) {
 	}
 }
 if (!function_exists("igk_html_node_template")) {
-    /**
-    * use to add a template node
-    * @param mixed $ctrl
-    * @param mixed $name
-    * @param mixed $row
-    * @return mixed
-    */
+	/**
+	 * use to add a template node
+	 * @param mixed $ctrl
+	 * @param mixed $name
+	 * @param mixed $row
+	 * @return mixed
+	 */
 	function igk_html_node_template($ctrl, $name, $row = null)
 	{
 		$d = igk_create_node();
@@ -4950,24 +4959,24 @@ if (!function_exists("igk_html_node_template")) {
 	}
 }
 if (!function_exists("igk_html_node_text")) {
-    /**
-    * create text node
-    * @param mixed $txt
-    * @return mixed
-    */
+	/**
+	 * create text node
+	 * @param mixed $txt
+	 * @return mixed
+	 */
 	function igk_html_node_text($txt = null)
 	{
 		return igk_createtextnode($txt);
 	}
 }
 if (!function_exists("igk_html_node_textarea")) {
-    /**
-    * create winui-textarea
-    * @param mixed $name
-    * @param mixed $content
-    * @param mixed $attributes
-    * @return mixed
-    */
+	/**
+	 * create winui-textarea
+	 * @param mixed $name
+	 * @param mixed $content
+	 * @param mixed $attributes
+	 * @return mixed
+	 */
 	function igk_html_node_textarea($name = null, $content = null, $attributes = null)
 	{
 		$tx = new HtmlNode("textarea");
@@ -4986,13 +4995,13 @@ if (!function_exists("igk_html_node_textarea")) {
 	}
 }
 if (!function_exists("igk_html_node_textedit")) {
-    /**
-    * represent a zone node for text edition
-    * @param mixed $id
-    * @param mixed $uri
-    * @param mixed $c
-    * @return mixed
-    */
+	/**
+	 * represent a zone node for text edition
+	 * @param mixed $id
+	 * @param mixed $uri
+	 * @param mixed $c
+	 * @return mixed
+	 */
 	function igk_html_node_textedit($id, $uri, $c = null)
 	{
 		$n = igk_create_node("span");
@@ -5003,11 +5012,11 @@ if (!function_exists("igk_html_node_textedit")) {
 	}
 }
 if (!function_exists("igk_html_node_thumbnaildocument")) {
-    /**
-    * create a thumbnail document
-    * @param mixed $id
-    * @return mixed
-    */
+	/**
+	 * create a thumbnail document
+	 * @param mixed $id
+	 * @return mixed
+	 */
 	function igk_html_node_thumbnaildocument($id)
 	{
 		$d = igk_get_document($id, 1);
@@ -5030,10 +5039,10 @@ if (!function_exists("igk_html_node_time")) {
 	}
 }
 if (!function_exists("igk_html_node_tip")) {
-    /**
-    * represent a tip panel
-    * @return mixed
-    */
+	/**
+	 * represent a tip panel
+	 * @return mixed
+	 */
 	function igk_html_node_tip()
 	{
 		$n = igk_create_node("p");
@@ -5042,11 +5051,11 @@ if (!function_exists("igk_html_node_tip")) {
 	}
 }
 if (!function_exists("igk_html_node_titlelevel")) {
-    /**
-    * create winui-titlelevel
-    * @param mixed $level
-    * @return mixed
-    */
+	/**
+	 * create winui-titlelevel
+	 * @param mixed $level
+	 * @return mixed
+	 */
 	function igk_html_node_titlelevel($level = 1)
 	{
 		$n = igk_create_node();
@@ -5055,12 +5064,12 @@ if (!function_exists("igk_html_node_titlelevel")) {
 	}
 }
 if (!function_exists("igk_html_node_titlenode")) {
-    /**
-    * create winui-titlenode
-    * @param mixed $class
-    * @param mixed $text
-    * @return mixed
-    */
+	/**
+	 * create winui-titlenode
+	 * @param mixed $class
+	 * @param mixed $text
+	 * @return mixed
+	 */
 	function igk_html_node_titlenode($class, $text)
 	{
 		if (!$class)
@@ -5071,10 +5080,10 @@ if (!function_exists("igk_html_node_titlenode")) {
 	}
 }
 if (!function_exists("igk_html_node_toast")) {
-    /**
-    * for toast messageattribute :
-    * @return mixed
-    */
+	/**
+	 * for toast messageattribute :
+	 * @return mixed
+	 */
 	function igk_html_node_toast()
 	{
 		$n = igk_create_node("div");
@@ -5083,11 +5092,11 @@ if (!function_exists("igk_html_node_toast")) {
 	}
 }
 if (!function_exists("igk_html_node_toast_notify")) {
-    /**
-    * function __desc__
-    * @param mixed $name
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $name
+	 * @return mixed
+	 */
 	function igk_html_node_toast_notify($name)
 	{
 		$node = igk_html_node_notagnode();
@@ -5114,20 +5123,20 @@ if (!function_exists("igk_html_node_toggleThemeButton")) {
 	}
 }
 if (!function_exists("igk_html_node_togglebutton")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_togglebutton()
 	{
 		return new \IGK\System\Html\Dom\HtmlToggleButtonNode();
 	}
 }
 if (!function_exists("igk_html_node_tooltip")) {
-    /**
-    * create winui-tooltip
-    * @return mixed
-    */
+	/**
+	 * create winui-tooltip
+	 * @return mixed
+	 */
 	function igk_html_node_tooltip()
 	{
 		$n = igk_create_xmlnode("igk:tooltip")->setAttribute("style", "display:none;");
@@ -5135,10 +5144,10 @@ if (!function_exists("igk_html_node_tooltip")) {
 	}
 }
 if (!function_exists("igk_html_node_topnavbar")) {
-    /**
-    * create winui-topnavbar
-    * @return mixed
-    */
+	/**
+	 * create winui-topnavbar
+	 * @return mixed
+	 */
 	function igk_html_node_topnavbar()
 	{
 		$n = igk_create_node("div");
@@ -5148,14 +5157,14 @@ if (!function_exists("igk_html_node_topnavbar")) {
 	}
 }
 if (!function_exists("igk_html_node_trackbarnode")) {
-    /**
-    * create winui-trackbarnode
-    * @param mixed $id
-    * @param mixed $value
-    * @param mixed $min
-    * @param mixed $max
-    * @return mixed
-    */
+	/**
+	 * create winui-trackbarnode
+	 * @param mixed $id
+	 * @param mixed $value
+	 * @param mixed $min
+	 * @param mixed $max
+	 * @return mixed
+	 */
 	function igk_html_node_trackbarnode($id, $value, $min = 0, $max = 100)
 	{
 		$n = igk_create_node("input");
@@ -5169,10 +5178,10 @@ if (!function_exists("igk_html_node_trackbarnode")) {
 	}
 }
 if (!function_exists("igk_html_node_transitionblock")) {
-    /**
-    * create a transition block node
-    * @return mixed
-    */
+	/**
+	 * create a transition block node
+	 * @return mixed
+	 */
 	function igk_html_node_transitionblock()
 	{
 		$n = igk_create_node("div");
@@ -5181,10 +5190,10 @@ if (!function_exists("igk_html_node_transitionblock")) {
 	}
 }
 if (!function_exists("igk_html_node_underconstructionpage")) {
-    /**
-    * create winui-underconstructionpage
-    * @return mixed
-    */
+	/**
+	 * create winui-underconstructionpage
+	 * @return mixed
+	 */
 	function igk_html_node_underconstructionpage()
 	{
 		$n = igk_create_node();
@@ -5224,11 +5233,11 @@ if (!function_exists("igk_html_node_userinfo")) {
 	}
 }
 if (!function_exists("igk_html_node_usesvg")) {
-    /**
-    * shortcut to load svg document
-    * @param string $name
-    * @return mixed
-    */
+	/**
+	 * shortcut to load svg document
+	 * @param string $name
+	 * @return mixed
+	 */
 	function igk_html_node_usesvg(string $name)
 	{
 		$s = igk_create_node("span");
@@ -5237,12 +5246,12 @@ if (!function_exists("igk_html_node_usesvg")) {
 	}
 }
 if (!function_exists("igk_html_node_videofilestream")) {
-    /**
-    * create winui-videofilestream
-    * @param mixed $location
-    * @param mixed $auth
-    * @return mixed
-    */
+	/**
+	 * create winui-videofilestream
+	 * @param mixed $location
+	 * @param mixed $auth
+	 * @return mixed
+	 */
 	function igk_html_node_videofilestream($location, $auth = false)
 	{
 		$n = igk_create_node("video");
@@ -5253,13 +5262,13 @@ if (!function_exists("igk_html_node_videofilestream")) {
 	}
 }
 if (!function_exists("igk_html_node_view_code")) {
-    /**
-    * function __desc__
-    * @param string $file
-    * @param int $startLine
-    * @param int $endLine
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param string $file
+	 * @param int $startLine
+	 * @param int $endLine
+	 * @return mixed
+	 */
 	function igk_html_node_view_code(string $file, int $startLine, int $endLine)
 	{
 		if (!igk_io_file_exists($file)) {
@@ -5271,12 +5280,12 @@ if (!function_exists("igk_html_node_view_code")) {
 	}
 }
 if (!function_exists("igk_html_node_view_include")) {
-    /**
-    * function __desc__
-    * @param string $path
-    * @param ?BaseController $ctrl
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param string $path
+	 * @param ?BaseController $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_view_include(string $path, ?BaseController $ctrl = null)
 	{
 		if (is_null($ctrl)) {
@@ -5287,12 +5296,12 @@ if (!function_exists("igk_html_node_view_include")) {
 	}
 }
 if (!function_exists("igk_html_node_viewcontent")) {
-    /**
-    * used to evaluate the content. in xpthml file the content will be evaluated
-    * @param mixed $listener
-    * @param mixed $data
-    * @return mixed
-    */
+	/**
+	 * used to evaluate the content. in xpthml file the content will be evaluated
+	 * @param mixed $listener
+	 * @param mixed $data
+	 * @return mixed
+	 */
 	function igk_html_node_viewcontent($listener, $data = null)
 	{
 		$d = igk_html_node_noTagNode();
@@ -5302,23 +5311,23 @@ if (!function_exists("igk_html_node_viewcontent")) {
 	}
 }
 if (!function_exists("igk_html_node_visible")) {
-    /**
-    * add a visibility server node
-    * @param mixed $cond
-    * @return mixed
-    */
+	/**
+	 * add a visibility server node
+	 * @param mixed $cond
+	 * @return mixed
+	 */
 	function igk_html_node_visible($cond)
 	{
 		return new \IGK\System\Html\Dom\HtmlVisibleNode($cond);
 	}
 }
 if (!function_exists("igk_html_node_vscrollbar")) {
-    /**
-    * create winui-vscrollbar
-    * @param mixed $cibling
-    * @param mixed $initTarget
-    * @return mixed
-    */
+	/**
+	 * create winui-vscrollbar
+	 * @param mixed $cibling
+	 * @param mixed $initTarget
+	 * @return mixed
+	 */
 	function igk_html_node_vscrollbar($cibling = null, $initTarget = null)
 	{
 		$n = igk_create_node();
@@ -5329,23 +5338,23 @@ if (!function_exists("igk_html_node_vscrollbar")) {
 	}
 }
 if (!function_exists("igk_html_node_vsep")) {
-    /**
-    * create winui-vsep
-    * @return mixed
-    */
+	/**
+	 * create winui-vsep
+	 * @return mixed
+	 */
 	function igk_html_node_vsep()
 	{
 		return igk_html_node_Separator("vertical");
 	}
 }
 if (!function_exists("igk_html_node_walk")) {
-    /**
-    * function __desc__
-    * @param mixed $tagname
-    * @param mixed $items
-    * @param mixed $callback
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @param mixed $tagname
+	 * @param mixed $items
+	 * @param mixed $callback
+	 * @return mixed
+	 */
 	function igk_html_node_walk($tagname, $items, $callback)
 	{
 		$p = igk_html_parent_node();
@@ -5358,21 +5367,21 @@ if (!function_exists("igk_html_node_walk")) {
 	}
 }
 if (!function_exists("igk_html_node_webarticle")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_webarticle()
 	{
 		return igk_create_node("article");
 	}
 }
 if (!function_exists("igk_html_node_webglgamesurface")) {
-    /**
-    * create winui-webglgamesurface
-    * @param mixed $listener
-    * @return mixed
-    */
+	/**
+	 * create winui-webglgamesurface
+	 * @param mixed $listener
+	 * @return mixed
+	 */
 	function igk_html_node_webglgamesurface($listener = null)
 	{
 		$n = igk_create_node("div");
@@ -5383,10 +5392,10 @@ if (!function_exists("igk_html_node_webglgamesurface")) {
 	}
 }
 if (!function_exists("igk_html_node_webmasternode")) {
-    /**
-    * create a node that will only be visible on webmaster mode context
-    * @return mixed
-    */
+	/**
+	 * create a node that will only be visible on webmaster mode context
+	 * @return mixed
+	 */
 	function igk_html_node_webmasternode()
 	{
 		$n = igk_create_node("webmaster-node");
@@ -5407,12 +5416,12 @@ if (!function_exists("igk_html_node_widget")) {
 	}
 }
 if (!function_exists("igk_html_node_word")) {
-    /**
-    * create winui-word
-    * @param mixed $v
-    * @param mixed $cl
-    * @return mixed
-    */
+	/**
+	 * create winui-word
+	 * @param mixed $v
+	 * @param mixed $cl
+	 * @return mixed
+	 */
 	function igk_html_node_word($v, $cl)
 	{
 		$n = igk_create_node("span");
@@ -5422,12 +5431,12 @@ if (!function_exists("igk_html_node_word")) {
 	}
 }
 if (!function_exists("igk_html_node_wordcasesplitter")) {
-    /**
-    * create winui-wordcasesplitter
-    * @param mixed $v
-    * @param mixed $split
-    * @return mixed
-    */
+	/**
+	 * create winui-wordcasesplitter
+	 * @param mixed $v
+	 * @param mixed $split
+	 * @return mixed
+	 */
 	function igk_html_node_wordcasesplitter($v, $split = 5)
 	{
 		$n = igk_create_node();
@@ -5446,10 +5455,10 @@ if (!function_exists("igk_html_node_wordcasesplitter")) {
 	}
 }
 if (!function_exists("igk_html_node_wordsplitview")) {
-    /**
-    * create winui-wordsplitview
-    * @return mixed
-    */
+	/**
+	 * create winui-wordsplitview
+	 * @return mixed
+	 */
 	function igk_html_node_wordsplitview()
 	{
 		$n = igk_create_node("div");
@@ -5458,35 +5467,35 @@ if (!function_exists("igk_html_node_wordsplitview")) {
 	}
 }
 if (!function_exists("igk_html_node_xmlnode")) {
-    /**
-    * create xml node
-    * @param mixed $tag
-    * @return mixed
-    */
+	/**
+	 * create xml node
+	 * @param mixed $tag
+	 * @return mixed
+	 */
 	function igk_html_node_xmlnode($tag)
 	{
 		return igk_create_xmlnode($tag);
 	}
 }
 if (!function_exists("igk_html_node_xmlviewer")) {
-    /**
-    * function __desc__
-    * @return mixed
-    */
+	/**
+	 * function __desc__
+	 * @return mixed
+	 */
 	function igk_html_node_xmlviewer()
 	{
 		return new \IGK\System\Html\Dom\HtmlXmlViewerNode();
 	}
 }
 if (!function_exists("igk_html_node_xslt")) {
-    /**
-    * create winui-xslt
-    * @param mixed $xml
-    * @param mixed $xslt
-    * @param mixed $global
-    * @param mixed $options
-    * @return mixed
-    */
+	/**
+	 * create winui-xslt
+	 * @param mixed $xml
+	 * @param mixed $xslt
+	 * @param mixed $global
+	 * @param mixed $options
+	 * @return mixed
+	 */
 	function igk_html_node_xslt($xml, $xslt, $global = 0, $options = null)
 	{
 		$header = igk_xml_header();
@@ -5506,13 +5515,13 @@ EOF;
 	}
 }
 if (!function_exists("igk_html_node_xsltranform")) {
-    /**
-    * create winui-xsltranform
-    * @param mixed $xmluri
-    * @param mixed $xsluri
-    * @param mixed $target
-    * @return mixed
-    */
+	/**
+	 * create winui-xsltranform
+	 * @param mixed $xmluri
+	 * @param mixed $xsluri
+	 * @param mixed $target
+	 * @return mixed
+	 */
 	function igk_html_node_xsltranform($xmluri, $xsluri, $target = null)
 	{
 		if (!isset($xmluri) || empty($xmluri))
@@ -5528,12 +5537,12 @@ if (!function_exists("igk_html_node_xsltranform")) {
 	}
 }
 if (!function_exists("igk_html_node_yield")) {
-    /**
-    * auto generate doc.
-    * @param string $hook
-    * @param mixed ...$args
-    * @return HtmlNoTagNode
-    */
+	/**
+	 * auto generate doc.
+	 * @param string $hook
+	 * @param mixed ...$args
+	 * @return HtmlNoTagNode
+	 */
 	function igk_html_node_yield(string $hook, ...$args)
 	{
 		$n = igk_html_node_notagnode();
@@ -5547,12 +5556,12 @@ if (!function_exists("igk_html_node_yield")) {
 	}
 }
 if (!function_exists("igk_html_set_tooltip")) {
-    /**
-    * set placehost for input
-    * @param mixed $n
-    * @param mixed $m
-    * @return mixed
-    */
+	/**
+	 * set placehost for input
+	 * @param mixed $n
+	 * @param mixed $m
+	 * @return mixed
+	 */
 	function igk_html_set_tooltip($n, $m)
 	{
 		$n->input->setAttribute("placeholder", $m);
@@ -5560,10 +5569,10 @@ if (!function_exists("igk_html_set_tooltip")) {
 	}
 }
 if (!function_exists("igk_html_textareav_callback")) {
-    /**
-    * function igk_html_textareav_callback
-    * @return mixed
-    */
+	/**
+	 * function igk_html_textareav_callback
+	 * @return mixed
+	 */
 	function igk_html_textareav_callback()
 	{
 		igk_die("value not implement");
@@ -5571,12 +5580,12 @@ if (!function_exists("igk_html_textareav_callback")) {
 	}
 }
 if (!function_exists("igk_html_viewcontentacceptrender")) {
-    /**
-    * function igk_html_viewcontentacceptrender
-    * @param mixed $a
-    * @param mixed $b
-    * @return mixed
-    */
+	/**
+	 * function igk_html_viewcontentacceptrender
+	 * @param mixed $a
+	 * @param mixed $b
+	 * @return mixed
+	 */
 	function igk_html_viewcontentacceptrender($a, $b)
 	{
 		$a->clearChilds();
@@ -5588,21 +5597,21 @@ if (!function_exists("igk_html_viewcontentacceptrender")) {
 	}
 }
 if (!function_exists("igk_html_visibleconditionalnode")) {
-    /**
-    * function igk_html_visibleconditionalnode
-    * @return mixed
-    */
+	/**
+	 * function igk_html_visibleconditionalnode
+	 * @return mixed
+	 */
 	function igk_html_visibleconditionalnode()
 	{
 		return igk_is_conf_connected();
 	}
 }
 if (!function_exists("igk_init_renderinglang")) {
-    /**
-    * function igk_init_renderinglang
-    * @param mixed $sl
-    * @return mixed
-    */
+	/**
+	 * function igk_init_renderinglang
+	 * @param mixed $sl
+	 * @return mixed
+	 */
 	function igk_init_renderinglang($sl)
 	{
 		$sl->clearChilds();
@@ -5624,11 +5633,11 @@ if (!function_exists("igk_init_renderinglang")) {
 	}
 }
 if (!function_exists("igk_init_renderingtheme_callback")) {
-    /**
-    * function igk_init_renderingtheme_callback
-    * @param mixed $n
-    * @return mixed
-    */
+	/**
+	 * function igk_init_renderingtheme_callback
+	 * @param mixed $n
+	 * @return mixed
+	 */
 	function igk_init_renderingtheme_callback($n)
 	{
 		$n->clearChilds();
@@ -5648,11 +5657,11 @@ if (!function_exists("igk_init_renderingtheme_callback")) {
 	}
 }
 if (!function_exists("igk_lang_display")) {
-    /**
-    * get language display utility
-    * @param mixed $v
-    * @return mixed
-    */
+	/**
+	 * get language display utility
+	 * @param mixed $v
+	 * @return mixed
+	 */
 	function igk_lang_display($v)
 	{
 		static $display = null;
@@ -5666,11 +5675,11 @@ if (!function_exists("igk_lang_display")) {
 	}
 }
 if (!function_exists("igk_min_script")) {
-    /**
-    * helper minify script
-    * @param mixed $s
-    * @return mixed
-    */
+	/**
+	 * helper minify script
+	 * @param mixed $s
+	 * @return mixed
+	 */
 	function igk_min_script(string $s)
 	{
 		$s = preg_replace("/(\n|\t|\r)/i", "", $s);
@@ -5678,15 +5687,15 @@ if (!function_exists("igk_min_script")) {
 	}
 }
 if (!function_exists("igk_notifyhostbind_callback")) {
-    /**
-    * function igk_notifyhostbind_callback
-    * @param mixed $host
-    * @param mixed $name
-    * @param mixed $autohide
-    * @param mixed $options
-    * @param mixed $bind
-    * @return mixed
-    */
+	/**
+	 * function igk_notifyhostbind_callback
+	 * @param mixed $host
+	 * @param mixed $name
+	 * @param mixed $autohide
+	 * @param mixed $options
+	 * @param mixed $bind
+	 * @return mixed
+	 */
 	function igk_notifyhostbind_callback($host, $name, $autohide, $options = null, $bind = null)
 	{
 		$c = igk_notifyctrl();
@@ -5703,16 +5712,16 @@ if (!function_exists("igk_notifyhostbind_callback")) {
 	}
 }
 if (!function_exists("igk_pic_zone")) {
-    /**
-    * function igk_pic_zone
-    * @param mixed $n
-    * @param mixed $r
-    * @param mixed $c
-    * @param mixed $base
-    * @param mixed $tab
-    * @param mixed $offset
-    * @return mixed
-    */
+	/**
+	 * function igk_pic_zone
+	 * @param mixed $n
+	 * @param mixed $r
+	 * @param mixed $c
+	 * @param mixed $base
+	 * @param mixed $tab
+	 * @param mixed $offset
+	 * @return mixed
+	 */
 	function igk_pic_zone($n, $r, $c, $base = 4, $tab = null, $offset = 0)
 	{
 		$tr = $r;
@@ -5732,12 +5741,12 @@ if (!function_exists("igk_pic_zone")) {
 	}
 }
 if (!function_exists("igk_site_map_add_uri")) {
-    /**
-    * function igk_site_map_add_uri
-    * @param mixed $n
-    * @param mixed $uri
-    * @return mixed
-    */
+	/**
+	 * function igk_site_map_add_uri
+	 * @param mixed $n
+	 * @param mixed $uri
+	 * @return mixed
+	 */
 	function igk_site_map_add_uri($n, $uri = null)
 	{
 		$c = $n->addNode("url");
@@ -5746,11 +5755,11 @@ if (!function_exists("igk_site_map_add_uri")) {
 	}
 }
 if (!function_exists('igk_html_node_logo')) {
-    /**
-    * Igk html node logo.
-    * @param null|BaseController $ctrl
-    * @return mixed
-    */
+	/**
+	 * Igk html node logo.
+	 * @param null|BaseController $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_logo(?BaseController $ctrl = null)
 	{
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl() ?? igk_die("require controller.");
@@ -5774,13 +5783,13 @@ if (!function_exists('igk_html_node_button_group')) {
 	}
 }
 if (!function_exists('igk_html_node_connection_community')) {
-    /**
-    * Igk html node connection community.
-    * @param null|string $appName
-    * @param null|string $redirectUri
-    * @param null|BaseController $ctrl
-    * @return mixed
-    */
+	/**
+	 * Igk html node connection community.
+	 * @param null|string $appName
+	 * @param null|string $redirectUri
+	 * @param null|BaseController $ctrl
+	 * @return mixed
+	 */
 	function igk_html_node_connection_community(?string $appName = null, ?string $redirectUri = null, ?BaseController $ctrl = null)
 	{
 		$n = igk_create_node('div');
@@ -5800,11 +5809,11 @@ if (!function_exists('igk_html_node_connection_community')) {
 	}
 }
 if (!function_exists('igk_html_node_bind')) {
-    /**
-    * binding node to
-    * @param mixed ...$arg
-    * @return void
-    */
+	/**
+	 * binding node to
+	 * @param mixed ...$arg
+	 * @return void
+	 */
 	function igk_html_node_bind(...$arg)
 	{
 		$p = igk_html_parent_node() ?? igk_die('missing parent node');
@@ -5832,9 +5841,9 @@ if (!function_exists('igk_html_node_bind')) {
 	}
 }
 /**
-* create a centered grid box node
-* @return mixed
-*/
+ * create a centered grid box node
+ * @return mixed
+ */
 function igk_html_node_centerbox_grid()
 {
 	$n = igk_create_node('div');
@@ -5842,9 +5851,9 @@ function igk_html_node_centerbox_grid()
 	return $n;
 }
 /**
-* create a centerd box flex box node
-* @return mixed
-*/
+ * create a centerd box flex box node
+ * @return mixed
+ */
 function igk_html_node_centerbox_flex()
 {
 	$n = igk_create_node('div');
@@ -5869,11 +5878,11 @@ if (!function_exists('igk_html_node_listitem')) {
 	}
 }
 if (!function_exists('igk_html_node_flex')) {
-    /**
-    * Igk html node flex.
-    * @param mixed $tag
-    * @return mixed
-    */
+	/**
+	 * Igk html node flex.
+	 * @param mixed $tag
+	 * @return mixed
+	 */
 	function igk_html_node_flex($tag = 'div')
 	{
 		$n = igk_create_node($tag);
@@ -5882,11 +5891,11 @@ if (!function_exists('igk_html_node_flex')) {
 	}
 }
 if (!function_exists('igk_html_node_grid')) {
-    /**
-    * Igk html node flex.
-    * @param mixed $tag
-    * @return mixed
-    */
+	/**
+	 * Igk html node flex.
+	 * @param mixed $tag
+	 * @return mixed
+	 */
 	function igk_html_node_flex($tag = 'div')
 	{
 		$n = igk_create_node($tag);
@@ -5943,10 +5952,10 @@ if (!function_exists('igk_html_node_mailpreview')) {
 	}
 }
 if (!function_exists('igk_html_node_dotwaiter')) {
-    /**
-    * Igk html node dotwaiter.
-    * @return mixed
-    */
+	/**
+	 * Igk html node dotwaiter.
+	 * @return mixed
+	 */
 	function igk_html_node_dotwaiter()
 	{
 		$n = igk_create_node('div');
@@ -5958,13 +5967,13 @@ if (!function_exists('igk_html_node_dotwaiter')) {
 	}
 }
 if (!function_exists('igk_html_node_breadcrumbs')) {
-    /**
-    * auto generate doc.
-    * @param mixed $menus
-    * @param mixed $ctrl
-    * @param mixed $selected
-    * @return HtmlItemBase
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $menus
+	 * @param mixed $ctrl
+	 * @param mixed $selected
+	 * @return HtmlItemBase
+	 */
 	function igk_html_node_breadcrumbs($menus, ?BaseController $ctrl = null, $selected = null)
 	{
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
@@ -6001,12 +6010,12 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 	}
 }
 if (!function_exists('igk_html_node_markdown')) {
-    /**
-    * Igk html node markdown.
-    * @param string $content
-    * @param null|mixed $options
-    * @return mixed
-    */
+	/**
+	 * Igk html node markdown.
+	 * @param string $content
+	 * @param null|mixed $options
+	 * @return mixed
+	 */
 	function igk_html_node_markdown(string $content, $options = null)
 	{
 		list(
@@ -6030,14 +6039,15 @@ if (!function_exists('igk_html_node_markdown')) {
 	}
 }
 
-if (!function_exists('igk_html_node_markdown_file')){
-    /**
-    * create a markdown node from file
-    * @param string $file
-    * @param mixed $options
-    * @return mixed
-    */
-	function igk_html_node_markdown_file(string $file, $options=null){
+if (!function_exists('igk_html_node_markdown_file')) {
+	/**
+	 * create a markdown node from file
+	 * @param string $file
+	 * @param mixed $options
+	 * @return mixed
+	 */
+	function igk_html_node_markdown_file(string $file, $options = null)
+	{
 		$src = file_get_contents($file);
 		return igk_html_node_markdown($src, $options);
 	}
@@ -6046,10 +6056,10 @@ if (!function_exists('igk_html_node_markdown_file')){
 
 
 if (!function_exists('igk_html_node_x_template')) {
-    /**
-    * Igk html node x template.
-    * @return mixed
-    */
+	/**
+	 * Igk html node x template.
+	 * @return mixed
+	 */
 	function igk_html_node_x_template()
 	{
 		$n = new HtmlNode('template');
@@ -6066,14 +6076,15 @@ if (!function_exists('igk_html_node_inflate')) {
 	function igk_html_node_inflate(string $file, $data = null) {}
 }
 
-if (!function_exists('igk_wtag')){
+if (!function_exists('igk_wtag')) {
 	/**
 	 * writing 
 	 * @param string $tagname 
 	 * @param string $content 
 	 * @return ?string 
 	 */
-	function igk_wtag(string $tagname, string $content){
+	function igk_wtag(string $tagname, string $content)
+	{
 		$n = igk_create_node($tagname);
 		$n->text($content);
 		return $n->render();
@@ -6084,10 +6095,11 @@ if (!function_exists('igk_wtag')){
  * monitor progress component for global ajx uploading
  * @return mixed 
  */
-function igk_html_node_ajx_monitor_progress(){
-    $n = igk_create_node_arg('div.igk-winui-monitor-progress');
-    return $n;
+function igk_html_node_ajx_monitor_progress()
+{
+	$n = igk_create_node_arg('div.igk-winui-monitor-progress');
+	return $n;
 }
 
-require_once __DIR__.'/Inc/html/forms/actionbar.pinc';
-require_once __DIR__.'/Lib/Classes/System/Html/Dom/StepperForm.php';
+require_once __DIR__ . '/Inc/html/forms/actionbar.pinc';
+require_once __DIR__ . '/Lib/Classes/System/Html/Dom/StepperForm.php';

@@ -65,4 +65,4 @@ ApplicationFactory::Register("phpunit", PhpUnitApplication::class);
 // + | ---------------------------------------------------------------------------------------------------
 // + | run phpunit app
 // + | 
- ApplicationLoader::Boot("phpunit")->run(__FILE__, false);
+ ApplicationLoader::Boot(IGKApplication::PHPUNIT_TYPE)->run(__FILE__, false);

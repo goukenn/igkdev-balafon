@@ -1541,6 +1541,13 @@ if (!function_exists('igk_html_host')) {
                     }
                     break;
             }
+        } else {
+           // if ($p instanceof HtmlNode){
+                // the node were to add . 
+                // $n = igk_create_notagnode();
+                // $n->add($p);
+                // $p = $n;
+            // }
         }
         $tp = [['n' => $p, 'p' => $params]];
         $root = $root ?? $p;

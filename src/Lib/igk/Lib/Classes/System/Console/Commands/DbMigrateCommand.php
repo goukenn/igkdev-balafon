@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
+use IGK\Helper\Database;
 use IGK\Helper\SysUtils;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\AppExecCommand;
@@ -76,21 +77,16 @@ class DbMigrateCommand extends AppExecCommand
             }
         } else {
             $c = igk_sys_getall_ctrl();
-            if (($ctrl === null) && ($modules = igk_get_modules())) {
-                $list = array_filter(array_map(function ($c, $k) {
-                    if ($mod = igk_get_module($k)) {
-                        return $mod;
-                    }
-                }, $modules, array_keys($modules)));
+            if (($ctrl === null) && ($migrations = Database::ModuleMigrations()) ) {
+                $t = [$migrations];
                 SysUtils::PrependSysDb($c);
-                $c = array_merge($c, [IGKModuleListMigration::Create($list)]);
+                $c = array_merge($c, $t); 
             }
         }
         if (!$c){
             Logger::danger('no controller found to migrate');
             return -1;
-        }
-        $HTrait = str_repeat('-', 20);
+        } 
         Logger::print(self::H_TRAIT);
         Logger::info("Do migration ");
         Logger::print(self::H_TRAIT."\n");
