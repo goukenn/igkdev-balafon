@@ -39,7 +39,7 @@ abstract class CssClassNameDetectorUtils{
         
         $p = $detector->getDetector('php');
         if ($data = $p->resolve($source)){
-            $detector->loadReferences(array_keys($data), $references);
+            return $detector->loadReferences(array_keys($data), $references);
         }
         return;
     

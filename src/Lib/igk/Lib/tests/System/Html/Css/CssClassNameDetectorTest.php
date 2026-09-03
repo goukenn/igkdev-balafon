@@ -23,7 +23,8 @@ class CssClassNameDetectorTest extends BaseTestCase
         $parser = CssParser::Parse(".card{ display:block; }");
         $detector = new CssClassNameDetector;
         $detector->map($parser->to_array());
-        $arr = $detector->resolv("info card");
+        $references = [];
+        $arr = $detector->resolv("info card", $references);
         $this->assertTrue(is_array($arr));
         $this->assertEquals(
             ".card{display:block;}",
@@ -44,11 +45,11 @@ class CssClassNameDetectorTest extends BaseTestCase
 $a = "presentation info";
 $b = "<html className=\"card\"></html>";
 ?><div class="info">for information</div>
-PHP        );
+PHP);
         $this->assertTrue(is_array($arr));
         $this->assertEquals(
             ".card{display:block;}div.info{height:3em;}@media (max-width:420px){.card{display:flex;}}",
-            $detector->renderToCss($arr, (object)["lf" => ""])
+            $s = $detector->renderToCss($arr, (object)["lf" => ""])
         );
     }
     /**

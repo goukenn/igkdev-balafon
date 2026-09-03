@@ -231,9 +231,12 @@ class CssClassNameDetector
      * resolve css definition by detecting source code
      * @param string $src expression or separated space list of detected word
      * @param ?array & $references
+     * @return ?array
      * @throws \Exception
      */
-    public function resolv(string $src, ?array &$references = null) {}
+    public function resolv(string $src, ?array &$references = null) {
+        return $this->loadReferences(explode(' ', $src), $references);        
+    }
     /**
      * load used class 
      * @param array $data reference class to load without the starting '.' 

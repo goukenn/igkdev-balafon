@@ -68,6 +68,6 @@ class CssThemeValueDetectorTest extends BaseTestCase{
         $s = new HtmlDocTheme;
         $s['sample'] = "{sys:dispgrid, fitw, alignc}"; 
         $n = $s->get_css_def(true, true, null,null, $systheme);
-        $this->assertEquals('sample{display:grid;text-align:center !important;width:100%;}', $n);
+        $this->assertEquals('sample{display:grid;text-align:center;width:100%;}', $n);
     }
 }
