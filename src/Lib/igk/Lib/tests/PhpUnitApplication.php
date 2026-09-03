@@ -52,6 +52,7 @@ class PhpUnitApplication extends IGKApplicationBase{
         }
         $v_test_all_project = in_array('projects', $v_testsuite); 
         $v_test_all_module = in_array('modules', $v_testsuite); 
+        igk_server()->prepareServerInfo();
         IGKApp::StartEngine($this);
         $p = igk_sys_project_controllers();        
         if ($p){

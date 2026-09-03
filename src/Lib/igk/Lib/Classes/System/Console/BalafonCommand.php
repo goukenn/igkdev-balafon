@@ -24,9 +24,9 @@ class BalafonCommand{
      * @return never 
      */
     public static function Exec(string $commandArgs){
-        if (! ($b = OsShell::Where("balafon"))){
+        if (! (OsShell::Where("balafon"))){
             $path = getenv('PATH');
-            putenv("PATH=". $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));
+            putenv("PATH=". $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));            
         }
         $c = new static();
         return $c->run($commandArgs);
@@ -37,7 +37,13 @@ class BalafonCommand{
      * @return string 
      */
     protected function run($commandArgs){
-        $s = 'balafon '.$commandArgs;
+        $bin = igk_configs()->php_bin;
+        $s = '';
+        if ($bin && file_exists($bin)){
+            $s = $bin .' '.IGK_LIB_BIN.' '.$commandArgs;
+        }else 
+            $s = 'balafon '.$commandArgs;  
+        igk_ilog('try run > '.$s);
         return shell_exec("{$s}");
     }
 }

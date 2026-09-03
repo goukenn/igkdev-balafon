@@ -660,6 +660,11 @@ class SchemaMigration
                     igk_array_replace_key($tables, $to, $tb, $p);
                 }
                 break;
+            default:
+                if ($item && method_exists($item, 'doUpgrade')){
+                    $item->doUpgrade($tables, $ctrl);
+                }
+                break;
         }
     }
     /**

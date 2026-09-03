@@ -54,7 +54,7 @@ if($s_ctrl != null){
     $frm->addInput("ctrlid", "hidden", $s_ctrl->Name);
 }
 igk_html_form_initfield($frm);
-$frm->addBalafonJS()->Content=<<<EOF
+$frm->balafonjs()->Content=<<<EOF
 var c = \$igk(igk.getParentScript());
 c.select('^form').first().select('tr.article').each_all(function(){
 	var q = this;

@@ -611,4 +611,27 @@ class Database
         }
         return $out;
     }
+    /**
+     * autoprefix conditions 
+     * @param mixed $conditions 
+     * @param null|string $prefix 
+     * @return array 
+     */
+    public static function AutoPrefixArrayCondition(array $conditions, ?string $prefix){
+          return array_merge(...array_map(function($a, $b)use($prefix){
+                    if (is_numeric($b)){
+                        if ($a instanceof \IGK\Database\DbQueryCondition)
+                        {
+                            $r = $a->to_array();
+                            $n = self::AutoPrefixArrayCondition($r, $prefix);
+                            $a->set($n);
+                            return [$b=>$a];
+                        }
+                    }
+                    if (preg_match('/^([^\w]+)([a-zA-Z_]+[a-zA-Z_0-9]*)$/', $b, $ta)){
+                        return [$ta[1].StringUtility::AutoPrefix($ta[2], $prefix)=>$a];
+                    }
+                    return [StringUtility::AutoPrefix($b, $prefix)=>$a];
+                },$conditions, array_keys($conditions)));
+    }
 }

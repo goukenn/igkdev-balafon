@@ -5,6 +5,7 @@
 // @desc: define core compoent
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
+use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\Helper\BalafonJSHelper;
 use IGK\Helper\ViewHelper;
@@ -190,7 +191,7 @@ if (!function_exists("igk_html_callback_replacecontent_acceptrender")) {
 		if (!$n->isVisible)
 			return 0;
 		$n->clearChilds();
-		$n->addBalafonJS()->Content = <<<EOF
+		$n->balafonjs()->Content = <<<EOF
 (function(q){igk.ready( function(){ ns_igk.ajx.fn.scriptReplaceContent('{$n->method}', '{$n->uri}', q);}); })(igk.getParentScript());
 EOF;
 		return 1;
@@ -302,6 +303,10 @@ if (!function_exists("igk_html_node_a")) {
 	 */
 	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content = null)
 	{
+		if (igk_str_startwith($href, '@/')){
+			$ctrl = ViewHelper::CurrentCtrl();
+			$href = $ctrl::uri($href);
+		}
 		$a = new HtmlANode();
 		$a["href"] = $href;
 		$a->setIndex($index);
@@ -2458,12 +2463,16 @@ if (!function_exists("igk_html_node_galleryfolder")) {
 if (!function_exists("igk_html_node_grid")) {
 	/**
 	 * create a grid node
+	 * @var mixed $content
 	 * @return mixed
 	 */
-	function igk_html_node_grid()
+	function igk_html_node_grid( $content = null)
 	{
 		$n = igk_create_node("div");
 		$n["class"] = "+igk-grid +grid";
+		if($content){
+			$n->content = $content;
+		}
 		return $n;
 	}
 }
@@ -2681,7 +2690,7 @@ if (!function_exists("igk_html_node_huebar")) {
 		$n = igk_create_node("div");
 		$n["class"] = "igk-winui-huebar";
 		$n->div()->setClass("cur");
-		$n->addBalafonJS()->Content = "igk.winui.huebar.init(); ";
+		$n->balafonjs()->Content = "igk.winui.huebar.init(); ";
 		return $n;
 	}
 }
@@ -3319,7 +3328,7 @@ if (!function_exists("igk_html_node_linewaiter")) {
 		$n->div()->setClass("igk-line-waiter-cur");
 		$n->div()->setClass("igk-line-waiter-cur");
 		$n->div()->setClass("igk-line-waiter-cur");
-		$n->addBalafonJS()->Content = <<<EOF
+		$n->balafonjs()->Content = <<<EOF
 ns_igk.readyinvoke('igk.winui.lineWaiter.init');
 EOF;
 		return $n;
@@ -3920,7 +3929,7 @@ if (!function_exists("igk_html_node_paginationview")) {
 			"div",
 			array_slice(func_get_args(), 1)
 		);
-		$n->addBalafonJS()->Content = "igk.winui.paginationview.init()";
+		$n->balafonjs()->Content = "igk.winui.paginationview.init()";
 		return $n;
 	}
 }
@@ -3932,7 +3941,19 @@ if (!function_exists("igk_html_node_panelbox")) {
 	function igk_html_node_panelbox()
 	{
 		$n = igk_create_node("div");
-		$n["class"] = "igk-panel-box";
+		$n["class"] = "igk-winui-panel-box";
+		return $n;
+	}
+}
+if (!function_exists("igk_html_node_panel")) {
+	/**
+	 * create winui-panelbox
+	 * @return mixed
+	 */
+	function igk_html_node_panel()
+	{
+		$n = igk_create_node("div");
+		$n["class"] = "igk-panel panel";
 		return $n;
 	}
 }
@@ -4004,7 +4025,7 @@ if (!function_exists("igk_html_node_picker_zone")) {
 	function igk_html_node_picker_zone($uri, $accepts = "", $complete = null)
 	{
 		$dv = igk_create_node("div");
-		$dv->setClass("igk-picker-zone")
+		$dv->setClass("igk-winui-picker-zone")
 			->setAttribute("igk:picker-zone-data", json_encode([
 				"uri" => $uri,
 				"accept" => $accepts,
@@ -4146,7 +4167,7 @@ if (!function_exists("igk_html_node_repeatcontent")) {
 	function igk_html_node_repeatcontent($number)
 	{
 		$n = igk_create_node("div");
-		$n["class"] = "igk-winui-rc";
+		$n["class"] = "igk-winui-repeat-content";
 		$n["igk-repeat"] = $number;
 		return $n;
 	}
@@ -4319,14 +4340,14 @@ if (!function_exists("igk_html_node_scrollloader")) {
 		return $n;
 	}
 }
-if (!function_exists("igk_html_node_searchField")) {
+if (!function_exists("igk_html_node_searchfield")) {
 	/**
 	 * add search field
 	 * @param string $id 
 	 * @return HtmlItemBase<mixed, string> 
 	 * @throws IGKException 
 	 */
-	function igk_html_node_searchField($id = "search")
+	function igk_html_node_searchfield($id = "search")
 	{
 		$n = igk_create_node("input");
 		$n["class"] = "igk-winui-search-field dispib";
@@ -4360,7 +4381,7 @@ if (!function_exists("igk_html_node_searchbutton")) {
 	function igk_html_node_searchbutton(string $uri, string $id = "search")
 	{
 		$n = igk_create_node("span");
-		$n["class"] = "igk-winui-searchbtn";
+		$n["class"] = "igk-winui-search-button";
 		$n["igk:target-uri"] = $uri;
 		$n["igk:target-id"] = $id;
 		$n->Content = igk_svg_use("search");
@@ -5107,17 +5128,17 @@ if (!function_exists("igk_html_node_toast_notify")) {
 		return $node;
 	}
 }
-if (!function_exists("igk_html_node_toggleThemeButton")) {
+if (!function_exists("igk_html_node_togglethemebutton")) {
 	/**
 	 * create a toggle button theme
 	 * @param (null|string)|null $tag 
 	 * @return HtmlItemBase<mixed, string> 
 	 * @throws IGKException 
 	 */
-	function igk_html_node_toggleThemeButton(?string $tag = null)
+	function igk_html_node_togglethemebutton(?string $tag = null)
 	{
 		$c = igk_create_node($tag ?? 'div');
-		$c['class'] = 'igk-toggle-theme-button';
+		$c['class'] = 'igk-winui-toggle-theme-button';
 		$c->on('click', 'igk.css.changeDocumentTheme()');
 		return $c;
 	}
@@ -5156,16 +5177,16 @@ if (!function_exists("igk_html_node_topnavbar")) {
 		return $n;
 	}
 }
-if (!function_exists("igk_html_node_trackbarnode")) {
+if (!function_exists("igk_html_node_trackbar")) {
 	/**
-	 * create winui-trackbarnode
+	 * create winui-trackbar
 	 * @param mixed $id
 	 * @param mixed $value
 	 * @param mixed $min
 	 * @param mixed $max
 	 * @return mixed
 	 */
-	function igk_html_node_trackbarnode($id, $value, $min = 0, $max = 100)
+	function igk_html_node_trackbar($id, $value, $min = 0, $max = 100)
 	{
 		$n = igk_create_node("input");
 		$n->setId($id);
@@ -5510,7 +5531,7 @@ EOF;
 		$n = igk_create_notagnode();
 		$n->addObData("<!--" . $xml . "-->", 'div')->setClass("xml")->setStyle("display:none");
 		$n->addObData("<!--" . $o . "-->", 'div')->setClass("xslt")->setAttribute("xslt:data", $options)->setStyle("display:none");
-		$n->addBalafonJS()->Content = "igk.dom.xslt.initTransform();";
+		$n->balafonjs()->Content = "igk.dom.xslt.initTransform();";
 		return $n;
 	}
 }
@@ -6099,6 +6120,36 @@ function igk_html_node_ajx_monitor_progress()
 {
 	$n = igk_create_node_arg('div.igk-winui-monitor-progress');
 	return $n;
+}
+
+if (!function_exists('igk_html_node_dbtableresult')) {
+	/**
+	 * 
+	 * @param mixed $result 
+	 * @return mixed 
+	 */
+	function igk_html_node_dbtableresult($result, $options = null)
+	{
+		if ($result instanceof IDbQueryResult) {
+			$result = $result->to_array();
+		}
+		$n = igk_create_node('table');
+		$header = null;
+		foreach ($result as $row) {
+			$c = $row->to_array();
+			if (is_null($header)) {
+				$header = $n->tr();
+				foreach (array_keys($c) as $k) {
+					$header->th()->content = $k;
+				}
+			}
+			$r = $n->tr();
+			foreach ($c as $k => $v) {
+				$r->td()->content = $v;
+			}
+		}
+		return $n;
+	}
 }
 
 require_once __DIR__ . '/Inc/html/forms/actionbar.pinc';

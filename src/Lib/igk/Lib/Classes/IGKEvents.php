@@ -477,6 +477,12 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const FILTER_AUTH_TYPE = 'filter_user_auth_type';
+
+
+    /**
+     * hook to get components information 
+     */
+    const FILTER_COMPONENT_INFO = 'sys-filter://components/info';
     /**
      * build command event
      */

@@ -398,7 +398,7 @@ namespace IGK\System\Html\Dom;
 * @method self togglethemebutton(?string $tag= null) create a toggle button theme
 * @method self tooltip() create winui-tooltip
 * @method self topnavbar() create winui-topnavbar
-* @method self trackbarnode($id, $value, $min= '0', $max= '100') create winui-trackbarnode
+* @method self trackbar($id, $value, $min= '0', $max= '100') create winui-trackbar
 * @method self transitionblock() create a transition block node
 * @method self twitterfollowus($id, $showcount= '0') 
 * @method self twittertimeline($id, $theme= null, $color= null) 

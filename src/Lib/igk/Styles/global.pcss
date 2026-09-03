@@ -1,10 +1,24 @@
 <?php
+use IGK\System\Html\Dom\HtmlDocTheme;
+
+/**
+ * @var IGKMedia $xsm_screen
+ * @var IGKMedia $sm_screen
+ * @var IGKMedia $lg_screen
+ * @var IGKMedia $xlg_screen
+ * @var IGKMedia $xxlg_screen
+ * @var IGKMedia $def
+ * @var IGK\System\Html\Dom\HtmlDocTheme $theme
+ */
+
+
+
 
 $def[IGK_CSS_MEDIA_TYPE_CLASS] = "z-index:-9999; content:'global'";
 $def["*"]  = "padding:0px; margin:0px; box-sizing: border-box";
 $def["html, body, ul, div, p"] = "padding:0px; margin:0px; position:relative;";
 $def["a"] = "[sysfcl:linkForeColor] text-decoration:none;";
-$def["body li"] = "list-style-type:none;";
+
 $def["body a, body img, body a:hover, body a:focus"] = "text-decoration:none; list-style-type:none;";
 $def["body a:hover"] = "[sysfcl:linkHoverForeColor]";
 $def["html, body"] = "width:100%; height:100%;";
@@ -19,22 +33,22 @@ $def[".floatr"] = "float:right;";
 $def[".clearb"] = "clear:both;";
 $def[".clearl"] = "clear:left;";
 $def[".clearr"] = "clear:right;";
-$def[".overflow-a"] = "overflow:auto !important;";
-$def[".overflow-x-a"] = "overflow-x:auto !important;";
-$def[".overflow-y-a"] = "overflow-y:auto !important;";
-$def[".overflow-x"] = "overflow-x:scroll !important;";
-$def[".overflow-y"] = "overflow-y:scroll !important;";
+$def[".overflow-a"] = "overflow:auto ;";
+$def[".overflow-x-a"] = "overflow-x:auto ;";
+$def[".overflow-y-a"] = "overflow-y:auto ;";
+$def[".overflow-x"] = "overflow-x:scroll ;";
+$def[".overflow-y"] = "overflow-y:scroll ;";
 $def[".clearb-row:after"] = "clear:both; display:table; content:' ';";
-$def[".alignl"] = "text-align:left !important;";
-$def[".alignr"] = "text-align:right !important;";
-$def[".alignc"] = "text-align:center !important;";
-$def[".alignm"] = "vertical-align:middle !important;";
-$def[".alignb"] = "vertical-align:bottom !important;";
-$def[".alignt"] = "vertical-align:top !important;";
+$def[".alignl"] = "text-align:left ;";
+$def[".alignr"] = "text-align:right ;";
+$def[".alignc"] = "text-align:center ;";
+$def[".alignm"] = "vertical-align:middle ;";
+$def[".alignb"] = "vertical-align:bottom ;";
+$def[".alignt"] = "vertical-align:top ;";
 $def[".flip-x"] = "[transform: rotate(180deg)]";
 $def[".flip-y"] = "[transform: scale(1,-1)]";
 $def[".box-center"] = "{sys:posab} top:50%; left:50%; [transform:translate(-50%, -50%)]";
-$def[".igk-text-c"] = "text-align:center !important; vertical-align: middle !important;";
+$def[".igk-text-c"] = "text-align:center ; vertical-align: middle ;";
 // + | z-index prop
 foreach ([5, 10, 20, 100] as $i) {
     $def['.z-' . $i] = 'z-index: ' . $i;
@@ -44,11 +58,11 @@ $def[".zback"] = "z-index: -9000;";
 $def[".fitvh"] = "height: 100vh;";
 $def['.fitvw'] = 'width: 100vw;';
 $def[".fitw"] = "width:100%;";
-$def[".fitw-i"] = "width:100% !important;";
+$def[".fitw-i"] = "width:100% ;";
 $def[".fitw-a"] = "width:auto;";
-$def[".fitw-ai"] = "width:auto !important;";
+$def[".fitw-ai"] = "width:auto ;";
 $def[".fith-a"] = "height:auto;";
-$def[".fith-ai"] = "height:auto !important;";
+$def[".fith-ai"] = "height:auto ;";
 $def[".fit"] = "width:100%; height:100%;";
 $def[".fitc"] = "[fit:cover]";
 $def[".fitf"] = "[fit:fill]";
@@ -74,7 +88,7 @@ $def[".igk-article-options > a "] = "display:inline-block;";
 $def[".igk-article-options .igk-symbol"] = "{sys:dispib, alignm,fit} width:32px; overflow:hidden;";
 $def[".igk-article-options .igk-symbol:hover"] = "color:indigo;";
 $def[".igk-article-options .mark"] = "{sys:dispib} width:32px; height:32px; padding:4px; overflow:hidden; vertical-align:middle;";
-$def[".igk-article-options .mark .igk-symbol"] = "background-repeat:no-repeat !important; vertical-align:top;";
+$def[".igk-article-options .mark .igk-symbol"] = "background-repeat:no-repeat ; vertical-align:top;";
 $def[".igk-article-options .mark svg"] = "width:100%; height:100%";
 $def["." . igk_css_str2class_name(IGK_SESSION_CTRL)] =
     "{sys:posfix, loc_r, loc_t} top:32px; right:32px; z-index:10000;";
@@ -92,9 +106,28 @@ $def[".pad4"] = "padding: 4px;";
 $def[".marg4"] = "margin: 4px;";
 $def[".marg-a"] = "margin:auto;";
 $def[".padd-a"] = "padding:0.5em;";
+
+$def['.ul-lpos-i'] = 'list-style-position: inside;';
+$def['.ul-lpos-o'] = 'list-style-position: outside;'; 
+foreach(['lower-roman','upper-roman', 'lower-greek', 'upper-greek', 
+'lower-alpha',
+'upper-alpha',
+'decimal',
+'disc',
+'sqare',
+'none'
+] as $a){
+    $def['.lst-'.$a] = 'list-style-type: '.$a;
+}
+
+$def['.zoom-2x'] = 'zoom: 2;';
+$def['.zoom-1x'] = 'zoom: normal;';
+$def['.zoom-05x'] = 'zoom: 50%;';
+$def['.zoom-075x'] = 'zoom: 75%;';
+
 $def[".center-box"] = "position:relative; margin: 0px auto; top: 50%; left:0%;[transform: translate(0%, -50%)]";
 $def[".no-wrap"] = "white-space: nowrap;";
-$def[".no-wrap-i"] = "white-space: nowrap !important;";
+$def[".no-wrap-i"] = "white-space: nowrap;";
 $def['.wrap'] = 'text-wrap: wrap;';
 $def['.pre-line'] = 'white-space: pre-line;';
 $def['.pre-wrap'] = 'white-space: pre-wrap;';
@@ -143,7 +176,7 @@ $def[".loc_l"] = "left:0px;";
 $def[".loc_mid"] = "left:50%; top: 50%;";
 $def[".loc_r"] = "right:0px;";
 $def[".loc_t"] = "top:0px;";
-$def[".loc_a"] = "top:0px !important; bottom: 0px !important; right: 0px !important; left: 0px !important;";
+$def[".loc_a"] = "top:0px ; bottom: 0px ; right: 0px ; left: 0px ;";
 $def['.loc_top'] = 'left:0px; top:0px; right:0px';
 $def['.loc_bottom'] = 'left:0px; bottom:0px; right:0px';
 $def[".nomargin"] = "margin-top:0px; margin-left:0px;margin-right:0px; margin-bottom:0px;";
@@ -172,10 +205,10 @@ $def[".dispib"] = "display:inline-block;";
 // + | ------------------------------------------------------------
 // + | important style
 // + | ------------------------------------------------------------
-$def[".dispn_i"]  = "display:none !important;";
-$def[".dispb_i"]  = "display:block !important;";
-$def[".dispi_i"]  = "display:inline !important;";
-$def[".dispib_i"] = "display:inline-block !important;";
+$def[".dispn_i"]  = "display:none ;";
+$def[".dispb_i"]  = "display:block ;";
+$def[".dispi_i"]  = "display:inline ;";
+$def[".dispib_i"] = "display:inline-block ;";
 $def[".disptabc"] = " display: table-cell;";
 $def[".disptable"] = " display:table;";
 $def[".disptabr"] = " display: table-row;min-height:0px;";
@@ -198,12 +231,12 @@ $def[".flex-a-center"] = "justify-content: center; align-items: center;";
 $def[".flex-column"] =
     $def[".flex-col"] = "flex-direction: column;";
 $def[".flex-column-i"] =
-    $def[".flex-col-i"] = "flex-direction: column !important;";
+    $def[".flex-col-i"] = "flex-direction: column ;";
 foreach ([2, 4, 6, 8, 14, 16, 20, 22, 24, 32, 48, 64] as $i) {
     $def[".flex-gap-" . $i] = "gap: {$i}px";
 }
 $def[".flex-row"] = "flex-direction: row;";
-$def[".flex-row-i"] = "flex-direction: row !important;"; 
+$def[".flex-row-i"] = "flex-direction: row ;"; 
 $def[".flex-row-reverse"] = "flex-direction: row-reverse;";
 $def[".flex-alignc > *"] = "align-self: center;";                
 $def[".flex-alignm"] = "justify-content: center;";                
@@ -259,7 +292,7 @@ $def[".config-fileviewdir"] = "[res:folder_16x16]; background-repeat: no-repeat;
 $def[".config-fileviewfile"] = "[res:file_16x16]; background-repeat: no-repeat; text-indent: 24px; display:inline-block;";
 $def[".framebox-dialog .cltextarea"] = "width:100%;min-height:124px";
 $def[".framebox-dialog-content .content"] = "overflow-y:auto;";
-$def[".framebox-title .title"] = "{sys:alignb}  white-space:nowrap !important;";
+$def[".framebox-title .title"] = "{sys:alignb}  white-space:nowrap ;";
 $def[".framebox-title .framebox_close "] = "{sys:alignm, posab} right: 4px; top: 50%; [transform:translateY(-50%)]";
 $def[".igk-page-editor .framebox-dialog .cllabel "] = "{sys:alignr, dispib} width: 200px;";
 $def[".igk-page-editor .framebox-dialog  input,.igk-page-editor .framebox-dialog  select"] = "{sys:dispib, igk-form-control} width: 200px";
@@ -295,7 +328,7 @@ $def[".igk-powered a"] = "color:white;";
 $def[".igk-powered a:visited,.igk-powered a:hover"] = "color:white;";
 $def[".igk-notify.igk-notify-danger .error-code"] = "background-color:#eee; color:#555; padding:10px;";
 $def[".sr-only"] = "{sys:no-overflow} position:absolute; display:block;width:0px; height:0px;";
-$def["code.dispib"] = "width:auto !important; vertical-align:middle;";
+$def["code.dispib"] = "width:auto ; vertical-align:middle;";
 $PTR["." . igk_css_str2class_name(IGK_SESSION_CTRL)] = "display:none;";
 $cl["igk-framebox-title-bgcl"] =
     $cl["--igk-bgcl-hsep"] =
@@ -364,3 +397,42 @@ $def['igk-img'] = 'display: inline-block';
 // + |
 $def['.bigger'] = 'font-size: 2.24em;';
 $def['.smaller'] = 'font-size: 0.82em;';
+
+$def['li'] = '{sys:no-list-style}';
+
+$definition = 'border-styles';
+$types =[
+    'xsm'=>& $xsm_screen,
+    'sm'=>& $sm_screen,
+    'lg'=>& $lg_screen,
+    'xlg'=>& $xlg_screen,
+    'xxlg'=>& $xxlg_screen,
+];
+foreach([1, 2, 4,10,16,24] as  $i){  
+    $def['.br-'.$i] = 'border-width: '.$i.'px;';
+    $def['.br-'.$i.'\:hover:hover'] = 'border-width: '.$i.'px;';
+}
+
+
+
+$def['.trans-all'] = '[trans: all]';
+foreach(['cubic-bezier','ease','ease-in','ease-in-out', 
+'ease-out', 'linear','step-end','step-start','steps'] as $f)
+$def['.trans-'.$f] = 'transition-timing-function: '.$f.';';
+
+
+$def['.trans-1'] = 'transition-duration: 1s';
+$def['.trans-2'] = 'transition-duration: 2s';
+$def['.trans-20ms'] = 'transition-duration:0.2s';
+$def['.trans-50ms'] = 'transition-duration:0.5s';
+$sides = ['t','r','b','r'];
+foreach(['solid','dashed','double','dotted', 'revert', 'rever-layer', 'rever-rule', 'groove','hidden','inset','none','outset','ridge'] as $s){
+    $def['.br-'.$s] = 'border-style:'.$s.';';
+    $def['.br-'.$s.'\:hover:hover'] = 'border-style:'.$s.';';
+    foreach($sides as $ts){
+        $def['.br-'.$ts.'-'.$s] = 'border-style:'.$s.';';
+        $def['.br-'.$ts.'-'.$s.'\:hover:hover'] = 'border-style:'.$s.';';
+    }
+}
+
+$def['.card\:hover:hover'] = 'background-color:indigo';

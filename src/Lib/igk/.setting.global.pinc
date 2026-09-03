@@ -25,8 +25,7 @@ return [
     'cache_file_time' => "3600",
     'company_name' => "igkdev",
     'copyright' => "IGKDEV &copy; 2011-2022 all righs reserved",
-    'default_dataadapter' => "MYSQL",
-    'db_connexion_string' => null,
+    'default_dataadapter' => "MYSQL",    
     'api_request_pattern' => '\/api\/',
     'db_name' => "igkdev",
     'db_pwd' => "",
@@ -36,7 +35,7 @@ return [
     'db_port' => "3306",
     'db_auto_create' => 0,
     'db_driver' => "nodb",
-    'db_charset' => null,
+    'db_charset' => "utf8mb4",
     // in case the driver required connexion string.
     'db_connexion_string' => null,
     'db_default_column_id' => "clId",
@@ -64,7 +63,10 @@ return [
     'mail_noreply' => "no-reply@igkdev.com",
     'website_prefix' => "igk",
     'website_title' => "IGKDEV",
+    // php script used to run script 
     'php_run_script' => "",
+    // php bin used to load bin
+    'php_bin'=>'',
     'python_run_script' => "",
     'ob_buffer_padding_length' => 0,
     'max_script_execution_time' => 0,

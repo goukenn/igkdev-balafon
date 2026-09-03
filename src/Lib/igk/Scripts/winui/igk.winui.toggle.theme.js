@@ -22,6 +22,7 @@
         };
         const updateTheme = function(){
             const newTheme = currentTheme() === "dark" ? "light" : "dark";
+            console.log('update theme ', newTheme);
             igk.css.changeDocumentTheme(newTheme);
         };
         themeBtn.on('click', () => {

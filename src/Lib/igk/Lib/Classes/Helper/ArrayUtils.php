@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\Helper;
+
 use IGK\System\IO\StringBuilder;
 
 /**
@@ -25,10 +26,10 @@ class ArrayUtils
         return $value;
     }
     /**
-    * auto generate doc.
-    * @param array & $source
-    * @param array $array_to_merge
-    */
+     * auto generate doc.
+     * @param array & $source
+     * @param array $array_to_merge
+     */
     public static function MergeWith(array &$source, array $array_to_merge)
     {
         $source = array_merge($source, $array_to_merge);
@@ -40,30 +41,30 @@ class ArrayUtils
      * @param bool $unique 
      * @return void 
      */
-    public static function AttachValue(&$c, $value,bool $unique =false)
+    public static function AttachValue(&$c, $value, bool $unique = false)
     {
         if (!is_null($c)) {
             if ($c && is_string($c))
                 $c = [$c];
             $c[] = $value;
-            if ($unique){
+            if ($unique) {
                 $c = array_unique($c);
             }
-        }else
+        } else
             $c = $value;
     }
     /**
-    * auto generate doc.
-    * @param array & $array
-    * @param mixed $search
-    * @return void
-    */
+     * prepend element after searching in array 
+     * @param array & $array haystack where to search
+     * @param mixed $search the search value
+     * @return void
+     */
     public static function PrependAfterSearch(array &$array, $search)
     {
         if (($index = array_search($search, $array)) !== false) {
             unset($array[$index]);
-            array_unshift($array, $search);
         }
+        array_unshift($array, $search);
     }
     /**
      * Fill key with property.
@@ -104,11 +105,11 @@ class ArrayUtils
         }
     }
     /**
-    * dump array
-    * @param array $array
-    * @param mixed $lf
-    * @return string
-    */
+     * dump array
+     * @param array $array
+     * @param mixed $lf
+     * @return string
+     */
     public static function Export(array $array, $lf = PHP_EOL): string
     {
         $sb = new StringBuilder;
@@ -127,12 +128,12 @@ class ArrayUtils
         return '' . $sb;
     }
     /**
-    * auto generate doc.
-    * @param array $array
-    * @param string $filter_regex
-    * @param bool $merging
-    * @return array
-    */
+     * auto generate doc.
+     * @param array $array
+     * @param string $filter_regex
+     * @param bool $merging
+     * @return array
+     */
     public static function MergeFilter(array $array, string $filter_regex, bool $merging = true)
     {
         $conf = $array;
@@ -168,11 +169,11 @@ class ArrayUtils
         }
     }
     /**
-    * auto generate doc.
-    * @param array &$tab
-    * @param array & $list
-    * @return void
-    */
+     * auto generate doc.
+     * @param array &$tab
+     * @param array & $list
+     * @return void
+     */
     public static function UnpackArrayKeys(array &$tab, array &$list)
     {
         if (version_compare(PHP_VERSION, '8.0', '<')) {

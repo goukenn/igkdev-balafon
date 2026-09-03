@@ -10,6 +10,13 @@ use IGK\System\IO\InlineScriptLoader;
 use IGK\System\IO\Path;
 use function igk_resources_gets as __;
 
+
+/**
+ * @var mixed $ctrl configuration controller 
+ * @var mixed $cnf_n configuration node 
+ * @var mixed $app
+ */
+
 igk_require_module('igk\\ovh', null, 0, 0);
 $ctrl->setSelectedConfigCtrl(null);
 $box = igk_html_ctrl_view_config($ctrl, $cnf_n, "title.frameworkInfo", null);
@@ -65,7 +72,7 @@ if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME) || ($do
         $frm = $box->addForm();
         $frm->addLineWaiter();
         $u = "https://igkdev.com/balafon/check-update/" . IGK_VERSION . "/" . R::GetCurrentLang();
-        $frm->addBalafonJS()->Content = "igk.os.checkupdate('{$u}');";
+        $frm->balafonjs()->Content = "igk.os.checkupdate('{$u}');";
         igk_app()->session->checkVersion = 1;
     }
     $uform = $box->addPanelBox()->div();
@@ -163,15 +170,19 @@ $dv->addBtn("btn_updatedebugmode", __("Update"));
 $ctrl->__init_cache_tools($box->addPanelBox()->div());
 $ctrl->__init_log_tools($box->addPanelBox()->div());
 $fx = $box->addPanelBox();
-$frm = $fx->addForm();
+$action_group = $fx->actiongroup();
+
+$frm = $action_group->addForm();
 $frm["action"] = $ctrl->getUri("resetconfig");
-$frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"))
+$frm["class"] = "dispib btn-form igk-btn";
+$frm->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"))
 ->setClass('igk-btn btn');
-$frm = $fx->addForm();
+
+$frm = $action_group->addForm();
 $frm["action"] = $ctrl->getUri("conf_runCtrlConfig");
-$frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"))
+$frm["class"] = "dispib btn-form igk-btn";
+$frm->getBox()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"))
+
 ->setClass('igk-btn btn');
 $dv = $fx->div()->setClass("btn-form igk-action-group");
 $v_conf_path = igk_server()->getConfigurationSettingPath();

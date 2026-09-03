@@ -1670,7 +1670,7 @@ final class HtmlReader extends IGKObject
             }
             return null;
         }
-        igk_die("file : " . $file . " doesn't exist");
+        igk_die("file: " . $file . " doesn't exist");
     }
     /**
     * Loads XML.

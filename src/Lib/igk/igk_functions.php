@@ -23,6 +23,7 @@ use IGK\Controllers\ControllerEnvParams;
 use IGK\Controllers\ControllerTypeBase;
 use IGK\Controllers\OwnViewCtrl;
 use IGK\Core\View\TreatViewContent;
+use IGK\Css\CssCoreResponse;
 use IGK\Css\CssThemeOptions;
 use IGK\Css\ICssResourceResolver;
 use IGK\Database\DbColumnInfo;
@@ -1751,6 +1752,9 @@ function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
         $index_or_args = $ps['args'];
     }
     list($tagname, $id, $classes, $attr) = HtmlNodeTagExplosionDefinition::ExplodeTag2($tagname);
+    if (is_null($tagname)){
+        $tagname = igk_configs()->default_tag ?? 'div';
+    }
     $n = HtmlNode::CreateWebNode($tagname, null, $index_or_args);
     if ($attr) {
         $n->setAttributes($attr);
@@ -2142,6 +2146,38 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     }
     // + | for css response 
     igk_do_response($m);
+}
+/**
+ * 
+ * @param BaseController $ctrl 
+ * @param IGKHtmlDoc $doc 
+ * @param null|string $doc_id 
+ * @return ?string 
+ */
+function igk_css_render_controller_style(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id=null): ?string{
+    if ($m = igk_css_generate_style_response($ctrl, $doc, $doc_id)){
+        ob_start();
+        $m->render();
+        $s = ob_get_contents();
+        ob_end_clean();
+        return $s;
+    }
+    return null;
+}
+/**
+ * 
+ * @param BaseController $ctrl 
+ * @param IGKHtmlDoc $doc 
+ * @param null|string $doc_id 
+ * @return CssCoreResponse 
+ */
+function igk_css_generate_style_response(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id=null): CssCoreResponse{
+    $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
+    $renderer->ctrl = $ctrl;
+    $renderer->doc = $doc;
+    $renderer->doc_id = $doc_id;
+    $renderer->theme = $doc->getTheme();
+    return $renderer->output();
 }
 /**
  * auto generate doc.
@@ -3116,25 +3152,22 @@ function igk_css_reg_reset($theme = null)
 }
 /**
  * 
- * @param mixed $theme 
+ * @param mixed|array $theme 
  * @param null|array $definition 
- * @return void 
+ * @return ?string 
  */
-function igk_css_reg_mediatype($theme, ?array $definition = null)
+function igk_css_reg_mediatype(& $theme, ?array $definition = null)
 {
-    $def = $def ?? [
-        'xsm' => "(max-width: 320px)",
-        'sm' => '(min-width:321px) and (max-width:710px)',
-        'lg' => '(min-width:711px) and (max-width:1024px)',
-        'xlg' => '(min-width:1025px) and (max-width:1300px)',
-        'xxlg' => '(min-width:1301px)',
-    ];
+    $def = $definition ?? array_combine(
+            ["xsm","sm","lg","xlg","xxlg"],
+            array_slice(HtmlDocTheme::GetMediaName(),0, 5 ));
     $s = '';
     foreach ($def as 
         $k => $v) {
-        $s.= sprintf('@media %s{ .igk-media-type:before { z-index:0; content: \'%s\';}}', $v, $k);
+        $s.= sprintf('@media %s{ .igk-media-type:before { content: \'%s\';}}', $v, $k);
     }
     $theme[] = $s;
+    return $s;
 }
 /**
  * register svgs symbols file package
@@ -3703,10 +3736,9 @@ function igk_ctrl_auth_key($ctrl, $k = null)
  * helper: bind controller's class name to a node
  * @param BaseController $ctrl a controller
  * @param \IGK\System\Html\Dom\HtmlNode $n target node
- * @param ?string $classdef extra class
- * @return mixed
+ * @param ?string $classdef extra classes
  */
-function igk_ctrl_bind_css(BaseController $ctrl, $n, ?string $classdef = null)
+function igk_ctrl_bind_css(BaseController $ctrl, \IGK\System\Html\Dom\HtmlNode $n, ?string $classdef = null)
 {
     $n["class"] = igk_css_str2class_name(strtolower($ctrl->getName())) . ($classdef != null ? " " . $classdef : null);
 }
@@ -8094,8 +8126,19 @@ function igk_get_cookie_domain()
         else if (isset($tab['host'])) {
             $p = $tab['host'];
         }
+        $p = igk_domain($p);
+        
         return (strpos($p, ".") !== false ? "." : "") . $p;
     }
+}
+/**
+ * 
+ * @param mixed $p 
+ * @return string 
+ */
+function igk_domain($p){
+    $g = array_slice(explode(".", $p), -2);
+    return implode('.', $g);
 }
 /**
  * set cookie header to clear cookie definition
@@ -12178,7 +12221,7 @@ function igk_html_loading_frame($t)
 {
     $uri = R::GetImgUri("waitcursor");
     if ($uri)
-        $t->div()->setAttributes(array("class" => "dispib"))->addBalafonJS()->Content = "igk.media.webplayer.init(this.parentNode,'{$uri}');";
+        $t->div()->setAttributes(array("class" => "dispib"))->balafonjs()->Content = "igk.media.webplayer.init(this.parentNode,'{$uri}');";
 }
 /**
  * auto generate doc.
@@ -14638,6 +14681,11 @@ function igk_io_is_fullpath($d)
     $k = igk_dir($d);
     $c = igk_realpath($k);
     if ($c) {
+        // special docker .case 
+        if(($k!==$c) &&  !is_link($d)&& !is_link($c)){
+            $g = IO::IsDetectedAbsolutePath($d);
+            return $g;
+        }
         return $k == $c;
     }
     $droot = igk_uri(igk_io_rootdir());
@@ -17019,11 +17067,11 @@ function igk_nav_session()
 }
 /**
  * auto generate doc.
- * @param mixed $uri
+ * @param string $uri
  * @param ?int $headerStatus code
  * @return mixed
  */
-function igk_navto($uri, ?int $headerStatus = null)
+function igk_navto(string $uri, ?int $headerStatus = null)
 {
     if (!igk_is_webapp()) {
         return;
@@ -19422,25 +19470,28 @@ function igk_set_form_value($id, $value = null)
  */
 function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = null, $secure = false, $options = null)
 {
+   
     if (headers_sent()) {
         return false;
-    }
+    } 
+    $path = "/";
     $rs = igk_getv($_COOKIE, $n);
     if (!isset($_COOKIE[$n]) || $override) {
         !$dom &&
             $dom = igk_get_cookie_domain();
-        $tdom = ["expires" => $tm !== null ? 0 : time() + (86400 * 7), "path" => "", "domain" => "", "secure" => $secure, "httponly" => false];
+        $tdom = ["expires" => $tm !== null ? 0 : time() + (86400 * 7), "path" => $path, "domain" => "", "secure" => $secure, "httponly" => false];
         if (!empty($dom))
-            $tdom["domain"] = $dom;
+            $tdom["domain"] = $dom;        
         $toption = array_merge($tdom, $options ? $options : []);
+        unset($_COOKIE[$n]);
         if (version_compare(PHP_VERSION, IGK_PHP_MIN_VERSION, ">=")) {
             $tdom["samesite"] = "Strict";
-            setcookie($n, $v ?? '', $toption);
+            setcookie($n, $v ?? '', $toption); 
         } else {
             $toption = array_values($toption);
-            setcookie($n, $v, ...$toption);
+            setcookie($n, $v, ...$toption); 
         }
-        $_COOKIE[$n] = $v;
+        $_COOKIE[$n] = $v;        
         return $v;
     }
     return $rs;

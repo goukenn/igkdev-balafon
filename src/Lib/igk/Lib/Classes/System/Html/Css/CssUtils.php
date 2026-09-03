@@ -413,9 +413,9 @@ abstract class CssUtils
      * auto generate doc.
      * @param BaseController $controller
      * @param HtmlDocTheme $a_theme
-     * @param mixed $primaryTheme
+     * @param string $primaryTheme
      * @param bool $theme_export
-     * @param mixed $rootListener
+     * @param ?CssRootPropertyStorageListener $rootListener
      * @return array
      */
     public static function AppendDataTheme(
@@ -423,38 +423,35 @@ abstract class CssUtils
         HtmlDocTheme $a_theme,
         string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME,
         bool $theme_export = false,
-        $rootListener = null
+        ?CssRootPropertyStorageListener $rootListener = null
     ) {
         if ($controller->getConfig('no_theme_support'))
             return;
-        $tdef = explode('|', CssConstants::SUPPORT_THEME);
-        if ($list = $controller->getConfig('theme_lists')) {
-            if (is_string($list)) {
-                $tdef = explode(',', $list);
-            } else if (is_array($list)) {
-                $tdef = $tdef;
-            } else {
-                return;
+        $tdef = $controller->getConfig('theme_lists') ?? explode('|', CssConstants::SUPPORT_THEME);
+        if ($tdef){
+            if (is_string($tdef)) {
+                $tdef = explode(',', $tdef);
+            } else if (!is_array($tdef)) {
+                return false;
             }
         }
         $def = [];
         ArrayUtils::PrependAfterSearch($tdef, $primaryTheme);
-        $v_render_primary = false;
+        // $v_render_primary = false;
         $tab = $a_theme->getdef()->getAttributes() ?? [];
         $medias = $a_theme->getMedias();
         $opt = new CssThemeOptions;
         $opt->skips = ['rules', 'fonts'];
         $opt->rootListener = $rootListener;
         if ($v_opts = $a_theme->getRenderOptions()) {
-            // + | TODO: Missing root listener 
+            // + | share listener 
             $v_opts->rootListener = $rootListener;
         }
-        $v_systheme = $a_theme->isSystemTheme();
+        $v_is_first = $v_systheme = $a_theme->isSystemTheme();         
         $v_theme = null;
-        $v_first = $v_systheme;
-        $root_defs = [];
-        $sroot_defs = [];
+        $root_defs = [];        
         $v_copy = null;
+
         foreach ($tdef as $theme_name) {
             $opt->theme_name = $theme_name;
             $opt->is_primary = $primaryTheme == $theme_name;
@@ -478,7 +475,7 @@ abstract class CssUtils
             $v_theme->setRenderOptions($opt);
             // + | load bind style with theme 
             $controller->bindCssStyle($v_theme, true);
-            if ($v_first) {
+            if ($v_is_first) {
                 $core = $a_theme->get_css_def(true, true);
                 array_unshift($def, implode("\n", [
                     "/* begin: core-theme: */",
@@ -486,7 +483,7 @@ abstract class CssUtils
                     "/* end: core-theme:*/",
                     ''
                 ]));
-                $v_render_primary = true;
+                // $v_render_primary = true;
             }
             if ($opt->is_primary  && ($s = $v_theme->get_css_def(true, true))) {
                 $def[] = $theme_export ? $s : implode("\n", ["/* begin: primary-theme */", $s, "/*end: primary-theme*/"]);
@@ -502,26 +499,105 @@ abstract class CssUtils
             if ($s = $v_theme->get_css_def()) {
                 $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : '') . $s;
             }
-            $v_first = false;
+            $v_is_first = false;
         }
         if ($rootListener && ($gv = $rootListener->render()))
             $def[] = $gv;
         // + | INJECT ROOT THEME PROPERTIES DEFINITION .
         // + | PROPERTIES THAT startt with -- (two hyphen must be consider as property )
         if (count($root_defs) > 0) {
-            foreach ($root_defs as $k => $v) {
-                $gv = [];
-                foreach ($v as $rk => $rv) {
-                    if (preg_match("/^--/", $rk)) {
-                        $gv[$rk] = $rv;
-                    }
-                }
-                if (count($gv) > 0) {
-                    $def[] = $k . sprintf('{%s}', self::GlueArrayDefinition($gv));
-                }
-            }
+            self::_glueRootArrayToDef($root_defs, $def);          
         }
         return $def;
+    }
+
+    /**
+     * 
+     * @param HtmlDocTheme $a_theme 
+     * @param string $primaryTheme 
+     * @return string 
+     */
+    public static function RenderStyleWithCustomColorThemeSupport(HtmlDocTheme $a_theme,
+        string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME
+        )
+    {
+        $v_opt = new CssThemeOptions;
+        $v_opt->skips = ['rules', 'fonts'];
+        $v_opt->rootListener = null; // $rootListener;
+        $v_systheme = $a_theme->isSystemTheme();  
+       
+        $tdef = explode('|', CssConstants::SUPPORT_THEME);
+        $sb = '';
+        $theme_export = true;
+        $def = [];
+        $root_defs = [];
+        $v_is_first = true;
+        foreach ($tdef as $theme_name) {
+            $v_opt->theme_name = $theme_name;
+            $v_opt->is_primary = $primaryTheme == $theme_name;
+            $colors = $a_theme->getThemeColorsByName($theme_name);
+            if ($v_systheme){
+                $v_theme = $a_theme;
+                $def[] = $v_theme->get_css_def();
+                if ($colors){
+                    $v_theme->setColors($colors);
+                } else{
+                    continue;
+                }
+            }else{
+                $v_copy = $v_copy ?? $a_theme->to_array();
+                $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
+                $v_theme->load_data($v_copy);
+                $v_theme->setRenderOptions($v_opt);
+                 if ($colors){
+                    $v_theme->setColors($colors);
+                }
+            }
+            if ($v_is_first){
+                if ($s = $v_theme->get_css_def()) {
+                    $def[] = ($theme_export ? "\n/* theme-default: " . $theme_name . " */\n" : '') . $s;
+                }
+                $v_is_first = false;
+                if (!in_array('roots', $v_opt->skips))
+                    $v_opt->skips[] = 'roots';
+            }
+
+            self::MapMediaCssTheme(
+                $v_theme,
+                $theme_name,
+                $v_theme->def->getAttributes(),
+                null,
+                $v_opt->is_primary
+            );
+            self::BindRootDataThemeDefinition($root_defs, $v_theme, $theme_name);
+            if ($s = $v_theme->get_css_def()) {
+                $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : '') . $s;
+            }
+           
+        }
+        $sb = implode("\n", $def);
+        return $sb;
+    }
+
+        /**
+     * 
+     * @param mixed $root_defs 
+     * @param mixed &$def 
+     * @return void 
+     */
+    private static function _glueRootArrayToDef($root_defs, &$def)
+    {
+        foreach ($root_defs as $k => $v) {
+            $gv = [];
+            foreach ($v as $rk => $rv) {
+                if (preg_match("/^--/", $rk)) {
+                    $gv[$rk] = $rv;
+                }
+            }
+            if (count($gv) > 0) {
+                $def[] = $k . sprintf('{%s}', self::GlueArrayDefinition($gv));
+            }
+        }
     }
     /**
      * Binds Root Data Theme Definition.
@@ -620,17 +696,17 @@ abstract class CssUtils
     }
     /**
      * render medias
-     * @param mixed $medias
-     * @param mixed $theme
-     * @param mixed $systheme
+     * @param mixed $medias list of medias to render 
+     * @param mixed $theme current theme 
+     * @param mixed $systheme parent theme
      * @param mixed $minfile
-     * @param mixed $el
-     * @param mixed $is_root
+     * @param string $el
+     * @param bool $is_root
      * @param ?array & $source_media
      * @throws IGKException
      * @return string
      */
-    public static function RenderMedia(array $medias, $theme, $systheme, $minfile, $el, $is_root, ?array &$source_media = null)
+    public static function RenderMedia(array $medias, $theme, $systheme, $minfile, ?string $el, $is_root, ?array &$source_media = null)
     {
         $g = "";
         $out = '';

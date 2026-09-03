@@ -139,8 +139,7 @@ abstract class ModelEntryExtension
         $raw && (!is_array($raw) && !is_object($raw)) && igk_die('raw not a valid data');
         $cl = get_class($model);
         $c = new $cl($raw);
-        if ($craw = $c->to_array()) {
-    
+        if ($craw = $c->to_array()) { 
             $g = $c->insert($craw, $update, $throwException);
             if (is_bool($g) && (!$g)) {
                 return null;
@@ -712,7 +711,10 @@ abstract class ModelEntryExtension
             }
             if (is_numeric($conditions)) {
                 $conditions = [$model->getPrimaryKey() => $conditions];
+            } else if (is_array($conditions)){
+                $conditions = Database::AutoPrefixArrayCondition($conditions, $v_prefix);
             }
+
             return $driver->update($table, $value, $conditions, $tbinfo);
         }
         if ($value === null) {
@@ -1720,8 +1722,19 @@ abstract class ModelEntryExtension
             $g = array_keys($args);
             $count = count($g);
             $index = 0;
-            foreach (array_slice(func_get_args(), 2) as $tg) {
+            $rt = array_slice(func_get_args(), 2) ;
+            foreach ($rt as $tg) {
                 $n = $g[$index];
+                if ($n=='les_tha_is_default_unique'){
+                    igk_wln_e(__FILE__.":".__LINE__ , "the base ", $n);
+                }
+                if ($tc = igk_getv($info, $n)){
+                    if ($tc->clStorage){
+                        // les_tha_is_default_unique
+                        unset($row->$n);                        
+                        continue;
+                    }
+                }
                 $row->$n = $tg;
                 $index++;
                 if ($index >= $count) {
@@ -1752,13 +1765,33 @@ abstract class ModelEntryExtension
     {
         $tinfo = [];
         $unique = [];
+        $fc_load_index = function(& $tinfo, $index, $key, $value){
+            $tab = [];
+            if (is_numeric($index)){
+                $tab[] = intval($index);
+            }else{
+                $tab = (array)$index;
+            }
+            unset($index);
+
+            while(count($tab)>0){
+                $q = array_shift($tab);
+
+                if (!isset($tinfo[$q])) {
+                    $tinfo[$q] = (object)[];
+                }
+                $tinfo[$q]->$key = $value;
+            }
+        };
+
         foreach ($info as $key => $value) {
             if ($value->clIsUniqueColumnMember) {
+                
+            
+            
                 $index = $value->clColumnMemberIndex ?? 0;
-                if (!isset($tinfo[$index])) {
-                    $tinfo[$index] = (object)[];
-                }
-                $tinfo[$index]->$key = $row->$key;
+
+               $fc_load_index($tinfo, $index, $key, $row->$key);
             }
             if ($value->clIsUnique) {
                 $unique[$value->clName] = [$value->clName => $row->$key];

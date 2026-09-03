@@ -101,7 +101,7 @@ class ViewHelper
         return false;
     }
     /**
-    * auto generate doc.
+    * retrieve private view argument
     * @param mixed $name
     * @param mixed $default
     * @return mixed
@@ -343,14 +343,22 @@ class ViewHelper
         if (!isset($ctrl)) {
             igk_die('$ctrl not found from GetViewArgs');
         }
+        
+        
         extract($ctrl->getExtraArgs(), EXTR_SKIP);
+
+
         $_tab = get_defined_vars();
+        if (igk_env_count(__FILE__)>2){
+            igk_trace();
+            igk_wln_e("failed : for ",  $file, __FILE__.":".__LINE__ );
+        }
         $g = (function () {
             extract(func_get_arg(1));
             return include(func_get_arg(0));
         })->bindTo($ctrl);
         if (!is_file($file = func_get_arg(0))) {
-            igk_io_file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: " . $file);
+            igk_io_file_exists($file = self::GetView($file), true) || igk_die("failed to resolv file: " . $file);
         }
         return $g($file, $_tab);
     }

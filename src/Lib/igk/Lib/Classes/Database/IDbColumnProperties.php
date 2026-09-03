@@ -47,9 +47,9 @@ namespace IGK\Database;
 * @property ?string $clPattern
 * @property ?string $clRequire
 * @property ?string $clType
-* @property ?string|?int $clTypeLength
+* @property ?string|int $clTypeLength
 * @property ?string $clUpdateFunction
-* @property ?string|'private' $clModifier will not display on render 
+* @property ?string $clModifier will not display on render allow 'private'
 * @property ?string $clValidator
 * @property ?string $clCharset configured charset 
 */

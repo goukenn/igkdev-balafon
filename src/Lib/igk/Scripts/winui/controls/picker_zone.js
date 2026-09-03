@@ -1,7 +1,7 @@
 "use strict";
 (function(){
     //----------------------------------------------------------
-    // | class control: igk-picker-zone
+    // | class control: igk-winui-picker-zone
     // | require attribute : igk:picker-zone-data
     //----------------------------------------------------------
     function PickerZoneClass(n){
@@ -30,7 +30,7 @@
         }).on("drop", function(){
         });
     };
-    igk.winui.initClassControl("igk-picker-zone", function(){
+    igk.winui.initClassControl("igk-winui-picker-zone", function(){
         new PickerZoneClass(this);
     });
 })();

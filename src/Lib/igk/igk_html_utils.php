@@ -23,6 +23,11 @@ use IGK\System\WinUI\Forms\IFormFieldDataForm;
 use IGK\System\WinUI\Menus\MenuItemInfo;
 use function igk_resources_gets as __;
 
+/**
+ * regiseter component name to AsideScripting 
+ * @param string $component_name 
+ * @return void 
+ */
 function igk_html_use_script(string $component_name){
     $a = AsideScripting::getInstance();
     $components = igk_environment()->component_scripts;
@@ -1176,7 +1181,7 @@ function igk_html_render_message($s)
 */
 function igk_html_replace_uri($d, $uri)
 {
-    $d->addBalafonJS()->Content = "igk.winui.history.replace('{$uri}');";
+    $d->balafonjs()->Content = "igk.winui.history.replace('{$uri}');";
 }
 /**
 * auto generate doc.

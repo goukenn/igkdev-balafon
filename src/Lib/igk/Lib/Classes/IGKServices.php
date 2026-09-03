@@ -267,7 +267,7 @@ class IGKServices extends ListOfCoreServices
         static $initializing;
         static $configuration;
         if (is_null($configuration))
-            $configuration = include self::ConfigurationFile();
+            $configuration = @include self::ConfigurationFile();
         if (is_null($initializing)) {
             $initializing = [];
         }

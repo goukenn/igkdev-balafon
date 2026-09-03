@@ -17,17 +17,16 @@ abstract class CssClassNameDetectorUtils{
     * @return mixed|void
     */
     public static function DetectFromFile(CssClassNameDetector $detector, string $filename, & $references = null){
-        if (!igk_io_file_exists($filename)){
-            return false;
-        }
+       
         $ext = igk_io_path_ext($filename);
         $p = ucfirst(strtolower($ext));
         $src = file_get_contents($filename);
         if (method_exists(static::class, $fc =  "DetectFrom".$p."Source")){
             return call_user_func_array([static::class, $fc], [$detector, $src, & $references]);
-        } 
-        return $detector->resolv($src);
+        }         
+        return self::DetectFromFile($detector, $filename, $references);
     }
+  
     /**
     * auto generate doc.
     * @param CssClassNameDetector $detector
@@ -37,40 +36,48 @@ abstract class CssClassNameDetectorUtils{
     * @return array|void
     */
     public static function DetectFromPhpSource(CssClassNameDetector $detector, string $source, & $references=null, $context=null){
-        $g = token_get_all($source);
-        $expression = [];
-        $klist = sprintf("\b(%s)\b", strtolower(implode("|", igk_sys_get_html_components() ?? [])));
-        $flag_defclass = false;
-        while(count($g)>0){
-            $e = array_shift($g);
-            $v = $e;
-            if (is_array($e)){
-                $v = $e[1];
-                $e = $e[0];
-            }
-            $n = is_int($e) ?  token_name($e) : '';
-            switch($e){
-                case T_CONSTANT_ENCAPSED_STRING:
-                    $expression[] = $v;
-                    $flag_defclass = false;
-                    break;
-                case 267:
-                    self::DetectFromHtmlSource($detector, $v, $references);
-                    break;
-                case T_METHOD_C:
-                    break;
-                case T_STRING:
-                    if (preg_match("/".$klist."/i", $v)){
-                        $expression[] = 'igk-'.$v;
-                    }else if (preg_match("/(setClass)/i", $v)){
-                        $flag_defclass = true;
-                    }
-                    break;
-                default:
-                break;
-            }
+        
+        $p = $detector->getDetector('php');
+        if ($data = $p->resolve($source)){
+            $detector->loadReferences(array_keys($data), $references);
         }
-        return $detector->resolv(implode("\n", array_unique($expression)), $references);
+        return;
+    
+    
+        // $g = token_get_all($source);
+        // $expression = [];
+        // $klist = sprintf("\b(%s)\b", strtolower(implode("|", igk_sys_get_html_components() ?? [])));
+        // $flag_defclass = false;
+        // while(count($g)>0){
+        //     $e = array_shift($g);
+        //     $v = $e;
+        //     if (is_array($e)){
+        //         $v = $e[1];
+        //         $e = $e[0];
+        //     }
+        //     $n = is_int($e) ?  token_name($e) : '';
+        //     switch($e){
+        //         case T_CONSTANT_ENCAPSED_STRING:
+        //             $expression[] = $v;
+        //             $flag_defclass = false;
+        //             break;
+        //         case 267:
+        //             self::DetectFromHtmlSource($detector, $v, $references);
+        //             break;
+        //         case T_METHOD_C:
+        //             break;
+        //         case T_STRING:
+        //             if (preg_match("/".$klist."/i", $v)){
+        //                 $expression[] = 'igk-'.$v;
+        //             }else if (preg_match("/(setClass)/i", $v)){
+        //                 $flag_defclass = true;
+        //             }
+        //             break;
+        //         default:
+        //         break;
+        //     }
+        // }
+        // return $detector->resolv(implode("\n", array_unique($expression)), $references);
     }
     /**
     * Detect from phtml source.
@@ -91,7 +98,7 @@ abstract class CssClassNameDetectorUtils{
     public static function DetectFromHtmlSource($detector , $source, & $references = null){        
         $container = new RegexMatcherContainer;
         $container->begin("<!--", "-->", "comment"); 
-        $container->begin("<(script|style)", "</\\1\s*>", "ignore-tag"); 
+        $container->begin("<(script|style)", "<\\/\\1\\s*>", "ignore-tag"); 
         $container->begin("<(?:\\w+)", ">", "tag"); 
         $pos = 0;
         $src = $source;

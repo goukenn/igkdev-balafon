@@ -138,6 +138,11 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     public function __call($name, $arguments)
     {
+        static $__call_routed;
+        if ($__call_routed){
+            return null;
+        }
+        $__call_routed = 1;
         if ($rep = $this->checkMiddle()) {
             if (is_object($rep)) {
                 return $rep;
@@ -265,6 +270,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                             $name = 'index';
                         }
                         if ($r = $_handling($name, $arguments, $_invoke)) {
+                            $__call_routed = 0;
                             return $r['result'];
                         }
                     }
@@ -282,19 +288,23 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             }
             if ($v_taccess){
                 $m = __('route not valid');
+                $__call_routed = 0;
                 throw new ActionRequestException($m, RequestResponseCode::BadRequest);
             }
             // + | --------------------------------------------------------------------
             // + | missing route : check that the view is present then do some with args
             // + |
             if ($r = $_handling($name, $arguments, $_invoke)) {
+                $__call_routed = 0;
                 return $r['result'];
             }
             // + | route not resolved 
             igk_dev_wln_e("route not resolved " . $path);
+            $__call_routed = 0;
             throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
         } else {
             if ($r = $_handling($name, $arguments, $_invoke)) {
+                $__call_routed = 0;
                 return $r['result'];
             }
         }

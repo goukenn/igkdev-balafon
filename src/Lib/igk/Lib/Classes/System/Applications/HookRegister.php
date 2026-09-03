@@ -64,8 +64,8 @@ class HookRegister
                     Mailinglists::FD_CLML_EMAIL => $user->clLogin,
                     Mailinglists::FD_CLML_STATE => 1,
                     Mailinglists::FD_CLML_SOURCE => igk_configs()->website_domain,
-                    Mailinglists::FD_CLML_AGENT=>IGKUserAgent::Agent(),
-                    Mailinglists::FD_CLML_LOCALE=>$user->clLocale,
+                    Mailinglists::FD_CLML_AGENT => IGKUserAgent::Agent(),
+                    Mailinglists::FD_CLML_LOCALE => $user->clLocale,
                 ]);
             }
         });
@@ -80,6 +80,20 @@ class HookRegister
                 $flag = igk_environment()->{$v_k};
                 igk_app()->session->{$v_k} = $flag;
                 igk_environment()->set($v_k, null);
+            });
+        }
+
+        if (igk_environment()->isDev()) {
+            igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function ($e) {
+                $options = igk_getv($e->args, 'options');
+                if (!$options || !($doc = $options->Document))
+                    return;
+                // if (!$doc->noCoreCss)
+                //     return;
+                $t = igk_create_notagnode();
+                $type = igk_configs()->get('css.colorspace') ??  'hsl';
+                igk_sys_css_inject_colors_space($t, $type);
+                $t->renderAJX(); 
             });
         }
     }

@@ -28,7 +28,7 @@ class GenCssThemeCommand extends AppExecCommand{
     * Property: usage.
     * @var mixed
     */
-    var $usage = "";
+    var $usage = "[options]";
     /**
     * Property: category.
     * @var mixed

@@ -1043,6 +1043,8 @@ function igk_wln($msg = "")
         $v_iscmd = igk_is_cmd();
         $lf = $v_iscmd ? IGK_CLF : "<br />";
     }
+    $tcl['null'] = 'blue';
+
     foreach (func_get_args() as $k) {
         $msg = $k;
         if (is_bool($k)){
@@ -1052,7 +1054,13 @@ function igk_wln($msg = "")
                 $cl = 'green';
                 $v = 'true';
             }
-            echo '<span class="igk-text" style="color: '.$cl.';">'.$v.'</span>';
+
+                echo ($v_iscmd ? $v : '<span class="igk-text" style="color: '.$cl.';">'.$v.'</span>').$lf;
+            
+            continue;
+        }
+        if (is_null($k)){
+            echo (($v_iscmd)? 'NULL' :'<span class="igk-text" style="color: '.$tcl['null'].';"> null</span>').$lf;
             continue;
         }
 
@@ -2796,6 +2804,21 @@ function igk_sys_find_auth_user(string $name)
     $r = igk_hook(IGKEvents::HOOK_FIND_USER, ['name' => $name]);
     return $r;
 }
+
+/**
+ * inject color space 
+ * @param mixed $t 
+ * @param string $type 
+ * @return void 
+ */
+function igk_sys_css_inject_colors_space($t, string $type='hsl'){ 
+    $lib = IGK_LIB_DIR . '/Default/assets/css/colorspaces';
+    $r = file_get_contents(Path::Combine($lib, $type.'.json'));
+    $t->balafonjs()
+        ->setAttribute('data-colors', preg_replace('/\s+/', '', $r))
+        ->content = file_get_contents(Path::Combine($lib, 'colorspace-injector.bjs'));
+}
+
 if (!function_exists('igk_prop_exists')) {
     /**
      * get property exists key 

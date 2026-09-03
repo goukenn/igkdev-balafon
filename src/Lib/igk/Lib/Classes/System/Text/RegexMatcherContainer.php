@@ -185,7 +185,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private $m_refOnly;
     /**
      * to dispatch for match calling 
-     * @var  
+     * @var  mixed
      */
     private $m_engine_treatment_info;
     /**
@@ -1060,7 +1060,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     * @param mixed $info
     * @param string $source
     * @param int $n
-    * @param int $option position
     * @throws IGKException
     * @return mixed
     */
@@ -1595,7 +1594,6 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
     /**
      * get referenceOnlyBlock
-     * @param mixed $tab
      * @return RegexMatcherPattern
      */
     public function referenceOnly()
@@ -1746,7 +1744,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * helper mark some definition 
      * @param string $mark 
      * @param string $tokenID 
-     * @return $this 
+     * @return RegexMatcherContainer 
      * @throws IGKException 
      */
     public function appendSingleLineComment($mark = '\/\/', $tokenID = 'single-comment'): RegexMatcherContainer
@@ -1759,7 +1757,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     * @param string $tokenId
     * @param mixed $refid
     * @throws IGKException
-    * @return $this
+    * @return RegexMatcherContainer
     */
     public function appendBrank($tokenId = 'brank', $refid = null): RegexMatcherContainer
     {
@@ -1770,7 +1768,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * append curly brank
      * @param string $tokenId 
      * @param mixed $refid 
-     * @return $this 
+     * @return RegexMatcherContainer 
      * @throws IGKException 
      */
     public function appendCurlyBrank($tokenId = 'curly-brank', $refid = null)
@@ -1782,7 +1780,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * append sqare brank
      * @param string $tokenId 
      * @param mixed $refid 
-     * @return $this 
+     * @return RegexMatcherContainer 
      * @throws IGKException 
      */
     public function appendSquareBrank($tokenId = 'square-brank', $refid = null): RegexMatcherContainer
@@ -1794,7 +1792,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     * auto generate doc.
     * @param mixed $tokenId
     * @param mixed $refid
-    * @return $this
+    * @return RegexMatcherContainer
     */
     public function appendCommentDocBlock($tokenId = 'comment-docbloc', $refid = null): RegexMatcherContainer
     {
@@ -1806,7 +1804,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * - ^[^\\S\\n]*(?=\\n)
      * - ^\\h*(?=\\n)
      * @param string $tokenID 
-     * @return $this 
+     * @return RegexMatcherContainer
      * @throws IGKException 
      * @throws Exception 
      */
@@ -1821,6 +1819,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param mixed $end
      * @param mixed $tokenId
      * @param null|mixed $refid
+     * @return RegexMatcherContainer
      */
     public function appendMultilineComment($begin = '\/\*', $end = '\*\/', $tokenId = 'comment-multiline', $refid = null)
     {
@@ -1841,7 +1840,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
     /**
     * treat captures
-    * @param array<int|string, string|ICaptureDefinition|callable> $captures capture definition
+    * @param array<int|string, string|'ICaptureDefinition'|callable> $captures capture definition
     * @param mixed $cap regex captures
     * @param string $sourceValue
     * @param mixed & $option
@@ -1899,11 +1898,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
      * set flags of patterns
      * @param ?array $patterns 
-     * @return void 
+     * @return RegexMatcherContainer 
      */
     public function setInitialPatterns(?array $patterns)
     {
         $this->m_initialPatterns = $patterns;
+        return $this;
     }
     /**
      * export regex container

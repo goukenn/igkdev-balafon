@@ -67,6 +67,7 @@ class ResetDbCommand extends AppExecCommand
         }
         $ctrl = $ctrl ?? self::ResolveController($command, $ctrl) ?? igk_die('missing controller');
         if ($ctrl) {
+            self::BindUserCommand($ctrl,$command);
             $c = \IGK\Helper\SysUtils::GetControllerByName($ctrl);
             if ($c) {
                 $c = [$c];

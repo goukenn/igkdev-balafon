@@ -1000,6 +1000,7 @@
                                         inf.pos++;
                                         w = _readWord();
                                         sp.add("span").addClass("s-mark").setHtml("@" + w);
+                                        inf.pos--;
                                     }
                                     break;
                                 case '$':
@@ -1557,8 +1558,12 @@
                 s = Math.round(s / T, 3);
                 return s;
             },
+            getRule() {
+                rele = rule || __getRule(corecss);
+                return rule;
+            },
             appendRule(c) { // append rule to balafon.css.php or css definition 
-                rule = rule || __getRule(corecss);
+                let rule = igk.css.getRule(); //rule || __getRule(corecss);
                 try {
                     if (rule)
                         rule.insertRule(c, rule.cssRules.length);
@@ -1588,7 +1593,7 @@
             changeTheme(uri, value) {
                 igk.ajx.get(uri + "/" + value, null, function (xhr) {
                     if (this.isReady()) {
-                        rule = rule || __getRule(corecss);
+                        let rule = igk.css.getRule();
                         if (rule) {
                             // rule.remove();
                             while (rule.cssRules.length > 0) {
@@ -1791,13 +1796,13 @@
                 let h = document.getElementsByTagName('html')[0];
                 h.setAttribute("data-theme", m);
                 saveItem(m);
-                igk.publisher.publish('sys://dom/css/theme-changed', {theme: m});       
+                igk.publisher.publish('sys://dom/css/theme-changed', { theme: m });
             }
             function __updatemode(r) {
                 return (e) => {
                     let m = (('dark' == r) && e.matches) || (('dark' != r) && !e.matches) ? 'dark' : 'light';
                     __setTheme(m);
-               
+
                 }
             }
             if ('matchMedia' in window) {
@@ -1855,16 +1860,29 @@
             let cookies = igk.cookies;
 
 
-            if (isFirefox() || isChrome() || isSafari() || isIEEdge() || isOpera()) {
+            if (1 || isFirefox() || isChrome() || isSafari() || isIEEdge() || isOpera()) {
                 // to get content of css style item must be added to document
                 B.add("div").setCss({ position: 'absolute', visibility: 'hidden', overflow: 'hidden', 'height': '0px', 'bottom': '0px' })
                     .addClass("igk-m-i") // media info
                     .add(r).
                     t.add(dev);
-                igk.css.appendRule(".igk-media-type:before{position:absolute;}");
-                igk.css.appendRule(".igk-device:before{position:absolute;}");
+                // + | one rule each time 
+                let v_rule = igk.css.getRule();
+                if (v_rule) {
+                    igk.css.appendRule(".igk-media-type:before{position:absolute;}");
+                    igk.css.appendRule(".igk-device:before{position:absolute;}");
+                } else {
+                    const rules = [
+                        ".igk-device::before{position:absolute;}",
+                        ".igk-media-type:before{position:absolute;}",
+                    ].join("\n");
+                    let g = document.createElement('style');
+                    document.body.appendChild(g);
+                    g.textContent = rules;
+                }
+
             } else {
-                console.error('failed to initialize device manager ');
+                console.error('failed to initialize device manager: ');
             }
             var dev = igk.css.getDevice();
             var m_c = igk.css.getMediaType(); // current
@@ -1875,7 +1893,7 @@
                     B.rmClass(m_c).addClass(i);
                     __raiseMedia(i);
                 }
-                // - console.log('media type : ', {mediaType:i, oldMediaType:m_c});
+                // -  console.log('media type : ', {mediaType:i, oldMediaType:m_c});
             };
             // - console.log('init ie events::', {dev, m_c});
             function __raiseMedia(i) {
@@ -1928,8 +1946,8 @@
         if (!String.prototype.startsWith)
             String.prototype.startsWith = igk_str_startWith;
     })();
-   
-   
+
+
     //
     // canvas utility 
     //
@@ -1983,7 +2001,17 @@
         var _g_ctx = _g_canva.o.getContext ? _g_canva.o.getContext("2d") : null;
         if (_g_ctx == null)
             return;
+
+        const toHex = (val) => val.toString(16).padStart(2, '0');
+        
         igk.system.createNS("igk.canvas", {
+            PickColor(cl) {
+                const ctx = _g_ctx;
+                ctx.fillStyle = cl;
+                ctx.fillRect(0, 0, 1, 1);
+                const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+                return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+            },
             supportFilter: function () {
                 return "filter" in _g_ctx;
             },
@@ -7146,6 +7174,7 @@
                 var no_c = this.getAttribute("igk-ajx-form-no-close");
                 var ajxdata = igk.JSON.parse(this.getAttribute("igk-ajx-form-data"));
                 var complete = this.getAttribute("igk-ajx-form-complete");
+                var complete_action = this.getAttribute("igk-ajx-form-complete-action");
 
 
                 function close(q, selector, xhr) {
@@ -7153,14 +7182,16 @@
                     if (h) {
                         igk.winui.notify.close();
                     }
-                    _complete(q,xhr);
+                    _complete(q, xhr);
                     _restoreSelection(selector);
                 };
                 function _complete(q, xhr) {
-                    if (complete) {                        
+                    if (complete) {
                         const d = xhr.responseText ? JSON.parse(xhr.responseText) : null;
                         (new Function('data', complete)).apply(q, [d]);
-
+                    }
+                    if (complete_action) {
+                        (new Function(complete_action)).apply(q);
                     }
                 };
                 //register cusom event
@@ -7239,7 +7270,7 @@
                                 }
                                 if (r_obj && r_obj.complete) {
                                     r_obj.complete.apply(self);
-                                } 
+                                }
                             }
                         }, true, () => {
                             selector.each_all(function () {

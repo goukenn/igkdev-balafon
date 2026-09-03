@@ -104,7 +104,7 @@ abstract class DbSchemas
      * loaded schema
      * @var array
      */
-    static $sm_schemas = [];
+    private static $sm_schemas = [];
     /**
      * is loading from schema
      * @return ?bool 
@@ -112,6 +112,13 @@ abstract class DbSchemas
     public static function IsLoadingFromSchema(): ?bool
     {
         return self::$sm_isLoadingFromSchema;
+    }
+    /**
+     * 
+     * @return array 
+     */
+    public static function GetSchemas(){
+        return self::$sm_schemas;
     }
     /**
      * clear store controller schema
@@ -324,7 +331,7 @@ abstract class DbSchemas
         if (is_null($sm_cacheinfo)) {
             $sm_cacheinfo = [];
         }
-        $key = $ctrl ? $ctrl->getEnvKey('db-cache/' . $tablename) : $tablename;
+        $key = ($ctrl ? $ctrl->getEnvKey('db-cache/' . $tablename) : null) ?? $tablename;
         if (isset($sm_cacheinfo[$key])) {
             $v_info = $sm_cacheinfo[$key];
             return self::CreateObjFromInfo($v_info, $dataobj);

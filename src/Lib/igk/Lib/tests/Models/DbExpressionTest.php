@@ -143,8 +143,8 @@ class DbExpressionTest extends BaseTestCase{
         $ad = Table1Test::model()->getDataAdapter();
         $version = $ad->getVersion();
         $query = version_compare($version, "8.0",  ">=") ?
-        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;":
-        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB;"
+        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB CHARSET utf8mb4;":
+        "CREATE TABLE IF NOT EXISTS `dummy_table1`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` varchar(30),`clDescription` text, PRIMARY KEY (`clId`)) ENGINE=InnoDB CHARSET utf8mb4;"
          ;
         $gram = $ad->getGrammar(); 
         $tableinfo = igk_getv(Table1Test::model()->getModelDefinition(), "tableRowReference"); 

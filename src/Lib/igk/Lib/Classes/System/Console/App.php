@@ -61,8 +61,15 @@ class App implements ICLICommandApp
      * @var mixed
      */
     protected $_basePath;
+
+    /**
+     * get cli start path 
+     * @var mixed
+     */
+    protected $_startPath;
     /**
      * store application configuration
+     * @var mixed
      */
     protected $_configs;
     /**
@@ -73,6 +80,13 @@ class App implements ICLICommandApp
     public function getConfigs()
     {
         return $this->_configs;
+    }
+    /**
+     * retrieve the initial startup directectory
+     * @return mixed 
+     */
+    public function getStartPath(){
+        return $this->_startPath;
     }
     /**
      * context
@@ -113,8 +127,9 @@ class App implements ICLICommandApp
     public static function Run($command = [], ?string $basePath = null, ?XPathConfig $configs = null)
     {
         $app = (new static);
+        $_start = igk_server()->PWD; 
         if ($basePath === null) {
-            $basePath = getcwd();
+            $basePath = $_start;
         }
         // + |init balafon temporary directory  
         $wdir = sys_get_temp_dir() . "/" . self::TEMP_DIR_NAME;
@@ -135,6 +150,7 @@ class App implements ICLICommandApp
         $v_env->workingDir = $wdir;
         $app->_basePath = $basePath;
         $app->_configs = $configs;
+        $app->_startPath = $_start;
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot(); 
         if (!file_exists($fc = AppCommandConstant::GetCacheFile())) {

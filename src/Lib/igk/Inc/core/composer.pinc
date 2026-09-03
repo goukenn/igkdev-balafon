@@ -1,6 +1,8 @@
 <?php
 // echo "install composer : ".PHP_EOL;
-
+/**
+ * @var mixed $home
+ */
 chdir($home);
 $package_dir = igk_getr("package_dir");
 $args = igk_getr("args");
@@ -19,7 +21,7 @@ array_unshift($args, "-d ".$dir);
 $tfile = tmpfile();
 $cmd = $composer . " ".implode(" ", $args);
 ob_start();
-$g = `export COMPOSER_HOME={$dir} && $php_lib $cmd 2>&2 1>&1`;
+$g = shell_exec('export COMPOSER_HOME={$dir} && $php_lib $cmd 2>&2 1>&1');
 $c = ob_get_contents();
 ob_end_clean();
 // echo "command .... = ".$cmd;

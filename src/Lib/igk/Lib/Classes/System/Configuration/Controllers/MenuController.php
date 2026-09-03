@@ -350,7 +350,7 @@ final class MenuController extends ConfigControllerBase
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
         igk_usort($v_ctab, $v_sortByDisplayText);
         $this->_initConfigMenu($v_CPages, $v_ctab, $v_configTargetNode->li()->ul(), true);
-        $v_configTargetNode->addBalafonJS()->Content = <<<EOF
+        $v_configTargetNode->balafonjs()->Content = <<<EOF
 ns_igk.readyinvoke('igk.configmenu.init', ns_igk.getParentScript());
 EOF;
         $v_configTargetNode->vscrollbar();

@@ -25,7 +25,6 @@ interface IDbQueryGrammar extends IGrammar {
      * @param string $table_name 
      * @param array $condition 
      * @param mixed $options 
-     * @param mixed $inf 
      * @return ?string
      */
     function createSelectQuery(string $table_name, ?array $condition, $options=null): ?string;

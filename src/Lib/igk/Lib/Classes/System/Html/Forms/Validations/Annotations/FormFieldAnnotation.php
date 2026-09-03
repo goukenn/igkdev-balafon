@@ -34,6 +34,12 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @var null|string
      */
     var $label_text;
+
+    /**
+     * to pass extra attributes to label 
+     * @var mixed
+     */
+    var $label_attribs;
     /**
      * field default value 
      * @var mixed
@@ -54,6 +60,12 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @var mixed
      */
     var $component;
+
+    /**
+     * extra item to render 
+     * @var mixed
+     */
+    var $tip;
     /**
      * internal identification in case of use in form builder
      * @var ?string

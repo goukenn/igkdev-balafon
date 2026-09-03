@@ -11,8 +11,7 @@ use IGK\System\Http\Cookies;
 use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
-use IGKSessionFileSaveHandler;
-
+use IGKSessionFileSaveHandler; 
 /**
 * auto generate doc.
 * @package IGK\System\Library
@@ -160,7 +159,7 @@ class session extends \IGKLibraryBase
                 setcookie($cookieName, $idstorage);
             }
         }
-        $dom = igk_get_cookie_domain();
+        $dom = ($c = igk_get_cookie_domain())? ltrim($c, '.') : null;
         $opts = [];
         if (!empty($dom))
             $opts["domain"] = $dom;
@@ -176,7 +175,7 @@ class session extends \IGKLibraryBase
             if ($set_loc) {
                 session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
             }
-        }        
+        }   
         $b = @session_start();
         return $b;
     }

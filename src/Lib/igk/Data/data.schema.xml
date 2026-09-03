@@ -528,7 +528,12 @@
 		</Migration>
 
 
-		
+		<Migration>
+			<addColumn after="Value" table="%prefix%phoneBooks"> 
+				<Column clName="is_gen_prefered" clNotNull="false" clUnique clStorage="{mode:'STORED',type:'if', value:'%is_preferred%=1, %EntryGuid% ,NULL'}"
+				></Column>				
+			</addColumn>
+		</Migration>
 
 	</Migrations>
 </data-schemas>

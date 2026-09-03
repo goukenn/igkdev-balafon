@@ -26,7 +26,7 @@
         q.remove();
         // alert(q);
     };
-    igk.winui.initClassControl("igk-winui-rc", _init, {
+    igk.winui.initClassControl("igk-winui-repeat-content", _init, {
         desc: 'repeat-content'
     });
 })();

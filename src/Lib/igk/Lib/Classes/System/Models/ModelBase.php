@@ -33,6 +33,7 @@ use IGK\System\Traits\MacrosConstant;
 use IGK\Constants;
 use IGK\Database\DbRowDefEntry;
 use IGK\Helper\StringDisplay;
+use IGK\System\Database\SchemaMigrationInfo;
 use IGK\System\IInjectable;
 use ReflectionException;
 use ReflectionFunction;
@@ -255,6 +256,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @var mixed
      */
     protected $update_unset;
+
+    /**
+     * storages
+     * @var ?array of storage columns 
+     */
+    protected $storages;
     /**
     * Returns Update Unset.
     */
@@ -262,6 +269,23 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return $this->update_unset;
     }
+    /**
+     * 
+     * @var mixed
+     */
+    // private static $sm_storage;
+    // public function getStorages(){
+    //     if (is_null(self::$sm_storage )){
+    //         $d = [];
+    //         foreach($this->getTableColumnInfo() as $cl){
+    //             if ($cl->clStorage){
+    //                 $d[] = $cl->clName;
+    //             }
+    //         }
+    //         self::$sm_storage = $d;
+    //     }
+    //     return self::$sm_storage;
+    // }
     /**
     * Returns true if Macros Initialize.
     */
@@ -389,7 +413,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     protected function _getTableColumnInfo(): ?array
     {
         if (method_exists($this, "getDataTableDefinition")) {
-            if ($g = $this->getDataTableDefinition()) {
+            if ($g = (object)$this->getDataTableDefinition()) {
                 return $g->tableRowReference;
             }
         }
@@ -474,7 +498,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     public function __construct($raw = null, $mock = 0, bool $unset = false)
     {
         $this->_initialize($raw, $mock, $unset);
-        $tab = &self::RegisterModels();
+        $this->_registerModels();       
+       
+    }
+    protected function _registerModels(){
+         $tab = &self::RegisterModels();
         // + | if ($tab && !isset($tab[$tb = $this->table()])) {
         if (!isset($tab[$tb = $this->table()])) {
             $ctrl = $this->getTableInfoController();
@@ -485,9 +513,19 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 'referenceController' => $ctrl
             ];
         }
-        if (empty($this->controller)) {
+         if (empty($this->controller)) {
             $this->controller = $tab[$tb]->referenceController;
         }
+    }
+    /**
+     * 
+     * @param string $table 
+     * @param null|BaseController $ctrl 
+     * @param mixed $tableReference 
+     * @return SchemaMigrationInfo|array|null 
+     */
+    protected function _initTableInfo(string $table, ?BaseController $ctrl, & $tableReference=null){
+        return DBCaches::GetColumnInfo($table, $ctrl, $tableReference);
     }
     /**
      * initialize the model
@@ -508,7 +546,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $t =  $this->getTable();
         $ctrl = $this->getController();
         $tableReference = null;
-        $v_inf = DBCaches::GetColumnInfo($t, $ctrl, $tableReference);
+        $v_inf = $this->_initTableInfo($t, $ctrl, $tableReference);
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
             if (igk_environment()->isDev()) {

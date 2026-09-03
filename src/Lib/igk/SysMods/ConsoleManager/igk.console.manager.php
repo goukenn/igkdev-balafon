@@ -14,37 +14,39 @@ use function igk_resources_gets as __;
 /**
  * Represent IGKConsoleToolManager class
  */
-final class IGKConsoleToolManager extends ConfigControllerBase
+final class IGKConsoleToolManager // extends ConfigControllerBase
 {
     /**
-    * auto generate doc.
-    */    public function getCanConfigure()
+     * auto generate doc.
+     */
+    public function getCanConfigure()
     {
         return 1;
     }
     /**
-    * auto generate doc.
-    */    public function getConfigGroup()
+     * auto generate doc.
+     */
+    public function getConfigGroup()
     {
         return "administration";
     }
     /**
-    * Returns Config Page.
-    */
+     * Returns Config Page.
+     */
     public function getConfigPage()
     {
         return "console";
     }
     /**
-    * auto generate doc.
-    */
+     * auto generate doc.
+     */
     public function getConfigImageKey()
     {
         return "";
     }
     /**
-    * auto generate doc.
-    */
+     * auto generate doc.
+     */
     public function getConfigIndex()
     {
         return 10;
@@ -53,16 +55,16 @@ final class IGKConsoleToolManager extends ConfigControllerBase
      * 
      */
     /**
-    * auto generate doc.
-    */
+     * auto generate doc.
+     */
     public function getIsConfigPageAvailable()
     {
         return !igk_environment()->isOPS();
     }
     /**
-    * View.
-    * @return BaseController
-    */
+     * View.
+     * @return BaseController
+     */
     public function View(): BaseController
     {
         $t = $this->getTargetNode();

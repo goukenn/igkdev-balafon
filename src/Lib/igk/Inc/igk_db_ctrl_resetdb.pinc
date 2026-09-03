@@ -59,6 +59,10 @@ if (!$is_connect) {
 }
 if ($controller instanceof SysDbController)
     $controller->dropDb(false, $force);
+else{
+    $controller->cleanAllCreatedModel();
+    $controller->dropOwnedTables();
+}
 igk_set_env("sys://db_init_table/ctrl", $controller);
 Logger::info("init controller db ... ");
 $controller->initDb($force, $clean);

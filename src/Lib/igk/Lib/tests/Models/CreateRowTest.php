@@ -58,7 +58,7 @@ class CreateRowTest extends BaseTestCase{
         $e = new table_enum;
         $defs = $e->getDataTableDefinition()->tableRowReference; 
         $query = 
-        "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3'), PRIMARY KEY (`clId`)) ENGINE=InnoDB;";            
+        "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3'), PRIMARY KEY (`clId`)) ENGINE=InnoDB CHARSET utf8mb4;";            
         $this->assertEquals(
             $query,
             $gram->createTableQuery("table_enum", $defs)

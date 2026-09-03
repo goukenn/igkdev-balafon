@@ -61,6 +61,9 @@ class SearchFilesCommand extends AppExecCommand
         $real = property_exists($command->options, '--real-only');
         $v_exclude = igk_getv($command->options, '--exclude');
         $pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
+        $bckpath = getcwd();
+        chdir($command->app->getStartPath());
+        // igk_wln_e("cwd", getcwd(), $command->app->getStartPath());
         if ($v_exclude) {
             if (!is_array($v_exclude)) {
                 $v_exclude = [$v_exclude];

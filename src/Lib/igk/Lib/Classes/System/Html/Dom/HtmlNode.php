@@ -628,4 +628,21 @@ class HtmlNode extends HtmlItemBase
         HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 
         return $this->_add($n); 
     }
+
+
+    public function __invoke()
+    {
+        $t = $args = func_get_args();
+        $c = igk_getv($args, 0);
+        $i = false;
+        if (($c === $this) || (is_null($c) || ($c instanceof HtmlItemBase))){
+            $t = array_merge([$this], $args);
+            $i = true;
+        }
+        $c = call_user_func_array('igk_html_host', $t); 
+        if (!$i){
+            $this->add($c);
+        }
+        return $this;
+    }
 }

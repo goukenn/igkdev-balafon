@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -40,6 +41,10 @@ class DbInitDataCommand extends AppExecCommand
      * @var mixed
      */
     var $usage = 'controller [action_name] [options]';
+
+    var $options = [
+
+    ];
     /**
      * Exec.
      * @param mixed $command
@@ -47,14 +52,14 @@ class DbInitDataCommand extends AppExecCommand
      * @param null|string $action_name
      */
     public function exec($command, ?string $controller = null, ?string $action_name = null)
-    {  
+    {
         if (empty($action_name)) {
             self::AutoInjectController($command, $controller, $action_name);
         }
 
         is_null($controller) && igk_die('required controller');
         ($ctrl = self::GetController($controller)) ?? igk_die('missing controller');
-      
+        self::BindUserCommand($ctrl, $command);
         $cl = $ctrl->resolveClass(EntryClassResolution::DbInitData) ?? igk_die('init data class is missing');
 
         if ($action_name) {
@@ -74,7 +79,9 @@ class DbInitDataCommand extends AppExecCommand
     public function help($args = null, $controller = null)
     {
         $s = parent::help();
-
+       
+        Logger::print('actions_name* came from Database/InitData class');
+        $controller = $controller ?? SysDbController::ctrl();
         if ($controller) {
             if ($ctrl = self::GetController($controller)) {
                 if ($funcs = $this->_getReflectClassActions($ctrl)) {

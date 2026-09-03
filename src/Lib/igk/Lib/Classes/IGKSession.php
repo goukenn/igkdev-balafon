@@ -562,7 +562,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     * @param mixed $context require context only USER_CTRL can call this method
     */
     public function setUser($user, $context){  
-        $u=$this->getUser();
+        $u=$this->getUser(); 
         if(($context !== null) && ($context == igk_getctrl(IGK_USER_CTRL))){
             if($u !== $user){
                 if ($user && (get_class($user) !== IGKUserInfo::class)){

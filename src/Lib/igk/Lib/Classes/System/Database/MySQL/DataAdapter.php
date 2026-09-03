@@ -397,6 +397,7 @@ const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
         $type = igk_getv([1 => 'UNIQUE'], $type, 'FOREIGN KEY');
         $drop_query_format = "SELECT * FROM %s.TABLE_CONSTRAINTS where ";
         $db = $this->getDbName();
+        $g = null;
         foreach ($keys as $table) {
             $q = sprintf($drop_query_format, self::DB_INFORMATION_SCHEMA);
             $q .= "TABLE_NAME='" . $table . "'";
@@ -1028,6 +1029,9 @@ const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
     public function getVersion(): string
     {
         return $this->m_dbManager->getVersion();
+    }
+    public function getCharset(){
+        return $this->m_dbManager->getCharset();
     }
     /**
      * get adapter type

@@ -438,8 +438,8 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
         $dv["class"] = "+c-opts";
-        $bar = $dv->actionbar()->setClass('dispflex');
-        $groups = $bar->actiongroup();
+        $bar = $dv->actionbar()->setClass('dispflex')->setStyle('justify-content: over; width:100%');
+        $groups = $bar->actiongroup()->setClass('edition');
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_add_ctrl_frame_ajx")), "add_16x16")->setClass("igk-btn");
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_edit_ctrl_ajx")), "edit_16x16")->setClass("igk-btn");
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_edit_ctrl_properties_ajx")), "setting_16x16")->setClass("igk-btn");
@@ -700,7 +700,7 @@ EOF;
             $u = igk_io_baseuri(IGK_BALAFON_JS_CORE_FILE);
             $frm->script()->setAttribute('src', $u);
         }
-        $frm->addBalafonJS()->Content =  <<<JS
+        $frm->balafonjs()->Content =  <<<JS
 ns_igk.ready(
 function(){
 var r = \$igk(\$ns_igk.getParentScriptForm());

@@ -251,4 +251,10 @@ trait DbColumnInfoTrait
    * @var mixed
    */
   var $clCharset;
+
+  /**
+   * storage expression conditions 
+   * @var mixed JSon Data  {mode:STORE|VIRTUAL, type:IF, value:'%expression% that will be parsed' }
+   */
+  var $clStorage;
 }

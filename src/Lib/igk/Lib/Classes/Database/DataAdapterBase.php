@@ -21,6 +21,10 @@ use function igk_getv as getv;
  */
 abstract class DataAdapterBase extends IGKObject implements IDataDriver
 {
+    /**
+     * resolv type method
+     */
+    const ResolvTypeMethod = 'ResolvType';
     // + | register user
     /**
     * Property: reg adapter.
@@ -652,7 +656,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     public function insert($table, $entries, $tableinfo = null, bool $throwException = true)
     {
         if ($throwException) {
-            throw new IGKException(__CLASS__ . " - [warning] :::: must be overrided");
+            throw new IGKException(__METHOD__ . " - [warning] :::: must be overrided");
         }
         return false;
     }
@@ -767,7 +771,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * @return null|\IGK\Database\DbQueryResult
     */
     public function select($tablename, $condition = null, $options = null)
-    {
+    { 
         return null;
     }
     /**

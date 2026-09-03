@@ -147,7 +147,7 @@ EOF;
     * @param mixed $method
     */
     private function replaceContent($t, $uri, $method='GET'){
-        $t->addBalafonJS(1)->Content=<<<EOF
+        $t->balafonjs(1)->Content=<<<EOF
 (function(q){ igk.winui.controls.tabcontrol.init('$uri', q);})(igk.getParentScript());
 EOF;
     }

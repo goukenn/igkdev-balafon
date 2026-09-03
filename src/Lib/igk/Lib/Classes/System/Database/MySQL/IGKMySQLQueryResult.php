@@ -169,7 +169,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     * @param mixed $result
     * @param mixed $seacharray
     */
-    public static function CreateEmptyResult($result, $seacharray = null)
+    public static function CreateEmptyResult(DbQueryResult $result, $seacharray = null)
     {
         $out = new IGKMySQLQueryResult();
         $out->m_dbname = $result->m_dbname;

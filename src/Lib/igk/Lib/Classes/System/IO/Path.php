@@ -375,7 +375,8 @@ class Path
         } else {
             $out = 'http://';
         }
-        $n = rtrim(igk_server_name(), '/');
+        $server = igk_server_name() ?? igk_die('missing initialization of server');
+        $n = rtrim($server, '/');
         if (!empty($n))
             $out .= $n;
         if ($c = IO::GetPort($secured)) {

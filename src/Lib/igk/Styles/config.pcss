@@ -6,7 +6,11 @@
 $page = ".igk-cnf-page";
 $areasize = "420px";
 $def->clear(); 
-$def['body.igk-body '.$page] = 'background-color: [cl:configBackgroundColor];'; 
+
+
+
+$def['body.igk-body '.$page] = '{sys: fitw} background-color: [cl:configBackgroundColor]; font-size: 12px;'; 
+$def['body.igk-body '.$page. ' h2'] = 'font-size: 16px;';
 $cl["configColor"]="#222";
 $cl["configMenuHoverColor"] = "#fff";
 $cl["configMenuColor"] = "#222";
@@ -25,6 +29,14 @@ $cl["configPanelDangerForeColor"] = "#fefefe";
 $cl["configDangerColor"] = "#eee";
 $cl["configDangerBackgroundColor"] = "#991553";
 $cl["configEditorForeColor"] = "#cecece";
+
+$cl['configActionButtonBgColor'] = "#333";
+$cl['configActionButtonForeColor'] = "#84abb1";
+$cl['configButtonForeColor'] = "#333";
+$cl['configDangerForeColor'] = "#e1e1e1";
+$cl['configActionButtonHoverColor'] = "#e1e1e1";
+
+
 $cl["igk-notify-g-fcl"]="white";
 $cl["igk-notify-i-fcl"]="white";
 $cl["igk-notify-w-fcl"]="white";
@@ -43,8 +55,10 @@ $cl["configMenuHeadingHoverColor"] = "#eee";
 $cl["configLoginLogoBackgroundColor"] = "white";
 $cl["configMenuBorder"] = "white";
 include __DIR__."/config.dark.pcss";
-$def[".igk-cnf-content .igk-panel-box"] = "[bgcl:configPanelBoxBackgroundColor]";
-$def[".igk-cnf-content > div > .igk-panel-box"] = " {sys:posr} width: 100%; overflow:hidden;";
+
+
+$def[".igk-cnf-content .igk-winui-panel-box"] = "[bgcl:configPanelBoxBackgroundColor]";
+$def[".igk-cnf-content > div > .igk-winui-panel-box"] = " {sys:posr} width: 100%; overflow:hidden;";
 $def[$page." .igk-col-view-box"] = "{sys:no-border} [bgcl:configPanelBoxBackgroundColor]";
 $btnstyle = "[sysbgcl:buttonBackgroundColor] [sysfcl:buttonTextColor] border:none; {sys:dispib}margin:2px; padding-right:4px; height:32px; vertical-align: top; min-width:120px;text-align:center;".
 "cursor:pointer;";
@@ -65,7 +79,7 @@ $def[$page." .igk-cnf-content input[type='submit']"]="font-size: inherit; line-h
 $def[$page." .igk-cnf-content"]="padding: 0px 10px; {sys:alignt,posr} display:table-cell; width:100%;";
 $def[$page." .igk-table-host"] = "padding:0px 10px; margin:0px -10px;";
 $def[$page." .igk-table-host td"]="{sys:no-wrap, ellipsis};";
-$def[$page. " .igk-panel-box > div.igk-section-title" ]="margin-bottom:2em";
+$def[$page. " .igk-winui-panel-box > div.igk-section-title" ]="margin-bottom:2em";
 $def[$page. " input[type=\"submit\"]"] = "text-transform: none;";
 $def[$page. " select"] = "border:none; vertical-align:top; [fcl:configColor]; [bgcl:configSelectBgColor, #444]";
 $def[$page. " select:focus"] = "[fcl:configColor]";
@@ -137,8 +151,9 @@ $def[
 ] = "{sys:dispib} min-width : 200px;";
 $def[".igk-cnf-body input[type='file']"] = "display:inline-block;";
 $def[$page." .igk-cnf-menu-title"] = "margin-bottom: 4px; margin-top: 4px; padding:0px; margin-left:auto; margin-right:auto; color: #aaa; font-weight: 600; ";
-$def[$page." .c-opts"] = "margin-bottom: 4px; margin-top:4px; ";
-$def[$page." .c-opts a"] = "{sys:dispib} margin: 4px; ";
+$def[$page." .c-opts"] = "margin-bottom: 4px 0; ";
+$def[$page." .c-opts .edition"] = "flex-grow: 1;";
+$def[$page." .c-opts a"] = "{sys:dispib} ";
 $def[$page." a"] = "color:[cl:configLinkColor]; text-decoration:none;";
 $def[$page." a:hover"] = "color:[cl:configLinkColor];";
 $def[$page." .badge > a"] = "color: [cl:--igk-cnf-link-color, #cecece];";
@@ -356,7 +371,7 @@ $def[$page ." div.igk-title, ".
 $page ." .igk-section-title.igk-title-4"] = 
 "padding-bottom:1.6em; font-weight: 200; margin-bottom:0 !important;";
 $def[$page ." div.igk-title"] = "padding-bottom: 0px"; 
-$def[$page." .igk-danger"] = "color:orangered;";
+$def[$page." .igk-danger"] = "color:[cl:configDangerForeColor];";
 $def[$page." .igk-form.webmail-config"] = "font-size: 14px;";
 // + MAIL SERVER STYLES
 $def[".igk-cnf-content div#c_ml .igk-form-control"] = "border-radius: 4px; width: {$areasize};";
@@ -417,7 +432,7 @@ $def[$page." .igk-btn .igk-ajx-pickfile:hover"] = "background-color:transparent 
 $def[$page." .igk-btn.igk-btn-core-update" ] = "[bgcl:configButtonColor, #247397]";
 $def[$page." .igk-action-group .igk-btn"] = 
 $def[$page." .igk-action-group .igk-btn a"] = 
-"color: #cecece;";
+"color: [cl:configActionButtonForeColor]; background-color:[cl:configActionButtonBgColor];";
 $def[$page." .igk-form-action .igk-btn"] = "border:none;";
 $def[".igk-notify-host .igk-panel"] = "border-radius: 5px;";
 $def[".igk-panel.igk-success"] = "background-color:[cl:successColor, #5cb094]; ";
@@ -427,9 +442,9 @@ $def[".igk-svg-host.logo"] = "width:32px; height:32px; margin: 4px;";
 $cl["loginFormBgColor"] = "indigo"; 
 // + | 2022 configuration page
 $def[$page .' .igk-form-control'] = "border-radius:4px;";
-$def[".igk-panel-box"] = 
-$def[".igk-panel-box.home-cnf"] = 
-$def[".igk-panel-box.home-cnf > .igk-panel-box "] = "border:none;";
+$def[".igk-winui-panel-box"] = 
+$def[".igk-winui-panel-box.home-cnf"] = 
+$def[".igk-winui-panel-box.home-cnf > .igk-winui-panel-box "] = "border:none;";
 // + | 2023 configuration page
 $def[".igk-table td"]= 
 $def[".igk-table td"]= "padding: 4px;";
@@ -491,8 +506,18 @@ foreach ($ls as $value) {
 } 
 $def['input.clsubmit'] = '';
 $def['.igk-action-group input.clsubmit'] = '{sys:clsubmit igk-btn-default} padding: 6px 12px; font-size:1rem !important; line-height:1 !important;';
-$def['.igk-action-group .igk-btn:hover'] = 'color: #222';
+$def['.igk-action-group .igk-btn:hover'] = 'color: [cl:configActionButtonHoverColor]';
 $def['.igk-cnf-body .igk-winui-panel-dialog .box'] = 'background-color: #040816;';
 
 
-$def['.core-system-console-result'] = 'min-height: 300px; ';
+$def['.core-system-console-result'] = "font-size:0.7em; line-height:1;   background-color:#222;padding:4px; border-radius:4px; overflow: hidden; min-height: 300px;";
+$def['.igk-console-output']= "{sys:posr dispb} font-family:'Fira Code', 'Source Code Pro', 'Consolas', 'Monaco', 'Courier New', monospace; min-height: 300px; max-height: 500px; overflow: auto; margin:0px; padding:8px;";
+
+$def['.panel-box'] = 'font-size:10px;';
+
+
+$def['.igk-panel'] = 'padding: 20px 10px; ';
+
+$def[$page.' .igk-action-group'] = 'margin-bottom: 10px;';
+$def[$page.' .igk-action-group > .igk-form.igk-btn'] = 'margin: 0px; padding:0px; border:none;';
+$def[$page.' .igk-action-group .igk-action-group input'] = 'border:none; border-radius:none';

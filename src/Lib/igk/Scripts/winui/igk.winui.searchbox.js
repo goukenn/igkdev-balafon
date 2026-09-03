@@ -21,7 +21,7 @@
     igk.winui.initClassControl("igk-winui-searchbox", function(){
         this.on("keypress", function(e){
             if (e.keyCode == igk.winui.inputKeys.Enter){
-                var p = $igk(this.parentNode).qselect(".igk-winui-searchbtn").first();
+                var p = $igk(this.parentNode).qselect(".igk-winui-search-button").first();
                 if (p){
                     igk.winui.searchbox.search(p, $igk(e.target));
                 }

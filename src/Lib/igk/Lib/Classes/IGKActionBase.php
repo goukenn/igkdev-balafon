@@ -10,7 +10,8 @@ use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Constants;
 use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerEnvParams; 
+use IGK\Controllers\ControllerEnvParams;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\ActionHelper; 
 use IGK\Helper\ViewHelper;
 use IGK\System\EntryClassResolution;
@@ -638,10 +639,12 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($v_host && ($v_host instanceof static)){
                     $v_host->_handleThrowable($ex);
                 }
-                igk_dev_wln_e(__FILE__.":".__LINE__ , 'error: ', $ex->getMessage(),
-                'code:', $ex->getCode(), 
+                igk_dev_wln_e(__FILE__.":".__LINE__ , 
+                'error: ', $ex->getMessage(),
+                'code:' . $ex->getCode(), 
                 $ex->getFile().':'.$ex->getLine(),
-                'is host ',  $v_host );
+                'is host ',  $v_host ,
+                'lastQuery:'. SysDbController::ctrl()->getDataAdapter()->getLastQuery() );
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

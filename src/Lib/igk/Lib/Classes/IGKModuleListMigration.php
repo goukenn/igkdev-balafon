@@ -387,11 +387,11 @@ final class IGKModuleListMigration extends BaseController implements
     public static function __callStatic($name, $arguments)
     {
         if (method_exists(ControllerExtension::class, $name)) {
-            if (isset(self::$sm_instance->host)) {
-                array_unshift($arguments, self::$sm_instance->host);
+            if (isset(self::$sm_instance->m_host)) {
+                array_unshift($arguments, self::$sm_instance->m_host);
                 return ControllerExtension::$name(...$arguments);
             } else {
-                Logger::warn("no host defined");
+                Logger::warn("no host defined to call ".$name);
             }
         }
         return null;

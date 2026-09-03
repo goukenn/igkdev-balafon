@@ -4,14 +4,17 @@
 // @date: 20220605 13:04:13
 // @desc: view layout loader
 namespace IGK\Controllers;
+
 use Exception;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\SVG\SvgRenderer;
+use IGK\System\IO\FileSystem;
 use IGK\System\IO\Path;
 use IGK\System\Views\ViewCommentArgs;
+use IGK\System\WinUI\IViewLayout;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKException;
 use ReflectionException;
@@ -21,13 +24,13 @@ use function igk_resources_gets as __;
  * view layout loader
  * @package IGK\Controllers
  */
-class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
+class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IViewLayout
 {
     const HOOK_AFTER_INC = 'sys::/viewlayout/after_include';
     /**
-    * Path to dir.
-    * @var mixed
-    */
+     * Path to dir.
+     * @var mixed
+     */
     private $m_dir;
     /**
      * common inclusion 
@@ -65,18 +68,47 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * const activate the main layout param
      */
     const MAIN_LAYOUT_PARAM = "@MainLayout";
+
     /**
-    * Initializes.
-    */
-    protected function initialize()
+     * use to load inclusion on the view 
+     * @param string $path 
+     * @param array|null $options 
+     * @return mixed 
+     */
+    public function use(string $path, ?array $options = null)
     {
-        $v_dir = $this->controller->getViewDir();
-        $this->common =  $v_dir . "/.common.pinc";
-        $this->header =  $v_dir . "/.header.pinc";
-        $this->footer =  $v_dir . "/.footer.pinc"; 
+        $exts = [''];
+        if (igk_io_path_ext($path) != 'pinc') {
+            $exts[] = '.pinc';
+        }        
+        $v_bdir = ViewHelper::Dir();
+        if (!igk_io_is_fullpath($path)) {
+            $path = Path::Combine($v_bdir, $path);
+        }
+        $rf = null;
+        foreach ($exts as $v) {
+            if ($rf = $this->_resolveContextFile($path . $v, $v_bdir)) {
+              break;
+            }
+        }
+        if ($rf){
+            $args = ViewHelper::GetViewContextArgs();
+            $options = array_merge($args, $options ?? []); 
+            extract($options);            
+            return ViewHelper::Include($rf, $options);
+        }
+    }
+    /**
+     * Initializes.
+     */
+    protected function initialize()
+    {        
+        $this->common =  ".common.pinc";
+        $this->header =  ".header.pinc";
+        $this->footer =  ".footer.pinc";
         if (method_exists($this->controller, "menuFilter")) {
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
-        } 
+        }
     }
     /**
      * get location location 
@@ -124,10 +156,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @param string $file 
      * @return bool 
      */
-    protected function isAjxViewFileRequest(string $file){
-            return preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
+    protected function isAjxViewFileRequest(string $file)
+    {
+        return preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
     }
-    protected function isMainInclusion(string $file){
+    protected function isMainInclusion(string $file)
+    {
         return $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
     }
     /**
@@ -135,8 +169,9 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @param BaseController $ctrl 
      * @return bool 
      */
-    public function noCache(BaseController $ctrl){
-         return $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
+    public function noCache(BaseController $ctrl)
+    {
+        return $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
             || \getenv('IGK_ENV_NO_AUTOCACHEVIEW');
     }
     /**
@@ -160,50 +195,67 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         $v_no_cache = $this->noCache($ctrl);
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
         $v_dir = dirname($file);
-        if (($v_common = $this->common) && $this->exists($v_common)){
+        if (($v_common = $this->common) && $this->exists($v_common)) {
             // + | inject global common 
             igk_include_view_file($ctrl, $v_common, true, $args);
-        } 
+        }
         if (!$v_is_ajx_view_request) {
             $v_header = $this->header ? $this->_resolveContextFile($this->header, $v_dir) : null;
             $v_footer = $this->footer ? $this->_resolveContextFile($this->footer, $v_dir) : null;
         } else {
             $t = $ctrl->getTargetNode();
             $t['id'] = null;
-            $t['igk-type'] = 'ajx-view'; 
-        } 
+            $t['igk-type'] = 'ajx-view';
+        }
+        
         if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
             igk_include_view_file($ctrl, $v_header, true, $args);
         }
-        $response = igk_include_view_file($ctrl, $file, $v_no_cache, $args); 
+        $response = igk_include_view_file($ctrl, $file, $v_no_cache, $args);
+
         if (!$v_main && $v_footer && $this->exists($v_footer)) {
             igk_include_view_file($this->controller, $v_footer, true, $args);
         }
-        $this->afterInc($file); 
-        if (!igk_is_ajx_demand() && ($lib = igk_conf_get($obj= $this->controller->_globalConfigSettings(), 'iconlib')))
-            $this->didRegisterIconLibrary($lib); 
+        $this->afterInc($file);
+        if (!igk_is_ajx_demand() && ($lib = igk_conf_get($obj = $this->controller->_globalConfigSettings(), 'iconlib')))
+            $this->didRegisterIconLibrary($lib);
         return $response;
     }
     /**
-    * auto generate doc.
-    * @param mixed $file
-    * @param mixed $bdir
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $file
+     * @param string $bdir basedir - current directory to scan first before go up  
+     * @return ?string
+     */
     protected function _resolveContextFile(string $file, $bdir)
     {
-        $g = array_values(array_filter(explode($this->controller->getViewDir(), $file, 2)));
-        if (igk_io_file_exists($f = $bdir . $g[0], true)) {
+        $view_dir = $this->controller->getViewDir();
+        if (false === strstr($file, $view_dir)){
+            $file = Path::Combine($bdir, $file);
+        }
+        $g = array_values(array_filter(explode($view_dir, $file, 2)));
+        $n = $g[0];
+        if (igk_io_file_exists($f = $view_dir . $n, true)) {
             return $f;
         }
-        return $file;
+        $tf = dirname($file);
+        $n = basename($file);
+        if ($view_dir != $tf) {
+            do {
+                $tf = dirname($tf);
+                if (igk_io_file_exists($f = Path::Combine($tf, $n), true)) {
+                    return $f;
+                }
+            } while ($view_dir != $tf);
+        }
+        return null; 
     }
     /**
-    * import file
-    * @param string $file
-    * @param ?array $args
-    * @return void
-    */
+     * import file
+     * @param string $file
+     * @param ?array $args
+     * @return void
+     */
     public function import(string $file, ?array $args = null)
     {
         return ViewHelper::Include($file, $args);
@@ -214,7 +266,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     protected function afterInc(string $file)
     {
-        igk_hook(self::HOOK_AFTER_INC, ['file'=>$file,'layout'=>$this]);
+        igk_hook(self::HOOK_AFTER_INC, ['file' => $file, 'layout' => $this]);
     }
     /**
      * check if the view is a main layout 
@@ -226,11 +278,11 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         return $this->{'@MainLayout'} || ViewCommentArgs::Check("@MainLayout()", $file);
     }
     /**
-    * get page title
-    * @param string $title
-    * @param mixed $main
-    * @return string
-    */
+     * get page title
+     * @param string $title
+     * @param mixed $main
+     * @return string
+     */
     public function getPageTitle(string $title, $main = false): string
     {
         return $main ?
@@ -257,19 +309,20 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         };
     }
     /**
-    * auto generate doc.
-    * @param mixed $lib
-    * @return never
-    */
-    public function didRegisterIconLibrary($lib){
-        foreach($lib as $context=>$list){
+     * auto generate doc.
+     * @param mixed $lib
+     * @return never
+     */
+    public function didRegisterIconLibrary($lib)
+    {
+        foreach ($lib as $context => $list) {
             $list = array_unique($list, SORT_STRING);
-            array_map(function($a)use($context){ 
+            array_map(function ($a) use ($context) {
                 $l = $context;
-                if ($path = SvgRenderer::GetPath($a, $l)){
-                    SvgRenderer::$RegisterPath[$a] = $path;  
+                if ($path = SvgRenderer::GetPath($a, $l)) {
+                    SvgRenderer::$RegisterPath[$a] = $path;
                 }
             }, $list);
-        }  
+        }
     }
 }

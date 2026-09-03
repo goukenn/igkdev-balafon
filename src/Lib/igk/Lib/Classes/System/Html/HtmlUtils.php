@@ -808,7 +808,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
     /**
      * create html component list 
-     * @param mixed $name 
+     * @param string $name 
      * @param mixed $args 
      * @param mixed $initcallback 
      * @param string $class 
@@ -818,8 +818,8 @@ abstract class HtmlUtils extends DomNodeBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
-    {
+    public static function CreateHtmlComponent(string $name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
+    { 
         static $createComponentFromPackage = null, $creator = null, $initiator = null, $package;
         $def_package = Constants::SYS_DEFAULT_HTML_PACKAGE;
         // + | -----------------------------------------------------------------------

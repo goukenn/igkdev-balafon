@@ -18,11 +18,11 @@ use PHPUnit\Framework\ExpectationFailedException;
 class MarkdownConverterTest extends BaseTestCase
 {
     /**
-    * auto generate doc.
-    * @param string $src
-    * @param bool $allowDocumentLink
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param string $src
+     * @param bool $allowDocumentLink
+     * @return mixed
+     */
     private function _transform(string $src, bool $allowDocumentLink = false)
     {
         $converter = new MarkdownConverter;
@@ -467,9 +467,9 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return mixed
-    */
+     * auto generate doc.
+     * @return mixed
+     */
     public function test_mdconverter_array_escaped()
     {
         $n = igk_create_notagnode();
@@ -488,9 +488,9 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_split_line_escaped()
     {
         $this->assertEquals(
@@ -500,9 +500,9 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_table_with_no_header()
     {
         $this->assertEquals(
@@ -512,9 +512,9 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_sub_quoted_list()
     {
         $this->assertEquals(
@@ -530,9 +530,9 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_sub_quoted_list2()
     {
         $this->assertEquals(
@@ -548,62 +548,62 @@ EOF
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_sub_quoted_no_parent()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">sub element 1</blockquote><p>list 2</p>',
-            $this->_mdconvert_tohtml(implode("\n", [ 
+            $this->_mdconvert_tohtml(implode("\n", [
                 "\t> sub element 1",
-                "list 2",  
+                "list 2",
             ])),
             'sub not '
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_sub_quoted_combine()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">one<blockquote class="subquote-1">two</blockquote>three</blockquote>',
-            $this->_mdconvert_tohtml(implode("\n", [ 
+            $this->_mdconvert_tohtml(implode("\n", [
                 "\t> one",
                 "\t\t> two",
-                "\t> three",  
+                "\t> three",
             ])),
             'sub not '
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_list_sub_combine()
     {
         $this->assertEquals(
             '<ul class="list"><li>one<ul class="sublist-0"><li>two</li></ul></li><li>three</li></ul>',
-            $this->_mdconvert_tohtml(implode("\n", [ 
+            $this->_mdconvert_tohtml(implode("\n", [
                 "- one",
                 "\t- two",
-                "- three",  
+                "- three",
             ])),
             'sub not '
         );
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function test_mdconverter_with_sub_only()
     {
         $this->assertEquals(
             '<blockquote class="subquote-0">A</blockquote><p>B </p><ul class="sublist-0"><li><b>C</b></li><li><b>D</b></li></ul>',
-            $this->_mdconvert_tohtml(implode("\n", [  
-<<<EOF
+            $this->_mdconvert_tohtml(implode("\n", [
+                <<<EOF
 
     > A
 B 
@@ -624,8 +624,29 @@ EOF
      */
     private function _mdconvert_tohtml(string $src)
     {
-        $conv = new MarkdownConverter; 
+        $conv = new MarkdownConverter;
         $l = $conv->transformToHtml($src);
         return $l;
+    }
+
+    /**
+     * test subitem list 
+     * @return void 
+     */
+    public function test_mdconverter_sublist_items()
+    {
+        $t  = igk_create_notagnode();
+        $t->markdown(
+            <<<EOF
+- first
+    - basic
+    - second
+- third
+EOF
+        );
+        $s = '<div class="md-doc"><ul class="list"><li>first<ul class="sublist-0"><li>basic</li><li>second</li></ul></li><li>third</li></ul></div>';
+        $result = $t->render();
+
+        $this->assertEquals($s, $result);
     }
 }

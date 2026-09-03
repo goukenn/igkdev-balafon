@@ -38,7 +38,7 @@ class ListComponentCommand extends AppExecCommand
     * @var mixed
     */
     var $options=[
-		"--count"=>"flag: show number of definded functions",
+		"--count"=>"flag: show number of defined functions",
 		"--files"=>"flag: group with file",
 		"--info"=>"flag: show info",
 	];

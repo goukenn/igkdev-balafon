@@ -1747,12 +1747,12 @@ EOF;
             $row = $pan->addRow();
             $row->addCol("igk-col-4")->div()->setClass("lbl")->Content = $label;
             $row->addCol("igk-col-8")->div()->setClass("val")->Content = $value;
-        }
+        }        
         $n->renderAJX();
         igk_exit();
     }
     public function getcore_system_tab(){
-        return igk_app()->getSession()->config_core_system_tab_view;        
+        return $this->getParam('config_core_system_tab_view', 'general');
     }
     /**
      * 
@@ -1760,7 +1760,7 @@ EOF;
      * @return void 
      */
     public function setcore_system_tab($v){
-        igk_app()->getSession()->config_core_system_tab_view = $v;
+        $this->setParam('config_core_system_tab_view', $v);
     }
     /**
      * ajx: core system console tab content
@@ -1772,13 +1772,14 @@ EOF;
         $n = igk_create_node("div");
         $pan = $n->addPanelBox();
         $pan->h3()->Content = __("Balafon CLI Console");
-        $pan->div()->p()->Content = __("Execute a balafon command on the server. Example: --db:clearcache");
-        $pan->div()->setId("core-system-console-result")->setClass("fitw-i");
+        $pan->div()->p()->Content = __("Execute a balafon command/ shell command on the server. Example: --db:clearcache");
+        $pan->div()->setId("core-system-console-result")->setClass("fitw-i core-system-console-result");
         $frm = $pan->addForm();
         $frm["action"] = $this->getUri("core_system_run_command_ajx");
         $frm["igk-ajx-form"] = 1;
         $frm["igk-ajx-form-no-autoreset"] = 1;
         $frm["igk-ajx-form-target"] = "#core-system-console-result";
+        $frm['igk-ajx-form-complete-action'] = '$igk("#command").first().setHtml("").o.focus();';
         $row = $frm->addRow();
         $row->addCol("igk-col-12-9")->div()->addInput(
             "command", "text", null)
@@ -2115,14 +2116,15 @@ EOF;
     public function viewLogs()
     {
         $log = igk_ilog_file();
-        $d = igk_create_xmlnode("div");
+        $d = igk_create_node("div");
         $html = igk_create_notagnode();
         $d["class"] = "logview";
-        $d["style"] = "max-height:420px; overflow:auto";
+        $d["style"] = "max-height:420px; overflow:auto; max-width: 80%;";
         $d->add($html);
-        if (igk_io_file_exists($log)) {
+        $d->div(igk_io_collapse_path($log));
+        if (file_exists($log)) {
             $tab = explode(IGK_LF, igk_io_read_allfile($log));
-            $dv = $d->add("div");
+            $dv = $d->n("div.panel.pad-4");
             foreach ($tab as $line) {
                 $dv->li()->Content = $line;
             }

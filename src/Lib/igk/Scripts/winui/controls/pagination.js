@@ -50,7 +50,7 @@
                     if (i.cookie) {
                         var nc = 'local_com/' + i.cookie;
                         // console.debug("remove cookie  "+nc);//i.cookie);
-                        igk.web.rmcookies(nc); //'local_com/'+i.cookie);
+                        igk.web.rmcookies(nc);
                     }
                     if (i.regex.test(document.location.href)) {
                         // console.debug("match");

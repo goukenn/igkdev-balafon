@@ -100,6 +100,7 @@ class Route
             SysUtils::Include($cf, [
                 "ctrl" => $controller,
                 "user" => Route::user(),
+                "auths"=> [],
                 "is_admin" => 0,
             ]);
         }

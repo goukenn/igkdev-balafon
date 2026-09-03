@@ -117,6 +117,7 @@ class Activator
              * @var ?string
              */
             $name = null;
+            $container->resetTreatment();
             while ($g = $container->detect($comment, $offset)) {
                 if ($e = $container->end($g, $comment, $offset)) {
                     switch ($e->tokenID) {
@@ -260,7 +261,10 @@ class Activator
                 $class_vars = get_class_vars(get_class($g));
             }
         } else {
-            if ((new ReflectionClass($class_name))->isInterface()) {
+            if (($g = new ReflectionClass($class_name))->isInterface()) {
+                if (count($g->getMethods())>0){
+                    throw new IGKException('operation not allowed. the interface contains methods');
+                }
                 $g = self::CreateFromInterface($class_name);
                 $class_vars = $g->to_array();
                 $check_version = false;

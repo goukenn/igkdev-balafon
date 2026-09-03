@@ -234,10 +234,10 @@ if (!$error) {
             $cp = (object)json_decode(file_get_contents($sync));
             $leave_dirs = isset($cp->leavedirs) ? $cp->leavedirs : null;
             $steps[] = '************* leave dirs **************';
-            if ($leave_dirs) {
+            if ($leave_dirs){
                 // remove directory - 
                 $ln = strlen($project_dir);
-                $steps[] = "remove project directory - and leavedirs";
+                $steps[] = "remove project directory and leavedirs";
                 $regfist = false;
                 igk_io_rmdir($project_dir, true, function ($v) use ($ln, $leave_dirs, &$regfist) {
                     $s = substr($v, $ln);

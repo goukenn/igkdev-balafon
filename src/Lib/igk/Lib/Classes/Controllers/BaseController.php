@@ -345,8 +345,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 $cc =  igk_getv($params, 0);
                 if ($cc == IGK_DEFAULT_VIEW) {
                     array_shift($params);
-                } else {
-                }
+                }  
             }
             $this->setEnvParam(self::VIEW_ARGS, $params);
             $handle_response = $this->handleAction($ffname, $params, $action_handler);
@@ -583,9 +582,9 @@ abstract class BaseController extends RootControllerBase implements IDataControl
                 }
                 $viewargs['error'] = $ex->getMessage();
             }
-            // + | ----------------------------------------------------------------
-            // + | check if view already loaded:
-            // + | do not include view file in case file already beeing include by the loader
+            // + | -------------------------------------------------------------------------
+            // + | check if view already loaded
+            // + | do not include view file in case file already being include by the loader
             $g = ($loader = $this->getLoader()) ? $loader->loaded_files() : null;
             if ($g && in_array($file, $g)) {
                 if (!empty($buffer = $this->_output)) {
@@ -1020,15 +1019,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $g = &$param[$cl];
         return $g;
     }
-    /**
-     * get the flag value
-     * @param mixed $code
-     * @param mixed $default
-     */
-    public function getFlag($code, $default = null)
-    {
-        return $this->getM_()->getFlag($code, $default);
-    }
+   
     /**
      * auto generate doc.
      */
@@ -1272,6 +1263,15 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     public function setFlag($code, $value)
     {
         $this->setEnvParam($code, $value);
+    }
+     /**
+     * get the flag value
+     * @param mixed $code
+     * @param mixed $default
+     */
+    public function getFlag($code, $default = null)
+    {
+        return $this->getEnvParam($code, $default);
     }
     /**
      * reset the value of the current view

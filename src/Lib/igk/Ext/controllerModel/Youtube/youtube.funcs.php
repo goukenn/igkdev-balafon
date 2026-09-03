@@ -17,7 +17,7 @@ function igk_html_node_youtubevideo(string $uri, ?array $param=null){
 	$n["src"] = $uri;
 	$n["allowFullScreen"]="1";
 	$n["title"]= igk_getv($param, "title", "YouTube video player" );
-	$n["class"]= igk_getv($param, "class", "youtube-player");
+	$n["class"]= igk_getv($param, "class", "igk-winui-youtubevideo youtube-player");
 	$n["frameborder"]= 0;
 	$n["type"]="text/html";
 	return $n;

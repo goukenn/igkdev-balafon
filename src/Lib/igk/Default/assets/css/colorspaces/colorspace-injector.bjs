@@ -1,0 +1,37 @@
+// author: C.A.D. BONDJE DOUE
+// file: colorspace-injector.bjs
+// @date: 20260901 19:51:27
+// @desc: used to inject script 
+// @ts-nocheck
+(function (q) {
+    'use strict';
+    const r = JSON.parse(q.getAttribute('data-colors'));
+    const sc = document.createElement('style');
+    const tp = [];
+    for (let i in r) {
+        ['bg-', 'text-'].forEach((element) => {
+            const p = { 'bg-': 'background-color', 'text-': "color" }[element];
+            const v = '{' + p + ':' + r[i] + '}';
+            tp.push('.' + element + i + v);
+            const screens = ['xsm','sm','lg','xlg','xxlg'];
+            ['dark','light'].forEach(theme=>{
+                tp.push('html[data-theme="'+theme+'"] .'+theme+'-' + element + i + v);
+                screens.forEach(sm=>{
+                    tp.push('html[data-theme="'+theme+'"] .'+theme+'-'+sm+'-' + element + i + v);
+                    tp.push('html[data-theme="'+theme+'"] .'+sm+'-'+theme+'-' + element + i + v);
+                });
+            });
+               screens.forEach(sm=>{
+                   tp.push('.'+sm+' '+sm+'-' + element + i + v);                   
+                });
+            // tp.push('.sm sm-' + element + i + v);
+            // tp.push('.xsm xsm-' + element + i + v);
+            // tp.push('.lg lg-' + element + i + v);
+            // tp.push('.xlg xlg-' + element + i + v);
+            // tp.push('.xxlg xxlg-' + element + i + v);
+        });
+    }
+    const body = $igk(document.body);
+    sc.textContent = tp.join('');
+    body.o.appendChild(sc);
+})(this);

@@ -44,11 +44,9 @@
             var g = q.select('+.huev').first();
             var m_st = 0;
             var W = q.getWidth() - c.getWidth();
+            q.addEvent("hue-changed", { value: null });
             if (g) {
-                q.addEvent("hue-changed", { value: null });
-                q.reg_event("hue-changed", function(e) {
-                    // console.debug('hue changed');
-                    // console.debug(e);
+                q.reg_event("hue-changed", function(e) {                    
                     g.setHtml(Math.round(e.value) + "°");
                 });
             }
@@ -57,8 +55,7 @@
                 var l = q.getScreenLocation();
                 var _t = Math.max(0, Math.min(W, (e.clientX - l.x)));
                 var _x = _t + "px";
-                var _v = (_t / W) * 360;
-                // console.debug(_x);
+                var _v = (_t / W) * 360; 
                 c.setCss({ left: _x });
                 q.value = _v;
                 if (g) {

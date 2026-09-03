@@ -10,6 +10,10 @@
 use function igk_resources_gets as __;
 use IGK\Resources\R; 
 
+/** 
+ * @var mixed $t 
+ */
+
 $t->h2()->setStyle("display:none")->Content= "Subdomain Manager";
 $t->div()->addTitleLevel(4)->Content= __("Sub-Domain");
 $t->addHSep();
@@ -34,7 +38,7 @@ $b=$t->div()->form()->setClass("subdomain-action")->actionbar()->setClass("no-ma
 $b->addAJXA($ctrl->getUri("dom_add_db_domain_ajx"))->setClass("igk-btn")->addResImg("add_16x16");
 $b->addAJXA($ctrl->getUri('dom_drop_domaintable'))->setClass("igk-btn")->div() 
 ->setContent(__("Clear Table"));
-$t->addBalafonJS()->Content=<<<EOF
+$t->balafonjs()->Content=<<<EOF
 igk.system.createNS('igk.conf.subdomain', {
 	drop: function(t){
 		if (window.confirm(ns_igk.R.format('Please Confirm {0}', t.getAttribute('domain')))){

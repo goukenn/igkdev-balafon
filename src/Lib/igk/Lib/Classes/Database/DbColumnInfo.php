@@ -123,6 +123,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             }
             $this->clDefault = null;
         }
+
+        
     }
     /**
     * auto generate doc.

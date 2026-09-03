@@ -174,4 +174,17 @@ EOF;
         igk_wl($doc);
         igk_exit();
     }
+
+    /**
+     * reponse Details
+     * @param mixed $ex 
+     * @return null|array{message: mixed} 
+     */
+    public static function Details($ex){
+        $show = igk_environment()->isDev() || igk_is_debug();
+        if (!$show)return null;
+        return [
+            'message'=>$ex->getMessage(),
+        ];
+    }
 }

@@ -145,6 +145,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw $ex;
         } catch (TypeError $ex) {
             // + | call to function but arguments injection no valid 
+            igk_dev_wln_e($ex);
             throw new OperationNotAllowedException('Dispatcher failed: ' . $ex->getMessage(), 405, $ex);
         }
     }

@@ -158,11 +158,9 @@ class SysUtils{
                 $ctrl = array_shift($tb); 
                 if (class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class)){
                     return $ctrl::ctrl();
-                }
-                igk_wln(__FILE__.":".__LINE__ , "not found");
+                } 
             }
         } 
-         igk_wln_e("continue", $ctrl, get_included_files());
         return igk_app()->getControllerManager()->getController($ctrl, $throwex);
     }
     /**

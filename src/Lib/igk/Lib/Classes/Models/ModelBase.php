@@ -13,7 +13,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static ?static|bool create(array|object|static $definition, bool $update=true, bool $raise_exception=true) - create a row entries
  * @method static static|\IGK\Database\DbRowDefEntry createEmptyRow(bool $strict=true, bool $force=false) - create an empty dbEntry record object that will represent a row. 
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
- * @method static null|bool|\IGK\Database\DataAdapterBase insertIfNotExists(array $conditions, ?array $option_with_extra = null, ?bool $update_with_selected_row=false) macros:Insert if condition not meet.
+ * @method static null|bool|mixed insertIfNotExists(array $conditions, ?array $option_with_extra = null, ?bool $update_with_selected_row=false) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension
  * @method static array|null select(?array $condition=null, ?array $options=null) macros function - DefaultModelEntryExtension
  * @method static array|array<static>|null|mixed select_all(?array $condition=null, null|array|DbQueryOptions $options=null) macros function  

@@ -83,7 +83,7 @@ trait ControllerDbExtensionTrait
             $ad->stopRelationChecking();
 
             foreach ($r as $t => $info) {
-                $ad->sendQuery('DROP TABLE `' . $t . '`');
+                $ad->sendQuery('DROP TABLE IF EXISTS `' . $t . '`');
             }
             $ad->restoreRelationChecking();
         }
@@ -288,7 +288,7 @@ trait ControllerDbExtensionTrait
      * auto generate doc.
      * @param BaseController $ctrl
      * @param string $table
-     * @param mixed $columns
+     * @param mixed|string|string[] $columns
      * @param ?string $id
      * @return mixed|void
      */

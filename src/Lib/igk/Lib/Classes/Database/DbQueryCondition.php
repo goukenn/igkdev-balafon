@@ -14,7 +14,7 @@ class DbQueryCondition{
     * Property: row.
     * @var mixed
     */
-    private $row;
+    private $m_row;
     /**
     * Property: data.
     * @var mixed
@@ -42,6 +42,7 @@ class DbQueryCondition{
      */
     public function set(?array $data){
         $this->m_data = $data;
+        $this->m_row = (object)array_fill_keys (array_keys($data), null);
     }
     /**
     * auto generate doc.
@@ -49,9 +50,9 @@ class DbQueryCondition{
     * @param mixed $operand
     * @return void
     */
-    public function __construct($obj, $operand='AND')
+    private function __construct($obj, $operand='AND')
     {
-        $this->row = $obj;
+        $this->m_row = $obj;
         $this->m_data = [];
         $this->operand = $operand;
     }
@@ -60,23 +61,23 @@ class DbQueryCondition{
     * @param mixed $n
     */
     public function __get($n){
-        return igk_getv($this->row, $n);
+        return igk_getv($this->m_row, $n);
     }
     /**
-    * destructor
+    * setter
     * @param mixed $n
     * @param mixed $v
     */
     public function __set($n, $v){ 
         $pk = ltrim($n, "@!<=>");
-        if (property_exists($this->row, $pk)){
+        if (property_exists($this->m_row, $pk)){
             $this->m_data[$n] = $v;
         } else {
             if (igk_environment()->isDev()){
                 igk_die("property ".$pk . " not found");
             }
         }
-        $this->row->$n = $v;
+        $this->m_row->$n = $v;
     }
     /**
     * To array.

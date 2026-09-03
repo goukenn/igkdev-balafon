@@ -29,6 +29,22 @@ abstract class DbUtility
 {
     /**
      * 
+     * @param string $v 
+     * @param mixed $grammar 
+     * @return string|mixed 
+     */
+    public static function EscapeName(string $v, $grammar){
+         if (preg_match('/^`.*`$/', $v)) {
+            return $v;
+        }
+        if (strpos($v, ".") !== false) {
+            $g = $grammar;
+            return  $g::EscapeTableName($v, $g->driver());
+        }
+        return '`' . $v . '`';
+    }
+    /**
+     * 
      * @param string $prefix 
      * @param mixed $row 
      * @return array 
@@ -324,6 +340,8 @@ abstract class DbUtility
             }
             if ($v->clIsUniqueColumnMember) {
                 $idx = $v->clColumnMemberIndex ?? 0;
+                if (is_object($idx))
+                    $idx = (array)$idx;
                 if (is_array($idx)) {
                     self::_LoadIndexColumns($unique_columns, $idx, $k, $tv);
                 } else {

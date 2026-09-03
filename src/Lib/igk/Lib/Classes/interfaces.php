@@ -138,8 +138,9 @@ interface IDataAdapter{
     */    function selectCount(string $tbname, ?array $where = null, ?array $options = null);
     /**
     * auto generate doc.
-    * @param mixed $check
-    */    function setForeignKeyCheck($check);
+    * @param bool $check
+    */    
+    function setForeignKeyCheck($check);
 }
 /**
 * RepresentIDataTable interface

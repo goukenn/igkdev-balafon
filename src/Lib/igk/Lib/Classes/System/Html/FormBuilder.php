@@ -434,7 +434,9 @@ class FormBuilder
                             $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k);
                         }
                         self::_LoadClassDefinition($tattrib, $v);
-                        $tattrib["class"] = isset($tattrib["class"]) ? array_merge($tattrib['class'], [$def_type]) : $def_type;
+                        $tattrib['class'] = isset($tattrib['class']) && is_array($tattrib['class']) ? 
+                        array_unique(array_merge($tattrib['class'], [$def_type])) : $def_type;
+
                         if ($tmp_tattribs = self::_GetAttribArgs($v, true)) {
                             self::_LoadClassDefinition($tattrib, $tmp_tattribs);
                             $v['attribs'] = $tmp_tattribs;
@@ -463,9 +465,9 @@ class FormBuilder
                             $o .= ' ' . implode(" ", $_activate);
                         }
                         $o .= "/>";
-                        // if (isset($v["tips"])) {
-                        //     $o .= '<p class="tips">' . $v["tips"] . '</p>';
-                        // }
+                        if (isset($v["tip"])) {
+                            $o .= '<p class="tip">' . $v["tip"] . '</p>';
+                        }
                         unset($_activate);
                         break;
                 }
@@ -579,9 +581,9 @@ class FormBuilder
     /**
      * 
      * @param mixed $v 
-     * @return void 
+     * @return ?string 
      */
-    private function _buildRowFieldBlock(array $v){
+    private function _buildRowFieldBlock(array $v):?string{
         $n = igk_html_host('div.igk-form-row');
         $n->fields($v);
         return $n->render();
@@ -745,6 +747,9 @@ class FormBuilder
     {
         foreach (['class', 'classname', 'className'] as $ck) {
             if ($cl = igk_getv($arg, $ck)) {
+                if (is_array($cl)){
+                    $cl = self::_ArrayClassToString($cl);
+                }
                 $tm['class'] = array_unique(array_merge(
                     isset($tm['class']) ? explode(' ', $tm['class']) : [],
                     explode(' ', $cl)
@@ -753,6 +758,24 @@ class FormBuilder
             }
         }
         $tm = array_merge($tm, $arg);
+    }
+    /**
+     * list array convertion
+     * @param array $cl 
+     * @return string 
+     */
+    protected static function _ArrayClassToString(array $cl){
+        $ocl = [];
+        foreach($cl as $k=>$v){
+            if (is_numeric($k)){
+                $ocl[] = $v;
+            }else{
+                if ($v){
+                    $ocl [] = $k;
+                }
+            }
+        }
+        return implode(' ', $ocl);
     }
     /**
     * Builds button.

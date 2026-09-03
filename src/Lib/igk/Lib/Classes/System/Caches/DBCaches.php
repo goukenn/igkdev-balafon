@@ -3,6 +3,7 @@
 // @file: DBCaches.php
 // @date: 20221119 11:34:09
 namespace IGK\System\Caches;
+
 use Exception;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
@@ -21,6 +22,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
 use IGKEvents;
 use IGKException;
+use IGKModuleListMigration;
 use IGKSysUtil;
 use ReflectionException;
 
@@ -29,9 +31,9 @@ use ReflectionException;
  * @package IGK\System\Caches
  */
 /**
-* auto generate doc.
-* @package IGK\System\Caches
-*/
+ * auto generate doc.
+ * @package IGK\System\Caches
+ */
 class DBCaches
 {
     /**
@@ -39,24 +41,24 @@ class DBCaches
      */
     const CACHE_FILE_NAME = '.data-schema.definition.cache';
     /**
-    * Property: instance.
-    * @var mixed
-    */
+     * Property: instance.
+     * @var mixed
+     */
     private static $sm_instance;
     /**
-    * Property: db initializer.
-    * @var mixed
-    */
+     * Property: db initializer.
+     * @var mixed
+     */
     private $m_db_initializer;
     /**
-    * Property: db init request.
-    * @var mixed
-    */
+     * Property: db init request.
+     * @var mixed
+     */
     private $m_db_init_request;
     /**
-    * Property: mock.
-    * @var mixed
-    */
+     * Property: mock.
+     * @var mixed
+     */
     private $m_mock;
 
     /**
@@ -69,7 +71,8 @@ class DBCaches
      * @var ?array|?object
      */
     private $m_db_defs;
-    private function isCacheInitilized(){       
+    private function isCacheInitilized()
+    {
         return $this->m_init_cache;
     }
     /**
@@ -77,19 +80,19 @@ class DBCaches
      * @param BaseController $controller 
      * @return <string, SchemaMigrationInfo>[]
      */
-    public static function GetControllerDataTableDefinition(BaseController $controller){
-        if (!self::getInstance()->isCacheInitilized()){
+    public static function GetControllerDataTableDefinition(BaseController $controller)
+    {
+        if (!self::getInstance()->isCacheInitilized()) {
             self::Init();
         }
         $mp = self::GetCacheData();
         /**
-         * @var string $table 
          * @var SchemaMigrationInfo $info 
          */
-        $table=null; 
+        $table = null;
         $list = [];
-        foreach($mp as $table=>$info){
-            if ($info->controller == $controller){
+        foreach ($mp as $table => $info) {
+            if ($info->controller == $controller) {
                 $list[$table] = $info;
             }
         }
@@ -109,7 +112,7 @@ class DBCaches
      */
     public static function GetCacheFile()
     {
-        $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;        
+        $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
         return $cache_dir;
     }
     /**
@@ -121,16 +124,16 @@ class DBCaches
         return self::getInstance()->m_tableInfo;
     }
     /**
-    * Returns Cache Initializer.
-    */
+     * Returns Cache Initializer.
+     */
     public static function GetCacheInitializer()
     {
         return self::getInstance()->m_db_initializer;
     }
     /**
-    * auto generate doc.
-    * @return mixed
-    */
+     * auto generate doc.
+     * @return mixed
+     */
     public static function IsInitializing()
     {
         return self::getInstance()->m_initializing;
@@ -141,14 +144,14 @@ class DBCaches
      */
     private $m_tableInfo = [];
     /**
-    * Cache: init cache.
-    * @var mixed
-    */
+     * Cache: init cache.
+     * @var mixed
+     */
     private $m_init_cache = false;
     /**
-    * Property: initializing.
-    * @var mixed
-    */
+     * Property: initializing.
+     * @var mixed
+     */
     private $m_initializing = false;
     /**
      * get the dbcache instances
@@ -177,40 +180,41 @@ class DBCaches
         $i->_initDbCache();
     }
     /**
-    * reset the db cache info
-    * @param bool $force
-    * @throws NotImplementException
-    * @return never
-    */
-    public static function Reset(bool $force=false)
+     * reset the db cache info
+     * @param bool $force
+     * @throws NotImplementException
+     * @return never
+     */
+    public static function Reset(bool $force = false)
     {
         static::getInstance()->_clearAndReload($force);
     }
     /**
-    * retrieve cached table column info -
-    * @param string $table
-    * @param null|BaseController $controller
-    * @param mixed & $table_info
-    * @throws IGKException
-    * @return SchemaMigrationInfo|array
-    */
-    public static function GetColumnInfo(string $table, ?BaseController $controller = null, & $table_info = null)
+     * retrieve cached table column info -
+     * @param string $table
+     * @param null|BaseController $controller
+     * @param mixed & $table_info
+     * @throws IGKException
+     * @return SchemaMigrationInfo|array
+     */
+    public static function GetColumnInfo(string $table, ?BaseController $controller = null, &$table_info = null)
     {
         return static::getInstance()->resolve($table, $controller, $table_info);
     }
     /**
-    * get table information
-    * @param string $table
-    * @param ?BaseController $controller
-    * @return ?SchemaMigrationInfo
-    */
+     * get table information
+     * @param string $table
+     * @param ?BaseController $controller
+     * @return ?SchemaMigrationInfo
+     */
     public static function GetTableInfo(string $table, ?BaseController $controller = null)
     {
+
         $v_i = static::getInstance();
         $v_reload = $v_i->m_reload && $controller && isset($v_i->m_reload[get_class($controller)]);
-        if ($v_reload || !$v_i->isCacheInitilized() || is_null($v_i->m_tableInfo)){
+        if ($v_reload || !$v_i->isCacheInitilized() || is_null($v_i->m_tableInfo)) {
             self::GetColumnInfo($table, $controller);
-            if ($v_reload){
+            if ($v_reload) {
                 unset($v_i->m_reload[get_class($controller)]);
             }
         }
@@ -219,17 +223,21 @@ class DBCaches
             // + | --------------------------------------------------------------------
             // + | check matching - controller - root module will be a sysdb model
             // + |
-            if (!($controller instanceof SysDbController) && 
-                ($controller != $c->controller)) {
-                igk_die("db retrieve but controller not match");
+            if (!($controller instanceof IGKModuleListMigration)) {
+                if (
+                    !($controller instanceof SysDbController) &&
+                    ($controller != $c->controller)
+                ) {
+                    igk_die("db retrieve but controller not match");
+                }
             }
         }
         return $c;
     }
     /**
-    * get  dtable information for 
-    * @param string $table_name
-    */
+     * get  dtable information for 
+     * @param string $table_name
+     */
     public static function Get(string $table_name)
     {
         $g = static::getInstance();
@@ -255,15 +263,13 @@ class DBCaches
         static::getInstance()->_clear();
     }
     /**
-    * .ctr
-    * @return mixed
-    */
-    private function __construct()
-    {
-    }
+     * .ctr
+     * @return mixed
+     */
+    private function __construct() {}
     /**
-    * get string presentation.
-    */
+     * get string presentation.
+     */
     public function __toString()
     {
         return 'Systemp - DB Cache';
@@ -281,15 +287,15 @@ class DBCaches
         DbSchemas::ResetSchema();
     }
     /**
-    * clear and restore store db cache
-    * @param bool $force
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @throws Exception
-    * @return void
-    */
-    private function _clearAndReload(bool $force=false)
+     * clear and restore store db cache
+     * @param bool $force
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @throws Exception
+     * @return void
+     */
+    private function _clearAndReload(bool $force = false)
     {
         $this->_clear();
         $this->_initDbCache($force);
@@ -303,7 +309,7 @@ class DBCaches
      * @throws ReflectionException 
      * @throws Exception 
      */
-    protected function _initDbCache(bool $force=false)
+    protected function _initDbCache(bool $force = false)
     {
         if ($this->m_initializing) {
             return;
@@ -321,7 +327,7 @@ class DBCaches
                     $rdata = [];
                     if ($trdata) {
                         foreach ($trdata as $ctrl => $v) {
-                           
+
                             if (!($gctrl = igk_getctrl($ctrl, false))) {
                                 continue;
                             }
@@ -330,11 +336,15 @@ class DBCaches
                                 // + | load DB cache info
                                 // + |  
                                 $v_tbname = $d->tableName;
-                                if (!isset($v_tbname)){
-                                    igk_dev_wln_e(__FILE__.":".__LINE__ , 
-                                    $file,                                     
-                                    'missing definition on <pre>', json_encode($d, JSON_PRETTY_PRINT), '</pre>');
-                                }else{                           
+                                if (!isset($v_tbname)) {
+                                    igk_dev_wln_e(
+                                        __FILE__ . ":" . __LINE__,
+                                        $file,
+                                        'missing definition on <pre>',
+                                        json_encode($d, JSON_PRETTY_PRINT),
+                                        '</pre>'
+                                    );
+                                } else {
                                     $rdata[$v_tbname] = SchemaMigrationInfo::CreateFromCacheInfo($d, $gctrl);
                                 }
                             }
@@ -359,7 +369,7 @@ class DBCaches
         igk_environment()->NO_PROJECT_AUTOLOAD = 1;
         $db = new DatabaseInitializer;
         $definition = $db->init($sysctrl);
-        $this->m_tableInfo = $definition->tables; 
+        $this->m_tableInfo = $definition->tables;
         $this->m_db_initializer = $db;
         $db->loadSystemProjects();
         $db->loadSystemModules();
@@ -372,8 +382,8 @@ class DBCaches
                     $tablen = $info->tableName;
                 }
                 if (key_exists($tablen, $this->m_tableInfo)) {
-                    if ($info->controller != $sysctrl ){
-                        Logger::warn(sprintf('%s\'s table will enter in conflict with %s', $info->controller , $tablen));
+                    if ($info->controller != $sysctrl) {
+                        Logger::warn(sprintf('%s\'s table will enter in conflict with %s', $info->controller, $tablen));
                     }
                     continue;
                 }
@@ -393,7 +403,7 @@ class DBCaches
         // + |
         Logger::info("checking models files - init db cache models ...");
         DBCachesModelInitializer::Init($this->m_tableInfo, $force);
-        igk_hook(IGKEvents::HOOK_DB_CACHES_INITIALIZED, []);     
+        igk_hook(IGKEvents::HOOK_DB_CACHES_INITIALIZED, []);
     }
     /**
      * update definition 
@@ -425,14 +435,14 @@ class DBCaches
         return $this->m_db_defs;
     }
     /**
-    * resolve according to criteria
-    * @param string $table
-    * @param null|BaseController $controller
-    * @param mixed & $table_info
-    * @throws IGKException
-    * @return mixed
-    */
-    public function resolve(string $table, ?BaseController $controller = null, & $table_info = null)
+     * resolve according to criteria
+     * @param string $table
+     * @param null|BaseController $controller
+     * @param mixed & $table_info
+     * @throws IGKException
+     * @return mixed
+     */
+    public function resolve(string $table, ?BaseController $controller = null, &$table_info = null)
     {
         if ($this->m_initializing) {
             if (!isset($this->m_mock[$table])) {
@@ -477,10 +487,9 @@ class DBCaches
             // + | update data with table's row model reference info
             $ref_def->tableRowReference = igk_array_object_refkey($ref_def->columnInfo, IGK_FD_NAME);
         }
-        if (empty($ref_def->modelClass) && $ref_def->controller){
+        if (empty($ref_def->modelClass) && $ref_def->controller) {
             // + | retrieve the model call attached 
             self::UpdateModelClass($ref_def, $ref_def->defTableName, $ref_def->controller);
-            
         }
         $table_info = $ref_def;
         return $ref_def->tableRowReference;
@@ -492,18 +501,19 @@ class DBCaches
      * @param mixed $controller 
      * @return void 
      */
-    public static function UpdateModelClass($ref_def, string $table, $controller){
-        igk_is_debug() && Logger::info("update : ".$table);
-        if (is_null($ref_def)){
+    public static function UpdateModelClass($ref_def, string $table, $controller)
+    {
+        igk_is_debug() && Logger::info("update : " . $table);
+        if (is_null($ref_def)) {
             igk_wln_e("is null");
         }
         $ref_def->modelClass = IGKSysUtil::GetModelTypeName($table, $controller);
     }
     /**
-    * auto generate doc.
-    * @param mixed $m
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $m
+     * @return mixed
+     */
     private static function _UnsetPropertiesDefinition($m)
     {
         if (is_object($m)) {
@@ -512,7 +522,7 @@ class DBCaches
         $keys = array_keys((array)$m);
         $var = get_class_vars(SchemaMigrationInfo::class);
         unset($var['definitionResolver']);
-        $allowed = array_keys($var); 
+        $allowed = array_keys($var);
         foreach ($keys  as $p) {
             if (!in_array($p, $allowed)) {
                 unset($m[$p]);
@@ -521,10 +531,10 @@ class DBCaches
         return $m;
     }
     /**
-    * auto generate doc.
-    * @param array $data
-    * @return void
-    */
+     * auto generate doc.
+     * @param array $data
+     * @return void
+     */
     public static function CacheData(array $data)
     {
         $g =  (object)['m_serie' => []];
@@ -545,31 +555,33 @@ class DBCaches
             }
             $g->m_serie[$ad][$cl_name][$k] = $m;
         } // serie
-       //  $g->m_serie[$ad] = [$cl_name=>[$k=>$m]]; 
+        //  $g->m_serie[$ad] = [$cl_name=>[$k=>$m]]; 
         $src = serialize(json_decode(Utility::TO_JSON(
-            [$g->m_serie, 
-            'generate' => date('Ymd His')],[
+            [
+                $g->m_serie,
+                'generate' => date('Ymd His')
+            ],
+            [
                 'ignore_empty' => true,
                 'ignore_null' => true,
             ]
         )));
-        $cache_file =self::GetCacheFile();
-        igk_io_w2file($cache_file, $src);  
+        $cache_file = self::GetCacheFile();
+        igk_io_w2file($cache_file, $src);
         // unlink($cache_file);
     }
     /**
-    * Returns Class Key Entry Definition.
-    * @param BaseController $controller
-    */
-    public static function GetClassKeyEntryDefinition(BaseController $controller){
-        if ($controller instanceof ApplicationModuleController){
-            $cl_name = "#ref-module(".$controller->getName().")";
-        }
-        else if (method_exists($controller,$fc= EntryClassResolution::ControllerReferenceInjectorMethod)){
+     * Returns Class Key Entry Definition.
+     * @param BaseController $controller
+     */
+    public static function GetClassKeyEntryDefinition(BaseController $controller)
+    {
+        if ($controller instanceof ApplicationModuleController) {
+            $cl_name = "#ref-module(" . $controller->getName() . ")";
+        } else if (method_exists($controller, $fc = EntryClassResolution::ControllerReferenceInjectorMethod)) {
             $injector = $controller::$fc();
             $cl_name = $injector->serializeController($controller);
-        }
-        else 
+        } else
             $cl_name = get_class($controller);
         return $cl_name;
     }
@@ -581,7 +593,7 @@ class DBCaches
     public static function ClearControllerCache(BaseController $controller)
     {
         $v_i = self::getInstance();
-        // igk_debug(true);
+
         if (!$v_i->isCacheInitilized()) {
             DbSchemas::ClearControllerSchema($controller);
             $v_i->_initDbCache();
@@ -590,7 +602,7 @@ class DBCaches
         // + | get database that match controller 
         // + |
         $cl = get_class($controller);
-        $info = $v_i->m_db_defs->$cl;
+        $info = igk_getv($v_i->m_db_defs, $cl);
         unset($v_i->m_db_defs->$cl);
         $v_tabinfo = &$v_i->m_tableInfo;
         $v_tabinfo = array_filter(array_map(function ($d) use ($controller) {
@@ -605,20 +617,21 @@ class DBCaches
         $v_i->m_reload[$cl] = 1;
     }
     /**
-    * resolv and init tbinfo
-    * @param string $tb table name if info
-    * @param mixed & $tbinfo
-    * @throws IGKException
-    * @return bool
-    */
-    public static function ResolvAndInitDbTableCacheInfo(string $tb, & $tbinfo){
+     * resolv and init tbinfo
+     * @param string $tb table name if info
+     * @param mixed & $tbinfo
+     * @throws IGKException
+     * @return bool
+     */
+    public static function ResolvAndInitDbTableCacheInfo(string $tb, &$tbinfo)
+    {
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
             $tables[$tb] = $tbinfo;
             if (!$tbinfo->modelClass) {
                 self::UpdateModelClass($tbinfo, $tbinfo->defTableName, $tbinfo->controller);
             }
             return true;
-        } 
+        }
         return false;
     }
 }

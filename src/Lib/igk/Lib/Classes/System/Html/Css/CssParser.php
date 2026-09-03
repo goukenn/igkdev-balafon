@@ -235,7 +235,7 @@ class CssParser implements ArrayAccess
                     $v_depth++;
                     $rv .= $ch;
                     break;
-                case '(':
+                case ')':
                     $rv .= $ch;
                     $v_depth--;
                     break;
@@ -285,6 +285,7 @@ class CssParser implements ArrayAccess
                     if ($mode == 0) {
                         if (empty($rv = trim($rv))) {
                             igk_trace();
+                            igk_dev_wln_e($content);
                             igk_die("no selector found.");
                         }
                         $mode = 1;
@@ -322,7 +323,7 @@ class CssParser implements ArrayAccess
                 case ';':
                     if (empty($rv = trim($rv)) && (strlen($rv) == 0)) {
                         if ($mode == 0) {
-                            igk_die("[cssparser] - name is empty." . json_encode(compact("rv", "content")));
+                            igk_die("[cssparser] - name is empty after ';' invalid syntax" . json_encode(compact("rv", "content")));
                         }
                     }
                     if ($name) {

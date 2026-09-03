@@ -310,6 +310,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->formatCodeBlock = false;
         $this->supportCounter = false;  
     }
+
     /**
      * retrieve current output
      * @return null|string 
@@ -891,7 +892,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     * @param mixed $g
     * @param mixed $isRoot
     * @param mixed $is_sub
-    * @return void
+    * @return mixed
     */
     protected function _invokeTreatmentAndMarkMode($tid, $fc, $g, $isRoot , $is_sub){
         $s = $this->_treat_callback($fc, $g, $isRoot, $is_sub);
@@ -1309,6 +1310,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $li->text($v);
         $this->m_li_item = $li;
     }
+
+   
     /**
      * will end state 
      * @param string $targetState 
@@ -2026,6 +2029,25 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $n = $n->subquote_parent;
         }
         return $q;
+    }
+            
+    /**
+     * closing a sublist 
+     * @return mixed
+     */
+    public function _end_state_sublist(): ?HtmlNode{
+         if ($q = $this->m_ul) {
+            return $q;
+        }
+         $n = $this->m_subquote;
+        while ($n) {
+            $q = $n->parent;
+            $n = $n->subquote_parent;
+        }
+        return $q;
+        igk_wln_e("this", __FILE__.":".__LINE__ );
+
+        return null;
     }
     /**
     * auto generate doc.

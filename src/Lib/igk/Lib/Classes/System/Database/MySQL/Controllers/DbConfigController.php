@@ -43,7 +43,8 @@ use IGKEvents;
 use IGKException;
 use IGKLog;
 use IGKModuleListMigration;
-use IGK\IDataAdapter; 
+use IGK\IDataAdapter;
+use IGK\System\Database\MySQL\BooleanQueryResult;
 use mysqli;
 use ReflectionException;
 use TypeError;
@@ -150,7 +151,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $data = null;
         if (empty($q) || ((php_sapi_name() != 'cli') && !igk_is_conf_connected()))
             igk_exit();
-        if (!preg_match("#^(SELECT|UPDATE|DELETE|SHOW|ALTER|INSERT|CREATE|DROP) (.)+#i", $q)) {
+        if (!preg_match("#^(SELECT|UPDATE|DELETE|SHOW|ALTER|INSERT|CREATE|DROP|DESCRIBE) (.)+#i", $q)) {
             igk_wl("/!\\" . __("Query not allowed : {0}", $q));
             igk_exit();
         }
@@ -188,7 +189,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                     ->tablehost()->setClass("posab fit overflow-y-a")
                     ->addDbResult($g ? $r : [], $uri, $selected, igk_configs()->db_query_page_result ?? 50, "#query-s-r");
 
-                igk_wln_e($dv->renderAJX());
+                //$dv->renderAJX();
                 if ($data) {
                     $headers = array_keys($data->getRowAtIndex(0)->to_array());
                     array_unshift($headers, ' ');
@@ -2317,11 +2318,11 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $c->addNotifyHost();
             $h = $c->addRow();
             $div = $h->div();
-            $pan = $div->addPanelBox();
+            $pan = $div->addPanelBox()->setClass('flex gap-10 flex-row');
             $pan->div()->Content = sprintf(__("DataBase : %s"), "MySQL");
             $pan->div()->Content = sprintf(__("Available : %s"), igk_parsebool(defined("IGK_MSQL_DB_Adapter")));
-            $pan->div()->Content = "MySQL : " . (defined('IGK_MSQL_DB_AdapterFunc') ? igk_parsebool(constant('IGK_MSQL_DB_AdapterFunc')) : 0);
-            $pan->div()->Content = "MySQLi : " . (defined('IGK_MSQLi_DB_AdapterFunc') ? igk_parsebool(constant('IGK_MSQLi_DB_AdapterFunc')) : 0);
+            $pan->div()->Content = "MySQL : " . (defined('IGK_MSQL_DB_ADAPTER') ? igk_parsebool(constant('IGK_MSQL_DB_ADAPTER')) : 0);
+            $pan->div()->Content = "MySQLi : " . (defined('IGK_MSQLI_DB_ADAPTERFUNC') ? igk_parsebool(constant('IGK_MSQLI_DB_ADAPTERFUNC')) : 0);
             $cview = $this->getParam("tabview");
             $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "db:tab-control", 1);
             $tab->addTabPage(__("General"), $this->getUri("view&v=general"), empty($cview) || $cview == 'general');
@@ -2417,6 +2418,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     public function db_migrate_controller()
     {
         $ctrl = $this->_db_check_command(__FUNCTION__);
+        /**
+         * clear caches 
+         */
+        // DBCaches::Clear();
+        DBCaches::ClearControllerCache($ctrl);
+
         NotifyHelper::Notify(
             __FUNCTION__,
             $ctrl::migrate(),

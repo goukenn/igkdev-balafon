@@ -69,19 +69,29 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             igk_die('missconfiguration. change column migration missing column name ' . $tb);
         }
         $v_column = $this->column;
-        if (($mig = $migration->migrationListener) instanceof ISchemaMigrationInfoListener){
-            $v_defTable = $mig->getTableSchemaFileDefinition($tb);
-            $v_prefix = $v_defTable->prefix;
+        $v_prefix = $migration->getTablePrefix($tb);
+        $v_link_prefix =  ($link=$cinfo->clLinkColumn)  ? $migration->getLinkTablePrefix( $cinfo->clLinkType) : null;
+
+        if ($v_prefix){
             $cinfo->clName = Database::AutoPrefixColumn($cinfo->clName, $v_prefix);
-            if($link = $cinfo->clLinkColumn){
-                $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
-                if ($prefix = igk_getv($ltab, 'prefix', '')){
-                    $link = Database::AutoPrefixColumn( $link, $prefix); 
-                }
-                $cinfo->clLinkColumn = $link;
-            }
-            $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);
         }
+        if ($v_link_prefix){
+            $cinfo->clLinkColumn = Database::AutoPrefixColumn( $link, $v_link_prefix);
+        }
+
+        // if (($mig = $migration->migrationListener) instanceof ISchemaMigrationInfoListener){
+        //     $v_defTable = $mig->getTableSchemaFileDefinition($tb);
+        //     $v_prefix = $v_defTable->prefix;
+        //     $cinfo->clName = Database::AutoPrefixColumn($cinfo->clName, $v_prefix);
+        //     if($link = $cinfo->clLinkColumn){
+        //         $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
+        //         if ($prefix = igk_getv($ltab, 'prefix', '')){
+        //             $link = Database::AutoPrefixColumn( $link, $prefix); 
+        //         }
+        //         $cinfo->clLinkColumn = $link;
+        //     }
+        //     $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);
+        // }
         try {
             if ($cinfo->clName != $v_column) {
                 $ctrl::db_rename_column($tb, $v_column, $cinfo->clName);

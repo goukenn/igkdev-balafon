@@ -25,6 +25,7 @@ class TreatViewContent
      * @param BaseController $ctrl 
      * @param string $file 
      * @param bool $no_cache 
+     * @param mixed ...$params  
      * @return null|mixed 
      */
     public function treat(BaseController $ctrl, string $file, $no_cache = false, ...$params)
@@ -72,9 +73,9 @@ class TreatViewContent
                 $output = BalafonCacheViewCompiler::Compile($ctrl, $file, $args);
                 igk_io_w2file($_f, $output);
                 if (function_exists('opcache_invalidate')) {
-                    opcache_invalidate($_f, true);
-                    opcache_invalidate($file, true);
-                    opcache_invalidate(__FILE__, true);
+                    @opcache_invalidate($_f, true);
+                    @opcache_invalidate($file, true);
+                    @opcache_invalidate(__FILE__, true);
                 }
             }
             array_unshift($args, $_f);
@@ -83,7 +84,10 @@ class TreatViewContent
         try {
             $response = $_bindfc(...$args);
         } catch (TypeError $ex) {
-            igk_dev_wln_e("fatal error: " . $ex->getMessage());
+            igk_dev_wln_e(
+                "fatal error: " . $ex->getMessage(), 
+                "At: ", $ex->getFile().':'.$ex->getLine(), 
+            );
             throw $ex;
         } catch (Exception $ex) {
             if (!igk_environment()->no_handle_error && igk_environment()->isDev() && !defined("IGK_TEST_INIT")) {
