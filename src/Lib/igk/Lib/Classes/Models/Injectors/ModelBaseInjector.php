@@ -63,6 +63,10 @@ class ModelBaseInjector implements IInjector{
             $this->m_column = $this->model->getPrimaryKey();
             return $this->model::select_row($id);
         }
+        if (is_array($id)){
+            $g =  $this->model::select_row($id);        
+            return $g;
+        }
         if (IGKValidator::IsGUID($id)){            
             return $this->model::fromGuid($id, $fc_update_column);
         }

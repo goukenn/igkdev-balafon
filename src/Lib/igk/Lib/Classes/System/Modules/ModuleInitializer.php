@@ -63,7 +63,7 @@ class ModuleInitializer
     * @param mixed $module
     * @param mixed $file
     * @param mixed & $reference
-    * @return void
+    * @return mixed
     */
     public static function Init($module, $file, &$reference)
     {

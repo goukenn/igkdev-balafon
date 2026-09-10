@@ -22,7 +22,7 @@ use TypeError;
 
 /**
 * represent application module class
-* @method function initDoc($doc, ...$args) initialize document
+* @method mixed initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
     use ModuleIncludeDefinitionInvokeTrait;
@@ -318,6 +318,7 @@ final class ApplicationModuleController extends BaseController{
     private function _init($c=null){
         $c_cfile = $c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME;
         $c_f = self::CONF_MODULE;
+        $data = null;
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
         // + |         
@@ -364,7 +365,7 @@ final class ApplicationModuleController extends BaseController{
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         catch(\Throwable $ex){
-            igk_wln_e('lkj');
+            igk_wln_e('Error on application', $ex->getMessage());
             throw new ApplicationModuleInitException($this, 500, $ex);            
         }
         $this->m_src = $s;

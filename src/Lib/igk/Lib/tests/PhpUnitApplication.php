@@ -51,7 +51,7 @@ class PhpUnitApplication extends IGKApplicationBase{
             $v_testsuite = [$v_testsuite];
         }
         $v_test_all_project = in_array('projects', $v_testsuite); 
-        $v_test_all_module = in_array('modules', $v_testsuite); 
+        //$v_test_all_module = in_array('modules', $v_testsuite); 
         igk_server()->prepareServerInfo();
         IGKApp::StartEngine($this);
         $p = igk_sys_project_controllers();        
@@ -59,7 +59,15 @@ class PhpUnitApplication extends IGKApplicationBase{
             foreach($p as $m){ 
                 $m::register_autoload();  
                 if ($v_test_all_project){
-                    igk_loadlib_dirs($m->getTestClassesDir());
+                    try{
+                        igk_loadlib_dirs($m->getTestClassesDir());
+                    }
+                    catch(\SyntaxException $ex){
+                        igk_wln_e('syntax ', $ex);
+                    }
+                    catch(\Exception $ex){
+                        igk_wln_e("error", $ex);
+                    }
                 }
             } 
         }

@@ -7,6 +7,7 @@ namespace IGK\Css;
 use IGK\Resources\R;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssParser;
+use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
@@ -270,8 +271,30 @@ class CssThemeResolver
                     $deftheme = "def";
                 }
                 if (empty($type)) {
-                    $rv = $gtheme->$deftheme[$name];
+                    if (is_null($rdef = $gtheme->{$deftheme})){
+                           igk_dev_wln_e(
+                            __FILE__.":".__LINE__ ,
+                            $deftheme,
+                            $name,
+                            $gtheme,
+                            $v,
+                            $gtheme->{$deftheme},
+                        );
+                        igk_die('missing '.$deftheme);
+                    }
+                    $rv = $rdef[$name];
                 } else {
+                    $vt_hdef = $systheme->$deftheme;
+                    if (is_null($vt_hdef)){
+                        igk_wln_e(
+                            __FILE__.":".__LINE__ , 'data:', $deftheme,
+                            $type,
+                             $v,
+                             get_class($systheme),
+                            $systheme->getMedia(HtmlDocThemeMediaType::LG_MEDIA)[$name]
+                        );
+                    }
+
                     if (isset($v_resolv_names[$name])) {
                         igk_ilog(["css loop - detection - ", $name], __FUNCTION__);
                         break;
@@ -279,11 +302,11 @@ class CssThemeResolver
                     switch ($type) {
                         case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
-                            $rv = $systheme->$deftheme[$name]; 
+                            $rv = $vt_hdef[$name]; 
                             break;
                         case self::ATTR_G_THEME_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
-                            $rv = $theme->$deftheme[$name];
+                            $rv = $vt_hdef[$name];
                             break;
                         default:
                             igk_ilog("css type not define: " . $name . " on " . $type . " " . $deftheme, __FUNCTION__);
@@ -631,7 +654,7 @@ class CssThemeResolver
                         $ncl = trim($defcl);
                     } else {
                         if (igk_sys_env_production()) {
-                            $ncl = 'initial';
+                            $ncl = 'transparent';
                         } else {
                             $ncl = "var(--{$ncl})";
                         }
@@ -756,9 +779,9 @@ class CssThemeResolver
             if ($defcl = igk_getv($tv, 1)) {
                 $ncl = trim($defcl);
             } else {
-                if (igk_sys_env_production()) {
-                    $ncl = 'initial';
-                }
+                // if (igk_sys_env_production()) {
+                //     $ncl = 'initial';
+                // }
                 return "";
             }
             $cl = & $systheme->def->getCl();

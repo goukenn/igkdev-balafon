@@ -445,7 +445,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $key
     */
     public function invokeUri($key){
-        igk_app()->getControllerManager()->InvokeUri($this->getSystemUri($key));
+        igk_app()->getControllerManager()->invokeUri($this->getSystemUri($key));
         HtmlRenderer::RenderDocument(); 
     }
     /**
@@ -459,7 +459,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         $app=igk_app();
         $app->Session->PageFolder=IGK_HOME_PAGEFOLDER;
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, $pattern);
-        $app->getControllerManager()->InvokeUri($v_uri);
+        $app->getControllerManager()->invokeUri($v_uri);
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, null);
         if($render){
             HtmlRenderer::RenderDocument();
@@ -562,7 +562,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         if($l){
             $s .= "&l=".$l;
         }
-        igk_app()->getControllerManager()->InvokeUri($s);
+        igk_app()->getControllerManager()->invokeUri($s);
     }
     /**
     * Sys ac register.

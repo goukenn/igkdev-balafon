@@ -77,7 +77,11 @@ class HtmlScriptLoader
     {
         $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
         $out = "";
+        $is_ajx = igk_is_ajx_demand();
         $uri = igk_server()->REQUEST_URI ?? "";
+        if ($is_ajx){
+            $cachePath .= '?ajx=1';
+        }
         $resolver = IGKResourceUriResolver::getInstance();
         $firstEval = $options ? igk_getv($options, "jsOpsFirstEval", true) : true;
         $references = [];
@@ -197,7 +201,7 @@ class HtmlScriptLoader
             $cache_path = $jfs->getCacheFilePath($rq . $dir, null);
             if (!$no_page_cache && igk_io_file_exists($cache_path, true)){
                 ob_start();
-                include($cache_path);
+                readfile($cache_path);
                 $out .= ob_get_contents();
                 ob_end_clean();
             } else {
@@ -235,22 +239,27 @@ class HtmlScriptLoader
             }
         }
         if ($production && !empty($out)) {
-            $pif = [
-                igk_js_minify($out),
-                $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if ( !(typeof(igk) > 'u') && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
-            ];
-            $out  = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
-            $out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n" . $pif[1] . "\n</script>" . $lf;
-            if (!$no_page_cache) {
-                IO::WriteToFile($production_file, $out);
+            if (!$is_ajx){
+                $pif = [
+                    igk_js_minify($out),
+                    $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if ( !(typeof(igk) > 'u') && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
+                ];
+                $out  = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
+                $out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n" . $pif[1] . "\n</script>" . $lf;
+                if (!$no_page_cache) {
+                    IO::WriteToFile($production_file, $out);
+                }
+            }else{
+                $out = "";//igk_js_minify($out);
+                //$out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\nalert('ajx demand');\n</script>" . $lf;
             }
         }
-        if (igk_is_debug()){
-            $r = preg_match_all("/igk.control.js/", $out, $tab);
-            if ($r>1){
-                igk_debug_wln_e(__FILE__ . ":" . __LINE__, ' error loading file twice', sprintf('%s', json_encode($tab, JSON_PRETTY_PRINT)), $out);
-            }
-        }
+        // if (igk_is_debug()){
+        //     $r = preg_match_all("/igk.control.js/", $out, $tab);
+        //     if ($r>1){
+        //         igk_debug_wln_e(__FILE__ . ":" . __LINE__, ' error loading file twice', sprintf('%s', json_encode($tab, JSON_PRETTY_PRINT)), $out);
+        //     }
+        // }
         $jfs->default_extension = $rs;
         return $out;
     }

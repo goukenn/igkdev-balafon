@@ -141,10 +141,10 @@ class Request implements IInjectable, IContentSecurityProvider
      * prepare and return the updload data as json object
      * @return null|object|array
      */
-    public function getJsonData(){
+    public function getJsonData(bool $associative=false){
         $this->getUploadedData();
         if ($this->js_data !== null){
-            return json_decode($this->js_data);
+            return json_decode($this->js_data, $associative);
         } 
         return $this->js_data;
     }

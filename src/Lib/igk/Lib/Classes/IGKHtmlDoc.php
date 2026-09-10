@@ -738,7 +738,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $kfile = $file = array_shift($uris);
         if (is_file($file)) {
             $kfile = IGKResourceUriResolver::getInstance()->resolve($file);
-        }
+        } 
+
         if (isset($t->temp[$kfile])) {
             $n = $t->temp[$kfile];
             $n->setIsTemp($t);

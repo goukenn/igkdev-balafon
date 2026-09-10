@@ -615,7 +615,7 @@ abstract class CssUtils
         $rootdef[$keys] = array_merge($rootdef[$keys], $colors);
     }
     /**
-     * Exports Color And Properties.
+     * Exports Colors And Properties.
      * @param BaseController $controller
      * @param mixed $theme
      */

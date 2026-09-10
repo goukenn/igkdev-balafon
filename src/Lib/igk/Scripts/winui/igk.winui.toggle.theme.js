@@ -21,18 +21,16 @@
             return htmlEl.getAttribute("data-theme");
         };
         const updateTheme = function(){
-            const newTheme = currentTheme() === "dark" ? "light" : "dark";
-            console.log('update theme ', newTheme);
+            const newTheme = currentTheme() === "dark" ? "light" : "dark";            
             igk.css.changeDocumentTheme(newTheme);
         };
         themeBtn.on('click', () => {
             updateTheme();
         });
-        igk.publisher.register('sys://dom/css/theme-changed', function (e) {
+        igk.publisher.register('sys://dom/css/theme-changed', function (e) { 
             updateBtnIcon(e.theme);
         });
-        updateBtnIcon(currentTheme()); 
-
+        updateBtnIcon(currentTheme());  
     };
     // + | init compoment
     igk.winui.initClassControl('igk-winui-toggle-theme', _init);

@@ -4,6 +4,8 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Css;
+
+use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKException;
 use IGKResourceUriResolver;
 
@@ -66,14 +68,22 @@ class CSSContext{
         if ($type!=null && $type!= 'sys'){
             throw new IGKException("Only sys is allowed for media type", 500);
         }
-        if ($medias==null){
-            $this->theme->xsm_screen[$def] = "({$type}.xsm_creen:".$classStyle.")";
-            $this->theme->sm_screen[$def] = "({$type}.sm_creen:".$classStyle.")";
-            $this->theme->lg_screen[$def] = "({$type}.xlg_creen:".$classStyle.")";
-            $this->theme->xlg_screen[$def] = "({$type}.xlg_creen:".$classStyle.")";
-            $this->theme->xxlg_screen[$def] = "({$type}.xxlg_creen:".$classStyle.")";
+        if ($medias===null){
+            $theme = $this->theme;
+            $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
+            $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
+            $lg_screen = $theme->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
+            $xlg_screen = $theme->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
+            $xxlg_screen = $theme->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
+
+            // $xsm_screen[$def] = "({$type}.:".$classStyle.")";
+            // $sm_screen[$def] = "({$type}.:".$classStyle.")";
+            // $lg_screen[$def] = "({$type}.:".$classStyle.")";
+            // $xlg_screen[$def] = "({$type}.:".$classStyle.")";
+            // $xxlg_screen[$def] = "({$type}.:".$classStyle.")";
+            
         }else {
-            $this->theme->xsm_screen[$def] = "({$type}.{$medias}:".$classStyle.")";
+            // $this->theme->xsm_screen[$def] = "({$type}.{$medias}:".$classStyle.")";
         }
     }
 }

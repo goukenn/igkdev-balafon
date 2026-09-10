@@ -663,7 +663,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     */
     public function InvokePattern($pattern)
     {
-        return $this->InvokeUri($pattern->value, 1, $pattern);
+        return $this->invokeUri($pattern->value, 1, $pattern);
     }
     /**
     * use to invoke system controller method
@@ -671,7 +671,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     * @param mixed $defaultBehaviour
     * @param mixed $pattern
     */
-    public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
+    public function invokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         igk_sys_handle_uri($uri);
         $c = null;

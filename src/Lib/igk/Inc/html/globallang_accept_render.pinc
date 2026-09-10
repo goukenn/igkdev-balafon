@@ -6,5 +6,10 @@
 // @file : globallang_accept_render.pinc
 // @author:  C.A.D. BONDJE DOUE
 // @return: update language rendering
+use IGK\System\Html\Dom\HtmlNode;
 
+/**
+ * @var HtmlNode $self
+ */
+ 
 return igk_init_renderinglang($self); 

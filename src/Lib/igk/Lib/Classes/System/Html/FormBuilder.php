@@ -98,6 +98,9 @@ class FormBuilder
         }
         return $key ? igk_getv($attr, $key) : null;
     }
+    private function _is_detected_type(string $type){
+        return in_array($type, ['fieldset', 'efieldset']);
+    }
     /**
      * build form fields
      * @param array $formFields 
@@ -516,8 +519,10 @@ class FormBuilder
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
                 }else if (is_array($v)){
                     // load field block 
+                    if (!($c_type = igk_getv($v, 'type')) || !$this->_is_detected_type($c_type)){
                     $o.= $this->_buildRowFieldBlock($v);
                     continue;
+                    }
                 }
             } else if (is_string($v)) {
                 $v = ['value' => $v];

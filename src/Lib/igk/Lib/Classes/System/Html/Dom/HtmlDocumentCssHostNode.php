@@ -4,10 +4,12 @@
 // @date: 20220422 09:31:53
 // @desc: hosting document
 namespace IGK\System\Html\Dom;
+
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\CssClassBuffer;
 use IGK\System\Html\Css\CssUtils;
 use IGKException;
 use IGKHtmlDoc;
@@ -17,29 +19,31 @@ use ReflectionException;
  * for rendering inline-css tempory file
  * @package IGK\System\Html\Dom
  */
-class HtmlDocumentCssHostNode extends HtmlNode{
+class HtmlDocumentCssHostNode extends HtmlNode
+{
     /**
-    * auto generate doc.
-    * @var \IGKHtmlDoc
-    */
+     * auto generate doc.
+     * @var \IGKHtmlDoc
+     */
     protected $doc;
     /**
-    * .ctr
-    * @param mixed $doc
-    */
-    public function __construct($doc){
+     * .ctr
+     * @param mixed $doc
+     */
+    public function __construct($doc)
+    {
         $this->doc = $doc;
     }
     /**
-    * Returns Can Render Tag.
-    */
+     * Returns Can Render Tag.
+     */
     public function getCanRenderTag()
     {
         return false;
     }
     /**
-    * Returns Can Add Childs.
-    */
+     * Returns Can Add Childs.
+     */
     public function getCanAddChilds()
     {
         return false;
@@ -56,32 +60,39 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      * @throws EnvironmentArrayException 
      */
     public function render($options = null)
-    {     
-        if (!$this->doc instanceof IGKHtmlDoc ){
+    {
+        if (!$this->doc instanceof IGKHtmlDoc) {
             return;
         }
-        $clear = ($this->doc instanceof IGKHtmlDoc ) ? CssUtils::InitSysGlobal($this->doc) : null;
+        $clear = ($this->doc instanceof IGKHtmlDoc) ? CssUtils::InitSysGlobal($this->doc) : null;
         $inlineTheme = $this->doc->getInlineTheme();
         $s = "";
         $theme = $this->doc->getTheme();
         igk_css_load_theme($theme);
-        $g = ""; 
-        $g.= $theme->get_css_def();        
+        $g = "";
+        $g .= $theme->get_css_def();
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
-        if ($v_bindTempFiles){
-           igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
-           $g .= $inlineTheme->get_css_def(true);
+        if ($v_bindTempFiles) {
+            igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
+            $g .= $inlineTheme->get_css_def(true);
         }
-        $vs = igk_create_node("style");
-        $vs->text("\n".$g);
         $is_dev = igk_environment()->isDev();
-        $is_dev && ($s.= "<!-- start:inline style -->");
-        $s .= $vs->render();
-        $is_dev && ($s.= "\n<!-- end:inline style -->"); 
-        if ($clear){
+        if ($is_dev) {
+            $g .= "\n". CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
+                "lf"=>""
+            ]);
+        }
+        if (!empty(trim($g))) {
+            $vs = igk_create_node("style");
+            $vs->text("\n" . $g);
+            $is_dev && ($s .= "<!-- start:inline style -->");
+            $s .= $vs->render();
+            $is_dev && ($s .= "\n<!-- end:inline style -->");
+        }
+        if ($clear) {
             $this->doc->getSysTheme()->resetSysGlobal();
-            $theme->getDef()->clear(); 
-        }  
-        return $s;        
+            $theme->getDef()->clear();
+        }
+        return $s;
     }
 }

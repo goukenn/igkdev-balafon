@@ -1398,9 +1398,10 @@
         // + | retrieve document set theme 
         function _get_html_theme() {
             var d = document.getElementsByTagName('html')[0];
-            return d.getAttribute('data-theme');
+            return d.getAttribute(_TH_K);
         }
         var dynStyle = null;
+        const _TH_K = 'data-theme';
         igk.system.createNS("igk.css", {
             /**
              * target property 
@@ -1437,13 +1438,32 @@
                 if (typeof (n) == 'undefined') {
                     // toggle theme
                     n = 'dark';
-                    if (d.getAttribute('data-theme') == n) {
+                    if (d.getAttribute(_TH_K) == n) {
                         n = 'light';
                     }
                 }
-                d.setAttribute('data-theme', n);
+                d.setAttribute(_TH_K, n);
                 igk.cookies.set('theme_name', n);
                 return n;
+            },
+            resetDocumentTheme() {
+                const d = $igk('html').first();
+                if (d) {
+                    const m = d.o.getAttribute(_TH_K);
+                    if (m) {
+                        d.o.removeAttribute(_TH_K);
+                        let l = null;
+                        ['light','dark'].forEach( m => {
+                            let mode = window.matchMedia('(prefers-color-scheme: ' + m + ')');                            
+                            if (mode.matches){
+                                l = {mode, m};                                
+                            }                            
+                        });
+                        if (l && (l.m != m)){
+                            igk.publisher.publish('sys://dom/css/theme-changed', { theme: l.m });
+                        }
+                    }
+                }
             },
             getStyleSelectorList(index) {
                 if (this != igk.css) {
@@ -1559,7 +1579,7 @@
                 return s;
             },
             getRule() {
-                rele = rule || __getRule(corecss);
+                rule = rule || __getRule(corecss);
                 return rule;
             },
             appendRule(c) { // append rule to balafon.css.php or css definition 
@@ -1794,8 +1814,8 @@
 
             function __setTheme(m) {
                 let h = document.getElementsByTagName('html')[0];
-                h.setAttribute("data-theme", m);
-                saveItem(m);
+                h.setAttribute(_TH_K, m);
+                saveItem(m); 
                 igk.publisher.publish('sys://dom/css/theme-changed', { theme: m });
             }
             function __updatemode(r) {
@@ -1819,6 +1839,7 @@
                 let tm = null;
                 let theme = 'dark';
                 ['light', 'dark'].forEach(m => {
+                    // + | get user prefered color scheme 
                     let mode = window.matchMedia('(prefers-color-scheme: ' + m + ')');
                     if ((preferredTheme && (m == preferredTheme)) || (!tm && mode.matches)) {
                         tm = mode;
@@ -1827,6 +1848,7 @@
                 });
                 tm.addEventListener('change', __updatemode(theme));
                 __setTheme(theme);
+                // console.log('the current theme ',preferredTheme , theme);
                 // replace set document theme. 
                 igk.css.changeDocumentTheme = function (th) {
                     theme = th || (theme == 'dark' ? 'light' : 'dark');
@@ -1873,6 +1895,7 @@
                     igk.css.appendRule(".igk-device:before{position:absolute;}");
                 } else {
                     const rules = [
+                        "/* balafon.css requested rule for media detection */",
                         ".igk-device::before{position:absolute;}",
                         ".igk-media-type:before{position:absolute;}",
                     ].join("\n");
@@ -2003,7 +2026,7 @@
             return;
 
         const toHex = (val) => val.toString(16).padStart(2, '0');
-        
+
         igk.system.createNS("igk.canvas", {
             PickColor(cl) {
                 const ctx = _g_ctx;
@@ -2679,16 +2702,7 @@
                         p.setCss({ 'transform': 'translateY(-' + (y) + 'px)' });
                     }
                 }
-                // if (cH < sT){
-                // var y =m.o.parentNode.offsetTop ;
-                // // p.o.clientHeight - (m.o.parentNode.offsetTop - 
-                // // igk.getNumber(m.getComputedStyle('font-size')));
-                // if (y>0){
-                // // m.setCss({fontSize:"2em"});
-                // p.setCss({'transform':'translateY(-'+(y)+'px)'});
-                // igk.publisher.publish("sys://doc/changed", {target:p});
-                // }
-                // }
+             
             }
             return y;
         };
@@ -3841,9 +3855,8 @@
             var g = m_symbols[n];
             if (g) {
                 var c = g.clone();
-                // append attribute to node class
+                // + | append attribute to node class
                 c.setAttribute("class", this.getAttribute("class"));
-                // c.setAttribute("fill","red");
                 this.o.parentNode.replaceChild(c.o, this.o);
             } else {
                 m_noloads.push(this);
@@ -8326,15 +8339,11 @@
         });
     })();
     // parent scroll marker
-    (function () {
-        igk.winui.initClassControl("igk-parentscroll", function () {
-            var q = this;
-            // TASK: remove scroll parent 
-            // q.reg_event("scroll", function (evt) {
-            // 	igk.publisher.publish("sys://html/doc/scroll", { target: this, args: evt });
-            // });
-        });
-    })();
+    // (function () {
+    //     igk.winui.initClassControl("igk-parentscroll", function () {
+    //         var q = this;           
+    //     });
+    // })();
     //----------------------------------------------------
     // igk-js-autofix attribute data bidning
     //----------------------------------------------------

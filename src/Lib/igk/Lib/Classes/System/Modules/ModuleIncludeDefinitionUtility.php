@@ -109,7 +109,11 @@ class ModuleIncludeDefinitionUtility
             return function () use ($__def, $selfKey) {
                 $tab = self::Treat($__def[0], func_get_args(), $this);
                 $tab[$selfKey] = $this;
-                return call_user_func_array($__def['invoke']->bindTo($this), [$tab, $__def[1]]);
+                $skey = ':::invoke_module:::';
+                igk_environment()->set($skey, $this);
+                $rep = call_user_func_array($__def['invoke']->bindTo($this), [$tab, $__def[1]]);
+                igk_environment()->set($skey, null);
+                return $rep;
             };
         })($param, $code, $selfKey);
         return $fc;

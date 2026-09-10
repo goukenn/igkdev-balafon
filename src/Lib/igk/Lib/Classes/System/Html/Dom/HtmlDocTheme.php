@@ -1035,14 +1035,14 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * auto generate doc.
      */
-    public function ClearChilds()
+    public function clearChilds()
     {
         $this->m_def->clear();
     }
     /**
      * auto generate doc.
      */
-    public function ClearFont()
+    public function clearFont()
     {
         $tab = $this->ft->Attributes;
         if (count($tab) > 0) {
@@ -1228,20 +1228,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_def->getCl();
     }
-    /**
-     * Getxsm screen.
-     */
-    public function getxsm_screen()
-    {
-        return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
-    }
-    /**
-     * Getsm screen.
-     */
-    public function getsm_screen()
-    {
-        return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
-    }
+    
     /**
      * Getlg screen.
      */
@@ -1363,6 +1350,22 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $s;
     }
+    public function getxsm_screen(){                        
+        return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
+    }
+      public function getsm_screen(){                        
+        return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
+    }
+
+    public function getlg_screen(){                        
+        return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
+    }
+    public function getxlg_screen(){                        
+        return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
+    }
+    public function getxxlg_screen(){                        
+        return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
+    }
     /**
      * get registrated media name
      * @param mixed $idk
@@ -1435,9 +1438,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     protected function _access_offsetExists($i): bool
     {
-        if (isset($this->m_tc))
-            return ($i >= 0) && ($i < count($this->m_tc));
-        return !1;
+        if (is_numeric($i)){
+            $i = intval($i);
+            if (isset($this->m_tc))
+                return ($i >= 0) && ($i < count($this->m_tc));
+            return !1;
+        }
+        return isset($this->m_def[$i]);
     }
     /**
      * auto generate doc.
@@ -1603,6 +1610,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->def->Clear();
         $this->m_medias = array();
+        $root = & $this->getRootReference();
+        $root = [];
         $this->_initMedia($this->m_id);
     }
     /**

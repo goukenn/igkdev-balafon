@@ -4,6 +4,7 @@
 // @date: 20221116 00:53:02
 namespace IGK\System\Applications;
 
+use Closure;
 use IGK\Models\Mailinglists;
 use IGK\System\Core\CookieManager;
 use IGKEvents;
@@ -23,6 +24,7 @@ class HookRegister
      */
     public static function Init()
     {
+        $_env = igk_environment();
         igk_reg_hook(IGKEvents::HOOK_USER_LOGIN, function ($e) {
             extract($e->args);
             \IGK\Models\LoginLogs::Add(
@@ -75,25 +77,36 @@ class HookRegister
                 $cl = IGKServices::Get('CookieManager') ?? CookieManager::class;
                 $cl::Handle();
             });
-            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () {
+            igk_reg_hook(IGKEvents::HOOK_INIT_APP, function () use ($_env) {
                 $v_k = 'session-flag';
-                $flag = igk_environment()->{$v_k};
+                $flag = $_env->{$v_k};
                 igk_app()->session->{$v_k} = $flag;
-                igk_environment()->set($v_k, null);
+                $_env->set($v_k, null);
             });
         }
 
-        if (igk_environment()->isDev()) {
+
+
+        igk_reg_hook(IGKEvents::HOOK_INIT_APP, Closure::fromCallable([self::class, 'OnAppInitialized']));
+    }
+    /**
+     * raise on application initialized 
+     * @return void 
+     */
+    protected static function OnAppInitialized($e)
+    {
+        $_env = igk_environment();
+        if ($_env->isDev()) {
             igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function ($e) {
                 $options = igk_getv($e->args, 'options');
                 if (!$options || !($doc = $options->Document))
                     return;
-                // if (!$doc->noCoreCss)
-                //     return;
+                if (!$doc->noCoreCss)
+                    return; 
                 $t = igk_create_notagnode();
                 $type = igk_configs()->get('css.colorspace') ??  'hsl';
                 igk_sys_css_inject_colors_space($t, $type);
-                $t->renderAJX(); 
+                $t->renderAJX();
             });
         }
     }

@@ -3,6 +3,8 @@
 // @file: ClassAndStyleOffsetTrait.php
 // @date: 20221107 19:19:56
 namespace IGK\System\Html\Dom\Traits;
+
+use IGK\System\Html\Css\CssClassBuffer;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
@@ -38,6 +40,9 @@ trait ClassAndStyleOffsetTrait{
                             $this->m_attributes[$tk] = $cl;
                         }
                         $cl->add($v);
+                        if(igk_environment()->isDev()){
+                            CssClassBuffer::getInstance()->loadBuffer($v);                            
+                        }
                     }
                     break;
                 case 'style':

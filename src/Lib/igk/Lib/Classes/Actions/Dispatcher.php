@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: action dispatcher 
 namespace IGK\Actions;
+
 use Closure;
 use Exception;
 use IGK\Actions\IActionProcessor;
@@ -124,18 +125,18 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return false;
     }
     /**
-    * auto generate doc.
-    * @param callable $fc
-    * @param mixed ...$args
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param callable $fc
+     * @param mixed ...$args
+     * @return mixed
+     */
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
-        if (!(($host = $g->getClosureThis()) instanceof IInjectedArgHost)){
+        if (!(($host = $g->getClosureThis()) instanceof IInjectedArgHost)) {
             $host = self::$sm_dispatcher_host;
         }
-        if (!($host instanceof IInjectedArgHost)){
+        if (!($host instanceof IInjectedArgHost)) {
             $host = null;
         }
         $args = self::GetInjectArgs($g, $args, $host);
@@ -168,19 +169,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return (new static(null))->$name(...$args);
     }
     /**
-    * Invoke.
-    * @param string $name
-    * @param mixed ...$args
-    */
+     * Invoke.
+     * @param string $name
+     * @param mixed ...$args
+     */
     public function invoke(string $name, ...$args)
     {
         return $this->__call($name, $args);
     }
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     private static $sm_dispatcher_host;
     /**
      * Triggered when calling an inaccessible or undefined method on an object.
@@ -211,25 +212,25 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         throw new ActionNotFoundException($name);
     }
     /**
-    * auto generate doc.
-    * @param ReflectionFunctionAbstract $g
-    * @param mixed & $args
-    * @return void
-    */
+     * auto generate doc.
+     * @param ReflectionFunctionAbstract $g
+     * @param mixed & $args
+     * @return void
+     */
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
         $args = self::GetInjectArgs($g, $args);
     }
     /**
-    * get argument to inject or dispatch
-    * @param mixed $parameters
-    * @param mixed $args
-    * @param ?IInjectedArgHost $host
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return array
-    */
+     * get argument to inject or dispatch
+     * @param mixed $parameters
+     * @param mixed $args
+     * @param ?IInjectedArgHost $host
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return array
+     */
     public static function GetInjectArgsByParameters($parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -257,13 +258,25 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return $targs;
     }
     /**
-    * auto generate doc.
-    * @param array & $targs
-    * @param mixed $parameters
-    * @param mixed $args
-    * @param ?IInjectedArgHost $host injected argument host
-    * @return array
-    */
+     * get type name
+     * @param mixed $type type
+     * @return string 
+     */
+    private static function _GetTypeName($type): string
+    {
+        if (($type instanceof ReflectionType) && method_exists($type, $fc = 'getName')) {
+            return call_user_func_array([$type, $fc], []);
+        }
+        return (string)$type;
+    }
+    /**
+     * auto generate doc.
+     * @param array & $targs
+     * @param mixed $parameters
+     * @param mixed $args
+     * @param ?IInjectedArgHost $host injected argument host
+     * @return array
+     */
     private static function _GetInjectedParameters(array &$targs, $parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -375,6 +388,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                             if (($ju = $j->getModel()) instanceof Users) {
                                 ($u = $v_host->getUser()) && ($c = $u->model());
                             }
+                            // TODO:  upgr
+                            if ($data = Request::getInstance()->getJsonData(true)){
+                                $v_t1 = self::_GetTypeName($p);
+                                $c = self::autoCached($j, $data, $v_t1);
+                                $targs[] = $c;
+                                $i++;
+                                continue;
+                            }
                         }
                         (!$j_allow_null) && is_null($c) && igk_die('null value not allowed');
                         $targs[] = $c;
@@ -382,14 +403,9 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         continue;
                     }
                     if ($j) {
-                        $v_t1 = null;
-                        if(($p instanceof ReflectionType) && method_exists($p , $fc = 'getName')){
-                            $v_t1= call_user_func_array([$p,$fc],[]);
-                        }
-                        else
-                            $v_t1 = (string)$p;
+                        $v_t1 = self::_GetTypeName($p);
                         $c = self::autoCached($j, $arg, $v_t1);
-                        if ($c ){
+                        if ($c) {
                             $targs[] = $c;
                             $i++;
                             continue;
@@ -430,31 +446,33 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $model 
      * @return mixed 
      */
-    public static function autoCached(ModelBaseInjector $j, $value, $model){
-        $caches = & static::$sm_caches;
-        if (is_null($caches)){
+    public static function autoCached(ModelBaseInjector $j, $value, $model)
+    {
+        $caches = &static::$sm_caches;
+        if (is_null($caches)) {
             $caches = [];
         }
         $td = get_class($j);
-        if (!isset(self::$sm_caches[$td])){
+        if (!isset(self::$sm_caches[$td])) {
             self::$sm_caches[$td] = [];
         }
-        if (isset($caches[$td][$model][$value])){
+        if (isset($caches[$td][$model][$value])) {
             return $caches[$td][$model][$value];
         }
         $c =  $j->resolve($value, $model);
-        if ($c){
-            $caches[$td][$model][$value] = $c;          
+        if ($c) {
+            if (is_array($value)){
+                $value = json_encode($value);
+            }
+            $caches[$td][$model][$value] = $c;
             $cmodel = $model::model();
             $column = null;
-            if($j instanceof ModelBaseInjector){
+            if ($j instanceof ModelBaseInjector) {
                 $column = $j->column();
             }
-            CacheModels::StoreCache( $cmodel, $value, $c , $column);
+            CacheModels::StoreCache($cmodel, $value, $c, $column);
         }
         return $c;
-        
-
     }
     /**
      * auto generate doc.
@@ -467,14 +485,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         foreach ($lbService as $k => $m) {
             if (isset($services[$k])) {
                 $g = $services[$k];
-                if(is_string($g)){
+                if (is_string($g)) {
                     // just define a default class 
-                    $g = [IGKServices::KEY_DEF=>$g];
+                    $g = [IGKServices::KEY_DEF => $g];
                 }
-                $m = array_merge($m, $g); 
-            }  
+                $m = array_merge($m, $g);
+            }
             $services[$k] = $m;
-        } 
+        }
     }
     /**
      * retrive a service instance 
@@ -506,18 +524,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return self::_GetInjectable($class_name, []);
     }
     /**
-    * auto generate doc.
-    * @param mixed $e
-    * @return void
-    */
-    private static function _UseTypeCallback($e){
-        list ($type) = igk_extract($e->args, 'type');
-        $injects = & $e->args['injects'];
-        if (!isset($injects[$type])){
-            if ($type == CurrentUser::class){
-                if ($c = Users::currentUser()){
+     * auto generate doc.
+     * @param mixed $e
+     * @return void
+     */
+    private static function _UseTypeCallback($e)
+    {
+        list($type) = igk_extract($e->args, 'type');
+        $injects = &$e->args['injects'];
+        if (!isset($injects[$type])) {
+            if ($type == CurrentUser::class) {
+                if ($c = Users::currentUser()) {
                     $injects[$type] = new CurrentUser($c);
-                } else{
+                } else {
                     $injects[$type] = null;
                 }
             }
@@ -547,7 +566,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if (is_subclass_of($type, ModelBase::class)) {
             return null;
         }
-        $obj = ['type'=>$type, 'injects'=>& $injects];
+        $obj = ['type' => $type, 'injects' => &$injects];
         igk_hook('sys:filter_dipatcher', $obj);
         if (!($m = igk_getv($injects, $type))) {
             $refclass = igk_sys_reflect_class($type);

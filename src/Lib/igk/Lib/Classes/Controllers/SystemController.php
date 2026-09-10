@@ -121,13 +121,14 @@ final class SystemController extends NonVisibleControllerBase{
     */
     public function changeLang_ajx($lang=null){ 
         $doc=igk_get_last_rendered_document();   
-        if($doc !== null){
+        if(1 || ($doc !== null)){
             $old = igk_app()->session->lang;
             R::ChangeLang($lang);
             $u=igk_sys_srv_referer();
-            $new = igk_app()->session->lang;
+            $new = igk_app()->session->lang;            
             if($u){         
-                $u=igk_getv(explode("?", $u), 0);
+                $u=igk_getv(explode("?", $u, 2), 0).'?view=1';  
+
                 if(!igk_io_invoke_uri($u, 0)){
                     igk_ilog_assert(!igk_sys_env_production(), "Failed to invoke uri - ".$u);
                 }          

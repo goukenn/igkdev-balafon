@@ -21,6 +21,11 @@ if (!function_exists('igk_current_module')) {
     {
         $v_skey = 'module_resolution';
         $v_env = igk_environment();
+
+        if ($module = $v_env->get(':::invoke_module:::')){
+            return $module;
+        }
+
         list($file) = igk_sys_get_caller_file(1);
         if ($file) {
             $path = igk_io_collapse_path($file);
@@ -83,6 +88,7 @@ if (!function_exists('igk_get_loaded_modules')) {
  */
 function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
 { 
+    // igk_wln_e( __FILE__.":".__LINE__ , " - + ", $modulename);
     // + | PREPARE MODULE DEFINITION 
     $modulename = str_replace('.','\\', $modulename);
     $v_mod_key = IGKEnvironmentConstants::MODULES;

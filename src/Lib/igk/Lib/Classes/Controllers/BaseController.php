@@ -462,7 +462,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     {
         $srv = igk_server();
         $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
-        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView();
+        $is_view = $is_view ?? igk_bool(igk_getr('view')) ?? Request::getInstance()->requestView();
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))

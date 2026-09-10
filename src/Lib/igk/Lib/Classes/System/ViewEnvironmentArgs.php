@@ -16,7 +16,8 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Http\Request;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-use IGKException; 
+use IGKException;
+use IGKUserInfo;
 
 /**
  * represent view environment args - shared  accross views definition
@@ -91,6 +92,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     var $furi;
     /**
      * full access path
+     * @var ?string
      */
     var $fpath;
     /**
@@ -125,12 +127,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
     var $is_direntry;
     /**
      * store user info
-     * @var ?UserInfo
+     * @var ?IGKUserInfo
      */
     var $user;
     /**
      * store authenticator
-     * @var ?IGK\System\Security\Authenticator 
+     * @var ?\IGK\System\Security\Authenticator 
      */
     var $auth;
     /**
@@ -165,7 +167,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     var $action;
     /**
      * session data
-     * @var ?IGKSession
+     * @var ?\IGKSession
      */
     var $session;
     /**
@@ -209,6 +211,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var mixed
      */
     var $lang;
+
+    /**
+     * the current environment 
+     * @var \IGKEnvironment
+     */
+    var $environment;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -239,6 +247,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
         $_dir_ = ViewHelper::Dir() ?? dirname($file); 
+        $environment = igk_environment();
         $subdomain = $controller->getEnvParam(ControllerSysKeyConstants::subdomain);
         if ($css_m = CssUtils::GetCssClassName($controller)){
             $css_m = '.'.$css_m;

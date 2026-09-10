@@ -414,6 +414,19 @@ class CssParser implements ArrayAccess
         return $p;
     }
     /**
+     * read class name definition 
+     * @param string $content 
+     * @return string|null 
+     */
+    public static function ReadClassName(string $content){
+        if (preg_match('/((?:\\.)?[a-z][0-9a-z_\-]*(?:\\\\.[a-z][0-9a-z_\-]*)*)\\b/i', $content, $tab)) {
+            return $tab[1];
+        }
+        $s = preg_last_error_msg();
+        echo $s;
+        return null;
+    }
+    /**
     * start reading key frames
     * @param string $content
     * @param int & $pos

@@ -8,6 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\Constants;
+use IGK\Core\ResourceLoader;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
@@ -280,8 +281,13 @@ class IGKResourceUriResolver
             igk_hook(IGKEvents::HOOK_MK_LINK, array("outdir" => dirname($fc), "link" => $fc));
         }
         $relative = Path::GetRelativePath($v_bdir, $fc);
+        if (igk_environment()->isOPS() && is_link($fc)){
+            ResourceLoader::Check();
+            if (igk_str_startwith($relative,'./')){
+                $relative = './'.ResourceLoader::Access().'/'.substr($relative, 2);
+            }
+        }
         $li = $this->transform($relative, $fulluri);
-      
         return $li;
     }
     /**

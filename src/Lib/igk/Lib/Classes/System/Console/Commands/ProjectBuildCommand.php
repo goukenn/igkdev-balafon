@@ -43,7 +43,7 @@ class ProjectBuildCommand extends AppExecCommand{
     * @param null|string $controller
     */
     public function exec($command, ?string $controller =null ) { 
-		$ctrl = $this->_dieController($command, $controller);
+		$ctrl = $this->_dieController($controller, false);
 		$project_builder_cl = igk_configs()->get('ProjectBuilder', \IGK\System\TamTam\ProjectBuilder::class) ?? igk_die("require a global project builder");
 		$project_after_build_options_cl = igk_configs()->get('ProjectBuilder', \IGK\System\TamTam\ProjectBuilderAfterBuildHookOption::class) ?? igk_die("require a global project builder");
 		$project_builder = new $project_builder_cl();

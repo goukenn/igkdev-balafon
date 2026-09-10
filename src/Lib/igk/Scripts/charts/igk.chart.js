@@ -104,15 +104,7 @@
             ctx.arc(cx, cy, r, -(Math.PI / 2), -(Math.PI / 2) + (2 * Math.PI) * data, false);
             //ctx.rect(0,0,w,h);
             ctx.stroke();
-            // igk.mods.canva.drawText(ctx, (data * 100) + "%", 11,101, "4em Arial", "#aaa", 0);
-            // igk.mods.canva.drawText(ctx, (data * 100) + "%", 10,100, "40px Arial", "#F0a",0);			
-            //fore ground
-            // ctx.fillStyle = cl2;
-            //ctx.rect(0,0,w,h);
-            // ctx.fill("evenodd");		
-            //ctx.clear();
-            //igk.show_notify_prop(ctx);		
-            // console.debug(c.o.toDataURL());
+           
             return c.o.toDataURL();
         }
     });

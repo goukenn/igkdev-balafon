@@ -99,7 +99,7 @@ class IGKEvents extends IGKObject
     */
     const HOOK_COMMAND = 'sys_commnand';
     /**
-    * Constant: hook init app. application initialized
+    * Constant: hook init app. raise after application initialized
     * @var mixed
     */
     const HOOK_INIT_APP = "sys://hook/init_app";
@@ -555,6 +555,11 @@ class IGKEvents extends IGKObject
      * HookArgs {'name':string};
      */
     const FILTER_RUN_HOOK_COMMAND_INFO = 'sys://command/hook-command-info';
+
+    /**
+     * to filter all application 
+     */
+    const FILTER_DASH_APP = 'sys://dashboard/apps';
     /**
     * Constant: viewcomplete.
     * @var mixed
@@ -861,12 +866,13 @@ class IGKEvents extends IGKObject
                     }
                     if (is_object($v->callback)) {
                         $cargs[0]->lastoutput = igk_invoke_callback_obj(null, $v->callback, $cargs);
-                    } else {
+                    } else { 
+                        $g = Closure::fromCallable($v_c);
                         igk_dev_wln_e(
                             __FILE__ . ':' . __LINE__,
                             " : not a callable ",
                             $name,
-                            $v->callback
+                            $v->callback,
                         );
                         continue;
                     }

@@ -45,8 +45,10 @@ $def[".alignc"] = "text-align:center ;";
 $def[".alignm"] = "vertical-align:middle ;";
 $def[".alignb"] = "vertical-align:bottom ;";
 $def[".alignt"] = "vertical-align:top ;";
-$def[".flip-x"] = "[transform: rotate(180deg)]";
+
+$def[".flip-x"] = "[transform: scale(-1,1)]";
 $def[".flip-y"] = "[transform: scale(1,-1)]";
+
 $def[".box-center"] = "{sys:posab} top:50%; left:50%; [transform:translate(-50%, -50%)]";
 $def[".igk-text-c"] = "text-align:center ; vertical-align: middle ;";
 // + | z-index prop
@@ -416,8 +418,10 @@ foreach([1, 2, 4,10,16,24] as  $i){
 
 
 $def['.trans-all'] = '[trans: all]';
-foreach(['cubic-bezier','ease','ease-in','ease-in-out', 
-'ease-out', 'linear','step-end','step-start','steps'] as $f)
+
+// cubic bezier need a function, steps
+foreach(['ease','ease-in','ease-in-out', 
+'ease-out', 'linear','step-end','step-start'] as $f)
 $def['.trans-'.$f] = 'transition-timing-function: '.$f.';';
 
 
@@ -426,7 +430,10 @@ $def['.trans-2'] = 'transition-duration: 2s';
 $def['.trans-20ms'] = 'transition-duration:0.2s';
 $def['.trans-50ms'] = 'transition-duration:0.5s';
 $sides = ['t','r','b','r'];
-foreach(['solid','dashed','double','dotted', 'revert', 'rever-layer', 'rever-rule', 'groove','hidden','inset','none','outset','ridge'] as $s){
+foreach(['solid','dashed','double','dotted', 
+    // 'revert', 'rever-layer',
+    // 'rever-rule', 
+    'groove','hidden','inset','none','outset','ridge'] as $s){
     $def['.br-'.$s] = 'border-style:'.$s.';';
     $def['.br-'.$s.'\:hover:hover'] = 'border-style:'.$s.';';
     foreach($sides as $ts){
@@ -436,3 +443,15 @@ foreach(['solid','dashed','double','dotted', 'revert', 'rever-layer', 'rever-rul
 }
 
 $def['.card\:hover:hover'] = 'background-color:indigo';
+
+// taildwind.css dimension 
+foreach([1,4,8,14, 16,32] as $p){
+    $def['.h-'.($p*4)] = 'height: '.$p.'rem;';
+    $def['.w-'.($p*4)] = 'height: '.$p.'rem;';
+}
+
+foreach([100,75,50,25,0] as $a){
+    $def['.opacity-'.$a] = '--blf-opacity: '.(round($a/100, 2)). ';';
+    $def['.bg-opacity-'.$a] = '--blf-bg-opacity: '.(round($a/100, 2)). ';';
+    $def['.fore-opacity-'.$a] = '--blf-fore-opacity: '.(round($a/100, 2)). ';';
+}

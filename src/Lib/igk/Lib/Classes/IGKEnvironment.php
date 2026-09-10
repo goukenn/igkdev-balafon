@@ -580,7 +580,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     */
     public static function getInstance()
     {
-        if (is_null(self::$sm_instance)) {
+        if (is_null(self::$sm_instance)) { 
             self::$sm_instance = new self();
         }
         return self::$sm_instance;

@@ -43,23 +43,26 @@ class CssAutoClassResolver
                     $tab['screen'] = 1;
                 }
                 unset($tab['def']);
+                $tab['separator'] = $tab[4];
             }
         };
         $theme = '(?:dark|light)';
         $screen = '(?:(?:x)?sm|(?:x(?:x)?)?lg)';
-        $st = '(?P<def>(?:(?:' . $theme . '-?)?' . $screen . '|(?:' . $screen . '-?)?' . $theme . ')-)?';
-        $regex = '/^' . $st . '(?P<prefix>' . self::AUTO_PREFIX_DETECT . ')\\b-(?P<value>.+)$/';
+        $st = '(?P<def>(?:(?:' . $theme . '(-|:)?)?' . $screen . '|(?:' . $screen . '(-|:)?)?' . $theme . ')(-|:))?';
+        $value = '(?P<value>[^:]+)(?P<pseudo>:.+)?';
+        $regex = '/^' . $st . '(?P<prefix>' . self::AUTO_PREFIX_DETECT . ')\\b-' . $value . '$/';
         if (preg_match($regex, $class, $tab)) {
 
             $check_theme($tab, $theme, $screen);
 
             return true;
-        } else if (preg_match('/^' . $st . '(?P<prefix>[a-zA-Z]+[a-z0-9A-Z]*)\\b-(?P<value>.+)$/', $class, $tab)) {
+        } else if (preg_match('/^' . $st . '(?P<prefix>[a-zA-Z]+[a-z0-9A-Z]*)\\b-' . $value . '$/', $class, $tab)) {
             if (method_exists($this, '_visit_' . $tab['prefix'])) {
                 $check_theme($tab, $theme, $screen);
                 return true;
             }
         }
+        // igk_wln_e(__FILE__.":".__LINE__ , preg_last_error_msg());
         return false;
     }
     /**
@@ -99,7 +102,7 @@ class CssAutoClassResolver
     {
         $rf = $this->getColorPal();
         $tv = igk_getv($rf, $value);
-        return json_encode(['::selection',['color' => $tv]]);
+        return json_encode(['::selection', ['color' => $tv]]);
     }
 
     /**
@@ -138,7 +141,7 @@ class CssAutoClassResolver
      */
     protected function _unit_regex_with_negate()
     {
-        return '/(?:m)?(\d+(\.\d+)?)(' . self::UNIT_LENGTH . ')?/';
+        return '/(?:m)?(\d+(?:\.\d+)?)(' . self::UNIT_LENGTH . ')?/';
     }
     /**
      * 
@@ -194,23 +197,23 @@ class CssAutoClassResolver
      * @param bool $negate
      * @return array 
      */
-    private function _parse_side_unit(string $value, bool $negate=false)
+    private function _parse_side_unit(string $value, bool $negate = false)
     {
         $g = explode('-', $value, 2);
         $r = array_fill_keys(['side', 'unit'], null);
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() :  $this->_unit_regex();
         if (count($g) == 1) {
             if (preg_match($v_unit_regex, $g[0], $tab)) {
-                $sb = $negate && ($tab[0][0]=='m')?'-':'';
-                $r['unit'] = $sb.$this->_unitValueFromRegexRegex($tab[1], $tab);
+                $sb = $negate && ($tab[0][0] == 'm') ? '-' : '';
+                $r['unit'] = $sb . $this->_unitValueFromRegexRegex($tab[1], $tab);
             }
         } else {
             if (preg_match('/\\b(t|l|r|b)\\b/', $g[0], $tab)) {
                 $r['side'] = $g[0];
             }
             if (preg_match($v_unit_regex, $g[1], $tab)) {
-                $sb = $negate && ($tab[0]=='m')?'-':'';
-                $r['unit'] = $sb.$this->_unitValueFromRegexRegex($g[1], $tab);
+                $sb = $negate && ($tab[0] == 'm') ? '-' : '';
+                $r['unit'] = $sb . $this->_unitValueFromRegexRegex($g[1], $tab);
             }
         }
         return array_values($r);
@@ -219,7 +222,7 @@ class CssAutoClassResolver
     { // + | margin allow negate value 
         $side = null;
         $v = null;
-        if (preg_match('/^((l|t|b|r)-)?(m)?\\d+(\.\\d+)?$/', $value)) {
+        if (preg_match('/^((l|t|b|r)-)?(m)?\\d+(\.\\d+)?(' . self::UNIT_LENGTH . ')?$/', $value)) {
             list($side, $v) = $this->_parse_side_unit($value, true);
         } else {
             if (count($rc = explode('-', $value)) > 1) {
@@ -262,7 +265,7 @@ class CssAutoClassResolver
     {
         $side = null;
         $v = null;
-        if (preg_match('/^((l|t|b|r)-)?\\d+(\.\\d+)?('.self::UNIT_LENGTH.')?$/', $value)) {
+        if (preg_match('/^((l|t|b|r)-)?\\d+(\.\\d+)?(' . self::UNIT_LENGTH . ')?$/', $value)) {
             list($side, $v) = $this->_parse_side_unit($value);
         } else {
             if (count($rc = explode('-', $value)) > 1) {
@@ -317,28 +320,48 @@ class CssAutoClassResolver
         //     return json_encode(['letter-spacing' => $u]);
         // }
     }
-    protected function _visit_lh(string $value){
+    protected function _visit_lh(string $value)
+    {
         return $this->_set_single_length('line-height', $value);
     }
-    protected function _set_single_length(string $property, string $value, bool $negate = false){
+    protected function _set_single_length(string $property, string $value, bool $negate = false)
+    {
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() : $this->_unit_regex();
         if (preg_match($v_unit_regex, $value, $tab)) {
             $u = $this->_unitValueFromRegexRegex($tab[1], $tab);
-            if ($negate){
-                $u = $this->_sign($tab[0]).$u;
+            if ($negate) {
+                $u = $this->_sign($tab[0]) . $u;
             }
             return json_encode([$property => $u]);
         }
     }
-    protected function _auto_positive_value(array $tab, $negate=false)
+    /**
+     * 
+     * @param string $value 
+     * @param bool $negate 
+     * @return string 
+     */
+    public function _get_unit_length(string $value, $negate = false)
+    {
+        $v_unit_regex = $negate ? $this->_unit_regex_with_negate() : $this->_unit_regex();
+        $u = '';
+        if (preg_match($v_unit_regex, $value, $tab)) {
+            $u = $this->_unitValueFromRegexRegex($tab[1], $tab);
+            if ($negate) {
+                $u = $this->_sign($tab[0]) . $u;
+            }
+        }
+        return $u;
+    }
+    protected function _auto_positive_value(array $tab, $negate = false)
     {
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() :  $this->_unit_regex();
         $r = [];
         while (count($tab) > 0) {
             $q = array_shift($tab);
             if (preg_match($v_unit_regex, $q, $ctab)) {
-                $sb = $negate ? $this->_sign($q[0]): '';
-                $r[] = $sb.$this->_unitValueFromRegexRegex($ctab[1], $ctab);
+                $sb = $negate ? $this->_sign($q[0]) : '';
+                $r[] = $sb . $this->_unitValueFromRegexRegex($ctab[1], $ctab);
             }
         }
         return implode(' ', $r);
@@ -348,7 +371,93 @@ class CssAutoClassResolver
      * @param string $m 
      * @return string 
      */
-    private function _sign(string $m){
-        return $m[0]=='m'?'-':'';
+    private function _sign(string $m)
+    {
+        return $m[0] == 'm' ? '-' : '';
+    }
+
+    public function _visit_sz(string $value)
+    {
+        list($width, $height) = igk_extract(explode('-', $value, 2), '0|1');
+        if (!$height)
+            $height = $width;
+        if ($width) {
+            return json_encode([
+                'width' => $this->_get_unit_length($width),
+                'height' => $this->_get_unit_length($height)
+            ]);
+        }
+    }
+    public function _visit_w(string $value)
+    {
+        return $this->_mark_single_unit('width', $value, false);
+    }
+    protected function _visit_h(string $value)
+    {
+        return $this->_mark_single_unit('height', $value, false);
+    }
+    protected function _visit_fs(string $value)
+    {
+        return $this->_mark_single_unit('font-size', $value, false);
+    }
+    protected function _visit_z(string $value)
+    {
+        return $this->_mark_single('z-index', $value, false);
+    }
+    protected function _visit_opacity(string $value)
+    {
+        if ($g = intval($value)){
+            $value = round($g/100, 2);
+            return $this->_mark_single('opacity', $value, false);
+        }
+    }
+    /**
+     * visit ransition 
+     * @param string $value 
+     * @return string|false 
+     */
+    protected function _visit_transition(string $value)
+    {
+        $value = igk_getv([
+            'colors'=>'color, background-color, border-color, text-decoration-color, fill, stroke',
+        ], $value, $value);
+    
+        return json_encode(['transition-property'=>$value]);
+    
+    }
+    /**
+     * 
+     * @param mixed $property 
+     * @param mixed $value 
+     * @param bool $negate 
+     * @return string|false 
+     */
+    protected function _mark_single(string $property, string $value, $negate = false)
+    {
+        return json_encode([
+            $property => $this->_protect_expression($value) ?? intval($value)
+        ]);
+    }
+
+    /**
+     * 
+     * @param mixed $property 
+     * @param mixed $value 
+     * @param bool $negate 
+     * @return string|false|null 
+     */
+    protected function _mark_single_unit($property, $value, $negate = false)
+    {
+        return json_encode([
+            $property => $this->_protect_expression($value) ?? $this->_get_unit_length($value, $negate)
+        ]);
+    }
+    protected function _protect_expression(string $value)
+    {
+        $vv = null;
+        if (preg_match('/^\[.*\]$/', $value)) {
+            $vv = substr($value, 1, -1);
+        }
+        return $vv;
     }
 }

@@ -20,6 +20,8 @@ require_once IGK_LIB_CLASSES_DIR . "/IGKEnvironmentConstants.php";
 require_once IGK_LIB_CLASSES_DIR . "/IGKEnvironment.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Http/StatusCode.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/IToArray.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Traits/ActivableTrait.php";
+require_once IGK_LIB_CLASSES_DIR.  "/System/Security/Web/HeaderAccessObject.php";
 require_once IGK_LIB_CLASSES_DIR . "/Server.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";  
 require_once IGK_LIB_CLASSES_DIR . "/System/Facades/Facade.php";

@@ -45,4 +45,14 @@ class Project{
         );
         return $projects;
     }
+    /**
+     * check for special script definition 
+     * @param string $script 
+     * @return bool 
+     */
+    public static function IsSpecialRootScript(string $script){
+        $n = igk_io_basenamewithoutext(basename($script));
+        return (bool)preg_match('/\[.+\]/', $n);
+    }
+
 }

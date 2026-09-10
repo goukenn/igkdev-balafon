@@ -5,33 +5,229 @@
 // @ts-nocheck
 (function (q) {
     'use strict';
-    const r = JSON.parse(q.getAttribute('data-colors'));
+    const r = {}; // JSON.parse(q.getAttribute('data-colors'));
+    const at = q.getAttribute('data-colorspace') ?? 'hsl';
     const sc = document.createElement('style');
     const tp = [];
-    for (let i in r) {
-        ['bg-', 'text-'].forEach((element) => {
-            const p = { 'bg-': 'background-color', 'text-': "color" }[element];
-            const v = '{' + p + ':' + r[i] + '}';
-            tp.push('.' + element + i + v);
-            const screens = ['xsm','sm','lg','xlg','xxlg'];
-            ['dark','light'].forEach(theme=>{
-                tp.push('html[data-theme="'+theme+'"] .'+theme+'-' + element + i + v);
-                screens.forEach(sm=>{
-                    tp.push('html[data-theme="'+theme+'"] .'+theme+'-'+sm+'-' + element + i + v);
-                    tp.push('html[data-theme="'+theme+'"] .'+sm+'-'+theme+'-' + element + i + v);
+
+    const active_classes = (function () {
+        const r = {};
+        $igk('*[class]').each_all(function () {
+            let l = this.o.className;
+            if (typeof (l) == 'string')
+                (l).split(' ').forEach(o => {
+                    if (!(o in r)) {
+                        r[o] = 0;
+                    }
+                    r[o]++;
                 });
+        });
+        return r;
+    })();
+    // get class in used 
+    const in_uses = (function () {
+        const def = {};
+        [...document.styleSheets].flatMap(o => {
+            try {
+                return o.rules;
+            }
+            catch {
+                console.log('error');
+                return [];
+            }
+        }).map(rule => {
+            for (let i = 0; i < rule.length; i++) {
+                let r = rule[i].selectorText?.split(',').map(h => {
+                    let p = null;
+                    let regex = /(\.[a-zA-Z]+[a-zA-Z0-9_\-]*)\b/g;
+
+                    while (null !== (p = regex.exec(h))) {
+                        let jh = p[1];
+                        if (!(jh in def)) {
+                            def[jh] = 0;
+                        }
+                        def[jh]++;
+                    }
+                });
+            }
+
+            // rule.type == CSSRule.STYLE_RULE && 
+            // rule.selectorText?.split(',').map(function(r){
+            //     console.log('load : '+r);
+            //     if (!(r in def)){
+            //         def[r]=0;
+            //     }
+            //     def[r]=0;
+            // });
+        });
+        return def;
+    })();
+
+    function _getColor(color){
+        let  [cl, level] =  color.split('-');
+        if(level){
+            let factor = (parseInt(level)/10)+'%';
+            cl = 'color-mix(in '+at+', '+cl+' , black '+factor+')';
+        }
+        return igk.canvas.PickColor(cl);
+    };
+
+
+    function buildCss() {
+        for (let i in r) {
+            _loadColor(tp, r[i]);
+        }
+    };
+    /**
+       * 
+       * @param p property
+       * @param r real color
+       * @param t 
+       * @returns 
+       */
+    function compute_color(p, r, t) {
+        let sp = '';
+        let def = '';
+        if (t){
+            let property = '--blf-' + t + '-opacity';
+            const sp = property + ': 1;';
+            def = 'color(from ' + r + ' srgb r g b / var(--blf-' + t + '-opacity, 1))';
+        }else{
+            def = r;
+        }
+        return '{' + sp + p + ':'+def+';}';
+    };
+    /**
+     * 
+     * @param tp list 
+     * @param color color value
+     * @param i color name 
+     * @param p property name 
+     * @param t custom property definition name 
+     * @param prefix 
+     */
+    function _gen_color(tp, color,i, p, t, prefix) {
+        const v = compute_color(p, color, t);
+
+        tp.push('.' + prefix + i + v);
+        tp.push('.' + prefix + i + '\\:hover:hover' + v);
+        const screens = ['xsm', 'sm', 'lg', 'xlg', 'xxlg'];
+        ['dark', 'light'].forEach(theme => {
+            tp.push('html[data-theme="' + theme + '"] .' + theme + '-' + prefix + i + v);
+            screens.forEach(sm => {
+                tp.push('html[data-theme="' + theme + '"] .' + theme + '-' + sm + '-' + prefix + i + v);
+                tp.push('html[data-theme="' + theme + '"] .' + sm + '-' + theme + '-' + prefix + i + v);
             });
-               screens.forEach(sm=>{
-                   tp.push('.'+sm+' '+sm+'-' + element + i + v);                   
-                });
-            // tp.push('.sm sm-' + element + i + v);
-            // tp.push('.xsm xsm-' + element + i + v);
-            // tp.push('.lg lg-' + element + i + v);
-            // tp.push('.xlg xlg-' + element + i + v);
-            // tp.push('.xxlg xxlg-' + element + i + v);
+        });
+        screens.forEach(sm => {
+            tp.push('.' + sm + ' ' + sm + '-' + prefix + i + v);
         });
     }
+    function _loadColor(tp, color, i, property, prefix) {
+        if (property) {
+            _gen_color(tp, color, i, property, null, prefix);
+        } else {
+            ['bg-', 'text-'].forEach((element) => {
+                const p = { 'bg-': 'background-color', 'text-': "color" }[element];
+                const t = { 'bg-': 'bg', 'text-': 'fore' }[element];
+                _gen_color(tp, color,i,  p, t, element);
+            });
+        }
+    }
+    function getCssColorDefnition(color, property, prefix) {
+        const tp = [];
+        let cl  = color in r ? r[color] : _getColor(color); // calucate color 
+        _loadColor(tp, cl, color, property, prefix);
+        return tp.join('');
+    };
+    const visit = {};
+    function _get_color_from_class(cl) {
+        return cl.split('-').slice(1).join('-').split(':')[0];
+    };
+    igk.appendProperties(visit, {
+        _v_text(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl);
+            return getCssColorDefnition(color);
+        },
+        _v_bg(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl);
+            let g = getCssColorDefnition(color);
+            return g;
+        },
+        _v_stroke(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl);
+            let g = getCssColorDefnition(color, 'stroke');
+            return g;
+        },
+        _v_fill(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl);
+            let g = getCssColorDefnition(color, 'fill');
+            return g;
+        },
+        _v_bc(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl); 
+            let g = getCssColorDefnition(color, 'border-color', 'bc-');
+            return g;
+        },
+        _v_tdc(cl, sc, in_uses) {
+            let color = _get_color_from_class(cl);
+            let g = getCssColorDefnition(color, 'text-decoration-color');
+            return g;
+        }
+    }); 
+    /**
+     * auto inject style definition 
+     * @param {*} style 
+     * @param {string} cl class definition 
+     * @param {*} in_uses in use list  
+     */
+    function _autoInject(style, cl, in_uses) {
+        let theme = '(?:(?<theme>dark|light)(?:-|:))';
+        let media = '(?:(?<device>x?sm|(?:x(?:x)?)?lg)(?:-|:))';
+        let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:-[a-zA-Z_0-9]+)+)(?<pseudo>:\.+)?$');
+        let tx = rx.exec(cl);
+        let v_m = tx ? '_v_' + tx.groups['prefix'] : null;
+        if (v_m in visit) {
+            let cp = (new Function("method", "cl", "style", "in_uses", "return method.apply(this,[cl, style, in_uses])")).apply(null, [
+                visit[v_m], cl, style, in_uses
+            ]);
+            if (cp) {
+                sc.textContent += cp;
+                in_uses['.' + cl] = -1;
+            }
+        }
+    }
     const body = $igk(document.body);
-    sc.textContent = tp.join('');
+    if (tp.length > 0) {
+        sc.textContent = tp.join('');
+    }
+
+    function _checkInUse(o) {
+        let cl = '.' + o;
+        if (!(cl in in_uses)) {
+            //console.error('not in class: ' + cl);
+            _autoInject(sc, o, in_uses);
+        }
+    };
+
+    let m = new MutationObserver(function (mutation) {
+        mutation.map((i) => {
+            if ((i.type == 'attributes') && (i.attributeName == 'class')) {
+                let l = i.target.className;
+                if (typeof (l) == 'string') {
+                    l.split(' ').forEach(o => {
+                        _checkInUse(o);
+                    });
+                }
+            }
+        });
+    });
+    m.observe(document.body, { attributes: true, childList: true, subtree: true });
     body.o.appendChild(sc);
+
+    Object.keys(active_classes).forEach((o) => {
+        _checkInUse(o);
+    });
+
+
 })(this);

@@ -138,11 +138,11 @@ abstract class ConsoleUtility
     /**
      * bind files 
      * @param mixed $command 
-     * @param mixed $bind 
+     * @param array $bind 
      * @param bool $is_force 
      * @return bool
      */
-    public static function MakeBindFiles($command, $bind, $is_force = false): bool
+    public static function MakeBindFiles($command, array $bind, $is_force = false): bool
     {
         $gen = false;
         foreach ($bind as $n => $c) {

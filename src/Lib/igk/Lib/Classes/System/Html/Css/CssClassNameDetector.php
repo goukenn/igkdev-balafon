@@ -5,6 +5,7 @@
 namespace IGK\System\Html\Css;
 
 use IGK\Css\CssSupport;
+use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
 
 /**
@@ -73,6 +74,12 @@ class CssClassNameDetector
      * @var ?string
      */
     private $m_media;
+
+    /**
+     * flag loading reference 
+     * @var bool
+     */
+    private $m_is_loading_reference;
     /**
      * .ctr
      */
@@ -82,6 +89,7 @@ class CssClassNameDetector
         $this->m_references = [];
         $this->m_frames = [];
         $this->m_media = null;
+        $this->m_is_loading_reference = false;
     }
     /**
      * retrieve frames 
@@ -122,9 +130,9 @@ class CssClassNameDetector
      */
     public function renderToCss(array $resolv_definition, $option = null)
     {
-        $option = $option ?? (object)[
+        $option = Activator::CreateNewInstance(CssClassBufferOptions::class, $option ?? (object)[
             'lf' => "\n",
-        ];
+        ]);
         $_tout = null;
         $option->frames = [];
         $option->medias = [];
@@ -170,12 +178,12 @@ class CssClassNameDetector
     /**
      * auto generate doc.
      * @param mixed $d
-     * @param mixed $c
+     * @param string $key detected keys 
      * @param mixed $option
      * @param static $detector
      * @return string
      */
-    static function _RenderList($d, $c, $option, $detector)
+    static function _RenderList($d, $key, $option, $detector)
     {
         $lf = $option->lf;
         if (is_object($d)) {
@@ -184,17 +192,17 @@ class CssClassNameDetector
         $v = '';
         $detector->_detectRerenderAnimationName($d, $option->frames);
         if (is_array($d)) {     
-            $num = array_filter($d)   ;
+            $num = array_filter($d);
             if (count($num) != count($d)){
-                igk_wln_e("failed :::: ", $d);
-            }
-        
+               // igk_wln_e("failed :::: ", $d, $num);
+               $d = $num;
+            }        
             $bc = implode(";", array_filter(array_map([self::class, "_join_css_tab"], $d, array_keys($d))));
             if ($bc) {
-                $v = $c . "{" . $lf . $bc . ";" . $lf . "}";
+                $v = $key . "{" . $lf . $bc . ";" . $lf . "}";
             }
         } else {
-            $v =  $c . ": " . $d . ";";
+            $v =  $key . ": " . $d . ";";
         }
         return $v;
     }
@@ -256,8 +264,12 @@ class CssClassNameDetector
         if (!is_null($references)) {
             unset($references[$v_c_mkey]);
         }
+        $this->m_is_loading_reference = true;
         while (count($data) > 0) {
             $q = array_shift($data);
+            if (empty($q) || is_numeric($q)){                
+                continue;
+            }
             if ($tc = $this->getReference($q)) {
                 if (isset($tc[$v_c_mkey])) {
                     $cl = $tc[$v_c_mkey];
@@ -276,6 +288,7 @@ class CssClassNameDetector
         }
         $ld = array_merge(array_merge(...$ld), $merge_medias ? [$v_c_mkey => $merge_medias] : []);
         $references = array_merge($references ? $references : [], $ld);
+        $this->m_is_loading_reference = false;
         return $ld;
     }
     /**
@@ -285,6 +298,9 @@ class CssClassNameDetector
      */
     public function getReferencedByIndex(int $index)
     {
+        if ($this->m_is_loading_reference){
+            $this->m_mapped = null;
+        }
         // if (empty($this->m_mapped) || (count($this->m_references) != $this->m_mapped)){
         //     $this->m_mapped = [array_values($this->m_references), array_keys($this->m_references)];
         // }
@@ -328,13 +344,14 @@ class CssClassNameDetector
     }
     /**
      * 
-     * @param mixed $tab 
+     * @param array $tab 
      * @return void 
      */
     protected function _loadResolverDefinition($tab)
     {
 
-        list($prefix, $value, $screen, $theme) = igk_extract($tab, 'prefix|value|screen|theme');
+        list($prefix, $value, $screen, $theme, $separator, $pseudo) = 
+        igk_extract($tab, 'prefix|value|screen|theme|separator|pseudo');
         $code = $this->m_auto_prefixResolver->resolveCode($prefix, $value, [
             'colorspace'=>$this->colorspaces
         ]);
@@ -344,7 +361,7 @@ class CssClassNameDetector
         $mt = null;
         $inject_base = false;
         if ($code[0]=='[')
-        {
+        { // + | speudo item detection
             $tcode = json_decode($code);
             $mt = $prefix.'-'.$value.$tcode[0];
             $code = json_encode($tcode[1]);
@@ -354,12 +371,21 @@ class CssClassNameDetector
         /// ?? igk_die("value can't be resolved - for ".$prefix.'-'.$value);
 
         $id = $this->_identifyCodeReference($code);
+        $sep = $separator;
         $mt = $mt ?? $prefix . "-" . $value;
         $v_tref = [$mt];
+        if ($sep===':'){
+            $tab[0] = str_replace(':', '\\:', $tab[0]);
+            $sep = '\\:';
+        }
+
         if ($tab[0] !== $mt) {
             $v_tref[] = $tab[0];
         }
         $t = '';
+        if ($pseudo){
+            $value .= $pseudo;
+        }
         while (count($v_tref) > 0) {
             $mt = array_shift($v_tref); 
             $t = '.' . $mt;
@@ -375,14 +401,14 @@ class CssClassNameDetector
                 $this->_registerReference('.xxlg .xxlg-' . $prefix . "-" . $value, $t, $code, $id);
             }
             if ($theme) {
-                $this->_registerReference('html[data-theme="dark"] .dark-' . $prefix . "-" . $value, $t, $code, $id);
-                $this->_registerReference('html[data-theme="light"] .light-' . $prefix . "-" . $value, $t, $code, $id);
+                $this->_registerReference('html[data-theme="dark"] .dark'.$sep . $prefix . "-" . $value, $t, $code, $id);
+                $this->_registerReference('html[data-theme="light"] .light'.$sep . $prefix . "-" . $value, $t, $code, $id);
             }
             if ($theme && $screen){
                 foreach(['dark','light'] as $theme){
                     foreach(['xsm','sm','lg','xlg','xxlg'] as $sm){
-                        $this->_registerReference('html[data-theme="'.$theme.'"] .'.$sm.' .'.$theme.'-'.$sm.'-' . $prefix . "-" . $value, $t, $code, $id);
-                        $this->_registerReference('html[data-theme="'.$theme.'"] .'.$sm.' .'.$sm.'-'.$theme.'-' . $prefix . "-" . $value, $t, $code, $id);
+                        $this->_registerReference('html[data-theme="'.$theme.'"] .'.$sm.' .'.$theme.$sep.$sm.'-' . $prefix . "-" . $value, $t, $code, $id);
+                        $this->_registerReference('html[data-theme="'.$theme.'"] .'.$sm.' .'.$sm.$sep.$theme.'-' . $prefix . "-" . $value, $t, $code, $id);
                     }
                 }
             }
@@ -396,6 +422,11 @@ class CssClassNameDetector
     public function getReference(string $sourcekey)
     {
         // auto source key 
+        if (empty($sourcekey)){
+            igk_trace();
+            //igk_die('source key is empty');
+            igk_wln_e('what happend', $sourcekey);
+        }
         $v_autoResolver = $this->getAutoPrefixResolver();
         $tab = [];
         if ($v_autoResolver && !isset($this->list['.' . $sourcekey]) && $v_autoResolver->detect($sourcekey, $tab) ) {
@@ -404,7 +435,7 @@ class CssClassNameDetector
 
 
         if ($sourcekey[0] != '.') {
-            $sourcekey = '.' . $sourcekey;
+            $sourcekey = str_replace(':', '\\:', '.' . $sourcekey);
         }
         if (($r = igk_getv($this->list, $sourcekey)) instanceof CssItemInfo) {
             $t = [];
@@ -545,7 +576,8 @@ class CssClassNameDetector
         $_media = $detector->m_media;
 
         if (false !== strpos($n, ':')) {
-            $n = explode(':', $n, 2)[0];
+            $n = CssParser::ReadClassName($n);
+            //$n = explode(':', $n, 2)[0];
         }
         $id = $n;
         if (!isset($detector->list[$id])) {

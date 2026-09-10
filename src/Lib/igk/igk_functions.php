@@ -2053,14 +2053,15 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
         igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
         igk_exit();
     }
-    $is_ref_cache = false;
+   // $is_ref_cache = false;
     if ($ctrl = igk_getr("c")) {
-        $ctrl = igk_getctrl(base64_decode($ctrl), false) ??
-            igk_getctrl($ctrl);
+        $ctrl = igk_getctrl(base64_decode($ctrl), false) ?? igk_getctrl($ctrl);
     }
     IGKOb::CleanAndStart();
     $defctrl = igk_get_defaultwebpagectrl();
     $ref = igk_server()->HTTP_REFERER;
+    $v_app = igk_app();
+    $v_conf = igk_configs();
     // + | ---------------------------------------------------------------------
     // + | when the dev tool is open the request may not send the HTTP_REFERER . 
     // + | check in session that the there was an previews request http_referer 
@@ -2068,32 +2069,32 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     // + | -
     // + | -
     if (!$ref) {
-        $ref = igk_app()->session->referer;
+        $ref = $v_app->session->referer;
     } else {
-        igk_app()->session->referer = $ref;
+        $v_app->session->referer = $ref;
     }
     if (!igk_environment()->no_web_configuration()) {
         $cnfPath = igk_io_baseuri() . "/" . IGK_CONF_FOLDER;
         $in_conf_page = $ref && StringUtility::UriStart($ref, $cnfPath);
         if (igk_is_cmd() && $ref && $in_conf_page) {
-            igk_app()->settings->appInfo->store('config', 1);
+            $v_app->settings->appInfo->store('config', 1);
         }
         // + | --------------------------------------------------
         // + | reset config mode
         if (
-            $ref && igk_app()->settings->appInfo->config &&
+            $ref && $v_app->settings->appInfo->config &&
             !$in_conf_page
         ) {
-            igk_app()->settings->appInfo->store("config", null);
+            $v_app->settings->appInfo->store("config", null);
         }
         // + | --------------------------------------------------
         // + | priority to config controller
         if (
-            igk_app()->settings->appInfo->config &&
+            $v_app->settings->appInfo->config &&
             (empty($ref) || $in_conf_page)
         ) {
             $ctrl = $defctrl;
-            $doc = igk_app()->getDoc();
+            $doc = $v_app->getDoc();
         }
     }
     if (!$ctrl) {
@@ -2103,13 +2104,14 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     }
     if (!$ctrl && $ref) {
         igk_set_session_redirection($ref);
-        if (igk_environment()->isOPS() && igk_configs()->allow_page_cache) {
+        if (igk_environment()->isOPS() && $v_conf->allow_page_cache) {
             $buri = rtrim(igk_io_baseuri(), "/");
             $ref = rtrim($ref, "/");
             $luri = null;
             if (strpos($ref, $buri) === 0) {
                 $luri = $buri . igk_getv(parse_url($ref), "path", "/");
-                $is_ref_cache = igk_configs()->allow_page_cache &&  IGKCaches::IsCachedUri($luri);
+                // $is_ref_cache = 
+                $v_conf->allow_page_cache &&  IGKCaches::IsCachedUri($luri);
             }
         }
         if (!$ctrl) {
@@ -2120,10 +2122,10 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
         if ($ctrl) {
             $doc = $ctrl->getCurrentDoc();
         } else {
-            $doc = igk_get_last_rendered_document() ?? igk_app()->getDoc();
+            $doc = igk_get_last_rendered_document() ?? $v_app->getDoc();
             $ctrl = $defctrl;
         }
-        $doc_id = igk_app()->settings->CurrentDocumentIndex;
+        $doc_id = $v_app->settings->CurrentDocumentIndex;
     }
     $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
     $renderer->ctrl = $ctrl;
@@ -2131,7 +2133,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     $renderer->doc_id = $doc_id;
     $renderer->theme = $doc->getTheme();
     ($m = $renderer->output()) || igk_die('missing balafon css output');
-    if ($m  && (igk_environment()->isOPS() && igk_configs()->auto_cache_css)) {
+    if ($m  && (igk_environment()->isOPS() && $v_conf->auto_cache_css)) {
         if ($referer = igk_server()->HTTP_REFERER) {
             // + | CACHE CSS RENDERING
             $m->cache = false;
@@ -2638,12 +2640,15 @@ function igk_css_get_resolv_style($propname, $value)
 }
 /**
  * auto generate doc.
- * @param mixed $propnameValue
- * @return mixed
+ * @param string $propnameValue
+ * @return string
  */
 function igk_css_get_resolv_stylei($propnameValue)
 {
     $propnameValue = igk_str_rm_last(trim($propnameValue), ";");
+    if (in_array(explode(':', $propnameValue, 2)[0], explode('|','box-shadow'))){
+        return "-webkit-{$propnameValue}; -ms-{$propnameValue}; -o-{$propnameValue}; {$propnameValue};";
+    }
     return "-webkit-{$propnameValue}; -ms-{$propnameValue}; -moz-{$propnameValue}; -o-{$propnameValue}; {$propnameValue};";
 }
 /**
@@ -3565,7 +3570,11 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
             }
             $g = igk_css_invoke_color_request($q);
             if (!$g) {
+                if ($q == 'transparent'){
+                    return $q;
+                }
                 igk_set_env_keys("sys://theme/colorrecursion", $q, $q);
+                igk_wln_e(__FILE__.":".__LINE__ , ' for initial definition reclusion ', $q);
                 return 'initial';
             }
             return $g;
@@ -13942,7 +13951,7 @@ function igk_io_ctrl_db_dir($ctrl)
  */
 function igk_io_ctrl_handle_uri($ctrl, $u, $fc)
 {
-    if (igk_app()->getControllerManager()->InvokeUri()) {
+    if (igk_app()->getControllerManager()->invokeUri()) {
         igk_exit();
     }
     $p = "";
@@ -14634,13 +14643,21 @@ function igk_io_invoke_uri($uri, $render = 1)
         }
         igk_pop_env($k);
     } else {
-        $app->getControllerManager()->InvokeUri($uri);
-        if (!$actionctrl->handle_redirection_uri($actionctrl, $page, $params, 1, $render)) {
+        $manager = $app->getControllerManager();
+        $manager->invokeUri($uri);
+        $bck = $_REQUEST;
+        $tab = [];
+        if ($params){
+            parse_str($params, $tab);
+        }
+        $_GET = $_REQUEST = $tab;
+        if (!$actionctrl->handle_redirection_uri($page, $params, 1, $render)) {
             $defctrl = igk_get_defaultwebpagectrl();
             if ($defctrl && method_exists($defctrl, "handle_redirection_uri")) {
                 $defctrl->handle_redirection_uri($page);
             }
         }
+        $_GET = $_REQUEST = $bck;
     }
     igk_set_env("sys://no_render", null);
     igk_set_env("sys://io_invoke_uri", 0);
@@ -17072,7 +17089,7 @@ function igk_nav_session()
  * @return mixed
  */
 function igk_navto(string $uri, ?int $headerStatus = null)
-{
+{  
     if (!igk_is_webapp()) {
         return;
     }
@@ -22854,7 +22871,7 @@ function igk_sys_invoke_reg_uri($uri, $u, $callback)
  */
 function igk_sys_invoke_uri($uri = null)
 {
-    igk_app()->getControllerManager()->InvokeUri($uri);
+    igk_app()->getControllerManager()->invokeUri($uri);
 }
 /**
  * get if action registrated

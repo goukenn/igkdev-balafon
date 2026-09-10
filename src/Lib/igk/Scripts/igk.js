@@ -1740,8 +1740,9 @@ Name:balafon.js
         }
         m_scriptNode = n;
         igk.evaluating = !0;
+        const _n = this || window;
         //try {
-        (new Function(s)).apply(window, [m_scriptNode]);
+        (new Function(s)).apply(_n, [m_scriptNode]);
         m_scriptNode = null;
         igk.evaluating = false;
     }
@@ -5057,11 +5058,6 @@ Name:balafon.js
         });
     };
     // extend properties
-    // _base['fill'] = Object.getOwnPropertyDescriptor(this,'fill');
-    // igk.defineProperty(this, 'fill',  {get:function(){ return _base['fill'].get.apply(_q); }, set: function(v){
-    // if (!_ri)
-    // _base['fill'].set(v);
-    // }});
     function igk_extendProperty(o, n, p) {
         if (!o)
             return !1;
@@ -10560,9 +10556,10 @@ Name:balafon.js
                         if (n.tagName && n.tagName.toLowerCase() == "script") {
                             var pn = n.parentNode ? n.parentNode : igk.dom.body().o;
                             try {
-                                var v_script = $igk(n).getHtml();
+                                const _n = $igk(n);
+                                var v_script = _n.getHtml();
                                 if (igk_str_trim(v_script).length > 0) {
-                                    igk.evalScript(v_script, pn, n);
+                                   igk.evalScript.apply(_n, [v_script, pn, n]);
                                 }
                                 // remove useless
                                 if (n.getAttribute("autoremove"))
@@ -10809,7 +10806,7 @@ Name:balafon.js
                             return 0;
                         }
                     });
-                    ajx.setResponseMethod(__ajx_initfunc(func)); // || igk.ajx.fn.replace_or_append_to_body);
+                    ajx.setResponseMethod(__ajx_initfunc(func)); 
                     ajx.xhr.open("POST", uri, async);
                     ajx.xhr.setRequestHeader("Content-Type", "text/plain");
                     igk.ajx.setHeader(ajx.xhr);
@@ -11662,20 +11659,23 @@ Name:balafon.js
                                     p = 1;
                                 }
                                 if (p == 0)
-                                    t.appendChild(c);
+                                    t.appendChild(c); 
                                 igk.ajx.fn.initnode(c);
                                 i--;
                                 vo.push(c);
                             }
-                            // return vo;
+                        } else{
+                            console.log('not event ... ');                            
                         }
                         igk.publisher.publish(igk.evts.dom[2], { target: t, src: xhr.responseText });
                     }
                 };
             },
-            replace_or_append_to_body: function (xhr) {
-                // replace_or_append_to_body
-                // console.debug("start data");
+            
+            /**
+             * 
+             * */
+            replace_or_append_to_body: function (xhr) {                 
                 if (this.isReady()) {
                     // get body only content
                     // console.debug("start data is ready : "+xhr.responseText); 
@@ -11700,7 +11700,7 @@ Name:balafon.js
                     var q = $igk(c);
                     var st = q.getAttribute("target");
                     var h = q.getAttribute("hash");
-                    // alert("dkdk : "+st);
+                    
                     if (st) {
                         var t = $igk(st).first();
                         if (t) {

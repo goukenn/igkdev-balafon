@@ -779,7 +779,7 @@ if (!function_exists("igk_html_node_app_hearder_bar")) {
 	function igk_html_node_app_hearder_bar(BaseController $controller)
 	{
 		$n = igk_create_node("div");
-		$n["class"] = "igk-app-header-bar displfex pad-4";
+		$n["class"] = "igk-app-header-bar dispflex pad-4";
 		$n->h1()->Content = $controller::title();
 		return $n;
 	}
@@ -5138,8 +5138,7 @@ if (!function_exists("igk_html_node_togglethemebutton")) {
 	function igk_html_node_togglethemebutton(?string $tag = null)
 	{
 		$c = igk_create_node($tag ?? 'div');
-		$c['class'] = 'igk-winui-toggle-theme-button';
-		$c->on('click', 'igk.css.changeDocumentTheme()');
+		$c['class'] = 'igk-winui-toggle-theme-button igk-winui-toggle-theme';
 		return $c;
 	}
 }

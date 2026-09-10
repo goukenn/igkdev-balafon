@@ -21,6 +21,7 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
+use IGKEvents;
 
 /**
  * manage controller between session
@@ -227,11 +228,11 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
     /**
     * use to invoke system controller method
-    * @param mixed $uri
+    * @param mixed|string $uri
     * @param mixed $defaultBehaviour
     * @param mixed $pattern
     */
-    public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
+    public function invokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         $c = null;
         $f = null;
@@ -363,7 +364,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
      */
     public function InvokePattern($pattern)
     {
-        return $this->InvokeUri($pattern->value, 1, $pattern);
+        return $this->invokeUri($pattern->value, 1, $pattern);
     }
     /**
     * auto generate doc.
@@ -410,5 +411,16 @@ class ApplicationControllerManager implements IApplicationControllerManager
             }
         }
         return null;
+    } 
+
+    /**
+     * the controller that will request 
+     * @param BaseController $ctrl 
+     * @return array 
+     */
+    public function filterAppDashboard(BaseController $ctrl){
+        $filter = new AppDashboardCollection;
+        igk_hook(IGKEvents::FILTER_DASH_APP, ['filter'=>$filter, 'ctrl'=>$ctrl]);
+        return $filter->to_array();
     }
 }

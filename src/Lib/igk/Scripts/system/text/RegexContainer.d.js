@@ -1,7 +1,7 @@
 'use strict';
 // common js for regex definition 
 (function () {
-    // console.log('2 - load container');
+    // + | igk.system.text.RegexContainer.d load container;
     const BEGIN_END = 'begin/end';
     const BEGIN_WHILE = 'begin/while';
     const MATCH = 'match';

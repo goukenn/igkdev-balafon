@@ -9,6 +9,7 @@ use Exception;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGK\System\IO\FileSystem;
@@ -17,6 +18,7 @@ use IGK\System\Views\ViewCommentArgs;
 use IGK\System\WinUI\IViewLayout;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKException;
+use IGKHtmlDoc;
 use ReflectionException;
 use function igk_resources_gets as __;
 
@@ -324,5 +326,17 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
                 }
             }, $list);
         }
+    }
+
+    /**
+     * 
+     * @param IGKHtmlDoc $doc 
+     * @param HtmlNode $t 
+     * @return void 
+     */
+    public function attachScrollTo($doc, $t){
+        $box = $doc->body->bodybox();
+        $box['class'] = '-igk-parentscroll -igk-powered-viewer -overflow-y-a';
+        $t['class'] = '+overflow-a igk-parentscroll igk-powered-viewer overflow-y-a';
     }
 }

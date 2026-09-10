@@ -10,6 +10,9 @@ use IGK\System\Configuration\ProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\Constants;
+use IGK\System\Console\AppCommand;
+use IGK\System\Console\BalafonCommand;
+use IGK\System\Console\Commands\Projects\BuildCssCommand;
 
 /**
 * Helper to project build
@@ -89,7 +92,7 @@ class ProjectBuilder{
             IO::CleanDir($c);
         } 
         $cnf = $this->configFile ?? Constants::PROJECT_CONF_FILE;
-        if (igk_io_file_exists($config_file = Path::Combine($install_dir, $cnf))){
+        if (file_exists($config_file = Path::Combine($install_dir, $cnf))){
             if ($data = json_decode(file_get_contents($config_file))){
                 $cl = $this->getSettingValidationDataClass();                
                 if ($cl && ($setting = $cl::ValidateData($data))){
@@ -105,6 +108,9 @@ class ProjectBuilder{
     * @param mixed $e
     */
     public function afterBuild($e){
+        $build_css = new BuildCssCommand;
+        $ctrl = $e->args['ctrl']->getName();
+        BalafonCommand::Exec('--project:build-css '.$ctrl);
     }
     /**
     * Returns Setting Validation Data Class.
