@@ -42,7 +42,7 @@ class CSVHelper
     * @param string $src source to treat
     * @param string $delimiter string delimiter
     * @param mixed & $last_segment
-    * @param mixed $last_segment will contain last invalid segment
+    * @param ?callable $callback
     * @param ?int $flags
     * @return array
     */

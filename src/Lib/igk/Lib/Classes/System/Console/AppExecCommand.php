@@ -144,7 +144,6 @@ abstract class AppExecCommand extends AppCommand{
             return null;
         }
         $ctrl =  \IGK\Helper\SysUtils::GetControllerByName($controller, $throwex);
-       
         $ctrl && $autoregister && $ctrl->register_autoload();
         return $ctrl;
     }
@@ -186,5 +185,4 @@ abstract class AppExecCommand extends AppCommand{
 		$ctrl = $ctrl ?? ($fall_to_sys? SysDbController::ctrl() : null);
         return $ctrl;
     }
-   
 }

@@ -23,7 +23,7 @@ class BoolValidator extends FormFieldValidatorBase implements IFormValidator{
     * @param mixed $value The value to validate.
     * @param mixed $default The default value if validation fails.
     * @param array & $error
-    * @param array $error Reference to an array collecting errors.
+    * @param ?object $options
     * @return bool
     */
     protected function _validate($value, $default, array &$error, ?object $options = null) {

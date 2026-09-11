@@ -5,22 +5,30 @@
 namespace IGK\System\Database\MySQL;
 
 use IGK\Database\DbExpression;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\System\Database\MySQL
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Database\MySQL
+*/
 class MySQLDbExpression extends DbExpression{
+    /**
+    * .ctr
+    * @param null|mixed $value
+    * @return void
+    */
     public function __construct($value = null)
     {
         return parent::__construct($value);
     }
     /**
-     * 
-     * @param mixed $driver 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $driver
+    * @return bool
+    */
     public function isAvailable($driver):bool{
         return $driver->getName() == IGK_MYSQL_DATAADAPTER;
     }

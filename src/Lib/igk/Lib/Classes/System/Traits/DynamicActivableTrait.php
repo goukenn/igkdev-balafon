@@ -19,6 +19,11 @@ use IGKException;
 * @package IGK\System\Traits
 */
 trait DynamicActivableTrait{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_reflist;
     /**
     * Property: data.

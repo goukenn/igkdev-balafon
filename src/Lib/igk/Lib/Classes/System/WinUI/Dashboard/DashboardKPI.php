@@ -27,14 +27,14 @@ class DashboardKPI{
      */
     var $key;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $sub;
     /**
      * ion that will identifier the kpi 
@@ -42,9 +42,9 @@ class DashboardKPI{
      */
     var $icon;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $order;
 
     /**

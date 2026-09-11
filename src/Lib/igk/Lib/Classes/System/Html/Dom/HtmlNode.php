@@ -628,8 +628,10 @@ class HtmlNode extends HtmlItemBase
         HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 
         return $this->_add($n); 
     }
-
-
+    /**
+    * Called when an object is used as a function.
+    * @return void
+    */
     public function __invoke()
     {
         $t = $args = func_get_args();

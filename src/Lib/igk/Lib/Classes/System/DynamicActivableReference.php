@@ -13,6 +13,11 @@ namespace IGK\System;
 * @package IGK\System
 */
 class DynamicActivableReference{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_reference;
     /**
     * auto generate doc.

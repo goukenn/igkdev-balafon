@@ -1118,6 +1118,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     }
     /**
     * auto generate doc.
+    * @param string $name
     */
     public function getStyleAttributes(string $name){
         return igk_getv($this->m_classStyles, $name);
@@ -1310,8 +1311,6 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $li->text($v);
         $this->m_li_item = $li;
     }
-
-   
     /**
      * will end state 
      * @param string $targetState 
@@ -2030,7 +2029,6 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         return $q;
     }
-            
     /**
      * closing a sublist 
      * @return mixed

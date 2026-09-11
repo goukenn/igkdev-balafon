@@ -13,6 +13,11 @@ namespace IGK\System\Data;
 * @package IGK\System\Data
 */
 abstract class Resources{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const CPANEL_LOGIN = 'cpanel_login';
     /**
     * auto generate doc.

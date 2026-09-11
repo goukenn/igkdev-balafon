@@ -23,7 +23,10 @@ class ModelBaseInjector implements IInjector{
      * @var ?string
      */
     private $m_column;
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function column(){
         return $this->m_column;
     }
@@ -81,11 +84,11 @@ class ModelBaseInjector implements IInjector{
         return null;
     }
     /**
-     * 
-     * @param ?callable $cache_listener 
-     * @param string $column 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ?callable $cache_listener
+    * @param string $column
+    * @return void
+    */
     public static function ChangeColumn($cache_listener, string $column){
 
         if ($cache_listener){

@@ -404,16 +404,16 @@ class SQLGrammar implements IDbQueryGrammar
         return $this->m_driver->remove_foreign($table, $column);
     }
     /**
-     * create table query
-     * @param string $tablename
-     * @param mixed $tbname
-     * @param mixed $desc_or_options
-     * @param mixed $options
-     * @param ?string $prefix
-     * @param ?array $extra
-     * @throws IGKException
-     * @return string
-     */
+    * create table query
+    * @param string $tablename
+    * @param array $columninfo
+    * @param mixed $tbname
+    * @param mixed $desc_or_options
+    * @param mixed $options
+    * @param ?array $extra
+    * @throws IGKException
+    * @return string
+    */
     public function createTablequery(string $tablename, array $columninfo, $desc_or_options = null, $options = null, ?string $prefix = null, ?array $extra = null)
     {
         $desc = '';
@@ -431,7 +431,6 @@ class SQLGrammar implements IDbQueryGrammar
         }
         $driver = $this->m_driver;
         $charset = $charset ?? $driver->charset;
-        
         $query = '';
         $query .= $this->m_driver->escape_table_name($tablename);
         $query .= "(";
@@ -712,6 +711,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return implode(',', $g);
     }
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @param mixed $columinfos
+    * @param mixed $prefix
+    * @return void
+    */
     private function _getExpression($data, $columinfos, $prefix)
     {
         $exp = strtoupper(igk_getv($data, 'type', 'IF'));
@@ -726,12 +732,12 @@ class SQLGrammar implements IDbQueryGrammar
         return $exp;
     }
     /**
-     * 
-     * @param mixed $info 
-     * @param mixed $columinfos 
-     * @param mixed $prefix 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $info
+    * @param mixed $columinfos
+    * @param mixed $prefix
+    * @return string
+    */
     public function getStorageDefinition($info, $columinfos, $prefix): string
     {
         $q = '';
@@ -742,6 +748,13 @@ class SQLGrammar implements IDbQueryGrammar
         $q .= $stored ? ' STORED ' : ' VIRTUAL ';
         return $q;
     }
+    /**
+    * auto generate doc.
+    * @param mixed $info
+    * @param mixed $columinfos
+    * @param mixed $prefix
+    * @return void
+    */
     public function getStorageAlterColumnDefinition($info, $columinfos, $prefix)
     {
         $q = 'AS ';
@@ -1048,12 +1061,13 @@ class SQLGrammar implements IDbQueryGrammar
         return in_array($s, ['int', 'float', 'decimal']);
     }
     /**
-     * get grammar column definition
-     * @param mixed|IDbColumnInfo $v 
-     * @param bool $nocomment 
-     * @return string 
-     * @throws IGKException 
-     */
+    * get grammar column definition
+    * @param mixed|IDbColumnInfo $v
+    * @param string $table
+    * @param bool $nocomment
+    * @throws IGKException
+    * @return string
+    */
     public function getColumnInfo($v, string $table, bool $nocomment = false): string
     {
         $adapter  = $this->m_driver;
@@ -1537,15 +1551,15 @@ class SQLGrammar implements IDbQueryGrammar
         return false;
     }
     /**
-     * get update array values
-     * @param mixed $driver
-     * @param mixed $values
-     * @param mixed & $tableInfo
-     * @param mixed $tableInfo
-     * @param ?bool $filter
-     * @throws IGKException
-     * @return mixed
-     */
+    * get update array values
+    * @param mixed $driver
+    * @param mixed $values
+    * @param mixed & $tableInfo
+    * @param mixed $update
+    * @param ?bool $filter
+    * @throws IGKException
+    * @return mixed
+    */
     protected static function GetValues($driver, $values, &$tableInfo, $update = 0, ?bool $filter = null)
     {
         $tvalues = new stdClass();
@@ -1838,17 +1852,16 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $query;
     }
-
     /**
-     * 
-     * @param string $k key expression
-     * @param mixed $v value
-     * @param mixed $op operator 
-     * @param mixed $c operator 
-     * @param mixed $c_exp expression 
-     * @param mixed $adapter 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $k key expression
+    * @param mixed $v value
+    * @param mixed $op operator
+    * @param mixed $c operator
+    * @param mixed $c_exp expression
+    * @param mixed $adapter
+    * @return string
+    */
     private static function _BuildConditionExpression($k, $v, $op, $c, $c_exp, $adapter)
     {
         $query = '';
@@ -1871,11 +1884,11 @@ class SQLGrammar implements IDbQueryGrammar
         return $lkey . $query;
     }
     /**
-     * 
-     * @param array $value 
-     * @param mixed $ad 
-     * @return mixed[] 
-     */
+    * auto generate doc.
+    * @param array $value
+    * @param mixed $ad
+    * @return mixed[]
+    */
     public static function MapInValueData(array $value, $ad)
     {
         $tc = [];
@@ -2185,6 +2198,12 @@ class SQLGrammar implements IDbQueryGrammar
         $query = trim($query);
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }
+    /**
+    * auto generate doc.
+    * @param mixed $vv
+    * @param mixed $v_cond
+    * @return void
+    */
     protected function builderJoinArrayConditionFrom($vv, $v_cond)
     {
         if (is_array($v_cond) && (count($v_cond) == 2)) {
@@ -2197,6 +2216,13 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
     }
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    * @param mixed $vv
+    * @param mixed $v_cond
+    * @return void
+    */
     public static function QueryBuilderJoinArrayCondition($ad, $vv, $v_cond)
     {
         $s = $ad->getGrammar()->builderJoinArrayConditionFrom($vv, $v_cond);
@@ -2204,10 +2230,10 @@ class SQLGrammar implements IDbQueryGrammar
         return $s;
     }
     /**
-     * 
-     * @param int $offset 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param int $offset
+    * @return string
+    */
     protected static function _BuildSkip(int $offset)
     {
         return sprintf(" OFFSET %s", $offset);
@@ -2348,34 +2374,32 @@ class SQLGrammar implements IDbQueryGrammar
         igk_die("invalid join operator search:" . $type);
         return '';
     }
-
     /**
-     * 
-     * @param string $column 
-     * @param string $column2 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $column
+    * @param string $column2
+    * @return string
+    */
     public function joinOnEqual(string $column, string $column2): ?string
     {
         return sprintf('%s=%s', $this->escape_string($column), $this->escape_string($column2));
     }
     /**
-     * 
-     * @param string $v 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $v
+    * @return string
+    */
     private function escape_string(string $v)
     {
         return $this->m_driver->escape_string($v);
     }
-
     /**
-     * 
-     * @param mixed $driver 
-     * @param string $field 
-     * @param array $cond 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $driver
+    * @param string $field
+    * @param array $cond
+    * @return string
+    */
     public static function GetFieldConditionString($driver, string $field, array $cond)
     {
         $sb = '';
@@ -2409,23 +2433,23 @@ class SQLGrammar implements IDbQueryGrammar
 
     }
     /**
-     * 
-     * @param string $op 
-     * @param mixed $driver 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $op
+    * @param mixed $driver
+    * @return string
+    */
     public static function Op(string $op, $driver)
     {
 
         return $op;
     }
     /**
-     * 
-     * @param string $op 
-     * @param mixed $value 
-     * @param mixed $driver 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $op
+    * @param mixed $value
+    * @param mixed $driver
+    * @return string
+    */
     public static function GetFieldConditionValue(string $op, $value, $driver)
     {
         if ($op == 'in') {

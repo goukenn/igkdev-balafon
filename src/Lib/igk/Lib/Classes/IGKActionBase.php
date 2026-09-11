@@ -183,6 +183,10 @@ abstract class IGKActionBase implements IActionProcessor
     {
         return igk_environment()->get(IGKEnvironment::VIEW_ACTION_PARAMS);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function & DispatchedCall(){
         $key = 'sys://actions/dispatched-call';
         $tab = & igk_environment()->getRefArray($key); 
@@ -344,7 +348,7 @@ abstract class IGKActionBase implements IActionProcessor
     /**
     * Checks Method Exists.
     * @param string $m
-    * @param string $method name
+    * @param ?string $topVerb
     * @return bool
     */
     protected function checkMethodExists(string $m, ?string $topVerb=null){

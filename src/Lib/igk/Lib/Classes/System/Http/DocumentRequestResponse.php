@@ -25,6 +25,7 @@ class DocumentRequestResponse extends RequestResponse{
     /**
     * auto generate doc.
     * @param IGKHtmlDocument $document
+    * @param mixed $code
     * @return void
     */
     public function __construct(IGKHtmlDoc $document, $code=200){

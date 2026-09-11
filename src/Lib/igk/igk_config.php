@@ -184,9 +184,6 @@ define('IGK_DOCUMENT_CLASS', 201);
 define('IGK_ENV_TRACE_LEVEL', 202);
 define('IGK_ENV_QUERY_LIST', 203);
 define('IGK_HTML_NOTAG_ELEMENT', 'NoTagNode');
-/**
- * basic user setting.
- */
 define('IGK_USER_SETTING', 0xE00);
 define('IGK_DEFAULT_TIMEZONE', 'Europe/Brussels');
 define('IGK_CSS_DEFAULT_STYLE_FUNC_KEY', 'sys://css/function/defaultStyle');

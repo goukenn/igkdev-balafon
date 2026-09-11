@@ -52,5 +52,4 @@ class XmlNode extends HtmlItemBase{
         }
         return $g;
     }
-    
 }

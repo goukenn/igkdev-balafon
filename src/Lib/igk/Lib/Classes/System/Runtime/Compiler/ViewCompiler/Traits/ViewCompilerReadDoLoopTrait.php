@@ -26,6 +26,8 @@ trait ViewCompilerReadDoLoopTrait
     private $m_do_loop_config;
     /**
     * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param ?string $id
     * @param string $value
     * @return void
     */

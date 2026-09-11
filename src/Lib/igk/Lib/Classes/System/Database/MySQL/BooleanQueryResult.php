@@ -71,10 +71,9 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
     public function success(): bool{
         return $this->m_result;
     }
-
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     public function getSuccess(): bool{
         return $this->m_result;
     }

@@ -32,6 +32,11 @@ use IGKEvents;
  */
 trait ControllerDbExtensionTrait
 {
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return array
+    */
     abstract static function getDataAdapter(BaseController $ctrl);
 
     /**
@@ -51,6 +56,11 @@ trait ControllerDbExtensionTrait
         }
         return $r;
     }
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
     public static function cleanAllCreatedModel(BaseController $controller)
     {
         $md = $controller->getClassesDir() . '/Models';
@@ -89,8 +99,11 @@ trait ControllerDbExtensionTrait
         }
     }
     /**
-     * drop list data base
-     */
+    * drop list data base
+    * @param BaseController $controller
+    * @param mixed $navigate
+    * @param mixed $force
+    */
     public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
     {
         $ctrl = $controller;
@@ -148,12 +161,11 @@ trait ControllerDbExtensionTrait
         }
         return $_vinit;
     }
-
     /**
-     * 
-     * @param BaseController $controller 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
     public static function dbDropProfilesAndAuth(BaseController $controller)
     {
         $cond = [

@@ -41,12 +41,13 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     */
     private $m_notation;
     /**
-     * Create a group element
-     * @param mixed $name group name
-     * @param mixed $items elements sequence
-     * @param mixed|null $attributes for reference  
-     * @return XsdGroup 
-     */
+    * Create a group element
+    * @param mixed $name group name
+    * @param mixed $items elements sequence
+    * @param mixed|null $attributes for reference
+    * @param mixed $type
+    * @return XsdGroup
+    */
     public function CreateGroup($name, $items, $attributes=null, $type="sequence"): XsdGroup{
         if (!in_array($type, explode("|", "choice|sequence|all"))){
             die("type not valie");

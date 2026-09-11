@@ -22,6 +22,11 @@ use JsonSerializable;
 class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer, JsonSerializable{
     use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const AUTO_RESET_CAPTURE_MODE = 'auto-reset';
     /**
     * Constant: match type.
@@ -121,12 +126,10 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var null|'auto-reset'
      */
     var $captureMode;
-
-
     /**
-     * 
-     * @var ?bool
-     */
+    * auto generate doc.
+    * @var ?bool
+    */
     var $noSkipToEnd;
     /**
     * Json serialize.

@@ -25,11 +25,10 @@ use IGKException;
 use IGKModuleListMigration;
 use IGKSysUtil;
 use ReflectionException;
-
 /**
- * 
- * @package IGK\System\Caches
- */
+* auto generate doc.
+* @package IGK\System\Caches
+*/
 /**
  * auto generate doc.
  * @package IGK\System\Caches
@@ -71,6 +70,10 @@ class DBCaches
      * @var ?array|?object
      */
     private $m_db_defs;
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private function isCacheInitilized()
     {
         return $this->m_init_cache;
@@ -495,12 +498,12 @@ class DBCaches
         return $ref_def->tableRowReference;
     }
     /**
-     * 
-     * @param mixed $ref_def 
-     * @param mixed $table 
-     * @param mixed $controller 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $ref_def
+    * @param mixed $table
+    * @param mixed $controller
+    * @return void
+    */
     public static function UpdateModelClass($ref_def, string $table, $controller)
     {
         igk_is_debug() && Logger::info("update : " . $table);

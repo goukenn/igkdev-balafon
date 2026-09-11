@@ -321,7 +321,12 @@ abstract class UsersMacros
         }
         return null;
     }
-
+    /**
+    * auto generate doc.
+    * @param Users $model
+    * @param BaseController $controller
+    * @return bool
+    */
     public static function notRegisterToAProfile(Users $model, BaseController $controller):bool{
         $ctrl_name = $controller->getName();
         $attachegroups = Usergroups::prepare()->where([

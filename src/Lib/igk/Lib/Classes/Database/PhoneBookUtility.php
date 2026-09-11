@@ -145,7 +145,7 @@ class PhoneBookUtility
     /**
     * get phone book entries
     * @param ?Users $user
-    * @param null|Users $users
+    * @param mixed $limit
     * @return mixed
     */
     public static function GetPhoneEntries(?Users $user, $limit=null)

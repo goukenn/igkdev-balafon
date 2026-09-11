@@ -27,7 +27,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
     /**
     * set theme definition
     * @param mixed & $theme
-    * @param mixed $theme
+    * @param mixed $family
     * @param mixed $extra
     * @return void
     */

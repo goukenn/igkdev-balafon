@@ -431,7 +431,7 @@ class CssParser implements ArrayAccess
     * @param string $content
     * @param int & $pos
     * @param int $pos
-    * @param mixed $length
+    * @param mixed $media
     * @param mixed & $error
     * @return false|CssKeyFrame
     */

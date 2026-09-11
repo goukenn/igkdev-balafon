@@ -16,6 +16,7 @@ trait SetPropertyCallbackTrait
 {
     /**
     * auto generate doc.
+    * @param mixed $key
     * @param mixed $v
     */
     public function __set($key, $v)

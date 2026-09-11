@@ -3,15 +3,26 @@
 // @file: ResourceLoader.php
 // @date: 20260907 12:24:21
 namespace IGK\Core;
-
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Core
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Core
+*/
 class ResourceLoader{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const PATH = 'load-resources.php';
+    /**
+    * auto generate doc.
+    * @return void
+    */
     static function Access(){
         return self::PATH;
     } 

@@ -252,6 +252,13 @@ class InitClassBuilder
         $cf = $builder->render();
         return $cf;
     }
+    /**
+    * auto generate doc.
+    * @param array & $column_index
+    * @param array $indices
+    * @param string $name
+    * @return void
+    */
     private static function _LoadUniqueColumns(array & $column_index, array $indices, string $name){
         foreach($indices as $i){
             if (!isset($column_index[$i])){

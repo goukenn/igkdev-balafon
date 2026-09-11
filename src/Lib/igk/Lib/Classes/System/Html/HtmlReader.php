@@ -251,7 +251,7 @@ final class HtmlReader extends IGKObject
     * @param mixed $text
     * @param mixed $length length to read
     * @param mixed & $offset
-    * @param mixed $offset move position to the last read char
+    * @param mixed $eval_context
     * @param mixed & $expressionRead
     * @return string
     */

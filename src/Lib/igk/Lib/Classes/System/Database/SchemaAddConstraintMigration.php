@@ -11,25 +11,56 @@ use IGKSysUtil;
 // + | --------------------------------------------------------------------
 // + | <addConstraint table>
 // + |
-
-
 /**
- * 
- * @package IGK\System\Database
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Database
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaAddConstraintMigration extends SchemaMigrationItemBase
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     protected $fill_properties = ["table"];
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $table;
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $constraints;
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $columns;
-
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @return void
+    */
     public function load($node)
     {
         $this->table = $node['table'] ?? igk_die('missing required attribute `table`');
         return parent::load($node);
     }
+    /**
+    * auto generate doc.
+    * @param mixed $childs
+    * @return void
+    */
     public function loadChilds($childs)
     {
         foreach ($childs as $c) {
@@ -40,22 +71,30 @@ class SchemaAddConstraintMigration extends SchemaMigrationItemBase
         }
         return parent::loadChilds($childs);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function up()
     {
        $ctrl = $this->getMigration()->controller;
        $tb = igk_db_get_table_name($this->table, $ctrl);
        $ctrl::db_add_unique($tb, $this->columns) ;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function down()
     {
         // igk_wln_e(__FILE__ . ":" . __LINE__, 'call down');
     }
     /**
-     * 
-     * @param mixed &$tables 
-     * @param BaseController $ctrl 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed &$tables
+    * @param BaseController $ctrl
+    * @return void
+    */
     public function doUpgrade(&$tables, BaseController $ctrl)
     {
         $tb = IGKSysUtil::DBGetTableName($this->table, $ctrl);
@@ -83,10 +122,10 @@ class SchemaAddConstraintMigration extends SchemaMigrationItemBase
         $this->columns = $rc;
     }
     /**
-     * 
-     * @param mixed $info 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $info
+    * @return mixed
+    */
     private static function _GetMaxColumnIndex($info)
     {
         $max = 0;
@@ -110,12 +149,11 @@ class SchemaAddConstraintMigration extends SchemaMigrationItemBase
 
         return $max;
     }
-
     /**
-     * 
-     * @param mixed $childs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $childs
+    * @return void
+    */
     private function _load_UniqueColumns($childs)
     {
         foreach ($childs as $c) {
@@ -127,10 +165,10 @@ class SchemaAddConstraintMigration extends SchemaMigrationItemBase
         }
     }
     /**
-     * 
-     * @param mixed $childs 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $childs
+    * @return void
+    */
     private function _load_Index($childs)
     {
         foreach ($childs as $c) {

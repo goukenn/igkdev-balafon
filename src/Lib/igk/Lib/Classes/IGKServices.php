@@ -241,11 +241,11 @@ class IGKServices extends ListOfCoreServices
         }
     }
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $service 
-     * @return object 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed & $service
+    * @return object
+    */
     protected static function _InitBaseContainerService($n, & $service){
         $c = "\\IGK\\System\\Services\\".ucfirst($n)."ServiceContainer";
         $cl = AppBaseContainerService::class;

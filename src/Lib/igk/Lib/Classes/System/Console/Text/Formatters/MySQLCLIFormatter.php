@@ -14,7 +14,13 @@ namespace IGK\System\Console\Text\Formatters;
 */
 class MySQLCLIFormatter
 {
-    private const MIN_COLUMN_WIDTH = 10;
+    private
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const MIN_COLUMN_WIDTH = 10;
     private
     /**
     * auto generate doc.

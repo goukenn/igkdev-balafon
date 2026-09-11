@@ -81,7 +81,6 @@ class CSSContext{
             // $lg_screen[$def] = "({$type}.:".$classStyle.")";
             // $xlg_screen[$def] = "({$type}.:".$classStyle.")";
             // $xxlg_screen[$def] = "({$type}.:".$classStyle.")";
-            
         }else {
             // $this->theme->xsm_screen[$def] = "({$type}.{$medias}:".$classStyle.")";
         }

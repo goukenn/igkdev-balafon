@@ -16,6 +16,11 @@ use IGKHtmlDoc;
 * @package IGK\System\Core\Configuration
 */
 class CPanel{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const CPANEL_HOOKS = IGKEvents::CPANEL_HOOKS;
     /**
     * auto generate doc.

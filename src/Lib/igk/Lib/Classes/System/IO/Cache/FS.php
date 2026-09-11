@@ -19,9 +19,9 @@ use IGKEvents;
 class FS
 {
     /**
-     * 
-     * @var ?FS
-     */
+    * auto generate doc.
+    * @var ?FS
+    */
     private static $sm_instance;
     /**
      * Cache: caches.
@@ -135,7 +135,10 @@ class FS
         }
         self::getInstance()->m_caches = [];
     }
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function getInstance()
     {
         if (is_null(self::$sm_instance)) {

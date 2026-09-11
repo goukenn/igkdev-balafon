@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * @var mixed $theme
+ */
 $def[':root'] = [
     '--blf-stepper-selected-route-border-color' => '#ececec',
     '--blf-stepper-route-bg-color' => '#dff',
@@ -21,7 +23,7 @@ $def['.igk-stepper-form .route .route__stop'] = 'flex:1;';
 $def['.igk-stepper-form .route .route__stop.is-active .route__seal'] = 'box-shadow: 0 0 0 3px color(from var(--blf-stepper-selected-route-border-color) xyz x y z / 0.9);';
 $def['.igk-stepper-form .route .route__label'] = 'text-align:center; margin-top:8px; font-size:11px; letter-spacing: 0.074em';
 $def['.igk-stepper-form .route .route__block'] = '{sys: no-selection} display:flex; flex-direction:column; align-items:center;';
-$def['.igk-stepper-form .route .route__stop.is-visited .route__block > * '] = 'cursor: pointer;';
+$def['.igk-stepper-form .route .route__stop.is-visited .route__block'] = 'cursor: pointer;';
 $def['.igk-stepper-form .route .route__seal'] = 'font-size:12px; transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease; width: 32px; height:32px; border-radius:50%; border:2px solid var(--blf-stepper-selected-route-border-color); background-color:var(--blf-stepper-route-bg-color); position: relative; z-index: 1;  display: flex; align-items: center; justify-content: center;';
 $def['.step__hint'] = 'font-size:0.83em';
 

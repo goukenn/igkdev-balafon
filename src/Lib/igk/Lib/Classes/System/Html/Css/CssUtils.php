@@ -70,10 +70,10 @@ abstract class CssUtils
         return $definition;
     }
     /**
-     * merge styles definition
-     * @param mixed ...$args
-     * @return string
-     */
+    * merge styles definition
+    * @param mixed ...$args
+    * @return string
+    */
     public static function MergeStyleDefinition(...$args)
     {
         if (!is_array($args)) {
@@ -510,13 +510,12 @@ abstract class CssUtils
         }
         return $def;
     }
-
     /**
-     * 
-     * @param HtmlDocTheme $a_theme 
-     * @param string $primaryTheme 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param HtmlDocTheme $a_theme
+    * @param string $primaryTheme
+    * @return string
+    */
     public static function RenderStyleWithCustomColorThemeSupport(HtmlDocTheme $a_theme,
         string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME
         )
@@ -524,8 +523,7 @@ abstract class CssUtils
         $v_opt = new CssThemeOptions;
         $v_opt->skips = ['rules', 'fonts'];
         $v_opt->rootListener = null; // $rootListener;
-        $v_systheme = $a_theme->isSystemTheme();  
-       
+        $v_systheme = $a_theme->isSystemTheme();
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
         $sb = '';
         $theme_export = true;
@@ -573,18 +571,16 @@ abstract class CssUtils
             if ($s = $v_theme->get_css_def()) {
                 $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : '') . $s;
             }
-           
         }
         $sb = implode("\n", $def);
         return $sb;
     }
-
-        /**
-     * 
-     * @param mixed $root_defs 
-     * @param mixed &$def 
-     * @return void 
-     */
+    /**
+    * auto generate doc.
+    * @param mixed $root_defs
+    * @param mixed &$def
+    * @return void
+    */
     private static function _glueRootArrayToDef($root_defs, &$def)
     {
         foreach ($root_defs as $k => $v) {

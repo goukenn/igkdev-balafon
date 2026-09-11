@@ -154,7 +154,7 @@ class CssConverter{
     * @param mixed $src
     * @param mixed & $offset
     * @param mixed & $data
-    * @param mixed $offset
+    * @param mixed $ln
     * @param mixed & $bch
     * @return void
     */
@@ -400,7 +400,7 @@ class CssConverter{
     * read selector and stop at the '{' or end files
     * @param mixed $src
     * @param mixed & $offset
-    * @param mixed $offset
+    * @param mixed $length
     * @param mixed $selector
     * @return string
     */

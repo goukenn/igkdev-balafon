@@ -10,10 +10,11 @@ use function igk_html_host as _h;
 
 if (!function_exists('igk_html_node_stepperForm')) {
     /**
-     * 
-     * @param mixed $param 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $param
+    * @param mixed $options
+    * @return mixed
+    */
     function igk_html_node_stepperForm($param, $options = null)
     {
         $is_closure = ($param instanceof Closure) || is_callable($param);

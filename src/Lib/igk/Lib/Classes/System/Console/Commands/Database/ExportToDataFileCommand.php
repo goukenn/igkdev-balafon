@@ -43,6 +43,9 @@ class ExportToDataFileCommand extends AppExecCommand{
     var $usage = 'controller model outputfile [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param ?string $controller
+    * @param ?string $model
     * @param null|string $file
     * @return void
     */

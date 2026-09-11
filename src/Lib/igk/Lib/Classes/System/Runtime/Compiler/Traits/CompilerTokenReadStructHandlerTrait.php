@@ -67,8 +67,8 @@ trait CompilerTokenReadStructHandlerTrait
     * handle global use flag
     * @param mixed & $flag
     * @param mixed $flag
-    * @param mixed $options
     * @param mixed $id
+    * @param mixed $options
     * @throws IGKException
     * @return bool
     */

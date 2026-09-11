@@ -27,6 +27,7 @@ class RefColumnMapping implements IteratorAggregate{
     private $m_data;
     /**
     * auto generate doc.
+    * @param array $data
     * @param array $columns column mapping definition. array<{real_colum=>mapping_column}|column>
     */
     public function __construct(array $data, array $columns){

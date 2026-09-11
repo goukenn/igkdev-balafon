@@ -221,12 +221,12 @@ class QueryBuilder
         return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column), $alias);
     }
     /**
-     * 
-     * @param string $table 
-     * @param string $first_column 
-     * @param string $second_column 
-     * @return $this 
-     */
+    * auto generate doc.
+    * @param string $table
+    * @param string $first_column
+    * @param string $second_column
+    * @return $this
+    */
     public function join_on(string $table, string $first_column, string $second_column)
     {
         return $this->join([
@@ -650,15 +650,13 @@ class QueryBuilder
         $this->m_options[QueryOptions::GROUP_BY] = $column;
         return $this;
     }
-
-
     /**
-     * 
-     * @param mixed $ad 
-     * @param string $query 
-     * @param array $q 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $ad
+    * @param string $query
+    * @param array $q
+    * @return string
+    */
     public static function BuildQuestionMarkQuery($ad, string $query, array $q): string
     {
         $offset = 0;

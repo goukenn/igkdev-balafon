@@ -41,7 +41,11 @@ class DbInitDataCommand extends AppExecCommand
      * @var mixed
      */
     var $usage = 'controller [action_name] [options]';
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $options = [
 
     ];
@@ -76,10 +80,15 @@ class DbInitDataCommand extends AppExecCommand
             Logger::success('done');
         }
     }
+    /**
+    * auto generate doc.
+    * @param null|mixed $args
+    * @param null|mixed $controller
+    * @return void
+    */
     public function help($args = null, $controller = null)
     {
         $s = parent::help();
-       
         Logger::print('actions_name* came from Database/InitData class');
         $controller = $controller ?? SysDbController::ctrl();
         if ($controller) {
@@ -95,10 +104,10 @@ class DbInitDataCommand extends AppExecCommand
         return $s;
     }
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return string[] 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return string[]
+    */
     private function _getReflectClassActions(BaseController $ctrl)
     {
         $cl = $ctrl->resolveClass(EntryClassResolution::DbInitData) ?? igk_die('init data class is missing');

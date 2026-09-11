@@ -172,7 +172,7 @@ class DbModelImporterMap
     /**
     * override this to handle
     * @param array $data
-    * @param mixed $tab
+    * @param string $model_classe
     * @param mixed & $row
     * @return bool must return true to handle
     */

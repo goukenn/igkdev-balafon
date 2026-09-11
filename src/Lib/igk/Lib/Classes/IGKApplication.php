@@ -11,12 +11,47 @@ require_once IGK_LIB_CLASSES_DIR.'/IGKApplicationBase.php';
  * @package 
  */
 abstract class IGKApplication extends IGKApplicationBase{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const WEB_TYPE = 'web';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const CRONTAB_TYPE  = 'crontab';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const PHAR_TYPE = 'phar';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const CSS_TYPE = 'css';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const BALAFON_TYPE = 'balafon';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const API_TYPE = 'api';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const PHPUNIT_TYPE = 'phpunit';
     /**
     * create an application

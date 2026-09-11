@@ -185,7 +185,7 @@ $lg_screen[".igk-fsl-lg-6"] = "font-size: 0.78em;";
 $xlg_screen[".igk-fsl-xlg-1"] = "";
 $xxlg_screen[".igk-fsl-xxlgm-1"] = "";
 $def[".igk-collapse"] = "display:none;";
-$def["igk-js-msbox"] = " {sys:fit, igk-parentscroll, igk-powered-viewer, overflow-y-a}";
+$def[".igk-js-msbox"] = " {sys:fit, igk-parentscroll, igk-powered-viewer, overflow-y-a}";
 $def[".igk-js-notify"] = "max-height:400px; overflow:auto;";
 $def[".igk-js-notify-box .igk-js-notify"] = "max-height:400px; overflow:scroll;";
 $def[".igk-js-notify .content-z"] = "{sys:mg-w-a}";
@@ -311,7 +311,7 @@ $def[".igk-pagination > li.igk-active"] = "[sysbgcl:igk-pagination-active-bg]";
 $def[".igk-pagination > li.igk-inactive"] = "cursor: not-allowed;";
 $def[".igk-pagination li a"] = "text-decoration:none;";
 $def[".igk-hmenu"] = "";
-$def[".igk-hmenu.floatr, igk-hmenu-floatl"] = "z-index:20";
+$def[".igk-hmenu.floatr, .igk-hmenu.floatl"] = "z-index:20";
 $def[".igk-hmenu.igk-btn"] = "margin:auto; padding:8px;";
 $def[".igk-hmenu a"] = "color:[cl:menuColor,#ddd]; [trans:0.5s color]";
 $def[".igk-hmenu a:hover"] = "color:[cl:menuHoverColor,#fff]; font-weight: bold;";
@@ -736,23 +736,7 @@ $xsm_screen[".igk-gtsm-only"] =
     $xlg_screen[".igk-gtxlg-only"] = "{sys:dispn}";
 $def["td .igk-svg-btn:first-child:last-child"] = "width:16px; height:16px; margin:8px;";
 $def[".igk-svg-btn svg"] = "{sys:fit}";
-$def[".igk-xml-viewer:after"] = "content:' '; {sys:clearb, dispb}";
-$def[".igk-xml-viewer span"] = "{sys:floatl}";
-$def[".igk-xml-viewer >div:after"] = "content:' '; {sys:clearb, disptable}";
-$def[".igk-xml-viewer div.l"] = "display:block; clear:both ;";
-$def[".igk-xml-viewer div.l:after"] = "content:' '; {sys:clearb, disptable}";
-$def[".igk-xml-viewer quote"] = "clear:both; margin-left:32px;";
-$def[".igk-xml-viewer >div *"] = "{sys:floatl}";
-$def[".igk-xml-viewer .attr .n:before"] = "content:' '; padding-left:4px; display:inline-block";
-$def[".igk-xml-viewer br"] = "{sys:clearb}";
-$def[".igk-xml-viewer .t"] = "{sys:dispib} width:32px;";
-$def[".igk-xml-viewer .s"] = "[sysfcl:igk-xml-tag-fcl]";
-$def[".igk-xml-viewer .e"] = "[sysfcl:igk-xml-tag-fcl]";
-$def[".igk-xml-viewer .o"] = "margin:0px ;";
-$def[".igk-xml-viewer .c"] = "font-style:italic; [sysfcl:igk-xml-comment-fcl]";
-$def[".igk-xml-viewer .attr .v"] = "[sysfcl:igk-xml-attr-fcl]";
-$def[".igk-xml-viewer .attr .n"] = "color:#42a";
-$def[".igk-xml-viewer .attrv"] = "[sysfcl:igk-xml-attrv-fcl]";
+
 $def[".igk-webgl-game-surface"] = "{sys:dispib}; margin:auto;";
 $def[".igk-webgl-game-surface > .scene"] = "background-color:#444; width:720px; height:409px;";
 $def[".igk-guide-menu"] = "[trans: width 0.2s] width:0; z-index:20; overflow:hidden; top:0px ;";
@@ -825,8 +809,11 @@ foreach (['end', 'center', 'start', 'normal', 'stretch'] as $a) {
 foreach (['baseline', 'end', 'center', 'start', 'normal', 'stretch'] as $a) {
     $def['.flex-cross-' . $a] = 'align-items: ' . $a . ';';
 }
+
 $def[".igk-winui-more-view"] = "cursor: pointer;";
-$def[".igk-winui-more-view.igk-hide ~ *"] = "display: none ;";
+$def[".igk-winui-more-view.igk-hide ~ *"] = "display: none;";
+
+
 $def[".igk-code"] = "font-family: 'consolas', sans-serif; font-size:8pt; background-color:[cl:codeBgColor, #eee]; " . "border-radius:4px;" . "padding:4px; ";
 $def[".igk-winui-panel-dialog"] = "[trans: opacity 0.5s ease-out] {sys:posab, loc_a, dispflex} justify-content:center; align-items:center; z-index:100; opacity: 1.0;";
 $def[".igk-winui-panel-dialog::before"] = "{sys:posfix, fit, loc_a} background-color: #000; opacity:0.5; content:' ';";
@@ -1108,7 +1095,7 @@ $def['.no-focus-styled:focus'] = 'outline:none; box-shadow:none; border:none ;';
 $def['.i-vp-field'] = '{sys:dispflex} align-items:center;';
 $def['.i-vp-field input[type="password"], .pw-field input[type="text"]'] =
     'padding: 10px 46px 10px 12px;';
-$def['.i-vp-field #pw-toggle'] = '{sys:posab} z-index:1; right: 6px; display: flex; align-items: center; justify-content: center;width: 32px;height: 32px;padding: 0;background: transparent;border: none;border-radius: 6px;color: var(--muted);cursor: pointer;transition: color 0.15s ease, background 0.15s ease;';
+
 $colorspace_dir = IGK_LIB_DIR . '/Default/assets/css/colorspaces/';
 $type = igk_configs()->get('css.colorspace', 'hsl');
 if (!function_exists('inject_color_spaces')) {

@@ -198,7 +198,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * @param mixed $data
     * @param null|HtmlItemBase $target
     * @param ?IHtmlNodeBuilderVisitor $visitor
-    * @param null|HtmlItemBase $target
+    * @param mixed $context
     * @throws IGKException
     * @throws EnvironmentArrayException
     * @return HtmlItemBase
@@ -299,7 +299,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     * explode tag
     * @param string $tag
     * @param mixed & $node
-    * @param mixed $node
+    * @param mixed $context
     * @throws IGKException
     * @throws ArgumentTypeNotValidException
     * @throws ReflectionException

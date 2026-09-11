@@ -71,9 +71,9 @@ class MakeProjectCommand extends AppExecCommand
      */
     var $desc = "make new project.";
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $usage = 'project_name [options]';
     /**
      * Property: options.
@@ -110,7 +110,6 @@ class MakeProjectCommand extends AppExecCommand
      */
     public function exec($command, $controller = "")
     {
-        
         if (empty($controller)) {
             return false;
         }
@@ -131,8 +130,6 @@ class MakeProjectCommand extends AppExecCommand
         }
 
         $this->_make($command, $dir, $controller);
-       
-     
         if (empty(igk_configs()->default_controller)) {
             $cnf = igk_configs();
             $cnf->default_controller = $controller;
@@ -146,6 +143,13 @@ class MakeProjectCommand extends AppExecCommand
         Logger::success("output: " . $dir);
         Logger::success("done\n");
     }
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $dir
+    * @param mixed $controller
+    * @return void
+    */
     protected function _make($command, $dir, $controller){
         Logger::info(__("Make project ... {0}",  $controller));
         $author = $this->getAuthor($command);
@@ -493,7 +497,6 @@ class MakeProjectCommand extends AppExecCommand
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
-      
     }
     /**
      * retrieve properties default value 
@@ -521,7 +524,12 @@ class MakeProjectCommand extends AppExecCommand
         $tab = array_diff($nclasses, $classes);
         $c->load($tab, $manager, $loader);
     }
-
+    /**
+    * auto generate doc.
+    * @param string $controller
+    * @param string $dir
+    * @return void
+    */
     protected function initDbController(string $controller, string $dir)
     {
 
@@ -717,6 +725,10 @@ class MakeProjectCommand extends AppExecCommand
         }
         Logger::print("");
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected static function _GetFilterActions()
     {
         return array_filter(array_map(function ($n) {
@@ -726,6 +738,10 @@ class MakeProjectCommand extends AppExecCommand
             }
         }, igk_sys_reflect_class(static::class)->getMethods(ReflectionMethod::IS_STATIC)));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function _FilterActions()
     {
         igk_reg_hook(self::HookName('/project-init'), function ($e) {
@@ -744,10 +760,10 @@ class MakeProjectCommand extends AppExecCommand
         });
     }
     /**
-     * 
-     * @param mixed $e 
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param mixed $e
+    * @return mixed
+    */
     private static function _filter_project_init_app_icon($e)
     {
         if (!extension_loaded('gd'))

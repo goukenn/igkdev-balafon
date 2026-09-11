@@ -12,23 +12,32 @@ use IGK\Core\Components\ComponentInfo;
  * @package IGK\System\Html\Css
  * @author C.A.D. BONDJE DOUE
  */
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssPhpDetector
 {
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_regex;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fcall;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tsrc;
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_keys = [];
 
     /**
@@ -36,10 +45,21 @@ class CssPhpDetector
      * @var mixed
      */
     var $list;
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $autoReferenceRegex = '/((x)?sm|(x(x)?)?lg|dark|text|bg|no|br|mag|pad)-/';
+    /**
+    * .ctr
+    * @return void
+    */
     public function __construct() {}
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function _regex()
     {
         if ($this->m_regex)
@@ -62,6 +82,10 @@ class CssPhpDetector
         $this->m_regex = $regex;
         return $this->m_regex;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function &_types()
     {
         if (is_null($this->m_tsrc)) {
@@ -74,6 +98,10 @@ class CssPhpDetector
 
         return $this->m_tsrc;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function &_fcall()
     {
         if (is_null($this->m_fcall)) {
@@ -94,6 +122,11 @@ class CssPhpDetector
         }
         return $this->m_fcall;
     }
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @return void
+    */
     public function resolve(string $source)
     {
         $regex = $this->_regex();

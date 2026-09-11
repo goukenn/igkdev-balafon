@@ -21,6 +21,7 @@ trait SystemStateFlagTrait
     protected $m_flags = [];
     /**
     * auto generate doc.
+    * @param string $name
     * @param mixed $value
     * @return void
     */

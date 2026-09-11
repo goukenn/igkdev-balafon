@@ -10,14 +10,18 @@ namespace IGK\System\Http\IO;
  * @package IGK\System\Http\IO
  * @author C.A.D. BONDJE DOUE
  */
+/**
+* auto generate doc.
+* @package IGK\System\Http\IO
+*/
 class AudioStreaming
 {
     /**
-     * 
-     * @param string $file 
-     * @param string $mimetype 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @param string $mimetype
+    * @return void
+    */
     public static function StreamAudioFile(string $file, $mimetype = 'audio/mpeg')
     {
         $length = $size = filesize($file);

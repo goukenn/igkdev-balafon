@@ -12,22 +12,25 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IO\FileHandler;
 use IGKEnvironmentConstants;
 use TypeError;
-
 /**
- * 
- * @package IGK\Core\View
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Core\View
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\Core\View
+*/
 class TreatViewContent
 {
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @param string $file 
-     * @param bool $no_cache 
-     * @param mixed ...$params  
-     * @return null|mixed 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param string $file
+    * @param bool $no_cache
+    * @param mixed ...$params
+    * @return null|mixed
+    */
     public function treat(BaseController $ctrl, string $file, $no_cache = false, ...$params)
     {
        // igk_wln_e('not expired. treat .... sd', ob_get_level());
@@ -60,7 +63,6 @@ class TreatViewContent
             extract(igk_extract_ref(call_user_func_array([$this, 'getExtraArgs'], [])), EXTR_SKIP);
             return include(func_get_arg(0));
         })->bindTo($ctrl);
-        
         if ($no_cache) {
             array_unshift($args, $file);
         } else {

@@ -16,6 +16,8 @@ use IGK\System\Database\SchemaBuilderMigration;
 interface IDiagramVisitorEntity{
     /**
     * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $schema
     * @param mixed $props
     * @return SchemaBuilderMigration
     */

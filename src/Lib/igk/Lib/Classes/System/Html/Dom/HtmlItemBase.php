@@ -634,6 +634,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             }
         } else {
             if ($this->getcanLoadContent($value)) {
+                $value = HtmlUtils::SkipXSS($value);
                 $this->load($value);
             } else {
                 $this->content = $value;

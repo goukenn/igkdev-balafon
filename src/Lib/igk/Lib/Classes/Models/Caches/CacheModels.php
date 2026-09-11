@@ -69,13 +69,13 @@ class CacheModels
         return  "cache://" . igk_uri(get_class($model) . "/" . implode('/', array_filter([$column, $value])));
     }
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $value 
-     * @param null|string $raw 
-     * @param null|string $column 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $value
+    * @param null|string $raw
+    * @param null|string $column
+    * @return void
+    */
     public static function StoreCache(ModelBase $model, $value, $raw, ?string $column =null) {
         $key = self::GetCacheKey($model, $column, $value);
         self::Register($key, $raw);

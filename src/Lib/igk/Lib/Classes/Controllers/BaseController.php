@@ -1019,7 +1019,6 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         $g = &$param[$cl];
         return $g;
     }
-   
     /**
      * auto generate doc.
      */

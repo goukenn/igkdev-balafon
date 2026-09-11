@@ -14,21 +14,19 @@ use IGKEvents;
 */
 class ComponentInfo{
     /**
-     * 
-     * @var ?string
-     */
+    * auto generate doc.
+    * @var ?string
+    */
     var $description;
     /**
      * class used by the component 
      * @var ?string
      */
     var $class;
-
-
     /**
-     * 
-     * @return array 
-     */
+    * auto generate doc.
+    * @return array
+    */
     public static function ListComponentInfo(){
         $f = [];
         $data = json_decode(file_get_contents(IGK_LIB_DIR.'/Data/components/classes.json'), true);

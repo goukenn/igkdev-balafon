@@ -45,7 +45,7 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     * @param mixed $value
     * @param mixed $default
     * @param mixed & $error
-    * @param array $error
+    * @param mixed $options
     * @throws IGKException
     * @return mixed
     */

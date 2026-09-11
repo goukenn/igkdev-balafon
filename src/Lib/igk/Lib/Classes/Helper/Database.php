@@ -190,6 +190,11 @@ class Database
     {
         return igk_getv(self::$sm_shared_info, $n);
     }
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return void
+    */
     public static function InitDataModel(BaseController $ctrl)
     {
         $d = $ctrl->getAllUsedModelInfoFromCache();
@@ -511,14 +516,11 @@ class Database
     {
         return StringUtility::AutoPrefix($column, $prefix);
     }
-
-
-
     /**
-     * 
-     * @param IDbColumnInfo $columInfo 
-     * @return null 
-     */
+    * auto generate doc.
+    * @param IDbColumnInfo $columInfo
+    * @return null
+    */
     public static function GetNonExistingValue($columInfo)
     {
         list($link, $linkcolumn, $notnull, $linknotnulldefaultvalue, $default) = [
@@ -538,11 +540,11 @@ class Database
         return null;
     }
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $linknotnulldefaultvalue 
-     * @return null|ModelBase 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $linknotnulldefaultvalue
+    * @return null|ModelBase
+    */
     public static function ResolveLinkValue(ModelBase $model, $linknotnulldefaultvalue)
     {
         $col = $model->getPrimaryKey();
@@ -554,6 +556,11 @@ class Database
         }
         return $model->getCache($col, $value);
     }
+    /**
+    * auto generate doc.
+    * @param string $link
+    * @return void
+    */
     public static function GetModelFromLinkColumn(string $link)
     {
         if ($info = DBCaches::Get($link)) {
@@ -578,13 +585,13 @@ class Database
             return IGKModuleListMigration::Create($list);
         }
     }
-
     /**
-     * 
-     * @param mixed $ad 
-     * @param string $table 
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param mixed $ad
+    * @param string $table
+    * @param mixed & $error
+    * @return mixed
+    */
     public static function DumpData($ad, string $table, & $error = null)
     {
         /**

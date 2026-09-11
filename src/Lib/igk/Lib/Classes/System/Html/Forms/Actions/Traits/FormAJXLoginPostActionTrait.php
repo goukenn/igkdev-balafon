@@ -26,6 +26,11 @@ trait FormAJXLoginPostActionTrait
 {
     /**
     * auto generate doc.
+    * @param Request $request
+    * @param string $login
+    * @param string $password
+    * @param ?IAuthenticatorService $authenticator
+    * @param bool $remember_me
     * @param bool $redirect
     * @return object|void
     */

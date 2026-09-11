@@ -96,7 +96,7 @@ abstract class MapContentValidatorBase
     * @param mixed $value value to validate
     * @param mixed $key key of the value
     * @param mixed & $error
-    * @param mixed $error error to update
+    * @param bool $missing
     * @param bool $required
     * @return mixed
     */

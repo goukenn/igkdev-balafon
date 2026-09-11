@@ -10,6 +10,10 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 abstract class QueryBuilderUtility{
     /**
      * help left join

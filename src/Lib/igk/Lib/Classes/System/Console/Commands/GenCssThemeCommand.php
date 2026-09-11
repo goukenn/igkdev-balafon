@@ -23,7 +23,7 @@ class GenCssThemeCommand extends AppExecCommand{
     * Property: desc.
     * @var mixed
     */
-    var $desc = "get controller's css distribution";
+    var $desc = "get controller's css distribution. merge both core a project css";
     /**
     * Property: usage.
     * @var mixed

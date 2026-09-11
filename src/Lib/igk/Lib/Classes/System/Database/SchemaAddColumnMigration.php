@@ -73,14 +73,12 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($v_table, $ctrl);
         $after = $this->after;
         $prefix = '';
-        
         if ($ref = DBCaches::GetTableInfo($tb, $ctrl)){
             $prefix = $ref->prefix; 
         }        
         if ($after)
             $after = Database::AutoPrefixColumn($after, $prefix);
         $changed = false;
-        
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){
                 continue;

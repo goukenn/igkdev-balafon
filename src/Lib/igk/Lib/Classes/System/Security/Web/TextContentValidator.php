@@ -14,6 +14,7 @@ namespace IGK\System\Security\Web;
 class TextContentValidator extends MapContentValidatorBase{
     /**
     * auto generate doc.
+    * @param mixed & $value
     * @param mixed $key
     * @return bool
     */

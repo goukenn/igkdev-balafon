@@ -16,6 +16,11 @@ use IGK\Helper\StringUtility;
 */
 class MarkdownConverterStates
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const INIT_NODE_PREFIX = '_init_node_';
     /**
     * auto generate doc.

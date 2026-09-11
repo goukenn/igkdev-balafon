@@ -29,6 +29,10 @@ interface IDynamicActivableTraitTest{
 * @package IGK\Tests\System\Trait
 */
 class DynamicActivableTraitTest extends BaseTestCase{
+    /**
+    * auto generate doc.
+    * @return void
+    */
     function test_dynactivate_reference(){
         $x = 4;
         $g = ['x'=>& $x]; 

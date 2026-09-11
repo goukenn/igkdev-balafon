@@ -47,7 +47,6 @@ class IGKEvents extends IGKObject
      * filter command to extends options
      */
     const FILTER_HELP_COMMAND = 'sys://cli/command-line-help';
-    
     /**
     * Constant: hook init web app library.
     * @var mixed
@@ -123,7 +122,11 @@ class IGKEvents extends IGKObject
     * @var mixed
     */
     const HOOK_CSS_REG = "css_class_reg";
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const HOOK_LOGIN_NEW_PROFILE = 'sys://connect-create-profile';
     /**
     * Constant: hook terminate.
@@ -296,11 +299,10 @@ class IGKEvents extends IGKObject
     * Constant: hook db migrate.
     * @var mixed
     */
-    const HOOK_DB_MIGRATE = 'sys://db/migrate'; 
-
+    const HOOK_DB_MIGRATE = 'sys://db/migrate';
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     const HOOK_DB_BEFORE_DROP_PROFILES = 'sys://db/drop-profiles';
     /**
     * Constant: hook action will do action.
@@ -895,10 +897,10 @@ class IGKEvents extends IGKObject
         return $def ? $def->output : $args;
     }
     /**
-     * 
-     * @param mixed $obj 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $obj
+    * @return bool
+    */
     public static function IsEmptyHookResult($obj){
         return is_object($obj) && isset($obj->{'no-hooks'}) 
         && (igk_getv($obj, '::_') ==self::class) 

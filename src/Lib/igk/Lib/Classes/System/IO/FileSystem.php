@@ -96,8 +96,7 @@ class FileSystem extends CoreFileSystem
         // $p = filemtime($path);
         if (is_file($file=  $this->getCacheFilePath($path, $ext))){
             // save store chache file base on current file             
-            $expired = $this->storeCachingFileTime($path, $file, $ext); 
-           
+            $expired = $this->storeCachingFileTime($path, $file, $ext);
             return $expired;
         }
         return true;
@@ -119,12 +118,12 @@ class FileSystem extends CoreFileSystem
         return false;
     }
     /**
-     * 
-     * @param mixed $filepath 
-     * @param mixed $fs 
-     * @param mixed $ext extension 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $filepath
+    * @param mixed $fs
+    * @param mixed $ext extension
+    * @return bool
+    */
     public function storeCachingFileTime(string $filepath, string $fs, string $ext): bool
     {
         self::_LoadCachingFileHistory();
@@ -138,8 +137,7 @@ class FileSystem extends CoreFileSystem
                 return $r;
             }
         }
-        $r = true; 
-       
+        $r = true;
         self::$sm_cachingHistory[$fs] = $g;
 
         if (!self::$sm_registerSingle) {
@@ -159,21 +157,31 @@ class FileSystem extends CoreFileSystem
      */
     private static $sm_registerSingle;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_cachingHistory;
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function CachingHistoryFile()
     {
         return igk_io_cachedir() . '/.ws-caching-file_history.php';
     }
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function _onShutdown()
     {
         // save file : 
         self::_SaveCachingFileHistory();
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function _SaveCachingFileHistory()
     {
         $file = self::CachingHistoryFile();
@@ -185,6 +193,10 @@ class FileSystem extends CoreFileSystem
             ->defs($def);
         igk_io_w2file($file, $build->render());
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function _LoadCachingFileHistory()
     {
         if (is_null(self::$sm_cachingHistory)) {

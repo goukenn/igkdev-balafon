@@ -305,7 +305,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
                         'info'=>'dbexpression'
                     ]
                 );
-            
         }
 
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){

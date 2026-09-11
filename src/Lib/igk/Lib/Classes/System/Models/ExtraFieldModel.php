@@ -17,24 +17,41 @@ use JsonSerializable;
 */
 class ExtraFieldModel implements ArrayAccess, JsonSerializable{
     use ArrayAccessSelfTrait;
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $model;
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_data;
+    /**
+    * .ctr
+    * @param ModelBase $model
+    * @return void
+    */
     public function __construct(ModelBase $model)
     {
         $this->model = $model;
         $this->m_data = [];
     }
-
+    /**
+    * auto generate doc.
+    * @return mixed
+    */
     public function jsonSerialize(): mixed
     {
         return $this->to_array();
     }
     /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
     public function __get(string $name)
     {
         if (key_exists($name, $this->m_data)){
@@ -43,11 +60,11 @@ class ExtraFieldModel implements ArrayAccess, JsonSerializable{
         return $this->model->{$name};
     }
     /**
-     * 
-     * @param string $key 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $key
+    * @param mixed $value
+    * @return void
+    */
     public function __set(string $key, $value){
         $bkey = [$key];
         if ($prefix = $this->model->getTableInfo()->prefix){
@@ -66,27 +83,36 @@ class ExtraFieldModel implements ArrayAccess, JsonSerializable{
         }
         $this->m_data[$key] = $value;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function to_array(){
         return array_merge($this->model->to_array(), $this->m_data);
     }
     /**
-     * 
-     * @param mixed $key 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    * @return mixed
+    */
     public function _access_OffsetGet($key){
         return $this->__get($key);
     }
     /**
-     * 
-     * @param mixed $key 
-     * @param mixed $value 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $value
+    * @return void
+    */
     public function _access_OffsetSet($key, $value){
         $this->__set($key, $value);
     }
-
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    * @return void
+    */
     public function __call($name, $arguments)
     {
         return call_user_func_array([$this->model, $name], $arguments);

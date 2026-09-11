@@ -76,28 +76,138 @@ use IGK\Models\ModelBase;
 * @method static mixed resolve($data) macros function definition
 * */
 class Users extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_LOGIN="clLogin";
-	const FD_CL_GUID="clGuid";
-	const FD_CL_PWD="clPwd";
-	const FD_CL_FIRST_NAME="clFirstName";
-	const FD_CL_LAST_NAME="clLastName";
-	const FD_CL_DISPLAY="clDisplay";
-	const FD_CL_LOCALE="clLocale";
-	const FD_CL_PICTURE="clPicture";
-	const FD_CL_LEVEL="clLevel";
-	const FD_CL_STATUS="clStatus";
-	const FD_GOOGLE_USER_ID="google_user_id";
-	const FD_PROVIDER="provider";
-	const FD_FB_USER_ID="fb_user_id";
-	const FD_AUTH_FA_KEY="auth_2fa_key";
-	const FD_CL_DATE="clDate";
-	const FD_CL_LAST_LOGIN="clLastLogin";
-	const FD_CL_PARENT_ID="clParent_Id";
-	const FD_CL_CLASS_NAME="clClassName";
-	const FD_CLCREATE_AT="clcreate_at";
-	const FD_CLUPDATE_AT="clupdate_at";
-	const FD_CL_DEACTIVATE_AT="clDeactivate_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_ID="clId";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_LOGIN="clLogin";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_GUID="clGuid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_PWD="clPwd";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_FIRST_NAME="clFirstName";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_LAST_NAME="clLastName";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_DISPLAY="clDisplay";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_LOCALE="clLocale";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_PICTURE="clPicture";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_LEVEL="clLevel";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_STATUS="clStatus";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_GOOGLE_USER_ID="google_user_id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_PROVIDER="provider";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_FB_USER_ID="fb_user_id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_AUTH_FA_KEY="auth_2fa_key";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_DATE="clDate";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_LAST_LOGIN="clLastLogin";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_PARENT_ID="clParent_Id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_CLASS_NAME="clClassName";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CLCREATE_AT="clcreate_at";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CLUPDATE_AT="clupdate_at";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_DEACTIVATE_AT="clDeactivate_At";
 	/**
 	* table's name
 	*/

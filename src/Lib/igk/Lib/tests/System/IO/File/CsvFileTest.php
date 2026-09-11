@@ -137,8 +137,11 @@ EOF        );
             ],
             $file->map($data[0], $mapper)
         );
-    } 
-
+    }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_in_litteral_detection(){
         $src = <<<EOF
 a, comme, d'habit, ute

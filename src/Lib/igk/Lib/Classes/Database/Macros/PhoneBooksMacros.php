@@ -37,6 +37,9 @@ class PhoneBooksMacros
     const PHONE_DEFAULT_TEL = 'gsm|tel|phone';
     /**
     * auto generate doc.
+    * @param PhoneBooks $model
+    * @param Users $user
+    * @param ?string $type
     * @param null|string $search
     * @return bool|null|IDbQueryResult|IToJSon
     */

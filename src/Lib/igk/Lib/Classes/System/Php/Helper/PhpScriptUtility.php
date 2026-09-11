@@ -15,6 +15,11 @@ use IGK\Helper\Activator;
  */
 abstract class PhpScriptUtility
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const SINGLE_LINE_MARK="(\/\/|#)";
     /**
      * skip shebang definition 

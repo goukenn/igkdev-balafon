@@ -268,12 +268,12 @@ abstract class AppCommand
         Logger::print("");
     }
     /**
-     * generate file according to command information
-     * @param mixed $command
-     * @param array $bind
-     * @param mixed ...$extra
-     * @return void
-     */
+    * generate file according to command information
+    * @param mixed $command
+    * @param array $bind
+    * @param mixed ...$extra
+    * @return void
+    */
     public static function Generate($command, array $bind, ...$extra)
     {
         foreach ($bind as $path => $callback) {
@@ -309,14 +309,14 @@ abstract class AppCommand
         $g = Activator::CreateNewInstance(AppCommandOptions::class, $c);
         return $g;
     }
-
     /**
-     * use that to auto replace parameter key 
-     * @param mixed $command 
-     * @param mixed &$controller 
-     * @param mixed &$param 
-     * @return void 
-     */
+    * use that to auto replace parameter key
+    * @param mixed $command
+    * @param mixed &$controller
+    * @param mixed &$param
+    * @param mixed $key
+    * @return void
+    */
     protected static function AutoInjectController($command, &$controller, &$param, $key='--controller')
     {   
         if (empty($name)) {

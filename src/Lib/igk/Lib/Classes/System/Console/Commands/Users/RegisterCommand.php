@@ -85,10 +85,8 @@ class RegisterCommand extends AppExecCommand
           foreach ($groups as $g)
             Authorization::BindUserToGroup($ctrl, $r, $g);
         }
-  
         Logger::SetColorizer(new Colorize); 
         Logger::print(json_encode($r, JSON_PRETTY_PRINT));
-        
       } else {
         Logger::danger('failed to register');
       }

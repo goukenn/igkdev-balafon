@@ -29,7 +29,7 @@ class BuildCssCommand extends AppExecCommand
 	 * Property: desc.
 	 * @var mixed
 	 */
-	var $desc = 'css. generate project\'s style theme';
+	var $desc = 'css. generate project\'s style theme. only wath to use ';
 	/**
 	 * Property: options.
 	 * @var mixed
@@ -137,7 +137,11 @@ class BuildCssCommand extends AppExecCommand
 			Logger::warn('no css reference detected. use of css');
 		}
 	}
-	public function getCoreCss()
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getCoreCss()
 	{
 		return implode('', [
 			'*{margin:0; padding: 0; box-sizing: content-box;}',

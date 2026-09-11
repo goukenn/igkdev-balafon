@@ -35,7 +35,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     * @param mixed $value
     * @param mixed $default
     * @param array & $error
-    * @param array $error
+    * @param ?object $options
     * @throws ArgumentTypeNotValidException
     * @throws ReflectionException
     * @return string|void

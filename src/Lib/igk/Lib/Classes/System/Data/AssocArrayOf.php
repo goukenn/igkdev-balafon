@@ -14,20 +14,20 @@ use IGK\Helper\Activator;
 
 class AssocArrayOf extends DataMappingBase{
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $className;
     /**
-     * 
-     * @var string
-     */
+    * auto generate doc.
+    * @var string
+    */
     var $keyProperty='id';
     /**
-     * 
-     * @param mixed $data 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $data
+    * @return mixed
+    */
     public function Map($data){
         $c = (array)$data;
         if (empty($c)){

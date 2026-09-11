@@ -76,9 +76,11 @@ class IGKApp extends IGKObject
     */
     const RUN_CONTEXT = 'run';
     /**
-     * get app configuration settings
-     * @return mixed 
-     */
+    * get app configuration settings
+    * @param mixed $key
+    * @param mixed $default
+    * @return mixed
+    */
     public static function GetConfig($key, $default=null){
         return IGKAppConfig::getInstance()->Data->get($key, $default);
     }

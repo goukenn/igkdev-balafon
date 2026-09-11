@@ -79,6 +79,10 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     public function to_json($options=null, int $encode= 0){
         return JSon::Encode($this->p_data, $options, $encode);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function to_array(){
         return $this->p_data; 
     }

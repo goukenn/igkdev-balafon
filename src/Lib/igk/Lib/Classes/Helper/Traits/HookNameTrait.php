@@ -11,12 +11,16 @@ use IGKEvents;
 * @package IGK\Helper\Traits
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Helper\Traits
+*/
 trait HookNameTrait{
     /**
-     * 
-     * @param string $path 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @return string
+    */
   static function HookName(string $path):string{
         return IGKEvents::CreateHookKey(static::class, $path);
     }

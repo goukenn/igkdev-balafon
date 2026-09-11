@@ -1060,6 +1060,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     * @param mixed $info
     * @param string $source
     * @param int $n
+    * @param ?array $endcapture
     * @throws IGKException
     * @return mixed
     */
@@ -1309,7 +1310,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     * check for multi - line buffering detection
     * @param string $src
     * @param int & $offset
-    * @param mixed $offset
+    * @param mixed & $out
     * @return bool
     */
     protected function _lineBufferDetected(string $src,int & $offset, & $out=null):bool{
@@ -1628,7 +1629,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
     * treat text by passing captured segment to the callable.
     * @param string & $src
-    * @param string $src
+    * @param callable $callable
     * @param string $end_token_id
     * @throws Exception
     * @return void

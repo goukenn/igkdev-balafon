@@ -25,6 +25,7 @@ trait ScriptTrait
 {
     /**
     * auto generate doc.
+    * @param mixed $manager
     */    public static function GetCoreScriptInlineContent($manager): ?string
     {
         return self::GetScriptInlineContent(self::GetCoreScriptDirs(), $manager);

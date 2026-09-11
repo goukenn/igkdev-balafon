@@ -14,6 +14,11 @@ namespace IGK\System\Polyfill;
 */
 trait ArrayGetRefAccessSelfTrait
 {
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return bool
+    */
     public function offsetExists(mixed $n): bool{
         return $this->_access_offset_exists($n);
     }

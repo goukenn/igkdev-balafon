@@ -89,7 +89,10 @@ class SchemaBuilderMigration
      * .ctr
      */
     public function __construct() {}
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private function _mig(){
         if (($m = $this->migrationListener) instanceof ISchemaMigrationInfoListener){
 
@@ -111,6 +114,11 @@ class SchemaBuilderMigration
             return $r->prefix;
         }
     }
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @return void
+    */
     public function getLinkTablePrefix(string $table)
     {
         if ($mig = $this->_mig()){

@@ -332,6 +332,12 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         }
         return getv($b, $classname);
     }
+    /**
+    * auto generate doc.
+    * @param string $classname
+    * @param null|mixed $callback
+    * @return void
+    */
     public function resetClassInstance(string $classname, $callback=null){
         unset($this->instances[$classname]);
         return $this->createClassInstance($classname, $callback);

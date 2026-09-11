@@ -287,7 +287,9 @@ class CssThemeResolver
                     $vt_hdef = $systheme->$deftheme;
                     if (is_null($vt_hdef)){
                         igk_wln_e(
-                            __FILE__.":".__LINE__ , 'data:', $deftheme,
+                            __FILE__.":".__LINE__ , 'data:',
+                            "definition theme is null ",
+                             $deftheme,
                             $type,
                              $v,
                              get_class($systheme),

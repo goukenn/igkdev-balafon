@@ -23,7 +23,12 @@ use L81Controller;
 * @package IGK\System\Console\Commands\Database
 */
 class InitDbCommand extends AppExecCommand{
-	const ENV_DB_INFO_KEY = '__cmd_initdb:info';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const ENV_DB_INFO_KEY = '__cmd_initdb:info';
     /**
     * Property: command.
     * @var mixed
@@ -55,6 +60,7 @@ class InitDbCommand extends AppExecCommand{
     var $usage = '[controller] [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param null|string $ctrl
     * @return int
     */

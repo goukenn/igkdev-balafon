@@ -23,10 +23,10 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
 final class IGKCaches
 {
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return mixed
+    */
     public static function ControllerFileSystem(BaseController $ctrl){
         return call_user_func_array([static::class, 'ctrl_filesystem'], [$ctrl]);
     }

@@ -37,7 +37,7 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
     * @param null|array $not_required //list of not required field
     * @param mixed & $requestData
     * @param ?array & $error
-    * @param mixed $requestData returned data
+    * @param ?array $resolvKeys
     * @throws IGKException
     * @return bool
     */

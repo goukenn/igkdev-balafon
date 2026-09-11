@@ -2113,21 +2113,19 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         return self::_StartpinitSDb($this, $nav, $clean);
     }
     /**
-     * 
-     * @param mixed $ctrl 
-     * @param bool $nav 
-     * @param mixed $clean 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param bool $nav
+    * @param mixed $clean
+    * @return void
+    */
     public static function _StartpinitSDb($ctrl, $nav=true, $clean=null){
-    
         require_once IGK_LIB_DIR . "/igk_html_utils.php";
         $success = 1;
         $is_ajx = igk_is_ajx_demand();
         $not = $ctrl->notifyctrl();
         set_time_limit(0);
         igk_set_env(__FUNCTION__, 1);
-       
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
         DBCaches::Reset(); 

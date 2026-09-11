@@ -114,9 +114,9 @@ abstract class DbSchemas
         return self::$sm_isLoadingFromSchema;
     }
     /**
-     * 
-     * @return array 
-     */
+    * auto generate doc.
+    * @return array
+    */
     public static function GetSchemas(){
         return self::$sm_schemas;
     }
@@ -277,10 +277,10 @@ abstract class DbSchemas
     * @param mixed & $tbrelations
     * @param mixed & $migrations
     * @param mixed & $entries
-    * @param array $tables
-    * @param array $tbrelations
+    * @param mixed $ctrl
+    * @param mixed $resolvname
     * @param mixed $operation
-    * @param array $migrations
+    * @param array $tables
     * @return mixed
     */
     public static function LoadSchemaArray(

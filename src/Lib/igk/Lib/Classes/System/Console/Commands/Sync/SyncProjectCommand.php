@@ -231,7 +231,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
                     // + | check 
                     SyncProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
-                   
                     $fc = function ($f, ?array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
                         $dir = dirname($f);
                         $basename = basename($f);

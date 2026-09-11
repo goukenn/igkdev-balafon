@@ -111,10 +111,10 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     /**
     * add email column
     * @param mixed $prefix
+    * @param mixed $length
     * @param string $name
     * @param mixed $notnull
     * @param mixed $inputtype
-    * @param mixed $default
     * @param mixed $description
     * @return $this
     */
@@ -311,10 +311,10 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     * @param string $table
     * @param ?string $column
     * @param string $table_name
+    * @param mixed $notnull
+    * @param mixed $inputtype
     * @param string $linkColumn
     * @param mixed $linkName
-    * @param bool $notnull
-    * @param string $inputtype
     * @throws IGKException
     * @return IDiagramSchemaEntity
     */

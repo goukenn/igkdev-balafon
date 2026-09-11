@@ -12,11 +12,15 @@ use IGK\System\EntryClassResolution;
 * @package IGK\System\Database\Traits
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Database\Traits
+*/
 trait DbRegisterProfileTrait{
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     protected function registerProfile()
     {
         /**
@@ -35,7 +39,6 @@ trait DbRegisterProfileTrait{
      * @return ?string
      */
     static function GetDefaultProfile(){
-                
         if ($ns = igk_get_class_namespace(static::class)){
             $ns .='\\';
         }

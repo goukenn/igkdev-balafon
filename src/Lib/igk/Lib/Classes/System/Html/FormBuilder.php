@@ -98,6 +98,11 @@ class FormBuilder
         }
         return $key ? igk_getv($attr, $key) : null;
     }
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return void
+    */
     private function _is_detected_type(string $type){
         return in_array($type, ['fieldset', 'efieldset']);
     }
@@ -584,10 +589,10 @@ class FormBuilder
         return $o;
     }
     /**
-     * 
-     * @param mixed $v 
-     * @return ?string 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return ?string
+    */
     private function _buildRowFieldBlock(array $v):?string{
         $n = igk_html_host('div.igk-form-row');
         $n->fields($v);

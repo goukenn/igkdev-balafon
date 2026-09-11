@@ -123,10 +123,11 @@ abstract class UsersMacros
         return $_commit;
     }
     /**
-     * get group that this user is member of
-     * @param Users $model 
-     * @return mixed|array|null
-     */
+    * get group that this user is member of
+    * @param Users $model
+    * @param ?string $auth
+    * @return mixed|array|null
+    */
     public static function memberOf(Users $model, ?string $auth = null)
     {
         $mod = $model;
@@ -344,19 +345,24 @@ abstract class UsersMacros
     {
         return self::checkAuth($model, $auths, $strict);
     }
+    /**
+    * auto generate doc.
+    * @param Users $model
+    * @return void
+    */
     public static function groups(Users $model)
     {
         return Usergroups::getUserGroups($model->clId);
     }
-
     /**
-     * counting registered member on that profiles 
-     * @param Users $model 
-     * @param ModelBase $profile_model 
-     * @param string $group_name 
-     * @param null|string $controllername 
-     * @return int 
-     */
+    * counting registered member on that profiles
+    * @param Users $model
+    * @param ModelBase $profile_model
+    * @param string $group_name
+    * @param null|string $controllername
+    * @param bool $all
+    * @return int
+    */
     public static function projectProfileCountMemberOf(Users $model, ModelBase $profile_model, string $group_name, ?string $controllername = null, bool $all = false)
     {
         $n = $controllername;

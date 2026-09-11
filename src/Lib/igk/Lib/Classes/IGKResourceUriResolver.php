@@ -235,12 +235,17 @@ class IGKResourceUriResolver
         }
         return $v . $query;
     }
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const PRJ_FOLDER = ResIdentifierConstants::PROJECT;
     /**
-     * 
-     * @param mixed $s 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $s
+    * @return mixed
+    */
     public function treatProjectAssetPath($s)
     {
         if (false !== (strpos($s, '/Data/'))) {
@@ -291,11 +296,11 @@ class IGKResourceUriResolver
         return $li;
     }
     /**
-     * 
-     * @param string $relative 
-     * @param bool $fulluri 
-     * @return string|mixed 
-     */
+    * auto generate doc.
+    * @param string $relative
+    * @param bool $fulluri
+    * @return string|mixed
+    */
     function transform(string $relative,bool  $fulluri)
     {
         if ($fulluri) {

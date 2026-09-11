@@ -90,9 +90,10 @@ class HookRegister
         igk_reg_hook(IGKEvents::HOOK_INIT_APP, Closure::fromCallable([self::class, 'OnAppInitialized']));
     }
     /**
-     * raise on application initialized 
-     * @return void 
-     */
+    * raise on application initialized
+    * @param mixed $e
+    * @return void
+    */
     protected static function OnAppInitialized($e)
     {
         $_env = igk_environment();

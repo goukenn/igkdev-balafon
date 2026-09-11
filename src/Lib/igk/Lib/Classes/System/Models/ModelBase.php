@@ -308,6 +308,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
         return  (object)array_filter($tab);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function _getFilteredColumns(){
         $arg = $this->hidden ?? [];
         return $arg;
@@ -498,9 +502,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     public function __construct($raw = null, $mock = 0, bool $unset = false)
     {
         $this->_initialize($raw, $mock, $unset);
-        $this->_registerModels();       
-       
+        $this->_registerModels();
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function _registerModels(){
          $tab = &self::RegisterModels();
         // + | if ($tab && !isset($tab[$tb = $this->table()])) {
@@ -518,12 +525,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
     }
     /**
-     * 
-     * @param string $table 
-     * @param null|BaseController $ctrl 
-     * @param mixed $tableReference 
-     * @return SchemaMigrationInfo|array|null 
-     */
+    * auto generate doc.
+    * @param string $table
+    * @param null|BaseController $ctrl
+    * @param mixed & $tableReference
+    * @return SchemaMigrationInfo|array|null
+    */
     protected function _initTableInfo(string $table, ?BaseController $ctrl, & $tableReference=null){
         return DBCaches::GetColumnInfo($table, $ctrl, $tableReference);
     }

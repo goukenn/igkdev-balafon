@@ -28,11 +28,11 @@ use IGKSysUtil;
 abstract class DbUtility
 {
     /**
-     * 
-     * @param string $v 
-     * @param mixed $grammar 
-     * @return string|mixed 
-     */
+    * auto generate doc.
+    * @param string $v
+    * @param mixed $grammar
+    * @return string|mixed
+    */
     public static function EscapeName(string $v, $grammar){
          if (preg_match('/^`.*`$/', $v)) {
             return $v;
@@ -44,11 +44,11 @@ abstract class DbUtility
         return '`' . $v . '`';
     }
     /**
-     * 
-     * @param string $prefix 
-     * @param mixed $row 
-     * @return array 
-     */
+    * auto generate doc.
+    * @param string $prefix
+    * @param mixed $row
+    * @return array
+    */
     public static function AutoPrefixColumn(string $prefix, $row){
         $trow = [];
         foreach($row as $k=>$v){
@@ -371,6 +371,14 @@ abstract class DbUtility
         }
         return $tab;
     }
+    /**
+    * auto generate doc.
+    * @param array & $column_index
+    * @param array $idx
+    * @param string $column
+    * @param mixed $tv
+    * @return void
+    */
     private static function _LoadIndexColumns(array & $column_index, array $idx, string $column, $tv){
         foreach($idx as $index){
             if (!isset($column_index[$index])){

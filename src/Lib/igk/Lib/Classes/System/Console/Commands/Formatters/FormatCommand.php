@@ -47,6 +47,7 @@ class FormatCommand extends AppExecCommand{
     var $usage = '';
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param null|string $file
     * @return void
     */

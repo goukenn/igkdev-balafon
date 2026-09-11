@@ -481,6 +481,10 @@ class IGKGD
         ob_end_clean();
         return $c;
     }
+    /**
+    * Called when an object is used as a function.
+    * @return void
+    */
     public function __invoke()
     {
         return $this->renderText();

@@ -99,7 +99,6 @@ class CsvFile
                         $tx = '';
                     }
                     if ($e->tokenID == 'string') {
-                        
                         $sb .= $tx.self::_TreatString($e->value); 
                     }
                     if ($e->tokenID == 'start-multistring') {
@@ -140,15 +139,22 @@ class CsvFile
         );
         return array_filter($data);
     }
-    public function _TreatString(string $v){
+    public
+/**
+* auto generate doc.
+* @param string $v
+* @return mixed
+*/
+function _TreatString(string $v){
         $v = stripslashes($v);
         return $v;
     }
-    /**
-     * use data to expor line 
-     * @param array $data 
-     * @return string 
-     */
+/**
+* use data to expor line
+* @param array $data
+* @param mixed $length
+* @return string
+*/
     public function exportLine(array $data, $length = null): string
     {
         if (!is_null($length) && ($length > 0)) {

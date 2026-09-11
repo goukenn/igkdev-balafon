@@ -225,10 +225,10 @@ class HtmlRenderer
         $options->__invoke = [];
     }
     /**
-     * 
-     * @param mixed $options 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param mixed $options
+    * @return string
+    */
     private static function _GetLineFeed($options){
         return $options->Indent ? "\n" : "";
     }
@@ -488,11 +488,11 @@ class HtmlRenderer
         return $s;
     }
     /**
-     * 
-     * @param string $buffer
-     * @param string $ln calculated line feed
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $buffer
+    * @param string $ln calculated line feed
+    * @return string
+    */
     private static function _StartTagRendering(string $buffer, string $ln){
         return $buffer.$ln;
     }

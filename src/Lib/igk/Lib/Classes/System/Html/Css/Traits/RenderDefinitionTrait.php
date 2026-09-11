@@ -20,6 +20,7 @@ trait RenderDefinitionTrait
 {
     /**
     * auto generate doc.
+    * @param mixed $def
     * @param ?ICssRenderOption $option
     * @return string
     */

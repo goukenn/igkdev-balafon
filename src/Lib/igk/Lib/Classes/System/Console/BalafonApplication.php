@@ -88,6 +88,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     {
         return $this->m_no_color;
     }
+    /**
+    * auto generate doc.
+    * @param bool $value
+    * @return void
+    */
     public function setNoColor(bool $value)
     {
         $this->m_no_color = $value;
@@ -205,6 +210,10 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             }
         }
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function InitConfiguration()
     {
         return implode("\n", [
@@ -248,8 +257,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             $configFile = $bdir . '/balafon.config.xml';
             igk_io_w2file($configFile, self::InitConfiguration());
             $c = array_search('--init-config', $argv);
-            unset($argv[$c]); 
-            
+            unset($argv[$c]);
         }
 
         try {
@@ -731,11 +739,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         return false;
     }
     /**
-     * 
-     * @param mixed &$argv 
-     * @param mixed $command 
-     * @return string[] 
-     */
+    * auto generate doc.
+    * @param mixed &$argv
+    * @param mixed $command
+    * @return string[]
+    */
     public static function GetArgArray(&$argv, $command)
     {
         $tdebug = [];

@@ -111,9 +111,9 @@ function igk_reflection_func_get_args($args)
     return $tc;
 }
 /**
- * 
- * @return mixed|null 
- */
+* auto generate doc.
+* @return mixed|null
+*/
 function igk_reflection_callee_class(){
         $callers = debug_backtrace();
         $i = 1;

@@ -18,6 +18,11 @@ use Logger;
 * @package IGK\System\Database
 */
 abstract class InitBase{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const ACTION_METHOD_PREFIX = 'Action';
     /**
     * Constant: init method.
@@ -88,7 +93,6 @@ abstract class InitBase{
         $ctrl->cleanAllCreatedModel();     
         DBCaches:: //Clear($ctrl);
         ClearControllerCache($ctrl);
-        
         $ctrl->migrate(true);
         if (($ctrl instanceof SysDbController) && !($ctrl instanceof  ApplicationModuleController)){
             $r = Database::ModuleMigrations();
@@ -96,6 +100,11 @@ abstract class InitBase{
         }       
         Database::InitData($ctrl);
     }
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return void
+    */
     public static function ActionBackup(BaseController $ctrl){
         $ad = $ctrl->getDataAdapter();
         $info = $ctrl->getAllUsedModelInfoFromCache();

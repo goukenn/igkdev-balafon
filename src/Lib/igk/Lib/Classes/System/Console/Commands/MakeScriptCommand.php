@@ -9,20 +9,54 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
-
 /**
- * 
- * @package IGK\System\Console\Commands
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeScriptCommand extends AppExecCommand
 {
-	var $command = '--make:script-command';
-	var $desc = 'use to create a script command';
-	var $options = [];
-	var $category = 'make';
-	var $usage = 'file [options]';
-	public function exec($command, ?string $file = null)
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command = '--make:script-command';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $desc = 'use to create a script command';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $options = [];
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $category = 'make';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $usage = 'file [options]';
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $file
+    * @return void
+    */
+    public function exec($command, ?string $file = null)
 	{
 
 		empty($file) && igk_die('file required');

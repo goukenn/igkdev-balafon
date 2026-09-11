@@ -14,6 +14,7 @@ namespace IGK\Helper;
 class DomainHelper{
     /**
     * auto generate doc.
+    * @param string $domain
     * @param string $hayhstack
     * @return bool
     */

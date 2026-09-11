@@ -16,7 +16,12 @@ use IGK\System\Http\ConfigurationPageHandler;
 * @package IGK\System\Console\Commands
 */
 class RequestConfigurationCommand extends AppExecCommand{
-	var $command='--request:config';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command='--request:config';
     /**
     * auto generate doc.
     * @var mixed

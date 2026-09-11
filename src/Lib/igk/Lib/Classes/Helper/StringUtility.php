@@ -35,10 +35,11 @@ abstract class StringUtility
      */
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
     /**
-     * auto generate doc.
-     * @param array *71280add
-     * @return bool
-     */
+    * auto generate doc.
+    * @param string $name
+    * @param array $list
+    * @return bool
+    */
     public static function StrArrayContains(string $name, array $list): bool
     {
         $l = $list;
@@ -603,7 +604,7 @@ abstract class StringUtility
     * read identifier token
     * @param string $hastack
     * @param int & $offset
-    * @param int $offset
+    * @param string $token
     * @return string
     */
     public static function ReadIdentifier(string $hastack, int &$offset = 1, string $token = self::IDENTIFIER_TOKEN): string
@@ -932,6 +933,12 @@ abstract class StringUtility
         }
         return $rp;
     }
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @param null|array $params
+    * @return void
+    */
     public static function ReplacementFormat(string $value, ?array $params = null){
         $rp = self::CreateFormatReplacement($params); 
         return $rp->replace($value);
@@ -1073,7 +1080,12 @@ abstract class StringUtility
         }
         return intval($ln);
     }
-
+    /**
+    * auto generate doc.
+    * @param string $l
+    * @param string $char
+    * @return void
+    */
     public static function EscapeChar(string $l, string $char = RegexMatcherUtility::DEFAULT_ESCAPED_LIST){
         $t = array_unique(str_split($char, 1));
         foreach($t as $k){

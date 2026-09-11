@@ -48,6 +48,15 @@ interface IDiagramSchemaEntity
     function locale(string $id, int $length=DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
     /**
     * auto generate doc.
+    * @param string $name
+    * @param string $table_name
+    * @param mixed $linkColumn
+    * @param mixed $linkName
+    * @param mixed $notnull
+    * @param bool $unique
+    * @param ?int $uniqueColumn
+    * @param mixed $inputtype
+    * @param mixed $default
     * @param mixed $description
     * @return self
     */

@@ -12,20 +12,23 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * @package IGK\Manager
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Manager
+*/
 class AppDashboardCollection implements ArrayAccess{
     use ArrayAccessSelfTrait;
     /**
-     * 
-     * @var array
-     */
+    * auto generate doc.
+    * @var array
+    */
     private $m_collection = [];
-
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $v 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    * @return void
+    */
     protected function _access_OffsetSet($n, $v){
         $g = AppDashboardItem::CreateNewInstance($v);
         if (is_null($n)){
@@ -35,13 +38,17 @@ class AppDashboardCollection implements ArrayAccess{
         }
     }
     /**
-     * 
-     * @param mixed $n 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return mixed
+    */
     protected function _access_OffsetGet($n){
         return igk_getv($this->m_collection, $n);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function to_array(){
         return $this->m_collection;
     }

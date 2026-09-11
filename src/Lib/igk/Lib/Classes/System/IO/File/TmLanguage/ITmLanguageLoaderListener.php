@@ -22,6 +22,8 @@ interface ITmLanguageLoaderListener{
     function createPattern($definition) : RegexMatcherPattern;
     /**
     * auto generate doc.
+    * @param mixed $definition
+    * @param mixed $container
     * @param mixed $repository
     * @return mixed
     */

@@ -25,6 +25,8 @@ use IGK\System\IToJSon;
 interface IControllerConfigurationData extends IToArray, IToJSon{
     /**
     * Returns.
+    * @param ?string $key
+    * @param mixed $default
     */
     public function get(?string $key=null, $default=null);
     public function storeConfig();

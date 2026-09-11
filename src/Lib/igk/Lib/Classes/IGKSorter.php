@@ -28,8 +28,8 @@ final class IGKSorter{
     * Applies a named sort function to an array or sortable object by key.
     * @param mixed & $tab
     * @param mixed $tab The array or object to sort (by reference).
+    * @param mixed $asc
     * @param mixed $key The key to sort by.
-    * @param bool $asc Whether to sort in ascending order.
     * @return mixed The sorted array or object.
     */
     private static function __SortValue(& $tab, $key, $asc, $funcname){
@@ -49,7 +49,7 @@ final class IGKSorter{
     /**
     * Sorts an array or sortable object using the current sorter settings.
     * @param mixed & $tab
-    * @param mixed $tab The array or object to sort (by reference).
+    * @param mixed $key
     */
     public function Sort(& $tab, $key=null){
         if(is_array($tab)){

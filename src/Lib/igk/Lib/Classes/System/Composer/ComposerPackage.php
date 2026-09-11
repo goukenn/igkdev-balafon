@@ -19,6 +19,7 @@ class ComposerPackage{
     /**
     * auto generate doc.
     * @param string $file
+    * @param mixed & $errors
     * @return static|false
     */
     public static function Load(string $file, & $errors=null){

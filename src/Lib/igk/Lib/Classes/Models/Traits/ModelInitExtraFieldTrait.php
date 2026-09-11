@@ -10,12 +10,16 @@ namespace IGK\Models\Traits;
 * @package IGK\Models\Traits
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Models\Traits
+*/
 trait ModelInitExtraFieldTrait{
- /**
-     * 
-     * @param string $name 
-     * @return mixed 
-     */
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return mixed
+    */
     public abstract static function GetInitExtraField(string $name);
     /**
      * to insert extra fields

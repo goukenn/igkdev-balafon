@@ -696,12 +696,12 @@ abstract class ControllerExtension
         }
     }
     /**
-     * get default autorization name
-     * @param BaseController $ctrl 
-     * @param string $name auth name  
-     * @param string[] ...$extra more authorisations 
-     * @return mixed 
-     */
+    * get default autorization name
+    * @param BaseController $ctrl
+    * @param string $name auth name
+    * @param mixed ...$extra
+    * @return mixed
+    */
     public static function authName(BaseController $ctrl, string $name, ...$extra): string
     {
         $cl = get_class($ctrl);
@@ -933,13 +933,14 @@ abstract class ControllerExtension
         return $c;
     }
     /**
-     * initialize controller's database models
-     * @param BaseController $ctrl
-     * @param array $definitions array of table definitions
-     * @param mixed $clean
-     * @throws IGKException
-     * @return void
-     */
+    * initialize controller's database models
+    * @param BaseController $ctrl
+    * @param array $definitions array of table definitions
+    * @param mixed $force
+    * @param mixed $clean
+    * @throws IGKException
+    * @return void
+    */
     public static function InitDataBaseModel(
         BaseController $ctrl,
         array $definitions,
@@ -1084,9 +1085,10 @@ abstract class ControllerExtension
         }
     }
     /**
-     * Initializes Data Seeder.
-     * @param BaseController $ctrl
-     */
+    * Initializes Data Seeder.
+    * @param BaseController $ctrl
+    * @param bool $force
+    */
     public static function InitDataSeeder(BaseController $ctrl, bool $force = false)
     {
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
@@ -1843,13 +1845,13 @@ abstract class ControllerExtension
         return null;
     }
     /**
-     * Dispatch model utility
-     * @param BaseController $controller
-     * @param mixed $modelname
-     * @param mixed $funcName
-     * @param mixed ...$args
-     * @return mixed
-     */
+    * Dispatch model utility
+    * @param BaseController $controller
+    * @param mixed $modelname
+    * @param mixed $funcName
+    * @param mixed ...$args
+    * @return mixed
+    */
     public static function dispatchToModelUtility(BaseController $controller, $modelname, $funcName, ...$args)
     {
         if ($mod = $controller->loader->model($modelname)) {

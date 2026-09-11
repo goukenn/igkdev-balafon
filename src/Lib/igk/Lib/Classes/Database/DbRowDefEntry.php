@@ -46,7 +46,10 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     private $m_model;
     /**
     * auto generate doc.
+    * @param object $row
+    * @param ?string $prefix
     * @param null|bool $strict
+    * @param ?ModelBase $model
     * @return void
     */
     public function __construct(object $row, ?string $prefix = null, ?bool $strict = false, ?ModelBase $model=null)

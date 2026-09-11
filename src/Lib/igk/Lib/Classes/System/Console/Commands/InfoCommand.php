@@ -12,7 +12,12 @@ use IGKEvents;
 * @package IGK\System\Console\Commands
 */
 class InfoCommand extends AppExecCommand{
-	var $command='--info';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command='--info';
     /**
     * auto generate doc.
     * @var mixed

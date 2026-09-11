@@ -86,11 +86,10 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var mixed
      */
     var $iconlib;
-
     /**
-     * 
-     * @var ?extrat configurable definition 
-     */
+    * auto generate doc.
+    * @var ?extrat configurable definition
+    */
     var $extra;
     /**
     * array of extra configuration 
@@ -147,11 +146,11 @@ class ProjectConfiguration extends EntityConfigurationSchema{
         self::$sm_config = [];
     }
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $v 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    * @return void
+    */
     public function __set($n, $v){
         if (!isset($this->extra)){
             $this->extra = [];

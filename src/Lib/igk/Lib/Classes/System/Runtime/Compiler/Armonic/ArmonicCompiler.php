@@ -56,12 +56,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     */
     var $tab_stop;
     /**
-     * handle white space
-     * @param ReadTokenOptions $options 
-     * @param null|string $id 
-     * @param string $value 
-     * @return void 
-     */
+    * handle white space
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string & $value
+    * @return void
+    */
     protected function _handleWhiteSpace(ReadTokenOptions $options, ?string $id, string &$value)
     {
         if ($id == T_WHITESPACE) {

@@ -155,6 +155,7 @@ final class Server implements IToArray{
     /**
     * Accept.
     * @param mixed|'html'|'json' $type
+    * @param bool $strict
     */
     public function accept($type="html", bool $strict=false){
         static $accept_type= null;

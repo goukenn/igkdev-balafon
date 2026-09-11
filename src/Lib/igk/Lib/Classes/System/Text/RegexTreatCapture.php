@@ -168,7 +168,7 @@ class RegexTreatCapture{
     * @param string $source_value
     * @param int $offset
     * @param string source value
-    * @param array<string|int, IRegexCaptureInfo> $capture_info
+    * @param mixed $capture
     * @param mixed $callable
     * @throws Exception
     * @return mixed

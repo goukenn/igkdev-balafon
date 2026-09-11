@@ -28,6 +28,11 @@ use function igk_resources_gets as __;
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IViewLayout
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const HOOK_AFTER_INC = 'sys::/viewlayout/after_include';
     /**
      * Path to dir.
@@ -162,15 +167,20 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
     {
         return preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
     }
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @return void
+    */
     protected function isMainInclusion(string $file)
     {
         return $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
     }
     /**
-     * 
-     * @param BaseController $ctrl 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @return bool
+    */
     public function noCache(BaseController $ctrl)
     {
         return $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
@@ -209,7 +219,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
             $t['id'] = null;
             $t['igk-type'] = 'ajx-view';
         }
-        
         if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
             igk_include_view_file($ctrl, $v_header, true, $args);
         }
@@ -263,9 +272,10 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
         return ViewHelper::Include($file, $args);
     }
     /**
-     * afert view inclusion
-     * @return void 
-     */
+    * afert view inclusion
+    * @param string $file
+    * @return void
+    */
     protected function afterInc(string $file)
     {
         igk_hook(self::HOOK_AFTER_INC, ['file' => $file, 'layout' => $this]);
@@ -327,13 +337,12 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
             }, $list);
         }
     }
-
     /**
-     * 
-     * @param IGKHtmlDoc $doc 
-     * @param HtmlNode $t 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param IGKHtmlDoc $doc
+    * @param HtmlNode $t
+    * @return void
+    */
     public function attachScrollTo($doc, $t){
         $box = $doc->body->bodybox();
         $box['class'] = '-igk-parentscroll -igk-powered-viewer -overflow-y-a';

@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: default.controller.php
 // @date: 20220803 13:48:59
-// @desc: 
+// @desc:
 
 /**
  * default controller setting

@@ -138,9 +138,10 @@ class Request implements IInjectable, IContentSecurityProvider
         return igk_do_response($data);
     }
     /**
-     * prepare and return the updload data as json object
-     * @return null|object|array
-     */
+    * prepare and return the updload data as json object
+    * @param bool $associative
+    * @return null|object|array
+    */
     public function getJsonData(bool $associative=false){
         $this->getUploadedData();
         if ($this->js_data !== null){

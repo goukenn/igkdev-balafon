@@ -125,11 +125,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return false;
     }
     /**
-     * auto generate doc.
-     * @param callable $fc
-     * @param mixed ...$args
-     * @return mixed
-     */
+    * auto generate doc.
+    * @param callable $fc
+    * @param mixed ...$args
+    * @return mixed
+    */
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
@@ -169,10 +169,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return (new static(null))->$name(...$args);
     }
     /**
-     * Invoke.
-     * @param string $name
-     * @param mixed ...$args
-     */
+    * Invoke.
+    * @param string $name
+    * @param mixed ...$args
+    */
     public function invoke(string $name, ...$args)
     {
         return $this->__call($name, $args);
@@ -435,17 +435,17 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         return $targs;
     }
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_caches;
     /**
-     * 
-     * @param mixed $j 
-     * @param mixed $value 
-     * @param mixed $model 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $j
+    * @param mixed $value
+    * @param mixed $model
+    * @return mixed
+    */
     public static function autoCached(ModelBaseInjector $j, $value, $model)
     {
         $caches = &static::$sm_caches;

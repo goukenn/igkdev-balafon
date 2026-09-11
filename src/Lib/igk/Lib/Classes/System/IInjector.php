@@ -15,6 +15,7 @@ interface IInjector{
     /**
     * auto generate doc.
     * @param mixed $value
+    * @param ?string $type
     * @return mixed
     */
     function resolve($value, ?string $type=null);

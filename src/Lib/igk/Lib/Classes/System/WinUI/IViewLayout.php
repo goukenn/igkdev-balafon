@@ -10,12 +10,16 @@ namespace IGK\System\WinUI;
 * @package IGK\System\WinUI
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\WinUI
+*/
 interface IViewLayout{
     /**
-     * 
-     * @param string $path 
-     * @param array|null $options
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @param array|null $options
+    * @return mixed
+    */
     function use(string $path, ?array $options=null);
 }

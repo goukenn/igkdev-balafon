@@ -6,20 +6,53 @@ namespace IGK\System\Console\Commands\Core\Html\Dom;
 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
- * 
- * @package IGK\System\Console\Commands\Core\Html\Dom
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Core\Html\Dom
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Core\Html\Dom
+*/
 class SystemComponentCommand extends AppExecCommand
 {
-	var $command = '--components';
-	var $desc = 'retrieve registrated system component';
-	var $options = [];
-	var $category = 'dom';
-	var $usage = '';
-	public function exec($command)
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command = '--components';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $desc = 'retrieve registrated system component';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $options = [];
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $category = 'dom';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $usage = '';
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @return void
+    */
+    public function exec($command)
 	{
 		$func = igk_getv(get_defined_functions(), 'user');
 		sort($func);

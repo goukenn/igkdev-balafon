@@ -21,12 +21,12 @@ class RequestPreparer{
     */
     const PKEY = __CLASS__.'//preparefor_request';
     /**
-     * prepare request. update $_SERVER and $_REQUEST
-     * @param string $path
-     * @param ?string $base_uri
-     * @return string 
-     * 
-     */
+    * prepare request. update $_SERVER and $_REQUEST
+    * @param string $path
+    * @param ?string $base_uri
+    * @param ?string $method
+    * @return string
+    */
     public static function PrepareForRequest(string $path, ?string $base_uri = null, ?string $method=null):string{
         $storage =[
             $_SERVER,

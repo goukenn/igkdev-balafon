@@ -10,6 +10,8 @@ use IGK\System\Exceptions\CssParserException;
 use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\CssClassBuffer;
+use IGK\System\Html\Css\CssClassNameDetector;
+use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
 use IGKException;
 use IGKHtmlDoc;
@@ -28,9 +30,9 @@ class HtmlDocumentCssHostNode extends HtmlNode
     protected $doc;
     /**
      * .ctr
-     * @param mixed $doc
+     * @param IGKHtmlDoc $doc
      */
-    public function __construct($doc)
+    public function __construct(IGKHtmlDoc $doc)
     {
         $this->doc = $doc;
     }
@@ -61,16 +63,36 @@ class HtmlDocumentCssHostNode extends HtmlNode
      */
     public function render($options = null)
     {
-        if (!$this->doc instanceof IGKHtmlDoc) {
+        $doc = $this->doc;
+        if (!$doc instanceof IGKHtmlDoc) {
             return;
         }
-        $clear = ($this->doc instanceof IGKHtmlDoc) ? CssUtils::InitSysGlobal($this->doc) : null;
-        $inlineTheme = $this->doc->getInlineTheme();
         $s = "";
-        $theme = $this->doc->getTheme();
-        igk_css_load_theme($theme);
         $g = "";
-        $g .= $theme->get_css_def();
+        $clear = ($doc instanceof IGKHtmlDoc) ? CssUtils::InitSysGlobal($doc) : null;
+        $theme = $doc->getTheme();
+        $inlineTheme = $doc->getInlineTheme();
+        igk_css_load_theme($theme);
+        if ($doc->noCoreCss) {
+            $theme_tab = CssParser::Parse($theme->render())->to_array();
+            if (!empty($theme_tab)) { 
+                $imported = array_merge([
+                        'dispn',
+                        'fit',
+                        'igk-device',
+                        'igk-media-type', 
+                    ],
+                    $theme->getImportedDefinitions() ?? [],
+                    CssClassNameDetector::RetrieveInjectedClassesList($theme_tab)?? [], 
+                    );                 
+                $tab = CssParser::Parse($doc->getSysTheme()->render())->to_array();
+                $g .= CssClassNameDetector::RenderMaps([
+                    $tab,
+                    $theme_tab,
+                ],$imported);                 
+            }
+        } else
+            $g .= $theme->get_css_def();
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles) {
             igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
@@ -78,8 +100,8 @@ class HtmlDocumentCssHostNode extends HtmlNode
         }
         $is_dev = igk_environment()->isDev();
         if ($is_dev) {
-            $g .= "\n". CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
-                "lf"=>""
+            $g .= "\n" . CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
+                "lf" => ""
             ]);
         }
         if (!empty(trim($g))) {

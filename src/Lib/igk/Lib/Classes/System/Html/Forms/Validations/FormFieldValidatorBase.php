@@ -70,7 +70,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
     * @param mixed $value value data to validate
     * @param mixed $default the default value in case of not valid data if required
     * @param array & $error
-    * @param array $error error data
+    * @param ?object $options
     * @return mixed
     */
     protected abstract function _validate($value, $default=null, array & $error=[], ?object $options=null);

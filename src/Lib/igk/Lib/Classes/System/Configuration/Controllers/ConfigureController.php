@@ -1707,10 +1707,10 @@ EOF;
         }
     }
     /**
-     *
-     * @param mixed $arg
-     * @return void
-     */
+    * auto generate doc.
+    * @param mixed $arg
+    * @return void
+    */
     protected function _view_core_system($arg){
         extract($arg);
         $this->_selectMenu("core-system");
@@ -1751,14 +1751,18 @@ EOF;
         $n->renderAJX();
         igk_exit();
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function getcore_system_tab(){
         return $this->getParam('config_core_system_tab_view', 'general');
     }
     /**
-     * 
-     * @param mixed $v 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $v
+    * @return void
+    */
     public function setcore_system_tab($v){
         $this->setParam('config_core_system_tab_view', $v);
     }
@@ -1851,9 +1855,9 @@ EOF;
         $this->setpage("phpinfo", 1);
     }
     /**
-     * 
-     * @return void 
-     */
+    * auto generate doc.
+    * @return void
+    */
     public function show_core_system(){
         $this->SelectedConfigCtrl = null;
         $this->setpage("core-system", 1);

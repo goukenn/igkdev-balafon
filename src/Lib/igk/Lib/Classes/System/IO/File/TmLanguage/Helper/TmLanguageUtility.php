@@ -24,6 +24,9 @@ abstract class TmLanguageUtility
 {
     /**
     * auto generate doc.
+    * @param array $patterns
+    * @param IRegexMatcherContainer $container
+    * @param mixed $repos
     * @param null|ITmLanguageLoaderListener $listener
     * @return void
     */

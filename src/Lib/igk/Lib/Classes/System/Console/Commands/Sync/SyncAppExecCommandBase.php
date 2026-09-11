@@ -181,7 +181,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     /**
     * remove all item in directory
     * @param mixed $ftp
-    * @param mixed $frp
+    * @param string $dir
     * @return void
     */
     protected function emptyDir($ftp, string $dir){

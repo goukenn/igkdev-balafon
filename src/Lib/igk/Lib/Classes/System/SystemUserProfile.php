@@ -16,13 +16,16 @@ use IGKEvents;
  * @package IGK\System
  */
 abstract class SystemUserProfile implements IUserProfile
-{ 
-    
+{
     /**
      * overriding constant to setup profile model class 
      */
     const profileModelClass=null;
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const profileModelLinkCachedColumn=null;
     /**
     * Constant: init project db user method.
@@ -185,6 +188,10 @@ abstract class SystemUserProfile implements IUserProfile
             return igk_getv($this->m_profile, $name);
         }
     }
+    /**
+    * auto generate doc.
+    * @return ModelBase
+    */
     public function user(): ModelBase
     {
         return $this->m_projectUser;
@@ -194,6 +201,5 @@ abstract class SystemUserProfile implements IUserProfile
      * @return mixed 
      */
     protected function registerProfile(){
-        
     }
 }

@@ -31,6 +31,8 @@ class ActionScaffold extends ScaffoldBase
     var $description = "generate REST action";
     /**
     * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
     * @param null|string $name
     * @return mixed
     */

@@ -10,11 +10,15 @@ namespace IGK\Database;
 * @package IGK\Database
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class DbDataTableDefinition{
     /**
-     * 
-     * @var ?string prefix
-     */
+    * auto generate doc.
+    * @var ?string prefix
+    */
     var $prefix;
     /**
      * table definition 

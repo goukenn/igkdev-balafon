@@ -75,6 +75,11 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
         $g = Activator::CreateNewInstance(DbLitteralExpression::class, get_defined_vars());
         return $g;
     }
+    /**
+    * auto generate doc.
+    * @param mixed $driver
+    * @return bool
+    */
     public function isAvailable($driver):bool{
         return true;
     }

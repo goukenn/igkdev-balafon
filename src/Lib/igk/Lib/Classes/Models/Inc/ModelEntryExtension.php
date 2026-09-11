@@ -741,7 +741,6 @@ abstract class ModelEntryExtension
             $conditions = [
                 $primary => $model->{$primary}
             ];
-            
         }
         // + | 
         $r = $driver->update($table, $value, $conditions, $tbinfo, $filter);
@@ -782,7 +781,6 @@ abstract class ModelEntryExtension
             return $driver->delete($model->getTable(), $conditions);
         }
         catch(\Exception $ex){
-            
         }
         return false;
     }
@@ -1677,11 +1675,11 @@ abstract class ModelEntryExtension
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
     }
     /**
-     * 
-     * @param ModelBase $model 
-     * @param mixed $key 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $key
+    * @return bool
+    */
     public static function supportMacroFunction(\IGK\Models\ModelBase $model, string $key):bool{
         $c = $model->getMacro(self::getMacroKeys($model, $key));
         return !is_null($c);
@@ -1786,9 +1784,6 @@ abstract class ModelEntryExtension
 
         foreach ($info as $key => $value) {
             if ($value->clIsUniqueColumnMember) {
-                
-            
-            
                 $index = $value->clColumnMemberIndex ?? 0;
 
                $fc_load_index($tinfo, $index, $key, $row->$key);

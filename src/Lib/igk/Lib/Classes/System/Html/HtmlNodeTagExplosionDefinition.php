@@ -104,7 +104,7 @@ class HtmlNodeTagExplosionDefinition
     * explode tag
     * @param string $tagname
     * @param mixed & $pnode
-    * @param mixed $pnode
+    * @param mixed $context
     * @throws IGKException
     * @throws ArgumentTypeNotValidException
     * @throws ReflectionException

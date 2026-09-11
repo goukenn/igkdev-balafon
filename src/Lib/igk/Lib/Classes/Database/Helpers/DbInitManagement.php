@@ -20,6 +20,7 @@ class DbInitManagement
 {
     /**
     * auto generate doc.
+    * @param string $name
     * @param null|BaseController $controller
     */
     public static function RegisterGroupAndAuth(string $name, ?BaseController $controller)

@@ -12,6 +12,10 @@ use function igk_resources_gets as __;
  * @package IGK\System\WinUI\Dashboard
  * @author C.A.D. BONDJE DOUE
  */
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Dashboard
+*/
 class DashboardMenu
 {
     /**
@@ -44,10 +48,10 @@ class DashboardMenu
      * @var ?bool
      */
     var $active = true;
-
     /**
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $class;
 
     /**
@@ -55,7 +59,12 @@ class DashboardMenu
      * @var mixed
      */
     var $iconClass;
-
+    /**
+    * auto generate doc.
+    * @param mixed $ul
+    * @param mixed $menus
+    * @return void
+    */
     public static function Build($ul, $menus)
     {
         $group = null;

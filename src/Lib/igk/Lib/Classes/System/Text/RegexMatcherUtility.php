@@ -34,10 +34,16 @@ abstract class RegexMatcherUtility
     * @var mixed
     */
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const DEFAULT_ESCAPED_LIST =  '.)(*+[]/';
     /**
     * Escape char list.
     * @param array $list
+    * @param ?string $escaped_list
     */
     public static function EscapeCharList(array $list, ?string $escaped_list = self::DEFAULT_ESCAPED_LIST){
         if (empty($escaped_list))

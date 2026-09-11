@@ -28,11 +28,36 @@ use IGK\Models\ModelBase;
 * @method static mixed getEntries() macros function definition
 * */
 class PhoneBookUserAssociations extends ModelBase{
-	const FD_ID="rcphb_id";
-	const FD_USER_GUID="rcphb_UserGuid";
-	const FD_PHONE_BOOK_ENTRY_GUID="rcphb_PhoneBookEntryGuid";
-	const FD_CREATE_AT="rcphb_Create_At";
-	const FD_UPDATE_AT="rcphb_Update_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_ID="rcphb_id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_USER_GUID="rcphb_UserGuid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_PHONE_BOOK_ENTRY_GUID="rcphb_PhoneBookEntryGuid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CREATE_AT="rcphb_Create_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_UPDATE_AT="rcphb_Update_At";
 	/**
 	* table's name
 	*/
@@ -45,7 +70,12 @@ class PhoneBookUserAssociations extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphb_id";
-	protected $unique_columns = array (
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphb_UserGuid',

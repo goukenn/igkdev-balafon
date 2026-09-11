@@ -24,12 +24,12 @@ use ReflectionException;
 class BearerAuthenticatorService implements IAuthenticatorService{
     use BearerAuthenticatorTrait;
     /**
-     * get user from token
-     * @param bool $update 
-     * @param mixed $token 
-     * @return null|ModelBase 
-     * @throws IGKException 
-     */
+    * get user from token
+    * @param bool $update
+    * @param mixed & $token
+    * @throws IGKException
+    * @return null|ModelBase
+    */
     protected function getUserFromToken(bool $update = true, & $token=null) : ?ModelBase{ 
         throw new NotImplementException(__METHOD__);    
     }

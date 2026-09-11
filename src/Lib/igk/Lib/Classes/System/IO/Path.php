@@ -129,7 +129,7 @@ class Path
     /**
     * get existing file
     * @param mixed & $path
-    * @param mixed $path
+    * @param array $extension
     * @return bool
     */
     public static function GetExistingFile(&$path, array $extension = []): bool

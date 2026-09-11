@@ -21,9 +21,9 @@ class AsideScripting
      */
     private $m_components;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $aside;
 
     /**
@@ -31,7 +31,11 @@ class AsideScripting
      * @var mixed
      */
     var $components;
-
+    /**
+    * auto generate doc.
+    * @param mixed & $init
+    * @return void
+    */
     protected static function _initHooks(&$init)
     {
 
@@ -52,9 +56,9 @@ class AsideScripting
         $init = true;
     }
     /**
-     * 
-     * @return static 
-     */
+    * auto generate doc.
+    * @return static
+    */
     public static function getInstance()
     {
         static $init;
@@ -63,6 +67,11 @@ class AsideScripting
         }
         return igk_get_class_instance(self::class);
     }
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    * @return void
+    */
     public function render($option = null)
     {
 
@@ -73,21 +82,20 @@ class AsideScripting
         }
     }
     /**
-     * 
-     * @param string $key 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param string $key
+    * @return bool
+    */
     public function contain(string $key): bool
     {
         return isset($this->m_components[$key]);
     }
-
     /**
-     * 
-     * @param string $key 
-     * @param mixed $script 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $key
+    * @param mixed $script
+    * @return void
+    */
     public function __invoke(string $key, $script)
     {
         if (!isset($this->m_components[$key])) {
@@ -95,6 +103,13 @@ class AsideScripting
             $this->aside[] = $script;
         }
     }
+    /**
+    * auto generate doc.
+    * @param string $key
+    * @param string $file
+    * @param mixed $type
+    * @return void
+    */
     public function registerAsBalafonJS(string $key, string $file, $type='balafonjs')
     {
         in_array($type, ['script','balafonjs']) || igk_die('not allowed type');

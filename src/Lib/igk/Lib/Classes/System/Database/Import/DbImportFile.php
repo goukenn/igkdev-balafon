@@ -29,7 +29,11 @@ class DbImportFile{
     const SUPPORT_TYPES= 'json|csv';
     /**
     * auto generate doc.
+    * @param ModelBase $model
     * @param string $file
+    * @param ?string $type
+    * @param ?bool $autoregister
+    * @param mixed $entry
     * @return void
     */
     public static function Import(ModelBase $model, string $file, ?string $type=null, ?bool $autoregister=null, $entry = null){

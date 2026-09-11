@@ -15,7 +15,7 @@ class CheckboxValidator extends BoolValidator implements IFormValidator{
     * @param mixed $value The value to validate.
     * @param mixed $default The default value if validation fails.
     * @param mixed & $error
-    * @param array $error Reference to an array collecting errors.
+    * @param mixed $options
     * @return bool
     */
     protected function _validate($value, $default=null, & $error=[], $options=null){

@@ -6,14 +6,21 @@ namespace IGK\Database\Seeds;
 
 use IGK\Controllers\SysDbController;
 use IGK\System\Database\Seeds\SeederBase;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Database\Seeds
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Database\Seeds
+*/
 class DataBaseSeeder extends SeederBase{
-	public function run(){
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function run(){
 	// + | DATABASE Seeder
 	// + | [model]::factory(number)->create();
 	}

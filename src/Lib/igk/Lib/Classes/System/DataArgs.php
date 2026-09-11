@@ -131,10 +131,10 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         return $c;
     }
     /**
-     * 
-     * @param mixed $name 
-     * @return bool 
-     */
+    * auto generate doc.
+    * @param mixed $name
+    * @return bool
+    */
     public function __isset(string $name):bool
     {
         return isset($this->p_data[$name]);

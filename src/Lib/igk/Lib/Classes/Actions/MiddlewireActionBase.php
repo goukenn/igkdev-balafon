@@ -71,12 +71,12 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     {
         return $this;
     }
-     /**
-     * handle error
-     * @param mixed $code 
-     * @param mixed ...$params 
-     * @return mixed|void 
-     */
+    /**
+    * handle error
+    * @param mixed $code
+    * @param mixed ...$params
+    * @return mixed|void
+    */
     protected function handleError($code, ...$params)
     {
         igk_do_response(new JsonResponse(json_encode($params), $code));

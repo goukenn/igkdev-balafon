@@ -5928,7 +5928,7 @@
     (function () {
         igk.winui.initClassControl("igk-winui-more-view", function () {
             var hide = 0;
-            var rem = this.getAttribute("igk:hide");
+            var rem = this.getAttribute("data-remove");
             var q = this.o.nextSibling;
             var b = [];
             var t = this;

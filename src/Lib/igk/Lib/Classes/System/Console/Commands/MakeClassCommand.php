@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Console\Commands;
 use Exception;
+use igk\bge\Tests\ModuleTestBase;
 use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
@@ -52,7 +53,7 @@ class MakeClassCommand extends AppExecCommand
         "--ns:[namespace]" => "namespace",
         "--path:[dir]" => "output directory",
         "--type:[typename]" => "type name. Allowed value : class|trait|interface|[scaffold model]",
-        "--test" => "test flag",
+        "--test" => "flag: create a test class",
         "--defs" => "code definition",
         "--file:[file_to_create]" => "generate a file",
         '--scaffold'=>'list of scaffold model to use with type'
@@ -88,6 +89,9 @@ class MakeClassCommand extends AppExecCommand
         $ns = igk_str_ns(igk_getv($command->options, "--ns", $test ? self::TEST_CLASS : self::CORE_NS));
         $type = igk_getv($command->options, "--type", "class");
         $defs = igk_getv($command->options, "--defs");
+        if ($test){
+            $extends = BaseTestCase::class;
+        }
         return get_defined_vars();
     }
     /**
@@ -226,6 +230,10 @@ class MakeClassCommand extends AppExecCommand
         $type = igk_getv($command->options, "--type", "class");
         $defs = igk_getv($command->options, "--defs");
         $definition = $definition ? igk_json_parse($definition) : null;
+
+        if ($test && !$extends){
+                $extends = BaseTestCase::class;
+        }
         if (strpos($class_path, '.')) {
             igk_die('not allowed class path name');
         }
@@ -251,9 +259,10 @@ class MakeClassCommand extends AppExecCommand
                 $dir = $ctrl::classdir();
                 $ns = $ctrl->getEntryNamespace();
                 if ($test) {
-                    $dir = dirname($dir) . "/tests";
+                    $dir = dirname($dir) . "/Tests";
                     if ($ns && (strpos($class_path, $ns) === false)) {
                         $class_path =  $ns . "/Tests/" . $class_path;
+                        $ns .= '\\Tests';
                     }
                 }
             } else {
@@ -327,6 +336,7 @@ class MakeClassCommand extends AppExecCommand
                     else  
                         $defs = $s; 
                 }
+
                 $builder->type($type)
                     ->namespace($ns)
                     ->author($author)

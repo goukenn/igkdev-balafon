@@ -10,6 +10,10 @@ namespace IGK\System\Data;
 * @package IGK\System\Data
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Data
+*/
 abstract class DataMappingBase{
     /**
      * map data 

@@ -236,11 +236,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         igk_hook(IGKEvents::HOOK_DB_INIT_COMPLETE, []);
     }
     /**
-     * 
-     * @param mixed &$list 
-     * @param string $prefix 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed &$list
+    * @param string $prefix
+    * @return void
+    */
     private static function _AutoPrefixEntries(& $list, string $prefix){
         $c = [];  
         $tab = $list;

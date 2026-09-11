@@ -5,13 +5,14 @@
 namespace IGK\Actions\Traits;
 
 use IGK\System\Http\Request;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Actions\Traits
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Actions\Traits
+*/
 trait AuthenticatorWith2faActionTrait{
-
-   
 }

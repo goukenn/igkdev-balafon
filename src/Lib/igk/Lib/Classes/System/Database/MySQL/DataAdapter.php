@@ -35,8 +35,12 @@ class DataAdapter extends DataAdapterBase implements
     IDbRetrieveColumnInfoDriver,
     IDataDriverCharsetSupport
 {
-
-const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
     /**
     * Listener: query listener.
     * @var mixed
@@ -1030,6 +1034,10 @@ const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
     {
         return $this->m_dbManager->getVersion();
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function getCharset(){
         return $this->m_dbManager->getCharset();
     }
@@ -1087,13 +1095,12 @@ const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
     {
         return $this->m_dbManager->getError();
     }
-
     /**
-     * 
-     * @param string $type 
-     * @param mixed $default 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param string $type
+    * @param mixed $default
+    * @return mixed
+    */
     public static function ResolvType(string $type, $default =null){
 
         if ($p = strtolower($type)){
@@ -1105,5 +1112,4 @@ const OP_TYPE_REGEX = '/decimal\\s*(\(\\s*(?P<number>\\d+(,\\d+)?)\))?/';
         }        
         return $default;
     }
-    
 }

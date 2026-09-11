@@ -382,6 +382,11 @@ function igk_db_close_adapter($ctrlOrAdapterName)
     }
 }
 if (function_exists('igk_db_schema_tables_from_litteral')) {
+    /**
+    * auto generate doc.
+    * @param string $list
+    * @return mixed
+    */
     function igk_db_schema_tables_from_litteral(string $list)
     {
 

@@ -10,11 +10,15 @@ namespace IGK\System\Controllers;
 * @package IGK\System\Controllers
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Controllers
+*/
 interface IControllerClassResolver{
     /**
-     * 
-     * @param string $path 
-     * @return string 
-     */
+    * auto generate doc.
+    * @param string $path
+    * @return string
+    */
     function resolveClass(string $path): string;
 }

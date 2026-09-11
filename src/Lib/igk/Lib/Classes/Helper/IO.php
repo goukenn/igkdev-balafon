@@ -763,7 +763,7 @@ class IO
     * @param string|callabale $match regex or callabale
     * @param mixed $recursive the default value is false
     * @param ?array & $excludedir
-    * @param ?array|mixed * $excludedir. dir_name or full_directory_path the default value is null. "@--ignore_hidden--" is a flag used to ignore hidden folder in search
+    * @param ?callable $callback
     */
     public static function GetFiles($dir, $match, $recursive = false, ?array &$excludedir = null, ?callable $callback = null)
     {

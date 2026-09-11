@@ -10,7 +10,10 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 * @author C.A.D. BONDJE DOUE
 */
-
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class StepperFormDefinition
 {
     /**
@@ -25,8 +28,9 @@ class StepperFormDefinition
      */
     var $hint;
     /**
-     * @var ?array
-     */
+    * auto generate doc.
+    * @var ?array
+    */
     var $fields;
 
     /**

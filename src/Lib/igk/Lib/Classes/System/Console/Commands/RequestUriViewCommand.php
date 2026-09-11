@@ -42,6 +42,7 @@ class RequestUriViewCommand extends RequestViewCommand{
     var $usage = 'controller request [options]';
     /**
     * auto generate doc.
+    * @param mixed $command
     * @param mixed $path request path
     * @return void
     */

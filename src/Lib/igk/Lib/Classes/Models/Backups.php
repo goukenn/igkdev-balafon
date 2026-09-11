@@ -6,9 +6,8 @@ namespace IGK\Models;
 
 
 use IGK\Models\ModelBase;
-
 /**
-* 
+* auto generate doc.
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
 * @property int $clId
@@ -17,24 +16,58 @@ use IGK\Models\ModelBase;
 * @property string $backup_path
 * @property string $backup_create_at
 * @property string $backup_update_at
-* @method static string FN_CL_ID() - `clId` full column name 
-* @method static string FN_BACKUP_TYPE() - `backup_type` full column name 
-* @method static string FN_BACKUP_CLASS() - `backup_class` full column name 
-* @method static string FN_BACKUP_PATH() - `backup_path` full column name 
-* @method static string FN_BACKUP_CREATE_AT() - `backup_create_at` full column name 
-* @method static string FN_BACKUP_UPDATE_AT() - `backup_update_at` full column name 
-* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
+* @method static string FN_CL_ID() - `clId` full column name
+* @method static string FN_BACKUP_TYPE() - `backup_type` full column name
+* @method static string FN_BACKUP_CLASS() - `backup_class` full column name
+* @method static string FN_BACKUP_PATH() - `backup_path` full column name
+* @method static string FN_BACKUP_CREATE_AT() - `backup_create_at` full column name
+* @method static string FN_BACKUP_UPDATE_AT() - `backup_update_at` full column name
+* @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $backup_type, string $backup_class, string $backup_path, string $backup_create_at, string $backup_update_at) add entry helper
 * @method static ?self AddIfNotExists(string $backup_type, string $backup_class, string $backup_path, string $backup_create_at, string $backup_update_at) add entry if not exists. check for unique column.
-* */
+*/
+/**
+* auto generate doc.
+* @package IGK\Models
+*/
 class Backups extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_BACKUP_TYPE="backup_type";
-	const FD_BACKUP_CLASS="backup_class";
-	const FD_BACKUP_PATH="backup_path";
-	const FD_BACKUP_CREATE_AT="backup_create_at";
-	const FD_BACKUP_UPDATE_AT="backup_update_at";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CL_ID="clId";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_BACKUP_TYPE="backup_type";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_BACKUP_CLASS="backup_class";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_BACKUP_PATH="backup_path";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_BACKUP_CREATE_AT="backup_create_at";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_BACKUP_UPDATE_AT="backup_update_at";
 	/**
 	* table's name
 	*/

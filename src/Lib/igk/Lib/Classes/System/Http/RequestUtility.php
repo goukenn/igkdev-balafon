@@ -15,6 +15,9 @@ namespace IGK\System\Http;
 class RequestUtility{
     /**
     * auto generate doc.
+    * @param mixed $paramHandler
+    * @param mixed $requestName
+    * @param mixed $paramName
     * @param bool $update
     * @return mixed
     */

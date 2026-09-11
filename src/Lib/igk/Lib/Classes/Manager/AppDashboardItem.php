@@ -11,6 +11,10 @@ use IGK\Helper\Activator;
 * @package IGK\Manager
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Manager
+*/
 class AppDashboardItem{
     /**
      * real source controller 
@@ -33,12 +37,11 @@ class AppDashboardItem{
      * application icon
      */
     var $icon;
-
     /**
-     * 
-     * @param mixed $n 
-     * @return ?AppDashboardItem
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @return ?AppDashboardItem
+    */
     public static function CreateNewInstance($n){
         $l = Activator::CreateNewInstance(static::class, $n);
         if (!$l || !$l->controller){

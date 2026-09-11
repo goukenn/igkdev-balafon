@@ -207,7 +207,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         // + | --------------------------------------------------------------------
         // + | CALL init complete took too long
         // + |
-        
         if ($this->notPresent($controller)) {
             $cl = get_class($controller);
             $n = $controller->getName();

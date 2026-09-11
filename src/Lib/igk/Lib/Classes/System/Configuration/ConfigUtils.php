@@ -14,7 +14,7 @@ class ConfigUtils{
     * load configuration utility
     * @param string $file
     * @param mixed & $data
-    * @param mixed $data
+    * @param mixed $autocontext
     * @param bool $contextual
     * @return void
     */

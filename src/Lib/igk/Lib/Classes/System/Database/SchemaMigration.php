@@ -268,14 +268,14 @@ class SchemaMigration
         return $v_result;
     }
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $resolvname 
-     * @param mixed &$v_mlist 
-     * @param mixed &$tables 
-     * @param mixed $ctrl 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $resolvname
+    * @param mixed &$v_mlist
+    * @param mixed &$tables
+    * @param mixed $ctrl
+    * @return void
+    */
     protected function _load_migration($n, $resolvname, &$v_mlist, &$tables, $ctrl)
     {
         $v_op = $this->operation;
@@ -297,12 +297,11 @@ class SchemaMigration
             }
         }
     }
-
     /**
-     * 
-     * @param XmlNode $data_definition 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param XmlNode $data_definition
+    * @return void
+    */
     protected function _loadTableDataDefinition(XmlNode $data_definition)
     {
         $children = $data_definition->getChilds()->to_array();
@@ -465,19 +464,19 @@ class SchemaMigration
         }
     }
     /**
-     * Load schema and migrate
-     * @param DomNodeBase $node schema node
-     * @param mixed & $result
-     * @param ?array & $tables
-     * @param mixed & $tbrelations
-     * @param mixed & $migrations
-     * @param mixed & $entries
-     * @param mixed $result table response
-     * @param null|array $tables
-     * @param mixed $tbrelations
-     * @param mixed $operation
-     * @return static
-     */
+    * Load schema and migrate
+    * @param DomNodeBase $node schema node
+    * @param mixed & $result
+    * @param ?array & $tables
+    * @param mixed & $tbrelations
+    * @param mixed & $migrations
+    * @param mixed & $entries
+    * @param mixed $ctrl
+    * @param mixed $resolvname
+    * @param mixed $reload
+    * @param mixed $operation
+    * @return static
+    */
     public static function LoadSchema(
         DomNodeBase $node,
         &$result,
@@ -503,12 +502,12 @@ class SchemaMigration
         return $mi;
     }
     /**
-     * resolve db cache information
-     * @param array & $tables
-     * @param array $tables
-     * @throws IGKException
-     * @return bool
-     */
+    * resolve db cache information
+    * @param array & $tables
+    * @param string $tb
+    * @throws IGKException
+    * @return bool
+    */
     private static function _ResolvDbCacheDefinition(array &$tables, string $tb): bool
     {
         if ($tbinfo = DBCaches::GetTableInfo($tb, null)) {
@@ -668,14 +667,14 @@ class SchemaMigration
         }
     }
     /**
-     * 
-     * @param mixed $c 
-     * @param mixed $item 
-     * @param mixed $ctrl 
-     * @param mixed &$tables 
-     * @return void 
-     * @throws IGKException 
-     */
+    * auto generate doc.
+    * @param mixed $c
+    * @param mixed $item
+    * @param mixed $ctrl
+    * @param mixed &$tables
+    * @throws IGKException
+    * @return void
+    */
     static function _ChangeColumn($c, $item, $ctrl, &$tables)
     {
         $item->table || igk_die("migration: change column missing table name");
@@ -831,12 +830,12 @@ class SchemaMigration
         $mighandler->unregister();
     }
     /**
-     * oad schema and downgrade
-     * @param mixed $migrations
-     * @param array & $tables
-     * @param mixed $tables
-     * @return void
-     */
+    * oad schema and downgrade
+    * @param mixed $migrations
+    * @param array & $tables
+    * @param ?BaseController $ctrl
+    * @return void
+    */
     public function upgrade($migrations, array &$tables,  ?BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoUpgrade']);

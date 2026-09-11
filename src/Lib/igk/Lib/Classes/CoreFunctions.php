@@ -10,13 +10,17 @@ namespace IGK;
 * @package IGK
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK
+*/
 abstract class CoreFunctions{
     /**
-     * 
-     * @param string $name 
-     * @param mixed $arguments 
-     * @return string|null 
-     */
+    * auto generate doc.
+    * @param string $name
+    * @param mixed $arguments
+    * @return string|null
+    */
     public static function __callStatic(string $name, $arguments)
     {
         static $fc_list;

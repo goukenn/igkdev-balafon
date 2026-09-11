@@ -3,24 +3,35 @@
 // @file: CssClassBuffer.php
 // @date: 20260904 12:25:05
 namespace IGK\System\Html\Css;
-
-
 /**
- * 
- * @package IGK\System\Html\Css
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Html\Css
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssClassBuffer
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     private $m_data;
+    /**
+    * .ctr
+    * @return void
+    */
     private function __construct()
     {
         $this->m_data = [];
     }
     /**
-     * 
-     * @return CssClassBuffer 
-     */
+    * auto generate doc.
+    * @return CssClassBuffer
+    */
     public static function getInstance()
     {
         return igk_environment()->createClassInstance(static::class, function () {

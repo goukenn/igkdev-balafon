@@ -64,10 +64,28 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     const TEMP_TYPE = 'temporary';
     /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const DEVICE_VAR_POSTFIX = '_screen';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const SUPPRT_DEVICE_REGEX = '/^((x?sm)|(x(x)?)?lg|ptrdevice)$/';
+    /**
      * Property: document.
      * @var mixed
      */
     private $m_document;
+
+    /**
+     * imported definitions
+     * @var ?array
+     */
+    private $m_imported_definition;
     /**
      * Property: root ref.
      * @var mixed
@@ -1228,7 +1246,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_def->getCl();
     }
-    
+
     /**
      * Getlg screen.
      */
@@ -1350,21 +1368,53 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $s;
     }
-    public function getxsm_screen(){                        
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getxsm_screen()
+    {
         return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
     }
-      public function getsm_screen(){                        
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getsm_screen()
+    {
         return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
     }
-
-    public function getlg_screen(){                        
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getlg_screen()
+    {
         return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
-    public function getxlg_screen(){                        
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getxlg_screen()
+    {
         return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
-    public function getxxlg_screen(){                        
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getxxlg_screen()
+    {
         return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
+    }
+    /**
+    * auto generate doc.
+    * @return void
+    */
+    public function getptrdevice_screen()
+    {
+        return $this->getMedia('print');
     }
     /**
      * get registrated media name
@@ -1438,7 +1488,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     protected function _access_offsetExists($i): bool
     {
-        if (is_numeric($i)){
+        if (is_numeric($i)) {
             $i = intval($i);
             if (isset($this->m_tc))
                 return ($i >= 0) && ($i < count($this->m_tc));
@@ -1610,9 +1660,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->def->Clear();
         $this->m_medias = array();
-        $root = & $this->getRootReference();
+        $root = &$this->getRootReference();
         $root = [];
         $this->_initMedia($this->m_id);
+        $this->m_imported_definition = null;
     }
     /**
      * auto generate doc.
@@ -1714,31 +1765,84 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $this === igk_app()->getDoc()->getSysTheme();
     }
     /**
-     * 
-     * @param static $def 
-     * @param array $definitions 
-     * @return void 
-     */
-    public static function ImportSystemDefinition($def, $definitions)
+    * auto generate doc.
+    * @param HtmlDocTheme $def
+    * @param string|array $definitions pipe separated string
+    * @param bool $inject_media auto inject media
+    * @return void
+    */
+    public static function ImportSystemDefinition(HtmlDocTheme $def, $definitions, bool $inject_media = true)
     {
         if ($def->isSystemTheme())
             return;
-        foreach ($definitions as $v) {
-            $t = ltrim($v, '.');
-            $def['.' . $t] = '{sys: ' . $t . '}';
+        if (is_string($definitions)) {
+            $definitions = array_unique(explode('|', $definitions));
         }
+
+        $media = $inject_media ? $def->m_medias : null;
+        $media = array_filter(array_map(function ($m) {
+            $tid = $m->getId();
+            $id = self::_DeviceTypeFromId($tid);
+            if (preg_match(self::SUPPRT_DEVICE_REGEX, $id)) {
+                return ['device'=>$m, 'id'=>$id, 'var'=>$id.self::DEVICE_VAR_POSTFIX];
+            } 
+        }, $media));
+        $rdef = array_fill_keys($def->m_imported_definition ?? [], 1);
+        foreach ($definitions as $v) {
+            if (empty($v)) continue;
+            $t = ltrim($v, '.');
+            if (isset($t[$t])) continue;
+            $s = '{sys: ' . $t . '}';
+            $def['.' . $t] = $s;
+            if ($media) {
+                foreach ($media as $m) {
+                    $id = $m['var'];
+                    $m['device']['.' . $t] = '(sys.' . $id . ':.' . $t . ')';
+                }
+            }
+            $rdef[$t] = 1;
+        }
+        $def->m_imported_definition = array_merge($def->m_imported_definition ??[], array_keys($rdef));
     }
     /**
-     * 
-     * @param array $themeColors 
-     * @param string $primaryTheme 
-     * @return string 
+     * get devis type from id
+     * @param string $id 
+     * @return string|null 
      */
-    public function renderCssWithCustomColorThemeSupport(array $themeColors, string $primaryTheme = CssThemeOptions::DARK_THEME_NAME):string{
+    public static function _DeviceTypeFromId(string $id)
+    {
+        if (false !== ($l = strrpos($id, ':'))) {
+            return trim(substr($id, $l + 1));
+        }
+        return null;
+    }
+    /**
+    * auto generate doc.
+    * @param array $themeColors
+    * @param string $primaryTheme
+    * @return string
+    */
+    public function renderCssWithCustomColorThemeSupport(array $themeColors, string $primaryTheme = CssThemeOptions::DARK_THEME_NAME): string
+    {
         $bck = $this->m_themeColors;
         $this->setThemeColors($themeColors);
         $s = CssUtils::RenderStyleWithCustomColorThemeSupport($this, $primaryTheme);
         $this->setThemeColors($bck);
         return $s;
+    }
+    /**
+     * helper: render style definition 
+     * @return string 
+     */
+    public function render(): string
+    {
+        return $this->get_css_def();
+    }
+    /**
+     * retrieve imported definition
+     * @return null|array 
+     */
+    public function getImportedDefinitions(){
+        return $this->m_imported_definition;
     }
 }

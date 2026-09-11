@@ -89,7 +89,6 @@ class UriHandler extends BaseUriHandler
      */
     protected function _favicon()
     {
-        
         igk_set_header(
             200,
             'ok',
@@ -102,8 +101,12 @@ class UriHandler extends BaseUriHandler
         include(IGK_LIB_DIR . "/Default/R/Img/balafon.ico");
         igk_exit();
     }
+    /**
+    * auto generate doc.
+    * @param string $t
+    * @return void
+    */
     protected function sitemapRes(string $t){
-        
         return igk_getv([
             'fr'=>[
                 'Last update'=>'Dernière mise a jour',
@@ -111,6 +114,12 @@ class UriHandler extends BaseUriHandler
             ]
         ], $t);
     }
+    /**
+    * auto generate doc.
+    * @param string $s
+    * @param string $lang
+    * @return string
+    */
     private function _replaceSiteMapDefinition(string $s, string $lang='en'): string{
         $res = $this->sitemapRes($lang);
         $key_res = function ($key)use($res){
@@ -126,6 +135,10 @@ class UriHandler extends BaseUriHandler
             '/%res-counting-ref%/'=>('Nom de site : ')
         ]);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function genSiteMapStyle(){
         $fs = igk_io_basedir().'/assets/balafon-sitemap.xml';
         if (!file_exists($fs)){
@@ -133,7 +146,11 @@ class UriHandler extends BaseUriHandler
         }
     }
     /**
-    * Sitemap. render sitemap's collection  
+    * Sitemap. render sitemap's collection
+    * @param mixed $uri
+    * @param mixed $handler
+    * @param ?array $query_options
+    * @param ?string $lang
     */
     public function _sitemap($uri, $handler, ?array $query_options, ?string $lang )
     { 
@@ -156,7 +173,6 @@ class UriHandler extends BaseUriHandler
                 $buri = igk_io_baseuri();
                 $indexes = SitemapGeneratorCommand::GetProjectIndexes();
                 $s = SitemapGeneratorCommand::GenerateSiteMapIndex($indexes, $buri);
-                
                 if ($s == -1) {
                     header("Content-Type: application/xml");
                     echo '<?xml version="1.0"?><sitemapindex></sitemapindex>';

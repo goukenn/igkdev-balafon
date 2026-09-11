@@ -19,7 +19,10 @@ use IGKException;
 abstract class HtmlEngineHelper{
     /**
     * auto generate doc.
-    * @param IGK\System\Html\Helpers\args *1413dcd
+    * @param HtmlItemBase $node
+    * @param string $content
+    * @param mixed $args
+    * @param ?BaseController $ctrl
     * @return void
     */
     public static function BindContent(HtmlItemBase $node, string $content, $args, ?BaseController $ctrl=null){

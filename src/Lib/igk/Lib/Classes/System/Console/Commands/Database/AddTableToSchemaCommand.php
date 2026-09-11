@@ -23,7 +23,12 @@ class AddTableToSchemaCommand extends AppExecCommand{
     * @var mixed
     */
     var $desc	 ='add table to db schema file';
-	var $options=[
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $options=[
         '--unique-columns:[column,...]'=>'comma separated column name'
     ];
     /**

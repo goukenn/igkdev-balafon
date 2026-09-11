@@ -2,13 +2,12 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: db_schema.php
 // @date: 20260513 16:22:25
-// @desc: 
-
+// @desc:
 /**
- * 
- * @param string $expression 
- * @return array{type: null|string, size: null|int, auto_increment: bool, is_primary: bool, foreign_key: null|string, not_null: null, default: null} 
- */
+* auto generate doc.
+* @param string $expression
+* @return array{type: null|string, size: null|int, auto_increment: bool, is_primary: bool, foreign_key: null|string, not_null: null, default: null}
+*/
 function igk_db_schema_parse(string $expression)
 {
     $def = igk_db_schema_table_column_blueprint();
@@ -38,12 +37,12 @@ function igk_db_schema_parse(string $expression)
     return $def;
 }
 /**
- * 
- * @param string $expression 
- * @param array &$def 
- * @param array $mark 
- * @return void 
- */
+* auto generate doc.
+* @param string $expression
+* @param array &$def
+* @param array $mark
+* @return void
+*/
 function igk_db_schema_parse_load(string $expression, array &$def, array $mark)
 {
     $ln = strlen($expression);
@@ -80,12 +79,12 @@ function igk_db_schema_parse_load(string $expression, array &$def, array $mark)
     }
 }
 /**
- * 
- * @param mixed $s 
- * @param mixed &$def 
- * @param mixed $mark 
- * @return void 
- */
+* auto generate doc.
+* @param string & $s
+* @param mixed $s
+* @param mixed &$def
+* @return void
+*/
 function igk_db_schema_parse_load_def(string &$s, &$def, $mark)
 {
     if (preg_match('/^default\\s*\(/', $s, $match)) {
@@ -115,10 +114,10 @@ function igk_db_schema_parse_load_def(string &$s, &$def, $mark)
     }
 }
 /**
- * 
- * @param null|string $list 
- * @return array|array<string|int, mixed> 
- */
+* auto generate doc.
+* @param null|string $list
+* @return array|array<string|int, mixed>
+*/
 function igk_db_schema_tables_from_litteral(?string $list)
 {
     if (empty($list)) {
@@ -192,10 +191,10 @@ function igk_db_schema_tables_from_litteral(?string $list)
     return empty($l) ? array_map('trim', explode(',', $list)) : $l;
 }
 /**
- * 
- * @param mixed $inf 
- * @return void 
- */
+* auto generate doc.
+* @param mixed $inf
+* @return void
+*/
 function igk_db_schema_parse_append($inf)
 {
     if (!empty($inf->s)) {
@@ -221,13 +220,12 @@ function igk_db_schema_table_column_blueprint()
         'default' => null
     ];
 }
-
 /**
- * 
- * @param mixed $cl column info 
- * @param mixed $def index
- * @return void 
- */
+* auto generate doc.
+* @param mixed $cl column info
+* @param mixed $def index
+* @return void
+*/
 function igk_db_schema_load_column_info($cl, $def)
 {
     if ($def['auto_increment']) {

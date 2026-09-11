@@ -26,6 +26,8 @@ class RegexReplaceContent{
     var $replaceListener;
     /**
     * auto generate doc.
+    * @param string $source
+    * @param RegexMatcherContainer $container
     * @param mixed $replaceListener
     * @return string
     */

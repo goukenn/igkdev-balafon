@@ -90,8 +90,6 @@ class MacrosHelper
      */
     private static function _CheckAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
         return UsersMacros::checkAuth($user, $auths, $strict);
-
-    
     // /**
     //     * auto generate doc.
     //     * @var ModelBase $q

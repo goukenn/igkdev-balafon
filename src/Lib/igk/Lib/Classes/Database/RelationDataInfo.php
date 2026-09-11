@@ -10,11 +10,15 @@ namespace IGK\Database;
 * @package IGK\Database
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class RelationDataInfo{
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $target;
     /**
      * store entries 
@@ -22,19 +26,19 @@ class RelationDataInfo{
      */
     var $entries;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $column;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $info;
 
     /**
@@ -43,8 +47,8 @@ class RelationDataInfo{
      */
     var $relations;
     /**
-     * 
-     * @var mixed
-     */
+    * auto generate doc.
+    * @var mixed
+    */
     var $prefixes;
 }

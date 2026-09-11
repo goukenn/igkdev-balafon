@@ -27,11 +27,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $Guid, string|?\IGK\Models\Users $user_guid, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookEntries extends ModelBase{
-	const FD_ID="rcphbe_Id";
-	const FD_GUID="rcphbe_Guid";
-	const FD_USER_GUID="rcphbe_user_guid";
-	const FD_CREATE_AT="rcphbe_Create_At";
-	const FD_UPDATE_AT="rcphbe_Update_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_ID="rcphbe_Id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_GUID="rcphbe_Guid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_USER_GUID="rcphbe_user_guid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CREATE_AT="rcphbe_Create_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_UPDATE_AT="rcphbe_Update_At";
 	/**
 	* table's name
 	*/

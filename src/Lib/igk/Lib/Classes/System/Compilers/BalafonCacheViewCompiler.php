@@ -23,14 +23,15 @@ use IGKException;
 */
 class BalafonCacheViewCompiler{
     /**
-     * generate cache view file. 
-     * @param BaseController $controller 
-     * @param string $file 
-     * @param mixed $args 
-     * @return string 
-     * @throws IGKException 
-     * @throws Exception 
-     */
+    * generate cache view file.
+    * @param BaseController $controller
+    * @param string $file
+    * @param mixed $args
+    * @param mixed $noExtra
+    * @throws IGKException
+    * @throws Exception
+    * @return string
+    */
     public static function Compile(BaseController $controller, string $file, $args = null, $noExtra = false ){
         $extra = "";
         $node = igk_create_notagnode();

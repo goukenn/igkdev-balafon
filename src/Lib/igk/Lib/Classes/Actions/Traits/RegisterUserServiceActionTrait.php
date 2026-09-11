@@ -71,6 +71,10 @@ trait RegisterUserServiceActionTrait{
     protected function _createUserApp($user):bool{
         return false;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     private static function _MailService(){
         return igk_app()->getService(ServiceNameConstants::MailService);
     }

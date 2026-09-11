@@ -35,6 +35,7 @@ class IGKGoogleCssUri{
     private $m_uri;
     /**
     * auto generate doc.
+    * @param mixed $f
     * @param mixed $uri
     */
     public function __construct($f, $uri){

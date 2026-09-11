@@ -204,11 +204,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         // ]);
     }
     /**
-     * 
-     * @param mixed $columnInfo 
-     * @param mixed $ctrl 
-     * @return object|mixed 
-     */
+    * auto generate doc.
+    * @param mixed $columnInfo
+    * @param mixed $ctrl
+    * @return object|mixed
+    */
     protected function _initRelationInstance($columnInfo, $ctrl){
         $tab = [
             "ctrl" => $ctrl,
@@ -250,11 +250,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         //(object)["relations" => [], "entries" => [], "ctrl" => $ctrl, '_type'=>'begin', 'indexes'=>[] ];
     }
     /**
-     * end db init info
-     * @param array $tb loaded info definition 
-     * @return void 
-     * @throws IGKException 
-     */
+    * end db init info
+    * @param array $tb loaded info definition
+    * @param ?array $prefixes
+    * @throws IGKException
+    * @return void
+    */
     public function endInitDb(array $tb, ?array $prefixes=null)
     {
         if (is_null($this->m_relations)) {
@@ -649,7 +650,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     * @param mixed $table
     * @param mixed $entries
     * @param mixed $tableinfo
-    * @param mixed $table table info
+    * @param bool $throwException
     * @throws IGKException
     * @return false
     */

@@ -251,9 +251,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
     }
     /**
     * auto generate doc.
+    * @param string $file
     * @param mixed $requestHandler
     * @param string $path_info
     * @param null|array $_redirectArgs
+    * @param mixed $display_callback
     * @return void
     */
     public function handleConfigurationPageRoute(string $file, $requestHandler, string $path_info, ?array $_redirectArgs = null, $display_callback=null)

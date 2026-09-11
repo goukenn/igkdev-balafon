@@ -13,11 +13,12 @@ use IGK\System\Text\RegexMatcherContainer;
 abstract class CssClassNameDetectorUtils{
     /**
     * auto generate doc.
+    * @param CssClassNameDetector $detector
     * @param string $filename
+    * @param mixed & $references
     * @return mixed|void
     */
     public static function DetectFromFile(CssClassNameDetector $detector, string $filename, & $references = null){
-       
         $ext = igk_io_path_ext($filename);
         $p = ucfirst(strtolower($ext));
         $src = file_get_contents($filename);
@@ -26,7 +27,6 @@ abstract class CssClassNameDetectorUtils{
         }         
         return self::DetectFromFile($detector, $filename, $references);
     }
-  
     /**
     * auto generate doc.
     * @param CssClassNameDetector $detector
@@ -36,14 +36,11 @@ abstract class CssClassNameDetectorUtils{
     * @return array|void
     */
     public static function DetectFromPhpSource(CssClassNameDetector $detector, string $source, & $references=null, $context=null){
-        
         $p = $detector->getDetector('php');
         if ($data = $p->resolve($source)){
             return $detector->loadReferences(array_keys($data), $references);
         }
         return;
-    
-    
         // $g = token_get_all($source);
         // $expression = [];
         // $klist = sprintf("\b(%s)\b", strtolower(implode("|", igk_sys_get_html_components() ?? [])));

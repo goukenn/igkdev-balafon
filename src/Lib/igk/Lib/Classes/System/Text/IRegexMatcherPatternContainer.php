@@ -15,6 +15,9 @@ namespace IGK\System\Text;
 interface IRegexMatcherPatternContainer{
     /**
     * auto generate doc.
+    * @param ?RegexDetectInfo $parentInfo
+    * @param ?RegexDetectInfo & $info
+    * @param string $source
     * @param int &$offset
     * @return mixed
     */

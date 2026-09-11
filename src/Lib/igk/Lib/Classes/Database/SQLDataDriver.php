@@ -11,6 +11,10 @@ namespace IGK\Database;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class SQLDataDriver extends DataAdapterBase implements IDataDriver{
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public abstract function getNullValue():?string;
     /**
      * check if typ is numeric

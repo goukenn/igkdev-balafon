@@ -29,6 +29,11 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
             ksort($this->m_roots);
         }
     }
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $m_treat = false;
     /**
      * render root style definition 

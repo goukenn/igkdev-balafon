@@ -197,7 +197,6 @@ class JSon
         $tq = [['d' => $tv, 'keys' => $keys, 'c' => $c]];
         list($allow_empty_array) = igk_extract($this->m_options, 'allow_key_assoc_empty_array');
         $ignore_empty =  $this->m_options->ignore_empty;
-    
         while (count($tq) > 0) {
             $q = array_shift($tq);
             extract($q,  EXTR_OVERWRITE | EXTR_REFS);

@@ -10,6 +10,10 @@ namespace IGK\System\Html\Css;
 * @package IGK\System\Html\Css
 * @author C.A.D. BONDJE DOUE
 */
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class CssClassBufferOptions{
     /**
      * line feed marker 

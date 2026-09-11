@@ -15,6 +15,7 @@ namespace IGK\System;
 interface IToJSon{
     /**
     * auto generate doc.
+    * @param mixed $option
     * @param int $flag json_encode flag
     * @return false|string
     */

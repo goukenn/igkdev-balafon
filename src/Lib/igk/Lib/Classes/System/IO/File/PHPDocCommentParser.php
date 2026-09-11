@@ -90,7 +90,10 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     * @var ?bool auth enable strict definition
     */
     var $strict_auth;
- 
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected static function CreateInstance()
     {
         $cl = new static;
@@ -98,6 +101,10 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     }
 
     #[Override]
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function getExtraProperties()
     {
         throw new \Exception('Not implemented 55 ');

@@ -6,9 +6,7 @@ namespace IGK\Database;
 use Exception;
 use Error;
 use IGK\Controllers\BaseController;
-use IGK\Database\Helpers\DbInitManagement;  
-
- 
+use IGK\Database\Helpers\DbInitManagement;
 /**
 * auto generate doc.
 * @package IGK\Database

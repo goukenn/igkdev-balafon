@@ -71,6 +71,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
     /**
     * auto generate doc.
+    * @param mixed $file
     * @return array
     */
     public function getUserControllers($file = null): array {

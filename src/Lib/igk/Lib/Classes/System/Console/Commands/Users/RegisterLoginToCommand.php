@@ -32,7 +32,11 @@ class RegisterLoginToCommand extends AppExecCommand{
     * @var mixed
     */
     var $usage = 'controller login [options]';
-
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     var $options = [
         '--controller:'=>'the controller to use'
     ];

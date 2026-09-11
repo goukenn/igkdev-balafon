@@ -7,14 +7,22 @@ namespace IGK\Tests\System\Html\Css;
 use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssParser;
 use IGK\Tests\BaseTestCase;
-
 /**
- * 
- * @package IGK\Tests\System\Html\Css
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\Tests\System\Html\Css
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Css
+*/
 class CssBuilderTest extends BaseTestCase
 {
+    /**
+    * auto generate doc.
+    * @param null|string $css
+    * @return void
+    */
     protected function _init(?string $css = null)
     {
         $n = new CssClassNameDetector;
@@ -25,11 +33,19 @@ class CssBuilderTest extends BaseTestCase
         }
         return $n;
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_render()
     {
         $detector = $this->_init();
         $this->assertEquals('', $detector->renderToCss([]));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_tag()
     {
         $source = CssParser::Parse('body{background-color:red;}');
@@ -37,6 +53,10 @@ class CssBuilderTest extends BaseTestCase
         $detector->map($source->to_array());
         $this->assertEquals('body{background-color:red}' . "\n", $detector->renderToCss([]));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_auto_border()
     {
         $detector = $this->_init('');
@@ -57,6 +77,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_padding()
     {
         $detector = $this->_init('');
@@ -68,6 +92,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_padding_default()
     {
         $detector = $this->_init('');
@@ -79,6 +107,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_border_radius()
     {
         $detector = $this->_init('');
@@ -90,6 +122,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_gap_2_values()
     {
         $detector = $this->_init('');
@@ -101,6 +137,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_letter_spacing()
     {
         $detector = $this->_init('');
@@ -112,7 +152,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_pad_4_values()
     {
         $detector = $this->_init('');
@@ -124,6 +167,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_marg_negate()
     {
         $detector = $this->_init('');
@@ -135,6 +182,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_key_frame()
     {
         $detector = $this->_init('@keyframes bounce{ from{ left: 0px;} to { left: 100px}} .bounce{ animation: bounce 2s 50ms ease-in infinite}');
@@ -154,7 +205,10 @@ class CssBuilderTest extends BaseTestCase
             '}',
         ]), $s);
     }
-
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_lh()
     {
         $detector = $this->_init('');
@@ -166,6 +220,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $detector->renderToCss($references));
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_sel()
     {
         $detector = $this->_init('');
@@ -178,6 +236,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $s);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_margin_2em()
     {
         $detector = $this->_init('');
@@ -190,6 +252,10 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $s);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_dark_definition()
     {
         $detector = $this->_init('');
@@ -205,6 +271,10 @@ class CssBuilderTest extends BaseTestCase
             '}',
         ]), $s);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_dark_hover_definition()
     {
         $detector = $this->_init('');
@@ -220,6 +290,10 @@ class CssBuilderTest extends BaseTestCase
             '}',
         ]), $s);
     }
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function test_cssbuilder_property()
     {
         $detector = $this->_init('');
@@ -232,5 +306,4 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $s);
     }
-    
 }

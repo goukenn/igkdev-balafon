@@ -22,6 +22,11 @@ use ReflectionException;
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const URL_SET_OPTION = 'url-set';
     /**
     * Property: command.
@@ -129,7 +134,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
     * @return int|null|string
     */
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
-    
         $options = (object)[
             "Indent"=>1,
             "header"=>implode("\n", [(new XmlProcessor("xml"))->setAttributes([

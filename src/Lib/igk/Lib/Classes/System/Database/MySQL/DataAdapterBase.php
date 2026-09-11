@@ -20,6 +20,11 @@ use IGKEvents;
  */
 abstract class DataAdapterBase extends SQLDataAdapter
 {
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
     const NULL_VALUE = 'NULL';
     /**
      * check if numeric type 

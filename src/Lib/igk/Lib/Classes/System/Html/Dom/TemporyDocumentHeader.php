@@ -33,10 +33,10 @@ class TemporyDocumentHeader{
         return null;
     }
     /**
-     * 
-     * @param mixed $src 
-     * @return void 
-     */
+    * auto generate doc.
+    * @param string $file
+    * @return void
+    */
     public function addTempStyle(string $file){
        $aside = & AsideScripting::getInstance()->aside;
        $file = IGKResourceUriResolver::getInstance()->resolve($file, ['autolink'=>false]);

@@ -164,8 +164,8 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     /**
     * request to append or not properties
     * @param mixed & $g
+    * @param mixed $i
     * @param mixed $g
-    * @param string|int|null $i key index
     * @throws IGKException
     * @return void
     */

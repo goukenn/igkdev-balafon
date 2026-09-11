@@ -14,7 +14,9 @@ namespace IGK\System\TamTam\Helper;
 class ProjectBuilderHelper{
     /**
     * auto generate doc.
+    * @param mixed $data
     * @param mixed|FormData $setting_class
+    * @param mixed & $errors
     * @return void
     */
     public static function ValidateConfigData($data, $setting_class, & $errors=null){

@@ -25,9 +25,10 @@ class ApplicationModuleHelper
     */
     const SYS_ENV_KEY = 'sys://init_controller/modules';
     /**
-     * get module name form class 
-     * @var  $class_name get module name form class 
-     */
+    * get module name form class
+    * @param string $class_name
+    * @var $class_name get module name form class
+    */
     public static function GetModuleNameFromTestClass(string $class_name): ?string
     {
         $dir = igk_io_collapse_path(dirname(igk_sys_reflect_class($class_name)->getFileName()));

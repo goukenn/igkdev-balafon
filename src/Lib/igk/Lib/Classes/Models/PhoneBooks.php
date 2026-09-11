@@ -42,13 +42,48 @@ use IGK\Models\ModelBase;
 * @method static mixed vcard(\IGK\Models\Users $user,$search) macros function definition
 * */
 class PhoneBooks extends ModelBase{
-	const FD_ID="rcphb_Id";
-	const FD_ENTRY_GUID="rcphb_EntryGuid";
-	const FD_TYPE="rcphb_Type";
-	const FD_VALUE="rcphb_Value";
-	const FD_IS_PREFERRED="rcphb_is_preferred";
-	const FD_CREATE_AT="rcphb_Create_At";
-	const FD_UPDATE_AT="rcphb_Update_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_ID="rcphb_Id";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_ENTRY_GUID="rcphb_EntryGuid";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_TYPE="rcphb_Type";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_VALUE="rcphb_Value";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_IS_PREFERRED="rcphb_is_preferred";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_CREATE_AT="rcphb_Create_At";
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const FD_UPDATE_AT="rcphb_Update_At";
 	/**
 	* table's name
 	*/

@@ -200,11 +200,10 @@ interface IDataDriver{
      * @return ?string 
      */
     function queryColumnCharset(string $charset):?string;
-
     /**
-     * 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @return mixed
+    */
     function close();
 
     /**

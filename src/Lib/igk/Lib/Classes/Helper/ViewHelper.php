@@ -343,8 +343,6 @@ class ViewHelper
         if (!isset($ctrl)) {
             igk_die('$ctrl not found from GetViewArgs');
         }
-        
-        
         extract($ctrl->getExtraArgs(), EXTR_SKIP);
 
 

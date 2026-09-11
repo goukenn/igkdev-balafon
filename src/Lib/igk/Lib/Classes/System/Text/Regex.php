@@ -15,6 +15,9 @@ namespace IGK\System\Text;
 abstract class Regex{
     /**
     * auto generate doc.
+    * @param string $key
+    * @param mixed $pattern
+    * @param mixed $haystack
     * @param mixed $default
     * @return void
     */

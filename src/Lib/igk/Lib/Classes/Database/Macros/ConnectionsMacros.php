@@ -18,6 +18,7 @@ use IGK\Models\Users;
 abstract class ConnectionsMacros{
     /**
     * auto generate doc.
+    * @param Connections $connections
     * @param null|Users $user
     * @return bool
     */

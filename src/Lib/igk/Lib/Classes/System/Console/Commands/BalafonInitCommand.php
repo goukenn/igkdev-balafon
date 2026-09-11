@@ -59,6 +59,7 @@ class BalafonInitCommand extends AppExecCommand
     var $usage = 'install_dir [options]';
     /**
     * auto generate doc.
+    * @param mixed & $no_init_environment
     * @param mixed $argv
     * @return void
     */

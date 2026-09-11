@@ -160,11 +160,11 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
     }
 }
 /**
- * Igk die s.
- * @param string $msg
- * @param mixed ...$params
- * @return mixed
- */
+* Igk die s.
+* @param string $msg
+* @param mixed ...$params
+* @return mixed
+*/
 function igk_die_s(string $msg, ...$params)
 {
     igk_die(sprintf(__($msg), ...$params));
@@ -281,11 +281,11 @@ if (!function_exists('igk_resources_getsf')) {
 }
 if (!function_exists('igk_resources_sprintf')) {
     /**
-     * auto generate doc.
-     * @param string $a
-     * @param mixed ...$args
-     * @return string
-     */
+    * auto generate doc.
+    * @param string $a
+    * @param mixed ...$args
+    * @return string
+    */
     function igk_resources_sprintf(string $a, ...$args)
     {
         return sprintf(igk_resources_gets($a), ...$args);
@@ -1147,11 +1147,11 @@ function igk_log_var_dump($tab, $lf = null)
     igk_wl($msg . ")" . $lf);
 }
 /**
- * write line to buffer and exit
- * @param mixed $msg primary data
- * @param mixed ...$extra
- * @return mixed
- */
+* write line to buffer and exit
+* @param mixed $msg primary data
+* @param mixed ...$extra
+* @return mixed
+*/
 function igk_wln_e($msg = "", ...$extra)
 {
     igk_environment()->set('TRACE_LEVEL', 3);
@@ -1159,11 +1159,11 @@ function igk_wln_e($msg = "", ...$extra)
     igk_exit();
 }
 /**
- * Igk tag wln.
- * @param mixed $tag
- * @param mixed ...$args
- * @return mixed
- */
+* Igk tag wln.
+* @param mixed $tag
+* @param mixed ...$args
+* @return mixed
+*/
 function igk_tag_wln($tag, ...$args)
 {
     $attr = "";
@@ -2629,10 +2629,10 @@ if (!function_exists('igk_bool')) {
     }
 }
 /**
- * dump array
- * @param mixed ...$args
- * @return void
- */
+* dump array
+* @param mixed ...$args
+* @return void
+*/
 function igk_dump_array(...$args)
 {
     igk_wl(...$args);
@@ -2696,7 +2696,11 @@ if (!function_exists('igk_sys_detect_project_controller')) {
         return $project;
     }
 }
-
+/**
+* auto generate doc.
+* @param string $file
+* @return mixed
+*/
 function igk_sys_get_controller_class_from(string $file)
 {
     static $caching;

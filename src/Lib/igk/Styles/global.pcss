@@ -80,7 +80,7 @@ $def[".igk-web-pageinfo"] = "{sys:dispn}";
 $def[".igk-prev"] = "border-radius:0px; [sysbgcl:buttonBackground]";
 $def[".igk-prev-sys"] = "max-height:300px; overflow-y:auto";
 $def[".igk-hbox"] = "border:none; height:1px; width:1px; margin-bottom:-1px; clip:rect(0,0,0,0); overflow:hidden; position:absolute; padding:0px;";
-$def["igk-web-page"] = "{sys:fit}";
+$def[".igk-web-page"] = "{sys:fit}";
 $def[".cllabel.clrequired"] = "";
 $def[".cllabel.clrequired:after"] = "content:' *'; display:inline-block; white-space:pre; [fcl:igk-required-mark-fcl]";
 $def[".igk-article-options"] = "{sys:posr, alignl,loc_l,loc_t,z_50,fitw} font-size:14pt;";
@@ -204,6 +204,15 @@ $def[".dispn"] = "display:none;";
 $def[".dispb"] = "display:block;";
 $def[".dispi"] = " display:inline;";
 $def[".dispib"] = "display:inline-block;";
+
+foreach(['dispn'=>'display:none;'] as $type=>$value){
+    $xsm_screen['.'.$type] = 
+    $sm_screen['.'.$type] = 
+    $lg_screen['.'.$type] = 
+    $xlg_screen['.'.$type] = 
+    $xxlg_screen['.'.$type] = 
+        $value;
+}
 // + | ------------------------------------------------------------
 // + | important style
 // + | ------------------------------------------------------------
@@ -223,7 +232,7 @@ $def[".dispgrid"] =
 // + | --------------------------------------------------------------------
 // + | sizing
 // + |
-$def['sz-a'] = 'height:auto;width:auto;';
+$def['.sz-a'] = 'height:auto;width:auto;';
 $def[".dispflex"] = $def['.flex'] = "display: flex;";
 $def[".dispiflex"] = $def[".flexi"] = $def[".iflex"] = "display:inline-flex";
 $def[".flex-no-wrap"] = "flex-wrap: nowrap;";
@@ -277,11 +286,7 @@ $def[".box_32x32"] = "width:24px; height:32px;";
 $def[".box_48x48"] = "width:48px; height:48px;";
 $def[".editstyle-ajx-form"] = IGK_STR_EMPTY;
 $def[".editstyle-ajx-form .cltextarea"] = "width:400px; height:300px;";
-$def[".igk-body"] = "";
-$def[".igk-error-body"]  = "{sys:no-padding,no-margin}";
-$def[".igk-ctrl-options"] = "{sys:dispb} text-align:left; margin:0px;";
-$def[".igk-ctrl-options ul"] = "{sys:dispi}";
-$def[".igk-ctrl-options ul li"] = "{sys:dispib} vertical-align:middle;";
+
 $def[".frame_textarea"] = "width: 500px; height:300px";
 $def[".igk-msbox-dialog"] = $def[".igk-framebox-dialog"] = "[bgcl:frameboxDialogBgColor, white] padding: 4px;";
 $def[".igk-msbox-dialog-title"] =
@@ -393,7 +398,7 @@ foreach ([1, 10, 50, 100, 500] as $s) {
 $def['.igk-powered'] = 'padding:8px 10px;';
 $def['.text-small'] = 'font-size: 0.7em';
 $def['.text-d-small'] = 'font-size: 0.7rem';
-$def['igk-img'] = 'display: inline-block';
+$def['.igk-img'] = 'display: inline-block';
 // + | --------------------------------------------------------------------
 // + | TEXT
 // + |

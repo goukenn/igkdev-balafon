@@ -171,6 +171,7 @@ class PhoneBookEntryDetails implements IToJSon
     var $organization;
     /**
     * auto generate doc.
+    * @param mixed $option
     * @param int $flag
     * @return false|string
     */

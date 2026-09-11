@@ -7,20 +7,53 @@ namespace IGK\System\Console\Commands\Core;
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
- * 
- * @package IGK\System\Console\Commands\Core
- * @author C.A.D. BONDJE DOUE
- */
+* auto generate doc.
+* @package IGK\System\Console\Commands\Core
+* @author C.A.D. BONDJE DOUE
+*/
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Core
+*/
 class ListBackupCommand extends AppExecCommand
 {
-	var $command = '--corelib-backup';
-	var $desc='view core lib backup';
-	var $options=['--clean'=>'flag: remove all detected backups'];
-	var $category = 'tools';
-	var $usage = '[options]';
-	public function exec($command)
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $command = '--corelib-backup';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $desc='view core lib backup';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $options=['--clean'=>'flag: remove all detected backups'];
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $category = 'tools';
+    /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    var $usage = '[options]';
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @return void
+    */
+    public function exec($command)
 	{
 		$clean = igk_prop_exists($command->options, '--clean');
 		$d = IO::GetFiles(IGK_LIB_DIR, '/\.zip$/', false);
@@ -37,7 +70,12 @@ class ListBackupCommand extends AppExecCommand
 			Logger::info('no backup found');
 		}
 	}
-	private function dropAllBackup(array $d){
+    /**
+    * auto generate doc.
+    * @param array $d
+    * @return void
+    */
+    private function dropAllBackup(array $d){
 		foreach($d as $f){
 			@unlink($f);
 		}

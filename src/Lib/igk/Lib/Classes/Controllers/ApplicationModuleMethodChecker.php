@@ -19,7 +19,9 @@ class ApplicationModuleMethodChecker{
     private static $sm_initDocs = [];
     /**
     * auto generate doc.
-    * @param mixed $args
+    * @param mixed $module
+    * @param mixed $env_param
+    * @param mixed ...$args
     * @return false
     */
     public static function initDoc($module, $env_param, ...$args){

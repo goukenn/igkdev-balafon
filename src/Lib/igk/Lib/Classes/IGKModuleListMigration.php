@@ -122,6 +122,11 @@ final class IGKModuleListMigration extends BaseController implements
             }
         }
     }
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @return void
+    */
     protected function getControllerFromTableInfo(string $table)
     {
         /**

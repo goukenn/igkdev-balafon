@@ -21,6 +21,7 @@ use IGK\System\Http\RequestPreparer;
 trait ControllerRequestExtensionTrait{
     /**
     * auto generate doc.
+    * @param BaseController $ctrl
     * @param string|IControllerRequestInfo $info
     * @return void
     */

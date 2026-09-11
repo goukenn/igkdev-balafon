@@ -17,8 +17,8 @@ class ExtensionUtils{
     /**
     * retrieve extension method for
     * @param mixed & $array
-    * @param mixed $array
     * @param mixed $class
+    * @param mixed $array
     * @throws IGKException
     * @throws ArgumentTypeNotValidException
     * @throws ReflectionException

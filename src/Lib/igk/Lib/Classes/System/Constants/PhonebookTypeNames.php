@@ -16,10 +16,9 @@ abstract class PhonebookTypeNames{
     * @var mixed
     */
     const PHT_LOCALE = 'locale';
-
     /**
-     * 
-     */
+    * auto generate doc.
+    */
     const PHT_BILL_ADDRESS = 'bill adress';
     /**
     * Constant: pht name.

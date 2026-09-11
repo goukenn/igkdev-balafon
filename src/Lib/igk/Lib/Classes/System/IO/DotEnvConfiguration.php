@@ -213,11 +213,12 @@ class DotEnvConfiguration
            self::_RegSysDotEnvValue(self::_GetSysDotEnv(), $this->key, true) ?? '';
     }
     /**
-     * 
-     * @param mixed $tab 
-     * @param mixed $key 
-     * @return mixed 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $key
+    * @param bool $sys
+    * @return mixed
+    */
     private static function _RegSysDotEnvValue($tab, $key, bool $sys=false){
         $g = igk_getv($tab, $key);
         if ($g instanceof DotEnvVarConfiguration){
@@ -227,12 +228,13 @@ class DotEnvConfiguration
         return $g;
     }
     /**
-     * 
-     * @param mixed $tab 
-     * @param mixed $expression 
-     * @param mixed $key 
-     * @return string|string[]|null 
-     */
+    * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $expression
+    * @param mixed $key
+    * @param bool $sys
+    * @return string|string[]|null
+    */
     private static function _TreatExpression($tab, $expression, $key, bool $sys){
         $ckey = [$key=>1];
         $failed = true;

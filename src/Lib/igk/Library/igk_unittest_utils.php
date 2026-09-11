@@ -4,14 +4,13 @@
 // @filename: igk_unittest_utils.php
 // @date: 20260513 18:51:39
 // @desc: unittest utility helpers
-
 /**
- * 
- * @param int $expected ponderation must be greather than 0,
- * @param string $test_name test name 
- * @param mixed ...$expected 
- * @return int 
- */
+* auto generate doc.
+* @param int $point_expected
+* @param int $expected ponderation must be greather than 0,
+* @param mixed ...$expected
+* @return int
+*/
 function igk_unittest_run(int $point_expected, string $test_name, ...$expected): int
 {
     $score = 0;

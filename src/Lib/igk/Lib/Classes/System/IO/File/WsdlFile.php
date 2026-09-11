@@ -266,8 +266,8 @@ class WsdlFile extends IGKObject {
     /**
     * register methods
     * @param mixed $className
+    * @param mixed $srvName
     * @param mixed $classname class name
-    * @param mixed $srvName service name
     */
     public function registerMethod($className, $srvName, $funclist){
         $_subtolocal = [
