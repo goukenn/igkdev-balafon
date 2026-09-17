@@ -21,7 +21,7 @@ class CssBuilderTest extends BaseTestCase
     /**
     * auto generate doc.
     * @param null|string $css
-    * @return void
+    * @return mixed
     */
     protected function _init(?string $css = null)
     {
@@ -301,7 +301,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['w-[calc(100vh-4rem)]'], $references);
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [           
-            '.w-[calc(100vh-4rem)]{',
+            '.w-\\[calc(100vh-4rem)\\]{',
             'width:calc(100vh-4rem);',
             '}'
         ]), $s);

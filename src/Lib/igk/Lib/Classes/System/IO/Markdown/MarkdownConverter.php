@@ -82,6 +82,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private $m_counter;
 
     /**
+     * 
+     * @var int
+     */
+    private $m_tag_mark_count = 0;
+
+    /**
      * Listener: set output treatment listener.
      * @var mixed
      */
@@ -159,7 +165,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     var $documentLinks;
     /**
      * store emojies
-     * @var emojies[]
+     * @var array
      */
     private $m_emojies;
     /**
@@ -195,7 +201,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private $m_ul;
     /**
      * auto generate doc.
-     * @var IGK\System\IO\Markdown\m_useTag
+     * @var mixed
      */
     private $m_useTag;
     /**
@@ -432,6 +438,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         // + - orderd list
         // + | 
         // + |
+        $m->autoStore = false;
+        $v_string_match = $m->appendStringDetection('string', true)->last();
+
+        $m->autoStore = true;
         $quote = $m->match("^> (.+)?", "text-quote")->last();
         $subquote = $m->match("^((?:\t| {4})+)> (.+)?", "text-sub-quote")->last();
         $sublist = $m->match("^((?:\t| {4})+)- (.+)?", "text-sub-list")->last();
@@ -543,8 +553,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $fence_code->patterns = [
             $v_tag_defition
         ];
+        $v_escape_detect = $m->createPattern([
+            'match'=>'&(gt|lt);',
+            'tokenID'=>'detected-entities'
+        ]);
         $code_block->patterns = [
-            $v_tag_defition
+            $v_tag_defition,
+            $v_escape_detect,
+            $v_string_match
         ];
         $cp->patterns = [
             $m->createStringPattern(),
@@ -1147,13 +1163,33 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $s  = igk_getv($this->m_classStyles, 'code');
         $v = substr(substr($v, 1), 0, -1);
+        if(($this->m_tag_mark_count == 0 ))
+        $v = self::ToggleTranslateEntities($v);
+    
+        $this->m_tag_mark_count = 0;
         if (empty(trim($v))) return '';
+        $n = igk_create_node('code');
+        $v = HtmlUtils::StripExecTag($v);
         if ($s) {
-            $n = igk_create_node('code')->setAttributes($s);
+            $n->setAttributes($s);
             $n->text($v);
             return $n->render();
         }
+        
         return sprintf('<code>%s</code>', $v);
+    }
+    /**
+     * 
+     * @param string $v 
+     * @return string 
+     */
+    public static function ToggleTranslateEntities(string $v){
+        return strtr($v , [
+            '&gt;'=>'>',
+            '&lt;'=>'<',
+            '>'=>'&gt;',
+            '<'=>'&lt;'
+        ]);
     }
     /**
      * Treat at mention.
@@ -1831,7 +1867,21 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _treat_tag_definition(string $v, $e)
     {
         $rp = $e->match->replaceWith ?? ['<' => '&lt;', '>' => '&gt;'];
+        $this->m_tag_mark_count += ($v == '<') ? 1: -1;
         $v = RegexMatcherUtility::ReplaceWithOnly($v, $rp, $e);
+        return $v;
+    }
+
+    /**
+     * 
+     * @param string $v 
+     * @param mixed $e 
+     * @return mixed 
+     */
+    protected function _treat_detected_entities(string $v, $e){
+        // TODO: 
+        // igk_wln_e("entities");
+        $v = RegexMatcherUtility::ReplaceWithOnly($v, ["&lt;"=>"<", "&gt;"=>">"], $e);
         return $v;
     }
     /**
@@ -1989,7 +2039,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     }
     /**
     * auto generate doc.
-    * @return void
+    * @return mixed
     */
     protected function _subquote_parent()
     {

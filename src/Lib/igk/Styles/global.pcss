@@ -173,33 +173,33 @@ $def[".overflow"] = "overflow: auto;";
 $def['.overflow-visible'] = 'overflow:visible;';
 $def[".ellipsis"] = "text-overflow:ellipsis;";
 $def[".wrapnormal"] = "white-space:normal;";
-$def[".loc_b"] = "bottom:0px;";
-$def[".loc_l"] = "left:0px;";
-$def[".loc_mid"] = "left:50%; top: 50%;";
-$def[".loc_r"] = "right:0px;";
-$def[".loc_t"] = "top:0px;";
-$def[".loc_a"] = "top:0px ; bottom: 0px ; right: 0px ; left: 0px ;";
-$def['.loc_top'] = 'left:0px; top:0px; right:0px';
-$def['.loc_bottom'] = 'left:0px; bottom:0px; right:0px';
+$def[".loc-b"] = "bottom:0px;";
+$def[".loc-l"] = "left:0px;";
+$def[".loc-mid"] = "left:50%; top: 50%;";
+$def[".loc-r"] = "right:0px;";
+$def[".loc-t"] = "top:0px;";
+$def[".loc-a"] = "top:0px; bottom: 0px; right:0px; left:0px ;";
+$def['.loc-top'] = 'left:0px; top:0px; right:0px';
+$def['.loc-bottom'] = 'left:0px; bottom:0px; right:0px';
 $def[".nomargin"] = "margin-top:0px; margin-left:0px;margin-right:0px; margin-bottom:0px;";
 $def[".nopadding"] = "padding-top:0px; padding-bottom:0px; padding-right:0px; padding-left:0px;";
 $def[".no-decoreation"] = "text-decoration:none;";
-$def[".block_5m"] = "margin:5px;";
-$def[".block_10m"] = "margin:10px;";
+$def[".block-5m"] = "margin:5px;";
+$def[".block-10m"] = "margin:10px;";
 for ($i = 0; $i <= 10; $i++) {
     $def[".z-level-" . $i] = "z-index:" . ($i * 10) . ";";
 }
 $theme->supports('resize:both')->set(".resizable", "resize:both;");
 $def["*:before, *:after"] = "box-sizing: border-box";
-$def[".scroll_h_x"] = "overflow-x:hidden;";
-$def[".scroll_h_y"] = "overflow-y:hidden;";
-$def[".scroll_x"] = "overflow-x: scroll;";
-$def[".scroll_y"] = "overflow-y: scroll;";
-$def[".scroll_ay"] = "overflow-y: auto;";
-$def[".scroll_ax"] = "overflow-x: auto;";
+$def[".scroll-h-x"] = "overflow-x:hidden;";
+$def[".scroll-h-y"] = "overflow-y:hidden;";
+$def[".scroll-x"] = "overflow-x: scroll;";
+$def[".scroll-y"] = "overflow-y: scroll;";
+$def[".scroll-x-a"] = "overflow-x: auto;";
+$def[".scroll-y-a"] = "overflow-y: auto;";
 $def[".autoh"] = "height:auto;";
 $def[".autow"] = "width:auto;";
-$def[".puce_circle"] = "list-style-type:disc;";
+$def[".puce-circle"] = "list-style-type:disc;";
 $def[".dispn"] = "display:none;";
 $def[".dispb"] = "display:block;";
 $def[".dispi"] = " display:inline;";
@@ -216,10 +216,10 @@ foreach(['dispn'=>'display:none;'] as $type=>$value){
 // + | ------------------------------------------------------------
 // + | important style
 // + | ------------------------------------------------------------
-$def[".dispn_i"]  = "display:none ;";
-$def[".dispb_i"]  = "display:block ;";
-$def[".dispi_i"]  = "display:inline ;";
-$def[".dispib_i"] = "display:inline-block ;";
+$def[".dispn-i"]  = "display:none ;";
+$def[".dispb-i"]  = "display:block ;";
+$def[".dispi-i"]  = "display:inline ;";
+$def[".dispib-i"] = "display:inline-block ;";
 $def[".disptabc"] = " display: table-cell;";
 $def[".disptable"] = " display:table;";
 $def[".disptabr"] = " display: table-row;min-height:0px;";
@@ -280,14 +280,14 @@ $def[".dispigrid"] =
     $def[".i-grid"] =
     $def[".igk-inline-grid"] = "display: -ms-inline-grid; display: inline-grid;";
 $def[".igk-clear-cell"] = "display:table; content:' ' ; clear:both;";
-$def[".box_16x16"] = "width:16px; height:16px;";
-$def[".box_24x24"] = "width:24px; height:24px;";
-$def[".box_32x32"] = "width:24px; height:32px;";
-$def[".box_48x48"] = "width:48px; height:48px;";
+$def[".box-16x16"] = "width:16px; height:16px;";
+$def[".box-24x24"] = "width:24px; height:24px;";
+$def[".box-32x32"] = "width:24px; height:32px;";
+$def[".box-48x48"] = "width:48px; height:48px;";
 $def[".editstyle-ajx-form"] = IGK_STR_EMPTY;
 $def[".editstyle-ajx-form .cltextarea"] = "width:400px; height:300px;";
 
-$def[".frame_textarea"] = "width: 500px; height:300px";
+$def[".frame-textarea"] = "width: 500px; height:300px";
 $def[".igk-msbox-dialog"] = $def[".igk-framebox-dialog"] = "[bgcl:frameboxDialogBgColor, white] padding: 4px;";
 $def[".igk-msbox-dialog-title"] =
     $def[".framebox-dialog-title"] = "position:relative; overflow:hidden; min-height:32px; font-size:14pt; [bgcl:igk-framebox-title-bgcl] [fcl:igk-framebox-title-fcl] cursor:move; padding-right: 64px;";
@@ -430,8 +430,8 @@ foreach(['ease','ease-in','ease-in-out',
 $def['.trans-'.$f] = 'transition-timing-function: '.$f.';';
 
 
-$def['.trans-1'] = 'transition-duration: 1s';
-$def['.trans-2'] = 'transition-duration: 2s';
+$def['.trans-1'] = $def['.trans-1s'] = 'transition-duration: 1s';
+$def['.trans-2'] = $def['.trans-2s'] = 'transition-duration: 2s';
 $def['.trans-20ms'] = 'transition-duration:0.2s';
 $def['.trans-50ms'] = 'transition-duration:0.5s';
 $sides = ['t','r','b','r'];
@@ -447,9 +447,12 @@ foreach(['solid','dashed','double','dotted',
     }
 }
 
-$def['.card\:hover:hover'] = 'background-color:indigo';
+// $def['.card\:hover:hover'] = 'background-color:indigo';
+// + | --------------------------------------------------------------------
+// + | 
+// + |
 
-// taildwind.css dimension 
+// from taildwind.css dimension 
 foreach([1,4,8,14, 16,32] as $p){
     $def['.h-'.($p*4)] = 'height: '.$p.'rem;';
     $def['.w-'.($p*4)] = 'height: '.$p.'rem;';
@@ -460,3 +463,8 @@ foreach([100,75,50,25,0] as $a){
     $def['.bg-opacity-'.$a] = '--blf-bg-opacity: '.(round($a/100, 2)). ';';
     $def['.fore-opacity-'.$a] = '--blf-fore-opacity: '.(round($a/100, 2)). ';';
 }
+ 
+
+// :: hover propertery 
+$def['.underline\:hover:hover'] = 'text-decoration: underline;';
+ 

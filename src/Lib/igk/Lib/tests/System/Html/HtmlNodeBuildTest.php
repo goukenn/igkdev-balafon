@@ -263,7 +263,7 @@ class HtmlNodeBuildTest extends BaseTestCase
             "igk:menus" => [
                 "@" => [
                     [
-                        "home"
+                        "home", 
                     ]
                 ]
             ],

@@ -121,9 +121,10 @@ abstract class ControllerExtension
     public static function getViewLayout(BaseController $ctrl, ?string $fname = null)
     {
         $n = $fname;
-        $cl = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, $n);
+        $v_ekey = EntryClassResolution::WinUI_ViewLayoutFormat;
+        $cl = sprintf($v_ekey, $n);
         igk_die(implode("\n", [$cl, __FILE__ . ":" . __LINE__, 'view layout loading']));
-        $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
+        $view_layout = $ctrl->resolveClass($v_ekey) ?? ViewLayout::class;
         if ($view_layout) {
             $v_key = $ctrl->getName() . '@' . __METHOD__;
             $obj = igk_getv(self::$sm_instances_inclass, $v_key);
@@ -1655,7 +1656,7 @@ abstract class ControllerExtension
                     $r = false;
                     if ($u) {
                         // + | provided user not exists in cache database  
-                        $controller::logout();
+                        $controller->logout();
                         igk_exit();
                     }
                 }

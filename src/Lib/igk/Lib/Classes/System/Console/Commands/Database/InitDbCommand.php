@@ -90,6 +90,7 @@ class InitDbCommand extends AppExecCommand{
 		if ($c) {
 			$db_name = igk_configs()->db_name;
 			Logger::info('dbname :'. $db_name);
+			// igk_exit();
 			if ($clean){
 				igk_set_env("sys://Db/NODBSELECT", true );
 				if ($ad = SysDbController::getDataAdapter()){

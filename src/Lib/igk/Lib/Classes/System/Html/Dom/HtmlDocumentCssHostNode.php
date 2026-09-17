@@ -73,8 +73,9 @@ class HtmlDocumentCssHostNode extends HtmlNode
         $theme = $doc->getTheme();
         $inlineTheme = $doc->getInlineTheme();
         igk_css_load_theme($theme);
-        if ($doc->noCoreCss) {
-            $theme_tab = CssParser::Parse($theme->render())->to_array();
+        $sb = CssUtils::RenderAfterCheckColorTheme($theme);
+        if ($doc->noCoreCss && !$doc->noColorPalette) {
+            $theme_tab = CssParser::Parse($sb)->to_array();
             if (!empty($theme_tab)) { 
                 $imported = array_merge([
                         'dispn',
@@ -84,29 +85,33 @@ class HtmlDocumentCssHostNode extends HtmlNode
                     ],
                     $theme->getImportedDefinitions() ?? [],
                     CssClassNameDetector::RetrieveInjectedClassesList($theme_tab)?? [], 
-                    );                 
+                );                 
                 $tab = CssParser::Parse($doc->getSysTheme()->render())->to_array();
                 $g .= CssClassNameDetector::RenderMaps([
                     $tab,
                     $theme_tab,
-                ],$imported);                 
-            }
-        } else
-            $g .= $theme->get_css_def();
+                ],$imported);     
+            } 
+        } else{            
+            $g .= $sb;
+        }
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles) {
             igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
             $g .= $inlineTheme->get_css_def(true);
         }
         $is_dev = igk_environment()->isDev();
-        if ($is_dev) {
-            $g .= "\n" . CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
-                "lf" => ""
-            ]);
-        }
+        // if ($is_dev && !$doc->noColorPalette) {
+        // if ($is_dev){
+            $g .= self::RenderExtraDefinition();
+        // }
+        // igk_wln_e(__FILE__.":".__LINE__ , $g, ' ---- ', self::RenderExtraDefinition(),
+        // $doc->noCoreCss , $doc->noColorPalette,
+        // CssParser::Parse('.same\:hover:hover{color:red;}')->to_array(), $sb, $theme_tab);
+
         if (!empty(trim($g))) {
             $vs = igk_create_node("style");
-            $vs->text("\n" . $g);
+            $vs->text("\n" . $g."\n/* end style */\n");
             $is_dev && ($s .= "<!-- start:inline style -->");
             $s .= $vs->render();
             $is_dev && ($s .= "\n<!-- end:inline style -->");
@@ -114,7 +119,19 @@ class HtmlDocumentCssHostNode extends HtmlNode
         if ($clear) {
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear();
-        }
+        } 
         return $s;
+    }
+    /**
+     * reder extra definition 
+     * @return ?string 
+     */
+    public static function RenderExtraDefinition(){
+        $g = "\n" . CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
+                "lf" => ""
+            ])."\n";
+        if (!empty(trim($g))){
+            return $g;
+        }
     }
 }

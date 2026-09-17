@@ -39,10 +39,8 @@ trait ClassAndStyleOffsetTrait{
                             $cl = new HtmlCssClassValueAttribute();
                             $this->m_attributes[$tk] = $cl;
                         }
-                        $cl->add($v);
-                        if(igk_environment()->isDev()){
-                            CssClassBuffer::getInstance()->loadBuffer($v);                            
-                        }
+                        $cl->add($v);                        
+                        CssClassBuffer::getInstance()->loadBuffer($v);                        
                     }
                     break;
                 case 'style':

@@ -42,6 +42,7 @@ class DbDropCommand extends AppExecCommand{
     */
     public function exec($command, ?string $controller=null)
     { 
+        $controller = self::ResolveController($command, $controller, false);
         if (!$controller){
             throw new IGKException('project required');
         }
@@ -51,6 +52,7 @@ class DbDropCommand extends AppExecCommand{
             return -1;
         }
         Logger::info(__("dropping project [{$controller}]'s tables"));
+        Logger::info('DbName: '.igk_configs()->db_name);
         $c::dropDb(false, true);
         Logger::success(__("done"));
         return 0;

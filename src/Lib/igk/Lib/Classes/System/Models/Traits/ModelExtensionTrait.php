@@ -4,24 +4,29 @@
 // @date: 20230131 14:24:39
 namespace IGK\System\Models\Traits;
 
+use IGK\Models\ModelBase;
+
 /**
-* auto generate doc.
-* @package IGK\Ssytem\Models\Traits
-*/
+ * auto generate doc.
+ * @package IGK\Ssytem\Models\Traits
+ */
 trait ModelExtensionTrait
 {
     /**
-    * extension methods
-    * @param \IGK\Models\ModelBase $model
-    * @param mixed $params
-    */
+     * extension methods
+     * @param \IGK\Models\ModelBase $model
+     * @param mixed $params
+     */
     public abstract static function Add(\IGK\Models\ModelBase $model, $params);
     /**
      * extension methods 
      */
     public abstract static function AddIfNotExists(\IGK\Models\ModelBase $model, $params);
-    /**
-     * extension methods 
+    /**    
+     * extension methods     
+     * @param ModelBase $model 
+     * @param mixed $result 
+     * @return mixed 
      */
     public abstract static function DisplayResult(\IGK\Models\ModelBase $model, $result);
     /**
@@ -31,24 +36,31 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function GetCache(\IGK\Models\ModelBase $model, ?string $column, $value=null, ?bool $autoinsert = null): ?object;
+    public abstract static function GetCache(\IGK\Models\ModelBase $model, ?string $column, $value = null, ?bool $autoinsert = null): ?object;
     /**
-    * extension methods
-    * @param \IGK\Models\ModelBase $model
-    * @param bool $check
-    * @param mixed $params
-    */
+     * extension methods
+     * @param \IGK\Models\ModelBase $model
+     * @param bool $check
+     * @param mixed $params
+     */
     protected abstract static function _Add(\IGK\Models\ModelBase $model, bool $check, $params);
     /**
      * extension methods 
      */
     public abstract static function beginTransaction(\IGK\Models\ModelBase $model);
     /**
-     * extension methods 
+     * 
+     * @param ModelBase $model 
+     * @param mixed $primaryKeyIdentifier 
+     * @return mixed 
      */
     public abstract static function cacheIsRow(\IGK\Models\ModelBase $model, $primaryKeyIdentifier);
     /**
-     * extension methods 
+     * cached rows 
+     * @param ModelBase $model 
+     * @param mixed $primaryKeyIdentifier 
+     * @param bool $throw 
+     * @return mixed 
      */
     public abstract static function cacheRow(\IGK\Models\ModelBase $model, $primaryKeyIdentifier, $throw = true);
     /**
@@ -58,7 +70,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function column(\IGK\Models\ModelBase $model, $column);
+    public abstract static function column(\IGK\Models\ModelBase $model, string $column);
     /**
      * extension methods 
      */
@@ -90,7 +102,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function createFromCache(\IGK\Models\ModelBase $model, ?object $identifier, ?object $conditions=null);
+    public abstract static function createFromCache(\IGK\Models\ModelBase $model, ?object $identifier, ?object $conditions = null);
     /**
      * extension methods 
      */
@@ -106,7 +118,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function display(\IGK\Models\ModelBase $model, string $separator='');
+    public abstract static function display(\IGK\Models\ModelBase $model, string $separator = '');
     /**
      * extension methods 
      */
@@ -276,11 +288,11 @@ trait ModelExtensionTrait
      */
     public abstract static function tableExists(\IGK\Models\ModelBase $model): bool;
     /**
-    * extension methods
-    * @param \IGK\Models\ModelBase $model
-    * @param mixed $value
-    * @param mixed $conditions
-    */
+     * extension methods
+     * @param \IGK\Models\ModelBase $model
+     * @param mixed $value
+     * @param mixed $conditions
+     */
     public abstract static function update(\IGK\Models\ModelBase $model, $value = null, $conditions = null);
     /**
      * extension methods 
@@ -299,9 +311,9 @@ trait ModelExtensionTrait
     public abstract static function viewFilter(\IGK\Models\ModelBase $model);
     /**
      * extension methods 
-    * @param mixed $model
-    * @param mixed $modelUnion
-    * @param mixed $propertyName
+     * @param mixed $model
+     * @param mixed $modelUnion
+     * @param mixed $propertyName
      */
     public abstract static function with(\IGK\Models\ModelBase $model, $modelUnion, ?string $propertyName = null);
 }

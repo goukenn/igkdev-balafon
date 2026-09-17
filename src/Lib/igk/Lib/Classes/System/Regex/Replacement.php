@@ -3,23 +3,25 @@
 // @file: Replacement.php
 // @date: 20221206 07:32:52
 namespace IGK\System\Regex;
+
 use Closure;
 use IGK\Core\Traits\NoDynamicPropertyTrait;
 
 /**
-* 
-* @package IGK\System\Regex
-*/
+ * 
+ * @package IGK\System\Regex
+ */
 /**
-* auto generate doc.
-* @package IGK\System\Regex
-*/
-class Replacement{
+ * auto generate doc.
+ * @package IGK\System\Regex
+ */
+class Replacement
+{
     use NoDynamicPropertyTrait;
     /**
-    * auto generate doc.
-    * @var array<ReplacementObject>
-    */
+     * auto generate doc.
+     * @var array<ReplacementObject>
+     */
     var $infos = [];
     /**
      * options to store 
@@ -30,7 +32,8 @@ class Replacement{
      * get number of replacement infos;
      * @return int 
      */
-    public function getCount(){
+    public function getCount()
+    {
         return count($this->infos);
     }
     /**
@@ -38,18 +41,19 @@ class Replacement{
      * @param string $source 
      * @return string 
      */
-    public function replace(string $source): string{
+    public function replace(string $source): string
+    {
         if (!empty($source))
-        foreach($this->infos as $v){
-            if ($v->type == 'callback'){
-                $g = $v->replace;
-                $source = preg_replace_callback($v->pattern, $g, $source);
-                continue;
+            foreach ($this->infos as $v) {
+                if ($v->type == 'callback') {
+                    $g = $v->replace;
+                    $source = preg_replace_callback($v->pattern, $g, $source);
+                    continue;
+                }
+                if (preg_match($v->pattern, $source)) {
+                    $source = preg_replace($v->pattern, $v->replace, $source);
+                }
             }
-            if (preg_match($v->pattern, $source)){
-                $source = preg_replace($v->pattern, $v->replace, $source);
-            }
-        }
         return $source;
     }
     /**
@@ -58,7 +62,8 @@ class Replacement{
      * @param string $replace 
      * @return static 
      */
-    public function add(string $pattern, string $replace){
+    public function add(string $pattern, string $replace)
+    {
         $rp = new ReplacementObject();
         $rp->pattern = $pattern;
         $rp->replace = $replace;
@@ -71,7 +76,8 @@ class Replacement{
      * @param callable $callback 
      * @return $this 
      */
-    public function addCallable(string $pattern, callable $callback){
+    public function addCallable(string $pattern, callable $callback)
+    {
         $rp = new ReplacementObject();
         $rp->pattern = $pattern;
         $rp->replace = $callback;
@@ -80,14 +86,15 @@ class Replacement{
         return $this;
     }
     /**
-    * Clears.
-    */
-    public function clear(){
+     * Clears.
+     */
+    public function clear()
+    {
         $this->infos = [];
     }
     /**
-    * get string presentation.
-    */
+     * get string presentation.
+     */
     public function __toString()
     {
         return __CLASS__;
@@ -97,9 +104,10 @@ class Replacement{
      * @param mixed $s 
      * @return mixed 
      */
-    public static function RegexWord($s){
-        $s = str_replace("/","\/", $s);
-        $s = str_replace(".",'\.', $s);
+    public static function RegexWord($s)
+    {
+        $s = str_replace("/", "\/", $s);
+        $s = str_replace(".", '\.', $s);
         return $s;
     }
     /**
@@ -109,19 +117,21 @@ class Replacement{
      * @param string $op option to add 
      * @return string 
      */
-    public static function RegexExpressionFromString(string $s, $delimiter="/", $op=""){
+    public static function RegexExpressionFromString(string $s, $delimiter = "/", $op = "")
+    {
         $s = self::RegexWord($s);
-        return $delimiter.$s.$delimiter.$op;
+        return $delimiter . $s . $delimiter . $op;
     }
     /**
-    * create a not match regex callback.
-    * @param mixed $regex
-    * @param mixed & $tab
-    * @param mixed $flag
-    * @return Closure(mixed $s): bool
-    */
-    public static function NotMatchRegex($regex, & $tab=null, $flag=0){
-        return function($s)use($regex, & $tab, $flag){
+     * create a not match regex callback.
+     * @param mixed $regex
+     * @param mixed & $tab
+     * @param mixed $flag
+     * @return Closure(mixed $s): bool
+     */
+    public static function NotMatchRegex($regex, &$tab = null, $flag = 0)
+    {
+        return function ($s) use ($regex, &$tab, $flag) {
             return !preg_match($regex, $s, $tab, $flag);
         };
     }
@@ -131,14 +141,26 @@ class Replacement{
      * @param mixed $replace_data 
      * @return string 
      */
-    public static function Bind(string $template, ?array $replace_data=null){
+    public static function Bind(string $template, ?array $replace_data = null)
+    {
         if (is_array($replace_data)) {
-			$rp = new Replacement;
-			foreach ($replace_data as $k => $v) {
-				$rp->add($k, $v);
-			}
-			$template = $rp->replace($template);
-		}
+            $rp = new Replacement;
+            foreach ($replace_data as $k => $v) {
+                $rp->add($k, $v);
+            }
+            $template = $rp->replace($template);
+        }
         return $template;
+    }
+    /**
+     * get replacement assoc array to array
+     * @param array $tab 
+     * @return array 
+     */
+    public static function FromAssocArray(array $tab)
+    {
+        return array_combine(array_map(function ($a) {
+            return sprintf('%%%s%%', $a);
+        }, array_keys($tab)),  array_values($tab));
     }
 }

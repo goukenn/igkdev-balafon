@@ -56,6 +56,12 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     * @var mixed
     */
     private $m_noCoreScript;
+
+    /**
+     * disable use of color palette
+     * @var mixed
+     */
+    private $m_noColorPalette;
     /**
     * Flag: can add.
     * @var mixed
@@ -325,6 +331,17 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             HtmlMetaManager::ATTR_CONTENT => $cl
         ], $cl !== null);
         return $this;
+    }
+    /**
+     * 
+     * @param bool $color_palette 
+     * @return void 
+     */
+    public function setNoColorPalette(bool $color_palette){
+        $this->m_noColorPalette = $color_palette;
+    }
+    public function getNoColorPalette(){
+        return $this->m_noColorPalette;
     }
     /**
      * helper store meta

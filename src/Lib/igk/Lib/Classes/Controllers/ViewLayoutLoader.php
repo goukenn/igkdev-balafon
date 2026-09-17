@@ -170,9 +170,9 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
     /**
     * auto generate doc.
     * @param string $file
-    * @return void
+    * @return bool
     */
-    protected function isMainInclusion(string $file)
+    protected function isMainInclusion(string $file): bool
     {
         return $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
     }

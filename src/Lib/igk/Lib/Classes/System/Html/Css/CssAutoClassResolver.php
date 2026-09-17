@@ -5,6 +5,8 @@
 namespace IGK\System\Html\Css;
 
 use IGK\System\Console\Logger;
+use IGK\System\Html\Dom\HtmlDocTheme;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -19,7 +21,7 @@ class CssAutoClassResolver
     /**
      * auto detect prefix sequence 
      */
-    const AUTO_PREFIX_DETECT = 'text|br|bg|pad|mar|rd|fit|no|gap|w|h|anim|transform|trans';
+    const AUTO_PREFIX_DETECT = HtmlDocTheme::THEMING_PREFIX; 
     /**
     * auto generate doc.
     * @var mixed
@@ -51,7 +53,9 @@ class CssAutoClassResolver
      */
     public function detect(string $class, &$tab): bool
     {
-        $check_theme = function (&$tab, $theme, $screen) {
+        $class = stripcslashes($class);
+        $separo_key_offset = 2;
+        $check_theme = function (&$tab, $theme, $screen)use($separo_key_offset) {
             if (isset($tab['def'])) {
                 $def = $tab['def'];
                 if (preg_match('/' . $theme . '/', $def)) {
@@ -61,12 +65,12 @@ class CssAutoClassResolver
                     $tab['screen'] = 1;
                 }
                 unset($tab['def']);
-                $tab['separator'] = $tab[4];
+                $tab['separator'] = $tab[$separo_key_offset];
             }
         };
         $theme = '(?:dark|light)';
         $screen = '(?:(?:x)?sm|(?:x(?:x)?)?lg)';
-        $st = '(?P<def>(?:(?:' . $theme . '(-|:)?)?' . $screen . '|(?:' . $screen . '(-|:)?)?' . $theme . ')(-|:))?';
+        $st = '(?P<def>(?:(?:' . $theme . '(?:-|:)?)?' . $screen . '|(?:' . $screen . '(?:-|:)?)?' . $theme . ')(-|:))?';
         $value = '(?P<value>[^:]+)(?P<pseudo>:.+)?';
         $regex = '/^' . $st . '(?P<prefix>' . self::AUTO_PREFIX_DETECT . ')\\b-' . $value . '$/';
         if (preg_match($regex, $class, $tab)) {
@@ -101,14 +105,42 @@ class CssAutoClassResolver
         return null;
     }
     /**
+     * 
+     * @var mixed
+     */
+    private $m_palettedColorDefinition;
+
+    /**
     * auto generate doc.
-    * @return void
+    * @return array
     */
     public function getColorPal()
     {
-        $type = $this->colorspace;
-        $lg = json_decode(file_get_contents(IGK_LIB_DIR . '/Default/assets/css/colorspaces/' . $type . '.json'));
-        return $lg ?? ['red' => '#ff0000'];
+        if (is_null($lg = $this->m_palettedColorDefinition)){
+            $type = $this->colorspace;
+            $lg = json_decode(file_get_contents(IGK_LIB_DIR . '/Default/assets/css/colorspaces/' . $type . '.json'));
+            $lg->transparent = 'transparent';
+            $this->_injectPaletteDefinition($lg);
+            $this->m_palettedColorDefinition = $lg;
+        }
+        return $lg;
+    }
+    /**
+     * update inject fillter palette definition 
+     * @param mixed $color 
+     * @return void 
+     */
+    protected function _injectPaletteDefinition($color){
+        $filter = [
+            'transparent'=>'transparent',
+            'currentColor'=>'currentColor',
+            'primaryColor'=>'var(--blf-primary-color)',
+            'secondaryColor'=>'var(--blf-second-color)'
+        ];
+        igk_hook('sys-filter://css/refpalette', ['filter'=>& $filter]);
+        foreach($filter as $k=>$v){
+            $color->{$k} = $v;
+        }
     }
     /**
     * auto generate doc.
@@ -333,6 +365,10 @@ class CssAutoClassResolver
     {
         // column-gap
         // row-gap 
+        if(is_numeric($value)){
+            $value = CssUtils::ValueFromDim( $value, 'gap');
+        }
+
         $tv = explode('-', $value, 2);
         $v_unit_regex = $this->_unit_regex();
         $r = 'inherit';
@@ -544,6 +580,7 @@ class CssAutoClassResolver
     */
     protected function _mark_single_unit($property, $value, $negate = false)
     {
+       
         return json_encode([
             $property => $this->_protect_expression($value) ?? $this->_get_unit_length($value, $negate)
         ]);
@@ -556,6 +593,7 @@ class CssAutoClassResolver
     protected function _protect_expression(string $value)
     {
         $vv = null;
+        $value = stripslashes($value);
         if (preg_match('/^\[.*\]$/', $value)) {
             $vv = substr($value, 1, -1);
         }

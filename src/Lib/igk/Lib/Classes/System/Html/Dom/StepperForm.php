@@ -39,7 +39,7 @@ if (!function_exists('igk_html_node_stepperForm')) {
                 ]);
                 $sec->h2()->setClass('step__title')->content = $stepperdef->title ?? __($k);
                 if ($hint = $stepperdef->hint) {
-                    $sec->div()->setClass('step__hint')->content = $hint;
+                    $sec->div()->setClass('step-hint')->content = $hint;
                 }
 
                 if ($stepperdef->fields) {

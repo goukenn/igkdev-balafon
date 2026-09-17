@@ -630,7 +630,7 @@ class HtmlNode extends HtmlItemBase
     }
     /**
     * Called when an object is used as a function.
-    * @return void
+    * @return mixed
     */
     public function __invoke()
     {

@@ -53,6 +53,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     const INLINE_STYLE_KEY = "css://temp/rendering";
+    const THEMING_PREFIX = 'text|br|bg|pad|mar|rd|fit|no|gap|w|h|anim|transform|trans'; // 'text|bg|no|br|mag|pad|fs|fill|stroke|tdc';
+    const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?('.self::THEMING_PREFIX.')-/';
     /**
      * Constant: global type.
      * @var mixed
@@ -622,7 +624,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param ICssStyleContainer $systheme style container
      */
     private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssResourceResolver $resourceResolver = null,  ?ICssStyleContainer $systheme = null)
-    {
+    {  
         $lineseparator = $minfile ? IGK_STR_EMPTY  : IGK_LF;
         $out = IGK_STR_EMPTY;
         $def = $this->def;
@@ -1831,12 +1833,19 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $s;
     }
     /**
+     * check if as color theme 
+     * @return bool 
+     */
+    public function getHasThemeColor():bool{
+        return !is_null($this->m_themeColors) && !empty($this->m_themeColors);
+    }
+    /**
      * helper: render style definition 
      * @return string 
      */
-    public function render(): string
+    public function render($themeexport=false): string
     {
-        return $this->get_css_def();
+        return $this->get_css_def(true, $themeexport);
     }
     /**
      * retrieve imported definition

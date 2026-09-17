@@ -282,8 +282,14 @@ abstract class ConsoleUtility
                 } else 
                     $action($v, $command, $args);
             } else {
-                $c = explode(":", $v);
-                $v_ts =  implode(":", array_slice($c, 1));
+                $c = null; $v_ts = null;
+                if ($data = self::OptionArgValue($v)){
+                    $c = $data;
+                    $v_ts = $c[1] ?? '';
+                }else{
+                    $c = explode(":", $v);
+                    $v_ts =  implode(":", array_slice($c, 1));
+                }
                 if (isset($handle[$c[0]])) {
                     if (isset($handle[$v])) {
                         $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
@@ -312,5 +318,19 @@ abstract class ConsoleUtility
             $check_first = true;
         }
         return $command;
+    }
+    public static function OptionArgValue(string $expression){
+        $option ='';
+        $value = null; 
+        $ln = strlen($expression);
+        for($i = 0; $i<$ln;$i++){
+            $ch = $expression[$i];
+            if (preg_match('/:|=/',$ch)){
+                $value=substr($expression, $i+1);
+                break;
+            }
+            $option.=$ch;
+        }
+        return [$option, $value];
     }
 }

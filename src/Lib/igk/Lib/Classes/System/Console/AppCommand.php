@@ -32,6 +32,8 @@ abstract class AppCommand
      * @var mixed
      */
     const ENV_KEY = "balafon/command_args";
+
+    const CTRL_ARG = '--controller';
     /**
      * Constant: options tab space.
      * @var mixed

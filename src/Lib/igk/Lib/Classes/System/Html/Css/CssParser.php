@@ -285,7 +285,7 @@ class CssParser implements ArrayAccess
                     if ($mode == 0) {
                         if (empty($rv = trim($rv))) {
                             igk_trace();
-                            igk_dev_wln_e($content);
+                            igk_wln_e($content);
                             igk_die("no selector found.");
                         }
                         $mode = 1;
@@ -301,7 +301,7 @@ class CssParser implements ArrayAccess
                     }
                     break;
                 case ':':
-                    // + | in mode = 0 some element can use : as their selector name 
+                    // + | in mode = 0 some element can use : as their selector name                     
                     if ($mode == 0) {
                         if (empty($rv = trim($rv))) {
                             $name = $ch;
@@ -423,7 +423,7 @@ class CssParser implements ArrayAccess
             return $tab[1];
         }
         $s = preg_last_error_msg();
-        echo $s;
+        igk_dev_wln('regex-error? ', $s);
         return null;
     }
     /**

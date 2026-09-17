@@ -89,6 +89,7 @@ class DbMigrateCommand extends AppExecCommand
         } 
         Logger::print(self::H_TRAIT);
         Logger::info("Do migration ");
+        Logger::info("DbName: ".igk_configs()->db_name);
         Logger::print(self::H_TRAIT."\n");
         if (!property_exists($command->options, '--no-clear-db-cache')){
             igk_ilog('clear db caches');

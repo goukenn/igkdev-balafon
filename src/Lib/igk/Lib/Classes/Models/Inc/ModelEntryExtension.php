@@ -91,7 +91,7 @@ abstract class ModelEntryExtension
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function columnPrefix(ModelBase $model)
+    public static function columnPrefix(ModelBase $model): string
     {
         return $model->getTableInfo()->prefix ?? '';
     }
@@ -1372,8 +1372,11 @@ abstract class ModelEntryExtension
      * @param string $column 
      * @return string
      */
-    public static function column(ModelBase $model, $column)
+    public static function column(ModelBase $model, string $column): string
     {
+        // if ($prefix = self::columnPrefix($model)){
+        //     $column= StringUtility::AutoPrefix($column, $prefix);
+        // }
         return static::table($model, $column);
     }
     /**

@@ -174,11 +174,12 @@ abstract class AppExecCommand extends AppCommand{
     * @param mixed $command
     * @param mixed $controller
     * @param bool $fall_to_sys
+    * @param string $key
     * @throws Exception
     * @return mixed
     */
-    public static function ResolveController($command, $controller=null, bool $fall_to_sys=true){
-        $controller = $controller ?? igk_getv($command->options, '--controller' );
+    public static function ResolveController($command, $controller=null, bool $fall_to_sys=true, string $key = AppCommand::CTRL_ARG){
+        $controller = $controller ?? igk_getv($command->options, $key);
 		if ($controller){
 			$ctrl = self::GetController($controller);
 		}  

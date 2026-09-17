@@ -10,6 +10,7 @@ use IGK\System\ArrayMapKeyValue;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Exceptions\HtmlNodeTagExplosionTagNameAlreadyDefineException;
 use IGK\System\Html\Traits\HtmlNodeTagExplosionTrait;
@@ -300,13 +301,29 @@ class HtmlNodeTagExplosionDefinition
     public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
+        $v_class_tag_detection = '(\\.)'.CssUtils::CLASS_NAME_UTIL_REGEX; 
+        // [a-zA-Z_][a-zA-Z0-9_]*(?:-(?:(?:\\d+(?:\\.\\d+)?(?:[a-zA-Z]+)?)|[a-zA-Z0-9_]+))*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?';
+
         $v_s = $regex->appendStringDetection('string', true)->last();
         $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
+
         $pbrank = $regex->begin('\(', '\)', 'pbrank')->last();
         $regex->begin('\{', '\}', 'curl-brank');
+        $v_sub_litteral = $regex->begin(
+            $v_class_tag_detection.'(-\[)', 
+            // '(\\.)[a-zA-Z_][a-zA-Z0-9_\-\\.]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?(-\[)', 
+        '(\])', 'litteral')->last(); // litteral with expression 
+
+        // +| class tha end with number - (unit)* 
+        $regex->match($v_class_tag_detection, 'litteral');
+
         $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'litteral');
         $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
+
+        $v_sub_litteral->patterns = [
+            $v_s
+        ];
         $pbrank->patterns = [
             $pbrank
         ];
@@ -389,7 +406,7 @@ class HtmlNodeTagExplosionDefinition
                     return [$k, $v];
                 }, (array)$r->read($a));
                 $def['attr'] = array_merge($def['attr'] ?? [], $attr);
-            }
+            },
         ];
         $s = $tagname;
         while ($g = $regex->detect($s, $pos)) {

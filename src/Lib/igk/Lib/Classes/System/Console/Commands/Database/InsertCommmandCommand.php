@@ -3,9 +3,10 @@
 // @file: InsertCommmandCommand.php
 // @date: 20250822 10:30:16
 namespace IGK\System\Console\Commands\Database;
+
+
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Text\RegexMatcherContainer;
-use IGK\System\Text\RegexMatcherPatternContainer;
 
 /**
 * auto generate doc.
@@ -46,6 +47,8 @@ class InsertCommmandCommand extends AppExecCommand{
     * @param mixed ...$params
     */
     public function exec($command, ?string $ctrl = null, ?string $model = null, ...$params) { 
+
+	 	/// DOTO: --db:insert
 		if (property_exists($command->options, '--controller')){
 			$model = $ctrl;
 			$ctrl = igk_getv($command->options, '--controller');
@@ -66,7 +69,7 @@ class InsertCommmandCommand extends AppExecCommand{
 	/**
 	 * - 
 	 * @param string $src 
-	 * @return void 
+	 * @return ?string 
 	 */
     public static function Format(string $src){
 		$regex = new RegexMatcherContainer;
@@ -84,8 +87,8 @@ class InsertCommmandCommand extends AppExecCommand{
 					case 'separator':
 						break;
 				}
-				igk_wln('basic '. $sp);
 			}
 		}
+		return $v;
 	}
 }

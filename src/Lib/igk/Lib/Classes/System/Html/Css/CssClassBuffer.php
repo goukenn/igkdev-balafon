@@ -3,6 +3,10 @@
 // @file: CssClassBuffer.php
 // @date: 20260904 12:25:05
 namespace IGK\System\Html\Css;
+
+use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
+use IGKHtmlDoc;
+
 /**
 * auto generate doc.
 * @package IGK\System\Html\Css
@@ -48,6 +52,12 @@ class CssClassBuffer
         if (is_string($values)) {
             $values = array_filter(explode(' ', $values));
         } else {
+            if (is_object($values)){
+                if ($values instanceof HtmlCssClassValueAttribute)
+                     $values = array_filter(explode(' ', ''.$values));  
+                else 
+                    $values = [];              
+            }
             $values = array_keys(array_filter($values));
         }
         $v_d = &$this->m_data;

@@ -724,7 +724,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * return the current table name
      * @return ?string 
      */
-    public function getTable()
+    public function getTable(): ?string
     {
         return IGKSysUtil::DBGetTableName($this->table, $this->getController());
     }

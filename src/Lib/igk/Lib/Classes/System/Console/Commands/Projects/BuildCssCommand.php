@@ -103,9 +103,9 @@ class BuildCssCommand extends AppExecCommand
 			$source = CssParser::Parse($g);
 			$detector->map($source->to_array());
 		}
-		$resolved_def = [];
 		$references = [];
 		$css_m = CssUtils::GetCssClassName($ctrl);
+		$resolved_def = [];
 		while (count($dirs) > 0) {
 			if ($c = array_shift($dirs)) {
 				foreach (igk_io_getfiles($c, "/\.(phtml|html|bview)$/", true) as $f) {
@@ -139,9 +139,9 @@ class BuildCssCommand extends AppExecCommand
 	}
     /**
     * auto generate doc.
-    * @return void
+    * @return string
     */
-    public function getCoreCss()
+    public function getCoreCss():string
 	{
 		return implode('', [
 			'*{margin:0; padding: 0; box-sizing: content-box;}',

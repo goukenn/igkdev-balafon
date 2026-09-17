@@ -3542,7 +3542,6 @@ function &igk_css_get_treat_colors(?array $defColor = null)
 * treatt color
 * @param mixed & $colors
 * @param mixed $value
-* @param mixed $defined
 * @return mixed
 */
 function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)

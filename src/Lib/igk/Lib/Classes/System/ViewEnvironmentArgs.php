@@ -217,6 +217,18 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var \IGKEnvironment
      */
     var $environment;
+
+    /**
+     * state development of view 
+     * @var bool
+     */
+    var $development;
+
+    /**
+     * state production of view
+     * @var mixed
+     */
+    var $production;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -237,6 +249,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $controller->setEnvParam('fulluri', $furi);
         $params = isset($params) ? $params : array();
         $query_options = $controller->getEnvParam(IGK_VIEW_OPTIONS);
+        $production = igk_environment()->isOPS();
+        $development = !$production;
         $is_direntry = (count($params) == 0) && igk_str_endwith(explode('?', igk_io_request_uri())[0], '/');
         if ($t){
             $controller->bindNodeClass($t, $fname, strtolower((isset($css_def) ? " " . $css_def : "")));

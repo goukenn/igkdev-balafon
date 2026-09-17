@@ -499,17 +499,14 @@ class DBCaches
     }
     /**
     * auto generate doc.
-    * @param mixed $ref_def
+    * @param SchemaMigrationInfo $ref_def
     * @param mixed $table
     * @param mixed $controller
     * @return void
     */
-    public static function UpdateModelClass($ref_def, string $table, $controller)
+    public static function UpdateModelClass(SchemaMigrationInfo $ref_def, string $table, $controller)
     {
-        igk_is_debug() && Logger::info("update : " . $table);
-        if (is_null($ref_def)) {
-            igk_wln_e("is null");
-        }
+        igk_is_debug() && Logger::info("update-model-class : " . $table);        
         $ref_def->modelClass = IGKSysUtil::GetModelTypeName($table, $controller);
     }
     /**

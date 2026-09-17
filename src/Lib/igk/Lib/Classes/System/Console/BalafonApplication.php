@@ -634,6 +634,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                         echo IGK_AUTHOR . "\n";
                         Logger::info("PHP_VERSION:");
                         echo PHP_VERSION . "\n";
+                        $info = null;
                         try {
                             if (defined('IGK_WORKING_DIR'))
                                 echo 'working-dir: ' . constant('IGK_WORKING_DIR'), PHP_EOL;

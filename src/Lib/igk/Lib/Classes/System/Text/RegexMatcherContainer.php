@@ -441,8 +441,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         return igk_getv($this->m_references, $id);
     }
+
     /**
-     * clear all definitions
+     * clear all definition
      * @return void 
      */
     public function clear()
@@ -706,8 +707,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         } else {
                             $b = $info->endTreat = false;
                         }
-                    } else
-                        $b = $info->endTreat;
+                    } else{
+                        $b = $info->endTreat;}
                     $v_skipped =  $skip;
                     if (!$skip)
                         $offset += $v_size; 

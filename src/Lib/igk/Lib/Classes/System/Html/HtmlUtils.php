@@ -138,11 +138,11 @@ abstract class HtmlUtils extends DomNodeBase
         return $n;
     }
     /**
-    * Host node.
-    * @param HtmlNode $p
-    * @param callable $callback
-    * @param mixed ...$args
-    */
+     * Host node.
+     * @param HtmlNode $p
+     * @param callable $callback
+     * @param mixed ...$args
+     */
     public static function HostNode(HtmlNode $p, callable $callback, ...$args)
     {
         array_unshift($args, $p);
@@ -923,8 +923,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $c = null;
                     $fc = $inf["callback"];
                     if ($v_pcount >= $v_rp) {
-                        $p = igk_html_parent_node();
-                        // igk_environment()->get('ssss') && igk_wln_e($tb);
+                        $p = igk_html_parent_node(); 
                         $c = call_user_func_array($fc, $tb);
                         if ($p && ($p === $c)) {
                             return $p;
@@ -1081,10 +1080,10 @@ abstract class HtmlUtils extends DomNodeBase
         }
     }
     /**
-    * auto generate doc.
-    * @param string $src
-    * @return string
-    */
+     * skip tag that need to used in function 
+     * @param string $src
+     * @return string
+     */
     public static function SkipXSS(string $src): string
     {
         $regex = new RegexMatcherContainer;
@@ -1095,12 +1094,144 @@ abstract class HtmlUtils extends DomNodeBase
         $offset = 0;
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
-                // Logger::info(implode("\n",["loading....", $e->tokenID, $e->value]));
                 $r .= substr($src, $offset, $e->from - $offset) . htmlentities($e->value);
                 $offset = $pos;
             }
         }
         $r .= substr($src, $offset);
         return $r;
+    }
+
+    /**
+     * strip tag 
+     * @param string $src 
+     * @return string 
+     */
+    public static function StripExecTag(string $src): string
+    {
+        $regex = new RegexMatcherContainer;
+        $sc = $regex->appendStringDetection('string', true)->last();
+        $vtag = $regex->begin('<(font)', '<\/(\\1)\\s*>', 'value-tag')->last();
+        $etag = $regex->begin('<(img|object|link)', '(\/)?>', 'tag')->last();
+        $tag = $regex->begin('<(script|img|object|embed|base|marquee|button|body|a|iframe|svg|input|meta|formo|details|style|link|font|audio|video)', '<\/\\1\\s*>', 'tag')->last();
+        $comment_tag = $regex->begin('<!--', '-->', 'tag')->last();
+        $comment_tag->patterns = 
+        $vtag->patterns = $etag->patterns = $tag->patterns = [
+            $sc
+        ];
+        $pos = 0;
+        // define
+        $fc_handles = [
+            'tag' => function (string $src, $e, &$offset) {
+                $r = substr($src, $offset, $e->from - $offset);
+                $offset = $e->to;
+                return $r;
+            },
+            'value-tag' => function (string $src, $e, &$offset) {
+                $r = substr($src, $offset, $e->from - $offset);
+                $offset = $e->to;
+                $content = '';
+                if ($e->endCaptures){
+                    $p = $e->endCaptures[0][1];
+                    list($cap, $poff) = $e->beginCaptures[0];
+                    $pr = $poff - $e->from+strlen($cap);
+                    $content = substr($e->value, $pr, $e->from - ($e->to - $p));  
+                    $content = self::_ContentDef($content);
+
+                }
+                $r.= $content;
+                return $r;
+            }
+        ];
+        $r = '';
+        $offset = 0;
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($fc = igk_getv($fc_handles, $e->tokenID)) {
+                    $r .= $fc($src, $e, $offset);
+                }
+            }
+        }
+        $r .= substr($src, $offset);
+        return $r;
+    }
+    /**
+     * retrieve inner content
+     * @param string $src 
+     * @return string 
+     */
+    private static function _ContentDef(string $src){
+        $regex = new RegexMatcherContainer;
+        $regex->appendStringDetection();
+        $regex->match('>','end-mark');
+        $pos=0;
+        // define
+        while($g = $regex->detect($src, $pos)){
+            if ($e = $regex->end($g, $src, $pos)){
+                if ($e->tokenID=='end-mark'){
+                    return substr($src,$e->to);
+                }
+            }
+        }
+        return $src;
+    }
+
+    /**
+     * treat argument value 
+     * - remove all unsafed tag from values 
+     * @param mixed $a 
+     * @return mixed 
+     */
+    public static function TreatRequestArgumentValue($a)
+    {
+        if (empty($a) || is_numeric($a)) {
+            $a;
+        }
+        $v_is_array = is_array($a);
+        if (!$v_is_array) {
+            $a = [$a];
+        }
+        $t = [];
+        $mark = 0;
+        $key = igk_create_guid();
+        while (count($a) > 0) {
+            $q = array_shift($a);
+            if (($mark > 0) && is_object($q) && property_exists($q, $key) && ($q->is_mark)) {
+                $q->t[] = $q->is_object ? (object) array_combine($q->keys, $t) : $t;
+                $t = &$q->t;
+                $mark--;
+                continue;
+            }
+            if (empty($q) || is_numeric($q) || is_bool($q)) {
+                $t[] = $q;
+                continue;
+            }
+            if (is_string($q)) {
+                $t[] = self::StripExecTag($q);
+                continue;
+            }
+            $is_object = is_object($q);
+            if (is_array($q) || $is_object) {
+
+                $tq = (array)$q;
+                $v_keys = $is_object ? array_keys($tq) : null;
+                $tq = array_values($tq);
+
+                array_unshift($a, (object)[
+                    'is_mark' => true,
+                    'is_object' => $is_object,
+                    'keys' => $v_keys,
+                    't' => &$t,
+                    $key => 1
+                ]);
+                unset($t);
+                $t = [];
+                array_unshift($a, ...$tq);
+                $mark++;
+                continue;
+            }
+        }
+
+        return $v_is_array ? $t : $t[0];
     }
 }

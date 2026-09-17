@@ -253,15 +253,20 @@ if (!function_exists('igk_resources_gets')) {
      */
     function igk_resources_gets($text, $parameters = null)
     {
-        if (preg_match('/%[a-zA-Z\-_0-9]+%/', $text))
-            $text = StringUtility::ReplacementFormat($text);
-        $args = func_get_args();
+        $args = func_get_args(); 
         if (is_array($text)) {
             $m = array_slice($args, 1);
             $text = implode('', array_filter(array_map(function ($a) use ($m) {
                 return igk_resource_gets_map($a, $m);
             }, $text)));
             $args[0] = $text;
+        }
+        if (preg_match('/%[a-zA-Z\-_0-9]+\\b%/', $text) && is_array($parameters)){
+            $map = Replacement::FromAssocArray($parameters);
+            $text = StringUtility::ReplacementFormat($text, $map);
+            $args[0] = $text;
+            unset($args[1]);
+            $args = array_values($args); 
         }
         if ($g = R::GetStringResourceHandler()) {
             return call_user_func_array($g, $args);
@@ -2829,9 +2834,9 @@ function igk_sys_css_inject_colors_space($t, string $type = 'hsl')
     $lib = IGK_LIB_DIR . '/Default/assets/css/colorspaces';
     in_array($type, explode('|', CssConstants::SUPPORT_COLOR_SPACES)) || igk_die($type . ' - not supported color spaces');
     // $r = file_get_contents(Path::Combine($lib, $type.'.json'));
-    $t->balafonjs()
-        // ->setAttribute('data-colors', preg_replace('/\s+/', '', $r))
+    $t->balafonjs() 
         ->setAttribute('data-colorspace', $type)
+        ->setAttribute('data-auto-detect', [])
         ->content = file_get_contents(Path::Combine($lib, 'colorspace-injector.bjs'));
 }
 

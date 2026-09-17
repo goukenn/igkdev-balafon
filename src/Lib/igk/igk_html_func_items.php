@@ -296,29 +296,27 @@ if (!function_exists("igk_html_node_ViewCallback")) {
 if (!function_exists("igk_html_node_a")) {
 	/**
 	 * create winui-a
-	 * @param mixed $href
+	 * @param ?string $href
 	 * @param mixed $attributes string:target, array, set attributes 
 	 * @param mixed $index
 	 * @param mixed $content
 	 * @return mixed
 	 */
-	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content = null)
+	function igk_html_node_a(?string $href = "#", $attributes = null, $index = null, $content = null)
 	{
-		if (igk_str_startwith($href, '@/')){
-			$ctrl = ViewHelper::CurrentCtrl();
-			$href = $ctrl::uri($href);
-		}
-		else{
-			if (func_num_args()==1){
-				$is_uri = IGKValidator::IsUri($href) ;
-				if (!$is_uri || !preg_match('/^(#|(.+)\/)/', $href)){
-					$content = $href;
-					$href= '#'.StringUtility::Slugify($href);
-				} else{
-					$content = $href;
+		if (!is_null($href)) {
+			if (igk_str_startwith($href, '@/')) {
+				$ctrl = ViewHelper::CurrentCtrl();
+				$href = $ctrl::uri($href);
+			} else {
+				if (func_num_args() == 1) {
+					$is_uri = IGKValidator::IsUri($href);
+					if (!$is_uri && !preg_match('/^(#.+|(.+)(\/(.+))?)$/', $href)) {
+						$content = $href;
+						$href = '#' . StringUtility::Slugify($href);
+					}  
 				}
 			}
-
 		}
 
 		$a = new HtmlANode();
@@ -908,12 +906,12 @@ if (!function_exists("igk_html_node_loadArticle")) {
 	}
 }
 if (!function_exists("igk_html_node_assertnode")) {
-    /**
-    * auto generate doc.
-    * @param bool $condition
-    * @param mixed ...$args
-    * @return HtmlAssertNode
-    */
+	/**
+	 * auto generate doc.
+	 * @param bool $condition
+	 * @param mixed ...$args
+	 * @return HtmlAssertNode
+	 */
 	function igk_html_node_assertnode(bool $condition,  ...$args)
 	{
 		if (!($p = igk_html_parent_node())) {
@@ -2475,17 +2473,17 @@ if (!function_exists("igk_html_node_galleryfolder")) {
 	}
 }
 if (!function_exists("igk_html_node_grid")) {
-    /**
-    * create a grid node
-    * @param mixed $content
-    * @var mixed $content
-    * @return mixed
-    */
-	function igk_html_node_grid( $content = null)
+	/**
+	 * create a grid node
+	 * @param mixed $content
+	 * @var mixed $content
+	 * @return mixed
+	 */
+	function igk_html_node_grid($content = null)
 	{
 		$n = igk_create_node("div");
 		$n["class"] = "+igk-grid +grid";
-		if($content){
+		if ($content) {
 			$n->content = $content;
 		}
 		return $n;
@@ -2532,12 +2530,12 @@ if (!function_exists("igk_html_node_hlineseparator")) {
 	}
 }
 if (!function_exists("igk_html_node_hook")) {
-    /**
-    * call hook to render content on node
-    * @param mixed $hook
-    * @param mixed ...$args
-    * @return HtmlNoTagNode
-    */
+	/**
+	 * call hook to render content on node
+	 * @param mixed $hook
+	 * @param mixed ...$args
+	 * @return HtmlNoTagNode
+	 */
 	function igk_html_node_hook($hook, ...$args)
 	{
 		$n = igk_html_node_notagnode();
@@ -2573,14 +2571,14 @@ if (!function_exists("igk_html_node_horizontalpageview")) {
 	}
 }
 if (!function_exists("igk_html_node_host")) {
-    /**
-    * host callable to
-    * @param callable|string $callback . if string custom function of 'igk_html_'+$callback name
-    * @param mixed ...$args
-    * @throws Exception
-    * @throws IGKException
-    * @return mixed
-    */
+	/**
+	 * host callable to
+	 * @param callable|string $callback . if string custom function of 'igk_html_'+$callback name
+	 * @param mixed ...$args
+	 * @throws Exception
+	 * @throws IGKException
+	 * @return mixed
+	 */
 	function igk_html_node_host($callback, ...$args)
 	{
 		if (!($callback instanceof \Closure)) {
@@ -3785,7 +3783,7 @@ if (!function_exists("igk_html_node_obdata")) {
 	/**
 	 * used to add a node with buffer content
 	 * @param mixed $data
-	 * @param mixed $nodeType
+	 * @param mixed|?string|HtmlItemBase $nodeType tag to use
 	 * @return mixed
 	 */
 	function igk_html_node_obdata($data, $nodeType = "div")
@@ -3794,12 +3792,12 @@ if (!function_exists("igk_html_node_obdata")) {
 			$nodeType = IGK_HTML_NOTAG_ELEMENT;
 		$is_callable = is_callable($data);
 		$args = [];
-		if ($is_callable){
+		if ($is_callable) {
 			$args = array_slice(func_get_args(), 2);
 		}
 
-		$n = igk_create_node($nodeType);
-		if ($is_callable){
+		$n = ($nodeType instanceof HtmlItemBase) ? $nodeType :  igk_create_node($nodeType);
+		if ($is_callable) {
 			IGKOb::Start();
 			array_unshift($args, $n);
 			$s = call_user_func_array($data, $args);
@@ -5579,12 +5577,12 @@ if (!function_exists("igk_html_node_xsltranform")) {
 	}
 }
 if (!function_exists("igk_html_node_yield")) {
-    /**
-    * auto generate doc.
-    * @param string $hook
-    * @param mixed ...$args
-    * @return HtmlNoTagNode
-    */
+	/**
+	 * auto generate doc.
+	 * @param string $hook
+	 * @param mixed ...$args
+	 * @return HtmlNoTagNode
+	 */
 	function igk_html_node_yield(string $hook, ...$args)
 	{
 		$n = igk_html_node_notagnode();
@@ -5851,11 +5849,11 @@ if (!function_exists('igk_html_node_connection_community')) {
 	}
 }
 if (!function_exists('igk_html_node_bind')) {
-    /**
-    * binding node to
-    * @param mixed ...$arg
-    * @return void
-    */
+	/**
+	 * binding node to
+	 * @param mixed ...$arg
+	 * @return void
+	 */
 	function igk_html_node_bind(...$arg)
 	{
 		$p = igk_html_parent_node() ?? igk_die('missing parent node');
@@ -6144,12 +6142,12 @@ function igk_html_node_ajx_monitor_progress()
 }
 
 if (!function_exists('igk_html_node_dbtableresult')) {
-    /**
-    * auto generate doc.
-    * @param mixed $result
-    * @param mixed $options
-    * @return mixed
-    */
+	/**
+	 * auto generate doc.
+	 * @param mixed $result
+	 * @param mixed $options
+	 * @return mixed
+	 */
 	function igk_html_node_dbtableresult($result, $options = null)
 	{
 		if ($result instanceof IDbQueryResult) {

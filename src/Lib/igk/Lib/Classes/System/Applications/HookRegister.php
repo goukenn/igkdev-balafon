@@ -84,9 +84,6 @@ class HookRegister
                 $_env->set($v_k, null);
             });
         }
-
-
-
         igk_reg_hook(IGKEvents::HOOK_INIT_APP, Closure::fromCallable([self::class, 'OnAppInitialized']));
     }
     /**
@@ -102,8 +99,9 @@ class HookRegister
                 $options = igk_getv($e->args, 'options');
                 if (!$options || !($doc = $options->Document))
                     return;
-                if (!$doc->noCoreCss)
+                if ($doc->noColorPalette)
                     return; 
+                
                 $t = igk_create_notagnode();
                 $type = igk_configs()->get('css.colorspace') ??  'hsl';
                 igk_sys_css_inject_colors_space($t, $type);

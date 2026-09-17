@@ -1895,7 +1895,6 @@
                     igk.css.appendRule(".igk-device:before{position:absolute;}");
                 } else {
                     const rules = [
-                        "/* balafon.css requested rule for media detection */",
                         ".igk-device::before{position:absolute;}",
                         ".igk-media-type:before{position:absolute;}",
                     ].join("\n");

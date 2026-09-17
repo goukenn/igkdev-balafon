@@ -8,6 +8,7 @@ use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\WebHearderConstants;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
@@ -282,7 +283,17 @@ class Request implements IInjectable, IContentSecurityProvider
      */
     public function get($name, $default = null)
     {
-        return igk_getr($name, $default);
+        $l = igk_getr($name, $default);
+        return HtmlUtils::TreatRequestArgumentValue($l); 
+    }
+    /**
+     * just get the value of the request without treating it
+     * @param mixed $name 
+     * @param mixed $default 
+     * @return mixed 
+     */
+    public function html($name, $default){
+        return igk_getr($name,$default);
     }
     /**
     * Returns Base64.

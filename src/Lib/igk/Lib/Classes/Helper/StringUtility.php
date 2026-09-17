@@ -190,7 +190,6 @@ abstract class StringUtility
     /**
      * get constant name
      * @param string $s 
-     * @param string $splitter 
      * @return string 
      */
     public static function GetConstantName(string $s)
@@ -487,7 +486,7 @@ abstract class StringUtility
     public static function Dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         $g = self::Uri($dir);
-        if ($separator = "/")
+        if ($separator == "/")
             return $g;
         $g = str_replace("/", $dir, $g);
         return $g;
@@ -926,7 +925,7 @@ abstract class StringUtility
      * @return Replacement 
      */
     public static function CreateFormatReplacement(?array $params = null){
-          $params = $params ?? self::GetSystemReplacementFormat();
+        $params = $params ?? self::GetSystemReplacementFormat();
         $rp = new Replacement;
         foreach($params as $k=>$v){
             $rp->add(RegexMatcherUtility::ConverToRegex($k), $v);
@@ -937,7 +936,7 @@ abstract class StringUtility
     * auto generate doc.
     * @param string $value
     * @param null|array $params
-    * @return void
+    * @return string
     */
     public static function ReplacementFormat(string $value, ?array $params = null){
         $rp = self::CreateFormatReplacement($params); 

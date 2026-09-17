@@ -5,10 +5,20 @@
 // @ts-nocheck
 (function (q) {
     'use strict';
-    const r = {}; // JSON.parse(q.getAttribute('data-colors'));
+    const r = {};
     const at = q.getAttribute('data-colorspace') ?? 'hsl';
     const sc = document.createElement('style');
     const tp = [];
+// console.log('init color injector');
+    igk.system.createNS('igk.String', {
+        SubStr(str, start, o) {
+            if (o < 0) {
+                o = str.length + o;
+            }
+            return str.substring(start, o);
+        }
+    });
+
 
     const active_classes = (function () {
         const r = {};
@@ -16,6 +26,11 @@
             let l = this.o.className;
             if (typeof (l) == 'string')
                 (l).split(' ').forEach(o => {
+                    if (o=='5'){
+                        console.log('basic', this.o);
+                        return;
+                    }
+
                     if (!(o in r)) {
                         r[o] = 0;
                     }
@@ -50,24 +65,20 @@
                     }
                 });
             }
-
-            // rule.type == CSSRule.STYLE_RULE && 
-            // rule.selectorText?.split(',').map(function(r){
-            //     console.log('load : '+r);
-            //     if (!(r in def)){
-            //         def[r]=0;
-            //     }
-            //     def[r]=0;
-            // });
         });
         return def;
     })();
 
-    function _getColor(color){
-        let  [cl, level] =  color.split('-');
-        if(level){
-            let factor = (parseInt(level)/10)+'%';
-            cl = 'color-mix(in '+at+', '+cl+' , black '+factor+')';
+    /**
+     * 
+     * @param color 
+     * @returns 
+     */
+    function _getColor(color) {
+        let [cl, level] = color.split('-');
+        if (level) {
+            let factor = (parseInt(level) / 10) + '%';
+            cl = 'color-mix(in ' + at + ', ' + cl + ' , black ' + factor + ')';
         }
         return igk.canvas.PickColor(cl);
     };
@@ -88,14 +99,14 @@
     function compute_color(p, r, t) {
         let sp = '';
         let def = '';
-        if (t){
+        if (t) {
             let property = '--blf-' + t + '-opacity';
             const sp = property + ': 1;';
             def = 'color(from ' + r + ' srgb r g b / var(--blf-' + t + '-opacity, 1))';
-        }else{
+        } else {
             def = r;
         }
-        return '{' + sp + p + ':'+def+';}';
+        return '{' + sp + p + ':' + def + ';}';
     };
     /**
      * 
@@ -106,7 +117,7 @@
      * @param t custom property definition name 
      * @param prefix 
      */
-    function _gen_color(tp, color,i, p, t, prefix) {
+    function _gen_color(tp, color, i, p, t, prefix) {
         const v = compute_color(p, color, t);
 
         tp.push('.' + prefix + i + v);
@@ -130,13 +141,13 @@
             ['bg-', 'text-'].forEach((element) => {
                 const p = { 'bg-': 'background-color', 'text-': "color" }[element];
                 const t = { 'bg-': 'bg', 'text-': 'fore' }[element];
-                _gen_color(tp, color,i,  p, t, element);
+                _gen_color(tp, color, i, p, t, element);
             });
         }
     }
     function getCssColorDefnition(color, property, prefix) {
         const tp = [];
-        let cl  = color in r ? r[color] : _getColor(color); // calucate color 
+        let cl = color in r ? r[color] : _getColor(color); // calucate color 
         _loadColor(tp, cl, color, property, prefix);
         return tp.join('');
     };
@@ -147,11 +158,12 @@
     igk.appendProperties(visit, {
         _v_text(cl, sc, in_uses) {
             let color = _get_color_from_class(cl);
-            return getCssColorDefnition(color);
+            const g = getCssColorDefnition(color); 
+            return g;
         },
         _v_bg(cl, sc, in_uses) {
             let color = _get_color_from_class(cl);
-            let g = getCssColorDefnition(color);
+            let g = getCssColorDefnition(color); 
             return g;
         },
         _v_stroke(cl, sc, in_uses) {
@@ -165,7 +177,7 @@
             return g;
         },
         _v_bc(cl, sc, in_uses) {
-            let color = _get_color_from_class(cl); 
+            let color = _get_color_from_class(cl);
             let g = getCssColorDefnition(color, 'border-color', 'bc-');
             return g;
         },
@@ -173,8 +185,26 @@
             let color = _get_color_from_class(cl);
             let g = getCssColorDefnition(color, 'text-decoration-color');
             return g;
+        },
+        /**
+        * @param {*} cl
+        * @param {*} sc styling
+        */
+        _v_fs(cl, sc, in_uses, tab, pseudo) {
+            if (tab) {
+                return setTab(cl, tab, 'font-size', pseudo);
+            }
+            return '';
         }
-    }); 
+    });
+    function setTab(cl, tab, prop, pseudo) {
+        // + | escape character
+        cl = cl.replaceAll(/([:\[\]])/g, "\\$1");
+        if (pseudo) {
+            cl += pseudo;
+        }
+        return '.' + cl + '{' + prop + ': ' + tab + ';}';
+    };
     /**
      * auto inject style definition 
      * @param {*} style 
@@ -184,13 +214,24 @@
     function _autoInject(style, cl, in_uses) {
         let theme = '(?:(?<theme>dark|light)(?:-|:))';
         let media = '(?:(?<device>x?sm|(?:x(?:x)?)?lg)(?:-|:))';
-        let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:-[a-zA-Z_0-9]+)+)(?<pseudo>:\.+)?$');
-        let tx = rx.exec(cl);
+        // let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-[a-zA-Z_0-9]+)+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\])))?$');
+        // let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-[a-zA-Z_0-9]+)+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?)$');
+        let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-(([0-9]+(\.[0-9]+)?)|[a-zA-Z_0-9]+))+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?(?:/(?<divide>\\d+))?)$');
+
+        const tx = rx.exec(cl);
+        if (tx == null){
+            // console.log('tx is null', cl);
+            return;
+        }
         let v_m = tx ? '_v_' + tx.groups['prefix'] : null;
+        const tab_value = tx ? (function (r) { return r ? igk.String.SubStr(r, 1, -1) : false; })(tx.groups['tab'] || false) : null;
+        const pseudo = tx.groups['pseudo'] || false;
+        // console.log('auto inject ', {v_m, pseudo, cl});
         if (v_m in visit) {
-            let cp = (new Function("method", "cl", "style", "in_uses", "return method.apply(this,[cl, style, in_uses])")).apply(null, [
-                visit[v_m], cl, style, in_uses
-            ]);
+            let cp = (new Function("method", "cl", "style", "in_uses", "tabvalue", "pseudo",
+                "return method.apply(this,[cl, style, in_uses, tabvalue, pseudo])")).apply(null, [
+                    visit[v_m], cl, style, in_uses, tab_value, pseudo
+                ]);
             if (cp) {
                 sc.textContent += cp;
                 in_uses['.' + cl] = -1;
@@ -204,8 +245,8 @@
 
     function _checkInUse(o) {
         let cl = '.' + o;
+      
         if (!(cl in in_uses)) {
-            //console.error('not in class: ' + cl);
             _autoInject(sc, o, in_uses);
         }
     };
@@ -215,7 +256,7 @@
             if ((i.type == 'attributes') && (i.attributeName == 'class')) {
                 let l = i.target.className;
                 if (typeof (l) == 'string') {
-                    l.split(' ').forEach(o => {
+                    l.split(' ').forEach(o => {                      
                         _checkInUse(o);
                     });
                 }
@@ -230,4 +271,5 @@
     });
 
 
+    // console.log('complete');
 })(this);

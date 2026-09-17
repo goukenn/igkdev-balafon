@@ -60,3 +60,14 @@ if (!function_exists('igk_view_uri')) {
       return ViewHelper::CurrentCtrl()->getAppUri(Path::FlattenPath($fname . $p));
    }
 }
+
+if (!function_exists('_h')){
+   /**
+    * 
+    * @param mixed ...$params 
+    * @return mixed 
+    */
+   function _h(...$params){
+      return call_user_func_array('igk_html_host', $params);
+   }
+}

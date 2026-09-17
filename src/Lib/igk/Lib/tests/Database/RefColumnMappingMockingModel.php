@@ -31,7 +31,7 @@ class RefColumnMappingMockingModel extends ModelBase{
     /**
     * Returns Table.
     */
-    public function getTable(){
+    public function getTable():string{
         return 'mocking';
     }
 }

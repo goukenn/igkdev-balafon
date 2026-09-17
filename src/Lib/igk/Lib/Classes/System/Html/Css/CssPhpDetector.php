@@ -6,6 +6,8 @@ namespace IGK\System\Html\Css;
 
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Core\Components\ComponentInfo;
+use IGK\System\Html\Css\Compiler\CssThemeBuilder;
+use IGK\System\Html\Dom\HtmlDocTheme;
 
 /**
  * 
@@ -50,7 +52,7 @@ class CssPhpDetector
     * @var mixed
     * @return void
     */
-    var $autoReferenceRegex = '/((x)?sm|(x(x)?)?lg|dark|text|bg|no|br|mag|pad)-/';
+    var $autoReferenceRegex = HtmlDocTheme::AUTO_CSS_PREFIX_REGEX;
     /**
     * .ctr
     * @return void
@@ -58,15 +60,17 @@ class CssPhpDetector
     public function __construct() {}
     /**
     * auto generate doc.
-    * @return void
+    * @return ?RegexMatcherContainer
     */
     protected function _regex()
     {
         if ($this->m_regex)
             return $this->m_regex;
-
+        $def_theme_regex = implode('', [
+            '(?:(?:dark|light):)?',
+            '(?:(?:x?sm|(?:x(?:x))?lg)-)?'
+        ]);
         $regex = new RegexMatcherContainer;
-        $pos = 0;
         // define
         $regex->appendSingleLineComment();
         $regex->appendMultilineComment();
@@ -74,10 +78,25 @@ class CssPhpDetector
 
         $regex->match("(->)?\\b([a-z]+(-[a-z\\-0-9]+)?)\\b", "word-outside-detected")->last();
         $regex->autoStore = false;
-        $word = $regex->match("\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();
+        $uri = $regex->match("\\b[a-zA-Z_]+[a-zA-Z0-9]*(\/[a-zA-Z_]+[a-zA-Z0-9]*)+", "uri-skip")->last();
+        
+        $word_detect_class = $regex->match("(\\.)?". CssUtils::CLASS_NAME_UTIL_REGEX.'(?:-[a-zA-Z0-9])*', "word-detected")->last();
+        $word_detect_mark = $regex->begin("(\\.)?". CssUtils::CLASS_NAME_UTIL_REGEX.'(?:-[a-zA-Z0-9])*(?:-\[)', 
+            "\]",
+            "word-detected")->last();
+        $word = $regex->match($def_theme_regex."\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();
+        $in_str = $regex->appendStringDetection('string', true)->last();
+
         $regex->autoStore = true;
         $str = $regex->appendStringDetection('string', true)->last();
+        $str->patterns[] = $uri;
+        $str->patterns[] = $word_detect_mark;
+        $str->patterns[] = $word_detect_class;
         $str->patterns[] = $word;
+
+        $word_detect_mark->patterns = [
+            $in_str
+        ];
 
         $this->m_regex = $regex;
         return $this->m_regex;
@@ -160,13 +179,18 @@ class CssPhpDetector
                         $detected = true;
                     }
                 } else {
-                    if ($id == 'word-detected') {
+                    if ($id == 'word-detected'){
+                        if ($v[0]=='.'){
+                            $v = substr($v,1);
+                        }
+                        $v = self::_ToCssClassDeclaration($v);
+
                         if (isset($tsrc[$v])) {
                             $tsrc[$v]++;
                             $detected = true;
                         } else {
                             if ($reg = $this->autoReferenceRegex){
-                                if (preg_match($reg, $v)){
+                                if (preg_match($reg, $v)){ 
                                     $tsrc[$v] = 1;
                                 }
                             }
@@ -182,5 +206,13 @@ class CssPhpDetector
             }));
             return $keys;
         }
+    }
+    /**
+     * the reflection
+     * @param string $v 
+     * @return string 
+     */
+    protected static function _ToCssClassDeclaration(string $v){
+       return CssUtils::ToClassClassDeclaration($v);
     }
 }

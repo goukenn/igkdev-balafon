@@ -48,7 +48,9 @@ class Engine{
     * @return void
     */
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
-        $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
+        $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u)->setAttributes([
+            'content'=>null
+        ]);
         $icon = $options ? igk_getv($options, 'icon') : null;
         $v_class_name = $options ? igk_getv($options, 'class') : null;
         if ($icon){

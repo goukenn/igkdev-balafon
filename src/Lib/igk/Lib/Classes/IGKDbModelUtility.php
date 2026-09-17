@@ -3,6 +3,8 @@
 // @filename: IGKDbUtility.php
 // @date: 20220803 13:48:54
 // @desc: base model utility class declaration 
+
+use IGK\Controllers\BaseController;
 use IGK\IDbUtility;
 use function igk_resources_gets as __;
 
@@ -14,7 +16,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * Property: ctrl.
     * @var mixed
     */
-    private $m_Ctrl;
+    private $m_ctrl;
     /**
     * Property: ad.
     * @var mixed
@@ -128,11 +130,8 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * auto generate doc.
     * @param mixed $ctrl
     */
-    public function __construct($ctrl){
-        if($ctrl == null){
-            igk_die("variable ctrl can't be null");
-        }
-        $this->m_Ctrl=$ctrl;
+    public function __construct(BaseController $ctrl){ 
+        $this->m_ctrl=$ctrl;
         if($this->connect()){
             register_shutdown_function(function(){
                 $this->close();
@@ -221,7 +220,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     public function connect(){
         if(!$this->m_ad)
             $this->m_ad=$this->initDataAdapter();
-        return $this->m_ad && $this->m_ad->connect($this->m_Ctrl);
+        return $this->m_ad && $this->m_ad->connect($this->m_ctrl);
     }
     /**
     * auto generate doc.
@@ -230,9 +229,9 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     */
     public function delete($table, $id=null){
         if(is_numeric($id)){
-            return igk_db_delete($this->m_Ctrl, $table, array(IGK_FD_ID=>$id));
+            return igk_db_delete($this->m_ctrl, $table, array(IGK_FD_ID=>$id));
         }
-        return igk_db_delete($this->m_Ctrl, $table, $id);
+        return igk_db_delete($this->m_ctrl, $table, $id);
     }
     /**
     * auto generate doc.
@@ -288,7 +287,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * get controller
     */
     public function getCtrl(){
-        return $this->m_Ctrl;
+        return $this->m_ctrl;
     }
     /**
     * auto generate doc.
@@ -411,7 +410,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * get user id
     */
     public function getUID(){
-        $u=$this->m_Ctrl->User;
+        $u=$this->m_ctrl->User;
         return $u ? $u->clId: 0;
     }
     /**
@@ -426,7 +425,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * @param mixed $uid the default value is null
     */
     public function getUserId($uid=null){
-        if(($uid == null) && ($u=$this->m_Ctrl->getUser())){
+        if(($uid == null) && ($u=$this->m_ctrl->getUser())){
             $uid=$u->clId;
         }
         return $uid;
@@ -435,7 +434,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * initialize data adapter
     */
     protected function initDataAdapter(){
-        return igk_get_data_adapter($this->m_Ctrl);
+        return igk_get_data_adapter($this->m_ctrl);
     }
     /**
     * auto generate doc.
@@ -448,7 +447,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
             return $this->m_ad->insert($table, $obj);
         }
         else
-            return igk_db_insert($this->m_Ctrl, $table, $obj);
+            return igk_db_insert($this->m_ctrl, $table, $obj);
     }
     /**
     * Inserts array.
@@ -482,7 +481,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     * @param mixed $leaveOpen the default value is false
     */
     public function insertIfNotExists(string $table, $obj, $leaveOpen=false){
-        return igk_db_insert_if_not_exists($this->m_Ctrl, $table, $obj, null, null, $leaveOpen, "Or");
+        return igk_db_insert_if_not_exists($this->m_ctrl, $table, $obj, null, null, $leaveOpen, "Or");
     }
     /**
     * insert or update $obj
@@ -586,7 +585,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
             return $this->m_ad->select($table, $condition, $options);
         }
         igk_die("/!\ no adapter created. tips. call connect function first ");
-        return igk_db_table_select_where($table, $condition, $this->m_Ctrl, false, $options);
+        return igk_db_table_select_where($table, $condition, $this->m_ctrl, false, $options);
     }
     /**
     * auto generate doc.

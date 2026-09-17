@@ -62,4 +62,15 @@ PHP);
         $s = $n->render();
         $this->assertTrue($s == '<div class="fitw fit no-overflow posab"></div>', 'invalid');
     }
+
+    public function test_cssnamedetector_from_class_to(){
+        $detector = new CssClassNameDetector;
+        $r = $detector->getReference('fs-\[164px\]');
+        $this->assertEquals('{".fs-\\\\[164px\\\\]":{"font-size":"164px"}}', json_encode($r, JSON_UNESCAPED_SLASHES));
+    }
+    public function test_cssnamedetector_from_class_to_litteral(){
+        $detector = new CssClassNameDetector;
+        $r = $detector->getReference('fs-[164px]');
+        $this->assertEquals('{".fs-\\\\[164px\\\\]":{"font-size":"164px"}}', json_encode($r, JSON_UNESCAPED_SLASHES));
+    }
 }
