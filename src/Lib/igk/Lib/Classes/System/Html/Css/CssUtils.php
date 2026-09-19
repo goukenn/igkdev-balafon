@@ -16,6 +16,7 @@ use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ArrayUtils;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -44,7 +45,19 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
 abstract class CssUtils
 {
     const CLASS_NAME_UTIL_REGEX = '[a-zA-Z_][a-zA-Z0-9_]*(?:-(?:(?:\\d+(?:\\.\\d+)?(?:[a-zA-Z]+)?)|[a-zA-Z0-9_]+))*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?';
-    
+
+
+    /**
+     * 
+     * @param mixed $tab 
+     * @return array<int|string, mixed> 
+     */
+    public static function FilterMergedArray($tab)
+    {
+        return array_filter($tab, function () {
+            return !(empty($g) || ($g == '-'));
+        });
+    }
     /**
      * Property: treated colors.
      * @var mixed
@@ -362,7 +375,7 @@ abstract class CssUtils
         $systheme = igk_app()->getDoc()->getSysTheme();
         igk_css_bind_sys_global_files($systheme);
         $rootListener = new CssRootPropertyStorageListener;
-        $def = self::AppendDataTheme($controller, $systheme, $primaryTheme, false, $rootListener, );
+        $def = self::AppendDataTheme($controller, $systheme, $primaryTheme, false, $rootListener,);
         ob_start();
         self::ObHeader();
         echo implode(
@@ -531,13 +544,13 @@ abstract class CssUtils
         $v_systheme = $a_theme->isSystemTheme();
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
         $sb = '';
-        list ($theme_export, $minfile) = igk_extract(array_merge([
-            'theme_export'=>igk_environment()->isOPS(),
-            'minfile'=>true,
-        ], $render_options??[]), 'theme_export|minfile');
+        list($theme_export, $minfile) = igk_extract(array_merge([
+            'theme_export' => igk_environment()->isOPS(),
+            'minfile' => true,
+        ], $render_options ?? []), 'theme_export|minfile');
 
-        
-        
+
+
         $def = [];
         $root_defs = [];
         $v_is_first = true;
@@ -1249,7 +1262,8 @@ abstract class CssUtils
      * @param ?bool $theme_export 
      * @return string 
      */
-    public static function RenderAfterCheckColorTheme($theme, ?bool $theme_export  = null){
+    public static function RenderAfterCheckColorTheme($theme, ?bool $theme_export  = null)
+    {
         $def = $theme;
         $sb = [];
         $export = $theme_export ?? igk_environment()->isOPS();
@@ -1275,33 +1289,89 @@ abstract class CssUtils
      * @param ?RegexMatcherContainer $regex class definition  
      * @return string 
      */
-    public static function ToClassClassDeclaration(string $def, & $regex=null){
+    public static function ToClassClassDeclaration(string $def, &$regex = null)
+    {
 
-    
+
         // $v = preg_replace('/(?!<=\\\\)([:\/\[\]])/', '\\\\$1', $def);
-        if (is_null($regex)){
+        if (is_null($regex)) {
             $regex = new RegexMatcherContainer;
             $regex->match('(?!<=\\\\)([:\/\[\]])', 'escaped');
             $regex->appendStringDetection('string', true);
-        } else{
+        } else {
             $regex->resetTreatment();
         }
         $pos = 0;
         $out = '';
         $offset = 0;
         $src = $def;
-        while($g = $regex->detect($src, $pos)){
-            if ($e = $regex->end($g, $src, $pos)){
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
                 $id = $e->tokenID;
-                if ($id == 'escaped'){
-                    $out.=substr($src, $offset, $e->from - $offset);
-                    $out.= '\\'.$e->value;
+                if ($id == 'escaped') {
+                    $out .= substr($src, $offset, $e->from - $offset);
+                    $out .= '\\' . $e->value;
                     $offset = $e->to;
                 }
             }
         }
         $out .= substr($src, $offset);
-        
         return $out;
+    }
+
+    /**
+     * 
+     * @param string $def 
+     * @return array 
+     */
+    public static function ReadAllSelectorFromSourceDefinition(string $def): array
+    {
+        $_t = [];
+        $src = $def;
+        $regex = new RegexMatcherContainer;
+        $pos = 0;
+        $regex->match('\*', 'multiple');
+        $str = $regex->appendStringDetection('string', true)->last();
+        $regex->match("(#|\.|:(\:)?)?[a-zA-Z\-]+", "selector");
+        $brank = $regex->begin('\\\\\[', '\\\\]', 'escaped-brank')->last();
+        $pbrank = $regex->begin('\\(', '\\)', 'c-brank')->last();
+        $sbrank = $regex->begin('\\[', '\\]', 's-brank')->last();
+        $regex->match("\\\\.", 'escape');
+        $regex->match("\\s+|\\S", 'split');
+
+        $brank->patterns = [
+            $str
+        ];
+        $pbrank->patterns = [
+            $str,
+            $pbrank
+        ];
+        $sbrank->patterns = [
+            $str,
+            $sbrank
+        ];
+        // define
+
+        $s = '';
+        $offset = 0;
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                $id = $e->tokenID;
+                igk_is_debug() && Logger::info('[detect-selector] - ' . $id . ' v=' . $e->value);
+                if ($id == 'split') {
+                    $r = trim(substr($src, $offset, $e->from - $offset));
+                    $s .= $r;
+                    $offset = $e->to;
+                    if (!empty($s))
+                        $_t[] = $s;
+                    $s = '';
+                }
+            }
+        }
+        $s .= substr($src, $offset);
+        if (!empty($s)) {
+            $_t[] = $s;
+        }
+        return $_t;
     }
 }

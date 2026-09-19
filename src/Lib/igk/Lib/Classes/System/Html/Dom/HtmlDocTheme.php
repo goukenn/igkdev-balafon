@@ -53,7 +53,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     const INLINE_STYLE_KEY = "css://temp/rendering";
-    const THEMING_PREFIX = 'text|br|bg|pad|mar|rd|fit|no|gap|w|h|anim|transform|trans'; // 'text|bg|no|br|mag|pad|fs|fill|stroke|tdc';
+    const THEMING_PREFIX = 'text|br|bg|pad|mar|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc';
     const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?('.self::THEMING_PREFIX.')-/';
     /**
      * Constant: global type.
@@ -1662,6 +1662,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->def->Clear();
         $this->m_medias = array();
+        $this->m_imports = [];
         $root = &$this->getRootReference();
         $root = [];
         $this->_initMedia($this->m_id);

@@ -33,6 +33,14 @@ class IGKGoogleCssUri{
     * @var mixed
     */
     private $m_uri;
+
+    /**
+     * retrieve google uri font end point 
+     * @return mixed 
+     */
+    public function fontEndPoint(){
+        return $this->m_uri;
+    }
     /**
     * auto generate doc.
     * @param mixed $f

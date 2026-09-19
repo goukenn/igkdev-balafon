@@ -13,6 +13,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 // + | --------------------------------------------------------------------
@@ -101,12 +102,12 @@ class CssParser implements ArrayAccess
         }, $this->m_definition, array_keys($this->m_definition)));
     }
     /**
-    * auto generate doc.
+    * read definition
     * @param string $content
     * @param null|mixed & $errors
-    * @return mixed
+    * @return mixed|false
     */
-    private static function __ReadDefinition(string $content, &$errors = null)
+    private static function _ReadDefinition(string $content, &$errors = null)
     {
         $def = [];
         $len = strlen($content);
@@ -186,21 +187,32 @@ class CssParser implements ArrayAccess
                         case 'namespace':
                         case 'page':
                         case 'property':
-                            $s = $pos;
-                            $pos = strpos($content, '{', $pos + 1);
-                            if ($pos === false) {
-                                $errors[] = 'media definition not correct';
-                                return false;
+                            
+                            if (method_exists(static::class, $fc = '_Read'.ucfirst($v_name).'Rule')){
+                                call_user_func_array([static::class, $fc], [[
+                                    'pos'=>& $pos,
+                                    'content'=>$content,
+                                    'def'=>& $def,
+                                    'rule'=>$v_name
+                                ]]);
                             }
-                            $g = trim(substr($content, $s, $pos - $s));
-                            $pos--;
-                            $media = new CssProperty($v_name, $g);
-                            $rv = '';
-                            $name = '';
-                            $mode = 0;
-                            $def[] = $media;
-                            array_push($tdef, $def);
-                            $def = &$media->def;
+                            else {
+                                $s = $pos;
+                                $pos = strpos($content, '{', $pos + 1);
+                                if ($pos === false) {
+                                    $errors[] = 'media definition not correct';
+                                    return false;
+                                }
+                                $g = trim(substr($content, $s, $pos - $s));
+                                $pos--;
+                                $media = new CssProperty($v_name, $g);
+                                $rv = '';
+                                $name = '';
+                                $mode = 0;
+                                $def[] = $media;
+                                array_push($tdef, $def);
+                                $def = &$media->def;
+                            }
                             break;
                         default:
                             // +| read options or definition states
@@ -476,12 +488,15 @@ class CssParser implements ArrayAccess
      * @param string $content 
      * @return CssParser 
      */
-    public static function Parse(string $content): self
+    public static function Parse(string $content)
     {
-        $g = new self();
-        $g->m_source = $content;
-        $g->m_definition = self::__ReadDefinition($content);
-        return $g;
+        $r = self::_ReadDefinition($content);
+        if (false !== $r){
+            $g = new self();
+            $g->m_source = $content;
+            $g->m_definition = $r;
+            return $g;
+        }
     }
     /**
     * Access offset set.
@@ -770,5 +785,40 @@ class CssParser implements ArrayAccess
             }
         }
         return $sb;
+    }
+
+    /**
+     * 
+     * @param mixed $options 
+     * @return void 
+     */
+    protected static function _ReadImportRule($options){
+        extract($options, EXTR_REFS);
+        $regex = new RegexMatcherContainer;
+        
+        $regex->match(';', 'end-instruct');
+        $regex->appendStringDetection();
+        $regex->appendMultilineComment();
+        // define
+        
+        $src = $content;
+        $value = '';
+        while($g = $regex->detect($src, $pos)){
+            if ($e = $regex->end($g, $src, $pos)){
+                $id = $e->tokenID;
+                if ($id=='end-instruct'){
+                    $pos = $e->from;
+                    break;
+                }
+                if ($id=='string'){
+                    $value = $e->value;
+                }
+            }
+        }
+        if (!empty($value)){
+            $g = new CssImportRule;
+            $g->value = igk_str_remove_quote($value);
+            $def[] = $g;
+        }
     }
 }

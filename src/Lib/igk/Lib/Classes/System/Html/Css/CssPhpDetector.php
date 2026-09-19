@@ -15,53 +15,74 @@ use IGK\System\Html\Dom\HtmlDocTheme;
  * @author C.A.D. BONDJE DOUE
  */
 /**
-* auto generate doc.
-* @package IGK\System\Html\Css
-*/
+ * auto generate doc.
+ * @package IGK\System\Html\Css
+ */
 class CssPhpDetector
 {
     /**
-    * auto generate doc.
-    * @var mixed
-    */
+     * auto generate doc.
+     * @var mixed
+     */
     private $m_regex;
     /**
-    * auto generate doc.
-    * @var mixed
-    */
+     * auto generate doc.
+     * @var mixed
+     */
     private $m_fcall;
     /**
-    * auto generate doc.
-    * @var mixed
-    */
+     * auto generate doc.
+     * @var mixed
+     */
     private $m_tsrc;
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     private $m_keys = [];
 
     /**
-     * list of classed definition 
+     * list of classe definition every '.'.name info  
      * @var mixed
      */
-    var $list;
+    public $list;
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     var $autoReferenceRegex = HtmlDocTheme::AUTO_CSS_PREFIX_REGEX;
+
+    // /**
+    //  * append information to list 
+    //  * @param string $key 
+    //  * @param mixed $info 
+    //  * @return void 
+    //  */
+    // public function append(string $key, $info){
+    //     foreach(explode('.', $key) as $t){
+    //         $this->list['.'.$t] = $info;
+    //     }
+    // }
     /**
-    * .ctr
-    * @return void
-    */
+     * 
+     * @param CssPhpDetector $detector 
+     * @param array &$list 
+     * @return void 
+     */
+    public static function Attach($detector, & $list){
+        $detector->list = & $list;
+    }
+    /**
+     * .ctr
+     * @return void
+     */
     public function __construct() {}
     /**
-    * auto generate doc.
-    * @return ?RegexMatcherContainer
-    */
+     * auto generate doc.
+     * @return ?RegexMatcherContainer
+     */
     protected function _regex()
     {
         if ($this->m_regex)
@@ -79,22 +100,40 @@ class CssPhpDetector
         $regex->match("(->)?\\b([a-z]+(-[a-z\\-0-9]+)?)\\b", "word-outside-detected")->last();
         $regex->autoStore = false;
         $uri = $regex->match("\\b[a-zA-Z_]+[a-zA-Z0-9]*(\/[a-zA-Z_]+[a-zA-Z0-9]*)+", "uri-skip")->last();
-        
-        $word_detect_class = $regex->match("(\\.)?". CssUtils::CLASS_NAME_UTIL_REGEX.'(?:-[a-zA-Z0-9])*', "word-detected")->last();
-        $word_detect_mark = $regex->begin("(\\.)?". CssUtils::CLASS_NAME_UTIL_REGEX.'(?:-[a-zA-Z0-9])*(?:-\[)', 
-            "\]",
-            "word-detected")->last();
-        $word = $regex->match($def_theme_regex."\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();
+
+        $word_detect_class = $regex->match("(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*', "word-detected")->last();
+        $word_detect_mark = $regex->begin(
+            "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\[)',
+            "\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?",
+            "word-detected"
+        )->last();
+        $eword_detect_mark = $regex->begin(
+            "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\\\\\[)',
+            "\\\\\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?",
+            "word-detected"
+        )->last();
+        $word = $regex->match($def_theme_regex . "\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();
         $in_str = $regex->appendStringDetection('string', true)->last();
 
         $regex->autoStore = true;
         $str = $regex->appendStringDetection('string', true)->last();
+        $str->patterns[] = $regex->createPattern([
+            'begin' => "\{\\s*(sys)\\s*:\\s*",
+            'end' => "\}",
+            'tokenID' => 'skip-bcss-replacement'
+        ]);
+        // $str->patterns[] = $regex->createPattern([
+        //     'begin' => "\(",
+        //     'end' => "\)",
+        //     'tokenID' => 'skip-bcss-replacement'
+        // ]);
         $str->patterns[] = $uri;
         $str->patterns[] = $word_detect_mark;
+        $str->patterns[] = $eword_detect_mark;
         $str->patterns[] = $word_detect_class;
         $str->patterns[] = $word;
 
-        $word_detect_mark->patterns = [
+        $eword_detect_mark->patterns = $word_detect_mark->patterns = [
             $in_str
         ];
 
@@ -102,9 +141,9 @@ class CssPhpDetector
         return $this->m_regex;
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     protected function &_types()
     {
         if (is_null($this->m_tsrc)) {
@@ -112,15 +151,15 @@ class CssPhpDetector
             //$b = array_fill_keys(igk_sys_get_html_components(), 0) ?? igk_die('missing components');
             $this->m_tsrc = array_fill_keys(array_map(function ($g) {
                 return ltrim($g, '.');
-            }, array_keys($this->list)), 0);
+            }, array_keys($this->list ?? [])), 0);
         }
 
         return $this->m_tsrc;
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     protected function &_fcall()
     {
         if (is_null($this->m_fcall)) {
@@ -142,10 +181,10 @@ class CssPhpDetector
         return $this->m_fcall;
     }
     /**
-    * auto generate doc.
-    * @param string $source
-    * @return void
-    */
+     * from source - detect expression
+     * @param string $source
+     * @return ?array
+     */
     public function resolve(string $source)
     {
         $regex = $this->_regex();
@@ -179,19 +218,22 @@ class CssPhpDetector
                         $detected = true;
                     }
                 } else {
-                    if ($id == 'word-detected'){
-                        if ($v[0]=='.'){
-                            $v = substr($v,1);
+                    if ($id == 'word-detected') {
+                        if ($v[0] == '.') {
+                            $v = substr($v, 1);
                         }
+                        // igk_wln(__FILE__.":".__LINE__ , 'detect: ' . $id . ' : '.$v);
                         $v = self::_ToCssClassDeclaration($v);
 
                         if (isset($tsrc[$v])) {
                             $tsrc[$v]++;
                             $detected = true;
                         } else {
-                            if ($reg = $this->autoReferenceRegex){
-                                if (preg_match($reg, $v)){ 
+                            if ($reg = $this->autoReferenceRegex) {
+                                $tc = stripslashes($v);
+                                if (preg_match($reg, $tc)) {
                                     $tsrc[$v] = 1;
+                                    $detected = true;
                                 }
                             }
                         }
@@ -212,7 +254,9 @@ class CssPhpDetector
      * @param string $v 
      * @return string 
      */
-    protected static function _ToCssClassDeclaration(string $v){
-       return CssUtils::ToClassClassDeclaration($v);
+    protected static function _ToCssClassDeclaration(string $v)
+    {
+        $v = stripslashes($v);
+        return CssUtils::ToClassClassDeclaration($v);
     }
 }

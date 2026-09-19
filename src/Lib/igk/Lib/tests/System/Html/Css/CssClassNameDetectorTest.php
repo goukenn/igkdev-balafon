@@ -46,10 +46,13 @@ $a = "presentation info";
 $b = "<html className=\"card\"></html>";
 ?><div class="info">for information</div>
 PHP);
+
+
+
         $this->assertTrue(is_array($arr));
         $this->assertEquals(
             ".card{display:block;}div.info{height:3em;}@media (max-width:420px){.card{display:flex;}}",
-            $s = $detector->renderToCss($arr, (object)["lf" => ""])
+            $detector->renderToCss($arr, (object)["lf" => ""])
         );
     }
     /**
@@ -68,9 +71,5 @@ PHP);
         $r = $detector->getReference('fs-\[164px\]');
         $this->assertEquals('{".fs-\\\\[164px\\\\]":{"font-size":"164px"}}', json_encode($r, JSON_UNESCAPED_SLASHES));
     }
-    public function test_cssnamedetector_from_class_to_litteral(){
-        $detector = new CssClassNameDetector;
-        $r = $detector->getReference('fs-[164px]');
-        $this->assertEquals('{".fs-\\\\[164px\\\\]":{"font-size":"164px"}}', json_encode($r, JSON_UNESCAPED_SLASHES));
-    }
+   
 }

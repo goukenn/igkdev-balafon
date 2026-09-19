@@ -11,6 +11,7 @@ use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\CssClassBuffer;
 use IGK\System\Html\Css\CssClassNameDetector;
+use IGK\System\Html\Css\CssImportRule;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
 use IGKException;
@@ -105,11 +106,10 @@ class HtmlDocumentCssHostNode extends HtmlNode
         // if ($is_dev){
             $g .= self::RenderExtraDefinition();
         // }
-        // igk_wln_e(__FILE__.":".__LINE__ , $g, ' ---- ', self::RenderExtraDefinition(),
-        // $doc->noCoreCss , $doc->noColorPalette,
-        // CssParser::Parse('.same\:hover:hover{color:red;}')->to_array(), $sb, $theme_tab);
+        $g = trim($g);
 
-        if (!empty(trim($g))) {
+        if (!empty($g)){
+             $g = implode("\n", ['@charset "UTF-8";', trim($g)]);
             $vs = igk_create_node("style");
             $vs->text("\n" . $g."\n/* end style */\n");
             $is_dev && ($s .= "<!-- start:inline style -->");
@@ -127,8 +127,10 @@ class HtmlDocumentCssHostNode extends HtmlNode
      * @return ?string 
      */
     public static function RenderExtraDefinition(){
-        $g = "\n" . CssClassBuffer::getInstance()->renderExtraDefinition(null, (object)[
-                "lf" => ""
+        $i = CssClassBuffer::getInstance();
+        $g = "\n" . $i->renderExtraDefinition(null, (object)[
+                "lf" => "",
+                "noCharsetHeader"=>true
             ])."\n";
         if (!empty(trim($g))){
             return $g;

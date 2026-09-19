@@ -260,15 +260,12 @@ class CssBuilderTest extends BaseTestCase
     {
         $detector = $this->_init('');
         $references = [];
-        $detector->loadReferences(['dark:text-grey-200'], $references);
+        $detector->loadReferences(['dark\:text-grey-200'], $references);
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             'html[data-theme="dark"] .dark\:text-grey-200{',
             'color:#666666;',
-            '}',
-            'html[data-theme="light"] .light\:text-grey-200{',
-            'color:#666666;',
-            '}',
+            '}', 
         ]), $s);
     }
     /**
@@ -279,13 +276,26 @@ class CssBuilderTest extends BaseTestCase
     {
         $detector = $this->_init('');
         $references = [];
-        $detector->loadReferences(['dark:text-grey-200:hover'], $references);
+        $detector->loadReferences(['dark\:text-grey-200\:hover'], $references);
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
-            'html[data-theme="dark"] .dark\:text-grey-200:hover{',
+            'html[data-theme="dark"] .dark\:text-grey-200\:hover:hover{',
+            'color:#666666;',
+            '}', 
+        ]), $s);
+    }
+    public function test_cssbuilder_dark_combine()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['xsm\:dark\:text-grey-200'], $references);
+        // $s = $detector->renderToCss($references);
+        $s = $detector->renderToCss($references); // ['.xsm\:dark\:text-grey-200']);
+        $this->assertEquals(implode("\n", [
+            'html[data-theme="dark"] .xsm .dark\:xsm\:text-grey-200{',
             'color:#666666;',
             '}',
-            'html[data-theme="light"] .light\:text-grey-200:hover{',
+            'html[data-theme="dark"] .xsm .xsm\:dark\:text-grey-200{',
             'color:#666666;',
             '}',
         ]), $s);
@@ -298,12 +308,24 @@ class CssBuilderTest extends BaseTestCase
     {
         $detector = $this->_init('');
         $references = [];
-        $detector->loadReferences(['w-[calc(100vh-4rem)]'], $references);
+        $detector->loadReferences(['w-\[calc(100vh-4rem)\]'], $references);
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [           
             '.w-\\[calc(100vh-4rem)\\]{',
             'width:calc(100vh-4rem);',
             '}'
         ]), $s);
+    }
+    public function test_cssbuilder_opacity()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['text-red\/80'], $references);
+        $css = $detector->renderToCss($references);        
+        $this->assertEquals(implode("\n", [           
+            '.text-red\/80{',
+            'color:color(from red srgb r g b / 0.8);',
+            '}'
+        ]), $css);
     }
 }

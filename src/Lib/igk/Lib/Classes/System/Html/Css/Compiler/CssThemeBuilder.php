@@ -29,11 +29,13 @@ class CssThemeBuilder
     {
         $sb = [];
         $options = Activator::CreateNewInstance(CssThemeBuilderOptions::class, $options ?? []);
-        list($lf, $inlineTheme, $ctrl, $useCoreCss, $main, $themeColors, $resolveDir) = 
-        igk_extract($options, 'lf|inlineTheme|controller|useCoreCss|main|themeColors|resolveDir');
+        // list($lf, $inlineTheme, $ctrl, $useCoreCss, $main, $themeColors, $resolveDir) = 
+        extract((array)$options);
+        $ctrl = $controller;
+        // igk_extract_assoc($options, 'lf|inlineTheme|controller|useCoreCss|main|themeColors|resolveDir');
         $g = '';
         $lf = $lf ?? '';
-        if ($main){
+        if ($main) {
             igk_css_bind_file($theme, $ctrl, $main);
         }
         igk_css_load_theme($theme);
@@ -43,9 +45,9 @@ class CssThemeBuilder
         }
         $v_sys_theme = igk_app()->getDoc()->getSysTheme();
         $clear = false;
-        if (!$v_sys_theme->getinitGlobal()){
+        if (!$v_sys_theme->getinitGlobal()) {
             $clear = true;
-             $v_sys_theme->initGlobalDefinition();
+            $v_sys_theme->initGlobalDefinition();
         }
         $v_sb = CssUtils::RenderAfterCheckColorTheme($theme, true);
 
@@ -53,24 +55,40 @@ class CssThemeBuilder
         if ($useCoreCss) {
             $theme_tab = CssParser::Parse($v_sb)->to_array();
             //if (!empty($theme_tab)) {
-                $imported = array_merge(
-                    [
-                        'dispn',
-                        'fit',
-                        'igk-device',
-                        'igk-media-type',
-                        '::selection',
-                        ':root'
-                    ],
-                    $theme->getImportedDefinitions() ?? [],
-                    CssClassNameDetector::RetrieveInjectedClassesList($theme_tab) ?? [],
-                );
-                $tab = CssParser::Parse($v_sys_theme->render())->to_array();
-                $g .= CssClassNameDetector::RenderMaps([
-                   $tab,
-                   $theme_tab,
-                ], $imported, ['lf'=>$lf, 'resolveDir'=>$resolveDir]);
-           // }
+            $imported = array_merge(
+                [
+                    'dispn',
+                    'fit',
+                    'igk-device',
+                    'igk-media-type',
+                    '::selection',
+                    ':root'
+                ],
+                $theme->getImportedDefinitions() ?? [],
+                CssClassNameDetector::RetrieveInjectedClassesList($theme_tab) ?? [],
+            );
+            $tab = CssParser::Parse($v_sys_theme->render())->to_array();
+
+            // $theme_tab = [
+            //     '.fs-\[164px\][text="hover"]' =>['color'=>'indigo']
+            // ];
+            $g .= CssClassNameDetector::RenderMaps(
+                [
+                    $tab,
+                    $theme_tab,
+                ],
+                $imported,
+                [
+                    'lf' => $lf, 
+                    'resolveDir' => $resolveDir,
+                    'charsetHeader'=>true,
+
+                ]
+            );
+            // igk_wln_e(__FILE__ . ":" . __LINE__,
+            //  "\n".$v_sb,
+            //  var_export($theme_tab, true), '---------------------', $g);
+            // // }
         }
         if ($inlineTheme) {
             $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
@@ -80,7 +98,7 @@ class CssThemeBuilder
             }
         }
         $sb[] = $g;
-        if ($clear){
+        if ($clear) {
             $v_sys_theme->resetSysGlobal();
         }
         return implode($lf, $sb);

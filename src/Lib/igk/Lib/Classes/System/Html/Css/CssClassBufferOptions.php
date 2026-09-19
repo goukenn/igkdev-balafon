@@ -32,4 +32,10 @@ class CssClassBufferOptions{
      * @var mixed
      */
     var $medias;
+
+    /**
+     * no charset header 
+     * @var ?bool
+     */
+    var $charsetHeader;
 }

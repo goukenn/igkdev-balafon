@@ -59,4 +59,12 @@ final class IGKHrefListValue{
         }
         return $o;
     }
+    /**
+     * 
+     * @return mixed|null 
+     */
+    public function fontEndPoint(){
+        if (($ft = igk_getv($this->values , 1)) instanceof IGKGoogleCssUri)
+            return $ft->fontEndPoint();
+    }
 }

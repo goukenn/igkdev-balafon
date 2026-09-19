@@ -30,7 +30,7 @@ class HtmlNodeTagExplosionDefinition
     * Constant: split.
     * @var mixed
     */
-    const split = '>';
+    const SPLIT_CHAR = '>';
     // + | --------------------------------------------------------------------
     // + | prefix definition 
     // + |
@@ -59,10 +59,7 @@ class HtmlNodeTagExplosionDefinition
     * @var HtmlNodeBuilder
     */
     var $builder;
-    /**
-     * explode definition 
-     */
-    protected $split = self::split;
+ 
     /**
     * Property: static.
     * @var mixed
@@ -75,6 +72,7 @@ class HtmlNodeTagExplosionDefinition
     public function __construct(HtmlNodeBuilder $builder)
     {
         $this->builder = $builder;
+        $this->split = self::SPLIT_CHAR;
     }
     /**
      * get core builder 
@@ -301,23 +299,22 @@ class HtmlNodeTagExplosionDefinition
     public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
+        $v_opacity = '(?P<opacity>\/\\d+)?';
         $v_class_tag_detection = '(\\.)'.CssUtils::CLASS_NAME_UTIL_REGEX; 
-        // [a-zA-Z_][a-zA-Z0-9_]*(?:-(?:(?:\\d+(?:\\.\\d+)?(?:[a-zA-Z]+)?)|[a-zA-Z0-9_]+))*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?';
-
+      
         $v_s = $regex->appendStringDetection('string', true)->last();
         $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
 
         $pbrank = $regex->begin('\(', '\)', 'pbrank')->last();
         $regex->begin('\{', '\}', 'curl-brank');
         $v_sub_litteral = $regex->begin(
-            $v_class_tag_detection.'(-\[)', 
-            // '(\\.)[a-zA-Z_][a-zA-Z0-9_\-\\.]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?(-\[)', 
-        '(\])', 'litteral')->last(); // litteral with expression 
+            $v_class_tag_detection.'(-\[)',  
+        '(\])(:[a-zA-Z_][a-zA-Z0-9_\-\(\)]*)*'.$v_opacity, 'litteral')->last(); // litteral with expression 
 
         // +| class tha end with number - (unit)* 
-        $regex->match($v_class_tag_detection, 'litteral');
+        $regex->match($v_class_tag_detection.$v_opacity, 'litteral');
 
-        $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'litteral');
+        $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?'.$v_opacity, 'litteral');
         $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
 
@@ -473,7 +470,7 @@ class HtmlNodeTagExplosionDefinition
     {
         $ctn = new RegexMatcherContainer;
         $ctn->appendStringDetection();
-        $ctn->match(self::split, 'split');
+        $ctn->match(self::SPLIT_CHAR, 'split');
         $offset = 0;
         $rf = [];
         $p = 0;

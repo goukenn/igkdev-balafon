@@ -56,12 +56,13 @@ class CreateRowTest extends BaseTestCase{
         $gram = (new SupportNothingDataAdapter(null))->getGrammar();
         $defs = SysDbControllerManager::GetDataTableDefinitionFormController(null , Users::table()); 
         $e = new table_enum;
-        $defs = $e->getDataTableDefinition()->tableRowReference; 
+        $defs = $e->getDataTableDefinition()->tableRowReference;
+            $ct = $gram->createTableQuery("table_enum", $defs); 
         $query = 
         "CREATE TABLE IF NOT EXISTS `table_enum`(`clId` Int(11) NOT NULL AUTO_INCREMENT,`clName` Enum('1','2','3'), PRIMARY KEY (`clId`)) ENGINE=InnoDB CHARSET utf8mb4;";            
         $this->assertEquals(
             $query,
-            $gram->createTableQuery("table_enum", $defs)
+            $ct
         ); 
     }
 }
@@ -70,6 +71,7 @@ class CreateRowTest extends BaseTestCase{
 * @package IGK\Tests\Models
 */
 class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
+    var $charset = 'utf8mb4';
     /**
     * Returns true if Type Supported.
     * @param mixed $type

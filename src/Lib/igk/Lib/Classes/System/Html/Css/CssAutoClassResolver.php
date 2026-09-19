@@ -8,37 +8,37 @@ use IGK\System\Console\Logger;
 use IGK\System\Html\Dom\HtmlDocTheme;
 
 /**
-* auto generate doc.
-* @package IGK\System\Html\Css
-* @author C.A.D. BONDJE DOUE
-*/
+ * auto generate doc.
+ * @package IGK\System\Html\Css
+ * @author C.A.D. BONDJE DOUE
+ */
 /**
-* auto generate doc.
-* @package IGK\System\Html\Css
-*/
+ * auto generate doc.
+ * @package IGK\System\Html\Css
+ */
 class CssAutoClassResolver
 {
     /**
      * auto detect prefix sequence 
      */
-    const AUTO_PREFIX_DETECT = HtmlDocTheme::THEMING_PREFIX; 
+    const AUTO_PREFIX_DETECT = HtmlDocTheme::THEMING_PREFIX;
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     const UNIT_LENGTH = 'pt|cm|mm|in|px|pc|em|rem|vw|vh|vmin|vmax|ch|ex|%';
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     const TIME_LENGTH = 's|ms';
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     const ANGLE = 'deg|rad|turn|grad';
     /**
      * get or set the color spaces 
@@ -53,16 +53,18 @@ class CssAutoClassResolver
      */
     public function detect(string $class, &$tab): bool
     {
-        $class = stripcslashes($class);
+        $class = stripslashes($class);
         $separo_key_offset = 2;
-        $check_theme = function (&$tab, $theme, $screen)use($separo_key_offset) {
+        $check_theme = function (&$tab, $theme, $screen) use ($separo_key_offset) {
             if (isset($tab['def'])) {
                 $def = $tab['def'];
-                if (preg_match('/' . $theme . '/', $def)) {
+                if (preg_match('/\\b' . $theme . '\\b/', $def, $rt)) {
                     $tab['theme'] = 1;
+                    $tab['theme_name'] = $rt[0];
                 }
-                if (preg_match('/' . $screen . '/', $def)) {
+                if (preg_match('/\\b' . $screen . '\\b/', $def, $rt)) {
                     $tab['screen'] = 1;
+                    $tab['screen_name'] = $rt[0];
                 }
                 unset($tab['def']);
                 $tab['separator'] = $tab[$separo_key_offset];
@@ -71,7 +73,7 @@ class CssAutoClassResolver
         $theme = '(?:dark|light)';
         $screen = '(?:(?:x)?sm|(?:x(?:x)?)?lg)';
         $st = '(?P<def>(?:(?:' . $theme . '(?:-|:)?)?' . $screen . '|(?:' . $screen . '(?:-|:)?)?' . $theme . ')(-|:))?';
-        $value = '(?P<value>[^:]+)(?P<pseudo>:.+)?';
+        $value = '(?P<value>[^:]+)(?P<pseudo>(?::.+)*)?';
         $regex = '/^' . $st . '(?P<prefix>' . self::AUTO_PREFIX_DETECT . ')\\b-' . $value . '$/';
         if (preg_match($regex, $class, $tab)) {
 
@@ -88,12 +90,12 @@ class CssAutoClassResolver
         return false;
     }
     /**
-    * resolve data presentation
-    * @param mixed $prefix
-    * @param mixed $value
-    * @param mixed $options
-    * @return ?string
-    */
+     * resolve data presentation
+     * @param mixed $prefix
+     * @param mixed $value
+     * @param mixed $options
+     * @return ?string
+     */
     public function resolveCode($prefix, $value, $options = null): ?string
     {
         $this->colorspace = igk_getv($options, 'colorspace', 'hsl');
@@ -111,12 +113,12 @@ class CssAutoClassResolver
     private $m_palettedColorDefinition;
 
     /**
-    * auto generate doc.
-    * @return array
-    */
+     * auto generate doc.
+     * @return array
+     */
     public function getColorPal()
     {
-        if (is_null($lg = $this->m_palettedColorDefinition)){
+        if (is_null($lg = $this->m_palettedColorDefinition)) {
             $type = $this->colorspace;
             $lg = json_decode(file_get_contents(IGK_LIB_DIR . '/Default/assets/css/colorspaces/' . $type . '.json'));
             $lg->transparent = 'transparent';
@@ -130,34 +132,46 @@ class CssAutoClassResolver
      * @param mixed $color 
      * @return void 
      */
-    protected function _injectPaletteDefinition($color){
+    protected function _injectPaletteDefinition($color)
+    {
         $filter = [
-            'transparent'=>'transparent',
-            'currentColor'=>'currentColor',
-            'primaryColor'=>'var(--blf-primary-color)',
-            'secondaryColor'=>'var(--blf-second-color)'
+            'transparent' => 'transparent',
+            'currentColor' => 'currentColor',
+            'primaryColor' => 'var(--blf-primary-color)',
+            'secondaryColor' => 'var(--blf-second-color)'
         ];
-        igk_hook('sys-filter://css/refpalette', ['filter'=>& $filter]);
-        foreach($filter as $k=>$v){
+        igk_hook('sys-filter://css/refpalette', ['filter' => &$filter]);
+        foreach ($filter as $k => $v) {
             $color->{$k} = $v;
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $value
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $value
+     * @return string|false
+     */
     protected function _visit_text($value)
     {
+        $tp = explode('/', $value, 2);
+        $opacity = null;
+        if (count($tp) == 2) {
+            $value = $tp[0];
+            $opacity = $tp[1];
+        }
         $rf = $this->getColorPal();
         $tv = igk_getv($rf, $value);
-        return json_encode(['color' => $tv]);
+        $pt = ['color' => $tv];
+        if ($opacity) {
+            $pt = ['color' => sprintf('color(from ' . $value . ' srgb r g b / %s)', round(intval($opacity) / 100, 2))];
+        }
+
+        return json_encode($pt);
     }
     /**
-    * auto generate doc.
-    * @param mixed $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param mixed $value
+     * @return void
+     */
     protected function _visit_sel($value)
     {
         $rf = $this->getColorPal();
@@ -165,10 +179,10 @@ class CssAutoClassResolver
         return json_encode(['::selection', ['color' => $tv]]);
     }
     /**
-    * auto generate doc.
-    * @param mixed $value
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $value
+     * @return string|false
+     */
     protected function _visit_bg(string $value)
     {
         $rf = $this->getColorPal();
@@ -176,10 +190,10 @@ class CssAutoClassResolver
         return json_encode(['background-color' => $tv]);
     }
     /**
-    * auto generate doc.
-    * @param mixed $value
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param mixed $value
+     * @return mixed
+     */
     protected function _visit_no(string $value)
     {
         $g = igk_getv(['overflow' => '{overflow: hidden}'], $value);
@@ -195,18 +209,18 @@ class CssAutoClassResolver
         return '/(\d+(?:\.\d+)?)(' . self::UNIT_LENGTH . ')?/';
     }
     /**
-    * auto generate doc.
-    * @return string
-    */
+     * auto generate doc.
+     * @return string
+     */
     protected function _unit_regex_with_negate()
     {
         return '/(?:m)?(\d+(?:\.\d+)?)(' . self::UNIT_LENGTH . ')?/';
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return string|false
+     */
     protected function _visit_br(string $value)
     {
         $g = explode('-', $value);
@@ -240,11 +254,11 @@ class CssAutoClassResolver
         return json_encode($r);
     }
     /**
-    * auto generate doc.
-    * @param mixed $v
-    * @param mixed $tab
-    * @return string
-    */
+     * auto generate doc.
+     * @param mixed $v
+     * @param mixed $tab
+     * @return string
+     */
     protected function _unitValueFromRegexRegex($v, $tab)
     {
         return $v . (empty($tab[2]) ? 'px' : '');
@@ -278,10 +292,10 @@ class CssAutoClassResolver
         return array_values($r);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_mar(string $value)
     { // + | margin allow negate value 
         $side = null;
@@ -296,12 +310,12 @@ class CssAutoClassResolver
         return $this->_side_dim('margin', $v, $side);
     }
     /**
-    * auto generate doc.
-    * @param mixed $property
-    * @param mixed $value
-    * @param mixed $side
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $property
+     * @param mixed $value
+     * @param mixed $side
+     * @return string|false
+     */
     protected function _side_dim($property, $value, $side = null)
     {
         if (!$side) {
@@ -311,12 +325,12 @@ class CssAutoClassResolver
         return json_encode([$property . '-' . $d => $value]);
     }
     /**
-    * auto generate doc.
-    * @param mixed $property
-    * @param mixed $value
-    * @param mixed $side
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $property
+     * @param mixed $value
+     * @param mixed $side
+     * @return string|false
+     */
     protected function _corner_dim($property, $value, $side = null)
     {
         if (!$side) {
@@ -326,10 +340,10 @@ class CssAutoClassResolver
         return json_encode([sprintf($property, '-' . $d) => $value]);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_pad(string $value)
     {
         $side = null;
@@ -347,26 +361,26 @@ class CssAutoClassResolver
         return $this->_side_dim('padding', $v, $side);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_rd(string $value)
     {
         list($side, $v) = $this->_parse_side_unit($value);
         return $this->_corner_dim('border%s-radius', $v, $side);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_gap(string $value)
     {
         // column-gap
         // row-gap 
-        if(is_numeric($value)){
-            $value = CssUtils::ValueFromDim( $value, 'gap');
+        if (is_numeric($value)) {
+            $value = CssUtils::ValueFromDim($value, 'gap');
         }
 
         $tv = explode('-', $value, 2);
@@ -391,10 +405,10 @@ class CssAutoClassResolver
         return json_encode(['gap' => $r]);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_ls(string $value)
     {
         return $this->_set_single_length('letter-spacing', $value, true);
@@ -409,21 +423,21 @@ class CssAutoClassResolver
         // }
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_lh(string $value)
     {
         return $this->_set_single_length('line-height', $value);
     }
     /**
-    * auto generate doc.
-    * @param string $property
-    * @param string $value
-    * @param bool $negate
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $property
+     * @param string $value
+     * @param bool $negate
+     * @return void
+     */
     protected function _set_single_length(string $property, string $value, bool $negate = false)
     {
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() : $this->_unit_regex();
@@ -436,11 +450,11 @@ class CssAutoClassResolver
         }
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @param bool $negate
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $value
+     * @param bool $negate
+     * @return string
+     */
     public function _get_unit_length(string $value, $negate = false)
     {
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() : $this->_unit_regex();
@@ -454,11 +468,11 @@ class CssAutoClassResolver
         return $u;
     }
     /**
-    * auto generate doc.
-    * @param array $tab
-    * @param mixed $negate
-    * @return void
-    */
+     * auto generate doc.
+     * @param array $tab
+     * @param mixed $negate
+     * @return void
+     */
     protected function _auto_positive_value(array $tab, $negate = false)
     {
         $v_unit_regex = $negate ? $this->_unit_regex_with_negate() :  $this->_unit_regex();
@@ -482,10 +496,10 @@ class CssAutoClassResolver
         return $m[0] == 'm' ? '-' : '';
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     public function _visit_sz(string $value)
     {
         list($width, $height) = igk_extract(explode('-', $value, 2), '0|1');
@@ -499,50 +513,50 @@ class CssAutoClassResolver
         }
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     public function _visit_w(string $value)
     {
         return $this->_mark_single_unit('width', $value, false);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_h(string $value)
     {
         return $this->_mark_single_unit('height', $value, false);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return ?string|int
+     */
     protected function _visit_fs(string $value)
     {
         return $this->_mark_single_unit('font-size', $value, false);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_z(string $value)
     {
         return $this->_mark_single('z-index', $value, false);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
+     * auto generate doc.
+     * @param string $value
+     * @return void
+     */
     protected function _visit_opacity(string $value)
     {
-        if ($g = intval($value)){
-            $value = round($g/100, 2);
+        if ($g = intval($value)) {
+            $value = round($g / 100, 2);
             return $this->_mark_single('opacity', $value, false);
         }
     }
@@ -554,17 +568,17 @@ class CssAutoClassResolver
     protected function _visit_transition(string $value)
     {
         $value = igk_getv([
-            'colors'=>'color, background-color, border-color, text-decoration-color, fill, stroke',
+            'colors' => 'color, background-color, border-color, text-decoration-color, fill, stroke',
         ], $value, $value);
-        return json_encode(['transition-property'=>$value]);
+        return json_encode(['transition-property' => $value]);
     }
     /**
-    * auto generate doc.
-    * @param mixed $property
-    * @param mixed $value
-    * @param bool $negate
-    * @return string|false
-    */
+     * auto generate doc.
+     * @param mixed $property
+     * @param mixed $value
+     * @param bool $negate
+     * @return string|false
+     */
     protected function _mark_single(string $property, string $value, $negate = false)
     {
         return json_encode([
@@ -572,30 +586,33 @@ class CssAutoClassResolver
         ]);
     }
     /**
-    * auto generate doc.
-    * @param mixed $property
-    * @param mixed $value
-    * @param bool $negate
-    * @return string|false|null
-    */
+     * auto generate doc.
+     * @param mixed $property
+     * @param mixed $value
+     * @param bool $negate
+     * @return ?string|int
+     */
     protected function _mark_single_unit($property, $value, $negate = false)
     {
-       
+        $v = $this->_protect_expression($value) ?? $this->_get_unit_length($value, $negate);
+        if (empty($v)) {
+            return null;
+        }
         return json_encode([
-            $property => $this->_protect_expression($value) ?? $this->_get_unit_length($value, $negate)
+            $property => $v
         ]);
     }
     /**
-    * auto generate doc.
-    * @param string $value
-    * @return void
-    */
-    protected function _protect_expression(string $value)
+     * auto generate doc.
+     * @param string $value
+     * @return ?string
+     */
+    protected function _protect_expression(string $value): ?string
     {
         $vv = null;
         $value = stripslashes($value);
-        if (preg_match('/^\[.*\]$/', $value)) {
-            $vv = substr($value, 1, -1);
+        if ($value && ($value[0] == '[')) {
+            $vv = CssClassNameUtility::ReadBrank($value);
         }
         return $vv;
     }

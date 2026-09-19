@@ -7,6 +7,7 @@
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\Helper;
 use Closure;
+use Deprecated;
 use Exception;
 use IGK\Actions\ActionFormOptions;
 use IGK\Controllers\BaseController;
@@ -22,6 +23,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
+use IGK\System\ViewEnvironmentArgs;
 use IGK\System\Views\IViewHandlerInfo;
 use IGKEnvironment;
 use IGKEnvironmentConstants;
@@ -321,7 +323,7 @@ class ViewHelper
     /**
      * include sub view. from current controller view context
      * @return mixed 
-     * @param string $file file to include
+     * @param mixed $file file to include
      * @param ?array $params override parameters
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 

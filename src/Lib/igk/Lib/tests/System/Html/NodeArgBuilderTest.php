@@ -40,4 +40,20 @@ class NodeArgBuilderTest extends BaseTestCase
         $g = $t->render();
         $this->assertEquals('<div class="info pad-width-2.5em card">hello</div>', $g);
     }
+    public function test_nodeargs_with_extra_node()
+    {
+        $t = _h('div.a:hover');
+        $g = $t->render();
+        $this->assertEquals('<div class="a:hover"></div>', $g);
+
+        $t = _h('div.a.fs-22:hover');
+        $g = $t->render();
+        $this->assertEquals('<div class="a fs-22:hover"></div>', $g);
+    }
+    public function test_nodeargs_opacity()
+    {
+        $t = _h('div.text-red/80');
+        $g = $t->render();
+        $this->assertEquals('<div class="text-red/80"></div>', $g);
+    }
 }

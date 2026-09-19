@@ -62,42 +62,7 @@ abstract class CssClassNameDetectorUtils
         $p = $detector->getDetector('php');
         if ($data = $p->resolve($source)) {
             return $detector->loadReferences(array_keys($data), $references);
-        }
-        return;
-        // $g = token_get_all($source);
-        // $expression = [];
-        // $klist = sprintf("\b(%s)\b", strtolower(implode("|", igk_sys_get_html_components() ?? [])));
-        // $flag_defclass = false;
-        // while(count($g)>0){
-        //     $e = array_shift($g);
-        //     $v = $e;
-        //     if (is_array($e)){
-        //         $v = $e[1];
-        //         $e = $e[0];
-        //     }
-        //     $n = is_int($e) ?  token_name($e) : '';
-        //     switch($e){
-        //         case T_CONSTANT_ENCAPSED_STRING:
-        //             $expression[] = $v;
-        //             $flag_defclass = false;
-        //             break;
-        //         case 267:
-        //             self::DetectFromHtmlSource($detector, $v, $references);
-        //             break;
-        //         case T_METHOD_C:
-        //             break;
-        //         case T_STRING:
-        //             if (preg_match("/".$klist."/i", $v)){
-        //                 $expression[] = 'igk-'.$v;
-        //             }else if (preg_match("/(setClass)/i", $v)){
-        //                 $flag_defclass = true;
-        //             }
-        //             break;
-        //         default:
-        //         break;
-        //     }
-        // }
-        // return $detector->resolv(implode("\n", array_unique($expression)), $references);
+        }  
     }
     /**
      * Detect from phtml source.
