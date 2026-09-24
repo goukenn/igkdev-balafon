@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Connections.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:41
 namespace IGK\Models;
 
 
@@ -34,54 +34,14 @@ use IGK\Models\ModelBase;
 * @method static mixed clear(?\IGK\Models\Users $user= null) macros function definition
 * */
 class Connections extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_USER_GUID="clUser_Guid";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_TOKEN="clToken";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_TOKEN_INFO="clTokenInfo";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DATE_TIME="clDateTime";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_FROM="clFrom";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CNX_CREATE_AT="cnx_createAt";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CNX_UPDATE_AT="cnx_updateAt";
+	const FD_CL_ID="clId";
+	const FD_CL_USER_GUID="clUser_Guid";
+	const FD_CL_TOKEN="clToken";
+	const FD_CL_TOKEN_INFO="clTokenInfo";
+	const FD_CL_DATE_TIME="clDateTime";
+	const FD_CL_FROM="clFrom";
+	const FD_CNX_CREATE_AT="cnx_createAt";
+	const FD_CNX_UPDATE_AT="cnx_updateAt";
 	/**
 	* table's name
 	*/

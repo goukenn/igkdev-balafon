@@ -131,7 +131,6 @@ trait PHPDocCommentParseTrait
                     if (empty($v)){
                         continue;
                     }
-                    igk_dev_wln_e(__FILE__.":".__LINE__ , "is array ", $v);
                 }
                 $s = '@' . $k ;
                 if (!is_bool($v) || !$this->activingName($k)){

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:41
 namespace IGK\Models;
 
 
@@ -29,42 +29,12 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $Name, string $Cat, int $Cardinality, string $Create_At ="Now()", string $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookTypes extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_ID="rcphbt_Id";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_NAME="rcphbt_Name";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CAT="rcphbt_Cat";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CARDINALITY="rcphbt_Cardinality";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CREATE_AT="rcphbt_Create_At";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_UPDATE_AT="rcphbt_Update_At";
+	const FD_ID="rcphbt_Id";
+	const FD_NAME="rcphbt_Name";
+	const FD_CAT="rcphbt_Cat";
+	const FD_CARDINALITY="rcphbt_Cardinality";
+	const FD_CREATE_AT="rcphbt_Create_At";
+	const FD_UPDATE_AT="rcphbt_Update_At";
 	/**
 	* table's name
 	*/

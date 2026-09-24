@@ -34,6 +34,17 @@ class CssClassBufferOptions{
     var $medias;
 
     /**
+     * 
+     * @var mixed
+     */
+    var $supports;
+    /**
+     * 
+     * @var mixed
+     */
+    var $extrat;
+
+    /**
      * no charset header 
      * @var ?bool
      */

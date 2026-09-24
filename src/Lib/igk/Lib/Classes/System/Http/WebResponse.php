@@ -4,6 +4,9 @@
 // @date: 20220425 15:39:28
 // @desc: web response
 namespace IGK\System\Http;
+
+use igk;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKEvents;
@@ -89,6 +92,53 @@ class WebResponse extends RequestResponse
             }
         }
         $this->_setHeader();
+//         $rq = igk_server()->REQUEST_URI;        
+//         if (igk_environment()->isDev() && ('/'==$rq)){
+//             // header('Link: </assets/Styles/balafon.css?v=2026.0.0.0919>; rel=preload; as=style', false);
+//             $n = igk_create_node('html');
+//             $n['data-theme'] = 'dark';
+//             $head = $n->head();
+//             $head->meta()->setAttributes(['charset'=>'utf-8']);
+//             $doc = igk_app()->getDoc();
+//             $sys_theme = $doc->getSysTheme();
+//             CssUtils::InitSysGlobal($doc);
+//             $head->script()->setContent(
+//                 <<<'JS'
+// (function(){
+//   const warn = (n) => { if (document.readyState !== 'complete') console.warn('[force-layout] ' + n, new Error().stack); };
+//   const P = HTMLElement.prototype, E = Element.prototype;
+//   ['offsetWidth','offsetHeight','offsetTop','offsetLeft'].forEach(k => {
+//     const d = Object.getOwnPropertyDescriptor(P, k);
+//     Object.defineProperty(P, k, { get(){ warn(k); return d.get.call(this); } });
+//   });
+//   const g = E.getBoundingClientRect;
+//   E.getBoundingClientRect = function(){ warn('getBoundingClientRect'); return g.call(this); };
+//   const cs = window.getComputedStyle;
+//   window.getComputedStyle = function(){ warn('getComputedStyle'); return cs.apply(this, arguments); };
+// })();
+// JS
+//             );
+//             // $head->style()->setContent(
+//             //     implode("\n", 
+//             //         [
+//             //             $sys_theme->render(true),
+//             //             // 'html[data-theme="dark"] ,html[data-theme="dark"] body{ background-color:red; }',
+//             //             // 'html[data-theme="light"] ,html[data-theme="light"] body{ background-color:yellow; }'
+//             //     ]
+//             //     ));
+//             // $head->link()->setAttributes(['rel'=>'preload', 
+//             // 'as'=>'style',
+//             // 'fetchpriority'=>'high',
+//             // 'href'=>'/assets/Styles/balafon.css?v=2026.0.0.0919']);
+//             $head->link()->setAttributes(['rel'=>'stylesheet', 'fetchpriority'=>'high',
+//             'href'=>'/assets/Styles/balafon.css?v=2026.0.0.0919']);
+//             $n->body()->setClass('igk-body')->content = '<h1>Loading assets ...</h1>';
+
+//             echo '<!DOCTYPE html>'."\n". $n->render();
+//             if (ob_get_length()>0)
+//                 ob_flush();
+//             igk_exit();
+//         }
         ob_start();
         $this->render();
         $s = ob_get_clean();

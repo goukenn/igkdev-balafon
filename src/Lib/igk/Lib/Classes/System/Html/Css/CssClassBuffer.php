@@ -63,6 +63,7 @@ class CssClassBuffer
         $v_d = &$this->m_data;
         while (count($values) > 0) {
             $q = trim(array_shift($values), '+ ');
+            $q = CssUtils::ToClassClassDeclaration($q);
             if (igk_str_startwith($q, '-'))
                 continue;
             if (!isset($v_d[$q])) {
@@ -110,9 +111,9 @@ class CssClassBuffer
         $references = [];
         $detector->map([]);
         $tab = array_filter($tab);
-        if (!empty($tab)){
+        if (!empty($tab)){ 
             $detector->loadReferences(array_keys($tab), $references);
-        } 
+        }  
         return $detector->renderToCss($references, $options);
     }
 }

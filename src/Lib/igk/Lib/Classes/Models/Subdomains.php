@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -33,48 +33,13 @@ use IGK\Models\ModelBase;
 * @method static mixed RegisterSubDomain(string $domain,\IGK\Controllers\BaseController $controller,?string $view= null) macros function definition
 * */
 class Subdomains extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CTRL="clCtrl";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_VIEW="clView";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DEACTIVATE_AT="clDeactivate_At";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CREATE_AT="clCreate_At";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_UPDATE_AT="clUpdate_At";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_CTRL="clCtrl";
+	const FD_CL_VIEW="clView";
+	const FD_CL_DEACTIVATE_AT="clDeactivate_At";
+	const FD_CL_CREATE_AT="clCreate_At";
+	const FD_CL_UPDATE_AT="clUpdate_At";
 	/**
 	* table's name
 	*/

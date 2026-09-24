@@ -121,7 +121,9 @@ class CssParser implements ArrayAccess
         $media_start = 0;
         $errors = [];
         $tdef = [];
-        $v_depth = 0; 
+        $v_depth = 0;
+        $v_skip_space = false;
+
         while ($pos < $len) {
             $ch = $content[$pos];
             switch ($ch) {
@@ -302,7 +304,7 @@ class CssParser implements ArrayAccess
                         }
                         $mode = 1;
                         $name = $rv;
-                        $selector .= preg_replace('/\s+/', ' ', $name);
+                        $selector .= $name; // preg_replace('/\s+/', ' ', $name);
                         $rv = '';
                     } else {
                         igk_die(implode("\n", [
@@ -313,14 +315,14 @@ class CssParser implements ArrayAccess
                     }
                     break;
                 case ':':
-                    // + | in mode = 0 some element can use : as their selector name                     
+                    // + | in mode = 0 some element can use : as their selector name  - change the multi selector properties                   
                     if ($mode == 0) {
-                        if (empty($rv = trim($rv))) {
-                            $name = $ch;
-                            $rv = $ch;
-                        } else {
+                        // if (empty($rv = trim($rv))) {
+                        //     $name = $ch;
+                        //     $rv = $ch;
+                        // } else {
                             $rv .= $ch;
-                        }
+                        // }
                     } else {
                         if (empty($rv = trim($rv))) {
                             die("name is empty.: " . $rv . ' offset ' . $pos);
@@ -386,6 +388,14 @@ class CssParser implements ArrayAccess
                     }
                     break;
                 default:
+                    if (($ch == ' ') && ($mode==0)){
+                        if ($v_skip_space){
+                            $ch = '';
+                        } 
+                        $v_skip_space = true;
+                    } else {
+                        $v_skip_space = false;
+                    }
                     $rv .= $ch;
                     break;
             }
@@ -431,6 +441,9 @@ class CssParser implements ArrayAccess
      * @return string|null 
      */
     public static function ReadClassName(string $content){
+
+        // return CssClassNameUtility::ReadClassName($content);
+
         if (preg_match('/((?:\\.)?[a-z][0-9a-z_\-]*(?:\\\\.[a-z][0-9a-z_\-]*)*)\\b/i', $content, $tab)) {
             return $tab[1];
         }
@@ -443,6 +456,7 @@ class CssParser implements ArrayAccess
     * @param string $content
     * @param int & $pos
     * @param int $pos
+    * @param int $length
     * @param mixed $media
     * @param mixed & $error
     * @return false|CssKeyFrame
@@ -472,16 +486,54 @@ class CssParser implements ArrayAccess
     */
     private static function _ReadSupport(string $content, int &$pos, int $length, $media, &$error)
     {
-        $s = $pos;
-        $pos = strpos($content, '{', $pos);
-        if ($pos === false) {
-            $errors[] = 'key frame definition not correct';
-            return false;
-        }
-        $g = trim(substr($content, $s, $pos - $s));
+        $pos--;
+        $g = self::_ReadCondition($content, $pos, $regex);
+
+        // $s = $pos;
+        // $pos = strpos($content, '{', $pos);
+        // if ($pos === false) {
+        //     $errors[] = 'key frame definition not correct';
+        //     return false;
+        // }
+        // $g = trim(substr($content, $s, $pos - $s));
         $pos--;
         $def = new CssSupport($g, $media);
         return $def;
+    }
+    private static function _ReadCondition(string $src, int & $pos, & $regex = null ){
+        if (is_null($regex)){
+            $regex = new RegexMatcherContainer;           
+            $str = $regex->appendStringDetection()->last();
+            $comment = $regex->appendMultilineComment()->last();
+            $cond = $regex->begin('\(', '\)', 'condition')->last();
+            $space = $regex->match('\\s+','space')->last();            
+            $cond->patterns = [
+                $space,
+                $str,
+                $comment,
+                $cond
+                ];
+            
+        }
+        $regex->resetTreatment();
+        $sb = '';
+        $offset = $pos;
+        while($g = $regex->detect($src, $pos)){
+            if ($e = $regex->end($g, $src, $pos)){
+                if (is_null($e->parentInfo)){
+                    if ($e->tokenID == 'condition'){
+                        $sb.= substr($src, $offset, $e->to-$offset);
+                        return $sb;
+                    }
+                } else{
+                    if ($e->tokenID=='space'){
+                        $sb.= substr($src, $offset, $e->from-$offset).' ';
+                        $offset = $e->to;
+                    }
+                }
+            }
+        }
+        return null;
     }
     /**
      * load css style string
@@ -667,7 +719,7 @@ class CssParser implements ArrayAccess
             if (!($n instanceof ICssDefinition)) {
                 continue;
             }
-            igk_wln("data : ", $n);
+            igk_dev_wln(__FILE__.":".__LINE__ , "data : ", $n);
             foreach ($n as $k => $v) {
                 if (preg_match($regx, $k)) {
                     if ($root &&  preg_match($match_var, $v, $match)) {
@@ -793,6 +845,9 @@ class CssParser implements ArrayAccess
      * @return void 
      */
     protected static function _ReadImportRule($options){
+        /**
+         * @var int $pos
+         */
         extract($options, EXTR_REFS);
         $regex = new RegexMatcherContainer;
         

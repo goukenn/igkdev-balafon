@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Groups.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -29,52 +29,17 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clController, string $clCreate_At ="NOW()", string $clUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class Groups extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DESCRIPTION="clDescription";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CONTROLLER="clController";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CREATE_AT="clCreate_At";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_UPDATE_AT="clUpdate_At";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DESCRIPTION="clDescription";
+	const FD_CL_CONTROLLER="clController";
+	const FD_CL_CREATE_AT="clCreate_At";
+	const FD_CL_UPDATE_AT="clUpdate_At";
 	/**
 	* table's name
 	*/
 	protected $table = "%prefix%groups";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    protected $unique_columns = array (
+	protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'clName',

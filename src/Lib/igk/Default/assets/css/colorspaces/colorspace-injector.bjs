@@ -26,11 +26,6 @@
             let l = this.o.className;
             if (typeof (l) == 'string')
                 (l).split(' ').forEach(o => {
-                    if (o=='5'){
-                        console.log('basic', this.o);
-                        return;
-                    }
-
                     if (!(o in r)) {
                         r[o] = 0;
                     }
@@ -161,6 +156,17 @@
             const g = getCssColorDefnition(color); 
             return g;
         },
+        /**
+         * visit pointer 
+         * @param cl 
+         * @param sc 
+         * @param in_uses 
+         * @returns 
+         */
+        _v_cur(cl, sc, in_uses) {            
+            let pointer = cl.split('-').slice(1).join('-');            
+            return ['.'+cl+'{ cursor:'+pointer+'; }'].join('');
+        },
         _v_bg(cl, sc, in_uses) {
             let color = _get_color_from_class(cl);
             let g = getCssColorDefnition(color); 
@@ -172,6 +178,7 @@
             return g;
         },
         _v_fill(cl, sc, in_uses) {
+            console.log('the fill ', cl);
             let color = _get_color_from_class(cl);
             let g = getCssColorDefnition(color, 'fill');
             return g;
@@ -216,13 +223,19 @@
         let media = '(?:(?<device>x?sm|(?:x(?:x)?)?lg)(?:-|:))';
         // let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-[a-zA-Z_0-9]+)+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\])))?$');
         // let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-[a-zA-Z_0-9]+)+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?)$');
-        let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-(([0-9]+(\.[0-9]+)?)|[a-zA-Z_0-9]+))+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?(?:/(?<divide>\\d+))?)$');
+        //let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)(?:(?:-(([0-9]+(\.[0-9]+)?)|[a-zA-Z_0-9]+))+)?(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?(?:/(?<divide>\\d+))?)$');
+        let rx = new RegExp(theme + '?' + media + '?(?<attrib>(?<prefix>[a-z]+)-(?:(?:(([0-9]+(\.[0-9]+)?)|[a-zA-Z_0-9]+))+)(?<pseudo>:[^-]+)?(?:-?(?<tab>\\[.*\\]))?(?:/(?<divide>\\d+))?)$');
 
         const tx = rx.exec(cl);
         if (tx == null){
             // console.log('tx is null', cl);
             return;
         }
+        if (!tx.groups['prefix']){
+            console.log('not defined');
+            return;
+        }
+
         let v_m = tx ? '_v_' + tx.groups['prefix'] : null;
         const tab_value = tx ? (function (r) { return r ? igk.String.SubStr(r, 1, -1) : false; })(tx.groups['tab'] || false) : null;
         const pseudo = tx.groups['pseudo'] || false;
@@ -264,12 +277,9 @@
         });
     });
     m.observe(document.body, { attributes: true, childList: true, subtree: true });
+    sc.textContent+= '/* - balafonjs colorspace-injector auto line - */'+"\n";
     body.o.appendChild(sc);
-
     Object.keys(active_classes).forEach((o) => {
         _checkInUse(o);
-    });
-
-
-    // console.log('complete');
+    }); 
 })(this);

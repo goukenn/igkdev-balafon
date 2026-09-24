@@ -3,6 +3,8 @@
 // + | helper function 
 // + |
 
+use IGK\Ext\WinUI\Components\HorizontalPane\HorizontalPaneItem;
+
 if (!function_exists('igk_hpane_get_dir_uri')){
     function igk_hpane_get_dir_uri($f){
         return igk_uri(igk_io_baseRelativePath(dirname($f)));

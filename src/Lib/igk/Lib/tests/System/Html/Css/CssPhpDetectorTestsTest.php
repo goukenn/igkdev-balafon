@@ -21,4 +21,12 @@ class CssPhpDetectorTestsTest extends BaseTestCase{
         // igk_wln_e(__FILE__.":".__LINE__ , $s) ;
         $this->assertEquals('["a-87"]', $s);
     }
+    public function test_cssphpdetector_detect_zindex(){
+        $detector = new CssPhpDetector;       
+        $detector->list = ['a-87'=>1]; 
+        $r = $detector->resolve('$p = "z-10 dispflex";');
+        $s= json_encode(array_keys($r ?? []));
+        // igk_wln_e(__FILE__.":".__LINE__ , $s) ;
+        $this->assertEquals('["z-10"]', $s);
+    }
 }

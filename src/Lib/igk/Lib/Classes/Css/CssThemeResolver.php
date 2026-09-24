@@ -286,7 +286,7 @@ class CssThemeResolver
                 } else {
                     $vt_hdef = $systheme->$deftheme;
                     if (is_null($vt_hdef)){
-                        igk_wln_e(
+                        igk_dev_wln_e(
                             __FILE__.":".__LINE__ , 'data:',
                             "definition theme is null ",
                              $deftheme,
@@ -486,22 +486,23 @@ class CssThemeResolver
         $gcl = ($d) ? $d : array();
         $stop = trim($stop);
         $v_designmode =  $this->designmode;
-        $chainColors = array();
+        $chainColors = [];
         if (($theme != null) && ($gtheme !== $theme) && ($theme !== $systheme)) {
             $colors = $theme->getCl();
             if ($colors) {
                 $chainColors[] = $colors;
             }
         }
+
         if ($colors = $gtheme->getCl()) {
             $chainColors[] = $colors;
         }
         if ($gcl) {
             $chainColors[] = array_merge($gcl, []);
         }
-        $chainColorCallback = 
-        function ($value) use (&$chainColors, $v_designmode) { 
+        $chainColorCallback = function ($value, bool $debug=false) use (&$chainColors, $v_designmode) { 
             $resolved = & $this->themeResolved;
+           
             if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value,$data)){
                 if ($data["name"]=="var"){
                     $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
@@ -517,6 +518,7 @@ class CssThemeResolver
                 $resolved = true;
                 return $s;
             }
+
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
             if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
                 if (defined('IGK_TEST_INIT')){
@@ -678,10 +680,10 @@ class CssThemeResolver
                 $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
                 break;
             case self::ATTR_COLOR:
-                $rp = igk_str_rm_last($v_m, ';');
+                $rp = igk_str_rm_last($v_m, ';');             
                 $nv = $chainColorCallback($value);
                 $t = $nv;
-                $v = str_replace($rp, $t, $v);
+                $v = str_replace($rp, $t, $v);               
                 break;
             case self::ATTR_FONT:
                 $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);

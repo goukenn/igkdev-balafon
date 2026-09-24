@@ -61,7 +61,7 @@ class HtmlHeadNode extends HtmlNode{
         return null;
     }
     /**
-    * Returns Preload.
+    * Returns Preload Html Node 
     */
     public function getPreload(){
         return HtmlHeadPreloadNode::getItem();

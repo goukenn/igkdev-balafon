@@ -152,20 +152,17 @@ class CssAutoClassResolver
      */
     protected function _visit_text($value)
     {
-        $tp = explode('/', $value, 2);
-        $opacity = null;
-        if (count($tp) == 2) {
-            $value = $tp[0];
-            $opacity = $tp[1];
-        }
-        $rf = $this->getColorPal();
-        $tv = igk_getv($rf, $value);
-        $pt = ['color' => $tv];
-        if ($opacity) {
-            $pt = ['color' => sprintf('color(from ' . $value . ' srgb r g b / %s)', round(intval($opacity) / 100, 2))];
-        }
+        return $this->_set_color($value, 'color');
+    }
 
-        return json_encode($pt);
+    /**
+     * 
+     * @param mixed $value 
+     * @return string|false 
+     */
+    protected function _visit_cur($value)
+    {
+        return json_encode(['cursor' => $value]);
     }
     /**
      * auto generate doc.
@@ -185,9 +182,41 @@ class CssAutoClassResolver
      */
     protected function _visit_bg(string $value)
     {
+        return $this->_set_color($value, 'background-color');
+    }
+    protected function _visit_fill(string $value)
+    {
+        return $this->_set_color($value, 'fill');
+    }
+    protected function _visit_stroke(string $value)
+    {
+        return $this->_set_color($value, 'stroke');
+    }
+    /**
+     * 
+     * @param mixed $value 
+     * @param mixed $property 
+     * @return string|false 
+     */
+    protected function _set_color($value, $property)
+    {
+        $value = $this->_protect_expression($value);
+        $tp = explode('/', $value, 2);
+        $opacity = null;
+        if (count($tp) == 2) {
+            $value = $tp[0];
+            $opacity = $tp[1];
+        }
         $rf = $this->getColorPal();
-        $tv = igk_getv($rf, $value);
-        return json_encode(['background-color' => $tv]);
+        $tv = igk_getv($rf, $value) ?? $value;
+        $pt = [$property => $tv];
+        if ($opacity) {
+            $pt = [$property => sprintf('color(from ' . $value . ' srgb r g b / %s)', round(intval($opacity) / 100, 2))];
+        }
+
+        // $rf = $this->getColorPal();
+        // $tv = igk_getv($rf, $value) ?? $value;
+        return json_encode($pt); // [$property => $tv]);
     }
     /**
      * auto generate doc.
@@ -197,9 +226,20 @@ class CssAutoClassResolver
     protected function _visit_no(string $value)
     {
         $g = igk_getv(['overflow' => '{overflow: hidden}'], $value);
-
         return $g;
     }
+    /**
+     * fit property 
+     * @param string $value 
+     * @return void 
+     */
+    protected function _visit_fit(string $value)
+    {
+        $g = igk_getv(['full' => '{width:100%;height:100%}'], $value);
+        return $g;
+    }
+
+
     /**
      * get unit regex
      * @return string 
@@ -223,6 +263,10 @@ class CssAutoClassResolver
      */
     protected function _visit_br(string $value)
     {
+        $styles = 'dotted|dashed|solid|double|groove|ridge|inset|outset|none|none|hidden';
+        if(in_array($value, explode('|',$styles))){
+              return json_encode(['border-style'=>$value]);
+        }
         $g = explode('-', $value);
         $r = [];
         $v_unit_regex = $this->_unit_regex();
@@ -261,7 +305,7 @@ class CssAutoClassResolver
      */
     protected function _unitValueFromRegexRegex($v, $tab)
     {
-        return $v . (empty($tab[2]) ? 'px' : '');
+        return $v . (empty($tab[2]) ? 'px' : $tab[2]);
     }
 
     /**
@@ -286,7 +330,7 @@ class CssAutoClassResolver
             }
             if (preg_match($v_unit_regex, $g[1], $tab)) {
                 $sb = $negate && ($tab[0] == 'm') ? '-' : '';
-                $r['unit'] = $sb . $this->_unitValueFromRegexRegex($g[1], $tab);
+                $r['unit'] = $sb . $this->_unitValueFromRegexRegex($tab[1], $tab);
             }
         }
         return array_values($r);
@@ -348,6 +392,16 @@ class CssAutoClassResolver
     {
         $side = null;
         $v = null;
+        if (preg_match('/^(?:(l|t|b|r)-)/', $value, $tab)) {
+            $side = $tab[1];
+            $value = substr($value, strlen($tab[0]));
+        }
+        if ($value != ($rp = $this->_protect_expression($value))) {
+            return $this->_side_dim('padding', $rp, $side);
+        }
+        if ($side) {
+            $value = $side . '-' . $value;
+        }
         if (preg_match('/^((l|t|b|r)-)?\\d+(\.\\d+)?(' . self::UNIT_LENGTH . ')?$/', $value)) {
             list($side, $v) = $this->_parse_side_unit($value);
         } else {
@@ -355,9 +409,6 @@ class CssAutoClassResolver
                 $v = $this->_auto_positive_value($rc);
             }
         }
-
-
-
         return $this->_side_dim('padding', $v, $side);
     }
     /**
@@ -371,6 +422,53 @@ class CssAutoClassResolver
         return $this->_corner_dim('border%s-radius', $v, $side);
     }
     /**
+     * 
+     * @param mixed $value 
+     * @return string|null 
+     */
+    protected static function _SizeSide($value)
+    {
+        if (preg_match('/^(w|h)-/', $value, $tab)) {
+            return $tab[1];
+        }
+        return null;
+    }
+    public function _visit_max(string $value)
+    {
+        return $this->size_binding('max', $value);
+    }
+    public function _visit_min(string $value)
+    {
+        return $this->size_binding('min', $value);
+    }
+    /**
+     * 
+     * @param mixed $property 
+     * @param mixed $value 
+     * @return string|false 
+     */
+    public function size_binding($property, $value)
+    {
+
+        if ($side = self::_SizeSide($value)) {
+            $value = substr($value, strlen($side) + 1);
+        }
+        if ($value != ($rp = $this->_protect_expression($value))) {
+            $value = $rp;
+        } else {
+            $value = $this->_get_unit_length($value);
+        }
+        $lv = null;
+        if ($side) {
+            $lv = igk_getv(['w' => 'width', 'h' => 'height'], $side);
+        }
+        if ($lv) {
+            return json_encode([$property . '-' . $lv => $value]);
+        }
+        return json_encode([$property . '-width' => $value, $property . '-height' => $value]);
+    }
+
+    /**
      * auto generate doc.
      * @param string $value
      * @return void
@@ -380,7 +478,7 @@ class CssAutoClassResolver
         // column-gap
         // row-gap 
         if (is_numeric($value)) {
-            $value = CssUtils::ValueFromDim($value, 'gap');
+            $value = CssUtils::ValueFromDim($value, 'gap'); 
         }
 
         $tv = explode('-', $value, 2);
@@ -388,14 +486,14 @@ class CssAutoClassResolver
         $r = 'inherit';
         if (count($tv) == 1) {
             if (preg_match($v_unit_regex, $value, $tab)) {
-                $r = $this->_unitValueFromRegexRegex($value, $tab);
+                $r = $this->_unitValueFromRegexRegex($tab[1], $tab);
             }
         } else {
             $r = [];
             while (count($tv) > 0) {
                 $value = array_shift($tv);
                 if (preg_match($v_unit_regex, $value, $tab)) {
-                    $r[] = $this->_unitValueFromRegexRegex($value, $tab);
+                    $r[] = $this->_unitValueFromRegexRegex($tab[1], $tab);
                 } else {
                     igk_die("invalid data value");
                 }
@@ -403,7 +501,7 @@ class CssAutoClassResolver
             $r = implode(' ', $r);
         }
         return json_encode(['gap' => $r]);
-    }
+    } 
     /**
      * auto generate doc.
      * @param string $value
@@ -412,15 +510,6 @@ class CssAutoClassResolver
     protected function _visit_ls(string $value)
     {
         return $this->_set_single_length('letter-spacing', $value, true);
-
-        // $v_unit_regex = $this->_unit_regex_with_negate($value);
-        // if (preg_match($v_unit_regex, $value, $tab)) {
-        //     $u = $this->_unitValueFromRegexRegex($tab[1], $tab);
-        //     if ($value[0] == 'm') {
-        //         $u = '-' . $u;
-        //     }
-        //     return json_encode(['letter-spacing' => $u]);
-        // }
     }
     /**
      * auto generate doc.
@@ -471,7 +560,7 @@ class CssAutoClassResolver
      * auto generate doc.
      * @param array $tab
      * @param mixed $negate
-     * @return void
+     * @return mixed
      */
     protected function _auto_positive_value(array $tab, $negate = false)
     {
@@ -519,7 +608,61 @@ class CssAutoClassResolver
      */
     public function _visit_w(string $value)
     {
+        $value = igk_getv(['full' => '100%', 'auto' => 'auto', 'a' => 'auto', 'vp' => '100vw'], $value, $value);
         return $this->_mark_single_unit('width', $value, false);
+    }
+    protected function _visit_loc(string $value)
+    {
+        $s = null;
+        if ($v = igk_getv(['all' => '0'], $value)){
+            return $this->_mark_single_unit('inset', $v, false);
+        }
+        if (preg_match('/^(l|t|r|b)$/', $value)){
+            $p = igk_getv(['l'=>'x','t'=>'y','r'=>'right', 'b'=>'bottom'], $value);
+            return  $this->_mark_single_unit($p, '0', false);
+            
+        }
+        return $s;
+    }
+    protected function _visit_padx(string $value)
+    {
+        $t = 'padding-left';
+        $b = 'padding-right';
+        return $this->_pad_dir($t, $b, $value);
+    }
+    protected function _visit_pady(string $value)
+    {
+        $t = 'padding-top';
+        $b = 'padding-bottom';
+        return $this->_pad_dir($t, $b, $value);
+    }
+    /**
+     * 
+     * @param mixed $t 
+     * @param mixed $b 
+     * @param mixed $value 
+     * @return string|false 
+     */
+    protected function _pad_dir($t, $b, $value)
+    {
+        if (is_numeric($value)) {
+            $f = ($value / 4) . 'rem';
+            return json_encode([$t => $f, $b => $f]);
+        }
+        if ($value != ($rp = $this->_protect_expression($value))) {
+            return json_encode([$t => $rp, $b => $rp]);
+        }
+        $rp = $this->_get_unit_length($value, false);
+        return json_encode([$t => $rp, $b => $rp]);
+    }
+    /**
+     * cell border - spaceing 
+     * @param mixed $value 
+     * @return null|string|int 
+     */
+    protected function _visit_cell($value)
+    {
+        return $this->_mark_single_unit('border-spacing', $value, false);
     }
     /**
      * auto generate doc.
@@ -528,6 +671,7 @@ class CssAutoClassResolver
      */
     protected function _visit_h(string $value)
     {
+        $value = igk_getv(['full' => '100%', 'auto' => 'auto', 'a' => 'auto', 'vp' => '100vh'], $value, $value);
         return $this->_mark_single_unit('height', $value, false);
     }
     /**
@@ -546,7 +690,9 @@ class CssAutoClassResolver
      */
     protected function _visit_z(string $value)
     {
-        return $this->_mark_single('z-index', $value, false);
+        if (is_numeric($value)){
+            return $this->_mark_single('z-index', $value, false);
+        }
     }
     /**
      * auto generate doc.
@@ -560,6 +706,7 @@ class CssAutoClassResolver
             return $this->_mark_single('opacity', $value, false);
         }
     }
+
     /**
      * visit ransition 
      * @param string $value 
@@ -588,14 +735,17 @@ class CssAutoClassResolver
     /**
      * auto generate doc.
      * @param mixed $property
-     * @param mixed $value
+     * @param string $value
      * @param bool $negate
      * @return ?string|int
      */
-    protected function _mark_single_unit($property, $value, $negate = false)
+    protected function _mark_single_unit($property, string $value, $negate = false)
     {
         $v = $this->_protect_expression($value) ?? $this->_get_unit_length($value, $negate);
-        if (empty($v)) {
+        if (is_numeric($v)) {
+            $v = floatval($v);
+        }
+        if (!is_numeric($v) && empty($v)) {
             return null;
         }
         return json_encode([
@@ -609,7 +759,7 @@ class CssAutoClassResolver
      */
     protected function _protect_expression(string $value): ?string
     {
-        $vv = null;
+        $vv = $value;
         $value = stripslashes($value);
         if ($value && ($value[0] == '[')) {
             $vv = CssClassNameUtility::ReadBrank($value);

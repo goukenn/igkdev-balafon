@@ -16,6 +16,7 @@ use IGK\Css\IGKCssColorHost;
 use IGK\Helper\ArrayUtils;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\System\Configuration\ConfigConstants;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -44,8 +45,30 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
-    const CLASS_NAME_UTIL_REGEX = '[a-zA-Z_][a-zA-Z0-9_]*(?:-(?:(?:\\d+(?:\\.\\d+)?(?:[a-zA-Z]+)?)|[a-zA-Z0-9_]+))*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?';
+    const CLASS_NAME_UTIL_REGEX = '[a-zA-Z_][a-zA-Z0-9_]*(?:-(?:(?:\\d+(?:\\.\\d+)?(?:[a-zA-Z]+)?)|[a-zA-Z0-9_]+))*(?::[a-zA-Z_][a-zA-Z0-9_\-]*)*';
 
+
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function GetControllerClassSelector(BaseController $ctrl){
+         if ($css_m = CssUtils::GetCssClassName($ctrl)){
+            $css_m = '.'.$css_m;
+        }
+        return $css_m;
+    }
+    /**
+     * 
+     * @param mixed $value 
+     * @return false|bool 
+     */
+    public static function CssFilterProperty($value){
+        if ($value=='-')return false;        
+        return is_numeric($value) ||!empty($value);
+
+    }
 
     /**
      * 
@@ -54,7 +77,7 @@ abstract class CssUtils
      */
     public static function FilterMergedArray($tab)
     {
-        return array_filter($tab, function () {
+        return array_filter($tab, function ($g) {
             return !(empty($g) || ($g == '-'));
         });
     }
@@ -95,13 +118,14 @@ abstract class CssUtils
             $args  = [$args];
         }
         $m = StringUtility::DEFAULT_TRIM_CHAR . ';';
-        $l =  implode(';', array_map(function ($c) use ($m) {
-            if (is_array($c)) {
-                $c = self::GlueArrayDefinition($c);
-            }
-            return rtrim($c ?? '', $m);
-        }, array_filter($args)));
-        return $l;
+        
+        $tb = implode(';', array_map(function ($c) use ($m) {       
+                if (is_array($c)) {
+                    $c = self::GlueArrayDefinition($c);
+                }
+                return rtrim($c ?? '', $m);
+            }, $args));
+        return $tb;
     }
     /**
      * Returns Treated Colors.
@@ -511,13 +535,25 @@ abstract class CssUtils
                 $opt->is_primary
             );
             self::BindRootDataThemeDefinition($root_defs, $v_theme, $theme_name);
-            if ($s = $v_theme->get_css_def()) {
+
+            if ($opt->is_primary){
+                $opt->skips[] = 'roots';
+            }
+            if ($s = $v_theme->get_css_def()) { 
                 $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : '') . $s;
+            }
+            if ($opt->is_primary){
+                unset($opt->skips[array_search('roots',$opt->skips)]);
             }
             $v_is_first = false;
         }
-        if ($rootListener && ($gv = $rootListener->render()))
+
+        if ($v_theme){
+            $v_theme->setThemeKeySelector(null);
+        }
+        if ($rootListener && ($gv = $rootListener->render($opt->is_primary ? null : $theme_name))) {
             $def[] = $gv;
+        }
         // + | INJECT ROOT THEME PROPERTIES DEFINITION .
         // + | PROPERTIES THAT startt with -- (two hyphen must be consider as property )
         if (count($root_defs) > 0) {
@@ -624,17 +660,28 @@ abstract class CssUtils
     /**
      * Binds Root Data Theme Definition.
      * @param array & $rootdef
-     * @param mixed $theme
+     * @param HtmlDocTheme $theme
      * @param string $theme_name
      */
-    public static function BindRootDataThemeDefinition(array &$rootdef, $theme, string $theme_name)
+    public static function BindRootDataThemeDefinition(array &$rootdef, HtmlDocTheme $theme, string $theme_name)
     {
         $colors = $theme->getDef()->getCl();
-        $keys = sprintf('html[data-theme="%s"]', $theme_name);
+        $keys = self::ThemeKey($theme_name);
         if (!isset($rootdef[$keys])) {
             $rootdef[$keys] = [];
         }
         $rootdef[$keys] = array_merge($rootdef[$keys], $colors);
+        $theme->setThemeKeySelector($keys);
+    }
+    /**
+     * get theme key 
+     * @param string $theme_name 
+     * @return string 
+     */
+    public static function ThemeKey(string $theme_name){
+        $fmt = igk_configs()->get( ConfigConstants::CSS_THEME_KEY_FORMAT, 'html[data-theme="%s"]');
+        $keys = sprintf($fmt, $theme_name);
+        return $keys;
     }
     /**
      * Exports Colors And Properties.
@@ -667,15 +714,19 @@ abstract class CssUtils
     public static function MapThemeDefinition(string $lk, array $tab, &$g, &$source_defs = null)
     {
         array_map(function ($v, $k) use (&$g, $lk, &$source_defs) {
-            $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v) : $v;
-            if (empty($v)) {
-                // + | --------------------------------------------------------------------
-                // + | no property found remove from global list
-                // + | 
-                $g[$k] = null;
-                return;
+            if (is_string($v)){
+                $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v) : $v;
+                if (empty($v)) {
+                    // + | --------------------------------------------------------------------
+                    // + | no property found remove from global list
+                    // + | 
+                    $g[$k] = null;
+                    return;
+                }
+                CssUtils::TreatCssDefinition($v, $k, $g, false, $lk, $source_defs);
+            } else{
+                /// TODO: theme not a string 
             }
-            CssUtils::TreatCssDefinition($v, $k, $g, false, $lk, $source_defs);
         }, $tab, array_keys($tab));
     }
     /**
@@ -804,12 +855,12 @@ abstract class CssUtils
     /**
      * glue array definition 
      * @param array<string,array> $tab key
-     * @return string|void 
+     * @return ?string 
      */
     public static function GlueArrayDefinition(array $tab)
     {
         if (count($tab) > 0)
-            return implode(";", array_map(function ($v, $k) {
+            return implode(";", array_map(function ($v, $k) {                
                 if (is_numeric($k))
                     return $v;
                 return sprintf('%s:%s', $k, $v);
@@ -903,14 +954,14 @@ abstract class CssUtils
     }
     /**
      * treat css detection
-     * @param mixed $v
+     * @param string $v
      * @param mixed $k
      * @param mixed & $g
      * @param bool $is_primaryTheme
      * @param string $lk
      * @param ?array & $source_defs
      */
-    public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
+    public static function TreatCssDefinition(string $v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
     {
         $v_ev = false;
         // + | ignore case 
@@ -1121,7 +1172,7 @@ abstract class CssUtils
                 $n = $ctrl->getName();
             } else
                 $n = $ctrl;
-            $css_m = $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
+            $css_m = self::GetControllerClassSelector($ctrl); //  $n ? "." . strtolower(igk_css_str2class_name($n)) : '';
             if (!($ctrl instanceof ApplicationModuleController)) {
                 $ctrl::register_autoload();
             }
@@ -1258,18 +1309,20 @@ abstract class CssUtils
 
     /**
      * render with theme support 
-     * @param mixed $theme 
+     * @param HtmlDocTheme $theme 
      * @param ?bool $theme_export 
      * @return string 
      */
-    public static function RenderAfterCheckColorTheme($theme, ?bool $theme_export  = null)
+    public static function RenderAfterCheckColorTheme(
+        HtmlDocTheme $theme, 
+        ?bool $theme_export  = null)
     {
         $def = $theme;
         $sb = [];
         $export = $theme_export ?? igk_environment()->isOPS();
-        $sb[] = $theme->render($export);
+        $sb[] = $def->render($export);
         if ($theme->getHasThemeColor())
-            $sb[] = CssUtils::RenderStyleWithCustomColorThemeSupport($def, 'dark', false);
+            $sb[] = CssUtils::RenderStyleWithCustomColorThemeSupport($def, CssThemeOptions::DEFAULT_THEME_NAME, false);
         return implode("\n", $sb);
     }
     /**
@@ -1296,8 +1349,9 @@ abstract class CssUtils
         // $v = preg_replace('/(?!<=\\\\)([:\/\[\]])/', '\\\\$1', $def);
         if (is_null($regex)) {
             $regex = new RegexMatcherContainer;
-            $regex->match('(?!<=\\\\)([:\/\[\]])', 'escaped');
+            $regex->match('(?!<=\\\\)([:\/\[\]#])', 'escaped');
             $regex->appendStringDetection('string', true);
+            $regex->appendMultilineComment();
         } else {
             $regex->resetTreatment();
         }
@@ -1373,5 +1427,61 @@ abstract class CssUtils
             $_t[] = $s;
         }
         return $_t;
+    }
+
+    /**
+     * check weither is allowed property value
+     * @param mixed $value 
+     * @return bool 
+     */
+    public static function IsAllowedPropertyValue($value):bool{
+        return is_numeric($value) ||
+        (!is_null($value) && ($value!='-'));
+    }
+
+    /**
+     * 
+     * @param string $src 
+     * @return string 
+     */
+    public static function RemoveUnsetProperties(string $src): string{
+        $sb = '';
+        $offset = 0;
+        $regex = new RegexMatcherContainer;
+        $pos=0;
+        // define
+        $comment = $regex->appendMultilineComment()->last();
+        $scurl = $regex->match('\{', 'curl-start')->last();
+        $ecurl = $regex->match('\}', 'curl-end')->last();
+        $tp = $regex->match('\\s*(-)*[a-zA-Z][a-zA-Z\-_0-9]*\\b\\s*:\\s*-\\s*(;\\s*|(?=\}))', 'detect')->last();
+        $str = $regex->appendStringDetection('string', true)->last();
+        $space = $regex->match('\\s+','space')->last();
+        $curl_level = 0;
+        while($g = $regex->detect($src, $pos)){
+            if ($e = $regex->end($g, $src, $pos)){
+                $id = $e->tokenID;
+                Logger::info('[remove-unset]:'.$id);
+                switch($id){
+                    case 'curl-start':
+                        $curl_level++;
+                        break;
+                    case 'curl-end':
+                        $curl_level--;
+                        break;
+                    case 'space':
+                        $sb.= substr($src, $offset, $e->from - $offset);//.' ';
+                        $offset = $e->to;
+                        break;
+                    case 'detect':
+                        if ($curl_level){
+                            $sb .= substr($src, $offset, $e->from-$offset);
+                            $offset = $e->to;
+                        }
+                        break;
+                }
+            }
+        }
+        $sb.=substr($src, $offset); 
+        return $sb;
     }
 }

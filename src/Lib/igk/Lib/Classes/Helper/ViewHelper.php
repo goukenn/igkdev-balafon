@@ -225,11 +225,11 @@ class ViewHelper
     private static function _GetIncFile(string $file)
     {
         include_once IGK_LIB_CLASSES_DIR . "/core.func.helper.php";
-        $exts = [IGK_VIEW_FILE_EXT];
+        $exts = [IGK_VIEW_FILE_EXT]; 
         if ($c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file), $exts)) {
             return $c;
         }
-        igk_die("inc [" . $file . "] file not found");
+        igk_die("inc [" . $file . "] file not found.");
     }
     /**
      * import view file

@@ -78,6 +78,7 @@ use IGK\System\Core\IProxyDataArgs;
 use IGK\System\DataArgs;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use IGK\System\Html\CallableConstants;
+use IGK\System\Html\Css\CssConstants;
 use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
 use IGK\System\Html\Dom\IThemeDefinition;
 use IGK\System\Html\Dom\SvgListNode;
@@ -929,11 +930,11 @@ function igk_cache_js_callback($file, $cfile, $mergescallback)
     return 0;
 }
 /**
-* invoke environment registrated closure
-* @param string $n key name
-* @param mixed ...$args
-* @return mixed
-*/
+ * invoke environment registrated closure
+ * @param string $n key name
+ * @param mixed ...$args
+ * @return mixed
+ */
 function igk_call_env_closure($n, ...$args)
 {
     $fc = igk_getv(igk_get_env(IGK_ENV_CALLBACK_KEYS), $n);
@@ -1739,11 +1740,11 @@ function igk_create_node($tagname = "div", $attributes = null, $index_or_args = 
     return HtmlNode::CreateWebNode($tagname, $attributes, $index_or_args);
 }
 /**
-* create node argument helper
-* @param string $tagname
-* @param mixed ...$index_or_args
-* @return mixed
-*/
+ * create node argument helper
+ * @param string $tagname
+ * @param mixed ...$index_or_args
+ * @return mixed
+ */
 function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
 {
     $ps = null;
@@ -1752,7 +1753,7 @@ function igk_create_node_arg(string $tagname = 'div', ...$index_or_args)
         $index_or_args = $ps['args'];
     }
     list($tagname, $id, $classes, $attr) = HtmlNodeTagExplosionDefinition::ExplodeTag2($tagname);
-    if (is_null($tagname)){
+    if (is_null($tagname)) {
         $tagname = igk_configs()->default_tag ?? 'div';
     }
     $n = HtmlNode::CreateWebNode($tagname, null, $index_or_args);
@@ -2028,9 +2029,10 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     require_once IGK_LIB_CLASSES_DIR . "/System/Http/WebResponse.php";
     require_once IGK_LIB_CLASSES_DIR . "/Css/CssCoreResponse.php";
     igk_environment()->debug_configPage = true;
+    $v_is_ops = igk_environment()->isOPS();
     $sess_id = session_id();
     $debug = $debug ?? (igk_environment()->isDev() || igk_server_is_local());
-    $minfile = is_null($minfile) ? igk_environment()->isOPS() : $minfile;
+    $minfile = is_null($minfile) ? $v_is_ops : $minfile;
     $ctrl = null;
     $vsystheme = null;
     $vtheme = null;
@@ -2053,7 +2055,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
         igk_ilog(__FUNCTION__ . " : application not initialise " . igk_server()->REQUEST_URI);
         igk_exit();
     }
-   // $is_ref_cache = false;
+    // $is_ref_cache = false;
     if ($ctrl = igk_getr("c")) {
         $ctrl = igk_getctrl(base64_decode($ctrl), false) ?? igk_getctrl($ctrl);
     }
@@ -2104,7 +2106,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     }
     if (!$ctrl && $ref) {
         igk_set_session_redirection($ref);
-        if (igk_environment()->isOPS() && $v_conf->allow_page_cache) {
+        if ($v_is_ops && $v_conf->allow_page_cache) {
             $buri = rtrim(igk_io_baseuri(), "/");
             $ref = rtrim($ref, "/");
             $luri = null;
@@ -2126,6 +2128,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
             $ctrl = $defctrl;
         }
         $doc_id = $v_app->settings->CurrentDocumentIndex;
+        // igk_ilog('css-rendering: missing current document');
     }
     $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
     $renderer->ctrl = $ctrl;
@@ -2133,7 +2136,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     $renderer->doc_id = $doc_id;
     $renderer->theme = $doc->getTheme();
     ($m = $renderer->output()) || igk_die('missing balafon css output');
-    if ($m  && (igk_environment()->isOPS() && $v_conf->auto_cache_css)) {
+    if ($m  && ($v_is_ops && $v_conf->auto_cache_css)) {
         if ($referer = igk_server()->HTTP_REFERER) {
             // + | CACHE CSS RENDERING
             $m->cache = false;
@@ -2146,18 +2149,24 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
             igk_exit();
         }
     }
+    // igk_header_cache_output(-500); 
+    $ts = gmdate("D, d M Y H:i:s", time() - 5000) . " GMT";
+    $m->headers[] = 'Expires: ' . $ts . '';
+    $m->headers[] = 'Pragma: no-cache';
+    // igk_wln_e(__FILE__.":".__LINE__ , $m->headers);
     // + | for css response 
     igk_do_response($m);
 }
 /**
-* auto generate doc.
-* @param BaseController $ctrl
-* @param IGKHtmlDoc $doc
-* @param null|string $doc_id
-* @return ?string
-*/
-function igk_css_render_controller_style(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id=null): ?string{
-    if ($m = igk_css_generate_style_response($ctrl, $doc, $doc_id)){
+ * auto generate doc.
+ * @param BaseController $ctrl
+ * @param IGKHtmlDoc $doc
+ * @param null|string $doc_id
+ * @return ?string
+ */
+function igk_css_render_controller_style(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id = null): ?string
+{
+    if ($m = igk_css_generate_style_response($ctrl, $doc, $doc_id)) {
         ob_start();
         $m->render();
         $s = ob_get_contents();
@@ -2167,13 +2176,14 @@ function igk_css_render_controller_style(BaseController $ctrl, IGKHtmlDoc $doc, 
     return null;
 }
 /**
-* auto generate doc.
-* @param BaseController $ctrl
-* @param IGKHtmlDoc $doc
-* @param null|string $doc_id
-* @return CssCoreResponse
-*/
-function igk_css_generate_style_response(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id=null): CssCoreResponse{
+ * auto generate doc.
+ * @param BaseController $ctrl
+ * @param IGKHtmlDoc $doc
+ * @param null|string $doc_id
+ * @return CssCoreResponse
+ */
+function igk_css_generate_style_response(BaseController $ctrl, IGKHtmlDoc $doc, ?string $doc_id = null): CssCoreResponse
+{
     $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
     $renderer->ctrl = $ctrl;
     $renderer->doc = $doc;
@@ -2183,12 +2193,13 @@ function igk_css_generate_style_response(BaseController $ctrl, IGKHtmlDoc $doc, 
 }
 /**
  * auto generate doc.
- * @param mixed $callback
+ * @param ?callable $callback
  * @return mixed
  */
-function igk_css_bind_color_request($callback)
+function igk_css_bind_color_request(?callable $callback)
 {
-    igk_set_env("sys://css/bind_colorrequest", $callback);
+    $key = CssConstants::ENVIRONMENT_BIND_COLOR_REQUEST_METHOD_CALLBACK;
+    igk_set_env($key, $callback);
 }
 /**
  * bind css file
@@ -2201,20 +2212,32 @@ function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, ?string $
 {
     $autoload = false;
     $layout = null;
-    if (is_null($file) && $ctrl) {
-        $layout = $ctrl->getViewLayout();
-        $file = Path::Combine($ctrl->getStylesDir(), $layout->defaultThemeStyle);
-        $autoload = true;
-    }
-    //  $sfile = $file;
-    $rf = [$file];
-    if (!$autoload && $ctrl && $file) {
-        $file = Path::Combine($ctrl->getStylesDir(), $file);
-        $ext = igk_io_path_ext($file);
-        foreach (['.pcss', '.css'] as $c) {
-            if ($c == $ext) continue;
-            $rf[] = $file . $c;
+    $rf = [];
+    if ($ctrl) {
+        $v_sdir = $ctrl->getStylesDir();
+        if (is_null($file)) {
+            $layout = $ctrl->getViewLayout();
+            $file = Path::Combine($v_sdir, $layout->defaultThemeStyle);
+            $autoload = true;
+        } else {
+            if (igk_io_file_exists($tf = Path::Combine($v_sdir, $file), true)) {
+                $file = $tf;
+            }
         }
+
+        $rf[] = $file;
+        if (!$autoload && $ctrl && $file) {
+            $ext = igk_io_path_ext($file);
+            if ($ext) {
+                $ext = '.' . $ext;
+            }
+            foreach (['.pcss', '.css'] as $c) {
+                if ($c == $ext) continue;
+                $rf[] = $file . $c;
+            }
+        }
+    } else {
+        $rf[] = $file;
     }
     while (count($rf)) {
         $file = array_shift($rf);
@@ -2420,7 +2443,7 @@ function igk_css_design_property_value($value, $properties, $v_designmode)
  * @param bool $themeexport theme is to export
  * @return string
  */
-function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
+function igk_css_doc_get_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false)
 {
     $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
     $s = Activator::CreateNewInstance(IThemeDefinition::class, ["name" => "systheme", "theme" => $doc->SysTheme]);
@@ -2646,7 +2669,7 @@ function igk_css_get_resolv_style($propname, $value)
 function igk_css_get_resolv_stylei($propnameValue)
 {
     $propnameValue = igk_str_rm_last(trim($propnameValue), ";");
-    if (in_array(explode(':', $propnameValue, 2)[0], explode('|','box-shadow'))){
+    if (in_array(explode(':', $propnameValue, 2)[0], explode('|', 'box-shadow'))) {
         return "-webkit-{$propnameValue}; -ms-{$propnameValue}; -o-{$propnameValue}; {$propnameValue};";
     }
     return "-webkit-{$propnameValue}; -ms-{$propnameValue}; -moz-{$propnameValue}; -o-{$propnameValue}; {$propnameValue};";
@@ -2945,7 +2968,10 @@ function igk_css_init_style_def_workflow($doc, $theme = null)
  */
 function igk_css_invoke_color_request($r)
 {
-    $callback = igk_get_env("sys://css/bind_colorrequest");
+    igk_die('missing invoke color request.....');
+
+    $v_key = CssConstants::ENVIRONMENT_BIND_COLOR_REQUEST_METHOD_CALLBACK;
+    $callback = igk_get_env($v_key);
     if (is_callable($callback)) {
         return call_user_func_array($callback, array($r));
     }
@@ -2974,11 +3000,11 @@ function igk_css_is_webknowncolor($cl, $theme = null)
 }
 /**
  * log global theme definition used to bind a theme files to a theme
- * @param mixed $th
+ * @param mixed $theme
  * @param ?string $gt
  * @return mixed
  */
-function igk_css_load_theme($th = null, ?string $gt = null)
+function igk_css_load_theme(?HtmlDocTheme $theme = null, ?string $gt = null)
 {
     $gt = $gt ?? igk_web_get_config("globaltheme", 'default');
     $env_path = igk_get_env("sys://theme/path", [igk_io_basedir(), igk_io_applicationdatadir()]);
@@ -2993,10 +3019,10 @@ function igk_css_load_theme($th = null, ?string $gt = null)
     }
     if (!$r)
         return;
-    $th = $th ? $th : igk_app()->getDoc()->getSysTheme();
+    $theme = $theme ? $theme : igk_app()->getDoc()->getSysTheme();
     $t = array();
-    $t["cl"] = &$th->def->getCl();
-    $t["prop"] = &$th->def->getParams();
+    $t["cl"] = &$theme->def->getCl();
+    $t["prop"] = &$theme->def->getParams();
     igk_include_file($f, $t);
 }
 /**
@@ -3156,20 +3182,23 @@ function igk_css_reg_reset($theme = null)
     }
 }
 /**
-* auto generate doc.
-* @param mixed & $theme
-* @param mixed|array $theme
-* @return ?string
-*/
-function igk_css_reg_mediatype(& $theme, ?array $definition = null)
+ * auto generate doc.
+ * @param mixed & $theme
+ * @param mixed|array $theme
+ * @return ?string
+ */
+function igk_css_reg_mediatype(&$theme, ?array $definition = null)
 {
     $def = $definition ?? array_combine(
-            ["xsm","sm","lg","xlg","xxlg"],
-            array_slice(HtmlDocTheme::GetMediaName(),0, 5 ));
+        ["xsm", "sm", "lg", "xlg", "xxlg"],
+        array_slice(HtmlDocTheme::GetMediaName(), 0, 5)
+    );
     $s = '';
-    foreach ($def as 
-        $k => $v) {
-        $s.= sprintf('@media %s{ .igk-media-type:before { content: \'%s\';}}', $v, $k);
+    foreach (
+        $def as
+        $k => $v
+    ) {
+        $s .= sprintf('@media %s{ .igk-media-type:before { content: \'%s\';}}', $v, $k);
     }
     $theme[] = $s;
     return $s;
@@ -3481,6 +3510,9 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                             foreach ($v_nn as $r) {
                                 $g = trim($r);
                                 $l = igk_getv($syschain, $g) ?? $systheme->def["." . $g];
+                                if (!empty($l)) {
+                                    $l = rtrim($l, ' ;') . ';';
+                                }
                                 $sk .= $l;
                                 $chain[$g] = $l;
                             }
@@ -3539,11 +3571,11 @@ function &igk_css_get_treat_colors(?array $defColor = null)
     return $gcolor;
 }
 /**
-* treatt color
-* @param mixed & $colors
-* @param mixed $value
-* @return mixed
-*/
+ * treatt color
+ * @param mixed & $colors
+ * @param mixed $value
+ * @return mixed
+ */
 function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
 {
     if (is_object($value)) {
@@ -3565,16 +3597,16 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
     }
     while ($q) {
         if (isset($tabpush[$q])) {
-            if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q)) {
+            if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q) || preg_match('/^#[a-f0-9]+/', $q)) {
                 return $q;
             }
             $g = igk_css_invoke_color_request($q);
             if (!$g) {
-                if ($q == 'transparent'){
+                if ($q == 'transparent') {
                     return $q;
                 }
                 igk_set_env_keys("sys://theme/colorrecursion", $q, $q);
-                igk_wln_e(__FILE__.":".__LINE__ , ' for initial definition reclusion ', $q);
+                igk_dev_wln_e(__FILE__ . ":" . __LINE__, "\n\n", ' for initial definition reclusion ', $g, $q);
                 return 'initial';
             }
             return $g;
@@ -3687,14 +3719,14 @@ function igk_csv_get_value_array($tab)
 }
 if (!function_exists('igk_csv_readline')) {
     /**
-    * helper: shorcut to readlines
-    * @param string $src source to treat
-    * @param string $delimiter string delimiter
-    * @param mixed & $last_segment
-    * @param ?callable $callback
-    * @param ?int $flags
-    * @return array
-    */
+     * helper: shorcut to readlines
+     * @param string $src source to treat
+     * @param string $delimiter string delimiter
+     * @param mixed & $last_segment
+     * @param ?callable $callback
+     * @param ?int $flags
+     * @return array
+     */
     function igk_csv_readline(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         return CSVHelper::ReadLines($src, $delimiter, $last_segment, $callback, $flags);
@@ -3742,12 +3774,12 @@ function igk_ctrl_auth_key($ctrl, $k = null)
     return strtolower($s);
 }
 /**
-* helper: bind controller's class name to a node
-* @param BaseController $ctrl a controller
-* @param \IGK\System\Html\Dom\HtmlNode $n target node
-* @param ?string $classdef extra classes
-* @return mixed
-*/
+ * helper: bind controller's class name to a node
+ * @param BaseController $ctrl a controller
+ * @param \IGK\System\Html\Dom\HtmlNode $n target node
+ * @param ?string $classdef extra classes
+ * @return mixed
+ */
 function igk_ctrl_bind_css(BaseController $ctrl, \IGK\System\Html\Dom\HtmlNode $n, ?string $classdef = null)
 {
     $n["class"] = igk_css_str2class_name(strtolower($ctrl->getName())) . ($classdef != null ? " " . $classdef : null);
@@ -4134,11 +4166,11 @@ function igk_ctrl_zone_init($filepath)
     return $b[$filepath];
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $field
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $field
+ * @return mixed
+ */
 function igk_ctrl_extra_field_setting(BaseController $ctrl, string $field)
 {
     $project = $ctrl->getProjectConfig();
@@ -5666,25 +5698,25 @@ function igk_db_restore_backup_data_adapter($adapter, $schema, &$error)
     }
 }
 /**
-* auto generate doc.
-* @param mixed $ctrl
-* @param mixed $tablename
-* @param mixed $conditions
-*/
+ * auto generate doc.
+ * @param mixed $ctrl
+ * @param mixed $tablename
+ * @param mixed $conditions
+ */
 /**
  * auto generate doc.
  * @param mixed $ctrl
  * @param mixed $tablename
  */
 /**
-* auto generate doc.
-* @param mixed $controllerOrAdpaterName
-* @param mixed $query
-* @param mixed $dbname
-* @param mixed $leaveOpen
-* @deprecated
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $controllerOrAdpaterName
+ * @param mixed $query
+ * @param mixed $dbname
+ * @param mixed $leaveOpen
+ * @deprecated
+ * @return mixed
+ */
 function igk_db_send_query($controllerOrAdpaterName, $query, $dbname = null, $leaveOpen = false)
 {
     $r = null;
@@ -6109,10 +6141,10 @@ function igk_debug(?bool $debug = null)
     igk_environment()->set(IGKEnvironment::DEBUG, $debug);
 }
 /**
-* get formatted string on debug
-* @param mixed ...$arg
-* @return mixed
-*/
+ * get formatted string on debug
+ * @param mixed ...$arg
+ * @return mixed
+ */
 function igk_debug_sprintf(...$arg)
 {
     if (igk_is_debug()) {
@@ -7174,11 +7206,11 @@ function igk_extract_assoc($obj, $list)
     return $p;
 }
 /**
-* auto generate doc.
-* @param mixed $obj
-* @param mixed $list
-* @return mixed
-*/
+ * auto generate doc.
+ * @param mixed $obj
+ * @param mixed $list
+ * @return mixed
+ */
 function &igk_extract_assoc_ref($obj, $list)
 {
     return igk_extract_ref(igk_extract_assoc($obj, $list));
@@ -8136,16 +8168,17 @@ function igk_get_cookie_domain()
             $p = $tab['host'];
         }
         $p = igk_domain($p);
-        
+
         return (strpos($p, ".") !== false ? "." : "") . $p;
     }
 }
 /**
-* auto generate doc.
-* @param mixed $p
-* @return string
-*/
-function igk_domain($p){
+ * auto generate doc.
+ * @param mixed $p
+ * @return string
+ */
+function igk_domain($p)
+{
     $g = array_slice(explode(".", $p), -2);
     return implode('.', $g);
 }
@@ -8350,10 +8383,10 @@ function igk_get_defaultcron_data($file = "cronjob.php")
     return $o;
 }
 /**
-* auto generate doc.
-* @param ?BaseController $controller
-* @return mixed
-*/
+ * auto generate doc.
+ * @param ?BaseController $controller
+ * @return mixed
+ */
 function igk_get_defaultview_content(?BaseController $controller = null)
 {
     return implode("\n", [
@@ -10142,11 +10175,11 @@ function igk_globalvars_isset($n)
     return true;
 }
 /**
-* helper : glue all values
-* @param string $glue glue string
-* @param mixed ...$params
-* @return mixed
-*/
+ * helper : glue all values
+ * @param string $glue glue string
+ * @param mixed ...$params
+ * @return mixed
+ */
 function igk_glue(string $glue, ...$params)
 {
     if (func_num_args() > 1) {
@@ -13322,13 +13355,13 @@ function igk_include_view($ctrl, $target, string $file, $args = null, $create = 
     }
 }
 /**
-* Represent igk_include_view_file function
-* @param BaseController $ctrl
-* @param string $file
-* @param mixed $no_cache
-* @param mixed ...$params
-* @return mixed
-*/
+ * Represent igk_include_view_file function
+ * @param BaseController $ctrl
+ * @param string $file
+ * @param mixed $no_cache
+ * @param mixed ...$params
+ * @return mixed
+ */
 function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = false, ...$params)
 {
     // + | to handle view view content 
@@ -14648,7 +14681,7 @@ function igk_io_invoke_uri($uri, $render = 1)
         $manager->invokeUri($uri);
         $bck = $_REQUEST;
         $tab = [];
-        if ($params){
+        if ($params) {
             parse_str($params, $tab);
         }
         $_GET = $_REQUEST = $tab;
@@ -14700,7 +14733,7 @@ function igk_io_is_fullpath($d)
     $c = igk_realpath($k);
     if ($c) {
         // special docker .case 
-        if(($k!==$c) &&  !is_link($d)&& !is_link($c)){
+        if (($k !== $c) &&  !is_link($d) && !is_link($c)) {
             $g = IO::IsDetectedAbsolutePath($d);
             return $g;
         }
@@ -14724,10 +14757,10 @@ function igk_io_is_subdomain_uri($uri = null)
     return !empty($s);
 }
 /**
-* Represent igk_io_joinpath function
-* @param mixed ...$args
-* @return mixed
-*/
+ * Represent igk_io_joinpath function
+ * @param mixed ...$args
+ * @return mixed
+ */
 function igk_io_joinpath(...$args)
 {
     return igk_dir(implode(DIRECTORY_SEPARATOR, $args));
@@ -17090,7 +17123,7 @@ function igk_nav_session()
  * @return mixed
  */
 function igk_navto(string $uri, ?int $headerStatus = null)
-{  
+{
     if (!igk_is_webapp()) {
         return;
     }
@@ -19488,10 +19521,10 @@ function igk_set_form_value($id, $value = null)
  */
 function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = null, $secure = false, $options = null)
 {
-   
+
     if (headers_sent()) {
         return false;
-    } 
+    }
     $path = "/";
     $rs = igk_getv($_COOKIE, $n);
     if (!isset($_COOKIE[$n]) || $override) {
@@ -19499,17 +19532,17 @@ function igk_set_global_cookie($n, $v = null, $override = 1, $tm = null, $dom = 
             $dom = igk_get_cookie_domain();
         $tdom = ["expires" => $tm !== null ? 0 : time() + (86400 * 7), "path" => $path, "domain" => "", "secure" => $secure, "httponly" => false];
         if (!empty($dom))
-            $tdom["domain"] = $dom;        
+            $tdom["domain"] = $dom;
         $toption = array_merge($tdom, $options ? $options : []);
         unset($_COOKIE[$n]);
         if (version_compare(PHP_VERSION, IGK_PHP_MIN_VERSION, ">=")) {
             $tdom["samesite"] = "Strict";
-            setcookie($n, $v ?? '', $toption); 
+            setcookie($n, $v ?? '', $toption);
         } else {
             $toption = array_values($toption);
-            setcookie($n, $v, ...$toption); 
+            setcookie($n, $v, ...$toption);
         }
-        $_COOKIE[$n] = $v;        
+        $_COOKIE[$n] = $v;
         return $v;
     }
     return $rs;
@@ -20482,17 +20515,17 @@ function igk_str_read_bracket_source_code($treat, &$goptions = null)
     return $m;
 }
 /**
-* used to read in brank
-* @param mixed $exp expression
-* @param int & $c
-* @param mixed $c position offset
-* @param mixed $end char end
-* @param mixed $start char start
-* @param mixed $escaped
-* @param mixed $autoclose
-* @param mixed $ln ln: size to read
-* @return mixed
-*/
+ * used to read in brank
+ * @param mixed $exp expression
+ * @param int & $c
+ * @param mixed $c position offset
+ * @param mixed $end char end
+ * @param mixed $start char start
+ * @param mixed $escaped
+ * @param mixed $autoclose
+ * @param mixed $ln ln: size to read
+ * @return mixed
+ */
 function igk_str_read_brank($exp, int &$c, $end = "]", $start = "[", $ln = null, $escaped = 0, $autoclose = 1, $encapsechar = null)
 {
     $iv = "";

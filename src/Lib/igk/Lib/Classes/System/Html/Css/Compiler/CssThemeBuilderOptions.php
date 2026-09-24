@@ -4,6 +4,7 @@
 // @date: 20260916 09:24:29
 namespace IGK\System\Html\Css\Compiler;
 
+use IGK\Constants;
 
 /**
 * 
@@ -48,7 +49,25 @@ class CssThemeBuilderOptions{
 
     /**
      * directory une in 
-     * @var mixed
+     * @var string|array
      */
     var $resolveDir;
+
+    /**
+     * imported class definition to import 
+     * @var array
+     */
+    var $imported;
+
+    /**
+     * merge core imported
+     * @var true
+     */
+    var $mergeCoreImported;
+
+    public function __construct()
+    {
+        $this->main = Constants::DEFAULT_THEME_STYLE;
+        $this->mergeCoreImported = true;
+    }
 }

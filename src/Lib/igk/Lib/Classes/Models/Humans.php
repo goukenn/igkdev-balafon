@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Humans.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -25,30 +25,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGender, string $clFirstName, string $clLastName) add entry if not exists. check for unique column.
 * */
 class Humans extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_GENDER="clGender";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_FIRST_NAME="clFirstName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_LAST_NAME="clLastName";
+	const FD_CL_ID="clId";
+	const FD_CL_GENDER="clGender";
+	const FD_CL_FIRST_NAME="clFirstName";
+	const FD_CL_LAST_NAME="clLastName";
 	/**
 	* table's name
 	*/

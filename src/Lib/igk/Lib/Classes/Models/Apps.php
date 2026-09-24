@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Apps.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -25,30 +25,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string $clLast) add entry if not exists. check for unique column.
 * */
 class Apps extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DOWNLOAD_TIME="clDownloadTime";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_LAST="clLast";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DOWNLOAD_TIME="clDownloadTime";
+	const FD_CL_LAST="clLast";
 	/**
 	* table's name
 	*/

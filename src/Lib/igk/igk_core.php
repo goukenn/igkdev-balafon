@@ -261,12 +261,15 @@ if (!function_exists('igk_resources_gets')) {
             }, $text)));
             $args[0] = $text;
         }
-        if (preg_match('/%[a-zA-Z\-_0-9]+\\b%/', $text) && is_array($parameters)){
-            $map = Replacement::FromAssocArray($parameters);
+        if (preg_match('/%[a-zA-Z\-_0-9]+%/', $text)){
+            $use_param = is_array($parameters);
+            $map = $use_param ? Replacement::FromAssocArray($parameters) : null;
             $text = StringUtility::ReplacementFormat($text, $map);
             $args[0] = $text;
-            unset($args[1]);
-            $args = array_values($args); 
+            if ($use_param){
+                unset($args[1]);
+                $args = array_values($args); 
+            }
         }
         if ($g = R::GetStringResourceHandler()) {
             return call_user_func_array($g, $args);
@@ -1137,8 +1140,18 @@ function igk_log_var_dump($tab, $lf = null)
     $msg = $s . $LF . "(" . $LF;
     if ($tab) {
         $ch = '';
+        $is_cmd  = php_sapi_name() == 'cli';
         foreach ($tab as $k => $v) {
-            $msg .= $ch . "{$TAB}{$k}";
+            if (!is_numeric($k) && empty($k)){
+                
+                igk_trace();
+                echo 'dempty with media', __FILE__.":".__LINE__ , PHP_EOL, '<br />';
+                echo get_class($tab);
+                print_r($v);
+
+                exit;
+            }
+            $msg .= $ch .($is_cmd ? "{$TAB}{$k}" : '<code>'."\t".'</code><font style="color:indigo; font-weight:bold">'.$k.'</font>');
             if (is_object($v)) {
                 $msg .= " => Object[" . get_class($v) . "]";
             } else if (is_array($v)) {

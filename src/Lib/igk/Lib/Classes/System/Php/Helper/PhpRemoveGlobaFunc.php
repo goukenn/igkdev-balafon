@@ -149,9 +149,9 @@ class PhpRemoveGlobaFunc
     /**
     * auto generate doc.
     * @param string $src
-    * @return void
+    * @return string
     */
-    public function remove(string $src)
+    public function remove(string $src): string
     {
         $regex = $this->_regexDefinition();
         $pos = 0;

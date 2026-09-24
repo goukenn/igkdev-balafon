@@ -13,6 +13,7 @@ use IGKMedia;
 * @package IGK\Css
 */
 class CssSupport implements ArrayAccess{
+    const Key = '@supports';
     /**
     * Property: rule.
     * @var mixed
@@ -33,17 +34,17 @@ class CssSupport implements ArrayAccess{
     * .ctr
     * @param mixed $rule
     */
-    public function __construct($rule)
+    public function __construct(string $rule)
     {
         $this->rule = $rule;
-        $this->media = new IGKMedia("@support", $rule);
+        $this->media = new IGKMedia(self::Key, $rule);
     }
     /**
     * Returns string representation.
     */
     public function __toString()
     {  
-        return "@support(".$this->rule."){".$this->media . "}";
+        return self::Key."(".$this->rule."){".$this->media . "}";
     }
     /**
      * set value

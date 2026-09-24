@@ -9,6 +9,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Html\Css\Compiler\CssThemeBuilder;
 use IGK\System\Html\Css\CssClassBuffer;
 use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssImportRule;
@@ -73,45 +74,37 @@ class HtmlDocumentCssHostNode extends HtmlNode
         $clear = ($doc instanceof IGKHtmlDoc) ? CssUtils::InitSysGlobal($doc) : null;
         $theme = $doc->getTheme();
         $inlineTheme = $doc->getInlineTheme();
-        igk_css_load_theme($theme);
+        igk_css_load_theme($theme); 
+        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette;        
         $sb = CssUtils::RenderAfterCheckColorTheme($theme);
-        if ($doc->noCoreCss && !$doc->noColorPalette) {
-            $theme_tab = CssParser::Parse($sb)->to_array();
-            if (!empty($theme_tab)) { 
-                $imported = array_merge([
-                        'dispn',
-                        'fit',
-                        'igk-device',
-                        'igk-media-type', 
-                    ],
-                    $theme->getImportedDefinitions() ?? [],
-                    CssClassNameDetector::RetrieveInjectedClassesList($theme_tab)?? [], 
-                );                 
-                $tab = CssParser::Parse($doc->getSysTheme()->render())->to_array();
-                $g .= CssClassNameDetector::RenderMaps([
-                    $tab,
-                    $theme_tab,
-                ],$imported);     
-            } 
-        } else{            
-            $g .= $sb;
+        $v_maps = [
+            $theme_tab = CssParser::Parse($sb)->to_array()
+        ];
+        $tab = CssParser::Parse($doc->getSysTheme()->render())->to_array();
+        if ($v_use_core) {
+            if (!empty($theme_tab)) {
+                array_unshift($v_maps, $tab);
+            }
+            $imported = self::_GetImported($theme, $theme_tab);
+            $g .= CssClassNameDetector::RenderMaps($v_maps, $imported);
+        } else {
+            // $sb = CssUtils::RemoveUnsetProperties($sb);
+            $imported = self::_GetImported($theme, $theme_tab);
+            $nsb = CssClassNameDetector::RenderMaps($v_maps, $imported);            
+            $g .= $nsb;
         }
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles) {
             igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
             $g .= $inlineTheme->get_css_def(true);
         }
-        $is_dev = igk_environment()->isDev();
-        // if ($is_dev && !$doc->noColorPalette) {
-        // if ($is_dev){
-            $g .= self::RenderExtraDefinition();
-        // }
-        $g = trim($g);
-
-        if (!empty($g)){
-             $g = implode("\n", ['@charset "UTF-8";', trim($g)]);
+        $is_dev = igk_environment()->isDev(); 
+        $g .= self::RenderExtraDefinition();
+        $g = trim($g); 
+        if (!empty($g)) {
+            $g = implode("\n", ['@charset "UTF-8";', trim($g)]);
             $vs = igk_create_node("style");
-            $vs->text("\n" . $g."\n/* end style */\n");
+            $vs->text("\n" . $g . "\n/* end style */\n");
             $is_dev && ($s .= "<!-- start:inline style -->");
             $s .= $vs->render();
             $is_dev && ($s .= "\n<!-- end:inline style -->");
@@ -119,20 +112,31 @@ class HtmlDocumentCssHostNode extends HtmlNode
         if ($clear) {
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear();
-        } 
+        }
         return $s;
+    }
+    /**
+     * retrieve imported data
+     * @param mixed $theme 
+     * @param mixed $theme_tab 
+     * @return array 
+     */
+    private static function _GetImported($theme, $theme_tab)
+    {
+        return CssThemeBuilder::GetImported($theme, $theme_tab);
     }
     /**
      * reder extra definition 
      * @return ?string 
      */
-    public static function RenderExtraDefinition(){
+    public static function RenderExtraDefinition()
+    {
         $i = CssClassBuffer::getInstance();
         $g = "\n" . $i->renderExtraDefinition(null, (object)[
-                "lf" => "",
-                "noCharsetHeader"=>true
-            ])."\n";
-        if (!empty(trim($g))){
+            "lf" => "",
+            "noCharsetHeader" => true
+        ]) . "\n";
+        if (!empty(trim($g))) {
             return $g;
         }
     }

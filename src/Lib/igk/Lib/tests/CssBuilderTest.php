@@ -69,9 +69,23 @@ class CssBuilderTest extends BaseTestCase
         $systheme = igk_app()->getDoc()->getSysTheme();
         $systheme[".igk-fs-n"] = "background-color:red;";
         $theme[".igk-def-c"] = "{(sys:.igk-fs-n); line-height:1.25;}";
+        $s = igk_css_treat($theme[".igk-def-c"], false, $theme, $systheme);        
+        
         $this->assertEquals(
             "{background-color:red; line-height:1.25;}",
-            igk_css_treat($theme[".igk-def-c"], false, $theme, $systheme),
+            $s, 
+            "styling not valid"
+        );
+    }
+    function test_css_theme_expression(){
+        $theme = self::_CreateTheme();
+        $systheme = igk_app()->getDoc()->getSysTheme();
+        $systheme[".igk-fs-n"] = "background-color:red; ";
+        $theme[".c"] = '{sys: igk-fs-n}';
+        $s = igk_css_treat($theme[".c"], false, $theme, $systheme);
+        $this->assertEquals(
+            "background-color:red;",
+            $s, 
             "styling not valid"
         );
     }

@@ -465,6 +465,9 @@ class SQLGrammar implements IDbQueryGrammar
             if (($v == null) || !is_object($v)) {
                 fdie(__CLASS__ . ":->:Error table `columninfo` is not an object error for " . $tablename);
             }
+            if ($v->clStorage){
+                continue;
+            }
             if ($tb)
                 $query .= ",";
             $v_name = $v->clName;

@@ -6171,6 +6171,6 @@ if (!function_exists('igk_html_node_dbtableresult')) {
 		return $n;
 	}
 }
-
+ 
 require_once __DIR__ . '/Inc/html/forms/actionbar.pinc';
 require_once __DIR__ . '/Lib/Classes/System/Html/Dom/StepperForm.php';

@@ -21,7 +21,7 @@ class ResourceLoader{
     const PATH = 'load-resources.php';
     /**
     * auto generate doc.
-    * @return void
+    * @return string
     */
     static function Access(){
         return self::PATH;

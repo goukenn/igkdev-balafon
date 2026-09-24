@@ -10,6 +10,7 @@ namespace IGK\System\Html\Css;
 * @author C.A.D. BONDJE DOUE
 */
 class CssConstants{
+    const RESOLVE_REF_EXTENTIONS = 'phtml|html|bview|pinc';
     /**
     * auto generate doc.
     * @var mixed
@@ -35,4 +36,7 @@ class CssConstants{
     * @var mixed
     */
     const SUPPORT_THEME = 'dark|light';
+
+
+    const ENVIRONMENT_BIND_COLOR_REQUEST_METHOD_CALLBACK = 'sys://css/bind_colorrequest';
 }

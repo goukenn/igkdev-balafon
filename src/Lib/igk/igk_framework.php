@@ -10,6 +10,7 @@ define("IGK_LIB_DIR", str_replace("\\", "/", __DIR__));
 define("IGK_LIB_FILE", __FILE__);
 (function(){ $c = @file_get_contents(IGK_LIB_DIR . "/igk_version.php"); if(false !== $c) define("IGK_VERSION", $c); })();
 define("IGK_CORE_ENTRY_NS", "IGK");
+require_once IGK_LIB_DIR . "/igk_ids.php";
 require_once IGK_LIB_DIR . "/igk_constants.php";
 require_once IGK_LIB_DIR . "/igk_config.php";
 require_once IGK_LIB_DIR . "/igk_core.php";

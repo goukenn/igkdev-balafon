@@ -137,7 +137,7 @@ class FS
     }
     /**
     * auto generate doc.
-    * @return void
+    * @return mixed
     */
     public static function getInstance()
     {

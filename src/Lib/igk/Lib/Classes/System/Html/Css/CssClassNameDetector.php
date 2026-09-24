@@ -8,6 +8,7 @@ use IGK\Css\CssSupport;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\ICssMapEntry;
+use IGK\System\Regex\RegexHelper;
 
 /**
  * 
@@ -118,7 +119,7 @@ class CssClassNameDetector
      */
     private static function _join_css_tab(string $d, string $k)
     {
-        if (trim($d))
+        if (trim($d) || is_numeric($d))
             return $k . ":" . $d;
     }
     /**
@@ -131,6 +132,9 @@ class CssClassNameDetector
     {
         $def = [];
         array_map(function ($a, $k) use ($sep, &$def) {
+            if ($k == 'inset') {
+                igk_dev_wln_e(__FILE__ . ":" . __LINE__, 'data', $a);
+            }
             if (is_null($a)) {
                 return null;
             }
@@ -161,19 +165,18 @@ class CssClassNameDetector
         }
         if ($this->m_rules) {
             foreach ($this->m_rules as $g) {
-
                 $_out[] = $g->getDefinition();
             }
         }
 
-        if ($this->tags) {
-            ksort($this->tags);
+        if ($ctags = $this->tags) {
+            ksort($ctags);
             $_out[] = implode($option->lf, array_filter(array_map(function ($a, $key) {
                 if (is_numeric($key) || empty($r = implode(';', self::_TrimCssR($a, ';')))) {
                     return;
                 }
                 return $key . '{' . $r . '}';
-            }, $this->tags, array_keys($this->tags))));
+            }, $ctags, array_keys($ctags))));
         }
         ksort($resolv_definition);
         // $resolv_definition = ['.fs-[164px]'=>$resolv_definition['.fs-[164px]']];
@@ -185,13 +188,18 @@ class CssClassNameDetector
                     ksort($d);
                     foreach ($d as $k => $v) {
                         $g = [];
+                        // + | detect sub - other declared properties 
+                        if (preg_match('/^(@[a-zA-Z_0-9]+)\|/', $k, $tab)){
+                            $c = $tab[1];
+                            $k = substr($k, strlen($tab[0]));
+                        }
                         foreach ($v as $tk => $tv) {
                             if ($p = self::_RenderList($tv, $tk, $option, $detector)) {
                                 $g[] = $p;
                             }
                         }
                         $k = CssUtils::TreatMediaCondition($k);
-                        $tc[] = sprintf('@media %s{%s}', $k, implode($option->lf, $g));
+                        $tc[] = sprintf('%s%s{%s}',$c, $k, implode($option->lf, $g));
                     }
                     $option->medias[] = implode($lf, $tc);
                     return null;
@@ -211,7 +219,7 @@ class CssClassNameDetector
         if ($option->medias) {
             array_push($_out, implode($option->lf, $option->medias));
         }
-        return implode($option->lf, $_out);
+        return ltrim(implode($option->lf,$_out));
     }
     /**
      * auto generate doc.
@@ -234,19 +242,33 @@ class CssClassNameDetector
         $v = '';
         $detector->_detectRerenderAnimationName($d, $option->frames);
         if (is_array($d)) {
-            $num = array_filter($d);
-            if (count($num) != count($d)) {
-                // igk_wln_e("failed :::: ", $d, $num);
+            $num = array_filter(
+                $d,
+                [self::class, '_FilterProperty'],
+                ARRAY_FILTER_USE_BOTH
+            );
+            if (count($num) != count($d)) {                
                 $d = $num;
             }
-            $bc = implode(";", array_filter(array_map([self::class, "_join_css_tab"], $d, array_keys($d))));
+            $bc = implode(";", array_map([self::class, "_join_css_tab"], $d, array_keys($d)));
             if ($bc) {
-                $v = $key . "{" . $lf . $bc . ";" . $lf . "}";
+                // $v = $key . "{" . $lf . $bc . ";" . $lf . "}";
+                $v = $key . "{" . $lf . $bc .$lf . "}";
             }
         } else {
             $v =  $key . ": " . $d . ";";
         }
         return $v;
+    }
+    /**
+     * 
+     * @param mixed $v 
+     * @param mixed $key 
+     * @return bool 
+     */
+    static function _FilterProperty($v, $key)
+    {  
+        return is_numeric($v) || (!is_null($v) && !empty($v) && ($v!='-'));
     }
     /**
      * auto generate doc.
@@ -408,9 +430,14 @@ class CssClassNameDetector
         $inject_base = false;
         if ($code[0] == '[') { // + | speudo item detection
             $tcode = json_decode($code);
+            if($tcode){
             $mt = $prefix . '-' . $value . $tcode[0];
             $code = json_encode($tcode[1]);
             $tab[0] = $mt;
+            }
+            else {
+                igk_dev_wln_e(__FILE__.":".__LINE__ , 'missing code ', $code );
+            }
         }
         if (!$mt) {
             $mt    = CssUtils::ToClassClassDeclaration($prefix . "-" . $value . $pseudo);
@@ -429,9 +456,6 @@ class CssClassNameDetector
         // append entry without theme device
         $v_tref = [$mt];
         if ($sep === ':') {
-            //$v_tg = $tab[0];
-            //$v_tg = str_replace(':', '\\:', $v_tg);
-            //$tab[0] = $v_tg; // str_replace(':', '\\:', $tab[0]);
             $sep = '\\' . $sep;
             if ($screen || $theme) {
                 $gp = CssUtils::ToClassClassDeclaration($tab[1]) . $tab[0];
@@ -505,8 +529,7 @@ class CssClassNameDetector
         if (count($tab) == 1) {
             $_s = $sourcekey[0] == '.' ? 0 : -1;
             $selector = $tab[0];
-
-            $r = $selector; // stripslashes($selector).$off;
+            $r = $selector;
             return $r;
         }
         return $sourcekey;
@@ -526,35 +549,37 @@ class CssClassNameDetector
             igk_dev_wln_e('[blf] source key is empty', $sourcekey);
             return null;
         }
-        $gsourcekey = self::_ToRealSelectorSourceKey($sourcekey);
-        $psourcekey = stripslashes($gsourcekey);
-        // $sourcekey = CssUtils::ToClassClassDeclaration($psourcekey); 
-        $v_searchkey = ltrim(stripslashes($gsourcekey), '.'); // CssUtils::ToClassClassDeclaration($gsourcekey); 
-        $v_autoResolver = $this->getAutoPrefixResolver();
-        $tab = [];
-        // if ($v_autoResolver && !isset($this->list['.' . $sourcekey]) && $v_autoResolver->detect($sourcekey, $tab)) {
-        // if ($v_autoResolver && !isset($this->list[$gsourcekey]) && $v_autoResolver->detect($searckey , $tab)) {
-        //     $this->_loadResolverDefinition($tab, $sourcekey);
-        // }
+        //if (false !== strpos(':', $sourcekey[0])) {            
+            $gsourcekey = self::_ToRealSelectorSourceKey($sourcekey);
+            $psourcekey = stripslashes($gsourcekey);
+            // $sourcekey = CssUtils::ToClassClassDeclaration($psourcekey); 
+            $v_searchkey = ltrim(stripslashes($gsourcekey), '.'); // CssUtils::ToClassClassDeclaration($gsourcekey); 
+            $v_autoResolver = $this->getAutoPrefixResolver();
+            $tab = [];
+            // if ($v_autoResolver && !isset($this->list['.' . $sourcekey]) && $v_autoResolver->detect($sourcekey, $tab)) {
+            // if ($v_autoResolver && !isset($this->list[$gsourcekey]) && $v_autoResolver->detect($searckey , $tab)) {
+            //     $this->_loadResolverDefinition($tab, $sourcekey);
+            // }
 
-        if ($v_autoResolver) {
-            if (!isset($this->list[$gsourcekey]) || !isset($this->m_autoSearchKey[$v_searchkey])) {
-                if ($v_autoResolver->detect($v_searchkey, $tab)) {
-                    $this->_loadResolverDefinition($tab, $sourcekey);
+            if ($v_autoResolver) {
+                if (!isset($this->list[$gsourcekey]) || !isset($this->m_autoSearchKey[$v_searchkey])) {
+                    if ($v_autoResolver->detect($v_searchkey, $tab)) {
+                        $this->_loadResolverDefinition($tab, $sourcekey);
+                    }
+                    $this->m_autoSearchKey[$v_searchkey] = 1;
                 }
-                $this->m_autoSearchKey[$v_searchkey] = 1;
             }
-        }
 
 
-
-        $ch = $psourcekey[0];
-        $sourcekey = $gsourcekey;
-        if (($ch != ':') && ($ch != '.')) {
+            $ch = $psourcekey[0];
             $sourcekey = $gsourcekey;
-            $sourcekey = str_replace('\\:', ':', $sourcekey);
-            $sourcekey = str_replace(':', '\\:', $sourcekey);
-        }
+            if (($ch != ':') && ($ch != '.')) {
+                $sourcekey = $gsourcekey;
+                $sourcekey = str_replace('\\:', ':', $sourcekey);
+                $sourcekey = str_replace(':', '\\:', $sourcekey);
+            }
+      //  }
+
         if (($r = igk_getv($this->list, $sourcekey)) instanceof CssItemInfo) {
             $t = [];
             $media = [];
@@ -568,14 +593,15 @@ class CssClassNameDetector
                     } else {
                         // + | merge property and remove 
                         if (isset($t[$v])) {
-                            $g = $t[$v];
-                            $scr = (object)CssUtils::FilterMergedArray(array_merge((array)$scr, (array)$g));
+                            $tg = $t[$v];
+                            $scr = (object)CssUtils::FilterMergedArray(array_merge((array)$tg, (array)$scr));
                         }
                         $t[$v] = $scr;
                     }
                 }
             }
-            return count($media) > 0 ? array_merge($t, ['@media' => $media]) : $t;
+
+            return count($media) > 0 ? array_merge($t, [ self::MEDIA_KEY => $media]) : $t;
         }
         return null;
     }
@@ -635,20 +661,18 @@ class CssClassNameDetector
         }
     }
     /**
-     * auto generate doc.
+     * filter speudo that do not contain class definition 
      * @param string $i
      * @return bool
      */
-    private static function _IsFilteredSelector(string $i): bool
+    private static function _IsFilteredSelector(string $i, ?array & $class_list = []): bool
     {
-        $g = explode(',', $i);
-        while (count($g) > 0) {
-            $q = array_shift($g);
-            if (preg_match('/(^[a-z][a-z\-0-9]*(:[[a-z][a-z\-0-9]+])?$)|(#)|\*/i', trim($q))) {
-                return true;
-            }
+        $pos = 0;
+        $class_list = $class_list ??[];
+        while($g = CssClassNameUtility::ReadClassName($i, $pos)){
+            $class_list[$g] = $g;
         }
-        return false;
+        return empty($class_list); 
     }
     /**
      * auto generate doc.
@@ -658,12 +682,13 @@ class CssClassNameDetector
      * @return void
      */
     private static function _MapArray(array $a, CssClassNameDetector $detector, string $key)
-    {
+    { 
         if (is_numeric($key))
             return;
         $q = $detector;
         $i = $key;
-        if (self::_IsFilteredSelector($i)) {
+        $class_list = null;
+        if (self::_IsFilteredSelector($i, $class_list)) {
             // tag only list, contains id , have a *, 
             if (!isset($q->tags[$i])) {
                 $q->tags[$i] = [];
@@ -678,7 +703,7 @@ class CssClassNameDetector
         if ($tab) {
             $v_code_key = json_encode($a);
             $v_id_key = $detector->_identifyCodeReference($v_code_key);
-            $_media = $detector->m_media;
+            // $_media = $detector->m_media;
             $g = $tab;
             while (count($tab) > 0) {
                 $n = array_shift($tab);
@@ -686,14 +711,6 @@ class CssClassNameDetector
                     igk_dev_wln_e(__FILE__ . ":" . __LINE__, $g, $n);
                     continue;
                 }
-                // }
-                // for ($i = 0; $i < $c; $i++) {
-                //     $n = $tab[0][$i];
-                // if($key == 'div.container'){
-                //     $c = preg_match_all(self::CL_REGEX, $key, $mark);
-                //     igk_wln_e($tab, $mark);
-                // }
-
                 $detector->_registerReference($key, $n, $v_code_key, $v_id_key);
             }
         } else {
@@ -747,16 +764,17 @@ class CssClassNameDetector
         $_media = $detector->m_media;
 
 
-        // if (empty($n)){
-        //        igk_trace();
-        //        igk_exit();
-        // }
         if (false !== ($p = strpos($n, ':')) && ($p > 0)) {
-            // $g = CssParser::ReadClassName($n);
             $n = CssClassNameUtility::ReadClassName($n);
+             if ($n == 'drop)'){
+                igk_wln_e("referenc .....", $key, __FILE__.":".__LINE__ );
+            }
         }
-        if ($n[0] != '.') {
+        if (false=== strpos('*.:', $n[0])){
             $n = '.' . $n;
+        }
+        if ($n == '.drop)'){
+            igk_wln_e("referenc .....", $key, __FILE__.":".__LINE__ );
         }
         $id = $n;
         if (!isset($detector->list[$id])) {
@@ -810,11 +828,15 @@ class CssClassNameDetector
 
         if ($a instanceof CssSupport) {
             $condition = $a->rule;
-            $detector->m_media = $condition;
+            $detector->m_media = CssSupport::Key. '|'. $condition;
             array_map(function ($a, $key) use ($detector) {
+                if (!is_array($a) || empty($key)){
+                    igk_die('not a valid syntax. css support');
+                }
                 self::_MapArray($a, $detector, $key, true);
             }, $a->def, array_keys($a->def));
             $detector->m_media = null;
+            
             return;
         }
         if ($a instanceof CssImportRule) {
@@ -827,8 +849,6 @@ class CssClassNameDetector
         if ($a instanceof CssOptions) {
             return;
         }
-
-
         if (is_object($a) && igk_environment()->isDev())
             igk_wln(__FILE__ . ":" . __LINE__, "not handle : css class ", get_class($a));
     }
@@ -899,23 +919,58 @@ class CssClassNameDetector
         }
         $references = [];
         list($resolveDir) = igk_extract($options, 'resolveDir');
-        if ($resolveDir) {
-            self::_ResolveDir($resolveDir, $references, $s);
-        }
+        $is_debug = igk_is_debug('css-build-render-maps');
 
-        if ($inject) {
+        if ($resolveDir) {
+            if (is_string($resolveDir)){
+                $resolveDir = [$resolveDir];
+            }
+            $resol_path = [];
+            while(count($resolveDir)>0){
+                $q = array_shift($resolveDir);
+                if (is_dir($q)){
+                    self::_ResolveDir($q, $references, $s);
+                }else{
+                    $resol_path[] = $q;
+                }
+            }
+            if ($resol_path){
+                $paths = RegexHelper::SearchFrom(getcwd(), $resol_path);
+                $resolv_definition = [];
+                foreach($paths as $f){
+                    $is_debug && Logger::info('treat: '.$f);
+                    self::_ResolveFile($f, $references, $s, $resolv_definition );
+                }
+            }
+        }
+        if ($inject) { 
             $s->loadReferences($inject, $references);
         }
         return $s->renderToCss($references, $options);
     }
     /**
      * 
+     * @param string $file 
+     * @param mixed &$references 
+     * @param mixed $detector 
+     * @param mixed $resolv_definition 
+     * @return void 
+     */
+    static function _ResolveFile(string $file, & $references, $detector, & $resolv_definition){
+
+          if ($r = CssClassNameDetectorUtils::DetectFromFile($detector, $file, $references)) {
+                $resolved_def = array_merge($r, $resolv_definition);
+            }
+    }
+    /**
+     * 
      * @param string $resolveDir 
      * @param mixed &$references 
      * @param mixed $detector 
+     * @param string|array|mixed $file_extension 
      * @return void 
      */
-    public static function _ResolveDir(string $resolveDir, &$references, $detector)
+    public static function _ResolveDir(string $resolveDir, &$references, $detector, $file_extension=CssConstants::RESOLVE_REF_EXTENTIONS)
     {
 
         if ($resolveDir) {
@@ -926,7 +981,7 @@ class CssClassNameDetector
             $resolved = CssClassNameDetectorUtils::GetResolvedReferences(
                 $resolveDir,
                 $detector,
-                'phtml',
+                $file_extension,
                 $references
             );
             $resolved = array_map(function ($a) {
@@ -946,16 +1001,33 @@ class CssClassNameDetector
         $rts = [];
         $g = $css_parsed_table;
         $func = function ($k, &$rts) {
-            foreach (explode('.', $k) as $tk) {
-                if (empty(trim($tk))) continue;
-
-                if (($tk != '*') && empty($tk = CssClassNameUtility::ReadClassName($tk))) {
-                    //igk_wln_e("tempkjskjdfs", $tk);
-                    continue;
+            if (($k != '*')){
+                $pos = 0;
+                while(!empty($ck = CssClassNameUtility::ReadClassName($k, $pos))){
+                    $rts[$ck] = 1;
+                    if ($ck == '*'){
+                        $rts[$k] = 1;
+                    }
                 }
-                $rts[$tk] = 1;
+            }else{
+                 $rts[$k] = 1;
             }
         };
+
+        
+        // { 
+        //      foreach (explode('.', $k, 2) as $tk) {
+        //         if (empty(trim($tk))) continue;
+        //         if (($tk != '*')){
+        //             $pos = 0;
+        //             while(!empty($ck = CssClassNameUtility::ReadClassName($tk, $pos))){
+        //                 $tk[$ck] = 1;
+        //             }
+        //             continue;
+        //         }
+        //         $rts[$tk] = 1;
+        //     }
+        // };
         while (count($g) > 0) {
             $k = key($g);
             $v = array_shift($g);

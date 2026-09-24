@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Partners.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -27,36 +27,11 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry if not exists. check for unique column.
 * */
 class Partners extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CATEGORY="clCategory";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_WEB_SITE="clWebSite";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DESCRIPTION="clDescription";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_CATEGORY="clCategory";
+	const FD_CL_WEB_SITE="clWebSite";
+	const FD_CL_DESCRIPTION="clDescription";
 	/**
 	* table's name
 	*/

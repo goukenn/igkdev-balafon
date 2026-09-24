@@ -1,4 +1,5 @@
 <?php
+
 use Google\Service\Spanner\Instance;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
@@ -22,7 +23,7 @@ if (!function_exists('igk_current_module')) {
         $v_skey = 'module_resolution';
         $v_env = igk_environment();
 
-        if ($module = $v_env->get(':::invoke_module:::')){
+        if ($module = $v_env->get(':::invoke_module:::')) {
             return $module;
         }
 
@@ -51,12 +52,12 @@ if (!function_exists('igk_current_module')) {
     }
 }
 /**
-* include module helper
-* @param mixed $modulename
-* @param ?callable $init
-* @param mixed $loadall
-* @return mixed
-*/
+ * include module helper
+ * @param mixed $modulename
+ * @param ?callable $init
+ * @param mixed $loadall
+ * @return mixed
+ */
 function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 {
     return igk_require_module($modulename, $init, $loadall, 0);
@@ -87,10 +88,10 @@ if (!function_exists('igk_get_loaded_modules')) {
  * @throws EnvironmentArrayException 
  */
 function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
-{ 
+{
     // igk_wln_e( __FILE__.":".__LINE__ , " - + ", $modulename);
     // + | PREPARE MODULE DEFINITION 
-    $modulename = str_replace('.','\\', $modulename);
+    $modulename = str_replace('.', '\\', $modulename);
     $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();
     $g = &igk_environment()->require_modules();
@@ -114,12 +115,14 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
     if (!igk_io_file_exists($dir, true)) {
         if ($die) {
-            igk_trace();
-            igk_dev_wln_e(
-                __FILE__ . ":" . __LINE__,
-                "module missing : ",
-                $modulename
-            );
+            if (igk_environment()->isDev()) {
+                igk_trace();
+                igk_dev_wln_e(
+                    __FILE__ . ":" . __LINE__,
+                    "module missing : ",
+                    $modulename
+                );
+            }
             throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . igk_io_collapse_path($dir), 500);
         }
         igk_die('missing location ' . $dir);
@@ -164,7 +167,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
                 },
                 true,
                 $excludedir
-            ); 
+            );
         }
     } else {
         $f = igk_io_getfiles(
@@ -186,7 +189,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
             $excludedir
         );
     }
-    igk_pop_env($v_mod_key); 
+    igk_pop_env($v_mod_key);
     $mod = igk_init_module($modulename, $init);
     $g[$mkey] = $mod;
     // + | --------------------------------------
@@ -207,19 +210,21 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
  * @param string $id 
  * @return bool 
  */
-function igk_is_module_loaded(string $id): bool{
+function igk_is_module_loaded(string $id): bool
+{
     $mod = igk_environment()->require_modules();
     $g = strtolower(igk_uri($id));
     return igk_getv($mod, $g) instanceof ApplicationModuleController;
 }
 /**
-* auto generate doc.
-* @return mixed
-*/
-function igk_loaded_modules(){
-    $mod= igk_environment()->require_modules();
-    foreach($mod as $k => $v){
-        if (preg_match("/^::/", $k)){
+ * auto generate doc.
+ * @return mixed
+ */
+function igk_loaded_modules()
+{
+    $mod = igk_environment()->require_modules();
+    foreach ($mod as $k => $v) {
+        if (preg_match("/^::/", $k)) {
             unset($mod[$k]);
         }
     }
@@ -246,12 +251,12 @@ function igk_module_inject_all()
     return compact('ts', 'failed');
 }
 /**
-* auto generate doc.
-* @param mixed $mod
-* @param null|string $name
-* @param ?BaseController $controller
-* @return void
-*/
+ * auto generate doc.
+ * @param mixed $mod
+ * @param null|string $name
+ * @param ?BaseController $controller
+ * @return void
+ */
 function igk_bind_module($mod, ?string $name = null, ?BaseController $controller = null)
 {
     $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
@@ -263,12 +268,12 @@ function igk_bind_module($mod, ?string $name = null, ?BaseController $controller
     }
 }
 /**
-* auto generate doc.
-* @param string $path
-* @param ?callable $init
-* @param bool $initialize
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $path
+ * @param ?callable $init
+ * @param bool $initialize
+ * @return mixed
+ */
 function igk_init_module(string $path,  ?callable $init = null, $initialize = true)
 {
     $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
@@ -295,15 +300,15 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
         }
         $v_init->register($path, $ob);
     }
-    igk_hook(IGKEvents::HOOK_MODULE_DID_INIT_MODULE, ['module'=>$ob]);    
+    igk_hook(IGKEvents::HOOK_MODULE_DID_INIT_MODULE, ['module' => $ob]);
     return $ob;
 }
 /**
-* Igk module init doc.
-* @param ApplicationModuleController $module
-* @param mixed $doc
-* @return mixed
-*/
+ * Igk module init doc.
+ * @param ApplicationModuleController $module
+ * @param mixed $doc
+ * @return mixed
+ */
 function igk_module_init_doc(ApplicationModuleController $module, $doc)
 {
     $mod = &igk_environment()->require_modules();

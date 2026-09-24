@@ -326,7 +326,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + |
         $r = $this->initialize($ctrl);
         if (is_null($r)){
-            igk_dev_wln_e(get_class($this), $m= 'failed to initiliaze controller action ... ');
+            igk_dev_wln_e(get_class($this), __FILE__.":".__LINE__ ,  $m= 'failed to initiliaze controller action ... ');
             throw new \IGKException($m);
         }
         $r->setup();

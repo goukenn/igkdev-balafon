@@ -705,6 +705,7 @@ class HtmlRenderer
     {
         $attribs = $item->getAttributes();
         $_result = [];
+        $attrs = null;
         $k = null;
         $v = null;
         igk_get_defined_ns($item, $out, $options);

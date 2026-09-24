@@ -760,7 +760,7 @@ class IO
     /**
     * get files in directory
     * @param string $dir directory
-    * @param string|callabale $match regex or callabale
+    * @param string|callable $match regex or callabale
     * @param mixed $recursive the default value is false
     * @param ?array & $excludedir
     * @param ?callable $callback
@@ -868,7 +868,7 @@ class IO
             'ZB',
             'YB'
         );
-        return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
+        return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[intval($i)]);
     }
     /**
     * auto generate doc.
@@ -983,7 +983,7 @@ class IO
                     $s = "/" . $s;
             } else {
                 $s = substr($s, strlen($doc));
-                if ((strlen($s) > 0) && $s["0"] != "/")
+                if ((strlen($s) > 0) && ($s[0] != "/"))
                     $s .= "/";
             }
         }

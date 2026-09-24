@@ -20,6 +20,7 @@ use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\IO\FileHandler;
+use IGKAppInfoStorage;
 use IGKCssDefaultStyle;
 use IGKEnvironmentConstants;
 use IGKMedia;
@@ -53,8 +54,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     const INLINE_STYLE_KEY = "css://temp/rendering";
-    const THEMING_PREFIX = 'text|br|bg|pad|mar|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc';
-    const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?('.self::THEMING_PREFIX.')-/';
+    const THEMING_PREFIX = 'text|br|bg|cell|cur|padx|pady|pad|loc|mar|max|min|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc|opacity|z';
+    const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?(' . self::THEMING_PREFIX . ')-/';
     /**
      * Constant: global type.
      * @var mixed
@@ -66,16 +67,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     const TEMP_TYPE = 'temporary';
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     const DEVICE_VAR_POSTFIX = '_screen';
     /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
+     * auto generate doc.
+     * @var mixed
+     * @return void
+     */
     const SUPPRT_DEVICE_REGEX = '/^((x?sm)|(x(x)?)?lg|ptrdevice)$/';
     /**
      * Property: document.
@@ -93,6 +94,21 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     private $m_root_ref;
+    /**
+     * theme key selector 
+     * @var ?string
+     */
+    private $m_theme_key_selector;
+
+    /**
+     * set current theme key selector 
+     * @param mixed $selector 
+     * @return void 
+     */
+    public function setThemeKeySelector($selector)
+    {
+        $this->m_theme_key_selector = $selector;
+    }
     /**
      * disable write of css header 
      * @var ?bool
@@ -507,7 +523,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * referer to global type 
      * @param HtmlItemBase|null $document owner
-     * @param string|id $id
+     * @param ?string $id
      * @param string|false $type the default value is "global", if false the the is no need to initialize
      */
     public function __construct(?HtmlItemBase $document = null, ?string $id = null, $type = self::GLOBAL_TYPE)
@@ -543,7 +559,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     public function setColors(array $color)
     {
         $cl = &$this->getCl();
-        $cl = array_unique(array_filter(array_merge($cl, $color)));
+        $tf = array_merge($cl, $color);
+        $cl = array_filter($tf, function($a, $key){           
+            return !empty($a);
+        }, ARRAY_FILTER_USE_BOTH);
+        ///
+        // + 
     }
     /**
      * Resets Colors.
@@ -624,7 +645,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param ICssStyleContainer $systheme style container
      */
     private function _get_css_def(IGKHtmlDoc $doc, $minfile = false, $themeexport = false, ?ICssResourceResolver $resourceResolver = null,  ?ICssStyleContainer $systheme = null)
-    {  
+    {
         $lineseparator = $minfile ? IGK_STR_EMPTY  : IGK_LF;
         $out = IGK_STR_EMPTY;
         $def = $this->def;
@@ -741,7 +762,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 }
                 if (is_array($v)) {
                     $v = self::GlueDef($v);
-                }
+                }              
                 $kv = $builder->treatThemeValue(trim($v, $v_trim_chars), $themeexport);
                 if (!empty($kv)) {
                     if ($prefix) {
@@ -1115,6 +1136,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $out .= CssUtils::RenderMedia($this->m_medias, $this, $parent ?? $systheme, $minfile, $el, $is_root);
         }
         $v_is_skip_root = $v_opts && in_array('roots', $v_opts->skips ?? []);
+
+
         if (!$v_is_skip_root) {
             $rtdef_root = array_merge(
                 CssUtils::GetRootPropsArray($cl = $this->getCl() ?? []),
@@ -1127,6 +1150,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                     $v_opts->rootListener->store($rtdef_root);
                 } else {
                     $tr = new CssRootPropertyStorageListener;
+                    $tr->selector = $this->m_theme_key_selector;
                     $tr->store($rtdef_root);
                     $out .= $tr->render();
                 }
@@ -1371,49 +1395,49 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $s;
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getxsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getxxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
     }
     /**
-    * auto generate doc.
-    * @return void
-    */
+     * auto generate doc.
+     * @return void
+     */
     public function getptrdevice_screen()
     {
         return $this->getMedia('print');
@@ -1512,7 +1536,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $value
      */
     protected function _access_offsetSet($key, $value)
-    {
+    { 
         $def = &$this->getDef();
         if (is_array($value) && !is_null($key)) {
             $value = CssUtils::GlueArrayDefinition($value);
@@ -1768,12 +1792,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $this === igk_app()->getDoc()->getSysTheme();
     }
     /**
-    * auto generate doc.
-    * @param HtmlDocTheme $def
-    * @param string|array $definitions pipe separated string
-    * @param bool $inject_media auto inject media
-    * @return void
-    */
+     * auto generate doc.
+     * @param HtmlDocTheme $def
+     * @param string|array $definitions pipe separated string
+     * @param bool $inject_media auto inject media
+     * @return void
+     */
     public static function ImportSystemDefinition(HtmlDocTheme $def, $definitions, bool $inject_media = true)
     {
         if ($def->isSystemTheme())
@@ -1787,8 +1811,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $tid = $m->getId();
             $id = self::_DeviceTypeFromId($tid);
             if (preg_match(self::SUPPRT_DEVICE_REGEX, $id)) {
-                return ['device'=>$m, 'id'=>$id, 'var'=>$id.self::DEVICE_VAR_POSTFIX];
-            } 
+                return ['device' => $m, 'id' => $id, 'var' => $id . self::DEVICE_VAR_POSTFIX];
+            }
         }, $media));
         $rdef = array_fill_keys($def->m_imported_definition ?? [], 1);
         foreach ($definitions as $v) {
@@ -1805,7 +1829,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             }
             $rdef[$t] = 1;
         }
-        $def->m_imported_definition = array_merge($def->m_imported_definition ??[], array_keys($rdef));
+        $def->m_imported_definition = array_merge($def->m_imported_definition ?? [], array_keys($rdef));
     }
     /**
      * get devis type from id
@@ -1820,11 +1844,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return null;
     }
     /**
-    * auto generate doc.
-    * @param array $themeColors
-    * @param string $primaryTheme
-    * @return string
-    */
+     * auto generate doc.
+     * @param array $themeColors
+     * @param string $primaryTheme
+     * @return string
+     */
     public function renderCssWithCustomColorThemeSupport(array $themeColors, string $primaryTheme = CssThemeOptions::DARK_THEME_NAME): string
     {
         $bck = $this->m_themeColors;
@@ -1837,14 +1861,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * check if as color theme 
      * @return bool 
      */
-    public function getHasThemeColor():bool{
+    public function getHasThemeColor(): bool
+    {
         return !is_null($this->m_themeColors) && !empty($this->m_themeColors);
     }
     /**
      * helper: render style definition 
      * @return string 
      */
-    public function render($themeexport=false): string
+    public function render($themeexport = false): string
     {
         return $this->get_css_def(true, $themeexport);
     }
@@ -1852,7 +1877,8 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * retrieve imported definition
      * @return null|array 
      */
-    public function getImportedDefinitions(){
+    public function getImportedDefinitions()
+    {
         return $this->m_imported_definition;
     }
 }

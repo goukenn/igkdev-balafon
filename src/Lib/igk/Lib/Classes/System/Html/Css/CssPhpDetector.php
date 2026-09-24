@@ -91,6 +91,7 @@ class CssPhpDetector
             '(?:(?:dark|light):)?',
             '(?:(?:x?sm|(?:x(?:x))?lg)-)?'
         ]);
+        $v_opacity = '(?P<opacity>(\\\\)?\\/\\d+)?';
         $regex = new RegexMatcherContainer;
         // define
         $regex->appendSingleLineComment();
@@ -101,15 +102,15 @@ class CssPhpDetector
         $regex->autoStore = false;
         $uri = $regex->match("\\b[a-zA-Z_]+[a-zA-Z0-9]*(\/[a-zA-Z_]+[a-zA-Z0-9]*)+", "uri-skip")->last();
 
-        $word_detect_class = $regex->match("(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*', "word-detected")->last();
+        $word_detect_class = $regex->match("(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*'.$v_opacity, "word-detected")->last();
         $word_detect_mark = $regex->begin(
             "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\[)',
-            "\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?",
+            "\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?".$v_opacity,
             "word-detected"
         )->last();
         $eword_detect_mark = $regex->begin(
             "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\\\\\[)',
-            "\\\\\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?",
+            "\\\\\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?".$v_opacity,
             "word-detected"
         )->last();
         $word = $regex->match($def_theme_regex . "\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();

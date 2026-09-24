@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:41
 namespace IGK\Models;
 
 
@@ -25,30 +25,10 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGUID, string $clDesc, string $clCreateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Guids extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_GUID="clGUID";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DESC="clDesc";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CREATE_AT="clCreateAt";
+	const FD_CL_ID="clId";
+	const FD_CL_GUID="clGUID";
+	const FD_CL_DESC="clDesc";
+	const FD_CL_CREATE_AT="clCreateAt";
 	/**
 	* table's name
 	*/

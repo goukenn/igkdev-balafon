@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ConnectAttempts.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:41
 namespace IGK\Models;
 
 
@@ -31,48 +31,13 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $cxnId, string $cxnAttempt, string $cxnAccount, int $cxnGeoX, int $cxnGeoY, string $cxnCreate_At ="NOW()", string $cxnUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class ConnectAttempts extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_ID="cxnId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_ATTEMPT="cxnAttempt";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_ACCOUNT="cxnAccount";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_GEO_X="cxnGeoX";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_GEO_Y="cxnGeoY";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_CREATE_AT="cxnCreate_At";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CXN_UPDATE_AT="cxnUpdate_At";
+	const FD_CXN_ID="cxnId";
+	const FD_CXN_ATTEMPT="cxnAttempt";
+	const FD_CXN_ACCOUNT="cxnAccount";
+	const FD_CXN_GEO_X="cxnGeoX";
+	const FD_CXN_GEO_Y="cxnGeoY";
+	const FD_CXN_CREATE_AT="cxnCreate_At";
+	const FD_CXN_UPDATE_AT="cxnUpdate_At";
 	/**
 	* table's name
 	*/

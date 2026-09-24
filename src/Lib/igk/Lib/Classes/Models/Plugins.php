@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -27,36 +27,11 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clEmail, string $clRelease, string $clVersion) add entry if not exists. check for unique column.
 * */
 class Plugins extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_EMAIL="clEmail";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_RELEASE="clRelease";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_VERSION="clVersion";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_EMAIL="clEmail";
+	const FD_CL_RELEASE="clRelease";
+	const FD_CL_VERSION="clVersion";
 	/**
 	* table's name
 	*/

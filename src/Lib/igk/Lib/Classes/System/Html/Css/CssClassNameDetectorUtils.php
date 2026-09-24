@@ -5,7 +5,9 @@
 namespace IGK\System\Html\Css;
 
 use Exception;
+use IGK\Helper\IO;
 use IGK\System\Console\Logger;
+use IGK\System\Regex\RegexHelper;
 use IGK\System\Text\RegexMatcherContainer;
 
 /**
@@ -39,7 +41,7 @@ abstract class CssClassNameDetectorUtils
      * @param mixed &$references 
      * @return array|null 
      */
-    public static function DetectFromContent(CssClassNameDetector $detector, string $content, & $references)
+    public static function DetectFromContent(CssClassNameDetector $detector, string $content, &$references)
     {
         return self::DetectFromPhpSource($detector, $content, $references);
     }
@@ -62,7 +64,7 @@ abstract class CssClassNameDetectorUtils
         $p = $detector->getDetector('php');
         if ($data = $p->resolve($source)) {
             return $detector->loadReferences(array_keys($data), $references);
-        }  
+        }
     }
     /**
      * Detect from phtml source.
@@ -71,6 +73,10 @@ abstract class CssClassNameDetectorUtils
      * @param null|mixed & $references
      */
     public static function DetectFromPHtmlSource(CssClassNameDetector $detector, string $source, &$references = null)
+    {
+        return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
+    }
+    public static function DetectFromPincSource(CssClassNameDetector $detector, string $source, &$references = null)
     {
         return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
     }
@@ -129,13 +135,21 @@ abstract class CssClassNameDetectorUtils
      * @param mixed &$references 
      * @return array 
      */
-    public static function GetResolvedReferences(array $dirs, CssClassNameDetector $detector, string $file_extension = 'phtml|html|bview', &$references = null)
-    {
+    public static function GetResolvedReferences(
+        array $dirs,
+        CssClassNameDetector $detector,
+        string $file_extension = CssConstants::RESOLVE_REF_EXTENTIONS,
+        &$references = null
+    ) {
         $resolved_def = [];
-        $references = [];
+        $references =  & $references ?? []; 
         while (count($dirs) > 0) {
             if ($c = array_shift($dirs)) {
-                foreach (igk_io_getfiles($c, "/\.(" . $file_extension . ")$/", true) as $f) {
+                if (!is_dir($c)) {                    
+                    continue;
+                }
+                foreach (igk_io_getfiles($c, "/\.(" . $file_extension . ")$/", true) as $f){
+                    Logger::info('treat: '.$f);
                     if ($r = CssClassNameDetectorUtils::DetectFromFile($detector, $f, $references)) {
                         $resolved_def = array_merge($r, $resolved_def);
                     }
@@ -143,5 +157,5 @@ abstract class CssClassNameDetectorUtils
             }
         }
         return $resolved_def;
-    }
+    } 
 }

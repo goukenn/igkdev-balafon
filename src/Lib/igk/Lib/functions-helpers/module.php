@@ -6,10 +6,7 @@ use IGK\Controllers\BaseController;
 * @return mixed
 */
 function igk_sys_is_module_controller(BaseController $ctrl):bool{
-    $dir = $ctrl->getDeclaredDir(); 
-    if (get_class($ctrl)=='igk\\pay\\paypal\\paypalpaymentCtrl'){
-        igk_dev_wln_e(__FILE__.':'.__LINE__,  "try add .....");
-    } 
+    $dir = $ctrl->getDeclaredDir();    
     return igk_sys_is_path_in_module($dir);
 }
 /**

@@ -34,7 +34,7 @@ if (igk_server()->accept("json")) {
     }
 
     igk_json([
-        '_from' => 'inc_',
+        '_from' => '%_inc_exception_content_%',
         "message" => $Ex->getMessage(),
         "error" => true,
         "code" => $_code,

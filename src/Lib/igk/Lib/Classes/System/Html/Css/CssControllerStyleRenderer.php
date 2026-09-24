@@ -3,6 +3,8 @@
 // @file: CssControllerStyleRenderer.php
 // @date: 20240214 22:21:19
 namespace IGK\System\Html\Css;
+
+use Closure;
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -26,6 +28,11 @@ use ReflectionException;
 * @package IGK\System\Html\Css
 */
 class CssControllerStyleRenderer{
+    /**
+     * 
+     * @var ?color list 
+     */
+    private $m_colors = [];
     /**
     * Property: ctrl.
     * @var mixed
@@ -155,6 +162,7 @@ class CssControllerStyleRenderer{
             if (igk_configs()->css_view_state) {
                 echo ("/* document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}");
             }
+            igk_css_bind_color_request(Closure::fromCallable([$this, 'colorBindingCallback']));
             // + | compile render systheme
              \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
                  $vsystheme,
@@ -165,6 +173,7 @@ class CssControllerStyleRenderer{
                  false,
                  null
                 ); 
+            igk_css_bind_color_request(null);
             if ($this->noCoreStyleDefinition){
                 ob_end_clean();
             } 
@@ -194,5 +203,18 @@ class CssControllerStyleRenderer{
         $response->file = $referer;
         $response->no_cache = true;
         return $response;
+    }
+
+    /**
+     * 
+     * @param mixed $color 
+     * @return mixed 
+     */
+    public function colorBindingCallback($color){
+        igk_wln_e('invoke color s', __FILE__.":".__LINE__ );
+        if (!isset($this->m_colors[$color])){
+
+        }
+        return igk_getv($this->m_colors, $color);
     }
 }

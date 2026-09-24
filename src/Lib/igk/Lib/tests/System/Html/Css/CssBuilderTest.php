@@ -62,20 +62,22 @@ class CssBuilderTest extends BaseTestCase
         $detector = $this->_init('');
         $references = [];
         $detector->loadReferences(['br-solid-red-10px'], $references);
+        $c = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             '.br-solid-red-10px{',
-            'border:10px solid #ff0000;',
+            'border:10px solid #ff0000',
             '}'
-        ]), $detector->renderToCss($references));
+        ]), $c);
 
         $detector = $this->_init('');
         $references = [];
         $detector->loadReferences(['br-red-solid-10px'], $references);
+        $c = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             '.br-red-solid-10px{',
-            'border:10px solid #ff0000;',
+            'border:10px solid #ff0000',
             '}'
-        ]), $detector->renderToCss($references));
+        ]), $c);
     }
     /**
     * auto generate doc.
@@ -88,7 +90,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['pad-l-10px'], $references);
         $this->assertEquals(implode("\n", [
             '.pad-l-10px{',
-            'padding-left:10px;',
+            'padding-left:10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -103,7 +105,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['pad-10'], $references);
         $this->assertEquals(implode("\n", [
             '.pad-10{',
-            'padding:10px;',
+            'padding:10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -118,7 +120,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['rd-10'], $references);
         $this->assertEquals(implode("\n", [
             '.rd-10{',
-            'border-radius:10px;',
+            'border-radius:10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -133,7 +135,29 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['gap-10-10'], $references);
         $this->assertEquals(implode("\n", [
             '.gap-10-10{',
-            'gap:10px 10px;',
+            'gap:10px 10px',
+            '}'
+        ]), $detector->renderToCss($references));
+    }
+    public function test_cssbuilder_gap_3_values()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['gap-4'], $references);
+        $this->assertEquals(implode("\n", [
+            '.gap-4{',
+                'gap:1em',
+            '}'
+        ]), $detector->renderToCss($references));
+    }
+    public function test_cssbuilder_z_3_values()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['z-10'], $references);
+        $this->assertEquals(implode("\n", [
+            '.z-10{',
+                'z-index:10',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -148,7 +172,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['ls-m10'], $references);
         $this->assertEquals(implode("\n", [
             '.ls-m10{',
-            'letter-spacing:-10px;',
+            'letter-spacing:-10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -163,7 +187,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['pad-10-4-10-4'], $references);
         $this->assertEquals(implode("\n", [
             '.pad-10-4-10-4{',
-            'padding:10px 4px 10px 4px;',
+            'padding:10px 4px 10px 4px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -178,7 +202,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['mar-m10-m10'], $references);
         $this->assertEquals(implode("\n", [
             '.mar-m10-m10{',
-            'margin:-10px -10px;',
+            'margin:-10px -10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -201,7 +225,7 @@ class CssBuilderTest extends BaseTestCase
             '}',
             '}',
             '.bounce{',
-            'animation:bounce 2s 50ms ease-in infinite;',
+            'animation:bounce 2s 50ms ease-in infinite',
             '}',
         ]), $s);
     }
@@ -216,7 +240,7 @@ class CssBuilderTest extends BaseTestCase
         $detector->loadReferences(['lh-m10'], $references);
         $this->assertEquals(implode("\n", [
             '.lh-m10{',
-            'line-height:10px;',
+            'line-height:10px',
             '}'
         ]), $detector->renderToCss($references));
     }
@@ -232,7 +256,7 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             '.sel-red::selection{',
-            'color:#ff0000;',
+            'color:#ff0000',
             '}'
         ]), $s);
     }
@@ -248,7 +272,7 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             '.mar-b-2em{',
-            'margin-bottom:2em;',
+            'margin-bottom:2em',
             '}'
         ]), $s);
     }
@@ -264,7 +288,7 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             'html[data-theme="dark"] .dark\:text-grey-200{',
-            'color:#666666;',
+            'color:#666666',
             '}', 
         ]), $s);
     }
@@ -280,7 +304,7 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [
             'html[data-theme="dark"] .dark\:text-grey-200\:hover:hover{',
-            'color:#666666;',
+            'color:#666666',
             '}', 
         ]), $s);
     }
@@ -293,10 +317,10 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references); // ['.xsm\:dark\:text-grey-200']);
         $this->assertEquals(implode("\n", [
             'html[data-theme="dark"] .xsm .dark\:xsm\:text-grey-200{',
-            'color:#666666;',
+            'color:#666666',
             '}',
             'html[data-theme="dark"] .xsm .xsm\:dark\:text-grey-200{',
-            'color:#666666;',
+            'color:#666666',
             '}',
         ]), $s);
     }
@@ -312,7 +336,7 @@ class CssBuilderTest extends BaseTestCase
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [           
             '.w-\\[calc(100vh-4rem)\\]{',
-            'width:calc(100vh-4rem);',
+            'width:calc(100vh-4rem)',
             '}'
         ]), $s);
     }
@@ -324,7 +348,7 @@ class CssBuilderTest extends BaseTestCase
         $css = $detector->renderToCss($references);        
         $this->assertEquals(implode("\n", [           
             '.text-red\/80{',
-            'color:color(from red srgb r g b / 0.8);',
+            'color:color(from red srgb r g b / 0.8)',
             '}'
         ]), $css);
     }

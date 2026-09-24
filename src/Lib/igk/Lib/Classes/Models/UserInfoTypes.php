@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: UserInfoTypes.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -29,42 +29,12 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDataType, string $clRegex, int $clCardinality, int $clType) add entry if not exists. check for unique column.
 * */
 class UserInfoTypes extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NAME="clName";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_DATA_TYPE="clDataType";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_REGEX="clRegex";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_CARDINALITY="clCardinality";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_TYPE="clType";
+	const FD_CL_ID="clId";
+	const FD_CL_NAME="clName";
+	const FD_CL_DATA_TYPE="clDataType";
+	const FD_CL_REGEX="clRegex";
+	const FD_CL_CARDINALITY="clCardinality";
+	const FD_CL_TYPE="clType";
 	/**
 	* table's name
 	*/

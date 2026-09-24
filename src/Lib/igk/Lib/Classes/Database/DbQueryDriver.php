@@ -863,8 +863,10 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
         $mysql_func = self::GetFunc("selectdb");
         if (self::$Config["db"] == "mysqli") {
             if ($this->m_resource) {
-                if (!@$this->m_resource->ping())
-                    return false;
+                if (version_compare(PHP_VERSION, '8.2', '<')){
+                    if (!@$this->m_resource->ping())
+                        return false;
+                }
                 // + | dev list information schema resource
                 if ($dbname == "information_schema") {
                     igk_environment()->set("mysql_resource", $this->m_resource);

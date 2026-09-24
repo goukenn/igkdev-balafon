@@ -22,18 +22,19 @@ abstract class CssClassNameUtility
      * @param string $end 
      * @return string|null 
      */
-    public static function ReadBrank(string $value, $begin='[', $end=']'){
+    public static function ReadBrank(string $value, $begin = '[', $end = ']')
+    {
         $regex = new RegexMatcherContainer;
-        $pos=0;
+        $pos = 0;
         list($begin, $end) = RegexMatcherUtility::EscapeCharList([$begin, $end]);
         // define
         $g = $regex->begin($begin, $end, 'brank')->last();
         $g->patterns = [$g];
         $src = $value;
-        
-        while($g = $regex->detect($src, $pos)){
-            if ($e = $regex->end($g, $src, $pos)){
-                if ($e->tokenID=='brank'){
+
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($e->tokenID == 'brank') {
                     return substr($e->value, 1, -1);
                 }
             }
@@ -41,40 +42,76 @@ abstract class CssClassNameUtility
         return null;
     }
     /**
-     * read class name
+     * just read class name from css selector.
      * @param string $n 
-     * @return string 
+     * @return ?string 
      */
-    public static function ReadClassName(string $n): string
+    public static function ReadClassName(string $n, int &$pos = 0): ?string
     {
         $sb = '';
         $regex = new RegexMatcherContainer;
-        $pos = 0;
         $src = $n;
         // define 
-        $regex->match("\\.[a-zA-Z][a-zA-Z0-9-]*", 'selector');
+        $regex->match("((?:\\.)[a-zA-Z_][a-zA-Z0-9\-_]*|\\*)", 'selector');
         $regex->match("\\\\.", 'escaped');
-        // $regex->begin('\\(', '\\)', 'c-brank');
-        // $regex->begin('\\[', '\\]', 'p-brank');
-        $regex->match(':|\\s+', 'split');
-        $offset = 0;
+        $regex->match('(?<![:\w])(:)?:([a-zA-Z-]+)(?![\w(])', 'rn-pseudo-selector');
+        $regex->match('~|\+|>|,|:|\\s+|\)|\(', 'split');
+        $regex->appendStringDetection('string', true);
+
+        $fc_return_selector = function($e, $offset, $src){
+            $s = substr($src, $offset, $e->from -$offset);
+            $pos = $e->from;
+            return $s;
+        };
+        $offset = $pos;
+        $selector = false;
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 $id = $e->tokenID;
-                igk_is_debug() && Logger::info('[cssclassutility] - id : ' . $id . ' value:' . $e->value);
+                igk_is_debug() && Logger::info('[cssclassutility] - id : ' . $id . ', value: [' . $e->value.']');
                 if ($id == 'split') {
-                    $r = trim(substr($src, $offset, $e->from - $offset));
-                    if (!empty($r)) {
-                        $sb = $r;
-                        return $sb;
+                    if ($selector) {
+                        $r = trim(substr($src, $offset, $e->from - $offset));
+                        if (!empty($r)) {
+                            $sb = $r;
+                            return $sb;
+                        }
                     }
-                    $offset = $e->from;
+                    if (!$selector) {
+                        $offset = $e->to;
+                        continue;
+                    }
                     break;
+                }
+                if ('selector' == $id) {
+                    if ($selector){
+                        $pos = $e->from;
+                        return $fc_return_selector($e, $offset, $src);
+                    }
+                    if ($e->value=='*'){
+                        return $e->value;
+                    }
+              
+                    $selector = true;
+                    $offset = $e->from;
+                }
+                if ($id == 'rn-pseudo-selector'){
+                    if ($selector){
+                        $pos = $e->from;
+                        return $fc_return_selector($e, $offset, $src);
+                    }
+                    return $e->value;
                 }
             }
         }
-        $sb = substr($src, $offset);
-        return $sb;
+        if ($selector) {
+            $sb = substr($src, $offset);
+            if ($sb == '.drop)'){
+                igk_die("kjd : ".$n);
+            }
+            return $sb;
+        }
+        return null;
     }
 
     /**
@@ -90,7 +127,8 @@ abstract class CssClassNameUtility
         $pos = 0;
         $regex->match('\*', 'multiple');
         $str = $regex->appendStringDetection('string', true)->last();
-        $regex->match("(\.)[a-zA-Z_][a-zA-Z0-9_\-]+\\b".$v_opacity, "class-selector");
+        $regex->match(":(:)?[a-zA-Z_][a-zA-Z0-9_\-]*\\b" . $v_opacity, "class-selector");
+        $regex->match("(\.)[a-zA-Z_][a-zA-Z0-9_\-]*\\b" . $v_opacity, "class-selector");
         $brank = $regex->begin('\\\\\[', '\\\\]', 'escaped-brank')->last();
         $regex->match("\\\\.", 'escape');
         $pbrank = $regex->begin('\\(', '\\)', 'split')->last();
@@ -117,10 +155,10 @@ abstract class CssClassNameUtility
             if ($e = $regex->end($g, $src, $pos)) {
                 $id = $e->tokenID;
                 igk_is_debug() && Logger::info('[detect-selector-all-class] - ' . $id . ' v=' . $e->value);
-                if ($id == 'class-selector'){
-                    if ($mark){
+                if ($id == 'class-selector') {
+                    if ($mark) {
                         $s = trim(substr($src, $offset, $e->from - $offset));
-                        if (!empty($s)){ 
+                        if (!empty($s)) {
                             $_t[] = $s;
                         }
                         $s = '';
@@ -140,7 +178,7 @@ abstract class CssClassNameUtility
             }
         }
         $s .= substr($src, $offset);
-        if (!empty($s) && ($s[0]=='.')) {
+        if (!empty($s) && (in_array($s[0], ['*', ':', '.']))) {
             $_t[] = $s;
         }
         return $_t;

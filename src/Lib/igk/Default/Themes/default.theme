@@ -1,8 +1,11 @@
 <?php
-/*
-default theme
-*/
-$cl["backgroundColor"]="#fbfbfb";
+// 
+// @framework: BALAFON
+// @desc: default theming file.
+// 
+
+// $cl["backgroundColor"]="#fbfbfb";
+$cl["backgroundColor"]="#cecece";
 $cl["textColor"]="";
 $cl["dangerBackgroundColor"]="";
 $cl["warningBackgroundColor"]="";
@@ -16,15 +19,19 @@ $cl["linkForeColor"] = "#444";
 $cl["linkHoverForeColor"] = "#888";
 $cl["menuLinkColor"]="red";
 $cl["menuLinkHColor"]="orangered";
-$cl["menuLinkActiveColor"]="red";
+$cl["menuLinkActiveColor"]="rgb(255, 132, 0)";
 $cl["sessionBlockBackground"] = "#eee";
 $cl["sessionBlockColor"] = "#222";
 //code color
-$cl["phpCodeStringColor"] = "#F00"; 
+$cl["--blf-php-code-string-color"] = "#FF2C2C"; 
 
+// : ----------------------------------------------------------------------------
+// : precision font style property
 $prop["sectionLevel1"]="4em";
 $prop["sectionLevel2"]="2em";
 $prop["sectionLevel3"]="1.3em";
 $prop["sectionLevel4"]="1.2em";
 $prop["sectionLevel5"]="0.8em";
 $prop["sectionLevel6"]="0.5em";
+
+

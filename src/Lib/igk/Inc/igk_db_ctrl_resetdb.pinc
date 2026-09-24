@@ -81,6 +81,7 @@ if (!igk_is_cmd()) {
         return true;
     } else {
         igk_dev_wln_e(
+            __FILE__.":".__LINE__ ,
             "resetDb : no matching uri ",
             "appuri : " . $controller->getAppUri($funcName),
             "currenturi: " . igk_io_currentUri()

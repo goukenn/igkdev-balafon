@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ReferenceModels.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:40
 namespace IGK\Models;
 
 
@@ -25,24 +25,9 @@ use IGK\Models\ModelBase;
 * @method static ?\IGK\Models\ReferenceModels update_ref_nextnumber(int $uid,string $modelname) macros function definition
 * */
 class ReferenceModels extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_MODEL="clModel";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_NEXT_VALUE="clNextValue";
+	const FD_CL_ID="clId";
+	const FD_CL_MODEL="clModel";
+	const FD_CL_NEXT_VALUE="clNextValue";
 	/**
 	* table's name
 	*/

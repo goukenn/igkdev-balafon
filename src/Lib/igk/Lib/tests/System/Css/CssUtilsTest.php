@@ -61,4 +61,9 @@ class CssUtilsTest extends BaseTestCase{
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals("m:['sys: -10px;'];", $v);
     }
+    public function test_cssutils_remove_unset_properties(){
+        $s = '{box-sizing:     border-box; margin:-;    padding:-;}';
+        $b = CssUtils::RemoveUnsetProperties($s);
+        $this->assertEquals('{box-sizing:border-box;}', $b);
+    }
 }

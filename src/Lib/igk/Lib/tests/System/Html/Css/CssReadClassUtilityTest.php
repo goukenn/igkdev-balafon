@@ -17,22 +17,42 @@ class CssReadClassUtilityTest extends BaseTestCase
     public function test_readclassname_readname()
     {
         $this->assertEquals(
-            'info',
+            null, //'info',
             CssClassNameUtility::ReadClassName('info')
+        );
+    }
+    public function test_readclassname_spread_name()
+    {
+        $this->assertEquals(
+            '._card_',
+            CssClassNameUtility::ReadClassName('._card_')
         );
     }
     public function test_readclassname_with_escaped()
     {
         $this->assertEquals(
-            'info\[b\]',
-            CssClassNameUtility::ReadClassName('info\[b\]')
+            '.info\[b\]',
+            CssClassNameUtility::ReadClassName('.info\[b\]')
         );
     }
     public function test_readclassname_with_escaped_end()
     {
         $this->assertEquals(
-            'info\[b\]',
-            CssClassNameUtility::ReadClassName('info\[b\]:hover')
+            '.info\[b\]',
+            CssClassNameUtility::ReadClassName('.info\[b\]:hover')
+        );
+    }
+    public function test_readclassname_consecutive()
+    {
+        $src = '.info.card';
+        $pos = 0;
+        $this->assertEquals(
+            '.info',
+            CssClassNameUtility::ReadClassName($src, $pos)
+        );
+        $this->assertEquals(
+            '.card',
+            CssClassNameUtility::ReadClassName($src, $pos)
         );
     }
     public function test_readclassname_from_definition()

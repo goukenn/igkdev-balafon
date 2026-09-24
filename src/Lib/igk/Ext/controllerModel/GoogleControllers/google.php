@@ -1,15 +1,19 @@
 <?php
 // @file: google.php
 // @author: C.A.D. BONDJE DOUE
+
+use IGK\Constants;
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKGoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use IGK\Ext\Controllers\Google\IGKGoogleConfigurationSetting;
+use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\CallableConstants;
 use IGK\System\Http\RequestResponseCode;
+use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
@@ -55,6 +59,43 @@ if (defined('IGK_GOOGLE_MODULE')) {
      */
     function igk_google_addfont($doc, $family, $size = null, $temp = 1, $extra = 'sans-serif')
     {
+        $is_ops = igk_environment()->isOPS();
+        $theme = $is_ops ?
+            $doc->getInlineTheme()
+            : $doc->getTheme();
+
+        $gdir = hash('crc32b', $family . $size);
+        $dir = igk_io_basedir(Constants::BASE_INSTALL_FONTS_FOLDER);
+        $target = $f = Path::Combine($dir, $gdir . '.css');
+
+        if (file_exists($f)) {
+            $theme->import(Path::Combine('/' . Constants::BASE_INSTALL_FONTS_FOLDER, $gdir . '.css'));
+            igk_google_css_setfont($theme->def, $family, $extra);
+            return;
+            }
+        // install dir to base folder 
+        if (file_exists($f = Path::Combine(igk_io_applicationdatadir(), 'assets/fonts', $gdir . '.css'))) {
+            $v_gdir =  dirname($f);
+            if (!file_exists(dirname($target))) {
+                igk_io_symlink($v_gdir, dirname($target));
+            } else {
+                // + copy all file to dirn 
+                $tdir = dirname($target);
+                $copy  = [];
+                foreach (IO::GetFiles($v_gdir, '/\.+$/', false) as $v) {
+                    $tv = realpath($v);
+                    if (!isset($copy[$tv])) {
+                        igk_wln('copy ', $v);
+                        copy($tv, Path::Combine($tdir, substr($v, substr($v, strlen($v_gdir)))));
+                        $copy[$tv] = 1;
+                    }
+                }
+            }
+    
+            $theme->import(Path::Combine('/' . Constants::BASE_INSTALL_FONTS_FOLDER, $gdir . '.css'));
+            igk_google_css_setfont($theme->def, $family, $extra); 
+            return;
+        } 
         $size = igk_google_get_font_sizes($family, $size);
         $g = trim($family);
         if (empty($g)) {
@@ -69,23 +110,22 @@ if (defined('IGK_GOOGLE_MODULE')) {
         } else {
             $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
         }
-        $is_ops = igk_environment()->isOPS();
+
 
         $theme = $is_ops ?
-        $doc->getInlineTheme()
-        : $doc->getTheme();
+            $doc->getInlineTheme()
+            : $doc->getTheme();
         $raise = true;
-        if ($is_ops){
+        if ($is_ops) {
             /**
              * @var IGKHrefListValue $g
              */
-            $g = igk_google_local_uri_callback($key, $family); 
-            $theme->import($g->fontEndPoint()); 
+            $g = igk_google_local_uri_callback($key, $family);
+            $theme->import($g->fontEndPoint());
             $raise = false;
-        } 
-        if ($theme)
-        {
-            igk_google_css_setfont($theme->def, $family, $extra);  
+        }
+        if ($theme) {
+            igk_google_css_setfont($theme->def, $family, $extra);
         }
 
         $raise && IGKEvents::hook(GoogleEvents::init_component, "font");

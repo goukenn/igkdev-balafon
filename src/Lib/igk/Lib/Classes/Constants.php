@@ -16,6 +16,7 @@ require_once IGK_LIB_CLASSES_DIR.'/System/Console/CommandFlags.php';
  */
 final class Constants
 {
+    const BASE_INSTALL_FONTS_FOLDER = 'assets/fonts';
     /**
     * auto generate doc.
     * @var mixed 

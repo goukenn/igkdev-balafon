@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DbLogs.php
-// @date: 20260824 18:08:42
+// @date: 20260919 14:16:41
 namespace IGK\Models;
 
 
@@ -29,42 +29,12 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $db_logs_msg, int $db_logs_status, string $db_logs_tags, string $db_logs_createAt ="NOW()", string $db_logs_updateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class DbLogs extends ModelBase{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_CL_ID="clId";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_DB_LOGS_MSG="db_logs_msg";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_DB_LOGS_STATUS="db_logs_status";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_DB_LOGS_CREATE_AT="db_logs_createAt";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_DB_LOGS_TAGS="db_logs_tags";
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const FD_DB_LOGS_UPDATE_AT="db_logs_updateAt";
+	const FD_CL_ID="clId";
+	const FD_DB_LOGS_MSG="db_logs_msg";
+	const FD_DB_LOGS_STATUS="db_logs_status";
+	const FD_DB_LOGS_CREATE_AT="db_logs_createAt";
+	const FD_DB_LOGS_TAGS="db_logs_tags";
+	const FD_DB_LOGS_UPDATE_AT="db_logs_updateAt";
 	/**
 	* table's name
 	*/

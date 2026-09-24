@@ -33,7 +33,7 @@ class ResponseHandler
     * handle response
     * @param mixed $r
     * @param mixed $code
-    * @throws IGKException
+    * @throws \IGKException
     * @return mixed
     */
     public function HandleReponse($r, $code = RequestResponseCode::Ok)

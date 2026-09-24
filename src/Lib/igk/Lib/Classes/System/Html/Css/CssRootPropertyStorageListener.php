@@ -15,6 +15,12 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
     * @var mixed
     */
     private $m_roots;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $selector;
     /**
      * root listener 
      * @param array $tab 
@@ -34,24 +40,28 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
     * @var mixed
     * @return void
     */
-    var $m_treat = false;
+    private $m_treat = false;
     /**
      * render root style definition 
      * @return string 
      */
-    public function render(){
+    public function render(?string $themename=null){
         $r = & $this->m_roots;
-        // if (!$this->m_treat){
-        //     $this->m_treat = true;
-        //     foreach($r as $k=>$v){
-        //         if (preg_match('/\[cl:.+\]/', $v)){
-        //             igk_trace();
-        //             igk_exit();
-        //         }
-        //     }
-        // }
+        $skey = null;
+        if ($themename){
+            $skey = CssUtils::ThemeKey($themename). ' ';
+        } else {
+            if ($this->selector){
+                $skey = trim($this->selector);
+            }
+        }
+       
 
         return $r ? 
-            sprintf(':root{%s}',igk_css_array_key_map_implode($r)) : null; 
+            sprintf($skey.':root{%s}',igk_css_array_key_map_implode($r)) : null; 
+    }
+    public function clear(){
+        $this->m_roots = [];
+
     }
 }

@@ -56,4 +56,28 @@ class NodeArgBuilderTest extends BaseTestCase
         $g = $t->render();
         $this->assertEquals('<div class="text-red/80"></div>', $g);
     }
+    public function test_nodeargs_escaped_opacity()
+    {
+        $t = _h('div.text-red\/80');
+        $g = $t->render();
+        $this->assertEquals('<div class="text-red/80"></div>', $g);
+    }
+    public function test_nodeargs_hover_escaped_opacity()
+    {
+        $t = _h('div.dark:text-red/20:hover');
+        $g = $t->render();
+        $this->assertEquals('<div class="dark:text-red/20:hover"></div>', $g);
+    }
+     public function test_nodeargs_hover_escaped_opacity_2()
+    {
+        $t = _h('div.dark:fs-[20pt]:hover');
+        $g = $t->render();
+        $this->assertEquals('<div class="dark:fs-[20pt]:hover"></div>', $g);
+    }
+    public function test_nodeargs_dark_with_color()
+    {
+        $t = _h('div.dark:bg-[#040816]');
+        $g = $t->render();
+        $this->assertEquals('<div class="dark:bg-[#040816]"></div>', $g);
+    }
 }

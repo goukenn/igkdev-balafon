@@ -45,6 +45,25 @@ class IGKResourceUriResolver
      * @var mixed
      */
     const DEFAULT_MASK = IGK_DEFAULT_CACHE_FOLDER_MASK;
+
+       /**
+    * auto generate doc.
+    * @var mixed
+    * @return void
+    */
+    const PRJ_FOLDER = ResIdentifierConstants::PROJECT;
+    /**
+     * 
+     */
+    const MOD_FOLDER = ResIdentifierConstants::MODULE;
+
+    /**
+     * 
+     */
+    const NODE_PKG_FOLDER = ResIdentifierConstants::NODE_PACKAGE;
+
+    const ALL_RES_FOLDER= 'assets|'.self::PRJ_FOLDER.'|'.self::NODE_PKG_FOLDER.'|'.self::MOD_FOLDER;
+
     /**
      * accept full uri resolution
      * @var bool
@@ -235,12 +254,7 @@ class IGKResourceUriResolver
         }
         return $v . $query;
     }
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    const PRJ_FOLDER = ResIdentifierConstants::PROJECT;
+ 
     /**
     * auto generate doc.
     * @param mixed $s
@@ -270,8 +284,14 @@ class IGKResourceUriResolver
     {
         $v_cpath = igk_io_collapse_path($rp);
         $v_res_path = $this->_getResPath($v_cpath);//  ?? igk_die('res path is null : '.$rp);
-        if (igk_environment()->isOPS() && $v_res_path && strstr($v_res_path, sprintf('/%s/', self::PRJ_FOLDER))) {
-            $v_res_path = $this->treatProjectAssetPath($v_res_path);
+        $v_is_ops = igk_environment()->isOPS();
+        $v_star = self::ALL_RES_FOLDER; 
+        
+        if ( $v_is_ops && $v_res_path && (preg_match('/('.$v_star.')\\b\//', $v_res_path) || strstr($v_res_path, sprintf('/%s/', self::PRJ_FOLDER)))){
+            if (strstr($v_res_path, sprintf('/%s/', self::PRJ_FOLDER))){
+                $v_res_path = $this->treatProjectAssetPath($v_res_path);
+            }
+     
         }
         $v_bdir = igk_io_basedir();
         if (!igk_io_file_exists($fc = Path::Combine($v_bdir, $v_res_path), true)){
@@ -286,14 +306,19 @@ class IGKResourceUriResolver
             igk_hook(IGKEvents::HOOK_MK_LINK, array("outdir" => dirname($fc), "link" => $fc));
         }
         $relative = Path::GetRelativePath($v_bdir, $fc);
-        if (igk_environment()->isOPS() && is_link($fc)){
+
+        if ($v_is_ops && self::IsLinkToResolve($fc)){
             ResourceLoader::Check();
             if (igk_str_startwith($relative,'./')){
                 $relative = './'.ResourceLoader::Access().'/'.substr($relative, 2);
             }
         }
-        $li = $this->transform($relative, $fulluri);
+        $li = $this->transform($relative, $fulluri);     
         return $li;
+    }
+    protected static function IsLinkToResolve(string $fc):bool{
+        return is_link($fc) || 
+            ((!empty($g = realpath($fc))) && ($g!=$fc));
     }
     /**
     * auto generate doc.

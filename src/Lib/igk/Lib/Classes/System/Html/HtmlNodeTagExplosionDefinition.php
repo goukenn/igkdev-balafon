@@ -299,9 +299,9 @@ class HtmlNodeTagExplosionDefinition
     public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
-        $v_opacity = '(?P<opacity>\/\\d+)?';
+        $v_opacity = '(?P<opacity>(\\\\)?\/\\d+)?';
         $v_class_tag_detection = '(\\.)'.CssUtils::CLASS_NAME_UTIL_REGEX; 
-      
+        $v_hover = '(?::[a-zA-Z\-_][a-zA-Z\-_]*)*';
         $v_s = $regex->appendStringDetection('string', true)->last();
         $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
 
@@ -309,12 +309,12 @@ class HtmlNodeTagExplosionDefinition
         $regex->begin('\{', '\}', 'curl-brank');
         $v_sub_litteral = $regex->begin(
             $v_class_tag_detection.'(-\[)',  
-        '(\])(:[a-zA-Z_][a-zA-Z0-9_\-\(\)]*)*'.$v_opacity, 'litteral')->last(); // litteral with expression 
+        '(\])(:[a-zA-Z_][a-zA-Z0-9_\-\(\)]*)*'.$v_opacity.$v_hover, 'litteral')->last(); // litteral with expression 
 
         // +| class tha end with number - (unit)* 
-        $regex->match($v_class_tag_detection.$v_opacity, 'litteral');
+        $regex->match($v_class_tag_detection.$v_opacity.$v_hover, 'litteral');
 
-        $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?'.$v_opacity, 'litteral');
+        $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?'.$v_opacity.$v_hover, 'litteral');
         $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
 
@@ -343,7 +343,7 @@ class HtmlNodeTagExplosionDefinition
             },
             'litteral' => function (&$def, $e) {
                 if ($c = igk_getv($e->beginCaptures, 1)) {
-                    $t = substr($e->value, 1);
+                    $t = stripslashes(substr($e->value, 1));
                     switch ($c[0]) {
                         case '.':
                             $def['classes'][$t] = 1;
