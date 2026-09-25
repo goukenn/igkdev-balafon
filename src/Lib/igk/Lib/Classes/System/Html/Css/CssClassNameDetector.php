@@ -430,7 +430,9 @@ class CssClassNameDetector
      * @return string|null 
      */
     private function _TreatValueToResolve(string $v){
-        $v = preg_replace('/(-|\+|\*|\/)/', ' \\1 ', $v);
+        // $v = preg_match('/\\s*(-|\+|\*|\/))\\s*-(\\d+)/', ' \\1 -\\2', $v);
+
+        $v = preg_replace('/\\s*(-|\+|\*|\/)\\s*(-|\+|\*|\/)*/', ' \\1 \\2', $v);
         return $v;
     }
     /**
@@ -447,7 +449,7 @@ class CssClassNameDetector
         $cvalue = $value;
         $v_branked = $value && $value[0]=='[';
         if($v_branked) {
-            $cvalue = self::_TreatValueToResolve(CssClassNameUtility::ReadBrank($value));
+            $cvalue = CssClassNameUtility::ReadBrank($value);
         }
         if (igk_str_endwith($cvalue, $k = '!important')){
             $important = true;
