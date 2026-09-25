@@ -53,8 +53,8 @@ trait NewsLetterRegisterTrait{
         $mailinfo->clml_locale = strtolower(R::GetCurrentLang());
         $mailinfo->clml_agent = IGKUserAgent::Agent();
         $mailinfo->clml_init = '';
-        if (!Mailinglists::select_row(["email"=>$mail])){
-            if ($inf = Mailinglists::create($mailinfo)){
+        if (!Mailinglists::select_row([Mailinglists::FD_CLML_EMAIL =>$mail])){
+            if ($inf = Mailinglists::Insert((array)$mailinfo)){
                 $this->notify_success("welcome to new letter mailing list"); 
                 igk_hook(IGKEvents::HOOK_MAIL_REGISTER, ["mailinfo"=>$inf]);
                 $uri = igk_io_baseuri()."/registerService/activate-mail/?q=".base64_encode(http_build_query([

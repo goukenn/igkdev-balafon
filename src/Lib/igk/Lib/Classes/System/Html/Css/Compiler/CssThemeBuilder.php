@@ -6,6 +6,7 @@ namespace IGK\System\Html\Css\Compiler;
 
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
+use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
@@ -29,34 +30,37 @@ class CssThemeBuilder
     {
         $sb = [];
         $options = Activator::CreateNewInstance(CssThemeBuilderOptions::class, $options ?? []);
-
         extract((array)$options);
+
         $ctrl = $controller;
         $g = '';
         $lf = $lf ?? '';
-        if ($main) {
-            igk_css_load_theme($theme); 
-            igk_css_bind_file($theme, $ctrl, $main);
-        }
-        if ($v_theme_Colors = ($ctrl && is_null($themeColors) ? static::_GetThemeColor($ctrl, $theme) : $themeColors)) {
-            $theme->setThemeColors($v_theme_Colors);
-        }
-
-        $v_sys_theme = igk_app()->getDoc()->getSysTheme();
+        $v_maps = $maps ?? [];
         $clear = false;
-        if (!$v_sys_theme->getinitGlobal()) {
-            $clear = true;
-            $v_sys_theme->initGlobalDefinition();
+        if (!$maps) {
+            if ($main) {
+                igk_css_load_theme($theme);
+                igk_css_bind_file($theme, $ctrl, $main);
+            }
+            if ($v_theme_Colors = ($ctrl && is_null($themeColors) ? static::_GetThemeColor($ctrl, $theme) : $themeColors)) {
+                $theme->setThemeColors($v_theme_Colors);
+            }
+            $v_sys_theme = igk_app()->getDoc()->getSysTheme();
+            if (!$v_sys_theme->getinitGlobal()) {
+                $clear = true;
+                $v_sys_theme->initGlobalDefinition();
+            }
+   
+            $v_sb = CssUtils::RenderAfterCheckColorTheme($theme, true);
+            $theme_tab = CssParser::Parse($v_sb)->to_array();
+            $v_maps[] = $theme_tab;
+            if ($useCoreCss) {
+                Logger::info('loading core style...');
+                $imported = array_merge($imported ?? [], $mergeCoreImported ? self::GetImported($theme, $theme_tab) : []);
+                $tab = CssParser::Parse($v_sys_theme->render())->to_array();
+                array_unshift($v_maps, $tab);
+            }
         }
-        $v_maps = [];
-        $v_sb = CssUtils::RenderAfterCheckColorTheme($theme, true);
-        $theme_tab = CssParser::Parse($v_sb)->to_array();
-        $v_maps[] = $theme_tab;
-        if ($useCoreCss) {
-            $imported = array_merge($imported ?? [], $mergeCoreImported? self::GetImported($theme, $theme_tab) : []);
-            $tab = CssParser::Parse($v_sys_theme->render())->to_array();
-            array_unshift($v_maps, $tab);
-        }        
         $cwd = getcwd();
         chdir($ctrl->getDeclaredDir());
         $g .= CssClassNameDetector::RenderMaps(

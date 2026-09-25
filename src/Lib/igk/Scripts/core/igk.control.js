@@ -5488,23 +5488,26 @@
         };
         // svg list view item 
         function __init_svg_i() {
-            var n = this.getAttribute("igk:svg-name");
-            if (m_item[n]) {
-                this.rmClass("igk-svg-lst-i");
-                // replace 
-                var g = $igk(m_item[n]).clone();
-                var p = this.o.parentNode;
-                $igk(p).addClass("igk-svg-host");
-                // +| use set attribute to change class name
-                g.o.setAttribute("class", this.o.className);
-                p.replaceChild(g.o, this.o);
-                if (p.getAttribute("title")) {
-                    $igk(p).qselect("svg > title").remove();
-                }
-                _loader.raiseEvent(_event.onSvgSingleItemLoaded, { name: n, className: this.o.className, item: g.o });
-            } else {
-                console.debug("item not found [" + n + "]");
-            }
+            const q = this;
+            setTimeout(() => {
+                var n = q.getAttribute("igk:svg-name");
+                if (m_item[n]) {
+                    this.rmClass("igk-svg-lst-i");
+                    // replace 
+                    var g = $igk(m_item[n]).clone();
+                    var p = this.o.parentNode;
+                    $igk(p).addClass("igk-svg-host added");
+                    // +| use set attribute to change class name
+                    g.o.setAttribute("class", this.o.className);
+                    p.replaceChild(g.o, this.o);
+                    if (p.getAttribute("title")) {
+                        $igk(p).qselect("svg > title").remove();
+                    }
+                    _loader.raiseEvent(_event.onSvgSingleItemLoaded, { name: n, className: this.o.className, item: g.o });
+                } else {
+                    console.debug("item not found [" + n + "]");
+                }                
+            }, 1);
         };
 
         function __initlist() {

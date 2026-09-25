@@ -69,13 +69,17 @@ class HtmlDocumentCssHostNode extends HtmlNode
         if (!$doc instanceof IGKHtmlDoc) {
             return;
         }
+        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette;
+        if (igk_environment()->isOPS() && !$v_use_core){
+            return;
+        }
         $s = "";
         $g = "";
-        $clear = ($doc instanceof IGKHtmlDoc) ? CssUtils::InitSysGlobal($doc) : null;
+        $clear = CssUtils::InitSysGlobal($doc);
         $theme = $doc->getTheme();
         $inlineTheme = $doc->getInlineTheme();
-        igk_css_load_theme($theme); 
-        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette;        
+        igk_css_load_theme($theme);         
+
         $sb = CssUtils::RenderAfterCheckColorTheme($theme);
         $v_maps = [
             $theme_tab = CssParser::Parse($sb)->to_array()

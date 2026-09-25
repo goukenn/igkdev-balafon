@@ -65,6 +65,12 @@ class CssThemeBuilderOptions{
      */
     var $mergeCoreImported;
 
+    /**
+     * map to use 
+     * @var mixed
+     */
+    var $maps;
+
     public function __construct()
     {
         $this->main = Constants::DEFAULT_THEME_STYLE;

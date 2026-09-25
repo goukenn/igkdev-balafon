@@ -88,14 +88,22 @@ class ProjectConfiguration extends EntityConfigurationSchema{
     var $iconlib;
     /**
     * auto generate doc.
-    * @var ?extrat configurable definition
+    * @var ?extra configurable definition
     */
     var $extra;
+
+    /**
+     * build setting configuration 
+     * @var mixed
+     */
+    var $build;
     /**
     * array of extra configuration 
     * @var mixed|array 
     */
     private static $sm_config;
+
+
     /**
     * auto generate doc.
     * @param string $file

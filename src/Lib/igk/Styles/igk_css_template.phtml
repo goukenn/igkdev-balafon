@@ -2,20 +2,23 @@
 // @author: C.A.D. BONDJE DOUE
 use IGK\Helper\StringUtility;
 use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\WinUI\LayoutRules;
 
-// igk_wln(__FILE__.":".__LINE__ , 'include ', igk_env_count(__FILE__));
+// igk_dev_wln(__FILE__.":".__LINE__ , '/***************************************/');
 /**
- * @var mixed $theme
+ * @var HtmlDocTheme $theme
  * @var mixed $xsm_screen
  * @var mixed $sm_screen
  * @var mixed $lg_screen
  * @var mixed $xlg_screen
  * @var mixed $xlg_screen
  * @var mixed $printscreen
+ * @var IGKCssDefaultStyle $def
  * @var mixed $css_m
  */
+
 $pad1 = "8px";
 $pad2 = "10px";
 $pad22 = "20px";
@@ -47,9 +50,9 @@ $prop["buttonPadding"] = "8px";
 $ctn_lg = $theme->getMedia(HtmlDocThemeMediaType::CTN_LG_MEDIA);
 $ctn_xlg = $theme->getMedia(HtmlDocThemeMediaType::CTN_XLG_MEDIA);
 $ctn_xxlg = $theme->getMedia(HtmlDocThemeMediaType::CTN_XXLG_MEDIA);
-$ctn_lg[".igk-container"] = "width:" . IGK_CSS_CTN_LG_SIZE . "px";
-$ctn_xlg[".igk-container"] = "width:" . IGK_CSS_CTN_XLG_SIZE . "px";
-$ctn_xxlg[".igk-container"] = "width:" . IGK_CSS_CTN_XXLG_SIZE . "px";
+$ctn_lg[".igk-container"] = "width:" . IGK_CSS_CTN_LG_SIZE . "px; content:'incontainer'; ";
+$ctn_xlg[".igk-container"] = "width:" . IGK_CSS_CTN_XLG_SIZE . "px;  content:'incontainer2'; ";
+$ctn_xxlg[".igk-container"] = "width:" . IGK_CSS_CTN_XXLG_SIZE . "px;  content:'incontainer3'; ";
 $paddings_level = array(10, 16, 24, 32, 48);
 foreach ($paddings_level as $k => $v) {
     $l = $k + 1;
@@ -1105,7 +1108,7 @@ $def['.no-device-container .igk-container'] =
     $lg_screen['.no-device-container .igk-container'] =
     $xlg_screen['.no-device-container .igk-container'] =
     $xxlg_screen['.no-device-container .igk-container'] = 'width: var(--blf-container-page-width, auto);';
-$root['--blf-container-page-width'] = '';
+$root['--blf-container-page-width'] = 'auto';
 $def['.dispflex.alignm'] = 'align-items: center;';
 $def['.dispflex.alignc'] = 'justify-content: center;';
 $def['.no-focus-styled:focus'] = 'outline:none; box-shadow:none; border:none ;';

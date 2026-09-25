@@ -127,6 +127,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     */
     public function exec($command, ?string $project = null)
     {
+        if (is_null($project)){
+            $project = igk_getv($command->options,'--controller');
+        }
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         }

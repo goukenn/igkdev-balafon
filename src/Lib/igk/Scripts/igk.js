@@ -3807,7 +3807,11 @@ Name:balafon.js
             }
             return this;
         },
-        // class
+        /**
+         * append class name 
+         * @param {string} classname 
+         * @returns 
+         */
         addClass(classname) {
             function __appendClass(t, tab) {
                 var ch = 0;

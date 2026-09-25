@@ -84,15 +84,21 @@ class RegexHelper
      */
     public static function SearchFrom(string $dir, array $search){
         $st = self::TreatSearchExpressions($search);
-        $tb = IO::GetFiles($dir, function($f)use($st){
+        $pc = [];
+        $excludes = '\\bnode_modules\\b|\..+$';
+        $tb = IO::GetFiles($dir, function($f)use($st,& $pc){
+            $t = realpath($f);
             while(count($st)>0){
                 $q = array_shift($st);
-                if (preg_match($q, $f)){
-                    return true;
+                if (!isset($pc[$t])){
+                    if (preg_match($q, $f)){
+                        $pc[$t] = 1;
+                        return true;
+                    }
                 }
             }
             return false;
-        }, true);
+        }, true, $excludes);
         return $tb;
     }
 }

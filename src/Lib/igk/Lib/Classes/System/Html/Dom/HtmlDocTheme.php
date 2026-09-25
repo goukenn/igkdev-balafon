@@ -54,7 +54,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     const INLINE_STYLE_KEY = "css://temp/rendering";
-    const THEMING_PREFIX = 'text|br|bg|cell|cur|padx|pady|pad|loc|mar|max|min|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc|opacity|z';
+    const THEMING_PREFIX = 'text|br|bg|cell|cur|padx|pady|pad|loc|mar|max|min|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc|opacity|z|minmax';
     const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?(' . self::THEMING_PREFIX . ')-/';
     /**
      * Constant: global type.
@@ -740,10 +740,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         // + | render rule definition 
         // + |
         if (!in_array('rules', $v_skips) && $def->getHasRules()) {
+            
             !$themeexport && $out .= "/* <!-- Rules --> */\n" . $lineseparator;
             $out .= $def->getRulesString($lineseparator, $themeexport, $systheme);
             !$themeexport && $out .= "\n/* <!-- end:Rules --> */" . $lineseparator;
-        }
+        } 
         // + | --------------------------------------------------------------------
         // + | render attributes
         // + | 
@@ -1581,10 +1582,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $name
      * @param string $expression
      */
-    public function registerKeyFrame(ICssAddRule $def, string $name, string $expression)
+    public function registerKeyFrame(ICssAddRule $def, string $name, string $expression, bool $auto_resolve = true)
     {
-        $def->addRule("@-webkit-keyframes " . $name, $expression);
-        $def->addRule("@-moz-keyframes " . $name, $expression);
+        if ($auto_resolve){
+            $def->addRule("@-webkit-keyframes " . $name, $expression);
+            $def->addRule("@-moz-keyframes " . $name, $expression);
+        }
         $def->addRule("@keyframes " . $name, $expression);
     }
     /**

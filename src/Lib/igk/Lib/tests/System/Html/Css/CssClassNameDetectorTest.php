@@ -32,6 +32,10 @@ class CssClassNameDetectorTest extends BaseTestCase
         $sb = $this->_compileDefinition('@supports(display:   flex){ .flex-container{ color:red; }}');
         $this->assertEquals('@supports(display: flex){.flex-container{color:red}}', $sb);
     }
+    public function test_cssclassdetector_media(){
+        $sb = $this->_compileDefinition('@media (min-width: 855px){ .flex-container{ color:red; }}');
+        $this->assertEquals('@media(min-width: 855px){.flex-container{color:red}}', $sb);
+    }
     /**
      * Tests cssclassdetector detect class.
      */
@@ -130,5 +134,18 @@ PHP
         $imported = ['igk-body'];
         $ts = CssClassNameDetector::RenderMaps($maps, $imported, ['lf' => '']);
         $this->assertEquals('body.igk-body{background-color:red}', $ts);
+    }
+    private function _autoDefinition(string $value){
+        $detected = new CssClassNameDetector;
+        $reference = [];
+        $detected->loadReferences([$value], $reference);
+        $css = $detected->renderToCss($reference, ['lf'=>'']);
+        return $css;
+    }
+    public function test_cssclassnamedetector_important(){
+        $this->assertEquals('.text-red!important{color:#ff0000 !important}', $this->_autoDefinition('text-red!important'));
+    }
+    public function test_cssclassnamedetector_custom_important(){
+        $this->assertEquals('.text-\[\#040816!important\]{color:#040816 !important}', $this->_autoDefinition('.text-\[\#040816!important\]'));
     }
 }

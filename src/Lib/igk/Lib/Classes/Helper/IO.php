@@ -762,10 +762,10 @@ class IO
     * @param string $dir directory
     * @param string|callable $match regex or callabale
     * @param mixed $recursive the default value is false
-    * @param ?array & $excludedir
+    * @param ?array|string & $excludedir
     * @param ?callable $callback
     */
-    public static function GetFiles($dir, $match, $recursive = false, ?array &$excludedir = null, ?callable $callback = null)
+    public static function GetFiles($dir, $match, $recursive = false,  &$excludedir = null, ?callable $callback = null)
     {
         if (is_dir($dir) === false)
             return null;

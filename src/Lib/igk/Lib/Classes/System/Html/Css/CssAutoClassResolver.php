@@ -7,6 +7,8 @@ namespace IGK\System\Html\Css;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Dom\HtmlDocTheme;
 
+
+
 /**
  * auto generate doc.
  * @package IGK\System\Html\Css
@@ -22,6 +24,13 @@ class CssAutoClassResolver
      * auto detect prefix sequence 
      */
     const AUTO_PREFIX_DETECT = HtmlDocTheme::THEMING_PREFIX;
+
+    /**
+     * 
+     * @var mixed
+     */
+    private $m_conformBranked;
+
     /**
      * auto generate doc.
      * @var mixed
@@ -93,16 +102,17 @@ class CssAutoClassResolver
      * resolve data presentation
      * @param mixed $prefix
      * @param mixed $value
-     * @param mixed $options
+     * @param mixed $options {colorspace:string, conformBranked: callable}
      * @return ?string
      */
     public function resolveCode($prefix, $value, $options = null): ?string
     {
         $this->colorspace = igk_getv($options, 'colorspace', 'hsl');
+        $this->m_conformBranked = igk_getv($options, 'conformBranked');
         if (method_exists($this, $fc = '_visit_' . $prefix)) {
             return call_user_func_array([$this, $fc], [$value]);
         } else {
-            igk_environment()->isDev() && Logger::warn('missing visitor for ' . $value);
+            igk_environment()->isDev() && Logger::warn('missing visitor for code ['.$prefix . '] for ' . $value);
         }
         return null;
     }
@@ -428,7 +438,7 @@ class CssAutoClassResolver
      */
     protected static function _SizeSide($value)
     {
-        if (preg_match('/^(w|h)-/', $value, $tab)) {
+        if (preg_match('/^(w|h|x|y)-/', $value, $tab)) {
             return $tab[1];
         }
         return null;
@@ -439,7 +449,19 @@ class CssAutoClassResolver
     }
     public function _visit_min(string $value)
     {
-        return $this->size_binding('min', $value);
+        $s = $this->size_binding('min', $value);
+        return $s;
+    }
+    /**
+     * attach minmax type properties
+     * @param string $value 
+     * @return string|false 
+     */
+    protected function _visit_minmax(string $value){
+        $r = $this->size_binding('min', $value);
+        $t = $this->size_binding('max', $value);
+        $g = array_merge(json_decode($r, true), json_decode($t,true));
+        return json_encode($g);
     }
     /**
      * 
@@ -460,13 +482,14 @@ class CssAutoClassResolver
         }
         $lv = null;
         if ($side) {
-            $lv = igk_getv(['w' => 'width', 'h' => 'height'], $side);
+            $lv = igk_getv(['x'=>'width', 'w' => 'width', 'h' => 'height', 'y'=>'height'], $side);
         }
         if ($lv) {
             return json_encode([$property . '-' . $lv => $value]);
         }
         return json_encode([$property . '-width' => $value, $property . '-height' => $value]);
     }
+    
 
     /**
      * auto generate doc.
@@ -763,6 +786,9 @@ class CssAutoClassResolver
         $value = stripslashes($value);
         if ($value && ($value[0] == '[')) {
             $vv = CssClassNameUtility::ReadBrank($value);
+            if ($fc = $this->m_conformBranked){
+                $vv = $fc($vv);
+            }
         }
         return $vv;
     }

@@ -52,4 +52,5 @@ class CssKeyFrame implements ICssDefinition{
     public function getDefinition($option=null):?string{
         return '@keyframes '.$this->name.'{'.self::RenderDefinition($this->def, $option).'}';
     }
+    
 }

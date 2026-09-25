@@ -319,6 +319,7 @@ class HtmlNodeTagExplosionDefinition
         $regex->resetTreatment();
 
         $v_sub_litteral->patterns = [
+            $pbrank,
             $v_s
         ];
         $pbrank->patterns = [
@@ -346,6 +347,8 @@ class HtmlNodeTagExplosionDefinition
                     $t = stripslashes(substr($e->value, 1));
                     switch ($c[0]) {
                         case '.':
+                            // + | Fix to add only mono faces classe 
+                            $t = preg_replace('/\\s+/', '_', $t);
                             $def['classes'][$t] = 1;
                             break;
                         case '!':

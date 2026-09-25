@@ -474,26 +474,31 @@ abstract class CssUtils
                 return false;
             }
         }
-        $def = [];
+
+        
+        $def = []; 
+        
         ArrayUtils::PrependAfterSearch($tdef, $primaryTheme);
         // $v_render_primary = false;
-        $tab = $a_theme->getdef()->getAttributes() ?? [];
-        $medias = $a_theme->getMedias();
+        // $tab = $a_theme->getdef()->getAttributes() ?? [];
+        // $medias = $a_theme->getMedias();
         $opt = new CssThemeOptions;
-        $opt->skips = ['rules', 'fonts'];
+      
         $opt->rootListener = $rootListener;
         if ($v_opts = $a_theme->getRenderOptions()) {
             // + | share listener 
             $v_opts->rootListener = $rootListener;
         }
-        $v_is_first = $v_systheme = $a_theme->isSystemTheme();
+        $v_systheme = $a_theme->isSystemTheme();
         $v_theme = null;
         $root_defs = [];
         $v_copy = null;
+        $opt->skips = []; // render all  
 
         foreach ($tdef as $theme_name) {
-            $opt->theme_name = $theme_name;
+            $opt->theme_name = $theme_name;   
             $opt->is_primary = $primaryTheme == $theme_name;
+
             $colors = $a_theme->getThemeColorsByName($theme_name);
             if ($v_systheme) {
                 $inc_files = $v_theme ? $v_theme->getIncludedFiles() : null;
@@ -509,24 +514,24 @@ abstract class CssUtils
                 $v_copy = $v_copy ?? $a_theme->to_array();
                 $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
                 $v_theme->load_data($v_copy);
-            }
+            } 
             // + | set options before bind style
             $v_theme->setRenderOptions($opt);
             // + | load bind style with theme 
             $controller->bindCssStyle($v_theme, true);
-            if ($v_is_first) {
-                $core = $a_theme->get_css_def(true, true);
-                array_unshift($def, implode("\n", [
-                    "/* begin: core-theme: */",
-                    $core,
-                    "/* end: core-theme:*/",
-                    ''
-                ]));
-                // $v_render_primary = true;
-            }
+            // if ($v_systheme) {
+            //     $core = $a_theme->get_css_def(true, true);
+            //     array_unshift($def, implode("\n", [
+            //         "/* begin: core-theme: */",
+            //         $core,
+            //         "/* end: core-theme:*/",
+            //         ''
+            //     ]));     
+            // }
             if ($opt->is_primary  && ($s = $v_theme->get_css_def(true, true))) {
                 $def[] = $theme_export ? $s : implode("\n", ["/* begin: primary-theme */", $s, "/*end: primary-theme*/"]);
             }
+            $opt->skips = ['rules' , 'fonts', 'roots'];
             self::MapMediaCssTheme(
                 $v_theme,
                 $theme_name,
@@ -534,19 +539,15 @@ abstract class CssUtils
                 null,
                 $opt->is_primary
             );
-            self::BindRootDataThemeDefinition($root_defs, $v_theme, $theme_name);
-
-            if ($opt->is_primary){
-                $opt->skips[] = 'roots';
-            }
-            if ($s = $v_theme->get_css_def()) { 
+            self::BindRootDataThemeDefinition($root_defs, $v_theme, $theme_name); 
+           
+            if ($s = $v_theme->get_css_def(true, true)) { 
                 $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : '') . $s;
             }
             if ($opt->is_primary){
                 unset($opt->skips[array_search('roots',$opt->skips)]);
-            }
-            $v_is_first = false;
-        }
+            } 
+        } 
 
         if ($v_theme){
             $v_theme->setThemeKeySelector(null);
@@ -575,7 +576,7 @@ abstract class CssUtils
         $render_options = null
     ) {
         $v_opt = new CssThemeOptions;
-        $v_opt->skips = ['rules', 'fonts'];
+        $v_opt->skips = [];
         $v_opt->rootListener = null; // $rootListener;
         $v_systheme = $a_theme->isSystemTheme();
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
@@ -594,6 +595,9 @@ abstract class CssUtils
             $v_opt->theme_name = $theme_name;
             $v_opt->is_primary = $primaryTheme == $theme_name;
             $colors = $a_theme->getThemeColorsByName($theme_name);
+            if (!$v_opt->is_primary){
+                $v_opt->skips = ['rules', 'fonts'];
+            }
             if ($v_systheme) {
                 $v_theme = $a_theme;
                 $def[] = $v_theme->get_css_def($minfile, $theme_export);
@@ -1337,19 +1341,16 @@ abstract class CssUtils
     }
 
     /**
-     * convert litteral expression to css. class definition 
+     * convert litteral expression to css. class definition. in other word translate to 
      * @param string $def class definition  
      * @param ?RegexMatcherContainer $regex class definition  
      * @return string 
      */
     public static function ToClassClassDeclaration(string $def, &$regex = null)
-    {
-
-
-        // $v = preg_replace('/(?!<=\\\\)([:\/\[\]])/', '\\\\$1', $def);
+    { 
         if (is_null($regex)) {
             $regex = new RegexMatcherContainer;
-            $regex->match('(?!<=\\\\)([:\/\[\]#])', 'escaped');
+            $regex->match('(?!<=\\\\)([:\/\[\]#\(\)])', 'escaped');
             $regex->appendStringDetection('string', true);
             $regex->appendMultilineComment();
         } else {
