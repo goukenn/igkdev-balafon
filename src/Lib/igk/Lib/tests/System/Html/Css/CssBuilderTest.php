@@ -332,10 +332,10 @@ class CssBuilderTest extends BaseTestCase
     {
         $detector = $this->_init('');
         $references = [];
-        $detector->loadReferences(['w-\[calc(100vh-4rem)\]'], $references);
+        $detector->loadReferences(['w-\[calc\(100vh-4rem\)\]'], $references);
         $s = $detector->renderToCss($references);
         $this->assertEquals(implode("\n", [           
-            '.w-\\[calc(100vh-4rem)\\]{',
+            '.w-\\[calc\\(100vh-4rem\\)\\]{',
             'width:calc(100vh-4rem)',
             '}'
         ]), $s);
