@@ -11,6 +11,7 @@ namespace IGK\System\Html\Css;
 */
 class CssConstants{
     const RESOLVE_REF_EXTENTIONS = 'phtml|html|bview|pinc';
+    const PSEUDO_LIST = 'active|hover|focus-within|focus-visible|focus|blur|target|target-within|checked|enabled|disabled|read-only|read-write|placeholder-shown|default|indeterminate|valid|invalid|user-valid|user-invalid|in-range|out-of-range|required|optional|autofill';
     /**
     * auto generate doc.
     * @var mixed

@@ -13,7 +13,7 @@ use IGK\System\Regex\RegexHelper;
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-class FaviconCommand extends AppExecCommand
+class FaviconCommand extends BaseCommandSystemCommand
 {
     /**
     * Property: command.
@@ -33,11 +33,6 @@ class FaviconCommand extends AppExecCommand
 		"--html"=>"flag: active html rendering",
 		"--type:expected_type"=>"'base64' | 'html' | 'svg' | 'png' default is 'base64'"
 	];
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
     /**
     * Property: usage.
     * @var mixed

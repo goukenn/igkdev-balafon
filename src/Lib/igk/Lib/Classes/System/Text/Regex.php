@@ -19,7 +19,7 @@ abstract class Regex{
     * @param mixed $pattern
     * @param mixed $haystack
     * @param mixed $default
-    * @return void
+    * @return mixed
     */
     public static function Get(string $key, $pattern, $haystack, $default= null){
         if (preg_match($pattern, $haystack, $tab)){

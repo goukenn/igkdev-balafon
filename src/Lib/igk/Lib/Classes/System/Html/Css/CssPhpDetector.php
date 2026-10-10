@@ -79,6 +79,7 @@ class CssPhpDetector
      * @return void
      */
     public function __construct() {}
+    public const PSEUDOLIST = CssConstants::PSEUDO_LIST;
     /**
      * auto generate doc.
      * @return ?RegexMatcherContainer
@@ -105,12 +106,12 @@ class CssPhpDetector
         $word_detect_class = $regex->match("(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*'.$v_opacity, "word-detected")->last();
         $word_detect_mark = $regex->begin(
             "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\[)',
-            "\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?".$v_opacity,
+            "\](?P<pseudo>(:".self::PSEUDOLIST.")*)?".$v_opacity,
             "word-detected"
         )->last();
         $eword_detect_mark = $regex->begin(
             "(\\.)?" . CssUtils::CLASS_NAME_UTIL_REGEX . '(?:-[a-zA-Z0-9])*(?:-\\\\\[)',
-            "\\\\\](?P<pseudo>(:[a-zA-Z0-9][a-zA-Z0-9\-_]*)*)?".$v_opacity,
+            "\\\\\](?P<pseudo>(:".self::PSEUDOLIST.")*)?".$v_opacity,
             "word-detected"
         )->last();
         $word = $regex->match($def_theme_regex . "\\b[a-z]+(-[a-z\\-0-9]+)?\\b", "word-detected")->last();
@@ -223,6 +224,7 @@ class CssPhpDetector
                         if ($v[0] == '.') {
                             $v = substr($v, 1);
                         }
+                        $v = self::_TreatWordDetected($v);
                         // igk_wln(__FILE__.":".__LINE__ , 'detect: ' . $id . ' : '.$v);
                         $v = self::_ToCssClassDeclaration($v);
 
@@ -259,5 +261,13 @@ class CssPhpDetector
     {
         $v = stripslashes($v);
         return CssUtils::ToClassClassDeclaration($v);
+    }
+    /**
+     * treat word detected 
+     * @param string $v 
+     * @return string 
+     */
+    protected static function _TreatWordDetected(string $v){
+        return $v;
     }
 }

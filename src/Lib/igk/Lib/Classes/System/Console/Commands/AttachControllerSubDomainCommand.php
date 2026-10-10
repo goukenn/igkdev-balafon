@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands;
 use IGK\Models\Subdomains;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\ConsoleConstants;
 use IGK\System\Console\Logger;
 
 /**
@@ -32,7 +33,7 @@ class AttachControllerSubDomainCommand extends AppExecCommand{
     * Property: category.
     * @var mixed
     */
-    var $category = 'sys';
+    var $category = ConsoleConstants::SYS_CATEGORY;
     /**
     * Property: usage.
     * @var mixed

@@ -95,7 +95,7 @@ class PhoneBookUtility
                     $type = $row->{PhoneBookTypes::FD_NAME};
                     $v = $row->{PhoneBooks::FD_VALUE};
                     $ctype = self::ResolveNameToVCardProperty($type);
-                    if(!property_exists(VCard::class, $ctype)){
+                    if(!$ctype || !property_exists(VCard::class, $ctype)){
                         continue;
                     }
                     if (is_null($v_card))

@@ -6,6 +6,7 @@
 namespace IGK\System\Console\Commands;
 use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\ConsoleConstants;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
 
@@ -23,7 +24,7 @@ class EnvironmentsCommand extends AppExecCommand{
     * Property: category.
     * @var mixed
     */
-    var $category = 'sys';
+    var $category = ConsoleConstants::SYS_CATEGORY;
     /**
     * Property: desc.
     * @var mixed

@@ -99,7 +99,7 @@ class BalafonInitCommand extends AppExecCommand
 				@unlink($cf); 
 			}
 		}  
-		igk_wln("install: ".$install_dir);
+		igk_wln("balafon init install: ".$install_dir);
 		return (new BalafonInitEnvironment())->run($command, $install_dir);
 	}
     /**

@@ -11,8 +11,20 @@ use IGKException;
  * auto generate doc.
  * @package IGK\System\Regex
  */
-class RegexHelper
+abstract class RegexHelper
 {
+    /**
+     * extract value 
+     * @param string $pattern 
+     * @param string $haystack 
+     * @param mixed $extract
+     * @return array 
+     */
+    public static function Extract(string $pattern, string $haystack, $extract):array{
+        $tab = [];
+        preg_match($pattern, $haystack, $tab);
+        return igk_extract($tab, $extract);
+    }
     /**
      * retrieve value from a regex
      * @param string $haystack where to search
@@ -36,6 +48,12 @@ class RegexHelper
     {
         $value = str_replace("/", "\\/", $value);
         return $value;
+    }
+
+    public static function ToRegexExpression(string $value, string $delimiter='/'){
+        /// TODO: 
+        $value = preg_replace('/(?!<=\\\\)([:\/\[\]#\(\)])/','\\\\\\1', $value);
+        return sprintf($delimiter.$value.$delimiter); 
     }
     /**
      * treat and transform search path expression /** subdir * multiple 

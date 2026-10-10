@@ -11,7 +11,7 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 * @author C.A.D. BONDJE DOUE
 */
-class ListComponentPackageCommand extends AppExecCommand{
+class ListComponentPackageCommand extends BaseCommandSystemCommand{
     /**
     * Property: command.
     * @var mixed
@@ -23,11 +23,7 @@ class ListComponentPackageCommand extends AppExecCommand{
     */
     var $desc='list system\'s node package namespaces'; 
 	/* var $options=[]; */
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
+    
 	/* var $usage = ''; */
     /**
     * Exec.

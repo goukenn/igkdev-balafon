@@ -359,9 +359,9 @@ class IGKApp extends IGKObject
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
         // + | 
-        \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
+        \IGK\System\Diagnostics\Benchmark::Mark("hook_init_app");       
         IGKEvents::hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);  
-        \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
+        \IGK\System\Diagnostics\Benchmark::Expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
         include IGK_LIB_DIR.'/Inc/igk_hooks.pinc'; 

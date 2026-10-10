@@ -15,17 +15,13 @@ use IGK\System\Console\TerminalActionCommand;
 * auto generate doc.
 * @package IGK\System\Console\Command
 */
-class RunTacCommand extends AppExecCommand{
+class RunTacCommand extends BaseCommandSystemCommand{
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--run:tac";
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
+ 
     /**
     * Property: desc.
     * @var mixed

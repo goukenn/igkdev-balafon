@@ -4,6 +4,7 @@
 // @date: 20260212 20:27:15
 namespace IGK\System\Console\Commands\Services;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\Commands\BaseCommandSystemCommand;
 use IGK\System\Console\Logger;
 use IGKServices;
 
@@ -12,7 +13,7 @@ use IGKServices;
 * @package IGK\System\Console\Commands\Services
 * @author C.A.D. BONDJE DOUE
 */
-class ServicesCommand extends AppExecCommand{
+class ServicesCommand extends BaseCommandSystemCommand{
     /**
     * Property: command.
     * @var mixed
@@ -28,11 +29,7 @@ class ServicesCommand extends AppExecCommand{
     * @var mixed
     */
     var $options=[];
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
+ 
     /**
     * Property: usage.
     * @var mixed

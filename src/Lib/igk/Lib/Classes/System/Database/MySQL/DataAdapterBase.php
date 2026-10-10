@@ -203,10 +203,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
     /**
     * auto generate doc.
-    * @param mixed $dbnamemix
+    * @param mixed|string $dbnamemix
     * @param mixed $selectdb the default value is true
     */
-    public function connect($dbnamemix = null, $selectdb = true)
+    public function connect($dbnamemix = null, $selectdb = true):bool
     {
         $this->makeCurrent();
         if (($this->m_dbManager == null) || (!$this->m_dbManager->connect())) {
@@ -558,7 +558,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
                         igk_ilog(implode(',', ["can't select database \"{$dbname}\". Database not found.", __FILE__ . ":" . __LINE__]));
                     }
                 }
-                return $r;
+                return (bool)$r;
             } catch (\Exception $ex) {
             }
         }

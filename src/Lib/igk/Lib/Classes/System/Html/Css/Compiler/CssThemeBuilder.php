@@ -11,6 +11,7 @@ use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlDocTheme;
 
 /**
@@ -56,7 +57,7 @@ class CssThemeBuilder
             $v_maps[] = $theme_tab;
             if ($useCoreCss) {
                 Logger::info('loading core style...');
-                $imported = array_merge($imported ?? [], $mergeCoreImported ? self::GetImported($theme, $theme_tab) : []);
+                $imported = array_merge($imported ?? [], $mergeCoreImported ? self::GetImported($theme, $theme_tab, $useDetectedClass) : []);
                 $tab = CssParser::Parse($v_sys_theme->render())->to_array();
                 array_unshift($v_maps, $tab);
             }
@@ -130,8 +131,13 @@ class CssThemeBuilder
      * @param array $theme_tab 
      * @return array 
      */
-    public static function GetImported($theme, array $theme_tab): array
+    public static function GetImported($theme, array $theme_tab, $use_class=false): array
     {
+        $r_class = [];
+        if ($use_class) {
+            $reg = HtmlCssClassValueAttribute::GetRegClass();
+            $r_class = array_keys($reg);             
+        }
         $imported = array_merge(
             [
                 '.dispn',
@@ -152,9 +158,12 @@ class CssThemeBuilder
                 ':root',
                 '::root'
             ],
+            $r_class,
             $theme->getImportedDefinitions() ?? [],
             CssClassNameDetector::RetrieveInjectedClassesList($theme_tab) ?? [],
         );
+        igk_hook('sys-filter://get-imported-class_list', ['filter'=>&$imported]);
+
         return array_unique($imported);
     }
 }

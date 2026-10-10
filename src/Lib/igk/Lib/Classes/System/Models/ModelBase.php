@@ -432,7 +432,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if ($inf = $this->_getTableColumnInfo()) {
             return DbSchemas::CreateObjFromInfo($inf);
         }
-        $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+       //  $ctrl = igk_getctrl($this->controller ?? SysDbController::class);
+        $ctrl = $this->getController(); // igk_getctrl($this->controller ?? SysDbController::class);
         return DbSchemas::CreateRow($this->getTable(), $ctrl);
     }
     /**
@@ -747,9 +748,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * retrieve cache table info
-     * @return mixed
+     * @return ?SchemaMigrationInfo
      */
-    public function getTableInfo()
+    public function getTableInfo(): ?SchemaMigrationInfo
     {
         $tn = $this->getTable();
         if ($g = DBCaches::GetTableInfo($tn, $this->getController())) {
@@ -907,6 +908,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         self::_InitMacros();
         $_instance_class = static::CreateMockInstance(static::class);
+
+
+        if (('model' !=$name) && method_exists($cl = static::class,$name )){
+            return call_user_func_array([$cl::model(), $name], $arguments);
+        }
+
         if ($fc = igk_getv(self::$sm_macros, $name)) {
             $bind = 1;
             if (is_array($fc)) {
@@ -943,6 +950,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             }
             $name = $fns;
         }
+       
         if (igk_environment()->isDev()) {
             igk_dev_wln(array_keys(self::$sm_macros));
             igk_dev_wln("call :" . $name);

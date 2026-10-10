@@ -18,6 +18,7 @@ use IGK\Tests\BaseTestCase;
  */
 class CssClassNameDetectorTest extends BaseTestCase
 {
+    
     protected function _compileDefinition(string $txt)
     {
         $tab = CssParser::Parse($txt);
@@ -147,5 +148,11 @@ PHP
     }
     public function test_cssclassnamedetector_custom_important(){
         $this->assertEquals('.text-\[\#040816!important\]{color:#040816 !important}', $this->_autoDefinition('.text-\[\#040816!important\]'));
+    }
+    public function test_cssclassnamedetector_w_def(){
+        $this->assertEquals('.w-16{width:4em}',
+         $this->_autoDefinition('.w-16'));
+        $this->assertEquals('.h-16{height:4em}',
+         $this->_autoDefinition('.h-16'));
     }
 }

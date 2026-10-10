@@ -405,10 +405,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     */
     protected function configure($params) {}
     /**
-    * auto generate doc.
-    * @param mixed $ctrl the default value is null
+    * connect to database
+    * @param mixed $parameter parameter depend on adapter specifcation
+    * @return bool
     */
-    abstract public function connect($ctrl = null);
+    abstract public function connect($parameter = null):bool;
     /**
     * auto generate doc.
     * @param string $ctrl adapter to create

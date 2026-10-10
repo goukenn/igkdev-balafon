@@ -54,7 +54,7 @@ class HtmlImgNode extends HtmlNode{
     * Returns Src.
     */
     public function getSrc(){
-        return $this["src"]->value;
+        return $this["src"]->getValue();
     }
     /**
      * is self closing tag
@@ -64,4 +64,9 @@ class HtmlImgNode extends HtmlNode{
     {
         return true;
     } 
+    protected function _acceptRender($options = null): bool
+    {
+        $p = $this->getSrc();
+        return !is_null($p) && parent::_acceptRender($options);
+    }
 }

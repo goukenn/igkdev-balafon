@@ -26,6 +26,7 @@ use IGKException;
  * @method self desc(?string $phpdoc) set description  
  * @method self class_modifier(?string $modifier) set the class type modifier 
  * @method self strict(?bool $strict_declare) set the class type modifier 
+ * @method self before(?mixed $before_declare) set the class type modifier 
  */
 class PHPScriptBuilder
 {
@@ -223,6 +224,9 @@ class PHPScriptBuilder
         $defs = "";
         if ($e = $this->defs) {
             $defs .= StringUtility::IndentContent($e) . "\n";
+        }
+        if ($before = $this->before){
+            $o.= $before."\n";
         }
         switch ($this->type) {
             case "function":

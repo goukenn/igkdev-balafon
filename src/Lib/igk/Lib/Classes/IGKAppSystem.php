@@ -250,11 +250,11 @@ class IGKAppSystem
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {
             $k = 'loadlib_cache';
-            \IGK\System\Diagnostics\Benchmark::mark($k);
+            \IGK\System\Diagnostics\Benchmark::Mark($k);
             $t_files = self::_LoadEnvFiles();
             igk_reglib($t_files);
             IGKSysCache::CacheLibFiles(true);
-            \IGK\System\Diagnostics\Benchmark::expect($k, 2.00);
+            \IGK\System\Diagnostics\Benchmark::Expect($k, 2.00);
         }
         self::_InitControllerEnvironment($app);
     }

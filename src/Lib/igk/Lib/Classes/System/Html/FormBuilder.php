@@ -134,7 +134,7 @@ class FormBuilder
         if (empty($tag)) {
             $tag = "div";
         }
-        $clprop->add("data");
+        $clprop->add("data igk-form-group tips danger igk-form-label error text--danger fs-24pt");
         /**
          * load attributes defnitions
          */
@@ -152,7 +152,7 @@ class FormBuilder
                     $clprop->setClasses($v_def_form_control);
                 }
                 if (!empty($defclass = $clprop->getValue())) {
-                    $o .= "class=\"" . $defclass . "\"";
+                    $o .= "class=\"" . $defclass . "\""; 
                 }
                 return;
             }
@@ -172,7 +172,7 @@ class FormBuilder
         /**
          * bind value for copy
          */
-        $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
+        $bindValue = function (&$o, &$fieldset, $k, $v) use ($clprop, $get_attr_key, $load_attr, $tag) {
             $v_k_id = null;
             $v_error = null;
             if ($v instanceof IFormInternalIDSupport) {
@@ -286,7 +286,7 @@ class FormBuilder
                 }
                 $o .= "class=\"$class_style\" ";
                 $o = rtrim($o) . ">";
-            }
+            } if ($class_style) $clprop->add($class_style);
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $tcc = igk_getv($v, 'label_attribs') ?? [];
                 if ($tcc) {
@@ -465,7 +465,7 @@ class FormBuilder
                         if ($_is_required) {
                             $attrib["required"] = 1;
                         }
-                        // igk_wln_e(__FILE__.":".__LINE__ , $attrib, $jp);
+                        
 
                         $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
                         $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);

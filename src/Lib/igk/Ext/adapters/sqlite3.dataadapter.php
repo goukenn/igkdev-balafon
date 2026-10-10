@@ -495,7 +495,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     * mixed. controller| filename |data value
     * @param mixed $dbname
     */
-    public function connect($dbname=null){
+    public function connect($dbname=null):bool{
         if(func_num_args() > 0){
             if(igk_is_controller($dbname)){
                 $f=igk_getv($dbname->Configs, "clSQLite3DataFile");

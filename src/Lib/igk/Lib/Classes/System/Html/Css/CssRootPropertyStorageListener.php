@@ -43,9 +43,9 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
     private $m_treat = false;
     /**
      * render root style definition 
-     * @return string 
+     * @return ?string 
      */
-    public function render(?string $themename=null){
+    public function render(?string $themename=null): ?string{
         $r = & $this->m_roots;
         $skey = null;
         if ($themename){

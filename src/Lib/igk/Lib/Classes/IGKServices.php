@@ -136,7 +136,34 @@ class IGKServices extends ListOfCoreServices
             }
             $v_transient = true;
         }
+        if ($v_isn) {
+            $l = self::_LoadService($v_isn, $i, $serviceName, $container, $v_transient);        
+            return $l; 
+        } else {
+            if (!$i->m_initilize){                
+                $g = $i->_init();
+                if (isset($g[$serviceName])){
+                    $v_isn = igk_getv($g, $serviceName);
+                    $l = self::_LoadService($v_isn, $i, $serviceName, $container, $v_transient);
+                    return $l;
+                }
+            }
+        }
+        return null;
+    }
+    /**
+     * 
+     * @param mixed $v_isn 
+     * @param mixed $i 
+     * @param mixed $serviceName 
+     * @param mixed $container 
+     * @param mixed $v_transient 
+     * @return mixed|null 
+     */
+    private static function _LoadService($v_isn, $i, $serviceName, $container, $v_transient){
         $className = igk_getv($v_isn, self::KEY_DEF);
+        $v_key = self::KEY_INSTANCE;
+        $sn = $serviceName;  
         if ($className) {
             if (!$v_transient && igk_getv($v_isn, self::KEY_LIFETIME) == LifeTime::TRANSIENT) {
                 $i->m_transients[$serviceName] = $v_isn;
@@ -152,7 +179,13 @@ class IGKServices extends ListOfCoreServices
             }
             return $l;
         }
-        return null;
+    }
+    private $m_initilize = false;
+    private function _init(){
+        $cf = self::ConfigurationFile();
+        if (igk_io_file_exists($cf, true)){
+            return include $cf;
+        }
     }
     /**
      * register service.
@@ -241,16 +274,17 @@ class IGKServices extends ListOfCoreServices
         }
     }
     /**
-    * auto generate doc.
-    * @param mixed $n
-    * @param mixed & $service
-    * @return object
-    */
-    protected static function _InitBaseContainerService($n, & $service){
-        $c = "\\IGK\\System\\Services\\".ucfirst($n)."ServiceContainer";
+     * auto generate doc.
+     * @param mixed $n
+     * @param mixed & $service
+     * @return object
+     */
+    protected static function _InitBaseContainerService($n, &$service)
+    {
+        $c = "\\IGK\\System\\Services\\" . ucfirst($n) . "ServiceContainer";
         $cl = AppBaseContainerService::class;
-        if(class_exists($c) && is_subclass_of($c, IAppServiceContainer::class)){
-          $cl = $c; 
+        if (class_exists($c) && is_subclass_of($c, IAppServiceContainer::class)) {
+            $cl = $c;
         }
         self::Register($n, $cl);
         return self::Get($n);
@@ -357,7 +391,7 @@ class IGKServices extends ListOfCoreServices
     private static function _GetFallingConfiguration($configuration, string $gkey)
     {
         $fc_unset_args = function ($l): bool {
-            if (!is_array($l)){
+            if (!is_array($l)) {
                 $l = [$l];
             }
             unset($l[self::INIT_ARGS]);

@@ -20,14 +20,14 @@ trait IOSearchFileTrait{
     public static function SearchFile(string $path, ?array $extension, $index_file='index.php'){
         if (is_dir($path)){
             $s = Path::Combine($path, $index_file);
-            if (igk_io_file_exists($s)){
+            if (igk_io_file_exists($s, true)){
                 return $s;
             }
         }
         $sb = array_merge([""], $extension ?? []);
         while(count($sb)>0){
             $q = $path.array_shift($sb);
-            if (igk_io_file_exists($q)){
+            if (igk_io_file_exists($q, true)){
                 return $q;
             }
         }

@@ -4,6 +4,7 @@
 // @desc: Content html helper functions 
 // @filename: igk_html_utils.php  
 use IGK\Constants;
+use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
@@ -1623,6 +1624,37 @@ if (!function_exists('igk_html_treat_indexOrArg')) {
             $args[] = $tab;
         }
         return compact('args', 'attr');
+    }
+}
+
+/**
+ * 
+ * @param mixed $target 
+ * @param mixed $community 
+ * @param BaseController $ctrl
+ * @return void 
+ */
+function igk_html_build_community_button(HtmlItemBase $target, array $community, BaseController $ctrl,?HtmlItemBase $host=null){
+    $m = $target;
+    $filter = $community;
+
+    
+    foreach($filter as $provider=>$com){
+        if (is_null($host)){
+            $host = $m->div()->setClass('dispflex gap-6px flex-row');
+        }
+        $form = $host->form();
+        $form['class' ] = 'oauth';
+        $n = igk_create_notagnode();
+        $n->add(igk_svg_use('logo-'.$provider));
+        $n->span(sprintf(__('connect with %s'), $provider));
+        $form->button()
+        ->setAttributes([
+            'type'=>'submit',
+            'class'=>'login-button dispflex flex-row no-wrap flex-center gap-5'
+        ])
+        ->setClass('no-style')->add($n);
+        $com->initForm($form, $ctrl);
     }
 }
 igk_load_library("html_ob");

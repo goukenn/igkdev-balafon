@@ -4,6 +4,8 @@
 // @date: 20221008 14:15:11
 namespace IGK\Css;
 
+use IGK\System\Html\Css\ICssStoreRootListener;
+
 /**
 * store default theme options
 * @package IGK\System\Css
@@ -49,6 +51,12 @@ class CssThemeOptions{
     * @var ?ICssStoreRootListener
     */
     var $rootListener;
+
+    /**
+     * resource resolver 
+     * @var mixed
+     */
+    var $resourceResolver;
     /**
     * .ctr
     */

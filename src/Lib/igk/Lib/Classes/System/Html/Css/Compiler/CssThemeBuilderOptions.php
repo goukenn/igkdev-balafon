@@ -66,6 +66,12 @@ class CssThemeBuilderOptions{
     var $mergeCoreImported;
 
     /**
+     * 
+     * @var ?bool
+     */
+    var $useDetectedClass;
+
+    /**
      * map to use 
      * @var mixed
      */

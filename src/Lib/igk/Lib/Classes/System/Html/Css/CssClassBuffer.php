@@ -57,6 +57,8 @@ class CssClassBuffer
                      $values = array_filter(explode(' ', ''.$values));  
                 else 
                     $values = [];              
+            } else if (is_array($values)){
+                $values = CssUtils::FlattenClassArray($values); 
             }
             $values = array_keys(array_filter($values));
         }
@@ -100,10 +102,12 @@ class CssClassBuffer
         $doc = $doc ?? igk_app()->getDoc() ?? igk_die("to render extra class definition, we require a document");
         $tab = $css_def->to_array();
         ksort($tab);
+        $imported = ($options ? igk_getv($options, 'imported') : null) ?? [];
         CssUtils::InitSysGlobal($doc);
         $systheme = $doc->getSysTheme();
         foreach ($tab as $k => $v) {
-            if (isset($systheme['.' . $k])) {
+            $cl = '.' . $k;
+            if (isset($systheme[$cl]) || in_array($cl, $imported)) {
                 unset($tab[$k]);
             }
         }

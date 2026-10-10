@@ -213,6 +213,14 @@ abstract class ControllerExtension
         return null;
     }
     /**
+     * retrieve cache directory
+     * @param BaseController $ctrl 
+     * @return null|string 
+     */
+    public static function getCacheDir(BaseController $ctrl):?string{
+        return Path::Combine($ctrl->getDeclaredDir(), '.balafon');
+    }
+    /**
      * get models
      * @param BaseController $ctrl 
      * @return array 
@@ -1316,7 +1324,7 @@ abstract class ControllerExtension
         if ($ns != ".") {
             return str_replace("/", "\\", $ns);
         }
-        $conf = self::projectConfiguration($ctrl);
+        $conf = $ctrl->projectConfiguration();
         return $conf->entryNamespace ?? SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
     }
     /**

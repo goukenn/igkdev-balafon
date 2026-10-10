@@ -7,6 +7,7 @@ namespace IGK\Css;
 use IGK\Resources\R;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssParser;
+use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
@@ -63,6 +64,13 @@ class CssThemeResolver
      * @var ?ICssResourceResolver
      */
     var $resolver;
+
+    /**
+     * skip definitions 
+     * @var mixed
+     */
+    var $skips;
+
     /**
     * Constant: attr resolv.
     * @var mixed
@@ -753,16 +761,13 @@ class CssThemeResolver
      */
     private function _resolve_res(string $value):?string {
         $tf = null;
-        if ($this->resolver){
-            if (is_file($value)){
-                $tf = $value;                     
-            }
-            else{
-                if ($tf = R::GetImgResUri($value, $path)){
-                    $tf = $path;
-                }
-            }
-            $tf = $this->resolver->resolve($tf);   
+        $v_skips = $this->skips;
+        if ($v_skips && in_array('res', $v_skips)){
+            return null;
+        }
+        if ($rs = $this->resolver){
+            $tf = $rs->resolveResourcePath($value);
+            $tf = $tf ?$rs->resolve($tf):null;   
         } else {
             if ($tf = R::GetImgResUri($value, $path)){
                 $tf = "/".igk_str_rm_start($tf, "../");

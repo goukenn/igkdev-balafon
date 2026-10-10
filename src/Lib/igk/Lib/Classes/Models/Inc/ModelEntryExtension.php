@@ -176,7 +176,8 @@ abstract class ModelEntryExtension
     {
         $tableinf = $model->getTableInfo();
         $p   = $tableinf ? $tableinf->prefix : null;
-        $row = DbSchemas::CreateRow($model->getTable(), $model->getController());
+        list($v_table, $v_ctrl) = [$model->getTable(), $model->getController()];
+        $row = DbSchemas::CreateRow($v_table, $v_ctrl);
         if ($p || $force){
             return new DbRowDefEntry($row, $p, $strict, $model);
         }
@@ -287,12 +288,13 @@ abstract class ModelEntryExtension
     public static function insertIfNotExists(ModelBase $model, ?array $conditions, ?array $options = null, $update = false)
     {
         $def = $model->getTableInfo();
-        $columns = $model->getTableColumnInfo();
+        $columns = $def->columnInfo; // ??  $model->getTableColumnInfo();
         $prefix = $def->prefix;
         $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $prefix);
         $t_select = DbUtility::PreparateConditionsListToAvoidDuplicate($columns, $conditions);
         $row = null;
-        $count = $model->select_count($t_select);
+        
+        $count = empty($t_select) ? 0 : $model->select_count($t_select);
         $extra = !$options ? [] : igk_getv($options, ModelBase::EXTRA_FIELD_OPTION);
         if ($count == 0) {
             if ($tab = $extra) {

@@ -26,7 +26,8 @@ class UriResolver
             if (file_exists($f = Path::Combine($ctrl->getDataDir(), $u))) {
                 $src = $f; 
             } else {
-                $src = $ctrl::uri($src);
+                // $src = $ctrl::uri($src);
+                $src = null;
             }
         }
         return $src;

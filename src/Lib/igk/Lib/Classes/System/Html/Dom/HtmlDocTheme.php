@@ -10,12 +10,14 @@ use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssColorDef;
 use IGK\Css\CssThemeOptions;
+use IGK\Css\CssThemeResolver;
 use IGK\Css\ICssAddRule;
 use IGK\Css\ICssAnimation;
 use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer;
 use IGK\System\Html\Css\CssRootPropertyStorageListener;
 use IGK\System\Html\Css\CssUtils;
+use IGK\System\Html\Css\EmbedResourceResolver;
 use IGK\System\Html\Dom\HtmlDocTheme as DomHtmlDocTheme;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
@@ -54,7 +56,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var mixed
      */
     const INLINE_STYLE_KEY = "css://temp/rendering";
-    const THEMING_PREFIX = 'text|br|bg|cell|cur|padx|pady|pad|loc|mar|max|min|rd|fit|no|gap|w|h|anim|transform|trans|fs|fill|stroke|tdc|opacity|z|minmax';
+    const THEMING_PREFIX = 'text|br|bg|cell|cur|padx|pady|pad|loc|mar|max|min|rd|fit|no|gap|w|h|anim|sz|transform|trans|fs|fill|stroke|tdc|opacity|z|minmax|flex|grid';
     const AUTO_CSS_PREFIX_REGEX = '/(?:(?:(?:x)?sm|(?:x(?:x)?)?lg):)?(?:(dark|light):)?(' . self::THEMING_PREFIX . ')-/';
     /**
      * Constant: global type.
@@ -560,7 +562,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $cl = &$this->getCl();
         $tf = array_merge($cl, $color);
-        $cl = array_filter($tf, function($a, $key){           
+        $cl = array_filter($tf, function ($a, $key) {
             return !empty($a);
         }, ARRAY_FILTER_USE_BOTH);
         ///
@@ -637,6 +639,20 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $this;
     }
     /**
+     * 
+     * @param mixed $parent 
+     * @param mixed $resourceResolver 
+     * @return CssThemeResolver 
+     */
+    private function _initThemeResolver($parent, $resourceResolver)
+    {
+        $builder =   new \IGK\Css\CssThemeResolver();
+        $builder->theme = $this;
+        $builder->parent = $parent;
+        $builder->resolver = $resourceResolver;
+        return $builder;
+    }
+    /**
      * get theme styling definition
      * @param \IGKHtmlDoc $doc document that host theme to export
      * @param bool $minfile the default value is true
@@ -667,14 +683,14 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         if (!$this->noHeader && $this->m_imports) {
             $out .= CssUtils::RenderImport($this->m_imports);
         }
-        $builder = new \IGK\Css\CssThemeResolver();
-        $builder->theme = $this;
-        $builder->parent = $systheme;
-        $builder->resolver = $resourceResolver;
+        $builder = $this->_initThemeResolver($systheme, $resourceResolver);
+
         $this->m_resolver = $builder;
         $this->m_resolver->themeResolved = &$this->m_themingResolv;
         $v_opts = $this->getRenderOptions();
         $v_skips = ($v_opts ? $v_opts->skips : null) ?? [];
+        $builder->skips = $v_skips;
+
         // + | --------------------------------------------------------------------
         // + | render symbols
         // + |
@@ -740,11 +756,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         // + | render rule definition 
         // + |
         if (!in_array('rules', $v_skips) && $def->getHasRules()) {
-            
+
             !$themeexport && $out .= "/* <!-- Rules --> */\n" . $lineseparator;
             $out .= $def->getRulesString($lineseparator, $themeexport, $systheme);
             !$themeexport && $out .= "\n/* <!-- end:Rules --> */" . $lineseparator;
-        } 
+        }
         // + | --------------------------------------------------------------------
         // + | render attributes
         // + | 
@@ -763,7 +779,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 }
                 if (is_array($v)) {
                     $v = self::GlueDef($v);
-                }              
+                }
                 $kv = $builder->treatThemeValue(trim($v, $v_trim_chars), $themeexport);
                 if (!empty($kv)) {
                     if ($prefix) {
@@ -848,10 +864,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     public function map($mapper, $systheme, $resourceResolver)
     {
         $def = $this->def;
-        $builder = new \IGK\Css\CssThemeResolver();
-        $builder->theme = $this;
-        $builder->parent = $systheme;
-        $builder->resolver = $resourceResolver;
+        $builder = $this->_initThemeResolver($systheme, $resourceResolver);
         $themeexport = false;
         if ($attr = $def->getAttributes()) {
             foreach ($attr as $k => $v) {
@@ -1130,9 +1143,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $systheme = $doc->getSysTheme();
         $is_root = $this === $systheme;
         $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $v_parent : $systheme);
-        \IGK\System\Diagnostics\Benchmark::mark($bmark = "theme-export-def");
+        $resourceResolver = $resourceResolver ?? igk_getv($v_opts, 'resourceResolver') ?? new EmbedResourceResolver;
+
+        \IGK\System\Diagnostics\Benchmark::Mark($bmark = "theme-export-def");
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
-        \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
+        \IGK\System\Diagnostics\Benchmark::Expect("theme-export-def", 0.100);
         if ($this->m_medias) {
             $out .= CssUtils::RenderMedia($this->m_medias, $this, $parent ?? $systheme, $minfile, $el, $is_root);
         }
@@ -1537,7 +1552,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $value
      */
     protected function _access_offsetSet($key, $value)
-    { 
+    {
         $def = &$this->getDef();
         if (is_array($value) && !is_null($key)) {
             $value = CssUtils::GlueArrayDefinition($value);
@@ -1584,7 +1599,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     public function registerKeyFrame(ICssAddRule $def, string $name, string $expression, bool $auto_resolve = true)
     {
-        if ($auto_resolve){
+        if ($auto_resolve) {
             $def->addRule("@-webkit-keyframes " . $name, $expression);
             $def->addRule("@-moz-keyframes " . $name, $expression);
         }

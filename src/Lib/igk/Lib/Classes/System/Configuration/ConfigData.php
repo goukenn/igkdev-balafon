@@ -25,6 +25,7 @@ use function igk_resources_gets as __;
  */
 class ConfigData  
 {
+    const CSS_default_theme_selector_format = 'css.default_theme_selector_format';
     /**
      * configuration controller
      * @var mixed

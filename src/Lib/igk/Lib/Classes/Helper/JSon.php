@@ -122,7 +122,7 @@ class JSon
                 $root = $c;
                 return $root;
             }
-        } else if (($data instanceof IToArrayResolver) || method_exists($data, 'to_array')) {
+        } else if (is_object($data) && (($data instanceof IToArrayResolver) || method_exists($data, 'to_array'))) {
             $data = $data->to_array();
             $keys = array_keys($data);
         } else {

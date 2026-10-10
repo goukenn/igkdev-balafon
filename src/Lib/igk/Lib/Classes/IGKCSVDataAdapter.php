@@ -411,8 +411,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * auto generate doc.
     * @param mixed $datafile
     */
-    public function connect($datafile="file"){
+    public function connect($datafile="file"):bool{
         $this->m_dbname=$datafile;
+        return true;
     }
     /**
     * Returns File Name.

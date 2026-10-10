@@ -146,10 +146,15 @@ abstract class ConsoleUtility
     {
         $gen = false;
         foreach ($bind as $n => $c) {
-            if ($is_force || !igk_io_cache_file_exists($n)) {
+            if ($is_force || !file_exists($n)) {
                 $gen = true;
-                if ($c instanceof Closure)
-                    $c($n, $command);
+                if ($c instanceof Closure){
+                    if ($h = $c($n, $command)){
+                        if(is_string($h)){
+                            igk_io_w2file($n, $h);        
+                        }
+                    }
+                }
                 else {
                     $code = is_string($c) ? $c : '';
                     igk_io_w2file($n, $code);
@@ -268,7 +273,7 @@ abstract class ConsoleUtility
                 continue;
             }
             if ($split) {
-                $args[] = $v;
+                $args[] = self::_TreatArg($v);
                 continue;
             }
             if ($command->waitForNextEntryFlag) {
@@ -309,7 +314,7 @@ abstract class ConsoleUtility
                         }
                         unset($command->commands[$id]);
                     } else
-                        $args[] = $v;
+                        $args[] = self::_TreatArg($v);
                 }
             }
             if (($check_first === false) && is_null($command->exec) && (0 === strpos($v, '--'))){
@@ -318,6 +323,17 @@ abstract class ConsoleUtility
             $check_first = true;
         }
         return $command;
+    }
+    /**
+     * treat arg
+     * @param string $v 
+     * @return string 
+     */
+    protected static function _TreatArg(string $v){
+        if ('\\' == $v[0]){
+            $v = stripslashes($v);
+        }
+        return $v;
     }
     public static function OptionArgValue(string $expression){
         $option ='';

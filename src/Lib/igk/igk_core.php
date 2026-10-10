@@ -248,7 +248,7 @@ if (!function_exists('igk_resources_gets')) {
     /**
      * helper: shortcut to resource string dictionary get __
      * @param string|array<string> $text formatted key
-     * @param string|null ...$parameters parameter
+     * @param ?string|array ...$parameters parameter
      * @return mixed
      */
     function igk_resources_gets($text, $parameters = null)
@@ -2188,7 +2188,7 @@ function igk_sys_reflect_class($class, &$reference = null)
         $reflection[$class] = $rf;
         return $rf;
     }
-    igk_trace();
+    igk_environment()->isDev() && igk_trace();
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $class);
 }
 /**

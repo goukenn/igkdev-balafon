@@ -11,7 +11,7 @@ use IGKEvents;
 * show balafon'on basics informations
 * @package IGK\System\Console\Commands
 */
-class InfoCommand extends AppExecCommand{
+class InfoCommand extends BaseCommandSystemCommand{
     /**
     * auto generate doc.
     * @var mixed
@@ -24,14 +24,8 @@ class InfoCommand extends AppExecCommand{
     * @return void
     */
     var $desc='retrieve essential balafon information';
-	/* var $options=[]; */
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    var $category = 'sys';
-	/* var $usage = ''; */
+ 
+  
     /**
     * auto generate doc.
     * @param mixed $command

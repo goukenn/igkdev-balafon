@@ -78,6 +78,7 @@ use IGK\System\Core\IProxyDataArgs;
 use IGK\System\DataArgs;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use IGK\System\Html\CallableConstants;
+use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssConstants;
 use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
 use IGK\System\Html\Dom\IThemeDefinition;
@@ -2798,10 +2799,10 @@ function igk_css_get_basedef(IGKHtmlDoc $doc, bool $no_systheme = false, bool $m
         $theme = $v["theme"];
         $name = $v["name"];
         $o = "";
-        Benchmark::mark("theme-export");
+        Benchmark::Mark("theme-export");
         $o .= "/* CSS - [\"{$name}\"] */" . $el;
         $o .= $theme->get_css_def($minfile, $themeexport) . $el;
-        Benchmark::expect("theme-export", 0.500);
+        Benchmark::Expect("theme-export", 0.500);
         $srh[] = $o;
         if (isset($v["doc"])) {
             $srh[] = $v["doc"]->getTemporaryCssDef($minfile, $themeexport) . $el;
@@ -2967,9 +2968,7 @@ function igk_css_init_style_def_workflow($doc, $theme = null)
  * @return mixed
  */
 function igk_css_invoke_color_request($r)
-{
-    igk_die('missing invoke color request.....');
-
+{  
     $v_key = CssConstants::ENVIRONMENT_BIND_COLOR_REQUEST_METHOD_CALLBACK;
     $callback = igk_get_env($v_key);
     if (is_callable($callback)) {
@@ -3478,6 +3477,24 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
     if ($doc == null) {
         igk_wln_e("can't treat bracket\n" . igk_show_trace());
     }
+    $ref = [];
+    $fc_resolv_sys = function ($g, $syschain, $systheme, $detector)use ( &$ref){
+        if (!is_null($c = igk_getv($ref, $g))){
+            return '';
+        }
+        $l = igk_getv($syschain, $g) ?? $systheme->def["." . $g];
+        if (is_null($l)){
+            $reference = [];
+            $detector->loadReferences([$g], $reference);
+            if ($reference){
+                $l = CssUtils::RenderProperties($reference['.'.$g]);                
+                $ref[$g] = $l ?? '';                
+            } 
+            
+        }
+        return $l;
+    };
+    $detector = new CssClassNameDetector;
     $systheme = $systheme ? $systheme : $doc->getSysTheme();
     $gtheme = $gtheme ? $gtheme : $doc->Theme;
     $reg2 = IGK_CSS_TREAT_REGEX_2;
@@ -3509,10 +3526,10 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                             $sk = IGK_STR_EMPTY;
                             foreach ($v_nn as $r) {
                                 $g = trim($r);
-                                $l = igk_getv($syschain, $g) ?? $systheme->def["." . $g];
+                                $l = $fc_resolv_sys($g, $syschain, $systheme, $detector);
                                 if (!empty($l)) {
                                     $l = rtrim($l, ' ;') . ';';
-                                }
+                                } 
                                 $sk .= $l;
                                 $chain[$g] = $l;
                             }
@@ -9843,9 +9860,9 @@ function igk_getbaseindex_src(string $libfile): string
 /**
  * auto generate doc.
  * @param mixed $v
- * @return mixed
+ * @return bool
  */
-function igk_getbool($v)
+function igk_getbool($v):bool
 {
     if (is_bool($v))
         return $v;
@@ -17670,7 +17687,7 @@ function igk_parse_num($num)
 /**
  * convert to bool string
  * @param mixed $bool
- * @return mixed
+ * @return string
  */
 function igk_parsebool($bool)
 {
@@ -23460,11 +23477,11 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
         case 403:
         case 503:
             igk_set_header(403);
-            $doc->Title = "Forbiden - " . igk_getv($_SERVER, "REDIRECT_STATUS", igk_getr("code")) . " ";
+            $doc->Title = "Forbidden - " . igk_getv($_SERVER, "REDIRECT_STATUS", igk_getr("code")) . " ";
             $bbox = $doc->body->getBodyBox()->clearChilds();
             $bbox->setClass("err-" . $code);
-            get_class($bbox->addHeaderBar("Forbiden"));
-            $bbox->div()->addSectionTitle()->setClass("igk-danger")->Content = "/!\\ Forbiden";
+            get_class($bbox->addHeaderBar("Forbidden"));
+            $bbox->div()->addSectionTitle()->setClass("igk-danger")->Content = "/!\\ Forbidden";
             $bbox->div()->addNode("i")->Content = __("Access denied:") . " " . igk_io_fullpath2fulluri(igk_io_rootdir() . igk_io_request_uri());
             break;
         case RequestResponseCode::NotFound:
@@ -23853,8 +23870,9 @@ function igk_sys_viewctrl($name)
  */
 function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose = false)
 {
-    if (!class_exists(ZipArchive::class, false))
+    if (!class_exists('ZipArchive', false)){
         return false;
+    }
     $zip = new ZipArchive();
     if ($zip->open($tfile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
         $files = igk_zip_dir(IGK_LIB_DIR, $zip, "Lib/igk", "/(Lib\/igk\/(temp|application|.Caches|Data\/(config.xml|domain.conf)))|(\.(vscode|git(ignore)?|gkds|DS_Store|bak)$)/");
@@ -23877,6 +23895,7 @@ function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose = false)
                 $verbose && Logger::print('add: ' . $k);
             }
         }
+
         return @$zip->close();
     }
     return false;

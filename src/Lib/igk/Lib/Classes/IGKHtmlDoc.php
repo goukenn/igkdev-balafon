@@ -9,8 +9,11 @@ use IGK\EnvironmentProperties;
 use IGK\Helper\Activator;
 use IGK\IGKHtmlDocFlagOption;
 use IGK\Resources\R;
+use IGK\System\Configuration\ConfigData;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Html\Css\CssConfiguration;
 use IGK\System\Html\Css\CssSession;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\GlobalScriptManagerHostNode;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
 use IGK\System\Html\Dom\HtmlDocCoreStyle;
@@ -780,7 +783,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * Call it out of rendering context. \
      * The file will be requested with link in the header.
      * @param string $file css file to add to document
-     * @return IHtmlNode style node 
+     * @return mixed style node 
      */
     public function addTempStyle(string $file)
     {
@@ -978,7 +981,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * set the base uri 
      * @param mixed $baseuri 
-     * @return $this 
+     * @return IGKHtmlDoc 
      */
     public function setBaseUri($baseuri): IGKHtmlDoc
     {
@@ -1028,8 +1031,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             CssSession::getInstance()->theme_name ??
             CookieManager::getInstance()->get(CssSession::APP_THEME_NAME) 
             ?? CssThemeOptions::DEFAULT_THEME_NAME;
-        if ($theme_name)
-            $attr .= "data-theme=\"" . $theme_name . "\" ";
+        $conf = igk_configs();
+        if ($theme_name){
+            $frm = sprintf(CssConfiguration::ConfigDefaultThemeSelectorFormat(), $theme_name);
+            $attr .= $frm;
+        }
         if ($this->m_dir) {
             $attr .= "dir=\"" . $this->m_dir . "\" ";
         }

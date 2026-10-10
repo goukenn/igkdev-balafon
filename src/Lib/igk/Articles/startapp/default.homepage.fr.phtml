@@ -8,6 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 // @requireby: HtmlDefaultMainPage.php 
+/**
+ * @var mixed $document_uri
+ */
+
 
 ?>
 <div class="igk-container">
@@ -45,7 +49,7 @@ $c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addO
 		/**
 		 * @var mixed $conf_buri
 		 */
-		if ($conf_buri):
+		if (isset($conf_buri)):
 		?>
 			<a class="igk-btn no-border" href="<?= $conf_buri ?>">Configuration</a>
 		<?php

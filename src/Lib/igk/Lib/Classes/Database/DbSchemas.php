@@ -336,7 +336,8 @@ abstract class DbSchemas
             $v_info = $sm_cacheinfo[$key];
             return self::CreateObjFromInfo($v_info, $dataobj);
         }
-        $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
+        // $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
+        $v_info = self::GetTableRowReference($tablename, $ctrl, $dataobj);
         if ($v_info) {
             if ($v_info instanceof SchemaMigrationInfo) {
                 $v_info = $v_info->columnInfo;

@@ -3,12 +3,17 @@
 // @file: SearchFilesCommand.php
 // @date: 20250604 15:27:20
 namespace IGK\System\Console\Commands;
+
+
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\ConsoleConstants;
 use IGK\System\Console\Logger;
+use IGK\System\Regex\RegexHelper;
 use IGK\System\Text\Regex;
 use IGK\System\Text\RegexFormatMatcherUtility;
 use IGK\System\Text\RegexMatcherUtility;
+use IGK\System\Console\Commands\BaseCommandSystemCommand;
 /**
 * auto generate doc.
 * @package IGK\System\Console\Commands
@@ -18,7 +23,7 @@ use IGK\System\Text\RegexMatcherUtility;
  * auto generate doc.
  * @package IGK\System\Console\Commands
  */
-class SearchFilesCommand extends AppExecCommand
+class SearchFilesCommand extends BaseCommandSystemCommand
 {
     /**
      * Property: command.
@@ -42,7 +47,7 @@ class SearchFilesCommand extends AppExecCommand
      * Property: category.
      * @var mixed
      */
-    var $category = 'sys';
+    var $category = ConsoleConstants::SYS_CATEGORY;
     /**
      * Property: usage.
      * @var mixed
@@ -62,10 +67,10 @@ class SearchFilesCommand extends AppExecCommand
         $exclude = null;
         $real = property_exists($command->options, '--real-only');
         $v_exclude = igk_getv($command->options, '--exclude');
-        $pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
+        $pattern = $pattern ? RegexHelper::ToRegexExpression($pattern) : '/.*/';
         $bckpath = getcwd();
         chdir($command->app->getStartPath());
-        // igk_wln_e("cwd", getcwd(), $command->app->getStartPath());
+        
         if ($v_exclude) {
             if (!is_array($v_exclude)) {
                 $v_exclude = [$v_exclude];
@@ -96,5 +101,6 @@ class SearchFilesCommand extends AppExecCommand
             }, true);
         }
         Logger::info('total: ' . $T); 
+        chdir($bckpath);
     }
 }

@@ -54,7 +54,7 @@ abstract class RequestResponseCode{
     * Constant: forbiden.
     * @var mixed
     */
-    const Forbiden = 403;
+    const Forbidden = 403;
     /**
     * Constant: not found.
     * @var mixed

@@ -158,6 +158,7 @@ class HtmlRenderer
                     if ($t = $ctrl->getTargetNode()) {
                         $bbox->add($t);
                         $ctrl->{ControllerEnvParams::NoCompilation} = 1;
+                        $ctrl->_initRequiredModules();
                         $ctrl->View();
                     }
                 }

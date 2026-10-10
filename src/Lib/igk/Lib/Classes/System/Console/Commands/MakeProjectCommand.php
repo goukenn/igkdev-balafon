@@ -64,7 +64,7 @@ class MakeProjectCommand extends AppExecCommand
      * Property: command.
      * @var mixed
      */
-    var $command = "--make:project";
+    var $command = '--make:project';
     /**
      * Property: desc.
      * @var mixed

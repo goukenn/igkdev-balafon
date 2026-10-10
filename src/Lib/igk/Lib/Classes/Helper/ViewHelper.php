@@ -6,6 +6,7 @@
 // @desc: helper view description files
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\Helper;
+
 use Closure;
 use Deprecated;
 use Exception;
@@ -44,36 +45,37 @@ class ViewHelper
 {
     use IOSearchFileTrait;
     /**
-    * Constant: arg key.
-    * @var mixed
-    */
+     * Constant: arg key.
+     * @var mixed
+     */
     const ARG_KEY = "sys://io/query_args";
     /**
-    * Constant: redirect param name.
-    * @var mixed
-    */
+     * Constant: redirect param name.
+     * @var mixed
+     */
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
     /**
-    * Constant: private view arg.
-    * @var mixed
-    */
+     * Constant: private view arg.
+     * @var mixed
+     */
     const PRIVATE_VIEW_ARG = 'view_sets';
     /**
      * prepare view argument from path
      * @param string $path 
      * @return ((string|null)|array<int, string>)[] 
      */
-    public static function PrepareViewArgFromPath(string $path){
+    public static function PrepareViewArgFromPath(string $path)
+    {
         $tview = array_filter(explode("/", $path));
         $view = array_shift($tview);
-        $args =$tview;
+        $args = $tview;
         return [$view, $args];
     }
     /**
-    * auto generate doc.
-    * @param string $n
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $n
+     * @return string
+     */
     public static function TreatViewNameForClassDefinition(string $n)
     {
         $tn = explode('/', $n);
@@ -103,11 +105,11 @@ class ViewHelper
         return false;
     }
     /**
-    * retrieve private view argument
-    * @param mixed $name
-    * @param mixed $default
-    * @return mixed
-    */
+     * retrieve private view argument
+     * @param mixed $name
+     * @param mixed $default
+     * @return mixed
+     */
     public static function Get($name, $default = null)
     {
         if ($current_ctrl = self::CurrentCtrl()) {
@@ -174,11 +176,11 @@ class ViewHelper
         return $dir;
     }
     /**
-    * must handle a form class
-    * @param string $name
-    * @param mixed $options
-    * @return null|callable
-    */
+     * must handle a form class
+     * @param string $name
+     * @param mixed $options
+     * @return null|callable
+     */
     public static function Form(string $name, $options = null)
     {
         $handler = self::GetViewArgs("action_handler");
@@ -201,10 +203,10 @@ class ViewHelper
         };
     }
     /**
-    * auto generate doc.
-    * @param null|mixed $args
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param null|mixed $args
+     * @return mixed
+     */
     private static function _GetIncArgs($args = null)
     {
         if (is_null($args) || empty($args))
@@ -225,10 +227,12 @@ class ViewHelper
     private static function _GetIncFile(string $file)
     {
         include_once IGK_LIB_CLASSES_DIR . "/core.func.helper.php";
-        $exts = [IGK_VIEW_FILE_EXT]; 
-        if ($c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file), $exts)) {
+        $exts = [IGK_VIEW_FILE_EXT];
+        $c = self::SearchFile($file, $exts) ?? self::SearchFile(Path::Combine(self::Dir(), $file), $exts);
+        if ($c) {
             return $c;
         }
+        igk_wln_e("Directory : ", self::Dir(), $file, $exts, __FILE__ . ":" . __LINE__, $c, self::CurrentCtrl()->getViewDir());
         igk_die("inc [" . $file . "] file not found.");
     }
     /**
@@ -306,19 +310,24 @@ class ViewHelper
             igk_die("missing file argument");
         }
         extract(self::_GetIncArgs(array_slice(func_get_args(), 1)));
-        if (isset($ctrl)) {
-            $args = get_defined_vars();
-            $file = self::_GetIncFile(func_get_arg(0));
-            $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
-            $fc = (function () {
-                extract(func_get_arg(1));
-                return include func_get_arg(0);
-            })->bindTo($ctrl);
-            $r = $fc($file, $args);
-            set_include_path($bckdir);
-            return $r;
+
+        try {
+            if (isset($ctrl)) {
+                $args = get_defined_vars();
+                $file = self::_GetIncFile(func_get_arg(0));
+                $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
+                $fc = (function () {
+                    extract(func_get_arg(1));
+                    return include func_get_arg(0);
+                })->bindTo($ctrl); 
+                $r = $fc($file, $args);
+                set_include_path($bckdir);
+                return $r;
+            } 
+            return include self::_GetIncFile(func_get_arg(0));
+        } catch (\Exception $ex) {
+            igk_ilog(implode("\n", ["error: ".$ex->getMessage(), 'file:'.func_get_arg(0)]));
         }
-        return include self::_GetIncFile(func_get_arg(0));
     }
     /**
      * include sub view. from current controller view context
@@ -349,9 +358,9 @@ class ViewHelper
 
 
         $_tab = get_defined_vars();
-        if (igk_env_count(__FILE__)>2){
+        if (igk_env_count(__FILE__) > 2) {
             igk_trace();
-            igk_wln_e("failed : for ",  $file, __FILE__.":".__LINE__ );
+            igk_wln_e("failed : for ",  $file, __FILE__ . ":" . __LINE__);
         }
         $g = (function () {
             extract(func_get_arg(1));
@@ -417,8 +426,9 @@ class ViewHelper
      * @return string|void 
      * @throws IGKException 
      */
-    public static function BaseViewUri(){
-        if ($fname = self::GetViewArgs('fname')){
+    public static function BaseViewUri()
+    {
+        if ($fname = self::GetViewArgs('fname')) {
             $c = self::CurrentCtrl();
             return $c::uri($fname);
         }
@@ -440,15 +450,15 @@ class ViewHelper
         return $n;
     }
     /**
-    * force directory entry
-    * @param BaseController $ctrl
-    * @param string $fname
-    * @param mixed & $redirect_request
-    * @throws IGKException
-    * @throws ArgumentTypeNotValidException
-    * @throws ReflectionException
-    * @return void
-    */
+     * force directory entry
+     * @param BaseController $ctrl
+     * @param string $fname
+     * @param mixed & $redirect_request
+     * @throws IGKException
+     * @throws ArgumentTypeNotValidException
+     * @throws ReflectionException
+     * @return void
+     */
     public static function ForceDirEntry(BaseController $ctrl, string $fname, &$redirect_request = null)
     {
         return ControllerExtension::forceDirEntry($ctrl, $fname, $redirect_request);
@@ -463,7 +473,7 @@ class ViewHelper
                 $query = '?' . http_build_query($q);
             }
         }
-        $ruri = igk_io_baseuri() . igk_io_request_uri_path(); 
+        $ruri = igk_io_baseuri() . igk_io_request_uri_path();
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
@@ -500,12 +510,12 @@ class ViewHelper
         return  igk_environment()->last(IGKEnvironmentConstants::VIEW_FILE_CACHES);
     }
     /**
-    * get included file directory
-    * @param ?string $path
-    * @throws IGKException
-    * @throws Deprecated
-    * @return string
-    */
+     * get included file directory
+     * @param ?string $path
+     * @throws IGKException
+     * @throws Deprecated
+     * @return string
+     */
     public static function Dir(?string $path = null): ?string
     {
         if ($file = self::File()) {
@@ -522,9 +532,9 @@ class ViewHelper
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
     /**
-    * auto generate doc.
-    * @return null|BaseController
-    */
+     * auto generate doc.
+     * @return null|BaseController
+     */
     public static function BaseController(): ?BaseController
     {
         return SysUtils::CurrentBaseController();
@@ -579,10 +589,10 @@ class ViewHelper
         return $t ?? [];
     }
     /**
-    * auto generate doc.
-    * @param ?string $filter_context
-    * @return mixed|ViewEnvironmentArgs
-    */
+     * auto generate doc.
+     * @param ?string $filter_context
+     * @return mixed|ViewEnvironmentArgs
+     */
     public static function GetViewContextArgs(?string $filter_context = null)
     {
         $tab =  igk_get_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS);
@@ -592,9 +602,9 @@ class ViewHelper
         return $tab;
     }
     /**
-    * Returns Uri Helper.
-    * @param mixed $fname
-    */
+     * Returns Uri Helper.
+     * @param mixed $fname
+     */
     public static function GetUriHelper($fname)
     {
         $ctrl = self::CurrentCtrl();
@@ -609,10 +619,10 @@ class ViewHelper
         return self::CurrentCtrl()->getUser();
     }
     /**
-    * Returns Check User Profile.
-    * @param bool $redirect
-    * @param null|string $uri
-    */
+     * Returns Check User Profile.
+     * @param bool $redirect
+     * @param null|string $uri
+     */
     public static function GetCheckUserProfile(bool $redirect, ?string $uri = null)
     {
         $c = self::CurrentCtrl();
@@ -632,14 +642,14 @@ class ViewHelper
         return $f;
     }
     /**
-    * resolv view file and get attached params
-    * @param string $viewDir root view directory
-    * @param string $view demand
-    * @param string $f
-    * @param mixed $checkfile
-    * @param mixed & $param
-    * @return null|string
-    */
+     * resolv view file and get attached params
+     * @param string $viewDir root view directory
+     * @param string $view demand
+     * @param string $f
+     * @param mixed $checkfile
+     * @param mixed & $param
+     * @return null|string
+     */
     public static function ResolveViewFile(string $viewDir, string $view, string $f, $checkfile = 1, &$param = null): ?string
     {
         $s = null;
@@ -659,7 +669,7 @@ class ViewHelper
                     $bname = basename($f);
                     $f = dirname($f);
                     $checks = array_merge([
-                        $f . "/" . $bname, 
+                        $f . "/" . $bname,
                     ], self::_AppendExtension($f . "/" . $bname, $v_ext_support));
                     $check_dir = true;
                     $dir_exists = false;
@@ -669,14 +679,14 @@ class ViewHelper
                             return $rdir;
                         }
                         if ($check_dir && is_dir($rdir)) {
-                            if ($c = self::ResolveDefaultView($rdir, $v_ext_support)){
+                            if ($c = self::ResolveDefaultView($rdir, $v_ext_support)) {
                                 return $c;
-                            } 
+                            }
                             $dir_exists = true;
                         }
                         $check_dir = false;
                     }
-                        array_unshift($param, $bname);
+                    array_unshift($param, $bname);
                 }
             }
             $s =  $f . "/" . IGK_DEFAULT_VIEW . '.' . $extension;
@@ -688,27 +698,28 @@ class ViewHelper
         return $s;
     }
     /**
-    * resolve default extension
-    * @param string $dir
-    * @param array $extsupport
-    * @param string $view
-    */
-    public static function ResolveDefaultView(string $dir, array $extsupport, string $view = IGK_DEFAULT_VIEW){
-        $g = self::_AppendExtension($dir.'/'. $view, $extsupport);
-        while(count($g)>0){
+     * resolve default extension
+     * @param string $dir
+     * @param array $extsupport
+     * @param string $view
+     */
+    public static function ResolveDefaultView(string $dir, array $extsupport, string $view = IGK_DEFAULT_VIEW)
+    {
+        $g = self::_AppendExtension($dir . '/' . $view, $extsupport);
+        while (count($g) > 0) {
             $q = array_shift($g);
-            if (igk_io_file_exists($q, true)){
+            if (igk_io_file_exists($q, true)) {
                 return $q;
             }
         }
         return false;
     }
     /**
-    * auto generate doc.
-    * @param string $path
-    * @param array $exts
-    * @return mixed
-    */
+     * auto generate doc.
+     * @param string $path
+     * @param array $exts
+     * @return mixed
+     */
     private static function _AppendExtension(string $path, array $exts)
     {
         return array_map(function ($i) use ($path) {
@@ -742,16 +753,16 @@ class ViewHelper
         return $rsc;
     }
     /**
-    * load current theme
-    * @param HtmlDocTheme $theme
-    * @param ?BaseController $ctrl
-    * @throws Exception
-    * @throws NotFoundExceptionInterface
-    * @throws ContainerExceptionInterface
-    * @throws IGKException
-    * @throws EnvironmentArrayException
-    * @return void
-    */
+     * load current theme
+     * @param HtmlDocTheme $theme
+     * @param ?BaseController $ctrl
+     * @throws Exception
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws IGKException
+     * @throws EnvironmentArrayException
+     * @return void
+     */
     static function LoadCurrentTheme(HtmlDocTheme $theme, ?BaseController $ctrl = null)
     {
         $ctrl = $ctrl ?? self::CurrentCtrl();

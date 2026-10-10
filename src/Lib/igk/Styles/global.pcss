@@ -138,7 +138,7 @@ $def['.pre-break'] = 'white-space: break-spaces;';
 // + | --------------------------------------------------------------------
 // + | disable properties
 // + |
-$def[".no-border"] = $def[".no-bdr"]  = "border:none;";
+$def[".no-border"] = $def[".no-br"] = $def[".no-bdr"] = "border:none;";
 $def[".no-background"] = "background-color:transparent;";
 $def[".no-margin"] = "margin:0px;";
 $def[".no-padding"] = "padding:0px;";
@@ -273,6 +273,8 @@ foreach ([1, 2, 4, 6] as $k) {
     $def['.flex-grow-' . $k] = "flex-grow: " . ($_a / 100) . ";";
 }
 $def['.flex.center'] = 'justify-content: center; align-items: center; text-align: center; height: 100%;';
+$def['.flex-center'] = 'justify-content:center; align-items:center;';
+
 $def[".no-opacity"] = "opacity:0;";
 $def[".trans-opacity"] = "[trans: opacity 0.2s ease-in]";
 $def[".block-container > *"] = "{sys:dispb}";

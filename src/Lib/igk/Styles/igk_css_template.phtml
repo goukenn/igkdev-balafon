@@ -721,7 +721,10 @@ $def[".igk-hline-sep"] = "border-top:1px solid [syscl:HLineSeparatorColor] ; mar
 $def[".igk-hline-sep:before"] = "content:' '; display:block; height:16px";
 $def["input.igk-state-btn[type='checkbox']"] = "height:1px;width:0px;overflow:hidden;padding:0px;position:absolute;clip:rect(0,0,0,0);";
 $sm_screen[".igk-sm-dispn"] =
-    $xsm_screen[".igk-xsm-dispn"] = "{sys:dispn}";
+$sm_screen[".sm-dispn"] =
+$xsm_screen[".igk-xsm-dispn"] =
+$xsm_screen[".xsm-dispn"] = "{sys:dispn}";
+
 $def[".igk-bgfilter-blur"] = "";
 $def[".igk-body.igk-bgfilter-blur > div:not(.igk-js-notify-box)"] = "filter:blur(4px) grayscale(100%);";
 $def[".igk-body.igk-bgfilter-blur > div.igk-js-notify-box"] = "filter:none ;";
@@ -1203,3 +1206,14 @@ $def['.li-disc'] = 'list-style-type: disc;';
 $def['.li-sqare'] = 'list-style-type: sqare;';
 $def['.pad-revert'] = 'padding:revert;';
 $def['.pad-revert-layer'] = 'padding:revert-layer;';
+
+$def['.igk-winui-choose-lang.no-label .igk-choose-lang-label'] = 'display:none;';
+$light_selector= CssUtils::ThemeKey('light');
+
+$def[$light_selector.' .igk-winui-consent .content'] = 'color:white;';
+$def[$light_selector.' .igk-winui-consent .content a'] = 'color:rgb(158, 206, 225);';
+
+
+$def['.igk-action-bar.dispflex:after'] = 'display:none;';
+
+$def['.dispib.fitw'] = '{sys:fitw}';

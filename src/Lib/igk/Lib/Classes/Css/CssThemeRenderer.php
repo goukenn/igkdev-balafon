@@ -113,10 +113,10 @@ class CssThemeRenderer
             $theme = $v["theme"];
             $name = $v["name"];
             $o = "";
-            Benchmark::mark("theme-export");
+            Benchmark::Mark("theme-export");
             $o .= "/* CSS - [\"{$name}\"] */" . $el;
             $o .= $theme->get_css_def($minfile, $themeexport) . $el;
-            Benchmark::expect("theme-export", 0.500);
+            Benchmark::Expect("theme-export", 0.500);
             $srh[] = $o;
             if (isset($v["doc"])) {
                 $srh[] = $v["doc"]->getTemporaryCssDef($minfile, $themeexport) . $el;

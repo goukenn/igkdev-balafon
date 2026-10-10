@@ -69,46 +69,43 @@ class HtmlDocumentCssHostNode extends HtmlNode
         if (!$doc instanceof IGKHtmlDoc) {
             return;
         }
-        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette;
-        if (igk_environment()->isOPS() && !$v_use_core){
-            return;
-        }
+        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette; 
         $s = "";
         $g = "";
         $clear = CssUtils::InitSysGlobal($doc);
         $theme = $doc->getTheme();
         $inlineTheme = $doc->getInlineTheme();
         igk_css_load_theme($theme);         
-
+        $imported =null;
         $sb = CssUtils::RenderAfterCheckColorTheme($theme);
         $v_maps = [
             $theme_tab = CssParser::Parse($sb)->to_array()
         ];
         $tab = CssParser::Parse($doc->getSysTheme()->render())->to_array();
+        $opt = ['lf'=> '', 'useDetectedClass'=>true];
+        $imported = self::_GetImported($theme, $theme_tab);
         if ($v_use_core) {
             if (!empty($theme_tab)) {
                 array_unshift($v_maps, $tab);
             }
-            $imported = self::_GetImported($theme, $theme_tab);
-            $g .= CssClassNameDetector::RenderMaps($v_maps, $imported);
-        } else {
-            // $sb = CssUtils::RemoveUnsetProperties($sb);
-            $imported = self::_GetImported($theme, $theme_tab);
-            $nsb = CssClassNameDetector::RenderMaps($v_maps, $imported);            
-            $g .= $nsb;
         }
+        // $sb = CssUtils::RemoveUnsetProperties($sb);            
+        $nsb = CssClassNameDetector::RenderMaps($v_maps, $imported, $opt);            
+        $g .= $nsb;
+        
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles) {
             igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
             $g .= $inlineTheme->get_css_def(true);
         }
         $is_dev = igk_environment()->isDev(); 
-        $g .= self::RenderExtraDefinition();
+        $g .= $extra =   self::RenderExtraDefinition($imported);
+        // igk_dev_wln_e(__FILE__.":".__LINE__ , $imported, $extra);
         $g = trim($g); 
         if (!empty($g)) {
             $g = implode("\n", ['@charset "UTF-8";', trim($g)]);
             $vs = igk_create_node("style");
-            $vs->text("\n" . $g . "\n/* end style */\n");
+            $vs->text(implode("\n",[$g, '/* end style */']));
             $is_dev && ($s .= "<!-- start:inline style -->");
             $s .= $vs->render();
             $is_dev && ($s .= "\n<!-- end:inline style -->");
@@ -116,7 +113,7 @@ class HtmlDocumentCssHostNode extends HtmlNode
         if ($clear) {
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear();
-        }
+        } 
         return $s;
     }
     /**
@@ -127,18 +124,20 @@ class HtmlDocumentCssHostNode extends HtmlNode
      */
     private static function _GetImported($theme, $theme_tab)
     {
-        return CssThemeBuilder::GetImported($theme, $theme_tab);
+        return CssThemeBuilder::GetImported($theme, $theme_tab, true);
     }
     /**
      * reder extra definition 
+     * @param mixed $imported
      * @return ?string 
      */
-    public static function RenderExtraDefinition()
+    public static function RenderExtraDefinition($imported)
     {
         $i = CssClassBuffer::getInstance();
         $g = "\n" . $i->renderExtraDefinition(null, (object)[
             "lf" => "",
-            "noCharsetHeader" => true
+            "noCharsetHeader" => true,
+            'imported'=>$imported
         ]) . "\n";
         if (!empty(trim($g))) {
             return $g;

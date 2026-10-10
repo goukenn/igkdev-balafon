@@ -423,6 +423,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             switch (strtolower($v->clType)) {
                 case "int":
                 case "float":
+                case 'ubigint':
+                case 'bigint':
                     if (empty($v->clDefault))
                         return 0;
                     break;

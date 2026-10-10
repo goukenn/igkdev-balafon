@@ -15,4 +15,6 @@ interface ICssStoreRootListener{
     * @param array $tab
     */
     function store(array $tab);
+
+    function render(?string $themename = null):?string;
 }

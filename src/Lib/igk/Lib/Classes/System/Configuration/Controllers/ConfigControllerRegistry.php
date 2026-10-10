@@ -65,9 +65,9 @@ class ConfigControllerRegistry
             $cnf->initCount = count(self::$sm_regComplete); 
             foreach (self::$sm_regComplete as  $v){
                 $_cl = get_class($v); 
-                Benchmark::mark(get_class() . "::initComplete");
+                Benchmark::Mark(get_class() . "::initComplete");
                 $v->initComplete($context);
-                Benchmark::expect(
+                Benchmark::Expect(
                     get_class() . "::initComplete",
                     0.1,
                     sprintf("%s took too long", $_cl)

@@ -15,6 +15,6 @@ class NotAllowedRequestResponse extends ErrorRequestResponse{
     * .ctr
     */
     public function __construct(){
-        parent::__construct(RequestResponseCode::Forbiden, "Not Allowed");
+        parent::__construct(RequestResponseCode::Forbidden, "Not Allowed");
     }
 }

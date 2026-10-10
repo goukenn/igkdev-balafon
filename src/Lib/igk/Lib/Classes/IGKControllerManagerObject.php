@@ -758,9 +758,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     */
     private function onInitComplete($context)
     {
-        \IGK\System\Diagnostics\Benchmark::mark("lib_controller_init_complete");
+        \IGK\System\Diagnostics\Benchmark::Mark("lib_controller_init_complete");
         ConfigControllerRegistry::InvokeRegisterComplete($context);
-        \IGK\System\Diagnostics\Benchmark::expect("lib_controller_init_complete", 0.50);
+        \IGK\System\Diagnostics\Benchmark::Expect("lib_controller_init_complete", 0.50);
         if (defined('IGK_NO_WEB'))
             return;
         if (!$this->m_initEvent) {

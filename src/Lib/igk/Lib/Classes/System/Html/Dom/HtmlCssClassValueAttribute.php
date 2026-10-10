@@ -93,12 +93,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         $o = igk_unseri_data($data);
         $tab = explode(" ", $o->v);
-        $this->m_classes = array_combine($tab, $tab);
-        // $r = igk_getv($o, "r");
-        // if ($r) {
-        //     $owner = igk_get_env("sys://serialize/owner");
-        //     $v = 'O:8:"stdClass":1:{s:5:"value";r:1;}';
-        // }
+        $this->m_classes = array_combine($tab, $tab); 
     }
     /**
      * return value string 
@@ -197,7 +192,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $v = &self::_GetRegClass();
         if (!isset($v[$name])) {
             $v[$name] = $name;
-            igk_hook(IGKEvents::HOOK_CSS_REG, [$name]);
+            igk_hook(IGKEvents::HOOK_CSS_REG, ['name'=>$name]);
         }
     }
     /**

@@ -23,18 +23,14 @@ use IGKEvents;
 * Install site command.
 * @package IGK\System\Console\Commands
 */
-class InstallSiteCommand extends AppExecCommand
+class InstallSiteCommand extends BaseCommandSystemCommand
 {
     /**
     * Property: command.
     * @var mixed
     */
     var $command = "--install-site";
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
+    
     /**
     * Property: desc.
     * @var mixed

@@ -7238,12 +7238,15 @@ Name:balafon.js
          * @param {*} exdays 
          * @param {string|undefined} path 
          */
-        setcookies: function (name, value, exdays, path, domain) {
+        setcookies: function (name, value, exdays, path, domain, samesite) {
             var exdate = new Date();
             if (exdays)
                 exdate.setDate(exdate.getDate() + exdays);
             var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-            c_value += "; SameSite=Strict";
+            if (!samesite){
+                samesite = 'Strict';
+            }
+            c_value += "; SameSite="+samesite;
             if (path)
                 c_value += "; Path=" + path;
             domain = domain || '.' + document.location.hostname;

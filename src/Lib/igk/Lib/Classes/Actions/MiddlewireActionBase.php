@@ -237,7 +237,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         ];
                         igk_hook(IGKEvents::HOOK_MIDDLEWARE_ACTION, $ack);
                         if (!$ack->access) {
-                            throw new IGKException("User required security missing.", RequestResponseCode::Forbiden);
+                            throw new IGKException("User required security missing.", RequestResponseCode::Forbidden);
                         }
                         $ctrl->checkUser(false, null);
                         $this->user = $user = Users::currentUser();
@@ -246,14 +246,14 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         if (!$user) {
                             $m = "User required.";
                             $redirect && $this->_handle_redirect($redirect, 302, $m);
-                            throw new IGKException("User required.", RequestResponseCode::Forbiden);
+                            throw new IGKException("User required.", RequestResponseCode::Forbidden);
                         }
                     }
                     if ($v->isAuthRequired()) {
                         if ($user && !$v->isAuth($user)) {
                             $m = __('Route access not allowed.');
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
-                            throw new ActionRequestException($m, RequestResponseCode::Forbiden);
+                            throw new ActionRequestException($m, RequestResponseCode::Forbidden);
                         } else if (!$user) {
                             $m = __('Missing required user.');
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
@@ -454,7 +454,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 igk_json([
                     'error' => true,
                     'message' => 'require auth to access object',
-                ], RequestResponseCode::Forbiden);
+                ], RequestResponseCode::Forbidden);
                 return;
             }
             $arg = $e->args;
@@ -502,7 +502,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         igk_unreg_hook($c_mid_key, $fc_auth);
         if (!$ack->access) {
-            throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbiden);
+            throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbidden);
         }
         $ctrl->checkUser(false, false);
         $userProfile = $ctrl->userProfile;

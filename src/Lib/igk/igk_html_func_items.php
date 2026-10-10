@@ -1209,6 +1209,12 @@ if (!function_exists("igk_html_node_button")) {
 	 */
 	function igk_html_node_button(?string $id = null, $button_type_or_content = 0, ?string $type = null)
 	{
+		if ($n = func_num_args()){
+			if ($n == 1){
+				$button_type_or_content = $id;
+				$id = null;
+			}
+		}
 		$n = new HtmlNode("button");
 		$n["class"] = "igk-btn";
 		// + | set id and name
@@ -6170,6 +6176,47 @@ if (!function_exists('igk_html_node_dbtableresult')) {
 		}
 		return $n;
 	}
+}
+
+
+/**
+ * @var mixed $t
+ * @var mixed $data 
+ */
+
+if (!function_exists('igk_html_node_igk_choose_lang_selector')) {
+    /**
+     * 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    function igk_html_node_igk_choose_lang_selector()
+    {
+        $l = R::GetSupportedLangs();
+        $uri = igk_io_currenturi();
+        $tab = parse_url($uri);
+        if ($path = igk_getv($tab, 'path')) {
+            $path = ltrim($path, '/');
+            if (preg_match("/^\\b(" . implode('|', $l) . ")\\b/", $path, $cp)) {
+                $path = substr($path, strlen($cp[0]));
+            }
+        }
+        $uri = igk_io_baseuri();
+        $query = (!empty($path)? '/'.ltrim($path,'/'): '').'?view=1';
+        $n = igk_create_node_arg('div.igk-winui-choose-lang');
+        $l = array_combine($l, $l);
+        $n->div()->setClass('igk-choose-lang-label')->content = __('please choose your language...');
+        $select = igk_html_build_select($n->span()->setClass('dispib'), igk_html_unique_id_ref(), $l, array("allowEmpty" => false, "keysupport" => true), R::GetCurrentLang());
+        $select["onchange"] = "javascript: (function(p){window.igk.ajx.post('" . $uri . "/'+p.value+'" . $query . "', null);})(this);";
+        return $n;
+    }
+}
+
+function igk_html_unique_id_ref(){
+    return new \IGK\System\Html\HtmlUniqueIdRefValue();
 }
  
 require_once __DIR__ . '/Inc/html/forms/actionbar.pinc';

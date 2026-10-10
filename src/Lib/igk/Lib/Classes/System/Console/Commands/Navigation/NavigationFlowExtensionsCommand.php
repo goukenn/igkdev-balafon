@@ -4,6 +4,7 @@
 // @date: 20260212 16:30:17
 namespace IGK\System\Console\Commands\Navigation;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\Commands\BaseCommandSystemCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\FileHandler;
 
@@ -12,7 +13,7 @@ use IGK\System\IO\FileHandler;
 * @package IGK\System\Console\Commands\Navigation
 * @author C.A.D. BONDJE DOUE
 */
-class NavigationFlowExtensionsCommand extends AppExecCommand
+class NavigationFlowExtensionsCommand extends BaseCommandSystemCommand
 {
     /**
     * Property: command.
@@ -24,13 +25,7 @@ class NavigationFlowExtensionsCommand extends AppExecCommand
     * @var mixed
     */
     var $desc = 'list navigation flow file extensions';
-	/* var $options=[]; */
-    /**
-    * Property: category.
-    * @var mixed
-    */
-    var $category = 'sys';
-	/* var $usage = ''; */
+	
     /**
     * Exec.
     * @param mixed $command
