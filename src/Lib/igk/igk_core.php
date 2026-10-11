@@ -325,6 +325,19 @@ if (!function_exists('igk_getv')) {
      */
     function igk_getv($array, $key, $default = null)
     {
+        // fast path : existing non null entry for a plain key (same result as igk_getpv)
+        // if (is_string($key) ? ($key !== '' && $key !== '0') : (is_int($key) && $key !== 0)) {
+        //     if (is_array($array)) {
+        //         if (isset($array[$key])) {
+        //             return $array[$key];
+        //         }
+        //         if (is_null($default) || is_scalar($default)) {
+        //             return $default;
+        //         }
+        //     } else if (is_object($array) && !($array instanceof Closure) && isset($array->$key)) {
+        //         return $array->$key;
+        //     }
+        // }
         return igk_getpv($array, array($key), $default);
     }
 }

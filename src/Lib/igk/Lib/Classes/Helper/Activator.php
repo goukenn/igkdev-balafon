@@ -238,6 +238,29 @@ class Activator
      * @throws IGKException 
      * @throws Exception class not found
      */
+    private static $sm_isInterface = [];
+    private static $sm_php81;
+    private static $sm_propertyMeta = [];
+    /**
+     * cache per class : setter name and readonly flag of each property (avoid reflection on every instanciation)
+     */
+    private static function _GetPropertyMeta(string $class_name, array $class_vars, bool $check_readonly): array
+    {
+        $key = $class_name . ($check_readonly ? '#1' : '#0');
+        if (isset(self::$sm_propertyMeta[$key])) {
+            return self::$sm_propertyMeta[$key];
+        }
+        $meta = [];
+        foreach ($class_vars as $k => $v) {
+            $fc = 'set' . ucfirst($k);
+            $ro = false;
+            if ($check_readonly) {
+                $ro = (new ReflectionProperty($class_name, $k))->isReadOnly();
+            }
+            $meta[$k] = [method_exists($class_name, $fc) ? $fc : null, $ro];
+        }
+        return self::$sm_propertyMeta[$key] = $meta;
+    }
     public static function CreateNewInstance($class_name, $data = null, bool $fullfill = false)
     {
         if ($data instanceof $class_name) {
@@ -261,7 +284,11 @@ class Activator
                 $class_vars = get_class_vars(get_class($g));
             }
         } else {
-            if (($g = new ReflectionClass($class_name))->isInterface()) {
+            if (!isset(self::$sm_isInterface[$class_name])) {
+                self::$sm_isInterface[$class_name] = (new ReflectionClass($class_name))->isInterface();
+            }
+            if (self::$sm_isInterface[$class_name]) {
+                $g = new ReflectionClass($class_name);
                 if (count($g->getMethods())>0){
                     throw new IGKException('operation not allowed. the interface contains methods');
                 }
@@ -286,10 +313,16 @@ class Activator
                     }
                 }
             } else if ($class_vars) {
-                $c_8_1 = version_compare(PHP_VERSION, '8.1', '>=');
+                $c_8_1 = self::$sm_php81 ?? (self::$sm_php81 = version_compare(PHP_VERSION, '8.1', '>='));
+                $v_meta = (!$v_interface) ? self::_GetPropertyMeta(get_class($g), $class_vars, $check_version && $c_8_1) : null;
                 foreach ($class_vars as $k => $v) {
                     $v = igk_getv($data, $k, $g->$k) ?? $v;
-                    if (method_exists($g, $fc = 'set' . ucfirst($k))) {
+                    if ($v_meta) {
+                        if ($fc = $v_meta[$k][0]) {
+                            $g->$fc($v);
+                            continue;
+                        }
+                    } else if (method_exists($g, $fc = 'set' . ucfirst($k))) {
                         $g->$fc($v);
                         continue;
                     }
@@ -299,11 +332,8 @@ class Activator
                         $is_reference = true;
                     }
                     if (!$v_interface){
-                        $v_p = new ReflectionProperty($g, $k);
-                        if ($check_version && $c_8_1) {
-                            if ($v_p->isReadOnly()) {
-                                continue;
-                            }
+                        if ($v_meta[$k][1]) {
+                            continue;
                         }
                     }
                     $g->{$k} = $v;

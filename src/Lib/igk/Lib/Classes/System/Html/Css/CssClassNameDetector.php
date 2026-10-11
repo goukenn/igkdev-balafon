@@ -715,8 +715,14 @@ class CssClassNameDetector
     {
         $pos = 0;
         $class_list = $class_list ?? [];
-        while ($g = CssClassNameUtility::ReadClassName($i, $pos)) {
-            $class_list[$g] = $g;
+        if (($v_fast = CssClassNameUtility::FastReadClassNames($i)) !== null) {
+            foreach ($v_fast as $g) {
+                $class_list[$g] = $g;
+            }
+        } else {
+            while ($g = CssClassNameUtility::ReadClassName($i, $pos)) {
+                $class_list[$g] = $g;
+            }
         }
         return empty($class_list);
     }
@@ -1134,6 +1140,15 @@ class CssClassNameDetector
         $g = $css_parsed_table;
         $func = function ($k, &$rts) {
             if (($k != '*')) {
+                if (($v_fast = CssClassNameUtility::FastReadClassNames($k)) !== null) {
+                    foreach ($v_fast as $ck) {
+                        $rts[$ck] = 1;
+                        if ($ck == '*') {
+                            $rts[$k] = 1;
+                        }
+                    }
+                    return;
+                }
                 $pos = 0;
                 while (!empty($ck = CssClassNameUtility::ReadClassName($k, $pos))) {
                     $rts[$ck] = 1;
