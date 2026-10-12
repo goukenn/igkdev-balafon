@@ -674,7 +674,7 @@ abstract class CssUtils
                     }
                 }
                 $v_is_first = false;
-                foreach (['rules', 'fonts', 'roots', 'res'] as $f) {
+                foreach (['rules', 'fonts', 'res'] as $f) {
                     if (!in_array($f, $v_opt->skips))
                         $v_opt->skips[] = $f;
                 }
@@ -1407,7 +1407,7 @@ abstract class CssUtils
     {
         if (is_null($regex)) {
             $regex = new RegexMatcherContainer;
-            $regex->match('(?!<=\\\\)([:\.\/\[\]#\(\)])', 'escaped');
+            $regex->match('(?!<=\\\\)([:\.\/\[\]#\(\)!])', 'escaped');
             $regex->appendStringDetection('string', true);
             $regex->appendMultilineComment();
         } else {

@@ -2831,24 +2831,40 @@ function igk_css_get_bg_size($v)
  * @param bool $themexport
  * @param mixed $theme
  * @param mixed $systheme
- * @return mixed
+ * @return string
  */
-function igk_css_get_bgcl($v, bool $themexport, $theme, $systheme = null)
+function igk_css_get_bgcl($v, bool $themexport, $theme, $systheme = null): string
 {
-    if (empty($v))
-        return null;
+    return igk_css_treat_property('background-color', $v, $themexport, $theme, $systheme);
+}
+/**
+ * 
+ * @param string $property 
+ * @param mixed $v 
+ * @param bool $themexport 
+ * @param mixed $theme 
+ * @param mixed $systheme 
+ * @return string 
+ */
+function igk_css_treat_property(string $property, $v, bool $themexport, $theme, $systheme = null){
+     if (empty($v))
+        return '';
     $h = igk_css_treat($v, $themexport, $theme, $systheme);
     if ($h == null)
-        return null;
-    return "background-color: " . $v . ";";
+        return '';
+    return sprintf('%s: %s;', $property, $v);
 }
 /**
  * auto generate doc.
  * @param mixed $v
+ * @param mixed $theme_export
+ * @param mixed $theme
+ * @param mixed $systheme
  * @return mixed
  */
-function igk_css_get_bordercl($v)
+function igk_css_get_bordercl($v, bool $theme_export, $theme, $systheme = null)
 {
+    return igk_css_treat_property('border-color', $v, $theme_export, $theme, $systheme);
     if (empty($v))
         return null;
     return "border-color: " . $v . ";";
@@ -2867,18 +2883,20 @@ ETF;
 /**
  * get fore color
  * @param mixed $v
+ * @param mixed $themeexport
  * @param mixed $theme
  * @param mixed $systheme
  * @return mixed
  */
-function igk_css_get_fcl(string $v, $theme, $systheme)
+function igk_css_get_fcl(string $v, bool $themeexport, $theme, $systheme=null)
 {
-    $h = igk_css_treat($v, false, $theme, $systheme);
-    if ($h) {
-        return "color: " . $h . ";";
-    } else {
-        return "color: " . $v . ";";
-    }
+    return igk_css_treat_property('color', $v, $themeexport, $theme, $systheme);
+    // $h = igk_css_treat($v, false, $theme, $systheme);
+    // if ($h) {
+    //     return "color: " . $h . ";";
+    // } else {
+    //     return "color: " . $v . ";";
+    // }
 }
 /**
  * auto generate doc.
@@ -3588,6 +3606,22 @@ function &igk_css_get_treat_colors(?array $defColor = null)
     return $gcolor;
 }
 /**
+ * 
+ * @param string $q 
+ * @return bool 
+ */
+function igk_css_is_hexcolor(string $q):bool{
+    return (bool)preg_match('/^#[a-z0-9]+$/i', $q);
+}
+/**
+ * check if value is declared color or function definition 
+ * @param string $q 
+ * @return bool 
+ */
+function igk_css_is_declared_color(string $q):bool{
+    return igk_css_is_hexcolor($q) || preg_match('/^\\s*[a-z\-]+\\s*\(/', $q);
+}
+/**
  * treatt color
  * @param mixed & $colors
  * @param mixed $value
@@ -3596,25 +3630,29 @@ function &igk_css_get_treat_colors(?array $defColor = null)
 function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
 {
     if (is_object($value)) {
-        igk_die("/!\\ object not allowed to be treated as color ");
+        igk_die("/!\\ object not allowed to be treated as color");
     }
     if (empty($value)) {
+        return $value;
+    }
+    if (igk_css_is_declared_color($value)){
         return $value;
     }
     $v_ignore_global_color = defined('IGK_TEST_INIT');
     $tabpush = array();
     $q = $value;
-    $reg2 = '/{\s*(?P<name>[\w_-]+)\s*\}/i';
+    $reg2 = '/\{\s*(?P<name>[\w_-]+)\s*\}/i';
     $is_color_chain = is_array(igk_getv($colors, 0));
     $chain_index = 0;
     $rcolors = 0;
+    $v_def_color = 'inherit';
     if ($is_color_chain) {
         $rcolors = $colors;
         $colors = igk_getv($rcolors, $chain_index);
     }
     while ($q) {
         if (isset($tabpush[$q])) {
-            if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q) || preg_match('/^#[a-f0-9]+/', $q)) {
+            if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q) || igk_css_is_declared_color($q)) {
                 return $q;
             }
             $g = igk_css_invoke_color_request($q);
@@ -3624,7 +3662,7 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
                 }
                 igk_set_env_keys("sys://theme/colorrecursion", $q, $q);
                 igk_dev_wln_e(__FILE__ . ":" . __LINE__, "\n\n", ' for initial definition reclusion ', $g, $q);
-                return 'initial';
+                return $v_def_color;
             }
             return $g;
         }
@@ -3641,17 +3679,26 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
                 if ($is_color_chain && ($chain_index < count($rcolors))) {
                     $colors = array_merge($colors, $rcolors[$chain_index++]);
                     unset($tabpush[$q]);
-                } else {
+                } else { 
                     break;
                 }
             }
         }
     }
-    if (!empty($q) && !$v_ignore_global_color &&  IGKGlobalColor::IsGlobalColor($q)) {
-        // + | ---------------------------------------------------------
-        // + | get registrated system color value - hex_color or webname
-        // + |
-        $q = IGKGlobalColor::getInstance()->Get($q);
+    if (!empty($q)){
+        if (igk_css_is_declared_color($q)){
+            return $q;
+        }
+        if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q)) {
+            // + | ---------------------------------------------------------
+            // + | get registrated system color value - hex_color or webname
+            // + |
+            $q = IGKGlobalColor::getInstance()->Get($q);
+        }else{
+            //igk_ilog('fallback color: '.$q);
+           if ($value == $q)
+                $q = '';
+        }
     }
     return $q;
 }

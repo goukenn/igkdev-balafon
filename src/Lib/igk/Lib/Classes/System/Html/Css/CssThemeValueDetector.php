@@ -170,6 +170,13 @@ class CssThemeValueDetector{
         return trim($n);
     }
     private static $sm_removeCache = [];
+    /**
+     * 
+     * @param string $v 
+     * @param bool $remove_global 
+     * @param bool $remove_static_property 
+     * @return string 
+     */
     private static function _RemoveTransformLitteralFrom(string $v, bool $remove_global, bool $remove_static_property)
     { 
         // fast path : only plain "name: value;" declarations -> every static property is removed

@@ -658,6 +658,7 @@ if (!function_exists("igk_array_key_map_implode")) {
                 $k = array_shift($keys);
                 $v = $tab[$k];
                 $d = $delimiter;
+                $v_delimt = false;
                 if (empty($v)) {
                     $v = $empty_value;
                 } else {
@@ -678,6 +679,10 @@ if (!function_exists("igk_array_key_map_implode")) {
                     if (is_numeric($k)) {
                         $k = '';
                         $d = '';
+                        $v_delimt = true;
+                        if (is_string($v)){
+                            $v = igk_str_rm_last(rtrim($v), $separator, 1 );
+                        }
                     }
                     if (is_array($v)) {
                         $s .= $sep . $delim . $k . $d . $sub_start;
@@ -687,7 +692,7 @@ if (!function_exists("igk_array_key_map_implode")) {
                         $ss++;
                         continue 2;
                     }
-                    if ($string_delimit && (strpos($v, $delimiter) !== false)) {
+                    if (!$v_delimt  && $string_delimit && (strpos($v, $delimiter) !== false)) {
                         $v = '"' . $v . '"';
                     }
                 }

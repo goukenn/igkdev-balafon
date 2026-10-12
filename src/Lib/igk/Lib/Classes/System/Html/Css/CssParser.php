@@ -817,6 +817,9 @@ class CssParser implements ArrayAccess
             $this->treatExtratProperty($rdef);
             ksort($rdef);
             foreach ($rdef as $k => $v) {
+                if (is_null($v)){
+                    continue;
+                }
                 if ($v instanceof ICssDefinition) {
                     $sb->append($v->getDefinition($lf));
                 } else {

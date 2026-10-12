@@ -11,8 +11,7 @@ use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\Compiler\CssThemeBuilder;
 use IGK\System\Html\Css\CssClassBuffer;
-use IGK\System\Html\Css\CssClassNameDetector;
-use IGK\System\Html\Css\CssImportRule;
+use IGK\System\Html\Css\CssClassNameDetector; 
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
 use IGKException;
@@ -66,10 +65,17 @@ class HtmlDocumentCssHostNode extends HtmlNode
     public function render($options = null)
     {
         $doc = $this->doc;
-        if (!$doc instanceof IGKHtmlDoc) {
+        $v_ops = igk_environment()->isOPS();
+        $v_nocorecss = $doc->noCoreCss;
+        if ((!$doc instanceof IGKHtmlDoc) ||($v_ops && $v_nocorecss)) {
             return;
         }
-        $v_use_core = $doc->noCoreCss && !$doc->noColorPalette; 
+        $v_use_core = $v_nocorecss && !$doc->noColorPalette; 
+        if ($v_ops && $v_nocorecss){
+            return;
+        }
+        
+
         $s = "";
         $g = "";
         $clear = CssUtils::InitSysGlobal($doc);

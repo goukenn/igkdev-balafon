@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Css;
+
 use IGK\Resources\R;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssParser;
@@ -14,15 +15,15 @@ use IGKException;
 use IGKResourceUriResolver;
 
 /**
-* Css theme resolver.
-* @package IGK\Css
-*/
+ * Css theme resolver.
+ * @package IGK\Css
+ */
 class CssThemeResolver
 {
     /**
-    * auto generate doc.
-    * @var ?bool
-    */
+     * auto generate doc.
+     * @var ?bool
+     */
     var $themeResolved;
     /**
      * current theme
@@ -35,29 +36,29 @@ class CssThemeResolver
      */
     var $parent;
     /**
-    * Property: last.
-    * @var mixed
-    */
+     * Property: last.
+     * @var mixed
+     */
     var $last;
     /**
-    * Property: designmode.
-    * @var mixed
-    */
+     * Property: designmode.
+     * @var mixed
+     */
     var $designmode = false;
     /**
-    * Property: resolv.
-    * @var mixed
-    */
+     * Property: resolv.
+     * @var mixed
+     */
     var $resolv = [];
     /**
-    * Property: start.
-    * @var mixed
-    */
+     * Property: start.
+     * @var mixed
+     */
     var $start = false;
     /**
-    * Property: colordef.
-    * @var mixed
-    */
+     * Property: colordef.
+     * @var mixed
+     */
     var $colordef = null;
     /**
      * resource resolver
@@ -72,139 +73,139 @@ class CssThemeResolver
     var $skips;
 
     /**
-    * Constant: attr resolv.
-    * @var mixed
-    */
+     * Constant: attr resolv.
+     * @var mixed
+     */
     const ATTR_RESOLV = 'resolv';
     /**
-    * Constant: attr trans.
-    * @var mixed
-    */
+     * Constant: attr trans.
+     * @var mixed
+     */
     const ATTR_TRANS = 'trans';
     /**
-    * Constant: attr transform.
-    * @var mixed
-    */
+     * Constant: attr transform.
+     * @var mixed
+     */
     const ATTR_TRANSFORM = 'transform';
     /**
-    * Constant: attr anim.
-    * @var mixed
-    */
+     * Constant: attr anim.
+     * @var mixed
+     */
     const ATTR_ANIM = 'anim';
     /**
-    * Constant: attr animation.
-    * @var mixed
-    */
+     * Constant: attr animation.
+     * @var mixed
+     */
     const ATTR_ANIMATION = 'animation';
     /**
-    * Constant: attr color.
-    * @var mixed
-    */
-    const ATTR_COLOR= 'cl';
+     * Constant: attr color.
+     * @var mixed
+     */
+    const ATTR_COLOR = 'cl';
     /**
-    * Constant: attr var.
-    * @var mixed
-    */
-    const ATTR_VAR= 'var';
+     * Constant: attr var.
+     * @var mixed
+     */
+    const ATTR_VAR = 'var';
     /**
-    * Constant: attr background color.
-    * @var mixed
-    */
-    const ATTR_BACKGROUND_COLOR= 'bgcl';
+     * Constant: attr background color.
+     * @var mixed
+     */
+    const ATTR_BACKGROUND_COLOR = 'bgcl';
     /**
-    * Constant: attr foreground color.
-    * @var mixed
-    */
-    const ATTR_FOREGROUND_COLOR= 'fcl';
+     * Constant: attr foreground color.
+     * @var mixed
+     */
+    const ATTR_FOREGROUND_COLOR = 'fcl';
     /**
-    * Constant: attr fit.
-    * @var mixed
-    */
+     * Constant: attr fit.
+     * @var mixed
+     */
     const ATTR_FIT = 'fit';
     /**
-    * Constant: attr var property.
-    * @var mixed
-    */
+     * Constant: attr var property.
+     * @var mixed
+     */
     const ATTR_VAR_PROPERTY = 'varp';
     /**
-    * Constant: attr font.
-    * @var mixed
-    */
+     * Constant: attr font.
+     * @var mixed
+     */
     const ATTR_FONT = 'ft';
     /**
-    * Constant: attr font name.
-    * @var mixed
-    */
+     * Constant: attr font name.
+     * @var mixed
+     */
     const ATTR_FONT_NAME = 'ftn';
     /**
-    * Constant: attr resource.
-    * @var mixed
-    */
+     * Constant: attr resource.
+     * @var mixed
+     */
     const ATTR_RESOURCE = 'res';
     /**
-    * Constant: attr background resource.
-    * @var mixed
-    */
-    const ATTR_BACKGROUND_RESOURCE= 'bgres';
+     * Constant: attr background resource.
+     * @var mixed
+     */
+    const ATTR_BACKGROUND_RESOURCE = 'bgres';
     /**
-    * Constant: attr uri.
-    * @var mixed
-    */
+     * Constant: attr uri.
+     * @var mixed
+     */
     const ATTR_URI = 'uri';
     /**
-    * Constant: attr border color.
-    * @var mixed
-    */
+     * Constant: attr border color.
+     * @var mixed
+     */
     const ATTR_BORDER_COLOR = 'bcl';
     /**
-    * Constant: attr svg.
-    * @var mixed
-    */
+     * Constant: attr svg.
+     * @var mixed
+     */
     const ATTR_SVG = 'svg';
     /**
-    * Constant: attr filter.
-    * @var mixed
-    */
+     * Constant: attr filter.
+     * @var mixed
+     */
     const ATTR_FILTER = 'filter';
     /**
-    * Constant: attr prop.
-    * @var mixed
-    */
+     * Constant: attr prop.
+     * @var mixed
+     */
     const ATTR_PROP = 'prop';
     /**
-    * Constant: attr property.
-    * @var mixed
-    */
+     * Constant: attr property.
+     * @var mixed
+     */
     const ATTR_PROPERTY = 'pr';
     /**
-    * Constant: attr sys bgcl.
-    * @var mixed
-    */
+     * Constant: attr sys bgcl.
+     * @var mixed
+     */
     const ATTR_SYS_BGCL = 'sysbgcl';
     /**
-    * Constant: attr sys fcl.
-    * @var mixed
-    */
+     * Constant: attr sys fcl.
+     * @var mixed
+     */
     const ATTR_SYS_FCL = 'sysfcl';
     /**
-    * Constant: attr sys color.
-    * @var mixed
-    */
+     * Constant: attr sys color.
+     * @var mixed
+     */
     const ATTR_SYS_COLOR = 'syscl';
     /**
-    * Constant: attr sys bcl.
-    * @var mixed
-    */
+     * Constant: attr sys bcl.
+     * @var mixed
+     */
     const ATTR_SYS_BCL = 'sysbcl';
     /**
-    * Constant: attr g resolv mode.
-    * @var mixed
-    */
+     * Constant: attr g resolv mode.
+     * @var mixed
+     */
     const ATTR_G_RESOLV_MODE = 'sys';
     /**
-    * Constant: attr g theme resolv mode.
-    * @var mixed
-    */
+     * Constant: attr g theme resolv mode.
+     * @var mixed
+     */
     const ATTR_G_THEME_RESOLV_MODE = 'th';
     /**
      * treat theme value
@@ -214,8 +215,9 @@ class CssThemeResolver
      * @throws IGKException 
      * @throws CssParserException 
      */
-    public function treatThemeValue(string $value, $theme_export){
-        if (!empty($v = $this->treat($value, $theme_export))){
+    public function treatThemeValue(string $value, $theme_export)
+    {
+        if (!empty($v = $this->treat($value, $theme_export))) {
             return $this->treatInlineValue($v);
         }
         return $v;
@@ -226,19 +228,20 @@ class CssThemeResolver
      * @return null|string 
      * @throws IGKException 
      */
-    public function treatInlineValue(string $value){
+    public function treatInlineValue(string $value)
+    {
         $v = $value;
-        if (!empty($v) && ($gp = CssParser::Parse($v))){
+        if (!empty($v) && ($gp = CssParser::Parse($v))) {
             $value = $gp->render();
         }
         return $value;
     }
     /**
-    * treat value
-    * @param string $value
-    * @param bool $themeexport
-    * @return string
-    */
+     * treat value
+     * @param string $value
+     * @param bool $themeexport
+     * @return string
+     */
     public function treat(string $value, bool $themeexport = false)
     {
         // + | check not expression 
@@ -248,7 +251,7 @@ class CssThemeResolver
         if ((strpos($value, "{") === false) &&
             (strpos($value, "(") === false) &&
             (strpos($value, "[") === false)
-        ){ 
+        ) {
             return $value;
         }
         if (isset($this->resolv[$value])) {
@@ -257,7 +260,7 @@ class CssThemeResolver
         if (!$this->start) {
             $this->start = igk_sys_request_time();
             $this->colordef = &igk_css_get_treat_colors($this->parent ? $this->parent->getDef()->getCl() : []);
-        }  
+        }
         $reg3 = IGK_CSS_CHILD_EXPRESSION_REGEX;
         $match = array();
         $gtheme = $theme = $this->theme;
@@ -279,28 +282,29 @@ class CssThemeResolver
                     $deftheme = "def";
                 }
                 if (empty($type)) {
-                    if (is_null($rdef = $gtheme->{$deftheme})){
-                           igk_dev_wln_e(
-                            __FILE__.":".__LINE__ ,
+                    if (is_null($rdef = $gtheme->{$deftheme})) {
+                        igk_dev_wln_e(
+                            __FILE__ . ":" . __LINE__,
                             $deftheme,
                             $name,
                             $gtheme,
                             $v,
                             $gtheme->{$deftheme},
                         );
-                        igk_die('missing '.$deftheme);
+                        igk_die('missing ' . $deftheme);
                     }
                     $rv = $rdef[$name];
                 } else {
                     $vt_hdef = $systheme->$deftheme;
-                    if (is_null($vt_hdef)){
+                    if (is_null($vt_hdef)) {
                         igk_dev_wln_e(
-                            __FILE__.":".__LINE__ , 'data:',
+                            __FILE__ . ":" . __LINE__,
+                            'data:',
                             "definition theme is null ",
-                             $deftheme,
+                            $deftheme,
                             $type,
-                             $v,
-                             get_class($systheme),
+                            $v,
+                            get_class($systheme),
                             $systheme->getMedia(HtmlDocThemeMediaType::LG_MEDIA)[$name]
                         );
                     }
@@ -312,7 +316,7 @@ class CssThemeResolver
                     switch ($type) {
                         case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
-                            $rv = $vt_hdef[$name]; 
+                            $rv = $vt_hdef[$name];
                             break;
                         case self::ATTR_G_THEME_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
@@ -333,7 +337,7 @@ class CssThemeResolver
             $vresolv = 0;
             $qlist = [$v];
             $roots = [];
-            while (count($qlist)>0) {
+            while (count($qlist) > 0) {
                 $g = array_pop($qlist);
                 if (!$g) continue;
                 $rtv = null;
@@ -351,22 +355,29 @@ class CssThemeResolver
                         $roots[$tv] = $tv;
                     }
                     $stop = '';
-                    if ($this->_nextSplitter($g, $pos)){
+                    if ($this->_nextSplitter($g, $pos)) {
                         $stop = ';';
                     }
                     if (($tl = strpos($tv, "[", 1)) !== false) {
                         $q = array("parent" => $tv, "value" => substr($tv, $tl));
                         array_push($qlist, $q);
                     } else {
-                        $sv = $this->treat_value($tv.$stop, $themeexport);
-                        if ($stop && $v){
-                            $sv = rtrim($sv,$stop);
-                            if (empty($sv)){
-                                $v = str_replace($tv.$stop,'', $v);
+                        $sv = $this->treat_value($tv . $stop, $themeexport);
+                        if ($stop && $v) {
+                            if ($sv == $stop) {
+                                $v = str_replace($tv . $stop, $stop, $v);
                                 unset($roots[$tv]);
                                 continue;
                             }
-                        } 
+                            else{
+                                $sv = rtrim($sv, $stop);
+                                if (empty($sv)) {
+                                    $v = str_replace($tv . $stop, '', $v);
+                                    unset($roots[$tv]);
+                                    continue;
+                                }
+                            }
+                        }
                         if (($rtv == null) || !isset($roots[$rtv]))
                             $roots[$tv] = $sv;
                         else {
@@ -381,22 +392,22 @@ class CssThemeResolver
                     }
                 }
             }
-            if (!empty($v)){
+            if (!empty($v)) {
                 foreach ($roots as $k => $tv) {
                     if ($k == $tv) {
                         $tv = "";
                     }
                     if (strpos($v, $k) === false) {
                         throw new \IGK\System\Exceptions\CssParserException("{$k} not found in {$v}");
-                    } else{
+                    } else {
                         $v = str_replace($k, $tv, $v);
-                        if (empty(trim($v, "; "))){
+                        if (empty(trim($v, "; "))) {
                             $v = "";
                         }
                     }
                 }
             }
-            if (!empty($v)){
+            if (!empty($v)) {
                 $v = igk_css_treat_bracket($v, $theme, $systheme);
             }
             $g = 0;
@@ -409,33 +420,34 @@ class CssThemeResolver
         return $v;
     }
     /**
-    * auto generate doc.
-    * @param string $v
-    * @param mixed & $pos
-    * @return mixed
-    */
-    private function _nextSplitter(string $v, & $pos){
+     * auto generate doc.
+     * @param string $v
+     * @param mixed & $pos
+     * @return mixed
+     */
+    private function _nextSplitter(string $v, &$pos)
+    {
         $ln = strlen($v);
         $tpos = $pos;
-        while($tpos  < $ln ){
+        while ($tpos  < $ln) {
             $ch = $v[$tpos];
-            if ($ch==";"){
-                $pos = $tpos+1;
+            if ($ch == ";") {
+                $pos = $tpos + 1;
                 return true;
             }
             $tpos++;
-            if ($ch == ' '){
+            if ($ch == ' ') {
                 continue;
             }
-            break; 
+            break;
         }
-        return false; 
+        return false;
     }
     /**
-    * treat css  value
-    * @param string $v
-    * @param bool $themeexport
-    */
+     * treat css  value
+     * @param string $v
+     * @param bool $themeexport
+     */
     public function treat_value(string $v, bool $themeexport)
     {
         $reg = IGK_CSS_TREAT_REGEX;
@@ -471,23 +483,23 @@ class CssThemeResolver
         $this->start = null;
     }
     /**
-    * auto generate doc.
-    * @param string & $v
-    * @param mixed $type
-    * @param mixed $value
-    * @param mixed $a
-    * @param mixed $stop
-    * @param bool $themeexport
-    * @return mixed
-    */
-    private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
-    { 
+     * auto generate doc.
+     * @param string & $v
+     * @param mixed $type
+     * @param mixed $value
+     * @param mixed $a
+     * @param mixed $stop
+     * @param bool $themeexport
+     * @return mixed
+     */
+    private function _treat_entries(string &$v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
+    {
         $theme = $this->theme;
         $systheme = $this->parent;
         $gtheme = $theme;
         $v_m = $v;
         $d = null;
-        if (!is_object($systheme)) {            
+        if (!is_object($systheme)) {
         } else {
             $d = &$systheme->getDef()->getCl();
         }
@@ -508,28 +520,28 @@ class CssThemeResolver
         if ($gcl) {
             $chainColors[] = array_merge($gcl, []);
         }
-        $chainColorCallback = function ($value, bool $debug=false) use (&$chainColors, $v_designmode) { 
-            $resolved = & $this->themeResolved;
-           
-            if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value,$data)){
-                if ($data["name"]=="var"){
-                    $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
-                    $root = & $this->theme->getRootReference();
-                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent")); 
-                } 
+        $chainColorCallback = function ($value, bool $debug = false) use (&$chainColors, $v_designmode) {
+            $resolved = &$this->themeResolved;
+
+            if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value, $data)) {
+                if ($data["name"] == "var") {
+                    $p = explode(',', rtrim(substr($value, strpos($value, "(") + 1), ')'));
+                    $root = &$this->theme->getRootReference();
+                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent"));
+                }
                 if (!preg_match('/^[a-z\\- ]+,/i', $value))
                     return $value;
             }
             $tab = explode(',', $value, 2);
             $v = trim($tab[0]);
-            if ($this->resolver && ($s = $this->resolver->resolveColor($v))){
+            if ($this->resolver && ($s = $this->resolver->resolveColor($v))) {
                 $resolved = true;
                 return $s;
             }
 
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
             if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
-                if (defined('IGK_TEST_INIT')){
+                if (defined('IGK_TEST_INIT')) {
                     // + | in case of testing just return the requested color vlaue 
                     return trim($v);
                 }
@@ -579,7 +591,7 @@ class CssThemeResolver
                 }
                 $v = str_replace($v_m, $v_r, $v);
                 break;
-            case self::ATTR_FIT :
+            case self::ATTR_FIT:
                 if (preg_match("/^(fill|contain|cover|none|scale-down)/i", $value)) {
                     $v = str_replace($v_m, "-webkit-object-fit: {$value};-ms-object-fit:{$value}; -o-object-fit: {$value}; object-fit: {$value};", $v);
                 } else {
@@ -606,92 +618,93 @@ class CssThemeResolver
                 $v = str_replace($v_m, "-webkit-transform-origin: {$value};-ms-transform-origin:{$value}; -moz-transform-origin:{$value}; -o-transform-origin: {$value}; transform-origin: {$value};", $v);
                 break;
             case self::ATTR_ANIM:
-            case self::ATTR_ANIMATION: 
+            case self::ATTR_ANIMATION:
                 $v = str_replace($v_m, "-webkit-animation: {$value};-ms-animation:{$value}; -moz-animation:{$value}; -o-animation: {$value}; animation: {$value};", $v);
                 break;
             case self::ATTR_FILTER:
                 $v = str_replace($v_m, "-webkit-filter: {$value};-ms-filter:{$value}; -o-filter: {$value}; filter: {$value};", $v);
                 break;
-            case self::ATTR_RESOURCE: 
-                if ($themeexport){
-                    $v = str_replace($v_m, 
-                        ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : "", 
-                        $v);
-                }else{
+            case self::ATTR_RESOURCE:
+                if ($themeexport) {
+                    $v = str_replace(
+                        $v_m,
+                        ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf . "')" . $stop : "",
+                        $v
+                    );
+                } else {
                     if (is_file($value)) {
                         $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
                     } else {
                         $vimg = R::GetImgResUri($value);
                         $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
                     }
-                } 
+                }
                 break;
-            case self::ATTR_BACKGROUND_RESOURCE:  
+            case self::ATTR_BACKGROUND_RESOURCE:
                 $v = str_replace($v_m, (!$themeexport ? "background-image: url('" . igk_io_baseuri() . "/" . igk_uri($value) . "');" : ""), $v);
                 break;
-            case self::ATTR_URI: 
+            case self::ATTR_URI:
                 $v = str_replace($v_m, (!$themeexport ? "url('" . igk_io_baseuri() . "/" . igk_uri($value) . "')" : ""), $v);
                 break;
-            case self::ATTR_SYS_BGCL: 
+            case self::ATTR_SYS_BGCL:
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-                $b = (($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? $this->_get_bgcl($ncl, $themeexport): null) ?? "";
+                $b = (($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? $this->_get_bgcl($ncl, $themeexport) : null) ?? "";
                 $v = str_replace($v_m, $b, $v);
                 break;
             case self::ATTR_SYS_FCL:
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-                if ($b = $this->_detect_color($tv, $cl, $ncl)){
+                if ($b = $this->_detect_color($tv, $cl, $ncl)) {
                     $b = $this->_get_fcl($b);
                 }
                 $v = str_replace($v_m, $b, $v);
                 // igk_ilog('syscolor: '.$cl);
                 break;
-            case self::ATTR_SYS_BCL : 
+            case self::ATTR_SYS_BCL:
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
                 $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
                 $v = str_replace($v_m, $b, $v);
                 break;
-            case self::ATTR_SYS_COLOR: 
+            case self::ATTR_SYS_COLOR:
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-                if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
-                    $cl = &$systheme->def->getCl();
+                if ((($ncl == $cl) || (empty($ncl))) && !igk_css_is_webknowncolor($ncl)) {
+                    $tcl = &$systheme->def->getCl();
                     if ($defcl = igk_getv($tv, 1)) {
                         $ncl = trim($defcl);
                     } else {
                         if (igk_sys_env_production()) {
                             $ncl = 'transparent';
                         } else {
-                            $ncl = "var(--{$ncl})";
+                            $ncl = "var(--{$cl})";
                         }
-                    }                   
-                    $cl[$ncl] = $ncl;
+                    }
+                    $tcl[$cl] = $ncl;
                 }
                 $v = str_replace($v_m, $ncl . $a, $v);
                 break;
-            case self::ATTR_FOREGROUND_COLOR:
-                $resolved = false;
-                $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value, $resolved)), $v);
+            case self::ATTR_FOREGROUND_COLOR:              
+                $v = str_replace($v_m, $this->_get_fcl($chainColorCallback($value), $themeexport), $v);
                 break;
             case self::ATTR_BACKGROUND_COLOR:
                 $ncl = $chainColorCallback($value);
                 $v = str_replace($v_m, $this->_get_bgcl($ncl, $themeexport), $v);
                 break;
-            case self::ATTR_BORDER_COLOR: 
+            case self::ATTR_BORDER_COLOR:
                 $ncl = $chainColorCallback($value);
                 $v = str_replace($v_m, igk_css_get_bordercl($ncl), $v);
                 break;
             case self::ATTR_COLOR:
-                $rp = igk_str_rm_last($v_m, ';');             
+                $rp = igk_str_rm_last($v_m, ';');
                 $nv = $chainColorCallback($value);
                 $t = $nv;
-                $v = str_replace($rp, $t, $v);               
+                $v = str_replace($rp, $t, $v);
                 break;
             case self::ATTR_FONT:
                 $v = str_replace($v_m, ($theme !== $gtheme) && $theme->ft[$value] ? igk_css_get_font($value) : null, $v);
@@ -704,11 +717,11 @@ class CssThemeResolver
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
                 break;
             case self::ATTR_PROPERTY:
-            case self::ATTR_PROP: 
+            case self::ATTR_PROP:
                 $v_r = igk_css_design_property_value($value, $theme->getProperties(), $v_designmode);
                 if (!empty($v_r))
                     $v_r .= $stop;
-                $v = str_replace($v_m, $v_r ?? "", $v); 
+                $v = str_replace($v_m, $v_r ?? "", $v);
                 break;
             case "palcl":
                 $r = igk_get_palette();
@@ -733,16 +746,16 @@ class CssThemeResolver
                     $v = str_replace($v_m, "color: " . $s . ";", $v);
                 else
                     $v = str_replace($v_m, IGK_STR_EMPTY, $v);
-                break; 
+                break;
             case self::ATTR_SVG:
-                    $n = $value;
-                    $s = "";
-                    if ($p = SvgRenderer::GetPath($n)){
-                        $uri = IGKResourceUriResolver::getInstance()->resolve($p);                         
-                        $s= "url(".$uri.")";
-                    } 
-                    $v = str_replace($v_m, $s, $v); 
-                break; 
+                $n = $value;
+                $s = "";
+                if ($p = SvgRenderer::GetPath($n)) {
+                    $uri = IGKResourceUriResolver::getInstance()->resolve($p);
+                    $s = "url(" . $uri . ")";
+                }
+                $v = str_replace($v_m, $s, $v);
+                break;
             default:
                 if ((strlen($type) > 0) && ($type[0] == "-")) {
                     $type = substr($type, 1);
@@ -759,64 +772,65 @@ class CssThemeResolver
      * @return null|string 
      * @throws IGKException 
      */
-    private function _resolve_res(string $value):?string {
+    private function _resolve_res(string $value): ?string
+    {
         $tf = null;
         $v_skips = $this->skips;
-        if ($v_skips && in_array('res', $v_skips)){
+        if ($v_skips && in_array('res', $v_skips)) {
             return null;
         }
-        if ($rs = $this->resolver){
+        if ($rs = $this->resolver) {
             $tf = $rs->resolveResourcePath($value);
-            $tf = $tf ?$rs->resolve($tf):null;   
+            $tf = $tf ? $rs->resolve($tf) : null;
         } else {
-            if ($tf = R::GetImgResUri($value, $path)){
-                $tf = "/".igk_str_rm_start($tf, "../");
+            if ($tf = R::GetImgResUri($value, $path)) {
+                $tf = "/" . igk_str_rm_start($tf, "../");
             }
         }
         return $tf;
     }
     /**
-    * auto generate doc.
-    * @param array $tv
-    * @param mixed $cl
-    * @param mixed $ncl
-    * @return string
-    */
-    private function _detect_color(array $tv, $cl, $ncl){
+     * auto generate doc.
+     * @param array $tv
+     * @param mixed $cl
+     * @param mixed $ncl
+     * @return string
+     */
+    private function _detect_color(array $tv, $cl, $ncl)
+    {
         $systheme = $this->parent;
-        if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
+        if (empty($ncl) || (($ncl == $cl)) && !igk_css_is_webknowncolor($ncl)){
             if ($defcl = igk_getv($tv, 1)) {
                 $ncl = trim($defcl);
             } else {
-                // if (igk_sys_env_production()) {
-                //     $ncl = 'initial';
-                // }
                 return "";
             }
-            $cl = & $systheme->def->getCl();
+            $cl = &$systheme->def->getCl();
             $cl[$ncl] = $ncl;
             return $ncl;
         }
         return trim($ncl);
     }
     /**
-    * auto generate doc.
-    * @param mixed $ncl
-    * @param bool $themeexport
-    * @return mixed
-    */
-    protected function _get_bgcl($ncl, bool $themeexport){        
+     * auto generate doc.
+     * @param mixed $ncl
+     * @param bool $themeexport
+     * @return string
+     */
+    protected function _get_bgcl($ncl, bool $themeexport): string
+    {
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
     /**
-    * Get fcl.
-    * @param mixed $value
-    * @param mixed $resolved
-    */
-    protected function _get_fcl($value, $resolved=false){   
-        if ($resolved){
-            return sprintf("color: %s;", $value);
-        }
-        return igk_css_get_fcl($value, $this->theme, $this->parent);
+     * Get fcl.
+     * @param mixed $value
+     * @param mixed $themeexport
+     */
+    protected function _get_fcl($value, $themeexport = false)
+    {
+        // if ($resolved) {
+        //     return sprintf("color: %s;", $value);
+        // }
+        return igk_css_get_fcl($value, $themeexport, $this->theme, $this->parent);
     }
 }

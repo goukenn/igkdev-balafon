@@ -144,10 +144,10 @@ PHP
         return $css;
     }
     public function test_cssclassnamedetector_important(){
-        $this->assertEquals('.text-red!important{color:#ff0000 !important}', $this->_autoDefinition('text-red!important'));
+        $this->assertEquals('.text-red\!important{color:#ff0000 !important}', $this->_autoDefinition('text-red\!important'));
     }
     public function test_cssclassnamedetector_custom_important(){
-        $this->assertEquals('.text-\[\#040816!important\]{color:#040816 !important}', $this->_autoDefinition('.text-\[\#040816!important\]'));
+        $this->assertEquals('.text-\[\#040816\!important\]{color:#040816 !important}', $this->_autoDefinition('.text-\[\#040816\!important\]'));
     }
     public function test_cssclassnamedetector_w_def(){
         $this->assertEquals('.w-16{width:4em}',
@@ -155,4 +155,6 @@ PHP
         $this->assertEquals('.h-16{height:4em}',
          $this->_autoDefinition('.h-16'));
     }
+
+
 }

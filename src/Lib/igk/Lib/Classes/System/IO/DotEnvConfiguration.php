@@ -225,7 +225,7 @@ class DotEnvConfiguration
                 igk_wln_e('handle expression //// ');
             }
         ];
-        $is_debug = igk_is_debug();
+        $is_debug = igk_is_debug('dotenv-loading');
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 if ($fc = igk_getv($fcs, $e->tokenID)) {

@@ -731,6 +731,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             }
             if (!empty($v_var_def)) {
                 $out .= sprintf(":root{%s}", $v_var_def);
+                if ($this->m_root_ref){
+                    $this->m_root_ref[] = $v_var_def;
+                }
             }
         }
         // + | --------------------------------------------------------------------
@@ -785,6 +788,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                     if ($prefix) {
                         $k = str_replace('.', '.' . $prefix, $k);
                     }
+                    // if ($k == ':root'){
+                    //     $this->m_root_ref[] = igk_str_remove_quote($kv);
+                    //     continue;
+                    // }
                     $s .= $k . "{" . $kv . "}" . $lineseparator;
                     $tv = 1;
                 }
@@ -1155,10 +1162,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
 
 
         if (!$v_is_skip_root) {
+            $td = $this->m_root_ref ?? [];
             $rtdef_root = array_merge(
                 CssUtils::GetRootPropsArray($cl = $this->getCl() ?? []),
                 CssUtils::GetRootPropsArray($props = $this->getProperties() ?? []),
-                $this->m_root_ref ?? []
+                $td
             );
             if ($rtdef_root) {
                 ksort($rtdef_root);
