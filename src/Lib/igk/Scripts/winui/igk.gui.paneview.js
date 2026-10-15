@@ -57,7 +57,7 @@ s.each(function(){
 			$igk(this).addClass("posr");
 			var s = $igk(this).select(".pane-view-block");
 			s.each(function(){ 		
-				$igk(this).addClass("posab loc_t loc_l");
+				$igk(this).addClass("posab loc-t loc-l");
 				return true;
 			});			
 			s.getNodeAt(0).style.zIndex = 1;

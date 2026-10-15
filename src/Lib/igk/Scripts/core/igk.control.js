@@ -2616,7 +2616,7 @@
                 }
                 return _dat;
             };
-            this.data.canva = this.add("canvas").addClass("posab fitw fith loc_t loc_l");
+            this.data.canva = this.add("canvas").addClass("posab fitw fith loc-t loc-l");
             this.data.storyboard = this.add("div").addClass("igk-anim-time-board")
                 .reg_event("transitionend", function (evt) {
                     var _m = _getData();

@@ -70,10 +70,10 @@ final class DebugController extends BaseController{
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $node=parent::initTargetNode();
         $cl=strtolower($this->getName());
-        $node["class"]=$cl." loc_t loc_l zback posr";
+        $node["class"]=$cl." loc-t loc-l zback posr";
         $node->add("h2")->Content=__("title.debugger");
         $this->m_topdiv=$node->add("div", array("class"=>$cl."_content"));
-        $this->m_optionsdiv=$node->add("div", array("class"=>$cl."_options posr loc_b loc_l"));
+        $this->m_optionsdiv=$node->add("div", array("class"=>$cl."_options posr loc_b loc-l"));
         HtmlUtils::AddBtnLnk($this->m_optionsdiv, "btn.ClearDebug", $this->getUri("ClearDebug"));
         return $node;
     }

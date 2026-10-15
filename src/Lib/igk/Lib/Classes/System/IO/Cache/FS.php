@@ -82,9 +82,10 @@ class FS
     /**
      * Loads Cache.
      */
-    public function loadCache()
+    private function _loadCache()
     {
-        $this->m_caches = ($c = @include self::CacheFile()) === false ? [] : $c;
+        $c = @include self::CacheFile();        
+        $this->m_caches = is_array($c)? $c: [];
         if ($c === false) {
             $this->m_auto_cache = true;
             $this->_registerStoreCache();
@@ -143,7 +144,7 @@ class FS
     {
         if (is_null(self::$sm_instance)) {
             $FS = new FS();
-            $FS->loadCache();
+            $FS->_loadCache();
             $env_outside = igk_env_count_get('file_exists_outside');
             if ($env_outside) {
                 igk_environment()->getDebugger()->fs_filesystem_check_counter =

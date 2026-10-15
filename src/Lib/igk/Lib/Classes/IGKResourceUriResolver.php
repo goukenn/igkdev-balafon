@@ -185,6 +185,7 @@ class IGKResourceUriResolver
                 'prj' => ResIdentifierConstants::PROJECT,
                 'project' => ResIdentifierConstants::PROJECT,
                 'cache' => ResIdentifierConstants::CACHE,
+                'app_cache_js_dist'=>ResIdentifierConstants::APP,
                 'app' => ResIdentifierConstants::APP
             ], $n, function () use ($n, $path) {
                 igk_die("not found .... " . $n . " for [" . $path . "]");

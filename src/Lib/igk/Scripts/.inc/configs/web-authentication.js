@@ -172,7 +172,9 @@
                         method: 'POST',
                         body: JSON.stringify({ 'action': 'create' }),
                         ...primaryFetchConfig
-                    }).then(o => o.json()).then(data => bufferUtils.bta(data));
+                    }).then(o => o.json()).then(data => bufferUtils.bta(data)).catch((e)=>{
+                        console.log("error : ", e);
+                    });
                     return config;
                 })() : null) || { publicKey: { challenge: new Uint8Array([12]) } };
                 if (options == null) {

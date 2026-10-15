@@ -58,7 +58,7 @@ function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_repl
 	});
 	$p = $h->div()->setClass("p  igk-bg-comment");
 	$p->addSpan()->Content = "logo picture";
-	$p->div()->setClass("dispib posab fit loc_l loc_t")->Content= igk_svg_use("comment");
+	$p->div()->setClass("dispib posab fit loc-l loc-t")->Content= igk_svg_use("comment");
 	$ctn = $h->div();
 	$hd = $ctn->div()->setClass("cm-header");
 	$hd->addSpan()->setClass("dispib")->addSectionTitle(6)->Content= $title;

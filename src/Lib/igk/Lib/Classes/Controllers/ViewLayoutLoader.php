@@ -219,9 +219,9 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
             $t['id'] = null;
             $t['igk-type'] = 'ajx-view';
         }
-        if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
+        if (!$v_main &&  $v_header &&  $this->exists($v_header)) { 
             igk_include_view_file($ctrl, $v_header, true, $args);
-        }
+        } 
         $response = igk_include_view_file($ctrl, $file, $v_no_cache, $args);
 
         if (!$v_main && $v_footer && $this->exists($v_footer)) {

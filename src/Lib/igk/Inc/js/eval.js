@@ -36,11 +36,12 @@
                     window.__igk_var_script_error = b;                    
                     if (b){
                         console.log(e);
-
                         console.log(
                             'error:', 
                             '[use window.__igk_var_script_error]',
-                            b.substring(Math.max(0, e.columnNumber-50),100)); 
+                            b.substring(Math.max(0, e.columnNumber-50),100),
+                        // {'on':b}
+                    ); 
                     } 
                 }
             }

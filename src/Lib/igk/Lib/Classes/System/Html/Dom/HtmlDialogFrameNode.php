@@ -53,7 +53,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
         }
         $this->m_framectrl=$framectrl;
         $this->m_closeCallBackEvent=new IGKEvents($this, "closeCallBackEvent");
-        $this["class"]="framebox fitw fith posab loc_t loc_l";
+        $this["class"]="framebox fitw fith posab loc-t loc-l";
         $this["id"]="framebox-".$id;
         $this["igk-control-type"]="frame";
         $this->setIsVisible(true);

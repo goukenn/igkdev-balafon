@@ -110,7 +110,7 @@
             // append close button
             if (!nc) {
                 var close = igk.createNode("div");
-                close.addClass("dispb posab loc_r loc_t");
+                close.addClass("dispb posab loc-r loc-t");
                 close.add("a", {
                     "onclick": _g_close_notify
                 }).setHtml("close").addClass("igk-notify-btn-close");

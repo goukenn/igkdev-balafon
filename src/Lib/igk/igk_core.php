@@ -142,29 +142,33 @@ function igk_zip_output_type($forcegzip = 0)
  */
 function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = null)
 {
-    $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
-    if (!$forcegzip && strstr($accept, "deflate") && function_exists("gzdeflate")) {
-        if ($header) {
-            header('Content-Encoding: deflate');
+    $type = null;
+    if ($forcegzip) {
+        $accept = igk_getv($_SERVER, 'HTTP_ACCEPT_ENCODING', 0);
+        if (strstr($accept, "deflate") && function_exists("gzdeflate")) {
+            if ($header) {
+                header('Content-Encoding: deflate');
+            }
+            igk_wl(gzdeflate($c, 3));
+            $type = "deflate";
+        } else if (strstr($accept, "gzip") && function_exists("gzencode")) {
+            if ($header)
+                header('Content-Encoding: gzip');
+            igk_wl(gzencode($c, 3));
+            $type = "gzip";
         }
-        igk_wl(gzdeflate($c, 3));
-        $type = "deflate";
-    } else if (($forcegzip || strstr($accept, "gzip")) && function_exists("gzencode")) {
-        if ($header)
-            header('Content-Encoding: gzip');
-        igk_wl(gzencode($c, 3));
-        $type = "gzip";
-    } else {
+    }
+    if (!$type) {
         $type = 'no-compression';
         igk_wl($c);
     }
 }
 /**
-* Igk die s.
-* @param string $msg
-* @param mixed ...$params
-* @return mixed
-*/
+ * Igk die s.
+ * @param string $msg
+ * @param mixed ...$params
+ * @return mixed
+ */
 function igk_die_s(string $msg, ...$params)
 {
     igk_die(sprintf(__($msg), ...$params));
@@ -253,7 +257,7 @@ if (!function_exists('igk_resources_gets')) {
      */
     function igk_resources_gets($text, $parameters = null)
     {
-        $args = func_get_args(); 
+        $args = func_get_args();
         if (is_array($text)) {
             $m = array_slice($args, 1);
             $text = implode('', array_filter(array_map(function ($a) use ($m) {
@@ -261,14 +265,14 @@ if (!function_exists('igk_resources_gets')) {
             }, $text)));
             $args[0] = $text;
         }
-        if (preg_match('/%[a-zA-Z\-_0-9]+%/', $text)){
+        if (preg_match('/%[a-zA-Z\-_0-9]+%/', $text)) {
             $use_param = is_array($parameters);
             $map = $use_param ? Replacement::FromAssocArray($parameters) : null;
             $text = StringUtility::ReplacementFormat($text, $map);
             $args[0] = $text;
-            if ($use_param){
+            if ($use_param) {
                 unset($args[1]);
-                $args = array_values($args); 
+                $args = array_values($args);
             }
         }
         if ($g = R::GetStringResourceHandler()) {
@@ -289,11 +293,11 @@ if (!function_exists('igk_resources_getsf')) {
 }
 if (!function_exists('igk_resources_sprintf')) {
     /**
-    * auto generate doc.
-    * @param string $a
-    * @param mixed ...$args
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $a
+     * @param mixed ...$args
+     * @return string
+     */
     function igk_resources_sprintf(string $a, ...$args)
     {
         return sprintf(igk_resources_gets($a), ...$args);
@@ -1155,16 +1159,16 @@ function igk_log_var_dump($tab, $lf = null)
         $ch = '';
         $is_cmd  = php_sapi_name() == 'cli';
         foreach ($tab as $k => $v) {
-            if (!is_numeric($k) && empty($k)){
-                
+            if (!is_numeric($k) && empty($k)) {
+
                 igk_trace();
-                echo 'dempty with media', __FILE__.":".__LINE__ , PHP_EOL, '<br />';
+                echo 'dempty with media', __FILE__ . ":" . __LINE__, PHP_EOL, '<br />';
                 echo get_class($tab);
                 print_r($v);
 
                 exit;
             }
-            $msg .= $ch .($is_cmd ? "{$TAB}{$k}" : '<code>'."\t".'</code><font style="color:indigo; font-weight:bold">'.$k.'</font>');
+            $msg .= $ch . ($is_cmd ? "{$TAB}{$k}" : '<code>' . "\t" . '</code><font style="color:indigo; font-weight:bold">' . $k . '</font>');
             if (is_object($v)) {
                 $msg .= " => Object[" . get_class($v) . "]";
             } else if (is_array($v)) {
@@ -1178,11 +1182,11 @@ function igk_log_var_dump($tab, $lf = null)
     igk_wl($msg . ")" . $lf);
 }
 /**
-* write line to buffer and exit
-* @param mixed $msg primary data
-* @param mixed ...$extra
-* @return mixed
-*/
+ * write line to buffer and exit
+ * @param mixed $msg primary data
+ * @param mixed ...$extra
+ * @return mixed
+ */
 function igk_wln_e($msg = "", ...$extra)
 {
     igk_environment()->set('TRACE_LEVEL', 3);
@@ -1190,11 +1194,11 @@ function igk_wln_e($msg = "", ...$extra)
     igk_exit();
 }
 /**
-* Igk tag wln.
-* @param mixed $tag
-* @param mixed ...$args
-* @return mixed
-*/
+ * Igk tag wln.
+ * @param mixed $tag
+ * @param mixed ...$args
+ * @return mixed
+ */
 function igk_tag_wln($tag, ...$args)
 {
     $attr = "";
@@ -2660,10 +2664,10 @@ if (!function_exists('igk_bool')) {
     }
 }
 /**
-* dump array
-* @param mixed ...$args
-* @return void
-*/
+ * dump array
+ * @param mixed ...$args
+ * @return void
+ */
 function igk_dump_array(...$args)
 {
     igk_wl(...$args);
@@ -2704,7 +2708,7 @@ if (!function_exists('igk_sys_detect_project_controller')) {
      */
     function igk_sys_detect_project_controller(string $project_dir)
     {
-        require_once IGK_LIB_CLASSES_DIR.'/Helper/Project.php';
+        require_once IGK_LIB_CLASSES_DIR . '/Helper/Project.php';
         $dir = $project_dir;
         $s = [];
         if ($c = opendir($dir)) {
@@ -2728,10 +2732,10 @@ if (!function_exists('igk_sys_detect_project_controller')) {
     }
 }
 /**
-* auto generate doc.
-* @param string $file
-* @return mixed
-*/
+ * auto generate doc.
+ * @param string $file
+ * @return mixed
+ */
 function igk_sys_get_controller_class_from(string $file)
 {
     static $caching;
@@ -2860,7 +2864,7 @@ function igk_sys_css_inject_colors_space($t, string $type = 'hsl')
     $lib = IGK_LIB_DIR . '/Default/assets/css/colorspaces';
     in_array($type, explode('|', CssConstants::SUPPORT_COLOR_SPACES)) || igk_die($type . ' - not supported color spaces');
     // $r = file_get_contents(Path::Combine($lib, $type.'.json'));
-    $t->balafonjs() 
+    $t->balafonjs()
         ->setAttribute('data-colorspace', $type)
         ->setAttribute('data-auto-detect', [])
         ->content = file_get_contents(Path::Combine($lib, 'colorspace-injector.bjs'));
@@ -2936,14 +2940,14 @@ function igk_project_extra_configuration()
  */
 function igk_autoload_test(string $name)
 {
-    $_key_app_dir = $name; 
+    $_key_app_dir = $name;
     foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
         if (defined($m))
             continue;
         foreach ([$_SERVER, $_ENV] as $tab) {
             if (isset($tab[$m])) {
                 $l = $tab[$m];
-                if (preg_match('/_DIR$/', $m)){
+                if (preg_match('/_DIR$/', $m)) {
                     $l = realpath($l);
                 }
                 define($m, $l);
@@ -2951,7 +2955,7 @@ function igk_autoload_test(string $name)
             }
         }
     }
-    if (!defined( $_key_app_dir )) {
+    if (!defined($_key_app_dir)) {
         $resolv_path = function ($dir, $value) {
             $p = realpath($value);
             if (empty($p)) {
@@ -2990,7 +2994,7 @@ function igk_autoload_test(string $name)
                 }
             }
         }
-        !defined( $name ) && define( $name, $bdir);
+        !defined($name) && define($name, $bdir);
     }
-    return constant($name); 
+    return constant($name);
 }

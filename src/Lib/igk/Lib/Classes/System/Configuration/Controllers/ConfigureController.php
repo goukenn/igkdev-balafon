@@ -1101,7 +1101,7 @@ EOF;
             $doc->setHeaderColor("#040816");
             $root = $bfrm->div()->setClass("disptable fit")->div();
             $root->setclass("disptabc alignm fitw");
-            $root->img(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg")->setClass("posfix loc_t no-selection")->setStyle("");
+            $root->img(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg")->setClass("posfix loc-t no-selection")->setStyle("");
             $dv = $root->div();
             $dv["class"] = "igk-adm-login-form";
             $frm = $dv->addBMCShape()->div()->addForm()->setClass("dispb");
@@ -1135,7 +1135,7 @@ EOF;
             // + | --------------------------------------------------------------------
             // + | term of use an privacy
             // + |
-            $root->footer()->setClass("footer alignc posab loc_l loc_b loc_r text-d-small")->addIGKCopyright();
+            $root->footer()->setClass("footer alignc posab loc-l loc_b loc-r text-d-small")->addIGKCopyright();
             if (igk_configs()->webauthn_required) {
                 // + | inject web-authentication connection - 
                 $js_loader = $this->_getInlineJSLoade();
@@ -1189,7 +1189,7 @@ EOF;
                 $cdiv->div()->addInput("btn_connect", "submit", __("btn.connect"))->setClass("-clsubmit fitw igk-btn igk-btn-connect");
                 $cdiv = $frm->container()->setClass("igk-smaller");
                 $cdiv->addA(igk_io_baseuri())->Content = "goto index";
-                $frm->div()->setClass("dispb posfix fitw no-overflow loc_l loc_b")->setAttribute("style", "font-size:0.8em; position:fixed; height:48px;")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
+                $frm->div()->setClass("dispb posfix fitw no-overflow loc-l loc_b")->setAttribute("style", "font-size:0.8em; position:fixed; height:48px;")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
             });
         } else {
             $lang = function ($n) {
@@ -1282,7 +1282,7 @@ EOF;
      */
     protected function buildWebAuthConnectionForm(HtmlNode $frm)
     { 
-        $frm->button('btn-sign')->setClass('webauthn-signin-btn')
+        $frm->button()->setClass('webauthn-signin-btn')
             ->setAttributes([
                 'data-webauthn-resolve' => $this->getUri('webauthn-create-get')
             ])->add(igk_html_host(
@@ -1348,7 +1348,7 @@ EOF;
      */
     public function webauthn_create_get()
     {
-        igk_server()->method('POST') || igk_die('not a valid request');
+        igk_server()->method('POST') || igk_die('not a valid request'); 
         igk_is_conf_connected() && igk_die('misconfiguration');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
@@ -1520,10 +1520,10 @@ EOF;
                 if ($body) {
                     $dv->Content = igk_html_render_text_node($body);
                 } else {
-                    $dv->Content = "body is null";
+                    $dv->Content = __("body is null");
                 }
             } else {
-                $d->content = "failed to send uri: " . $uri;
+                $d->content = sprintf(__("failed to send uri: %s", $uri));
             }
             igk_ajx_notify_dialog("Page Result Preview", $d);
         }

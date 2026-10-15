@@ -31,7 +31,7 @@ class IGKWinUI_framebox extends HtmlNode
     public function __construct()
 	{
 		parent::__construct("div");
-		$this["class"] = "posab fitw fith loc_t loc_l overflow_none ztop";
+		$this["class"] = "posab fitw fith loc-t loc-l overflow_none ztop";
 	}
     /**
     * Renders.

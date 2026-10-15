@@ -24,7 +24,7 @@ init : function(uri, interval){
 					m_viewbox = document.createElement("div");
 					document.body.appendChild(m_viewbox);
 				}
-				$igk(m_viewbox).setCss({"height": "32px", "backgroundColor":"red"}).addClass("fitw posfix loc_t loc_l");
+				$igk(m_viewbox).setCss({"height": "32px", "backgroundColor":"red"}).addClass("fitw posfix loc-t loc-l");
 				m_viewbox.innerHTML = xhr.responseText;
 				igk.animation.fadeout(m_viewbox, 20, 1000, 1.0, function(){ update(); m_viewbox.parentNode.removeChild(m_viewbox); m_viewbox = null; });
 			}

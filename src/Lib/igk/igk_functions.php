@@ -839,7 +839,7 @@ function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript =
         }
     };
     if (is_callable($resregex)) {
-        $rgx = "/\.(([a-z]+)$)/i";
+        $rgx = "/\.(?:[a-zA-Z]+$)/";
     } else {
         $resregex = function ($file, $cfile, $mergescallback) {
             switch ($ext = igk_io_path_ext(basename($file))) {
@@ -857,8 +857,10 @@ function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript =
             ob_start();
             $cfile = $cachedir . "/" . substr($file, $ln);
             $c = $resregex($file, $cfile, $mergescallback);
+          
             $output = ob_get_contents();
-            ob_clean();
+            ob_end_clean();
+     
             if ($c) {
                 continue;
             }
@@ -2846,8 +2848,9 @@ function igk_css_get_bgcl($v, bool $themexport, $theme, $systheme = null): strin
  * @param mixed $systheme 
  * @return string 
  */
-function igk_css_treat_property(string $property, $v, bool $themexport, $theme, $systheme = null){
-     if (empty($v))
+function igk_css_treat_property(string $property, $v, bool $themexport, $theme, $systheme = null)
+{
+    if (empty($v))
         return '';
     $h = igk_css_treat($v, $themexport, $theme, $systheme);
     if ($h == null)
@@ -2888,7 +2891,7 @@ ETF;
  * @param mixed $systheme
  * @return mixed
  */
-function igk_css_get_fcl(string $v, bool $themeexport, $theme, $systheme=null)
+function igk_css_get_fcl(string $v, bool $themeexport, $theme, $systheme = null)
 {
     return igk_css_treat_property('color', $v, $themeexport, $theme, $systheme);
     // $h = igk_css_treat($v, false, $theme, $systheme);
@@ -2986,7 +2989,7 @@ function igk_css_init_style_def_workflow($doc, $theme = null)
  * @return mixed
  */
 function igk_css_invoke_color_request($r)
-{  
+{
     $v_key = CssConstants::ENVIRONMENT_BIND_COLOR_REQUEST_METHOD_CALLBACK;
     $callback = igk_get_env($v_key);
     if (is_callable($callback)) {
@@ -3496,19 +3499,18 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
         igk_wln_e("can't treat bracket\n" . igk_show_trace());
     }
     $ref = [];
-    $fc_resolv_sys = function ($g, $syschain, $systheme, $detector)use ( &$ref){
-        if (!is_null($c = igk_getv($ref, $g))){
+    $fc_resolv_sys = function ($g, $syschain, $systheme, $detector) use (&$ref) {
+        if (!is_null($c = igk_getv($ref, $g))) {
             return '';
         }
         $l = igk_getv($syschain, $g) ?? $systheme->def["." . $g];
-        if (is_null($l)){
+        if (is_null($l)) {
             $reference = [];
             $detector->loadReferences([$g], $reference);
-            if ($reference){
-                $l = CssUtils::RenderProperties($reference['.'.$g]);                
-                $ref[$g] = $l ?? '';                
-            } 
-            
+            if ($reference) {
+                $l = CssUtils::RenderProperties($reference['.' . $g]);
+                $ref[$g] = $l ?? '';
+            }
         }
         return $l;
     };
@@ -3547,7 +3549,7 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                                 $l = $fc_resolv_sys($g, $syschain, $systheme, $detector);
                                 if (!empty($l)) {
                                     $l = rtrim($l, ' ;') . ';';
-                                } 
+                                }
                                 $sk .= $l;
                                 $chain[$g] = $l;
                             }
@@ -3610,7 +3612,8 @@ function &igk_css_get_treat_colors(?array $defColor = null)
  * @param string $q 
  * @return bool 
  */
-function igk_css_is_hexcolor(string $q):bool{
+function igk_css_is_hexcolor(string $q): bool
+{
     return (bool)preg_match('/^#[a-z0-9]+$/i', $q);
 }
 /**
@@ -3618,7 +3621,8 @@ function igk_css_is_hexcolor(string $q):bool{
  * @param string $q 
  * @return bool 
  */
-function igk_css_is_declared_color(string $q):bool{
+function igk_css_is_declared_color(string $q): bool
+{
     return igk_css_is_hexcolor($q) || preg_match('/^\\s*[a-z\-]+\\s*\(/', $q);
 }
 /**
@@ -3635,7 +3639,7 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
     if (empty($value)) {
         return $value;
     }
-    if (igk_css_is_declared_color($value)){
+    if (igk_css_is_declared_color($value)) {
         return $value;
     }
     $v_ignore_global_color = defined('IGK_TEST_INIT');
@@ -3679,14 +3683,14 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
                 if ($is_color_chain && ($chain_index < count($rcolors))) {
                     $colors = array_merge($colors, $rcolors[$chain_index++]);
                     unset($tabpush[$q]);
-                } else { 
+                } else {
                     break;
                 }
             }
         }
     }
-    if (!empty($q)){
-        if (igk_css_is_declared_color($q)){
+    if (!empty($q)) {
+        if (igk_css_is_declared_color($q)) {
             return $q;
         }
         if (!$v_ignore_global_color && IGKGlobalColor::IsGlobalColor($q)) {
@@ -3694,9 +3698,9 @@ function igk_css_treatcolor(&$colors, $value/*, $defined = false*/)
             // + | get registrated system color value - hex_color or webname
             // + |
             $q = IGKGlobalColor::getInstance()->Get($q);
-        }else{
+        } else {
             //igk_ilog('fallback color: '.$q);
-           if ($value == $q)
+            if ($value == $q)
                 $q = '';
         }
     }
@@ -9909,7 +9913,7 @@ function igk_getbaseindex_src(string $libfile): string
  * @param mixed $v
  * @return bool
  */
-function igk_getbool($v):bool
+function igk_getbool($v): bool
 {
     if (is_bool($v))
         return $v;
@@ -16360,131 +16364,511 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 }
 /**
  * min javascript source
- * @param mixed $s
+ * @param string $s
  * @param mixed $compact No compact char
  * @param mixed $nocompactchar No compact char
  * @return mixed
  */
-function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
-{
+// function igk_js_minify(string $s, $compact = 1, $nocompactchar = ' ')
+// {
+//     $count = strlen($s);
+//     $v_fc_writebuffer = function (& $buffer, &  $o){
+//         if ($o){
+//             $buffer[] = $o;
+//             $o = '';
+//         }
+//     };
+//     $i = 0;
+//     $o = "";
+//     $m = 0;
+//     $stop = 0;
+//     $symbolspace = "=;()\{\}+-*:<>[]|, ";
+//     $symbols = "+-<>=\{\}(),|[]*%";
+//     $mark = '*';
+//     $buffer = [];
+//     $_last = 0;
+//     $_end = false;
+//     while ($i < $count) {
+//         $ch = $s[$i];
+//         $i++;
+//         if ($m == 2) {
+//             if ($ch == $stop) {
+//                 $m = 0;
+//             }
+//             continue;
+//         }
+//         if ($ch==';'){
+//             $_end = false;
+//         }
+//         if ($m == 1) {
+//             if ($ch == "/") { // single line comment
+//                 $m = 2;
+//                 $stop = IGK_LF;
+//                 $o = rtrim($o);
+//                 $v_fc_writebuffer($buffer, $o);
+//                 continue;
+//             }
+//             if ($ch == $mark) { // multi line comment
+//                 $e = 0;
+//                 $cm = "";
+//                 while ($i < $count) {
+//                     $ch = $s[$i];
+//                     if ($ch == "/") {
+//                         if ($s[$i - 1] == $mark) {
+//                             $e = 1;
+//                             $cm = substr($cm, 0, strlen($cm) - 1);
+//                             break;
+//                         }
+//                     }
+//                     $cm .= $ch;
+//                     $i++;
+//                 }
+//                 if ($e)
+//                     $i++;
+//             } else {
+
+//                 if ($o) {
+//                     $isValue = preg_match('#(?:[\w$)\]"\'`]|\+\+|--)\s*$#', $o);
+//                     // mot-cle qui attend une expression : return, typeof, case...
+//                     $isKw = preg_match('#(?<![\w$.])(?:return|typeof|instanceof|in|of|new|delete|void|throw|case|do|else|yield|await)\s*$#', $o);
+
+//                     if ($isValue && !$isKw) {
+//                         // division
+//                         $m = 0;
+//                         $o .= "/" . $ch;
+//                         continue;
+//                     }
+//                 }
+      
+//                 $i--;
+//                 $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
+//                 $i++;
+//                 // if ($i > $count){
+//                 //     $m = 0;
+//                 //     $ch = '';
+//                 //     $rgx = igk_str_rm_last($rgx, '/', 1);
+//                 // }
+//                 while (($i < $count) && (preg_match("/(d|g|i|m|s|u|v|y)/", $s[$i]))) {
+//                     $rgx .= $s[$i];
+//                     $i++;
+//                 }
+//                 $o .= $rgx;
+//             }
+//             $ch = "";
+//         }
+//         switch ($ch) {
+//             case "/":
+//                 if (($m % 5) == 0) {
+//                     $m = 1; // start comment-regex-separator
+//                 } else if ($m == 1) {
+//                     $m = 2;
+//                     $stop = IGK_LF;
+//                 }
+//                 break;
+//             case "\"":
+//             case "'":
+//             case "`":
+//                 if (($m % 5) == 0) {
+//                     $i--;
+//                     $rgx = igk_str_read_brank($s, $i, $ch, $ch, null, 1);
+//                     $o .= $rgx;
+//                     $m = 4;
+//                     $i++;
+//                     $ch = "";
+//                 }
+//                 break;
+//             case "\t":
+//             case IGK_LF:
+//             case "\r":
+//                 if ($m != 5) {
+//                     $m = 5;
+//                 }
+//                 break;
+//             case " ":
+//                 if (($m % 5) == 0) {
+//                     $lni = strlen($o);
+//                     $_last = $lni > 0 ? $o[$lni - 1] : '';
+//                     if ((($lni > 0) && !empty($_last)) && ((!$compact && !empty($nocompactchar) && (strpos($nocompactchar, $_last) === false))
+//                         || (!empty($symbolspace) && strpos($symbolspace, $_last) === false)))
+//                         $o .= $ch;
+//                     $m = 5;
+//                 }
+//                 break;
+//             default:
+//                 if ($m == 5) {
+//                     if ((($lni = strlen($o)) > 0) && (strpos($symbolspace, $o[$lni - 1]) === false))
+//                         $o .= " ";
+//                     else if ($compact && ($lni > 0) && ($o[$lni - 1] == ' ') && (strpos($symbols, $ch) !== false)) {
+//                         $o = substr($o, 0, $lni - 1);
+//                     } else {
+//                         $ct = strlen($o);
+//                         if (($ct > 0) && (strpos("+-", $o[$ct - 1]) !== false))
+//                             $o .= " ";
+//                     }
+//                 }
+//                 $m = 0;
+//                 break;
+//         }
+//         if ($m == 0)
+//             $o .= $ch;
+//         if ($m == 4)
+//             $m = 0;
+//     }
+//     if ($m == 1)
+//         $o .= "/";
+//     if ($o){
+//         $v_fc_writebuffer($buffer, $o);
+//     }
+//     return implode('',$buffer);
+// }
+
+require_once __DIR__.'/igk_js_minify.php';
+
+
+
+// function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
+// {
+//     $count = strlen($s);
+//     $i = 0;
+//     $o = "";
+//     $m = 0;
+//     $stop = 0;
+//     $symbolspace = "=;()\{\}+-*:<>[]|, ";
+//     $symbols = "+-<>=\{\}(),|[]*%";
+//     $mark = '*';
+//     while ($i < $count) {
+//         $ch = $s[$i];
+//         $i++;
+//         if ($m == 2) {
+//             if ($ch == $stop) {
+//                 $m = 0;
+//             }
+//             continue;
+//         }
+//         if ($m == 1) {
+//             if ($ch == "/") {
+//                 $m = 2;
+//                 $stop = IGK_LF;
+//                 continue;
+//             }
+//             if ($ch == $mark) {
+//                 $e = 0;
+//                 $cm = "";
+//                 while ($i < $count) {
+//                     $ch = $s[$i];
+//                     if ($ch == "/") {
+//                         if ($s[$i - 1] == $mark) {
+//                             $e = 1;
+//                             $cm = substr($cm, 0, strlen($cm) - 1);
+//                             break;
+//                         }
+//                     }
+//                     $cm .= $ch;
+//                     $i++;
+//                 }
+//                 if ($e)
+//                     $i++;
+//             } else {
+//                 if (!preg_match_all("#(\||&|!|:|\+|=|-|\()\s*$#i", $o, $ctab)) {
+//                     $m = 0;
+//                     $o .= "/" . $ch;
+//                     continue;
+//                 }
+//                 $i--;
+//                 $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
+//                 $i++;
+//                 while (($i < $count) && (preg_match("/(g|i|m|u|y)/", $s[$i]))) {
+//                     $rgx .= $s[$i];
+//                     $i++;
+//                 }
+//                 $o .= $rgx;
+//             }
+//             $ch = "";
+//         }
+//         switch ($ch) {
+//             case "/":
+//                 if (($m % 5) == 0) {
+//                     $m = 1;
+//                 } else if ($m == 1) {
+//                     $m = 2;
+//                     $stop = IGK_LF;
+//                 }
+//                 break;
+//             case "\"":
+//             case "'":
+//                 if (($m % 5) == 0) {
+//                     $i--;
+//                     $rgx = igk_str_read_brank($s, $i, $ch, $ch, null, 1);
+//                     $o .= $rgx;
+//                     $m = 4;
+//                     $i++;
+//                     $ch = "";
+//                 }
+//                 break;
+//             case "\t":
+//             case IGK_LF:
+//             case "\r":
+//                 if ($m != 5) {
+//                     $m = 5;
+//                 }
+//                 break;
+//             case " ":
+//                 if (($m % 5) == 0) {
+//                     $lni = strlen($o);
+//                     $_last = $lni > 0 ? $o[$lni - 1] : '';
+//                     if ((($lni > 0) && !empty($_last)) && ((!$compact && !empty($nocompactchar) && (strpos($nocompactchar, $_last) === false))
+//                         || (!empty($symbolspace) && strpos($symbolspace, $_last) === false)))
+//                         $o .= $ch;
+//                     $m = 5;
+//                 }
+//                 break;
+//             default:
+//                 if ($m == 5) {
+//                     if ((($lni = strlen($o)) > 0) && (strpos($symbolspace, $o[$lni - 1]) === false))
+//                         $o .= " ";
+//                     else if ($compact && ($lni > 0) && ($o[$lni - 1] == ' ') && (strpos($symbols, $ch) !== false)) {
+//                         $o = substr($o, 0, $lni - 1);
+//                     } else {
+//                         $ct = strlen($o);
+//                         if (($ct > 0) && (strpos("+-", $o[$ct - 1]) !== false))
+//                             $o .= " ";
+//                     }
+//                 }
+//                 $m = 0;
+//                 break;
+//         }
+//         if ($m == 0)
+//             $o .= $ch;
+//         if ($m == 4)
+//             $m = 0;
+//     }
+//     if ($m == 1)
+//         $o .= "/";
+//     return $o;
+// }
+
+/**
+ * Un saut de ligne doit-il devenir ";" (insertion automatique de point-virgule)
+ * avant le token qui commence a $s[$p] ?
+ * $o     : sortie deja produite
+ * $ctl   : le dernier token est le ")" d'un if / for / while / with / switch / catch
+ * $rxEnd : le dernier token est un litteral regex
+ */
+// function igk_js_asi($o, $s, $p, $ctl, $rxEnd)
+// {
+//     $o = rtrim($o, ' ');
+//     if ($o === '' || $ctl) {
+//         return false;
+//     }
+//     $c = $s[$p];
+//     $d = $s[$p + 1] ?? '';
+//     // return / break / continue : un saut de ligne termine l'instruction
+//     if (preg_match('#(?<![\w$.])(?:return|break|continue)$#', $o)) {
+//         return $c !== ';' && $c !== '}';
+//     }
+//     // le token suivant commence-t-il une nouvelle instruction ?
+//     $w = preg_match('#\G[\w$]+#', $s, $mw, 0, $p) ? $mw[0] : '';
+//     $new = ($w !== '') ? !in_array($w, ['in', 'instanceof', 'of'], true)
+//         : ($c === '"' || $c === "'" || $c === '~' || ($c === '!' && $d !== '=')
+//             || ($c === '+' && $d === '+') || ($c === '-' && $d === '-'));
+//     if (!$new) {
+//         return false;
+//     }
+//     if (substr($o, -1) === '}') {
+//         return !in_array($w, ['else', 'catch', 'finally', 'while'], true);
+//     }
+//     // le token precedent termine-t-il une expression ?
+//     return $rxEnd || (preg_match('#(?:[\w$)\]"\'`]|\+\+|--)$#', $o)
+//         && !preg_match('#(?<![\w$.])(?:else|do|typeof|void|delete|new|in|instanceof|of|case|throw|var|let|const|function|class|extends|import|export|default|try|finally|await|if|for|while|with|switch|catch)$#', $o));
+// }
+// /**
+//  * 
+//  * @param mixed $s 
+//  * @param int $compact 
+//  * @param string $nocompactchar 
+//  * @return string 
+//  */
+// function igk_js_minify_2($s, $compact = 1, $nocompactchar = ' ')
+// {
+//     $count = strlen($s);
+//     $i = 0;
+//     $o = "";
+//     $m = 0;
+//     $stop = 0;
+//     $symbolspace = "=;()\{\}+-*:<>[]|, ";
+//     $symbols = "+-<>=\{\}(),|[]*%";
+//     $mark = '*';
+//     // detection regex / division
+//     $rx = '~\G/(?:\\\\.|\[(?:\\\\.|[^\]\\\\\r\n])*\]|[^/\[\\\\\r\n])+/[dgimsuvy]*~'; // litteral regex (une seule ligne)
+//     $vrx = '#(?:[\w$)\]"\'`]|\+\+|--)\s*$#'; // le dernier token est une valeur
+//     $kwrx = '#(?<![\w$.])(?:return|typeof|instanceof|in|of|new|delete|void|throw|case|do|else|yield|await)\s*$#';
+//     // insertion automatique de ";"
+//     $ctlrx = '#(?<![\w$.])(?:if|for|while|with|switch|catch)\s*$#'; // "(" d'une instruction de controle
+//     $nl = 0;        // un saut de ligne a ete lu depuis le dernier token
+//     $pst = [];      // pile des "(" : 1 si "(" de controle
+//     $ctl = false;   // le dernier token est le ")" d'une instruction de controle
+//     $rxEnd = false; // le dernier token est un litteral regex
+//     while ($i < $count) {
+//         $ch = $s[$i];
+//         $i++;
+//         if ($m == 2) {
+//             if ($ch == $stop) {
+//                 $m = 5; // fin de commentaire : equivaut a un saut de ligne
+//                 $nl = 1;
+//             }
+//             continue;
+//         }
+//         if ($m == 1) {
+//             if ($ch == "/") { // single line comment
+//                 $m = 2;
+//                 $stop = IGK_LF;
+//                 continue;
+//             }
+//             if ($ch == $mark) { // multi line comment
+//                 $e = 0;
+//                 $cm = "";
+//                 while ($i < $count) {
+//                     $ch = $s[$i];
+//                     if ($ch == "/") {
+//                         if ($s[$i - 1] == $mark) {
+//                             $e = 1;
+//                             $cm = substr($cm, 0, strlen($cm) - 1);
+//                             break;
+//                         }
+//                     }
+//                     $cm .= $ch;
+//                     $i++;
+//                 }
+//                 if ($e)
+//                     $i++;
+//                 if (preg_match('/[\r\n]/', $cm)) {
+//                     $nl = 1;
+//                 }
+//                 $m = 5; // un commentaire se comporte comme un espace
+//                 continue;
+//             } else {
+//                 // "/" a la position $i - 2 : division ou litteral regex ?
+//                 $p = $i - 2;
+//                 if (($o !== '' && preg_match($vrx, $o) && !preg_match($kwrx, $o))
+//                     ) {
+//                     // division : on garde "/" et le caractere suivant est traite normalement
+//                     $o .= "/";
+//                     $m = 0;
+//                     $ctl = false;
+//                     $rxEnd = false;
+//                     $nl = 0;
+//                     $i--;
+//                     continue;
+//                 }                 
+//                 $rgx = igk_js_read_regex($s, $i);
+//                 //$i++;
+//                 $o .= $rgx;
+//                 // $i = $p + strlen($mm[0]);
+//                 $ctl = false;
+//                 $rxEnd = true;
+//                 $nl = 0;
+//             }
+//             $ch = "";
+//         }
+//         switch ($ch) {
+//             case "/":
+//                 if (($m % 5) == 0) {
+//                     $m = 1; // start comment-regex-separator
+//                 } else if ($m == 1) {
+//                     $m = 2;
+//                     $stop = IGK_LF;
+//                 }
+//                 break;
+//             case "\"":
+//             case "'":
+//             case "`":
+//                 if (($m % 5) == 0) {
+//                     if ($nl && $ch !== "`" && igk_js_asi($o, $s, $i - 1, $ctl, $rxEnd)) {
+//                         $o = rtrim($o, ' ') . ';';
+//                     }
+//                     $i--;
+//                     $rgx = igk_str_read_brank($s, $i, $ch, $ch, null, 1);
+//                     $o .= $rgx;
+//                     $m = 4;
+//                     $i++;
+//                     $ch = "";
+//                     $ctl = false;
+//                     $rxEnd = false;
+//                     $nl = 0;
+//                 }
+//                 break;
+//             case "\t":
+//             case IGK_LF:
+//             case "\r":
+//                 if ($ch !== "\t") {
+//                     $nl = 1;
+//                 }
+//                 if ($m != 5) {
+//                     $m = 5;
+//                 }
+//                 break;
+//             case " ":
+//                 if (($m % 5) == 0) {
+//                     $lni = strlen($o);
+//                     $_last = $lni > 0 ? $o[$lni - 1] : '';
+//                     if ((($lni > 0) && !empty($_last)) && ((!$compact && !empty($nocompactchar) && (strpos($nocompactchar, $_last) === false))
+//                         || (!empty($symbolspace) && strpos($symbolspace, $_last) === false)))
+//                         $o .= $ch;
+//                     $m = 5;
+//                 }
+//                 break;
+//             default:
+//                 if ($m == 5) {
+//                     if ($nl && igk_js_asi($o, $s, $i - 1, $ctl, $rxEnd)) {
+//                         $o = rtrim($o, ' ') . ';';
+//                     } else if ((($lni = strlen($o)) > 0) && (strpos($symbolspace, $o[$lni - 1]) === false))
+//                         $o .= " ";
+//                     else if ($compact && ($lni > 0) && ($o[$lni - 1] == ' ') && (strpos($symbols, $ch) !== false)) {
+//                         $o = substr($o, 0, $lni - 1);
+//                     } else {
+//                         $ct = strlen($o);
+//                         if (($ct > 0) && (strpos("+-", $o[$ct - 1]) !== false))
+//                             $o .= " ";
+//                     }
+//                 }
+//                 $m = 0;
+//                 break;
+//         }
+//         if ($m == 0) {
+//             if ($ch !== '') {
+//                 if ($ch === '(') {
+//                     $pst[] = preg_match($ctlrx, $o);
+//                 }
+//                 $ctl = $ch === ')' && array_pop($pst);
+//                 $rxEnd = false;
+//                 $nl = 0;
+//             }
+//             $o .= $ch;
+//         }
+//         if ($m == 4)
+//             $m = 0;
+//     }
+//     if ($m == 1)
+//         $o .= "/";
+//     return $o;
+// }
+function igk_js_read_regex(string $s, & $pos ){
+    $i = $pos - 1;
     $count = strlen($s);
-    $i = 0;
-    $o = "";
-    $m = 0;
-    $stop = 0;
-    $symbolspace = "=;()\{\}+-*:<>[]|, ";
-    $symbols = "+-<>=\{\}(),|[]*%";
-    $mark = '*';
-    while ($i < $count) {
-        $ch = $s[$i];
-        $i++;
-        if ($m == 2) {
-            if ($ch == $stop) {
-                $m = 0;
-            }
-            continue;
-        }
-        if ($m == 1) {
-            if ($ch == "/") {
-                $m = 2;
-                $stop = IGK_LF;
-                continue;
-            }
-            if ($ch == $mark) {
-                $e = 0;
-                $cm = "";
-                while ($i < $count) {
-                    $ch = $s[$i];
-                    if ($ch == "/") {
-                        if ($s[$i - 1] == $mark) {
-                            $e = 1;
-                            $cm = substr($cm, 0, strlen($cm) - 1);
-                            break;
-                        }
-                    }
-                    $cm .= $ch;
-                    $i++;
-                }
-                if ($e)
-                    $i++;
-            } else {
-                if (!preg_match_all("#(\||&|!|:|\+|=|-|\()\s*$#i", $o, $ctab)) {
-                    $m = 0;
-                    $o .= "/" . $ch;
-                    continue;
-                }
-                $i--;
-                $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
-                $i++;
-                while (($i < $count) && (preg_match("/(g|i|m|u|y)/", $s[$i]))) {
-                    $rgx .= $s[$i];
-                    $i++;
-                }
-                $o .= $rgx;
-            }
-            $ch = "";
-        }
-        switch ($ch) {
-            case "/":
-                if (($m % 5) == 0) {
-                    $m = 1;
-                } else if ($m == 1) {
-                    $m = 2;
-                    $stop = IGK_LF;
-                }
-                break;
-            case "\"":
-            case "'":
-                if (($m % 5) == 0) {
-                    $i--;
-                    $rgx = igk_str_read_brank($s, $i, $ch, $ch, null, 1);
-                    $o .= $rgx;
-                    $m = 4;
-                    $i++;
-                    $ch = "";
-                }
-                break;
-            case "\t":
-            case IGK_LF:
-            case "\r":
-                if ($m != 5) {
-                    $m = 5;
-                }
-                break;
-            case " ":
-                if (($m % 5) == 0) {
-                    $lni = strlen($o);
-                    $_last = $lni > 0 ? $o[$lni - 1] : '';
-                    if ((($lni > 0) && !empty($_last)) && ((!$compact && !empty($nocompactchar) && (strpos($nocompactchar, $_last) === false))
-                        || (!empty($symbolspace) && strpos($symbolspace, $_last) === false)))
-                        $o .= $ch;
-                    $m = 5;
-                }
-                break;
-            default:
-                if ($m == 5) {
-                    if ((($lni = strlen($o)) > 0) && (strpos($symbolspace, $o[$lni - 1]) === false))
-                        $o .= " ";
-                    else if ($compact && ($lni > 0) && ($o[$lni - 1] == ' ') && (strpos($symbols, $ch) !== false)) {
-                        $o = substr($o, 0, $lni - 1);
-                    } else {
-                        $ct = strlen($o);
-                        if (($ct > 0) && (strpos("+-", $o[$ct - 1]) !== false))
-                            $o .= " ";
-                    }
-                }
-                $m = 0;
-                break;
-        }
-        if ($m == 0)
-            $o .= $ch;
-        if ($m == 4)
-            $m = 0;
+    $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
+    $i++;
+    if ($i > $count){     
+        return '/'.$s[$pos-1];
     }
-    if ($m == 1)
-        $o .= "/";
-    return $o;
+    while (($i < $count) && (preg_match("/(d|g|i|m|s|u|v|y)/", $s[$i]))) {
+        $rgx .= $s[$i];
+        $i++;
+    }
+    $pos = $i;
+    return $rgx;
+
 }
+
 /**
  * shortcut to no script loading shortcut
  * @param mixed $dir
@@ -23917,7 +24301,7 @@ function igk_sys_viewctrl($name)
  */
 function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose = false)
 {
-    if (!class_exists('ZipArchive', false)){
+    if (!class_exists('ZipArchive', false)) {
         return false;
     }
     $zip = new ZipArchive();

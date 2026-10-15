@@ -39,7 +39,7 @@ $r->addLabel("Find")->setClass("dispib floatl");
 $r->addInput("clsearch", "text")->setClass("dispi floatl")->setAttribute("onkeyup", "javascript: ns_igk.ajx.fn.postData(this.form.action, this, '#vr'); return ;");
 $r->addClearTab();
 $r->addInput("btn.search", "submit")->setClass("dispn");
-$h=$bbox->div()->setId("vr")->setClass("overflow-y-a loc_l loc_b loc_r");
+$h=$bbox->div()->setId("vr")->setClass("overflow-y-a loc-l loc_b loc-r");
 $h->google_line_waiter();
 $h->addAJXUriLoader($ctrl->getUri("configure_search_ajx"));
 $h->div()->content = 'configure result.'.$ctrl->MainView;

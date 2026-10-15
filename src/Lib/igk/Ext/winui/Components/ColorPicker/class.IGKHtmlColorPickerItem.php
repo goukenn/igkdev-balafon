@@ -135,7 +135,7 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 		$uri = $this->m_ctrl->getDataDir()."/R/Img/bg-circ.png";
 		$uri = IGKResourceUriResolver::getInstance()->resolve($uri); 
 		$c->addImg()->setAttribute("src", $uri);
-		$c->div()->setClass("posab loc_l loc_t loc_r fith igk-circ-pan")->setStyle("border :1px solid #eee");
+		$c->div()->setClass("posab loc-l loc-t loc-r fith igk-circ-pan")->setStyle("border :1px solid #eee");
 		$d->div()->setClass("dispb alignc igk-circ-v")->Content = "&nbsp;";
 		$d->div()->setClass("dispb")->addTrackbar();
 		$i = $d->div()->setClass("dispb")->addInput("clvalue", "text");

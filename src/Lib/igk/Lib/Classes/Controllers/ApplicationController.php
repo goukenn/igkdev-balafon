@@ -323,7 +323,7 @@ implements IDatabaseHost
             $b->addA($this->getAppUri($k))->setContent($k);
         }
         $bodybox->setStyle("position:relative; color: #eee; margin-bottom:300px;padding-bottom:0px; overflow-y:auto; color:indigo;");
-        $bodybox->div()->setClass("posfix loc_b loc_r loc_l dispb footer-box igk-fixfitw")->setId("fbar")->setAttribute("igk-js-fix-loc-scroll-width", "1")->setStyle("min-height:80px; z-index: 10; width: auto;");
+        $bodybox->div()->setClass("posfix loc_b loc-r loc-l dispb footer-box igk-fixfitw")->setId("fbar")->setAttribute("igk-js-fix-loc-scroll-width", "1")->setStyle("min-height:80px; z-index: 10; width: auto;");
         $bodybox->div()->setClass("no-visibity dispb")->setAttribute("igk-js-fix-height", "#fbar");
         $b = $bodybox->addActionBar();
         $u = $this->getAppUri("functions/1");

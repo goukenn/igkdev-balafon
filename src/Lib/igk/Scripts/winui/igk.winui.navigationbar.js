@@ -72,8 +72,8 @@ igk.system.createNS("igk.winui.navigationbar", {
             }
             if (!this.options || !this.options.nomenu) {
                 this.bgview = $igk(this.a.parentNode).add("div", {
-                    "className": "posab fitw fith loc_l loc_t zback navigationbg",
-                    "class": "posab fitw fith loc_l loc_t zback navigationbg"
+                    "className": "posab fitw fith loc-l loc-t zback navigationbg",
+                    "class": "posab fitw fith loc-l loc-t zback navigationbg"
                 });
                 this.bgview.setOpacity(0.0);
             }

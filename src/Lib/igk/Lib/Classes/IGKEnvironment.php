@@ -255,6 +255,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         $mod_dir = realpath($rs = $packagedir . "/Modules") ==  $mod_dir ? $rs : $mod_dir;
         return array_filter([
             "%lib%" => $lib,
+            "%app_cache_js_dist%"=> $app_dir."/.Caches/dist/js",
             "%app%" => $app_dir,
             "%project%" => igk_io_projectdir(),
             "%basedir%" => igk_io_basedir(),

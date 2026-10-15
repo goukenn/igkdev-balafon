@@ -26,13 +26,13 @@ $theme->registerKeyFrame($def,"google-linewaiter-infinite2", "0%{left:0px} 20%{l
 
 //google line waiter
 $def[".igk-google-line-waiter"] = "{sys:no-overflow, fitw} height:4px; background-color:var(--igk-google-line-waiter-background,#e6e6e6);";
-$def[".igk-google-line-waiter:after"] = "{sys:fith,posab, loc_l} content:' '; background-color:#4BC281; [anim:google-linewaiter-infinite 3s infinite, google-linewaiter-infinite2 3s infinite]";
+$def[".igk-google-line-waiter:after"] = "{sys:fith,posab, loc-l} content:' '; background-color:#4BC281; [anim:google-linewaiter-infinite 3s infinite, google-linewaiter-infinite2 3s infinite]";
 
 
 
 $def[".igk-card-id"] = "width:200px; height:200px;";
 $def[".igk-google-button"] = "{sys:dispib, posr, no-overflow}padding:10px; cursor:pointer; ";
 $def[".igk-google-button > .cur.trans"] = "[trans:all 0.5s ease-in-out]; border-radius:50%;";
-$def[".igk-google-button > .cur"] = "{sys:dispib, posab, loc_l, loc_t} cursor:inherit; width: 1px; height:10px; margin:-5px; background-color:black; opacity:0.5;  ";
+$def[".igk-google-button > .cur"] = "{sys:dispib, posab, loc-l, loc-t} cursor:inherit; width: 1px; height:10px; margin:-5px; background-color:black; opacity:0.5;  ";
 $def[".igk-google-button.igk-show-cur > .cur"]="left:0px; width:100%";
 
