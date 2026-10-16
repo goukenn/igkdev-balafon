@@ -7,127 +7,136 @@ namespace IGK\System\Console\Commands\Core;
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+
 /**
-* auto generate doc.
-* @package IGK\System\Console\Commands\Core
-* @author C.A.D. BONDJE DOUE
-*/
+ * auto generate doc.
+ * @package IGK\System\Console\Commands\Core
+ * @author C.A.D. BONDJE DOUE
+ */
 /**
-* auto generate doc.
-* @package IGK\System\Console\Commands\Core
-*/
-class BackupsCommand extends AppExecCommand{
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    var $command='--backups';
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    var $desc='backup management';
+ * auto generate doc.
+ * @package IGK\System\Console\Commands\Core
+ */
+class BackupsCommand extends AppExecCommand
+{
+	/**
+	 * auto generate doc.
+	 * @var mixed
+	 * @return void
+	 */
+	var $command = '--backups';
+	/**
+	 * auto generate doc.
+	 * @var mixed
+	 * @return void
+	 */
+	var $desc = 'backup management';
 	/* var $options=[]; */
 	/* var $category = ''; */
-    /**
-    * auto generate doc.
-    * @var mixed
-    * @return void
-    */
-    var $usage = 'action [options]';
-    /**
-    * auto generate doc.
-    * @param mixed $command
-    * @param null|string $action
-    * @return void
-    */
-    public function exec($command, ?string $action= null) { 
+	/**
+	 * auto generate doc.
+	 * @var mixed
+	 * @return void
+	 */
+	var $usage = 'action [options]';
+	/**
+	 * auto generate doc.
+	 * @param mixed $command
+	 * @param null|string $action
+	 * @return void
+	 */
+	public function exec($command, ?string $action = null)
+	{
 		$action ?? igk_die('require action');
-		if (method_exists($this, $fc = '_action_'.$action)){
+		if (method_exists($this, $fc = '_action_' . $action)) {
 			return call_user_func_array([$this, $fc], array_merge([$command], array_slice(func_get_args(), 2)));
 		}
 	}
-    /**
-    * auto generate doc.
-    * @return void
-    */
-    public function help()
+	/**
+	 * auto generate doc.
+	 * @return void
+	 */
+	public function help()
 	{
 		$r = parent::help();
 		$func = [];
-		foreach(igk_sys_reflect_class($this)->getMethods() as $m){
-			if ($m->isStatic())continue;
+		foreach (igk_sys_reflect_class($this)->getMethods() as $m) {
+			if ($m->isStatic()) continue;
 			$n = $m->getName();
-			if (preg_match('/_action_.+/', $n)){
+			if (preg_match('/_action_.+/', $n)) {
 				$n = substr($n, strlen('_action_'));
 				$func[] = $n;
 			}
 		}
-		echo "Location: ".IGK_LIB_DIR."\n";
+		echo "Location: " . IGK_LIB_DIR . "\n";
 		sort($func);
-		if ($func){
+		if ($func) {
 			echo "Available actions";
-			echo "\n".implode("\n", $func);
+			echo "\n" . implode("\n", $func);
 			echo "\n\n";
 		}
 		return $r;
 	}
-    /**
-    * auto generate doc.
-    * @param mixed $a
-    * @return void
-    */
-	private function _view_file($a){
+	/**
+	 * auto generate doc.
+	 * @param mixed $a
+	 * @return void
+	 */
+	protected function _action_file($a)
+	{
 		return sprintf('%s - %s', basename($a), IO::GetFileSize(filesize($a)));
 	}
-    /**
-    * auto generate doc.
-    * @return void
-    */
-    protected function _action_ls(){
+	/**
+	 * auto generate doc.
+	 * @return void
+	 */
+	protected function _action_ls()
+	{
 		$r = IO::GetFiles(dirname(IGK_LIB_DIR), '/\.zip$/', false);
-		if ($r){
+		if ($r) {
 			$T = 0;
-			echo implode("\n", array_map(function($a)use(& $T){
+			echo implode("\n", array_map(function ($a) use (&$T) {
 				$T += filesize($a);
-				return $this->_view_file($a);
-			}, $r))."\n";	
+				return $this->_action_file($a);
+			}, $r)) . "\n";
 
-			echo sprintf("Result ( %s / %s)". count($r), IO::GetFileSize($T)). "\n";
-
-		} else{
-			echo "(no backup)".PHP_EOL;
+			echo sprintf("Result ( %s / %s)" . count($r), IO::GetFileSize($T)) . "\n";
+		} else {
+			echo "(no backup)" . PHP_EOL;
 		}
 	}
-    /**
-    * auto generate doc.
-    * @param mixed $command
-    * @param null|string $file
-    * @return void
-    */
-    protected function _action_rm($command, ?string $file = null){
-		if (empty($file) || (count(explode('/', igk_uri($file),2))!=1)){
+	/**
+	 * auto generate doc.
+	 * @param mixed $command
+	 * @param null|string $file
+	 * @return void
+	 */
+	protected function _action_rm($command, ?string $file = null)
+	{
+		if (empty($file) || (count(explode('/', igk_uri($file), 2)) != 1)) {
 			Logger::danger('file not valid');
 			return;
 		}
-		$f = dirname(IGK_LIB_DIR)."/".$file;
-		if (file_exists($f)){
+		$f = dirname(IGK_LIB_DIR) . "/" . $file;
+		if (file_exists($f)) {
 			@unlink($f);
 		}
 		return $this->_action_ls();
 	}
-    /**
-    * auto generate doc.
-    * @return void
-    */
-    protected function _action_clear(){
+	/**
+	 * auto generate doc.
+	 * @return void
+	 */
+	protected function _action_clear()
+	{
 		$r = IO::GetFiles(dirname(IGK_LIB_DIR), '/\.zip$/', false);
-		if ($r){
-			foreach($r as $t){
+		if ($r) {
+			foreach ($r as $t) {
 				@unlink($t);
 			}
 		}
+	}
+	protected function _action_backup() {
+		igk_die(__METHOD__.' not implement');
 	}
 }

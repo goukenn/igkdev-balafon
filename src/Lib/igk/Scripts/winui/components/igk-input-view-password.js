@@ -3,6 +3,7 @@
     /**
      * component used to toggle password view 
      */
+    
     igk.winui.initClassControl('igk-input-view-password', function () {
         let p = $igk(this.o.parentNode);
         let next = this.o.nextSibling;

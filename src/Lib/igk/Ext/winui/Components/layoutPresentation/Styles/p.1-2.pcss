@@ -1,7 +1,7 @@
 <?php
 
 $def[".igk-winui-layoutp.t-1-2 .igk-col" ] = "";
-$def[".igk-winui-layoutp.t-1-2 .igk-col > div:not(.igk-col):not(.igk-row)" ] = "background-color:[syscl:backgroundColor]; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); overflow:hidden; padding:10px";
+$def[".igk-winui-layoutp.t-1-2 .igk-col > div:not(.igk-col):not(.igk-row)" ] = "background-color:[syscl:--blf-winui-layout-bgcolor]; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); overflow:hidden; padding:10px";
 $def[".igk-winui-layoutp.t-1-2 .m-cell > div" ] = "min-height:300px;";
 $def[".igk-winui-layoutp.t-1-2 .r-cell" ] = "{sys:posab, loc-r, loc_b, loc-t} margin-bottom:10px;";
 $def[".igk-winui-layoutp.t-1-2 .r-cell > .igk-row"] = "height:100%; margin-top:0px; margin-bottom:0px;padding-top:0px; padding-bottom:20px;";
@@ -13,4 +13,4 @@ $sm_screen[".igk-winui-layoutp.t-1-2 .m-cell > div" ] =
 "min-height:0";
 $def[".xsm .igk-winui-layoutp.t-1-2 .m-cell > div,.sm .igk-winui-layoutp.t-1-2 .m-cell > div" ] = "height:auto;";
 $def[".xsm .igk-winui-layoutp.t-1-2 .r-cell,.sm .igk-winui-layoutp.t-1-2 .r-cell" ] = "{sys:posr};";
-igk_css_regcolor("backgroundColor", "red");
+$cl['--blf-winui-layout-bgcolor'] = 'red';
