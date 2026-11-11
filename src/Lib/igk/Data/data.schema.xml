@@ -274,23 +274,7 @@
 	</DataDefinition>
 
 
-	<!-- <DataDefinition Description="Store connection history" 
-		TableName="%prefix%login_logs"> 
-				<Column clAutoIncrement="True" clIsPrimary="True" clName="loglogs_Id" clNotNull="True" clType="Int" clTypeLength="11"></Column>
-				<Column clLinkColumn="clGuid" clLinkType="%prefix%users" clName="loglogs_UserGuid" clType="VarChar" clTypeLength="64"></Column>
-				<Column clName="loglogs_Agent" clType="Text" clTypeLength="64"></Column>
-				<Column clName="loglogs_IP" clType="VarChar" clTypeLength="15"></Column>
-				<Column clDescription="location x" clName="loglogs_GeoX" clType="Float"></Column>
-				<Column clDescription="location y" clName="loglogs_GeoY" clType="Float"></Column>
-				<Column clName="loglogs_Region" clType="Text"></Column>
-				<Column clName="loglogs_Code" clType="VarChar" clTypeLength="4"></Column>
-				<Column clName="loglogs_CountryName" clType="VarChar" clTypeLength="90"></Column>
-				<Column clName="loglogs_City" clType="VarChar" clTypeLength="190"></Column>
-				<Column clDescription="0 = loggin, 1 = logut" clName="loglogs_Status" clNotNull="1" clType="Int" clTypeLength="1"></Column>
-				<Column clDescription="location y" clName="loglogs_Description" clType="Text"></Column>
-				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkCreate_At" clNotNull="true" clType="DATETIME"></Column>
-				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkUpdate_At" clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
-	</DataDefinition> -->
+
 
 
 

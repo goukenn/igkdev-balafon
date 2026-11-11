@@ -11,8 +11,8 @@ use IGK\System\Http\Request;
 * @author C.A.D. BONDJE DOUE
 */
 /**
-* auto generate doc.
+* base auth with 2 factor action
 * @package IGK\Actions\Traits
 */
-trait AuthenticatorWith2faActionTrait{
+trait AuthenticatorWith2faActionTrait{ 
 }

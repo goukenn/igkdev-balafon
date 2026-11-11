@@ -55,7 +55,7 @@ class SelectCommand extends AppExecCommand
 		'--pretty' => 'flag: pretty print json result',
 		'--user:login' => 'set attached user',
 		'--for:id' => 'id to resolve mocking reference',
-		'--json:arg' => 'passing sigle json string definition',
+		'--json:arg' => 'passing single json string definition',
 	];
     /**
     * Property: category.

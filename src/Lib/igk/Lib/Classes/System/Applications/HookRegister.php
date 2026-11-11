@@ -18,6 +18,22 @@ use IGKValidator;
  */
 class HookRegister
 {
+    private static function _ExtractLog($data){
+        extract($data);
+        return [
+            \IGK\Models\LoginLogs::FD_LOGLOGS_USER_GUID=> $user->clGuid,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_AGENT => $agent,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_IP => $ip,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_GEO_X => $geox,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_GEO_Y => $geoy,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_REGION=> $region,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_CODE => $country_code,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_COUNTRY_NAME => $country_name,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_CITY => $city,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_STATUS => $status,
+            \IGK\Models\LoginLogs::FD_LOGLOGS_DESCRIPTION => $description
+        ];
+    }
     /**
      * system hook registration 
      * @return void 
@@ -27,35 +43,14 @@ class HookRegister
         $_env = igk_environment();
         igk_reg_hook(IGKEvents::HOOK_USER_LOGIN, function ($e) {
             extract($e->args);
-            \IGK\Models\LoginLogs::Add(
-                $user->clGuid,
-                $agent,
-                $ip,
-                $geox,
-                $geoy,
-                $region,
-                $country_code,
-                $country_name,
-                $city,
-                $status,
-                $description
-            );
+            $og = self::_extractLog(get_defined_vars());
+            \IGK\Models\LoginLogs::Insert($og);
         });
         igk_reg_hook(IGKEvents::HOOK_USER_LOGOUT, function ($e) {
             extract($e->args);
-            \IGK\Models\LoginLogs::Add(
-                $user->clGuid,
-                $agent,
-                $ip,
-                $geox,
-                $geoy,
-                $region,
-                $country_code,
-                $country_name,
-                $city,
-                $status,
-                $description
-            );
+            $og = self::_extractLog(get_defined_vars());
+            \IGK\Models\LoginLogs::Insert($og);
+
         });
 
         igk_reg_hook(IGKEvents::HOOK_LOGIN_NEW_PROFILE, function ($e) {

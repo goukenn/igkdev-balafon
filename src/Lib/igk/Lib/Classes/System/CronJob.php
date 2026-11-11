@@ -40,12 +40,12 @@ class CronJob
     */
     public function execute()
     {
-        igk_ilog('file ... select cron definition');
+        igk_is_debug() && igk_ilog('file ... select cron definition');
         if ($rows = Crons::select_all([
             Crons::FD_PROCESS=>0
         ])){
             self::ExecuteCronList($rows, function(){
-                igk_ilog('file ... ');
+                // igk_ilog('file ... ');
                 $s = new CronScriptHandler;
                 return call_user_func_array([$s, 'handle'], func_get_args());
             });

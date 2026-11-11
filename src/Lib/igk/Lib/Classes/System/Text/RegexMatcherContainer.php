@@ -31,6 +31,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     private static $sm_regexCache = [];
     /**
+     * enable the short path of _treatEnd for the plain 'match' tokens
+     * @var bool
+     */
+    public static $FastEnd = true;
+    /**
+     * cache of igk_is_debug('css_parse')
+     * @var ?bool
+     */
+    private static $sm_dbgCss;
+    /**
      * cache of line flags : php regex => [start line, end line]
      * @var array
      */
@@ -648,6 +658,35 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     */
     protected function _treatEnd($info, string $source, int &$offset)
     {
+        // + | fast path : a plain 'match' token (no captures, no nested patterns, not started, not empty, not at the end of the source).
+        // + | same result as the match branch below, without the generic loop
+        if (
+            self::$FastEnd && (($k = $info->match) instanceof RegexMatcherPattern) && !$info->start && !$info->endType
+            && (($v_size = strlen($info->value)) > 0) && ($offset == $info->pos) && ($offset < strlen($source))
+            && ($k->getType() === RegexMatcherPattern::MATCH_TYPE) && !$k->captures && !$k->patterns
+            && !(self::$sm_dbgCss ?? (self::$sm_dbgCss = igk_is_debug('css_parse')))
+        ) {
+            $this->m_last_match = null;
+            $this->_setParent($info->parent);
+            $n = $info->pos + $v_size;
+            $offset = $n + ($info->moveToNextLine ? 1 : 0);
+            $src = substr($source, $info->pos, $v_size);
+            return self::_NewCapture([
+                'tag' => '2',
+                'tokenID' => $k->tokenID,
+                'match' => $k,
+                'from' => $info->pos,
+                'to' => $n,
+                'value' => $src,
+                'sourceValue' => $src,
+                'option' => null,
+                'parentInfo' => $info->parent,
+                'beginCaptures' => $info->captures,
+                'captures' => $info->captures,
+                'endCaptures' => $info->captures,
+                'emptyLine' => $info->emptyLine,
+            ]);
+        }
         $tabinfo = [$info];
         $skip = $this->m_parent === $info;
         $v_size = strlen($info->value);

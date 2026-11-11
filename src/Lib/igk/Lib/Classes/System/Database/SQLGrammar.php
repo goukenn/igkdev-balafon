@@ -926,21 +926,17 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function add_column(string $table, $info, ?string $after = null)
     {
-        if (('user_guid' == $info->clName) && ('tbigk_phoneBookEntries' == $table)) {
-
-            igk_wln_e(__FILE__ . ":" . __LINE__, "stop here");
-        }
+        // if (('user_guid' == $info->clName) && ('tbigk_phoneBookEntries' == $table)) {
+        //     igk_wln_e(__FILE__ . ":" . __LINE__, "stop here");
+        // }
+   
         Logger::warn('try add column: ' . $table . ' :-> ' . $info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` ADD COLUMN ";
         $q .= "`" . $v_clname . "` ";
-
         $q .= rtrim($this->getColumnInfo($info, $table));
-
-
-
         if (!empty($after)) {
             $q .= " AFTER `" . $after . "`";
         }

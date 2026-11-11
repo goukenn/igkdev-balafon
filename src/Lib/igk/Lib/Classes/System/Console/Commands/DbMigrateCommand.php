@@ -4,6 +4,8 @@
 // @date: 20221111 22:30:40
 // @desc: 
 namespace IGK\System\Console\Commands;
+
+use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
@@ -69,6 +71,14 @@ class DbMigrateCommand extends AppExecCommand
         if (empty($ctrl)){
             $ctrl = igk_getv($command->options, '--controller');
         }
+        return self::DoMigration($ctrl, property_exists($command->options, '--no-clear-db-cache'));
+    }
+    /**
+     * 
+     * @param null|BaseController $ctrl 
+     * @return int|null 
+     */
+    public static function DoMigration($ctrl=null, ?bool $clearCache = false){
         if (!is_null($ctrl)) {
             if (($c = self::GetController($ctrl, false))) {
                 $c = [$c];
@@ -91,7 +101,7 @@ class DbMigrateCommand extends AppExecCommand
         Logger::info("Do migration ");
         Logger::info("DbName: ".igk_configs()->db_name);
         Logger::print(self::H_TRAIT."\n");
-        if (!property_exists($command->options, '--no-clear-db-cache')){
+        if ($clearCache){
             igk_ilog('clear db caches');
             DBCaches::Clear();
         }  

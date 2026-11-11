@@ -21,7 +21,7 @@ if (!function_exists('igk_header_cache_output')) {
 if (!function_exists('igk_load_resources_get_mimetype')) {
     function igk_load_resources_get_mimetype(string $file): string
     {
-        $rtab = ['css' => 'text/css'];
+        $rtab = ['css' => 'text/css', 'js'=>'text/javascript'];
         $tab = explode('.', basename($file));
         $ext = array_pop($tab);
         if (isset($rtab[$ext])) {

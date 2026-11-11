@@ -25,9 +25,9 @@ class XmlConfigurationNode extends XmlNode{
     const APP_CONFIG = 'app';
     /**
     * .ctr
-    * @param mixed $tagname
+    * @param string $tagname
     */
-    public function __construct($tagname)
+    public function __construct(string $tagname)
     {
         parent::__construct($tagname);
     }
@@ -108,5 +108,13 @@ class XmlConfigurationNode extends XmlNode{
             } 
         }
         return $s;
+    }
+    public function setContent($value)
+    {
+        if ($this->tagname=='igk:comment'){
+            $this->content = $value;
+            return $this;
+        }
+        return parent::setContent($value);
     }
 }

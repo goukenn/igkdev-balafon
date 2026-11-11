@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
 use Exception;
 use IGK\Core\Traits\ScriptTrait;
 use IGK\Helper\IO;
@@ -26,9 +27,9 @@ class HtmlScriptLoader
 {
     use ScriptTrait;
     /**
-    * Property: options.
-    * @var mixed
-    */
+     * Property: options.
+     * @var mixed
+     */
     var $options;
     /**
      * directory to load
@@ -41,45 +42,45 @@ class HtmlScriptLoader
      */
     var $production;
     /**
-    * auto generate doc.
-    * @var ?array excluded directory options
-    */
+     * auto generate doc.
+     * @var ?array excluded directory options
+     */
     var $excludir;
     /**
-    * Returns Exclude Dir.
-    * @return array
-    */
+     * Returns Exclude Dir.
+     * @return array
+     */
     public function getExcludeDir(): array
     {
         return $this->excludir ? $this->excludir : igk_sys_js_exclude_dir();
     }
     /**
-    * Getscript.
-    * @param null|mixed $options
-    */
+     * Getscript.
+     * @param null|mixed $options
+     */
     public function getscript($options = null)
     {
         return self::LoadScripts($this->dirs, $options, $this->production, $this->getExcludeDir());
     }
     /**
-    * load system core script
-    * @param array<string> $tab array of directories
-    * @param mixed $options render option
-    * @param bool $production production mode
-    * @param array $exclude_dir list of excluded directory
-    * @param string $cachePath cache path
-    * @param mixed $defer
-    * @param mixed $no_page_cache
-    * @throws IGKException
-    * @return string|false result
-    */
-    public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache=null)
+     * load system core script
+     * @param array<string> $tab array of directories
+     * @param mixed $options render option
+     * @param bool $production production mode
+     * @param array $exclude_dir list of excluded directory
+     * @param string $cachePath cache path
+     * @param mixed $defer
+     * @param mixed $no_page_cache
+     * @throws IGKException
+     * @return string|false result
+     */
+    public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache = null)
     {
         $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
         $out = "";
         $is_ajx = igk_is_ajx_demand();
         $uri = igk_server()->REQUEST_URI ?? "";
-        if ($is_ajx){
+        if ($is_ajx) {
             $cachePath .= '?ajx=1';
         }
         $resolver = IGKResourceUriResolver::getInstance();
@@ -155,7 +156,7 @@ class HtmlScriptLoader
                             $u .= "?v=" . IGK_VERSION;
                             $s .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" src=\"{$u}\"";
                             $is_core = (($tag == "igk") && (basename($f) == "igk.js"));
-                            $defer = $defer || !$is_core; 
+                            $defer = $defer || !$is_core;
                             if ($defer) {
                                 $s .= " defer";
                             }
@@ -199,7 +200,7 @@ class HtmlScriptLoader
                 continue;
             }
             $cache_path = $jfs->getCacheFilePath($rq . $dir, null);
-            if (!$no_page_cache && igk_io_file_exists($cache_path, true)){
+            if (!$no_page_cache && igk_io_file_exists($cache_path, true)) {
                 ob_start();
                 readfile($cache_path);
                 $out .= ob_get_contents();
@@ -213,7 +214,7 @@ class HtmlScriptLoader
                 $dirs[] = $dir . "/system/ctrl/ctrl.js";
                 $exclude_dir += array_fill_keys($dirs, 1);
                 IO::GetFiles($dir, self::GetLoadingAssetRegex(), true, $exclude_dir, $resolverfc);
-                if ($references) { 
+                if ($references) {
                     $sb = new StringBuilder;
                     $t = 'const a = __module_refs;';
                     $id = 0;
@@ -239,9 +240,10 @@ class HtmlScriptLoader
             }
         }
         if ($production && !empty($out)) {
-            if (!$is_ajx){
+            if (!$is_ajx) {
+                $debug = strstr($out, 'igk-input-view');
                 $pif = [
-                    igk_js_minify($out),
+                    self::_InjectScript(igk_js_minify($out)),
                     $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if ( !(typeof(igk) > 'u') && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
                 ];
                 $out  = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
@@ -249,8 +251,13 @@ class HtmlScriptLoader
                 if (!$no_page_cache) {
                     IO::WriteToFile($production_file, $out);
                 }
-            }else{
-                $out = "";//igk_js_minify($out);
+                //  if ($debug){
+                //     igk_trace();
+                //     echo igk_wtag('textarea', $out);
+                //     igk_wln_e("input view created");
+                // }
+            } else {
+                $out = ""; //igk_js_minify($out);
                 //$out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\nalert('ajx demand');\n</script>" . $lf;
             }
         }
@@ -262,6 +269,22 @@ class HtmlScriptLoader
         // }
         $jfs->default_extension = $rs;
         return $out;
+    }
+    /**
+     * convert to injection js on single line
+     * @param string $minjs 
+     * @return string 
+     */
+    public static function _InjectScript(string $minjs)
+    {
+        $ts = $minjs;
+        $r = explode("\n", $ts);
+        if (count($r) > 1) { 
+            $js = sprintf('(new Function(%s)).apply();', json_encode($r, JSON_UNESCAPED_SLASHES) . '.join("\n")');
+        } else {
+            $js = $ts;
+        }
+        return $js;
     }
     /**
      * import content as module 
@@ -279,14 +302,14 @@ class HtmlScriptLoader
         ]);
     }
     /**
-    * remove global export from script content
-    * @param string $content
-    * @param mixed & $export_list
-    * @throws IGKException
-    * @throws Exception
-    * @return string
-    */
-    public static function RemoveGlobalExportFromContent(string $content, & $export_list =[])
+     * remove global export from script content
+     * @param string $content
+     * @param mixed & $export_list
+     * @throws IGKException
+     * @throws Exception
+     * @return string
+     */
+    public static function RemoveGlobalExportFromContent(string $content, &$export_list = [])
     {
         $ctx = new RegexMatcherContainer;
         $brank = $ctx->begin('\{', '\}', 'brank')->last();
@@ -316,9 +339,9 @@ class HtmlScriptLoader
         $ostr = '';
         while ($g = $ctx->detect($src, $offset)) {
             if ($e = $ctx->end($g, $src, $offset)) {
-                if (is_null($e->parentInfo) && ($e->tokenID == 'skip')) {       
-                        $ostr .= substr($src, $loffset, $e->from - $loffset);
-                        $loffset = $e->to;  
+                if (is_null($e->parentInfo) && ($e->tokenID == 'skip')) {
+                    $ostr .= substr($src, $loffset, $e->from - $loffset);
+                    $loffset = $e->to;
                     $export_list[] = $e->value;
                 }
             }
@@ -335,11 +358,11 @@ class HtmlScriptLoader
         return "/\.((m)?js|json|xml|svg|shader|txt)$/";
     }
     /**
-    * auto generate doc.
-    * @param string $file
-    * @param string $uri
-    * @return string
-    */
+     * auto generate doc.
+     * @param string $file
+     * @param string $uri
+     * @return string
+     */
     public static function GetModuleInlineScriptContent(string $file, $uri = "/")
     {
         $sb = new StringBuilder;

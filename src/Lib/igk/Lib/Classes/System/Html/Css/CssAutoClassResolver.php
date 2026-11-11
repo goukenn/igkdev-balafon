@@ -218,6 +218,10 @@ class CssAutoClassResolver
         if (false !== strpos($tv, '-')) {
             return null;
         }
+
+        if (($tv === $value)&& !property_exists($rf, $tv) && !preg_match('/^#/', $tv)){
+            return null;
+        }
         $pt = [$property => $tv];
         if ($opacity) {
             $pt = [$property => sprintf('color(from ' . $value . ' srgb r g b / %s)', round(intval($opacity) / 100, 2))];
@@ -346,7 +350,7 @@ class CssAutoClassResolver
                 $r['unit'] = $sb . $this->_unitValueFromRegexRegex($tab[1], $tab);
             }
         } else {
-            if (preg_match('/\\b(t|l|r|b)\\b/', $g[0], $tab)) {
+            if (preg_match('/\\b(t|l|r|b|y|x)\\b/', $g[0], $tab)) {
                 $r['side'] = $g[0];
             }
             if (preg_match($v_unit_regex, $g[1], $tab)) {
@@ -364,14 +368,14 @@ class CssAutoClassResolver
     protected function _visit_mar(string $value)
     { // + | margin allow negate value 
         $side = null;
-        $v = null;
-        if (preg_match('/^((l|t|b|r)-)?(m)?\\d+(\.\\d+)?(' . self::UNIT_LENGTH . ')?$/', $value)) {
+        $v = null; 
+        if (preg_match('/^((l|t|b|r|x|y)-)?(m)?\\d+(\.\\d+)?(' . self::UNIT_LENGTH . ')?$/', $value)) {
             list($side, $v) = $this->_parse_side_unit($value, true);
         } else {
-            $side = Regex::Get('side', '/^(?P<side>l|t|b|r)-/', $value, null);
+            $side = Regex::Get('side', '/^(?P<side>l|t|b|r|x|y)-/', $value, null);
             if (count($rc = explode('-', $value)) > 1) {
                 $v = $this->_auto_positive_value($rc, true);
-            }
+            } 
         }
         return $this->_side_dim('margin', $v, $side);
     }
@@ -383,10 +387,23 @@ class CssAutoClassResolver
      * @return string|false
      */
     protected function _side_dim($property, $value, $side = null)
-    {
+    { 
         if (!$side) {
             return json_encode([$property => $value]);
         }
+        if ($side=='y'){
+            return json_encode([
+                $property . '-top' => $value,
+                $property . '-bottom' => $value,
+                ]);     
+        } else if ($side=='x'){
+              return json_encode([
+                $property . '-left' => $value,
+                $property . '-right' => $value,
+                ]); 
+        }
+
+
         $d = igk_getv(['t' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom'], $side);
         return json_encode([$property . '-' . $d => $value]);
     }

@@ -644,7 +644,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             $this->raw->$name = $value;
             return;
         }
-        throw new IGKException("Failed to access " . $name);
+        throw new IGKException(sprintf(__("Failed to access [%s]"), $name));
     }
     /**
     * .destructor

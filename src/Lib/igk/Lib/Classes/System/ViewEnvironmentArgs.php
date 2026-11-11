@@ -146,6 +146,11 @@ class ViewEnvironmentArgs implements ArrayAccess{
      */
     var $dir;
     /**
+     * current view dir
+     * @var ?string
+     */
+    var $view_dir;
+    /**
      * view layout
      * @var mixed
      */
@@ -269,6 +274,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $def = $doc->getTheme();
         $request = Request::getInstance();
         $lang = R::GetCurrentLang();
+        $view_dir = $controller->getViewDir();
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20260919 14:16:41
+// @date: 20261026 22:14:46
 namespace IGK\Models;
 
 
@@ -25,6 +25,7 @@ use IGK\Models\ModelBase;
 * @property string $google_user_id
 * @property string $provider provider name
 * @property string $fb_user_id
+* @property string $access_token_info
 * @property string $auth_2fa_key store otp password key
 * @property string $clDate ="CURRENT_TIMESTAMP" registration date
 * @property string $clLastLogin last login
@@ -47,6 +48,7 @@ use IGK\Models\ModelBase;
 * @method static string FN_GOOGLE_USER_ID() - `google_user_id` full column name 
 * @method static string FN_PROVIDER() - `provider` full column name 
 * @method static string FN_FB_USER_ID() - `fb_user_id` full column name 
+* @method static string FN_ACCESS_TOKEN_INFO() - `access_token_info` full column name 
 * @method static string FN_AUTH_FA_KEY() - `auth_2fa_key` full column name 
 * @method static string FN_CL_DATE() - `clDate` full column name 
 * @method static string FN_CL_LAST_LOGIN() - `clLastLogin` full column name 
@@ -57,8 +59,8 @@ use IGK\Models\ModelBase;
 * @method static string FN_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $access_token_info, string $auth_2fa_key, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $access_token_info, string $auth_2fa_key, string $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string $clDate ="CURRENT_TIMESTAMP", string $clcreate_at ="CURRENT_TIMESTAMP", string $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * @method static array CreateUserApiResponseData() macros function definition 
 * @method static mixed activate() macros function definition 
 * @method static mixed addPhoneBookEntry($type,$value) macros function definition 
@@ -90,6 +92,7 @@ class Users extends ModelBase{
 	const FD_GOOGLE_USER_ID="google_user_id";
 	const FD_PROVIDER="provider";
 	const FD_FB_USER_ID="fb_user_id";
+	const FD_ACCESS_TOKEN_INFO="access_token_info";
 	const FD_AUTH_FA_KEY="auth_2fa_key";
 	const FD_CL_DATE="clDate";
 	const FD_CL_LAST_LOGIN="clLastLogin";

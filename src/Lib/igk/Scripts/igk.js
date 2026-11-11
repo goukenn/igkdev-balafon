@@ -1506,13 +1506,18 @@ Name:balafon.js
     // utility function preload igk-img tag
     // 
     function igk_preload_image(node, async) {
-        if ((node == null) || (typeof (node.getElementsByTagName) == igk.constants.undef))
+        if ((node == null) || (typeof (node.getElementsByTagName) == igk.constants.undef)){
+            // console.log('preload skips.....');
             return;
+        }
+        const c_tag = 'igk-img';
         function __preload() {
-            var v_timg = node.getElementsByTagName("igk-img");
+            // console.log('preload tag');
+            var v_timg = node.getElementsByTagName(c_tag);
             if (!v_timg || (v_timg.length <= 0)) {
                 return;
             }
+            // console.log('preload tag', v_timg.length );
             var v_tab = new Array();
             // copy items
             for (var s = 0; s < v_timg.length; s++) {
@@ -1538,7 +1543,7 @@ Name:balafon.js
                 copyAttribute: function (source, dest) {
                     for (var x = 0; x < source.attributes.length; x++) {
                         var j = source.attributes[x];
-                        if (j.name == "src") continue;
+                        if (['src','xmlns:igk','loading'].indexOf(j.name) !==-1) continue;
                         try {
                             dest.setAttribute(j.name, j.value);
                         } catch (Exception) {
@@ -1549,19 +1554,22 @@ Name:balafon.js
             };
             var i = 0, v_host = null;
             for (; i < v_tab.length; i++) {
-                let w = v_tab[i].getAttribute('width');
-                let h = v_tab[i].getAttribute('height');
-                if (w || h) {
+                let q = $igk(v_tab[i]);
+                let w = q.o.getAttribute('width');
+                let h = q.o.getAttribute('height');
+                //if (w || h) {
                     // $igk(v_tab[i]).setCss({
                     //     width: w ? w + 'px' : undefined,
                     //     height: h ? h + 'px' : undefined
                     // }); 
-                }
+                //}
+                q.addClass('loading');
                 var src = v_tab[i].getAttribute("src");
                 if (src) {
+                    //   console.debug("loading access 1", src);
                     v_host = $igk(document.createElement("span"));
                     v_host.addClass("igk-img-host");
-                    v_cimg = document.createElement("img");
+                    v_cimg = document.createElement('img');
                     if (w || h) {
                         v_cimg.setAttribute('width', w);
                         v_cimg.setAttribute('height', h);
@@ -1569,24 +1577,25 @@ Name:balafon.js
                     v_cimg.source = v_tab[i];
                     // v_cimg.setAttribute('crossorigin', 'anonymous');
                     // v_cimg.crossOrigin='anonymous';
-                    v_cimg.src = src;
+                
                     v_host.o.appendChild(v_cimg);
                     if (/^data:/.test(src)) {
+                        v_cimg.src = src;
                         v_preload.copyAttribute(v_tab[i], v_cimg);
                         v_preload.replace(v_host.o, v_tab[i]);
                         v_host.addClass('loaded');
                     } else {
+                        v_host.addClass('loading');
+                        v_preload.copyAttribute(v_tab[i], v_cimg);
+                        v_cimg.src = src; 
                         if (v_cimg.complete && ((v_cimg.width + v_cimg.height) > 0)) {
-                            // console.debug("loding access");
-                            // directly loaded
-                            v_preload.copyAttribute(v_tab[i], v_cimg);
+                            // directly loaded                            
                             v_preload.replace(v_cimg, v_tab[i]);
                         } else {
                             // console.debug("loding access 2" + v_cimg.complete);
                             // loading from 
                             v_img = v_cimg;
-                            v_preload.init(v_img, v_tab[i]);
-                            v_preload.copyAttribute(v_tab[i], v_img);
+                            v_preload.init(v_img, v_tab[i]);                           
                         }
                     }
                 }
@@ -2244,7 +2253,7 @@ Name:balafon.js
             const log = {
                 tagname: tag,
             };
-            ['error', 'log', 'warn', 'info'].forEach(element => {
+            ['error', 'log', 'warn', 'info', 'debug'].forEach(element => {
                 log[element] = function () {
                     const c = arguments;
                     if (typeof (c[0]) == 'string') {
@@ -5668,9 +5677,6 @@ Name:balafon.js
                             }
                         } else {
                             var m = igk_select_exp(pattern);
-                            // if(pattern==".igk-body#query-s-r"){
-                            // m.debug=1;
-                            // }
                             if (m != null) {
                                 m.select(v_sl, item);
                             } else {
@@ -9762,14 +9768,15 @@ Name:balafon.js
         InitBgAdorator: function (element, frequency, interval, fadeinterval, israndom, getimguri, defindex, updateuri) {
             // alert(interval);
             // interval=3000;
+            const c_tag = 'igk-img';
             var q = new igk.animation.adorator(element, frequency, interval, fadeinterval, israndom);
             igk.ajx.get(getimguri, null,
                 function (xhr) {
                     if (this.isReady()) {
                         var d = igk.createNode('datas');
                         d.setHtml(xhr.responseText);
-                        var tt = d.getElementsByTagName('igk-img');
-                        d.select('igk-img').each_all(function () {
+                        var tt = d.getElementsByTagName(c_tag);
+                        d.select(c_tag).each_all(function () {
                             q.add(this.getAttribute("src"));
                         });
                         // q.loadImages(tt);

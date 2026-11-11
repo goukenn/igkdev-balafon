@@ -17,7 +17,7 @@ class HtmlNotifyResponse extends HtmlNode{
     protected $tagname = "div";
     /**
     * Property: autohide.
-    * @var mixed
+    * @var ?bool
     */
     private $autohide;
     /**
@@ -122,6 +122,20 @@ class HtmlNotifyResponse extends HtmlNode{
                     $c[] = $d; 
                 }
             }
+        }
+        if (!$this->autohide){
+            $n = igk_create_notagnode();
+            $n->a('#')
+            ->setClass('')
+            ->setAttributes([
+                'alt'=>__('remove'),
+                'class'=>'posab loc-r-20px loc-t-20px',
+                'style'=>'top:8px; right:8px;',
+            ])
+            ->on('click', 'return ($igk(this.o.parentNode).remove(), !1);')
+            ->setContent(__('remove'))
+            ->content = igk_svg_use('drop');
+            $c[] = $n;
         }
         $tab = [];
         $not->clear();             

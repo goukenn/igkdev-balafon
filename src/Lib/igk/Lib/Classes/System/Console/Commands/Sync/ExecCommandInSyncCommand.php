@@ -60,11 +60,12 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
                     "home_dir"=>$setting["home_dir"],
                     "root_dir"=>$setting["public_dir"],
                     self::SITE_DIR=>$setting["site_dir"], 
-					"cmd_arg"=>$args
+					"cmd_arg"=>$args,
+                    'path'=>'./core/Lib/igk/bin/balafon'
                 ], null, [
                 "install-token"=>$token
             ]);
-			Logger::info('response');
+			Logger::info('response: ');
 			print_r($response);
 			Logger::print('');
 		}

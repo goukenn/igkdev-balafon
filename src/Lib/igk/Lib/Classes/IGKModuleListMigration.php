@@ -292,6 +292,7 @@ final class IGKModuleListMigration extends BaseController implements
         Logger::info("Modules migration...");
         self::$sm_instance = new self();
         $v_modules = self::_GetModules();
+        $v_hasError = false;
         if ($v_modules) {
             $handler = new MigrationHandler(self::$sm_instance);
             foreach ($v_modules as $l) {
@@ -302,14 +303,16 @@ final class IGKModuleListMigration extends BaseController implements
                         $handler->up();
                     }
                 } catch (Exception $ex) {
-                    Logger::danger("error ... " . $ex->getMessage());
-                    return false;
+                    $msg = implode(['error:'.$ex->getMessage()]);
+                    Logger::danger($msg);
+                    igk_ilog($msg);
+                    $v_hasError =true;                    
                 }
             }
         } else {
             Logger::warn('modules list is empty.');
         }
-        return true;
+        return !$v_hasError;
     }
     /**
      * wrapper

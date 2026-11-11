@@ -293,6 +293,7 @@ final class HtmlReader extends IGKObject
     */
     private static function _SkipContent($reader, string $text, &$offset, string $tag, bool $replacement = false, bool $replace_expression = true)
     {
+        $_support_tags = ['script', 'style', 'code'];
         $ln = strlen($text);
         $name = $ch = $o = "";
         $v = "";
@@ -304,7 +305,7 @@ final class HtmlReader extends IGKObject
         $expressionRead = false;
         $tnames = [$tag];
         $reader->m_skip_content_mode = true;
-        $v_is_multiline_comment_support = in_array($tag, ['script', 'style', 'code']);
+        $v_is_multiline_comment_support = in_array($tag, $_support_tags);
         $v_support_litteral_string = in_array($tag, ["style", "script", "code"]);
         if (in_array($tag, ['script', 'textarea'])) {
             // + | read until end </script> found
@@ -522,7 +523,9 @@ final class HtmlReader extends IGKObject
                             break;
                         case "!":
                             if (($pp = strpos($text, "-->", $offset)) !== null) {
+                                // dom xml comment 
                                 $offset = $pp + 3;
+                                $v = igk_str_rm_last($v, $ch, 1);
                             }
                             $intag = 0;
                             break;
@@ -1095,8 +1098,11 @@ final class HtmlReader extends IGKObject
                     array_unshift($v_tags, $s);
             }
         };
+        $_is_debug = igk_is_debug();
         // + | read model definition 
         while ($reader->read()) {
+            $_is_debug && 
+            Logger::info('read: '. $reader->NodeType);
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
                     if (!$reader->m_skipElement)
@@ -1836,7 +1842,7 @@ final class HtmlReader extends IGKObject
                                 if (substr($v, -3, 3) == "-->") {
                                     $v = substr($v, 0, strlen($v) - 3);
                                     $this->m_name = null;
-                                    $this->m_v = $v;
+                                    $this->_updateValue($v);
                                     $this->m_nodetype = XMLNodeType::COMMENT;
                                     return true;
                                 }
@@ -1850,7 +1856,7 @@ final class HtmlReader extends IGKObject
                                 if (substr($v, -3, 3) == "]]>") {
                                     $v = substr($v, 0, strlen($v) - 3);
                                     $this->m_name = null;
-                                    $this->m_v = $v;
+                                    $this->_updateValue($v);
                                     $this->m_nodetype = XMLNodeType::CDATA;
                                     return true;
                                 }
@@ -1864,7 +1870,7 @@ final class HtmlReader extends IGKObject
                                 if (substr($v, -1, 1) == ">") {
                                     $v = substr($v, 0, strlen($v) - 1);
                                     $this->m_name = null;
-                                    $this->m_v = $v;
+                                    $this->_updateValue($v);
                                     $this->m_nodetype = XMLNodeType::DOCTYPE;
                                     $this->m_isEmpty = true;
                                     $v_enter = false;
@@ -1903,7 +1909,7 @@ final class HtmlReader extends IGKObject
                                         $this->m_offset -= strlen($v);
                                     }
                                     $v = self::_SkipContent($this, $this->m_text, $this->m_offset, $tag, $this->isSupportedExpressionTag($tag));
-                                    $this->m_v = $v;
+                                    $this->_updateValue($v);
                                     $this->m_nodetype = XMLNodeType::INNER_TEXT;
                                     return true;
                                 default:
@@ -2023,8 +2029,16 @@ final class HtmlReader extends IGKObject
         if ((strlen($value) > 0) && empty(trim($value)) && (strpos($value, "\n ") === 0)) {
             $value = '';
         }
-        $this->m_v = $value;
+        $this->_updateValue($value);
         $this->m_nodetype = XMLNodeType::TEXT;
+    }
+    /**
+     * 
+     * @param mixed $v 
+     * @return void 
+     */
+    private function _updateValue($v){
+        $this->m_v = $v;
     }
     /**
     * auto generate doc.
@@ -2145,7 +2159,7 @@ final class HtmlReader extends IGKObject
         }
         if ($bind || preg_match("/^(php|xml|=)/", $v)) {
             $reader->m_name = null;
-            $reader->m_v = $v;
+            $reader->_updateValue($v);
             $reader->m_nodetype = XMLNodeType::PROCESSOR;
             $reader->m_procTagClose = !$bind;
             return true;

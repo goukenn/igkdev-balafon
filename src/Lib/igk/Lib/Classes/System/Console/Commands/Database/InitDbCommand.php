@@ -11,6 +11,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonApplication;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
+use IGK\System\Database\Helper\DbUtility;
 use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
@@ -119,6 +120,7 @@ class InitDbCommand extends AppExecCommand{
 				}
 			}
 			igk_environment()->set($cmd_key, null);
+			DbUtility::ClearDbCache();
 			return 1;
 		}
 		return -1;

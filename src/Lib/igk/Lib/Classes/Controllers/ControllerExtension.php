@@ -113,6 +113,15 @@ abstract class ControllerExtension
         return Path::Combine($ctrl->getDeclaredDir(), 'Configs/Lang');
     }
     /**
+     * retrieve version
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function version(BaseController $ctrl){
+        $cnf = self::getProjectConfig($ctrl);
+        return ($cnf ? $cnf->version : null) ?? '1.0';
+    }
+    /**
      * auto generate doc.
      * @param BaseController $ctrl
      * @param ?string $fname

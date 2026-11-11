@@ -303,6 +303,8 @@ abstract class IGKActionBase implements IActionProcessor
     */
     protected function Handle($fname, $args, $exit = 1, $flag = 0, $verb='GET', $user=null)
     {
+         
+
         $ctrl = null;
         if ($fname instanceof BaseController) {
             if (func_num_args() < 3) {
@@ -343,6 +345,7 @@ abstract class IGKActionBase implements IActionProcessor
         if ($args && !$this->checkMethodExists($args[0]) && ($em = $this->defaultEntryMethod)){
             array_unshift($args, $em);
         }
+     
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
     /**
@@ -423,7 +426,8 @@ abstract class IGKActionBase implements IActionProcessor
             $name = $this->defaultEntryMethod;
             if (($verb && method_exists($this, $fc=$name."_".$verb)) || method_exists($this, $fc = $name)) {
                 if (isset($_invoke_dispatched[$fc])){
-                    igk_die('dispatched ... ');
+                    igk_trace();
+                    igk_die(sprintf('action already dispatched ... [%s]', $fc));
                 }
                 $_invoke_dispatched[$fc] = 1;
                 $rf = new ReflectionMethod($this, $fc);
@@ -489,7 +493,7 @@ abstract class IGKActionBase implements IActionProcessor
     * @param mixed $viewname
     * @param mixed $arrayList
     * @param mixed $params
-    * @param mixed $exit
+    * @param ?bool|int $exit
     * @param int $flag extra flag
     * @return mixed
     */
@@ -553,6 +557,7 @@ abstract class IGKActionBase implements IActionProcessor
      */
     public static function HandleObjAction(string $fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
+                    
         // + | -------------------------------------------------------------
         // + | handle object action
         $actionMethod = "";
@@ -627,7 +632,7 @@ abstract class IGKActionBase implements IActionProcessor
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
                 // + |      
-                $v_host->handleExit = $exit;
+                $v_host->handleExit = $exit; 
                 if ($exit || ($v_host->_handleResponse($c))) { 
                     if (is_array($c) && !key_exists(Request::ARRAY_RESPONSE_CODE, $c)){
                         $c[Request::ARRAY_RESPONSE_CODE] = $v_host->status ?? RequestResponseCode::Ok;
@@ -643,6 +648,7 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($v_host && ($v_host instanceof static)){
                     $v_host->_handleThrowable($ex);
                 }
+                header('Status: 501');
                 igk_dev_wln_e(__FILE__.":".__LINE__ , 
                 'error: ', $ex->getMessage(),
                 'code:' . $ex->getCode(), 

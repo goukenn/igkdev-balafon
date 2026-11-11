@@ -230,8 +230,9 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
                 if ($inf->skip) return;
                 // $inf->buffer .= substr($inf->src, $inf->offset, -$e->from - $inf->offset);
                 // $inf->buffer .= $e->value;
+                $close = substr($inf->src, $e->to, 1)==';';
                 $inf->offset = $e->to;
-                $def[] = trim($e->value);
+                $def[] = trim($e->value).($close?';':'');
             },
             'curl-brank' => function (&$def, $e, $inf) {
                 if ($inf->skip) return;

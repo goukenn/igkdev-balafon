@@ -361,7 +361,7 @@ class CssThemeResolver
                     if (($tl = strpos($tv, "[", 1)) !== false) {
                         $q = array("parent" => $tv, "value" => substr($tv, $tl));
                         array_push($qlist, $q);
-                    } else {
+                    } else { 
                         $sv = $this->treat_value($tv . $stop, $themeexport);
                         if ($stop && $v) {
                             if ($sv == $stop) {
@@ -469,7 +469,7 @@ class CssThemeResolver
         $stop = "";
         if (isset($match["stop"])) {
             $stop = $match["stop"];
-        }
+        } 
         $v = $this->_treat_entries($v, $type, $value, "", $stop, $themeexport);
         return $v;
     }
@@ -638,6 +638,10 @@ class CssThemeResolver
                         $vimg = R::GetImgResUri($value);
                         $v = str_replace($v_m, (!empty($vimg) && !$themeexport ? "background-image: url('" . $vimg . "'){$stop}" : ""), $v);
                     }
+                }
+                if ($v_m=='[res:config_logo]'){
+                    igk_trace();
+                    igk_wln_e(__FILE__.":".__LINE__ .'?', $v_m, $stop, $a, $v);
                 }
                 break;
             case self::ATTR_BACKGROUND_RESOURCE:

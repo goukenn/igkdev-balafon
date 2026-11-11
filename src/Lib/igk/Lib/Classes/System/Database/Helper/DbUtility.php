@@ -27,6 +27,11 @@ use IGKSysUtil;
  */
 abstract class DbUtility
 {
+    public static function ClearDbCache(){
+        Logger::print('clear - dbcache');
+        DBCaches::Clear();
+        Logger::success('done');
+    }
     /**
     * auto generate doc.
     * @param string $v

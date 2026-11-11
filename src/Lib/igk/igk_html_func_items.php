@@ -6195,17 +6195,18 @@ if (!function_exists('igk_html_node_igk_choose_lang_selector')) {
      */
     function igk_html_node_igk_choose_lang_selector()
     {
-        $l = R::GetSupportedLangs();
-        $uri = igk_io_currenturi();
-        $tab = parse_url($uri);
-        if ($path = igk_getv($tab, 'path')) {
-            $path = ltrim($path, '/');
-            if (preg_match("/^\\b(" . implode('|', $l) . ")\\b/", $path, $cp)) {
-                $path = substr($path, strlen($cp[0]));
-            }
-        }
-        $uri = igk_io_baseuri();
-        $query = (!empty($path)? '/'.ltrim($path,'/'): '').'?view=1';
+        list($uri, $query) = igk_html_lang_uri();
+		$l = R::GetSupportedLangs();
+        // $uri = igk_io_currenturi();
+        // $tab = parse_url($uri);
+        // if ($path = igk_getv($tab, 'path')) {
+        //     $path = ltrim($path, '/');
+        //     if (preg_match("/^\\b(" . implode('|', $l) . ")\\b/", $path, $cp)) {
+        //         $path = substr($path, strlen($cp[0]));
+        //     }
+        // }
+        // $uri = igk_io_baseuri();
+        // $query = (!empty($path)? '/'.ltrim($path,'/'): '').'?view=1';
         $n = igk_create_node_arg('div.igk-winui-choose-lang');
         $l = array_combine($l, $l);
         $n->div()->setClass('igk-choose-lang-label')->content = __('please choose your language...');
@@ -6215,9 +6216,26 @@ if (!function_exists('igk_html_node_igk_choose_lang_selector')) {
     }
 }
 
+
+function igk_html_lang_uri($langs=null){
+	$l = $langs ?? R::GetSupportedLangs();
+	$uri = igk_io_currenturi();
+	$tab = parse_url($uri);
+	if ($path = igk_getv($tab, 'path')) {
+		$path = ltrim($path, '/');
+		if (preg_match("/^\\b(" . implode('|', $l) . ")\\b/", $path, $cp)) {
+			$path = substr($path, strlen($cp[0]));
+		}
+	}
+	$uri = igk_io_baseuri();
+	$query = (!empty($path)? '/'.ltrim($path,'/'): '').'?view=1';
+	return [$uri, $query];
+}
 function igk_html_unique_id_ref(){
     return new \IGK\System\Html\HtmlUniqueIdRefValue();
 }
+
+
  
 require_once __DIR__ . '/Inc/html/forms/actionbar.pinc';
 require_once __DIR__ . '/Lib/Classes/System/Html/Dom/StepperForm.php';

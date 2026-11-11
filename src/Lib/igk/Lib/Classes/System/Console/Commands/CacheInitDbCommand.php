@@ -2,6 +2,7 @@
 namespace IGK\System\Console;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Database\Helper\DbUtility;
 
 /**
  * clear db cache command 
@@ -29,9 +30,7 @@ class InitDbCacheCommand extends AppExecCommand{
     */
     public function exec($command)
     {
-        Logger::print('clear - dbcache');
-        DBCaches::Clear();
-        Logger::success('done');
+        DbUtility::ClearDbCache(); 
         return 0;   
     }
 }

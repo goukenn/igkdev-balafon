@@ -246,7 +246,7 @@ $def[$page." .db_info"] = "{sys:alignt}";
 $def[$page." .row .db_info"] = "margin: 0px !important;";
 $def[$page." .igk-cnf-header-node"] = "{sys:no-overflow} font-size:1em; {sys:no-wrap, overflow-none}";
 $def[$page." .igk-cnf-header-node:after"] = "display:table; content:' '; {sys:clearb}";
-$def[$page." .igk-cnf-header-node .igk-cnf-logo"] = "[res:config_logo]; {sys:dispib,no-repeat} width : 125px; overflow:hidden; height:74px;";
+$def[$page." .igk-cnf-header-node .igk-cnf-logo"] = "[res:config_logo]; {sys:dispib,no-repeat} width:125px; overflow:hidden; height:74px; ";
 $def[$page." .igk-cnf-header-node .igk-cnf-logo a"]=
 $def[$page." .igk-cnf-header-node .igk-cnf-logo a:hover"] = "{sys:no-decoration}";
 $def[$page." .igk-cnf-header-node .igk-cnf-title"] = "{sys:dispib} font-size:3em; vertical-align:top; text-shadow: 1px 1px 2px #2A2A2A;";
@@ -384,7 +384,8 @@ $sm_screen[".igk-cnf-content div#c_ml select"] =
 $xsm_screen[".igk-cnf-content div#c_ml select"] = 
 $sm_screen[".igk-cnf-content  div#c_ml .igk-form-control"] = 
 $xsm_screen[".igk-cnf-content div#c_ml .igk-form-control"] = "display:block; width:100%";
-$def["form.send-mail-form .igk-form-control"] = "width: {$areasize}; border-radius: 4px;";
+$def["form.send-mail-form"] = "padding: 20px; background-color: var(--blf-config-pane); border-radius: 10px;";
+$def["form.send-mail-form .igk-form-control"] = "width: {$areasize}; border-radius: 4px; display:inline-block;";
 $def["form.send-mail-form label"] = "{sys:alignr, alignt} padding-right: 10px;";
 $sm_screen["form.send-mail-form .igk-form-control"] = 
 $xsm_screen["form.send-mail-form .igk-form-control"] = "width:100%";
@@ -508,6 +509,7 @@ $def['input.clsubmit'] = '';
 $def['.igk-action-group input.clsubmit'] = '{sys:clsubmit igk-btn-default} padding: 6px 12px; font-size:1rem !important; line-height:1 !important;';
 $def['.igk-action-group .igk-btn:hover'] = 'color: [cl:configActionButtonHoverColor]';
 $def['.igk-cnf-body .igk-winui-panel-dialog .box'] = 'background-color: #040816;';
+$def['.igk-cnf-body .igk-winui-panel-dialog'] = '{sys: fit, loc-a}';
 
 
 $def['.core-system-console-result'] = "font-size:0.7em; line-height:1;   background-color:#222;padding:4px; border-radius:4px; overflow: hidden; min-height: 300px;";
@@ -521,3 +523,6 @@ $def['.igk-panel'] = 'padding: 20px 10px; ';
 $def[$page.' .igk-action-group'] = 'margin-bottom: 10px;';
 $def[$page.' .igk-action-group > .igk-form.igk-btn'] = 'margin: 0px; padding:0px; border:none;';
 $def[$page.' .igk-action-group .igk-action-group input'] = 'border:none; border-radius:none';
+
+
+$cl['--blf-config-pane'] = '#6e6e6e';

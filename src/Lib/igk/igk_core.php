@@ -1827,7 +1827,7 @@ function igk_sys_handle_uri($uri = null)
  * */
 function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null): ?array
 {
-    igk_debug_wln('[' . __FUNCTION__ . '] - ' . $dir);
+    igk_debug_wl('[' . __FUNCTION__ . '] - ' . $dir."\n");
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;
@@ -1956,7 +1956,7 @@ if (!function_exists('igk_getr')) {
 }
 if (!function_exists('igk_getr_post')) {
     /**
-     * retrive post only parameter
+     * retrieve post only parameter
      * @param mixed $key 
      * @param mixed $value 
      * @return mixed 

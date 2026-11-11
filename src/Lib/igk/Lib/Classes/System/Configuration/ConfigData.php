@@ -23,7 +23,7 @@ use function igk_resources_gets as __;
  * 
  * @property array $default_ext_file_handlers
  */
-class ConfigData  
+class ConfigData implements ISysConfigurationData
 {
     const CSS_default_theme_selector_format = 'css.default_theme_selector_format';
     /**
@@ -58,6 +58,17 @@ class ConfigData
         $this->m_configCtrl = $configCtrl;
         $this->m_configEntries = $entries;
         $this->m_extra = $extra;
+    }
+    /**
+     * loaded files 
+     * @return array 
+     * @throws Exception 
+     */
+    public function loadedFiles(): array
+    {
+        $f = [$this->m_confile];
+        $extras = (array)($this->m_extra ?? []);
+        return array_merge($f, $extras);
     }
     /**
     * auto generate doc.
@@ -253,7 +264,7 @@ class ConfigData
     */
     public function menu_default_page()
     {
-        return $this->get("menu_default_page", "default");
+        return $this->get(__FUNCTION__, "default");
     }
     /**
     * Reload.

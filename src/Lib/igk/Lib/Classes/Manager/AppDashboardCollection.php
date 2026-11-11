@@ -32,7 +32,7 @@ class AppDashboardCollection implements ArrayAccess{
     protected function _access_OffsetSet($n, $v){
         $g = AppDashboardItem::CreateNewInstance($v);
         if (is_null($n)){
-            $this->m_collection[] = $g;
+            $this->m_collection[] = $g; 
         }else{
             $this->m_collection[$n] = $g;
         }

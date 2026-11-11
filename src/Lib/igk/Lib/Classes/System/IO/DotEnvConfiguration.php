@@ -116,7 +116,7 @@ class DotEnvConfiguration
             $dir = array_shift($dp); 
             foreach ($tc as $c) {
                 $f = Path::Combine($dir, '.env' . $c);
-                if (file_exists($f)) {
+                if (file_exists($f)) { 
                     $content = file_get_contents($f);
                     self::LoadConfiguration($config, $content);
                     $load = true;
@@ -343,5 +343,12 @@ class DotEnvConfiguration
             return self::Get($name, $default); 
         }
         igk_die('missing configuration name');
+    }
+    /**
+     * get system configuration 
+     * @return mixed 
+     */
+    public static function GetSysConfiguration(){
+        return self::$sm_sysDotEnv;
     }
 }

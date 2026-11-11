@@ -364,4 +364,25 @@ class CssBuilderTest extends BaseTestCase
             '}'
         ]), $css);
     }
+
+     public function test_cssbuilder_text_align()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['text-align'], $references);
+        $css = $detector->renderToCss($references);        
+        $this->assertEquals(implode("\n", []), $css);
+    }
+     public function test_cssbuilder_text_red()
+    {
+        $detector = $this->_init('');
+        $references = [];
+        $detector->loadReferences(['text-transparent'], $references);
+        $css = $detector->renderToCss($references);        
+        $this->assertEquals(implode("\n", [
+            '.text-transparent{',
+            'color:transparent',
+            '}'
+        ]), $css);
+    }
 }

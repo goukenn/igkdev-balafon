@@ -206,7 +206,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $gg = $callback($t, $p, $skip);
                     $gg->setAttributes($q->getAttributes()->to_array());
                     $pnode->add($gg);
-                    if (!empty(trim($s = $q->getContent() ?? ''))) {
+                    if (!empty(trim($s = $q->getContent() ?? ''))) {                        
                         $gg->setContent($s);
                     }
                     if ($skip) {

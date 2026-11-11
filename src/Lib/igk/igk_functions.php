@@ -6623,7 +6623,7 @@ function igk_display_error($a)
  * @return mixed
  */
 function igk_do_response($r)
-{
+{ 
     \IGK\System\Http\Response::HandleResponse($r);
     return $r;
 }

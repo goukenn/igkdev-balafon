@@ -21,6 +21,19 @@ function igk_array_find_first(array $tab, callable $callback)
         }
     }
 }
+
+if (!function_exists('igk_array_value_keys')){
+/**
+ * 
+ * @param mixed $tab 
+ * @return (mixed[]|int[]|string[])[] 
+ */
+function igk_array_value_keys($tab){
+    return [array_values($tab) , array_keys($tab)];
+}
+
+}
+
 if (!function_exists("igk_array_keysv")) {
     /**
     * return only non numeric keys value

@@ -5841,8 +5841,8 @@
             this.reg_event("touchOrClick", function (event) {
                 if (event.handle)
                     return;
-                if (fc.apply(q, [event]) == false) {
-                    igk.event.stop(event);
+                if (fc.apply(q, [event]) === false) {
+                    igk.event.stop(event); 
                 }
             });
         });
@@ -6573,8 +6573,8 @@
                         i: item,
                         h: 0,
                         "func": func,
-                        bind: function (evt) {
-                            // bind is the actual method that will be register 
+                        bind: function (evt){
+                            // + | bind event
                             if (evt.type == "touchend") {
                                 if (evt.cancelable) {
                                     evt.preventDefault();
@@ -6585,7 +6585,7 @@
                                 c.h = 0;
                                 return;
                             }
-                            c.func.apply(item, [evt]);
+                            return c.func.apply(item, [evt]);
                         }
                     };
                     c.index = m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;
@@ -6640,7 +6640,7 @@
                                 c.h = 0;
                                 return;
                             }
-                            c.func.apply(item, [evt]);
+                            return c.func.apply(item, [evt]);
                         }
                     };
                     c.index = m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;

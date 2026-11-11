@@ -126,9 +126,163 @@ function igk_js_expr_end($s, $p)
     }
     return $n;
 }
-
-function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
+/**
+ * Texte d'un noeud JSX : regle JSX (lignes rognees, lignes vides supprimees, lignes jointes par un blanc)
+ * puis regle HTML (une suite de blancs est un seul blanc).
+ */
+function igk_js_jsx_text(string $t): string
 {
+    $lines = preg_split('~\r\n|\n|\r~', $t);
+    $last = count($lines) - 1;
+    $lne = 0; // derniere ligne non vide
+    foreach ($lines as $i => $l) {
+        if (strspn($l, " \t") !== strlen($l)) {
+            $lne = $i;
+        }
+    }
+    $r = '';
+    foreach ($lines as $i => $l) {
+        $l = str_replace("\t", ' ', $l);
+        if ($i !== 0) {
+            $l = ltrim($l, ' ');
+        }
+        if ($i !== $last) {
+            $l = rtrim($l, ' ');
+        }
+        if ($l !== '') {
+            $r .= ($i !== $lne) ? $l . ' ' : $l;
+        }
+    }
+    return preg_replace('~ {2,}~', ' ', $r);
+}
+
+/**
+ * Element ou fragment JSX qui commence a $p (le "<") : retourne l'index qui suit l'element et ajoute sa version minifiee a $o.
+ * Retourne false si ce n'est pas un element equilibre (rien n'est ajoute a $o).
+ * Le texte suit la regle HTML (sauf dans <pre> et <code>), les blancs des balises sont reduits, les chaines des attributs sont
+ * conservees, les {expressions} sont minifiees avec igk_js_minify (un {/* commentaire *\/} est supprime).
+ * $raw : > 0 dans <pre> / <code>.
+ */
+function igk_js_jsx_element(string $s, int $p, string &$o, $compact = 1, $nocompactchar = ' ', int $raw = 0)
+{
+    static $namech = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$.:-';
+    $n = strlen($s);
+    $p++;
+    $l = strspn($s, $namech, $p);
+    $name = substr($s, $p, $l);
+    if ($l && !ctype_alpha($name[0])) {
+        return false;
+    }
+    $p += $l;
+    $out = '<' . $name;
+    while (true) {
+        $p += strspn($s, " \t\r\n", $p);
+        if ($p >= $n) {
+            return false;
+        }
+        $c = $s[$p];
+        if ($c === '/') {
+            if (($s[$p + 1] ?? '') !== '>') {
+                return false;
+            }
+            $o .= $out . '/>';
+            return $p + 2;
+        }
+        if ($c === '>') {
+            $out .= '>';
+            $p++;
+            break;
+        }
+        if ($c === '{') { // attribut {...props}
+            $q = igk_js_expr_end($s, $p + 1);
+            if ($q >= $n + 1 || $s[$q - 1] !== '}') {
+                return false;
+            }
+            $out .= ' {' . trim(igk_js_minify(substr($s, $p + 1, $q - $p - 2), $compact, $nocompactchar)) . '}';
+            $p = $q;
+            continue;
+        }
+        $l = strspn($s, $namech, $p);
+        if (!$l) {
+            return false;
+        }
+        $out .= ' ' . substr($s, $p, $l);
+        $p += $l;
+        $q = $p + strspn($s, " \t\r\n", $p);
+        if (($s[$q] ?? '') === '=') {
+            $q++;
+            $q += strspn($s, " \t\r\n", $q);
+            $c = $s[$q] ?? '';
+            if ($c === '"' || $c === "'") {
+                $r = strpos($s, $c, $q + 1);
+                if ($r === false) {
+                    return false;
+                }
+                $out .= '=' . substr($s, $q, $r - $q + 1);
+                $p = $r + 1;
+            } else if ($c === '{') {
+                $r = igk_js_expr_end($s, $q + 1);
+                if ($r >= $n + 1 || $s[$r - 1] !== '}') {
+                    return false;
+                }
+                $out .= '={' . trim(igk_js_minify(substr($s, $q + 1, $r - $q - 2), $compact, $nocompactchar)) . '}';
+                $p = $r;
+            } else {
+                return false;
+            }
+        }
+    }
+    $inraw = $raw > 0 || ($name === 'pre' || $name === 'code');
+    while ($p < $n) {
+        $k = strcspn($s, '<{', $p);
+        if ($k) {
+            $t = substr($s, $p, $k);
+            $out .= $inraw ? $t : igk_js_jsx_text($t);
+            $p += $k;
+        }
+        if ($p >= $n) {
+            return false;
+        }
+        if ($s[$p] === '{') { // {expression} enfant
+            $q = igk_js_expr_end($s, $p + 1);
+            if ($q >= $n + 1 || $s[$q - 1] !== '}') {
+                return false;
+            }
+            $x = trim(igk_js_minify(substr($s, $p + 1, $q - $p - 2), $compact, $nocompactchar));
+            if ($x !== '') { // {/* commentaire */} : supprime
+                $out .= '{' . $x . '}';
+            }
+            $p = $q;
+            continue;
+        }
+        if (($s[$p + 1] ?? '') === '/') { // balise fermante
+            $q = strpos($s, '>', $p);
+            if ($q === false || trim(substr($s, $p + 2, $q - $p - 2)) !== $name) {
+                return false;
+            }
+            $o .= $out . '</' . $name . '>';
+            return $q + 1;
+        }
+        $sub = '';
+        $q = igk_js_jsx_element($s, $p, $sub, $compact, $nocompactchar, $inraw ? 1 : 0);
+        if ($q === false) {
+            return false;
+        }
+        $out .= $sub;
+        $p = $q;
+    }
+    return false;
+}
+/**
+ * js minify 
+ * @param mixed $s 
+ * @param int $compact 
+ * @param string $nocompactchar 
+ * @return string 
+ */
+function igk_js_minify(string $s, $compact = 1, $nocompactchar = ' ')
+{
+   
     $count = strlen($s);
     $i = 0;
     $o = "";
@@ -150,6 +304,7 @@ function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
     $ctl = false;   // le dernier token est le ")" d'une instruction de controle
     $rxEnd = false; // le dernier token est un litteral regex
     $rep = 0;       // 1 : $ch remplace l'espace final de $o (evite de recopier $o)
+    $jsx = '';      // element JSX minifie
     // NB : les tests sur la fin de $o utilisent substr($o, -N) : une regex ancree
     // en fin de chaine sur $o entier coute O(taille) a chaque appel (temps quadratique).
     while ($i < $count) {
@@ -273,6 +428,27 @@ function igk_js_minify($s, $compact = 1, $nocompactchar = ' ')
                     $m = 5;
                 }
                 break;
+            case "<":
+                // JSX : "<" ou "<>" la ou une expression est attendue (meme regle que pour un litteral regex)
+                $c1 = $s[$i] ?? '';
+                if (($m % 5) == 0 && ($c1 === '>' || ctype_alpha($c1))) {
+                    $t = substr($o, -40);
+                    if (($t === '' || !preg_match($vrx, $t) || preg_match($kwrx, $t)) && ($e = igk_js_jsx_element($s, $i - 1, $jsx, $compact, $nocompactchar)) !== false) {
+                        if ($m == 5 && $o !== '' && strpbrk($o[strlen($o) - 1], 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$') !== false) {
+                            $o .= ' '; // return <div/>
+                        }
+                        $o .= $jsx;
+                        $jsx = '';
+                        $i = $e;
+                        $m = 4;
+                        $ch = "";
+                        $ctl = false;
+                        $rxEnd = true; // un element JSX est une valeur
+                        $nl = 0;
+                        break;
+                    }
+                }
+                // sinon : operateur "<" (suite avec default)
             default:
                 if ($m == 5) {
                     if ($nl && igk_js_asi(substr($o, -48), $s, $i - 1, $ctl, $rxEnd)) {

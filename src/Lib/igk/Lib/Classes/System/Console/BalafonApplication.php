@@ -250,7 +250,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         // + | INIT SERVER INFO 
         // + |        
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"] = igk_getv($_ENV, 'IGK_SERVER_NAME', "BalafonCLI");
-        igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"] = '0.0.0.0';
+        igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"] = '0.0.0.0-5';
         $configFile = self::GetTopLevelConfigFile($bdir);
 
         if (empty($configFile) && in_array('--init-config', $argv)) {
