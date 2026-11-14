@@ -376,6 +376,7 @@ define('IGK_DIST_FOLDER', 'dist');
 define('IGK_PROJECTS_FOLDER', 'Projects');
 define('IGK_PACKAGES_FOLDER', 'Packages');
 define('IGK_RES_FOLDER', 'assets');
+define('IGK_RES_FONTS_FOLDER', IGK_RES_FOLDER.'/fonts');
 define('IGK_LAYOUT_FOLDER', IGK_RES_FOLDER . "/layouts");
 define('IGK_INC_FOLDER', 'Inc');
 define('IGK_LIB_FOLDER', 'Lib');

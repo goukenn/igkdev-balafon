@@ -36,7 +36,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
         return false;
     $g = DbQueryDriver::GetFunc("connect") ?? igk_die("not connect found for !!!! " . DbQueryDriver::$Config["system"]);
     /**
-     * @var object|resource|mysqli $b
+     * @var mixed $b
      */
     $b = null;
     if (defined('IGK_MYSQL_DB_DRIVER') && DbQueryDriver::Is("MySQLI")) {    

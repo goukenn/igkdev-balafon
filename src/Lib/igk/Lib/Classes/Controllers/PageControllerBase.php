@@ -173,6 +173,8 @@ abstract class PageControllerBase extends ControllerTypeBase
     * @param mixed $newdoc
     */
     protected function getAppDocument($newdoc=false){
-        return igk_get_document($this::name("app_document"), $newdoc);
+        $doc = igk_get_document($this::name("app_document"), $newdoc);
+        $doc->setParam('controller', $this);
+        return $doc;
     }
 }

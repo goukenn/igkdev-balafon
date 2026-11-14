@@ -13,14 +13,19 @@ use IGK\System\Html\Dom\HtmlCssLinkNode;
  */
 class HtmlDocCoreStyle extends HtmlCssLinkNode{
     /**
+     * source controller 
+     * @var mixed
+     */
+    var $controller;
+    /**
     * .ctr
     * @param mixed $link
-    * @param mixed $sys
-    * @param mixed $defer
+    * @param bool $sys system style 
+    * @param bool $defer defer loading 
     */
     public function __construct($link, $sys, $defer)
     {     
-        parent::__construct($link, $sys, $defer);
+        parent::__construct($link, $sys, $defer); 
     }
     /**
     * Accept render.
@@ -34,6 +39,11 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
         if ($doc && $doc->noCoreCss){
             return false;
         }  
+        $ctrl = $doc->getParam('controller');
+        if ($ctrl && (!$ctrl !== igk_get_defaultwebpagectrl())){
+            $this->ln->link = igk_io_append_query($this->ln->link, ['c'=>base64_encode(get_class($ctrl))]); 
+        } 
+        
         return parent::_acceptRender($options);
     } 
 }

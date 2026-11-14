@@ -346,6 +346,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader, IVie
     public function attachScrollTo($doc, $t){
         $box = $doc->body->bodybox();
         $box['class'] = '-igk-parentscroll -igk-powered-viewer -overflow-y-a';
-        $t['class'] = '+overflow-a igk-parentscroll igk-powered-viewer overflow-y-a';
+        $t['class'] = 'fit +overflow-a igk-parentscroll igk-powered-viewer overflow-y-a';
     }
 }

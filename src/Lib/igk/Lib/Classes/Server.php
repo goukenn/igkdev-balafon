@@ -388,7 +388,7 @@ final class Server implements IToArray{
     }
     /**
      * get upload info
-     * @var IGK\getUploadAJXInfo
+     * @return \IGK\IUploadAJXInfo|null
      */
     public function getUploadAJXInfo(){
         $finfo = null;

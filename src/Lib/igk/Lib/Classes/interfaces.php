@@ -8,6 +8,24 @@ use IGK\Database\IDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
 use IGK\System\Html\Dom\HtmlNode;
 
+
+/**
+ * 
+ * @package IGK
+ * @property string $goodUri uri on success
+ * @property string $badUri uri bad uri 
+ */
+interface ILoginRequest{
+}
+/**
+ * 
+ * @package IGK
+ * @property string $name
+ * @property string $size
+ * @property string $filetype
+ */
+interface IUploadAJXInfo{    
+}
 /**
 * auto generate doc.
 * @package 1

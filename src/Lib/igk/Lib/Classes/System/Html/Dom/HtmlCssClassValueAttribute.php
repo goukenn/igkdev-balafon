@@ -429,8 +429,8 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             return false;
         }
         $c = igk_app();
-        if ($c && $c->Doc) {
-            $s = $c->Doc->Theme[$v];
+        if ($c && ($doc = igk_getv($c, 'Doc'))) {
+            $s = $doc->Theme[$v];
             if (!empty($s)) {
                 $r = preg_match(IGK_CSS_CHILD_EXPRESSION_REGEX, trim($s));
                 return $r;

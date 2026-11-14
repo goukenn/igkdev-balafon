@@ -586,7 +586,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @throws IGKException 
      */
     private function _addCoreCss()
-    {
+    { 
         $key = "sys://css";
         $t = null;
         if (empty($s = igk_io_corestyle_uri())) {

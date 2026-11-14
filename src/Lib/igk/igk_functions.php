@@ -857,10 +857,10 @@ function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript =
             ob_start();
             $cfile = $cachedir . "/" . substr($file, $ln);
             $c = $resregex($file, $cfile, $mergescallback);
-          
+
             $output = ob_get_contents();
             ob_end_clean();
-     
+
             if ($c) {
                 continue;
             }
@@ -2078,6 +2078,8 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     } else {
         $v_app->session->referer = $ref;
     }
+
+    // igk_wln_e(__FILE__.":".__LINE__ , 'loading .... ');
     if (!igk_environment()->no_web_configuration()) {
         $cnfPath = igk_io_baseuri() . "/" . IGK_CONF_FOLDER;
         $in_conf_page = $ref && StringUtility::UriStart($ref, $cnfPath);
@@ -2123,6 +2125,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
             $ctrl = igk_css_request_ctrl($ref);
         }
     }
+
     if (!$doc) {
         if ($ctrl) {
             $doc = $ctrl->getCurrentDoc();
@@ -2131,8 +2134,8 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
             $ctrl = $defctrl;
         }
         $doc_id = $v_app->settings->CurrentDocumentIndex;
-        // igk_ilog('css-rendering: missing current document');
     }
+    igk_ilog(sprintf('%s referrer: %s, controller: %s', __FILE__ . ":" . __LINE__, $ref, $ctrl));
     $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
     $renderer->ctrl = $ctrl;
     $renderer->doc = $doc;
@@ -6623,7 +6626,7 @@ function igk_display_error($a)
  * @return mixed
  */
 function igk_do_response($r)
-{ 
+{
     \IGK\System\Http\Response::HandleResponse($r);
     return $r;
 }
@@ -16439,7 +16442,7 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 //                         continue;
 //                     }
 //                 }
-      
+
 //                 $i--;
 //                 $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
 //                 $i++;
@@ -16522,7 +16525,7 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 //     return implode('',$buffer);
 // }
 
-require_once __DIR__.'/igk_js_minify.php';
+require_once __DIR__ . '/igk_js_minify.php';
 
 
 
@@ -16852,13 +16855,20 @@ require_once __DIR__.'/igk_js_minify.php';
 //         $o .= "/";
 //     return $o;
 // }
-function igk_js_read_regex(string $s, & $pos ){
+/**
+ * 
+ * @param string $s litteral 
+ * @param mixed & $pos posittion 
+ * @return string 
+ */
+function igk_js_read_regex(string $s, &$pos)
+{
     $i = $pos - 1;
     $count = strlen($s);
     $rgx = "/" . igk_str_read_brank($s, $i, "/", "/", null, 1);
     $i++;
-    if ($i > $count){     
-        return '/'.$s[$pos-1];
+    if ($i > $count) {
+        return '/' . $s[$pos - 1];
     }
     while (($i < $count) && (preg_match("/(d|g|i|m|s|u|v|y)/", $s[$i]))) {
         $rgx .= $s[$i];
@@ -16866,7 +16876,6 @@ function igk_js_read_regex(string $s, & $pos ){
     }
     $pos = $i;
     return $rgx;
-
 }
 
 /**

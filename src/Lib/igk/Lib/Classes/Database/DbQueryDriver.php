@@ -767,9 +767,18 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     public static function InitDefault(string $driverName = 'mysql', string $dbname = '')
     {
         igk_die("Not implement");
-        $db = new DbQueryDriver($driverName);
+        $db = self::_CreateDriver($driverName);
         $db->connect();
         $db->selectdb($$dbname);
+        return $db;
+    }
+    /**
+     * driverName 
+     * @param mixed $driverName 
+     * @return static 
+     */
+    protected static function _CreateDriver($driverName){
+        $db = new static($driverName);
         return $db;
     }
     /**
