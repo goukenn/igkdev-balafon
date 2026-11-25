@@ -2384,20 +2384,21 @@ JS;
             extract($e->args);
             if ($ctrl->getCanInitDb()) {
                 $this->setParam('ctrl', get_class($ctrl));
+                $cl = '-clbutton no-border';
                 $group = $target->actiongroup();
                 $group->setClass('db');
-                $group->input('btn', 'button', __('initdb'))
+                $group->input('', 'button', __('initdb'))
                     ->on('click', igk_js_post_frame($this->getUri("db-initdb-controller")));
                 if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
                     $group = $target->actiongroup();
                     $group->setClass('db mysql');
-                    $group->input('btn', 'button', __('mysql - migrate'))
+                    $group->input('', 'button', __('mysql - migrate'))->setClass($cl)
                         ->on('click', igk_js_post_frame($this->getUri("db-migrate-controller")));
-                    $group->input('btn', 'button', __('mysql - resetdb'))
+                    $group->input('', 'button', __('mysql - resetdb'))->setClass($cl)
                         ->on('click', igk_js_post_frame($this->getUri("db-resetdb-controller")));
-                    $group->input('btn', 'button', __('mysql - backup'))
+                    $group->input('', 'button', __('mysql - backup'))->setClass($cl)
                         ->on('click', igk_js_post_frame($this->getUri("db-backup-controller")));
-                    $group->input('btn', 'button', __('mysql - dropdb'))
+                    $group->input('', 'button', __('mysql - dropdb'))->setClass($cl)
                         ->on('click', igk_js_post_frame($this->getUri("db-dropdb-controller")));
                 }
             } else

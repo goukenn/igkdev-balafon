@@ -16,6 +16,7 @@ use function igk_resources_gets as __;
 class Pagination{
     /**
      * selected pan
+     * @var int 
      */
     var $total; 
     /**
@@ -147,10 +148,10 @@ class Pagination{
         switch($this->type){
             default:        
             $li = $n->li();
-            $li->class("pagination-group");
+            $li->setClass("pagination-group");
             $this->_geta($li, $ajx, $u."1")->Content = __("First");
                 $li = $n->li();
-                $li->class("pagination-group pagination-group-end");
+                $li->setClass("pagination-group pagination-group-end");
                 $this->_geta($li, $ajx, $u. ($this->page-1))->setClass([
                     "disable"=>$this->page<=1
                 ])->Content = __("Prev");      

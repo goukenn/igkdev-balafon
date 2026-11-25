@@ -2135,7 +2135,7 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
         }
         $doc_id = $v_app->settings->CurrentDocumentIndex;
     }
-    igk_ilog(sprintf('%s referrer: %s, controller: %s', __FILE__ . ":" . __LINE__, $ref, $ctrl));
+    // igk_ilog(sprintf('%s referrer: %s, controller: %s', __FILE__ . ":" . __LINE__, $ref, $ctrl));
     $renderer = new \IGK\System\Html\Css\CssControllerStyleRenderer;
     $renderer->ctrl = $ctrl;
     $renderer->doc = $doc;
