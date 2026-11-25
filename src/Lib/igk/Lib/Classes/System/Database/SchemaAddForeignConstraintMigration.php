@@ -4,8 +4,10 @@
 // @date: 20230227 13:41:24
 // @desc: add foreign key column migration
 namespace IGK\System\Database;
+use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\Database\SchemaMigrationItemBase;
+use IGKSysUtil;
 
 /**
  * add foreign constraint 
@@ -46,6 +48,38 @@ class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
                 }, $v_foreignConstraints);
             }
         }
+    }
+    /**
+     * register the foreign constraint on the table definition. The query is sent by
+     * Database::CreateTableFromSchema once the table is created
+     * @param array &$tables loaded table definitions
+     * @param BaseController $ctrl
+     * @return void
+     */
+    public function doUpgrade(&$tables, BaseController $ctrl){
+        $tb = IGKSysUtil::DBGetTableName($this->table, $ctrl);
+        $info = igk_getv($tables, $tb);
+        if (!$info){
+            return;
+        }
+        if (count(explode(',', $this->on)) != count(explode(',', $this->columns))){
+            igk_ilog('addForeignConstraint: `on` and `columns` must have the same number of columns - ' . $tb);
+            return;
+        }
+        $inf = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, [
+            'on' => $this->on,
+            'from' => $this->from,
+            'columns' => $this->columns,
+            'foreignKeyName' => $this->foreignKeyName
+        ]);
+        $list = $info->foreignConstraint;
+        if (empty($list)) {
+            $list = [];
+        } elseif (!is_array($list)) {
+            $list = [$list];
+        }
+        $list[] = $inf;
+        $info->foreignConstraint = $list;
     }
     /**
     * auto generate doc.

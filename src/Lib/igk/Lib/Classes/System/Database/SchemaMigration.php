@@ -210,7 +210,7 @@ class SchemaMigration
                     $from = $vv["from"];
                     $columns = $vv["columns"];
                     $foreignKeyName = $vv["foreignKeyName"];
-                    $fconstraints = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, compact('on', 'from', 'columns', 'foreignKeyName'));
+                    $fconstraints[] = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, compact('on', 'from', 'columns', 'foreignKeyName'));
                 }
                 // + | load indexed
                 $t_index = $v->getElementsByTagName(DbSchemas::Index);

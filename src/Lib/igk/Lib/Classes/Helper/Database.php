@@ -370,7 +370,11 @@ class Database
                 igk_ilog("failed to create " . $n);
             } else {
                 if ($v->foreignConstraint) {
-                    $v_foreignConstraints[] = [$k, $v->foreignConstraint];
+                    // + | a table can define many foreign constraints (a single object is kept for compatibility)
+                    $v_fcs = is_array($v->foreignConstraint) ? $v->foreignConstraint : [$v->foreignConstraint];
+                    foreach ($v_fcs as $v_fc) {
+                        $v_foreignConstraints[] = [$k, $v_fc];
+                    }
                 }
             }
             if ($vp = $v->prefix) {
