@@ -512,7 +512,7 @@ class MySQLCommand extends AppExecCommand
                     }else{
                         $table = igk_getv($tr[0], 0);
                         $mode = 1;
-                        Logger::info("read: " . $table);
+                        Logger::info("read-table: " . $table);
                     }
                 } else if ($mode == 1) {
                     $g = IGKCSVDataAdapter::LoadString($line)[0];

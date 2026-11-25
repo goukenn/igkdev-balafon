@@ -121,7 +121,7 @@ class InitDbCommand extends AppExecCommand{
 			}
 			igk_environment()->set($cmd_key, null);
 			DbUtility::ClearDbCache();
-			return 1;
+			return 0;
 		}
 		return -1;
 	}

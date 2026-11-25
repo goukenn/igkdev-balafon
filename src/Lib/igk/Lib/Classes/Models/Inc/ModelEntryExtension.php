@@ -1735,7 +1735,7 @@ abstract class ModelEntryExtension
             $g = array_keys($args);
             $count = count($g);
             $index = 0;
-            $rt = array_slice(func_get_args(), 2);
+            $rt = is_array($params) ? $params : array_slice(func_get_args(), 2);
             foreach ($rt as $tg) {
                 $n = $g[$index];
                 if ($n == 'les_tha_is_default_unique') {

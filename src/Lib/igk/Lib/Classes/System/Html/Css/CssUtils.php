@@ -537,7 +537,7 @@ abstract class CssUtils
         $v_systheme = $a_theme->isSystemTheme();
         $v_theme = null;
         $root_defs = [];
-        $v_copy = null;
+        $colors = $v_copy = null;
         $opt->skips = []; // render all  
 
         foreach ($tdef as $theme_name) {
@@ -608,6 +608,7 @@ abstract class CssUtils
         if (count($root_defs) > 0) {
             self::_glueRootArrayToDef($root_defs, $def);
         }
+        
         return $def;
     }
     /**

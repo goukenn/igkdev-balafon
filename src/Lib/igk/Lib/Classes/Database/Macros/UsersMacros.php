@@ -345,4 +345,38 @@ abstract class UsersMacros
         $empty = $attachegroups && $attachegroups->isEmpty();
         return $empty;
     }
+
+    /**
+     * Is this login (a phone number) already taken? A phone login is digits only (E.164 without the +: 33612345678): a number typed
+     * with a +, spaces, dots, hyphens, parentheses or the 00 prefix is reduced to digits before the lookup, so +33 6 12.. and 0033.. find the
+     * account 33612345678. Anything else (an e-mail, a name) is looked up as it is.
+     * Extensions answer too, through the hook "Users::/UsersMacros::LoginNumberInUse" (args: login, handle by reference).
+     * @param Users $user
+     * @param mixed $login the login or number to check
+     * @return bool true when the login cannot be used
+     */
+    public static function LoginNumberInUse(Users $user, $login):bool{
+        $login = trim((string) $login);
+        if ($login !== '' && preg_match('/^(\+|00)?[0-9 .\-()]+$/', $login)) {
+            $digits = preg_replace('/\D+/', '', $login);
+            if (strpos($login, '+') !== 0 && strpos($digits, '00') === 0) {
+                $digits = substr($digits, 2);
+            }
+            if ($digits !== '') {
+                $login = $digits;
+            } else 
+                return false;
+        } else {
+            return false;
+        }
+        $handle = false;
+        if ($user::select_row([Users::FD_CL_LOGIN=>$login])){
+            return true;
+        }
+        igk_hook(implode('::/', [Users::class, __METHOD__]), [
+            'login'=>$login,
+            'handle'=>& $handle
+        ]);
+        return $handle; 
+    }
 }

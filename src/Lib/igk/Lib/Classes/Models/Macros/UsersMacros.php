@@ -73,6 +73,10 @@ abstract class UsersMacros
             igk_setv($o, Users::FD_CL_PWD, $pwd);
         }
         if (($login = igk_getv($o, Users::FD_CL_LOGIN))) {
+            // a phone number (any typed form) that is already a login, or declared by an account, cannot be registered
+            if (Users::LoginNumberInUse($login)){
+                return false;
+            }
             if (!IGKValidator::IsEmail($login) && ($domain = igk_configs()->website_domain)) {
                 $o->{Users::FD_CL_LOGIN} = $login = sprintf('%s@%s', $login, $domain);
             }

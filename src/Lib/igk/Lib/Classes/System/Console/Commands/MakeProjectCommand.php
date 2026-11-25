@@ -486,7 +486,7 @@ class MakeProjectCommand extends AppExecCommand
                 ]);
         }
         foreach (explode('|', 'dark|light') as $k) {
-            $bind[$dir . '/' . IGK_STYLE_FOLDER . '/Themes/' . $k . '.theme.pcss'] = function ($file) {
+            $bind[$dir . '/' . IGK_STYLE_FOLDER . '/'.IGK_THEMES_FOLDER.'/' . $k . '.theme.pcss'] = function ($file) {
                 igk_io_w2file($file, implode("\n", [
                     "<?php",
                     "// @desc: theme file ",

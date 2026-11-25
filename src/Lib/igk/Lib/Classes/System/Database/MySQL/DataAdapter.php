@@ -185,9 +185,11 @@ class DataAdapter extends DataAdapterBase implements
     function constraintForeignKeyExists(string $name): bool
     {
         $name = $this->escape_string($name);
+        $dbname = $this->getDbName();
         $g = $this->sendQuery(
             sprintf(
-                'SELECT * FROM `%s`.`TABLE_CONSTRAINTS` where CONSTRAINT_NAME=\'' . $name . '\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
+                'SELECT * FROM `%s`.`TABLE_CONSTRAINTS` where CONSTRAINT_NAME=\'' . $name .
+                '\' AND CONSTRAINT_SCHEMA=\''. $dbname.'\' AND CONSTRAINT_TYPE=\'FOREIGN KEY\' ;',
                 self::DB_INFORMATION_SCHEMA
             )
         );

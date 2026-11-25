@@ -115,6 +115,11 @@ trait RegisterUserActionTrait
             igk_ilog('login is empty');
             return false;
         }
+
+        if (Users::LoginNumberInUse($login)) {
+            igk_ilog('login already in use');
+            return false;
+        }
         if (!IGKValidator::IsEmail($login)) {
             if (empty($domain)) {
                 igk_ilog('domain not specified');

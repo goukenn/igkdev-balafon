@@ -583,6 +583,9 @@ class IGKEvents extends IGKObject
      * hook raised to remove the current user en request 
      */
     const HOOK_RGPD_REMOVE_ME = 'sys://rgpd/remove-me';
+
+
+    const FILTER_USER_CONTEXT_MENU = 'sys://filter/app/user-context-menu';
     /**
     * Property: methods.
     * @var mixed

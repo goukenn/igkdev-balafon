@@ -27,7 +27,7 @@ class RemoveProjectCommand extends AppExecCommand{
     * Property: desc.
     * @var mixed
     */
-    var $desc='remove install project';
+    var $desc='remove installed project';
 	/* var $options=[]; */
     /**
     * Property: category.

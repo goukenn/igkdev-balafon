@@ -43,6 +43,7 @@ use function igk_resources_gets as __;
 */
 final class HtmlReader extends IGKObject
 {
+    const DEBUG_FLAG = 'html-reader';
     /**
     * Constant: expression args.
     * @var mixed
@@ -1098,11 +1099,10 @@ final class HtmlReader extends IGKObject
                     array_unshift($v_tags, $s);
             }
         };
-        $_is_debug = igk_is_debug();
+        $_is_debug = igk_is_debug(self::DEBUG_FLAG);
         // + | read model definition 
         while ($reader->read()) {
-            $_is_debug && 
-            Logger::info('read: '. $reader->NodeType);
+            $_is_debug && Logger::info('html-reader-read: '. $reader->NodeType);
             switch ($reader->NodeType) {
                 case XMLNodeType::ELEMENT:
                     if (!$reader->m_skipElement)
