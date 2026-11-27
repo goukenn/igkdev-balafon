@@ -127,6 +127,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     */
     public function exec($command, ?string $project = null)
     {
+        $error_code = 0;
         if (is_null($project)){
             $project = igk_getv($command->options,'--controller');
         }
@@ -209,6 +210,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         );
                     } else {
                         Logger::danger(sprintf("no controller found in : %s", $pdir));
+                        $error_code = -1;
                     }
                 } else {
                     $path_key = self::PROJECT_DIR;
@@ -271,6 +273,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         }
         ftp_close($h);
         error_clear_last();
+        return $error_code;
     }
     /**
     * auto generate doc.

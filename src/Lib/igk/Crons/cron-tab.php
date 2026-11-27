@@ -17,6 +17,7 @@ use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 use IGKApplication;
+use IGKEvents;
 
 define('IGK_CRON_START_DIR', __DIR__);
 define('IGK_APP_CRON', 1);
@@ -159,7 +160,7 @@ ApplicationFactory::Register("crontab", cronApp::class);
 $app = ApplicationLoader::Boot(IGKApplication::CRONTAB_TYPE);
 $status = $app->run(__FILE__, false);
 $projects = igk_sys_get_projects_controllers();
-igk_hook(IGKEvents::HOOK_CRUNJOB, ['app' => $app, 'time' => time()]);
+igk_hook(IGKEvents::HOOK_CRONJOB, ['app' => $app, 'time' => time()]);
 if (in_array('--querydebug', $argv))
     igk_environment()->querydebug = 1;
 if (in_array('--debug', $argv))

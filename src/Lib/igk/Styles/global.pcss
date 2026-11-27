@@ -334,8 +334,8 @@ $def[".igk-cnf-framebox .clbutton, .igk-cnf-framebox .clsubmit, .igk-cnf-framebo
 $def[".fit-page-h"] = "height: 100vh";
 $def[".igk-horizontal-separator"] = "{sys:dispb} height:1px;  [bgcl:--igk-bgcl-hsep] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
 $def[".igk-powered"] = "display:block; position:fixed; background-color: [cl:poweredBgColor,#222]; color:[cl:poweredColor, white]; bottom:0px; z-index: 10000; font-size:12px; right:0px; border-radius:4px 0px 0px 0px; padding:4px 0px 0px 16px; [trans: all .2s ease]";
-$def[".igk-powered a"] = "color:white;";
-$def[".igk-powered a:visited,.igk-powered a:hover"] = "color:white;";
+$def[".igk-powered a"] = "color:var(--blf-powered-link, white);";
+$def[".igk-powered a:visited,.igk-powered a:hover"] = "color:var(--blf-powered-link-visited, orangered);";
 $def[".igk-notify.igk-notify-danger .error-code"] = "background-color:#eee; color:#555; padding:10px;";
 $def[".sr-only"] = "{sys:no-overflow} position:absolute; display:block;width:0px; height:0px;";
 $def["code.dispib"] = "width:auto ; vertical-align:middle;";

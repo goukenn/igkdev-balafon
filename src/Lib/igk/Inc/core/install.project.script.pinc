@@ -5,6 +5,11 @@
 // @desc: install project script 
 use IGK\Controllers\BaseController;
 
+/**
+ * @var mixed $home 
+ * @var mixed $token
+ * @var mixed $archive
+ */
 error_reporting(-1);
 ini_set('display_errors', 1);
 $response = new InstallerResponse();
@@ -17,7 +22,15 @@ if ($token != igk_getr('token')) {
  */
 class ProjectInstaller
 {
+    /**
+     * 
+     * @var string
+     */
     private $m_bdir;
+    /**
+     * 
+     * @var mixed
+     */
     private $m_controller;
     /**
      * balafon shell command
@@ -120,7 +133,7 @@ $v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home
 /**
  * after post install script
  * @param mixed &$postinstall 
- * @param mixed $f 
+ * @param mixed $f file unse to loaded 
  * @param mixed $v_projectInstaller 
  * @return bool 
  */
@@ -311,8 +324,11 @@ set_include_path(implode(PATH_SEPARATOR, [
     get_include_path()
 ]));
 putenv('PATH=' . implode(PATH_SEPARATOR, [$corelib_dir . "/bin", getenv('PATH')]));
-if (!$error && file_exists($pc = $project_dir . '/[post-publish].php')) {
-    post_install($postinstall, $pc, $v_projectInstaller);
+if (!$error ){
+    // run migrate on 
+    if (file_exists($pc = $project_dir . '/[post-publish].php')) {
+        post_install($postinstall, $pc, $v_projectInstaller);
+    }
 }
 // chmod($corelib_dir."/bin/balafon", 0777);
 if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
@@ -342,7 +358,7 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
     ];
     foreach($install_project_command as $install){
         $v_cmd = $pre."{$php_cmd} {$balafon} {$install} 1>&1 2>&1; echo \"\n\"$?";
-        $r = (object)InstallerHelper::HandleBacktickCommand(`{$v_cmd}`);
+        $r = (object)InstallerHelper::HandleBacktickCommand(shell_exec($v_cmd));
         if ($r->exit_code!=0){
             $response->die(implode("\n", ['exec command failed :: ', 
             $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
@@ -350,7 +366,7 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
     }
     // update all relative action div
     $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug --report-error 1>&1 2>&1; echo \"\n\"$?";
-    $r = InstallerHelper::HandleBacktickCommand(`{$c}`);
+    $r = InstallerHelper::HandleBacktickCommand(shell_exec($c));
     // $r = InstallerHelper::HandleBacktickCommand(`{$php_cmd} {$balafon} --command:init  1>&1 2>&1; echo "\n"$?`); 
     echo json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     exit(); 

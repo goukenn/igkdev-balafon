@@ -102,6 +102,10 @@ class CronJob
                                 $d['(@error)'] = $ex->getMessage();
                                 $row->options = json_encode($d);
                             }
+                            catch (\Throwable $ex) {
+                                $d['(@error)'] = $ex->getMessage();
+                                $row->options = json_encode($d);
+                            }
                         }
                     } else {
                         igk_ilog('try load script on : '.$dir.'/'.$scr);
